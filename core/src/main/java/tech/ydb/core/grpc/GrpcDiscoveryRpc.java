@@ -21,12 +21,12 @@ public class GrpcDiscoveryRpc implements AutoCloseable {
         this.operationTray = transport.getOperationTray();
     }
 
-    public CompletableFuture<Result<ListEndpointsResult>> listEndpoints(String database, long deadlineAfter) {
+    public CompletableFuture<Result<ListEndpointsResult>> listEndpoints(String database, GrpcRequestSettings settings) {
         ListEndpointsRequest request = ListEndpointsRequest.newBuilder()
                 .setDatabase(database)
                 .build();
 
-        return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, deadlineAfter)
+        return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), request, settings)
                 .thenCompose(result -> {
                     if (!result.isSuccess()) {
                         return CompletableFuture.completedFuture(result.cast());
@@ -36,7 +36,7 @@ public class GrpcDiscoveryRpc implements AutoCloseable {
                             result.expect("listEndpoints()").getOperation(),
                             ListEndpointsResult.class,
                             Function.identity(),
-                            deadlineAfter);
+                            settings);
                 });
     }
 

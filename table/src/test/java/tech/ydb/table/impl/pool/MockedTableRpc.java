@@ -15,6 +15,7 @@ import tech.ydb.OperationProtos;
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.TableRpcStub;
 import tech.ydb.table.YdbTable;
 
@@ -58,31 +59,34 @@ public class MockedTableRpc extends TableRpcStub {
     
     @Override
     public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
-        YdbTable.CreateSessionRequest request, long deadlineAfter) {
-        CreateSession task = new CreateSession(request, clock.instant().plusMillis(deadlineAfter));
+        YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
+        CreateSession task = new CreateSession(request, clock.instant()
+                .plusMillis(settings.getDeadlineAfter()));
         createSessionQueue.offer(task);
         return task.future;
     }
 
     @Override
     public CompletableFuture<Result<YdbTable.ExecuteDataQueryResponse>> executeDataQuery(
-        YdbTable.ExecuteDataQueryRequest request, long deadlineAfter) {
-        ExecuteDataQuery task = new ExecuteDataQuery(request, clock.instant().plusMillis(deadlineAfter));
+        YdbTable.ExecuteDataQueryRequest request, GrpcRequestSettings settings) {
+        ExecuteDataQuery task = new ExecuteDataQuery(request, clock.instant()
+                .plusMillis(settings.getDeadlineAfter()));
         executeDataQueryQueye.offer(task);
         return task.future;
     }
 
     @Override
     public CompletableFuture<Result<YdbTable.KeepAliveResponse>> keepAlive(
-            YdbTable.KeepAliveRequest request, long deadlineAfter) {
-        KeepAlive task = new KeepAlive(request, clock.instant().plusMillis(deadlineAfter));
+            YdbTable.KeepAliveRequest request, GrpcRequestSettings settings) {
+        KeepAlive task = new KeepAlive(request, clock.instant()
+                .plusMillis(settings.getDeadlineAfter()));
         keepAliveQueue.offer(task);
         return task.future;
     }
 
     @Override
     public CompletableFuture<Result<YdbTable.DeleteSessionResponse>> deleteSession(
-            YdbTable.DeleteSessionRequest request, long deadlineAfter) {
+            YdbTable.DeleteSessionRequest request, GrpcRequestSettings settings) {
         String id = request.getSessionId();
         YdbTable.DeleteSessionResponse response = YdbTable.DeleteSessionResponse
                 .newBuilder()

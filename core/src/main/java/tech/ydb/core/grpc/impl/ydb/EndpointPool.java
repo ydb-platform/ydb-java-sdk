@@ -20,6 +20,8 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -53,6 +55,7 @@ public final class EndpointPool {
     private AtomicLong lastUpdateTime = new AtomicLong();
     private List<EndpointEntry> records = new ArrayList<>();
     private Map<String, EndpointEntry> knownEndpoints = new HashMap<>();
+    private Map<Integer, String> knownEndpointsByNodeId = new HashMap<>();
     // Number of endpoints with best load factor (priority)
     private int bestEndpointsCount = -1;
     private final Random random;
@@ -96,7 +99,8 @@ public final class EndpointPool {
 
         @Override
         public String toString() {
-            return "{" + endpoint.getHostAndPort() + "(priority=" + priority + ")}";
+            return "{" + endpoint.getHostAndPort()
+                    + "(nodeId=" + endpoint.getNodeId() + ", priority=" + priority + ")}";
         }
     }
 
@@ -129,7 +133,7 @@ public final class EndpointPool {
                     }
                     newRecords.add(
                         new EndpointEntry(
-                            new EndpointRecord(endpoint.getAddress(), endpoint.getPort()),
+                            new EndpointRecord(endpoint.getAddress(), endpoint.getPort(), endpoint.getNodeId()),
                             loadFactor
                         )
                     );
@@ -149,10 +153,10 @@ public final class EndpointPool {
         return new EndpointUpdateResult(future, true);
     }
 
-    public EndpointRecord getEndpoint(String preferredEndpoint) {
+    public EndpointRecord getEndpoint(@Nullable String preferredEndpoint) {
         recordsLock.readLock().lock();
         try {
-            if (!preferredEndpoint.isEmpty()) {
+            if (preferredEndpoint != null && !preferredEndpoint.isEmpty()) {
                 EndpointEntry knownEndpoint = knownEndpoints.get(preferredEndpoint);
                 if (knownEndpoint != null) {
                     return knownEndpoint.endpoint;
@@ -172,7 +176,13 @@ public final class EndpointPool {
     }
 
     public EndpointRecord getEndpoint() {
-        return getEndpoint("");
+        return getEndpoint(null);
+    }
+
+    public String getEndpointByNodeId(int nodeId) {
+        String endpoint = knownEndpointsByNodeId.get(nodeId);
+        logger.debug("Node id {} is Endpoint {}", nodeId, endpoint);
+        return endpoint;
     }
 
     public List<EndpointRecord> getRecords() {
@@ -249,12 +259,18 @@ public final class EndpointPool {
             newKnownEndpoints.put(record.endpoint.getHostAndPort(), record);
         }
 
+        Map<Integer, String> newKnownEndpointsByNodeId = new HashMap<>(uniqueRecords.size());
+        for (EndpointEntry record : uniqueRecords) {
+            newKnownEndpointsByNodeId.put(record.endpoint.getNodeId(), record.endpoint.getHostAndPort());
+        }
+
         assert uniqueRecords.size() == newKnownEndpoints.size();
 
         recordsLock.writeLock().lock();
         try {
             records = uniqueRecords;
             knownEndpoints = newKnownEndpoints;
+            knownEndpointsByNodeId = newKnownEndpointsByNodeId;
             bestEndpointsCount = newBestEndpointsCount;
             pessimizationRatio.set(0);
         } finally {

@@ -133,17 +133,28 @@ public abstract class GrpcTransport implements AutoCloseable {
         return Result.fail(StatusCode.CLIENT_CANCELLED, issue);
     }
 
+    public abstract String getEndpointByNodeId(int nodeId);
+
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             long deadlineAfter) {
+        return unaryCall(method, request, GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(deadlineAfter)
+                .build());
+    }
+
+    public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 return completedFuture(deadlineExpiredResult(method));
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
@@ -151,7 +162,7 @@ public abstract class GrpcTransport implements AutoCloseable {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
 
         if (!shutdown) {
-            return makeUnaryCall(method, request, callOptions, promise);
+            return makeUnaryCall(method, request, callOptions, settings, promise);
         } else {
             promise.complete(CancelResultDueToShutdown());
         }
@@ -162,6 +173,7 @@ public abstract class GrpcTransport implements AutoCloseable {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             CompletableFuture<Result<RespT>> promise);
 
     public <ReqT, RespT> void unaryCall(
@@ -169,20 +181,30 @@ public abstract class GrpcTransport implements AutoCloseable {
             ReqT request,
             Consumer<Result<RespT>> consumer,
             long deadlineAfter) {
+        unaryCall(method, request, consumer, GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(deadlineAfter)
+                .build());
+    }
+
+    public <ReqT, RespT> void unaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            Consumer<Result<RespT>> consumer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 consumer.accept(deadlineExpiredResult(method));
                 return;
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            makeUnaryCall(method, request, callOptions, consumer);
+            makeUnaryCall(method, request, callOptions, settings, consumer);
         } else {
             consumer.accept(CancelResultDueToShutdown());
         }
@@ -192,6 +214,7 @@ public abstract class GrpcTransport implements AutoCloseable {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             Consumer<Result<RespT>> consumer);
 
     public <ReqT, RespT> void unaryCall(
@@ -199,20 +222,30 @@ public abstract class GrpcTransport implements AutoCloseable {
             ReqT request,
             BiConsumer<RespT, Status> consumer,
             long deadlineAfter) {
+        unaryCall(method, request, consumer, GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(deadlineAfter)
+                .build());
+    }
+
+    public <ReqT, RespT> void unaryCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            BiConsumer<RespT, Status> consumer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 consumer.accept(null, deadlineExpiredStatus(method));
                 return;
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            makeUnaryCall(method, request, callOptions, consumer);
+            makeUnaryCall(method, request, callOptions, settings, consumer);
         } else {
             consumer.accept(null, Status.CANCELLED);
         }
@@ -222,6 +255,7 @@ public abstract class GrpcTransport implements AutoCloseable {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             BiConsumer<RespT, Status> consumer);
 
     public <ReqT, RespT> StreamControl serverStreamCall(
@@ -229,20 +263,31 @@ public abstract class GrpcTransport implements AutoCloseable {
             ReqT request,
             StreamObserver<RespT> observer,
             long deadlineAfter) {
+        return serverStreamCall(method, request, observer,
+                GrpcRequestSettings.newBuilder()
+                        .withDeadlineAfter(deadlineAfter)
+                        .build());
+    }
+
+    public <ReqT, RespT> StreamControl serverStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            ReqT request,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
                 return () -> {};
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            return makeServerStreamCall(method, request, callOptions, observer);
+            return makeServerStreamCall(method, request, callOptions, settings, observer);
         } else {
             observer.onError(CancelResultDueToShutdown().toStatus());
             return () -> {};
@@ -253,6 +298,7 @@ public abstract class GrpcTransport implements AutoCloseable {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer);
 
     private <ReqT> OutStreamObserver<ReqT> makeEmptyObserverStub() {
@@ -275,20 +321,30 @@ public abstract class GrpcTransport implements AutoCloseable {
             MethodDescriptor<ReqT, RespT> method,
             StreamObserver<RespT> observer,
             long deadlineAfter) {
+        return bidirectionalStreamCall(method, observer,
+                GrpcRequestSettings.newBuilder()
+                        .withDeadlineAfter(deadlineAfter)
+                        .build());
+    }
+
+    public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings) {
         CallOptions callOptions = this.callOptions;
-        if (deadlineAfter > 0) {
+        if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
-            if (now >= deadlineAfter) {
+            if (now >= settings.getDeadlineAfter()) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
                 return makeEmptyObserverStub();
             }
-            callOptions = this.callOptions.withDeadlineAfter(deadlineAfter - now, TimeUnit.NANOSECONDS);
+            callOptions = this.callOptions.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
             callOptions = this.callOptions.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         if (!shutdown) {
-            return makeBidirectionalStreamCall(method, callOptions, observer);
+            return makeBidirectionalStreamCall(method, callOptions, settings, observer);
         } else {
             observer.onError(CancelResultDueToShutdown().toStatus());
             return makeEmptyObserverStub();
@@ -298,14 +354,17 @@ public abstract class GrpcTransport implements AutoCloseable {
     protected abstract <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer);
 
     protected static <ReqT, RespT> void sendOneRequest(
             ClientCall<ReqT, RespT> call,
             ReqT request,
+            GrpcRequestSettings settings,
             ClientCall.Listener<RespT> listener) {
         try {
-            call.start(listener, new Metadata());
+            Metadata headers = settings.getExtraHeaders();
+            call.start(listener, headers != null ? headers : new Metadata());
             call.request(1);
             call.sendMessage(request);
             call.halfClose();
@@ -322,12 +381,14 @@ public abstract class GrpcTransport implements AutoCloseable {
 
     protected static <ReqT, RespT> OutStreamObserver<ReqT> asyncBidiStreamingCall(
             ClientCall<ReqT, RespT> call,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> responseObserver) {
         AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
                 = new AsyncBidiStreamingOutAdapter<>(call);
         AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener
-                = new AsyncBidiStreamingInAdapter<>(responseObserver, adapter);
-        call.start(responseListener, new Metadata());
+                = new AsyncBidiStreamingInAdapter<>(responseObserver, adapter, null, settings.getTrailersHandler());
+        Metadata extra = settings.getExtraHeaders();
+        call.start(responseListener, extra != null ? extra :new Metadata());
         responseListener.onStart();
         return adapter;
     }

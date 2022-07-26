@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -232,8 +233,8 @@ public class PooledTableClientTest {
         
         @Override
         public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
-            YdbTable.CreateSessionRequest request, long deadlineAfter) {
-            CompletableFuture<Result<YdbTable.CreateSessionResponse>> future = super.createSession(request, deadlineAfter);
+            YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
+            CompletableFuture<Result<YdbTable.CreateSessionResponse>> future = super.createSession(request, settings);
             nextCreateSession().completeSuccess();
             return future;
         }
@@ -246,8 +247,8 @@ public class PooledTableClientTest {
         
         @Override
         public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
-            YdbTable.CreateSessionRequest request, long deadlineAfter) {
-            CompletableFuture<Result<YdbTable.CreateSessionResponse>> future = super.createSession(request, deadlineAfter);
+            YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
+            CompletableFuture<Result<YdbTable.CreateSessionResponse>> future = super.createSession(request, settings);
             nextCreateSession().completeTransportUnavailable();
             return future;
         }

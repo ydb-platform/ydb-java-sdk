@@ -56,7 +56,7 @@ final class GrpcOperationTray implements OperationTray {
     }
 
     @Override
-    public CompletableFuture<Status> waitStatus(OperationProtos.Operation operation, long deadlineAfter) {
+    public CompletableFuture<Status> waitStatus(OperationProtos.Operation operation, GrpcRequestSettings settings) {
         CompletableFuture<Status> promise = new CompletableFuture<>();
 
         if (operation.getReady()) {
@@ -66,7 +66,7 @@ final class GrpcOperationTray implements OperationTray {
                 promise.completeExceptionally(t);
             }
         } else {
-            new WaitStatusTask(operation.getId(), promise, deadlineAfter)
+            new WaitStatusTask(operation.getId(), promise, settings)
                 .scheduleNext(WHEEL_TIMER);
         }
 
@@ -78,7 +78,7 @@ final class GrpcOperationTray implements OperationTray {
         OperationProtos.Operation operation,
         Class<M> resultClass,
         Function<M, R> mapper,
-        long deadlineAfter)
+        GrpcRequestSettings settings)
     {
         CompletableFuture<Result<R>> promise = new CompletableFuture<>();
         if (operation.getReady()) {
@@ -94,15 +94,16 @@ final class GrpcOperationTray implements OperationTray {
                 promise.completeExceptionally(t);
             }
         } else {
-            new WaitResultTask<>(operation.getId(), promise, resultClass, mapper, deadlineAfter)
+            new WaitResultTask<>(operation.getId(), promise, resultClass, mapper, settings)
                 .scheduleNext(WHEEL_TIMER);
         }
 
         return promise;
     }
 
-    private CompletableFuture<Result<GetOperationResponse>> callGetOperation(GetOperationRequest request, long deadlineAfter) {
-        return transport.unaryCall(OperationServiceGrpc.getGetOperationMethod(), request, deadlineAfter);
+    private CompletableFuture<Result<GetOperationResponse>> callGetOperation(GetOperationRequest request,
+                                                                             GrpcRequestSettings settings) {
+        return transport.unaryCall(OperationServiceGrpc.getGetOperationMethod(), request, settings);
     }
 
     @Override
@@ -125,14 +126,14 @@ final class GrpcOperationTray implements OperationTray {
 
         private final GetOperationRequest request;
         private final CompletableFuture<T> promise;
-        private final long deadlineAfter;
+        private final GrpcRequestSettings settings;
 
         private long delayMillis = INITIAL_DELAY_MILLIS / 2;
 
-        BaseTask(String id, CompletableFuture<T> promise, long deadlineAfter) {
+        BaseTask(String id, CompletableFuture<T> promise, GrpcRequestSettings settings) {
             this.request = GetOperationRequest.newBuilder().setId(id).build();
             this.promise = promise;
-            this.deadlineAfter = deadlineAfter;
+            this.settings = settings;
         }
 
         protected abstract T mapFailedRpc(Result<?> result);
@@ -152,7 +153,7 @@ final class GrpcOperationTray implements OperationTray {
                 return;
             }
 
-            callGetOperation(request, deadlineAfter)
+            callGetOperation(request, settings)
                 .whenComplete((response, throwable) -> {
                     if (throwable != null) {
                         promise.completeExceptionally(throwable);
@@ -195,8 +196,8 @@ final class GrpcOperationTray implements OperationTray {
      */
     public final class WaitStatusTask extends BaseTask<Status> {
 
-        WaitStatusTask(String id, CompletableFuture<Status> promise, long deadlineAfter) {
-            super(id, promise, deadlineAfter);
+        WaitStatusTask(String id, CompletableFuture<Status> promise, GrpcRequestSettings settings) {
+            super(id, promise, settings);
         }
 
         @Override
@@ -223,9 +224,9 @@ final class GrpcOperationTray implements OperationTray {
             CompletableFuture<Result<R>> promise,
             Class<M> resultClass,
             Function<M, R> mapper,
-            long deadlineAfter)
+            GrpcRequestSettings settings)
         {
-            super(id, promise, deadlineAfter);
+            super(id, promise, settings);
             this.resultClass = resultClass;
             this.mapper = mapper;
         }

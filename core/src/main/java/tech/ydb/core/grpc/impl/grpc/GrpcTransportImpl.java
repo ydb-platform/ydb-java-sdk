@@ -16,6 +16,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.grpc.AsyncBidiStreamingInAdapter;
 import tech.ydb.core.grpc.AsyncBidiStreamingOutAdapter;
 import tech.ydb.core.grpc.ChannelSettings;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.UnaryStreamToBiConsumer;
@@ -86,7 +87,7 @@ public class GrpcTransportImpl extends GrpcTransport {
 
     /**
      * Establish connection for grpc channel(s) if its currently IDLE
-     * Returns a future to a first {@link ConnectivityState} that is not IDLE or CONNECTING
+     * @return a future to a first {@link ConnectivityState} that is not IDLE or CONNECTING
      */
     public CompletableFuture<ConnectivityState> tryToConnect() {
         CompletableFuture<ConnectivityState> promise = new CompletableFuture<>();
@@ -114,6 +115,7 @@ public class GrpcTransportImpl extends GrpcTransport {
         return promise;
     }
 
+    @SuppressWarnings("deprecation")
     private static ManagedChannel createChannel(GrpcTransportBuilder builder, ChannelSettings channelSettings) {
         String endpoint = builder.getEndpoint();
         String database = builder.getDatabase();
@@ -186,16 +188,22 @@ public class GrpcTransportImpl extends GrpcTransport {
     }
 
     @Override
+    public String getEndpointByNodeId(int nodeId) {
+        return null;
+    }
+
+    @Override
     protected <ReqT, RespT> CompletableFuture<Result<RespT>> makeUnaryCall(
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             CompletableFuture<Result<RespT>> promise) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
         }
-        sendOneRequest(call, request, new UnaryStreamToFuture<>(promise));
+        sendOneRequest(call, request, settings, new UnaryStreamToFuture<>(promise, settings.getTrailersHandler()));
         return promise;
     }
 
@@ -204,12 +212,14 @@ public class GrpcTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             Consumer<Result<RespT>> consumer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
         }
-        sendOneRequest(call, request, new UnaryStreamToConsumer<>(consumer));
+        sendOneRequest(call, request, settings,
+                new UnaryStreamToConsumer<>(consumer, null, settings.getTrailersHandler()));
     }
 
     @Override
@@ -217,12 +227,14 @@ public class GrpcTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             BiConsumer<RespT, Status> consumer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending request to {}, method `{}', request: `{}'", channel.authority(), method, request );
         }
-        sendOneRequest(call, request, new UnaryStreamToBiConsumer<>(consumer));
+        sendOneRequest(call, request, settings,
+                new UnaryStreamToBiConsumer<>(consumer, null, settings.getTrailersHandler()));
     }
 
     @Override
@@ -230,9 +242,10 @@ public class GrpcTransportImpl extends GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             ReqT request,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
-        sendOneRequest(call, request, new ServerStreamToObserver<>(observer, call));
+        sendOneRequest(call, request, settings, new ServerStreamToObserver<>(observer, call));
         return () -> {
             call.cancel("Cancelled on user request", new CancellationException());
         };
@@ -242,13 +255,15 @@ public class GrpcTransportImpl extends GrpcTransport {
     protected <ReqT, RespT> OutStreamObserver<ReqT> makeBidirectionalStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             CallOptions callOptions,
+            GrpcRequestSettings settings,
             StreamObserver<RespT> observer) {
         ClientCall<ReqT, RespT> call = channel.newCall(method, callOptions);
         AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
                 = new AsyncBidiStreamingOutAdapter<>(call);
         AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener
-                = new AsyncBidiStreamingInAdapter<>(observer, adapter);
-        call.start(responseListener, new Metadata());
+                = new AsyncBidiStreamingInAdapter<>(observer, adapter, null, settings.getTrailersHandler());
+        Metadata extra = settings.getExtraHeaders();
+        call.start(responseListener, extra != null ? extra :new Metadata());
         responseListener.onStart();
         return adapter;
     }

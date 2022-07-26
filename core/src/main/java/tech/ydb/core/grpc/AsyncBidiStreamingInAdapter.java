@@ -12,21 +12,16 @@ public class AsyncBidiStreamingInAdapter<ReqT, RespT> extends ClientCall.Listene
     private final StreamObserver<RespT> observer;
     private final AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter;
     private final Consumer<Status> errorHandler;
-
-    public AsyncBidiStreamingInAdapter(StreamObserver<RespT> observer,
-                                       AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
-                                       ) {
-        this.observer = observer;
-        this.adapter = adapter;
-        this.errorHandler = null;
-    }
+    private final Consumer<Metadata> trailersHandler;
 
     public AsyncBidiStreamingInAdapter(StreamObserver<RespT> observer,
                                        AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter,
-                                       Consumer<Status> errorHandler) {
+                                       Consumer<Status> errorHandler,
+                                       Consumer<Metadata> trailersHandler) {
         this.observer = observer;
         this.adapter = adapter;
         this.errorHandler = errorHandler;
+        this.trailersHandler = trailersHandler;
     }
 
     @Override
@@ -41,6 +36,9 @@ public class AsyncBidiStreamingInAdapter<ReqT, RespT> extends ClientCall.Listene
 
     @Override
     public void onClose(Status status, Metadata trailers) {
+        if (trailersHandler != null && trailers != null) {
+            trailersHandler.accept(trailers);
+        }
         if (status.isOk()) {
             observer.onCompleted();
         } else {

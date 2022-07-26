@@ -8,6 +8,7 @@ import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
@@ -75,98 +76,123 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
-    public CompletableFuture<Result<CreateSessionResponse>> createSession(CreateSessionRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getCreateSessionMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<CreateSessionResponse>> createSession(CreateSessionRequest request,
+                                                                          GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getCreateSessionMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<DeleteSessionResponse>> deleteSession(DeleteSessionRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getDeleteSessionMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<DeleteSessionResponse>> deleteSession(DeleteSessionRequest request,
+                                                                          GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getDeleteSessionMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<KeepAliveResponse>> keepAlive(KeepAliveRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getKeepAliveMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<KeepAliveResponse>> keepAlive(KeepAliveRequest request,
+                                                                  GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getKeepAliveMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<CreateTableResponse>> createTable(CreateTableRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getCreateTableMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<CreateTableResponse>> createTable(CreateTableRequest request,
+                                                                      GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getCreateTableMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<DropTableResponse>> dropTable(DropTableRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getDropTableMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<DropTableResponse>> dropTable(DropTableRequest request,
+                                                                  GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getDropTableMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<AlterTableResponse>> alterTable(AlterTableRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getAlterTableMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<AlterTableResponse>> alterTable(AlterTableRequest request,
+                                                                    GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getAlterTableMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<CopyTableResponse>> copyTable(CopyTableRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getCopyTableMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<CopyTableResponse>> copyTable(CopyTableRequest request,
+                                                                  GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getCopyTableMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<DescribeTableResponse>> describeTable(DescribeTableRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getDescribeTableMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<DescribeTableResponse>> describeTable(DescribeTableRequest request,
+                                                                          GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getDescribeTableMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<ExplainDataQueryResponse>> explainDataQuery(ExplainDataQueryRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getExplainDataQueryMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<ExplainDataQueryResponse>> explainDataQuery(ExplainDataQueryRequest request,
+                                                                                GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getExplainDataQueryMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<PrepareDataQueryResponse>> prepareDataQuery(PrepareDataQueryRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getPrepareDataQueryMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<PrepareDataQueryResponse>> prepareDataQuery(PrepareDataQueryRequest request,
+                                                                                GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getPrepareDataQueryMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<ExecuteDataQueryResponse>> executeDataQuery(ExecuteDataQueryRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getExecuteDataQueryMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<ExecuteDataQueryResponse>> executeDataQuery(ExecuteDataQueryRequest request,
+                                                                                GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getExecuteDataQueryMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<ExecuteSchemeQueryResponse>> executeSchemeQuery(ExecuteSchemeQueryRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getExecuteSchemeQueryMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<ExecuteSchemeQueryResponse>> executeSchemeQuery(ExecuteSchemeQueryRequest request,
+                                                                                    GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getExecuteSchemeQueryMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<BeginTransactionResponse>> beginTransaction(BeginTransactionRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getBeginTransactionMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<BeginTransactionResponse>> beginTransaction(BeginTransactionRequest request,
+                                                                                GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getBeginTransactionMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<CommitTransactionResponse>> commitTransaction(CommitTransactionRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getCommitTransactionMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<CommitTransactionResponse>> commitTransaction(CommitTransactionRequest request,
+                                                                                  GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getCommitTransactionMethod(), request, settings);
     }
 
     @Override
-    public CompletableFuture<Result<RollbackTransactionResponse>> rollbackTransaction(RollbackTransactionRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getRollbackTransactionMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<RollbackTransactionResponse>> rollbackTransaction(
+            RollbackTransactionRequest request, GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getRollbackTransactionMethod(), request, settings);
     }
 
     @Override
-    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer, long deadlineAfter) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamReadTableMethod(), request, observer, deadlineAfter);
+    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer,
+                                         GrpcRequestSettings settings) {
+        return transport.serverStreamCall(TableServiceGrpc.getStreamReadTableMethod(), request, observer, settings);
     }
 
     @Override
-    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request, StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, long deadlineAfter) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), request, observer, deadlineAfter);
+    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request,
+            StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, GrpcRequestSettings settings) {
+        return transport.serverStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), request, observer,
+                settings);
     }
 
     @Override
-    public CompletableFuture<Result<YdbTable.BulkUpsertResponse>> bulkUpsert(YdbTable.BulkUpsertRequest request, long deadlineAfter) {
-        return transport.unaryCall(TableServiceGrpc.getBulkUpsertMethod(), request, deadlineAfter);
+    public CompletableFuture<Result<YdbTable.BulkUpsertResponse>> bulkUpsert(YdbTable.BulkUpsertRequest request,
+                                                                             GrpcRequestSettings settings) {
+        return transport.unaryCall(TableServiceGrpc.getBulkUpsertMethod(), request, settings);
     }
 
     @Override
     public String getDatabase() {
         return transport.getDatabase();
+    }
+
+    @Override
+    @Nullable
+    public String getEndpointByNodeId(int nodeId) {
+        return transport.getEndpointByNodeId(nodeId);
     }
 
     @Override

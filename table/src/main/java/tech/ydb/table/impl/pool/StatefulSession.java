@@ -24,9 +24,9 @@ abstract class StatefulSession extends BaseSession {
     }
 
     @Override
-    protected void updateSessionState(Throwable th, StatusCode code) {
+    protected void updateSessionState(Throwable th, StatusCode code, boolean gracefulShutdown) {
         State current = state.get();
-        while (!state.compareAndSet(current, current.updated(clock.instant(), th, code))) {
+        while (!state.compareAndSet(current, current.updated(clock.instant(), th, code, gracefulShutdown))) {
             current = state.get();
         }
     }
@@ -42,6 +42,7 @@ abstract class StatefulSession extends BaseSession {
     private enum Status {
         IDLE,
         ACTIVE,
+        NEED_SHUTDOWN,
         KEEPALIVE,
         BROKEN;
     }
@@ -71,7 +72,7 @@ abstract class StatefulSession extends BaseSession {
         }
         
         public boolean needShutdown() {
-            return this.status == Status.BROKEN;
+            return this.status == Status.BROKEN || this.status == Status.NEED_SHUTDOWN;
         }
         
         public boolean switchToActive(Instant now) {
@@ -90,7 +91,7 @@ abstract class StatefulSession extends BaseSession {
             return switchState(this, nextState(Status.BROKEN, now));
         }
 
-        private State updated(Instant now, Throwable th, StatusCode code) {
+        private State updated(Instant now, Throwable th, StatusCode code, boolean shutdownHint) {
             // Broken state never will be updated
             if (status == Status.BROKEN) {
                 return this;
@@ -108,7 +109,14 @@ abstract class StatefulSession extends BaseSession {
                 return new State(Status.BROKEN, lastActive, now);
             }
 
+            if (status == Status.NEED_SHUTDOWN) {
+                return new State(status, now);
+            }
+
             if (status == Status.ACTIVE) {
+                if (shutdownHint) {
+                    return new State(Status.NEED_SHUTDOWN, now);
+                }
                 return new State(status, now);
             }
 
@@ -116,8 +124,8 @@ abstract class StatefulSession extends BaseSession {
         }
         
         private State nextState(Status nextStatus, Instant now) {
-            // Broken state never will be changed
-            if (status == Status.BROKEN) {
+            // Broken and need shutdown states never will be changed
+            if (status == Status.BROKEN || status == Status.NEED_SHUTDOWN) {
                 return null;
             }
             
