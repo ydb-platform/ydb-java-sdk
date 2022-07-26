@@ -969,7 +969,7 @@ public abstract class BaseSession implements Session {
         final long start = Instant.now().toEpochMilli();
         return future.whenComplete((r, t) -> {
             long ms = Instant.now().toEpochMilli() - start;
-            log.debug("Session[{}] {} => {}, took {} ms", hashCode(), msg, r.getCode(), ms);
+            log.debug("Session[{}] {} => {}, took {} ms", getId(), msg, r.getCode(), ms);
             updateSessionState(t, r.getCode());
         });
     }
@@ -990,7 +990,7 @@ public abstract class BaseSession implements Session {
         final long start = Instant.now().toEpochMilli();
         return future.whenComplete((r, t) -> {
             long ms = Instant.now().toEpochMilli() - start;
-            log.debug("Session[{}] {} => {}, took {} ms", hashCode(), msg, r.getCode(), ms);
+            log.debug("Session[{}] {} => {}, took {} ms", getId(), msg, r.getCode(), ms);
             updateSessionState(t, r.getCode());
         });
     }

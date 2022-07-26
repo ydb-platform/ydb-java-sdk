@@ -4,6 +4,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 import com.google.protobuf.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tech.ydb.OperationProtos.Operation;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Operations;
@@ -13,6 +15,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.core.utils.Async;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.AlterTableResponse;
 import tech.ydb.table.YdbTable.BeginTransactionRequest;
@@ -46,13 +49,13 @@ import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.table.rpc.TableRpc;
-import tech.ydb.table.utils.Async;
 
 
 /**
  * @author Sergey Polovko
  */
 public class TableRpcStub implements TableRpc {
+    private final static Logger logger = LoggerFactory.getLogger(TableRpcStub.class);
 
     @Override
     public CompletableFuture<Result<CreateSessionResponse>> createSession(CreateSessionRequest request, long deadlineAfter) {
@@ -180,12 +183,17 @@ public class TableRpcStub implements TableRpc {
         public <M extends Message, R> CompletableFuture<Result<R>> waitResult(
             Operation operation, Class<M> resultClass, Function<M, R> mapper, long deadlineAfter)
         {
-            Status status = Operations.status(operation);
-            if (status.isSuccess()) {
-                M resultMessage = Operations.unpackResult(operation, resultClass);
-                return CompletableFuture.completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
+            try {
+                Status status = Operations.status(operation);
+                if (status.isSuccess()) {
+                    M resultMessage = Operations.unpackResult(operation, resultClass);
+                    return CompletableFuture.completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
+                }
+                return CompletableFuture.completedFuture(Result.fail(status));
+            } catch (Exception ex) {
+                logger.warn("wait result problem", ex);
+                return CompletableFuture.completedFuture(Result.error(ex));
             }
-            return CompletableFuture.completedFuture(Result.fail(status));
         }
 
         @Override

@@ -24,7 +24,7 @@ import tech.ydb.table.SessionSupplier;
 /**
  * @author Sergey Polovko
  */
-public class TableClientImplTest {
+public class SimpleTableClientTest {
     public static <M extends Message> OperationProtos.Operation resultOperation(M message) {
         return OperationProtos.Operation.newBuilder()
             .setId("fake_id")
@@ -94,6 +94,7 @@ public class TableClientImplTest {
         try (Session session2 = client.createSession(Duration.ZERO).join().expect("cannot create session")) {
             // Server has 2 session
             Assert.assertEquals(2, sessionIDs.size());
+            session2.getId();
         }
         // But server still has 1 session
         Assert.assertEquals(1, sessionIDs.size());
@@ -109,7 +110,9 @@ public class TableClientImplTest {
             }
         };
 
-        SessionSupplier client = SimpleTableClient.newClient(fakeRpc).build();
+        SessionSupplier client = SimpleTableClient.newClient(fakeRpc)
+                .keepQueryText(true)
+                .build();
 
         // Test TableClient interface
         Result<Session> sessionResult = client.createSession(Duration.ZERO).join();
