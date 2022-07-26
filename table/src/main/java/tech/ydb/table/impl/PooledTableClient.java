@@ -6,7 +6,6 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.UnexpectedResultException;
@@ -69,9 +68,9 @@ public class PooledTableClient implements TableClient {
 
     static private class Builder implements TableClient.Builder {
         /** Minimal duration of keep alive and idle */
-        private final static long MIN_DURATION = TimeUnit.SECONDS.toMillis(1);
+        private final static Duration MIN_DURATION = Duration.ofSeconds(1);
         /** Maximal duration of keep alive and idle */
-        private final static long MAX_DURATION = TimeUnit.MINUTES.toMillis(30);
+        private final static Duration MAX_DURATION = Duration.ofMinutes(30);
 
         private final TableRpc tableRpc;
         private boolean keepQueryText = true;
@@ -81,7 +80,12 @@ public class PooledTableClient implements TableClient {
             Preconditions.checkArgument(tableRpc != null, "table rpc is null");
             this.tableRpc = tableRpc;
         }
-
+        
+        private static String prettyDuration(Duration duration) {
+            // convert ISO-8601 format to more readable, etc PT2S will be printed as 2s 
+            return duration.toString().substring(2).toLowerCase();
+        }
+        
         @Override
         public Builder keepQueryText(boolean keep) {
             this.keepQueryText = keep;
@@ -90,11 +94,11 @@ public class PooledTableClient implements TableClient {
 
         @Override
         public Builder sessionPoolSize(int minSize, int maxSize) {
-            Preconditions.checkArgument(minSize >= 0, "sessionPoolMinSize(%d) is negative", minSize);
-            Preconditions.checkArgument(maxSize > 0, "sessionPoolMaxSize(%d) is negative or zero", maxSize);
+            Preconditions.checkArgument(minSize >= 0, "sessionPoolMinSize(%s) is negative", minSize);
+            Preconditions.checkArgument(maxSize > 0, "sessionPoolMaxSize(%s) is negative or zero", maxSize);
             Preconditions.checkArgument(
                 minSize <= maxSize,
-                "sessionPoolMinSize(%d) is greater than sessionPoolMaxSize(%d)",
+                "sessionPoolMinSize(%s) is greater than sessionPoolMaxSize(%s)",
                 minSize, maxSize);
             this.sessionPoolOptions = sessionPoolOptions.withSize(minSize, maxSize);
             return this;
@@ -103,29 +107,32 @@ public class PooledTableClient implements TableClient {
         @Override
         public Builder sessionKeepAliveTime(Duration duration) {
             Preconditions.checkArgument(!duration.isNegative(),
-                    "sessionKeepAliveTime(%s) is negative", duration);
+                    "sessionKeepAliveTime(%s) is negative", prettyDuration(duration));
 
-            long timeMillis = duration.toMillis();
-            Preconditions.checkArgument(timeMillis >= MIN_DURATION,
-                "sessionKeepAliveTime(%s) is less than 1 second", duration);
-            Preconditions.checkArgument(timeMillis <= MAX_DURATION,
-                "sessionKeepAliveTime(%s) is greater than 30 minutes", duration);
+            Preconditions.checkArgument(duration.compareTo(MIN_DURATION) >= 0,
+                "sessionKeepAliveTime(%s) is less than minimal duration %s",
+                prettyDuration(duration), prettyDuration(MIN_DURATION));
+            Preconditions.checkArgument(duration.compareTo(MAX_DURATION) <= 0,
+                "sessionKeepAliveTime(%s) is greater than maximal duration %s",
+                prettyDuration(duration), prettyDuration(MAX_DURATION));
 
-            this.sessionPoolOptions = sessionPoolOptions.withKeepAliveTimeMillis(timeMillis);
+            this.sessionPoolOptions = sessionPoolOptions.withKeepAliveTimeMillis(duration.toMillis());
             return this;
         }
 
         @Override
         public Builder sessionMaxIdleTime(Duration duration) {
-            Preconditions.checkArgument(!duration.isNegative(), "sessionMaxIdleTime(%s) is negative", duration);
+            Preconditions.checkArgument(!duration.isNegative(),
+                    "sessionMaxIdleTime(%s) is negative", prettyDuration(duration));
 
-            long timeMillis = duration.toMillis();
-            Preconditions.checkArgument(timeMillis >= MIN_DURATION,
-                "sessionMaxIdleTime(%s) is less than 1 second", duration);
-            Preconditions.checkArgument(timeMillis <= MAX_DURATION,
-                "sessionMaxIdleTime(%s) is greater than 30 minutes", duration);
+            Preconditions.checkArgument(duration.compareTo(MIN_DURATION) >= 0,
+                "sessionMaxIdleTime(%s) is less than minimal duration %s",
+                prettyDuration(duration), prettyDuration(MIN_DURATION));
+            Preconditions.checkArgument(duration.compareTo(MAX_DURATION) <= 0,
+                "sessionMaxIdleTime(%s) is greater than maximal duration %s",
+                prettyDuration(duration), prettyDuration(MAX_DURATION));
 
-            this.sessionPoolOptions = sessionPoolOptions.withMaxIdleTimeMillis(timeMillis);
+            this.sessionPoolOptions = sessionPoolOptions.withMaxIdleTimeMillis(duration.toMillis());
             return this;
         }
 

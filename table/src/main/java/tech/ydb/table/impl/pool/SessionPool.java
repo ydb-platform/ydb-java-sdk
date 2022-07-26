@@ -166,11 +166,11 @@ public class SessionPool implements AutoCloseable {
             this.maxIdleTimeMillis = options.getMaxIdleTimeMillis();
             this.keepAliveTimeMillis = options.getKeepAliveTimeMillis();
             
-            // Simple heuristics to limit task
-            // Limit count of keepalive - not more than 20 percent but not less than two
+            // Simple heuristics to limit task inflight and frequency
+            // KeepAlive task inflight limit - not more than 20 percent but not less than two
             this.maxKeepAliveCount = Math.max(2, options.getMaxSize() / 5);
-            // The task must be executed at least 5 times for keepAlive 
-            // and at least 2 times for idle, but no more than once every 100 ms
+            // KeepAlive task execution frequency limit - must be executed at least 5 times 
+            // for keepAlive and at least 2 times for idle, but no more than once every 100 ms
             this.periodMillis = Math.max(100, Math.min(keepAliveTimeMillis / 5, maxIdleTimeMillis / 2));
         }
         

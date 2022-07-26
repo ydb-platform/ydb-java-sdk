@@ -5,46 +5,88 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
-import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.TableClient;
-import tech.ydb.table.TableRpcStub;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.impl.pool.MockedTableRpc;
-import tech.ydb.table.rpc.TableRpc;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public class PooledTableClientTest {
-    @Test(expected = IllegalArgumentException.class)
-    public void testTableRpcAssert() {
-        PooledTableClient.newClient(null).build();
+    private void testAssert(String exceptionMsg, ThrowingRunnable runnable) {
+        IllegalArgumentException ex = Assert.assertThrows(
+                "IllegalArgumentException must be throwed",
+                IllegalArgumentException.class,
+                runnable
+        );
+        Assert.assertEquals("Validate exception msg", exceptionMsg, ex.getMessage());
     }
+    
+    @Test
+    public void testSessionPoolAsserts() {
+        testAssert("table rpc is null", () -> {
+            PooledTableClient.newClient(null).build();
+        });
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testSessionSizeAssert() {
-        PooledTableClient.newClient(new DumpTableRpc())
-                .sessionPoolSize(0, 0)
-                .build();
-    }
+        testAssert("sessionPoolMaxSize(0) is negative or zero", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionPoolSize(0, 0)
+                    .build();
+        });
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testKeepAliveTimeoutAssert() {
-        PooledTableClient.newClient(new DumpTableRpc())
-                .sessionKeepAliveTime(Duration.ofMillis(10))
-                .build();
-    }
+        testAssert("sessionPoolMinSize(-1) is negative", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionPoolSize(-1, 1)
+                    .build();
+        });
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testMaxIdleTimeoutAssert() {
-        PooledTableClient.newClient(new DumpTableRpc())
-                .sessionMaxIdleTime(Duration.ofMillis(10))
-                .build();
+        testAssert("sessionPoolMinSize(3) is greater than sessionPoolMaxSize(2)", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionPoolSize(3, 2)
+                    .build();
+        });
+
+        testAssert("sessionKeepAliveTime(-5s) is negative", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionKeepAliveTime(Duration.ofSeconds(5).negated())
+                    .build();
+        });
+
+        testAssert("sessionKeepAliveTime(0.999s) is less than minimal duration 1s", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionKeepAliveTime(Duration.ofMillis(999))
+                    .build();
+        });
+
+        testAssert("sessionKeepAliveTime(31m) is greater than maximal duration 30m", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionKeepAliveTime(Duration.ofMinutes(31))
+                    .build();
+        });
+
+        testAssert("sessionMaxIdleTime(-1s) is negative", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionMaxIdleTime(Duration.ofSeconds(1).negated())
+                    .build();
+        });
+
+        testAssert("sessionMaxIdleTime(0.999s) is less than minimal duration 1s", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionMaxIdleTime(Duration.ofMillis(999))
+                    .build();
+        });
+
+        testAssert("sessionMaxIdleTime(31m) is greater than maximal duration 30m", () -> {
+            PooledTableClient.newClient(new DumpTableRpc())
+                    .sessionMaxIdleTime(Duration.ofMinutes(31))
+                    .build();
+        });
     }
 
     @Test
