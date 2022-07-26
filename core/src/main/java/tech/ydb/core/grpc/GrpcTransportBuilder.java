@@ -11,7 +11,6 @@ import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.grpc.impl.grpc.GrpcTransportImpl;
 import tech.ydb.core.grpc.impl.ydb.YdbTransportImpl;
 import tech.ydb.core.utils.Version;
 
@@ -34,7 +33,6 @@ public class GrpcTransportBuilder {
     private String localDc;
     private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
     private DiscoveryMode discoveryMode = DiscoveryMode.SYNC;
-    private TransportImplType transportImplType = TransportImplType.GRPC_TRANSPORT_IMPL;
     private BalancingSettings balancingSettings;
     private Executor callExecutor = MoreExecutors.directExecutor();
     private AuthProvider authProvider = NopAuthProvider.INSTANCE;
@@ -144,11 +142,6 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    public GrpcTransportBuilder withTransportImplType(TransportImplType transportImplType) {
-        this.transportImplType = transportImplType;
-        return this;
-    }
-
     public GrpcTransportBuilder withBalancingSettings(BalancingSettings balancingSettings) {
         this.balancingSettings = balancingSettings;
         return this;
@@ -177,12 +170,6 @@ public class GrpcTransportBuilder {
     }
 
     public GrpcTransport build() {
-        switch (transportImplType) {
-            case YDB_TRANSPORT_IMPL:
-                return new YdbTransportImpl(this);
-            case GRPC_TRANSPORT_IMPL:
-            default:
-                return new GrpcTransportImpl(this);
-        }
+        return new YdbTransportImpl(this);
     }
 }

@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;

@@ -19,7 +19,6 @@ import tech.ydb.core.grpc.GrpcDiscoveryRpc;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.ServerStreamToObserver;
-import tech.ydb.core.grpc.TransportImplType;
 import tech.ydb.core.grpc.UnaryStreamToBiConsumer;
 import tech.ydb.core.grpc.UnaryStreamToConsumer;
 import tech.ydb.core.grpc.UnaryStreamToFuture;
@@ -101,7 +100,6 @@ public class YdbTransportImpl extends GrpcTransport {
                 .withCallExecutor(builder.getCallExecutor())
                 .withDataBase(builder.getDatabase())
                 .withChannelInitializer(builder.getChannelInitializer())
-                .withTransportImplType(TransportImplType.GRPC_TRANSPORT_IMPL)
                 .withDiscoveryMode(DiscoveryMode.SYNC);
 
         if (builder.getUseTls()) {
