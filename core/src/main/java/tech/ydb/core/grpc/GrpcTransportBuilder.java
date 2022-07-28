@@ -11,7 +11,7 @@ import java.util.function.Consumer;
 import javax.annotation.Nullable;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.grpc.impl.ydb.YdbTransportImpl;
+import tech.ydb.core.grpc.impl.YdbTransportImpl;
 import tech.ydb.core.utils.Version;
 
 import static com.google.common.base.Preconditions.checkArgument;

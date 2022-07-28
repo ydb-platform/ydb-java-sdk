@@ -28,7 +28,7 @@ import io.netty.util.concurrent.DefaultThreadFactory;
 /**
  * @author Sergey Polovko
  */
-final class GrpcOperationTray implements OperationTray {
+public class GrpcOperationTray implements OperationTray {
 
     private static final long INITIAL_DELAY_MILLIS = 10; // The delay before first operations service call, ms
     private static final long MAX_DELAY_MILLIS = 10_000; // The max delay between getOperation calls for one operation, ms
@@ -51,7 +51,7 @@ final class GrpcOperationTray implements OperationTray {
     @GuardedBy("this")
     private  CancellationException cancelEx = null;
 
-    GrpcOperationTray(GrpcTransport transport) {
+    public GrpcOperationTray(GrpcTransport transport) {
         this.transport = transport;
     }
 

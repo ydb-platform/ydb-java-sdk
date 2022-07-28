@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl.ydb;
+package tech.ydb.core.grpc.impl;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -51,8 +51,8 @@ public final class EndpointPool {
     private final BalancingSettings balancingSettings;
     private final AtomicBoolean updateInProgress = new AtomicBoolean();
     private final ReadWriteLock recordsLock = new ReentrantReadWriteLock();
-    private AtomicInteger pessimizationRatio = new AtomicInteger();
-    private AtomicLong lastUpdateTime = new AtomicLong();
+    private final AtomicInteger pessimizationRatio = new AtomicInteger();
+    private final AtomicLong lastUpdateTime = new AtomicLong();
     private List<EndpointEntry> records = new ArrayList<>();
     private Map<String, EndpointEntry> knownEndpoints = new HashMap<>();
     private Map<Integer, String> knownEndpointsByNodeId = new HashMap<>();

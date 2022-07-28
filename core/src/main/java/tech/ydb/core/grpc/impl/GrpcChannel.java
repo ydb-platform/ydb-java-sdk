@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl.ydb;
+package tech.ydb.core.grpc.impl;
 
 import java.util.concurrent.TimeUnit;
 
