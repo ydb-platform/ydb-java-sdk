@@ -2,7 +2,6 @@ package tech.ydb.core.grpc.impl;
 
 import java.util.concurrent.TimeUnit;
 
-import tech.ydb.core.grpc.ChannelSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import io.grpc.Channel;
 import io.grpc.ClientInterceptor;
@@ -22,8 +21,8 @@ import org.slf4j.LoggerFactory;
 class GrpcChannel {
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannel.class);
 
-    public final ManagedChannel realChannel;
-    public final Channel channel;
+    private final ManagedChannel realChannel;
+    private final Channel channel;
     private final String endpoint;
 
     public GrpcChannel(EndpointRecord endpoint, ChannelSettings channelSettings) {
@@ -46,6 +45,10 @@ class GrpcChannel {
 
     public String getEndpoint() {
         return endpoint;
+    }
+    
+    public Channel getGrpcChannel() {
+        return channel;
     }
 
     private Channel interceptChannel(ManagedChannel realChannel, ChannelSettings channelSettings) {

@@ -20,12 +20,15 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
 
     private final CompletableFuture<Result<T>> responseFuture;
     private final Consumer<Metadata> trailersHandler;
+    private final Consumer<Status> statusHandler;
     private T value;
 
     public UnaryStreamToFuture(CompletableFuture<Result<T>> responseFuture,
-            Consumer<Metadata> trailersHandler) {
+            Consumer<Metadata> trailersHandler,
+            Consumer<Status> statusHandler) {
         this.responseFuture = responseFuture;
         this.trailersHandler = trailersHandler;
+        this.statusHandler = statusHandler;
     }
 
     @Override
@@ -41,6 +44,9 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
     public void onClose(Status status, @Nullable Metadata trailers) {
         if (trailersHandler != null && trailers != null) {
             trailersHandler.accept(trailers);
+        }
+        if (statusHandler != null) {
+            statusHandler.accept(status);
         }
 
         if (status.isOk()) {

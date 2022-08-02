@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import tech.ydb.core.grpc.ChannelSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +37,7 @@ public class GrpcChannelPool {
         }
     }
 
-    public GrpcChannel getChannel(EndpointRecord endpoint) {
+    GrpcChannel getChannel(EndpointRecord endpoint) {
         // Workaround for https://bugs.openjdk.java.net/browse/JDK-8161372 to prevent unnecessary locks in Java 8
         // Was fixed in Java 9+
         GrpcChannel result = channels.get(endpoint.getHostAndPort());
@@ -69,7 +68,7 @@ public class GrpcChannelPool {
                     })
                     .collect(Collectors.toList());
             CompletableFuture<Boolean> promise = new CompletableFuture<>();
-            allOf(futures.toArray(new CompletableFuture[channelCount]))
+            allOf(futures.toArray(new CompletableFuture<?>[channelCount]))
                     .thenRun(() -> {
                         boolean shutdownResult = futures
                                 .stream()

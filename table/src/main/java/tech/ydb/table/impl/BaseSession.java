@@ -83,7 +83,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import java.net.URISyntaxException;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
 import static tech.ydb.table.YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;

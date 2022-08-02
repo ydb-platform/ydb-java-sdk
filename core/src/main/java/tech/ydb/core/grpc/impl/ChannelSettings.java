@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.grpc.impl;
 
 import java.io.ByteArrayInputStream;
 import java.util.function.Consumer;
@@ -11,6 +11,7 @@ import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
+import tech.ydb.core.grpc.GrpcTransportBuilder;
 
 /**
  * @author Nikolay Perfilov

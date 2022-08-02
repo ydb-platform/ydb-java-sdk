@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.grpc.impl;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +23,8 @@ import io.netty.util.Timeout;
 import io.netty.util.Timer;
 import io.netty.util.TimerTask;
 import io.netty.util.concurrent.DefaultThreadFactory;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcTransport;
 
 
 /**

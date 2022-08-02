@@ -1,9 +1,11 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.grpc.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.discovery.DiscoveryProtos.ListEndpointsRequest;
 import tech.ydb.discovery.DiscoveryProtos.ListEndpointsResult;

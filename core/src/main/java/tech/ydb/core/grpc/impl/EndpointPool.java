@@ -221,7 +221,7 @@ public final class EndpointPool {
 
     // Sets new endpoints, returns removed
     private List<String> setNewState(List<EndpointEntry> newRecords) {
-        Set<String> index = new HashSet<String>();
+        Set<String> index = new HashSet<>();
         List<EndpointEntry> uniqueRecords = new ArrayList<>();
         for (EndpointEntry entry : newRecords) {
             if (index.add(entry.endpoint.getHostAndPort())) {
