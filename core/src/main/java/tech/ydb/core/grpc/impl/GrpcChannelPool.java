@@ -48,8 +48,7 @@ public class GrpcChannelPool {
         });
     }
 
-    private CompletableFuture<Boolean> shutdownChannels(Stream<GrpcChannel> channelsToShutdown, int channelCount,
-                                                        long shutdownTimeoutMs) {
+    private CompletableFuture<Boolean> shutdownChannels(Stream<GrpcChannel> channelsToShutdown, int channelCount) {
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(channelCount);
         try {
             List<CompletableFuture<Boolean>> futures = channelsToShutdown
@@ -57,7 +56,7 @@ public class GrpcChannelPool {
                         CompletableFuture<Boolean> promise = new CompletableFuture<>();
                         if (channel != null) {
                             executor.schedule(
-                                    () -> { promise.complete(channel.shutdown(shutdownTimeoutMs)); },
+                                    () -> { promise.complete(channel.shutdown()); },
                                     WAIT_FOR_REQUESTS_MS,  // Waiting for already running requests to complete
                                     TimeUnit.MILLISECONDS
                             );
@@ -89,7 +88,7 @@ public class GrpcChannelPool {
                 // + shutdownTimeoutMs to wait for channels to shutdown
                 // + WAIT_FOR_EXECUTOR_SHUTDOWN_MS to wait for scheduled executor to shutdown
                 boolean closed = executor.awaitTermination(
-                        WAIT_FOR_REQUESTS_MS + shutdownTimeoutMs + WAIT_FOR_EXECUTOR_SHUTDOWN_MS,
+                        WAIT_FOR_REQUESTS_MS + WAIT_FOR_EXECUTOR_SHUTDOWN_MS,
                         TimeUnit.SECONDS);
                 if (!closed) {
                     logger.warn("scheduled executor termination timeout exceeded");
@@ -100,20 +99,20 @@ public class GrpcChannelPool {
         }
     }
 
-    public CompletableFuture<Boolean> removeChannels(List<String> endpointsToRemove, long shutdownTimeoutMs) {
+    public CompletableFuture<Boolean> removeChannels(List<String> endpointsToRemove) {
         if (endpointsToRemove == null || endpointsToRemove.isEmpty()) {
             return CompletableFuture.completedFuture(null);
         }
         logger.debug("removing {} channels from pool: {}", endpointsToRemove.size(), endpointsToRemove);
         Stream<GrpcChannel> removedChannels = endpointsToRemove.stream().map(channels::remove);
-        return shutdownChannels(removedChannels, endpointsToRemove.size(), shutdownTimeoutMs);
+        return shutdownChannels(removedChannels, endpointsToRemove.size());
     }
 
-    public void shutdown(long shutdownTimeoutMs) {
+    public void shutdown() {
         logger.debug("initiating grpc pool shutdown with {} channels...", channels.size());
         Collection<GrpcChannel> channelsToShutdown = channels.values();
         boolean shutDownResult =
-                shutdownChannels(channelsToShutdown.stream(), channelsToShutdown.size(), shutdownTimeoutMs)
+                shutdownChannels(channelsToShutdown.stream(), channelsToShutdown.size())
                         .join();
         if (shutDownResult) {
             logger.debug("grpc pool was shut down successfully");

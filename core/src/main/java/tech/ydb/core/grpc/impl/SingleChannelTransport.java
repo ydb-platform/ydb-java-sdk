@@ -1,48 +1,102 @@
 package tech.ydb.core.grpc.impl;
 
-import io.grpc.MethodDescriptor;
+import com.google.protobuf.Message;
+import io.grpc.Channel;
+import io.grpc.Status;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.function.Function;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import tech.ydb.OperationProtos;
+import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
+import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.rpc.OperationTray;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class SingleChannelTransport implements GrpcTransport {
+public class SingleChannelTransport extends BaseGrpcTrasnsport {
+    private final static Logger logger = LoggerFactory.getLogger(SingleChannelTransport.class);
+    private final String database;
+    private final GrpcChannel channel;
+    
+    public SingleChannelTransport(
+            AuthProvider authProvider,
+            Executor executor,
+            long readTimeoutMillis,
+            EndpointRecord endpoint,
+            ChannelSettings channelSettings) {
+        super(authProvider, executor, readTimeoutMillis);
+        this.database = channelSettings.getDatabase();
+        this.channel = new GrpcChannel(endpoint, channelSettings);
+    }
 
     @Override
     public String getEndpointByNodeId(int nodeId) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(MethodDescriptor<ReqT, RespT> method, ReqT request, GrpcRequestSettings settings) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public <ReqT, RespT> StreamControl serverStreamCall(MethodDescriptor<ReqT, RespT> method, ReqT request, StreamObserver<RespT> observer, GrpcRequestSettings settings) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return channel.getEndpoint();
     }
 
     @Override
     public OperationTray getOperationTray() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // not supported
+        return new OperationTray() {
+            @Override
+            public CompletableFuture<tech.ydb.core.Status> waitStatus(OperationProtos.Operation operation, GrpcRequestSettings settings) {
+                return CompletableFuture.completedFuture(Operations.status(operation));
+            }
+
+            @Override
+            public <M extends Message, R> CompletableFuture<Result<R>> waitResult(
+                    OperationProtos.Operation operation, Class<M> resultClass, Function<M, R> mapper, GrpcRequestSettings settings) {
+                try {
+                    tech.ydb.core.Status status = Operations.status(operation);
+                    if (status.isSuccess()) {
+                        M resultMessage = Operations.unpackResult(operation, resultClass);
+                        return CompletableFuture.completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
+                    }
+                    return CompletableFuture.completedFuture(Result.fail(status));
+                } catch (Exception ex) {
+                    logger.warn("wait result problem", ex);
+                    return CompletableFuture.completedFuture(Result.error(ex));
+                }
+            }
+
+            @Override
+            public void close() {
+            }
+        };
     }
 
     @Override
     public String getDatabase() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return database;
     }
 
     @Override
     public void close() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        channel.shutdown();
     }
-    
+
+    @Override
+    protected CheckableChannel getChannel(GrpcRequestSettings settings) {
+        return new CheckableChannel() {
+            @Override
+            public Channel grpcChannel() { return channel.getGrpcChannel(); }
+            @Override
+            public String endpoint() { return channel.getEndpoint(); }
+            @Override
+            public void updateGrpcStatus(Status status) {
+                if (!status.isOk()) {
+                    logger.warn("grpc error {}[{}] on single channel {}",
+                            status.getCode(),
+                            status.getDescription(),
+                            channel.getEndpoint());
+                }
+            }
+        };
+    };
 }

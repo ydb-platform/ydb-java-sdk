@@ -9,6 +9,7 @@ import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,6 @@ import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.UnaryStreamToFuture;
 import tech.ydb.core.grpc.YdbCallCredentials;
@@ -43,24 +43,23 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     private final CallOptions callOptions;
     private final long defaultReadTimeoutMillis;
     
-    protected BaseGrpcTrasnsport(GrpcTransportBuilder builder) {
-        this.callOptions = createCallOptions(builder);
-        this.defaultReadTimeoutMillis = builder.getReadTimeoutMillis();
+    protected BaseGrpcTrasnsport(AuthProvider authProvider, Executor executor, long readTimeoutMillis) {
+        this.callOptions = createCallOptions(authProvider, executor);
+        this.defaultReadTimeoutMillis = readTimeoutMillis;
     }
     
-    private static CallOptions createCallOptions(GrpcTransportBuilder builder) {
+    private static CallOptions createCallOptions(AuthProvider authProvider, Executor executor) {
         CallOptions callOptions = CallOptions.DEFAULT;
-        AuthProvider authProvider = builder.getAuthProvider();
-        if (authProvider != NopAuthProvider.INSTANCE) {
+        if (authProvider != null && authProvider != NopAuthProvider.INSTANCE) {
             callOptions = callOptions.withCallCredentials(new YdbCallCredentials(authProvider));
         }
-        if (builder.getCallExecutor() != MoreExecutors.directExecutor()) {
-            callOptions = callOptions.withExecutor(builder.getCallExecutor());
+        if (executor != null && executor != MoreExecutors.directExecutor()) {
+            callOptions = callOptions.withExecutor(executor);
         }
         return callOptions;
     }
     
-    abstract CheckableChannel getChannel(GrpcRequestSettings settings);
+    protected abstract CheckableChannel getChannel(GrpcRequestSettings settings);
 
     @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(

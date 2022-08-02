@@ -1,6 +1,7 @@
 package tech.ydb.core.grpc.impl;
 
 import com.google.common.base.Strings;
+import com.google.common.net.HostAndPort;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -18,19 +19,23 @@ import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 import io.netty.util.Timeout;
 import io.netty.util.TimerTask;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.EnumSet;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.ydb.core.Issue;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.rpc.OperationTray;
+import tech.ydb.discovery.DiscoveryProtos;
 
 /**
  * @author Nikolay Perfilov
  */
 public class YdbTransportImpl extends BaseGrpcTrasnsport {
-    private static final long WAIT_FOR_CLOSING_MS = 1000;
+    private static final int DEFAULT_PORT = 2135;
     private static final long DISCOVERY_TIMEOUT_SECONDS = 10;
 
     // Interval between discovery requests when everything is ok
@@ -61,39 +66,70 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private volatile boolean shutdown = false;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
-        super(builder);
+        super(builder.getAuthProvider(), builder.getCallExecutor(), builder.getReadTimeoutMillis());
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.operationTray = new GrpcOperationTray(this);
 
-        this.discoveryRpc = createDiscoveryRpc(builder);
-
-        BalancingSettings balancingSettings = builder.getBalancingSettings();
-        if (balancingSettings == null) {
-            if (builder.getLocalDc() == null) {
-                balancingSettings = new BalancingSettings();
-            } else {
-                balancingSettings = BalancingSettings.fromLocation(builder.getLocalDc());
-            }
-        }
+        ChannelSettings channelSettings = ChannelSettings.fromBuilder(builder);
+        BalancingSettings balancingSettings = getBalancingSettings(builder);
         logger.debug("creating YDB transport with {}", balancingSettings);
 
-        this.endpointPool = new EndpointPool(
-            () -> discoveryRpc.listEndpoints(
-                database,
-                GrpcRequestSettings.newBuilder()
-                        .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
-                        .build()
-            ),
-            balancingSettings
-        );
+        this.discoveryRpc = createDiscoveryRpc(builder, channelSettings);
 
-        periodicDiscoveryTask.start();
+        this.endpointPool = new EndpointPool(this::listEndpoints, balancingSettings);
+        this.periodicDiscoveryTask.start();
+        
+        this.channelPool = new GrpcChannelPool(channelSettings, endpointPool.getRecords());
+    }
+    
+    private CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
+        GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
+                .build();
 
-        channelPool = new GrpcChannelPool(ChannelSettings.fromBuilder(builder), endpointPool.getRecords());
+        return discoveryRpc.listEndpoints(database, grpcSettings);
+    }
+    
+    private BalancingSettings getBalancingSettings(GrpcTransportBuilder builder) {
+        BalancingSettings balancingSettings = builder.getBalancingSettings();
+        if (balancingSettings != null) {
+            return balancingSettings;
+        }
+
+        String localDc = builder.getLocalDc();
+        if (localDc != null) {
+            return BalancingSettings.fromLocation(builder.getLocalDc());
+        }
+
+        return new BalancingSettings();
     }
 
-    private GrpcDiscoveryRpc createDiscoveryRpc(GrpcTransportBuilder builder) {
-        return new GrpcDiscoveryRpc(this);
+    private GrpcDiscoveryRpc createDiscoveryRpc(GrpcTransportBuilder builder, ChannelSettings channelSettings) {
+        URI endpointURI = null;
+        try {
+            if (builder.getEndpoint() != null) {
+                endpointURI = new URI(null, builder.getEndpoint(), null, null, null);
+            }
+            List<HostAndPort> hosts = builder.getHosts();
+            if (hosts != null && !hosts.isEmpty()) {
+                HostAndPort host = hosts.get(0);
+                endpointURI = new URI(null, null, host.getHost(), host.getPortOrDefault(DEFAULT_PORT), null, null, null);
+            }
+        } catch (URISyntaxException ex) {
+            logger.warn("endpoint parse problem", ex);
+        }
+        if (endpointURI == null) {
+            throw new IllegalArgumentException("Can't create discovery rpc, unreadable "
+                    + "endpoint " + builder.getEndpoint() + " and empty list of hosts");
+        }
+        EndpointRecord endpoint = new EndpointRecord(endpointURI.getHost(), endpointURI.getPort(), 0);
+        SingleChannelTransport discoveryTransport = new SingleChannelTransport(
+                builder.getAuthProvider(),
+                builder.getCallExecutor(),
+                builder.getReadTimeoutMillis(),
+                endpoint,
+                channelSettings);
+        return new GrpcDiscoveryRpc(discoveryTransport);
     }
     
     @Override
@@ -130,7 +166,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         shutdown = true;
         operationTray.close();
         periodicDiscoveryTask.stop();
-        channelPool.shutdown(WAIT_FOR_CLOSING_MS);
+        channelPool.shutdown();
     }
 
     @Override
@@ -147,7 +183,6 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     protected CheckableChannel getChannel(GrpcRequestSettings settings) {
         return new YdbChannel(settings);
     }
-
 
     private class YdbChannel implements CheckableChannel {
         private final GrpcChannel channel;
@@ -236,26 +271,26 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
                 return null;
             }
 
-            logger.debug("discovery was requested (firstRun = {}), waiting for result...", firstRun);
-            return updateResult.data
-                    .thenApply(updateResultData -> {
-                        if (updateResultData.discoveryStatus.isSuccess()) {
-                            logger.debug("discovery was successfully performed");
-                            if (channelPool != null) {
-                                channelPool.removeChannels(updateResultData.removed, WAIT_FOR_CLOSING_MS);
-                                logger.debug("channelPool.removeChannels executed successfully");
-                            }
-                        } else {
-                            logger.warn("couldn't perform discovery with status: {}", updateResultData.discoveryStatus);
-                        }
-                        scheduleNextDiscovery();
-                        return updateResultData;
-                    })
-                    .exceptionally(e -> {
-                        logger.warn("couldn't perform discovery with exception: {}", e.toString());
-                        scheduleNextDiscovery();
-                        return null;
-                    });
+            logger.debug("discovery {} was requested (firstRun = {}), waiting for result...", updateResult.data, firstRun);
+            return updateResult.data.handle((updateResultData, ex) -> {
+                if (ex != null) {
+                    logger.warn("couldn't perform discovery with exception", ex);
+                    scheduleNextDiscovery();
+                    return null;
+                }
+
+                if (updateResultData.discoveryStatus.isSuccess()) {
+                    logger.debug("discovery was successfully performed");
+                    if (channelPool != null) {
+                        channelPool.removeChannels(updateResultData.removed);
+                        logger.debug("channelPool.removeChannels executed successfully");
+                    }
+                } else {
+                    logger.warn("couldn't perform discovery with status: {}", updateResultData.discoveryStatus);
+                }
+                scheduleNextDiscovery();
+                return updateResultData;
+            });
         }
 
         void scheduleNextDiscovery() {

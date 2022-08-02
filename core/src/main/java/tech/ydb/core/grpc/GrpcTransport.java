@@ -11,8 +11,6 @@ import io.grpc.MethodDescriptor;
 import io.netty.handler.codec.http.QueryStringDecoder;
 import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
-import tech.ydb.OperationProtos;
 import tech.ydb.core.Result;
 import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;

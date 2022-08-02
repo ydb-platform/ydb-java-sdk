@@ -1,5 +1,7 @@
 package tech.ydb.core.grpc.impl;
 
+import io.grpc.ClientInterceptor;
+import io.grpc.Metadata;
 import java.io.ByteArrayInputStream;
 import java.util.function.Consumer;
 
@@ -9,9 +11,11 @@ import tech.ydb.core.ssl.YandexTrustManagerFactory;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
+import io.grpc.stub.MetadataUtils;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.grpc.YdbHeaders;
 
 /**
  * @author Nikolay Perfilov
@@ -30,26 +34,24 @@ public class ChannelSettings {
         this.useTLS = builder.getUseTls();
         this.cert = builder.getCert();
     }
-
+    
     public String getDatabase() {
         return database;
-    }
-
-    public String getVersion() {
-        return version;
     }
 
     public Consumer<NettyChannelBuilder> getChannelInitializer() {
         return channelInitializer;
     }
 
-    public byte[] getCert() {
-        return cert;
+    public ClientInterceptor metadataInterceptor() {
+        Metadata extraHeaders = new Metadata();
+        if (database != null) {
+            extraHeaders.put(YdbHeaders.DATABASE, database);
+        }
+        extraHeaders.put(YdbHeaders.BUILD_INFO, version);
+        return MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
     }
 
-    public boolean isUseTLS() {
-        return useTLS;
-    }
 
     private SslContext createSslContext() {
         try {
