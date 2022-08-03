@@ -240,7 +240,7 @@ public final class FixedAsyncPool<T> implements AsyncPool<T> {
                 return;
             }
 
-            future.whenCompleteAsync((o, ex) -> {
+            future.whenComplete((o, ex) -> {
                 if (ex != null) {
                     acquiredObjectsCount.decrementAndGet();
                     onAcquire(promise, null, ex);

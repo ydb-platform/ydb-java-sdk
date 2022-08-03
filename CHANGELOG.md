@@ -1,3 +1,7 @@
+## 1.14.2 ##
+
+* Remove use common FJ
+
 ## 1.14.1 ##
 
 * Added support of server-side session balancer

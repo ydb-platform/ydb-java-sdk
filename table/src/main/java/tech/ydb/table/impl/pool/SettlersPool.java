@@ -133,7 +133,7 @@ public class SettlersPool<T> {
             }
 
             handler.keepAlive(po.object)
-                .whenCompleteAsync((result, throwable) -> {
+                .whenComplete((result, throwable) -> {
                     try {
                         if (throwable != null) {
                             logger.warn("Keep alive for " + po.object + " failed", throwable);
