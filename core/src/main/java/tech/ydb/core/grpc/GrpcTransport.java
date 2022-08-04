@@ -1,20 +1,21 @@
 package tech.ydb.core.grpc;
 
-import com.google.common.base.Preconditions;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import com.google.common.net.HostAndPort;
-
-import io.grpc.MethodDescriptor;
-import io.netty.handler.codec.http.QueryStringDecoder;
-import java.util.Collections;
 import java.util.concurrent.CompletableFuture;
+
 import tech.ydb.core.Result;
-import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.core.utils.URITools;
+
+import com.google.common.base.Preconditions;
+import com.google.common.net.HostAndPort;
+import io.grpc.MethodDescriptor;
 
 
 /**
@@ -28,16 +29,15 @@ public interface GrpcTransport extends AutoCloseable {
 
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
-            ReqT request,
-            GrpcRequestSettings settings);
-    
+            GrpcRequestSettings settings,
+            ReqT request);
+
     public <ReqT, RespT> StreamControl serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
+            GrpcRequestSettings settings,
             ReqT request,
-            StreamObserver<RespT> observer,
-            GrpcRequestSettings settings);
+            StreamObserver<RespT> observer);
     
-    public OperationTray getOperationTray();
     public String getDatabase();
     
     @Override
@@ -75,12 +75,12 @@ public interface GrpcTransport extends AutoCloseable {
             URI uri = new URI(connectionString.contains("://") ? connectionString : "grpc://" + connectionString);
             endpoint = uri.getAuthority();
             Preconditions.checkNotNull(endpoint, "no endpoint in connection string");
-            Map<String, List<String>> params = new QueryStringDecoder(uri).parameters();
+            Map<String, List<String>> params = URITools.splitQuery(uri);
             List<String> databaseList = params.get("database");
             Preconditions.checkArgument(databaseList != null && !databaseList.isEmpty(), "no database in connection string");
             database = databaseList.get(0);
             scheme = uri.getScheme();
-        } catch (Exception e) {
+        } catch (URISyntaxException | RuntimeException e) {
             throw new IllegalArgumentException("Failed to parse connection string '" + connectionString +
                     "'. Expected format: [<protocol>://]<host>[:<port>]/?database=<database-path>", e);
         }

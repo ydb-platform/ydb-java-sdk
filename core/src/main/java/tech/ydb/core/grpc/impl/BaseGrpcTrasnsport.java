@@ -64,8 +64,9 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
-            ReqT request,
-            GrpcRequestSettings settings) {
+            GrpcRequestSettings settings,
+            ReqT request
+    ) {
         CallOptions options = this.callOptions;
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
@@ -78,38 +79,8 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         }
 
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
-        return makeUnaryCall(method, request, options, settings, promise);
-    }
-
-    @Override
-    public <ReqT, RespT> StreamControl serverStreamCall(
-            MethodDescriptor<ReqT, RespT> method,
-            ReqT request,
-            StreamObserver<RespT> observer,
-            GrpcRequestSettings settings) {
-        CallOptions options = this.callOptions;
-        if (settings.getDeadlineAfter() > 0) {
-            final long now = System.nanoTime();
-            if (now >= settings.getDeadlineAfter()) {
-                observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
-                return () -> {};
-            }
-            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
-        } else if (defaultReadTimeoutMillis > 0) {
-            options = options.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
-        }
-
-        return makeServerStreamCall(method, request, options, settings, observer);
-    }
-    
-    private <ReqT, RespT> CompletableFuture<Result<RespT>> makeUnaryCall(
-            MethodDescriptor<ReqT, RespT> method,
-            ReqT request,
-            CallOptions callOptions,
-            GrpcRequestSettings settings,
-            CompletableFuture<Result<RespT>> promise) {
         CheckableChannel channel = getChannel(settings);
-        ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, callOptions);
+        ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending request to {}, method `{}', request: `{}'", 
                     channel.endpoint(),
@@ -122,14 +93,27 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         return promise;
     }
 
-    private <ReqT, RespT> StreamControl makeServerStreamCall(
+    @Override
+    public <ReqT, RespT> StreamControl serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
-            ReqT request,
-            CallOptions callOptions,
             GrpcRequestSettings settings,
-            StreamObserver<RespT> observer) {
+            ReqT request,
+            StreamObserver<RespT> observer
+        ) {
+        CallOptions options = this.callOptions;
+        if (settings.getDeadlineAfter() > 0) {
+            final long now = System.nanoTime();
+            if (now >= settings.getDeadlineAfter()) {
+                observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
+                return () -> {};
+            }
+            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        } else if (defaultReadTimeoutMillis > 0) {
+            options = options.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        }
+
         CheckableChannel channel = getChannel(settings);
-        ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, callOptions);
+        ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
         if (logger.isDebugEnabled()) {
             logger.debug("Sending stream call to {}, method `{}', request: `{}'",
                     channel.endpoint(),
@@ -143,7 +127,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             call.cancel("Cancelled on user request", new CancellationException());
         };
     }
-
+    
     private static <ReqT, RespT> void sendOneRequest(
             ClientCall<ReqT, RespT> call,
             ReqT request,
@@ -168,7 +152,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
  
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
-        return Result.fail(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR));
+        return Result.fail(tech.ydb.core.Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR)));
     }
 
     private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {

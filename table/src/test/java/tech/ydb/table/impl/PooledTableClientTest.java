@@ -3,9 +3,7 @@ package tech.ydb.table.impl;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -14,6 +12,10 @@ import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.impl.pool.MockedTableRpc;
+
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 /**
  *
@@ -232,9 +234,9 @@ public class PooledTableClientTest {
         }
         
         @Override
-        public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
+        public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
             YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
-            CompletableFuture<Result<YdbTable.CreateSessionResponse>> future = super.createSession(request, settings);
+            CompletableFuture<Result<YdbTable.CreateSessionResult>> future = super.createSession(request, settings);
             nextCreateSession().completeSuccess();
             return future;
         }
@@ -246,9 +248,9 @@ public class PooledTableClientTest {
         }
         
         @Override
-        public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
+        public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
             YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
-            CompletableFuture<Result<YdbTable.CreateSessionResponse>> future = super.createSession(request, settings);
+            CompletableFuture<Result<YdbTable.CreateSessionResult>> future = super.createSession(request, settings);
             nextCreateSession().completeTransportUnavailable();
             return future;
         }

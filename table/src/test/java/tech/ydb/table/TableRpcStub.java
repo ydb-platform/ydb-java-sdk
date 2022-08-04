@@ -1,151 +1,134 @@
 package tech.ydb.table;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
-import javax.annotation.Nullable;
-
-import com.google.protobuf.Message;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import tech.ydb.OperationProtos.Operation;
 import tech.ydb.core.Issue;
-import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.Async;
-import tech.ydb.table.YdbTable.AlterTableRequest;
-import tech.ydb.table.YdbTable.AlterTableResponse;
-import tech.ydb.table.YdbTable.BeginTransactionRequest;
-import tech.ydb.table.YdbTable.BeginTransactionResponse;
-import tech.ydb.table.YdbTable.CommitTransactionRequest;
-import tech.ydb.table.YdbTable.CommitTransactionResponse;
-import tech.ydb.table.YdbTable.CopyTableRequest;
-import tech.ydb.table.YdbTable.CopyTableResponse;
-import tech.ydb.table.YdbTable.CreateSessionRequest;
-import tech.ydb.table.YdbTable.CreateSessionResponse;
-import tech.ydb.table.YdbTable.CreateTableRequest;
-import tech.ydb.table.YdbTable.CreateTableResponse;
-import tech.ydb.table.YdbTable.DeleteSessionRequest;
-import tech.ydb.table.YdbTable.DeleteSessionResponse;
-import tech.ydb.table.YdbTable.DescribeTableRequest;
-import tech.ydb.table.YdbTable.DescribeTableResponse;
-import tech.ydb.table.YdbTable.DropTableRequest;
-import tech.ydb.table.YdbTable.DropTableResponse;
-import tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
-import tech.ydb.table.YdbTable.ExecuteDataQueryResponse;
-import tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
-import tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse;
-import tech.ydb.table.YdbTable.ExplainDataQueryRequest;
-import tech.ydb.table.YdbTable.ExplainDataQueryResponse;
-import tech.ydb.table.YdbTable.KeepAliveRequest;
-import tech.ydb.table.YdbTable.KeepAliveResponse;
-import tech.ydb.table.YdbTable.PrepareDataQueryRequest;
-import tech.ydb.table.YdbTable.PrepareDataQueryResponse;
-import tech.ydb.table.YdbTable.ReadTableRequest;
-import tech.ydb.table.YdbTable.ReadTableResponse;
-import tech.ydb.table.YdbTable.RollbackTransactionRequest;
-import tech.ydb.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.table.rpc.TableRpc;
+
+import static tech.ydb.table.YdbTable.AlterTableRequest;
+import static tech.ydb.table.YdbTable.BeginTransactionRequest;
+import static tech.ydb.table.YdbTable.BeginTransactionResult;
+import static tech.ydb.table.YdbTable.CommitTransactionRequest;
+import static tech.ydb.table.YdbTable.CopyTableRequest;
+import static tech.ydb.table.YdbTable.CreateSessionRequest;
+import static tech.ydb.table.YdbTable.CreateSessionResult;
+import static tech.ydb.table.YdbTable.CreateTableRequest;
+import static tech.ydb.table.YdbTable.DeleteSessionRequest;
+import static tech.ydb.table.YdbTable.DescribeTableRequest;
+import static tech.ydb.table.YdbTable.DescribeTableResult;
+import static tech.ydb.table.YdbTable.DropTableRequest;
+import static tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
+import static tech.ydb.table.YdbTable.ExecuteQueryResult;
+import static tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
+import static tech.ydb.table.YdbTable.ExplainDataQueryRequest;
+import static tech.ydb.table.YdbTable.ExplainQueryResult;
+import static tech.ydb.table.YdbTable.KeepAliveRequest;
+import static tech.ydb.table.YdbTable.KeepAliveResult;
+import static tech.ydb.table.YdbTable.PrepareDataQueryRequest;
+import static tech.ydb.table.YdbTable.PrepareQueryResult;
+import static tech.ydb.table.YdbTable.ReadTableRequest;
+import static tech.ydb.table.YdbTable.ReadTableResponse;
+import static tech.ydb.table.YdbTable.RollbackTransactionRequest;
 
 
 /**
  * @author Sergey Polovko
  */
 public class TableRpcStub implements TableRpc {
-    private final static Logger logger = LoggerFactory.getLogger(TableRpcStub.class);
-
     @Override
-    public CompletableFuture<Result<CreateSessionResponse>> createSession(CreateSessionRequest request,
+    public CompletableFuture<Result<CreateSessionResult>> createSession(CreateSessionRequest request,
                                                                           GrpcRequestSettings settings) {
         return notImplemented("createSession()");
     }
 
     @Override
-    public CompletableFuture<Result<DeleteSessionResponse>> deleteSession(DeleteSessionRequest request,
+    public CompletableFuture<Status> deleteSession(DeleteSessionRequest request,
                                                                           GrpcRequestSettings settings) {
         return notImplemented("deleteSession()");
     }
 
     @Override
-    public CompletableFuture<Result<KeepAliveResponse>> keepAlive(KeepAliveRequest request,
+    public CompletableFuture<Result<KeepAliveResult>> keepAlive(KeepAliveRequest request,
                                                                   GrpcRequestSettings settings) {
         return notImplemented("keepAlive()");
     }
 
     @Override
-    public CompletableFuture<Result<CreateTableResponse>> createTable(CreateTableRequest request,
+    public CompletableFuture<Status> createTable(CreateTableRequest request,
                                                                       GrpcRequestSettings settings) {
         return notImplemented("createTable()");
     }
 
     @Override
-    public CompletableFuture<Result<DropTableResponse>> dropTable(DropTableRequest request,
+    public CompletableFuture<Status> dropTable(DropTableRequest request,
                                                                   GrpcRequestSettings settings) {
         return notImplemented("dropTable()");
     }
 
     @Override
-    public CompletableFuture<Result<AlterTableResponse>> alterTable(AlterTableRequest request,
+    public CompletableFuture<Status> alterTable(AlterTableRequest request,
                                                                     GrpcRequestSettings settings) {
         return notImplemented("alterTable()");
     }
 
     @Override
-    public CompletableFuture<Result<CopyTableResponse>> copyTable(CopyTableRequest request,
+    public CompletableFuture<Status> copyTable(CopyTableRequest request,
                                                                   GrpcRequestSettings settings) {
         return notImplemented("copyTable()");
     }
 
     @Override
-    public CompletableFuture<Result<DescribeTableResponse>> describeTable(DescribeTableRequest request,
+    public CompletableFuture<Result<DescribeTableResult>> describeTable(DescribeTableRequest request,
                                                                           GrpcRequestSettings settings) {
         return notImplemented("describeTable()");
     }
 
     @Override
-    public CompletableFuture<Result<ExplainDataQueryResponse>> explainDataQuery(ExplainDataQueryRequest request,
+    public CompletableFuture<Result<ExplainQueryResult>> explainDataQuery(ExplainDataQueryRequest request,
                                                                                 GrpcRequestSettings settings) {
         return notImplemented("explainDataQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<PrepareDataQueryResponse>> prepareDataQuery(PrepareDataQueryRequest request,
+    public CompletableFuture<Result<PrepareQueryResult>> prepareDataQuery(PrepareDataQueryRequest request,
                                                                                 GrpcRequestSettings settings) {
         return notImplemented("prepareDataQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<ExecuteDataQueryResponse>> executeDataQuery(ExecuteDataQueryRequest request,
+    public CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request,
                                                                                 GrpcRequestSettings settings) {
         return notImplemented("executeDataQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<ExecuteSchemeQueryResponse>> executeSchemeQuery(ExecuteSchemeQueryRequest request,
+    public CompletableFuture<Status> executeSchemeQuery(ExecuteSchemeQueryRequest request,
                                                                                     GrpcRequestSettings settings) {
         return notImplemented("executeSchemeQuery()");
     }
 
     @Override
-    public CompletableFuture<Result<BeginTransactionResponse>> beginTransaction(BeginTransactionRequest request,
+    public CompletableFuture<Result<BeginTransactionResult>> beginTransaction(BeginTransactionRequest request,
                                                                                 GrpcRequestSettings settings) {
         return notImplemented("beginTransaction()");
     }
 
     @Override
-    public CompletableFuture<Result<CommitTransactionResponse>> commitTransaction(CommitTransactionRequest request,
+    public CompletableFuture<Status> commitTransaction(CommitTransactionRequest request,
                                                                                   GrpcRequestSettings settings) {
         return notImplemented("commitTransaction()");
     }
 
     @Override
-    public CompletableFuture<Result<RollbackTransactionResponse>> rollbackTransaction(
+    public CompletableFuture<Status> rollbackTransaction(
             RollbackTransactionRequest request, GrpcRequestSettings settings) {
         return notImplemented("rollbackTransaction()");
     }
@@ -167,8 +150,8 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public CompletableFuture<Result<YdbTable.BulkUpsertResponse>> bulkUpsert(YdbTable.BulkUpsertRequest request,
-                                                                             GrpcRequestSettings settings) {
+    public CompletableFuture<Status> bulkUpsert(YdbTable.BulkUpsertRequest request,
+            GrpcRequestSettings settings) {
         return notImplemented("bulkUpsert()");
     }
 
@@ -178,54 +161,16 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    @Nullable
-    public String getEndpointByNodeId(int nodeId) {
-        return null;
-    }
-
-    @Override
-    public OperationTray getOperationTray() {
-        return new ImmediateOperationTray();
-    }
-
-    @Override
     public void close() {
         // nop
     }
 
-    private static <U> CompletableFuture<U> notImplemented(String method) {
-        return Async.failedFuture(new UnsupportedOperationException(method + " not implemented"));
+    @Override
+    public EndpointInfo getEndpointBySessionId(String sessionId) {
+        return null;
     }
 
-    /**
-     * IMMEDIATE OPERATION TRAY
-     */
-    private static final class ImmediateOperationTray implements OperationTray {
-        @Override
-        public CompletableFuture<Status> waitStatus(Operation operation, GrpcRequestSettings settings) {
-            return CompletableFuture.completedFuture(Operations.status(operation));
-        }
-
-        @Override
-        public <M extends Message, R> CompletableFuture<Result<R>> waitResult(
-            Operation operation, Class<M> resultClass, Function<M, R> mapper, GrpcRequestSettings settings)
-        {
-            try {
-                Status status = Operations.status(operation);
-                if (status.isSuccess()) {
-                    M resultMessage = Operations.unpackResult(operation, resultClass);
-                    return CompletableFuture.completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
-                }
-                return CompletableFuture.completedFuture(Result.fail(status));
-            } catch (Exception ex) {
-                logger.warn("wait result problem", ex);
-                return CompletableFuture.completedFuture(Result.error(ex));
-            }
-        }
-
-        @Override
-        public void close() {
-            // nop
-        }
+    private static <U> CompletableFuture<U> notImplemented(String method) {
+        return Async.failedFuture(new UnsupportedOperationException(method + " not implemented"));
     }
 }

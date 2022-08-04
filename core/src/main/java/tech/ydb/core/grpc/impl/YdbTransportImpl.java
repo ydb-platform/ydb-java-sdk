@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Issue;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
-import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.discovery.DiscoveryProtos;
 
 /**
@@ -45,10 +44,10 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     // Maximum percent of endpoints pessimized by transport errors to start recheck
     private static final long DISCOVERY_PESSIMIZATION_THRESHOLD = 50;
     
-    private static final Result<?> SHUTDOWN_RESULT =  Result.fail(
+    private static final Result<?> SHUTDOWN_RESULT =  Result.fail(tech.ydb.core.Status.of(
             StatusCode.CLIENT_CANCELLED,
             Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
-    );
+    ));
 
     protected static final EnumSet<ConnectivityState> TEMPORARY_STATES = EnumSet.of(
         ConnectivityState.IDLE,
@@ -62,13 +61,11 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private final GrpcChannelPool channelPool;
     private final PeriodicDiscoveryTask periodicDiscoveryTask = new PeriodicDiscoveryTask();
     private final String database;
-    private final GrpcOperationTray operationTray;
     private volatile boolean shutdown = false;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         super(builder.getAuthProvider(), builder.getCallExecutor(), builder.getReadTimeoutMillis());
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.operationTray = new GrpcOperationTray(this);
 
         ChannelSettings channelSettings = ChannelSettings.fromBuilder(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
@@ -140,38 +137,34 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
-            ReqT request,
-            GrpcRequestSettings settings) {
+            GrpcRequestSettings settings,
+            ReqT request
+    ) {
         if (shutdown) {
-            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.cast());
+            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
-        return super.unaryCall(method, request, settings);
+        return super.unaryCall(method, settings, request);
     }
 
     @Override
     public <ReqT, RespT> StreamControl serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
+            GrpcRequestSettings settings,
             ReqT request,
-            StreamObserver<RespT> observer,
-            GrpcRequestSettings settings) {
+            StreamObserver<RespT> observer
+    ) {
         if (shutdown) {
             observer.onError(SHUTDOWN_RESULT.toStatus());
             return () -> {};
         }
-        return super.serverStreamCall(method, request, observer, settings);
+        return super.serverStreamCall(method, settings, request, observer);
     }
 
     @Override
     public void close() {
         shutdown = true;
-        operationTray.close();
         periodicDiscoveryTask.stop();
         channelPool.shutdown();
-    }
-
-    @Override
-    public OperationTray getOperationTray() {
-        return operationTray;
     }
 
     @Override

@@ -1,48 +1,29 @@
 package tech.ydb.table.impl;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import com.google.protobuf.Any;
-import com.google.protobuf.Message;
-import java.time.Duration;
-import tech.ydb.OperationProtos;
-import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.Session;
+import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.TableRpcStub;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.rpc.TableRpc;
+
 import org.junit.Assert;
 import org.junit.Test;
-import tech.ydb.table.SessionSupplier;
 
 
 /**
  * @author Sergey Polovko
  */
 public class SimpleTableClientTest {
-    public static <M extends Message> OperationProtos.Operation resultOperation(M message) {
-        return OperationProtos.Operation.newBuilder()
-            .setId("fake_id")
-            .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-            .setReady(true)
-            .setResult(Any.pack(message))
-            .build();
-    }
-
-    public static OperationProtos.Operation successOperation() {
-        return OperationProtos.Operation.newBuilder()
-            .setId("fake_id")
-            .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-            .setReady(true)
-            .build();
-    }
-
     @Test
     public void createSessionAndRelease() throws InterruptedException, ExecutionException {
         Set<String> sessionIDs = new HashSet<>();
@@ -51,7 +32,7 @@ public class SimpleTableClientTest {
             private int counter = 0;
 
             @Override
-            public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
+            public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
                 YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
 
                 counter += 1;
@@ -59,28 +40,21 @@ public class SimpleTableClientTest {
                 YdbTable.CreateSessionResult result = YdbTable.CreateSessionResult.newBuilder()
                     .setSessionId(id)
                     .build();
-                YdbTable.CreateSessionResponse response = YdbTable.CreateSessionResponse.newBuilder()
-                    .setOperation(resultOperation(result))
-                    .build();
 
                 sessionIDs.add(id);
-                return CompletableFuture.completedFuture(Result.success(response));
+                return CompletableFuture.completedFuture(Result.success(result));
             }
 
             @Override
-            public CompletableFuture<Result<YdbTable.DeleteSessionResponse>> deleteSession(
+            public CompletableFuture<Status> deleteSession(
                     YdbTable.DeleteSessionRequest request, GrpcRequestSettings settings) {
                 String id = request.getSessionId();
-                YdbTable.DeleteSessionResponse response = YdbTable.DeleteSessionResponse
-                        .newBuilder()
-                        .setOperation(successOperation())
-                        .build();
 
                 if (sessionIDs.contains(id)) {
                     sessionIDs.remove(id);
-                    return CompletableFuture.completedFuture(Result.success(response));
+                    return CompletableFuture.completedFuture(Status.SUCCESS);
                 } else {
-                    return CompletableFuture.completedFuture(Result.fail(StatusCode.BAD_SESSION));
+                    return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION));
                 }
             }
         };
@@ -105,7 +79,7 @@ public class SimpleTableClientTest {
     public void unavailableSessions() {
         TableRpc fakeRpc = new TableRpcStub() {
             @Override
-            public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
+            public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
                 YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
                 return CompletableFuture.completedFuture(Result.fail(StatusCode.TRANSPORT_UNAVAILABLE));
             }

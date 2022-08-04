@@ -7,17 +7,20 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
+import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.rpc.OperationTray;
 import tech.ydb.scheme.v1.SchemeServiceGrpc;
 import tech.ydb.table.rpc.SchemeRpc;
 
 import static tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest;
 import static tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse;
+import static tech.ydb.scheme.SchemeOperationProtos.DescribePathResult;
 import static tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest;
 import static tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse;
+import static tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult;
 import static tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest;
 import static tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse;
 import static tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
@@ -49,43 +52,39 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     }
 
     @Override
-    public CompletableFuture<Result<MakeDirectoryResponse>> makeDirectory(MakeDirectoryRequest request,
-                                                                          GrpcRequestSettings settings) {
-        return transport.unaryCall(SchemeServiceGrpc.getMakeDirectoryMethod(), request, settings);
+    public CompletableFuture<Status> makeDirectory(MakeDirectoryRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(SchemeServiceGrpc.getMakeDirectoryMethod(), settings, request)
+                .thenApply(Operations.statusUnwrapper(MakeDirectoryResponse::getOperation));
+
     }
 
     @Override
-    public CompletableFuture<Result<RemoveDirectoryResponse>> removeDirectory(RemoveDirectoryRequest request,
+    public CompletableFuture<Status> removeDirectory(RemoveDirectoryRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(SchemeServiceGrpc.getRemoveDirectoryMethod(), settings, request)
+                .thenApply(Operations.statusUnwrapper(RemoveDirectoryResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Result<ListDirectoryResult>> describeDirectory(ListDirectoryRequest request,
                                                                               GrpcRequestSettings settings) {
-        return transport.unaryCall(SchemeServiceGrpc.getRemoveDirectoryMethod(), request, settings);
+        return transport
+                .unaryCall(SchemeServiceGrpc.getListDirectoryMethod(), settings, request)
+                .thenApply(Operations.resultUnwrapper(ListDirectoryResponse::getOperation, ListDirectoryResult.class));
     }
 
     @Override
-    public CompletableFuture<Result<ListDirectoryResponse>> describeDirectory(ListDirectoryRequest request,
-                                                                              GrpcRequestSettings settings) {
-        return transport.unaryCall(SchemeServiceGrpc.getListDirectoryMethod(), request, settings);
-    }
-
-    @Override
-    public CompletableFuture<Result<DescribePathResponse>> describePath(DescribePathRequest request,
+    public CompletableFuture<Result<DescribePathResult>> describePath(DescribePathRequest request,
                                                                         GrpcRequestSettings settings) {
-        return transport.unaryCall(SchemeServiceGrpc.getDescribePathMethod(), request, settings);
+        return transport
+                .unaryCall(SchemeServiceGrpc.getDescribePathMethod(), settings, request)
+                .thenApply(Operations.resultUnwrapper(DescribePathResponse::getOperation, DescribePathResult.class));
     }
 
     @Override
     public String getDatabase() {
         return transport.getDatabase();
-    }
-
-    @Override
-    @Nullable
-    public String getEndpointByNodeId(int nodeId) {
-        return transport.getEndpointByNodeId(nodeId);
-    }
-
-    @Override
-    public OperationTray getOperationTray() {
-        return transport.getOperationTray();
     }
 
     @Override

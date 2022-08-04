@@ -35,7 +35,7 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
     public void onMessage(T value) {
         if (this.value != null) {
             Issue issue = Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR);
-            responseFuture.complete(Result.fail(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+            responseFuture.complete(Result.fail(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue)));
         }
         this.value = value;
     }
@@ -52,7 +52,7 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
         if (status.isOk()) {
             if (value == null) {
                 Issue issue = Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR);
-                responseFuture.complete(Result.fail(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+                responseFuture.complete(Result.fail(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue)));
             } else {
                 responseFuture.complete(Result.success(value));
             }
