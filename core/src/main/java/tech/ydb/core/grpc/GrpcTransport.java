@@ -2,8 +2,7 @@ package tech.ydb.core.grpc;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
-import java.util.Collections;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -40,29 +39,23 @@ public interface GrpcTransport extends AutoCloseable {
     
     public String getDatabase();
     
+    public boolean waitUntilReady(Duration timeout);
+    
     @Override
     public void close();
 
-    public static GrpcTransportBuilder forHost(String host, int port) {
-        return new GrpcTransportBuilder(null, null, Collections.singletonList(HostAndPort.fromParts(host, port)));
+    public static GrpcTransportBuilder forHost(HostAndPort hostAndPort, String database) {
+        return new GrpcTransportBuilder(null, hostAndPort, database);
     }
 
-    public static GrpcTransportBuilder forHosts(HostAndPort... hosts) {
-        Preconditions.checkNotNull(hosts, "hosts is null");
-        Preconditions.checkArgument(hosts.length > 0, "empty hosts array");
-        return new GrpcTransportBuilder(null, null, Arrays.asList(hosts));
-    }
-
-    public static GrpcTransportBuilder forHosts(List<HostAndPort> hosts) {
-        Preconditions.checkNotNull(hosts, "hosts is null");
-        Preconditions.checkArgument(!hosts.isEmpty(), "empty hosts list");
-        return new GrpcTransportBuilder(null, null, hosts);
+    public static GrpcTransportBuilder forHost(String host, int port, String database) {
+        return new GrpcTransportBuilder(null, HostAndPort.fromParts(host, port), database);
     }
 
     public static GrpcTransportBuilder forEndpoint(String endpoint, String database) {
         Preconditions.checkNotNull(endpoint, "endpoint is null");
         Preconditions.checkNotNull(database, "database is null");
-        return new GrpcTransportBuilder(endpoint, database, null);
+        return new GrpcTransportBuilder(endpoint, null, database);
     }
 
     // [<protocol>://]<host>[:<port>]/?database=<database-path>
@@ -84,7 +77,7 @@ public interface GrpcTransport extends AutoCloseable {
             throw new IllegalArgumentException("Failed to parse connection string '" + connectionString +
                     "'. Expected format: [<protocol>://]<host>[:<port>]/?database=<database-path>", e);
         }
-        GrpcTransportBuilder builder = new GrpcTransportBuilder(endpoint, database, null);
+        GrpcTransportBuilder builder = new GrpcTransportBuilder(endpoint, null, database);
         if (scheme.equals("grpcs")) {
             builder.withSecureConnection();
         } else if (!scheme.equals("grpc")) {

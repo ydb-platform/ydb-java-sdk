@@ -1,12 +1,11 @@
 package tech.ydb.core.grpc.impl;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.Channel;
+import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
-import io.grpc.netty.NettyChannelBuilder;
-import io.netty.buffer.ByteBufAllocator;
-import io.netty.channel.ChannelOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,32 +16,28 @@ class GrpcChannel {
     private static final long WAIT_FOR_CLOSING_MS = 1000;
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannel.class);
 
-    private final ManagedChannel channel;
     private final String endpoint;
+    private final ManagedChannel channel;
+    private final ReadyWatcher readyWatcher;
     
-    public GrpcChannel(EndpointRecord endpoint, ChannelSettings channelSettings) {
-        this.endpoint = endpoint.getHostAndPort();
-        logger.debug("Creating grpc channel, endpoint: " + endpoint.getHost() + ", port: " + endpoint.getPort());
-        final NettyChannelBuilder channelBuilder = NettyChannelBuilder.forAddress(
-            endpoint.getHost(),
-            endpoint.getPort());
-
-        channelSettings.configureSecureConnection(channelBuilder);
-
-        channelBuilder
-                .maxInboundMessageSize(64 << 20) // 64 MiB
-                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
-                .intercept(channelSettings.metadataInterceptor());
-        channelSettings.getChannelInitializer().accept(channelBuilder);
-        channel = channelBuilder.build();
+    public GrpcChannel(EndpointRecord endpointRecord, ChannelFactory channelFactory, boolean tryToConnect) {
+        logger.debug("Creating grpc channel with {}", endpointRecord);
+        endpoint = endpointRecord.getHostAndPort();
+        channel = channelFactory.newManagedChannel(endpointRecord.getHost(), endpointRecord.getPort());
+        readyWatcher = new ReadyWatcher();
+        readyWatcher.check(tryToConnect);
     }
 
     public String getEndpoint() {
         return endpoint;
     }
     
-    public Channel getGrpcChannel() {
-        return channel;
+    public Channel getReadyChannel() {
+        return readyWatcher.getReadyChannel();
+    }
+
+    public CompletableFuture<ManagedChannel> getReadyFuture() {
+        return readyWatcher.getFuture();
     }
 
     public boolean shutdown() {
@@ -59,11 +54,54 @@ class GrpcChannel {
                     logger.warn("closing transport problem for channel {}", endpoint);
                 }
             }
+
             return closed;
         } catch (InterruptedException e) {
             logger.warn("transport shutdown interrupted for channel {}: {}", endpoint, e);
             Thread.currentThread().interrupt();
             return false;
+        }
+    }
+
+    private class ReadyWatcher implements Runnable {
+        private final CompletableFuture<ManagedChannel> future = new CompletableFuture<>();
+
+        public CompletableFuture<ManagedChannel> getFuture() {
+            return future;
+        }
+
+        public ManagedChannel getReadyChannel() {
+            return future.join();
+        }
+        
+        public void check(boolean tryToConnect) {
+            ConnectivityState state = channel.getState(tryToConnect);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Grpc channel {} new state: {}", endpoint, state);
+            }
+            switch (state) {
+                case CONNECTING:
+                case IDLE:
+                    // repeat watch
+                    channel.notifyWhenStateChanged(state, this);
+                    break;
+                case READY:
+                    future.complete(channel);
+                    break;
+                case SHUTDOWN:
+                    future.completeExceptionally(new IllegalStateException("Grpc channel already closed"));
+                    break;
+                case TRANSIENT_FAILURE:
+                default:
+                    // repeat watch
+                    channel.notifyWhenStateChanged(state, this);
+                    break;
+            }
+        }
+
+        @Override
+        public void run() {
+            check(false);
         }
     }
 }

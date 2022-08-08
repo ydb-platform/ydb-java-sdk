@@ -28,13 +28,10 @@ public class GrpcChannelPool {
     public static final long WAIT_FOR_EXECUTOR_SHUTDOWN_MS = 500;
 
     private final Map<String, GrpcChannel> channels = new ConcurrentHashMap<>();
-    private final ChannelSettings channelSettings;
+    private final ChannelFactory channelFactory;
 
-    public GrpcChannelPool(ChannelSettings channelSettings, List<EndpointRecord> initialEndpoints) {
-        this.channelSettings = channelSettings;
-        for (EndpointRecord endpoint : initialEndpoints) {
-            channels.put(endpoint.getHostAndPort(), new GrpcChannel(endpoint, channelSettings));
-        }
+    public GrpcChannelPool(ChannelFactory channelFactory) {
+        this.channelFactory = channelFactory;
     }
 
     GrpcChannel getChannel(EndpointRecord endpoint) {
@@ -44,7 +41,7 @@ public class GrpcChannelPool {
 
         return result != null ? result : channels.computeIfAbsent(endpoint.getHostAndPort(), (key) -> {
             logger.debug("channel " + endpoint.getHostAndPort() + " was not found in pool, creating one...");
-            return new GrpcChannel(endpoint, channelSettings);
+            return new GrpcChannel(endpoint, channelFactory, true);
         });
     }
 
@@ -99,7 +96,7 @@ public class GrpcChannelPool {
         }
     }
 
-    public CompletableFuture<Boolean> removeChannels(List<String> endpointsToRemove) {
+    public CompletableFuture<Boolean> removeChannels(List<EndpointRecord> endpointsToRemove) {
         if (endpointsToRemove == null || endpointsToRemove.isEmpty()) {
             return CompletableFuture.completedFuture(null);
         }

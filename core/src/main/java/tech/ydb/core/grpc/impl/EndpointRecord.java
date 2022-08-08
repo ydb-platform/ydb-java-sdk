@@ -17,7 +17,7 @@ public class EndpointRecord {
         this.hostAndPort = host + ":" + port;
         this.nodeId = nodeId;
     }
-
+    
     public String getHost() {
         return host;
     }
@@ -32,5 +32,10 @@ public class EndpointRecord {
 
     public int getNodeId() {
         return nodeId;
+    }
+    
+    @Override
+    public String toString() {
+        return "Endpoint{host=" + host + ", port=" + port + ", node=" + nodeId + "}";
     }
 }

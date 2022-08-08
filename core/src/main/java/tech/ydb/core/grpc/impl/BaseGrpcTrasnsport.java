@@ -79,17 +79,22 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         }
 
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
-        CheckableChannel channel = getChannel(settings);
-        ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Sending request to {}, method `{}', request: `{}'", 
-                    channel.endpoint(),
-                    method,
-                    request);
+        try {
+            CheckableChannel channel = getChannel(settings);
+            ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
+            if (logger.isTraceEnabled()) {
+                logger.trace("Sending request to {}, method `{}', request: `{}'", 
+                        channel.endpoint(),
+                        method,
+                        request);
+            }
+            sendOneRequest(call, request, settings, new UnaryStreamToFuture<>(
+                    promise, settings.getTrailersHandler(), channel::updateGrpcStatus
+            ));
+        } catch (RuntimeException ex) {
+            logger.error("unary call problem {}", ex.getMessage());
+            promise.completeExceptionally(ex);
         }
-        sendOneRequest(call, request, settings, new UnaryStreamToFuture<>(
-                promise, settings.getTrailersHandler(), channel::updateGrpcStatus
-        ));
         return promise;
     }
 
@@ -112,20 +117,28 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             options = options.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
-        CheckableChannel channel = getChannel(settings);
-        ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
-        if (logger.isDebugEnabled()) {
-            logger.debug("Sending stream call to {}, method `{}', request: `{}'",
-                    channel.endpoint(),
-                    method,
-                    request);
+        try {
+            CheckableChannel channel = getChannel(settings);
+            ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
+            if (logger.isTraceEnabled()) {
+                logger.trace("Sending stream call to {}, method `{}', request: `{}'",
+                        channel.endpoint(),
+                        method,
+                        request);
+            }
+            sendOneRequest(call, request, settings, new ServerStreamToObserver<>(
+                    observer, call, settings.getTrailersHandler(), channel::updateGrpcStatus
+            ));
+
+            return () -> {
+                call.cancel("Cancelled on user request", new CancellationException());
+            };
+        } catch (RuntimeException ex) {
+            logger.error("server stream call problem {}", ex.getMessage());
+            Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
+            observer.onError(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+            return () -> {};
         }
-        sendOneRequest(call, request, settings, new ServerStreamToObserver<>(
-                observer, call, settings.getTrailersHandler(), channel::updateGrpcStatus
-        ));
-        return () -> {
-            call.cancel("Cancelled on user request", new CancellationException());
-        };
     }
     
     private static <ReqT, RespT> void sendOneRequest(
