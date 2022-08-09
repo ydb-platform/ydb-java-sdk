@@ -39,8 +39,6 @@ public interface GrpcTransport extends AutoCloseable {
     
     public String getDatabase();
     
-    public boolean waitUntilReady(Duration timeout);
-    
     @Override
     public void close();
 

@@ -93,12 +93,6 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         return new EndpointRecord(endpointURI.getHost(), endpointURI.getPort(), 0);
     }
 
-    @Override
-    public boolean waitUntilReady(Duration timeout) {
-        long millis = timeout.isNegative() ? 0 : timeout.toMillis();
-        return discoveryHandler.checkReady(millis);
-    }
-
     private static BalancingSettings getBalancingSettings(GrpcTransportBuilder builder) {
         BalancingSettings balancingSettings = builder.getBalancingSettings();
         if (balancingSettings != null) {

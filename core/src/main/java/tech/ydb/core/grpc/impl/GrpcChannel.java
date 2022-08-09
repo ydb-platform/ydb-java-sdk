@@ -36,10 +36,6 @@ class GrpcChannel {
         return readyWatcher.getReadyChannel();
     }
 
-    public CompletableFuture<ManagedChannel> getReadyFuture() {
-        return readyWatcher.getFuture();
-    }
-
     public boolean shutdown() {
         try {
             boolean closed = channel.shutdown()
@@ -65,10 +61,6 @@ class GrpcChannel {
 
     private class ReadyWatcher implements Runnable {
         private final CompletableFuture<ManagedChannel> future = new CompletableFuture<>();
-
-        public CompletableFuture<ManagedChannel> getFuture() {
-            return future;
-        }
 
         public ManagedChannel getReadyChannel() {
             return future.join();

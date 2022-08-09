@@ -50,21 +50,6 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public boolean waitUntilReady(Duration timeout) {
-        try {
-            channel.getReadyFuture().get(timeout.toMillis(), TimeUnit.MILLISECONDS);
-            return true;
-        } catch (ExecutionException | TimeoutException ex) {
-            logger.warn("single channel transport wait ready problem", ex);
-            return false;
-        } catch (InterruptedException ex) {
-            logger.warn("single channel transport wait ready interrupted", ex);
-            Thread.currentThread().interrupt();
-            return false;
-        }
-    }
-
-    @Override
     protected CheckableChannel getChannel(GrpcRequestSettings settings) {
         return new CheckableChannel() {
             @Override
