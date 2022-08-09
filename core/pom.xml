@@ -8,7 +8,7 @@
     <parent>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-parent</artifactId>
-        <version>1.14.2</version>
+        <version>1.14.3</version>
     </parent>
 
     <artifactId>ydb-sdk-core</artifactId>

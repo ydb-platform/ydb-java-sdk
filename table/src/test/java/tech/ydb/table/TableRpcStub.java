@@ -209,8 +209,12 @@ public class TableRpcStub implements TableRpc {
         {
             Status status = Operations.status(operation);
             if (status.isSuccess()) {
+                double comsumedRu = operation.getCostInfo().getConsumedUnits();
                 M resultMessage = Operations.unpackResult(operation, resultClass);
-                return CompletableFuture.completedFuture(Result.success(mapper.apply(resultMessage), status.getIssues()));
+                return CompletableFuture.completedFuture(Result.success(
+                        mapper.apply(resultMessage),
+                        comsumedRu,
+                        status.getIssues()));
             }
             return CompletableFuture.completedFuture(Result.fail(status));
         }

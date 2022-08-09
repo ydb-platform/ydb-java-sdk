@@ -662,14 +662,13 @@ class SessionImpl implements Session {
                 return operationTray.waitResult(
                     operation,
                     YdbTable.ExecuteQueryResult.class,
-                    result -> mapExecuteDataQuery(result, operation, query, keepInClientQueryCache),
+                    result -> mapExecuteDataQuery(result, query, keepInClientQueryCache),
                     grpcRequestSettings);
             }));
     }
 
     private DataQueryResult mapExecuteDataQuery(
             YdbTable.ExecuteQueryResult result,
-            Operation operation,
             @Nullable String queryText,
             boolean keepInClientQueryCache)
     {
@@ -683,8 +682,7 @@ class SessionImpl implements Session {
         YdbTable.TransactionMeta txMeta = result.getTxMeta();
         return new DataQueryResult(
                 txMeta.getId(),
-                result.getResultSetsList(),
-                operation.hasCostInfo() ? new DataQueryResult.CostInfo(operation.getCostInfo()) : null
+                result.getResultSetsList()
         );
     }
 
@@ -740,7 +738,7 @@ class SessionImpl implements Session {
                 return tableRpc.getOperationTray().waitResult(
                     operation,
                     YdbTable.ExecuteQueryResult.class,
-                    result -> mapExecuteDataQuery(result, operation, queryText, keepInClientQueryCache),
+                    result -> mapExecuteDataQuery(result, queryText, keepInClientQueryCache),
                     grpcRequestSettings);
             }));
     }

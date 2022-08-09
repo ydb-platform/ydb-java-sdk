@@ -84,9 +84,13 @@ final class GrpcOperationTray implements OperationTray {
         if (operation.getReady()) {
             try {
                 Status status = Operations.status(operation);
+                Double consumedRu = null;
+                if (operation.hasCostInfo()) {
+                    consumedRu = operation.getCostInfo().getConsumedUnits();
+                }
                 if (status.isSuccess()) {
                     M resultMessage = Operations.unpackResult(operation, resultClass);
-                    promise.complete(Result.success(mapper.apply(resultMessage), status.getIssues()));
+                    promise.complete(Result.success(mapper.apply(resultMessage), consumedRu, status.getIssues()));
                 } else {
                     promise.complete(Result.fail(status));
                 }
@@ -242,8 +246,12 @@ final class GrpcOperationTray implements OperationTray {
             if (!status.isSuccess()) {
                 return Result.fail(status);
             }
+            Double consumedRu = null;
+            if (operation.hasCostInfo()) {
+                consumedRu = operation.getCostInfo().getConsumedUnits();
+            }
             M resultMessage = Operations.unpackResult(operation, resultClass);
-            return Result.success(mapper.apply(resultMessage), status.getIssues());
+            return Result.success(mapper.apply(resultMessage), consumedRu, status.getIssues());
         }
     }
 }

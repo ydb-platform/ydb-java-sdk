@@ -1,3 +1,7 @@
+## 1.14.3 ##
+
+* Added request's costInfo to all operations
+
 ## 1.14.2 ##
 
 * Remove use common FJ
