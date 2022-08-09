@@ -5,9 +5,6 @@ import java.net.URISyntaxException;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
@@ -37,6 +34,11 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private static final Result<?> SHUTDOWN_RESULT =  Result.fail(tech.ydb.core.Status.of(
             StatusCode.CLIENT_CANCELLED,
             Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
+    ));
+
+    private static final Result<?> NOT_READY =  Result.fail(tech.ydb.core.Status.of(
+            StatusCode.CLIENT_DEADLINE_EXPIRED,
+            Issue.of("Request was not sent: transport is not ready", Issue.Severity.ERROR)
     ));
 
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
@@ -93,17 +95,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
 
     @Override
     public boolean waitUntilReady(Duration timeout) {
-        try {
-            discoveryHandler.started.get(timeout.toMillis(), TimeUnit.MILLISECONDS);
-            return true;
-        } catch (ExecutionException | TimeoutException ex) {
-            logger.warn("ydb transport wait for ready problem", ex);
-            return false;
-        } catch (InterruptedException ex) {
-            logger.warn("ydb transport wait for ready interrupted", ex);
-            Thread.currentThread().interrupt();
-            return false;
-        }
+        long millis = timeout.isNegative() ? 0 : timeout.toMillis();
+        return discoveryHandler.checkReady(millis);
     }
 
     private static BalancingSettings getBalancingSettings(GrpcTransportBuilder builder) {
@@ -133,6 +126,11 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         if (shutdown) {
             return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
+        
+        if (!waitReady(settings)) {
+            return CompletableFuture.completedFuture(NOT_READY.map(null));
+        }
+
         return super.unaryCall(method, settings, request);
     }
 
@@ -146,7 +144,19 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             observer.onError(SHUTDOWN_RESULT.toStatus());
             return () -> {};
         }
+
+        if (!waitReady(settings)) {
+            observer.onError(NOT_READY.toStatus());
+            return () -> {};
+        }
+
         return super.serverStreamCall(method, settings, request, observer);
+    }
+    
+    private boolean waitReady(GrpcRequestSettings settings) {
+        long now = System.nanoTime();
+        long nanos = settings.getDeadlineAfter() > now ? settings.getDeadlineAfter() - now : 0;
+        return discoveryHandler.checkReady(nanos / 1000);
     }
 
     @Override
@@ -195,7 +205,27 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
     
     private class YdbDiscoveryHandler implements PeriodicDiscoveryTask.DiscoveryHandler {
-        private final CompletableFuture<Void> started = new CompletableFuture<>();
+        private volatile boolean isReady = false;
+        private final Object readyLock = new Object();
+        
+        public boolean checkReady(long millis) {
+            if (isReady) {
+                return true;
+            }
+            synchronized (readyLock) {
+                if (isReady) {
+                    return true;
+                }
+                try {
+                    readyLock.wait(millis);
+                    return isReady;
+                } catch (InterruptedException ex) {
+                    logger.warn("ydb transport wait for ready interrupted", ex);
+                    Thread.currentThread().interrupt();
+                    return false;
+                }
+            }
+        }
 
         @Override
         public boolean useMinDiscoveryPeriod() {
@@ -204,15 +234,13 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
 
         @Override
         public void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result) {
-            if (result.getEndpointsList().isEmpty()) {
-                logger.error("discovery get empty list of endpoints, skipped");
-                return;
-            }
-
             List<EndpointRecord> removed = endpointPool.setNewState(result.getSelfLocation(), result.getEndpointsList());
             channelPool.removeChannels(removed);
-            if (!started.isDone()) {
-                started.complete(null);
+
+            // Wake up all waiting locks
+            synchronized (readyLock) {
+                isReady = true;
+                readyLock.notifyAll();
             }
         }
     }

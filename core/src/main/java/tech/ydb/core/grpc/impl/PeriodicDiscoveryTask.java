@@ -3,7 +3,9 @@ package tech.ydb.core.grpc.impl;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 
+import tech.ydb.core.Result;
 import tech.ydb.core.utils.Async;
 import tech.ydb.discovery.DiscoveryProtos;
 
@@ -79,29 +81,47 @@ public class PeriodicDiscoveryTask implements TimerTask {
     private void scheduleNextDiscovery() {
         currentSchedule = Async.runAfter(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
     }
+    
+    private void handleDiscoveryResponse(Result<DiscoveryProtos.ListEndpointsResult> response) {
+        if (!response.isSuccess()) {
+            logger.error("discovery problem {}", response);
+            return;
+        }
+
+        DiscoveryProtos.ListEndpointsResult result = response.expect("couldn't get response from ListEndpointsResult");
+        if (result.getEndpointsList().isEmpty()) { 
+            logger.error("discovery get empty list of endpoints");
+            return;
+        }
+
+        logger.debug("successfully received ListEndpoints result with {} endpoints",
+                result.getEndpointsList().size());
+        discoveryHandler.handleDiscoveryResult(result);
+        lastUpdateTime = Instant.now();
+    }
 
     private void runDiscovery() {
         if (!updateInProgress.compareAndSet(false, true)) {
             logger.debug("couldn't start update: already in progress");
             return;
         }
-
+        
         logger.debug("updating endpoints, calling ListEndpoints...");
         discoveryRpc.listEndpoints().whenComplete((response, ex) -> {
+            if (stopped) {
+                updateInProgress.set(false);
+                return;
+            }
+
             if (ex != null) {
                 logger.warn("couldn't perform discovery with exception", ex);
-            } else if (response != null && response.isSuccess()) {
-                DiscoveryProtos.ListEndpointsResult result = response.expect("couldn't get response from ListEndpointsResult");
-                logger.debug("successfully received ListEndpoints result with {} endpoints",
-                        result.getEndpointsList().size());
-                discoveryHandler.handleDiscoveryResult(result);
-                lastUpdateTime = Instant.now();
+            }
+            if (response != null) {
+                handleDiscoveryResponse(response);
             }
 
             updateInProgress.set(false);
-            if (!stopped) {
-                scheduleNextDiscovery();
-            }
+            scheduleNextDiscovery();
         });
     }
 }

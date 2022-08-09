@@ -76,15 +76,8 @@ class GrpcChannel {
         
         public void check(boolean tryToConnect) {
             ConnectivityState state = channel.getState(tryToConnect);
-            if (logger.isDebugEnabled()) {
-                logger.debug("Grpc channel {} new state: {}", endpoint, state);
-            }
+            logger.debug("Grpc channel {} new state: {}", endpoint, state);
             switch (state) {
-                case CONNECTING:
-                case IDLE:
-                    // repeat watch
-                    channel.notifyWhenStateChanged(state, this);
-                    break;
                 case READY:
                     future.complete(channel);
                     break;
@@ -92,6 +85,8 @@ class GrpcChannel {
                     future.completeExceptionally(new IllegalStateException("Grpc channel already closed"));
                     break;
                 case TRANSIENT_FAILURE:
+                case CONNECTING:
+                case IDLE:
                 default:
                     // repeat watch
                     channel.notifyWhenStateChanged(state, this);
