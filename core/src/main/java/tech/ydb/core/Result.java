@@ -16,11 +16,11 @@ import com.google.common.base.Strings;
 public abstract class Result<T> {
 
     public static <V> Result<V> success(V value) {
-        return new Success<>(value, Issue.EMPTY_ARRAY);
+        return new Success<>(value, Issue.EMPTY_ARRAY, null);
     }
 
-    public static <V> Result<V> success(V value, Issue... issues) {
-        return new Success<>(value, issues);
+    public static <V> Result<V> success(V value, Double consumedRu, Issue... issues) {
+        return new Success<>(value, issues, consumedRu);
     }
 
     public static <V> Result<V> fail(Status status) {
@@ -51,6 +51,10 @@ public abstract class Result<T> {
         return getCode() == StatusCode.SUCCESS;
     }
 
+    public boolean hasCostInfo() {
+        return getConsumedRu() != null;
+    }
+
     public Status toStatus() {
         return Status.of(getCode(), getIssues());
     }
@@ -64,6 +68,8 @@ public abstract class Result<T> {
     public abstract StatusCode getCode();
 
     public abstract Issue[] getIssues();
+
+    public abstract Double getConsumedRu();
 
     public abstract T expect(String message);
 
@@ -80,10 +86,12 @@ public abstract class Result<T> {
         @Nullable
         private final V value;
         private final Issue[] issues;
+        private final Double consumedRu;
 
-        Success(V value, Issue[] issues) {
+        Success(V value, Issue[] issues, Double consumedRu) {
             this.value = value;
             this.issues = issues;
+            this.consumedRu = consumedRu;
         }
 
         @Override
@@ -94,6 +102,16 @@ public abstract class Result<T> {
         @Override
         public Issue[] getIssues() {
             return issues;
+        }
+
+        @Override
+        public boolean hasCostInfo() {
+            return consumedRu != null;
+        }
+
+        @Override
+        public Double getConsumedRu() {
+            return consumedRu;
         }
 
         @Override
@@ -113,7 +131,7 @@ public abstract class Result<T> {
 
         @Override
         public <U> Result<U> map(Function<V, U> mapper) {
-            return new Success<>(mapper.apply(value), issues);
+            return new Success<>(mapper.apply(value), issues, consumedRu);
         }
 
         @Override
@@ -166,6 +184,11 @@ public abstract class Result<T> {
         @Override
         public Issue[] getIssues() {
             return issues;
+        }
+
+        @Override
+        public Double getConsumedRu() {
+            return null;
         }
 
         @Override
@@ -243,6 +266,11 @@ public abstract class Result<T> {
         @Override
         public Issue[] getIssues() {
             return Issue.EMPTY_ARRAY;
+        }
+
+        @Override
+        public Double getConsumedRu() {
+            return null;
         }
 
         @Override

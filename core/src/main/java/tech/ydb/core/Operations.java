@@ -47,8 +47,12 @@ public final class Operations {
                 }
 
                 try {
+                    Double consumedRu = null;
+                    if (operation.hasCostInfo()) {
+                        consumedRu = operation.getCostInfo().getConsumedUnits();
+                    }
                     M resultMessage = operation.getResult().unpack(resultClass);
-                    return Result.success(resultMessage, status.getIssues());
+                    return Result.success(resultMessage, consumedRu, status.getIssues());
                 } catch (InvalidProtocolBufferException ex) {
                     return Result.error("Can't unpack message " + resultClass.getName(), ex);
                 }

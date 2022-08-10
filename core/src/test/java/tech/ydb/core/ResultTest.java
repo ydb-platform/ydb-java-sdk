@@ -25,7 +25,7 @@ public class ResultTest {
         Issue issue1 = Issue.of("issue1", Issue.Severity.ERROR);
         Issue issue2 = Issue.of("issue2", Issue.Severity.FATAL);
 
-        Result<Integer> r = Result.success(1, issue1, issue2);
+        Result<Integer> r = Result.success(1, null, issue1, issue2);
         Assert.assertTrue(r.isSuccess());
         Assert.assertEquals(StatusCode.SUCCESS, r.getCode());
         Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, r.getIssues());
