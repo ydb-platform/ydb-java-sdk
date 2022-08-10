@@ -23,6 +23,10 @@ import org.junit.Assert;
  * @author Aleksandr Gorshenin
  */
 public class MockedTableRpc extends TableRpcStub {
+    private final static Status BAD_SESSION = Status.of(StatusCode.BAD_SESSION, null);
+    private final static Status OVERLOADED = Status.of(StatusCode.OVERLOADED, null);
+    private final static Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null);
+
     private final Clock clock;
     private final Set<String> activeSessions = new HashSet<>();
 
@@ -88,7 +92,7 @@ public class MockedTableRpc extends TableRpcStub {
         String id = request.getSessionId();
 
         if (!activeSessions.contains(id)) {
-            return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION));
+            return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION, null));
         }
 
         activeSessions.remove(id);
@@ -121,11 +125,11 @@ public class MockedTableRpc extends TableRpcStub {
         }
 
         public void completeOverloaded() {
-            future.complete(Result.fail(StatusCode.OVERLOADED));
+            future.complete(Result.fail(OVERLOADED));
         }
 
         public void completeTransportUnavailable() {
-            future.complete(Result.fail(StatusCode.TRANSPORT_UNAVAILABLE));
+            future.complete(Result.fail(TRANSPORT_UNAVAILABLE));
         }
     }
 
@@ -144,7 +148,7 @@ public class MockedTableRpc extends TableRpcStub {
             boolean ok = activeSessions.contains(request.getSessionId());
             
             if (!ok) {
-                future.complete(Result.fail(StatusCode.BAD_SESSION));
+                future.complete(Result.fail(BAD_SESSION));
                 return;
             }
 
@@ -155,22 +159,22 @@ public class MockedTableRpc extends TableRpcStub {
             boolean ok = activeSessions.contains(request.getSessionId());
             
             if (!ok) {
-                future.complete(Result.fail(StatusCode.BAD_SESSION));
+                future.complete(Result.fail(BAD_SESSION));
                 return;
             }
 
-            future.complete(Result.fail(StatusCode.OVERLOADED));
+            future.complete(Result.fail(OVERLOADED));
         }
 
         public void completeTransportUnavailable() {
             boolean ok = activeSessions.contains(request.getSessionId());
             
             if (!ok) {
-                future.complete(Result.fail(StatusCode.BAD_SESSION));
+                future.complete(Result.fail(BAD_SESSION));
                 return;
             }
 
-            future.complete(Result.fail(StatusCode.TRANSPORT_UNAVAILABLE));
+            future.complete(Result.fail(TRANSPORT_UNAVAILABLE));
         }
     }
 
@@ -189,7 +193,7 @@ public class MockedTableRpc extends TableRpcStub {
             boolean ok = activeSessions.contains(request.getSessionId());
             
             if (!ok) {
-                future.complete(Result.fail(StatusCode.BAD_SESSION));
+                future.complete(Result.fail(BAD_SESSION));
                 return;
             }
             
@@ -203,7 +207,7 @@ public class MockedTableRpc extends TableRpcStub {
             boolean ok = activeSessions.contains(request.getSessionId());
             
             if (!ok) {
-                future.complete(Result.fail(StatusCode.BAD_SESSION));
+                future.complete(Result.fail(BAD_SESSION));
                 return;
             }
             

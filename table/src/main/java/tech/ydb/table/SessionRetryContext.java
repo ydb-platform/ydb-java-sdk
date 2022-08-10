@@ -88,7 +88,7 @@ public class SessionRetryContext {
     private boolean canRetry(Throwable t) {
         Throwable cause = Async.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
-            StatusCode statusCode = ((UnexpectedResultException) cause).getStatusCode();
+            StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return canRetry(statusCode);
         }
         return false;
@@ -100,7 +100,7 @@ public class SessionRetryContext {
         }
         Throwable cause = Async.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
-            StatusCode statusCode = ((UnexpectedResultException) cause).getStatusCode();
+            StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return statusCode.name();
         }
         return t.getMessage();
@@ -164,7 +164,7 @@ public class SessionRetryContext {
     private long backoffTimeMillis(Throwable t, int retryNumber) {
         Throwable cause = Async.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
-            StatusCode statusCode = ((UnexpectedResultException) cause).getStatusCode();
+            StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return backoffTimeMillis(statusCode, retryNumber);
         }
         return slowBackoffTimeMillis(retryNumber);
@@ -226,11 +226,11 @@ public class SessionRetryContext {
             }
 
             if (!sessionResult.isSuccess()) {
-                handleError(sessionResult.getCode(), toFailedResult(sessionResult));
+                handleError(sessionResult.getStatus().getCode(), toFailedResult(sessionResult));
                 return;
             }
 
-            final Session session = sessionResult.expect("session must present");
+            final Session session = sessionResult.getValue();
             Async.safeCall(session, fn)
                 .whenComplete((fnResult, fnException) -> {
                     try {
@@ -319,12 +319,12 @@ public class SessionRetryContext {
 
         @Override
         StatusCode toStatusCode(Result<T> result) {
-            return result.getCode();
+            return result.getStatus().getCode();
         }
 
         @Override
         Result<T> toFailedResult(Result<Session> sessionResult) {
-            return sessionResult.cast();
+            return sessionResult.map(null);
         }
     }
 
@@ -343,7 +343,7 @@ public class SessionRetryContext {
 
         @Override
         Status toFailedResult(Result<Session> sessionResult) {
-            return sessionResult.toStatus();
+            return sessionResult.getStatus();
         }
     }
 

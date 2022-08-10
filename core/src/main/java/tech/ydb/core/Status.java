@@ -1,35 +1,43 @@
 package tech.ydb.core;
 
+import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Objects;
 
 
 /**
  * @author Sergey Polovko
+ * @author Alexandr Gorshenin
  */
-public final class Status {
+public final class Status implements Serializable {
+    private static final long serialVersionUID = -2966026377652094862L;
 
-    public static final Status SUCCESS = new Status(StatusCode.SUCCESS, Issue.EMPTY_ARRAY);
+    public static final Status SUCCESS = new Status(StatusCode.SUCCESS, null, Issue.EMPTY_ARRAY);
 
     private final StatusCode code;
+    private final Double consumedRu;
     private final Issue[] issues;
 
-    private Status(StatusCode code, Issue[] issues) {
+    private Status(StatusCode code, Double consumedRu, Issue[] issues) {
         this.code = code;
+        this.consumedRu = consumedRu;
         this.issues = issues;
     }
 
-    public static Status of(StatusCode code) {
-        if (code == StatusCode.SUCCESS) {
+    public static Status of(StatusCode code, Double consumedRu, Issue... issues) {
+        boolean hasIssues = issues != null && issues.length > 0;
+        if (code == StatusCode.SUCCESS && consumedRu == null && !hasIssues) {
             return SUCCESS;
         }
-        return new Status(code, Issue.EMPTY_ARRAY);
+        return new Status(code, consumedRu, hasIssues ? issues : Issue.EMPTY_ARRAY);
     }
 
-    public static Status of(StatusCode code, Issue... issues) {
-        if (code == StatusCode.SUCCESS && issues.length == 0) {
-            return SUCCESS;
-        }
-        return new Status(code, issues);
+    public boolean hasConsumedRu() {
+        return consumedRu != null;
+    }
+    
+    public Double getConsumedRu() {
+        return consumedRu;
     }
 
     public StatusCode getCode() {
@@ -44,29 +52,35 @@ public final class Status {
         return code == StatusCode.SUCCESS;
     }
 
-    public void expect(String message) {
-        if (!isSuccess()) {
-            throw new UnexpectedResultException(message, code, issues);
-        }
-    }
-
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Status status = (Status) o;
-        if (code != status.code) return false;
-        return Arrays.equals(issues, status.issues);
+        return code == status.code
+                && Objects.equals(consumedRu, status.consumedRu)
+                && Arrays.equals(issues, status.issues);
     }
 
     @Override
     public int hashCode() {
-        return 31 * code.hashCode() + Arrays.hashCode(issues);
+        return Objects.hash(code, consumedRu, issues);
     }
 
     @Override
     public String toString() {
-        return "Status{code=" + code + ", issues=" + Arrays.toString(issues) + '}';
+        StringBuilder sb = new StringBuilder("Status{code = ").append(code);
+        if (consumedRu != null) {
+            sb.append(", consumed RU = ").append(consumedRu);
+        }
+        if (issues != null && issues.length > 0) {
+            sb.append(", issues = ").append(Arrays.toString(issues));
+        }
+        return sb.append("}").toString();
     }
 }

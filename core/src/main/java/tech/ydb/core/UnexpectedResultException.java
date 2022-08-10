@@ -1,5 +1,8 @@
 package tech.ydb.core;
 
+import java.util.Objects;
+
+import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 
@@ -8,40 +11,31 @@ import javax.annotation.ParametersAreNonnullByDefault;
  */
 @ParametersAreNonnullByDefault
 public class UnexpectedResultException extends RuntimeException {
+    private static final long serialVersionUID = 2450224259821940035L;
 
-    private final StatusCode statusCode;
-    private final Issue[] issues;
+    private final Status status;
 
-    public UnexpectedResultException(String message, StatusCode statusCode) {
-        this(message, statusCode, Issue.EMPTY_ARRAY);
+    public UnexpectedResultException(String message, Status status) {
+        this(message, status, null);
     }
 
-    public UnexpectedResultException(String message, StatusCode statusCode, Throwable cause) {
-        super(message, cause);
-        this.statusCode = statusCode;
-        this.issues = Issue.EMPTY_ARRAY;
+    public UnexpectedResultException(String message, Status status, Throwable cause) {
+        super(formatMessage(message, status), cause);
+        this.status = Objects.requireNonNull(status);
     }
 
-    public UnexpectedResultException(String message, StatusCode statusCode, Issue... issues) {
-        super(formatMessage(message, statusCode, issues));
-        this.statusCode = statusCode;
-        this.issues = issues;
+    @Nonnull
+    public Status getStatus() {
+        return status;
     }
 
-    public StatusCode getStatusCode() {
-        return statusCode;
-    }
-
-    public Issue[] getIssues() {
-        return issues;
-    }
-
-    private static String formatMessage(String message, StatusCode statusCode, Issue[] issues) {
+    private static String formatMessage(String message, Status status) {
         StringBuilder sb = new StringBuilder(64);
         if (!message.isEmpty()) {
             sb.append(message).append(", ");
         }
-        sb.append("code: ").append(statusCode.name());
+        sb.append("code: ").append(status.getCode().name());
+        Issue[] issues = status.getIssues();
         if (issues.length != 0) {
             sb.append(", issues: [");
             for (Issue issue : issues) {

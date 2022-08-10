@@ -101,7 +101,7 @@ public class SessionPoolTest extends FutureHelper {
         check(pool).idle(0).acquired(1).pending(0);
 
         Session s1 = futureIsReady(f1);
-        futureIsExceptionally(f2, "cannot create session, code: OVERLOADED");
+        futureIsExceptionally(f2, "Cannot get value, code: OVERLOADED");
         
         s1.close();
         pool.close();
@@ -381,13 +381,13 @@ public class SessionPoolTest extends FutureHelper {
     private DataQueryResult resultIsGood(CompletableFuture<Result<DataQueryResult>> future) {
         Result<DataQueryResult> result = futureIsReady(future);
         Assert.assertTrue("Check data query result", result.isSuccess());
-        Assert.assertEquals("Check  data query result status", StatusCode.SUCCESS, result.getCode());
-        return result.expect("must be valid response");
+        Assert.assertEquals("Check  data query result status", StatusCode.SUCCESS, result.getStatus().getCode());
+        return result.getValue();
     }
     
     private void resultIsWrong(CompletableFuture<Result<DataQueryResult>> future, StatusCode code) {
         Result<DataQueryResult> result = futureIsReady(future);
         Assert.assertFalse("Check data query result", result.isSuccess());
-        Assert.assertEquals("Check  data query result status", code, result.getCode());
+        Assert.assertEquals("Check  data query result status", code, result.getStatus().getCode());
     }
 }

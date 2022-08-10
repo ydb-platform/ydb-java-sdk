@@ -144,8 +144,7 @@ public class PooledTableClientTest {
                 .build();
 
         for (int i = 0; i < client.sessionPoolStats().getMaxSize() * 2; i++) {
-            Session session = client.createSession(Duration.ZERO).join()
-                    .expect("cannot create session after " + i + " iterations");
+            Session session = client.createSession(Duration.ZERO).join().getValue();
             check(client).acquired(1).idle(0);
             session.close();
             check(client).acquired(0).idle(1);
@@ -186,13 +185,13 @@ public class PooledTableClientTest {
         CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
         Result<Session> r1 = f1.join();
         Assert.assertFalse(r1.isSuccess());
-        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, r1.getCode());
+        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, r1.getStatus().getCode());
         
         client.close();
     }
 
     private Session nextSession(TableClient client) {
-        return client.createSession(Duration.ZERO).join().expect("cannot create session");
+        return client.createSession(Duration.ZERO).join().getValue();
     }
 
     private class TableClientChecker {

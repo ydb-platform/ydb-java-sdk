@@ -2,7 +2,6 @@ package tech.ydb.core.grpc.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -32,12 +31,12 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private static final int DEFAULT_PORT = 2135;
 
     private static final Result<?> SHUTDOWN_RESULT =  Result.fail(tech.ydb.core.Status.of(
-            StatusCode.CLIENT_CANCELLED,
+            StatusCode.CLIENT_CANCELLED, null,
             Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
     ));
 
     private static final Result<?> NOT_READY =  Result.fail(tech.ydb.core.Status.of(
-            StatusCode.CLIENT_DEADLINE_EXPIRED,
+            StatusCode.CLIENT_DEADLINE_EXPIRED, null,
             Issue.of("Request was not sent: transport is not ready", Issue.Severity.ERROR)
     ));
 
@@ -135,12 +134,12 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             ReqT request,
             StreamObserver<RespT> observer) {
         if (shutdown) {
-            observer.onError(SHUTDOWN_RESULT.toStatus());
+            observer.onError(SHUTDOWN_RESULT.getStatus());
             return () -> {};
         }
 
         if (!waitReady(settings)) {
-            observer.onError(NOT_READY.toStatus());
+            observer.onError(NOT_READY.getStatus());
             return () -> {};
         }
 

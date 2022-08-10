@@ -22,6 +22,8 @@ import static org.junit.Assert.assertTrue;
 public class GrpcStatusesTest {
 
     static class MyException extends RuntimeException {
+        private static final long serialVersionUID = 2224988377466493155L;
+
         MyException(String message) {
             super(message);
         }
@@ -32,16 +34,17 @@ public class GrpcStatusesTest {
         Result<?> result = GrpcStatuses.toResult(io.grpc.Status.INTERNAL.withDescription("error description"));
 
         assertFalse(result.isSuccess());
-        assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getCode());
+        assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getStatus().getCode());
         assertArrayEquals(new Issue[] {
             Issue.of("gRPC error: (INTERNAL) error description", Issue.Severity.ERROR)
-        }, result.getIssues());
-
-        Optional<Throwable> error = result.error();
-        assertTrue(error.isPresent());
-
-        assertTrue(error.get() instanceof UnexpectedResultException);
-        assertNull(error.get().getCause());
+        }, result.getStatus().getIssues());
+        
+        try {
+            result.getValue();
+            assertFalse("error hasn't value", true);
+        } catch (UnexpectedResultException e) {
+            assertNull(e.getCause());
+        }
     }
 
     @Test
@@ -51,16 +54,17 @@ public class GrpcStatusesTest {
             .withCause(new MyException("exception message")));
 
         assertFalse(result.isSuccess());
-        assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getCode());
-        assertArrayEquals(Issue.EMPTY_ARRAY, result.getIssues());
+        assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getStatus().getCode());
+        assertArrayEquals(Issue.EMPTY_ARRAY, result.getStatus().getIssues());
 
-        Optional<Throwable> error = result.error();
-        assertTrue(error.isPresent());
-
-        assertTrue(error.get() instanceof UnexpectedResultException);
-        Throwable cause = error.get().getCause();
-        assertTrue(cause instanceof MyException);
-        assertEquals("exception message", cause.getMessage());
+        try {
+            result.getValue();
+            assertFalse("error hasn't value", true);
+        } catch (UnexpectedResultException e) {
+            Throwable cause = e.getCause();
+            assertTrue(cause instanceof MyException);
+            assertEquals("exception message", cause.getMessage());
+        }
     }
 
     @Test
@@ -73,6 +77,6 @@ public class GrpcStatusesTest {
     public void statusFail() {
         Status status = GrpcStatuses.toStatus(io.grpc.Status.DEADLINE_EXCEEDED);
         Issue issue = Issue.of("gRPC error: (DEADLINE_EXCEEDED)", Issue.Severity.ERROR);
-        assertEquals(Status.of(StatusCode.CLIENT_DEADLINE_EXCEEDED, issue), status);
+        assertEquals(Status.of(StatusCode.CLIENT_DEADLINE_EXCEEDED, null, issue), status);
     }
 }
