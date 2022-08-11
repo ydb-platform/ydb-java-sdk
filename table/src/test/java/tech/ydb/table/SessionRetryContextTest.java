@@ -22,6 +22,13 @@ import tech.ydb.core.utils.Async;
  * @author Sergey Polovko
  */
 public class SessionRetryContextTest {
+    private static final Status NOT_FOUND = Status.of(StatusCode.NOT_FOUND, null);
+    private static final Status SCHEME_ERROR = Status.of(StatusCode.SCHEME_ERROR, null);
+    private static final Status SESSION_BUSY = Status.of(StatusCode.SESSION_BUSY, null);
+    private static final Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null);
+    private static final Status CANCELLED = Status.of(StatusCode.CANCELLED, null);
+    private static final Status OVERLOADED = Status.of(StatusCode.OVERLOADED, null);
+    private static final Status CLIENT_RESOURCE_EXHAUSTED = Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED, null);
 
     private static final Duration TEN_MILLIS = Duration.ofMillis(10);
     private static final Duration FIVE_SECONDS = Duration.ofSeconds(5);
@@ -55,11 +62,11 @@ public class SessionRetryContextTest {
             AtomicInteger cnt = new AtomicInteger();
             Result<?> result = ctx.supplyResult(session -> {
                 cnt.incrementAndGet();
-                return completedFuture(Result.fail(StatusCode.CANCELLED));
+                return completedFuture(Result.fail(CANCELLED));
             }).join();
 
             Assert.assertEquals(1, cnt.get());
-            Assert.assertEquals(Result.fail(StatusCode.CANCELLED), result);
+            Assert.assertEquals(Result.fail(CANCELLED), result);
         }
 
         // retryable status code
@@ -67,11 +74,11 @@ public class SessionRetryContextTest {
             AtomicInteger cnt = new AtomicInteger();
             Result<?> result = ctx.supplyResult(session -> {
                 cnt.incrementAndGet();
-                return completedFuture(Result.fail(StatusCode.OVERLOADED));
+                return completedFuture(Result.fail(OVERLOADED));
             }).join();
 
             Assert.assertEquals(3, cnt.get());
-            Assert.assertEquals(Result.fail(StatusCode.OVERLOADED), result);
+            Assert.assertEquals(Result.fail(OVERLOADED), result);
         }
     }
 
@@ -106,7 +113,7 @@ public class SessionRetryContextTest {
             try {
                 ctx.supplyResult(session -> {
                     cnt.incrementAndGet();
-                    Result.fail(StatusCode.NOT_FOUND).expect("unexpected fail");
+                    Result.fail(NOT_FOUND).getValue();
                     return null;
                 }).join();
                 Assert.fail("expected exception not thrown");
@@ -114,7 +121,7 @@ public class SessionRetryContextTest {
                 Throwable cause = Async.unwrapCompletionException(t);
                 Assert.assertTrue(cause instanceof UnexpectedResultException);
                 Assert.assertEquals(3, cnt.get());
-                Assert.assertEquals("unexpected fail, code: NOT_FOUND", cause.getMessage());
+                Assert.assertEquals("Cannot get value, code: NOT_FOUND", cause.getMessage());
             }
         }
     }
@@ -147,11 +154,11 @@ public class SessionRetryContextTest {
             AtomicInteger cnt = new AtomicInteger();
             Status status = ctx.supplyStatus(session -> {
                 cnt.incrementAndGet();
-                return completedFuture(Status.of(StatusCode.SCHEME_ERROR));
+                return completedFuture(SCHEME_ERROR);
             }).join();
 
             Assert.assertEquals(1, cnt.get());
-            Assert.assertEquals(Status.of(StatusCode.SCHEME_ERROR), status);
+            Assert.assertEquals(SCHEME_ERROR, status);
         }
 
         // retryable status code
@@ -159,11 +166,11 @@ public class SessionRetryContextTest {
             AtomicInteger cnt = new AtomicInteger();
             Status status = ctx.supplyStatus(session -> {
                 cnt.incrementAndGet();
-                return completedFuture(Status.of(StatusCode.OVERLOADED));
+                return completedFuture(OVERLOADED);
             }).join();
 
             Assert.assertEquals(3, cnt.get());
-            Assert.assertEquals(Status.of(StatusCode.OVERLOADED), status);
+            Assert.assertEquals(OVERLOADED, status);
         }
     }
 
@@ -313,7 +320,7 @@ public class SessionRetryContextTest {
 
             Assert.assertEquals(3, sessionSupplier.getRequestsCount());
             Assert.assertEquals(0, cnt.get());
-            Assert.assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED), status);
+            Assert.assertEquals(CLIENT_RESOURCE_EXHAUSTED, status);
         }
     }
 
@@ -332,7 +339,7 @@ public class SessionRetryContextTest {
 
         Assert.assertEquals(1, sessionSupplier.getRequestsCount());
         Assert.assertEquals(0, cnt.get());
-        Assert.assertEquals(Status.of(StatusCode.TRANSPORT_UNAVAILABLE), status);
+        Assert.assertEquals(TRANSPORT_UNAVAILABLE, status);
     }
 
     @Test
@@ -369,7 +376,7 @@ public class SessionRetryContextTest {
         AtomicInteger cnt = new AtomicInteger();
         Status status = ctx.supplyStatus(session -> {
             if (cnt.incrementAndGet() == 1) {
-                return completedFuture(Status.of(StatusCode.SESSION_BUSY));
+                return completedFuture(SESSION_BUSY);
             }
             return completedFuture(Status.SUCCESS);
         }).join();
@@ -410,7 +417,7 @@ public class SessionRetryContextTest {
             if (requestsCount.getAndIncrement() >= maxFails) {
                 return completedFuture(Result.success(new SessionStub()));
             }
-            return completedFuture(Result.fail(statusCode));
+            return completedFuture(Result.fail(Status.of(statusCode, null)));
         }
     }
 

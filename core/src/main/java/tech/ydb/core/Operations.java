@@ -18,17 +18,18 @@ public final class Operations {
     private Operations() {}
     
     private final static Status ASYNC_ARE_UNSUPPORTED = Status.of(
-            StatusCode.CLIENT_INTERNAL_ERROR,
+            StatusCode.CLIENT_INTERNAL_ERROR, null,
             Issue.of("Async operations are not supported", Issue.Severity.ERROR)
     );
 
     @VisibleForTesting
     static Status status(Operation operation) {
-        if (operation.getStatus() == StatusIds.StatusCode.SUCCESS && operation.getIssuesCount() == 0) {
-            return Status.SUCCESS;
-        }
         StatusCode code = StatusCode.fromProto(operation.getStatus());
-        return Status.of(code, Issue.fromPb(operation.getIssuesList()));
+        Double consumedRu = null;
+        if (operation.hasCostInfo()) {
+            consumedRu = operation.getCostInfo().getConsumedUnits();
+        }
+        return Status.of(code, consumedRu, Issue.fromPb(operation.getIssuesList()));
     }
 
     public static <R, M extends Message> Function<Result<R>, Result<M>> resultUnwrapper(
@@ -37,9 +38,9 @@ public final class Operations {
     {
         return (result) -> {
             if (!result.isSuccess()) {
-                return result.cast();
+                return result.map(null);
             }
-            OperationProtos.Operation operation = operationExtractor.apply(result.expect("can't read message"));
+            OperationProtos.Operation operation = operationExtractor.apply(result.getValue());
             if (operation.getReady()) {
                 Status status = status(operation);
                 if (!status.isSuccess()) {
@@ -48,7 +49,7 @@ public final class Operations {
 
                 try {
                     M resultMessage = operation.getResult().unpack(resultClass);
-                    return Result.success(resultMessage, status.getIssues());
+                    return Result.success(resultMessage, status);
                 } catch (InvalidProtocolBufferException ex) {
                     return Result.error("Can't unpack message " + resultClass.getName(), ex);
                 }
@@ -62,10 +63,10 @@ public final class Operations {
     {
         return (result) -> {
             if (!result.isSuccess()) {
-                return result.toStatus();
+                return result.getStatus();
             }
 
-            OperationProtos.Operation operation = operationExtractor.apply(result.expect("can't read message"));
+            OperationProtos.Operation operation = operationExtractor.apply(result.getValue());
             if (operation.getReady()) {
                 return status(operation);
             }

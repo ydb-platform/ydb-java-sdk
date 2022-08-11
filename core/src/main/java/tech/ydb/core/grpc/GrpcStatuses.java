@@ -26,7 +26,7 @@ public final class GrpcStatuses {
         }
 
         StatusCode code = getStatusCode(status.getCode());
-        return Result.fail(tech.ydb.core.Status.of(code, Issue.of(message, Issue.Severity.ERROR)));
+        return Result.fail(tech.ydb.core.Status.of(code, null, Issue.of(message, Issue.Severity.ERROR)));
     }
 
     public static tech.ydb.core.Status toStatus(Status status) {
@@ -35,7 +35,7 @@ public final class GrpcStatuses {
         }
         String message = getMessage(status);
         StatusCode code = getStatusCode(status.getCode());
-        return tech.ydb.core.Status.of(code, Issue.of(message, Issue.Severity.ERROR));
+        return tech.ydb.core.Status.of(code, null, Issue.of(message, Issue.Severity.ERROR));
     }
 
     private static String getMessage(Status status) {

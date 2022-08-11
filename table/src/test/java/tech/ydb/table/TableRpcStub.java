@@ -137,7 +137,7 @@ public class TableRpcStub implements TableRpc {
     public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer,
                                          GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamReadTable() is not implemented", Issue.Severity.ERROR);
-        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
         return () -> {};
     }
 
@@ -145,7 +145,7 @@ public class TableRpcStub implements TableRpc {
     public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request,
             StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", Issue.Severity.ERROR);
-        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
         return () -> {};
     }
 

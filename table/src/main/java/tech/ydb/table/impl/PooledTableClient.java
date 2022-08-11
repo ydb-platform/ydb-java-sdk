@@ -1,6 +1,7 @@
 package tech.ydb.table.impl;
 
 import com.google.common.base.Preconditions;
+
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -48,7 +49,7 @@ public class PooledTableClient implements TableClient {
                 if (ex instanceof UnexpectedResultException) {
                     return Result.fail((UnexpectedResultException)ex);
                 } else {
-                    return Result.error(ex);
+                    return Result.error("can't create session", ex);
                 }
             }
             return Result.success(session);

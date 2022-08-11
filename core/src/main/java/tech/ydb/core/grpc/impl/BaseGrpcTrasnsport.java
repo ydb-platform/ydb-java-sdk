@@ -136,7 +136,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         } catch (RuntimeException ex) {
             logger.error("server stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
-            observer.onError(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+            observer.onError(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
             return () -> {};
         }
     }
@@ -165,7 +165,8 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
  
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
-        return Result.fail(tech.ydb.core.Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR)));
+        return Result.fail(tech.ydb.core.Status.of(
+                StatusCode.CLIENT_DEADLINE_EXPIRED, null, Issue.of(message, Issue.Severity.ERROR)));
     }
 
     private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {

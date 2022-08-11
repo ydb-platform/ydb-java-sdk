@@ -127,7 +127,7 @@ public class SessionPool implements AutoCloseable {
             return BaseSession
                     .createSessionId(tableRpc, new CreateSessionSettings(), true)
                     .thenApply(response -> {
-                        String id = response.expect("cannot create session");
+                        String id = response.getValue();
                         logger.debug("session {} successful created", id);
                         return new ClosableSession(id, tableRpc, keepQueryText);
                     });
@@ -205,7 +205,7 @@ public class SessionPool implements AutoCloseable {
                         session.keepAlive().whenComplete((res, th) -> {
                             boolean ok = th == null
                                     && res.isSuccess()
-                                    && res.expect("keep alive") == Session.State.READY;
+                                    && res.getValue() == Session.State.READY;
                             keepAliveCount.decrementAndGet();
                             if (ok) {
                                 logger.debug("keep alive session {} ok", session.getId());

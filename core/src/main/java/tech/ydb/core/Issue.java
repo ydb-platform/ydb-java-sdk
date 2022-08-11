@@ -1,5 +1,6 @@
 package tech.ydb.core;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -14,7 +15,8 @@ import tech.ydb.YdbIssueMessage.IssueMessage;
  */
 @Immutable
 @ParametersAreNonnullByDefault
-public class Issue {
+public class Issue implements Serializable {
+    private static final long serialVersionUID = 902460195087723460L;
 
     public enum Severity {
         FATAL(0),
@@ -181,7 +183,9 @@ public class Issue {
      */
     @Immutable
     @ParametersAreNonnullByDefault
-    public static class Position {
+    public static class Position implements Serializable {
+        private static final long serialVersionUID = 2809376012140299923L;
+
         public static final Position EMPTY = new Position(0, 0, "");
 
         private final int column;

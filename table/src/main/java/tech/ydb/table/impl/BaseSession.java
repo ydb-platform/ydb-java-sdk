@@ -710,7 +710,7 @@ public abstract class BaseSession implements Session {
                 } else {
                     Issue[] issues = Issue.fromPb(response.getIssuesList());
                     StatusCode code = StatusCode.fromProto(statusCode);
-                    promise.complete(Status.of(code, issues));
+                    promise.complete(Status.of(code, null, issues));
                 }
             }
 
@@ -762,7 +762,7 @@ public abstract class BaseSession implements Session {
                 } else {
                     Issue[] issues = Issue.fromPb(response.getIssuesList());
                     StatusCode code = StatusCode.fromProto(statusCode);
-                    promise.complete(Status.of(code, issues));
+                    promise.complete(Status.of(code, null, issues));
                 }
             }
 
@@ -864,14 +864,14 @@ public abstract class BaseSession implements Session {
         final long start = Instant.now().toEpochMilli();
         return future.whenComplete((r, t) -> {
             long ms = Instant.now().toEpochMilli() - start;
-            log.debug("Session[{}] {} => {}, took {} ms", getId(), msg, r.getCode(), ms);
-            updateSessionState(t, r.getCode(), shutdownHandler.isGracefulShutdown());
+            log.debug("Session[{}] {} => {}, took {} ms", getId(), msg, r.getStatus().getCode(), ms);
+            updateSessionState(t, r.getStatus().getCode(), shutdownHandler.isGracefulShutdown());
         });
     }
 
     private <T> CompletableFuture<Result<T>> interceptResult(CompletableFuture<Result<T>> future) {
         return future.whenComplete((r, t) -> {
-            updateSessionState(t, r.getCode(), shutdownHandler.isGracefulShutdown());
+            updateSessionState(t, r.getStatus().getCode(), shutdownHandler.isGracefulShutdown());
         });
     }
 

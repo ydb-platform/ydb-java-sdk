@@ -54,19 +54,19 @@ public class SimpleTableClientTest {
                     sessionIDs.remove(id);
                     return CompletableFuture.completedFuture(Status.SUCCESS);
                 } else {
-                    return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION));
+                    return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION, null));
                 }
             }
         };
 
         SessionSupplier client = SimpleTableClient.newClient(fakeRpc).build();
         // Test TableClient interface
-        client.createSession(Duration.ZERO).join().expect("cannot create session");
+        client.createSession(Duration.ZERO).join().getValue();
         // Server has 1 session
         Assert.assertEquals(1, sessionIDs.size());
 
         // Create second session
-        try (Session session2 = client.createSession(Duration.ZERO).join().expect("cannot create session")) {
+        try (Session session2 = client.createSession(Duration.ZERO).join().getValue()) {
             // Server has 2 session
             Assert.assertEquals(2, sessionIDs.size());
             session2.getId();
@@ -81,7 +81,7 @@ public class SimpleTableClientTest {
             @Override
             public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
                 YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
-                return CompletableFuture.completedFuture(Result.fail(StatusCode.TRANSPORT_UNAVAILABLE));
+                return CompletableFuture.completedFuture(Result.fail(Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null)));
             }
         };
 
@@ -92,11 +92,11 @@ public class SimpleTableClientTest {
         // Test TableClient interface
         Result<Session> sessionResult = client.createSession(Duration.ZERO).join();
         Assert.assertFalse(sessionResult.isSuccess());
-        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, sessionResult.getCode());
+        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, sessionResult.getStatus().getCode());
 
         // Test SessionSupplier interface
         sessionResult = client.createSession(Duration.ZERO).join();
         Assert.assertFalse(sessionResult.isSuccess());
-        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, sessionResult.getCode());
+        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, sessionResult.getStatus().getCode());
     }
 }

@@ -3,7 +3,6 @@ package tech.ydb.core.grpc.impl;
 import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.utils.Async;
@@ -88,7 +87,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
             return;
         }
 
-        DiscoveryProtos.ListEndpointsResult result = response.expect("couldn't get response from ListEndpointsResult");
+        DiscoveryProtos.ListEndpointsResult result = response.getValue();
         if (result.getEndpointsList().isEmpty()) { 
             logger.error("discovery get empty list of endpoints");
             return;

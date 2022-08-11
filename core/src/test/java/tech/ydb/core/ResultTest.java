@@ -1,7 +1,5 @@
 package tech.ydb.core;
 
-import java.util.Optional;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -25,19 +23,12 @@ public class ResultTest {
         Issue issue1 = Issue.of("issue1", Issue.Severity.ERROR);
         Issue issue2 = Issue.of("issue2", Issue.Severity.FATAL);
 
-        Result<Integer> r = Result.success(1, issue1, issue2);
+        Result<Integer> r = Result.success(1, Status.of(StatusCode.SUCCESS, null, issue1, issue2));
         Assert.assertTrue(r.isSuccess());
-        Assert.assertEquals(StatusCode.SUCCESS, r.getCode());
-        Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, r.getIssues());
-        Assert.assertNotSame(Status.SUCCESS, r.toStatus());
-        Assert.assertEquals((Integer) 1, r.expect("cannot get result value"));
-
-        Optional<Integer> ok = r.ok();
-        Assert.assertTrue(ok.isPresent());
-        Assert.assertEquals((Integer) 1, ok.get());
-
-        Optional<Throwable> error = r.error();
-        Assert.assertFalse(error.isPresent());
+        Assert.assertEquals(StatusCode.SUCCESS, r.getStatus().getCode());
+        Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, r.getStatus().getIssues());
+        Assert.assertNotSame(Status.SUCCESS, r.getStatus());
+        Assert.assertEquals((Integer) 1, r.getValue());
     }
 
     @Test
@@ -45,38 +36,26 @@ public class ResultTest {
         Issue issue1 = Issue.of("issue1", Issue.Severity.ERROR);
         Issue issue2 = Issue.of("issue2", Issue.Severity.FATAL);
 
-        Result<Void> r = Result.fail(StatusCode.BAD_SESSION, issue1, issue2);
+        Result<Void> r = Result.fail(Status.of(StatusCode.BAD_SESSION, null, issue1, issue2));
 
         Assert.assertFalse(r.isSuccess());
-        Assert.assertEquals(StatusCode.BAD_SESSION, r.getCode());
-        Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, r.getIssues());
-        Assert.assertEquals(Status.of(StatusCode.BAD_SESSION, issue1, issue2), r.toStatus());
+        Assert.assertEquals(StatusCode.BAD_SESSION, r.getStatus().getCode());
+        Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, r.getStatus().getIssues());
+        Assert.assertEquals(Status.of(StatusCode.BAD_SESSION, null, issue1, issue2), r.getStatus());
 
         try {
-            r.expect("cannot get result value");
+            r.getValue();
             Assert.fail("expected exception not thrown");
         } catch (Exception e) {
             Assert.assertTrue(e instanceof UnexpectedResultException);
             Assert.assertEquals(
-                "cannot get result value, code: BAD_SESSION, issues: [issue1 (S_ERROR), issue2 (S_FATAL)]",
+                "Cannot get value, code: BAD_SESSION, issues: [issue1 (S_ERROR), issue2 (S_FATAL)]",
                 e.getMessage());
 
             UnexpectedResultException ex = (UnexpectedResultException) e;
-            Assert.assertEquals(StatusCode.BAD_SESSION, ex.getStatusCode());
-            Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, ex.getIssues());
+            Assert.assertEquals(StatusCode.BAD_SESSION, ex.getStatus().getCode());
+            Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, ex.getStatus().getIssues());
         }
-
-        Optional<Void> ok = r.ok();
-        Assert.assertFalse(ok.isPresent());
-
-        Optional<Throwable> error = r.error();
-        Assert.assertTrue(error.isPresent());
-
-        Throwable e = error.get();
-        Assert.assertTrue(e instanceof UnexpectedResultException);
-        UnexpectedResultException ex = (UnexpectedResultException) e;
-        Assert.assertEquals(StatusCode.BAD_SESSION, ex.getStatusCode());
-        Assert.assertArrayEquals(new Issue[]{ issue1, issue2 }, ex.getIssues());
 
         Result<String> r2 = r.map(v -> "");
         Assert.assertSame(r2, r);
@@ -87,39 +66,25 @@ public class ResultTest {
         Result<Void> r = Result.error("some message", new RuntimeException("some exception"));
 
         Assert.assertFalse(r.isSuccess());
-        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, r.getCode());
-        Assert.assertSame(Issue.EMPTY_ARRAY, r.getIssues());
-        Assert.assertEquals(Status.of(StatusCode.CLIENT_INTERNAL_ERROR), r.toStatus());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, r.getStatus().getCode());
+        Assert.assertSame(Issue.EMPTY_ARRAY, r.getStatus().getIssues());
+        Assert.assertEquals(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null), r.getStatus());
 
         try {
-            r.expect("cannot get result value");
+            r.getValue();
             Assert.fail("expected exception not thrown");
         } catch (Exception e) {
             Assert.assertTrue(e instanceof UnexpectedResultException);
-            Assert.assertEquals("cannot get result value: some message", e.getMessage());
+            Assert.assertEquals("some message, code: CLIENT_INTERNAL_ERROR", e.getMessage());
 
             UnexpectedResultException ex = (UnexpectedResultException) e;
-            Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, ex.getStatusCode());
-            Assert.assertSame(Issue.EMPTY_ARRAY, ex.getIssues());
+            Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, ex.getStatus().getCode());
+            Assert.assertSame(Issue.EMPTY_ARRAY, ex.getStatus().getIssues());
 
             Throwable cause = ex.getCause();
             Assert.assertNotNull(cause);
             Assert.assertEquals("some exception", cause.getMessage());
         }
-
-        Optional<Void> ok = r.ok();
-        Assert.assertFalse(ok.isPresent());
-
-        Optional<Throwable> error = r.error();
-        Assert.assertTrue(error.isPresent());
-
-        UnexpectedResultException ex = (UnexpectedResultException) error.get();
-        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, ex.getStatusCode());
-        Assert.assertSame(Issue.EMPTY_ARRAY, ex.getIssues());
-
-        Throwable cause = ex.getCause();
-        Assert.assertNotNull(cause);
-        Assert.assertEquals("some exception", cause.getMessage());
 
         Result<String> r2 = r.map(v -> "");
         Assert.assertSame(r2, r);
@@ -127,16 +92,9 @@ public class ResultTest {
 
     private static <T> void assertSuccess(Result<T> r, T expectedValue) {
         Assert.assertTrue(r.isSuccess());
-        Assert.assertEquals(StatusCode.SUCCESS, r.getCode());
-        Assert.assertSame(Issue.EMPTY_ARRAY, r.getIssues());
-        Assert.assertSame(Status.SUCCESS, r.toStatus());
-        Assert.assertEquals(expectedValue, r.expect("cannot get result value"));
-
-        Optional<T> ok = r.ok();
-        Assert.assertTrue(ok.isPresent());
-        Assert.assertEquals(expectedValue, ok.get());
-
-        Optional<Throwable> error = r.error();
-        Assert.assertFalse(error.isPresent());
+        Assert.assertEquals(StatusCode.SUCCESS, r.getStatus().getCode());
+        Assert.assertSame(Issue.EMPTY_ARRAY, r.getStatus().getIssues());
+        Assert.assertSame(Status.SUCCESS, r.getStatus());
+        Assert.assertEquals(expectedValue, r.getValue());
     }
 }
