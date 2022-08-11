@@ -57,119 +57,71 @@ public class ProtoValue {
 
     // -- integers --
 
-    public static ValueProtos.Value bool(boolean value) {
+    public static ValueProtos.Value fromBool(boolean value) {
         return value ? TRUE : FALSE;
     }
 
-    public static boolean toBool(ValueProtos.Value value) {
-        return value.getBoolValue();
-    }
-
-    public static ValueProtos.Value int8(byte value) {
+    public static ValueProtos.Value fromInt8(byte value) {
         return ValueProtos.Value.newBuilder().setInt32Value(value).build();
     }
 
-    public static byte toInt8(ValueProtos.Value value) {
-        return (byte) value.getInt32Value();
+    public static ValueProtos.Value fromUint8(int value) {
+        return ValueProtos.Value.newBuilder().setUint32Value(value & 0xFF).build();
     }
 
-    public static ValueProtos.Value uint8(byte value) {
-        return ValueProtos.Value.newBuilder().setUint32Value(Byte.toUnsignedInt(value)).build();
-    }
-
-    public static int toUint8(ValueProtos.Value value) {
-        return value.getUint32Value();
-    }
-
-    public static ValueProtos.Value int16(short value) {
+    public static ValueProtos.Value fromInt16(short value) {
         return ValueProtos.Value.newBuilder().setInt32Value(value).build();
     }
 
-    public static short toInt16(ValueProtos.Value value) {
-        return (short) value.getInt32Value();
+    public static ValueProtos.Value fromUint16(int value) {
+        return ValueProtos.Value.newBuilder().setUint32Value(value & 0xFFFF).build();
     }
 
-    public static ValueProtos.Value uint16(short value) {
-        return ValueProtos.Value.newBuilder().setUint32Value(Short.toUnsignedInt(value)).build();
-    }
-
-    public static int toUint16(ValueProtos.Value value) {
-        return value.getUint32Value();
-    }
-
-    public static ValueProtos.Value int32(int value) {
+    public static ValueProtos.Value fromInt32(int value) {
         return ValueProtos.Value.newBuilder().setInt32Value(value).build();
     }
 
-    public static int toInt32(ValueProtos.Value value) {
-        return value.getInt32Value();
+    public static ValueProtos.Value fromUint32(long value) {
+        return ValueProtos.Value.newBuilder().setUint32Value((int) (value & 0xFFFFFFFFl)).build();
     }
 
-    public static ValueProtos.Value uint32(int value) {
-        return ValueProtos.Value.newBuilder().setUint32Value(value).build();
-    }
-
-    public static long toUint32(ValueProtos.Value value) {
-        return Integer.toUnsignedLong(value.getUint32Value());
-    }
-
-    public static ValueProtos.Value uint32(long value) {
-        return ValueProtos.Value.newBuilder().setUint32Value((int) (value & 0xffffffffL)).build();
-    }
-
-    public static ValueProtos.Value int64(long value) {
+    public static ValueProtos.Value fromInt64(long value) {
         return ValueProtos.Value.newBuilder().setInt64Value(value).build();
     }
 
-    public static long toInt64(ValueProtos.Value value) {
-        return value.getInt64Value();
-    }
-
-    public static ValueProtos.Value uint64(long value) {
+    public static ValueProtos.Value fromUint64(long value) {
         return ValueProtos.Value.newBuilder().setUint64Value(value).build();
-    }
-
-    public static long toUint64(ValueProtos.Value value) {
-        return value.getUint64Value();
     }
 
     // - float32, float64 -
 
-    public static ValueProtos.Value float32(float value) {
+    public static ValueProtos.Value fromFloat(float value) {
         return ValueProtos.Value.newBuilder().setFloatValue(value).build();
     }
 
-    public static float toFloat32(ValueProtos.Value value) {
-        return value.getFloatValue();
-    }
-
-    public static ValueProtos.Value float64(double value) {
+    public static ValueProtos.Value fromDouble(double value) {
         return ValueProtos.Value.newBuilder().setDoubleValue(value).build();
-    }
-
-    public static double toFloat64(ValueProtos.Value value) {
-        return value.getDoubleValue();
     }
 
     // - string -
 
-    public static ValueProtos.Value bytes(ByteString value) {
+    public static ValueProtos.Value fromBytes(ByteString value) {
         return ValueProtos.Value.newBuilder().setBytesValue(value).build();
     }
 
-    public static ValueProtos.Value string(byte[] value) {
-        return bytes(ByteString.copyFrom(value));
+    public static ValueProtos.Value fromString(byte[] value) {
+        return fromBytes(ByteString.copyFrom(value));
     }
 
-    /**
+    /*
      * will not copy given array
      */
-    public static ValueProtos.Value stringOwn(byte[] value) {
-        return bytes(UnsafeByteOperations.unsafeWrap(value));
+    public static ValueProtos.Value fromOwnString(byte[] value) {
+        return fromBytes(UnsafeByteOperations.unsafeWrap(value));
     }
 
-    public static ValueProtos.Value string(String value, Charset charset) {
-        return bytes(UnsafeByteOperations.unsafeWrap(charset.encode(value)));
+    public static ValueProtos.Value fromString(String value, Charset charset) {
+        return fromBytes(UnsafeByteOperations.unsafeWrap(charset.encode(value)));
     }
 
     public static byte[] toString(ValueProtos.Value value) {
@@ -182,12 +134,12 @@ public class ProtoValue {
 
     // - utf8 -
 
-    public static ValueProtos.Value text(String value) {
+    public static ValueProtos.Value fromText(String value) {
         return ValueProtos.Value.newBuilder().setTextValue(value).build();
     }
 
-    public static ValueProtos.Value utf8(String value) {
-        return text(value);
+    public static ValueProtos.Value fromUtf8(String value) {
+        return fromText(value);
     }
 
     public static String toUtf8(ValueProtos.Value value) {
@@ -196,15 +148,15 @@ public class ProtoValue {
 
     // - yson -
 
-    public static ValueProtos.Value yson(byte[] value) {
-        return bytes(ByteString.copyFrom(value));
+    public static ValueProtos.Value fromYson(byte[] value) {
+        return fromBytes(ByteString.copyFrom(value));
     }
 
-    /**
+    /*
      * will not copy given array
      */
-    public static ValueProtos.Value ysonOwn(byte[] value) {
-        return bytes(UnsafeByteOperations.unsafeWrap(value));
+    public static ValueProtos.Value fromOwnYson(byte[] value) {
+        return fromBytes(UnsafeByteOperations.unsafeWrap(value));
     }
 
     public static byte[] toYson(ValueProtos.Value value) {
@@ -213,16 +165,16 @@ public class ProtoValue {
 
     // - json -
 
-    public static ValueProtos.Value json(String value) {
-        return text(value);
+    public static ValueProtos.Value fromJson(String value) {
+        return fromText(value);
     }
 
     public static String toJson(ValueProtos.Value value) {
         return value.getTextValue();
     }
 
-    public static ValueProtos.Value jsonDocument(String value) {
-        return text(value);
+    public static ValueProtos.Value fromJsonDocument(String value) {
+        return fromText(value);
     }
 
     public static String toJsonDocument(ValueProtos.Value value) {
@@ -231,11 +183,11 @@ public class ProtoValue {
 
     // - uuid -
 
-    public static ValueProtos.Value uuid(long high, long low) {
+    public static ValueProtos.Value fromUuid(long high, long low) {
         return ValueProtos.Value.newBuilder().setHigh128(high).setLow128(low).build();
     }
 
-    public static ValueProtos.Value uuid(UUID uuid) {
+    public static ValueProtos.Value fromUuid(UUID uuid) {
         long msb = uuid.getMostSignificantBits();
         long lsb = uuid.getLeastSignificantBits();
 
@@ -246,7 +198,7 @@ public class ProtoValue {
         long low = timeLow | timeMid | timeHighAndVersion;
         long high = LittleEndian.bswap(lsb);
 
-        return uuid(high, low);
+        return ProtoValue.fromUuid(high, low);
     }
 
     public static UUID toUuid(ValueProtos.Value value) {
@@ -263,12 +215,12 @@ public class ProtoValue {
 
     // - interval -
 
-    public static ValueProtos.Value interval(long micros) {
+    public static ValueProtos.Value fromInterval(long micros) {
         return ValueProtos.Value.newBuilder().setInt64Value(micros).build();
     }
 
-    public static ValueProtos.Value interval(Duration value) {
-        return interval(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
+    public static ValueProtos.Value fromInterval(Duration value) {
+        return ProtoValue.fromInterval(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
     }
 
     public static Duration toInterval(ValueProtos.Value value) {
@@ -277,17 +229,17 @@ public class ProtoValue {
 
     // - date -
 
-    public static ValueProtos.Value date(long daysSinceEpoch) {
+    public static ValueProtos.Value fromDate(long daysSinceEpoch) {
         int daysInt = (int) (daysSinceEpoch & 0xffffffffL);
         return ValueProtos.Value.newBuilder().setUint32Value(daysInt).build();
     }
 
-    public static ValueProtos.Value date(LocalDate value) {
-        return date(value.toEpochDay());
+    public static ValueProtos.Value fromDate(LocalDate value) {
+        return ProtoValue.fromDate(value.toEpochDay());
     }
 
-    public static ValueProtos.Value date(Instant value) {
-        return date(TimeUnit.SECONDS.toDays(value.getEpochSecond()));
+    public static ValueProtos.Value fromDate(Instant value) {
+        return ProtoValue.fromDate(TimeUnit.SECONDS.toDays(value.getEpochSecond()));
     }
 
     public static LocalDate toDate(long daysSinceEpoch) {
@@ -300,17 +252,17 @@ public class ProtoValue {
 
     // - datetime -
 
-    public static ValueProtos.Value datetime(long secondsSinceEpoch) {
+    public static ValueProtos.Value fromDatetime(long secondsSinceEpoch) {
         int secondsInt = (int) (secondsSinceEpoch & 0xffffffffL);
         return ValueProtos.Value.newBuilder().setUint32Value(secondsInt).build();
     }
 
-    public static ValueProtos.Value datetime(Instant value) {
-        return datetime(value.getEpochSecond());
+    public static ValueProtos.Value fromDatetime(Instant value) {
+        return ProtoValue.fromDatetime(value.getEpochSecond());
     }
 
-    public static ValueProtos.Value datetime(LocalDateTime value) {
-        return datetime(value.toEpochSecond(ZoneOffset.UTC));
+    public static ValueProtos.Value fromDatetime(LocalDateTime value) {
+        return ProtoValue.fromDatetime(value.toEpochSecond(ZoneOffset.UTC));
     }
 
     public static LocalDateTime toDatetime(long secondsSinceEpoch) {
@@ -323,14 +275,14 @@ public class ProtoValue {
 
     // - timestamp -
 
-    public static ValueProtos.Value timestamp(long microsSinceEpoch) {
+    public static ValueProtos.Value fromTimestamp(long microsSinceEpoch) {
         return ValueProtos.Value.newBuilder().setUint64Value(microsSinceEpoch).build();
     }
 
-    public static ValueProtos.Value timestamp(Instant value) {
+    public static ValueProtos.Value fromTimestamp(Instant value) {
         long micros = TimeUnit.SECONDS.toMicros(value.getEpochSecond()) +
             TimeUnit.NANOSECONDS.toMicros(value.getNano());
-        return timestamp(micros);
+        return ProtoValue.fromTimestamp(micros);
     }
 
     public static Instant toTimestamp(long microsSinceEpoch) {
@@ -345,8 +297,8 @@ public class ProtoValue {
 
     // - tzDate -
 
-    public static ValueProtos.Value tzDate(String text) {
-        return text(text);
+    public static ValueProtos.Value fromTzDate(String text) {
+        return fromText(text);
     }
 
     public static ZonedDateTime toTzDate(String textValue) {
@@ -367,8 +319,8 @@ public class ProtoValue {
 
     // - tzDatetime -
 
-    public static ValueProtos.Value tzDatetime(String text) {
-        return text(text);
+    public static ValueProtos.Value fromTzDatetime(String text) {
+        return fromText(text);
     }
 
     public static ZonedDateTime toTzDatetime(String textValue) {
@@ -408,7 +360,7 @@ public class ProtoValue {
 
     // -- decimal --
 
-    public static ValueProtos.Value decimal(long high, long low) {
+    public static ValueProtos.Value fromDecimal(long high, long low) {
         return ValueProtos.Value.newBuilder()
             .setHigh128(high)
             .setLow128(low)
@@ -713,7 +665,7 @@ public class ProtoValue {
 
     // -- from proto --
 
-    public static Value fromPb(Type type, ValueProtos.Value value) {
+    public static Value<?> fromPb(Type type, ValueProtos.Value value) {
         switch (type.getKind()) {
             case PRIMITIVE:
                 return primitiveFromPb((PrimitiveType) type, value);
@@ -730,7 +682,7 @@ public class ProtoValue {
                     return dictType.emptyValue();
                 }
 
-                HashMap<Value, Value> items = new HashMap<>(value.getPairsCount());
+                HashMap<Value<?>, Value<?>> items = new HashMap<>(value.getPairsCount());
                 for (int i = 0; i < value.getPairsCount(); i++) {
                     ValueProtos.ValuePair pair = value.getPairs(i);
                     items.put(
@@ -747,7 +699,7 @@ public class ProtoValue {
                     return listType.emptyValue();
                 }
 
-                Value[] items = new Value[value.getItemsCount()];
+                Value<?>[] items = new Value<?>[value.getItemsCount()];
                 for (int i = 0; i < value.getItemsCount(); i++) {
                     items[i] = fromPb(listType.getItemType(), value.getItems(i));
                 }
@@ -761,11 +713,11 @@ public class ProtoValue {
                     case NULL_FLAG_VALUE:
                         return optionalType.emptyValue();
                     case NESTED_VALUE: {
-                        Value itemValue = fromPb(optionalType.getItemType(), value.getNestedValue());
+                        Value<?> itemValue = fromPb(optionalType.getItemType(), value.getNestedValue());
                         return optionalType.newValue(itemValue);
                     }
                     default: {
-                        Value itemValue = fromPb(optionalType.getItemType(), value);
+                        Value<?> itemValue = fromPb(optionalType.getItemType(), value);
                         return optionalType.newValue(itemValue);
                     }
                 }
@@ -775,11 +727,11 @@ public class ProtoValue {
                 StructType structType = (StructType) type;
 
                 if (value.getItemsCount() == 1) {
-                    Value memberValue = fromPb(structType.getMemberType(0), value.getItems(0));
+                    Value<?> memberValue = fromPb(structType.getMemberType(0), value.getItems(0));
                     return structType.newValueUnsafe(memberValue);
                 }
 
-                Value[] members = new Value[value.getItemsCount()];
+                Value<?>[] members = new Value<?>[value.getItemsCount()];
                 for (int i = 0; i < value.getItemsCount(); i++) {
                     members[i] = fromPb(structType.getMemberType(i), value.getItems(i));
                 }
@@ -793,7 +745,7 @@ public class ProtoValue {
                     return TupleValue.empty();
                 }
 
-                Value[] items = new Value[value.getItemsCount()];
+                Value<?>[] items = new Value<?>[value.getItemsCount()];
                 for (int i = 0; i < value.getItemsCount(); i++) {
                     items[i] = fromPb(tupleType.getElementType(i), value.getItems(i));
                 }
@@ -815,36 +767,36 @@ public class ProtoValue {
     }
 
     private static PrimitiveValue primitiveFromPb(PrimitiveType primitiveType, ValueProtos.Value value) {
-        switch (primitiveType.getId()) {
-            case Bool: return PrimitiveValue.bool(toBool(value));
-            case Int8: return PrimitiveValue.int8(toInt8(value));
-            case Uint8: return PrimitiveValue.uint8((byte) value.getUint32Value());
-            case Int16: return PrimitiveValue.int16(toInt16(value));
-            case Uint16: return PrimitiveValue.uint16((short) value.getUint32Value());
-            case Int32: return PrimitiveValue.int32(toInt32(value));
-            case Uint32: return PrimitiveValue.uint32(value.getUint32Value());
-            case Int64: return PrimitiveValue.int64(toInt64(value));
-            case Uint64: return PrimitiveValue.uint64(toUint64(value));
-            case Float32: return PrimitiveValue.float32(toFloat32(value));
-            case Float64: return PrimitiveValue.float64(toFloat64(value));
-            case String: return PrimitiveValue.string(value.getBytesValue());
-            case Utf8: return PrimitiveValue.utf8(value.getTextValue());
-            case Yson: return PrimitiveValue.yson(value.getBytesValue());
-            case Json: return PrimitiveValue.json(value.getTextValue());
-            case JsonDocument: return PrimitiveValue.jsonDocument(value.getTextValue());
-            case Uuid: return PrimitiveValue.uuid(value.getHigh128(), value.getLow128());
-            case Date: return PrimitiveValue.date(Integer.toUnsignedLong(value.getUint32Value()));
-            case Datetime: return PrimitiveValue.datetime(Integer.toUnsignedLong(value.getUint32Value()));
-            case Timestamp: return PrimitiveValue.timestamp(value.getUint64Value());
-            case Interval: return PrimitiveValue.interval(value.getInt64Value());
-            case TzDate: return PrimitiveValue.tzDate(toTzDate(value));
-            case TzDatetime: return PrimitiveValue.tzDatetime(toTzDatetime(value));
-            case TzTimestamp: return PrimitiveValue.tzTimestamp(toTzTimestamp(value));
+        switch (primitiveType) {
+            case Bool: return PrimitiveValue.newBool(value.getBoolValue());
+            case Int8: return PrimitiveValue.newInt8((byte) value.getInt32Value());
+            case Uint8: return PrimitiveValue.newUint8(value.getUint32Value());
+            case Int16: return PrimitiveValue.newInt16((short) value.getInt32Value());
+            case Uint16: return PrimitiveValue.newUint16(value.getUint32Value());
+            case Int32: return PrimitiveValue.newInt32(value.getInt32Value());
+            case Uint32: return PrimitiveValue.newUint32(value.getUint32Value());
+            case Int64: return PrimitiveValue.newInt64(value.getInt64Value());
+            case Uint64: return PrimitiveValue.newUint64(value.getUint64Value());
+            case Float: return PrimitiveValue.newFloat(value.getFloatValue());
+            case Double: return PrimitiveValue.newDouble(value.getDoubleValue());
+            case String: return PrimitiveValue.newString(value.getBytesValue());
+            case Utf8: return PrimitiveValue.newUtf8(value.getTextValue());
+            case Yson: return PrimitiveValue.newYson(value.getBytesValue());
+            case Json: return PrimitiveValue.newJson(value.getTextValue());
+            case JsonDocument: return PrimitiveValue.newJsonDocument(value.getTextValue());
+            case Uuid: return PrimitiveValue.newUuid(value.getHigh128(), value.getLow128());
+            case Date: return PrimitiveValue.newDate(Integer.toUnsignedLong(value.getUint32Value()));
+            case Datetime: return PrimitiveValue.newDatetime(Integer.toUnsignedLong(value.getUint32Value()));
+            case Timestamp: return PrimitiveValue.newTimestamp(value.getUint64Value());
+            case Interval: return PrimitiveValue.newInterval(value.getInt64Value());
+            case TzDate: return PrimitiveValue.newTzDate(toTzDate(value));
+            case TzDatetime: return PrimitiveValue.newTzDatetime(toTzDatetime(value));
+            case TzTimestamp: return PrimitiveValue.newTzTimestamp(toTzTimestamp(value));
         }
-        throw new IllegalStateException("unknown PrimitiveType: " + primitiveType.getId());
+        throw new IllegalStateException("unknown PrimitiveType: " + primitiveType);
     }
 
-    public static ValueProtos.TypedValue toTypedValue(Value p) {
+    public static ValueProtos.TypedValue toTypedValue(Value<?> p) {
         return ValueProtos.TypedValue.newBuilder()
             .setType(p.getType().toPb())
             .setValue(p.toPb())

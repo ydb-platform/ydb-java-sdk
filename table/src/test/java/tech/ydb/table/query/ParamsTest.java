@@ -35,7 +35,7 @@ public class ParamsTest {
 
     @Test
     public void single() {
-        Params params = Params.of("one", PrimitiveValue.uint32(1));
+        Params params = Params.of("one", PrimitiveValue.newUint32(1));
 
         assertThat(params.isEmpty())
             .isFalse();
@@ -51,8 +51,8 @@ public class ParamsTest {
     @Test
     public void two() {
         Params params = Params.of(
-            "one", PrimitiveValue.uint32(1),
-            "two", PrimitiveValue.uint32(2));
+            "one", PrimitiveValue.newUint32(1),
+            "two", PrimitiveValue.newUint32(2));
 
         assertThat(params.isEmpty())
             .isFalse();
@@ -69,9 +69,9 @@ public class ParamsTest {
     @Test
     public void three() {
         Params params = Params.of(
-            "one", PrimitiveValue.uint32(1),
-            "two", PrimitiveValue.uint32(2),
-            "three", PrimitiveValue.uint32(3));
+            "one", PrimitiveValue.newUint32(1),
+            "two", PrimitiveValue.newUint32(2),
+            "three", PrimitiveValue.newUint32(3));
 
         assertThat(params.isEmpty())
             .isFalse();
@@ -89,10 +89,10 @@ public class ParamsTest {
     @Test
     public void four() {
         Params params = Params.of(
-            "one", PrimitiveValue.uint32(1),
-            "two", PrimitiveValue.uint32(2),
-            "three", PrimitiveValue.uint32(3),
-            "four", PrimitiveValue.uint32(4));
+            "one", PrimitiveValue.newUint32(1),
+            "two", PrimitiveValue.newUint32(2),
+            "three", PrimitiveValue.newUint32(3),
+            "four", PrimitiveValue.newUint32(4));
 
         assertThat(params.isEmpty())
             .isFalse();
@@ -111,11 +111,11 @@ public class ParamsTest {
     @Test
     public void five() {
         Params params = Params.of(
-            "one", PrimitiveValue.uint32(1),
-            "two", PrimitiveValue.uint32(2),
-            "three", PrimitiveValue.uint32(3),
-            "four", PrimitiveValue.uint32(4),
-            "five", PrimitiveValue.uint32(5));
+            "one", PrimitiveValue.newUint32(1),
+            "two", PrimitiveValue.newUint32(2),
+            "three", PrimitiveValue.newUint32(3),
+            "four", PrimitiveValue.newUint32(4),
+            "five", PrimitiveValue.newUint32(5));
 
         assertThat(params.isEmpty())
             .isFalse();
@@ -134,8 +134,8 @@ public class ParamsTest {
 
     @Test
     public void copyOf() {
-        Params params1 = Params.copyOf(ImmutableMap.of("name", PrimitiveValue.utf8("Jamel")));
-        params1.put("age", PrimitiveValue.uint32(99));
+        Params params1 = Params.copyOf(ImmutableMap.of("name", PrimitiveValue.newUtf8("Jamel")));
+        params1.put("age", PrimitiveValue.newUint32(99));
 
         {
             Map<String, ValueProtos.TypedValue> pb = params1.toPb();
@@ -145,7 +145,7 @@ public class ParamsTest {
         }
 
         Params params2 = Params.copyOf(params1);
-        params2.put("phone", PrimitiveValue.utf8("+7-916-012-34-56"));
+        params2.put("phone", PrimitiveValue.newUtf8("+7-916-012-34-56"));
 
         {
             Map<String, ValueProtos.TypedValue> pb = params2.toPb();
@@ -169,7 +169,7 @@ public class ParamsTest {
         Params params = Params.create();
 
         for (int i = 0; i < 100; i++) {
-            params.put("a" + i, PrimitiveValue.uint32(i));
+            params.put("a" + i, PrimitiveValue.newUint32(i));
         }
 
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
@@ -180,7 +180,7 @@ public class ParamsTest {
         }
 
         try {
-            params.put("a0", PrimitiveValue.uint32(777));
+            params.put("a0", PrimitiveValue.newUint32(777));
             fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
             assertEquals("duplicate parameter: a0", e.getMessage());
@@ -190,22 +190,22 @@ public class ParamsTest {
     private static void assertProtoUtf8(ValueProtos.TypedValue one, String value) {
         ProtoTruth.assertThat(one)
             .isEqualTo(ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.utf8())
-                .setValue(ProtoValue.utf8(value))
+                .setType(ProtoType.getUtf8())
+                .setValue(ProtoValue.fromUtf8(value))
                 .build());
     }
 
     private static void assertProtoUint32(ValueProtos.TypedValue one, int value) {
         ProtoTruth.assertThat(one)
             .isEqualTo(ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.uint32())
-                .setValue(ProtoValue.uint32(value))
+                .setType(ProtoType.getUint32())
+                .setValue(ProtoValue.fromUint32(value))
                 .build());
     }
 
     private static void assertImmutable(Params params) {
         try {
-            params.put("some", PrimitiveValue.bool(false));
+            params.put("some", PrimitiveValue.newBool(false));
             fail("expected exception was not thrown");
         } catch (UnsupportedOperationException e) {
             assertEquals("cannot put parameter into immutable params map", e.getMessage());

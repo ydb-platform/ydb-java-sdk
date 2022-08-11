@@ -93,7 +93,7 @@ public final class VariantType implements Type {
         for (Type itemType : itemTypes) {
             tupleType.addElements(itemType.toPb());
         }
-        return ProtoType.variant(tupleType.build());
+        return ProtoType.getVariant(tupleType.build());
     }
 
     public VariantValue newValue(Value item, int typeIndex) {

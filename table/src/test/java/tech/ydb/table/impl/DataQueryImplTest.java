@@ -27,16 +27,16 @@ public class DataQueryImplTest {
     @Test
     public void params() {
         ImmutableMap<String, Type> types = ImmutableMap.of(
-            "name", PrimitiveType.utf8(),
-            "age", PrimitiveType.uint8());
+            "name", PrimitiveType.Utf8,
+            "age", PrimitiveType.Uint8);
 
         ImmutableMap<String, ValueProtos.Type> typesPb = ImmutableMap.of(
-            "name", PrimitiveType.utf8().toPb(),
-            "age", PrimitiveType.uint8().toPb());
+            "name", PrimitiveType.Utf8.toPb(),
+            "age", PrimitiveType.Uint8.toPb());
 
         Params params = new DataQueryImpl.DataQueryParams(types, typesPb)
-            .put("name", PrimitiveValue.utf8("Jamel"))
-            .put("age", PrimitiveValue.uint8((byte) 99));
+            .put("name", PrimitiveValue.newUtf8("Jamel"))
+            .put("age", PrimitiveValue.newUint8((byte) 99));
 
         assertThat(params.isEmpty())
             .isFalse();
@@ -46,19 +46,19 @@ public class DataQueryImplTest {
 
         ProtoTruth.assertThat(pb.get("name"))
             .isEqualTo(TypedValue.newBuilder()
-                .setType(ProtoType.utf8())
-                .setValue(ProtoValue.utf8("Jamel"))
+                .setType(ProtoType.getUtf8())
+                .setValue(ProtoValue.fromUtf8("Jamel"))
                 .build());
 
         ProtoTruth.assertThat(pb.get("age"))
             .isEqualTo(TypedValue.newBuilder()
-                .setType(ProtoType.uint8())
-                .setValue(ProtoValue.uint8((byte) 99))
+                .setType(ProtoType.getUint8())
+                .setValue(ProtoValue.fromUint8((byte) 99))
                 .build());
 
         // duplicate parameter
         try {
-            params.put("name", PrimitiveValue.utf8("Another Name"));
+            params.put("name", PrimitiveValue.newUtf8("Another Name"));
             fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
             assertEquals("duplicate parameter: name", e.getMessage());
@@ -66,7 +66,7 @@ public class DataQueryImplTest {
 
         // wrong type
         try {
-            params.put("name", PrimitiveValue.uint32(1));
+            params.put("name", PrimitiveValue.newUint32(1));
             fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
             // TODO: do not check types anymore

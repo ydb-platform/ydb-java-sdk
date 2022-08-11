@@ -51,67 +51,67 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public boolean getBool() {
         checkPrimitive(PrimitiveTypeId.BOOL);
-        return ProtoValue.toBool(value);
+        return value.getBoolValue();
     }
 
     @Override
     public byte getInt8() {
         checkPrimitive(PrimitiveTypeId.INT8);
-        return ProtoValue.toInt8(value);
+        return (byte)value.getInt32Value();
     }
 
     @Override
     public int getUint8() {
         checkPrimitive(PrimitiveTypeId.UINT8);
-        return ProtoValue.toUint8(value);
+        return value.getUint32Value();
     }
 
     @Override
     public short getInt16() {
         checkPrimitive(PrimitiveTypeId.INT16);
-        return ProtoValue.toInt16(value);
+        return (short)value.getInt32Value();
     }
 
     @Override
     public int getUint16() {
         checkPrimitive(PrimitiveTypeId.UINT16);
-        return ProtoValue.toUint16(value);
+        return value.getUint32Value();
     }
 
     @Override
     public int getInt32() {
         checkPrimitive(PrimitiveTypeId.INT32);
-        return ProtoValue.toInt32(value);
+        return value.getInt32Value();
     }
 
     @Override
     public long getUint32() {
         checkPrimitive(PrimitiveTypeId.UINT32);
-        return ProtoValue.toUint32(value);
+        return value.getUint32Value();
     }
 
     @Override
     public long getInt64() {
         checkPrimitive(PrimitiveTypeId.INT64);
-        return ProtoValue.toInt64(value);
+        return value.getInt64Value();
     }
 
     @Override
     public long getUint64() {
         checkPrimitive(PrimitiveTypeId.UINT64);
-        return ProtoValue.toUint64(value);
+        return value.getUint64Value();
     }
 
     @Override
     public float getFloat32() {
         checkPrimitive(PrimitiveTypeId.FLOAT);
-        return ProtoValue.toFloat32(value);
+        return value.getFloatValue();
     }
 
     @Override
     public double getFloat64() {
         checkPrimitive(PrimitiveTypeId.DOUBLE);
-        return ProtoValue.toFloat64(value);
+        return value.getDoubleValue();
     }
 
     @Override

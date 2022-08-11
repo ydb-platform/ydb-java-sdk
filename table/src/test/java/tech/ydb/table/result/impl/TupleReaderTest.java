@@ -15,7 +15,7 @@ public class TupleReaderTest {
 
     @Test
     public void empty() {
-        ValueProtos.Type type = ProtoType.tuple();
+        ValueProtos.Type type = ProtoType.getTuple();
         ValueProtos.Value value = ProtoValue.tuple();
 
         AbstractValueReader reader = ProtoValueReaders.forTypeImpl(type);
@@ -27,15 +27,15 @@ public class TupleReaderTest {
 
     @Test
     public void primitives() {
-        ValueProtos.Type type = ProtoType.tuple(
-            ProtoType.utf8(),
-            ProtoType.uint32(),
-            ProtoType.float64());
+        ValueProtos.Type type = ProtoType.getTuple(
+            ProtoType.getUtf8(),
+            ProtoType.getUint32(),
+            ProtoType.getDouble());
 
         ValueProtos.Value value = ProtoValue.tuple(
-            ProtoValue.utf8("hello"),
-            ProtoValue.uint32(42),
-            ProtoValue.float64(3.14159));
+            ProtoValue.fromUtf8("hello"),
+            ProtoValue.fromUint32(42),
+            ProtoValue.fromDouble(3.14159));
 
         AbstractValueReader reader = ProtoValueReaders.forTypeImpl(type);
         reader.setProtoValue(value);
@@ -50,13 +50,13 @@ public class TupleReaderTest {
 
     @Test
     public void nested() {
-        ValueProtos.Type type = ProtoType.tuple(
-            ProtoType.tuple(ProtoType.utf8(), ProtoType.uint32()),
-            ProtoType.tuple(ProtoType.uint32(), ProtoType.utf8()));
+        ValueProtos.Type type = ProtoType.getTuple(
+            ProtoType.getTuple(ProtoType.getUtf8(), ProtoType.getUint32()),
+            ProtoType.getTuple(ProtoType.getUint32(), ProtoType.getUtf8()));
 
         ValueProtos.Value value = ProtoValue.tuple(
-            ProtoValue.tuple(ProtoValue.utf8("hello"), ProtoValue.uint32(42)),
-            ProtoValue.tuple(ProtoValue.uint32(37), ProtoValue.utf8("bye")));
+            ProtoValue.tuple(ProtoValue.fromUtf8("hello"), ProtoValue.fromUint32(42)),
+            ProtoValue.tuple(ProtoValue.fromUint32(37), ProtoValue.fromUtf8("bye")));
 
         AbstractValueReader reader = ProtoValueReaders.forTypeImpl(type);
         reader.setProtoValue(value);

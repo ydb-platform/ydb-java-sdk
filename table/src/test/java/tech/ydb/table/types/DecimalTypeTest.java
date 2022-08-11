@@ -35,7 +35,7 @@ public class DecimalTypeTest {
         DecimalType type = DecimalType.of(10, 5);
         ValueProtos.Type typePb = type.toPb();
 
-        ProtoTruth.assertThat(typePb).isEqualTo(ProtoType.decimal(10, 5));
+        ProtoTruth.assertThat(typePb).isEqualTo(ProtoType.getDecimal(10, 5));
 
         Type typeX = ProtoType.fromPb(typePb);
         assertThat(type).isEqualTo(typeX);

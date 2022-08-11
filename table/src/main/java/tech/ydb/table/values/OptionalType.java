@@ -51,14 +51,14 @@ public final class OptionalType implements Type {
 
     @Override
     public ValueProtos.Type toPb() {
-        return ProtoType.optional(itemType.toPb());
+        return ProtoType.getOptional(itemType.toPb());
     }
 
     public OptionalValue emptyValue() {
         return new OptionalValue(this, null);
     }
 
-    public OptionalValue newValue(Value item) {
+    public OptionalValue newValue(Value<?> item) {
         return new OptionalValue(this, Objects.requireNonNull(item, "item"));
     }
 }

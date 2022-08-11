@@ -52,28 +52,28 @@ public final class ListType implements Type {
 
     @Override
     public ValueProtos.Type toPb() {
-        return ProtoType.list(itemType.toPb());
+        return ProtoType.getList(itemType.toPb());
     }
 
     public ListValue emptyValue() {
         return new ListValue(this, Value.EMPTY_ARRAY);
     }
 
-    public ListValue newValue(List<Value> items) {
+    public ListValue newValue(List<Value<?>> items) {
         if (items.isEmpty()) {
             return emptyValue();
         }
         return new ListValue(this, items.toArray(Value.EMPTY_ARRAY));
     }
 
-    public ListValue newValueCopy(Value[] items) {
+    public ListValue newValueCopy(Value<?>[] items) {
         if (items.length == 0) {
             return emptyValue();
         }
         return newValueOwn(items.clone());
     }
 
-    public ListValue newValueOwn(Value... items) {
+    public ListValue newValueOwn(Value<?>... items) {
         if (items.length == 0) {
             return emptyValue();
         }

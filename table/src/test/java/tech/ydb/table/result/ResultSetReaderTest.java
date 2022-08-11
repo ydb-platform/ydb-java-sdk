@@ -16,12 +16,12 @@ public class ResultSetReaderTest {
     @Test
     public void readPrimitives() {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
-            .addColumns(newColumn("name", ProtoType.utf8()))
-            .addColumns(newColumn("year", ProtoType.uint32()))
-            .addRows(newRow(ProtoValue.utf8("Edgy"), ProtoValue.uint32(2006)))
-            .addRows(newRow(ProtoValue.utf8("Feisty"), ProtoValue.uint32(2007)))
-            .addRows(newRow(ProtoValue.utf8("Gutsy"), ProtoValue.uint32(2007)))
-            .addRows(newRow(ProtoValue.utf8("Hardy"), ProtoValue.uint32(2008)))
+            .addColumns(newColumn("name", ProtoType.getUtf8()))
+            .addColumns(newColumn("year", ProtoType.getUint32()))
+            .addRows(newRow(ProtoValue.fromUtf8("Edgy"), ProtoValue.fromUint32(2006)))
+            .addRows(newRow(ProtoValue.fromUtf8("Feisty"), ProtoValue.fromUint32(2007)))
+            .addRows(newRow(ProtoValue.fromUtf8("Gutsy"), ProtoValue.fromUint32(2007)))
+            .addRows(newRow(ProtoValue.fromUtf8("Hardy"), ProtoValue.fromUint32(2008)))
             .build();
 
         ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
@@ -53,10 +53,10 @@ public class ResultSetReaderTest {
     @Test
     public void optionalPrimitives() {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
-            .addColumns(newColumn("utf8", ProtoType.optional(ProtoType.utf8())))
-            .addColumns(newColumn("uint32", ProtoType.optional(ProtoType.uint32())))
-            .addRows(newRow(ProtoValue.optional(ProtoValue.utf8("a")), ProtoValue.optional()))
-            .addRows(newRow(ProtoValue.optional(), ProtoValue.optional(ProtoValue.uint32(42))))
+            .addColumns(newColumn("utf8", ProtoType.getOptional(ProtoType.getUtf8())))
+            .addColumns(newColumn("uint32", ProtoType.getOptional(ProtoType.getUint32())))
+            .addRows(newRow(ProtoValue.optional(ProtoValue.fromUtf8("a")), ProtoValue.optional()))
+            .addRows(newRow(ProtoValue.optional(), ProtoValue.optional(ProtoValue.fromUint32(42))))
             .build();
 
         ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);

@@ -237,7 +237,7 @@ public class DecimalValue implements Value<DecimalType> {
 
     @Override
     public ValueProtos.Value toPb() {
-        return ProtoValue.decimal(high, low);
+        return ProtoValue.fromDecimal(high, low);
     }
 
     /**
