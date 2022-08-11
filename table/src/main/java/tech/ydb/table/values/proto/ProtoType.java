@@ -76,6 +76,8 @@ public class ProtoType {
     public static ValueProtos.Type getFloat() { return FLOAT; }
     public static ValueProtos.Type getDouble() { return DOUBLE; }
     public static ValueProtos.Type getString() { return STRING; }
+    public static ValueProtos.Type getBytes() { return STRING; }
+    public static ValueProtos.Type getText() { return UTF_8; }
     public static ValueProtos.Type getUtf8() { return UTF_8; }
     public static ValueProtos.Type getYson() { return YSON; }
     public static ValueProtos.Type getJson() { return JSON; }
@@ -350,8 +352,8 @@ public class ProtoType {
             case UINT64: return PrimitiveType.Uint64;
             case FLOAT: return PrimitiveType.Float;
             case DOUBLE: return PrimitiveType.Double;
-            case STRING: return PrimitiveType.String;
-            case UTF8: return PrimitiveType.Utf8;
+            case STRING: return PrimitiveType.Bytes;
+            case UTF8: return PrimitiveType.Text;
             case YSON: return PrimitiveType.Yson;
             case JSON: return PrimitiveType.Json;
             case UUID: return PrimitiveType.Uuid;

@@ -17,9 +17,12 @@ import com.google.common.escape.Escaper;
 import com.google.common.escape.Escapers;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
+
 import tech.ydb.ValueProtos;
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
+
+import com.google.common.primitives.UnsignedLong;
 
 
 /**
@@ -61,36 +64,39 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         throw new IllegalStateException("expected Int64, but was " + getClass().getSimpleName());
     }
 
-    /* JDK don't support unsigned long, always returned signed */
+    /** JVM does not support unsigned long, be careful when using this method
+      for numbers greater than Long.MAX_VALUE.For correct work you can use wrappers
+      like {@link com.google.common.primitives.UnsignedLong#fromLongBits(long) UnsignedLong }
+     * @return signed long value corresponding to a bit representation of unsigned.*/
     public long getUint64() {
         throw new IllegalStateException("expected Uint64, but was " + getClass().getSimpleName());
     }
 
-    public float getFloat32() {
-        throw new IllegalStateException("expected Float32, but was " + getClass().getSimpleName());
+    public float getFloat() {
+        throw new IllegalStateException("expected Float, but was " + getClass().getSimpleName());
     }
 
-    public double getFloat64() {
-        throw new IllegalStateException("expected Float64, but was " + getClass().getSimpleName());
+    public double getDouble() {
+        throw new IllegalStateException("expected Double, but was " + getClass().getSimpleName());
     }
 
-    public byte[] getString() {
+    public byte[] getBytes() {
+        throw new IllegalStateException("expected Bytes, but was " + getClass().getSimpleName());
+    }
+
+    public byte[] getBytesUnsafe() {
+        throw new IllegalStateException("expected Bytes, but was " + getClass().getSimpleName());
+    }
+
+    public ByteString getBytesAsByteString() {
         throw new IllegalStateException("expected String, but was " + getClass().getSimpleName());
     }
 
-    public byte[] getStringUnsafe() {
-        throw new IllegalStateException("expected String, but was " + getClass().getSimpleName());
+    public String getBytesAsString(Charset charset) {
+        return new String(getBytesUnsafe(), charset);
     }
 
-    public ByteString getStringBytes() {
-        throw new IllegalStateException("expected String, but was " + getClass().getSimpleName());
-    }
-
-    public String getString(Charset charset) {
-        return new String(getStringUnsafe(), charset);
-    }
-
-    public String getUtf8() {
+    public String getText() {
         throw new IllegalStateException("expected Utf8, but was " + getClass().getSimpleName());
     }
 
@@ -171,18 +177,20 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     public static PrimitiveValue newUint64(long value) { return new Uint64(value); }
     public static PrimitiveValue newFloat(float value) { return new FloatValue(value); }
     public static PrimitiveValue newDouble(double value) { return new DoubleValue(value); }
-    public static PrimitiveValue newString(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.String, value.clone());
+    public static PrimitiveValue newBytes(byte[] value) {
+        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value.clone());
     }
-    public static PrimitiveValue newString(ByteString value) {
-        return value.isEmpty() ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.String, value);
+    public static PrimitiveValue newBytes(ByteString value) {
+        return value.isEmpty() ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
     }
-    public static PrimitiveValue newStringOwn(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.String, value);
+    public static PrimitiveValue newBytesOwn(byte[] value) {
+        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
     }
-    public static PrimitiveValue newUtf8(String value) {
-        return value.isEmpty() ? Text.EMPTY_UTF8 : new Text(PrimitiveType.Utf8, value);
+
+    public static PrimitiveValue newText(String value) {
+        return value.isEmpty() ? Text.EMPTY_TEXT : new Text(PrimitiveType.Text, value);
     }
+
     public static PrimitiveValue newYson(byte[] value) {
         return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value.clone());
     }
@@ -651,7 +659,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public float getFloat32() {
+        public float getFloat() {
             return value;
         }
 
@@ -693,7 +701,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public double getFloat64() {
+        public double getDouble() {
             return value;
         }
 
@@ -723,7 +731,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Bytes extends PrimitiveValue {
-        private static final Bytes EMPTY_STRING = new Bytes(PrimitiveType.String, new byte[0]);
+        private static final Bytes EMPTY_STRING = new Bytes(PrimitiveType.Bytes, new byte[0]);
         private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, new byte[0]);
 
         private final PrimitiveType type;
@@ -745,18 +753,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public byte[] getString() {
-            return getBytes(PrimitiveType.String);
+        public byte[] getBytes() {
+            return getBytes(PrimitiveType.Bytes);
         }
 
         @Override
-        public byte[] getStringUnsafe() {
-            return getBytesUnsafe(PrimitiveType.String);
+        public byte[] getBytesUnsafe() {
+            return getBytesUnsafe(PrimitiveType.Bytes);
         }
 
         @Override
-        public ByteString getStringBytes() {
-            return getByteString(PrimitiveType.String);
+        public ByteString getBytesAsByteString() {
+            return getByteString(PrimitiveType.Bytes);
         }
 
         @Override
@@ -890,7 +898,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Text extends PrimitiveValue {
-        private static final Text EMPTY_UTF8 = new Text(PrimitiveType.Utf8, "");
+        private static final Text EMPTY_TEXT = new Text(PrimitiveType.Text, "");
         private static final Text EMPTY_JSON = new Text(PrimitiveType.Json, "");
         private static final Text EMPTY_JSON_DOCUMENT = new Text(PrimitiveType.JsonDocument, "");
 
@@ -913,8 +921,8 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
-        public String getUtf8() {
-            checkType(PrimitiveType.Utf8, type);
+        public String getText() {
+            checkType(PrimitiveType.Text, type);
             return value;
         }
 

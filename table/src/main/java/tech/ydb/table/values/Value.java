@@ -5,10 +5,11 @@ import tech.ydb.ValueProtos;
 
 /**
  * @author Sergey Polovko
+ * @param <T> type of value
  */
 public interface Value<T extends Type> {
 
-    Value[] EMPTY_ARRAY = {};
+    Value<?>[] EMPTY_ARRAY = {};
 
     T getType();
 

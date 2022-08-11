@@ -134,7 +134,7 @@ public class ParamsTest {
 
     @Test
     public void copyOf() {
-        Params params1 = Params.copyOf(ImmutableMap.of("name", PrimitiveValue.newUtf8("Jamel")));
+        Params params1 = Params.copyOf(ImmutableMap.of("name", PrimitiveValue.newText("Jamel")));
         params1.put("age", PrimitiveValue.newUint32(99));
 
         {
@@ -145,7 +145,7 @@ public class ParamsTest {
         }
 
         Params params2 = Params.copyOf(params1);
-        params2.put("phone", PrimitiveValue.newUtf8("+7-916-012-34-56"));
+        params2.put("phone", PrimitiveValue.newText("+7-916-012-34-56"));
 
         {
             Map<String, ValueProtos.TypedValue> pb = params2.toPb();

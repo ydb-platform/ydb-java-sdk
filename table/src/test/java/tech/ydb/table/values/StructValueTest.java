@@ -15,7 +15,7 @@ import static com.google.common.truth.Truth.assertThat;
 public class StructValueTest {
 
     private final StructType employeeType = StructType.of(
-        "name", PrimitiveType.Utf8,
+        "name", PrimitiveType.Text,
         "age", PrimitiveType.Uint32,
         "salary", PrimitiveType.Double);
 
@@ -26,7 +26,7 @@ public class StructValueTest {
         int salaryIdx = employeeType.getMemberIndex("salary");
 
         Value<?>[] members = new Value<?>[employeeType.getMembersCount()];
-        members[nameIdx] = PrimitiveValue.newUtf8("William");
+        members[nameIdx] = PrimitiveValue.newText("William");
         members[ageIdx] = PrimitiveValue.newUint32(99);
         members[salaryIdx] = PrimitiveValue.newDouble(1234.56);
 
@@ -36,7 +36,7 @@ public class StructValueTest {
             .isEqualTo(employeeType.getMembersCount());
 
         assertThat(employee.getMemberValue(nameIdx))
-            .isEqualTo(PrimitiveValue.newUtf8("William"));
+            .isEqualTo(PrimitiveValue.newText("William"));
         assertThat(employee.getMemberValue(ageIdx))
             .isEqualTo(PrimitiveValue.newUint32(99));
         assertThat(employee.getMemberValue(salaryIdx))
@@ -48,13 +48,13 @@ public class StructValueTest {
         StructValue employee = employeeType.newValue(ImmutableMap.of(
             "age", PrimitiveValue.newUint32(99),
             "salary", PrimitiveValue.newDouble(1234.56),
-            "name", PrimitiveValue.newUtf8("William")));
+            "name", PrimitiveValue.newText("William")));
 
         assertThat(employee.getMembersCount())
             .isEqualTo(employeeType.getMembersCount());
 
         assertThat(employee.getMemberValue(employeeType.getMemberIndex("name")))
-            .isEqualTo(PrimitiveValue.newUtf8("William"));
+            .isEqualTo(PrimitiveValue.newText("William"));
         assertThat(employee.getMemberValue(employeeType.getMemberIndex("age")))
             .isEqualTo(PrimitiveValue.newUint32(99));
         assertThat(employee.getMemberValue(employeeType.getMemberIndex("salary")))
@@ -81,7 +81,7 @@ public class StructValueTest {
         StructValue value = StructValue.of(
             "a", PrimitiveValue.newUint32(1),
             "b", PrimitiveValue.newBool(true),
-            "c", PrimitiveValue.newUtf8("yes"));
+            "c", PrimitiveValue.newText("yes"));
         StructType type = value.getType();
 
         ValueProtos.Value valuePb = value.toPb();
@@ -105,7 +105,7 @@ public class StructValueTest {
         StructValue value2 = StructValue.of(
             "a", PrimitiveValue.newUint32(1),
             "b", PrimitiveValue.newBool(true),
-            "c", PrimitiveValue.newUtf8("yes"));
+            "c", PrimitiveValue.newText("yes"));
         assertThat(value2.toString())
             .isEqualTo("Struct[1, true, \"yes\"]");
     }

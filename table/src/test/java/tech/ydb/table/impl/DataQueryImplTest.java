@@ -27,15 +27,15 @@ public class DataQueryImplTest {
     @Test
     public void params() {
         ImmutableMap<String, Type> types = ImmutableMap.of(
-            "name", PrimitiveType.Utf8,
+            "name", PrimitiveType.Text,
             "age", PrimitiveType.Uint8);
 
         ImmutableMap<String, ValueProtos.Type> typesPb = ImmutableMap.of(
-            "name", PrimitiveType.Utf8.toPb(),
+            "name", PrimitiveType.Text.toPb(),
             "age", PrimitiveType.Uint8.toPb());
 
         Params params = new DataQueryImpl.DataQueryParams(types, typesPb)
-            .put("name", PrimitiveValue.newUtf8("Jamel"))
+            .put("name", PrimitiveValue.newText("Jamel"))
             .put("age", PrimitiveValue.newUint8((byte) 99));
 
         assertThat(params.isEmpty())
@@ -58,7 +58,7 @@ public class DataQueryImplTest {
 
         // duplicate parameter
         try {
-            params.put("name", PrimitiveValue.newUtf8("Another Name"));
+            params.put("name", PrimitiveValue.newText("Another Name"));
             fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
             assertEquals("duplicate parameter: name", e.getMessage());
