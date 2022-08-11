@@ -15,7 +15,7 @@ final class ProtoVoidValueReader extends AbstractValueReader {
 
     @Override
     protected ValueProtos.Type getProtoType() {
-        return ProtoType.voidType();
+        return ProtoType.getVoid();
     }
 
     @Override

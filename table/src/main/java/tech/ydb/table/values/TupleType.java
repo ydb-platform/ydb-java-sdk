@@ -95,7 +95,7 @@ public final class TupleType implements Type {
     @Override
     public ValueProtos.Type toPb() {
         if (elementTypes.length == 0) {
-            return ProtoType.tuple();
+            return ProtoType.getTuple();
         }
 
         ValueProtos.TupleType.Builder tupleType = ValueProtos.TupleType.newBuilder();

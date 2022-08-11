@@ -1,5 +1,9 @@
 ## 1.14.3 ##
 
+* Added support of not null columns in TableDescription
+
+## 1.14.3 ##
+
 * Added request's costInfo to all operations
 
 ## 1.14.2 ##

@@ -15,9 +15,9 @@ import static com.google.common.truth.Truth.assertThat;
 public class StructValueTest {
 
     private final StructType employeeType = StructType.of(
-        "name", PrimitiveType.utf8(),
-        "age", PrimitiveType.uint32(),
-        "salary", PrimitiveType.float64());
+        "name", PrimitiveType.Text,
+        "age", PrimitiveType.Uint32,
+        "salary", PrimitiveType.Double);
 
     @Test
     public void newInstanceWithIndexes() {
@@ -25,10 +25,10 @@ public class StructValueTest {
         int ageIdx = employeeType.getMemberIndex("age");
         int salaryIdx = employeeType.getMemberIndex("salary");
 
-        Value[] members = new Value[employeeType.getMembersCount()];
-        members[nameIdx] = PrimitiveValue.utf8("William");
-        members[ageIdx] = PrimitiveValue.uint32(99);
-        members[salaryIdx] = PrimitiveValue.float64(1234.56);
+        Value<?>[] members = new Value<?>[employeeType.getMembersCount()];
+        members[nameIdx] = PrimitiveValue.newText("William");
+        members[ageIdx] = PrimitiveValue.newUint32(99);
+        members[salaryIdx] = PrimitiveValue.newDouble(1234.56);
 
         StructValue employee = employeeType.newValueUnsafe(members);
 
@@ -36,76 +36,76 @@ public class StructValueTest {
             .isEqualTo(employeeType.getMembersCount());
 
         assertThat(employee.getMemberValue(nameIdx))
-            .isEqualTo(PrimitiveValue.utf8("William"));
+            .isEqualTo(PrimitiveValue.newText("William"));
         assertThat(employee.getMemberValue(ageIdx))
-            .isEqualTo(PrimitiveValue.uint32(99));
+            .isEqualTo(PrimitiveValue.newUint32(99));
         assertThat(employee.getMemberValue(salaryIdx))
-            .isEqualTo(PrimitiveValue.float64(1234.56));
+            .isEqualTo(PrimitiveValue.newDouble(1234.56));
     }
 
     @Test
     public void newInstanceWithNames() {
         StructValue employee = employeeType.newValue(ImmutableMap.of(
-            "age", PrimitiveValue.uint32(99),
-            "salary", PrimitiveValue.float64(1234.56),
-            "name", PrimitiveValue.utf8("William")));
+            "age", PrimitiveValue.newUint32(99),
+            "salary", PrimitiveValue.newDouble(1234.56),
+            "name", PrimitiveValue.newText("William")));
 
         assertThat(employee.getMembersCount())
             .isEqualTo(employeeType.getMembersCount());
 
         assertThat(employee.getMemberValue(employeeType.getMemberIndex("name")))
-            .isEqualTo(PrimitiveValue.utf8("William"));
+            .isEqualTo(PrimitiveValue.newText("William"));
         assertThat(employee.getMemberValue(employeeType.getMemberIndex("age")))
-            .isEqualTo(PrimitiveValue.uint32(99));
+            .isEqualTo(PrimitiveValue.newUint32(99));
         assertThat(employee.getMemberValue(employeeType.getMemberIndex("salary")))
-            .isEqualTo(PrimitiveValue.float64(1234.56));
+            .isEqualTo(PrimitiveValue.newDouble(1234.56));
     }
 
     @Test
     public void oneMemberProtobuf() {
-        StructValue value = StructValue.of("a", PrimitiveValue.uint32(1));
+        StructValue value = StructValue.of("a", PrimitiveValue.newUint32(1));
         StructType type = value.getType();
 
         ValueProtos.Value valuePb = value.toPb();
         ProtoTruth.assertThat(valuePb)
             .isEqualTo(ValueProtos.Value.newBuilder()
-                .addItems(ProtoValue.uint32(1))
+                .addItems(ProtoValue.fromUint32(1))
                 .build());
 
-        Value valueX = ProtoValue.fromPb(type, valuePb);
+        Value<?> valueX = ProtoValue.fromPb(type, valuePb);
         assertThat(valueX).isEqualTo(value);
     }
 
     @Test
     public void manyMembersProtobuf() {
         StructValue value = StructValue.of(
-            "a", PrimitiveValue.uint32(1),
-            "b", PrimitiveValue.bool(true),
-            "c", PrimitiveValue.utf8("yes"));
+            "a", PrimitiveValue.newUint32(1),
+            "b", PrimitiveValue.newBool(true),
+            "c", PrimitiveValue.newText("yes"));
         StructType type = value.getType();
 
         ValueProtos.Value valuePb = value.toPb();
         ProtoTruth.assertThat(valuePb)
             .isEqualTo(ValueProtos.Value.newBuilder()
-                .addItems(ProtoValue.uint32(1))
-                .addItems(ProtoValue.bool(true))
-                .addItems(ProtoValue.utf8("yes"))
+                .addItems(ProtoValue.fromUint32(1))
+                .addItems(ProtoValue.fromBool(true))
+                .addItems(ProtoValue.fromUtf8("yes"))
                 .build());
 
-        Value valueX = ProtoValue.fromPb(type, valuePb);
+        Value<?> valueX = ProtoValue.fromPb(type, valuePb);
         assertThat(valueX).isEqualTo(value);
     }
 
     @Test
     public void toStr() {
-        StructValue value1 = StructValue.of("a", PrimitiveValue.uint32(1));
+        StructValue value1 = StructValue.of("a", PrimitiveValue.newUint32(1));
         assertThat(value1.toString())
             .isEqualTo("Struct[1]");
 
         StructValue value2 = StructValue.of(
-            "a", PrimitiveValue.uint32(1),
-            "b", PrimitiveValue.bool(true),
-            "c", PrimitiveValue.utf8("yes"));
+            "a", PrimitiveValue.newUint32(1),
+            "b", PrimitiveValue.newBool(true),
+            "c", PrimitiveValue.newText("yes"));
         assertThat(value2.toString())
             .isEqualTo("Struct[1, true, \"yes\"]");
     }

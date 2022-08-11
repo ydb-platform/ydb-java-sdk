@@ -4,6 +4,7 @@ package tech.ydb.table.values.proto;
 import java.util.Arrays;
 
 import com.google.protobuf.NullValue;
+
 import tech.ydb.ValueProtos;
 import tech.ydb.ValueProtos.Type.PrimitiveTypeId;
 import tech.ydb.table.values.DecimalType;
@@ -40,8 +41,8 @@ public class ProtoType {
     private static final ValueProtos.Type UINT_32 = primitiveType(PrimitiveTypeId.UINT32);
     private static final ValueProtos.Type INT_64 = primitiveType(PrimitiveTypeId.INT64);
     private static final ValueProtos.Type UINT_64 = primitiveType(PrimitiveTypeId.UINT64);
-    private static final ValueProtos.Type FLOAT_32 = primitiveType(PrimitiveTypeId.FLOAT);
-    private static final ValueProtos.Type FLOAT_64 = primitiveType(PrimitiveTypeId.DOUBLE);
+    private static final ValueProtos.Type FLOAT = primitiveType(PrimitiveTypeId.FLOAT);
+    private static final ValueProtos.Type DOUBLE = primitiveType(PrimitiveTypeId.DOUBLE);
     private static final ValueProtos.Type STRING = primitiveType(PrimitiveTypeId.STRING);
     private static final ValueProtos.Type UTF_8 = primitiveType(PrimitiveTypeId.UTF8);
     private static final ValueProtos.Type YSON = primitiveType(PrimitiveTypeId.YSON);
@@ -63,33 +64,35 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type bool() { return BOOL; }
-    public static ValueProtos.Type int8() { return INT_8; }
-    public static ValueProtos.Type uint8() { return UINT_8; }
-    public static ValueProtos.Type int16() { return INT_16; }
-    public static ValueProtos.Type uint16() { return UINT_16; }
-    public static ValueProtos.Type int32() { return INT_32; }
-    public static ValueProtos.Type uint32() { return UINT_32; }
-    public static ValueProtos.Type int64() { return INT_64; }
-    public static ValueProtos.Type uint64() { return UINT_64; }
-    public static ValueProtos.Type float32() { return FLOAT_32; }
-    public static ValueProtos.Type float64() { return FLOAT_64; }
-    public static ValueProtos.Type string() { return STRING; }
-    public static ValueProtos.Type utf8() { return UTF_8; }
-    public static ValueProtos.Type yson() { return YSON; }
-    public static ValueProtos.Type json() { return JSON; }
-    public static ValueProtos.Type uuid() { return UUID; }
-    public static ValueProtos.Type date() { return DATE; }
-    public static ValueProtos.Type datetime() { return DATETIME; }
-    public static ValueProtos.Type timestamp() { return TIMESTAMP; }
-    public static ValueProtos.Type interval() { return INTERVAL; }
-    public static ValueProtos.Type tzDate() { return TZ_DATE; }
-    public static ValueProtos.Type tzDatetime() { return TZ_DATETIME; }
-    public static ValueProtos.Type tzTimestamp() { return TZ_TIMESTAMP; }
-    public static ValueProtos.Type jsonDocument() { return JSON_DOCUMENT; }
-    public static ValueProtos.Type dyNumber() { return DYNUMBER; }
+    public static ValueProtos.Type getBool() { return BOOL; }
+    public static ValueProtos.Type getInt8() { return INT_8; }
+    public static ValueProtos.Type getUint8() { return UINT_8; }
+    public static ValueProtos.Type getInt16() { return INT_16; }
+    public static ValueProtos.Type getUint16() { return UINT_16; }
+    public static ValueProtos.Type getInt32() { return INT_32; }
+    public static ValueProtos.Type getUint32() { return UINT_32; }
+    public static ValueProtos.Type getInt64() { return INT_64; }
+    public static ValueProtos.Type getUint64() { return UINT_64; }
+    public static ValueProtos.Type getFloat() { return FLOAT; }
+    public static ValueProtos.Type getDouble() { return DOUBLE; }
+    public static ValueProtos.Type getString() { return STRING; }
+    public static ValueProtos.Type getBytes() { return STRING; }
+    public static ValueProtos.Type getText() { return UTF_8; }
+    public static ValueProtos.Type getUtf8() { return UTF_8; }
+    public static ValueProtos.Type getYson() { return YSON; }
+    public static ValueProtos.Type getJson() { return JSON; }
+    public static ValueProtos.Type getUuid() { return UUID; }
+    public static ValueProtos.Type getDate() { return DATE; }
+    public static ValueProtos.Type getDatetime() { return DATETIME; }
+    public static ValueProtos.Type getTimestamp() { return TIMESTAMP; }
+    public static ValueProtos.Type getInterval() { return INTERVAL; }
+    public static ValueProtos.Type getTzDate() { return TZ_DATE; }
+    public static ValueProtos.Type getTzDatetime() { return TZ_DATETIME; }
+    public static ValueProtos.Type getTzTimestamp() { return TZ_TIMESTAMP; }
+    public static ValueProtos.Type getJsonDocument() { return JSON_DOCUMENT; }
+    public static ValueProtos.Type getDyNumber() { return DYNUMBER; }
 
-    public static ValueProtos.Type decimal(int precision, int scale) {
+    public static ValueProtos.Type getDecimal(int precision, int scale) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         builder.getDecimalTypeBuilder()
             .setPrecision(precision)
@@ -97,7 +100,7 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type dict(ValueProtos.Type keyType, ValueProtos.Type valueType) {
+    public static ValueProtos.Type getDict(ValueProtos.Type keyType, ValueProtos.Type valueType) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         builder.getDictTypeBuilder()
             .setKey(keyType)
@@ -105,19 +108,19 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type list(ValueProtos.Type itemType) {
+    public static ValueProtos.Type getList(ValueProtos.Type itemType) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         builder.getListTypeBuilder().setItem(itemType);
         return builder.build();
     }
 
-    public static ValueProtos.Type optional(ValueProtos.Type itemType) {
+    public static ValueProtos.Type getOptional(ValueProtos.Type itemType) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         builder.getOptionalTypeBuilder().setItem(itemType);
         return builder.build();
     }
 
-    public static ValueProtos.Type struct(String memberName, ValueProtos.Type memberType) {
+    public static ValueProtos.Type getStruct(String memberName, ValueProtos.Type memberType) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         ValueProtos.StructType.Builder structType = builder.getStructTypeBuilder();
         structType.addMembersBuilder()
@@ -126,7 +129,7 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type struct(
+    public static ValueProtos.Type getStruct(
         String member1Name, ValueProtos.Type member1Type,
         String member2Name, ValueProtos.Type member2Type)
     {
@@ -141,7 +144,7 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type struct(
+    public static ValueProtos.Type getStruct(
         String member1Name, ValueProtos.Type member1Type,
         String member2Name, ValueProtos.Type member2Type,
         String member3Name, ValueProtos.Type member3Type)
@@ -160,7 +163,7 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type struct(
+    public static ValueProtos.Type getStruct(
         String member1Name, ValueProtos.Type member1Type,
         String member2Name, ValueProtos.Type member2Type,
         String member3Name, ValueProtos.Type member3Type,
@@ -183,7 +186,7 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type struct(
+    public static ValueProtos.Type getStruct(
         String member1Name, ValueProtos.Type member1Type,
         String member2Name, ValueProtos.Type member2Type,
         String member3Name, ValueProtos.Type member3Type,
@@ -210,7 +213,7 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type struct(ValueProtos.StructMember firstMember, ValueProtos.StructMember... members) {
+    public static ValueProtos.Type getStruct(ValueProtos.StructMember firstMember, ValueProtos.StructMember... members) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         ValueProtos.StructType.Builder structType = builder.getStructTypeBuilder();
         structType.addMembers(firstMember);
@@ -220,11 +223,11 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type tuple() {
+    public static ValueProtos.Type getTuple() {
         return EMPTY_TUPLE;
     }
 
-    public static ValueProtos.Type tuple(ValueProtos.Type... elementTypes) {
+    public static ValueProtos.Type getTuple(ValueProtos.Type... elementTypes) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         ValueProtos.TupleType.Builder tupleType = builder.getTupleTypeBuilder();
         for (ValueProtos.Type elementType : elementTypes) {
@@ -233,19 +236,19 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type variant(ValueProtos.StructType structType) {
+    public static ValueProtos.Type getVariant(ValueProtos.StructType structType) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         builder.getVariantTypeBuilder().setStructItems(structType);
         return builder.build();
     }
 
-    public static ValueProtos.Type variant(ValueProtos.TupleType tupleType) {
+    public static ValueProtos.Type getVariant(ValueProtos.TupleType tupleType) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         builder.getVariantTypeBuilder().setTupleItems(tupleType);
         return builder.build();
     }
 
-    public static ValueProtos.Type variant(ValueProtos.Type... elementTypes) {
+    public static ValueProtos.Type getVariant(ValueProtos.Type... elementTypes) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         builder.getVariantTypeBuilder().setTupleItems(
             ValueProtos.TupleType.newBuilder()
@@ -254,7 +257,7 @@ public class ProtoType {
         return builder.build();
     }
 
-    public static ValueProtos.Type voidType() {
+    public static ValueProtos.Type getVoid() {
         return VOID;
     }
 
@@ -338,31 +341,31 @@ public class ProtoType {
 
     private static PrimitiveType primitiveTypeFromPb(ValueProtos.Type dataType) {
         switch (dataType.getTypeId()) {
-            case BOOL: return PrimitiveType.bool();
-            case INT8: return PrimitiveType.int8();
-            case UINT8: return PrimitiveType.uint8();
-            case INT16: return PrimitiveType.int16();
-            case UINT16: return PrimitiveType.uint16();
-            case INT32: return PrimitiveType.int32();
-            case UINT32: return PrimitiveType.uint32();
-            case INT64: return PrimitiveType.int64();
-            case UINT64: return PrimitiveType.uint64();
-            case FLOAT: return PrimitiveType.float32();
-            case DOUBLE: return PrimitiveType.float64();
-            case STRING: return PrimitiveType.string();
-            case UTF8: return PrimitiveType.utf8();
-            case YSON: return PrimitiveType.yson();
-            case JSON: return PrimitiveType.json();
-            case UUID: return PrimitiveType.uuid();
-            case DATE: return PrimitiveType.date();
-            case DATETIME: return PrimitiveType.datetime();
-            case TIMESTAMP: return PrimitiveType.timestamp();
-            case INTERVAL: return PrimitiveType.interval();
-            case TZ_DATE: return PrimitiveType.tzDate();
-            case TZ_DATETIME: return PrimitiveType.tzDatetime();
-            case TZ_TIMESTAMP: return PrimitiveType.tzTimestamp();
-            case JSON_DOCUMENT: return PrimitiveType.jsonDocument();
-            case DYNUMBER: return PrimitiveType.dyNumber();
+            case BOOL: return PrimitiveType.Bool;
+            case INT8: return PrimitiveType.Int8;
+            case UINT8: return PrimitiveType.Uint8;
+            case INT16: return PrimitiveType.Int16;
+            case UINT16: return PrimitiveType.Uint16;
+            case INT32: return PrimitiveType.Int32;
+            case UINT32: return PrimitiveType.Uint32;
+            case INT64: return PrimitiveType.Int64;
+            case UINT64: return PrimitiveType.Uint64;
+            case FLOAT: return PrimitiveType.Float;
+            case DOUBLE: return PrimitiveType.Double;
+            case STRING: return PrimitiveType.Bytes;
+            case UTF8: return PrimitiveType.Text;
+            case YSON: return PrimitiveType.Yson;
+            case JSON: return PrimitiveType.Json;
+            case UUID: return PrimitiveType.Uuid;
+            case DATE: return PrimitiveType.Date;
+            case DATETIME: return PrimitiveType.Datetime;
+            case TIMESTAMP: return PrimitiveType.Timestamp;
+            case INTERVAL: return PrimitiveType.Interval;
+            case TZ_DATE: return PrimitiveType.TzDate;
+            case TZ_DATETIME: return PrimitiveType.TzDatetime;
+            case TZ_TIMESTAMP: return PrimitiveType.TzTimestamp;
+            case JSON_DOCUMENT: return PrimitiveType.JsonDocument;
+            case DYNUMBER: return PrimitiveType.DyNumber;
         }
 
         throw new IllegalStateException("unknown PrimitiveType: " + dataType.getTypeId());

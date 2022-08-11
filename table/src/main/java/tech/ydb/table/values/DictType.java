@@ -62,21 +62,21 @@ public final class DictType implements Type {
 
     @Override
     public ValueProtos.Type toPb() {
-        return ProtoType.dict(keyType.toPb(), valueType.toPb());
+        return ProtoType.getDict(keyType.toPb(), valueType.toPb());
     }
 
     public DictValue emptyValue() {
         return new DictValue(this, Collections.emptyMap());
     }
 
-    public DictValue newValueCopy(Map<Value, Value> items) {
+    public DictValue newValueCopy(Map<Value<?>, Value<?>> items) {
         if (items.isEmpty()) {
             return emptyValue();
         }
         return new DictValue(this, new HashMap<>(items));
     }
 
-    public DictValue newValueOwn(Map<Value, Value> items) {
+    public DictValue newValueOwn(Map<Value<?>, Value<?>> items) {
         if (items.isEmpty()) {
             return emptyValue();
         }

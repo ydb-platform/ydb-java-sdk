@@ -41,6 +41,6 @@ public final class VoidType implements Type {
 
     @Override
     public ValueProtos.Type toPb() {
-        return ProtoType.voidType();
+        return ProtoType.getVoid();
     }
 }

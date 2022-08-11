@@ -83,7 +83,7 @@ public class SessionStub implements Session {
 
     @Override
     public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
-        String query, TxControl txControl, Params params, ExecuteDataQuerySettings settings)
+        String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings)
     {
         return notImplemented("executeDataQuery()");
     }

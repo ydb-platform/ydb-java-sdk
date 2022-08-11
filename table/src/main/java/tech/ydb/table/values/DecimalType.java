@@ -76,7 +76,7 @@ public class DecimalType implements Type {
 
     @Override
     public ValueProtos.Type toPb() {
-        return ProtoType.decimal((int) precision, (int) scale);
+        return ProtoType.getDecimal((int) precision, (int) scale);
     }
 
     private DecimalValue toZero() {
