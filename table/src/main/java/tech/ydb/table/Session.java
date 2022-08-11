@@ -62,7 +62,7 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Result<DataQueryResult>> executeDataQuery(
         String query,
-        TxControl txControl,
+        TxControl<?> txControl,
         Params params,
         ExecuteDataQuerySettings settings);
 
@@ -104,11 +104,11 @@ public interface Session extends AutoCloseable {
         return describeTable(path, new DescribeTableSettings());
     }
 
-    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl txControl, Params params) {
+    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl, Params params) {
         return executeDataQuery(query, txControl, params, new ExecuteDataQuerySettings());
     }
 
-    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl txControl) {
+    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl) {
         return executeDataQuery(query, txControl, Params.empty(), new ExecuteDataQuerySettings());
     }
 

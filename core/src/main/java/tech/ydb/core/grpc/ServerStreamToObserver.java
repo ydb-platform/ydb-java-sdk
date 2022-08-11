@@ -18,18 +18,17 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
 
     private final StreamObserver<RespT> observer;
     private final CallToStreamObserverAdapter<ReqT> adapter;
-    private final Consumer<Status> errorHandler;
+    private final Consumer<Metadata> trailersHandler;
+    private final Consumer<Status> statusHandler;
 
-    public ServerStreamToObserver(StreamObserver<RespT> observer, ClientCall<ReqT, RespT> call) {
+    public ServerStreamToObserver(StreamObserver<RespT> observer,
+            ClientCall<ReqT, RespT> call,
+            Consumer<Metadata> trailersHandler,
+            Consumer<Status> statusHandler) {
         this.observer = observer;
         this.adapter = new CallToStreamObserverAdapter<>(call);
-        this.errorHandler = null;
-    }
-
-    public ServerStreamToObserver(StreamObserver<RespT> observer, ClientCall<ReqT, RespT> call, Consumer<Status> errorHandler) {
-        this.observer = observer;
-        this.adapter = new CallToStreamObserverAdapter<>(call);
-        this.errorHandler = errorHandler;
+        this.trailersHandler = trailersHandler;
+        this.statusHandler = statusHandler;
     }
 
     @Override
@@ -49,13 +48,17 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
 
     @Override
     public void onClose(Status status, @Nullable Metadata trailers) {
+        if (trailersHandler != null && trailers != null) {
+            trailersHandler.accept(trailers);
+        }
+        if (statusHandler != null) {
+            statusHandler.accept(status);
+        }
+
         if (status.isOk()) {
             observer.onCompleted();
         } else {
             observer.onError(GrpcStatuses.toStatus(status));
-            if (errorHandler != null) {
-                errorHandler.accept(status);
-            }
         }
     }
 

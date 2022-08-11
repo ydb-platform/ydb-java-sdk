@@ -1,23 +1,23 @@
 package tech.ydb.core.grpc;
 
-import com.google.common.net.HostAndPort;
-import com.google.common.util.concurrent.MoreExecutors;
-import io.grpc.netty.NettyChannelBuilder;
 import java.time.Duration;
-import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.grpc.impl.grpc.GrpcTransportImpl;
-import tech.ydb.core.grpc.impl.ydb.YdbTransportImpl;
+import tech.ydb.core.grpc.impl.YdbTransportImpl;
 import tech.ydb.core.utils.Version;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkNotNull;
-import java.util.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.net.HostAndPort;
+import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.netty.NettyChannelBuilder;
 
 /**
  *
@@ -25,30 +25,28 @@ import java.util.Objects;
  */
 public class GrpcTransportBuilder {
     private final String endpoint;
-    private String database;
-    private final List<HostAndPort> hosts;
+    private final HostAndPort host;
+    private final String database;
+
     private byte[] cert = null;
     private boolean useTLS = false;
-    private Consumer<NettyChannelBuilder> channelInitializer = (cb) -> {
-    };
+    private Consumer<NettyChannelBuilder> channelInitializer = null;
     private String localDc;
     private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
-    private DiscoveryMode discoveryMode = DiscoveryMode.SYNC;
-    private TransportImplType transportImplType = TransportImplType.GRPC_TRANSPORT_IMPL;
     private BalancingSettings balancingSettings;
     private Executor callExecutor = MoreExecutors.directExecutor();
     private AuthProvider authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
 
-    GrpcTransportBuilder(@Nullable String endpoint, @Nullable String database, @Nullable List<HostAndPort> hosts) {
+    GrpcTransportBuilder(@Nullable String endpoint, @Nullable HostAndPort host, @Nonnull String database) {
         this.endpoint = endpoint;
-        this.database = database;
-        this.hosts = hosts;
+        this.host = host;
+        this.database = Objects.requireNonNull(database);
     }
 
     @Nullable
-    public List<HostAndPort> getHosts() {
-        return hosts;
+    public HostAndPort getHost() {
+        return host;
     }
 
     @Nullable
@@ -88,10 +86,6 @@ public class GrpcTransportBuilder {
         return localDc;
     }
 
-    public DiscoveryMode getDiscoveryMode() {
-        return discoveryMode;
-    }
-
     public BalancingSettings getBalancingSettings() {
         return balancingSettings;
     }
@@ -108,13 +102,8 @@ public class GrpcTransportBuilder {
         return readTimeoutMillis;
     }
 
-    public GrpcTransportBuilder withDataBase(String dataBase) {
-        this.database = dataBase;
-        return this;
-    }
-
     public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
-        this.channelInitializer = checkNotNull(channelInitializer, "channelInitializer is null");
+        this.channelInitializer = Objects.requireNonNull(channelInitializer, "channelInitializer is null");
         return this;
     }
 
@@ -139,16 +128,6 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    public GrpcTransportBuilder withDiscoveryMode(DiscoveryMode discoveryMode) {
-        this.discoveryMode = discoveryMode;
-        return this;
-    }
-
-    public GrpcTransportBuilder withTransportImplType(TransportImplType transportImplType) {
-        this.transportImplType = transportImplType;
-        return this;
-    }
-
     public GrpcTransportBuilder withBalancingSettings(BalancingSettings balancingSettings) {
         this.balancingSettings = balancingSettings;
         return this;
@@ -161,13 +140,13 @@ public class GrpcTransportBuilder {
 
     public GrpcTransportBuilder withReadTimeout(Duration timeout) {
         this.readTimeoutMillis = timeout.toMillis();
-        checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
+        Preconditions.checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
         return this;
     }
 
     public GrpcTransportBuilder withReadTimeout(long timeout, TimeUnit unit) {
         this.readTimeoutMillis = unit.toMillis(timeout);
-        checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
+        Preconditions.checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
         return this;
     }
 
@@ -177,12 +156,6 @@ public class GrpcTransportBuilder {
     }
 
     public GrpcTransport build() {
-        switch (transportImplType) {
-            case YDB_TRANSPORT_IMPL:
-                return new YdbTransportImpl(this);
-            case GRPC_TRANSPORT_IMPL:
-            default:
-                return new GrpcTransportImpl(this);
-        }
+        return new YdbTransportImpl(this);
     }
 }

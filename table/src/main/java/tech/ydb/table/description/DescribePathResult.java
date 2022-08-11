@@ -1,6 +1,6 @@
 package tech.ydb.table.description;
 
-import tech.ydb.scheme.SchemeOperationProtos.Entry;
+import tech.ydb.scheme.SchemeOperationProtos;
 
 
 /**
@@ -8,13 +8,17 @@ import tech.ydb.scheme.SchemeOperationProtos.Entry;
  */
 public class DescribePathResult {
 
-    private final Entry self;
-
-    public DescribePathResult(Entry self) {
+    private final SchemeOperationProtos.Entry self;
+    
+    protected DescribePathResult(SchemeOperationProtos.Entry self) {
         this.self = self;
     }
 
-    public Entry getSelf() {
+    public DescribePathResult(SchemeOperationProtos.DescribePathResult result) {
+        this(result.getSelf());
+    }
+
+    public SchemeOperationProtos.Entry getSelf() {
         return self;
     }
 }

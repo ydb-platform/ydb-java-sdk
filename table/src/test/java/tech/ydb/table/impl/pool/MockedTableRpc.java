@@ -1,7 +1,5 @@
 package tech.ydb.table.impl.pool;
 
-import com.google.protobuf.Any;
-import com.google.protobuf.Message;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.HashSet;
@@ -10,13 +8,15 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.junit.Assert;
-import tech.ydb.OperationProtos;
-import tech.ydb.StatusCodesProtos;
+
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.TableRpcStub;
 import tech.ydb.table.YdbTable;
+
+import org.junit.Assert;
 
 /**
  *
@@ -27,7 +27,6 @@ public class MockedTableRpc extends TableRpcStub {
     private final Set<String> activeSessions = new HashSet<>();
 
     private final AtomicInteger sessionCounter = new AtomicInteger();
-    private final AtomicInteger operationCounter = new AtomicInteger();
     
     private final Queue<CreateSession> createSessionQueue = new LinkedBlockingQueue<>();
     private final Queue<ExecuteDataQuery> executeDataQueryQueye = new LinkedBlockingQueue<>();
@@ -57,75 +56,53 @@ public class MockedTableRpc extends TableRpcStub {
     }
     
     @Override
-    public CompletableFuture<Result<YdbTable.CreateSessionResponse>> createSession(
-        YdbTable.CreateSessionRequest request, long deadlineAfter) {
-        CreateSession task = new CreateSession(request, clock.instant().plusMillis(deadlineAfter));
+    public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
+        YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
+        CreateSession task = new CreateSession(request, clock.instant()
+                .plusMillis(settings.getDeadlineAfter()));
         createSessionQueue.offer(task);
         return task.future;
     }
 
     @Override
-    public CompletableFuture<Result<YdbTable.ExecuteDataQueryResponse>> executeDataQuery(
-        YdbTable.ExecuteDataQueryRequest request, long deadlineAfter) {
-        ExecuteDataQuery task = new ExecuteDataQuery(request, clock.instant().plusMillis(deadlineAfter));
+    public CompletableFuture<Result<YdbTable.ExecuteQueryResult>> executeDataQuery(
+        YdbTable.ExecuteDataQueryRequest request, GrpcRequestSettings settings) {
+        ExecuteDataQuery task = new ExecuteDataQuery(request, clock.instant()
+                .plusMillis(settings.getDeadlineAfter()));
         executeDataQueryQueye.offer(task);
         return task.future;
     }
 
     @Override
-    public CompletableFuture<Result<YdbTable.KeepAliveResponse>> keepAlive(
-            YdbTable.KeepAliveRequest request, long deadlineAfter) {
-        KeepAlive task = new KeepAlive(request, clock.instant().plusMillis(deadlineAfter));
+    public CompletableFuture<Result<YdbTable.KeepAliveResult>> keepAlive(
+            YdbTable.KeepAliveRequest request, GrpcRequestSettings settings) {
+        KeepAlive task = new KeepAlive(request, clock.instant()
+                .plusMillis(settings.getDeadlineAfter()));
         keepAliveQueue.offer(task);
         return task.future;
     }
 
     @Override
-    public CompletableFuture<Result<YdbTable.DeleteSessionResponse>> deleteSession(
-            YdbTable.DeleteSessionRequest request, long deadlineAfter) {
+    public CompletableFuture<Status> deleteSession(
+            YdbTable.DeleteSessionRequest request, GrpcRequestSettings settings) {
         String id = request.getSessionId();
-        YdbTable.DeleteSessionResponse response = YdbTable.DeleteSessionResponse
-                .newBuilder()
-                .setOperation(successOperation())
-                .build();
 
         if (!activeSessions.contains(id)) {
-            return CompletableFuture.completedFuture(Result.fail(StatusCode.BAD_SESSION));
+            return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION));
         }
 
         activeSessions.remove(id);
-        return CompletableFuture.completedFuture(Result.success(response));
+        return CompletableFuture.completedFuture(Status.SUCCESS);
     }
 
-    private <M extends Message> OperationProtos.Operation resultOperation(M message) {
-        return OperationProtos.Operation.newBuilder()
-            .setId(generateNextOperation())
-            .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-            .setReady(true)
-            .setResult(Any.pack(message))
-            .build();
-    }
-
-    private OperationProtos.Operation successOperation() {
-        return OperationProtos.Operation.newBuilder()
-                .setId(generateNextOperation())
-                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-                .setReady(true)
-                .build();
-    }
-    
     private String generateNextSession() {
         return "session_" + sessionCounter.incrementAndGet();
     }
 
-    private String generateNextOperation() {
-        return "operation_" + operationCounter.incrementAndGet();
-    }
-    
     public class CreateSession {
         private final YdbTable.CreateSessionRequest request;
         private final Instant deadline;
-        private final CompletableFuture<Result<YdbTable.CreateSessionResponse>> future;
+        private final CompletableFuture<Result<YdbTable.CreateSessionResult>> future;
 
         public CreateSession(YdbTable.CreateSessionRequest request, Instant deadline) {
             this.request = request;
@@ -138,12 +115,9 @@ public class MockedTableRpc extends TableRpcStub {
             YdbTable.CreateSessionResult result = YdbTable.CreateSessionResult.newBuilder()
                 .setSessionId(sessionID)
                 .build();
-            YdbTable.CreateSessionResponse response = YdbTable.CreateSessionResponse.newBuilder()
-                .setOperation(resultOperation(result))
-                .build();
 
             activeSessions.add(sessionID);
-            future.complete(Result.success(response));
+            future.complete(Result.success(result));
         }
 
         public void completeOverloaded() {
@@ -158,7 +132,7 @@ public class MockedTableRpc extends TableRpcStub {
     public class ExecuteDataQuery {
         private final YdbTable.ExecuteDataQueryRequest request;
         private final Instant deadline;
-        private final CompletableFuture<Result<YdbTable.ExecuteDataQueryResponse>> future;
+        private final CompletableFuture<Result<YdbTable.ExecuteQueryResult>> future;
 
         public ExecuteDataQuery(YdbTable.ExecuteDataQueryRequest request, Instant deadline) {
             this.request = request;
@@ -174,10 +148,7 @@ public class MockedTableRpc extends TableRpcStub {
                 return;
             }
 
-            YdbTable.ExecuteDataQueryResponse response = YdbTable.ExecuteDataQueryResponse.newBuilder()
-                    .setOperation(resultOperation(YdbTable.ExecuteQueryResult.getDefaultInstance()))
-                    .build();
-            future.complete(Result.success(response));
+            future.complete(Result.success(YdbTable.ExecuteQueryResult.getDefaultInstance()));
         }
 
         public void completeOverloaded() {
@@ -206,7 +177,7 @@ public class MockedTableRpc extends TableRpcStub {
     public class KeepAlive {
         private final YdbTable.KeepAliveRequest request;
         private final Instant deadline;
-        private final CompletableFuture<Result<YdbTable.KeepAliveResponse>> future;
+        private final CompletableFuture<Result<YdbTable.KeepAliveResult>> future;
 
         public KeepAlive(YdbTable.KeepAliveRequest request, Instant deadline) {
             this.request = request;
@@ -225,10 +196,7 @@ public class MockedTableRpc extends TableRpcStub {
             YdbTable.KeepAliveResult result = YdbTable.KeepAliveResult.newBuilder()
                     .setSessionStatus(YdbTable.KeepAliveResult.SessionStatus.SESSION_STATUS_READY)
                     .build();
-            YdbTable.KeepAliveResponse response = YdbTable.KeepAliveResponse.newBuilder()
-                .setOperation(resultOperation(result))
-                .build();
-            future.complete(Result.success(response));
+            future.complete(Result.success(result));
         }
 
         public void completeBusy() {
@@ -242,10 +210,7 @@ public class MockedTableRpc extends TableRpcStub {
             YdbTable.KeepAliveResult result = YdbTable.KeepAliveResult.newBuilder()
                     .setSessionStatus(YdbTable.KeepAliveResult.SessionStatus.SESSION_STATUS_BUSY)
                     .build();
-            YdbTable.KeepAliveResponse response = YdbTable.KeepAliveResponse.newBuilder()
-                .setOperation(resultOperation(result))
-                .build();
-            future.complete(Result.success(response));
+            future.complete(Result.success(result));
         }
     }
 

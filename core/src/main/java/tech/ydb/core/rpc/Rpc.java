@@ -1,13 +1,13 @@
 package tech.ydb.core.rpc;
 
+import javax.annotation.Nullable;
+
 /**
  * @author Sergey Polovko
  */
 public interface Rpc extends AutoCloseable {
 
     String getDatabase();
-
-    OperationTray getOperationTray();
 
     @Override
     void close();

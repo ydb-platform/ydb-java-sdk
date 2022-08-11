@@ -125,7 +125,7 @@ public class SessionPool implements AutoCloseable {
         @Override
         public CompletableFuture<ClosableSession> create() {
             return BaseSession
-                    .createSessionId(tableRpc, new CreateSessionSettings())
+                    .createSessionId(tableRpc, new CreateSessionSettings(), true)
                     .thenApply(response -> {
                         String id = response.expect("cannot create session");
                         logger.debug("session {} successful created", id);

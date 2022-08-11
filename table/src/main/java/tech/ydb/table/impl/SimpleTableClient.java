@@ -32,7 +32,7 @@ final class SimpleTableClient implements SessionSupplier {
     public CompletableFuture<Result<Session>> createSession(Duration duration) {
         CreateSessionSettings settings = new CreateSessionSettings()
                 .setTimeout(duration);
-        return BaseSession.createSessionId(tableRpc, settings)
+        return BaseSession.createSessionId(tableRpc, settings, false)
                 .thenApply(response -> response.map(SimpleSession::new));
     }
 
@@ -60,7 +60,7 @@ final class SimpleTableClient implements SessionSupplier {
         }
 
         @Override
-        protected void updateSessionState(Throwable th, StatusCode code) {
+        protected void updateSessionState(Throwable th, StatusCode code, boolean shutdownHint) {
             // Nothing
         }
 
