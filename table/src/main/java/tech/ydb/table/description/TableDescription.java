@@ -115,8 +115,18 @@ public class TableDescription {
         public Builder addNullableColumn(String name, Type type) {
             return addNullableColumn(name, type, null);
         }
+
         public Builder addNullableColumn(String name, Type type, String family) {
             columns.put(name, new TypeAndFamily(OptionalType.of(type), family));
+            return this;
+        }
+
+        public Builder addNotNullColumn(String name, Type type) {
+            return addNotNullColumn(name, type, null);
+        }
+
+        public Builder addNotNullColumn(String name, Type type, String family) {
+            columns.put(name, new TypeAndFamily(type, family));
             return this;
         }
 
