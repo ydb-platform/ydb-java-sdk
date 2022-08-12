@@ -52,6 +52,16 @@ public final class Status implements Serializable {
         return code == StatusCode.SUCCESS;
     }
 
+    public void expectSuccess(String errorMsg) throws UnexpectedResultException {
+        if (!isSuccess()) {
+            throw new UnexpectedResultException(errorMsg, this);
+        }
+    }
+
+    public void expectSuccess() throws UnexpectedResultException {
+        expectSuccess("Expected success status, but got " + getCode());
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
