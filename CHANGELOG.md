@@ -1,4 +1,11 @@
-## 1.14.3 ##
+## 2.0.0 ##
+
+* New lock-free session pool
+* New grpc transport with client-side balancing
+* Clean api of YDB  types and values
+* Removed inconcistent methods of Session and TableClient
+
+## 1.14.4 ##
 
 * Added support of not null columns in TableDescription
 

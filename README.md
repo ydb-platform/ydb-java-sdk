@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ydb-platform/ydb-java-genproto/blob/main/LICENSE)
+![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Ftech%2Fydb%2Fydb-sdk-table%2Fmaven-metadata.xml)
 
 The Java SDK for YDB enables Java developers to work with YDB.
 
@@ -28,17 +30,12 @@ dependencies:
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-core</artifactId>
-        <version>1.14.4</version>
+        <version>2.0.0-RC1</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-table</artifactId>
-        <version>1.14.4</version>
-    </dependency>
-    <dependency>
-        <groupId>tech.ydb</groupId>
-        <artifactId>ydb-sdk-auth-iam</artifactId>
-        <version>1.14.4</version>
+        <version>2.0.0-RC1</version>
     </dependency>
 </dependencies>
 ```
