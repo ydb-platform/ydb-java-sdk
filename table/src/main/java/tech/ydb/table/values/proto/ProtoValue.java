@@ -370,7 +370,7 @@ public class ProtoValue {
     public static DecimalValue toDecimal(ValueProtos.Type type, ValueProtos.Value value) {
         ValueProtos.DecimalType dt = type.getDecimalType();
         DecimalType decimalType = DecimalType.of(dt.getPrecision(), dt.getScale());
-        return decimalType.newValue(value.getHigh128(), value.getLow128());
+        return decimalType.fromBits(value.getHigh128(), value.getLow128());
     }
 
     // -- dict value --
@@ -672,7 +672,7 @@ public class ProtoValue {
 
             case DECIMAL: {
                 DecimalType decimalType = (DecimalType) type;
-                return decimalType.newValue(value.getHigh128(), value.getLow128());
+                return decimalType.fromBits(value.getHigh128(), value.getLow128());
             }
 
             case DICT: {

@@ -5,6 +5,10 @@
 * Clean api of YDB  types and values
 * Removed inconcistent methods of Session and TableClient
 
+## 1.14.5 ##
+
+* Fixed casting for Decimal with scale
+
 ## 1.14.4 ##
 
 * Added support of not null columns in TableDescription

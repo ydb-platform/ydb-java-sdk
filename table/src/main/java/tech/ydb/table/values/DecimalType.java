@@ -15,18 +15,24 @@ public class DecimalType implements Type {
 
     public static final int MAX_PRECISION = 35;
 
-    private static final DecimalType DEFAULT_TYPE = DecimalType.of(MAX_PRECISION);
+    static final DecimalType MAX_DECIMAL = DecimalType.of(MAX_PRECISION);
+    private static final DecimalType YDB_DEFAULT = DecimalType.of(22, 9);
 
-    private final byte precision;
-    private final byte scale;
+    private final int precision;
+    private final int scale;
 
-    private DecimalType(byte precision, byte scale) {
+    private DecimalType(int precision, int scale) {
         this.precision = precision;
         this.scale = scale;
     }
 
+    public static DecimalType getDefault() {
+        return YDB_DEFAULT;
+    }
+
+    @Deprecated
     public static DecimalType of() {
-        return DEFAULT_TYPE;
+        return MAX_DECIMAL;
     }
 
     public static DecimalType of(int precision) {
@@ -38,7 +44,7 @@ public class DecimalType implements Type {
             "precision (%s) is out of range [1, %s]", precision, MAX_PRECISION);
         Preconditions.checkArgument(scale >= 0 && scale <= precision,
             "scale (%s) is out of range [0, %s]", scale, precision);
-        return new DecimalType((byte) precision, (byte) scale);
+        return new DecimalType(precision, scale);
     }
 
     @Override
@@ -66,7 +72,7 @@ public class DecimalType implements Type {
 
     @Override
     public int hashCode() {
-        return 31 * precision + scale;
+        return MAX_PRECISION * precision + scale;
     }
 
     @Override
@@ -76,193 +82,68 @@ public class DecimalType implements Type {
 
     @Override
     public ValueProtos.Type toPb() {
-        return ProtoType.getDecimal((int) precision, (int) scale);
+        return ProtoType.getDecimal(precision, scale);
     }
 
-    private DecimalValue toZero() {
-        return this.precision == DecimalType.MAX_PRECISION && this.scale == 0 ?
-                DecimalValue.ZERO :
-                new DecimalValue(this, 0, 0);
+    public DecimalValue fromBits(long high, long low) {
+        return DecimalValue.fromBits(this, high, low);
     }
 
+    public DecimalValue fromLong(long value) {
+        return DecimalValue.fromLong(this, value);
+    }
+
+    public DecimalValue fromUnsignedLong(long value) {
+        return DecimalValue.fromUnsignedLong(this, value);
+    }
+
+    public DecimalValue fromUnscaledLong(long value) {
+        return DecimalValue.fromUnscaledLong(this, value);
+    }
+
+    public DecimalValue fromBigDecimal(BigDecimal value) {
+        return DecimalValue.fromBigDecimal(this, value);
+    }
+
+    public DecimalValue fromBigInteger(BigInteger value) {
+        return DecimalValue.fromBigInteger(this, value);
+    }
+
+    public DecimalValue fromUnscaledBigInteger(BigInteger value) {
+        return DecimalValue.fromUnscaledBigInteger(this, value);
+    }
+
+    public DecimalValue fromString(String value) {
+        return DecimalValue.fromString(this, value);
+    }
+
+    @Deprecated
     public DecimalValue newValue(long high, long low) {
-        if (high == 0 && low == 0) {
-            return toZero();
-        }
-
-        DecimalValue nan = DecimalValue.NAN;
-        if (nan.getHigh() == high && nan.getLow() == low) {
-            return nan;
-        }
-
-        DecimalValue inf = DecimalValue.INF;
-        if (high > inf.getHigh() || high == inf.getHigh() && Long.compareUnsigned(low, inf.getLow()) >= 0) {
-            return inf;
-        }
-
-        DecimalValue negInf = DecimalValue.NEG_INF;
-        if (high < negInf.getHigh() || high == negInf.getHigh() && Long.compareUnsigned(low, negInf
-            .getLow()) <= 0) {
-            return negInf;
-        }
-
-        return new DecimalValue(this, high, low);
+        return DecimalValue.fromBits(this, high, low);
     }
 
+    @Deprecated
     public DecimalValue newValue(long value) {
-        if (value == 0) {
-            return toZero();
-        }
-        long high = value > 0 ? 0 : -1;
-        return new DecimalValue(this, high, value);
+        return DecimalValue.fromUnscaledLong(this, value);
     }
 
+    @Deprecated
     public DecimalValue newValueUnsigned(long value) {
-        if (value == 0) {
-            return toZero();
-        }
-        return new DecimalValue(this, 0, value);
+        return DecimalValue.fromUnscaledUnsignedLong(this, value);
     }
 
+    @Deprecated
     public DecimalValue newValue(BigInteger value) {
-        int bitLength = value.bitLength();
-        if (bitLength < 64) {
-            return newValue(value.longValue());
-        }
-
-        boolean negative = value.signum() < 0;
-        if (bitLength > 128) {
-            return negative ? DecimalValue.NEG_INF : DecimalValue.INF;
-        }
-
-        byte[] buf = value.abs().toByteArray();
-        long high = getLongBe(buf, 0, buf.length - 8);
-        long low = getLongBe(buf, buf.length - 8, buf.length);
-
-        if (negative && (high != DecimalValue.LONG_SIGN_BIT || low != 0)) {
-            // restore negative number
-            high = ~high;
-            low = ~low;
-            if (++low == 0) {
-                high++;
-            }
-        }
-        return newValue(high, low);
+        return DecimalValue.fromUnscaledBigInteger(this, value);
     }
 
+    @Deprecated
     public DecimalValue newValue(BigDecimal value) {
-        return newValue(value.unscaledValue());
+        return DecimalValue.fromUnscaledBigInteger(this, value.unscaledValue());
     }
 
+    @Deprecated
     public DecimalValue newValue(String value) {
-        if (value.isEmpty()) {
-            throw new NumberFormatException("cannot parse decimal from empty string");
-        }
-
-        final int end = value.length();
-        int cursor = 0;
-
-        // sign
-        boolean negative = false;
-        if (value.charAt(cursor) == '+') {
-            cursor++;
-        } else if (value.charAt(cursor) == '-') {
-            cursor++;
-            negative = true;
-        }
-
-        // text literals
-        if (end - cursor == 3) {
-            char c1 = value.charAt(cursor);
-            char c2 = value.charAt(cursor + 1);
-            char c3 = value.charAt(cursor + 2);
-
-            if ((c1 == 'i' || c1 == 'I') && (c2 == 'n' || c2 == 'N') || (c3 == 'f' || c3 == 'F')) {
-                return negative ? DecimalValue.NEG_INF : DecimalValue.INF;
-            }
-
-            if ((c1 == 'n' || c1 == 'N') && (c2 == 'a' || c2 == 'A') || (c3 == 'n' || c3 == 'N')) {
-                return DecimalValue.NAN;
-            }
-        }
-
-        // skip leading zeros
-        while (cursor < end && value.charAt(cursor) == '0') {
-            ++cursor;
-        }
-
-        if (cursor == end) {
-            return toZero();
-        }
-
-        long accumulated = 0;
-        int accumulatedCount = 0;
-        boolean fractional = false; // after '.'
-        int fractionalDigits = 0;
-        BigInteger unscaledValue = BigInteger.ZERO;
-
-        while (cursor < end) {
-            char ch = value.charAt(cursor);
-            if (ch >= '0' && ch <= '9') {
-                if (accumulatedCount == DecimalValue.LONG_MAX_DIGITS) {
-                    if (unscaledValue == BigInteger.ZERO) {
-                        unscaledValue = BigInteger.valueOf(accumulated);
-                    } else {
-                        unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(accumulatedCount));
-                        unscaledValue = unscaledValue.add(BigInteger.valueOf(accumulated));
-                    }
-                    accumulated = 0;
-                    accumulatedCount = 0;
-                }
-                int digit = ch - '0';
-                accumulated = accumulated * 10 + digit;
-                ++accumulatedCount;
-                if (fractional) {
-                    ++fractionalDigits;
-                }
-            } else if (ch == '.') {
-                if (fractional) {
-                    throw new NumberFormatException("invalid string: " + value);
-                }
-                fractional = true;
-            } else {
-                throw new NumberFormatException("invalid string: " + value);
-            }
-
-            ++cursor;
-        }
-
-        if (accumulatedCount > 0) {
-            if (unscaledValue == BigInteger.ZERO) {
-                unscaledValue = BigInteger.valueOf(accumulated);
-            } else {
-                unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(accumulatedCount));
-                unscaledValue = unscaledValue.add(BigInteger.valueOf(accumulated));
-            }
-        }
-
-        int scaleAdjust = getScale() - fractionalDigits;
-        if (scaleAdjust > 0) {
-            unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(scaleAdjust));
-        } else if (scaleAdjust < 0) {
-            unscaledValue = unscaledValue.divide(BigInteger.TEN.pow(-scaleAdjust));
-        }
-
-        if (negative) {
-            unscaledValue = unscaledValue.negate();
-        }
-
-        return newValue(unscaledValue);
-    }
-
-    /**
-     * Read long from a big-endian buffer.
-     */
-    private static long getLongBe(byte[] buf, int from, int to) {
-        long r = 0;
-        for (int i = from; i < to; i++) {
-            r = (r << 8) | (buf[i] & 0xff);
-        }
-        return r;
+        return DecimalValue.fromString(this, value);
     }
 }

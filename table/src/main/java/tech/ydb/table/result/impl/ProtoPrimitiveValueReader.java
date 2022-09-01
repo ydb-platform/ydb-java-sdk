@@ -265,7 +265,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
                 break;
 
             case DECIMAL_TYPE:
-                getDecimal().toString(sb);
+                sb.append(getDecimal().toString());
                 break;
 
             default:
