@@ -132,7 +132,7 @@ abstract class AbstractValueReader implements ValueReader {
     }
 
     @Override
-    public byte[] getString() {
+    public byte[] getBytes() {
         throw error("getString");
     }
 
@@ -142,7 +142,7 @@ abstract class AbstractValueReader implements ValueReader {
     }
 
     @Override
-    public String getUtf8() {
+    public String getText() {
         throw error("getUtf8");
     }
 

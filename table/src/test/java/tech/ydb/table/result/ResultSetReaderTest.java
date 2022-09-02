@@ -32,19 +32,19 @@ public class ResultSetReaderTest {
         Assert.assertSame(reader.getColumn("name"), reader.getColumn(0));
         Assert.assertSame(reader.getColumn("year"), reader.getColumn(1));
 
-        Assert.assertEquals("Edgy", reader.getColumn("name").getUtf8());
+        Assert.assertEquals("Edgy", reader.getColumn("name").getText());
         Assert.assertEquals(2006, reader.getColumn("year").getUint32());
 
         Assert.assertTrue(reader.next());
-        Assert.assertEquals("Feisty", reader.getColumn("name").getUtf8());
+        Assert.assertEquals("Feisty", reader.getColumn("name").getText());
         Assert.assertEquals(2007, reader.getColumn("year").getUint32());
 
         Assert.assertTrue(reader.next());
-        Assert.assertEquals("Gutsy", reader.getColumn("name").getUtf8());
+        Assert.assertEquals("Gutsy", reader.getColumn("name").getText());
         Assert.assertEquals(2007, reader.getColumn("year").getUint32());
 
         Assert.assertTrue(reader.next());
-        Assert.assertEquals("Hardy", reader.getColumn("name").getUtf8());
+        Assert.assertEquals("Hardy", reader.getColumn("name").getText());
         Assert.assertEquals(2008, reader.getColumn("year").getUint32());
 
         Assert.assertFalse(reader.next());
@@ -69,7 +69,7 @@ public class ResultSetReaderTest {
 
             ValueReader utf8 = reader.getColumn("utf8");
             Assert.assertTrue(utf8.isOptionalItemPresent());
-            Assert.assertEquals("a", utf8.getUtf8());
+            Assert.assertEquals("a", utf8.getText());
 
             ValueReader uint32 = reader.getColumn("uint32");
             Assert.assertFalse(uint32.isOptionalItemPresent());

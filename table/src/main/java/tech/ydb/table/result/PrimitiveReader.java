@@ -52,15 +52,15 @@ public interface PrimitiveReader {
 
     ZonedDateTime getTzTimestamp();
 
-    byte[] getString();
+    byte[] getBytes();
 
-    default String getString(Charset charset) {
-        return new String(getString(), charset);
+    default String getBytesAsString(Charset charset) {
+        return new String(getBytes(), charset);
     }
 
     UUID getUuid();
 
-    String getUtf8();
+    String getText();
 
     byte[] getYson();
 

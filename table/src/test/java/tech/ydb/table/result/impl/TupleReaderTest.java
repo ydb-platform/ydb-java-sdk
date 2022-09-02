@@ -43,7 +43,7 @@ public class TupleReaderTest {
         Assert.assertTrue(reader instanceof ProtoTupleValueReader);
         Assert.assertEquals(3, reader.getTupleElementsCount());
 
-        Assert.assertEquals("hello", reader.getTupleElement(0).getUtf8());
+        Assert.assertEquals("hello", reader.getTupleElement(0).getText());
         Assert.assertEquals(42, reader.getTupleElement(1).getUint32());
         Assert.assertEquals(3.14159, reader.getTupleElement(2).getFloat64(), Double.MIN_VALUE);
     }
@@ -71,7 +71,7 @@ public class TupleReaderTest {
             Assert.assertTrue(tuple1 instanceof ProtoTupleValueReader);
             Assert.assertEquals(2, tuple1.getTupleElementsCount());
 
-            Assert.assertEquals("hello", tuple1.getTupleElement(0).getUtf8());
+            Assert.assertEquals("hello", tuple1.getTupleElement(0).getText());
             Assert.assertEquals(42, tuple1.getTupleElement(1).getUint32());
         }
 
@@ -83,7 +83,7 @@ public class TupleReaderTest {
             Assert.assertEquals(2, tuple2.getTupleElementsCount());
 
             Assert.assertEquals(37, tuple2.getTupleElement(0).getUint32());
-            Assert.assertEquals("bye", tuple2.getTupleElement(1).getUtf8());
+            Assert.assertEquals("bye", tuple2.getTupleElement(1).getText());
         }
     }
 }
