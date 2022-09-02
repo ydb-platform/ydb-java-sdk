@@ -15,7 +15,6 @@ public class DecimalType implements Type {
 
     public static final int MAX_PRECISION = 35;
 
-    static final DecimalType MAX_DECIMAL = DecimalType.of(MAX_PRECISION);
     private static final DecimalType YDB_DEFAULT = DecimalType.of(22, 9);
 
     private final int precision;
@@ -28,11 +27,6 @@ public class DecimalType implements Type {
 
     public static DecimalType getDefault() {
         return YDB_DEFAULT;
-    }
-
-    @Deprecated
-    public static DecimalType of() {
-        return MAX_DECIMAL;
     }
 
     public static DecimalType of(int precision) {
@@ -85,64 +79,34 @@ public class DecimalType implements Type {
         return ProtoType.getDecimal(precision, scale);
     }
 
-    public DecimalValue fromBits(long high, long low) {
-        return DecimalValue.fromBits(this, high, low);
-    }
-
-    public DecimalValue fromLong(long value) {
-        return DecimalValue.fromLong(this, value);
-    }
-
-    public DecimalValue fromUnsignedLong(long value) {
-        return DecimalValue.fromUnsignedLong(this, value);
-    }
-
-    public DecimalValue fromUnscaledLong(long value) {
-        return DecimalValue.fromUnscaledLong(this, value);
-    }
-
-    public DecimalValue fromBigDecimal(BigDecimal value) {
-        return DecimalValue.fromBigDecimal(this, value);
-    }
-
-    public DecimalValue fromBigInteger(BigInteger value) {
-        return DecimalValue.fromBigInteger(this, value);
-    }
-
-    public DecimalValue fromUnscaledBigInteger(BigInteger value) {
-        return DecimalValue.fromUnscaledBigInteger(this, value);
-    }
-
-    public DecimalValue fromString(String value) {
-        return DecimalValue.fromString(this, value);
-    }
-
-    @Deprecated
     public DecimalValue newValue(long high, long low) {
         return DecimalValue.fromBits(this, high, low);
     }
 
-    @Deprecated
     public DecimalValue newValue(long value) {
+        return DecimalValue.fromLong(this, value);
+    }
+
+    public DecimalValue newValueUnsigned(long value) {
+        return DecimalValue.fromUnsignedLong(this, value);
+    }
+
+    public DecimalValue newValueUnscaled(long value) {
         return DecimalValue.fromUnscaledLong(this, value);
     }
 
-    @Deprecated
-    public DecimalValue newValueUnsigned(long value) {
-        return DecimalValue.fromUnscaledUnsignedLong(this, value);
+    public DecimalValue newValue(BigDecimal value) {
+        return DecimalValue.fromBigDecimal(this, value);
     }
 
-    @Deprecated
     public DecimalValue newValue(BigInteger value) {
+        return DecimalValue.fromBigInteger(this, value);
+    }
+
+    public DecimalValue newValueUnscaled(BigInteger value) {
         return DecimalValue.fromUnscaledBigInteger(this, value);
     }
 
-    @Deprecated
-    public DecimalValue newValue(BigDecimal value) {
-        return DecimalValue.fromUnscaledBigInteger(this, value.unscaledValue());
-    }
-
-    @Deprecated
     public DecimalValue newValue(String value) {
         return DecimalValue.fromString(this, value);
     }

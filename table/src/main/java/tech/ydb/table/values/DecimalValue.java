@@ -10,6 +10,7 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Sergey Polovko
  */
 public class DecimalValue implements Value<DecimalType> {
+    private static final DecimalType MAX_DECIMAL = DecimalType.of(DecimalType.MAX_PRECISION);
 
     private static final long HALF_LONG_MASK = 0xFFFFFFFFL;
     private static final long LONG_SIGN_BIT = 0x8000000000000000L;
@@ -21,19 +22,19 @@ public class DecimalValue implements Value<DecimalType> {
      * Positive infinity 10^{@value DecimalType#MAX_PRECISION}.
      */
     public static final DecimalValue INF = new DecimalValue(
-        DecimalType.MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000000L);
+        MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000000L);
 
     /**
      * Negative infinity -10^{@value DecimalType#MAX_PRECISION}.
      */
     public static final DecimalValue NEG_INF = new DecimalValue(
-        DecimalType.MAX_DECIMAL, 0xFFECBD9E8D38B27DL, 0xD478701800000000L);
+        MAX_DECIMAL, 0xFFECBD9E8D38B27DL, 0xD478701800000000L);
 
     /**
      * Not a number 10^{@value DecimalType#MAX_PRECISION} + 1.
      */
     public static final DecimalValue NAN = new DecimalValue(
-        DecimalType.MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000001L);
+        MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000001L);
 
     private final DecimalType type;
     private final long high;
@@ -93,7 +94,7 @@ public class DecimalValue implements Value<DecimalType> {
         return new BigInteger(buf);
     }
 
-    public BigInteger toBigIntegerValue() {
+    public BigInteger toBigInteger() {
         if (isZero()) {
             return BigInteger.ZERO;
         }
@@ -118,11 +119,6 @@ public class DecimalValue implements Value<DecimalType> {
         return scaled[0];
     }
 
-    @Deprecated
-    public BigInteger toBigInteger() {
-        return toUnscaledBigInteger();
-    }
-
     public BigDecimal toBigDecimal() {
         if (isZero()) {
             return BigDecimal.ZERO.setScale(type.getScale());
@@ -132,7 +128,7 @@ public class DecimalValue implements Value<DecimalType> {
     }
 
     public long toLong() {
-        return toBigIntegerValue().longValueExact();
+        return toBigInteger().longValueExact();
     }
 
     @Override
@@ -294,13 +290,6 @@ public class DecimalValue implements Value<DecimalType> {
         }
         long high = value > 0 ? 0 : -1;
         return new DecimalValue(type, high, value);
-    }
-
-    static DecimalValue fromUnscaledUnsignedLong(DecimalType type, long value) {
-        if (value == 0) {
-            return new DecimalValue(type, 0, 0);
-        }
-        return new DecimalValue(type, 0, value);
     }
 
     static DecimalValue fromBits(DecimalType type, long high, long low) {

@@ -52,15 +52,15 @@ public class DecimalTypeTest {
         BigDecimal orig, dest;
 
         orig = new BigDecimal("-1.0");
-        dest = DecimalType.of(22, 9).fromBigDecimal(orig).toBigDecimal();
+        dest = DecimalType.of(22, 9).newValue(orig).toBigDecimal();
         assertThat(orig.compareTo(dest)).isEqualTo(0);
 
         orig = new BigDecimal("0.023");
-        dest = DecimalType.of(22, 9).fromBigDecimal(orig).toBigDecimal();
+        dest = DecimalType.of(22, 9).newValue(orig).toBigDecimal();
         assertThat(orig.compareTo(dest)).isEqualTo(0);
 
         orig = new BigDecimal("10000.52");
-        dest = DecimalType.of(22, 9).fromBigDecimal(orig).toBigDecimal();
+        dest = DecimalType.of(22, 9).newValue(orig).toBigDecimal();
         assertThat(orig.compareTo(dest)).isEqualTo(0);
     }
 }
