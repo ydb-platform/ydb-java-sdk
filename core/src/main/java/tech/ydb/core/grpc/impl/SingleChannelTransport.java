@@ -1,14 +1,8 @@
 package tech.ydb.core.grpc.impl;
 
-import java.time.Duration;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-
-import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 
+import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.Status;
 import org.slf4j.Logger;
@@ -20,17 +14,20 @@ import org.slf4j.LoggerFactory;
  */
 public class SingleChannelTransport extends BaseGrpcTrasnsport {
     private final static Logger logger = LoggerFactory.getLogger(SingleChannelTransport.class);
+
+    private final CallOptions callOptions;
     private final String database;
     private final GrpcChannel channel;
     
     public SingleChannelTransport(
-            AuthProvider authProvider,
-            Executor executor,
+            CallOptions callOptions,
             long readTimeoutMillis,
+            String database,
             EndpointRecord endpoint,
             ChannelFactory channelFactory) {
-        super(authProvider, executor, readTimeoutMillis);
-        this.database = channelFactory.getDatabase();
+        super(readTimeoutMillis);
+        this.callOptions = callOptions;
+        this.database = database;
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
     }
 
@@ -47,6 +44,11 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     @Override
     public void close() {
         channel.shutdown();
+    }
+
+    @Override
+    protected CallOptions getCallOptions() {
+        return callOptions;
     }
 
     @Override
