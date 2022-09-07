@@ -1,18 +1,10 @@
 package tech.ydb.core.grpc.impl;
 
-import com.google.common.util.concurrent.MoreExecutors;
-import io.grpc.CallOptions;
-import io.grpc.Channel;
-import io.grpc.ClientCall;
-import io.grpc.Metadata;
-import io.grpc.MethodDescriptor;
-import io.grpc.Status;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
@@ -26,6 +18,16 @@ import tech.ydb.core.grpc.UnaryStreamToFuture;
 import tech.ydb.core.grpc.YdbCallCredentials;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
+
+import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.ClientCall;
+import io.grpc.Metadata;
+import io.grpc.MethodDescriptor;
+import io.grpc.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
