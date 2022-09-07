@@ -34,9 +34,9 @@ public interface PrimitiveReader {
 
     long getUint64();
 
-    float getFloat32();
+    float getFloat();
 
-    double getFloat64();
+    double getDouble();
 
     LocalDate getDate();
 

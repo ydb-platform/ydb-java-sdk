@@ -87,13 +87,13 @@ abstract class AbstractValueReader implements ValueReader {
     }
 
     @Override
-    public float getFloat32() {
-        throw error("getFloat32");
+    public float getFloat() {
+        throw error("getFloat");
     }
 
     @Override
-    public double getFloat64() {
-        throw error("getFloat64");
+    public double getDouble() {
+        throw error("getDouble");
     }
 
     @Override
@@ -133,7 +133,7 @@ abstract class AbstractValueReader implements ValueReader {
 
     @Override
     public byte[] getBytes() {
-        throw error("getString");
+        throw error("getBytes");
     }
 
     @Override
@@ -143,7 +143,7 @@ abstract class AbstractValueReader implements ValueReader {
 
     @Override
     public String getText() {
-        throw error("getUtf8");
+        throw error("getText");
     }
 
     @Override
