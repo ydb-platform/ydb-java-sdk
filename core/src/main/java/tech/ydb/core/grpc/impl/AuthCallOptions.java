@@ -15,11 +15,12 @@ import io.grpc.CallOptions;
  *
  * @author Aleksandr Gorshenin
  */
-public class AuthCallOptions {
+public class AuthCallOptions implements AutoCloseable {
     private final EndpointRecord endpoint;
     private final BaseGrpcTrasnsport parent;
     private final ChannelFactory channelFactory;
     private final CallOptions callOptions;
+    private final AuthIdentity authIdentity;
 
     public AuthCallOptions(
             BaseGrpcTrasnsport parent,
@@ -33,10 +34,12 @@ public class AuthCallOptions {
 
         CallOptions options = CallOptions.DEFAULT;
         if (authProvider != null) {
-            AuthIdentity identity = authProvider.createAuthIdentity(new YdbAuthRpc());
-            if (identity != null) {
-                options = options.withCallCredentials(new YdbCallCredentials(identity));
+            authIdentity = authProvider.createAuthIdentity(new YdbAuthRpc());
+            if (authIdentity != null) {
+                options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
             }
+        } else {
+            authIdentity = null;
         }
         if (executor != null && executor != MoreExecutors.directExecutor()) {
             options = options.withExecutor(executor);
@@ -44,7 +47,14 @@ public class AuthCallOptions {
         
         this.callOptions = options;
     }
-
+    
+    @Override
+    public void close() {
+        if (authIdentity != null) {
+            authIdentity.close();
+        }
+    }
+    
     public CallOptions getCallOptions() {
         return callOptions;
     }

@@ -167,6 +167,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         shutdown = true;
         periodicDiscoveryTask.stop();
         channelPool.shutdown();
+        callOptionsProvider.close();
     }
 
     @Override
