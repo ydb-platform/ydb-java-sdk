@@ -13,10 +13,11 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import com.google.common.truth.extensions.proto.ProtoTruth;
-import com.google.protobuf.ByteString;
 import tech.ydb.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
+
+import com.google.common.truth.extensions.proto.ProtoTruth;
+import com.google.protobuf.ByteString;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -31,17 +32,17 @@ public class PrimitiveValueTest {
     public void bool() {
         PrimitiveValue v = PrimitiveValue.newBool(true);
 
-        assertThat(v).isSameAs(PrimitiveValue.newBool(true));
+        assertThat(v).isSameInstanceAs(PrimitiveValue.newBool(true));
         assertThat(v).isEqualTo(PrimitiveValue.newBool(true));
-        assertThat(v).isNotSameAs(PrimitiveValue.newBool(false));
+        assertThat(v).isNotSameInstanceAs(PrimitiveValue.newBool(false));
         assertThat(v).isNotEqualTo(PrimitiveValue.newBool(false));
         assertThat(v.toString()).isEqualTo("true");
         assertThat(v.getBool()).isTrue();
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isSameAs(ProtoValue.fromBool(true));
+        ProtoTruth.assertThat(vPb).isSameInstanceAs(ProtoValue.fromBool(true));
         ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromBool(true));
-        assertThat(v).isSameAs(ProtoValue.fromPb(PrimitiveType.Bool, vPb));
+        assertThat(v).isSameInstanceAs(ProtoValue.fromPb(PrimitiveType.Bool, vPb));
         assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Bool, vPb));
     }
 
