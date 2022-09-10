@@ -2,24 +2,19 @@ package tech.ydb.core.grpc.impl;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.auth.AuthProvider;
-import tech.ydb.core.auth.NopAuthProvider;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.UnaryStreamToFuture;
-import tech.ydb.core.grpc.YdbCallCredentials;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 
-import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
@@ -42,25 +37,17 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         void updateGrpcStatus(Status status);
     }
 
-    private final CallOptions callOptions;
     private final long defaultReadTimeoutMillis;
     
-    protected BaseGrpcTrasnsport(AuthProvider authProvider, Executor executor, long readTimeoutMillis) {
-        this.callOptions = createCallOptions(authProvider, executor);
+    protected BaseGrpcTrasnsport(long readTimeoutMillis) {
         this.defaultReadTimeoutMillis = readTimeoutMillis;
     }
     
-    private static CallOptions createCallOptions(AuthProvider authProvider, Executor executor) {
-        CallOptions callOptions = CallOptions.DEFAULT;
-        if (authProvider != null && authProvider != NopAuthProvider.INSTANCE) {
-            callOptions = callOptions.withCallCredentials(new YdbCallCredentials(authProvider));
-        }
-        if (executor != null && executor != MoreExecutors.directExecutor()) {
-            callOptions = callOptions.withExecutor(executor);
-        }
-        return callOptions;
-    }
+    long getDefaultReadTimeoutMillis() {
+        return this.defaultReadTimeoutMillis;
+    } 
     
+    protected abstract CallOptions getCallOptions();
     protected abstract CheckableChannel getChannel(GrpcRequestSettings settings);
 
     @Override
@@ -69,7 +56,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             GrpcRequestSettings settings,
             ReqT request
     ) {
-        CallOptions options = this.callOptions;
+        CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
@@ -107,7 +94,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             ReqT request,
             StreamObserver<RespT> observer
         ) {
-        CallOptions options = this.callOptions;
+        CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {

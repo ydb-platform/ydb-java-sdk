@@ -1,7 +1,5 @@
 package tech.ydb.core.rpc;
 
-import javax.annotation.Nullable;
-
 /**
  * @author Sergey Polovko
  */

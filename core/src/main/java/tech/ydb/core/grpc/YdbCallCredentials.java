@@ -2,7 +2,8 @@ package tech.ydb.core.grpc;
 
 import java.util.concurrent.Executor;
 
-import tech.ydb.core.auth.AuthProvider;
+import tech.ydb.core.auth.AuthIdentity;
+
 import io.grpc.CallCredentials;
 import io.grpc.Metadata;
 
@@ -12,10 +13,10 @@ import io.grpc.Metadata;
  */
 public class YdbCallCredentials extends CallCredentials {
 
-    private final AuthProvider authProvider;
+    private final AuthIdentity identity;
 
-    public YdbCallCredentials(AuthProvider authProvider) {
-        this.authProvider = authProvider;
+    public YdbCallCredentials(AuthIdentity identity) {
+        this.identity = identity;
     }
 
     @Override
@@ -24,9 +25,12 @@ public class YdbCallCredentials extends CallCredentials {
         Executor appExecutor,
         MetadataApplier applier)
     {
-        Metadata headers = new Metadata();
-        headers.put(YdbHeaders.AUTH_TICKET, authProvider.getToken());
-        applier.apply(headers);
+        String token = identity.getToken();
+        if (token != null && !token.isEmpty()) {
+            Metadata headers = new Metadata();
+            headers.put(YdbHeaders.AUTH_TICKET, token);
+            applier.apply(headers);
+        }
     }
 
     @Override

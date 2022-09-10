@@ -5,13 +5,11 @@ import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
-import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.discovery.DiscoveryProtos;
 import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 
-import com.google.common.util.concurrent.MoreExecutors;
 
 /**
  * @author Vladimir Gordiychuk
@@ -19,29 +17,23 @@ import com.google.common.util.concurrent.MoreExecutors;
 public class GrpcDiscoveryRpc {
     private static final long DISCOVERY_TIMEOUT_SECONDS = 10;
 
-    private final AuthProvider authProvider;
+    private final BaseGrpcTrasnsport parent;
     private final EndpointRecord endpoint;
-    private final long readTimeoutMillis;
-    private final String database;
     private final ChannelFactory channelFactory;
 
     public GrpcDiscoveryRpc(
-            AuthProvider authProvider,
-            long readTimeoutMillis,
+            BaseGrpcTrasnsport parent,
             EndpointRecord endpoint,
-            ChannelFactory channelFactory,
-            String database) {
-        this.authProvider = authProvider;
+            ChannelFactory channelFactory) {
+        this.parent = parent;
         this.endpoint = endpoint;
-        this.readTimeoutMillis = readTimeoutMillis;
         this.channelFactory = channelFactory;
-        this.database = database;
     }
 
     public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
         try (GrpcTransport transport = createTransport()) {
             DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
-                    .setDatabase(database)
+                    .setDatabase(parent.getDatabase())
                     .build();
 
             GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
@@ -59,9 +51,9 @@ public class GrpcDiscoveryRpc {
     
     private GrpcTransport createTransport() {
         return new SingleChannelTransport(
-                authProvider,
-                MoreExecutors.directExecutor(),
-                readTimeoutMillis,
+                parent.getCallOptions(),
+                parent.getDefaultReadTimeoutMillis(),
+                parent.getDatabase(),
                 endpoint,
                 channelFactory
         );

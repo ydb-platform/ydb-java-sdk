@@ -18,6 +18,7 @@ import tech.ydb.discovery.DiscoveryProtos;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
+import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
@@ -43,6 +44,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final GrpcDiscoveryRpc discoveryRpc;
+    private final AuthCallOptions callOptionsProvider;
     private final String database;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
@@ -51,18 +53,21 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private volatile boolean shutdown = false;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
-        super(builder.getAuthProvider(), builder.getCallExecutor(), builder.getReadTimeoutMillis());
+        super(builder.getReadTimeoutMillis());
         ChannelFactory channelFactory = ChannelFactory.fromBuilder(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
+        EndpointRecord discoveryEndpoint = getDiscoverytEndpoint(builder);
+
         logger.debug("creating YDB transport with {}", balancingSettings);
         
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.discoveryRpc = new GrpcDiscoveryRpc(
-                builder.getAuthProvider(),
-                builder.getReadTimeoutMillis(),
-                getDiscoverytEndpoint(builder),
+        this.callOptionsProvider = new AuthCallOptions(this,
+                discoveryEndpoint,
                 channelFactory,
-                builder.getDatabase());
+                builder.getAuthProvider(),
+                builder.getCallExecutor()
+        );
+        this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
 
         this.channelPool = new GrpcChannelPool(channelFactory);
         this.endpointPool = new EndpointPool(balancingSettings);
@@ -104,6 +109,11 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         }
 
         return new BalancingSettings();
+    }
+    
+    @Override
+    public CallOptions getCallOptions() {
+        return callOptionsProvider.getCallOptions();
     }
 
     @Override
@@ -157,6 +167,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         shutdown = true;
         periodicDiscoveryTask.stop();
         channelPool.shutdown();
+        callOptionsProvider.close();
     }
 
     @Override
