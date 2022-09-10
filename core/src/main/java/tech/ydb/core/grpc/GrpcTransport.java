@@ -55,7 +55,8 @@ public interface GrpcTransport extends AutoCloseable {
         return new GrpcTransportBuilder(endpoint, null, database);
     }
 
-    // [<protocol>://]<host>[:<port>]/?database=<database-path>
+    // [<protocol>://]<host>[:<port>]/<database-path> - main form
+    // [<protocol>://]<host>[:<port>]/?database=<database-path> - deprecated mode
     public static GrpcTransportBuilder forConnectionString(String connectionString) {
         Preconditions.checkNotNull(connectionString, "connection string is null");
         String endpoint;
@@ -65,10 +66,15 @@ public interface GrpcTransport extends AutoCloseable {
             URI uri = new URI(connectionString.contains("://") ? connectionString : "grpc://" + connectionString);
             endpoint = uri.getAuthority();
             Preconditions.checkNotNull(endpoint, "no endpoint in connection string");
+            database = uri.getPath();
             Map<String, List<String>> params = URITools.splitQuery(uri);
             List<String> databaseList = params.get("database");
-            Preconditions.checkArgument(databaseList != null && !databaseList.isEmpty(), "no database in connection string");
-            database = databaseList.get(0);
+            if (databaseList != null && !databaseList.isEmpty()) {
+                // depracted mode has high priority than main
+                database = databaseList.get(0);
+            }
+
+            Preconditions.checkArgument(database != null && !database.isEmpty(), "no database in connection string");
             scheme = uri.getScheme();
         } catch (URISyntaxException | RuntimeException e) {
             throw new IllegalArgumentException("Failed to parse connection string '" + connectionString +

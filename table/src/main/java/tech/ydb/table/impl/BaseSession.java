@@ -1,5 +1,6 @@
 package tech.ydb.table.impl;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +71,6 @@ import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.utils.OperationParamUtils;
-import tech.ydb.table.utils.RequestSettingsUtils;
 import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.TupleValue;
 import tech.ydb.table.values.Value;
@@ -107,7 +107,7 @@ public abstract class BaseSession implements Session {
 
     private GrpcRequestSettings makeGrpcRequestSettings(RequestSettings<?> settings) {
         return GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(RequestSettingsUtils.calculateDeadlineAfter(settings))
+                .withDeadlineAfter(calcDeadlineAfter(settings))
                 .withPreferredEndpoint(endpoint)
                 .withTrailersHandler(shutdownHandler)
                 .build();
@@ -131,12 +131,20 @@ public abstract class BaseSession implements Session {
             headers.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, SERVER_BALANCER_HINT);
         }
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(RequestSettingsUtils.calculateDeadlineAfter(settings))
+                .withDeadlineAfter(calcDeadlineAfter(settings))
                 .withExtraHeaders(headers)
                 .build();
 
         return tableRpc.createSession(request, grpcSettings)
                 .thenApply(result -> result.map(YdbTable.CreateSessionResult::getSessionId));
+    }
+    
+    private static long calcDeadlineAfter(RequestSettings<?> settings) {
+        Optional<Duration> timeout = settings.getTimeout();
+        if (!timeout.isPresent()) {
+            return 0;
+        }
+        return System.nanoTime() + timeout.get().toNanos();
     }
 
     private static void applyPartitioningSettings(
