@@ -4,7 +4,6 @@ import java.util.function.Function;
 
 import tech.ydb.OperationProtos;
 import tech.ydb.OperationProtos.Operation;
-import tech.ydb.StatusCodesProtos.StatusIds;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.InvalidProtocolBufferException;

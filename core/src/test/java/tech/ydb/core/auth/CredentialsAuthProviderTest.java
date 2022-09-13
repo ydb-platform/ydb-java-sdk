@@ -1,6 +1,8 @@
 package tech.ydb.core.auth;
 
 import java.time.Clock;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.OperationProtos;
@@ -24,6 +26,9 @@ public class CredentialsAuthProviderTest {
     private final Clock clock = Mockito.mock(Clock.class);
     private final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
     private final AuthRpc rpc = Mockito.mock(AuthRpc.class);
+    
+    // Wednesday, June 1, 2022 00:00:00 UTC
+    private final Instant now = Instant.ofEpochSecond(1654041600);
 
     @Before
     public void setup() {
@@ -34,23 +39,26 @@ public class CredentialsAuthProviderTest {
     
     @Test
     public void testOK() {
+        String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
+
         Mockito.when(transport.unaryCall(
                 Mockito.eq(AuthServiceGrpc.getLoginMethod()),
                 Mockito.any(),
                 Mockito.argThat(req -> req.getUser().equals("user") && req.getPassword().equals("pass1"))
-        )).thenReturn(CompletableFuture.completedFuture(Result.success(goodAnswer())));
+        )).thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
+        Mockito.when(clock.instant()).thenReturn(now);
 
-        AuthProvider provider = new CredentialsAuthProvider(clock, "user", "pass1");
+        AuthProvider provider = new StaticCredentials(clock, "user", "pass1");
         AuthIdentity identity = provider.createAuthIdentity(rpc);
         
-        Assert.assertEquals("Invalid token", "TOKEN", identity.getToken());
+        Assert.assertEquals("Invalid token", token, identity.getToken());
         
         identity.close();
     }
     
-    public static YdbAuth.LoginResponse goodAnswer() {
+    public static YdbAuth.LoginResponse responseOk(String token) {
         YdbAuth.LoginResult result = YdbAuth.LoginResult.newBuilder()
-                .setToken("TOKEN")
+                .setToken(token)
                 .build();
 
         OperationProtos.Operation operation = OperationProtos.Operation.newBuilder()
