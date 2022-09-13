@@ -1,12 +1,13 @@
 package tech.ydb.table.transaction;
 
-import com.google.common.truth.Truth;
-import com.google.common.truth.extensions.proto.ProtoTruth;
 import tech.ydb.table.YdbTable.OnlineModeSettings;
 import tech.ydb.table.YdbTable.SerializableModeSettings;
 import tech.ydb.table.YdbTable.StaleModeSettings;
 import tech.ydb.table.YdbTable.TransactionControl;
 import tech.ydb.table.YdbTable.TransactionSettings;
+
+import com.google.common.truth.Truth;
+import com.google.common.truth.extensions.proto.ProtoTruth;
 import org.junit.Test;
 
 /**
@@ -20,17 +21,17 @@ public class TxControlTest {
             .setCommitTx(true)
             .setTxId("some-id");
 
-        TxControl tx = TxControl.id("some-id");
+        TxControl<?> tx = TxControl.id("some-id");
         Truth.assertThat(tx.isCommitTx()).isTrue();
         ProtoTruth.assertThat(tx.toPb()).isEqualTo(txPb.build());
 
-        TxControl txNoCommit = tx.setCommitTx(false);
+        TxControl<?> txNoCommit = tx.setCommitTx(false);
         Truth.assertThat(txNoCommit.isCommitTx()).isFalse();
         ProtoTruth.assertThat(txNoCommit.toPb())
             .isEqualTo(txPb.setCommitTx(false).build());
 
-        Truth.assertThat(tx.setCommitTx(true)).isSameAs(tx);
-        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameAs(txNoCommit);
+        Truth.assertThat(tx.setCommitTx(true)).isSameInstanceAs(tx);
+        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameInstanceAs(txNoCommit);
     }
 
     @Test
@@ -41,19 +42,19 @@ public class TxControlTest {
                 .setSerializableReadWrite(SerializableModeSettings.getDefaultInstance())
                 .build());
 
-        TxControl tx = TxControl.serializableRw();
+        TxControl<?> tx = TxControl.serializableRw();
         Truth.assertThat(tx.isCommitTx()).isTrue();
         ProtoTruth.assertThat(tx.toPb()).isEqualTo(txPb.build());
 
-        TxControl txNoCommit = tx.setCommitTx(false);
+        TxControl<?> txNoCommit = tx.setCommitTx(false);
         Truth.assertThat(txNoCommit.isCommitTx()).isFalse();
         ProtoTruth.assertThat(txNoCommit.toPb())
             .isEqualTo(txPb.setCommitTx(false).build());
 
-        Truth.assertThat(tx.setCommitTx(true)).isSameAs(tx);
-        Truth.assertThat(tx.setCommitTx(false)).isSameAs(txNoCommit);
-        Truth.assertThat(txNoCommit.setCommitTx(true)).isSameAs(tx);
-        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameAs(txNoCommit);
+        Truth.assertThat(tx.setCommitTx(true)).isSameInstanceAs(tx);
+        Truth.assertThat(tx.setCommitTx(false)).isSameInstanceAs(txNoCommit);
+        Truth.assertThat(txNoCommit.setCommitTx(true)).isSameInstanceAs(tx);
+        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameInstanceAs(txNoCommit);
     }
 
     @Test
@@ -64,19 +65,19 @@ public class TxControlTest {
                 .setStaleReadOnly(StaleModeSettings.getDefaultInstance())
                 .build());
 
-        TxControl tx = TxControl.staleRo();
+        TxControl<?> tx = TxControl.staleRo();
         Truth.assertThat(tx.isCommitTx()).isTrue();
         ProtoTruth.assertThat(tx.toPb()).isEqualTo(txPb.build());
 
-        TxControl txNoCommit = tx.setCommitTx(false);
+        TxControl<?> txNoCommit = tx.setCommitTx(false);
         Truth.assertThat(txNoCommit.isCommitTx()).isFalse();
         ProtoTruth.assertThat(txNoCommit.toPb())
             .isEqualTo(txPb.setCommitTx(false).build());
 
-        Truth.assertThat(tx.setCommitTx(true)).isSameAs(tx);
-        Truth.assertThat(tx.setCommitTx(false)).isSameAs(txNoCommit);
-        Truth.assertThat(txNoCommit.setCommitTx(true)).isSameAs(tx);
-        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameAs(txNoCommit);
+        Truth.assertThat(tx.setCommitTx(true)).isSameInstanceAs(tx);
+        Truth.assertThat(tx.setCommitTx(false)).isSameInstanceAs(txNoCommit);
+        Truth.assertThat(txNoCommit.setCommitTx(true)).isSameInstanceAs(tx);
+        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameInstanceAs(txNoCommit);
     }
 
     @Test
@@ -98,10 +99,10 @@ public class TxControlTest {
         ProtoTruth.assertThat(txNoCommit.toPb())
             .isEqualTo(txPb.setCommitTx(false).build());
 
-        Truth.assertThat(tx.setCommitTx(true)).isSameAs(tx);
-        Truth.assertThat(tx.setCommitTx(false)).isSameAs(txNoCommit);
-        Truth.assertThat(txNoCommit.setCommitTx(true)).isSameAs(tx);
-        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameAs(txNoCommit);
+        Truth.assertThat(tx.setCommitTx(true)).isSameInstanceAs(tx);
+        Truth.assertThat(tx.setCommitTx(false)).isSameInstanceAs(txNoCommit);
+        Truth.assertThat(txNoCommit.setCommitTx(true)).isSameInstanceAs(tx);
+        Truth.assertThat(txNoCommit.setCommitTx(false)).isSameInstanceAs(txNoCommit);
 
         TxControl.TxOnlineRo txInconsistentReads = tx.setAllowInconsistentReads(true);
         Truth.assertThat(txInconsistentReads.isAllowInconsistentReads()).isTrue();
@@ -121,9 +122,9 @@ public class TxControlTest {
                     .setOnlineReadOnly(OnlineModeSettings.newBuilder().setAllowInconsistentReads(true)))
                 .build());
 
-        Truth.assertThat(tx.setAllowInconsistentReads(false)).isSameAs(tx);
-        Truth.assertThat(txNoCommit.setAllowInconsistentReads(false)).isSameAs(txNoCommit);
-        Truth.assertThat(txInconsistentReads.setAllowInconsistentReads(true)).isSameAs(txInconsistentReads);
-        Truth.assertThat(txInconsistentReadsNoCommit.setAllowInconsistentReads(true)).isSameAs(txInconsistentReadsNoCommit);
+        Truth.assertThat(tx.setAllowInconsistentReads(false)).isSameInstanceAs(tx);
+        Truth.assertThat(txNoCommit.setAllowInconsistentReads(false)).isSameInstanceAs(txNoCommit);
+        Truth.assertThat(txInconsistentReads.setAllowInconsistentReads(true)).isSameInstanceAs(txInconsistentReads);
+        Truth.assertThat(txInconsistentReadsNoCommit.setAllowInconsistentReads(true)).isSameInstanceAs(txInconsistentReadsNoCommit);
     }
 }

@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import tech.ydb.StatusCodesProtos.StatusIds;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -37,6 +38,7 @@ public class StatusCodeTest {
                 Assert.assertEquals(StatusCode.UNUSED_STATUS, code);
             } else {
                 Assert.assertEquals(code.name(), codePb.name());
+                Assert.assertFalse(code.isTransportError());
             }
         }
     }
