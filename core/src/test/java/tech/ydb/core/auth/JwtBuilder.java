@@ -22,7 +22,6 @@ public class JwtBuilder {
         
         String base64 = Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
         
-        System.out.println(sb.toString());
         return PREFIX + base64;
     }
 }

@@ -8,10 +8,10 @@ import java.util.EnumSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Supplier;
 
 import tech.ydb.auth.YdbAuth;
 import tech.ydb.auth.v1.AuthServiceGrpc;
@@ -48,16 +48,17 @@ class StaticCredentitalsRpc {
     );
 
     private final AtomicInteger retries = new AtomicInteger(MAX_RETRIES_COUNT);
-    private final ExecutorService executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "StaticCredsExecutor"));
 
     private final AuthRpc rpc;
     private final YdbAuth.LoginRequest request;
     private final Clock clock;
+    private final ExecutorService executor;
 
-    StaticCredentitalsRpc(AuthRpc rpc, YdbAuth.LoginRequest request, Clock clock) {
+    StaticCredentitalsRpc(AuthRpc rpc, YdbAuth.LoginRequest request, Clock clock, Supplier<ExecutorService> executor) {
         this.rpc = rpc;
         this.request = request;
         this.clock = clock;
+        this.executor = executor.get();
     }
     
     public void close() {

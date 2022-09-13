@@ -10,8 +10,13 @@ import tech.ydb.StatusCodesProtos;
 import tech.ydb.auth.YdbAuth;
 import tech.ydb.auth.v1.AuthServiceGrpc;
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 
+import com.google.common.truth.Truth;
+import com.google.common.util.concurrent.MoreExecutors;
 import com.google.protobuf.Any;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,25 +43,170 @@ public class CredentialsAuthProviderTest {
     }
     
     @Test
-    public void testOK() {
+    public void credentitalsTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
+        Status unauhtorized = Status.of(StatusCode.UNAUTHORIZED, null);
+
+        Mockito.when(clock.instant()).thenReturn(now);
 
         Mockito.when(transport.unaryCall(
                 Mockito.eq(AuthServiceGrpc.getLoginMethod()),
                 Mockito.any(),
-                Mockito.argThat(req -> req.getUser().equals("user") && req.getPassword().equals("pass1"))
+                Mockito.argThat(
+                        req -> req.getUser().equals("user") && req.getPassword().equals("pass1")
+                )
         )).thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
+
+        Mockito.when(transport.unaryCall(
+                Mockito.eq(AuthServiceGrpc.getLoginMethod()),
+                Mockito.any(),
+                Mockito.argThat(
+                        req -> !req.getUser().equals("user") || !req.getPassword().equals("pass1")
+                )
+        )).thenReturn(CompletableFuture.completedFuture(Result.fail(unauhtorized)));
+
+        // With correct credentitals
+        try (AuthIdentity identity = createAuth("user", "pass1")) {
+            Truth.assertThat(identity.getToken()).isEqualTo(token);
+            Truth.assertThat(identity.getToken()).isEqualTo(token);
+        }
+        
+        // With incorrect password
+        try (AuthIdentity identity = createAuth("user", "pass2")) {
+            UnexpectedResultException ex = Assert.assertThrows(
+                    UnexpectedResultException.class,
+                    () -> identity.getToken()
+            );
+            Truth.assertThat(ex.getStatus()).isEqualTo(unauhtorized);
+
+            UnexpectedResultException ex2 = Assert.assertThrows(
+                    UnexpectedResultException.class,
+                    () -> identity.getToken()
+            );
+            Truth.assertThat(ex2).isEqualTo(ex);
+        }
+    }
+    
+    @Test
+    public void retriesTest() {
+        String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
+        Status overloaded = Status.of(StatusCode.OVERLOADED, null);
+        Status unavailable = Status.of(StatusCode.UNAVAILABLE, null);
+
         Mockito.when(clock.instant()).thenReturn(now);
 
-        AuthProvider provider = new StaticCredentials(clock, "user", "pass1");
-        AuthIdentity identity = provider.createAuthIdentity(rpc);
+        Mockito.when(transport.unaryCall(
+                Mockito.eq(AuthServiceGrpc.getLoginMethod()), Mockito.any(), Mockito.any()))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(unavailable)))
+                .thenReturn(CompletableFuture.failedFuture(new RuntimeException("error1")))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(overloaded)))
+                .thenReturn(CompletableFuture.failedFuture(new RuntimeException("error2")))
+                .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
+
+        // With any credentitals
+        try (AuthIdentity identity = createAuth("user", null)) {
+            Truth.assertThat(identity.getToken()).isEqualTo(token);
+            Truth.assertThat(identity.getToken()).isEqualTo(token);
+        }
+
+        Mockito.when(transport.unaryCall(
+                Mockito.eq(AuthServiceGrpc.getLoginMethod()), Mockito.any(), Mockito.any()))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(unavailable)))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(unavailable)))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(overloaded)))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(overloaded)))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(overloaded)))
+                .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
+
+        // With any credentitals
+        try (AuthIdentity identity = createAuth("user", null)) {
+            UnexpectedResultException ex = Assert.assertThrows(
+                    UnexpectedResultException.class,
+                    () -> identity.getToken()
+            );
+            Truth.assertThat(ex.getStatus()).isEqualTo(overloaded);
+        }
+    }
+
+    @Test
+    public void refreshTokenTest() {
+        Status unavailable = Status.of(StatusCode.UNAVAILABLE, null);
+
+        Duration expireTime = Duration.ofHours(2);
+        Instant firstHour = now.plus(Duration.ofHours(1));
+        Instant secondHour = now.plus(Duration.ofHours(2));
+
+        String token1 = JwtBuilder.create(now.plus(expireTime), now);
+        String token2 = JwtBuilder.create(firstHour.plus(expireTime), firstHour);
+        String token3 = JwtBuilder.create(secondHour.plus(expireTime), secondHour);
+
+        Mockito.when(transport.unaryCall(
+                Mockito.eq(AuthServiceGrpc.getLoginMethod()), Mockito.any(), Mockito.any()))
+                .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token1))))
+                .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token2))))
+                .thenReturn(CompletableFuture.completedFuture(Result.fail(unavailable)))
+                .thenReturn(CompletableFuture.failedFuture(new RuntimeException("error")))
+                .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token3))));
         
-        Assert.assertEquals("Invalid token", token, identity.getToken());
+        Mockito.when(clock.instant()).thenReturn(now);
+
+        AuthIdentity identity = createAuth("user", "password");
         
+        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+
+        // When now is firstHour - token1 doesn't need to update
+        Mockito.when(clock.instant()).thenReturn(firstHour);
+        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+
+        Mockito.when(clock.instant()).thenReturn(firstHour.plusMillis(5));
+        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+        
+        Mockito.when(clock.instant()).thenReturn(secondHour);
+        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+
+        Mockito.when(clock.instant()).thenReturn(secondHour.plusMillis(10));
+        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+        Truth.assertThat(identity.getToken()).isEqualTo(token3);
+
         identity.close();
     }
     
-    public static YdbAuth.LoginResponse responseOk(String token) {
+    @Test
+    public void syncRefreshTokenTest() {
+        Duration expireTime = Duration.ofHours(2);
+        Instant secondHour = now.plus(expireTime);
+
+        String token1 = JwtBuilder.create(now.plus(expireTime), now);
+        String token2 = JwtBuilder.create(secondHour.plus(expireTime), secondHour);
+
+        Mockito.when(transport.unaryCall(
+                Mockito.eq(AuthServiceGrpc.getLoginMethod()), Mockito.any(), Mockito.any()))
+                .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token1))))
+                .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token2))));
+        
+        Mockito.when(clock.instant()).thenReturn(now);
+
+        AuthIdentity identity = createAuth("user", "password");
+        
+        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+
+        Mockito.when(clock.instant()).thenReturn(secondHour.plusMillis(1));
+        // token1 is alredy expired, use sync request to new token
+        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+
+        identity.close();
+    }
+
+    private AuthIdentity createAuth(String login, String password) {
+        return new StaticCredentials(clock, login, password,
+                () -> MoreExecutors.newDirectExecutorService())
+                .createAuthIdentity(rpc);
+    }
+
+    private static YdbAuth.LoginResponse responseOk(String token) {
         YdbAuth.LoginResult result = YdbAuth.LoginResult.newBuilder()
                 .setToken(token)
                 .build();
