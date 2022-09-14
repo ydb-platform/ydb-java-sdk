@@ -69,7 +69,7 @@ class GrpcChannel {
             try {
                 return future.get(WAIT_FOR_CONNECT_MS, TimeUnit.MILLISECONDS);
             } catch (InterruptedException ex) {
-                logger.error("waiting of channel ready is interrupted", ex);
+                logger.error("Waiting for channel ready is interrupted", ex);
                 Thread.currentThread().interrupt();
             } catch (ExecutionException ex) {
                 logger.error("Channel {} connecting problem", endpoint, ex);

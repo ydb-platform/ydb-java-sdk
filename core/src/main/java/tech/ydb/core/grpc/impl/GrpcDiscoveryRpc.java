@@ -36,7 +36,7 @@ public class GrpcDiscoveryRpc {
 
     public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
         try (GrpcTransport transport = createTransport()) {
-            logger.info("list endpoints from {}", endpoint.getHostAndPort());
+            logger.debug("list endpoints from {}", endpoint.getHostAndPort());
             DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
                     .setDatabase(parent.getDatabase())
                     .build();

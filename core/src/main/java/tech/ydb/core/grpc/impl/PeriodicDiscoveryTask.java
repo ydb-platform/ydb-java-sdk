@@ -57,9 +57,10 @@ public class PeriodicDiscoveryTask implements TimerTask {
     }
 
     void start() {
-        logger.info("waiting for discovery ready");
+        logger.info("Waiting for init discovery...");
         runDiscovery();
         state.waitReady();
+        logger.info("Discovery is finished");
     }
 
     @Override
@@ -114,7 +115,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
             return;
         }
         
-        logger.info("updating endpoints, calling ListEndpoints...");
+        logger.debug("updating endpoints, calling ListEndpoints...");
         CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> future = discoveryRpc.listEndpoints();
         if (future.isDone()) {
             updateInProgress.set(false);
