@@ -30,7 +30,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
-    
+
     protected interface CheckableChannel {
         Channel grpcChannel();
         String endpoint();
@@ -70,6 +70,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         try {
             CheckableChannel channel = getChannel(settings);
+
             ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending request to {}, method `{}', request: `{}'", 
