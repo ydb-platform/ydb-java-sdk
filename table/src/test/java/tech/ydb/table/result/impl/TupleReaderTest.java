@@ -45,7 +45,7 @@ public class TupleReaderTest {
 
         Assert.assertEquals("hello", reader.getTupleElement(0).getText());
         Assert.assertEquals(42, reader.getTupleElement(1).getUint32());
-        Assert.assertEquals(3.14159, reader.getTupleElement(2).getFloat64(), Double.MIN_VALUE);
+        Assert.assertEquals(3.14159, reader.getTupleElement(2).getDouble(), Double.MIN_VALUE);
     }
 
     @Test

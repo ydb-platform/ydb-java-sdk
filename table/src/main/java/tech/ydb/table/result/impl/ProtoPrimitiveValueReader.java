@@ -103,13 +103,13 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     }
 
     @Override
-    public float getFloat32() {
+    public float getFloat() {
         checkPrimitive(PrimitiveTypeId.FLOAT);
         return value.getFloatValue();
     }
 
     @Override
-    public double getFloat64() {
+    public double getDouble() {
         checkPrimitive(PrimitiveTypeId.DOUBLE);
         return value.getDoubleValue();
     }

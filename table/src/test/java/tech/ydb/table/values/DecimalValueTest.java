@@ -4,9 +4,10 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
 
-import com.google.common.truth.extensions.proto.ProtoTruth;
 import tech.ydb.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
+
+import com.google.common.truth.extensions.proto.ProtoTruth;
 import org.junit.Test;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -80,7 +81,7 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             assertThat(value.isInf()).isTrue();
             assertThat(value.isNegative()).isFalse();
-            assertThat(value).isSameAs(DecimalValue.INF);
+            assertThat(value).isSameInstanceAs(DecimalValue.INF);
             inf = inf.add(k);
         }
     }
@@ -95,7 +96,7 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             assertThat(value.isNegativeInf()).isTrue();
             assertThat(value.isNegative()).isTrue();
-            assertThat(value).isSameAs(DecimalValue.NEG_INF);
+            assertThat(value).isSameInstanceAs(DecimalValue.NEG_INF);
             inf = inf.subtract(k);
         }
     }
@@ -126,19 +127,19 @@ public class DecimalValueTest {
     public void ofString() {
         DecimalType t = DecimalType.getDefault();
 
-        assertThat(t.newValue("inf")).isSameAs(DecimalValue.INF);
-        assertThat(t.newValue("Inf")).isSameAs(DecimalValue.INF);
-        assertThat(t.newValue("INF")).isSameAs(DecimalValue.INF);
-        assertThat(t.newValue("+inf")).isSameAs(DecimalValue.INF);
-        assertThat(t.newValue("+Inf")).isSameAs(DecimalValue.INF);
-        assertThat(t.newValue("+INF")).isSameAs(DecimalValue.INF);
-        assertThat(t.newValue("-inf")).isSameAs(DecimalValue.NEG_INF);
-        assertThat(t.newValue("-Inf")).isSameAs(DecimalValue.NEG_INF);
-        assertThat(t.newValue("-INF")).isSameAs(DecimalValue.NEG_INF);
-        assertThat(t.newValue("nan")).isSameAs(DecimalValue.NAN);
-        assertThat(t.newValue("Nan")).isSameAs(DecimalValue.NAN);
-        assertThat(t.newValue("NaN")).isSameAs(DecimalValue.NAN);
-        assertThat(t.newValue("NAN")).isSameAs(DecimalValue.NAN);
+        assertThat(t.newValue("inf")).isSameInstanceAs(DecimalValue.INF);
+        assertThat(t.newValue("Inf")).isSameInstanceAs(DecimalValue.INF);
+        assertThat(t.newValue("INF")).isSameInstanceAs(DecimalValue.INF);
+        assertThat(t.newValue("+inf")).isSameInstanceAs(DecimalValue.INF);
+        assertThat(t.newValue("+Inf")).isSameInstanceAs(DecimalValue.INF);
+        assertThat(t.newValue("+INF")).isSameInstanceAs(DecimalValue.INF);
+        assertThat(t.newValue("-inf")).isSameInstanceAs(DecimalValue.NEG_INF);
+        assertThat(t.newValue("-Inf")).isSameInstanceAs(DecimalValue.NEG_INF);
+        assertThat(t.newValue("-INF")).isSameInstanceAs(DecimalValue.NEG_INF);
+        assertThat(t.newValue("nan")).isSameInstanceAs(DecimalValue.NAN);
+        assertThat(t.newValue("Nan")).isSameInstanceAs(DecimalValue.NAN);
+        assertThat(t.newValue("NaN")).isSameInstanceAs(DecimalValue.NAN);
+        assertThat(t.newValue("NAN")).isSameInstanceAs(DecimalValue.NAN);
 
         assertThat(t.newValue("0").isZero()).isTrue();
         assertThat(t.newValue("00").isZero()).isTrue();

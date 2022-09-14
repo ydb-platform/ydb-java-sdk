@@ -1,5 +1,6 @@
 ## 2.0.0 ##
 
+* Added static credentials support
 * New lock-free session pool
 * New grpc transport with client-side balancing
 * Clean api of YDB  types and values

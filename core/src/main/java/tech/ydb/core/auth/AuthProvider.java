@@ -1,14 +1,9 @@
 package tech.ydb.core.auth;
 
 /**
- * @author Sergey Polovko
+ *
+ * @author Aleksandr Gorshenin
  */
-public interface AuthProvider extends AutoCloseable {
-
-    String getToken();
-
-    @Override
-    default void close() {
-    }
+public interface AuthProvider {
+    AuthIdentity createAuthIdentity(AuthRpc rpc);
 }
-

@@ -1,31 +1,28 @@
 package tech.ydb.core.grpc.impl;
 
-import com.google.common.util.concurrent.MoreExecutors;
+import java.util.concurrent.CancellationException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+
+import tech.ydb.core.Issue;
+import tech.ydb.core.Result;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcStatuses;
+import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.ServerStreamToObserver;
+import tech.ydb.core.grpc.UnaryStreamToFuture;
+import tech.ydb.core.rpc.StreamControl;
+import tech.ydb.core.rpc.StreamObserver;
+
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
-import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.ydb.core.Issue;
-import tech.ydb.core.Result;
-import tech.ydb.core.StatusCode;
-import tech.ydb.core.auth.AuthProvider;
-import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.GrpcStatuses;
-import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.ServerStreamToObserver;
-import tech.ydb.core.grpc.UnaryStreamToFuture;
-import tech.ydb.core.grpc.YdbCallCredentials;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 
 /**
  *
@@ -33,32 +30,24 @@ import tech.ydb.core.rpc.StreamObserver;
  */
 public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
-    
+
     protected interface CheckableChannel {
         Channel grpcChannel();
         String endpoint();
         void updateGrpcStatus(Status status);
     }
 
-    private final CallOptions callOptions;
     private final long defaultReadTimeoutMillis;
     
-    protected BaseGrpcTrasnsport(AuthProvider authProvider, Executor executor, long readTimeoutMillis) {
-        this.callOptions = createCallOptions(authProvider, executor);
+    protected BaseGrpcTrasnsport(long readTimeoutMillis) {
         this.defaultReadTimeoutMillis = readTimeoutMillis;
     }
     
-    private static CallOptions createCallOptions(AuthProvider authProvider, Executor executor) {
-        CallOptions callOptions = CallOptions.DEFAULT;
-        if (authProvider != null && authProvider != NopAuthProvider.INSTANCE) {
-            callOptions = callOptions.withCallCredentials(new YdbCallCredentials(authProvider));
-        }
-        if (executor != null && executor != MoreExecutors.directExecutor()) {
-            callOptions = callOptions.withExecutor(executor);
-        }
-        return callOptions;
-    }
+    long getDefaultReadTimeoutMillis() {
+        return this.defaultReadTimeoutMillis;
+    } 
     
+    protected abstract CallOptions getCallOptions();
     protected abstract CheckableChannel getChannel(GrpcRequestSettings settings);
 
     @Override
@@ -67,7 +56,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             GrpcRequestSettings settings,
             ReqT request
     ) {
-        CallOptions options = this.callOptions;
+        CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
@@ -81,6 +70,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         try {
             CheckableChannel channel = getChannel(settings);
+
             ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending request to {}, method `{}', request: `{}'", 
@@ -105,7 +95,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             ReqT request,
             StreamObserver<RespT> observer
         ) {
-        CallOptions options = this.callOptions;
+        CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
