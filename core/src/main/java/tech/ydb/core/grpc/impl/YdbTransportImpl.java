@@ -37,7 +37,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     ));
 
     private static final Result<?> NOT_READY =  Result.fail(tech.ydb.core.Status.of(
-            StatusCode.CLIENT_DEADLINE_EXPIRED, null,
+            StatusCode.CLIENT_INTERNAL_ERROR, null,
             Issue.of("Request was not sent: transport is not ready", Issue.Severity.ERROR)
     ));
 
@@ -58,7 +58,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         BalancingSettings balancingSettings = getBalancingSettings(builder);
         EndpointRecord discoveryEndpoint = getDiscoverytEndpoint(builder);
 
-        logger.debug("creating YDB transport with {}", balancingSettings);
+        logger.info("creating YDB transport with {}", balancingSettings);
         
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.callOptionsProvider = new AuthCallOptions(this,
@@ -73,7 +73,10 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discoveryHandler = new YdbDiscoveryHandler();
         this.periodicDiscoveryTask = new PeriodicDiscoveryTask(discoveryRpc, discoveryHandler);
-        this.periodicDiscoveryTask.start();
+    }
+    
+    public void init() {
+        periodicDiscoveryTask.start();
     }
     
     private static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
@@ -130,10 +133,6 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
         
-        if (!waitReady(settings)) {
-            return CompletableFuture.completedFuture(NOT_READY.map(null));
-        }
-
         return super.unaryCall(method, settings, request);
     }
 
@@ -148,20 +147,9 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             return () -> {};
         }
 
-        if (!waitReady(settings)) {
-            observer.onError(NOT_READY.getStatus());
-            return () -> {};
-        }
-
         return super.serverStreamCall(method, settings, request, observer);
     }
     
-    private boolean waitReady(GrpcRequestSettings settings) {
-        long now = System.nanoTime();
-        long nanos = settings.getDeadlineAfter() > now ? settings.getDeadlineAfter() - now : 0;
-        return discoveryHandler.checkReady(nanos / 1000);
-    }
-
     @Override
     public void close() {
         shutdown = true;
@@ -209,43 +197,15 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
     
     private class YdbDiscoveryHandler implements PeriodicDiscoveryTask.DiscoveryHandler {
-        private volatile boolean isReady = false;
-        private final Object readyLock = new Object();
-        
-        public boolean checkReady(long millis) {
-            if (isReady) {
-                return true;
-            }
-            synchronized (readyLock) {
-                if (isReady) {
-                    return true;
-                }
-                try {
-                    readyLock.wait(millis);
-                    return isReady;
-                } catch (InterruptedException ex) {
-                    logger.warn("ydb transport wait for ready interrupted", ex);
-                    Thread.currentThread().interrupt();
-                    return false;
-                }
-            }
-        }
-
         @Override
         public boolean useMinDiscoveryPeriod() {
             return endpointPool.needToRunDiscovery();
-        }
+        } 
 
         @Override
         public void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result) {
             List<EndpointRecord> removed = endpointPool.setNewState(result.getSelfLocation(), result.getEndpointsList());
             channelPool.removeChannels(removed);
-
-            // Wake up all waiting locks
-            synchronized (readyLock) {
-                isReady = true;
-                readyLock.notifyAll();
-            }
         }
     }
 }

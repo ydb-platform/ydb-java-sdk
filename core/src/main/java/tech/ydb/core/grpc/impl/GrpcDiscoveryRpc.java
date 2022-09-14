@@ -10,11 +10,15 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.discovery.DiscoveryProtos;
 import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * @author Vladimir Gordiychuk
  */
 public class GrpcDiscoveryRpc {
+    private static final Logger logger = LoggerFactory.getLogger(GrpcDiscoveryRpc.class);
     private static final long DISCOVERY_TIMEOUT_SECONDS = 10;
 
     private final BaseGrpcTrasnsport parent;
@@ -32,6 +36,7 @@ public class GrpcDiscoveryRpc {
 
     public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
         try (GrpcTransport transport = createTransport()) {
+            logger.info("list endpoints from {}", endpoint.getHostAndPort());
             DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
                     .setDatabase(parent.getDatabase())
                     .build();

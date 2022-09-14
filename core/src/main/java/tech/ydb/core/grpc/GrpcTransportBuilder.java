@@ -156,6 +156,13 @@ public class GrpcTransportBuilder {
     }
 
     public GrpcTransport build() {
-        return new YdbTransportImpl(this);
+        YdbTransportImpl impl = new YdbTransportImpl(this);
+        try {
+            impl.init();
+            return impl;
+        } catch (RuntimeException ex) {
+            impl.close();
+            throw ex;
+        }
     }
 }

@@ -1,10 +1,15 @@
 package tech.ydb.core.grpc.impl;
 
 import java.time.Instant;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.Async;
 import tech.ydb.discovery.DiscoveryProtos;
 
@@ -34,19 +39,17 @@ public class PeriodicDiscoveryTask implements TimerTask {
     private final DiscoveryHandler discoveryHandler;
 
     private final AtomicBoolean updateInProgress = new AtomicBoolean();
-    private volatile Instant lastUpdateTime;
-    private volatile boolean stopped = false;
+    private final State state = new State();
     private Timeout currentSchedule = null;
 
     public PeriodicDiscoveryTask(GrpcDiscoveryRpc rpc, DiscoveryHandler handler) {
         this.discoveryRpc = rpc;
         this.discoveryHandler = handler;
-        this.lastUpdateTime = Instant.now();
     }
 
     void stop() {
         logger.debug("stopping PeriodicDiscoveryTask");
-        stopped = true;
+        state.stopped = true;
         if (currentSchedule != null) {
             currentSchedule.cancel();
             currentSchedule = null;
@@ -54,20 +57,21 @@ public class PeriodicDiscoveryTask implements TimerTask {
     }
 
     void start() {
-        logger.debug("first run of PeriodicDiscoveryTask");
+        logger.info("waiting for discovery ready");
         runDiscovery();
+        state.waitReady();
     }
 
     @Override
     public void run(Timeout timeout) {
-        if (timeout.isCancelled() || stopped) {
+        if (timeout.isCancelled() || state.stopped) {
             return;
         }
         
         if (discoveryHandler.useMinDiscoveryPeriod()) {
             runDiscovery();
         } else {
-            if (Instant.now().isAfter(lastUpdateTime.plusSeconds(DISCOVERY_PERIOD_NORMAL_SECONDS))) {
+            if (Instant.now().isAfter(state.lastUpdateTime.plusSeconds(DISCOVERY_PERIOD_NORMAL_SECONDS))) {
                 logger.debug("launching discovery in normal mode");
                 runDiscovery();
             } else {
@@ -83,20 +87,25 @@ public class PeriodicDiscoveryTask implements TimerTask {
     
     private void handleDiscoveryResponse(Result<DiscoveryProtos.ListEndpointsResult> response) {
         if (!response.isSuccess()) {
-            logger.error("discovery problem {}", response);
+            logger.error("discovery fail {}", response);
+            state.handleProblem(new UnexpectedResultException("discovery fail", response.getStatus()));
             return;
         }
 
         DiscoveryProtos.ListEndpointsResult result = response.getValue();
         if (result.getEndpointsList().isEmpty()) { 
-            logger.error("discovery get empty list of endpoints");
+            logger.error("discovery return empty list of endpoints");
+            Status status = Status.of(StatusCode.CLIENT_DISCOVERY_FAILED, null,
+                    Issue.of("Discovery return empty list of endpoints", Issue.Severity.ERROR));
+            state.handleProblem(new UnexpectedResultException("discovery fail", status));
             return;
         }
 
         logger.debug("successfully received ListEndpoints result with {} endpoints",
                 result.getEndpointsList().size());
         discoveryHandler.handleDiscoveryResult(result);
-        lastUpdateTime = Instant.now();
+        
+        state.handleOK();
     }
 
     private void runDiscovery() {
@@ -105,22 +114,101 @@ public class PeriodicDiscoveryTask implements TimerTask {
             return;
         }
         
-        logger.debug("updating endpoints, calling ListEndpoints...");
-        discoveryRpc.listEndpoints().whenComplete((response, ex) -> {
-            if (stopped) {
+        logger.info("updating endpoints, calling ListEndpoints...");
+        CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> future = discoveryRpc.listEndpoints();
+        if (future.isDone()) {
+            updateInProgress.set(false);
+            scheduleNextDiscovery();
+            handleDiscoveryResponse(future.join());
+        } else {
+            future.whenComplete((response, ex) -> {
+                if (state.stopped) {
+                    updateInProgress.set(false);
+                    return;
+                }
+
+                if (ex != null) {
+                    logger.warn("couldn't perform discovery with exception", ex);
+                    state.handleProblem(ex);
+                }
+                if (response != null) {
+                    handleDiscoveryResponse(response);
+                }
+
                 updateInProgress.set(false);
+                scheduleNextDiscovery();
+            });
+        }
+    }
+
+    private class State {
+        private volatile Instant lastUpdateTime = Instant.now();
+        private volatile boolean isReady = false;
+        private volatile boolean stopped = false;
+        private volatile RuntimeException lastProblem = null;
+        private final Object readyLock = new Object();
+        
+        public void handleOK() {
+            this.lastUpdateTime = Instant.now();
+
+            if (!isReady) {
+                // Wake up all waiting locks
+                synchronized (readyLock) {
+                    isReady = true;
+                    lastProblem = null;
+                    readyLock.notifyAll();
+                }
+            }
+        }
+        
+        public void handleProblem(Throwable ex) {
+            if (isReady) {
+                logger.error("discovery problem", ex);
                 return;
             }
 
-            if (ex != null) {
-                logger.warn("couldn't perform discovery with exception", ex);
+            // Wake up all waiting locks
+            synchronized (readyLock) {
+                if (isReady) {
+                    logger.error("discovery problem", ex);
+                    return;
+                }
+
+                isReady = false;
+                if (ex instanceof RuntimeException) {
+                    lastProblem = (RuntimeException)ex;
+                } else {
+                    lastProblem = new RuntimeException("Check ready problem", ex);
+                }
+                readyLock.notifyAll();
             }
-            if (response != null) {
-                handleDiscoveryResponse(response);
+        }
+
+        public void waitReady() {
+            if (isReady) {
+                return;
             }
 
-            updateInProgress.set(false);
-            scheduleNextDiscovery();
-        });
+            synchronized (readyLock) {
+                if (isReady) {
+                    return;
+                }
+                
+                if (lastProblem != null) {
+                    throw new RuntimeException("Check ready problem", lastProblem);
+                }
+
+                try {
+                    readyLock.wait(TimeUnit.SECONDS.toMillis(DISCOVERY_PERIOD_MIN_SECONDS));
+
+                    if (lastProblem != null) {
+                        throw new RuntimeException("Check ready problem", lastProblem);
+                    }
+                } catch (InterruptedException ex) {
+                    logger.warn("ydb transport wait for ready interrupted", ex);
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
     }
 }

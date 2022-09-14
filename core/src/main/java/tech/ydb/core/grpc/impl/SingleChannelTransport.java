@@ -55,9 +55,15 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     protected CheckableChannel getChannel(GrpcRequestSettings settings) {
         return new CheckableChannel() {
             @Override
-            public Channel grpcChannel() { return channel.getReadyChannel(); }
+            public Channel grpcChannel() {
+                return channel.getReadyChannel();
+            }
+
             @Override
-            public String endpoint() { return channel.getEndpoint(); }
+            public String endpoint() {
+                return channel.getEndpoint();
+            }
+
             @Override
             public void updateGrpcStatus(Status status) {
                 if (!status.isOk()) {
