@@ -89,7 +89,7 @@ public class StructValueTest {
             .isEqualTo(ValueProtos.Value.newBuilder()
                 .addItems(ProtoValue.fromUint32(1))
                 .addItems(ProtoValue.fromBool(true))
-                .addItems(ProtoValue.fromUtf8("yes"))
+                .addItems(ProtoValue.fromText("yes"))
                 .build());
 
         Value<?> valueX = ProtoValue.fromPb(type, valuePb);

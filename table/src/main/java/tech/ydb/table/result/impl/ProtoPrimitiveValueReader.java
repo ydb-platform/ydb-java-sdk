@@ -87,7 +87,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public long getUint32() {
         checkPrimitive(PrimitiveTypeId.UINT32);
-        return 0xFFFFFFFFFFl & value.getUint32Value();
+        return 0xFFFFFFFFl & value.getUint32Value();
     }
 
     @Override
@@ -159,13 +159,13 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public byte[] getBytes() {
         checkPrimitive(PrimitiveTypeId.STRING);
-        return ProtoValue.toString(value);
+        return ProtoValue.toBytes(value);
     }
 
     @Override
     public String getBytesAsString(Charset charset) {
         checkPrimitive(PrimitiveTypeId.STRING);
-        return ProtoValue.toString(value, charset);
+        return ProtoValue.toBytesAsString(value, charset);
     }
 
     @Override
@@ -177,7 +177,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public String getText() {
         checkPrimitive(PrimitiveTypeId.UTF8);
-        return ProtoValue.toUtf8(value);
+        return ProtoValue.toText(value);
     }
 
     @Override

@@ -341,7 +341,7 @@ public class PrimitiveValueTest {
             assertThat(v.getBytesAsByteString()).isEqualTo(ByteString.copyFrom(data));
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromString(data));
+            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.Bytes(data));
             assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Bytes, vPb));
         };
 
@@ -414,7 +414,7 @@ public class PrimitiveValueTest {
             assertThat(v.getText()).isEqualTo(date);
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUtf8(date));
+            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromText(date));
             assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Text, vPb));
         }
     }

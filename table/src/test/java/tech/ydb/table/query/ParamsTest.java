@@ -190,8 +190,8 @@ public class ParamsTest {
     private static void assertProtoUtf8(ValueProtos.TypedValue one, String value) {
         ProtoTruth.assertThat(one)
             .isEqualTo(ValueProtos.TypedValue.newBuilder()
-                .setType(ProtoType.getUtf8())
-                .setValue(ProtoValue.fromUtf8(value))
+                .setType(ProtoType.getText())
+                .setValue(ProtoValue.fromText(value))
                 .build());
     }
 
