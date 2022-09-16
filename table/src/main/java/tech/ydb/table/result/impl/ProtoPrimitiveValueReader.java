@@ -63,7 +63,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public int getUint8() {
         checkPrimitive(PrimitiveTypeId.UINT8);
-        return value.getUint32Value();
+        return 0xFF & value.getUint32Value();
     }
 
     @Override
@@ -75,7 +75,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public int getUint16() {
         checkPrimitive(PrimitiveTypeId.UINT16);
-        return value.getUint32Value();
+        return 0xFFFF & value.getUint32Value();
     }
 
     @Override
@@ -87,7 +87,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public long getUint32() {
         checkPrimitive(PrimitiveTypeId.UINT32);
-        return value.getUint32Value();
+        return 0xFFFFFFFFFFl & value.getUint32Value();
     }
 
     @Override
