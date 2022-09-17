@@ -116,29 +116,16 @@ public class PeriodicDiscoveryTask implements TimerTask {
         }
         
         logger.debug("updating endpoints, calling ListEndpoints...");
-        CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> future = discoveryRpc.listEndpoints();
-        if (future.isDone()) {
+        try {
+            handleDiscoveryResponse(discoveryRpc.listEndpoints());
+        } catch (Exception ex) {
+            logger.warn("couldn't perform discovery with exception", ex);
+            state.handleProblem(ex);
+        } finally {
             updateInProgress.set(false);
-            scheduleNextDiscovery();
-            handleDiscoveryResponse(future.join());
-        } else {
-            future.whenComplete((response, ex) -> {
-                if (state.stopped) {
-                    updateInProgress.set(false);
-                    return;
-                }
-
-                if (ex != null) {
-                    logger.warn("couldn't perform discovery with exception", ex);
-                    state.handleProblem(ex);
-                }
-                if (response != null) {
-                    handleDiscoveryResponse(response);
-                }
-
-                updateInProgress.set(false);
+            if (!state.stopped) {
                 scheduleNextDiscovery();
-            });
+            }
         }
     }
 

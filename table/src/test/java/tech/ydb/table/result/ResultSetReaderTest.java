@@ -16,12 +16,12 @@ public class ResultSetReaderTest {
     @Test
     public void readPrimitives() {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
-            .addColumns(newColumn("name", ProtoType.getUtf8()))
+            .addColumns(newColumn("name", ProtoType.getText()))
             .addColumns(newColumn("year", ProtoType.getUint32()))
-            .addRows(newRow(ProtoValue.fromUtf8("Edgy"), ProtoValue.fromUint32(2006)))
-            .addRows(newRow(ProtoValue.fromUtf8("Feisty"), ProtoValue.fromUint32(2007)))
-            .addRows(newRow(ProtoValue.fromUtf8("Gutsy"), ProtoValue.fromUint32(2007)))
-            .addRows(newRow(ProtoValue.fromUtf8("Hardy"), ProtoValue.fromUint32(2008)))
+            .addRows(newRow(ProtoValue.fromText("Edgy"), ProtoValue.fromUint32(2006)))
+            .addRows(newRow(ProtoValue.fromText("Feisty"), ProtoValue.fromUint32(2007)))
+            .addRows(newRow(ProtoValue.fromText("Gutsy"), ProtoValue.fromUint32(2007)))
+            .addRows(newRow(ProtoValue.fromText("Hardy"), ProtoValue.fromUint32(2008)))
             .build();
 
         ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
@@ -49,13 +49,61 @@ public class ResultSetReaderTest {
 
         Assert.assertFalse(reader.next());
     }
+    
+    @Test
+    public void readUnsignedInts() {
+        ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
+            .addColumns(newColumn("u8", ProtoType.getUint8()))
+            .addColumns(newColumn("u16", ProtoType.getUint16()))
+            .addColumns(newColumn("u32", ProtoType.getUint32()))
+            .addColumns(newColumn("u64", ProtoType.getUint64()))
+            .addRows(newRow(
+                    ProtoValue.fromUint8(1), ProtoValue.fromUint16(1), 
+                    ProtoValue.fromUint32(1), ProtoValue.fromUint64(1)))
+            .addRows(newRow(
+                    ProtoValue.fromUint8(-1), ProtoValue.fromUint16(-1), 
+                    ProtoValue.fromUint32(-1), ProtoValue.fromUint64(-1)))
+            .addRows(newRow(
+                    ProtoValue.fromUint8(0xFF), ProtoValue.fromUint16(0xFFFF),
+                    ProtoValue.fromUint32(0xFFFFFFFFl), ProtoValue.fromUint64(0xFFFFFFFFFFFFFFFFl)))
+            .build();
+
+        ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
+        Assert.assertEquals(4, reader.getColumnCount());
+        Assert.assertEquals(3, reader.getRowCount());
+
+        Assert.assertTrue(reader.next());
+        Assert.assertSame(reader.getColumn("u8"), reader.getColumn(0));
+        Assert.assertSame(reader.getColumn("u16"), reader.getColumn(1));
+        Assert.assertSame(reader.getColumn("u32"), reader.getColumn(2));
+        Assert.assertSame(reader.getColumn("u64"), reader.getColumn(3));
+
+        Assert.assertEquals(1, reader.getColumn("u8").getUint8());
+        Assert.assertEquals(1, reader.getColumn("u16").getUint16());
+        Assert.assertEquals(1, reader.getColumn("u32").getUint32());
+        Assert.assertEquals(1, reader.getColumn("u64").getUint64());
+
+        Assert.assertTrue(reader.next());
+        Assert.assertEquals(0xFF, reader.getColumn("u8").getUint8());
+        Assert.assertEquals(0xFFFF, reader.getColumn("u16").getUint16());
+        Assert.assertEquals(0xFFFFFFFFl, reader.getColumn("u32").getUint32());
+        Assert.assertEquals(0xFFFFFFFFFFFFFFFFl, reader.getColumn("u64").getUint64());
+
+        Assert.assertTrue(reader.next());
+        Assert.assertEquals(0xFF, reader.getColumn("u8").getUint8());
+        Assert.assertEquals(0xFFFF, reader.getColumn("u16").getUint16());
+        Assert.assertEquals(0xFFFFFFFFl, reader.getColumn("u32").getUint32());
+        Assert.assertEquals(0xFFFFFFFFFFFFFFFFl, reader.getColumn("u64").getUint64());
+
+        Assert.assertFalse(reader.next());
+    }
 
     @Test
     public void optionalPrimitives() {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
-            .addColumns(newColumn("utf8", ProtoType.getOptional(ProtoType.getUtf8())))
+            .addColumns(newColumn("utf8", ProtoType.getOptional(ProtoType.getText())))
             .addColumns(newColumn("uint32", ProtoType.getOptional(ProtoType.getUint32())))
-            .addRows(newRow(ProtoValue.optional(ProtoValue.fromUtf8("a")), ProtoValue.optional()))
+            .addRows(newRow(ProtoValue.optional(ProtoValue.fromText("a")), ProtoValue.optional()))
             .addRows(newRow(ProtoValue.optional(), ProtoValue.optional(ProtoValue.fromUint32(42))))
             .build();
 

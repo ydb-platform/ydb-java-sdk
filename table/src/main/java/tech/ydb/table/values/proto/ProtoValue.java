@@ -109,26 +109,26 @@ public class ProtoValue {
         return ValueProtos.Value.newBuilder().setBytesValue(value).build();
     }
 
-    public static ValueProtos.Value fromString(byte[] value) {
-        return fromBytes(ByteString.copyFrom(value));
+    public static ValueProtos.Value Bytes(byte[] value) {
+        return ProtoValue.fromBytes(ByteString.copyFrom(value));
     }
 
     /*
      * will not copy given array
      */
-    public static ValueProtos.Value fromOwnString(byte[] value) {
-        return fromBytes(UnsafeByteOperations.unsafeWrap(value));
+    public static ValueProtos.Value fromBytesOwn(byte[] value) {
+        return ProtoValue.fromBytes(UnsafeByteOperations.unsafeWrap(value));
     }
 
-    public static ValueProtos.Value fromString(String value, Charset charset) {
-        return fromBytes(UnsafeByteOperations.unsafeWrap(charset.encode(value)));
+    public static ValueProtos.Value fromStringAsBytes(String value, Charset charset) {
+        return ProtoValue.fromBytes(UnsafeByteOperations.unsafeWrap(charset.encode(value)));
     }
 
-    public static byte[] toString(ValueProtos.Value value) {
+    public static byte[] toBytes(ValueProtos.Value value) {
         return value.getBytesValue().toByteArray();
     }
 
-    public static String toString(ValueProtos.Value value, Charset charset) {
+    public static String toBytesAsString(ValueProtos.Value value, Charset charset) {
         return value.getBytesValue().toString(charset);
     }
 
@@ -138,25 +138,21 @@ public class ProtoValue {
         return ValueProtos.Value.newBuilder().setTextValue(value).build();
     }
 
-    public static ValueProtos.Value fromUtf8(String value) {
-        return fromText(value);
-    }
-
-    public static String toUtf8(ValueProtos.Value value) {
+    public static String toText(ValueProtos.Value value) {
         return value.getTextValue();
     }
 
     // - yson -
 
     public static ValueProtos.Value fromYson(byte[] value) {
-        return fromBytes(ByteString.copyFrom(value));
+        return ProtoValue.fromBytes(ByteString.copyFrom(value));
     }
 
     /*
      * will not copy given array
      */
     public static ValueProtos.Value fromOwnYson(byte[] value) {
-        return fromBytes(UnsafeByteOperations.unsafeWrap(value));
+        return ProtoValue.fromBytes(UnsafeByteOperations.unsafeWrap(value));
     }
 
     public static byte[] toYson(ValueProtos.Value value) {

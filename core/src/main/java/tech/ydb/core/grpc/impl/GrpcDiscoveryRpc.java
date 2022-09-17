@@ -2,6 +2,7 @@ package tech.ydb.core.grpc.impl;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
@@ -34,7 +35,7 @@ public class GrpcDiscoveryRpc {
         this.channelFactory = channelFactory;
     }
 
-    public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
+    public Result<DiscoveryProtos.ListEndpointsResult> listEndpoints() {
         try (GrpcTransport transport = createTransport()) {
             logger.debug("list endpoints from {}", endpoint.getHostAndPort());
             DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
@@ -49,8 +50,7 @@ public class GrpcDiscoveryRpc {
                     .thenApply(Operations.resultUnwrapper(
                             DiscoveryProtos.ListEndpointsResponse::getOperation,
                             DiscoveryProtos.ListEndpointsResult.class
-                    ));
-            
+                    )).join();
         }
     }
     

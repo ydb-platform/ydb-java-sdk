@@ -30,12 +30,12 @@ dependencies:
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-core</artifactId>
-        <version>2.0.0-RC3</version>
+        <version>2.0.0-RC4</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-table</artifactId>
-        <version>2.0.0-RC3</version>
+        <version>2.0.0-RC4</version>
     </dependency>
 </dependencies>
 ```

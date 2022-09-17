@@ -145,7 +145,8 @@ class StaticCredentitalsRpc {
                             if (th != null) {
                                 handleException(future, th);
                             }
-                        });
+                        })
+                        .join();
             }
         });
     }

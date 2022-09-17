@@ -43,8 +43,8 @@ public class ProtoType {
     private static final ValueProtos.Type UINT_64 = primitiveType(PrimitiveTypeId.UINT64);
     private static final ValueProtos.Type FLOAT = primitiveType(PrimitiveTypeId.FLOAT);
     private static final ValueProtos.Type DOUBLE = primitiveType(PrimitiveTypeId.DOUBLE);
-    private static final ValueProtos.Type STRING = primitiveType(PrimitiveTypeId.STRING);
-    private static final ValueProtos.Type UTF_8 = primitiveType(PrimitiveTypeId.UTF8);
+    private static final ValueProtos.Type BYTES = primitiveType(PrimitiveTypeId.STRING);
+    private static final ValueProtos.Type TEXT = primitiveType(PrimitiveTypeId.UTF8);
     private static final ValueProtos.Type YSON = primitiveType(PrimitiveTypeId.YSON);
     private static final ValueProtos.Type JSON = primitiveType(PrimitiveTypeId.JSON);
     private static final ValueProtos.Type UUID = primitiveType(PrimitiveTypeId.UUID);
@@ -75,10 +75,8 @@ public class ProtoType {
     public static ValueProtos.Type getUint64() { return UINT_64; }
     public static ValueProtos.Type getFloat() { return FLOAT; }
     public static ValueProtos.Type getDouble() { return DOUBLE; }
-    public static ValueProtos.Type getString() { return STRING; }
-    public static ValueProtos.Type getBytes() { return STRING; }
-    public static ValueProtos.Type getText() { return UTF_8; }
-    public static ValueProtos.Type getUtf8() { return UTF_8; }
+    public static ValueProtos.Type getBytes() { return BYTES; }
+    public static ValueProtos.Type getText() { return TEXT; }
     public static ValueProtos.Type getYson() { return YSON; }
     public static ValueProtos.Type getJson() { return JSON; }
     public static ValueProtos.Type getUuid() { return UUID; }

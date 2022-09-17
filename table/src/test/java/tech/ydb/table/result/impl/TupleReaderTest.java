@@ -28,12 +28,12 @@ public class TupleReaderTest {
     @Test
     public void primitives() {
         ValueProtos.Type type = ProtoType.getTuple(
-            ProtoType.getUtf8(),
+            ProtoType.getText(),
             ProtoType.getUint32(),
             ProtoType.getDouble());
 
         ValueProtos.Value value = ProtoValue.tuple(
-            ProtoValue.fromUtf8("hello"),
+            ProtoValue.fromText("hello"),
             ProtoValue.fromUint32(42),
             ProtoValue.fromDouble(3.14159));
 
@@ -51,12 +51,12 @@ public class TupleReaderTest {
     @Test
     public void nested() {
         ValueProtos.Type type = ProtoType.getTuple(
-            ProtoType.getTuple(ProtoType.getUtf8(), ProtoType.getUint32()),
-            ProtoType.getTuple(ProtoType.getUint32(), ProtoType.getUtf8()));
+            ProtoType.getTuple(ProtoType.getText(), ProtoType.getUint32()),
+            ProtoType.getTuple(ProtoType.getUint32(), ProtoType.getText()));
 
         ValueProtos.Value value = ProtoValue.tuple(
-            ProtoValue.tuple(ProtoValue.fromUtf8("hello"), ProtoValue.fromUint32(42)),
-            ProtoValue.tuple(ProtoValue.fromUint32(37), ProtoValue.fromUtf8("bye")));
+            ProtoValue.tuple(ProtoValue.fromText("hello"), ProtoValue.fromUint32(42)),
+            ProtoValue.tuple(ProtoValue.fromUint32(37), ProtoValue.fromText("bye")));
 
         AbstractValueReader reader = ProtoValueReaders.forTypeImpl(type);
         reader.setProtoValue(value);

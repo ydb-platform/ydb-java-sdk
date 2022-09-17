@@ -46,8 +46,8 @@ public class DataQueryImplTest {
 
         ProtoTruth.assertThat(pb.get("name"))
             .isEqualTo(TypedValue.newBuilder()
-                .setType(ProtoType.getUtf8())
-                .setValue(ProtoValue.fromUtf8("Jamel"))
+                .setType(ProtoType.getText())
+                .setValue(ProtoValue.fromText("Jamel"))
                 .build());
 
         ProtoTruth.assertThat(pb.get("age"))
