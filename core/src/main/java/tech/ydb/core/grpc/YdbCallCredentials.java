@@ -30,15 +30,15 @@ public class YdbCallCredentials extends CallCredentials {
         MetadataApplier applier)
     {
         try {
+            Metadata headers = new Metadata();
             String token = identity.getToken();
-            if (token != null && !token.isEmpty()) {
-                Metadata headers = new Metadata();
+            if (token != null) {
                 headers.put(YdbHeaders.AUTH_TICKET, token);
-                applier.apply(headers);
             }
+            applier.apply(headers);
         } catch (RuntimeException ex) {
             logger.error("invalid token", ex);
-            applier.fail(Status.UNAUTHENTICATED);
+            applier.fail(Status.UNAUTHENTICATED.withCause(ex));
         }
     }
 

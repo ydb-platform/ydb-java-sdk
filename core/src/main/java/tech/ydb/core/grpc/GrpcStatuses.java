@@ -34,9 +34,15 @@ public final class GrpcStatuses {
         if (status.isOk()) {
             return tech.ydb.core.Status.SUCCESS;
         }
-        String message = getMessage(status);
+        Issue message = Issue.of(getMessage(status), Issue.Severity.ERROR);
         StatusCode code = getStatusCode(status.getCode());
-        return tech.ydb.core.Status.of(code, null, Issue.of(message, Issue.Severity.ERROR));
+        Throwable cause = status.getCause();
+
+        if (cause == null) {
+            return tech.ydb.core.Status.of(code, null, message);
+        }
+        
+        return tech.ydb.core.Status.of(code, null, message, Issue.of(cause.getMessage(), Issue.Severity.ERROR));
     }
 
     private static String getMessage(Status status) {

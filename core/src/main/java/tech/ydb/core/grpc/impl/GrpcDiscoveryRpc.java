@@ -2,7 +2,6 @@ package tech.ydb.core.grpc.impl;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
@@ -35,23 +34,24 @@ public class GrpcDiscoveryRpc {
         this.channelFactory = channelFactory;
     }
 
-    public Result<DiscoveryProtos.ListEndpointsResult> listEndpoints() {
-        try (GrpcTransport transport = createTransport()) {
-            logger.debug("list endpoints from {}", endpoint.getHostAndPort());
-            DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
-                    .setDatabase(parent.getDatabase())
-                    .build();
+    public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
+        GrpcTransport transport = createTransport();
 
-            GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                    .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
-                    .build();
+        logger.debug("list endpoints from {}", endpoint.getHostAndPort());
+        DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
+                .setDatabase(parent.getDatabase())
+                .build();
 
-            return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
-                    .thenApply(Operations.resultUnwrapper(
-                            DiscoveryProtos.ListEndpointsResponse::getOperation,
-                            DiscoveryProtos.ListEndpointsResult.class
-                    )).join();
-        }
+        GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
+                .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
+                .build();
+        
+        return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
+                .whenComplete((res, ex) -> transport.close())
+                .thenApply(Operations.resultUnwrapper(
+                        DiscoveryProtos.ListEndpointsResponse::getOperation,
+                        DiscoveryProtos.ListEndpointsResult.class
+                ));
     }
     
     private GrpcTransport createTransport() {
