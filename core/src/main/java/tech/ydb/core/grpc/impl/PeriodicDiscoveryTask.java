@@ -1,7 +1,6 @@
 package tech.ydb.core.grpc.impl;
 
 import java.time.Instant;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -116,17 +115,24 @@ public class PeriodicDiscoveryTask implements TimerTask {
         }
         
         logger.debug("updating endpoints, calling ListEndpoints...");
-        try {
-            handleDiscoveryResponse(discoveryRpc.listEndpoints());
-        } catch (Exception ex) {
-            logger.warn("couldn't perform discovery with exception", ex);
-            state.handleProblem(ex);
-        } finally {
-            updateInProgress.set(false);
-            if (!state.stopped) {
-                scheduleNextDiscovery();
+        discoveryRpc.listEndpoints().whenComplete((response, ex) -> {
+            if (state.stopped) {
+                updateInProgress.set(false);
+                return;
             }
-        }
+
+            if (ex != null) {
+                Throwable cause = Async.unwrapCompletionException(ex);
+                logger.warn("couldn't perform discovery with exception", cause);
+                state.handleProblem(cause);
+            }
+            if (response != null) {
+                handleDiscoveryResponse(response);
+            }
+
+            updateInProgress.set(false);
+            scheduleNextDiscovery();
+        });
     }
 
     private class State {
@@ -183,14 +189,14 @@ public class PeriodicDiscoveryTask implements TimerTask {
                 }
                 
                 if (lastProblem != null) {
-                    throw new RuntimeException("Check ready problem", lastProblem);
+                    throw lastProblem;
                 }
 
                 try {
                     readyLock.wait(TimeUnit.SECONDS.toMillis(DISCOVERY_PERIOD_MIN_SECONDS));
 
                     if (lastProblem != null) {
-                        throw new RuntimeException("Check ready problem", lastProblem);
+                        throw lastProblem;
                     }
                 } catch (InterruptedException ex) {
                     logger.warn("ydb transport wait for ready interrupted", ex);

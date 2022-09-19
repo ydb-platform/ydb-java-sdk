@@ -76,7 +76,7 @@ class GrpcChannel {
                 throw new RuntimeException("Channel " + endpoint + " connecting problem", ex);
             } catch (TimeoutException ex) {
                 logger.error("Channel {} connect timeout excided", endpoint);
-                throw new RuntimeException("Channel " + endpoint + " connecting timeout", ex);
+                throw new RuntimeException("Channel " + endpoint + " connecting timeout");
             }
             return null;
         }
