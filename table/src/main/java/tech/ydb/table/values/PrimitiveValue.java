@@ -22,7 +22,6 @@ import tech.ydb.ValueProtos;
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
 
-import com.google.common.primitives.UnsignedLong;
 
 
 /**
@@ -335,7 +334,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public PrimitiveType getType() {
-            return PrimitiveType.Uint8;
+            return PrimitiveType.Int8;
         }
 
         @Override
