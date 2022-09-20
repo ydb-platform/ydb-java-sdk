@@ -1,5 +1,6 @@
 ## 2.0.0 ##
 
+* Added SnapshotRO trasaction level
 * Added static credentials support
 * New lock-free session pool
 * New grpc transport with client-side balancing

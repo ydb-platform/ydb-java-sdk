@@ -514,6 +514,9 @@ public abstract class BaseSession implements Session {
                 case STALE_READ_ONLY:
                     settings.setStaleReadOnly(YdbTable.StaleModeSettings.getDefaultInstance());
                     break;
+                case SNAPSHOT_READ_ONLY:
+                    settings.setSnapshotReadOnly(YdbTable.SnapshotModeSettings.getDefaultInstance());
+                    break;
                 default:
                     break;
             }

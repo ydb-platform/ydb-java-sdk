@@ -38,6 +38,11 @@ public class GrpcTransportBuilder {
     private AuthProvider authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
 
+    /**
+     * can cause leaks https://github.com/grpc/grpc-java/issues/9340
+     */
+    private boolean enableRetry = false;
+
     GrpcTransportBuilder(@Nullable String endpoint, @Nullable HostAndPort host, @Nonnull String database) {
         this.endpoint = endpoint;
         this.host = host;
@@ -102,6 +107,10 @@ public class GrpcTransportBuilder {
         return readTimeoutMillis;
     }
 
+    public boolean isEnableRetry() {
+        return enableRetry;
+    }
+
     public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
         this.channelInitializer = Objects.requireNonNull(channelInitializer, "channelInitializer is null");
         return this;
@@ -152,6 +161,16 @@ public class GrpcTransportBuilder {
 
     public GrpcTransportBuilder withCallExecutor(Executor executor) {
         this.callExecutor = Objects.requireNonNull(executor);
+        return this;
+    }
+
+    public GrpcTransportBuilder enableRetry() {
+        this.enableRetry = true;
+        return this;
+    }
+
+    public GrpcTransportBuilder disableRetry() {
+        this.enableRetry = false;
         return this;
     }
 
