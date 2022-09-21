@@ -1,6 +1,7 @@
 package tech.ydb.table.transaction;
 
 
+import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.OnlineModeSettings;
 import tech.ydb.table.YdbTable.SerializableModeSettings;
 import tech.ydb.table.YdbTable.StaleModeSettings;
@@ -10,8 +11,9 @@ import tech.ydb.table.YdbTable.TransactionSettings;
 
 /**
  * @author Sergey Polovko
+ * @param <Self> self type
  */
-public abstract class TxControl<Self extends TxControl> {
+public abstract class TxControl<Self extends TxControl<?>> {
 
     private final TransactionControl pb;
 
@@ -29,19 +31,23 @@ public abstract class TxControl<Self extends TxControl> {
             .build();
     }
 
-    public static TxControl id(String id) {
+    public static TxId id(String id) {
         return new TxId(true, id);
     }
 
-    public static TxControl id(Transaction tx) {
+    public static TxId id(Transaction tx) {
         return new TxId(true, tx.getId());
     }
 
-    public static TxControl serializableRw() {
+    public static TxSerializableRw serializableRw() {
         return TxSerializableRw.WITH_COMMIT;
     }
 
-    public static TxControl staleRo() {
+    public static TxSnapshotRo snapshotRo() {
+        return TxSnapshotRo.WITH_COMMIT;
+    }
+
+    public static TxStaleRo staleRo() {
         return TxStaleRo.WITH_COMMIT;
     }
 
@@ -62,7 +68,7 @@ public abstract class TxControl<Self extends TxControl> {
     /**
      * TX ID
      */
-    private static final class TxId extends TxControl<TxId> {
+    public static final class TxId extends TxControl<TxId> {
         private final String id;
 
         TxId(boolean commitTx, String id) {
@@ -79,7 +85,7 @@ public abstract class TxControl<Self extends TxControl> {
     /**
      * TX SERIALIZABLE READ/WRITE
      */
-    private static final class TxSerializableRw extends TxControl<TxSerializableRw> {
+    public static final class TxSerializableRw extends TxControl<TxSerializableRw> {
 
         private static final TxSerializableRw WITH_COMMIT = new TxSerializableRw(true);
         private static final TxSerializableRw WITHOUT_COMMIT = new TxSerializableRw(false);
@@ -99,7 +105,7 @@ public abstract class TxControl<Self extends TxControl> {
     /**
      * TX STALE READ-ONLY
      */
-    private static final class TxStaleRo extends TxControl<TxStaleRo> {
+    public static final class TxStaleRo extends TxControl<TxStaleRo> {
 
         private static final TxStaleRo WITH_COMMIT = new TxStaleRo(true);
         private static final TxStaleRo WITHOUT_COMMIT = new TxStaleRo(false);
@@ -153,6 +159,32 @@ public abstract class TxControl<Self extends TxControl> {
 
             if (allowInconsistentReads) {
                 return new TxOnlineRo(commitTx, true);
+            }
+
+            return commitTx ? WITH_COMMIT : WITHOUT_COMMIT;
+        }
+    }
+
+    /**
+     * TX SNAPSHOT READ ONLY
+     */
+    public static final class TxSnapshotRo extends TxControl<TxSnapshotRo> {
+
+        private static final TxSnapshotRo WITH_COMMIT = new TxSnapshotRo(true);
+        private static final TxSnapshotRo WITHOUT_COMMIT = new TxSnapshotRo(false);
+
+        TxSnapshotRo(boolean commitTx) {
+            super(commitTx, TransactionSettings.newBuilder()
+                .setSnapshotReadOnly(YdbTable.SnapshotModeSettings
+                        .newBuilder().build()
+                ).build()
+            );
+        }
+
+        @Override
+        public TxSnapshotRo setCommitTx(boolean commitTx) {
+            if (commitTx == isCommitTx()) {
+                return this;
             }
 
             return commitTx ? WITH_COMMIT : WITHOUT_COMMIT;
