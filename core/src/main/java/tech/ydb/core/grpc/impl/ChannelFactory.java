@@ -5,10 +5,6 @@ import java.util.function.Consumer;
 
 import javax.net.ssl.SSLException;
 
-import tech.ydb.core.grpc.GrpcTransportBuilder;
-import tech.ydb.core.grpc.YdbHeaders;
-import tech.ydb.core.ssl.YandexTrustManagerFactory;
-
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
@@ -20,6 +16,10 @@ import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
+
+import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.grpc.YdbHeaders;
+import tech.ydb.core.ssl.YandexTrustManagerFactory;
 
 /**
  * @author Nikolay Perfilov
@@ -41,11 +41,11 @@ public class ChannelFactory {
         this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
     }
-    
+
     public String getDatabase() {
         return database;
     }
-    
+
     public ManagedChannel newManagedChannel(String host, int port) {
         NettyChannelBuilder channelBuilder = NettyChannelBuilder
                 .forAddress(host, port);
@@ -62,17 +62,17 @@ public class ChannelFactory {
                 .maxInboundMessageSize(64 << 20) // 64 MiB
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
                 .intercept(metadataInterceptor());
-        
+
         if (channelInitializer != null) {
             channelInitializer.accept(channelBuilder);
         }
-        
+
         if (retryEnabled) {
             channelBuilder.enableRetry();
         } else {
             channelBuilder.disableRetry();
         }
-        
+
         return channelBuilder.build();
     }
 

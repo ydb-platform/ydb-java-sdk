@@ -36,19 +36,19 @@ import tech.ydb.table.values.ListValue;
  * @author Sergey Polovko
  */
 public interface Session extends AutoCloseable {
-    public enum State {
+    enum State {
         UNSPECIFIED,
         READY,
-        BUSY,
-        ;
+        BUSY;
     }
 
     String getId();
-    
+
     @Override
     void close();
 
-    CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions, CreateTableSettings settings);
+    CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions,
+            CreateTableSettings settings);
 
     CompletableFuture<Status> dropTable(String path, DropTableSettings settings);
 
@@ -78,7 +78,8 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings, Consumer<ResultSetReader> fn);
 
-    CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn);
+    CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings,
+            Consumer<ResultSetReader> fn);
 
     CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings);
 
@@ -104,7 +105,8 @@ public interface Session extends AutoCloseable {
         return describeTable(path, new DescribeTableSettings());
     }
 
-    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl, Params params) {
+    default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl,
+            Params params) {
         return executeDataQuery(query, txControl, params, new ExecuteDataQuerySettings());
     }
 

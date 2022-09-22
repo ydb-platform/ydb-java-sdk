@@ -69,8 +69,7 @@ public interface Params {
     static Params of(
         String name1, Value<?> value1,
         String name2, Value<?> value2,
-        String name3, Value<?> value3)
-    {
+        String name3, Value<?> value3) {
         return ParamsImmutableMap.create(name1, value1, name2, value2, name3, value3);
     }
 
@@ -79,12 +78,12 @@ public interface Params {
      *
      * @return non empty {@link Params} with four parameters
      */
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
         String name1, Value<?> value1,
         String name2, Value<?> value2,
         String name3, Value<?> value3,
-        String name4, Value<?> value4)
-    {
+        String name4, Value<?> value4) {
         return ParamsImmutableMap.create(name1, value1, name2, value2, name3, value3, name4, value4);
     }
 
@@ -93,13 +92,13 @@ public interface Params {
      *
      * @return non empty {@link Params} with five parameters
      */
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
         String name1, Value<?> value1,
         String name2, Value<?> value2,
         String name3, Value<?> value3,
         String name4, Value<?> value4,
-        String name5, Value<?> value5)
-    {
+        String name5, Value<?> value5) {
         return ParamsImmutableMap.create(name1, value1, name2, value2, name3, value3, name4, value4, name5, value5);
     }
 
@@ -108,16 +107,35 @@ public interface Params {
      *
      * @return non empty {@link Params} with six parameters
      */
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
             String name1, Value<?> value1,
             String name2, Value<?> value2,
             String name3, Value<?> value3,
             String name4, Value<?> value4,
             String name5, Value<?> value5,
-            String name6, Value<?> value6)
-    {
+            String name6, Value<?> value6) {
         return ParamsImmutableMap.create(
                 name1, value1, name2, value2, name3, value3, name4, value4, name5, value5, name6, value6);
+    }
+
+    /**
+     * Returns an immutable implementation of {@link Params} with six parameters.
+     *
+     * @return non empty {@link Params} with seven parameters
+     */
+    @SuppressWarnings("checkstyle:ParameterNumber")
+    static Params of(
+            String name1, Value<?> value1,
+            String name2, Value<?> value2,
+            String name3, Value<?> value3,
+            String name4, Value<?> value4,
+            String name5, Value<?> value5,
+            String name6, Value<?> value6,
+            String name7, Value<?> value7) {
+        return ParamsImmutableMap.create(
+                name1, value1, name2, value2, name3, value3, name4, value4, name5, value5, name6, value6,
+                name7, value7);
     }
 
     /**
@@ -125,6 +143,7 @@ public interface Params {
      *
      * @return non empty {@link Params} with eight parameters
      */
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
             String name1, Value<?> value1,
             String name2, Value<?> value2,
@@ -133,8 +152,7 @@ public interface Params {
             String name5, Value<?> value5,
             String name6, Value<?> value6,
             String name7, Value<?> value7,
-            String name8, Value<?> value8)
-    {
+            String name8, Value<?> value8) {
         return ParamsImmutableMap.create(
                 name1, value1, name2, value2, name3, value3, name4, value4, name5, value5,
                 name6, value6, name7, value7, name8, value8
@@ -146,6 +164,7 @@ public interface Params {
      *
      * @return non empty {@link Params} with nine parameters
      */
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
             String name1, Value<?> value1,
             String name2, Value<?> value2,
@@ -155,8 +174,7 @@ public interface Params {
             String name6, Value<?> value6,
             String name7, Value<?> value7,
             String name8, Value<?> value8,
-            String name9, Value<?> value9)
-    {
+            String name9, Value<?> value9) {
         return ParamsImmutableMap.create(
                 name1, value1, name2, value2, name3, value3, name4, value4, name5, value5,
                 name6, value6, name7, value7, name8, value8, name9, value9);

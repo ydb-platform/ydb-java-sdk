@@ -16,7 +16,7 @@ public class DataQueryResult {
     private final String txId;
     private final List<ValueProtos.ResultSet> resultSets;
 
-    public DataQueryResult(YdbTable.ExecuteQueryResult result) { 
+    public DataQueryResult(YdbTable.ExecuteQueryResult result) {
         this.txId = result.getTxMeta().getId();
         this.resultSets = result.getResultSetsList();
     }

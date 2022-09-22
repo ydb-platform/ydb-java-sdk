@@ -4,7 +4,7 @@ package tech.ydb.table.utils;
  * @author Sergey Polovko
  */
 public final class Arrays2 {
-    private Arrays2() {}
+    private Arrays2() { }
 
     /**
      * Check if array is sorted.

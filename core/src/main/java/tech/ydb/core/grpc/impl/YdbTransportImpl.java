@@ -5,6 +5,15 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.base.Strings;
+import com.google.common.net.HostAndPort;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.MethodDescriptor;
+import io.grpc.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
@@ -15,15 +24,6 @@ import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.discovery.DiscoveryProtos;
-
-import com.google.common.base.Strings;
-import com.google.common.net.HostAndPort;
-import io.grpc.CallOptions;
-import io.grpc.Channel;
-import io.grpc.MethodDescriptor;
-import io.grpc.Status;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Nikolay Perfilov
@@ -59,7 +59,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         EndpointRecord discoveryEndpoint = getDiscoverytEndpoint(builder);
 
         logger.info("creating YDB transport with {}", balancingSettings);
-        
+
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.callOptionsProvider = new AuthCallOptions(this,
                 discoveryEndpoint,
@@ -74,11 +74,11 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         this.discoveryHandler = new YdbDiscoveryHandler();
         this.periodicDiscoveryTask = new PeriodicDiscoveryTask(discoveryRpc, discoveryHandler);
     }
-    
+
     public void init() {
         periodicDiscoveryTask.start();
     }
-    
+
     private static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
         URI endpointURI = null;
         try {
@@ -87,7 +87,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             }
             HostAndPort host = builder.getHost();
             if (host != null) {
-                endpointURI = new URI(null, null, host.getHost(), host.getPortOrDefault(DEFAULT_PORT), null, null, null);
+                endpointURI = new URI(null, null, host.getHost(),
+                        host.getPortOrDefault(DEFAULT_PORT), null, null, null);
             }
         } catch (URISyntaxException ex) {
             logger.warn("endpoint parse problem", ex);
@@ -113,7 +114,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
 
         return new BalancingSettings();
     }
-    
+
     @Override
     public CallOptions getCallOptions() {
         return callOptionsProvider.getCallOptions();
@@ -132,7 +133,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         if (shutdown) {
             return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
-        
+
         return super.unaryCall(method, settings, request);
     }
 
@@ -144,12 +145,12 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             StreamObserver<RespT> observer) {
         if (shutdown) {
             observer.onError(SHUTDOWN_RESULT.getStatus());
-            return () -> {};
+            return () -> { };
         }
 
         return super.serverStreamCall(method, settings, request, observer);
     }
-    
+
     @Override
     public void close() {
         shutdown = true;
@@ -171,7 +172,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private class YdbChannel implements CheckableChannel {
         private final GrpcChannel channel;
 
-        public YdbChannel(GrpcRequestSettings settings) {
+        YdbChannel(GrpcRequestSettings settings) {
             EndpointInfo preferredEndpoint = settings.getPreferredEndpoint();
             EndpointRecord endpoint = endpointPool.getEndpoint(
                     preferredEndpoint != null ? preferredEndpoint.getEndpoint() : null);
@@ -195,16 +196,18 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             }
         }
     }
-    
+
     private class YdbDiscoveryHandler implements PeriodicDiscoveryTask.DiscoveryHandler {
         @Override
         public boolean useMinDiscoveryPeriod() {
             return endpointPool.needToRunDiscovery();
-        } 
+        }
 
         @Override
         public void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result) {
-            List<EndpointRecord> removed = endpointPool.setNewState(result.getSelfLocation(), result.getEndpointsList());
+            List<EndpointRecord> removed = endpointPool.setNewState(
+                    result.getSelfLocation(), result.getEndpointsList()
+            );
             channelPool.removeChannels(removed);
         }
     }

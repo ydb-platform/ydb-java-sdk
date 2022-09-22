@@ -64,8 +64,13 @@ public class ListValue implements Value<ListType> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         ListValue that = (ListValue) o;
         return Arrays.equals(items, that.items);

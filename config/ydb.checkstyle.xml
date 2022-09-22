@@ -1,0 +1,256 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_3.dtd">
+
+<module name="Checker">
+
+    <property name="charset" value="UTF-8"/>
+
+    <!-- Checks whether files end with a new line.                        -->
+    <!-- See http://checkstyle.sf.net/config_misc.html#NewlineAtEndOfFile -->
+    <module name="NewlineAtEndOfFile">
+        <!--Checkstyle 8.17 had bug with lineSeparator, after update to 8.36 it fails of CRLF-->
+        <property name="lineSeparator" value="lf_cr_crlf"/>
+    </module>
+
+    <!-- File length should be less than 2000 lines.                        -->
+    <!-- See http://checkstyle.sourceforge.net/config_sizes.html#FileLength -->
+    <module name="FileLength"/>
+
+    <!-- Whitespaces are used for indents.                                             -->
+    <!-- See http://checkstyle.sourceforge.net/config_whitespace.html#FileTabCharacter -->
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
+
+    <!-- Trailing spaces are prohibited.               -->
+    <!-- See http://checkstyle.sf.net/config_misc.html -->
+    <module name="RegexpSingleline">
+        <property name="format" value="\s+$"/>
+        <property name="minimum" value="0"/>
+        <property name="maximum" value="0"/>
+        <property name="message" value="Line has trailing spaces."/>
+    </module>
+
+    <!-- Checkstyle can be disabled code between comments CHECKSTYLE:OFF and CHECKSTYLE:ON  -->
+    <!-- See https://checkstyle.sourceforge.io/config_filters.html#SuppressWithPlainTextCommentFilter -->
+    <module name="SuppressWithPlainTextCommentFilter">
+        <!-- Allow absent space between // and CHECKSTYLE-->
+        <property name="offCommentFormat" value="// *CHECKSTYLE:OFF"/>
+        <property name="onCommentFormat" value="// *CHECKSTYLE:ON"/>
+    </module>
+
+    <!-- Checks can be disabled using @SuppressWarnings annotation.                       -->
+    <!-- See http://checkstyle.sourceforge.net/config_filters.html#SuppressWarningsFilter -->
+    <module name="SuppressWarningsFilter"/>
+
+    <!-- Excludes some checks for test classes                                   -->
+    <!-- http://checkstyle.sourceforge.net/config_filters.html#SuppressionFilter -->
+<!--    <module name="SuppressionFilter">
+        <property name="file" value="checkstyle/ydb.suppressions.xml"/>
+        <property name="optional" value="false"/>
+    </module>-->
+
+    <!-- Sets max length of one line to 120 symbols. See https://clubs.at.yandex-team.ru/java/593 for more details -->
+    <!-- See http://checkstyle.sourceforge.net/config_sizes.html#LineLength                                        -->
+    <module name="LineLength">
+        <property name="max" value="120"/>
+        <!-- Checkstyle 8.24 moves LineLength out of TreeWalker and javadoc comments need to be excluded explicitly-->
+        <property name="ignorePattern" value="^( *\*|package|import) *.+$"/>
+    </module>
+
+    <module name="TreeWalker">
+        <!-- Checkstyle can be disabled code between comments CHECKSTYLE:OFF and CHECKSTYLE:ON  -->
+        <!-- See http://checkstyle.sourceforge.net/config_filters.html#SuppressionCommentFilter -->
+        <module name="SuppressionCommentFilter"/>
+        <!-- Checkstyle can be disabled using @SuppressWarnings annotation                    -->
+        <!-- See http://checkstyle.sourceforge.net/config_filters.html#SuppressWarningsFilter -->
+        <module name="SuppressWarningsHolder"/>
+
+        <!--
+        Check for public static final aka constants naming.
+        Allows only upper case letters, numbers and underscores in variable names.
+        The only exceptions are "logger", "log", "*Log", "*Logger" variable names.
+        -->
+        <!-- See http://checkstyle.sourceforge.net/config_naming.html#ConstantName -->
+        <module name="ConstantName">
+            <property name="format"
+                      value="^(([A-Z][A-Z0-9]*(_[A-Z0-9]+)*)|(logger)|(log)|([a-z][a-zA-Z0-9]*Log)|([a-z][a-zA-Z0-9]*Logger))$"/>
+            <message key="сonstantName.invalidPattern"
+                     value="Member ''{0}'' must be UPPERCASE_WITH_UNDERSCORE, except it a logger name (checked pattern ''{1}'')." />
+        </module>
+
+        <!--
+        Standard java naming convention rules i. e. camel case variables, no underscore and camel case in package
+        names, type names starting from upper letter etc.
+        -->
+        <!-- See http://checkstyle.sourceforge.net/config_naming.html -->
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+
+        <!--
+        Main purpose is to forbid unused imports in code as it complicates code usage search in code search.
+        -->
+        <!-- See http://checkstyle.sourceforge.net/config_imports.html#UnusedImports -->
+        <module name="RedundantImport"/>
+        <module name="UnusedImports">
+            <property name="processJavadoc" value="true"/>
+        </module>
+
+        <!-- Sets max method length to 150 lines.                                 -->
+        <!-- See http://checkstyle.sourceforge.net/config_sizes.html#MethodLength -->
+        <module name="MethodLength"/>
+
+        <!--
+        Sets max method parameters number to 7. If you need more parameters for method, you have two options:
+        - refactor you code (recommended)
+        - use one of suppression methods (i. e. @SuppressWarnings annotation)
+        -->
+        <!-- See http://checkstyle.sourceforge.net/config_sizes.html#ParameterNumber -->
+        <module name="ParameterNumber"/>
+
+        <!-- Checks for default java formatting which is fully compliant with default Intellij Idea settings. -->
+        <!-- See http://checkstyle.sf.net/config_whitespace.html                                              -->
+        <module name="GenericWhitespace"/>
+        <module name="MethodParamPad"/>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <module name="ParenPad"/>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround"/>
+
+        <!-- Checks that modifiers follow certain order for the sake of code consistency. -->
+        <!-- See http://checkstyle.sourceforge.net/config_modifier.html#ModifierOrder    -->
+        <module name="ModifierOrder"/>
+
+        <!-- Checks that redundant modifiers are not specified.                           -->
+        <!-- See http://checkstyle.sourceforge.net/config_modifier.html#RedundantModifier -->
+        <module name="RedundantModifier"/>
+
+        <!-- Nested blocks in java have no meaning and only add confusion. Example: -->
+        <!-- void foo() {                                                           -->
+        <!--     someCode();                                                        -->
+        <!--     {                                                                  -->
+        <!--         nestedBlockCode();                                             -->
+        <!--     }                                                                  -->
+        <!--     evenMoreCode();                                                    -->
+        <!-- }                                                                      -->
+        <!-- See http://checkstyle.sf.net/config_blocks.html                        -->
+        <module name="AvoidNestedBlocks">
+            <property name="allowInSwitchCase" value="true"/>
+        </module>
+
+        <!-- Empty blocks for specified tokens are suspicious and should not be used. -->
+        <!-- See http://checkstyle.sourceforge.net/config_blocks.html#EmptyBlock      -->
+        <module name="EmptyBlock">
+            <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,
+            LITERAL_TRY,LITERAL_WHILE,INSTANCE_INIT,STATIC_INIT"/>
+        </module>
+
+        <!-- Blocks without braces are not allowed (one line lambdas are ok) as they are error prone. -->
+	<module name="LeftCurly"/>
+        <module name="NeedBraces"/>
+        <module name="RightCurly"/>
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+        <module name="DeclarationOrder">
+            <property name="ignoreModifiers" value="true"/>
+        </module>
+
+        <!-- ; without any actual statement is not allowed. -->
+        <module name="EmptyStatement"/>
+
+        <!-- Checks that classes either implement both equals and hashCode or none of them -->
+        <!-- See http://checkstyle.sourceforge.net/config_coding.html#EqualsHashCode       -->
+        <module name="EqualsHashCode"/>
+
+        <!-- Forbids hiding of fields.                                            -->
+        <!-- See http://checkstyle.sourceforge.net/config_coding.html#HiddenField -->
+        <module name="HiddenField">
+            <property name="tokens" value="VARIABLE_DEF"/>
+        </module>
+
+        <!-- Detects missing default branch for switch expressions.                        -->
+        <!-- See http://checkstyle.sourceforge.net/config_coding.html#MissingSwitchDefault -->
+        <module name="MissingSwitchDefault"/>
+
+        <!-- Some checks for simplification of boolean expression. See links bellow for examples. -->
+        <!-- http://checkstyle.sourceforge.net/config_coding.html#SimplifyBooleanExpression       -->
+        <module name="SimplifyBooleanExpression"/>
+        <!-- http://checkstyle.sourceforge.net/config_coding.html#SimplifyBooleanReturn           -->
+        <module name="SimplifyBooleanReturn"/>
+
+        <!-- Multiple variables declarations, i. e. int a, b = 42 are forbidden as they are error prone. -->
+        <!-- See http://checkstyle.sourceforge.net/config_coding.html#MultipleVariableDeclarations       -->
+        <module name="MultipleVariableDeclarations"/>
+
+        <!-- Only one statement per line is allowed.                                      -->
+        <!-- See http://checkstyle.sourceforge.net/config_coding.html#OneStatementPerLine -->
+        <module name="OneStatementPerLine"/>
+
+        <!-- Classes with only static members require private constructor to avoid improper usage. -->
+        <!-- See http://checkstyle.sourceforge.net/config_design.html#HideUtilityClassConstructor  -->
+        <module name="HideUtilityClassConstructor"/>
+        <module name="SuppressionXpathSingleFilter">
+            <property name="checks" value="HideUtilityClassConstructor"/>
+            <property name="query" value="//*[MODIFIERS//*[@text = 'UtilityClass' or @text='NoArgsConstructor' or @text = 'SpringBootApplication']]/descendant-or-self::node()"/>
+        </module>
+
+        <!-- Restriction for declaring visibility modifiers for class fields.            -->
+        <!-- See http://checkstyle.sourceforge.net/config_design.html#VisibilityModifier -->
+        <module name="VisibilityModifier">
+            <property name="packageAllowed" value="true"/>
+            <property name="protectedAllowed" value="true"/>
+        </module>
+
+        <!-- Check for java-style enum declarations. Is required for the sake of consistency. -->
+        <!-- Example: String[] args                                                           -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html#ArrayTypeStyle            -->
+        <module name="ArrayTypeStyle"/>
+
+        <!-- Checks that long constants don't use lower l to mark variable as long. -->
+        <!-- See Puzzle 11: The Last Laugh for explanation                          -->
+        <!-- See http://checkstyle.sourceforge.net/config_misc.html#UpperEll        -->
+        <module name="UpperEll"/>
+
+        <!-- Forbids any kind of * imports. Absence of * imports simplifies code search especially in mono repository. -->
+        <!-- See http://checkstyle.sourceforge.net/config_imports.html#AvoidStarImport                                 -->
+        <module name="AvoidStarImport">
+            <property name="allowClassImports" value="false"/>
+            <property name="allowStaticMemberImports" value="false"/>
+        </module>
+
+        <!-- Check location of annotation on language elements                               -->
+        <!-- See http://checkstyle.sourceforge.net/config_annotation.html#AnnotationLocation -->
+        <module name="AnnotationLocation">
+            <property name="allowSamelineMultipleAnnotations" value="false"/>
+            <property name="allowSamelineSingleParameterlessAnnotation"
+                      value="true"/>
+            <property name="allowSamelineParameterizedAnnotation" value="true"/>
+        </module>
+
+        <!-- Checks for import order                                      -->
+        <!-- See http://checkstyle.sf.net/config_imports.html#ImportOrder -->
+        <module name="ImportOrder">
+            <property name="groups" value="java,javax,/^(?!ru\.yandex\.)/,yandex,ru.yandex,tech.ydb"/>
+            <property name="ordered" value="true"/>
+            <property name="separated" value="true"/>
+            <property name="option" value="bottom"/>
+            <property name="sortStaticImportsAlphabetically" value="true"/>
+        </module>
+        <module name="SuppressionXpathSingleFilter">
+            <property name="checks" value="ImportOrder"/>
+            <property name="message" value="^'ru\.yandex\..*'.*should be separated.*"/>
+        </module>
+
+    </module>
+</module>

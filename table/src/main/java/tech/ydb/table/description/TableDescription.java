@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
+
 import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
@@ -229,7 +230,7 @@ public class TableDescription {
             private final Type type;
             private final String family;
 
-            public TypeAndFamily(Type type, String family) {
+            TypeAndFamily(Type type, String family) {
                 this.type = type;
                 this.family = family;
             }
@@ -262,7 +263,8 @@ public class TableDescription {
         private final long rowsEstimate;
         private final long storeSize;
 
-        public TableStats(@Nullable Instant creationTime, @Nullable Instant modificationTime, long rowsEstimate, long storeSize) {
+        public TableStats(@Nullable Instant creationTime, @Nullable Instant modificationTime,
+                long rowsEstimate, long storeSize) {
             this.creationTime = creationTime;
             this.modificationTime = modificationTime;
             this.rowsEstimate = rowsEstimate;

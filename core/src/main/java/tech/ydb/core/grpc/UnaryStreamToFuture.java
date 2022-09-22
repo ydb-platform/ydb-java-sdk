@@ -5,25 +5,26 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
+import io.grpc.ClientCall;
+import io.grpc.Metadata;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
-import io.grpc.ClientCall;
-import io.grpc.Metadata;
-
 
 /**
  * @author Sergey Polovko
+ * @param <T> type of value
  */
 public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
-    private final static Status NO_VALUE = Status.of(
+    private static final Status NO_VALUE = Status.of(
             StatusCode.CLIENT_INTERNAL_ERROR, null,
             Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR)
     );
-    
-    private final static Status MULTIPLY_VALUES = Status.of(
+
+    private static final Status MULTIPLY_VALUES = Status.of(
             StatusCode.CLIENT_INTERNAL_ERROR, null,
             Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR)
     );

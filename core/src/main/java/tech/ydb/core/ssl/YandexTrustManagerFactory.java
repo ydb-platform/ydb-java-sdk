@@ -20,7 +20,10 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
     private static final Provider PROVIDER = new Provider("", 0.0D, "") {
         private static final long serialVersionUID = -2680540247105807895L;
     };
-    private static final ThreadLocal<YandexTrustManagerFactorySpi> CURRENT_SPI = new ThreadLocal<YandexTrustManagerFactorySpi>() {
+
+    private static final ThreadLocal<YandexTrustManagerFactorySpi> CURRENT_SPI =
+            new ThreadLocal<YandexTrustManagerFactorySpi>() {
+        @Override
         protected YandexTrustManagerFactorySpi initialValue() {
             return new YandexTrustManagerFactorySpi();
         }
@@ -52,12 +55,16 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
             this.trustManagers = managers;
         }
 
+        @Override
         protected void engineInit(KeyStore keyStore) throws KeyStoreException {
         }
 
-        protected void engineInit(ManagerFactoryParameters managerFactoryParameters) throws InvalidAlgorithmParameterException {
+        @Override
+        protected void engineInit(ManagerFactoryParameters managerFactoryParameters)
+                throws InvalidAlgorithmParameterException {
         }
 
+        @Override
         protected TrustManager[] engineGetTrustManagers() {
             return (TrustManager[]) trustManagers.clone();
         }

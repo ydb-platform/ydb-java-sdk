@@ -4,7 +4,7 @@ package tech.ydb.table.utils;
  * @author Sergey Polovko
  */
 public class LittleEndian {
-    private LittleEndian() {}
+    private LittleEndian() { }
 
     /**
      * Reverses the byte order of a long value.

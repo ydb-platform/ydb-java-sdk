@@ -48,8 +48,13 @@ public class OptionalValue implements Value<OptionalType> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         OptionalValue that = (OptionalValue) o;
         if (value == null) {
@@ -82,8 +87,8 @@ public class OptionalValue implements Value<OptionalType> {
     @Override
     public ValueProtos.Value toPb() {
         if (isPresent()) {
-            ValueProtos.Value value = get().toPb();
-            return ProtoValue.optional(value);
+            ValueProtos.Value pb = get().toPb();
+            return ProtoValue.optional(pb);
         }
 
         return ProtoValue.optional();

@@ -4,7 +4,6 @@ package tech.ydb.table;
  * @author Sergey Polovko
  */
 public class SessionPoolStats {
-
     private final int minSize;
     private final int maxSize;
     private final int idleCount;
@@ -16,8 +15,7 @@ public class SessionPoolStats {
         int maxSize,
         int idleCount,
         int acquiredCount,
-        int pendingAcquireCount)
-    {
+        int pendingAcquireCount) {
         this.minSize = minSize;
         this.maxSize = maxSize;
         this.idleCount = idleCount;

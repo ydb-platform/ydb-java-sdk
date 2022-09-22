@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.NullValue;
 import com.google.protobuf.UnsafeByteOperations;
+
 import tech.ydb.ValueProtos;
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.DecimalType;
@@ -55,6 +56,8 @@ public class ProtoValue {
         .setNullFlagValue(NullValue.NULL_VALUE)
         .build();
 
+    private ProtoValue() { }
+
     // -- integers --
 
     public static ValueProtos.Value fromBool(boolean value) {
@@ -82,7 +85,7 @@ public class ProtoValue {
     }
 
     public static ValueProtos.Value fromUint32(long value) {
-        return ValueProtos.Value.newBuilder().setUint32Value((int) (value & 0xFFFFFFFFl)).build();
+        return ValueProtos.Value.newBuilder().setUint32Value((int) (value & 0xFFFFFFFFL)).build();
     }
 
     public static ValueProtos.Value fromInt64(long value) {
@@ -109,7 +112,7 @@ public class ProtoValue {
         return ValueProtos.Value.newBuilder().setBytesValue(value).build();
     }
 
-    public static ValueProtos.Value Bytes(byte[] value) {
+    public static ValueProtos.Value fromBytes(byte[] value) {
         return ProtoValue.fromBytes(ByteString.copyFrom(value));
     }
 
@@ -385,8 +388,7 @@ public class ProtoValue {
 
     public static ValueProtos.Value dict(
         ValueProtos.Value key1, ValueProtos.Value value1,
-        ValueProtos.Value key2, ValueProtos.Value value2)
-    {
+        ValueProtos.Value key2, ValueProtos.Value value2) {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.addPairsBuilder()
             .setKey(key1)
@@ -400,8 +402,7 @@ public class ProtoValue {
     public static ValueProtos.Value dict(
         ValueProtos.Value key1, ValueProtos.Value value1,
         ValueProtos.Value key2, ValueProtos.Value value2,
-        ValueProtos.Value key3, ValueProtos.Value value3)
-    {
+        ValueProtos.Value key3, ValueProtos.Value value3) {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.addPairsBuilder()
             .setKey(key1)
@@ -415,12 +416,12 @@ public class ProtoValue {
         return builder.build();
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public static ValueProtos.Value dict(
         ValueProtos.Value key1, ValueProtos.Value value1,
         ValueProtos.Value key2, ValueProtos.Value value2,
         ValueProtos.Value key3, ValueProtos.Value value3,
-        ValueProtos.Value key4, ValueProtos.Value value4)
-    {
+        ValueProtos.Value key4, ValueProtos.Value value4) {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.addPairsBuilder()
             .setKey(key1)
@@ -437,13 +438,13 @@ public class ProtoValue {
         return builder.build();
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public static ValueProtos.Value dict(
         ValueProtos.Value key1, ValueProtos.Value value1,
         ValueProtos.Value key2, ValueProtos.Value value2,
         ValueProtos.Value key3, ValueProtos.Value value3,
         ValueProtos.Value key4, ValueProtos.Value value4,
-        ValueProtos.Value key5, ValueProtos.Value value5)
-    {
+        ValueProtos.Value key5, ValueProtos.Value value5) {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.addPairsBuilder()
             .setKey(key1)
@@ -506,8 +507,7 @@ public class ProtoValue {
         ValueProtos.Value item1,
         ValueProtos.Value item2,
         ValueProtos.Value item3,
-        ValueProtos.Value item4)
-    {
+        ValueProtos.Value item4) {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.addItems(item1);
         builder.addItems(item2);
@@ -521,8 +521,7 @@ public class ProtoValue {
         ValueProtos.Value item2,
         ValueProtos.Value item3,
         ValueProtos.Value item4,
-        ValueProtos.Value item5)
-    {
+        ValueProtos.Value item5) {
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.addItems(item1);
         builder.addItems(item2);
@@ -578,8 +577,7 @@ public class ProtoValue {
     public static ValueProtos.Value struct(
         ValueProtos.Value member1,
         ValueProtos.Value member2,
-        ValueProtos.Value member3)
-    {
+        ValueProtos.Value member3) {
         return list(member1, member2, member3);
     }
 
@@ -587,8 +585,7 @@ public class ProtoValue {
         ValueProtos.Value member1,
         ValueProtos.Value member2,
         ValueProtos.Value member3,
-        ValueProtos.Value member4)
-    {
+        ValueProtos.Value member4) {
         return list(member1, member2, member3, member4);
     }
 
@@ -597,8 +594,7 @@ public class ProtoValue {
         ValueProtos.Value member2,
         ValueProtos.Value member3,
         ValueProtos.Value member4,
-        ValueProtos.Value member5)
-    {
+        ValueProtos.Value member5) {
         return list(member1, member2, member3, member4, member5);
     }
 
@@ -625,8 +621,7 @@ public class ProtoValue {
     public static ValueProtos.Value tuple(
         ValueProtos.Value member1,
         ValueProtos.Value member2,
-        ValueProtos.Value member3)
-    {
+        ValueProtos.Value member3) {
         return list(member1, member2, member3);
     }
 
@@ -634,8 +629,7 @@ public class ProtoValue {
         ValueProtos.Value member1,
         ValueProtos.Value member2,
         ValueProtos.Value member3,
-        ValueProtos.Value member4)
-    {
+        ValueProtos.Value member4) {
         return list(member1, member2, member3, member4);
     }
 
@@ -644,8 +638,7 @@ public class ProtoValue {
         ValueProtos.Value member2,
         ValueProtos.Value member3,
         ValueProtos.Value member4,
-        ValueProtos.Value member5)
-    {
+        ValueProtos.Value member5) {
         return list(member1, member2, member3, member4, member5);
     }
 
@@ -757,9 +750,10 @@ public class ProtoValue {
 
             case VOID:
                 return VoidValue.of();
-        }
 
-        throw new IllegalStateException("unknown type kind: " + type.getKind());
+            default:
+                throw new IllegalStateException("unknown type kind: " + type.getKind());
+        }
     }
 
     private static PrimitiveValue primitiveFromPb(PrimitiveType primitiveType, ValueProtos.Value value) {
@@ -788,8 +782,9 @@ public class ProtoValue {
             case TzDate: return PrimitiveValue.newTzDate(toTzDate(value));
             case TzDatetime: return PrimitiveValue.newTzDatetime(toTzDatetime(value));
             case TzTimestamp: return PrimitiveValue.newTzTimestamp(toTzTimestamp(value));
+            default:
+                throw new IllegalStateException("unknown PrimitiveType: " + primitiveType);
         }
-        throw new IllegalStateException("unknown PrimitiveType: " + primitiveType);
     }
 
     public static ValueProtos.TypedValue toTypedValue(Value<?> p) {

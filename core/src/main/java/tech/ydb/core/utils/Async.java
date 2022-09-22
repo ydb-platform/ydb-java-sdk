@@ -18,9 +18,6 @@ import io.netty.util.internal.SystemPropertyUtil;
  * @author Sergey Polovko
  */
 public class Async {
-    protected Async() {
-    }
-
     private static final boolean DEFAULT_TIMER_THREAD_DAEMON =
         SystemPropertyUtil.getBoolean("tech.ydb.table.async.daemon", true);
 
@@ -33,6 +30,7 @@ public class Async {
         },
         100, TimeUnit.MILLISECONDS);
 
+    protected Async() { }
 
     public static <T> CompletableFuture<T> failedFuture(Throwable t) {
         CompletableFuture<T> f = new CompletableFuture<>();

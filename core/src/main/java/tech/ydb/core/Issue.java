@@ -26,7 +26,7 @@ public class Issue implements Serializable {
 
         private final int code;
 
-        private Severity(int code) {
+        Severity(int code) {
             this.code = code;
         }
 
@@ -53,7 +53,8 @@ public class Issue implements Serializable {
     private final Severity severity;
     private final Issue[] issues;
 
-    private Issue(Position position, Position endPosition, int code, String message, Severity severity, Issue... issues) {
+    private Issue(Position position, Position endPosition, int code, String message,
+            Severity severity, Issue... issues) {
         this.position = Objects.requireNonNull(position, "position");
         this.endPosition = Objects.requireNonNull(endPosition, "endPosition");
         this.code = code;
@@ -62,11 +63,13 @@ public class Issue implements Serializable {
         this.issues = Objects.requireNonNull(issues, "issues");
     }
 
-    public static Issue of(Position position, Position endPosition, int code, String message, Severity severity, Issue... issues) {
+    public static Issue of(Position position, Position endPosition, int code,
+            String message, Severity severity, Issue... issues) {
         return new Issue(position, endPosition, code, message, severity, issues);
     }
 
-    public static Issue of(Position position, Position endPosition, int code, String message, Severity severity) {
+    public static Issue of(Position position, Position endPosition, int code,
+            String message, Severity severity) {
         return new Issue(position, endPosition, code, message, severity, EMPTY_ARRAY);
     }
 
@@ -129,16 +132,21 @@ public class Issue implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Issue issue = (Issue) o;
 
-        if (code != issue.code) return false;
-        if (!position.equals(issue.position)) return false;
-        if (!endPosition.equals(issue.endPosition)) return false;
-        if (!message.equals(issue.message)) return false;
-        return severity == issue.severity;
+        return code == issue.code
+                && Objects.equals(position, issue.position)
+                && Objects.equals(endPosition, issue.endPosition)
+                && Objects.equals(message, issue.message)
+                && severity == issue.severity;
     }
 
     @Override
@@ -227,14 +235,19 @@ public class Issue implements Serializable {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Position position = (Position) o;
 
-            if (column != position.column) return false;
-            if (row != position.row) return false;
-            return file.equals(position.file);
+            return column == position.column
+                    && row == position.row
+                    && Objects.equals(file, position.file);
         }
 
         @Override

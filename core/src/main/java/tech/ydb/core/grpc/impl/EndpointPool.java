@@ -3,11 +3,9 @@ package tech.ydb.core.grpc.impl;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -15,12 +13,12 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.grpc.BalancingPolicy;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.discovery.DiscoveryProtos;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Nikolay Perfilov
@@ -83,17 +81,19 @@ public final class EndpointPool {
     }
 
     private String getPreferredLocation(String selfLocation) {
-        switch (balancingSettings.policy) {
+        String prefered = balancingSettings.getPreferableLocation();
+        switch (balancingSettings.getPolicy()) {
             case USE_ALL_NODES:
                 return null;
             case USE_PREFERABLE_LOCATION:
-                if (balancingSettings.preferableLocation == null || balancingSettings.preferableLocation.isEmpty()) {
+                if (prefered == null || prefered.isEmpty()) {
                     return selfLocation;
                 } else {
-                    return balancingSettings.preferableLocation;
+                    return prefered;
                 }
+            default:
+                return "";
         }
-        return "";
     }
 
     // Sets new endpoints, returns removed
@@ -231,13 +231,13 @@ public final class EndpointPool {
     private class PriorityEndpoint extends EndpointRecord {
         private int priority;
 
-        public PriorityEndpoint(String selfLocation, DiscoveryProtos.EndpointInfo endpoint) {
+        PriorityEndpoint(String selfLocation, DiscoveryProtos.EndpointInfo endpoint) {
             super(endpoint.getAddress(), endpoint.getPort(), endpoint.getNodeId());
 
             int loadFactor = Math.round(
                     MULTIPLICATOR * Math.min(LOAD_MAX, Math.max(LOAD_MIN, endpoint.getLoadFactor()))
             );
-            if (balancingSettings.policy == BalancingPolicy.USE_PREFERABLE_LOCATION
+            if (balancingSettings.getPolicy() == BalancingPolicy.USE_PREFERABLE_LOCATION
                     && !endpoint.getLocation().equals(getPreferredLocation(selfLocation))) {
                 loadFactor += LOCALITY_SHIFT;
             }
@@ -247,10 +247,10 @@ public final class EndpointPool {
 
         @Override
         public String toString() {
-            return "PriorityEndpoint{host=" + getHost() + 
-                    ", port=" + getPort() + 
-                    ", node=" + getNodeId() + 
-                    ", priority= " + priority +"}";
+            return "PriorityEndpoint{host=" + getHost() +
+                    ", port=" + getPort() +
+                    ", node=" + getNodeId() +
+                    ", priority= " + priority + "}";
         }
     }
 }

@@ -20,6 +20,8 @@ public class JwtUtils {
     private static final char SEPARATOR_CHAR = '.';
     private static final Gson GSON = new Gson();
 
+    private JwtUtils() { }
+
     private static class JwtClaims {
         @SerializedName("iss")
         private String issuer;
@@ -35,7 +37,7 @@ public class JwtUtils {
         private Long issuedAt;
         @SerializedName("jti")
         private String jwtID;
-        
+
         public String getIssuer() {
             return this.issuer;
         }
@@ -69,9 +71,9 @@ public class JwtUtils {
         if (jwt == null) {
             return defaultValue;
         }
-        
+
         String[] parts = new String[3];
-        
+
         int nextPart = 0;
         int startOfPart = 0;
         for (int idx = 0; idx < jwt.length() && nextPart < 3; idx += 1) {
@@ -88,7 +90,7 @@ public class JwtUtils {
             parts[nextPart] = jwt.substring(startOfPart, jwt.length());
             nextPart += 1;
         }
-        
+
         if (nextPart < 2) {
             return defaultValue;
         }
@@ -102,7 +104,7 @@ public class JwtUtils {
         } catch (IllegalArgumentException | JsonSyntaxException ex) {
             logger.error("can't get expire from jwt {}", jwt, ex);
         }
-        
+
         return defaultValue;
     }
 }

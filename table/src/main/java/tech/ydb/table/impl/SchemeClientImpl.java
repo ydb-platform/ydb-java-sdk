@@ -3,6 +3,8 @@ package tech.ydb.table.impl;
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.base.Splitter;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -11,8 +13,6 @@ import tech.ydb.table.SchemeClient;
 import tech.ydb.table.description.DescribePathResult;
 import tech.ydb.table.description.ListDirectoryResult;
 import tech.ydb.table.rpc.SchemeRpc;
-
-import com.google.common.base.Splitter;
 
 /**
  * @author Sergey Polovko

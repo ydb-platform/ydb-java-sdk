@@ -9,6 +9,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import com.google.protobuf.ByteString;
+
 import tech.ydb.ValueProtos;
 import tech.ydb.ValueProtos.Type.PrimitiveTypeId;
 import tech.ydb.table.result.ValueReader;
@@ -57,7 +58,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public byte getInt8() {
         checkPrimitive(PrimitiveTypeId.INT8);
-        return (byte)value.getInt32Value();
+        return (byte) value.getInt32Value();
     }
 
     @Override
@@ -69,7 +70,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public short getInt16() {
         checkPrimitive(PrimitiveTypeId.INT16);
-        return (short)value.getInt32Value();
+        return (short) value.getInt32Value();
     }
 
     @Override
@@ -87,7 +88,7 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     @Override
     public long getUint32() {
         checkPrimitive(PrimitiveTypeId.UINT32);
-        return 0xFFFFFFFFl & value.getUint32Value();
+        return 0xFFFFFFFFL & value.getUint32Value();
     }
 
     @Override

@@ -4,15 +4,18 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
-import tech.ydb.core.rpc.StreamObserver;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.stub.ClientCallStreamObserver;
 
+import tech.ydb.core.rpc.StreamObserver;
+
 
 /**
  * @author Sergey Polovko
+ * @param <ReqT> type of request
+ * @param <RespT> type of response
  */
 public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<RespT> {
 

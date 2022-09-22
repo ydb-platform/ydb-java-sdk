@@ -3,6 +3,9 @@ package tech.ydb.core.grpc.impl;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -10,12 +13,10 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.discovery.DiscoveryProtos;
 import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 
 /**
  * @author Vladimir Gordiychuk
+ * @author Alexandr Gorshenin
  */
 public class GrpcDiscoveryRpc {
     private static final Logger logger = LoggerFactory.getLogger(GrpcDiscoveryRpc.class);
@@ -45,7 +46,7 @@ public class GrpcDiscoveryRpc {
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
                 .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
                 .build();
-        
+
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
                 .whenComplete((res, ex) -> transport.close())
                 .thenApply(Operations.resultUnwrapper(
@@ -53,7 +54,7 @@ public class GrpcDiscoveryRpc {
                         DiscoveryProtos.ListEndpointsResult.class
                 ));
     }
-    
+
     private GrpcTransport createTransport() {
         return new SingleChannelTransport(
                 parent.getCallOptions(),

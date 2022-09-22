@@ -22,8 +22,8 @@ class GrpcChannel {
     private final String endpoint;
     private final ManagedChannel channel;
     private final ReadyWatcher readyWatcher;
-    
-    public GrpcChannel(EndpointRecord endpointRecord, ChannelFactory channelFactory, boolean tryToConnect) {
+
+    GrpcChannel(EndpointRecord endpointRecord, ChannelFactory channelFactory, boolean tryToConnect) {
         logger.debug("Creating grpc channel with {}", endpointRecord);
         endpoint = endpointRecord.getHostAndPort();
         channel = channelFactory.newManagedChannel(endpointRecord.getHost(), endpointRecord.getPort());
@@ -34,7 +34,7 @@ class GrpcChannel {
     public String getEndpoint() {
         return endpoint;
     }
-    
+
     public Channel getReadyChannel() {
         return readyWatcher.getReadyChannel();
     }
@@ -80,7 +80,7 @@ class GrpcChannel {
             }
             return null;
         }
-        
+
         public void check(boolean tryToConnect) {
             ConnectivityState state = channel.getState(tryToConnect);
             logger.debug("Grpc channel {} new state: {}", endpoint, state);

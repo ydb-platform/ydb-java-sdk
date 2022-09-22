@@ -1,6 +1,7 @@
 package tech.ydb.table.description;
 
 import java.util.List;
+
 import tech.ydb.scheme.SchemeOperationProtos;
 
 /**

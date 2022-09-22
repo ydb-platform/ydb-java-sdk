@@ -63,12 +63,11 @@ public enum PrimitiveType implements Type {
       * Compatible with the Number type in AWS DynamoDB.
       * It's not recommended for ydb-native applications.
       */
-    DyNumber(ProtoType.getDyNumber())
-    ;
+    DyNumber(ProtoType.getDyNumber());
 
     private final ValueProtos.Type pbType;
 
-    private PrimitiveType(ValueProtos.Type pbType) {
+    PrimitiveType(ValueProtos.Type pbType) {
         this.pbType = pbType;
     }
 

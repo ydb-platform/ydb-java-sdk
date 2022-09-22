@@ -18,7 +18,7 @@ Before you begin, you need to create a database and setup authorization. Please 
 
 #### Minimum requirements ####
 
-To use YDB Java SDK you will need **Java 1.8+**. 
+To use YDB Java SDK you will need **Java 1.8+**.
 
 #### Install the SDK ####
 
@@ -30,12 +30,12 @@ dependencies:
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-core</artifactId>
-        <version>2.0.0-RC6</version>
+        <version>2.0.0-RC7</version>
     </dependency>
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-table</artifactId>
-        <version>2.0.0-RC6</version>
+        <version>2.0.0-RC7</version>
     </dependency>
 </dependencies>
 ```

@@ -47,8 +47,13 @@ public final class VariantType implements Type {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || o.getClass() != VariantType.class) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || o.getClass() != VariantType.class) {
+            return false;
+        }
 
         VariantType variantType = (VariantType) o;
         int itemsCount = getItemsCount();

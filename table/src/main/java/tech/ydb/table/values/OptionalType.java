@@ -32,8 +32,13 @@ public final class OptionalType implements Type {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || o.getClass() != OptionalType.class) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || o.getClass() != OptionalType.class) {
+            return false;
+        }
 
         OptionalType optionalType = (OptionalType) o;
         return itemType.equals(optionalType.getItemType());
