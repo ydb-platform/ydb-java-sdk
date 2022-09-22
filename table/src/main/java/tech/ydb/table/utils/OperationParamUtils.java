@@ -1,14 +1,14 @@
 package tech.ydb.table.utils;
 
 import com.google.protobuf.Duration;
+
 import tech.ydb.OperationProtos;
 import tech.ydb.common.CommonProtos.FeatureFlag.Status;
 import tech.ydb.table.settings.RequestSettings;
 
 public class OperationParamUtils {
 
-    private OperationParamUtils() {
-    }
+    private OperationParamUtils() { }
 
     public static OperationProtos.OperationParams fromRequestSettings(RequestSettings<?> requestSettings) {
         OperationProtos.OperationParams.Builder builder = OperationProtos.OperationParams.newBuilder();

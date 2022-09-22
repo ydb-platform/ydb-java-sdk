@@ -14,8 +14,10 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.impl.BaseSession;
@@ -28,17 +30,17 @@ import tech.ydb.table.settings.DeleteSessionSettings;
  * @author Aleksandr Gorshenin
  */
 public class SessionPool implements AutoCloseable {
-    private final static Logger logger = LoggerFactory.getLogger(SessionPool.class);
+    private static final Logger logger = LoggerFactory.getLogger(SessionPool.class);
     private final int minSize;
     private final Clock clock;
     private final ScheduledExecutorService scheduler;
     private final WaitingQueue<ClosableSession> queue;
     private final ScheduledFuture<?> keepAliveFuture;
-    
+
     public SessionPool(ScheduledExecutorService scheduler, Clock clock,
             TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
         this.minSize = options.getMinSize();
-        
+
         this.clock = clock;
         this.scheduler = scheduler;
         this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
@@ -71,17 +73,17 @@ public class SessionPool implements AutoCloseable {
                 queue.getUsedCount(),
                 queue.getWaitingCount() + queue.getPendingCount());
     }
-    
+
     public CompletableFuture<Session> acquire(Duration timeout) {
         CompletableFuture<ClosableSession> future = pollNext(timeout != null ? timeout : Duration.ZERO);
-        return future.thenCompose(s -> CompletableFuture.completedFuture((Session)s));
+        return future.thenCompose(s -> CompletableFuture.completedFuture((Session) s));
     }
 
     private CompletableFuture<ClosableSession> pollNext(Duration timeout) {
         Instant deadline = clock.instant().plusMillis(timeout.toMillis());
         CompletableFuture<ClosableSession> future = new CompletableFuture<>();
         queue.acquire(future);
-        
+
         if (!future.isDone()) {
             future.whenComplete(new Canceller(scheduler.schedule(
                     new Timeout(future),
@@ -92,13 +94,13 @@ public class SessionPool implements AutoCloseable {
 
         return future.thenApply(new SessionValidator(deadline));
     }
-    
+
     private class ClosableSession extends StatefulSession {
-        public ClosableSession(String id, TableRpc rpc, boolean keepQueryText) {
+        ClosableSession(String id, TableRpc rpc, boolean keepQueryText) {
             super(id, clock, rpc, keepQueryText);
             logger.debug("new session {} is created", id);
         }
-        
+
         @Override
         public void close() {
             if (state().switchToIdle(clock.instant())) {
@@ -112,16 +114,16 @@ public class SessionPool implements AutoCloseable {
             }
         }
     }
-    
+
     private class Handler implements WaitingQueue.Handler<ClosableSession> {
         private final TableRpc tableRpc;
         private final boolean keepQueryText;
 
-        public Handler(TableRpc tableRpc, boolean keepQueryText) {
+        Handler(TableRpc tableRpc, boolean keepQueryText) {
             this.tableRpc = tableRpc;
             this.keepQueryText = keepQueryText;
         }
-        
+
         @Override
         public CompletableFuture<ClosableSession> create() {
             return BaseSession
@@ -152,7 +154,7 @@ public class SessionPool implements AutoCloseable {
             });
         }
     }
-    
+
     private class KeepAliveTask implements Runnable {
         private final long maxIdleTimeMillis;
         private final long keepAliveTimeMillis;
@@ -162,18 +164,18 @@ public class SessionPool implements AutoCloseable {
 
         private final AtomicInteger keepAliveCount = new AtomicInteger(0);
 
-        public KeepAliveTask(SessionPoolOptions options) {
+        KeepAliveTask(SessionPoolOptions options) {
             this.maxIdleTimeMillis = options.getMaxIdleTimeMillis();
             this.keepAliveTimeMillis = options.getKeepAliveTimeMillis();
-            
+
             // Simple heuristics to limit task inflight and frequency
             // KeepAlive task inflight limit - not more than 20 percent but not less than two
             this.maxKeepAliveCount = Math.max(2, options.getMaxSize() / 5);
-            // KeepAlive task execution frequency limit - must be executed at least 5 times 
+            // KeepAlive task execution frequency limit - must be executed at least 5 times
             // for keepAlive and at least 2 times for idle, but no more than once every 100 ms
             this.periodMillis = Math.max(100, Math.min(keepAliveTimeMillis / 5, maxIdleTimeMillis / 2));
         }
-        
+
         @Override
         public void run() {
             Iterator<ClosableSession> coldIterator = queue.coldIterator();
@@ -188,7 +190,7 @@ public class SessionPool implements AutoCloseable {
                     coldIterator.remove();
                     continue;
                 }
-                
+
                 if (!state.lastActive().isAfter(idleToRemove) && queue.getTotalCount() > minSize) {
                     coldIterator.remove();
                     continue;
@@ -198,7 +200,7 @@ public class SessionPool implements AutoCloseable {
                     if (keepAliveCount.get() >= maxKeepAliveCount) {
                         continue;
                     }
-                    
+
                     if (state.switchToKeepAlive(now)) {
                         keepAliveCount.incrementAndGet();
                         logger.debug("keep alive session {}", session.getId());
@@ -220,11 +222,11 @@ public class SessionPool implements AutoCloseable {
             }
         }
     }
-    
+
     private class SessionValidator implements Function<ClosableSession, ClosableSession> {
         private final Instant deadline;
-        
-        public SessionValidator(Instant deadline) {
+
+        SessionValidator(Instant deadline) {
             this.deadline = deadline;
         }
 
@@ -247,7 +249,7 @@ public class SessionPool implements AutoCloseable {
     }
 
     /**
-     * This is the part based on the code written by Doug Lea with assistance from members 
+     * This is the part based on the code written by Doug Lea with assistance from members
      * of JCP JSR-166 Expert Group and released to the public domain, as explained at
      * http://creativecommons.org/publicdomain/zero/1.0/
      */

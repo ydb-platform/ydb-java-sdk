@@ -27,43 +27,41 @@ public class StructValue implements Value<StructType> {
 
     public static StructValue of(
         String member1Name, Value member1Value,
-        String member2Name, Value member2Value)
-    {
-        String[] names = { member1Name, member2Name };
-        Value[] values = { member1Value, member2Value };
+        String member2Name, Value member2Value) {
+        String[] names = {member1Name, member2Name};
+        Value[] values = {member1Value, member2Value};
         return newStruct(names, values);
     }
 
     public static StructValue of(
         String member1Name, Value member1Value,
         String member2Name, Value member2Value,
-        String member3Name, Value member3Value)
-    {
-        String[] names = { member1Name, member2Name, member3Name };
-        Value[] values = { member1Value, member2Value, member3Value };
+        String member3Name, Value member3Value) {
+        String[] names = {member1Name, member2Name, member3Name};
+        Value[] values = {member1Value, member2Value, member3Value};
         return newStruct(names, values);
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public static StructValue of(
         String member1Name, Value member1Value,
         String member2Name, Value member2Value,
         String member3Name, Value member3Value,
-        String member4Name, Value member4Value)
-    {
-        String[] names = { member1Name, member2Name, member3Name, member4Name };
-        Value[] values = { member1Value, member2Value, member3Value, member4Value };
+        String member4Name, Value member4Value) {
+        String[] names = {member1Name, member2Name, member3Name, member4Name};
+        Value[] values = {member1Value, member2Value, member3Value, member4Value};
         return newStruct(names, values);
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public static StructValue of(
         String member1Name, Value member1Value,
         String member2Name, Value member2Value,
         String member3Name, Value member3Value,
         String member4Name, Value member4Value,
-        String member5Name, Value member5Value)
-    {
-        String[] names = { member1Name, member2Name, member3Name, member4Name, member5Name };
-        Value[] values = { member1Value, member2Value, member3Value, member4Value, member5Value };
+        String member5Name, Value member5Value) {
+        String[] names = {member1Name, member2Name, member3Name, member4Name, member5Name};
+        Value[] values = {member1Value, member2Value, member3Value, member4Value, member5Value};
         return newStruct(names, values);
     }
 
@@ -92,8 +90,13 @@ public class StructValue implements Value<StructType> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         StructValue that = (StructValue) o;
         return Arrays.equals(members, that.members);

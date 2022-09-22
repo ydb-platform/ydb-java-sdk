@@ -16,15 +16,16 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.util.concurrent.MoreExecutors;
+import io.netty.util.Timeout;
+import io.netty.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.Async;
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -34,7 +35,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
-    private final static Logger log = LoggerFactory.getLogger(SessionRetryContext.class);
+    private static final Logger logger = LoggerFactory.getLogger(SessionRetryContext.class);
 
     private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
         StatusCode.ABORTED,
@@ -95,7 +96,7 @@ public class SessionRetryContext {
     }
 
     private String errorMsg(Throwable t) {
-        if (!log.isDebugEnabled()) {
+        if (!logger.isDebugEnabled()) {
             return "unknown";
         }
         Throwable cause = Async.unwrapCompletionException(t);
@@ -198,7 +199,7 @@ public class SessionRetryContext {
         @Override
         public void run(Timeout timeout) {
             if (promise.isCancelled()) {
-                log.debug("RetryCtx[{}] cancelled, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
+                logger.debug("RetryCtx[{}] cancelled, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
                 return;
             }
             // call run() method outside of the timer thread
@@ -243,14 +244,14 @@ public class SessionRetryContext {
 
                         StatusCode statusCode = toStatusCode(fnResult);
                         if (statusCode == StatusCode.SUCCESS) {
-                            log.debug("RetryCtx[{}] OK, finished after {} retries, {} ms total",
+                            logger.debug("RetryCtx[{}] OK, finished after {} retries, {} ms total",
                                     hashCode(), retryNumber.get(), ms());
                             promise.complete(fnResult);
                         } else {
                             handleError(statusCode, fnResult);
                         }
                     } catch (Throwable unexpected) {
-                        log.debug("RetryCtx[{}] UNEXPECTED[{}], finished after {} retries, {} ms total",
+                        logger.debug("RetryCtx[{}] UNEXPECTED[{}], finished after {} retries, {} ms total",
                                 hashCode(), unexpected.getMessage(), retryNumber.get(), ms());
                         promise.completeExceptionally(unexpected);
                     }
@@ -267,7 +268,7 @@ public class SessionRetryContext {
         private void handleError(@Nonnull StatusCode code, R result) {
             // Check retrayable status
             if (!canRetry(code)) {
-                log.debug("RetryCtx[{}] NON-RETRYABLE CODE[{}], finished after {} retries, {} ms total",
+                logger.debug("RetryCtx[{}] NON-RETRYABLE CODE[{}], finished after {} retries, {} ms total",
                         hashCode(), code, retryNumber.get(), ms());
                 promise.complete(result);
                 return;
@@ -276,11 +277,11 @@ public class SessionRetryContext {
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(code, retry);
-                log.debug("RetryCtx[{}] RETRYABLE CODE[{}], scheduling next retry #{} in {} ms, {} ms total",
+                logger.debug("RetryCtx[{}] RETRYABLE CODE[{}], scheduling next retry #{} in {} ms, {} ms total",
                         hashCode(), code, retry, next, ms());
                 scheduleNext(next);
             } else {
-                log.debug("RetryCtx[{}] RETRYABLE CODE[{}], finished by retries limit ({}), {} ms total",
+                logger.debug("RetryCtx[{}] RETRYABLE CODE[{}], finished by retries limit ({}), {} ms total",
                         hashCode(), code, maxRetries, ms());
                 promise.complete(result);
             }
@@ -289,7 +290,7 @@ public class SessionRetryContext {
         private void handleException(@Nonnull Throwable ex) {
             // Check retrayable execption
             if (!canRetry(ex)) {
-                log.debug("RetryCtx[{}] NON-RETRYABLE ERROR[{}], finished after {} retries, {} ms total",
+                logger.debug("RetryCtx[{}] NON-RETRYABLE ERROR[{}], finished after {} retries, {} ms total",
                         hashCode(), errorMsg(ex), retryNumber.get(), ms());
                 promise.completeExceptionally(ex);
                 return;
@@ -298,11 +299,11 @@ public class SessionRetryContext {
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(ex, retry);
-                log.debug("RetryCtx[{}] RETRYABLE ERROR[{}], scheduling next retry #{} in {} ms, {} ms total",
+                logger.debug("RetryCtx[{}] RETRYABLE ERROR[{}], scheduling next retry #{} in {} ms, {} ms total",
                         hashCode(), errorMsg(ex), retry, next, ms());
                 scheduleNext(next);
             } else {
-                log.debug("RetryCtx[{}] RETRYABLE ERROR[{}], finished by retries limit ({}), {} ms total",
+                logger.debug("RetryCtx[{}] RETRYABLE ERROR[{}], finished by retries limit ({}), {} ms total",
                         hashCode(), errorMsg(ex), maxRetries, ms());
                 promise.completeExceptionally(ex);
             }

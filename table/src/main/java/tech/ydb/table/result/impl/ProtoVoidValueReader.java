@@ -9,9 +9,9 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Sergey Polovko
  */
 final class ProtoVoidValueReader extends AbstractValueReader {
-    private ProtoVoidValueReader() {}
-
     static final ProtoVoidValueReader INSTANCE = new ProtoVoidValueReader();
+
+    private ProtoVoidValueReader() { }
 
     @Override
     protected ValueProtos.Type getProtoType() {

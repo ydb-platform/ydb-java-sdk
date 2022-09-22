@@ -88,8 +88,13 @@ public class TupleValue implements Value<TupleType> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         TupleValue that = (TupleValue) o;
         return Arrays.equals(items, that.items);

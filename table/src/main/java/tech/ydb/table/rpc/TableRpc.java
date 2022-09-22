@@ -11,34 +11,33 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.rpc.Rpc;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
-
-import static tech.ydb.table.YdbTable.AlterTableRequest;
-import static tech.ydb.table.YdbTable.BeginTransactionRequest;
-import static tech.ydb.table.YdbTable.BeginTransactionResult;
-import static tech.ydb.table.YdbTable.BulkUpsertRequest;
-import static tech.ydb.table.YdbTable.CommitTransactionRequest;
-import static tech.ydb.table.YdbTable.CopyTableRequest;
-import static tech.ydb.table.YdbTable.CreateSessionRequest;
-import static tech.ydb.table.YdbTable.CreateSessionResult;
-import static tech.ydb.table.YdbTable.CreateTableRequest;
-import static tech.ydb.table.YdbTable.DeleteSessionRequest;
-import static tech.ydb.table.YdbTable.DescribeTableRequest;
-import static tech.ydb.table.YdbTable.DescribeTableResult;
-import static tech.ydb.table.YdbTable.DropTableRequest;
-import static tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
-import static tech.ydb.table.YdbTable.ExecuteQueryResult;
-import static tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse;
-import static tech.ydb.table.YdbTable.ExecuteScanQueryRequest;
-import static tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
-import static tech.ydb.table.YdbTable.ExplainDataQueryRequest;
-import static tech.ydb.table.YdbTable.ExplainQueryResult;
-import static tech.ydb.table.YdbTable.KeepAliveRequest;
-import static tech.ydb.table.YdbTable.KeepAliveResult;
-import static tech.ydb.table.YdbTable.PrepareDataQueryRequest;
-import static tech.ydb.table.YdbTable.PrepareQueryResult;
-import static tech.ydb.table.YdbTable.ReadTableRequest;
-import static tech.ydb.table.YdbTable.ReadTableResponse;
-import static tech.ydb.table.YdbTable.RollbackTransactionRequest;
+import tech.ydb.table.YdbTable.AlterTableRequest;
+import tech.ydb.table.YdbTable.BeginTransactionRequest;
+import tech.ydb.table.YdbTable.BeginTransactionResult;
+import tech.ydb.table.YdbTable.BulkUpsertRequest;
+import tech.ydb.table.YdbTable.CommitTransactionRequest;
+import tech.ydb.table.YdbTable.CopyTableRequest;
+import tech.ydb.table.YdbTable.CreateSessionRequest;
+import tech.ydb.table.YdbTable.CreateSessionResult;
+import tech.ydb.table.YdbTable.CreateTableRequest;
+import tech.ydb.table.YdbTable.DeleteSessionRequest;
+import tech.ydb.table.YdbTable.DescribeTableRequest;
+import tech.ydb.table.YdbTable.DescribeTableResult;
+import tech.ydb.table.YdbTable.DropTableRequest;
+import tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
+import tech.ydb.table.YdbTable.ExecuteQueryResult;
+import tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse;
+import tech.ydb.table.YdbTable.ExecuteScanQueryRequest;
+import tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
+import tech.ydb.table.YdbTable.ExplainDataQueryRequest;
+import tech.ydb.table.YdbTable.ExplainQueryResult;
+import tech.ydb.table.YdbTable.KeepAliveRequest;
+import tech.ydb.table.YdbTable.KeepAliveResult;
+import tech.ydb.table.YdbTable.PrepareDataQueryRequest;
+import tech.ydb.table.YdbTable.PrepareQueryResult;
+import tech.ydb.table.YdbTable.ReadTableRequest;
+import tech.ydb.table.YdbTable.ReadTableResponse;
+import tech.ydb.table.YdbTable.RollbackTransactionRequest;
 
 
 /**
@@ -53,7 +52,7 @@ public interface TableRpc extends Rpc {
      * @return endpoint associated with the session
      */
     @Nullable
-    public EndpointInfo getEndpointBySessionId(String sessionId);
+    EndpointInfo getEndpointBySessionId(String sessionId);
 
     /**
      * Create new session. Implicit session creation is forbidden, so user must create new session
@@ -152,7 +151,7 @@ public interface TableRpc extends Rpc {
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
-    CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request, 
+    CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request,
             GrpcRequestSettings settings);
 
     /**

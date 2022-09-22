@@ -23,8 +23,7 @@ public final class SessionPoolOptions {
         int minSize,
         int maxSize,
         long keepAliveTimeMillis,
-        long maxIdleTimeMillis)
-    {
+        long maxIdleTimeMillis) {
         this.minSize = minSize;
         this.maxSize = maxSize;
         this.keepAliveTimeMillis = keepAliveTimeMillis;
