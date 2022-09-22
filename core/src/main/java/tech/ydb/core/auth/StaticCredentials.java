@@ -8,11 +8,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
-import tech.ydb.auth.YdbAuth;
-
 import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import tech.ydb.auth.YdbAuth;
 
 /**
  *
@@ -26,7 +26,7 @@ public class StaticCredentials implements AuthProvider {
     private final Clock clock;
     private final YdbAuth.LoginRequest request;
     private final Supplier<ExecutorService> executorSupplier;
-    
+
     @VisibleForTesting
     StaticCredentials(Clock clock, String username, String password, Supplier<ExecutorService> executorSupplier) {
         this.clock = clock;
@@ -48,7 +48,7 @@ public class StaticCredentials implements AuthProvider {
         logger.info("create static identity for database {}", rpc.getDatabase());
         return new IdentityImpl(rpc);
     }
-    
+
     private interface State {
         void init();
         State validate(Instant now);
@@ -59,10 +59,10 @@ public class StaticCredentials implements AuthProvider {
         private final AtomicReference<State> state = new AtomicReference<>(new NullState());
         private final StaticCredentitalsRpc rpc;
 
-        public IdentityImpl(AuthRpc authRpc) {
+        IdentityImpl(AuthRpc authRpc) {
             this.rpc = new StaticCredentitalsRpc(authRpc, request, clock, executorSupplier);
         }
-        
+
         private State updateState(State current, State next) {
             if (state.compareAndSet(current, next)) {
                 next.init();
@@ -74,12 +74,12 @@ public class StaticCredentials implements AuthProvider {
         public String getToken() {
             return state.get().validate(clock.instant()).token();
         }
-        
+
         @Override
         public void close() {
             rpc.close();
         }
-        
+
         private class NullState implements State {
             @Override
             public void init() {
@@ -110,7 +110,7 @@ public class StaticCredentials implements AuthProvider {
                     }
                 });
             }
-            
+
             @Override
             public String token() {
                 throw new IllegalStateException("Get token for unfinished sync state");
@@ -126,7 +126,7 @@ public class StaticCredentials implements AuthProvider {
             private final StaticCredentitalsRpc.Token token;
             private final CompletableFuture<State> future = new CompletableFuture<>();
 
-            public BackgroundLogin(StaticCredentitalsRpc.Token token) {
+            BackgroundLogin(StaticCredentitalsRpc.Token token) {
                 this.token = token;
             }
 
@@ -140,7 +140,7 @@ public class StaticCredentials implements AuthProvider {
                     }
                 });
             }
-            
+
             @Override
             public String token() {
                 return token.token();
@@ -156,7 +156,7 @@ public class StaticCredentials implements AuthProvider {
                     // else retry background login
                     return updateState(this, new BackgroundLogin(token));
                 }
-                
+
                 if (future.isDone()) {
                     return updateState(this, future.join());
                 }
@@ -168,7 +168,7 @@ public class StaticCredentials implements AuthProvider {
         private class LoggedInState implements State {
             private final StaticCredentitalsRpc.Token token;
 
-            public LoggedInState(StaticCredentitalsRpc.Token token) {
+            LoggedInState(StaticCredentitalsRpc.Token token) {
                 this.token = token;
                 logger.debug("logged in with expired at {} and updating at {}", token.expiredAt(), token.updateAt());
             }
@@ -197,9 +197,9 @@ public class StaticCredentials implements AuthProvider {
         private class ErrorState implements State {
             private final RuntimeException ex;
 
-            public ErrorState(Throwable ex) {
-                this.ex = ex instanceof RuntimeException ? 
-                        (RuntimeException)ex : new RuntimeException("can't login", ex);
+            ErrorState(Throwable ex) {
+                this.ex = ex instanceof RuntimeException ?
+                        (RuntimeException) ex : new RuntimeException("can't login", ex);
             }
 
             @Override

@@ -26,10 +26,15 @@ final class YandexTrustManagersProvider {
             List<TrustManager> customTrustManagers = getCustomTrustManagers();
             List<TrustManager> defaultTrustManagers = getDefaultTrustManagers();
 
-            List<X509TrustManager> x509TrustManagers = Stream.concat(customTrustManagers.stream(), defaultTrustManagers.stream())
-                    .filter(X509TrustManager.class::isInstance).map(X509TrustManager.class::cast).collect(Collectors.toList());
-            List<TrustManager> allTrustManagers = Stream.concat(customTrustManagers.stream(), defaultTrustManagers.stream())
-                    .filter(x -> !(x instanceof X509TrustManager)).collect(Collectors.toCollection(ArrayList::new));
+            List<X509TrustManager> x509TrustManagers = Stream
+                    .concat(customTrustManagers.stream(), defaultTrustManagers.stream())
+                    .filter(X509TrustManager.class::isInstance)
+                    .map(X509TrustManager.class::cast)
+                    .collect(Collectors.toList());
+            List<TrustManager> allTrustManagers = Stream
+                    .concat(customTrustManagers.stream(), defaultTrustManagers.stream())
+                    .filter(x -> !(x instanceof X509TrustManager))
+                    .collect(Collectors.toCollection(ArrayList::new));
             X509TrustManager composite = new MultiX509TrustManager(x509TrustManagers);
             allTrustManagers.add(composite);
             trustManagers = allTrustManagers.toArray(new TrustManager[0]);
@@ -51,7 +56,8 @@ final class YandexTrustManagersProvider {
         return getTrustManagersFromKeyStore(keyStore);
     }
 
-    private List<TrustManager> getTrustManagersFromKeyStore(KeyStore keyStore) throws NoSuchAlgorithmException, KeyStoreException {
+    private List<TrustManager> getTrustManagersFromKeyStore(KeyStore keyStore)
+            throws NoSuchAlgorithmException, KeyStoreException {
         TrustManagerFactory trustManagerFactory =
                 TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         trustManagerFactory.init(keyStore);
@@ -60,11 +66,11 @@ final class YandexTrustManagersProvider {
     }
 
     private static final class LazyHolder {
-        private static final YandexTrustManagersProvider instance = new YandexTrustManagersProvider();
+        private static final YandexTrustManagersProvider INSTANCE = new YandexTrustManagersProvider();
     }
 
     public static YandexTrustManagersProvider getInstance() {
-        return LazyHolder.instance;
+        return LazyHolder.INSTANCE;
     }
 
     public TrustManager[] getTrustManagers() {

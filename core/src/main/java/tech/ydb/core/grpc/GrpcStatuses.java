@@ -1,21 +1,20 @@
 package tech.ydb.core.grpc;
 
-import tech.ydb.core.Issue;
-import tech.ydb.core.Result;
-import tech.ydb.core.StatusCode;
-
 import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import tech.ydb.core.Issue;
+import tech.ydb.core.Result;
+import tech.ydb.core.StatusCode;
 
 /**
  * @author Sergey Polovko
  */
 public final class GrpcStatuses {
-
     private static final Logger logger = LoggerFactory.getLogger(GrpcStatuses.class);
 
-    private GrpcStatuses() {}
+    private GrpcStatuses() { }
 
     public static <T> Result<T> toResult(Status status) {
         assert !status.isOk();
@@ -41,7 +40,7 @@ public final class GrpcStatuses {
         if (cause == null) {
             return tech.ydb.core.Status.of(code, null, message);
         }
-        
+
         return tech.ydb.core.Status.of(code, null, message, Issue.of(cause.getMessage(), Issue.Severity.ERROR));
     }
 

@@ -35,7 +35,7 @@ public final class Status implements Serializable {
     public boolean hasConsumedRu() {
         return consumedRu != null;
     }
-    
+
     public Double getConsumedRu() {
         return consumedRu;
     }

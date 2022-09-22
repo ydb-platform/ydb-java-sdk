@@ -17,7 +17,7 @@ public class TokenAuthProvider implements AuthProvider {
 
     private static final class TokenIdentity implements AuthIdentity {
         private final String token;
-        
+
         private TokenIdentity(String token) {
             this.token = token;
         }

@@ -2,13 +2,13 @@ package tech.ydb.core.grpc;
 
 import java.util.concurrent.Executor;
 
-import tech.ydb.core.auth.AuthIdentity;
-
 import io.grpc.CallCredentials;
 import io.grpc.Metadata;
 import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import tech.ydb.core.auth.AuthIdentity;
 
 
 /**
@@ -27,8 +27,7 @@ public class YdbCallCredentials extends CallCredentials {
     public void applyRequestMetadata(
         RequestInfo requestInfo,
         Executor appExecutor,
-        MetadataApplier applier)
-    {
+        MetadataApplier applier) {
         try {
             Metadata headers = new Metadata();
             String token = identity.getToken();

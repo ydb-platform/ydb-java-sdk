@@ -4,6 +4,15 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.ClientCall;
+import io.grpc.Metadata;
+import io.grpc.MethodDescriptor;
+import io.grpc.Status;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
@@ -14,15 +23,6 @@ import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.UnaryStreamToFuture;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
-
-import io.grpc.CallOptions;
-import io.grpc.Channel;
-import io.grpc.ClientCall;
-import io.grpc.Metadata;
-import io.grpc.MethodDescriptor;
-import io.grpc.Status;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -38,15 +38,15 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     }
 
     private final long defaultReadTimeoutMillis;
-    
+
     protected BaseGrpcTrasnsport(long readTimeoutMillis) {
         this.defaultReadTimeoutMillis = readTimeoutMillis;
     }
-    
+
     long getDefaultReadTimeoutMillis() {
         return this.defaultReadTimeoutMillis;
-    } 
-    
+    }
+
     protected abstract CallOptions getCallOptions();
     protected abstract CheckableChannel getChannel(GrpcRequestSettings settings);
 
@@ -73,7 +73,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
 
             ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
-                logger.trace("Sending request to {}, method `{}', request: `{}'", 
+                logger.trace("Sending request to {}, method `{}', request: `{}'",
                         channel.endpoint(),
                         method,
                         request);
@@ -100,7 +100,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
-                return () -> {};
+                return () -> { };
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         } else if (defaultReadTimeoutMillis > 0) {
@@ -127,10 +127,10 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             logger.error("server stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
             observer.onError(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
-            return () -> {};
+            return () -> { };
         }
     }
-    
+
     private static <ReqT, RespT> void sendOneRequest(
             ClientCall<ReqT, RespT> call,
             ReqT request,
@@ -146,13 +146,12 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             try {
                 call.cancel(null, t);
             } catch (Throwable ex) {
-                logger.error
-                        ("Exception encountered while closing the call", ex);
+                logger.error("Exception encountered while closing the call", ex);
             }
             listener.onClose(Status.INTERNAL.withCause(t), null);
         }
     }
- 
+
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
         return Result.fail(tech.ydb.core.Status.of(

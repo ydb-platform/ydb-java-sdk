@@ -11,12 +11,13 @@ import javax.net.ssl.X509TrustManager;
 final class MultiX509TrustManager implements X509TrustManager {
     final List<X509TrustManager> trustManagers;
 
-    public MultiX509TrustManager(final List<X509TrustManager> trustManagers) {
+    MultiX509TrustManager(final List<X509TrustManager> trustManagers) {
         this.trustManagers = trustManagers;
     }
 
     @Override
-    public void checkClientTrusted(final X509Certificate[] x509Certificates, final String authType) throws CertificateException {
+    public void checkClientTrusted(final X509Certificate[] x509Certificates, final String authType)
+            throws CertificateException {
         for (X509TrustManager trustManager : trustManagers) {
             try {
                 trustManager.checkClientTrusted(x509Certificates, authType);
@@ -29,7 +30,8 @@ final class MultiX509TrustManager implements X509TrustManager {
     }
 
     @Override
-    public void checkServerTrusted(final X509Certificate[] x509Certificates, final String authType) throws CertificateException {
+    public void checkServerTrusted(final X509Certificate[] x509Certificates, final String authType)
+            throws CertificateException {
         for (X509TrustManager trustManager : trustManagers) {
             try {
                 trustManager.checkServerTrusted(x509Certificates, authType);

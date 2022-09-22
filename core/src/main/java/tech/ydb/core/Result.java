@@ -25,30 +25,30 @@ public interface Result<T> {
         return getStatus().getCode() == StatusCode.SUCCESS;
     }
 
-    public static <V> Result<V> success(V value) {
+    static <V> Result<V> success(V value) {
         return new Success<>(Objects.requireNonNull(value), Status.SUCCESS);
     }
 
-    public static <V> Result<V> success(V value, Status status) {
+    static <V> Result<V> success(V value, Status status) {
         return new Success<>(Objects.requireNonNull(value), Objects.requireNonNull(status));
     }
 
-    public static <V> Result<V> fail(Status status) {
+    static <V> Result<V> fail(Status status) {
         return new Fail<>(Objects.requireNonNull(status));
     }
 
-    public static <V> Result<V> fail(UnexpectedResultException unexpected) {
+    static <V> Result<V> fail(UnexpectedResultException unexpected) {
         return new Fail<>(unexpected.getStatus());
     }
 
-    public static <V> Result<V> error(String message, Throwable throwable) {
+    static <V> Result<V> error(String message, Throwable throwable) {
         return new Error<>(message, throwable);
     }
 
     /*
      * SUCCESS
      */
-    static final class Success<V> implements Result<V> {
+    final class Success<V> implements Result<V> {
         private final V value;
         private final Status status;
 
@@ -101,7 +101,7 @@ public interface Result<T> {
     /*
      * FAIL
      */
-    static final class Fail<V> implements Result<V> {
+    final class Fail<V> implements Result<V> {
         private final Status status;
 
         private Fail(Status status) {
@@ -112,7 +112,7 @@ public interface Result<T> {
         @Override
         @SuppressWarnings("unchecked")
         public <U> Fail<U> map(Function<V, U> mapper) {
-            return (Fail<U>)this;
+            return (Fail<U>) this;
         }
 
         @Override
@@ -152,8 +152,8 @@ public interface Result<T> {
     /*
      * ERROR
      */
-    static final class Error<V> implements Result<V> {
-        private final static Status ERROR = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null);
+    final class Error<V> implements Result<V> {
+        private static final Status ERROR = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null);
         private final String message;
         private final Throwable cause;
         private final Status status;
@@ -162,7 +162,7 @@ public interface Result<T> {
             this.message = message;
             this.cause = cause;
             if (cause != null && cause instanceof UnexpectedResultException) {
-                this.status = ((UnexpectedResultException)cause).getStatus();
+                this.status = ((UnexpectedResultException) cause).getStatus();
             } else {
                 this.status = ERROR;
             }
@@ -181,7 +181,7 @@ public interface Result<T> {
         @Override
         @SuppressWarnings("unchecked")
         public <U> Error<U> map(Function<V, U> mapper) {
-            return (Error<U>)this;
+            return (Error<U>) this;
         }
 
         @Override

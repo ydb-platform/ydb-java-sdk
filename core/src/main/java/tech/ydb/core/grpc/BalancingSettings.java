@@ -4,10 +4,10 @@ package tech.ydb.core.grpc;
  * @author Nikolay Perfilov
  */
 public class BalancingSettings {
-    public final static BalancingPolicy DEFAULT_BALANCING_POLICY = BalancingPolicy.USE_ALL_NODES;
+    public static final BalancingPolicy DEFAULT_BALANCING_POLICY = BalancingPolicy.USE_ALL_NODES;
 
-    public final BalancingPolicy policy;
-    public final String preferableLocation;
+    private final BalancingPolicy policy;
+    private final String preferableLocation;
 
     public BalancingSettings(BalancingPolicy policy, String preferableLocation) {
         this.policy = policy;
@@ -17,6 +17,14 @@ public class BalancingSettings {
     public BalancingSettings() {
         this.policy = DEFAULT_BALANCING_POLICY;
         this.preferableLocation = null;
+    }
+
+    public BalancingPolicy getPolicy() {
+        return policy;
+    }
+
+    public String getPreferableLocation() {
+        return preferableLocation;
     }
 
     public static BalancingSettings fromPolicy(BalancingPolicy balancingPolicy) {

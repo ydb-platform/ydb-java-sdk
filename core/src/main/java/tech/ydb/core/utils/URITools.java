@@ -18,6 +18,7 @@ import com.google.common.base.Strings;
  * @author Aleksandr Gorshenin
  */
 public class URITools {
+    private URITools() { }
 
     public static Map<String, List<String>> splitQuery(URI url) {
         if (Strings.isNullOrEmpty(url.getQuery())) {
@@ -26,8 +27,8 @@ public class URITools {
         return Arrays.stream(url.getQuery().split("&"))
                 .map(URITools::splitQueryParameter)
                 .collect(Collectors.groupingBy(
-                        SimpleImmutableEntry::getKey, 
-                        LinkedHashMap::new, 
+                        SimpleImmutableEntry::getKey,
+                        LinkedHashMap::new,
                         Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
     }
 

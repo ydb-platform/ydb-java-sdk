@@ -1,24 +1,24 @@
 package tech.ydb.core.grpc.impl;
 
-import tech.ydb.core.grpc.GrpcRequestSettings;
-
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.grpc.GrpcRequestSettings;
+
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public class SingleChannelTransport extends BaseGrpcTrasnsport {
-    private final static Logger logger = LoggerFactory.getLogger(SingleChannelTransport.class);
+    private static final Logger logger = LoggerFactory.getLogger(SingleChannelTransport.class);
 
     private final CallOptions callOptions;
     private final String database;
     private final GrpcChannel channel;
-    
+
     public SingleChannelTransport(
             CallOptions callOptions,
             long readTimeoutMillis,
