@@ -2,24 +2,24 @@ package tech.ydb.core;
 
 import java.util.function.Function;
 
-import tech.ydb.OperationProtos;
-import tech.ydb.OperationProtos.Operation;
-
 import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
+
+import tech.ydb.OperationProtos;
+import tech.ydb.OperationProtos.Operation;
 
 
 /**
  * @author Sergey Polovko
  */
 public final class Operations {
-    private Operations() {}
-    
-    private final static Status ASYNC_ARE_UNSUPPORTED = Status.of(
+    private static final Status ASYNC_ARE_UNSUPPORTED = Status.of(
             StatusCode.CLIENT_INTERNAL_ERROR, null,
             Issue.of("Async operations are not supported", Issue.Severity.ERROR)
     );
+
+    private Operations() { }
 
     @VisibleForTesting
     static Status status(Operation operation) {
@@ -33,8 +33,7 @@ public final class Operations {
 
     public static <R, M extends Message> Function<Result<R>, Result<M>> resultUnwrapper(
         Function<R, OperationProtos.Operation> operationExtractor,
-        Class<M> resultClass)
-    {
+        Class<M> resultClass) {
         return (result) -> {
             if (!result.isSuccess()) {
                 return result.map(null);
@@ -58,8 +57,7 @@ public final class Operations {
     }
 
     public static <R> Function<Result<R>, Status> statusUnwrapper(
-        Function<R, OperationProtos.Operation> operationExtractor)
-    {
+        Function<R, OperationProtos.Operation> operationExtractor) {
         return (result) -> {
             if (!result.isSuccess()) {
                 return result.getStatus();

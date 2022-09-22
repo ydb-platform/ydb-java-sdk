@@ -9,15 +9,15 @@ import java.util.function.Consumer;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import tech.ydb.core.auth.AuthProvider;
-import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.grpc.impl.YdbTransportImpl;
-import tech.ydb.core.utils.Version;
-
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.netty.NettyChannelBuilder;
+
+import tech.ydb.core.auth.AuthProvider;
+import tech.ydb.core.auth.NopAuthProvider;
+import tech.ydb.core.grpc.impl.YdbTransportImpl;
+import tech.ydb.core.utils.Version;
 
 /**
  *

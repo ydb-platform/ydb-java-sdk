@@ -13,6 +13,9 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.auth.YdbAuth;
 import tech.ydb.auth.v1.AuthServiceGrpc;
 import tech.ydb.core.Operations;
@@ -21,9 +24,6 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -60,7 +60,7 @@ class StaticCredentitalsRpc {
         this.clock = clock;
         this.executor = executor.get();
     }
-    
+
     public void close() {
         String database = rpc.getDatabase();
 
@@ -69,7 +69,7 @@ class StaticCredentitalsRpc {
             executor.shutdown();
             boolean closed = executor.awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
             if (!closed) {
-                logger.warn("static identity of {} closing timeout exceeded, terminate",database);
+                logger.warn("static identity of {} closing timeout exceeded, terminate", database);
                 executor.shutdownNow();
                 closed = executor.awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
                 if (closed) {
@@ -108,7 +108,7 @@ class StaticCredentitalsRpc {
             }
         }
     }
-    
+
     private void handleException(CompletableFuture<Token> future, Throwable th) {
         logger.error("Login request get exception {}", th.getMessage());
         if (retries.decrementAndGet() > 0) {
@@ -135,7 +135,7 @@ class StaticCredentitalsRpc {
 
                 transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
                         .thenApply(Operations.resultUnwrapper(
-                                YdbAuth.LoginResponse::getOperation, 
+                                YdbAuth.LoginResponse::getOperation,
                                 YdbAuth.LoginResult.class
                         ))
                         .whenComplete((resp, th) -> {
@@ -150,13 +150,13 @@ class StaticCredentitalsRpc {
             }
         });
     }
-    
+
     public CompletableFuture<Token> loginAsync() {
         CompletableFuture<Token> tokenFuture = new CompletableFuture<>();
         tryLogin(tokenFuture);
         return tokenFuture;
     }
-    
+
     public <T> T unwrap(CompletableFuture<T> future) {
         try {
             return future.get(LOGIN_TIMEOUT_SECONDS, TimeUnit.SECONDS);
@@ -169,18 +169,18 @@ class StaticCredentitalsRpc {
             return null;
         }
     }
-    
+
     public static class Token {
         private final String token;
         private final Instant expiredAt;
         private final Instant updateAt;
-        
-        public Token(String token, Instant expiredAt, Instant updateAt) {
+
+        Token(String token, Instant expiredAt, Instant updateAt) {
             this.token = token;
             this.expiredAt = expiredAt;
             this.updateAt = updateAt;
         }
-        
+
         public String token() {
             return this.token;
         }

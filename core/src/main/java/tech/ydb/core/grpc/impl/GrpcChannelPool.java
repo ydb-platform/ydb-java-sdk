@@ -53,7 +53,9 @@ public class GrpcChannelPool {
                         CompletableFuture<Boolean> promise = new CompletableFuture<>();
                         if (channel != null) {
                             executor.schedule(
-                                    () -> { promise.complete(channel.shutdown()); },
+                                    () -> {
+                                        promise.complete(channel.shutdown());
+                                    },
                                     WAIT_FOR_REQUESTS_MS,  // Waiting for already running requests to complete
                                     TimeUnit.MILLISECONDS
                             );

@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.base.Preconditions;
+import com.google.common.net.HostAndPort;
+import io.grpc.MethodDescriptor;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.URITools;
-
-import com.google.common.base.Preconditions;
-import com.google.common.net.HostAndPort;
-import io.grpc.MethodDescriptor;
 
 
 /**
@@ -23,33 +23,33 @@ import io.grpc.MethodDescriptor;
  */
 public interface GrpcTransport extends AutoCloseable {
 
-    public String getEndpointByNodeId(int nodeId);
+    String getEndpointByNodeId(int nodeId);
 
-    public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
+    <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
             ReqT request);
 
-    public <ReqT, RespT> StreamControl serverStreamCall(
+    <ReqT, RespT> StreamControl serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
             ReqT request,
             StreamObserver<RespT> observer);
-    
-    public String getDatabase();
-    
-    @Override
-    public void close();
 
-    public static GrpcTransportBuilder forHost(HostAndPort hostAndPort, String database) {
+    String getDatabase();
+
+    @Override
+    void close();
+
+    static GrpcTransportBuilder forHost(HostAndPort hostAndPort, String database) {
         return new GrpcTransportBuilder(null, hostAndPort, database);
     }
 
-    public static GrpcTransportBuilder forHost(String host, int port, String database) {
+    static GrpcTransportBuilder forHost(String host, int port, String database) {
         return new GrpcTransportBuilder(null, HostAndPort.fromParts(host, port), database);
     }
 
-    public static GrpcTransportBuilder forEndpoint(String endpoint, String database) {
+    static GrpcTransportBuilder forEndpoint(String endpoint, String database) {
         Preconditions.checkNotNull(endpoint, "endpoint is null");
         Preconditions.checkNotNull(database, "database is null");
         return new GrpcTransportBuilder(endpoint, null, database);
@@ -57,7 +57,7 @@ public interface GrpcTransport extends AutoCloseable {
 
     // [<protocol>://]<host>[:<port>]/<database-path> - main form
     // [<protocol>://]<host>[:<port>]/?database=<database-path> - deprecated mode
-    public static GrpcTransportBuilder forConnectionString(String connectionString) {
+    static GrpcTransportBuilder forConnectionString(String connectionString) {
         Preconditions.checkNotNull(connectionString, "connection string is null");
         String endpoint;
         String database;

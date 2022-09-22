@@ -4,6 +4,11 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import io.netty.util.Timeout;
+import io.netty.util.TimerTask;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -11,11 +16,6 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.Async;
 import tech.ydb.discovery.DiscoveryProtos;
-
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Nikolay Perfilov
@@ -31,9 +31,9 @@ public class PeriodicDiscoveryTask implements TimerTask {
     private static final long DISCOVERY_PERIOD_NORMAL_SECONDS = 60;
     // Interval between discovery requests when pessimization threshold is exceeded
     private static final long DISCOVERY_PERIOD_MIN_SECONDS = 5;
-    
+
     private static final Logger logger = LoggerFactory.getLogger(PeriodicDiscoveryTask.class);
-    
+
     private final GrpcDiscoveryRpc discoveryRpc;
     private final DiscoveryHandler discoveryHandler;
 
@@ -67,7 +67,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
         if (timeout.isCancelled() || state.stopped) {
             return;
         }
-        
+
         if (discoveryHandler.useMinDiscoveryPeriod()) {
             runDiscovery();
         } else {
@@ -84,7 +84,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
     private void scheduleNextDiscovery() {
         currentSchedule = Async.runAfter(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
     }
-    
+
     private void handleDiscoveryResponse(Result<DiscoveryProtos.ListEndpointsResult> response) {
         if (!response.isSuccess()) {
             logger.error("discovery fail {}", response);
@@ -93,7 +93,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
         }
 
         DiscoveryProtos.ListEndpointsResult result = response.getValue();
-        if (result.getEndpointsList().isEmpty()) { 
+        if (result.getEndpointsList().isEmpty()) {
             logger.error("discovery return empty list of endpoints");
             Status status = Status.of(StatusCode.CLIENT_DISCOVERY_FAILED, null,
                     Issue.of("Discovery return empty list of endpoints", Issue.Severity.ERROR));
@@ -104,7 +104,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
         logger.debug("successfully received ListEndpoints result with {} endpoints",
                 result.getEndpointsList().size());
         discoveryHandler.handleDiscoveryResult(result);
-        
+
         state.handleOK();
     }
 
@@ -113,7 +113,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
             logger.debug("couldn't start update: already in progress");
             return;
         }
-        
+
         logger.debug("updating endpoints, calling ListEndpoints...");
         discoveryRpc.listEndpoints().whenComplete((response, ex) -> {
             if (state.stopped) {
@@ -141,7 +141,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
         private volatile boolean stopped = false;
         private volatile RuntimeException lastProblem = null;
         private final Object readyLock = new Object();
-        
+
         public void handleOK() {
             this.lastUpdateTime = Instant.now();
 
@@ -154,7 +154,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
                 }
             }
         }
-        
+
         public void handleProblem(Throwable ex) {
             if (isReady) {
                 logger.error("discovery problem", ex);
@@ -170,7 +170,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
 
                 isReady = false;
                 if (ex instanceof RuntimeException) {
-                    lastProblem = (RuntimeException)ex;
+                    lastProblem = (RuntimeException) ex;
                 } else {
                     lastProblem = new RuntimeException("Check ready problem", ex);
                 }
@@ -187,7 +187,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
                 if (isReady) {
                     return;
                 }
-                
+
                 if (lastProblem != null) {
                     throw lastProblem;
                 }

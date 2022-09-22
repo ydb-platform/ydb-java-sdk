@@ -2,14 +2,14 @@ package tech.ydb.core.grpc.impl;
 
 import java.util.concurrent.Executor;
 
+import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.CallOptions;
+
 import tech.ydb.core.auth.AuthIdentity;
 import tech.ydb.core.auth.AuthProvider;
 import tech.ydb.core.auth.AuthRpc;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.YdbCallCredentials;
-
-import com.google.common.util.concurrent.MoreExecutors;
-import io.grpc.CallOptions;
 
 /**
  *
@@ -44,17 +44,17 @@ public class AuthCallOptions implements AutoCloseable {
         if (executor != null && executor != MoreExecutors.directExecutor()) {
             options = options.withExecutor(executor);
         }
-        
+
         this.callOptions = options;
     }
-    
+
     @Override
     public void close() {
         if (authIdentity != null) {
             authIdentity.close();
         }
     }
-    
+
     public CallOptions getCallOptions() {
         return callOptions;
     }

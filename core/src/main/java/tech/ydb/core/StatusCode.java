@@ -56,8 +56,7 @@ public enum StatusCode {
     CLIENT_LIMITS_REACHED(INTERNAL_CLIENT_FIRST + 20),
 
     // Deadline expired before request was sent to server
-    CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30),
-    ;
+    CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30);
 
     private final int code;
 
@@ -94,7 +93,8 @@ public enum StatusCode {
             case UNDETERMINED: return UNDETERMINED;
             case UNSUPPORTED: return UNSUPPORTED;
             case SESSION_BUSY: return SESSION_BUSY;
+            default:
+                return UNUSED_STATUS;
         }
-        return UNUSED_STATUS;
     }
 }

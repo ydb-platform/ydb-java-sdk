@@ -241,7 +241,7 @@
         <!-- Checks for import order                                      -->
         <!-- See http://checkstyle.sf.net/config_imports.html#ImportOrder -->
         <module name="ImportOrder">
-            <property name="groups" value="java,javax,/^(?!ru\.yandex\.)/,yandex,ru.yandex"/>
+            <property name="groups" value="java,javax,/^(?!ru\.yandex\.)/,yandex,ru.yandex,tech.ydb"/>
             <property name="ordered" value="true"/>
             <property name="separated" value="true"/>
             <property name="option" value="bottom"/>
