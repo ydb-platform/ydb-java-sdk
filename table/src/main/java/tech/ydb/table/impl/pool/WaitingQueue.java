@@ -1,7 +1,5 @@
 package tech.ydb.table.impl.pool;
 
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Queue;
@@ -12,7 +10,11 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
+
 import javax.annotation.concurrent.ThreadSafe;
+
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Preconditions;
 
 /**
  *
@@ -29,13 +31,13 @@ public class WaitingQueue<T> implements AutoCloseable {
     /** Limit of waiting requests = maxSize * constant */
     @VisibleForTesting
     static final int WAITINGS_LIMIT_FACTOR = 10;
-    
+
     private final int maxSize;
     private final int waitingsLimit;
-    
+
     private final Handler<T> handler;
     private volatile boolean stopped = false;
-    
+
     /** Deque of idle objects */
     private final ConcurrentLinkedDeque<T> idle = new ConcurrentLinkedDeque<>();
     /** Non idle objects managed by WaitingQueue */
@@ -74,7 +76,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         boolean ok = tryToPollIdle(acquire)
                 || tryToCreateNewPending(acquire)
                 || tryToCreateNewWaiting(acquire);
-        
+
         if (!ok) {
             acquire.completeExceptionally(new RuntimeException("Objects limit exceeded"));
         }
@@ -84,7 +86,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         if (!used.remove(object, object)) {
             return;
         }
-        
+
         // Try to complete waiting request
         if (!tryToCompleteWaiting(object)) {
             // Put object to idle deque as hottest object
@@ -101,25 +103,25 @@ public class WaitingQueue<T> implements AutoCloseable {
         }
         queueSize.decrementAndGet();
         handler.destroy(object);
-        
+
         // After deleting one object we can try to create new pending if it needed
         checkNextWaitingAcquire();
     }
-    
+
     @Override
     public void close() {
         stopped = true;
         clear();
     }
-    
+
     public Iterator<T> coldIterator() {
         return new ColdIterator(idle.descendingIterator());
     }
-    
+
     public int getIdleCount() {
         return idle.size();
     }
-    
+
     public int getUsedCount() {
         return used.size();
     }
@@ -139,7 +141,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     public int getTotalLimit() {
         return maxSize;
     }
-    
+
     public int getWaitingLimit() {
         return waitingsLimit;
     }
@@ -183,7 +185,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
         return false;
     }
-    
+
     private boolean tryToCreateNewWaiting(CompletableFuture<T> acquire) {
         int waitingsCount = waitingAcqueireCount.get();
         while (waitingsCount < waitingsLimit) {
@@ -245,13 +247,13 @@ public class WaitingQueue<T> implements AutoCloseable {
                 queueSize.decrementAndGet();
             }
         }
-        
+
         CompletableFuture<T> waiting = waitingAcquires.poll();
         while (waiting != null) {
             waiting.completeExceptionally(new CancellationException("Queue is already closed"));
             waiting = waitingAcquires.poll();
         }
-        
+
         T nextIdle = idle.poll();
         while (nextIdle != null) {
             queueSize.decrementAndGet();
@@ -264,7 +266,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         private final CompletableFuture<T> acquire;
         private final CompletableFuture<T> pending;
 
-        public PendingHandler(CompletableFuture<T> acquire, CompletableFuture<T> pending) {
+        PendingHandler(CompletableFuture<T> acquire, CompletableFuture<T> pending) {
             this.acquire = acquire;
             this.pending = pending;
         }
@@ -272,7 +274,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         @Override
         public void accept(T object, Throwable th) {
             boolean ready = !acquire.isDone() && !acquire.isCancelled();
-        
+
             // If pool is already closed and clean
             if (!pendingRequests.remove(pending, pending)) {
                 if (ready) {
@@ -298,7 +300,7 @@ public class WaitingQueue<T> implements AutoCloseable {
                 safeAcquireObject(acquire, object);
                 return;
             }
-            
+
             // If acquire future is already canceled, put new object to hot queue
             idle.offerFirst(object); // ConcurrentLinkedQueue always return true
             if (stopped) {
@@ -306,13 +308,13 @@ public class WaitingQueue<T> implements AutoCloseable {
             }
         }
     }
-    
+
     /** Iterator with custom remove action */
     private class ColdIterator implements Iterator<T> {
         private final Iterator<T> iter;
         private volatile T lastRet = null;
 
-        public ColdIterator(Iterator<T> iter) {
+        ColdIterator(Iterator<T> iter) {
             this.iter = iter;
         }
 
@@ -320,7 +322,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         public boolean hasNext() {
             return this.iter.hasNext();
         }
-        
+
         @Override
         public void remove() {
             if (lastRet == null) {

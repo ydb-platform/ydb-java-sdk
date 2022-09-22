@@ -133,14 +133,16 @@ public class DecimalValue implements Value<DecimalType> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         DecimalValue that = (DecimalValue) o;
-
-        if (high != that.high) return false;
-        if (low != that.low) return false;
-        return type.equals(that.type);
+        return high == that.high && low == that.low && type.equals(that.type);
     }
 
     @Override
@@ -214,7 +216,7 @@ public class DecimalValue implements Value<DecimalType> {
             remainder = lowLo + (remainder << 32);
             lowLo = remainder / divisor;
 
-            sb.append(Character.forDigit((int)(remainder % divisor), divisor));
+            sb.append(Character.forDigit((int) (remainder % divisor), divisor));
 
             if (--scale == 0) {
                 sb.append('.');
@@ -340,7 +342,7 @@ public class DecimalValue implements Value<DecimalType> {
 
     private static DecimalValue fromUnsignedLong(DecimalType type, boolean positive, long value) {
         if (value == 0) {
-            return new DecimalValue(type, 0l, 0l);
+            return new DecimalValue(type, 0L, 0L);
         }
 
         long high = 0;

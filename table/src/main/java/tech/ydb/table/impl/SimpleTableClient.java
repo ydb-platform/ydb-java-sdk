@@ -15,14 +15,10 @@ import tech.ydb.table.settings.DeleteSessionSettings;
 /**
  * @author Aleksandr Gorshenin
  */
-final class SimpleTableClient implements SessionSupplier {
-    static public Builder newClient(TableRpc rpc) {
-        return new Builder(rpc);
-    }
-
+public class SimpleTableClient implements SessionSupplier {
     private final TableRpc tableRpc;
     private final boolean keepQueryText;
-    
+
     SimpleTableClient(Builder builder) {
         this.tableRpc = builder.tableRpc;
         this.keepQueryText = builder.keepQueryText;
@@ -34,6 +30,10 @@ final class SimpleTableClient implements SessionSupplier {
                 .setTimeout(duration);
         return BaseSession.createSessionId(tableRpc, settings, false)
                 .thenApply(response -> response.map(SimpleSession::new));
+    }
+
+    public static Builder newClient(TableRpc rpc) {
+        return new Builder(rpc);
     }
 
     public static class Builder {
@@ -53,7 +53,7 @@ final class SimpleTableClient implements SessionSupplier {
             return new SimpleTableClient(this);
         }
     }
-    
+
     private class SimpleSession extends BaseSession {
         SimpleSession(String id) {
             super(id, tableRpc, keepQueryText);

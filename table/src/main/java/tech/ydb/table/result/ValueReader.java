@@ -13,8 +13,7 @@ public interface ValueReader extends
     ListReader,
     DictReader,
     StructReader,
-    VariantReader
-{
+    VariantReader {
 
     /**
      * Writes string representation of current value into given string builder.

@@ -11,6 +11,9 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -21,56 +24,52 @@ import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.table.YdbTable;
+import tech.ydb.table.YdbTable.AlterTableRequest;
+import tech.ydb.table.YdbTable.AlterTableResponse;
+import tech.ydb.table.YdbTable.BeginTransactionRequest;
+import tech.ydb.table.YdbTable.BeginTransactionResponse;
+import tech.ydb.table.YdbTable.BeginTransactionResult;
+import tech.ydb.table.YdbTable.BulkUpsertResponse;
+import tech.ydb.table.YdbTable.CommitTransactionRequest;
+import tech.ydb.table.YdbTable.CommitTransactionResponse;
+import tech.ydb.table.YdbTable.CopyTableRequest;
+import tech.ydb.table.YdbTable.CopyTableResponse;
+import tech.ydb.table.YdbTable.CreateTableRequest;
+import tech.ydb.table.YdbTable.CreateTableResponse;
+import tech.ydb.table.YdbTable.DeleteSessionRequest;
+import tech.ydb.table.YdbTable.DeleteSessionResponse;
+import tech.ydb.table.YdbTable.DescribeTableRequest;
+import tech.ydb.table.YdbTable.DescribeTableResponse;
+import tech.ydb.table.YdbTable.DescribeTableResult;
+import tech.ydb.table.YdbTable.DropTableRequest;
+import tech.ydb.table.YdbTable.DropTableResponse;
+import tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
+import tech.ydb.table.YdbTable.ExecuteDataQueryResponse;
+import tech.ydb.table.YdbTable.ExecuteQueryResult;
+import tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
+import tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse;
+import tech.ydb.table.YdbTable.ExplainDataQueryRequest;
+import tech.ydb.table.YdbTable.ExplainDataQueryResponse;
+import tech.ydb.table.YdbTable.ExplainQueryResult;
+import tech.ydb.table.YdbTable.KeepAliveRequest;
+import tech.ydb.table.YdbTable.KeepAliveResponse;
+import tech.ydb.table.YdbTable.KeepAliveResult;
+import tech.ydb.table.YdbTable.PrepareDataQueryRequest;
+import tech.ydb.table.YdbTable.PrepareDataQueryResponse;
+import tech.ydb.table.YdbTable.PrepareQueryResult;
+import tech.ydb.table.YdbTable.ReadTableRequest;
+import tech.ydb.table.YdbTable.ReadTableResponse;
+import tech.ydb.table.YdbTable.RollbackTransactionRequest;
+import tech.ydb.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.v1.TableServiceGrpc;
-
-import static tech.ydb.table.YdbTable.AlterTableRequest;
-import static tech.ydb.table.YdbTable.AlterTableResponse;
-import static tech.ydb.table.YdbTable.BeginTransactionRequest;
-import static tech.ydb.table.YdbTable.BeginTransactionResponse;
-import static tech.ydb.table.YdbTable.BeginTransactionResult;
-import static tech.ydb.table.YdbTable.BulkUpsertResponse;
-import static tech.ydb.table.YdbTable.CommitTransactionRequest;
-import static tech.ydb.table.YdbTable.CommitTransactionResponse;
-import static tech.ydb.table.YdbTable.CopyTableRequest;
-import static tech.ydb.table.YdbTable.CopyTableResponse;
-import static tech.ydb.table.YdbTable.CreateTableRequest;
-import static tech.ydb.table.YdbTable.CreateTableResponse;
-import static tech.ydb.table.YdbTable.DeleteSessionRequest;
-import static tech.ydb.table.YdbTable.DeleteSessionResponse;
-import static tech.ydb.table.YdbTable.DescribeTableRequest;
-import static tech.ydb.table.YdbTable.DescribeTableResponse;
-import static tech.ydb.table.YdbTable.DescribeTableResult;
-import static tech.ydb.table.YdbTable.DropTableRequest;
-import static tech.ydb.table.YdbTable.DropTableResponse;
-import static tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
-import static tech.ydb.table.YdbTable.ExecuteDataQueryResponse;
-import static tech.ydb.table.YdbTable.ExecuteQueryResult;
-import static tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
-import static tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse;
-import static tech.ydb.table.YdbTable.ExplainDataQueryRequest;
-import static tech.ydb.table.YdbTable.ExplainDataQueryResponse;
-import static tech.ydb.table.YdbTable.ExplainQueryResult;
-import static tech.ydb.table.YdbTable.KeepAliveRequest;
-import static tech.ydb.table.YdbTable.KeepAliveResponse;
-import static tech.ydb.table.YdbTable.KeepAliveResult;
-import static tech.ydb.table.YdbTable.PrepareDataQueryRequest;
-import static tech.ydb.table.YdbTable.PrepareDataQueryResponse;
-import static tech.ydb.table.YdbTable.PrepareQueryResult;
-import static tech.ydb.table.YdbTable.ReadTableRequest;
-import static tech.ydb.table.YdbTable.ReadTableResponse;
-import static tech.ydb.table.YdbTable.RollbackTransactionRequest;
-import static tech.ydb.table.YdbTable.RollbackTransactionResponse;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Sergey Polovko
  */
 @ParametersAreNonnullByDefault
 public final class GrpcTableRpc implements TableRpc {
-    private final static Logger logger = LoggerFactory.getLogger(TableRpc.class);
+    private static final Logger logger = LoggerFactory.getLogger(TableRpc.class);
 
     private final GrpcTransport transport;
     private final boolean transportOwned;
@@ -159,7 +158,9 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getExplainDataQueryMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(ExplainDataQueryResponse::getOperation, ExplainQueryResult.class));
+                .thenApply(Operations.resultUnwrapper(
+                        ExplainDataQueryResponse::getOperation, ExplainQueryResult.class)
+                );
     }
 
     @Override
@@ -168,7 +169,9 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getPrepareDataQueryMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(PrepareDataQueryResponse::getOperation, PrepareQueryResult.class));
+                .thenApply(Operations.resultUnwrapper(
+                        PrepareDataQueryResponse::getOperation, PrepareQueryResult.class
+                ));
     }
 
     @Override
@@ -176,7 +179,9 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getExecuteDataQueryMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(ExecuteDataQueryResponse::getOperation, ExecuteQueryResult.class));
+                .thenApply(Operations.resultUnwrapper(
+                        ExecuteDataQueryResponse::getOperation, ExecuteQueryResult.class
+                ));
     }
 
     @Override
@@ -192,7 +197,9 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getBeginTransactionMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(BeginTransactionResponse::getOperation, BeginTransactionResult.class));
+                .thenApply(Operations.resultUnwrapper(
+                        BeginTransactionResponse::getOperation, BeginTransactionResult.class
+                ));
     }
 
     @Override

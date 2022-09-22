@@ -341,7 +341,7 @@ public class PrimitiveValueTest {
             assertThat(v.getBytesAsByteString()).isEqualTo(ByteString.copyFrom(data));
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.Bytes(data));
+            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromBytes(data));
             assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Bytes, vPb));
         };
 

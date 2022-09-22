@@ -40,8 +40,13 @@ public final class DictType implements Type {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || o.getClass() != DictType.class) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || o.getClass() != DictType.class) {
+            return false;
+        }
 
         DictType dictType = (DictType) o;
         return keyType.equals(dictType.keyType) && valueType.equals(dictType.valueType);

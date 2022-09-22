@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.Maps;
+
 import tech.ydb.ValueProtos.TypedValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
@@ -54,6 +55,7 @@ final class ParamsImmutableMap implements Params {
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static ParamsImmutableMap create(
             String name1, Value<?> value1,
             String name2, Value<?> value2,
@@ -67,6 +69,7 @@ final class ParamsImmutableMap implements Params {
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static ParamsImmutableMap create(
             String name1, Value<?> value1,
             String name2, Value<?> value2,
@@ -82,6 +85,7 @@ final class ParamsImmutableMap implements Params {
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static ParamsImmutableMap create(
             String name1, Value<?> value1,
             String name2, Value<?> value2,
@@ -99,6 +103,27 @@ final class ParamsImmutableMap implements Params {
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
+    static ParamsImmutableMap create(
+            String name1, Value<?> value1,
+            String name2, Value<?> value2,
+            String name3, Value<?> value3,
+            String name4, Value<?> value4,
+            String name5, Value<?> value5,
+            String name6, Value<?> value6,
+            String name7, Value<?> value7) {
+        HashMap<String, Value<?>> params = Maps.newHashMapWithExpectedSize(6);
+        params.put(name1, value1);
+        putParam(params, name2, value2);
+        putParam(params, name3, value3);
+        putParam(params, name4, value4);
+        putParam(params, name5, value5);
+        putParam(params, name6, value6);
+        putParam(params, name7, value7);
+        return new ParamsImmutableMap(Collections.unmodifiableMap(params));
+    }
+
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static ParamsImmutableMap create(
             String name1, Value<?> value1,
             String name2, Value<?> value2,
@@ -120,6 +145,7 @@ final class ParamsImmutableMap implements Params {
         return new ParamsImmutableMap(Collections.unmodifiableMap(params));
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     static ParamsImmutableMap create(
             String name1, Value<?> value1,
             String name2, Value<?> value2,

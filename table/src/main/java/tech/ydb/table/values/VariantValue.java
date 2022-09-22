@@ -30,8 +30,13 @@ public class VariantValue implements Value<VariantType> {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         VariantValue that = (VariantValue) o;
         if (typeIndex != that.typeIndex) {

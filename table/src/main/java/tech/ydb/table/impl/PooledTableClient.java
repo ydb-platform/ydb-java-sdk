@@ -1,12 +1,12 @@
 package tech.ydb.table.impl;
 
-import com.google.common.base.Preconditions;
-
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+
+import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.UnexpectedResultException;
@@ -22,10 +22,6 @@ import tech.ydb.table.rpc.TableRpc;
  * @author Aleksandr Gorshenin
  */
 public class PooledTableClient implements TableClient {
-    static public TableClient.Builder newClient(TableRpc rpc) {
-        return new Builder(rpc);
-    }
-
     private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
             (Runnable r) -> new Thread(r, "YdbTablePoolScheduler")
     );
@@ -35,8 +31,8 @@ public class PooledTableClient implements TableClient {
         this.pool = new SessionPool(
                 executor,
                 Clock.systemUTC(),
-                builder.tableRpc, 
-                builder.keepQueryText, 
+                builder.tableRpc,
+                builder.keepQueryText,
                 builder.sessionPoolOptions
         );
     }
@@ -47,7 +43,7 @@ public class PooledTableClient implements TableClient {
             if (tw != null) {
                 Throwable ex = Async.unwrapCompletionException(tw);
                 if (ex instanceof UnexpectedResultException) {
-                    return Result.fail((UnexpectedResultException)ex);
+                    return Result.fail((UnexpectedResultException) ex);
                 } else {
                     return Result.error("can't create session", ex);
                 }
@@ -67,26 +63,30 @@ public class PooledTableClient implements TableClient {
         return pool.stats();
     }
 
-    static private class Builder implements TableClient.Builder {
+    public static TableClient.Builder newClient(TableRpc rpc) {
+        return new Builder(rpc);
+    }
+
+    private static class Builder implements TableClient.Builder {
         /** Minimal duration of keep alive and idle */
-        private final static Duration MIN_DURATION = Duration.ofSeconds(1);
+        private static final Duration MIN_DURATION = Duration.ofSeconds(1);
         /** Maximal duration of keep alive and idle */
-        private final static Duration MAX_DURATION = Duration.ofMinutes(30);
+        private static final Duration MAX_DURATION = Duration.ofMinutes(30);
 
         private final TableRpc tableRpc;
         private boolean keepQueryText = true;
         private SessionPoolOptions sessionPoolOptions = SessionPoolOptions.DEFAULT;
 
-        public Builder(TableRpc tableRpc) {
+        Builder(TableRpc tableRpc) {
             Preconditions.checkArgument(tableRpc != null, "table rpc is null");
             this.tableRpc = tableRpc;
         }
-        
+
         private static String prettyDuration(Duration duration) {
-            // convert ISO-8601 format to more readable, etc PT2S will be printed as 2s 
+            // convert ISO-8601 format to more readable, etc PT2S will be printed as 2s
             return duration.toString().substring(2).toLowerCase();
         }
-        
+
         @Override
         public Builder keepQueryText(boolean keep) {
             this.keepQueryText = keep;

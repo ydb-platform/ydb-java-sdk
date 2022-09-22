@@ -3,7 +3,9 @@ package tech.ydb.table.impl.pool;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.concurrent.atomic.AtomicReference;
+
 import javax.annotation.concurrent.ThreadSafe;
+
 import tech.ydb.core.StatusCode;
 import tech.ydb.table.impl.BaseSession;
 import tech.ydb.table.rpc.TableRpc;
@@ -34,7 +36,7 @@ abstract class StatefulSession extends BaseSession {
     public State state() {
         return state.get();
     }
-    
+
     private boolean switchState(State current, State next) {
         return next != null && state.compareAndSet(current, next);
     }
@@ -51,13 +53,13 @@ abstract class StatefulSession extends BaseSession {
         private final Status status;
         private final Instant lastActive;
         private final Instant lastUpdate;
-        
+
         private State(Status status, Instant now) {
             this.status = status;
             this.lastActive = now;
             this.lastUpdate = now;
         }
-        
+
         private State(Status status, Instant lastActive, Instant lastUpdate) {
             this.status = status;
             this.lastActive = lastActive;
@@ -70,11 +72,11 @@ abstract class StatefulSession extends BaseSession {
         public Instant lastUpdate() {
             return this.lastUpdate;
         }
-        
+
         public boolean needShutdown() {
             return this.status == Status.BROKEN || this.status == Status.NEED_SHUTDOWN;
         }
-        
+
         public boolean switchToActive(Instant now) {
             return switchState(this, nextState(Status.ACTIVE, now));
         }
@@ -122,26 +124,26 @@ abstract class StatefulSession extends BaseSession {
 
             return new State(status, lastActive, now);
         }
-        
+
         private State nextState(Status nextStatus, Instant now) {
             // Broken and need shutdown states never will be changed
             if (status == Status.BROKEN || status == Status.NEED_SHUTDOWN) {
                 return null;
             }
-            
+
             if (nextStatus == Status.BROKEN) {
                 return new State(Status.BROKEN, lastActive, now);
             }
-            
+
             //switching to the same status is forbidden
             if (nextStatus == status) {
                 return null;
             }
-            
+
             if (nextStatus == Status.ACTIVE) {
                 return new State(nextStatus, now);
             }
-            
+
             return new State(nextStatus, lastActive, now);
         }
     }

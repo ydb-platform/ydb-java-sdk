@@ -165,23 +165,58 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     // -- constructors --
 
-    public static PrimitiveValue newBool(boolean value) { return value ? Bool.TRUE : Bool.FALSE; }
-    public static PrimitiveValue newInt8(byte value) { return new Int8(value); }
-    public static PrimitiveValue newUint8(int value) { return new Uint8(value); }
-    public static PrimitiveValue newInt16(short value) { return new Int16(value); }
-    public static PrimitiveValue newUint16(int value) { return new Uint16(value); }
-    public static PrimitiveValue newInt32(int value) { return new Int32(value); }
-    public static PrimitiveValue newUint32(long value) { return new Uint32(value); }
-    public static PrimitiveValue newInt64(long value) { return new Int64(value); }
-    public static PrimitiveValue newUint64(long value) { return new Uint64(value); }
-    public static PrimitiveValue newFloat(float value) { return new FloatValue(value); }
-    public static PrimitiveValue newDouble(double value) { return new DoubleValue(value); }
+    public static PrimitiveValue newBool(boolean value) {
+        return value ? Bool.TRUE : Bool.FALSE;
+    }
+
+    public static PrimitiveValue newInt8(byte value) {
+        return new Int8(value);
+    }
+
+    public static PrimitiveValue newUint8(int value) {
+        return new Uint8(value);
+    }
+
+    public static PrimitiveValue newInt16(short value) {
+        return new Int16(value);
+    }
+
+    public static PrimitiveValue newUint16(int value) {
+        return new Uint16(value);
+    }
+
+    public static PrimitiveValue newInt32(int value) {
+        return new Int32(value);
+    }
+
+    public static PrimitiveValue newUint32(long value) {
+        return new Uint32(value);
+    }
+
+    public static PrimitiveValue newInt64(long value) {
+        return new Int64(value);
+    }
+
+    public static PrimitiveValue newUint64(long value) {
+        return new Uint64(value);
+    }
+
+    public static PrimitiveValue newFloat(float value) {
+        return new FloatValue(value);
+    }
+
+    public static PrimitiveValue newDouble(double value) {
+        return new DoubleValue(value);
+    }
+
     public static PrimitiveValue newBytes(byte[] value) {
         return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value.clone());
     }
+
     public static PrimitiveValue newBytes(ByteString value) {
         return value.isEmpty() ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
     }
+
     public static PrimitiveValue newBytesOwn(byte[] value) {
         return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
     }
@@ -193,21 +228,34 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     public static PrimitiveValue newYson(byte[] value) {
         return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value.clone());
     }
+
     public static PrimitiveValue newYson(ByteString value) {
         return value.isEmpty() ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
     }
+
     public static PrimitiveValue newYsonOwn(byte[] value) {
         return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
     }
+
     public static PrimitiveValue newJson(String value) {
         return value.isEmpty() ? Text.EMPTY_JSON : new Text(PrimitiveType.Json, value);
     }
+
     public static PrimitiveValue newJsonDocument(String value) {
         return value.isEmpty() ? Text.EMPTY_JSON_DOCUMENT : new Text(PrimitiveType.JsonDocument, value);
     }
-    public static PrimitiveValue newUuid(long high, long low) { return new Uuid(high, low); }
-    public static PrimitiveValue newUuid(UUID uuid) { return new Uuid(uuid); }
-    public static PrimitiveValue newUuid(String uuid) { return new Uuid(uuid); }
+
+    public static PrimitiveValue newUuid(long high, long low) {
+        return new Uuid(high, low);
+    }
+
+    public static PrimitiveValue newUuid(UUID uuid) {
+        return new Uuid(uuid);
+    }
+
+    public static PrimitiveValue newUuid(String uuid) {
+        return new Uuid(uuid);
+    }
 
     public static PrimitiveValue newDate(long daysSinceEpoch) {
         if (daysSinceEpoch < 0) {
@@ -255,7 +303,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     public static PrimitiveValue newInterval(long micros) {
         return new IntervalValue(micros);
     }
-    
+
     public static PrimitiveValue newInterval(Duration value) {
         return newInterval(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
     }
@@ -304,8 +352,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Bool) o).value;
         }
 
@@ -344,8 +398,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Int8) o).value;
         }
 
@@ -384,8 +444,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Uint8) o).value;
         }
 
@@ -424,8 +490,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Int16) o).value;
         }
 
@@ -464,8 +536,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Uint16) o).value;
         }
 
@@ -504,8 +582,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Int32) o).value;
         }
 
@@ -529,7 +613,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         private final long value;
 
         Uint32(long value) {
-            this.value = value & 0xFFFFFFFFl;
+            this.value = value & 0xFFFFFFFFL;
         }
 
         @Override
@@ -544,8 +628,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Uint32) o).value;
         }
 
@@ -584,8 +674,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Int64) o).value;
         }
 
@@ -624,8 +720,14 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
             return value == ((Uint64) o).value;
         }
 
@@ -664,8 +766,13 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             FloatValue that = (FloatValue) o;
             return Float.compare(that.value, value) == 0;
@@ -706,8 +813,13 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             DoubleValue that = (DoubleValue) o;
             return Double.compare(that.value, value) == 0;
@@ -783,8 +895,13 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Bytes that = (Bytes) o;
             if (type != that.type) {
@@ -939,8 +1056,13 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Text that = (Text) o;
             if (type != that.type) {
@@ -978,11 +1100,6 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             this.low = low;
         }
 
-        @Override
-        public PrimitiveType getType() {
-            return PrimitiveType.Uuid;
-        }
-
         Uuid(String value) {
             String[] components = value.split("-");
             if (components.length != 5) {
@@ -1010,14 +1127,22 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
+        public PrimitiveType getType() {
+            return PrimitiveType.Uuid;
+        }
+
+        @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             Uuid uuid = (Uuid) o;
-
-            if (high != uuid.high) return false;
-            return low == uuid.low;
+            return high == uuid.high && low == uuid.low;
         }
 
         @Override
@@ -1106,12 +1231,16 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             InstantValue that = (InstantValue) o;
-            if (microsSinceEpoch != that.microsSinceEpoch) return false;
-            return type == that.type;
+            return microsSinceEpoch == that.microsSinceEpoch && type == that.type;
         }
 
         @Override
@@ -1161,8 +1290,13 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             IntervalValue that = (IntervalValue) o;
             return micros == that.micros;
@@ -1218,12 +1352,16 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
+            if (this == o) {
+                return true;
+            }
+
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
 
             TzDatetime that = (TzDatetime) o;
-            if (type != that.type) return false;
-            return dateTime.equals(that.dateTime);
+            return type == that.type && dateTime.equals(that.dateTime);
         }
 
         @Override

@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import com.google.common.base.Preconditions;
+
 import tech.ydb.ValueProtos;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
@@ -13,7 +14,7 @@ import tech.ydb.table.result.ValueReader;
  * @author Sergey Polovko
  */
 public class ProtoValueReaders {
-    private ProtoValueReaders() {}
+    private ProtoValueReaders() { }
 
     public static ResultSetReader forResultSet(ValueProtos.ResultSet resultSet) {
         return new ProtoResultSetReader(resultSet);
@@ -21,7 +22,7 @@ public class ProtoValueReaders {
 
     public static ResultSetReader forResultSets(Collection<ResultSetReader> resultSets) {
         // TODO: add lightweight implementation instead of proto joining
-        Preconditions.checkArgument(resultSets.size() > 0, "Expect multiple result sets to join from");
+        Preconditions.checkArgument(!resultSets.isEmpty(), "Expect multiple result sets to join from");
 
         Iterator<ResultSetReader> iterator = resultSets.iterator();
         if (resultSets.size() == 1) {

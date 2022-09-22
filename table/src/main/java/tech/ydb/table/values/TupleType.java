@@ -58,8 +58,13 @@ public final class TupleType implements Type {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || o.getClass() != TupleType.class) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         TupleType tupleType = (TupleType) o;
         if (getElementsCount() != tupleType.getElementsCount()) {

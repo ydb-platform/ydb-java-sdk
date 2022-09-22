@@ -36,49 +36,47 @@ public final class StructType implements Type {
     }
 
     public static StructType of(String memberName, Type memberType) {
-        return new StructType(new String[] { memberName }, new Type[] { memberType });
+        return new StructType(new String[] {memberName}, new Type[] {memberType});
     }
 
     public static StructType of(
         String member1Name, Type member1Type,
-        String member2Name, Type member2Type)
-    {
+        String member2Name, Type member2Type) {
         return new StructType(
-            new String[] { member1Name, member2Name },
-            new Type[] { member1Type, member2Type });
+            new String[] {member1Name, member2Name},
+            new Type[] {member1Type, member2Type});
     }
 
     public static StructType of(
         String member1Name, Type member1Type,
         String member2Name, Type member2Type,
-        String member3Name, Type member3Type)
-    {
+        String member3Name, Type member3Type) {
         return new StructType(
-            new String[] { member1Name, member2Name, member3Name },
-            new Type[] { member1Type, member2Type, member3Type });
+            new String[] {member1Name, member2Name, member3Name},
+            new Type[] {member1Type, member2Type, member3Type});
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public static StructType of(
         String member1Name, Type member1Type,
         String member2Name, Type member2Type,
         String member3Name, Type member3Type,
-        String member4Name, Type member4Type)
-    {
+        String member4Name, Type member4Type) {
         return new StructType(
-            new String[] { member1Name, member2Name, member3Name, member4Name },
-            new Type[] { member1Type, member2Type, member3Type, member4Type });
+            new String[] {member1Name, member2Name, member3Name, member4Name},
+            new Type[] {member1Type, member2Type, member3Type, member4Type});
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public static StructType of(
         String member1Name, Type member1Type,
         String member2Name, Type member2Type,
         String member3Name, Type member3Type,
         String member4Name, Type member4Type,
-        String member5Name, Type member5Type)
-    {
+        String member5Name, Type member5Type) {
         return new StructType(
-            new String[] { member1Name, member2Name, member3Name, member4Name, member5Name },
-            new Type[] { member1Type, member2Type, member3Type, member4Type, member5Type });
+            new String[] {member1Name, member2Name, member3Name, member4Name, member5Name},
+            new Type[] {member1Type, member2Type, member3Type, member4Type, member5Type});
     }
 
     public static StructType of(Map<String, Type> members) {
@@ -136,8 +134,13 @@ public final class StructType implements Type {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || o.getClass() != StructType.class) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         StructType structType = (StructType) o;
         if (getMembersCount() != structType.getMembersCount()) {
@@ -196,8 +199,7 @@ public final class StructType implements Type {
 
     public StructValue newValue(
         String member1Name, Value member1Value,
-        String member2Name, Value member2Value)
-    {
+        String member2Name, Value member2Value) {
         checkArgument(getMembersCount() == 2, "struct type %s has different members count", this);
         Value[] values = new Value[2];
         setValue(values, member1Name, member1Value);
@@ -208,8 +210,7 @@ public final class StructType implements Type {
     public StructValue newValue(
         String member1Name, Value member1Value,
         String member2Name, Value member2Value,
-        String member3Name, Value member3Value)
-    {
+        String member3Name, Value member3Value) {
         checkArgument(getMembersCount() == 3, "struct type %s has different members count", this);
         Value[] values = new Value[3];
         setValue(values, member1Name, member1Value);
@@ -218,12 +219,12 @@ public final class StructType implements Type {
         return new StructValue(this, values);
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public StructValue newValue(
         String member1Name, Value member1Value,
         String member2Name, Value member2Value,
         String member3Name, Value member3Value,
-        String member4Name, Value member4Value)
-    {
+        String member4Name, Value member4Value) {
         checkArgument(getMembersCount() == 4, "struct type %s has different members count", this);
         Value[] values = new Value[4];
         setValue(values, member1Name, member1Value);
@@ -233,13 +234,13 @@ public final class StructType implements Type {
         return new StructValue(this, values);
     }
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public StructValue newValue(
         String member1Name, Value member1Value,
         String member2Name, Value member2Value,
         String member3Name, Value member3Value,
         String member4Name, Value member4Value,
-        String member5Name, Value member5Value)
-    {
+        String member5Name, Value member5Value) {
         checkArgument(getMembersCount() == 5, "struct type %s has different members count", this);
         Value[] values = new Value[5];
         setValue(values, member1Name, member1Value);

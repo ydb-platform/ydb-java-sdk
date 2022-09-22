@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 
 import com.google.common.base.Preconditions;
+
 import tech.ydb.ValueProtos;
 import tech.ydb.table.values.proto.ProtoType;
 
@@ -56,12 +57,16 @@ public class DecimalType implements Type {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         DecimalType that = (DecimalType) o;
-        if (precision != that.precision) return false;
-        return scale == that.scale;
+        return precision == that.precision && scale == that.scale;
     }
 
     @Override
