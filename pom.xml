@@ -40,11 +40,19 @@
     </licenses>
 
     <scm>
+        <url>https://github.com/ydb-platform/ydb-java-sdk</url>
         <connection>scm:git:https://github.com/ydb-platform/ydb-java-sdk.git</connection>
         <developerConnection>scm:git:https://github.com/ydb-platform/ydb-java-sdk.git</developerConnection>
-        <url>https://github.com/ydb-platform/ydb-java-sdk.git</url>
     </scm>
 
+    <developers>
+        <developer>
+            <name>Aleksandr Gorshenin</name>
+            <email>alexandr268@ydb.tech</email>
+            <organization>YDB</organization>
+            <organizationUrl>https://ydb.tech/</organizationUrl>
+        </developer>
+    </developers>
 
     <dependencyManagement>
         <dependencies>
@@ -191,7 +199,7 @@
 
     <profiles>
         <profile>
-            <id>ossrh</id>
+            <id>ossrh-s01</id>
             <activation>
                 <activeByDefault>false</activeByDefault>
             </activation>
@@ -218,8 +226,8 @@
                         <version>1.6.8</version>
                         <extensions>true</extensions>
                         <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <serverId>ossrh-s01</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
                             <autoReleaseAfterClose>true</autoReleaseAfterClose>
                         </configuration>
                     </plugin>
