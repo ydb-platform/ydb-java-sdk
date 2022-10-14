@@ -280,10 +280,10 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     static final class Optional extends ProtoPrimitiveValueReader {
 
         private final ValueProtos.Type optionalType;
+        private ProtoPrimitiveValueReader itemReader;
         private boolean present = false;
 
         Optional(ValueProtos.Type type) {
-            // unwrap one level of optional
             super(type.getOptionalType().getItem());
             this.optionalType = type;
         }
@@ -300,18 +300,19 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
 
         @Override
         public ValueReader getOptionalItem() {
-            return this;
+            return itemReader;
         }
 
         @Override
         protected void setProtoValue(ValueProtos.Value value) {
+            super.setProtoValue(value);
             if (value.getValueCase() == ValueProtos.Value.ValueCase.NULL_FLAG_VALUE) {
                 present = false;
-                value = ValueProtos.Value.getDefaultInstance(); // for cleanup
             } else {
                 present = true;
+                itemReader = new ProtoPrimitiveValueReader(optionalType.getOptionalType().getItem());
+                itemReader.setProtoValue(value);
             }
-            super.setProtoValue(value);
         }
 
         @Override

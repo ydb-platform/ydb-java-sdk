@@ -1,6 +1,7 @@
 ## 2.1.0 ##
 
 * Removed unnecessary parameter EndpointsDiscoveryPeriod from GrpcTransportBuilder
+* Fixed serialization/deserialization of inner optional types
 
 ## 2.0.0 ##
 

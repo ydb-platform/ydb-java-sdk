@@ -556,9 +556,6 @@ public class ProtoValue {
     }
 
     public static ValueProtos.Value optional(ValueProtos.Value value) {
-        if (value.getValueCase() != ValueProtos.Value.ValueCase.NULL_FLAG_VALUE) {
-            return value;
-        }
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.setNestedValue(value);
         return builder.build();
