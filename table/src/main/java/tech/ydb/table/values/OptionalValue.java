@@ -88,7 +88,9 @@ public class OptionalValue implements Value<OptionalType> {
     public ValueProtos.Value toPb() {
         if (isPresent()) {
             ValueProtos.Value pb = get().toPb();
-            return ProtoValue.optional(pb);
+            boolean implicit = type.getItemType().getKind() == Type.Kind.PRIMITIVE
+                    || type.getItemType().getKind() == Type.Kind.DECIMAL;
+            return implicit ? pb : ProtoValue.optional(pb);
         }
 
         return ProtoValue.optional();

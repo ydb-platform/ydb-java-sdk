@@ -12,6 +12,7 @@ final class ProtoOptionalValueReader extends AbstractValueReader {
     private final ValueProtos.Type type;
     private final AbstractValueReader itemReader;
     private boolean present = false;
+    private ValueProtos.Value value;
 
     ProtoOptionalValueReader(ValueProtos.Type type, AbstractValueReader itemReader) {
         this.type = type;
@@ -25,11 +26,12 @@ final class ProtoOptionalValueReader extends AbstractValueReader {
 
     @Override
     protected ValueProtos.Value getProtoValue() {
-        return itemReader.getProtoValue();
+        return value;
     }
 
     @Override
     protected void setProtoValue(ValueProtos.Value value) {
+        this.value = value;
         switch (value.getValueCase()) {
             case NESTED_VALUE:
                 present = true;
@@ -37,7 +39,7 @@ final class ProtoOptionalValueReader extends AbstractValueReader {
                 break;
             case NULL_FLAG_VALUE:
                 present = false;
-                itemReader.setProtoValue(ValueProtos.Value.getDefaultInstance()); // for cleanup
+                itemReader.setProtoValue(value);
                 break;
             default:
                 present = true;
@@ -53,8 +55,7 @@ final class ProtoOptionalValueReader extends AbstractValueReader {
 
     @Override
     public ValueReader getOptionalItem() {
-        // TODO: return empty optional if present == false
-        return itemReader;
+        return present ? itemReader : null;
     }
 
     @Override
