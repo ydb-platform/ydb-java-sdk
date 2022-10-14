@@ -32,7 +32,6 @@ public class GrpcTransportBuilder {
     private boolean useTLS = false;
     private Consumer<NettyChannelBuilder> channelInitializer = null;
     private String localDc;
-    private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
     private BalancingSettings balancingSettings;
     private Executor callExecutor = MoreExecutors.directExecutor();
     private AuthProvider authProvider = NopAuthProvider.INSTANCE;
@@ -68,11 +67,6 @@ public class GrpcTransportBuilder {
         return endpoint;
     }
 
-    public Duration getEndpointsDiscoveryPeriod() {
-        return endpointsDiscoveryPeriod;
-    }
-
-    @Nullable
     public String getDatabase() {
         return database;
     }
@@ -118,11 +112,6 @@ public class GrpcTransportBuilder {
 
     public GrpcTransportBuilder withLocalDataCenter(String dc) {
         this.localDc = dc;
-        return this;
-    }
-
-    public GrpcTransportBuilder withEndpointsDiscoveryPeriod(Duration period) {
-        this.endpointsDiscoveryPeriod = period;
         return this;
     }
 

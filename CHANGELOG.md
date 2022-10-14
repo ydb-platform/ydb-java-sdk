@@ -1,3 +1,7 @@
+## 2.1.0 ##
+
+* Removed unnecessary parameter EndpointsDiscoveryPeriod from GrpcTransportBuilder
+
 ## 2.0.0 ##
 
 * Added SnapshotRO trasaction level
