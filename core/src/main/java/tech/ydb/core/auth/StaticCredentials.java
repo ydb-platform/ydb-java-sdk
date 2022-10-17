@@ -21,7 +21,11 @@ import tech.ydb.auth.YdbAuth;
 public class StaticCredentials implements AuthProvider {
     private static final Logger logger = LoggerFactory.getLogger(StaticCredentials.class);
     private static final Supplier<ExecutorService> DEFAULT_EXECUTOR = () -> Executors
-            .newSingleThreadExecutor(r -> new Thread(r, "StaticCredsExecutor"));
+            .newSingleThreadExecutor(r -> {
+                Thread t = new Thread(r, "StaticCredsExecutor");
+                t.setDaemon(true);
+                return t;
+            });
 
     private final Clock clock;
     private final YdbAuth.LoginRequest request;
