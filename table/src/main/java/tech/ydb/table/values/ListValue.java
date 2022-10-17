@@ -12,9 +12,9 @@ import tech.ydb.table.values.proto.ProtoValue;
 public class ListValue implements Value<ListType> {
 
     private final ListType type;
-    private final Value[] items;
+    private final Value<?>[] items;
 
-    ListValue(ListType type, Value... items) {
+    ListValue(ListType type, Value<?>... items) {
         this.type = type;
         this.items = items;
     }
@@ -23,30 +23,30 @@ public class ListValue implements Value<ListType> {
         return new ListValue(ListType.of(type));
     }
 
-    public static ListValue of(Value... items) {
+    public static ListValue of(Value<?>... items) {
         if (items.length == 0) {
             return new ListValue(ListType.of(VoidType.of()));
         }
         return new ListValue(ListType.of(items[0].getType()), items);
     }
 
-    public static ListValue of(Value item) {
+    public static ListValue of(Value<?> item) {
         return new ListValue(ListType.of(item.getType()), item);
     }
 
-    public static ListValue of(Value a, Value b) {
+    public static ListValue of(Value<?> a, Value<?> b) {
         return new ListValue(ListType.of(a.getType()), a, b);
     }
 
-    public static ListValue of(Value a, Value b, Value c) {
+    public static ListValue of(Value<?> a, Value<?> b, Value<?> c) {
         return new ListValue(ListType.of(a.getType()), a, b, c);
     }
 
-    public static ListValue of(Value a, Value b, Value c, Value d) {
+    public static ListValue of(Value<?> a, Value<?> b, Value<?> c, Value<?> d) {
         return new ListValue(ListType.of(a.getType()), a, b, c, d);
     }
 
-    public static ListValue of(Value a, Value b, Value c, Value d, Value e) {
+    public static ListValue of(Value<?> a, Value<?> b, Value<?> c, Value<?> d, Value<?> e) {
         return new ListValue(ListType.of(a.getType()), a, b, c, d, e);
     }
 
@@ -58,7 +58,7 @@ public class ListValue implements Value<ListType> {
         return items.length == 0;
     }
 
-    public Value get(int index) {
+    public Value<?> get(int index) {
         return items[index];
     }
 
@@ -85,7 +85,7 @@ public class ListValue implements Value<ListType> {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("List[");
-        for (Value item : items) {
+        for (Value<?> item : items) {
             sb.append(item).append(", ");
         }
         if (items.length > 0) {
@@ -107,7 +107,7 @@ public class ListValue implements Value<ListType> {
         }
 
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
-        for (Value item : items) {
+        for (Value<?> item : items) {
             builder.addItems(item.toPb());
         }
         return builder.build();

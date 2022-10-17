@@ -191,28 +191,28 @@ public final class StructType implements Type {
         return ValueProtos.Type.newBuilder().setStructType(structType).build();
     }
 
-    public StructValue newValue(String memberName, Value memberValue) {
+    public StructValue newValue(String memberName, Value<?> memberValue) {
         checkArgument(getMembersCount() == 1, "struct type %s has different members count", this);
         checkArgument(getMemberName(0).equals(memberName), "struct type %s has no member %s", this, memberValue);
         return new StructValue(this, memberValue);
     }
 
     public StructValue newValue(
-        String member1Name, Value member1Value,
-        String member2Name, Value member2Value) {
+        String member1Name, Value<?> member1Value,
+        String member2Name, Value<?> member2Value) {
         checkArgument(getMembersCount() == 2, "struct type %s has different members count", this);
-        Value[] values = new Value[2];
+        Value<?>[] values = new Value<?>[2];
         setValue(values, member1Name, member1Value);
         setValue(values, member2Name, member2Value);
         return new StructValue(this, values);
     }
 
     public StructValue newValue(
-        String member1Name, Value member1Value,
-        String member2Name, Value member2Value,
-        String member3Name, Value member3Value) {
+        String member1Name, Value<?> member1Value,
+        String member2Name, Value<?> member2Value,
+        String member3Name, Value<?> member3Value) {
         checkArgument(getMembersCount() == 3, "struct type %s has different members count", this);
-        Value[] values = new Value[3];
+        Value<?>[] values = new Value<?>[3];
         setValue(values, member1Name, member1Value);
         setValue(values, member2Name, member2Value);
         setValue(values, member3Name, member3Value);
@@ -221,12 +221,12 @@ public final class StructType implements Type {
 
     @SuppressWarnings("checkstyle:ParameterNumber")
     public StructValue newValue(
-        String member1Name, Value member1Value,
-        String member2Name, Value member2Value,
-        String member3Name, Value member3Value,
-        String member4Name, Value member4Value) {
+        String member1Name, Value<?> member1Value,
+        String member2Name, Value<?> member2Value,
+        String member3Name, Value<?> member3Value,
+        String member4Name, Value<?> member4Value) {
         checkArgument(getMembersCount() == 4, "struct type %s has different members count", this);
-        Value[] values = new Value[4];
+        Value<?>[] values = new Value<?>[4];
         setValue(values, member1Name, member1Value);
         setValue(values, member2Name, member2Value);
         setValue(values, member3Name, member3Value);
@@ -236,13 +236,13 @@ public final class StructType implements Type {
 
     @SuppressWarnings("checkstyle:ParameterNumber")
     public StructValue newValue(
-        String member1Name, Value member1Value,
-        String member2Name, Value member2Value,
-        String member3Name, Value member3Value,
-        String member4Name, Value member4Value,
-        String member5Name, Value member5Value) {
+        String member1Name, Value<?> member1Value,
+        String member2Name, Value<?> member2Value,
+        String member3Name, Value<?> member3Value,
+        String member4Name, Value<?> member4Value,
+        String member5Name, Value<?> member5Value) {
         checkArgument(getMembersCount() == 5, "struct type %s has different members count", this);
-        Value[] values = new Value[5];
+        Value<?>[] values = new Value<?>[5];
         setValue(values, member1Name, member1Value);
         setValue(values, member2Name, member2Value);
         setValue(values, member3Name, member3Value);
@@ -251,22 +251,22 @@ public final class StructType implements Type {
         return new StructValue(this, values);
     }
 
-    private void setValue(Value[] values, String name, Value value) {
+    private void setValue(Value<?>[] values, String name, Value<?> value) {
         final int idx = getMemberIndex(name);
         checkArgument(idx != -1, "struct type %s has no member %s", this, name);
         values[idx] = value;
     }
 
-    public StructValue newValue(Map<String, Value> membersMap) {
+    public StructValue newValue(Map<String, Value<?>> membersMap) {
         checkArgument(
             getMembersCount() == membersMap.size(),
             "incompatible struct type %s and values names %s",
             this, membersMap.keySet());
 
-        Value[] members = new Value[membersMap.size()];
+        Value<?>[] members = new Value<?>[membersMap.size()];
         for (int i = 0; i < getMembersCount(); i++) {
             String name = getMemberName(i);
-            Value value = membersMap.get(name);
+            Value<?> value = membersMap.get(name);
             checkArgument(value != null, "given map %s has no member with name %s", membersMap.keySet(), name);
             members[i] = value;
         }
@@ -277,7 +277,7 @@ public final class StructType implements Type {
     /**
      * will not clone given array
      */
-    public StructValue newValueUnsafe(Value... members) {
+    public StructValue newValueUnsafe(Value<?>... members) {
         return new StructValue(this, members);
     }
 

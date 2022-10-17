@@ -11,10 +11,10 @@ import tech.ydb.ValueProtos;
 public class VariantValue implements Value<VariantType> {
 
     private final VariantType type;
-    private final Value item;
+    private final Value<?> item;
     private final int typeIndex;
 
-    VariantValue(VariantType type, Value item, int typeIndex) {
+    VariantValue(VariantType type, Value<?> item, int typeIndex) {
         this.type = type;
         this.item = Objects.requireNonNull(item, "item");
         this.typeIndex = typeIndex;
@@ -24,7 +24,7 @@ public class VariantValue implements Value<VariantType> {
         return typeIndex;
     }
 
-    public Value getItem() {
+    public Value<?> getItem() {
         return item;
     }
 

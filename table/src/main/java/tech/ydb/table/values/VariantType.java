@@ -101,7 +101,7 @@ public final class VariantType implements Type {
         return ProtoType.getVariant(tupleType.build());
     }
 
-    public VariantValue newValue(Value item, int typeIndex) {
+    public VariantValue newValue(Value<?> item, int typeIndex) {
         return new VariantValue(this, item, typeIndex);
     }
 }
