@@ -6,10 +6,6 @@ The Java SDK for YDB enables Java developers to work with YDB.
 * [YDB Documentation][ydb-docs]
 * [YDB SDK Documentation][sdk-docs]
 
-## Warning
-
-This project is in development
-
 ## Getting Started
 
 #### Connection setup ####
