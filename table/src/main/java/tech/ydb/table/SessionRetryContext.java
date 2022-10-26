@@ -16,8 +16,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
+import io.grpc.netty.shaded.io.netty.util.Timeout;
+import io.grpc.netty.shaded.io.netty.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

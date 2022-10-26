@@ -7,11 +7,11 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import io.netty.util.HashedWheelTimer;
-import io.netty.util.Timeout;
-import io.netty.util.Timer;
-import io.netty.util.TimerTask;
-import io.netty.util.internal.SystemPropertyUtil;
+import io.grpc.netty.shaded.io.netty.util.HashedWheelTimer;
+import io.grpc.netty.shaded.io.netty.util.Timeout;
+import io.grpc.netty.shaded.io.netty.util.Timer;
+import io.grpc.netty.shaded.io.netty.util.TimerTask;
+import io.grpc.netty.shaded.io.netty.util.internal.SystemPropertyUtil;
 
 
 /**

@@ -4,8 +4,8 @@ import java.time.Instant;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
+import io.grpc.netty.shaded.io.netty.util.Timeout;
+import io.grpc.netty.shaded.io.netty.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
