@@ -7,7 +7,8 @@
 
 ### Installing in local repo
 
-You can install the SDK artifacts in your local maven cache by running the following command.
+You can install the SDK artifacts in your local maven cache by running the following command in project folder.
+During the build process, the working directory will be cleared, tests will be run, artifacts will be built and copied to the local repository.
 ```
 mvn clean install
 ```
