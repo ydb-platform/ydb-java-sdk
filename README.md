@@ -47,6 +47,8 @@ See the [Connect to a database][connect-to-a-database] section of the documentat
 
 In [examples][generic-examples] folder you can find more example applications with YDB Java SDK usage.
 
+## How to build
+To build the YDB Java SDK artifacts locally, see [Building YDB Java SDK](BUILD.md).
 
 [ydb-docs]: https://ydb.tech/en/docs
 [sdk-docs]: https://ydb.tech/en/docs/reference/ydb-sdk/
