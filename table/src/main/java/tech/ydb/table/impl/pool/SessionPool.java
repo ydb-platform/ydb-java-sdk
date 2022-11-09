@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -13,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
-import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,24 +73,66 @@ public class SessionPool implements AutoCloseable {
     }
 
     public CompletableFuture<Session> acquire(Duration timeout) {
-        CompletableFuture<ClosableSession> future = pollNext(timeout != null ? timeout : Duration.ZERO);
-        return future.thenCompose(s -> CompletableFuture.completedFuture((Session) s));
-    }
+        logger.debug("acquire session with timeout {}", timeout);
 
-    private CompletableFuture<ClosableSession> pollNext(Duration timeout) {
-        Instant deadline = clock.instant().plusMillis(timeout.toMillis());
-        CompletableFuture<ClosableSession> future = new CompletableFuture<>();
-        queue.acquire(future);
+        CompletableFuture<Session> future = new CompletableFuture<>();
 
-        if (!future.isDone()) {
-            future.whenComplete(new Canceller(scheduler.schedule(
-                    new Timeout(future),
-                    timeout.toMillis(),
-                    TimeUnit.MILLISECONDS)
-            ));
+        try {
+            // If next session is not ready - add timeout canceler
+            if (!pollNext(future)) {
+                future.whenComplete(new Canceller(scheduler.schedule(
+                        new Timeout(future),
+                        timeout.toMillis(),
+                        TimeUnit.MILLISECONDS)
+                ));
+            }
+        } catch (RuntimeException ex) {
+            future.completeExceptionally(ex);
         }
 
-        return future.thenApply(new SessionValidator(deadline));
+        return future;
+    }
+
+    private boolean pollNext(CompletableFuture<Session> future) {
+        CompletableFuture<ClosableSession> nextSession = new CompletableFuture<>();
+        queue.acquire(nextSession);
+
+        if (nextSession.isDone()) {
+            return validateSession(nextSession.join(), future);
+        }
+
+        nextSession.whenComplete((session, th) -> {
+            if (th != null) {
+                if (future.isDone() || future.isCancelled()) {
+                    logger.warn("can't get session, future is already canceled", th.getMessage());
+                    future.completeExceptionally(th);
+                } else {
+                    future.completeExceptionally(th);
+                }
+            }
+            if (session != null) {
+                validateSession(session, future);
+            }
+        });
+        return false;
+    }
+
+    private boolean validateSession(ClosableSession session, CompletableFuture<Session> future) {
+        if (future.isDone() || future.isCancelled()) {
+            logger.debug("session future already canceled, return session to the pool");
+            queue.release(session);
+            return true;
+        }
+
+        if (session.state().switchToActive(clock.instant())) {
+            logger.debug("session {} accepted", session.getId());
+            future.complete(session);
+            return true;
+        }
+
+        // If session can't switch to active state, delete it and try again
+        queue.delete(session);
+        return pollNext(future);
     }
 
     private class ClosableSession extends StatefulSession {
@@ -107,10 +147,8 @@ public class SessionPool implements AutoCloseable {
                 logger.debug("session {} release", getId());
                 queue.release(this);
             } else {
-                if (state().needShutdown()) {
-                    logger.debug("session {} shutdown", getId());
-                    queue.delete(this);
-                }
+                logger.debug("session {} shutdown", getId());
+                queue.delete(this);
             }
         }
     }
@@ -138,13 +176,10 @@ public class SessionPool implements AutoCloseable {
         @Override
         public void destroy(ClosableSession session) {
             session.delete(new DeleteSessionSettings()).whenComplete((status, th) -> {
-                if (!logger.isWarnEnabled()) {
-                    return;
-                }
                 if (th != null) {
                     logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
                 }
-                if (status != null && !status.isSuccess()) {
+                if (status != null) {
                     if (status.isSuccess()) {
                         logger.debug("session {} successful removed", session.getId());
                     } else {
@@ -220,31 +255,6 @@ public class SessionPool implements AutoCloseable {
                     }
                 }
             }
-        }
-    }
-
-    private class SessionValidator implements Function<ClosableSession, ClosableSession> {
-        private final Instant deadline;
-
-        SessionValidator(Instant deadline) {
-            this.deadline = deadline;
-        }
-
-        @Override
-        public ClosableSession apply(ClosableSession session) {
-            Instant now = clock.instant();
-            if (session.state().switchToActive(now)) {
-                return session;
-            }
-
-            if (now.isAfter(deadline)) {
-                queue.release(session);
-                throw new CompletionException(new TimeoutException("deadline was expired"));
-            }
-
-            CompletableFuture<ClosableSession> next = pollNext(Duration.between(now, deadline));
-            queue.release(session);
-            return next.join();
         }
     }
 
