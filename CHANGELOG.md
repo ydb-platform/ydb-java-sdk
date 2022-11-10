@@ -1,3 +1,7 @@
+## 2.0.1 ##
+
+* Fixed broken sessions handling in the session pool
+
 ## 2.0.0 ##
 
 * Added SnapshotRO trasaction level
