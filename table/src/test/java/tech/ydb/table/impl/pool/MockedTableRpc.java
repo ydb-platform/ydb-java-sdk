@@ -310,7 +310,7 @@ public class MockedTableRpc extends TableRpcStub {
         }
 
         public Checker executeDataRequests(int count) {
-            Assert.assertEquals("MockTable check session requests", count, executeDataQueryQueye.size());
+            Assert.assertEquals("MockTable check execute data requests", count, executeDataQueryQueye.size());
             return this;
         }
     }
