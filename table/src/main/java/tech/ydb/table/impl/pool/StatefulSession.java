@@ -6,6 +6,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.concurrent.ThreadSafe;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.StatusCode;
 import tech.ydb.table.impl.BaseSession;
 import tech.ydb.table.rpc.TableRpc;
@@ -16,6 +19,8 @@ import tech.ydb.table.rpc.TableRpc;
  */
 @ThreadSafe
 abstract class StatefulSession extends BaseSession {
+    private static final Logger logger = LoggerFactory.getLogger(SessionPool.class);
+
     private final Clock clock;
     private final AtomicReference<State> state;
 
@@ -31,6 +36,7 @@ abstract class StatefulSession extends BaseSession {
         while (!state.compareAndSet(current, current.updated(clock.instant(), th, code, gracefulShutdown))) {
             current = state.get();
         }
+        logger.debug("{} updated => {}", toString(), state.get().status);
     }
 
     public State state() {

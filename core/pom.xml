@@ -29,7 +29,7 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -62,7 +62,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <profiles>
         <profile>
             <!-- https://github.com/grpc/grpc-java/blob/master/SECURITY.md#tls-on-non-android -->

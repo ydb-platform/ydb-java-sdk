@@ -3,6 +3,10 @@
 * Removed unnecessary parameter EndpointsDiscoveryPeriod from GrpcTransportBuilder
 * Fixed serialization/deserialization of inner optional types
 
+## 2.0.1 ##
+
+* Fixed broken sessions handling in the session pool
+
 ## 2.0.0 ##
 
 * Added SnapshotRO trasaction level

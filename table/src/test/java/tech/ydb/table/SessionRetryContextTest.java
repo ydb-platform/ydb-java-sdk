@@ -1,27 +1,36 @@
 package tech.ydb.table;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.junit.Assert;
+import org.junit.Test;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import org.junit.Assert;
-import org.junit.Test;
+import tech.ydb.core.utils.Async;
+import tech.ydb.table.impl.PooledTableClient;
+import tech.ydb.table.impl.pool.FutureHelper;
+import tech.ydb.table.impl.pool.MockedTableRpc;
+import tech.ydb.table.query.DataQueryResult;
+import tech.ydb.table.transaction.TxControl;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
-import tech.ydb.core.utils.Async;
 
 
 /**
  * @author Sergey Polovko
  */
-public class SessionRetryContextTest {
+public class SessionRetryContextTest extends FutureHelper  {
     private static final Status NOT_FOUND = Status.of(StatusCode.NOT_FOUND, null);
     private static final Status SCHEME_ERROR = Status.of(StatusCode.SCHEME_ERROR, null);
     private static final Status SESSION_BUSY = Status.of(StatusCode.SESSION_BUSY, null);
@@ -383,6 +392,89 @@ public class SessionRetryContextTest {
 
         Assert.assertEquals(Status.SUCCESS, status);
         Assert.assertEquals(2, cnt.get());
+    }
+
+    @Test
+    public void baseUsageTest() throws InterruptedException {
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        TableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 2).build();
+
+        SessionRetryContext ctx = SessionRetryContext.create(client)
+                .maxRetries(2)
+                .backoffSlot(TEN_MILLIS)
+                .build();
+
+        CompletableFuture<Result<DataQueryResult>> f1 = futureIsPending(ctx.supplyResult(
+                session -> session.executeDataQuery("SELECT 1;", TxControl.snapshotRo())
+        ));
+        CompletableFuture<Result<DataQueryResult>> f2 = futureIsPending(ctx.supplyResult(
+                session -> session.executeDataQuery("SELECT 2;", TxControl.snapshotRo())
+        ));
+
+        rpc.check().sessionRequests(2).executeDataRequests(0).deleteSessionRequests(0);
+        rpc.nextCreateSession().completeSuccess();
+        rpc.nextCreateSession().completeSuccess();
+
+        rpc.check().sessionRequests(0).executeDataRequests(2).deleteSessionRequests(0);
+        rpc.nextExecuteDataQuery().completeOverloaded();
+        rpc.nextExecuteDataQuery().completeOverloaded();
+
+        Thread.sleep(200);
+
+        rpc.check().sessionRequests(0).executeDataRequests(2).deleteSessionRequests(0);
+        rpc.nextExecuteDataQuery().completeSuccess();
+        rpc.nextExecuteDataQuery().completeSuccess();
+
+        futureIsReady(f1);
+        futureIsReady(f2);
+
+        client.close();
+        rpc.check().deleteSessionRequests(2);
+        rpc.completeSessionDeleteRequests();
+    }
+
+    @Test
+    public void customExecutorUsageTest() throws InterruptedException {
+        ExecutorService custom = Executors.newSingleThreadExecutor();
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        TableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 2).build();
+
+        SessionRetryContext ctx = SessionRetryContext.create(client)
+                .maxRetries(2)
+                .executor(custom)
+                .backoffSlot(TEN_MILLIS)
+                .build();
+
+        CompletableFuture<Result<DataQueryResult>> f1 = futureIsPending(ctx.supplyResult(
+                session -> session.executeDataQuery("SELECT 1;", TxControl.snapshotRo())
+        ));
+        CompletableFuture<Result<DataQueryResult>> f2 = futureIsPending(ctx.supplyResult(
+                session -> session.executeDataQuery("SELECT 2;", TxControl.snapshotRo())
+        ));
+
+        rpc.check().sessionRequests(2).executeDataRequests(0).deleteSessionRequests(0);
+        rpc.nextCreateSession().completeSuccess();
+        rpc.nextCreateSession().completeSuccess();
+
+        Thread.sleep(200);
+
+        rpc.check().sessionRequests(0).executeDataRequests(2).deleteSessionRequests(0);
+        rpc.nextExecuteDataQuery().completeOverloaded();
+        rpc.nextExecuteDataQuery().completeOverloaded();
+
+        Thread.sleep(200);
+
+        rpc.check().sessionRequests(0).executeDataRequests(2).deleteSessionRequests(0);
+        rpc.nextExecuteDataQuery().completeSuccess();
+        rpc.nextExecuteDataQuery().completeSuccess();
+
+        futureIsReady(f1);
+        futureIsReady(f2);
+
+        client.close();
+        rpc.check().deleteSessionRequests(2);
+        rpc.completeSessionDeleteRequests();
+        custom.shutdown();
     }
 
     /**

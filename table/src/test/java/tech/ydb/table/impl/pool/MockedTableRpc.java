@@ -9,14 +9,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.grpc.Metadata;
+import org.junit.Assert;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.table.TableRpcStub;
 import tech.ydb.table.YdbTable;
-
-import org.junit.Assert;
 
 /**
  *
@@ -31,19 +33,20 @@ public class MockedTableRpc extends TableRpcStub {
     private final Set<String> activeSessions = new HashSet<>();
 
     private final AtomicInteger sessionCounter = new AtomicInteger();
-    
+
     private final Queue<CreateSession> createSessionQueue = new LinkedBlockingQueue<>();
     private final Queue<ExecuteDataQuery> executeDataQueryQueye = new LinkedBlockingQueue<>();
     private final Queue<KeepAlive> keepAliveQueue = new LinkedBlockingQueue<>();
+    private final Queue<DeleteSession> deleteSessionQueue = new LinkedBlockingQueue<>();
 
     public MockedTableRpc(Clock clock) {
         this.clock = clock;
     }
-    
+
     public Checker check() {
         return new Checker();
     }
-    
+
     public CreateSession nextCreateSession() {
         Assert.assertFalse("Mocked server has session create request", createSessionQueue.isEmpty());
         return createSessionQueue.poll();
@@ -58,7 +61,20 @@ public class MockedTableRpc extends TableRpcStub {
         Assert.assertFalse("Mocked server has keep alive request", keepAliveQueue.isEmpty());
         return keepAliveQueue.poll();
     }
-    
+
+    public DeleteSession nextDeleteSession() {
+        Assert.assertFalse("Mocked server has delete session request", deleteSessionQueue.isEmpty());
+        return deleteSessionQueue.poll();
+    }
+
+    public void completeSessionDeleteRequests() {
+        DeleteSession next = deleteSessionQueue.poll();
+        while (next != null) {
+            next.completeSuccess();
+            next = deleteSessionQueue.poll();
+        }
+    }
+
     @Override
     public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
         YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
@@ -71,8 +87,7 @@ public class MockedTableRpc extends TableRpcStub {
     @Override
     public CompletableFuture<Result<YdbTable.ExecuteQueryResult>> executeDataQuery(
         YdbTable.ExecuteDataQueryRequest request, GrpcRequestSettings settings) {
-        ExecuteDataQuery task = new ExecuteDataQuery(request, clock.instant()
-                .plusMillis(settings.getDeadlineAfter()));
+        ExecuteDataQuery task = new ExecuteDataQuery(request, settings);
         executeDataQueryQueye.offer(task);
         return task.future;
     }
@@ -89,14 +104,9 @@ public class MockedTableRpc extends TableRpcStub {
     @Override
     public CompletableFuture<Status> deleteSession(
             YdbTable.DeleteSessionRequest request, GrpcRequestSettings settings) {
-        String id = request.getSessionId();
-
-        if (!activeSessions.contains(id)) {
-            return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION, null));
-        }
-
-        activeSessions.remove(id);
-        return CompletableFuture.completedFuture(Status.SUCCESS);
+        DeleteSession task = new DeleteSession(request, clock.instant().plusMillis(settings.getDeadlineAfter()));
+        deleteSessionQueue.offer(task);
+        return task.future;
     }
 
     private String generateNextSession() {
@@ -113,7 +123,7 @@ public class MockedTableRpc extends TableRpcStub {
             this.deadline = deadline;
             this.future = new CompletableFuture<>();
         }
-        
+
         public void completeSuccess() {
             String sessionID = generateNextSession();
             YdbTable.CreateSessionResult result = YdbTable.CreateSessionResult.newBuilder()
@@ -131,34 +141,86 @@ public class MockedTableRpc extends TableRpcStub {
         public void completeTransportUnavailable() {
             future.complete(Result.fail(TRANSPORT_UNAVAILABLE));
         }
+
+        public void completeRuntimeException() {
+            future.completeExceptionally(new RuntimeException("Can't create session"));
+        }
     }
 
-    public class ExecuteDataQuery {
-        private final YdbTable.ExecuteDataQueryRequest request;
+    public class DeleteSession {
+        private final YdbTable.DeleteSessionRequest request;
         private final Instant deadline;
-        private final CompletableFuture<Result<YdbTable.ExecuteQueryResult>> future;
+        private final CompletableFuture<Status> future;
 
-        public ExecuteDataQuery(YdbTable.ExecuteDataQueryRequest request, Instant deadline) {
+        public DeleteSession(YdbTable.DeleteSessionRequest request, Instant deadline) {
             this.request = request;
             this.deadline = deadline;
             this.future = new CompletableFuture<>();
         }
-        
+
         public void completeSuccess() {
-            boolean ok = activeSessions.contains(request.getSessionId());
-            
-            if (!ok) {
+            if (!activeSessions.remove(request.getSessionId())) {
+                future.complete(BAD_SESSION);
+                return;
+            }
+            future.complete(Status.SUCCESS);
+        }
+
+        public void completeTransportUnavailable() {
+            if (!activeSessions.remove(request.getSessionId())) {
+                future.complete(BAD_SESSION);
+                return;
+            }
+            future.complete(TRANSPORT_UNAVAILABLE);
+        }
+
+        public void completeRuntimeException() {
+            if (!activeSessions.remove(request.getSessionId())) {
+                future.complete(BAD_SESSION);
+                return;
+            }
+            future.completeExceptionally(new RuntimeException("Can't delete session"));
+        }
+    }
+
+    public class ExecuteDataQuery {
+        private final YdbTable.ExecuteDataQueryRequest request;
+        private final GrpcRequestSettings settings;
+        private final CompletableFuture<Result<YdbTable.ExecuteQueryResult>> future;
+
+        public ExecuteDataQuery(YdbTable.ExecuteDataQueryRequest request, GrpcRequestSettings settings) {
+            this.request = request;
+            this.settings = settings;
+            this.future = new CompletableFuture<>();
+        }
+
+        private void completeSuccess(boolean shutdownHook) {
+            if (!activeSessions.contains(request.getSessionId())) {
                 future.complete(Result.fail(BAD_SESSION));
                 return;
+            }
+
+            if (settings.getTrailersHandler() != null) {
+                Metadata headers = new Metadata();
+                if (shutdownHook) {
+                    headers.put(YdbHeaders.YDB_SERVER_HINTS, "session-close");
+                }
+                settings.getTrailersHandler().accept(headers);
             }
 
             future.complete(Result.success(YdbTable.ExecuteQueryResult.getDefaultInstance()));
         }
 
+        public void completeSuccess() {
+            completeSuccess(false);
+        }
+
+        public void completeSuccessWithShutdownHook() {
+            completeSuccess(true);
+        }
+
         public void completeOverloaded() {
-            boolean ok = activeSessions.contains(request.getSessionId());
-            
-            if (!ok) {
+            if (!activeSessions.contains(request.getSessionId())) {
                 future.complete(Result.fail(BAD_SESSION));
                 return;
             }
@@ -167,9 +229,7 @@ public class MockedTableRpc extends TableRpcStub {
         }
 
         public void completeTransportUnavailable() {
-            boolean ok = activeSessions.contains(request.getSessionId());
-            
-            if (!ok) {
+            if (!activeSessions.contains(request.getSessionId())) {
                 future.complete(Result.fail(BAD_SESSION));
                 return;
             }
@@ -188,15 +248,13 @@ public class MockedTableRpc extends TableRpcStub {
             this.deadline = deadline;
             this.future = new CompletableFuture<>();
         }
-        
+
         public void completeReady() {
-            boolean ok = activeSessions.contains(request.getSessionId());
-            
-            if (!ok) {
+            if (!activeSessions.contains(request.getSessionId())) {
                 future.complete(Result.fail(BAD_SESSION));
                 return;
             }
-            
+
             YdbTable.KeepAliveResult result = YdbTable.KeepAliveResult.newBuilder()
                     .setSessionStatus(YdbTable.KeepAliveResult.SessionStatus.SESSION_STATUS_READY)
                     .build();
@@ -204,13 +262,11 @@ public class MockedTableRpc extends TableRpcStub {
         }
 
         public void completeBusy() {
-            boolean ok = activeSessions.contains(request.getSessionId());
-            
-            if (!ok) {
+            if (!activeSessions.contains(request.getSessionId())) {
                 future.complete(Result.fail(BAD_SESSION));
                 return;
             }
-            
+
             YdbTable.KeepAliveResult result = YdbTable.KeepAliveResult.newBuilder()
                     .setSessionStatus(YdbTable.KeepAliveResult.SessionStatus.SESSION_STATUS_BUSY)
                     .build();
@@ -229,16 +285,22 @@ public class MockedTableRpc extends TableRpcStub {
             Assert.assertTrue("MockTable has no keep alives", keepAliveQueue.isEmpty());
             return this;
         }
-    
+
         public Checker hasNoPendingRequests() {
             Assert.assertTrue("MockTable has no session requests", createSessionQueue.isEmpty());
             Assert.assertTrue("MockTable has no keepalive requests", keepAliveQueue.isEmpty());
             Assert.assertTrue("MockTable has no exec data query requests", executeDataQueryQueye.isEmpty());
+            Assert.assertTrue("MockTable has no session delete responses", deleteSessionQueue.isEmpty());
             return this;
         }
 
         public Checker sessionRequests(int count) {
             Assert.assertEquals("MockTable check session requests", count, createSessionQueue.size());
+            return this;
+        }
+
+        public Checker deleteSessionRequests(int count) {
+            Assert.assertEquals("MockTable check delete session requests", count, deleteSessionQueue.size());
             return this;
         }
 
@@ -248,7 +310,7 @@ public class MockedTableRpc extends TableRpcStub {
         }
 
         public Checker executeDataRequests(int count) {
-            Assert.assertEquals("MockTable check session requests", count, executeDataQueryQueye.size());
+            Assert.assertEquals("MockTable check execute data requests", count, executeDataQueryQueye.size());
             return this;
         }
     }

@@ -4,6 +4,10 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -12,10 +16,6 @@ import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.impl.pool.MockedTableRpc;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.function.ThrowingRunnable;
 
 /**
  *
@@ -30,7 +30,7 @@ public class PooledTableClientTest {
         );
         Assert.assertEquals("Validate exception msg", exceptionMsg, ex.getMessage());
     }
-    
+
     @Test
     public void testSessionPoolAsserts() {
         testAssert("table rpc is null", () -> {
@@ -97,7 +97,7 @@ public class PooledTableClientTest {
         TableClient client = PooledTableClient.newClient(new DumpTableRpc())
                 .keepQueryText(true)
                 .build();
-        
+
         Session session1 = nextSession(client);
         check(client).acquired(1).idle(0);
 
@@ -128,10 +128,10 @@ public class PooledTableClientTest {
 
         Assert.assertSame(session2, nextSession(client));
         check(client).acquired(2).idle(0);
-        
+
         session1.close();
         session2.close();
-        
+
         client.close();
         check(client).acquired(0).idle(0);
     }
@@ -180,14 +180,50 @@ public class PooledTableClientTest {
     @Test
     public void unavailableSessions() {
         TableClient client = PooledTableClient.newClient(new UnavailableTableRpc()).build();
-        
-        
+
+
         CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
         Result<Session> r1 = f1.join();
         Assert.assertFalse(r1.isSuccess());
         Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, r1.getStatus().getCode());
-        
+
         client.close();
+    }
+
+    @Test
+    public void createSessionTimeout() throws InterruptedException {
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        TableClient client = PooledTableClient.newClient(rpc).build();
+
+        CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
+        Thread.sleep(100);
+
+        Result<Session> r1 = f1.join();
+        Assert.assertFalse(r1.isSuccess());
+        Assert.assertEquals(StatusCode.CLIENT_DEADLINE_EXCEEDED, r1.getStatus().getCode());
+
+        rpc.check().sessionRequests(1);
+        rpc.nextCreateSession().completeSuccess();
+
+        client.close();
+        rpc.completeSessionDeleteRequests();
+    }
+
+    @Test
+    public void createSessionException() throws InterruptedException {
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        TableClient client = PooledTableClient.newClient(rpc).build();
+
+        CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
+        rpc.check().sessionRequests(1);
+        rpc.nextCreateSession().completeRuntimeException();
+
+        Result<Session> r1 = f1.join();
+        Assert.assertFalse(r1.isSuccess());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, r1.getStatus().getCode());
+
+        client.close();
+        rpc.completeSessionDeleteRequests();
     }
 
     private Session nextSession(TableClient client) {
@@ -200,13 +236,13 @@ public class PooledTableClientTest {
         public TableClientChecker(TableClient client) {
             this.stats = client.sessionPoolStats();
         }
-        
+
         public TableClientChecker size(int minSize, int maxSize) {
             Assert.assertEquals("Check pool min size", minSize, stats.getMinSize());
             Assert.assertEquals("Check pool max size", maxSize, stats.getMaxSize());
             return this;
         }
-        
+
         public TableClientChecker idle(int size) {
             Assert.assertEquals("Check pool idle size", size, stats.getIdleCount());
             return this;
@@ -216,7 +252,7 @@ public class PooledTableClientTest {
             Assert.assertEquals("Check pool acquired size", size, stats.getAcquiredCount());
             return this;
         }
-        
+
         public TableClientChecker pending(int size) {
             Assert.assertEquals("Check pool pending size", size, stats.getPendingAcquireCount());
             return this;
@@ -226,12 +262,12 @@ public class PooledTableClientTest {
     private TableClientChecker check(TableClient pool) {
         return new TableClientChecker(pool);
     }
-    
+
     private class DumpTableRpc extends MockedTableRpc {
         public DumpTableRpc() {
             super(Clock.systemUTC());
         }
-        
+
         @Override
         public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
             YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
@@ -245,7 +281,7 @@ public class PooledTableClientTest {
         public UnavailableTableRpc() {
             super(Clock.systemUTC());
         }
-        
+
         @Override
         public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
             YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
