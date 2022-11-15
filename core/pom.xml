@@ -24,6 +24,10 @@
             <groupId>tech.ydb</groupId>
             <artifactId>ydb-proto-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>tech.ydb</groupId>
+            <artifactId>ydb-auth-api</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.slf4j</groupId>
