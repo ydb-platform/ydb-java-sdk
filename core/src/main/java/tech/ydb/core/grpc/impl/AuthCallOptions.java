@@ -7,7 +7,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.CallOptions;
 
 import tech.ydb.auth.AuthIdentity;
-import tech.ydb.auth.AuthProvider;
+import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.core.grpc.YdbCallCredentials;
 
 /**
@@ -22,7 +22,7 @@ public class AuthCallOptions implements AutoCloseable {
             BaseGrpcTrasnsport parent,
             EndpointRecord endpoint,
             ChannelFactory channelFactory,
-            AuthProvider<? super GrpcAuthRpc> authProvider,
+            AuthRpcProvider<? super GrpcAuthRpc> authProvider,
             Executor executor) {
         CallOptions options = CallOptions.DEFAULT;
         if (authProvider != null) {

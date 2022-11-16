@@ -12,6 +12,7 @@ import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.auth.YdbAuth;
 import tech.ydb.core.grpc.impl.GrpcAuthRpc;
 
@@ -19,7 +20,7 @@ import tech.ydb.core.grpc.impl.GrpcAuthRpc;
  *
  * @author Aleksandr Gorshenin
  */
-public class StaticCredentials implements tech.ydb.auth.AuthProvider<GrpcAuthRpc> {
+public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
     private static final Logger logger = LoggerFactory.getLogger(StaticCredentials.class);
     private static final Supplier<ExecutorService> DEFAULT_EXECUTOR = () -> Executors
             .newSingleThreadExecutor(r -> {

@@ -1,7 +1,8 @@
 package tech.ydb.core.auth;
 
 /**
- * @author Sergey Polovko
+ * @deprecated
+ * Use {@link tech.ydb.auth.AuthIdentity} instead.
  */
 @Deprecated
 public interface AuthIdentity extends tech.ydb.auth.AuthIdentity {
