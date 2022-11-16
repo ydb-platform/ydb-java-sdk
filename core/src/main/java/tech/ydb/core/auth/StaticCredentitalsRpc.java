@@ -24,6 +24,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.impl.GrpcAuthRpc;
 
 /**
  *
@@ -49,12 +50,15 @@ class StaticCredentitalsRpc {
 
     private final AtomicInteger retries = new AtomicInteger(MAX_RETRIES_COUNT);
 
-    private final AuthRpc rpc;
+    private final GrpcAuthRpc rpc;
     private final YdbAuth.LoginRequest request;
     private final Clock clock;
     private final ExecutorService executor;
 
-    StaticCredentitalsRpc(AuthRpc rpc, YdbAuth.LoginRequest request, Clock clock, Supplier<ExecutorService> executor) {
+    StaticCredentitalsRpc(GrpcAuthRpc rpc,
+            YdbAuth.LoginRequest request,
+            Clock clock,
+            Supplier<ExecutorService> executor) {
         this.rpc = rpc;
         this.request = request;
         this.clock = clock;

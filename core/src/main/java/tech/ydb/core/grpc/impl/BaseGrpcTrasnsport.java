@@ -43,7 +43,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         this.defaultReadTimeoutMillis = readTimeoutMillis;
     }
 
-    long getDefaultReadTimeoutMillis() {
+    public long getDefaultReadTimeoutMillis() {
         return this.defaultReadTimeoutMillis;
     }
 

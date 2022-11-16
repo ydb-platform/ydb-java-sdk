@@ -4,6 +4,8 @@ package tech.ydb.core.auth;
  *
  * @author Aleksandr Gorshenin
  */
-public interface AuthProvider {
+@Deprecated
+public interface AuthProvider extends tech.ydb.auth.AuthProvider<AuthRpc> {
+    @Override
     AuthIdentity createAuthIdentity(AuthRpc rpc);
 }
