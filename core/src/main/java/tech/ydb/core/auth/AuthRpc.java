@@ -1,8 +1,7 @@
 package tech.ydb.core.auth;
 
 /**
- *
- * @author Aleksandr Gorshenin
+ * @deprecated
  */
 @Deprecated
 public interface AuthRpc {

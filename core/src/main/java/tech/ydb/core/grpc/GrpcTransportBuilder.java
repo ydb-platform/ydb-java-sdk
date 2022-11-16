@@ -14,7 +14,7 @@ import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 
-import tech.ydb.auth.AuthProvider;
+import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.auth.NopAuthProvider;
 import tech.ydb.core.grpc.impl.GrpcAuthRpc;
 import tech.ydb.core.grpc.impl.YdbTransportImpl;
@@ -35,7 +35,7 @@ public class GrpcTransportBuilder {
     private String localDc;
     private BalancingSettings balancingSettings;
     private Executor callExecutor = MoreExecutors.directExecutor();
-    private AuthProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
+    private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
 
     /**
@@ -94,7 +94,7 @@ public class GrpcTransportBuilder {
         return callExecutor;
     }
 
-    public AuthProvider<? super GrpcAuthRpc> getAuthProvider() {
+    public AuthRpcProvider<? super GrpcAuthRpc> getAuthProvider() {
         return authProvider;
     }
 
@@ -132,7 +132,7 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    public GrpcTransportBuilder withAuthProvider(AuthProvider<? super GrpcAuthRpc> authProvider) {
+    public GrpcTransportBuilder withAuthProvider(AuthRpcProvider<? super GrpcAuthRpc> authProvider) {
         this.authProvider = Objects.requireNonNull(authProvider);
         return this;
     }
