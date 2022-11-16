@@ -13,12 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.auth.YdbAuth;
+import tech.ydb.core.grpc.impl.GrpcAuthRpc;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class StaticCredentials implements AuthProvider {
+public class StaticCredentials implements tech.ydb.auth.AuthProvider<GrpcAuthRpc> {
     private static final Logger logger = LoggerFactory.getLogger(StaticCredentials.class);
     private static final Supplier<ExecutorService> DEFAULT_EXECUTOR = () -> Executors
             .newSingleThreadExecutor(r -> {
@@ -48,7 +49,7 @@ public class StaticCredentials implements AuthProvider {
     }
 
     @Override
-    public AuthIdentity createAuthIdentity(AuthRpc rpc) {
+    public tech.ydb.auth.AuthIdentity createAuthIdentity(GrpcAuthRpc rpc) {
         logger.info("create static identity for database {}", rpc.getDatabase());
         return new IdentityImpl(rpc);
     }
@@ -59,11 +60,11 @@ public class StaticCredentials implements AuthProvider {
         String token();
     }
 
-    private class IdentityImpl implements AuthIdentity {
+    private class IdentityImpl implements tech.ydb.auth.AuthIdentity {
         private final AtomicReference<State> state = new AtomicReference<>(new NullState());
         private final StaticCredentitalsRpc rpc;
 
-        IdentityImpl(AuthRpc authRpc) {
+        IdentityImpl(GrpcAuthRpc authRpc) {
             this.rpc = new StaticCredentitalsRpc(authRpc, request, clock, executorSupplier);
         }
 

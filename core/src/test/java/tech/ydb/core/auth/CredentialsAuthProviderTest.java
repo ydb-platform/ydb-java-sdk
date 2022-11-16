@@ -5,6 +5,14 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.truth.Truth;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.protobuf.Any;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mockito;
+
 import tech.ydb.OperationProtos;
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.auth.YdbAuth;
@@ -14,14 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
-
-import com.google.common.truth.Truth;
-import com.google.common.util.concurrent.MoreExecutors;
-import com.google.protobuf.Any;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mockito;
+import tech.ydb.core.grpc.impl.GrpcAuthRpc;
 
 /**
  *
@@ -30,8 +31,8 @@ import org.mockito.Mockito;
 public class CredentialsAuthProviderTest {
     private final Clock clock = Mockito.mock(Clock.class);
     private final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
-    private final AuthRpc rpc = Mockito.mock(AuthRpc.class);
-    
+    private final GrpcAuthRpc rpc = Mockito.mock(GrpcAuthRpc.class);
+
     // Wednesday, June 1, 2022 00:00:00 UTC
     private final Instant now = Instant.ofEpochSecond(1654041600);
 
@@ -41,7 +42,7 @@ public class CredentialsAuthProviderTest {
         Mockito.when(rpc.getDatabase()).thenReturn("Mocked database name");
         Mockito.when(rpc.createTransport()).thenReturn(transport);
     }
-    
+
     @Test
     public void credentitalsTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
@@ -66,13 +67,13 @@ public class CredentialsAuthProviderTest {
         )).thenReturn(CompletableFuture.completedFuture(Result.fail(unauhtorized)));
 
         // With correct credentitals
-        try (AuthIdentity identity = createAuth("user", "pass1")) {
+        try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass1")) {
             Truth.assertThat(identity.getToken()).isEqualTo(token);
             Truth.assertThat(identity.getToken()).isEqualTo(token);
         }
-        
+
         // With incorrect password
-        try (AuthIdentity identity = createAuth("user", "pass2")) {
+        try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass2")) {
             UnexpectedResultException ex = Assert.assertThrows(
                     UnexpectedResultException.class,
                     () -> identity.getToken()
@@ -86,7 +87,7 @@ public class CredentialsAuthProviderTest {
             Truth.assertThat(ex2).isEqualTo(ex);
         }
     }
-    
+
     @Test
     public void retriesTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
@@ -104,7 +105,7 @@ public class CredentialsAuthProviderTest {
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
 
         // With any credentitals
-        try (AuthIdentity identity = createAuth("user", null)) {
+        try (tech.ydb.auth.AuthIdentity identity = createAuth("user", null)) {
             Truth.assertThat(identity.getToken()).isEqualTo(token);
             Truth.assertThat(identity.getToken()).isEqualTo(token);
         }
@@ -119,7 +120,7 @@ public class CredentialsAuthProviderTest {
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
 
         // With any credentitals
-        try (AuthIdentity identity = createAuth("user", null)) {
+        try (tech.ydb.auth.AuthIdentity identity = createAuth("user", null)) {
             UnexpectedResultException ex = Assert.assertThrows(
                     UnexpectedResultException.class,
                     () -> identity.getToken()
@@ -147,11 +148,11 @@ public class CredentialsAuthProviderTest {
                 .thenReturn(CompletableFuture.completedFuture(Result.fail(unavailable)))
                 .thenReturn(CompletableFuture.failedFuture(new RuntimeException("error")))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token3))));
-        
+
         Mockito.when(clock.instant()).thenReturn(now);
 
-        AuthIdentity identity = createAuth("user", "password");
-        
+        tech.ydb.auth.AuthIdentity identity = createAuth("user", "password");
+
         Truth.assertThat(identity.getToken()).isEqualTo(token1);
 
         // When now is firstHour - token1 doesn't need to update
@@ -162,7 +163,7 @@ public class CredentialsAuthProviderTest {
         Mockito.when(clock.instant()).thenReturn(firstHour.plusMillis(5));
         Truth.assertThat(identity.getToken()).isEqualTo(token1);
         Truth.assertThat(identity.getToken()).isEqualTo(token2);
-        
+
         Mockito.when(clock.instant()).thenReturn(secondHour);
         Truth.assertThat(identity.getToken()).isEqualTo(token2);
         Truth.assertThat(identity.getToken()).isEqualTo(token2);
@@ -173,7 +174,7 @@ public class CredentialsAuthProviderTest {
 
         identity.close();
     }
-    
+
     @Test
     public void syncRefreshTokenTest() {
         Duration expireTime = Duration.ofHours(2);
@@ -186,11 +187,11 @@ public class CredentialsAuthProviderTest {
                 Mockito.eq(AuthServiceGrpc.getLoginMethod()), Mockito.any(), Mockito.any()))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token1))))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token2))));
-        
+
         Mockito.when(clock.instant()).thenReturn(now);
 
-        AuthIdentity identity = createAuth("user", "password");
-        
+        tech.ydb.auth.AuthIdentity identity = createAuth("user", "password");
+
         Truth.assertThat(identity.getToken()).isEqualTo(token1);
 
         Mockito.when(clock.instant()).thenReturn(secondHour.plusMillis(1));
@@ -200,7 +201,7 @@ public class CredentialsAuthProviderTest {
         identity.close();
     }
 
-    private AuthIdentity createAuth(String login, String password) {
+    private tech.ydb.auth.AuthIdentity createAuth(String login, String password) {
         return new StaticCredentials(clock, login, password,
                 () -> MoreExecutors.newDirectExecutorService())
                 .createAuthIdentity(rpc);

@@ -1,9 +1,9 @@
-package tech.ydb.core.auth;
+package tech.ydb.auth;
 
 /**
- * @author Sergey Polovko
+ * Implementation of AuthProvider for connections with static token value
  */
-public class TokenAuthProvider implements AuthProvider {
+public class TokenAuthProvider implements tech.ydb.auth.AuthProvider<Object> {
     private final TokenIdentity identity;
 
     public TokenAuthProvider(String token) {
@@ -11,11 +11,11 @@ public class TokenAuthProvider implements AuthProvider {
     }
 
     @Override
-    public AuthIdentity createAuthIdentity(AuthRpc rpc) {
+    public tech.ydb.auth.AuthIdentity createAuthIdentity(Object rpc) {
         return identity;
     }
 
-    private static final class TokenIdentity implements AuthIdentity {
+    private static final class TokenIdentity implements tech.ydb.auth.AuthIdentity {
         private final String token;
 
         private TokenIdentity(String token) {
