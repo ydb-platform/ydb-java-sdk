@@ -11,9 +11,9 @@
         <version>2.1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ydb-sdk-table</artifactId>
-    <name>Table client implementation</name>
-    <description>Table client implementation</description>
+    <artifactId>ydb-sdk-scheme</artifactId>
+    <name>Scheme client implementation</name>
+    <description>Scheme client implementation</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -34,16 +34,6 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.truth</groupId>
-            <artifactId>truth</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.google.truth.extensions</groupId>
-            <artifactId>truth-proto-extension</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

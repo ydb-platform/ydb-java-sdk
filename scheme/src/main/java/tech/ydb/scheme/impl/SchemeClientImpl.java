@@ -1,4 +1,4 @@
-package tech.ydb.table.impl;
+package tech.ydb.scheme.impl;
 
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
@@ -8,11 +8,11 @@ import com.google.common.base.Splitter;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.scheme.SchemeClient;
 import tech.ydb.scheme.SchemeOperationProtos;
-import tech.ydb.table.SchemeClient;
-import tech.ydb.table.description.DescribePathResult;
-import tech.ydb.table.description.ListDirectoryResult;
-import tech.ydb.table.rpc.SchemeRpc;
+import tech.ydb.scheme.SchemeRpc;
+import tech.ydb.scheme.description.DescribePathResult;
+import tech.ydb.scheme.description.ListDirectoryResult;
 
 /**
  * @author Sergey Polovko

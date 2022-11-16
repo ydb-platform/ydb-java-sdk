@@ -1,4 +1,4 @@
-package tech.ydb.table.description;
+package tech.ydb.scheme.description;
 
 import tech.ydb.scheme.SchemeOperationProtos;
 

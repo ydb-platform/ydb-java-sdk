@@ -1,4 +1,4 @@
-package tech.ydb.table;
+package tech.ydb.scheme;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -6,10 +6,9 @@ import javax.annotation.WillClose;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.table.description.DescribePathResult;
-import tech.ydb.table.description.ListDirectoryResult;
-import tech.ydb.table.impl.SchemeClientBuilderImpl;
-import tech.ydb.table.rpc.SchemeRpc;
+import tech.ydb.scheme.description.DescribePathResult;
+import tech.ydb.scheme.description.ListDirectoryResult;
+import tech.ydb.scheme.impl.SchemeClientBuilderImpl;
 
 
 /**
