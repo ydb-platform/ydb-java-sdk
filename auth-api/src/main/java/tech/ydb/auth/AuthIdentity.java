@@ -1,7 +1,7 @@
 package tech.ydb.auth;
 
 /**
- * @author Sergey Polovko
+ * Provides an authentication token for every request.
  */
 public interface AuthIdentity extends AutoCloseable {
 
