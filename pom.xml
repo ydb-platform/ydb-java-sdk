@@ -15,6 +15,7 @@
     <url>https://github.com/ydb-platform/ydb-java-sdk</url>
 
     <modules>
+        <module>bom</module>
         <module>auth-api</module>
         <module>core</module>
         <module>table</module>
