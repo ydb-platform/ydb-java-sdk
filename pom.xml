@@ -18,6 +18,7 @@
         <module>auth-api</module>
         <module>core</module>
         <module>table</module>
+        <module>scheme</module>
     </modules>
 
     <properties>

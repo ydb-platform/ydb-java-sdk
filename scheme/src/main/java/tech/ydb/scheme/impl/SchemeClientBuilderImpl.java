@@ -1,7 +1,8 @@
-package tech.ydb.table.impl;
+package tech.ydb.scheme.impl;
 
-import tech.ydb.table.SchemeClient;
-import tech.ydb.table.rpc.SchemeRpc;
+import tech.ydb.scheme.SchemeClient;
+import tech.ydb.scheme.SchemeRpc;
+
 
 
 /**

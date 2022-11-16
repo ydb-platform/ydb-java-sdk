@@ -1,4 +1,4 @@
-package tech.ydb.table.rpc.grpc;
+package tech.ydb.scheme.impl;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -12,19 +12,18 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest;
+import tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse;
+import tech.ydb.scheme.SchemeOperationProtos.DescribePathResult;
+import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest;
+import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse;
+import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult;
+import tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest;
+import tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse;
+import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
+import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse;
+import tech.ydb.scheme.SchemeRpc;
 import tech.ydb.scheme.v1.SchemeServiceGrpc;
-import tech.ydb.table.rpc.SchemeRpc;
-
-import static tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest;
-import static tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse;
-import static tech.ydb.scheme.SchemeOperationProtos.DescribePathResult;
-import static tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest;
-import static tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse;
-import static tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult;
-import static tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest;
-import static tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse;
-import static tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
-import static tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse;
 
 
 /**

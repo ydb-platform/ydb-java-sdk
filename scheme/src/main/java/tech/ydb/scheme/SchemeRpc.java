@@ -1,4 +1,4 @@
-package tech.ydb.table.rpc;
+package tech.ydb.scheme;
 
 import java.util.concurrent.CompletableFuture;
 
