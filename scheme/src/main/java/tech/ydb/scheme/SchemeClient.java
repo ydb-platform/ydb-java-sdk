@@ -2,13 +2,15 @@ package tech.ydb.scheme;
 
 import java.util.concurrent.CompletableFuture;
 
-import javax.annotation.WillClose;
+import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.scheme.description.DescribePathResult;
 import tech.ydb.scheme.description.ListDirectoryResult;
-import tech.ydb.scheme.impl.SchemeClientBuilderImpl;
+import tech.ydb.scheme.impl.GrpcSchemeRpc;
+import tech.ydb.scheme.impl.SchemeClientImpl;
 
 
 /**
@@ -16,8 +18,8 @@ import tech.ydb.scheme.impl.SchemeClientBuilderImpl;
  */
 public interface SchemeClient extends AutoCloseable {
 
-    static Builder newClient(@WillClose SchemeRpc schemeRpc) {
-        return new SchemeClientBuilderImpl(schemeRpc);
+    static Builder newClient(@WillNotClose GrpcTransport transport) {
+        return SchemeClientImpl.newClient(GrpcSchemeRpc.useTransport(transport));
     }
 
     /**
