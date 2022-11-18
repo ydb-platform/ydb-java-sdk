@@ -17,12 +17,15 @@ import tech.ydb.scheme.description.ListDirectoryResult;
 /**
  * @author Sergey Polovko
  */
-final class SchemeClientImpl implements SchemeClient {
-
+public class SchemeClientImpl implements SchemeClient {
     private final SchemeRpc schemeRpc;
 
     SchemeClientImpl(SchemeClientBuilderImpl builder) {
         this.schemeRpc = builder.schemeRpc;
+    }
+
+    public static Builder newClient(SchemeRpc rpc) {
+        return new SchemeClientBuilderImpl(rpc);
     }
 
     @Override
