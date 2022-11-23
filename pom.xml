@@ -158,6 +158,8 @@
                 <version>3.2.0</version>
                 <configuration>
                     <configLocation>config/ydb.checkstyle.xml</configLocation>
+                    <suppressionsFileExpression>config/ydb.suppressions.xml</suppressionsFileExpression>
+                    <consoleOutput>true</consoleOutput>
                 </configuration>
                 <executions>
                     <execution>
