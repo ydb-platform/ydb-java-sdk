@@ -1,4 +1,4 @@
-package tech.ydb.tests.integration;
+package tech.ydb.test.integration;
 
 import java.io.IOException;
 import java.net.InetAddress;

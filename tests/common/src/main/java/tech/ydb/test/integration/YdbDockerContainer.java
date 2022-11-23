@@ -1,4 +1,4 @@
-package tech.ydb.tests.integration;
+package tech.ydb.test.integration;
 
 import java.io.ByteArrayOutputStream;
 import java.util.UUID;
@@ -23,21 +23,18 @@ import tech.ydb.scheme.v1.SchemeServiceGrpc;
 public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
     private static final Logger log = LoggerFactory.getLogger(YdbDockerContainer.class);
 
-    private static final String DEFAULT_YDB_IMAGE = "cr.yandex/yc/yandex-docker-local-ydb:latest";
-    private static final String DOCKER_DATABASE = "/local";
-    private static final String PEM_PATH = "/ydb_certs/ca.pem";
-
     private final int grpcsPort; // Secure connection
     private final int grpcPort;  // Non secure connection
 
-    YdbDockerContainer(String image) {
-        super(image);
+    YdbDockerContainer() {
+        super(YdbTestConstants.YDB_IMAGE);
 
         PortsGenerator gen = new PortsGenerator();
         grpcsPort = gen.findAvailablePort();
         grpcPort = gen.findAvailablePort();
 
-        addExposedPort(grpcPort); // don't expose by default
+        addExposedPort(grpcPort);
+        addExposedPort(grpcsPort);
 
         // Host ports and container ports MUST BE equal - ydb implementation limitation
         addFixedExposedPort(grpcsPort, grpcsPort);
@@ -61,7 +58,7 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
     }
 
     public byte[] pemCert() {
-        return copyFileFromContainer(PEM_PATH, is -> {
+        return copyFileFromContainer(YdbTestConstants.YDB_PEM_PATH, is -> {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             IOUtils.copy(is, baos);
             return baos.toByteArray();
@@ -69,15 +66,7 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
     }
 
     public String database() {
-        return DOCKER_DATABASE;
-    }
-
-    public static YdbDockerContainer createAndStart() {
-        String customImage = System.getProperty("YDB_IMAGE", DEFAULT_YDB_IMAGE);
-        YdbDockerContainer container = new YdbDockerContainer(customImage);
-        container.start();
-
-        return container;
+        return YdbTestConstants.YDB_DATABASE;
     }
 
     private class YdbCanCreateTableWaitStrategy extends AbstractWaitStrategy {
