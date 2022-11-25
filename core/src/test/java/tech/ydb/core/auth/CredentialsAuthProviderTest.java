@@ -88,6 +88,12 @@ public class CredentialsAuthProviderTest {
         }
     }
 
+    private <T> CompletableFuture<T> failedFuture(Exception ex) {
+        CompletableFuture<T> future = new CompletableFuture<>();
+        future.completeExceptionally(ex);
+        return future;
+    }
+
     @Test
     public void retriesTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
@@ -99,9 +105,9 @@ public class CredentialsAuthProviderTest {
         Mockito.when(transport.unaryCall(
                 Mockito.eq(AuthServiceGrpc.getLoginMethod()), Mockito.any(), Mockito.any()))
                 .thenReturn(CompletableFuture.completedFuture(Result.fail(unavailable)))
-                .thenReturn(CompletableFuture.failedFuture(new RuntimeException("error1")))
+                .thenReturn(failedFuture(new RuntimeException("error1")))
                 .thenReturn(CompletableFuture.completedFuture(Result.fail(overloaded)))
-                .thenReturn(CompletableFuture.failedFuture(new RuntimeException("error2")))
+                .thenReturn(failedFuture(new RuntimeException("error2")))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
 
         // With any credentitals
@@ -146,7 +152,7 @@ public class CredentialsAuthProviderTest {
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token1))))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token2))))
                 .thenReturn(CompletableFuture.completedFuture(Result.fail(unavailable)))
-                .thenReturn(CompletableFuture.failedFuture(new RuntimeException("error")))
+                .thenReturn(failedFuture(new RuntimeException("error")))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token3))));
 
         Mockito.when(clock.instant()).thenReturn(now);

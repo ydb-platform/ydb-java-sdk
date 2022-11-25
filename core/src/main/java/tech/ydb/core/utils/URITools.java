@@ -1,5 +1,6 @@
 package tech.ydb.core.utils;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
@@ -32,13 +33,18 @@ public class URITools {
                         Collectors.mapping(Map.Entry::getValue, Collectors.toList())));
     }
 
+    private static String decode(String url) {
+        try {
+            return URLDecoder.decode(url, StandardCharsets.UTF_8.name());
+        } catch (UnsupportedEncodingException ex) {
+            return url;
+        }
+    }
+
     private static SimpleImmutableEntry<String, String> splitQueryParameter(String it) {
         final int idx = it.indexOf("=");
         final String key = idx > 0 ? it.substring(0, idx) : it;
         final String value = idx > 0 && it.length() > idx + 1 ? it.substring(idx + 1) : null;
-        return new SimpleImmutableEntry<>(
-                URLDecoder.decode(key, StandardCharsets.UTF_8),
-                URLDecoder.decode(value, StandardCharsets.UTF_8)
-        );
+        return new SimpleImmutableEntry<>(decode(key), decode(value));
     }
 }
