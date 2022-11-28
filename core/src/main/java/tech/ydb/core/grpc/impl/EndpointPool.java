@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,9 +48,14 @@ public final class EndpointPool {
     private int bestEndpointsCount = -1;
     private final Random random;
 
-    public EndpointPool(BalancingSettings balancingSettings) {
+    @VisibleForTesting
+    EndpointPool(BalancingSettings balancingSettings, Random random) {
         this.balancingSettings = balancingSettings;
-        this.random = new Random();
+        this.random = random;
+    }
+
+    public EndpointPool(BalancingSettings balancingSettings) {
+        this(balancingSettings, new Random());
     }
 
     public EndpointRecord getEndpoint(@Nullable String preferredEndpoint) {
@@ -228,7 +234,8 @@ public final class EndpointPool {
         return pos;
     }
 
-    private class PriorityEndpoint extends EndpointRecord {
+    @VisibleForTesting
+    class PriorityEndpoint extends EndpointRecord {
         private int priority;
 
         PriorityEndpoint(String selfLocation, DiscoveryProtos.EndpointInfo endpoint) {
@@ -252,5 +259,15 @@ public final class EndpointPool {
                     ", node=" + getNodeId() +
                     ", priority= " + priority + "}";
         }
+    }
+
+    @VisibleForTesting
+    List<PriorityEndpoint> getRecords() {
+        return this.records;
+    }
+
+    @VisibleForTesting
+    Map<String, PriorityEndpoint> getKnownEndpoints() {
+        return this.knownEndpoints;
     }
 }
