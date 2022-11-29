@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 
 import tech.ydb.table.settings.PartitioningSettings;
+import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
 
@@ -34,6 +35,9 @@ public class TableDescription {
 
     private final List<PartitionStats> partitionStats;
 
+    @Nullable
+    private final TtlSettings ttlSettings;
+
     private TableDescription(Builder builder) {
         this.primaryKeys = ImmutableList.copyOf(builder.primaryKeys);
         this.columns = builder.buildColumns();
@@ -44,6 +48,7 @@ public class TableDescription {
         this.tableStats = builder.tableStats;
         this.partitioningSettings = builder.partitioningSettings;
         this.partitionStats = ImmutableList.copyOf(builder.partitionStats);
+        this.ttlSettings = builder.ttlSettings;
     }
 
     public static Builder newBuilder() {
@@ -84,6 +89,11 @@ public class TableDescription {
         return keyRanges;
     }
 
+    @Nullable
+    public TtlSettings getTtlSettings() {
+        return ttlSettings;
+    }
+
     /**
      * BUILDER
      */
@@ -98,6 +108,7 @@ public class TableDescription {
         private TableStats tableStats = null;
         private PartitioningSettings partitioningSettings = null;
         private final List<PartitionStats> partitionStats = new ArrayList<>();
+        private TtlSettings ttlSettings = null;
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
@@ -198,6 +209,11 @@ public class TableDescription {
 
         public Builder addPartitionStat(long rows, long size) {
             this.partitionStats.add(new PartitionStats(rows, size));
+            return this;
+        }
+
+        public Builder setTtlSettings(String columnName, int expireAfterSeconds) {
+            this.ttlSettings = new TtlSettings(columnName, expireAfterSeconds);
             return this;
         }
 

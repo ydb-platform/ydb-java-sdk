@@ -499,6 +499,20 @@ public abstract class BaseSession implements Session {
             }
         }
 
+        YdbTable.TtlSettings ttlSettings = result.getTtlSettings();
+        switch (ttlSettings.getModeCase()) {
+            case DATE_TYPE_COLUMN:
+                YdbTable.DateTypeColumnModeSettings dateTypeColumn = ttlSettings.getDateTypeColumn();
+                description.setTtlSettings(dateTypeColumn.getColumnName(), dateTypeColumn.getExpireAfterSeconds());
+                break;
+            case VALUE_SINCE_UNIX_EPOCH:
+                YdbTable.ValueSinceUnixEpochModeSettings valueSinceUnixEpoch = ttlSettings.getValueSinceUnixEpoch();
+                description.setTtlSettings(valueSinceUnixEpoch.getColumnName(), valueSinceUnixEpoch.getExpireAfterSeconds());
+                break;
+            default:
+                break;
+        }
+
         return description.build();
     }
 
