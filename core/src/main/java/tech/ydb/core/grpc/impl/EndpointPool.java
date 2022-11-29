@@ -136,9 +136,10 @@ public final class EndpointPool {
     }
 
     public void pessimizeEndpoint(String endpoint) {
+        PriorityEndpoint knownEndpoint;
         recordsLock.readLock().lock();
         try {
-            PriorityEndpoint knownEndpoint = knownEndpoints.get(endpoint);
+            knownEndpoint = knownEndpoints.get(endpoint);
             if (knownEndpoint == null) {
                 logger.trace("Endpoint {} is unknown", endpoint);
                 return;
@@ -147,27 +148,27 @@ public final class EndpointPool {
                 logger.trace("Endpoint {} is already pessimized", endpoint);
                 return;
             }
-
-            recordsLock.writeLock().lock();
-            try {
-                knownEndpoint.priority = Integer.MAX_VALUE;
-
-                int newRatio = (pessimizationRatio.get() * records.size() + 100) / records.size();
-                pessimizationRatio.set(newRatio);
-                if (needToRunDiscovery()) {
-                    logger.debug("launching discovery due to pessimization threshold is exceeded: {} is more than {}",
-                            newRatio, DISCOVERY_PESSIMIZATION_THRESHOLD);
-                }
-
-                records.sort(Comparator.comparingInt(PriorityEndpoint::getPriority));
-                bestEndpointsCount = getBestEndpointsCount(records);
-
-                logger.info("Endpoint {} was pessimized. New pessimization ratio: {}", endpoint, newRatio);
-            } finally {
-                recordsLock.writeLock().unlock();
-            }
         } finally {
             recordsLock.readLock().unlock();
+        }
+
+        recordsLock.writeLock().lock();
+        try {
+            knownEndpoint.priority = Integer.MAX_VALUE;
+
+            int newRatio = (pessimizationRatio.get() * records.size() + 100) / records.size();
+            pessimizationRatio.set(newRatio);
+            if (needToRunDiscovery()) {
+                logger.debug("launching discovery due to pessimization threshold is exceeded: {} is more than {}",
+                        newRatio, DISCOVERY_PESSIMIZATION_THRESHOLD);
+            }
+
+            records.sort(Comparator.comparingInt(PriorityEndpoint::getPriority));
+            bestEndpointsCount = getBestEndpointsCount(records);
+
+            logger.info("Endpoint {} was pessimized. New pessimization ratio: {}", endpoint, newRatio);
+        } finally {
+            recordsLock.writeLock().unlock();
         }
     }
 

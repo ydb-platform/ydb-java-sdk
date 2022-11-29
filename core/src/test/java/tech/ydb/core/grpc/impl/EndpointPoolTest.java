@@ -40,7 +40,7 @@ public class EndpointPoolTest {
     }
 
     @Test
-    public void testUseAllNodes() {
+    public void useAllNodesTest() {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownEndpoints(0).needToReDiscovery(false);
 
@@ -61,7 +61,7 @@ public class EndpointPoolTest {
     }
 
     @Test
-    public void testLocalDC() {
+    public void localDcTest() {
         EndpointPool pool = new EndpointPool(prefferedNode(null));
         check(pool).records(0).knownEndpoints(0).needToReDiscovery(false);
 
@@ -82,7 +82,7 @@ public class EndpointPoolTest {
     }
 
     @Test
-    public void testPreffedDC() {
+    public void prefferedDcTest() {
         EndpointPool pool = new EndpointPool(prefferedNode("DC1"));
         check(pool).records(0).knownEndpoints(0).needToReDiscovery(false);
 
@@ -100,6 +100,60 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
         check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
         check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
+    }
+
+    @Test
+    public void nodePessimizationTest() {
+        EndpointPool pool = new EndpointPool(useAllNodes());
+        check(pool).records(0).knownEndpoints(0).needToReDiscovery(false);
+
+        pool.setNewState(list("DC3",
+                endpoint(1, "n1.ydb.tech", 12341, "DC1"),
+                endpoint(2, "n2.ydb.tech", 12342, "DC2"),
+                endpoint(3, "n3.ydb.tech", 12343, "DC3"),
+                endpoint(4, "n4.ydb.tech", 12344, "DC4"),
+                endpoint(5, "n5.ydb.tech", 12345, "DC5")
+        ));
+
+        check(pool).records(5).knownEndpoints(5).needToReDiscovery(false);
+
+        mockMethod(random.nextInt(Mockito.eq(5)), 0, 1, 2, 3, 4);
+
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(null)).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(null)).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(null)).hostname("n5.ydb.tech").nodeID(5).port(12345);
+
+        pool.pessimizeEndpoint("n2.ydb.tech:12342");
+        check(pool).records(5).knownEndpoints(5).needToReDiscovery(false);
+
+        mockMethod(random.nextInt(Mockito.eq(4)), 0, 1, 2, 3);
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(null)).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(null)).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(null)).hostname("n5.ydb.tech").nodeID(5).port(12345);
+
+        pool.pessimizeEndpoint("n2.ydb.tech:12341");
+        pool.pessimizeEndpoint("n2.ydb.tech:12342");
+        check(pool).records(5).knownEndpoints(5).needToReDiscovery(false);
+
+        mockMethod(random.nextInt(Mockito.eq(4)), 3, 2, 1, 0);
+        check(pool.getEndpoint(null)).hostname("n5.ydb.tech").nodeID(5).port(12345);
+        check(pool.getEndpoint(null)).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(null)).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12341);
+
+        pool.pessimizeEndpoint("n3.ydb.tech:12343");
+        check(pool).records(5).knownEndpoints(5).needToReDiscovery(false);
+        pool.pessimizeEndpoint("n5.ydb.tech:12345");
+        check(pool).records(5).knownEndpoints(5).needToReDiscovery(true);
+
+        mockMethod(random.nextInt(Mockito.eq(2)), 1, 1, 0, 0);
+        check(pool.getEndpoint(null)).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(null)).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12341);
     }
 
     private static class PoolChecker {
