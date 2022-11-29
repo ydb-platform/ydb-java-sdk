@@ -1,12 +1,16 @@
 package tech.ydb.core.grpc.impl;
 
-import java.util.List;
-import java.util.Random;
+import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
-import com.google.common.collect.Lists;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.stubbing.OngoingStubbing;
 
 import tech.ydb.core.grpc.BalancingPolicy;
@@ -18,15 +22,29 @@ import tech.ydb.discovery.DiscoveryProtos;
  * @author Aleksandr Gorshenin
  */
 public class EndpointPoolTest {
+    private final AutoCloseable mocks = MockitoAnnotations.openMocks(this);
+    private final MockedStatic<ThreadLocalRandom> threadLocalStaticMock = Mockito.mockStatic(ThreadLocalRandom.class);
 
-    private final Random random = Mockito.mock(Random.class);
+    @Mock
+    private ThreadLocalRandom random;
+
+    @Before
+    public void setUp() {
+        threadLocalStaticMock.when(ThreadLocalRandom::current).thenReturn(random);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        threadLocalStaticMock.close();
+        mocks.close();
+    }
 
     @Test
     public void testUseAllNodes() {
-        EndpointPool pool = new EndpointPool(useAllNodes(), random);
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownEndpoints(0).needToReDiscovery(false);
 
-        pool.setNewState("DC1", list(
+        pool.setNewState(list("DC1",
                 endpoint(1, "n1.ydb.tech", 12345, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12345, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12345, "DC3")
@@ -34,15 +52,53 @@ public class EndpointPoolTest {
 
         check(pool).records(3).knownEndpoints(3).needToReDiscovery(false);
 
-        check(pool).record(0).hostname("n3.ydb.tech").nodeID(3).port(12345);
-        check(pool).record(1).hostname("n1.ydb.tech").nodeID(1).port(12345);
-        check(pool).record(2).hostname("n2.ydb.tech").nodeID(2).port(12345);
+        mockMethod(random.nextInt(Mockito.eq(3)), 2, 0, 2, 1);
+
+        check(pool.getEndpoint(null)).hostname("n3.ydb.tech").nodeID(3).port(12345);
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
+        check(pool.getEndpoint(null)).hostname("n3.ydb.tech").nodeID(3).port(12345);
+        check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12345);
+    }
+
+    @Test
+    public void testLocalDC() {
+        EndpointPool pool = new EndpointPool(prefferedNode(null));
+        check(pool).records(0).knownEndpoints(0).needToReDiscovery(false);
+
+        pool.setNewState(list("DC2",
+                endpoint(1, "n1.ydb.tech", 12345, "DC1"),
+                endpoint(2, "n2.ydb.tech", 12345, "DC2"),
+                endpoint(3, "n3.ydb.tech", 12345, "DC3")
+        ));
+
+        check(pool).records(3).knownEndpoints(3).needToReDiscovery(false);
 
         mockMethod(random.nextInt(Mockito.eq(3)), 2, 0, 2, 1);
 
         check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12345);
-        check(pool.getEndpoint(null)).hostname("n3.ydb.tech").nodeID(3).port(12345);
         check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12345);
+        check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12345);
+        check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12345);
+    }
+
+    @Test
+    public void testPreffedDC() {
+        EndpointPool pool = new EndpointPool(prefferedNode("DC1"));
+        check(pool).records(0).knownEndpoints(0).needToReDiscovery(false);
+
+        pool.setNewState(list("DC3",
+                endpoint(1, "n1.ydb.tech", 12345, "DC1"),
+                endpoint(2, "n2.ydb.tech", 12345, "DC2"),
+                endpoint(3, "n3.ydb.tech", 12345, "DC3")
+        ));
+
+        check(pool).records(3).knownEndpoints(3).needToReDiscovery(false);
+
+        mockMethod(random.nextInt(Mockito.eq(3)), 2, 0, 2, 1);
+
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
+        check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
         check(pool.getEndpoint(null)).hostname("n1.ydb.tech").nodeID(1).port(12345);
     }
 
@@ -120,8 +176,11 @@ public class EndpointPoolTest {
         return BalancingSettings.fromLocation(selfLocaltion);
     }
 
-    private static List<DiscoveryProtos.EndpointInfo> list(DiscoveryProtos.EndpointInfo... endpoints) {
-        return Lists.newArrayList(endpoints);
+    private static DiscoveryProtos.ListEndpointsResult list(String selfLocation, DiscoveryProtos.EndpointInfo... endpoints) {
+        return DiscoveryProtos.ListEndpointsResult.newBuilder()
+                .setSelfLocation(selfLocation)
+                .addAllEndpoints(Arrays.asList(endpoints))
+                .build();
     }
 
     private static DiscoveryProtos.EndpointInfo endpoint(int nodeID, String hostname, int port, String location) {
