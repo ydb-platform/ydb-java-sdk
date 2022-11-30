@@ -45,7 +45,12 @@ public final class GrpcStatuses {
     }
 
     private static String getMessage(Status status) {
-        logger.warn("gRPC issue", status.asException());
+        if (status.getCode() == Status.Code.CANCELLED) {
+            logger.debug("gRPC cancellation: {}, {}", status.getCode(), status.getDescription());
+        } else {
+            logger.warn("gRPC issue: {}, {}", status.getCode(), status.getDescription());
+        }
+
         String message = "gRPC error: (" + status.getCode() + ')';
         return status.getDescription() == null
             ? message
