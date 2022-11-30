@@ -1,21 +1,14 @@
 package tech.ydb.table.description;
 
-import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.annotation.Nullable;
-
 import com.google.common.collect.ImmutableList;
-
+import tech.ydb.table.description.TableTtl.TtlMode;
 import tech.ydb.table.settings.PartitioningSettings;
-import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
+
+import javax.annotation.Nullable;
+import java.time.Instant;
+import java.util.*;
 
 /**
  * @author Sergey Polovko
@@ -35,8 +28,7 @@ public class TableDescription {
 
     private final List<PartitionStats> partitionStats;
 
-    @Nullable
-    private final TtlSettings ttlSettings;
+    private final TableTtl tableTtl;
 
     private TableDescription(Builder builder) {
         this.primaryKeys = ImmutableList.copyOf(builder.primaryKeys);
@@ -48,7 +40,7 @@ public class TableDescription {
         this.tableStats = builder.tableStats;
         this.partitioningSettings = builder.partitioningSettings;
         this.partitionStats = ImmutableList.copyOf(builder.partitionStats);
-        this.ttlSettings = builder.ttlSettings;
+        this.tableTtl = builder.ttlSettings;
     }
 
     public static Builder newBuilder() {
@@ -89,9 +81,8 @@ public class TableDescription {
         return keyRanges;
     }
 
-    @Nullable
-    public TtlSettings getTtlSettings() {
-        return ttlSettings;
+    public TableTtl getTableTtl() {
+        return tableTtl;
     }
 
     /**
@@ -108,7 +99,7 @@ public class TableDescription {
         private TableStats tableStats = null;
         private PartitioningSettings partitioningSettings = null;
         private final List<PartitionStats> partitionStats = new ArrayList<>();
-        private TtlSettings ttlSettings = null;
+        private TableTtl ttlSettings = new TableTtl();
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
@@ -212,8 +203,8 @@ public class TableDescription {
             return this;
         }
 
-        public Builder setTtlSettings(String columnName, int expireAfterSeconds) {
-            this.ttlSettings = new TtlSettings(columnName, expireAfterSeconds);
+        public Builder setTtlSettings(int ttlModeCase, String columnName, int expireAfterSeconds) {
+            this.ttlSettings = new TableTtl(TtlMode.forCase(ttlModeCase), columnName, expireAfterSeconds);
             return this;
         }
 
