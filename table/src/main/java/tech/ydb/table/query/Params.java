@@ -46,6 +46,8 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with single parameter.
      *
+     * @param name param name
+     * @param value param value
      * @return non empty {@link Params} with single parameter
      */
     static Params of(String name, Value<?> value) {

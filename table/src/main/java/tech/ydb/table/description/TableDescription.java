@@ -1,14 +1,21 @@
 package tech.ydb.table.description;
 
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableList;
+
 import tech.ydb.table.description.TableTtl.TtlMode;
 import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
-
-import javax.annotation.Nullable;
-import java.time.Instant;
-import java.util.*;
 
 /**
  * @author Sergey Polovko
