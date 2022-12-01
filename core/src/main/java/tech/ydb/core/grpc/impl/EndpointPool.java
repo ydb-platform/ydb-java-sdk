@@ -224,4 +224,9 @@ public final class EndpointPool {
     Map<String, PriorityEndpoint> getKnownEndpoints() {
         return this.knownEndpoints;
     }
+
+    @VisibleForTesting
+    int getBestEndpointCount() {
+        return bestEndpointsCount;
+    }
 }
