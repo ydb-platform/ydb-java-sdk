@@ -1,4 +1,4 @@
-name: YDB Java SDK Build
+name: Maven Build
 
 on: [push]
 
@@ -16,3 +16,5 @@ jobs:
           cache: 'maven'
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots package
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
