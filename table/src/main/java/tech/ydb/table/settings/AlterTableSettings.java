@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
+import tech.ydb.core.settings.RequestSettings;
 import tech.ydb.table.values.Type;
 
 

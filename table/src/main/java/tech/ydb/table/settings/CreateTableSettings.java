@@ -3,6 +3,8 @@ package tech.ydb.table.settings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import tech.ydb.core.settings.RequestSettings;
+
 
 /**
  * @author Sergey Polovko

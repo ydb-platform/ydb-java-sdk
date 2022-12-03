@@ -3,11 +3,10 @@ package tech.ydb.topic.impl;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import com.google.protobuf.Duration;
-import com.google.protobuf.Timestamp;
-
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.utils.GrpcUtils;
+import tech.ydb.core.utils.ProtoUtils;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
@@ -15,6 +14,7 @@ import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 
 /**
@@ -35,6 +35,7 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public CompletableFuture<Status> createTopic(String path, CreateTopicSettings settings) {
         YdbTopic.CreateTopicRequest.Builder requestBuilder = YdbTopic.CreateTopicRequest.newBuilder()
+                .setOperationParams(ProtoUtils.fromRequestSettings(settings))
                 .setPath(path)
                 .setRetentionStorageMb(settings.getRetentionStorageMb())
                 .setPartitionWriteSpeedBytesPerSecond(settings.getPartitionWriteSpeedBytesPerSecond())
@@ -51,7 +52,7 @@ public class TopicClientImpl implements TopicClient {
 
         java.time.Duration retentionPeriod = settings.getRetentionPeriod();
         if (!retentionPeriod.equals(java.time.Duration.ZERO)) {
-            requestBuilder.setRetentionPeriod(toProto(retentionPeriod));
+            requestBuilder.setRetentionPeriod(ProtoUtils.toProto(retentionPeriod));
         }
 
         List<Codec> supportedCodecs = settings.getSupportedCodecs();
@@ -67,7 +68,7 @@ public class TopicClientImpl implements TopicClient {
             YdbTopic.Consumer.Builder consumerBuilder =  YdbTopic.Consumer.newBuilder()
                     .setName(consumer.getName())
                     .setImportant(consumer.isImportant())
-                    .setReadFrom(toProto(consumer.getReadFrom()))
+                    .setReadFrom(ProtoUtils.toProto(consumer.getReadFrom()))
                     .putAllAttributes(consumer.getAttributes());
 
             List<Codec> consumerCodecs = settings.getSupportedCodecs();
@@ -81,32 +82,18 @@ public class TopicClientImpl implements TopicClient {
             requestBuilder.addConsumers(consumerBuilder);
         }
 
-        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder().build();
+        final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
         return topicRpc.createTopic(requestBuilder.build(), grpcRequestSettings);
     }
 
     @Override
-    public CompletableFuture<Status> dropTopic(String path) {
-        YdbTopic.DropTopicRequest request = YdbTopic.DropTopicRequest
-                .newBuilder()
+    public CompletableFuture<Status> dropTopic(String path, DropTopicSettings settings) {
+        YdbTopic.DropTopicRequest request = YdbTopic.DropTopicRequest.newBuilder()
+                .setOperationParams(ProtoUtils.fromRequestSettings(settings))
                 .setPath(path)
                 .build();
-        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder().build();
+        final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
         return topicRpc.dropTopic(request, grpcRequestSettings);
-    }
-
-    private static Duration toProto(java.time.Duration duration) {
-        return Duration.newBuilder()
-                .setSeconds(duration.getSeconds())
-                .setNanos(duration.getNano())
-                .build();
-    }
-
-    private static Timestamp toProto(java.time.Instant instant) {
-        return Timestamp.newBuilder()
-                .setSeconds(instant.getEpochSecond())
-                .setNanos(instant.getNano())
-                .build();
     }
 
     private static int toProto(Codec codec) {

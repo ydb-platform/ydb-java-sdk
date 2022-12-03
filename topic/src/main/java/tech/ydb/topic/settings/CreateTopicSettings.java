@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
+import tech.ydb.core.settings.RequestSettings;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.MeteringMode;
@@ -20,7 +21,7 @@ import tech.ydb.topic.description.MeteringMode;
 /**
  * @author Nikolay Perfilov
  */
-public class CreateTopicSettings /* TODO: extends RequestSettings<CreateTopicSettings>*/ {
+public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
     @Nullable
     private final PartitioningSettings partitioningSettings;
     private final Duration retentionPeriod;

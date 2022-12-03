@@ -2,6 +2,7 @@ package tech.ydb.table.settings;
 
 import javax.annotation.Nonnull;
 
+import tech.ydb.core.settings.RequestSettings;
 import tech.ydb.table.YdbTable;
 
 import static tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;

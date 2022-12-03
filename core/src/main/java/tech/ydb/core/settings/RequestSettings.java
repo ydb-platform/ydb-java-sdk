@@ -1,4 +1,4 @@
-package tech.ydb.table.settings;
+package tech.ydb.core.settings;
 
 import java.time.Duration;
 import java.util.Optional;
