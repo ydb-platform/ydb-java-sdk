@@ -20,6 +20,7 @@
         <module>core</module>
         <module>table</module>
         <module>scheme</module>
+        <module>topic</module>
     </modules>
 
     <properties>
