@@ -36,11 +36,6 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
     ));
 
-    private static final Result<?> NOT_READY =  Result.fail(tech.ydb.core.Status.of(
-            StatusCode.CLIENT_INTERNAL_ERROR, null,
-            Issue.of("Request was not sent: transport is not ready", Issue.Severity.ERROR)
-    ));
-
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final GrpcDiscoveryRpc discoveryRpc;
@@ -205,9 +200,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
 
         @Override
         public void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result) {
-            List<EndpointRecord> removed = endpointPool.setNewState(
-                    result.getSelfLocation(), result.getEndpointsList()
-            );
+            List<EndpointRecord> removed = endpointPool.setNewState(result);
             channelPool.removeChannels(removed);
         }
     }
