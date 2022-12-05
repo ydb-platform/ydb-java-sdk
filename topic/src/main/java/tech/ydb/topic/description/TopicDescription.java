@@ -1,28 +1,25 @@
-package tech.ydb.topic.settings;
+package tech.ydb.topic.description;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import tech.ydb.core.settings.RequestSettings;
-import tech.ydb.topic.description.Consumer;
-import tech.ydb.topic.description.MeteringMode;
-import tech.ydb.topic.description.SupportedCodecs;
-
+import tech.ydb.topic.settings.PartitioningSettings;
 
 /**
  * @author Nikolay Perfilov
  */
-public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
-    @Nullable
+public class TopicDescription {
+
     private final PartitioningSettings partitioningSettings;
+    private final List<PartitionInfo> partitions;
     @Nullable
     private final Duration retentionPeriod;
     private final long retentionStorageMb;
@@ -32,9 +29,11 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
     private final Map<String, String> attributes;
     private final List<Consumer> consumers;
     private final MeteringMode meteringMode;
+    private final TopicStats topicStats;
 
-    private CreateTopicSettings(Builder builder) {
+    private TopicDescription(Builder builder) {
         this.partitioningSettings = builder.partitioningSettings;
+        this.partitions = ImmutableList.copyOf(builder.partitions);
         this.retentionPeriod = builder.retentionPeriod;
         this.retentionStorageMb = builder.retentionStorageMb;
         this.supportedCodecs = builder.supportedCodecs;
@@ -43,15 +42,15 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
         this.attributes = ImmutableMap.copyOf(builder.attributes);
         this.consumers = builder.consumers;
         this.meteringMode = builder.meteringMode;
+        this.topicStats = builder.topicStats;
     }
 
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    @Nullable
     public PartitioningSettings getPartitioningSettings() {
         return partitioningSettings;
+    }
+
+    public List<PartitionInfo> getPartitions() {
+        return partitions;
     }
 
     @Nullable
@@ -87,27 +86,37 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
         return meteringMode;
     }
 
+    public TopicStats getTopicStats() {
+        return topicStats;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
     /**
      * BUILDER
      */
     public static class Builder {
         private PartitioningSettings partitioningSettings;
+        private List<PartitionInfo> partitions = new ArrayList<>();
         private Duration retentionPeriod = null;
-        private long retentionStorageMb = 0;
+        private long retentionStorageMb;
         private SupportedCodecs supportedCodecs;
-        private long partitionWriteSpeedBytesPerSecond = 0;
-        private long partitionWriteBurstBytes = 0;
-        private Map<String, String> attributes = new HashMap<>();
-        private List<Consumer> consumers = new ArrayList<>();
-        private MeteringMode meteringMode = MeteringMode.UNSPECIFIED;
+        private long partitionWriteSpeedBytesPerSecond;
+        private long partitionWriteBurstBytes;
+        private Map<String, String> attributes;
+        private List<Consumer> consumers;
+        private MeteringMode meteringMode;
+        private TopicStats topicStats;
 
-        public Builder setPartitioningSettings(@Nonnull PartitioningSettings partitioningSettings) {
+        public Builder setPartitioningSettings(PartitioningSettings partitioningSettings) {
             this.partitioningSettings = partitioningSettings;
             return this;
         }
 
-        public Builder setPartitioningSettings(int minActivePartitions, int partitionCountLimit) {
-            this.partitioningSettings = new PartitioningSettings(minActivePartitions, partitionCountLimit);
+        public Builder setPartitions(List<PartitionInfo> partitions) {
+            this.partitions = partitions;
             return this;
         }
 
@@ -161,8 +170,14 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
             return this;
         }
 
-        public CreateTopicSettings build() {
-            return new CreateTopicSettings(this);
+        public Builder setTopicStats(TopicStats topicStats) {
+            this.topicStats = topicStats;
+            return this;
+        }
+
+        public TopicDescription build() {
+            return new TopicDescription(this);
         }
     }
+
 }

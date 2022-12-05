@@ -1,15 +1,12 @@
 package tech.ydb.topic.description;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 /**
@@ -19,7 +16,7 @@ public class Consumer {
     private final String name;
     private final boolean important;
     private final Instant readFrom;
-    private final List<Codec> supportedCodecs;
+    private final SupportedCodecs supportedCodecs;
     private final Map<String, String> attributes;
     @Nullable
     private final ConsumerStats stats;
@@ -28,7 +25,7 @@ public class Consumer {
         this.name = builder.name;
         this.important = builder.important;
         this.readFrom = builder.readFrom;
-        this.supportedCodecs = ImmutableList.copyOf(builder.supportedCodecs);
+        this.supportedCodecs = builder.supportedCodecs;
         this.attributes = ImmutableMap.copyOf(builder.attributes);
         this.stats = builder.stats;
     }
@@ -49,7 +46,7 @@ public class Consumer {
         return readFrom;
     }
 
-    public List<Codec> getSupportedCodecs() {
+    public SupportedCodecs getSupportedCodecs() {
         return supportedCodecs;
     }
 
@@ -68,7 +65,7 @@ public class Consumer {
         private String name;
         private boolean important = false;
         private Instant readFrom = Instant.EPOCH;
-        private List<Codec> supportedCodecs = new ArrayList<>();
+        private SupportedCodecs supportedCodecs;
         private Map<String, String> attributes = new HashMap<>();
         @Nullable
         private ConsumerStats stats = null;
@@ -88,12 +85,7 @@ public class Consumer {
             return this;
         }
 
-        public Builder addSupportedCodec(Codec codec) {
-            supportedCodecs.add(codec);
-            return this;
-        }
-
-        public Builder setSupportedCodecs(List<Codec> supportedCodecs) {
+        public Builder setSupportedCodecs(SupportedCodecs supportedCodecs) {
             this.supportedCodecs = supportedCodecs;
             return this;
         }

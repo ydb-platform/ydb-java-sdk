@@ -3,30 +3,40 @@ package tech.ydb.topic.description;
 import java.time.Duration;
 import java.time.Instant;
 
+import javax.annotation.Nullable;
+
 /**
  * @author Nikolay Perfilov
  */
 public class ConsumerStats {
-    private final Instant minPartitionsLastTime;
+    private final Instant minPartitionsLastReadTime;
+    @Nullable
     private final Duration maxReadTimeLag;
+    @Nullable
     private final Duration maxWriteTimeLag;
     private final MultipleWindowsStat bytesRead;
 
     private ConsumerStats(Builder builder) {
-        this.minPartitionsLastTime = builder.minPartitionsLastTime;
+        this.minPartitionsLastReadTime = builder.minPartitionsLastReadTime;
         this.maxReadTimeLag = builder.maxReadTimeLag;
         this.maxWriteTimeLag = builder.maxWriteTimeLag;
         this.bytesRead = builder.bytesRead;
     }
 
-    public Instant getMinPartitionsLastTime() {
-        return minPartitionsLastTime;
+    public static Builder newBuilder() {
+        return new Builder();
     }
 
+    public Instant getMinPartitionsLastReadTime() {
+        return minPartitionsLastReadTime;
+    }
+
+    @Nullable
     public Duration getMaxReadTimeLag() {
         return maxReadTimeLag;
     }
 
+    @Nullable
     public Duration getMaxWriteTimeLag() {
         return maxWriteTimeLag;
     }
@@ -39,13 +49,13 @@ public class ConsumerStats {
      * BUILDER
      */
     public static class Builder {
-        private Instant minPartitionsLastTime = Instant.EPOCH;
-        private Duration maxReadTimeLag = Duration.ZERO;
-        private Duration maxWriteTimeLag = Duration.ZERO;
+        private Instant minPartitionsLastReadTime = Instant.EPOCH;
+        private Duration maxReadTimeLag = null;
+        private Duration maxWriteTimeLag = null;
         private MultipleWindowsStat bytesRead;
 
-        public Builder setMinPartitionsLastTime(Instant minPartitionsLastTime) {
-            this.minPartitionsLastTime = minPartitionsLastTime;
+        public Builder setMinPartitionsLastReadTime(Instant minPartitionsLastReadTime) {
+            this.minPartitionsLastReadTime = minPartitionsLastReadTime;
             return this;
         }
 

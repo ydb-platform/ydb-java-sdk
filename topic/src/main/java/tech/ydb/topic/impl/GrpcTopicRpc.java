@@ -8,6 +8,7 @@ import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Operations;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -45,6 +46,15 @@ public final class GrpcTopicRpc implements TopicRpc {
         return transport
                 .unaryCall(TopicServiceGrpc.getCreateTopicMethod(), settings, request)
                 .thenApply(Operations.statusUnwrapper(YdbTopic.CreateTopicResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Result<YdbTopic.DescribeTopicResult>> describeTopic(YdbTopic.DescribeTopicRequest request,
+                                                                                 GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TopicServiceGrpc.getDescribeTopicMethod(), settings, request)
+                .thenApply(Operations.resultUnwrapper(YdbTopic.DescribeTopicResponse::getOperation,
+                        YdbTopic.DescribeTopicResult.class));
     }
 
     @Override
