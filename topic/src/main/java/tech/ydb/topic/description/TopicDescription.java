@@ -40,7 +40,7 @@ public class TopicDescription {
         this.partitionWriteSpeedBytesPerSecond = builder.partitionWriteSpeedBytesPerSecond;
         this.partitionWriteBurstBytes = builder.partitionWriteBurstBytes;
         this.attributes = ImmutableMap.copyOf(builder.attributes);
-        this.consumers = builder.consumers;
+        this.consumers = ImmutableList.copyOf(builder.consumers);
         this.meteringMode = builder.meteringMode;
         this.topicStats = builder.topicStats;
     }

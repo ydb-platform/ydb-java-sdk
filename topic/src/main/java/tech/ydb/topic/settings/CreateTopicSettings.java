@@ -9,6 +9,7 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
 import tech.ydb.core.settings.RequestSettings;
@@ -41,7 +42,7 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
         this.partitionWriteSpeedBytesPerSecond = builder.partitionWriteSpeedBytesPerSecond;
         this.partitionWriteBurstBytes = builder.partitionWriteBurstBytes;
         this.attributes = ImmutableMap.copyOf(builder.attributes);
-        this.consumers = builder.consumers;
+        this.consumers = ImmutableList.copyOf(builder.consumers);
         this.meteringMode = builder.meteringMode;
     }
 

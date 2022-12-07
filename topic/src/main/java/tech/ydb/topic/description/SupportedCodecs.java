@@ -3,6 +3,8 @@ package tech.ydb.topic.description;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -10,7 +12,7 @@ public class SupportedCodecs {
     private final List<Codec> codecs;
 
     public SupportedCodecs(Builder builder) {
-        this.codecs = builder.codecs;
+        this.codecs = ImmutableList.copyOf(builder.codecs);
     }
 
     public List<Codec> getCodecs() {

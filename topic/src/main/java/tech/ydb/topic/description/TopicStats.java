@@ -71,5 +71,9 @@ public class TopicStats {
             this.bytesWritten = bytesWritten;
             return this;
         }
+
+        public TopicStats build() {
+            return new TopicStats(this);
+        }
     }
 }
