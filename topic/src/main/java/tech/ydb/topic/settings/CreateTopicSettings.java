@@ -27,6 +27,7 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
     @Nullable
     private final Duration retentionPeriod;
     private final long retentionStorageMb;
+    @Nullable
     private final SupportedCodecs supportedCodecs;
     private final long partitionWriteSpeedBytesPerSecond;
     private final long partitionWriteBurstBytes;
@@ -64,6 +65,7 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
         return retentionStorageMb;
     }
 
+    @Nullable
     public SupportedCodecs getSupportedCodecs() {
         return supportedCodecs;
     }
@@ -92,10 +94,10 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
      * BUILDER
      */
     public static class Builder {
-        private PartitioningSettings partitioningSettings;
+        private PartitioningSettings partitioningSettings = null;
         private Duration retentionPeriod = null;
         private long retentionStorageMb = 0;
-        private SupportedCodecs supportedCodecs;
+        private SupportedCodecs supportedCodecs = null;
         private long partitionWriteSpeedBytesPerSecond = 0;
         private long partitionWriteBurstBytes = 0;
         private Map<String, String> attributes = new HashMap<>();

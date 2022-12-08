@@ -1,6 +1,7 @@
 package tech.ydb.topic.impl;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -19,6 +20,9 @@ import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
+import tech.ydb.topic.settings.AlterConsumerSettings;
+import tech.ydb.topic.settings.AlterPartitioningSettings;
+import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
@@ -62,35 +66,102 @@ public class TopicClientImpl implements TopicClient {
             requestBuilder.setRetentionPeriod(ProtoUtils.toProto(retentionPeriod));
         }
 
-        List<Codec> supportedCodecs = settings.getSupportedCodecs().getCodecs();
-        if (!supportedCodecs.isEmpty()) {
-            YdbTopic.SupportedCodecs.Builder codecsBuilder = YdbTopic.SupportedCodecs.newBuilder();
-            for (Codec codec : supportedCodecs) {
-                codecsBuilder.addCodecs(toProto(codec));
-            }
-            requestBuilder.setSupportedCodecs(codecsBuilder);
+        SupportedCodecs supportedCodecs = settings.getSupportedCodecs();
+        if (supportedCodecs != null) {
+            requestBuilder.setSupportedCodecs(toProto(supportedCodecs));
         }
 
         for (Consumer consumer : settings.getConsumers()) {
-            YdbTopic.Consumer.Builder consumerBuilder =  YdbTopic.Consumer.newBuilder()
-                    .setName(consumer.getName())
-                    .setImportant(consumer.isImportant())
-                    .setReadFrom(ProtoUtils.toProto(consumer.getReadFrom()))
-                    .putAllAttributes(consumer.getAttributes());
-
-            List<Codec> consumerCodecs = settings.getSupportedCodecs().getCodecs();
-            if (!consumerCodecs.isEmpty()) {
-                YdbTopic.SupportedCodecs.Builder builder = YdbTopic.SupportedCodecs.newBuilder();
-                for (Codec codec : consumerCodecs) {
-                    builder.addCodecs(toProto(codec));
-                }
-                requestBuilder.setSupportedCodecs(builder);
-            }
-            requestBuilder.addConsumers(consumerBuilder);
+            requestBuilder.addConsumers(toProto(consumer));
         }
 
         final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
         return topicRpc.createTopic(requestBuilder.build(), grpcRequestSettings);
+    }
+
+    @Override
+    public CompletableFuture<Status> alterTopic(String path, AlterTopicSettings settings) {
+        YdbTopic.AlterTopicRequest.Builder requestBuilder = YdbTopic.AlterTopicRequest.newBuilder()
+                .setOperationParams(ProtoUtils.fromRequestSettings(settings))
+                .setPath(path)/*
+                .putAllAttributes(settings.getAttributes())
+                .setMeteringMode(toProto(settings.getMeteringMode()))*/;
+
+        AlterPartitioningSettings partitioningSettings = settings.getAlterPartitioningSettings();
+        if (partitioningSettings != null) {
+            YdbTopic.AlterPartitioningSettings.Builder builder = YdbTopic.AlterPartitioningSettings.newBuilder();
+            Long minActivePartitions = partitioningSettings.getMinActivePartitions();
+            if (minActivePartitions != null) {
+                builder.setSetMinActivePartitions(minActivePartitions);
+            }
+            Long partitionCountLimit = partitioningSettings.getPartitionCountLimit();
+            if (partitionCountLimit != null) {
+                builder.setSetPartitionCountLimit(partitionCountLimit);
+            }
+            requestBuilder.setAlterPartitioningSettings(builder);
+        }
+
+        Duration retentionPeriod = settings.getRetentionPeriod();
+        if (retentionPeriod != null) {
+            requestBuilder.setSetRetentionPeriod(ProtoUtils.toProto(retentionPeriod));
+        }
+
+        Long retentionStorageMb = settings.getRetentionStorageMb();
+        if (retentionStorageMb != null) {
+            requestBuilder.setSetRetentionStorageMb(retentionStorageMb);
+        }
+
+        SupportedCodecs supportedCodecs = settings.getSupportedCodecs();
+        if (supportedCodecs != null) {
+            requestBuilder.setSetSupportedCodecs(toProto(supportedCodecs));
+        }
+
+        Long partitionWriteSpeedBytesPerSecond = settings.getPartitionWriteSpeedBytesPerSecond();
+        if (partitionWriteSpeedBytesPerSecond != null) {
+            requestBuilder.setSetPartitionWriteSpeedBytesPerSecond(partitionWriteSpeedBytesPerSecond);
+        }
+
+        Long partitionWriteBurstBytes = settings.getPartitionWriteBurstBytes();
+        if (partitionWriteBurstBytes != null) {
+            requestBuilder.setSetPartitionWriteBurstBytes(partitionWriteBurstBytes);
+        }
+
+        for (Consumer consumer : settings.getAddConsumers()) {
+            requestBuilder.addAddConsumers(toProto(consumer));
+        }
+
+        for (String dropConsumer : settings.getDropConsumers()) {
+            requestBuilder.addDropConsumers(dropConsumer);
+        }
+
+        List<AlterConsumerSettings> alterConsumers = settings.getAlterConsumers();
+        if (!alterConsumers.isEmpty()) {
+            for (AlterConsumerSettings alterConsumer : alterConsumers) {
+                YdbTopic.AlterConsumer.Builder alterConsumerBuilder = YdbTopic.AlterConsumer.newBuilder()
+                        .setName(alterConsumer.getName());
+                Boolean important = alterConsumer.getImportant();
+                if (important != null) {
+                    alterConsumerBuilder.setSetImportant(important);
+                }
+                Instant readFrom = alterConsumer.getReadFrom();
+                if (readFrom != null) {
+                    alterConsumerBuilder.setSetReadFrom(ProtoUtils.toProto(readFrom));
+                }
+
+                SupportedCodecs consumerSupportedCodecs = alterConsumer.getSupportedCodecs();
+                if (consumerSupportedCodecs != null) {
+                    alterConsumerBuilder.setSetSupportedCodecs(toProto(consumerSupportedCodecs));
+                }
+            }
+        }
+
+        MeteringMode meteringMode = settings.getMeteringMode();
+        if (meteringMode != null) {
+            requestBuilder.setSetMeteringMode(toProto(meteringMode));
+        }
+
+        final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
+        return topicRpc.alterTopic(requestBuilder.build(), grpcRequestSettings);
     }
 
     @Override
@@ -226,6 +297,34 @@ public class TopicClientImpl implements TopicClient {
             default:
                 throw new RuntimeException("Unknown metering mode from proto: " + meteringMode);
         }
+    }
+
+    private static YdbTopic.Consumer toProto(Consumer consumer) {
+        YdbTopic.Consumer.Builder consumerBuilder = YdbTopic.Consumer.newBuilder()
+                .setName(consumer.getName())
+                .putAllAttributes(consumer.getAttributes());
+        Boolean important = consumer.isImportant();
+        if (important != null) {
+            consumerBuilder.setImportant(important);
+        }
+        SupportedCodecs consumerCodecs = consumer.getSupportedCodecs();
+        if (consumerCodecs != null) {
+            consumerBuilder.setSupportedCodecs(toProto(consumerCodecs));
+        }
+        Instant readFrom = consumer.getReadFrom();
+        if (readFrom != null) {
+            consumerBuilder.setReadFrom(ProtoUtils.toProto(readFrom));
+        }
+        return consumerBuilder.build();
+    }
+
+    private static YdbTopic.SupportedCodecs toProto(SupportedCodecs supportedCodecs) {
+        List<Codec> supportedCodecsList = supportedCodecs.getCodecs();
+        YdbTopic.SupportedCodecs.Builder codecsBuilder = YdbTopic.SupportedCodecs.newBuilder();
+        for (Codec codec : supportedCodecsList) {
+            codecsBuilder.addCodecs(toProto(codec));
+        }
+        return codecsBuilder.build();
     }
 
     @Override

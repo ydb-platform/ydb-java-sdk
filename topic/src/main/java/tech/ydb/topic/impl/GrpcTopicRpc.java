@@ -49,6 +49,13 @@ public final class GrpcTopicRpc implements TopicRpc {
     }
 
     @Override
+    public CompletableFuture<Status> alterTopic(YdbTopic.AlterTopicRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TopicServiceGrpc.getAlterTopicMethod(), settings, request)
+                .thenApply(Operations.statusUnwrapper(YdbTopic.AlterTopicResponse::getOperation));
+    }
+
+    @Override
     public CompletableFuture<Result<YdbTopic.DescribeTopicResult>> describeTopic(YdbTopic.DescribeTopicRequest request,
                                                                                  GrpcRequestSettings settings) {
         return transport

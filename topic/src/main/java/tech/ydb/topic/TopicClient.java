@@ -10,6 +10,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
 import tech.ydb.topic.impl.TopicClientImpl;
+import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
@@ -33,6 +34,15 @@ public interface TopicClient extends AutoCloseable {
      * @return operation status
      */
     CompletableFuture<Status> createTopic(String path, CreateTopicSettings settings);
+
+    /**
+     * Alter topic.
+     *
+     * @param path  path to topic
+     * @param settings  alter topic settings
+     * @return operation status
+     */
+    CompletableFuture<Status> alterTopic(String path, AlterTopicSettings settings);
 
     /**
      * Drop topic.

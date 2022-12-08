@@ -23,6 +23,14 @@ public interface TopicRpc extends Rpc {
     CompletableFuture<Status> createTopic(CreateTopicRequest request, GrpcRequestSettings settings);
 
     /**
+     * Alter topic.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with status of operation
+     */
+    CompletableFuture<Status> alterTopic(YdbTopic.AlterTopicRequest request, GrpcRequestSettings settings);
+
+    /**
      * Drop topic.
      * @param request request proto
      * @param settings rpc call settings

@@ -1,4 +1,4 @@
-package tech.ydb.topic.description;
+package tech.ydb.topic.settings;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -7,12 +7,12 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-import com.google.common.collect.ImmutableMap;
+import tech.ydb.topic.description.SupportedCodecs;
 
 /**
  * @author Nikolay Perfilov
  */
-public class Consumer {
+public class AlterConsumerSettings {
     private final String name;
     @Nullable
     private final Boolean important;
@@ -20,17 +20,15 @@ public class Consumer {
     private final Instant readFrom;
     @Nullable
     private final SupportedCodecs supportedCodecs;
-    private final Map<String, String> attributes;
     @Nullable
-    private final ConsumerStats stats;
+    private final Map<String, String> alterAttributes;
 
-    private Consumer(Builder builder) {
+    private AlterConsumerSettings(Builder builder) {
         this.name = builder.name;
         this.important = builder.important;
         this.readFrom = builder.readFrom;
         this.supportedCodecs = builder.supportedCodecs;
-        this.attributes = ImmutableMap.copyOf(builder.attributes);
-        this.stats = builder.stats;
+        this.alterAttributes = builder.alterAttributes;
     }
 
     public static Builder newBuilder() {
@@ -42,7 +40,7 @@ public class Consumer {
     }
 
     @Nullable
-    public Boolean isImportant() {
+    public Boolean getImportant() {
         return important;
     }
 
@@ -56,12 +54,9 @@ public class Consumer {
         return supportedCodecs;
     }
 
-    public Map<String, String> getAttributes() {
-        return attributes;
-    }
-
-    public ConsumerStats getStats() {
-        return stats;
+    @Nullable
+    public Map<String, String> getAlterAttributes() {
+        return alterAttributes;
     }
 
     /**
@@ -72,8 +67,7 @@ public class Consumer {
         private Boolean important = null;
         private Instant readFrom = null;
         private SupportedCodecs supportedCodecs = null;
-        private Map<String, String> attributes = new HashMap<>();
-        private ConsumerStats stats = null;
+        private Map<String, String> alterAttributes = new HashMap<>();
 
         public Builder setName(@Nonnull String name) {
             this.name = name;
@@ -95,26 +89,21 @@ public class Consumer {
             return this;
         }
 
-        public Builder addAttribute(@Nonnull String key, String value) {
-            attributes.put(key, value);
+        public Builder addAlterAttribute(@Nonnull String key, @Nullable String value) {
+            alterAttributes.put(key, value);
             return this;
         }
 
-        public Builder setAttributes(Map<String, String> attributes) {
-            this.attributes = attributes;
+        public Builder setAlterAttributes(Map<String, String> attributes) {
+            alterAttributes = attributes;
             return this;
         }
 
-        public Builder setStats(ConsumerStats stats) {
-            this.stats = stats;
-            return this;
-        }
-
-        public Consumer build() {
+        public AlterConsumerSettings build() {
             if (name == null) {
-                throw new IllegalArgumentException("Consumer name is not set");
+                throw new IllegalArgumentException("Consumer name is not set in AlterConsumerSetings");
             }
-            return new Consumer(this);
+            return new AlterConsumerSettings(this);
         }
     }
 }
