@@ -53,7 +53,7 @@
             <dependency>
                 <groupId>tech.ydb.auth</groupId>
                 <artifactId>yc-auth-provider</artifactId>
-                <version>${project.version}</version>
+                <version>${yc-auth.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
