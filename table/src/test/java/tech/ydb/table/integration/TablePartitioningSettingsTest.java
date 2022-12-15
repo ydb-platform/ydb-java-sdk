@@ -16,7 +16,7 @@ import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.values.PrimitiveType;
-import tech.ydb.test.junit4.YdbInstanceRule;
+import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
  *
@@ -24,17 +24,17 @@ import tech.ydb.test.junit4.YdbInstanceRule;
  */
 public class TablePartitioningSettingsTest {
     @ClassRule
-    public final static YdbInstanceRule ydb = new YdbInstanceRule();
+    public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final String TABLE_NAME = "test1_table";
 
     private final SimpleTableClient tableClient = SimpleTableClient.newClient(
-            GrpcTableRpc.useTransport(ydb.transport())
+            GrpcTableRpc.useTransport(ydbTransport)
     ).build();
 
     private final SessionRetryContext ctx = SessionRetryContext.create(tableClient).build();
 
-    private final String tablePath = ydb.transport().getDatabase() + "/" + TABLE_NAME;
+    private final String tablePath = ydbTransport.getDatabase() + "/" + TABLE_NAME;
 
 
     @Test

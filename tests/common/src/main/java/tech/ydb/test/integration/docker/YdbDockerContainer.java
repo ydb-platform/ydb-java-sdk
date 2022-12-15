@@ -13,13 +13,11 @@ import org.testcontainers.containers.wait.strategy.AbstractWaitStrategy;
 import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
 import org.testcontainers.utility.ResourceReaper;
 
-import tech.ydb.ValueProtos;
 import tech.ydb.core.Operations;
-import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.table.YdbTable;
-import tech.ydb.table.v1.TableServiceGrpc;
+import tech.ydb.discovery.DiscoveryProtos;
+import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 import tech.ydb.test.integration.YdbEnvironment;
 
 /**
@@ -103,47 +101,19 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
 
     private void checkReady() {
         try (GrpcTransport transport = GrpcTransport.forEndpoint(nonSecureEndpoint(), database()).build()) {
-            logger.info("create session");
-            String sessionID = transport.unaryCall(
-                    TableServiceGrpc.getCreateSessionMethod(),
+            // Run discovery to check that the container is ready
+
+            DiscoveryProtos.ListEndpointsResult result = transport.unaryCall(
+                    DiscoveryServiceGrpc.getListEndpointsMethod(),
                     GrpcRequestSettings.newBuilder().build(),
-                    YdbTable.CreateSessionRequest.newBuilder().build()
+                    DiscoveryProtos.ListEndpointsRequest.newBuilder().setDatabase(database()).build()
             ).thenApply(Operations.resultUnwrapper(
-                    YdbTable.CreateSessionResponse::getOperation,
-                    YdbTable.CreateSessionResult.class)
-            ).join().getValue().getSessionId();
+                    DiscoveryProtos.ListEndpointsResponse::getOperation,
+                    DiscoveryProtos.ListEndpointsResult.class)
+            ).join().getValue();
 
-            logger.debug("chekc ready create session -> {}", sessionID);
-            try {
-                logger.info("create test table");
-                String testTable = database() + "/docker_init_table";
-                YdbTable.ColumnMeta column = YdbTable.ColumnMeta.newBuilder()
-                        .setName("id")
-                        .setType(ValueProtos.Type.newBuilder()
-                                .setTypeId(ValueProtos.Type.PrimitiveTypeId.INT64)
-                                .build())
-                        .build();
-
-                Status status = transport.unaryCall(
-                        TableServiceGrpc.getCreateTableMethod(),
-                        GrpcRequestSettings.newBuilder().build(),
-                        YdbTable.CreateTableRequest.newBuilder()
-                                .setPath(testTable)
-                                .addColumns(column)
-                                .addPrimaryKey("id")
-                                .build()
-                ).join().getStatus();
-                logger.info("create table -> {}", status);
-                status.expectSuccess("can't create test table");
-            } finally {
-                logger.info("delete session");
-                Status status = transport.unaryCall(
-                        TableServiceGrpc.getDeleteSessionMethod(),
-                        GrpcRequestSettings.newBuilder().build(),
-                        YdbTable.DeleteSessionRequest.newBuilder().setSessionId(sessionID).build()
-                ).join().getStatus();
-                logger.info("delete session -> {}", status);
-            }
+            logger.debug("discovery returns {} endpoints and self location {}",
+                    result.getEndpointsCount(), result.getSelfLocation());
         } catch (Exception e) {
             logger.info("execution problem {}", e.getMessage());
             throw new RuntimeException("YDB container isn't ready", e);

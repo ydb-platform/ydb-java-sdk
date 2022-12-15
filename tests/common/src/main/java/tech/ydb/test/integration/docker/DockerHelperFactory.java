@@ -1,5 +1,7 @@
 package tech.ydb.test.integration.docker;
 
+import org.testcontainers.utility.TestcontainersConfiguration;
+
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.test.integration.YdbEnvironment;
@@ -65,10 +67,12 @@ public class DockerHelperFactory extends YdbHelperFactory {
 
             @Override
             public void close() {
-                if (!env.dockerReuse()) {
-                    container.stop();
-                    container.close();
+                if (env.dockerReuse() && TestcontainersConfiguration.getInstance().environmentSupportsReuse()) {
+                    return;
                 }
+
+                container.stop();
+                container.close();
             }
         };
     }

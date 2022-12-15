@@ -12,15 +12,16 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
+import tech.ydb.test.integration.utils.ProxyGrpcTransport;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class GrpcTransportRule implements TestRule {
+public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransportRule.class);
 
-    private final AtomicReference<GrpcTransport> weakTransport = new AtomicReference<>();
+    private final AtomicReference<GrpcTransport> proxy = new AtomicReference<>();
 
     @Override
     public Statement apply(Statement base, Description description) {
@@ -46,9 +47,9 @@ public class GrpcTransportRule implements TestRule {
 
                 try {
                     try (GrpcTransport transport = helper.createTransport(path)) {
-                        weakTransport.set(transport);
+                        proxy.set(transport);
                         base.evaluate();
-                        weakTransport.set(null);
+                        proxy.set(null);
                     }
                 } finally {
                     helper.close();
@@ -57,7 +58,8 @@ public class GrpcTransportRule implements TestRule {
         };
     }
 
-    public GrpcTransport transport() {
-        return weakTransport.get();
+    @Override
+    protected GrpcTransport origin() {
+        return proxy.get();
     }
 }

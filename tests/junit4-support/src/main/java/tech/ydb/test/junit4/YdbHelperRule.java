@@ -9,15 +9,15 @@ import org.junit.runners.model.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
+import tech.ydb.test.integration.utils.ProxyYdbHelper;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class YdbHelperRule implements TestRule, YdbHelper {
+public class YdbHelperRule extends ProxyYdbHelper implements TestRule {
     private static final Logger logger = LoggerFactory.getLogger(YdbHelperRule.class);
 
     private final AtomicReference<YdbHelper> proxy = new AtomicReference<>();
@@ -52,37 +52,7 @@ public class YdbHelperRule implements TestRule, YdbHelper {
     }
 
     @Override
-    public GrpcTransport createTransport(String path) {
-        return proxy.get().createTransport(path);
-    }
-
-    @Override
-    public String endpoint() {
-        return proxy.get().endpoint();
-    }
-
-    @Override
-    public String database() {
-        return proxy.get().database();
-    }
-
-    @Override
-    public boolean useTls() {
-        return proxy.get().useTls();
-    }
-
-    @Override
-    public byte[] pemCert() {
-        return proxy.get().pemCert();
-    }
-
-    @Override
-    public String authToken() {
-        return proxy.get().authToken();
-    }
-
-    @Override
-    public void close() {
-        // Nothing
+    protected YdbHelper origin() {
+        return proxy.get();
     }
 }
