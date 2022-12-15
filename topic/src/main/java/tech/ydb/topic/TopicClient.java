@@ -10,10 +10,12 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
 import tech.ydb.topic.impl.TopicClientImpl;
+import tech.ydb.topic.read.ReadSession;
 import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
+import tech.ydb.topic.settings.ReadSessionSettings;
 
 
 /**
@@ -83,6 +85,8 @@ public interface TopicClient extends AutoCloseable {
     default CompletableFuture<Result<TopicDescription>> describeTopic(String path) {
         return describeTopic(path, new DescribeTopicSettings());
     }
+
+    ReadSession createReadSession(ReadSessionSettings settings);
 
     @Override
     void close();

@@ -20,6 +20,7 @@ import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
+import tech.ydb.topic.read.ReadSession;
 import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
@@ -27,6 +28,7 @@ import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
+import tech.ydb.topic.settings.ReadSessionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -237,6 +239,11 @@ public class TopicClientImpl implements TopicClient {
         description.setConsumers(consumers);
 
         return description.build();
+    }
+
+    @Override
+    public ReadSession createReadSession(ReadSessionSettings settings) {
+        return new ReadSession();
     }
 
     private static int toProto(Codec codec) {
