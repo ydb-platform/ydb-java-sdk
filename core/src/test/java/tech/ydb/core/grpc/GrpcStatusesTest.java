@@ -1,12 +1,12 @@
 package tech.ydb.core.grpc;
 
+import org.junit.Test;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-
-import org.junit.Test;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -37,7 +37,7 @@ public class GrpcStatusesTest {
         assertArrayEquals(new Issue[] {
             Issue.of("gRPC error: (INTERNAL) error description", Issue.Severity.ERROR)
         }, result.getStatus().getIssues());
-        
+
         try {
             result.getValue();
             assertFalse("error hasn't value", true);
@@ -112,5 +112,13 @@ public class GrpcStatusesTest {
         Status status = GrpcStatuses.toStatus(io.grpc.Status.RESOURCE_EXHAUSTED);
         Issue issue = Issue.of("gRPC error: (RESOURCE_EXHAUSTED)", Issue.Severity.ERROR);
         assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED, null, issue), status);
+    }
+
+    @Test
+    public void statusThrowable() {
+        Status status = GrpcStatuses.toStatus(io.grpc.Status.RESOURCE_EXHAUSTED.withCause(new RuntimeException("Hello")));
+        Issue issue1 = Issue.of("gRPC error: (RESOURCE_EXHAUSTED)", Issue.Severity.ERROR);
+        Issue issue2 = Issue.of("Hello", Issue.Severity.ERROR);
+        assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED, null, issue1, issue2), status);
     }
 }
