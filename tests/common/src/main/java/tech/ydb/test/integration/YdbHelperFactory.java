@@ -1,61 +1,58 @@
 package tech.ydb.test.integration;
 
+import com.google.common.annotations.VisibleForTesting;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testcontainers.DockerClientFactory;
+
+import tech.ydb.test.integration.docker.DockerHelperFactory;
+import tech.ydb.test.integration.external.ExternalHelperFactory;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public abstract class YdbHelperFactory {
-    private static final YdbHelperFactory INSTANCE = createYdbHelper();
+    protected static final Logger logger = LoggerFactory.getLogger(YdbHelperFactory.class);
 
     public static YdbHelperFactory getInstance() {
-        return INSTANCE;
+        return SingletonHelper.INSTANCE;
     }
 
-    public abstract YdbHelper createHelper(String path);
+    @VisibleForTesting
+    static YdbHelperFactory createYdbHelper(YdbEnvironment env) {
+        if (env.disableIntegrationTests()) {
+            logger.info("ydb helper is disabled");
+            return new DisabledFactory();
+        }
 
-    private static YdbHelperFactory createYdbHelper() {
         // Check external db
-        String ydbDatabase = System.getenv("YDB_DATABASE");
-        String ydbEndpoint = System.getenv("YDB_ENDPOINT");
+        String ydbDatabase = env.ydbDatabase();
+        String ydbEndpoint = env.ydbEndpoint();
         if (ydbEndpoint != null && !ydbEndpoint.isEmpty() && ydbDatabase != null && !ydbDatabase.isEmpty()) {
-            return new ExternalYdb(ydbEndpoint, ydbDatabase);
+            logger.info("create external ydb helper with endpoint {} and database {}", ydbEndpoint, ydbDatabase);
+            return new ExternalHelperFactory(env);
         }
 
         // check is docker is availabled
         if (DockerClientFactory.instance().isDockerAvailable()) {
-            return new LocalDockerYdb();
+            logger.info("setup docker-based ydb helper");
+            return new DockerHelperFactory(env);
         }
 
-        return new DisabledYdb();
+        logger.info("ydb helper is disabled");
+        return new DisabledFactory();
     }
 
-    private static class DisabledYdb extends YdbHelperFactory {
-        @Override
-        public YdbHelper createHelper(String path) {
-            return null;
-        }
+    public abstract YdbHelper createHelper();
+
+    private static class SingletonHelper {
+        private static final YdbHelperFactory INSTANCE = createYdbHelper(new YdbEnvironment());
     }
 
-    private static class ExternalYdb extends YdbHelperFactory {
-        private final String endpoint;
-        private final String database;
-
-        ExternalYdb(String endpoint, String database) {
-            this.endpoint = endpoint;
-            this.database = database;
-        }
-
+    private static class DisabledFactory extends YdbHelperFactory {
         @Override
-        public YdbHelper createHelper(String path) {
-            return null;
-        }
-    }
-
-    private static class LocalDockerYdb extends YdbHelperFactory {
-        @Override
-        public YdbHelper createHelper(String path) {
+        public YdbHelper createHelper() {
             return null;
         }
     }

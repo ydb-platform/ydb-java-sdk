@@ -17,10 +17,10 @@ import tech.ydb.test.integration.YdbHelperFactory;
  *
  * @author Aleksandr Gorshenin
  */
-public class YdbInstanceRule implements TestRule {
-    private static final Logger logger = LoggerFactory.getLogger(YdbInstanceRule.class);
+public class YdbHelperRule implements TestRule, YdbHelper {
+    private static final Logger logger = LoggerFactory.getLogger(YdbHelperRule.class);
 
-    private final AtomicReference<GrpcTransport> weakTransport = new AtomicReference<>();
+    private final AtomicReference<YdbHelper> proxy = new AtomicReference<>();
 
     @Override
     public Statement apply(Statement base, Description description) {
@@ -32,7 +32,7 @@ public class YdbInstanceRule implements TestRule {
                 String path = description.getDisplayName();
                 logger.debug("create ydb helper for test {}", path);
 
-                YdbHelper helper = factory.createHelper(path);
+                YdbHelper helper = factory.createHelper();
 
                 if (helper == null) {
                     logger.info("Test {} skipped because ydb helper is not available", description.getDisplayName());
@@ -40,16 +40,49 @@ public class YdbInstanceRule implements TestRule {
                     return;
                 }
 
-                try (GrpcTransport transport = helper.createTransport()) {
-                    weakTransport.set(transport);
+                try {
+                    proxy.set(helper);
                     base.evaluate();
-                    weakTransport.set(null);
+                    proxy.set(null);
+                } finally {
+                    helper.close();
                 }
             }
         };
     }
 
-    public GrpcTransport transport() {
-        return weakTransport.get();
+    @Override
+    public GrpcTransport createTransport(String path) {
+        return proxy.get().createTransport(path);
+    }
+
+    @Override
+    public String endpoint() {
+        return proxy.get().endpoint();
+    }
+
+    @Override
+    public String database() {
+        return proxy.get().database();
+    }
+
+    @Override
+    public boolean useTls() {
+        return proxy.get().useTls();
+    }
+
+    @Override
+    public byte[] pemCert() {
+        return proxy.get().pemCert();
+    }
+
+    @Override
+    public String authToken() {
+        return proxy.get().authToken();
+    }
+
+    @Override
+    public void close() {
+        // Nothing
     }
 }

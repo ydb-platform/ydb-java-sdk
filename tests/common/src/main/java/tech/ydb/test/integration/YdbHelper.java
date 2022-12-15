@@ -6,6 +6,17 @@ import tech.ydb.core.grpc.GrpcTransport;
  *
  * @author Aleksandr Gorshenin
  */
-public interface YdbHelper {
-    GrpcTransport createTransport();
+public interface YdbHelper extends AutoCloseable {
+    GrpcTransport createTransport(String path);
+
+    String endpoint();
+    String database();
+
+    boolean useTls();
+    byte[] pemCert();
+
+    String authToken();
+
+    @Override
+    void close();
 }
