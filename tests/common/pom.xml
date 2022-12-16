@@ -29,5 +29,48 @@
             <groupId>org.testcontainers</groupId>
             <artifactId>testcontainers</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <!--
+            We cannot use testcontainers withou junit4
+            See https://github.com/testcontainers/testcontainers-java/issues/87
+            -->
+            <!--<scope>test</scope>-->
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <!-- Test env variables for unit tests -->
+                    <environmentVariables>
+                        <TEST_VAR1>var1</TEST_VAR1>
+                        <!-- TEST_VAR2 isnot set -->
+                        <TEST_VAR3></TEST_VAR3>
+                        <TEST_VAR4>true</TEST_VAR4>
+                        <TEST_VAR5>true1</TEST_VAR5>
+
+                        <YDB_DISABLE_INTEGRATION_TESTS>true</YDB_DISABLE_INTEGRATION_TESTS>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

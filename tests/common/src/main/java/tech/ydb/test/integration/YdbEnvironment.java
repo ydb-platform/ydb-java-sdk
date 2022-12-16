@@ -15,7 +15,7 @@ public class YdbEnvironment {
     private final Supplier<String> ydbDatabase = createParam("YDB_DATABASE", null);
     private final Supplier<String> ydbAuthToken = createParam("YDB_TOKEN", null);
     private final Supplier<String> ydbPemCert = createParam("YDB_PEM_CERT", null);
-    private final Supplier<Boolean> ydbUseTls = createParam("YDB_USE_TLS", true);
+    private final Supplier<Boolean> ydbUseTls = createParam("YDB_USE_TLS", false);
 
     private final Supplier<String> dockerImage = createParam("YDB_DOCKER_IMAGE", YDB_DEFAULT_IMAGE);
     private final Supplier<String> dockerDatabase = createParam("YDB_DOCKER_DATABASE", "/local");
@@ -69,11 +69,13 @@ public class YdbEnvironment {
         return disableIntegrationTests.get();
     }
 
-    private Supplier<String> createParam(String key, String defaultValue) {
+    @VisibleForTesting
+    Supplier<String> createParam(String key, String defaultValue) {
         return Suppliers.memoize(() -> readParam(key, defaultValue));
     }
 
-    private Supplier<Boolean> createParam(String key, boolean defaultValue) {
+    @VisibleForTesting
+    Supplier<Boolean> createParam(String key, boolean defaultValue) {
         return Suppliers.memoize(() -> readParam(key, defaultValue));
     }
 
