@@ -16,6 +16,8 @@ import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.ReadSessionSettings;
+import tech.ydb.topic.settings.WriteSessionSettings;
+import tech.ydb.topic.write.WriteSession;
 
 
 /**
@@ -87,6 +89,8 @@ public interface TopicClient extends AutoCloseable {
     }
 
     ReadSession createReadSession(ReadSessionSettings settings);
+
+    WriteSession createWriteSession(WriteSessionSettings settings);
 
     @Override
     void close();

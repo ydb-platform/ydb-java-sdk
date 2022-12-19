@@ -29,6 +29,8 @@ import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadSessionSettings;
+import tech.ydb.topic.settings.WriteSessionSettings;
+import tech.ydb.topic.write.WriteSession;
 
 /**
  * @author Nikolay Perfilov
@@ -244,6 +246,11 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public ReadSession createReadSession(ReadSessionSettings settings) {
         return new ReadSession();
+    }
+
+    @Override
+    public WriteSession createWriteSession(WriteSessionSettings settings) {
+        return new WriteSession();
     }
 
     private static int toProto(Codec codec) {

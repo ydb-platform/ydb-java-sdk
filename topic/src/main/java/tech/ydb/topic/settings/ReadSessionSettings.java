@@ -10,6 +10,8 @@ import com.google.common.collect.ImmutableList;
  * @author Nikolay Perfilov
  */
 public class ReadSessionSettings {
+    private static final long MAX_MEMORY_USAGE_BYTES_DEFAULT = 100 * 1024 * 1024; // 100 MB
+
     private final String consumerName;
     private final List<TopicReadSettings> topics;
     private final long maxMemoryUsageBytes;
@@ -60,7 +62,7 @@ public class ReadSessionSettings {
     public static class Builder {
         private String consumerName;
         private List<TopicReadSettings> topics;
-        private long maxMemoryUsageBytes;
+        private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Duration maxLag;
         private Instant readFrom;
         private ReadEventHandlersSettings handlersSettings;
