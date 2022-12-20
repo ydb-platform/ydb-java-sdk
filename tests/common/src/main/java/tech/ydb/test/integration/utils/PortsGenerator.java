@@ -1,4 +1,4 @@
-package tech.ydb.test.integration.docker;
+package tech.ydb.test.integration.utils;
 
 import java.io.IOException;
 import java.net.InetAddress;

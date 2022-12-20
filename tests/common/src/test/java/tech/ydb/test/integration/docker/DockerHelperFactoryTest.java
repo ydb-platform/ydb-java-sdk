@@ -1,5 +1,7 @@
 package tech.ydb.test.integration.docker;
 
+import tech.ydb.test.integration.utils.PortsGenerator;
+
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 

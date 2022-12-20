@@ -19,6 +19,8 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.discovery.DiscoveryProtos;
 import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 import tech.ydb.test.integration.YdbEnvironment;
+import tech.ydb.test.integration.utils.PortsGenerator;
+
 
 /**
  *
