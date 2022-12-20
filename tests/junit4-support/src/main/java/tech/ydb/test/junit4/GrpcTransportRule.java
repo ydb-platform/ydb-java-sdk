@@ -30,29 +30,24 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
+                if (!factory.isEnabled()) {
+                    logger.info("Test {} skipped because ydb helper is not available", description.getDisplayName());
+                    Assume.assumeFalse("YDB Helper is not available", true);
+                    return;
+                }
+
                 String path = description.getClassName();
                 if (description.getMethodName() != null) {
                     path += "/" + description.getMethodName();
                 }
 
                 logger.debug("create ydb helper for test {}", path);
-
-                YdbHelper helper = factory.createHelper();
-
-                if (helper == null) {
-                    logger.info("Test {} skipped because ydb helper is not available", description.getDisplayName());
-                    Assume.assumeFalse("YDB Helper is not available", true);
-                    return;
-                }
-
-                try {
+                try (YdbHelper helper = factory.createHelper()) {
                     try (GrpcTransport transport = helper.createTransport(path)) {
                         proxy.set(transport);
                         base.evaluate();
                         proxy.set(null);
                     }
-                } finally {
-                    helper.close();
                 }
             }
         };

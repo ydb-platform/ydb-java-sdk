@@ -46,6 +46,10 @@ public abstract class YdbHelperFactory {
 
     public abstract YdbHelper createHelper();
 
+    public boolean isEnabled() {
+        return true;
+    }
+
     private static class SingletonHelper {
         private static final YdbHelperFactory INSTANCE = createYdbHelper(new YdbEnvironment());
     }
@@ -54,6 +58,11 @@ public abstract class YdbHelperFactory {
         @Override
         public YdbHelper createHelper() {
             return null;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            return false;
         }
     }
 }

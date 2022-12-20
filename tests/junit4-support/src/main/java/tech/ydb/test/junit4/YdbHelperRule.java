@@ -29,23 +29,18 @@ public class YdbHelperRule extends ProxyYdbHelper implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                String path = description.getDisplayName();
-                logger.debug("create ydb helper for test {}", path);
-
-                YdbHelper helper = factory.createHelper();
-
-                if (helper == null) {
+                if (!factory.isEnabled()) {
                     logger.info("Test {} skipped because ydb helper is not available", description.getDisplayName());
                     Assume.assumeFalse("YDB Helper is not available", true);
                     return;
                 }
 
-                try {
+                String path = description.getDisplayName();
+                logger.debug("create ydb helper for test {}", path);
+                try (YdbHelper helper = factory.createHelper()) {
                     proxy.set(helper);
                     base.evaluate();
                     proxy.set(null);
-                } finally {
-                    helper.close();
                 }
             }
         };

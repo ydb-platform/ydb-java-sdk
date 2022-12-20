@@ -24,6 +24,7 @@ public class YdbHelperFactoryTest {
         YdbHelperFactory factory = YdbHelperFactory.getInstance();
 
         Assert.assertNotNull("check disabled factory instance", factory);
+        Assert.assertFalse("check disabled factory instance", factory.isEnabled());
         Assert.assertNull("empty helper for disabled factory instance", factory.createHelper());
     }
 
@@ -36,6 +37,7 @@ public class YdbHelperFactoryTest {
         YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(env);
 
         Assert.assertNotNull("check external factory instance", factory);
+        Assert.assertTrue("check external factory instance", factory.isEnabled());
 
         try (YdbHelper helper = factory.createHelper()) {
             Assert.assertNotNull("external helper is not null", helper);
@@ -67,6 +69,7 @@ public class YdbHelperFactoryTest {
         YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(env);
 
         Assert.assertNotNull("check external factory instance", factory);
+        Assert.assertTrue("check external factory instance", factory.isEnabled());
 
         try (YdbHelper helper = factory.createHelper()) {
             Assert.assertNotNull("external helper is not null", helper);
@@ -91,6 +94,7 @@ public class YdbHelperFactoryTest {
         YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(env);
 
         Assert.assertNotNull("check external factory instance", factory);
+        Assert.assertTrue("check external factory instance", factory.isEnabled());
 
         try (YdbHelper helper = factory.createHelper()) {
             Assert.assertNotNull("external helper is not null", helper);
@@ -111,6 +115,7 @@ public class YdbHelperFactoryTest {
             YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(YdbEnvironmentMock.create());
 
             Assert.assertNotNull("check disabled factory instance", factory);
+            Assert.assertFalse("check disabled factory instance", factory.isEnabled());
             Assert.assertNull("empty helper for disabled factory instance", factory.createHelper());
         }
     }
@@ -123,6 +128,7 @@ public class YdbHelperFactoryTest {
             YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(YdbEnvironmentMock.create());
 
             Assert.assertNotNull("check docker factory instance", factory);
+            Assert.assertTrue("check docker factory instance", factory.isEnabled());
         }
     }
 }

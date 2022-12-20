@@ -1,5 +1,8 @@
 package tech.ydb.test.integration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -73,6 +76,51 @@ public class YdbEnvironmentTest {
             System.getProperties().remove(NOT_EXIST_ENV_PARAM);
             System.getProperties().remove(EMPTY_ENV_PARAM);
             System.getProperties().remove(BOOLEAN_ENV_PARAM);
+        }
+    }
+
+    @Test
+    public void rewriteAllParams() {
+        Map<String, String> params = new HashMap<>();
+        params.put("YDB_ENDPOINT", "endpoint");
+        params.put("YDB_DATABASE", "database");
+        params.put("YDB_TOKEN", "token");
+        params.put("YDB_PEM_CERT", "pemCert");
+        params.put("YDB_USE_TLS", "tRuE");
+
+        params.put("YDB_DOCKER_IMAGE", "otherImager");
+        params.put("YDB_DOCKER_DATABASE", "/remote");
+        params.put("YDB_DOCKER_PEM_PATH", "/certs/ca.pem");
+        params.put("YDB_DOCKER_REUSE", "false");
+
+        params.put("YDB_CLEAN_UP", "tue");
+        params.put("YDB_DISABLE_INTEGRATION_TESTS", "false");
+
+        try {
+            for (Map.Entry<String, String> entry: params.entrySet()) {
+                System.setProperty(entry.getKey(), entry.getValue());
+            }
+
+            YdbEnvironment env = new YdbEnvironment();
+
+            Assert.assertEquals("check YDB_ENDPOINT", "endpoint", env.ydbEndpoint());
+            Assert.assertEquals("check YDB_DATABASE", "database", env.ydbDatabase());
+            Assert.assertEquals("check YDB_TOKEN", "token", env.ydbAuthToken());
+            Assert.assertEquals("check YDB_USE_TLS", true, env.ydbUseTls());
+            Assert.assertEquals("check YDB_PEM_CERT", "pemCert", env.ydbPemCert());
+
+            Assert.assertEquals("check YDB_DOCKER_IMAGE", "otherImager", env.dockerImage());
+            Assert.assertEquals("check YDB_DOCKER_DATABASE", "/remote", env.dockerDatabase());
+            Assert.assertEquals("check YDB_DOCKER_PEM_PATH", "/certs/ca.pem", env.dockerPemPath());
+            Assert.assertEquals("check YDB_DOCKER_REUSE", false, env.dockerReuse());
+
+            Assert.assertEquals("check YDB_CLEAN_UP", false, env.cleanUpTests());
+            // ENV has higher priority
+            Assert.assertEquals("check YDB_DISABLE_INTEGRATION_TESTS", true, env.disableIntegrationTests());
+        } finally {
+            for (String key: params.keySet()) {
+                System.getProperties().remove(key);
+            }
         }
     }
 }

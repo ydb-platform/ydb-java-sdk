@@ -1,14 +1,12 @@
 package tech.ydb.test.junit5;
 
-import java.lang.reflect.Method;
-
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
+import org.junit.jupiter.api.extension.ConditionEvaluationResult;
+import org.junit.jupiter.api.extension.ExecutionCondition;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.junit.jupiter.api.extension.InvocationInterceptor;
-import org.junit.jupiter.api.extension.ReflectiveInvocationContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +18,7 @@ import tech.ydb.test.integration.utils.ProxyYdbHelper;
  *
  * @author Aleksandr Gorshenin
  */
-public class YdbHelperExtention extends ProxyYdbHelper implements InvocationInterceptor,
+public class YdbHelperExtention extends ProxyYdbHelper implements ExecutionCondition,
         BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtention.class);
 
@@ -32,16 +30,15 @@ public class YdbHelperExtention extends ProxyYdbHelper implements InvocationInte
     }
 
     @Override
-    public void interceptTestMethod(
-            Invocation<Void> invocation,
-            ReflectiveInvocationContext<Method> invocationContext,
-            ExtensionContext extensionContext) throws Throwable {
-        if (holder.helper() == null) {
-            logger.info("Test {} skipped because ydb helper is not available", extensionContext.getDisplayName());
-            invocation.skip();
-        } else {
-            invocation.proceed();
+    public ConditionEvaluationResult evaluateExecutionCondition(ExtensionContext context) {
+        if (!context.getTestInstance().isPresent()) {
+            return ConditionEvaluationResult.enabled("OK");
         }
+
+        if (!YdbHelperFactory.getInstance().isEnabled()) {
+            return ConditionEvaluationResult.disabled("Ydb helper is disabled " + context.getDisplayName());
+        }
+        return ConditionEvaluationResult.enabled("OK");
     }
 
     @Override
