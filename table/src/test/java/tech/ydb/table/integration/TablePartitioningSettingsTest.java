@@ -82,7 +82,7 @@ public class TablePartitioningSettingsTest {
                 session -> session.createTable(tablePath, tableDescription, new CreateTableSettings())
         ).join();
 
-        Assert.assertTrue("Create table with PartitioningSettings", status.isSuccess());
+        Assert.assertTrue("Create table with PartitioningSettings " + status, status.isSuccess());
     }
 
     private void describeTable(
@@ -100,7 +100,7 @@ public class TablePartitioningSettingsTest {
             settings.setIncludePartitionStats(true);
             return session.describeTable(tablePath, settings);
         }).join();
-        Assert.assertTrue("Describe table", describeResult.isSuccess());
+        Assert.assertTrue("Describe table " + describeResult.getStatus(), describeResult.isSuccess());
 
         TableDescription description = describeResult.getValue();
 
@@ -164,7 +164,7 @@ public class TablePartitioningSettingsTest {
                 session -> session.alterTable(tablePath, settings)
         ).join();
 
-        Assert.assertTrue("Alter table with PartitioningSettings", status.isSuccess());
+        Assert.assertTrue("Alter table with PartitioningSettings " + status, status.isSuccess());
     }
 
     private void dropTable() {
@@ -172,7 +172,7 @@ public class TablePartitioningSettingsTest {
                 session -> session.dropTable(tablePath)
         ).join();
 
-        Assert.assertTrue("Drop table with PartitioningSettings", status.isSuccess());
+        Assert.assertTrue("Drop table with PartitioningSettings " + status, status.isSuccess());
     }
 
 }

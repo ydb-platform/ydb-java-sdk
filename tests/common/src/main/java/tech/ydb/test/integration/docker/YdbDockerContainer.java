@@ -3,21 +3,14 @@ package tech.ydb.test.integration.docker;
 import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 
-import org.rnorth.ducttape.unreliables.Unreliables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.containers.wait.strategy.AbstractWaitStrategy;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
 import org.testcontainers.utility.ResourceReaper;
 
-import tech.ydb.core.Operations;
-import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.discovery.DiscoveryProtos;
-import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 import tech.ydb.test.integration.YdbEnvironment;
 import tech.ydb.test.integration.utils.PortsGenerator;
 
@@ -62,17 +55,7 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
                 .withName(id)
                 .withHostName(getHost()));
 
-        waitingFor(new AbstractWaitStrategy() {
-            @Override
-            protected void waitUntilReady() {
-                // Wait 30 second for start of ydb
-                Unreliables.retryUntilSuccess(30, TimeUnit.SECONDS, () -> {
-                    getRateLimiter().doWhenReady(YdbDockerContainer.this::checkReady);
-                    logger.info("YDB container is ready");
-                    return true;
-                });
-            }
-        });
+        waitingFor(Wait.forHealthcheck());
 
         // Register container cleaner
         ResourceReaper.instance().registerLabelsFilterForCleanup(Collections.singletonMap(
@@ -98,26 +81,5 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
 
     public String database() {
         return env.dockerDatabase();
-    }
-
-    private void checkReady() {
-        try (GrpcTransport transport = GrpcTransport.forEndpoint(nonSecureEndpoint(), database()).build()) {
-            // Run discovery to check that the container is ready
-
-            DiscoveryProtos.ListEndpointsResult result = transport.unaryCall(
-                    DiscoveryServiceGrpc.getListEndpointsMethod(),
-                    GrpcRequestSettings.newBuilder().build(),
-                    DiscoveryProtos.ListEndpointsRequest.newBuilder().setDatabase(database()).build()
-            ).thenApply(Operations.resultUnwrapper(
-                    DiscoveryProtos.ListEndpointsResponse::getOperation,
-                    DiscoveryProtos.ListEndpointsResult.class)
-            ).join().getValue();
-
-            logger.debug("discovery returns {} endpoints and self location {}",
-                    result.getEndpointsCount(), result.getSelfLocation());
-        } catch (Exception e) {
-            logger.info("execution problem {}", e.getMessage());
-            throw new RuntimeException("YDB container isn't ready", e);
-        }
     }
 }
