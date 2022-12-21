@@ -1,5 +1,6 @@
 ## 2.1.0 ##
 
+* Added support of integration tests for JUnit4 and JUnit5
 * Added bom module to simplify the import of SDK and its dependencies
 * SchemeClient has been moved to its own module
 * API of authentication providers has been separated into a detached module with its own versioning

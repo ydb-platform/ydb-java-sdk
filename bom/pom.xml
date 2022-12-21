@@ -51,6 +51,17 @@
             </dependency>
 
             <dependency>
+                <groupId>tech.ydb.test</groupId>
+                <artifactId>ydb-junit4-support</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb.test</groupId>
+                <artifactId>ydb-junit5-support</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>tech.ydb.auth</groupId>
                 <artifactId>yc-auth-provider</artifactId>
                 <version>${yc-auth.version}</version>
