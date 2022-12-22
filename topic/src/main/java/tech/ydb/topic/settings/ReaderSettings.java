@@ -9,7 +9,7 @@ import com.google.common.collect.ImmutableList;
 /**
  * @author Nikolay Perfilov
  */
-public class ReadSessionSettings {
+public class ReaderSettings {
     private static final long MAX_MEMORY_USAGE_BYTES_DEFAULT = 100 * 1024 * 1024; // 100 MB
 
     private final String consumerName;
@@ -19,7 +19,7 @@ public class ReadSessionSettings {
     private final Instant readFrom;
     private final ReadEventHandlersSettings handlersSettings;
 
-    private ReadSessionSettings(Builder builder) {
+    private ReaderSettings(Builder builder) {
         this.consumerName = builder.consumerName;
         this.topics = ImmutableList.copyOf(builder.topics);
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
@@ -102,8 +102,8 @@ public class ReadSessionSettings {
             return this;
         }
 
-        public ReadSessionSettings build() {
-            return new ReadSessionSettings(this);
+        public ReaderSettings build() {
+            return new ReaderSettings(this);
         }
     }
 }

@@ -11,12 +11,12 @@ import tech.ydb.topic.settings.WriteSettings;
 /**
  * @author Nikolay Perfilov
  */
-public class WriteSession {
+public class Writer {
 
-    // Non-blocking
-    public void start() {
-
-    }
+    /**
+     * Initialize reading in the background. Non-blocking
+     */
+    public void start() { }
 
     /**
      * Send message and wait for the result (or until timeout runs off). Blocking.
@@ -71,12 +71,12 @@ public class WriteSession {
     }
 
     public class MessageBuilder {
-        private final WriteSession writeSession;
+        private final Writer writer;
         private final WriteSettings.Builder writeSettings = WriteSettings.newBuilder();
         private byte[] data;
 
-        MessageBuilder(WriteSession writeSession) {
-            this.writeSession = writeSession;
+        MessageBuilder(Writer writer) {
+            this.writer = writer;
         }
 
         public MessageBuilder setData(byte[] data) {
@@ -105,24 +105,39 @@ public class WriteSession {
         }
 
         public WriteAck send() throws TimeoutException {
-            return writeSession.send(data, writeSettings.build());
+            return writer.send(data, writeSettings.build());
         }
 
         public CompletableFuture<WriteAck> sendAsync() {
-            return writeSession.sendAsync(data, writeSettings.build());
+            return writer.sendAsync(data, writeSettings.build());
         }
     }
 
-    // Non-blocking. Finishes current writes, stops threads and makes cleanup
+    /**
+     * Finishes current writes, stops internal threads and makes cleanup in background. Non-blocking
+     */
     public void close() {
 
     }
 
-    public void waitForFinish(Duration timeout) {
+    /**
+     * Waits until all internal threads are stopped and cleanup is performed.
+     * Throws {@link java.util.concurrent.TimeoutException} if timeout runs off
+     *
+     * @param timeout  timeout to wait a Message with
+     */
+    public void waitForFinish(Duration timeout) throws TimeoutException {
 
     }
 
+    /**
+     * Waits until all internal threads are stopped and cleanup is performed.
+     */
     public void waitForFinish() {
-        waitForFinish(Duration.ZERO);
+        try {
+            waitForFinish(Duration.ZERO);
+        } catch (TimeoutException ignored) {
+            throw new RuntimeException("TimeoutException in simple waitForFinish method");
+        }
     }
 }

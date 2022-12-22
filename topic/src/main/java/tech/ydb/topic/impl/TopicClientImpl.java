@@ -20,7 +20,7 @@ import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
-import tech.ydb.topic.read.ReadSession;
+import tech.ydb.topic.read.Reader;
 import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
@@ -28,9 +28,9 @@ import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
-import tech.ydb.topic.settings.ReadSessionSettings;
-import tech.ydb.topic.settings.WriteSessionSettings;
-import tech.ydb.topic.write.WriteSession;
+import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.write.Writer;
 
 /**
  * @author Nikolay Perfilov
@@ -244,13 +244,13 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
-    public ReadSession createReadSession(ReadSessionSettings settings) {
-        return new ReadSession();
+    public Reader createReader(ReaderSettings settings) {
+        return new Reader();
     }
 
     @Override
-    public WriteSession createWriteSession(WriteSessionSettings settings) {
-        return new WriteSession();
+    public Writer createWriter(WriterSettings settings) {
+        return new Writer();
     }
 
     private static int toProto(Codec codec) {

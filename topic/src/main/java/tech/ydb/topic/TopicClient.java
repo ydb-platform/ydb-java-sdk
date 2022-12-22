@@ -10,14 +10,14 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
 import tech.ydb.topic.impl.TopicClientImpl;
-import tech.ydb.topic.read.ReadSession;
+import tech.ydb.topic.read.Reader;
 import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
-import tech.ydb.topic.settings.ReadSessionSettings;
-import tech.ydb.topic.settings.WriteSessionSettings;
-import tech.ydb.topic.write.WriteSession;
+import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.write.Writer;
 
 
 /**
@@ -35,7 +35,7 @@ public interface TopicClient extends AutoCloseable {
      * Parent directories must be already present.
      * @param path  path to topic
      * @param settings  topic creation settings
-     * @return operation status
+     * @return {@link CompletableFuture} to operation status
      */
     CompletableFuture<Status> createTopic(String path, CreateTopicSettings settings);
 
@@ -44,7 +44,7 @@ public interface TopicClient extends AutoCloseable {
      *
      * @param path  path to topic
      * @param settings  alter topic settings
-     * @return operation status
+     * @return {@link CompletableFuture} to operation status
      */
     CompletableFuture<Status> alterTopic(String path, AlterTopicSettings settings);
 
@@ -53,7 +53,7 @@ public interface TopicClient extends AutoCloseable {
      *
      * @param path  path to topic
      * @param settings  request settings (i.e. timeouts)
-     * @return operation status
+     * @return {@link CompletableFuture} to operation status
      */
     CompletableFuture<Status> dropTopic(String path, DropTopicSettings settings);
 
@@ -61,7 +61,7 @@ public interface TopicClient extends AutoCloseable {
      * Drop topic.
      *
      * @param path  path to topic
-     * @return operation status
+     * @return {@link CompletableFuture} to operation status
      */
     default CompletableFuture<Status> dropTopic(String path) {
         return dropTopic(path, new DropTopicSettings());
@@ -73,7 +73,7 @@ public interface TopicClient extends AutoCloseable {
      * Receives all topic propertiens.
      * @param path  path to topic
      * @param settings  request settings
-     * @return operation status
+     * @return {@link CompletableFuture} to a result with {@link TopicDescription}
      */
     CompletableFuture<Result<TopicDescription>> describeTopic(String path, DescribeTopicSettings settings);
 
@@ -82,15 +82,27 @@ public interface TopicClient extends AutoCloseable {
      *
      * Receives all topic propertiens.
      * @param path  path to topic
-     * @return operation status
+     * @return {@link CompletableFuture} to a result with {@link TopicDescription}
      */
     default CompletableFuture<Result<TopicDescription>> describeTopic(String path) {
         return describeTopic(path, new DescribeTopicSettings());
     }
 
-    ReadSession createReadSession(ReadSessionSettings settings);
+    /**
+     * Create topic reader.
+     *
+     * @param settings  reader settings
+     * @return topic {@link Reader}
+     */
+    Reader createReader(ReaderSettings settings);
 
-    WriteSession createWriteSession(WriteSessionSettings settings);
+    /**
+     * Create topic writer.
+     *
+     * @param settings  {@link WriterSettings}
+     * @return topic {@link Writer}
+     */
+    Writer createWriter(WriterSettings settings);
 
     @Override
     void close();

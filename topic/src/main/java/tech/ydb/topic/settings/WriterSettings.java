@@ -10,7 +10,7 @@ import tech.ydb.topic.description.Codec;
 /**
  * @author Nikolay Perfilov
  */
-public class WriteSessionSettings {
+public class WriterSettings {
     private static final long MAX_MEMORY_USAGE_BYTES_DEFAULT = 20 * 1024 * 1024; // 20 MB
     private static final int MAX_INFLIGHT_COUNT_DEFAULT = 100000; // 20 MB
 
@@ -27,7 +27,7 @@ public class WriteSessionSettings {
     private final long batchFlushSiseBytes;
     private final Executor compressionExecutor;
 
-    private WriteSessionSettings(Builder builder) {
+    private WriterSettings(Builder builder) {
         this.topicPath = builder.topicPath;
         this.producerId = builder.producerId;
         this.messageGroupId = builder.messageGroupId;
@@ -171,8 +171,8 @@ public class WriteSessionSettings {
             return this;
         }
 
-        public WriteSessionSettings build() {
-            return new WriteSessionSettings(this);
+        public WriterSettings build() {
+            return new WriterSettings(this);
         }
 
     }
