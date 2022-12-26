@@ -5,8 +5,6 @@ import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeoutException;
 
-import tech.ydb.topic.settings.WriteSettings;
-
 
 /**
  * @author Nikolay Perfilov
@@ -19,97 +17,162 @@ public class Writer {
     public void start() { }
 
     /**
-     * Send message and wait for the result (or until timeout runs off). Blocking.
+     * Send message data. Blocks if in-flight or memory usage limits is reached.
      * @param data message data to write
-     * @param settings write settings
-     * @return {@link WriteAck} write acknowledgement
      */
-    public WriteAck send(byte[] data, WriteSettings settings) throws TimeoutException {
-        // Temp ----
-        return new WriteAck(0, WriteAck.State.DISCARDED, null);
-        // ---------
-    }
-
-    /**
-     * Send message and wait infinitely for the result. Blocking.
-     * @param data message data to write
-     * @return {@link WriteAck} write acknowledgement
-     */
-    public WriteAck send(byte[] data) {
+    public void send(byte[] data) {
         try {
-            return send(data, WriteSettings.newBuilder().build());
+            send(data, null);
         } catch (TimeoutException ignored) {
-            throw new RuntimeException("TimeoutException in simple send method");
+            throw new RuntimeException("TimeoutException in simple send method"); // should not happen
         }
     }
 
     /**
-     * Send message. Non-blocking.
-     * @param data message data to write
-     * @param settings write settings
-     * @return {@link CompletableFuture} for write acknowledgement
+     * Send message. Blocks if in-flight or memory usage limits is reached.
+     * @param message message data to write
      */
-    public CompletableFuture<WriteAck> sendAsync(byte[] data, WriteSettings settings) {
-        // Temp ----
-        return CompletableFuture.completedFuture(null);
-        // ---------
+    public void send(Message message) {
+        try {
+            send(message, null);
+        } catch (TimeoutException ignored) {
+            throw new RuntimeException("TimeoutException in simple send method"); // should not happen
+        }
     }
 
     /**
-     * Send message. Non-blocking.
+     * Send message data
+     * @param data message data to write
+     * @param blockTimeout time to wait until the message is put into internal sending queue.
+     *                     null: wait infinitely until message is put into queue.
+     *                     Duration.ZERO: do not block.
+     *                     TimeoutException is thrown if message was not put into queue within timeout
+     *                     due to in-flight or memory usage limits
+     */
+    public void send(byte[] data, Duration blockTimeout) throws TimeoutException {
+        send(Message.of(data), blockTimeout);
+    }
+
+    /**
+     * Send message
+     * @param message message to write
+     * @param blockTimeout time to wait until the message is put into internal sending queue.
+     *                     null: wait infinitely until message is put into queue.
+     *                     Duration.ZERO: do not block.
+     *                     TimeoutException is thrown if message was not put into queue within timeout
+     *                     due to in-flight or memory usage limits
+     */
+    public void send(Message message, Duration blockTimeout) throws TimeoutException {
+    }
+
+    /**
+     * Send message and wait for {@link WriteAck} response. This is a slow way and a bad choice in most cases
+     * @param message message to write
+     * @param timeout time to wait until the WriteAck response is received.
+     *                null: wait infinitely until message is put into queue.
+     *                TimeoutException is thrown if WriteAck within timeout
+     *                due to in-flight or memory usage limits
+     */
+    public WriteAck sendWithAck(Message message, Duration timeout) throws TimeoutException {
+        return new WriteAck(0, WriteAck.State.DISCARDED, null);
+    }
+
+    /**
+     * Send message data. Non-blocking
      * @param data message data to write
      * @return {@link CompletableFuture} for write acknowledgement
      */
     public CompletableFuture<WriteAck> sendAsync(byte[] data) {
-        // Temp ----
-        return sendAsync(data, WriteSettings.newBuilder().build());
-        // ---------
+        return sendAsync(data, null);
+    }
+
+    /**
+     * Send message. Non-blocking
+     * @param message message data to write
+     * @return {@link CompletableFuture} for write acknowledgement
+     */
+    public CompletableFuture<WriteAck> sendAsync(Message message) {
+        return sendAsync(message, null);
+    }
+
+    /**
+     * Send message data. Non-blocking.
+     * @param data message data to write
+     * @param blockTimeout time to wait until the message is put into internal sending queue before failing.
+     *                     null: wait infinitely until message is put into queue.
+     *                     Completes exceptionally with {@link TimeoutException} if message was not put into queue
+     *                     within timeout due to in-flight or memory usage limits
+     * @return {@link CompletableFuture} for write acknowledgement
+     */
+    public CompletableFuture<WriteAck> sendAsync(byte[] data, Duration blockTimeout) {
+        return CompletableFuture.completedFuture(null);
+    }
+
+    /**
+     * Send message. Non-blocking.
+     * @param message message data to write
+     * @param blockTimeout time to wait until the message is put into internal sending queue before failing.
+     *                     null: wait infinitely until message is put into queue.
+     *                     Completes exceptionally with {@link TimeoutException} if message was not put into
+     *                     queue within timeout due to in-flight or memory usage limits
+     * @return {@link CompletableFuture} for write acknowledgement
+     */
+    public CompletableFuture<WriteAck> sendAsync(Message message, Duration blockTimeout) {
+        return CompletableFuture.completedFuture(null);
     }
 
     public MessageBuilder newMessage() {
         return new MessageBuilder(this);
     }
 
-    public class MessageBuilder {
+    public static class MessageBuilder {
         private final Writer writer;
-        private final WriteSettings.Builder writeSettings = WriteSettings.newBuilder();
-        private byte[] data;
+        private final Message.Builder message = Message.newBuilder();
+        private Duration blockTimeout = null;
 
         MessageBuilder(Writer writer) {
             this.writer = writer;
         }
 
         public MessageBuilder setData(byte[] data) {
-            this.data = data;
-            return this;
-        }
-
-        public MessageBuilder setTimeout(Duration timeout) {
-            writeSettings.setTimeout(timeout);
+            message.setData(data);
             return this;
         }
 
         public MessageBuilder setSeqNo(long seqNo) {
-            writeSettings.setSeqNo(seqNo);
+            message.setSeqNo(seqNo);
             return this;
         }
 
         public MessageBuilder setCreateTimestamp(Instant createTimestamp) {
-            writeSettings.setCreateTimestamp(createTimestamp);
+            message.setCreateTimestamp(createTimestamp);
             return this;
         }
 
-        public MessageBuilder setBlockingTimeout(Duration blockingTimeout) {
-            writeSettings.setBlockingTimeout(blockingTimeout);
+        /**
+         * Set blocking timeout
+         * @param blockTimeout time to wait until the message is put into internal sending queue.
+         *                     null: wait infinitely until message is put into queue.
+         *                     Duration.ZERO: do not block.
+         *                     TimeoutException is thrown if message was not put into queue within timeout
+         *                     due to in-flight or memory usage limits
+         * @return {@link CompletableFuture} for write acknowledgement
+         */
+        public MessageBuilder setBlockingTimeout(Duration blockTimeout) {
+            this.blockTimeout = blockTimeout;
             return this;
         }
 
-        public WriteAck send() throws TimeoutException {
-            return writer.send(data, writeSettings.build());
+        public void send() throws TimeoutException {
+            writer.send(message.build(), blockTimeout);
+        }
+
+        public WriteAck sendWithAck() throws TimeoutException {
+            return writer.sendWithAck(message.build(), blockTimeout);
         }
 
         public CompletableFuture<WriteAck> sendAsync() {
-            return writer.sendAsync(data, writeSettings.build());
+            return writer.sendAsync(message.build(), blockTimeout);
         }
     }
 
@@ -124,7 +187,8 @@ public class Writer {
      * Waits until all internal threads are stopped and cleanup is performed.
      * Throws {@link java.util.concurrent.TimeoutException} if timeout runs off
      *
-     * @param timeout  timeout to wait a Message with
+     * @param timeout  timeout to wait with
+     *                 null: wait infinitely until message is put into queue.
      */
     public void waitForFinish(Duration timeout) throws TimeoutException {
 
@@ -135,7 +199,7 @@ public class Writer {
      */
     public void waitForFinish() {
         try {
-            waitForFinish(Duration.ZERO);
+            waitForFinish(null);
         } catch (TimeoutException ignored) {
             throw new RuntimeException("TimeoutException in simple waitForFinish method");
         }

@@ -1,27 +1,37 @@
-package tech.ydb.topic.settings;
+package tech.ydb.topic.write;
 
-import java.time.Duration;
 import java.time.Instant;
 
-public class WriteSettings {
-    private final Duration timeout;
+/**
+ * @author Nikolay Perfilov
+ */
+public class Message {
+    private final byte[] data;
     private final Long seqNo;
     private final Instant createTimestamp;
-    private final Duration blockingTimeout;
 
-    private WriteSettings(Builder builder) {
-        this.timeout = builder.timeout;
+    private Message(Builder builder) {
+        this.data = builder.data;
         this.seqNo = builder.seqNo;
         this.createTimestamp = builder.createTimestamp;
-        this.blockingTimeout = builder.blockingTimeout;
+    }
+
+    private Message(byte[] data) {
+        this.data = data;
+        this.seqNo = null;
+        this.createTimestamp = null;
+    }
+
+    public static Message of(byte[] data) {
+        return new Message(data);
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
-    public Duration getTimeout() {
-        return timeout;
+    public byte[] getData() {
+        return data;
     }
 
     public Long getSeqNo() {
@@ -32,21 +42,16 @@ public class WriteSettings {
         return createTimestamp;
     }
 
-    public Duration getBlockingTimeout() {
-        return blockingTimeout;
-    }
-
     /**
      * BUILDER
      */
     public static class Builder {
-        private Duration timeout = Duration.ZERO;
+        private  byte[] data;
         private Long seqNo = null;
         private Instant createTimestamp = null;
-        private Duration blockingTimeout = null;
 
-        public Builder setTimeout(Duration timeout) {
-            this.timeout = timeout;
+        public Builder setData(byte[] data) {
+            this.data = data;
             return this;
         }
 
@@ -60,13 +65,8 @@ public class WriteSettings {
             return this;
         }
 
-        public Builder setBlockingTimeout(Duration blockingTimeout) {
-            this.blockingTimeout = blockingTimeout;
-            return this;
-        }
-
-        public WriteSettings build() {
-            return new WriteSettings(this);
+        public Message build() {
+            return new Message(this);
         }
     }
 }
