@@ -24,11 +24,12 @@ import org.junit.Test;
  * @author Sergey Polovko
  */
 public class SimpleTableClientTest {
+
     @Test
     public void createSessionAndRelease() throws InterruptedException, ExecutionException {
         Set<String> sessionIDs = new HashSet<>();
 
-        TableRpc fakeRpc = new TableRpcStub() {
+        TableRpc fakeRpc = new TableRpcStub(null) {
             private int counter = 0;
 
             @Override
@@ -77,7 +78,7 @@ public class SimpleTableClientTest {
 
     @Test
     public void unavailableSessions() {
-        TableRpc fakeRpc = new TableRpcStub() {
+        TableRpc fakeRpc = new TableRpcStub(null) {
             @Override
             public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
                 YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {

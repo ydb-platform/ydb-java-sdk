@@ -1,11 +1,11 @@
 package tech.ydb.core.grpc.impl;
 
 import java.time.Instant;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import io.grpc.netty.shaded.io.netty.util.Timeout;
-import io.grpc.netty.shaded.io.netty.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ import tech.ydb.discovery.DiscoveryProtos;
  * @author Nikolay Perfilov
  * @author Aleksandr Gorshenin
  */
-public class PeriodicDiscoveryTask implements TimerTask {
+public class PeriodicDiscoveryTask implements Runnable {
     public interface DiscoveryHandler {
         boolean useMinDiscoveryPeriod();
         void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result);
@@ -34,14 +34,16 @@ public class PeriodicDiscoveryTask implements TimerTask {
 
     private static final Logger logger = LoggerFactory.getLogger(PeriodicDiscoveryTask.class);
 
+    private final ScheduledExecutorService scheduler;
     private final GrpcDiscoveryRpc discoveryRpc;
     private final DiscoveryHandler discoveryHandler;
 
     private final AtomicBoolean updateInProgress = new AtomicBoolean();
     private final State state = new State();
-    private Timeout currentSchedule = null;
+    private volatile ScheduledFuture<?> currentSchedule = null;
 
-    public PeriodicDiscoveryTask(GrpcDiscoveryRpc rpc, DiscoveryHandler handler) {
+    public PeriodicDiscoveryTask(ScheduledExecutorService scheduler, GrpcDiscoveryRpc rpc, DiscoveryHandler handler) {
+        this.scheduler = scheduler;
         this.discoveryRpc = rpc;
         this.discoveryHandler = handler;
     }
@@ -50,7 +52,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
         logger.debug("stopping PeriodicDiscoveryTask");
         state.stopped = true;
         if (currentSchedule != null) {
-            currentSchedule.cancel();
+            currentSchedule.cancel(false);
             currentSchedule = null;
         }
     }
@@ -63,8 +65,8 @@ public class PeriodicDiscoveryTask implements TimerTask {
     }
 
     @Override
-    public void run(Timeout timeout) {
-        if (timeout.isCancelled() || state.stopped) {
+    public void run() {
+        if (state.stopped) {
             return;
         }
 
@@ -82,7 +84,7 @@ public class PeriodicDiscoveryTask implements TimerTask {
     }
 
     private void scheduleNextDiscovery() {
-        currentSchedule = Async.runAfter(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
+        currentSchedule = scheduler.schedule(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
     }
 
     private void handleDiscoveryResponse(Result<DiscoveryProtos.ListEndpointsResult> response) {

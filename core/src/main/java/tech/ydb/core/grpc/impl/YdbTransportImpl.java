@@ -4,6 +4,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
@@ -30,6 +33,7 @@ import tech.ydb.discovery.DiscoveryProtos;
  */
 public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private static final int DEFAULT_PORT = 2135;
+    private static final long WAIT_FOR_SHUTDOWN_MS = 1000;
 
     private static final Result<?> SHUTDOWN_RESULT =  Result.fail(tech.ydb.core.Status.of(
             StatusCode.CLIENT_CANCELLED, null,
@@ -45,6 +49,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private final GrpcChannelPool channelPool;
     private final YdbDiscoveryHandler discoveryHandler;
     private final PeriodicDiscoveryTask periodicDiscoveryTask;
+    private final ScheduledExecutorService scheduler;
+
     private volatile boolean shutdown = false;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
@@ -63,11 +69,12 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
                 builder.getCallExecutor()
         );
         this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
+        this.scheduler = Executors.newScheduledThreadPool(1, new YdbSchedulerThreadFactory());
 
         this.channelPool = new GrpcChannelPool(channelFactory);
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discoveryHandler = new YdbDiscoveryHandler();
-        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(discoveryRpc, discoveryHandler);
+        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, discoveryHandler);
     }
 
     public void init() {
@@ -116,6 +123,11 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
 
     @Override
+    public ScheduledExecutorService scheduler() {
+        return scheduler;
+    }
+
+    @Override
     public String getEndpointByNodeId(int nodeId) {
         return endpointPool.getEndpointByNodeId(nodeId);
     }
@@ -152,7 +164,31 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         periodicDiscoveryTask.stop();
         channelPool.shutdown();
         callOptionsProvider.close();
+
+        shutdownScheduler();
     }
+
+    private boolean shutdownScheduler() {
+        try {
+            scheduler.shutdown();
+            boolean closed = scheduler.awaitTermination(WAIT_FOR_SHUTDOWN_MS, TimeUnit.MILLISECONDS);
+            if (!closed) {
+                logger.warn("ydb scheduler shutdown timeout exceeded, terminate");
+                scheduler.shutdownNow();
+                closed = scheduler.awaitTermination(WAIT_FOR_SHUTDOWN_MS, TimeUnit.MILLISECONDS);
+                if (!closed) {
+                    logger.warn("ydb scheduler shutdown problem");
+                }
+            }
+
+            return closed;
+        } catch (InterruptedException e) {
+            logger.warn("ydb scheduler shutdown interrupted {}", e);
+            Thread.currentThread().interrupt();
+            return false;
+        }
+    }
+
 
     @Override
     public String getDatabase() {

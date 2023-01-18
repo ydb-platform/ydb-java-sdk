@@ -1,5 +1,7 @@
 package tech.ydb.core.grpc.impl;
 
+import java.util.concurrent.ScheduledExecutorService;
+
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.Status;
@@ -16,19 +18,27 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     private static final Logger logger = LoggerFactory.getLogger(SingleChannelTransport.class);
 
     private final CallOptions callOptions;
+    private final ScheduledExecutorService scheduler;
     private final String database;
     private final GrpcChannel channel;
 
     public SingleChannelTransport(
             CallOptions callOptions,
+            ScheduledExecutorService scheduler,
             long readTimeoutMillis,
             String database,
             EndpointRecord endpoint,
             ChannelFactory channelFactory) {
         super(readTimeoutMillis);
         this.callOptions = callOptions;
+        this.scheduler = scheduler;
         this.database = database;
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
+    }
+
+    @Override
+    public ScheduledExecutorService scheduler() {
+        return scheduler;
     }
 
     @Override

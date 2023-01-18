@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
@@ -22,6 +23,8 @@ import tech.ydb.core.utils.URITools;
  * @author Nikolay Perfilov
  */
 public interface GrpcTransport extends AutoCloseable {
+
+    ScheduledExecutorService scheduler();
 
     String getEndpointByNodeId(int nodeId);
 

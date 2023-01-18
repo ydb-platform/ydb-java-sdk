@@ -2,6 +2,7 @@ package tech.ydb.table;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 
@@ -18,5 +19,11 @@ public interface SessionSupplier {
      * Result when session created, and fail Result otherwise
      */
     CompletableFuture<Result<Session>> createSession(Duration duration);
+
+    /**
+     * Default scheduler for asynchronous tasks execution
+     * @return Default tasks scheduler
+     */
+    ScheduledExecutorService scheduler();
 
 }

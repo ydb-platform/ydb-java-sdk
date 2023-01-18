@@ -1,5 +1,7 @@
 package tech.ydb.core.grpc.impl;
 
+import java.util.concurrent.ExecutorService;
+
 import io.grpc.CallOptions;
 
 import tech.ydb.core.grpc.GrpcTransport;
@@ -19,6 +21,10 @@ public class GrpcAuthRpc {
         this.channelFactory = channelFactory;
     }
 
+    public ExecutorService getExecutor() {
+        return parent.scheduler();
+    }
+
     public String getEndpoint() {
         return endpoint.toString();
     }
@@ -31,6 +37,7 @@ public class GrpcAuthRpc {
         // For auth provider we use transport without auth (with default CallOptions)
         return new SingleChannelTransport(
                 CallOptions.DEFAULT,
+                parent.scheduler(),
                 parent.getDefaultReadTimeoutMillis(),
                 parent.getDatabase(),
                 endpoint,

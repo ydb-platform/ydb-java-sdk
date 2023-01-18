@@ -41,6 +41,7 @@ public class CredentialsAuthProviderTest {
         Mockito.when(rpc.getEndpoint()).thenReturn("Mocked endpoint");
         Mockito.when(rpc.getDatabase()).thenReturn("Mocked database name");
         Mockito.when(rpc.createTransport()).thenReturn(transport);
+        Mockito.when(rpc.getExecutor()).thenReturn(MoreExecutors.newDirectExecutorService());
     }
 
     @Test
@@ -208,8 +209,7 @@ public class CredentialsAuthProviderTest {
     }
 
     private tech.ydb.auth.AuthIdentity createAuth(String login, String password) {
-        return new StaticCredentials(clock, login, password,
-                () -> MoreExecutors.newDirectExecutorService())
+        return new StaticCredentials(clock, login, password)
                 .createAuthIdentity(rpc);
     }
 
