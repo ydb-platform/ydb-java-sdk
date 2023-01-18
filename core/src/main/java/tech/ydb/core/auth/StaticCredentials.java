@@ -3,10 +3,7 @@ package tech.ydb.core.auth;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
@@ -22,19 +19,12 @@ import tech.ydb.core.grpc.impl.GrpcAuthRpc;
  */
 public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
     private static final Logger logger = LoggerFactory.getLogger(StaticCredentials.class);
-    private static final Supplier<ExecutorService> DEFAULT_EXECUTOR = () -> Executors
-            .newSingleThreadExecutor(r -> {
-                Thread t = new Thread(r, "StaticCredsExecutor");
-                t.setDaemon(true);
-                return t;
-            });
 
     private final Clock clock;
     private final YdbAuth.LoginRequest request;
-    private final Supplier<ExecutorService> executorSupplier;
 
     @VisibleForTesting
-    StaticCredentials(Clock clock, String username, String password, Supplier<ExecutorService> executorSupplier) {
+    StaticCredentials(Clock clock, String username, String password) {
         this.clock = clock;
         YdbAuth.LoginRequest.Builder builder = YdbAuth.LoginRequest.newBuilder()
                 .setUser(username);
@@ -42,11 +32,10 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
             builder.setPassword(password);
         }
         this.request = builder.build();
-        this.executorSupplier = executorSupplier;
     }
 
     public StaticCredentials(String username, String password) {
-        this(Clock.systemUTC(), username, password, DEFAULT_EXECUTOR);
+        this(Clock.systemUTC(), username, password);
     }
 
     @Override
@@ -66,7 +55,7 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
         private final StaticCredentitalsRpc rpc;
 
         IdentityImpl(GrpcAuthRpc authRpc) {
-            this.rpc = new StaticCredentitalsRpc(authRpc, request, clock, executorSupplier);
+            this.rpc = new StaticCredentitalsRpc(authRpc, request, clock);
         }
 
         private State updateState(State current, State next) {
@@ -79,11 +68,6 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
         @Override
         public String getToken() {
             return state.get().validate(clock.instant()).token();
-        }
-
-        @Override
-        public void close() {
-            rpc.close();
         }
 
         private class NullState implements State {

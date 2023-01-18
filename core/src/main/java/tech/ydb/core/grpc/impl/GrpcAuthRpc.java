@@ -1,5 +1,7 @@
 package tech.ydb.core.grpc.impl;
 
+import java.util.concurrent.ExecutorService;
+
 import io.grpc.CallOptions;
 
 import tech.ydb.core.grpc.GrpcTransport;
@@ -17,6 +19,10 @@ public class GrpcAuthRpc {
         this.endpoint = endpoint;
         this.parent = parent;
         this.channelFactory = channelFactory;
+    }
+
+    public ExecutorService getExecutor() {
+        return parent.scheduler();
     }
 
     public String getEndpoint() {

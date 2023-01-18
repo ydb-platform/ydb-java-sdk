@@ -7,11 +7,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.EnumSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +33,6 @@ class StaticCredentitalsRpc {
 
     private static final long LOGIN_TIMEOUT_SECONDS = 10;
     private static final int MAX_RETRIES_COUNT = 5;
-    private static final long WAIT_FOR_CLOSING_MS = 1000;
 
     private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
         StatusCode.ABORTED,
@@ -53,39 +50,13 @@ class StaticCredentitalsRpc {
     private final GrpcAuthRpc rpc;
     private final YdbAuth.LoginRequest request;
     private final Clock clock;
-    private final ExecutorService executor;
 
     StaticCredentitalsRpc(GrpcAuthRpc rpc,
             YdbAuth.LoginRequest request,
-            Clock clock,
-            Supplier<ExecutorService> executor) {
+            Clock clock) {
         this.rpc = rpc;
         this.request = request;
         this.clock = clock;
-        this.executor = executor.get();
-    }
-
-    public void close() {
-        String database = rpc.getDatabase();
-
-        logger.info("close login rpc of {}", rpc.getDatabase());
-        try {
-            executor.shutdown();
-            boolean closed = executor.awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
-            if (!closed) {
-                logger.warn("static identity of {} closing timeout exceeded, terminate", database);
-                executor.shutdownNow();
-                closed = executor.awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
-                if (closed) {
-                    logger.debug("static identity of {} shut down successfully", database);
-                } else {
-                    logger.warn("closing problem for static identity for database {}", database);
-                }
-            }
-        } catch (InterruptedException e) {
-            logger.warn("static identity of {} was interrupted: {}", database, e);
-            Thread.currentThread().interrupt();
-        }
     }
 
     private void handleResult(CompletableFuture<Token> future, Result<YdbAuth.LoginResult> resp) {
@@ -127,11 +98,7 @@ class StaticCredentitalsRpc {
             return;
         }
 
-        if (executor.isShutdown()) {
-            future.completeExceptionally(new IllegalStateException("static credentitals rpc is already stopped"));
-        }
-
-        executor.submit(() -> {
+        rpc.getExecutor().submit(() -> {
             try (GrpcTransport transport = rpc.createTransport()) {
                 GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
                         .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS).toNanos())
