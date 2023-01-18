@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.grpc.Metadata;
@@ -39,7 +40,8 @@ public class MockedTableRpc extends TableRpcStub {
     private final Queue<KeepAlive> keepAliveQueue = new LinkedBlockingQueue<>();
     private final Queue<DeleteSession> deleteSessionQueue = new LinkedBlockingQueue<>();
 
-    public MockedTableRpc(Clock clock) {
+    public MockedTableRpc(Clock clock, ScheduledExecutorService scheduler) {
+        super(scheduler);
         this.clock = clock;
     }
 

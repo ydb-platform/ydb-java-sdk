@@ -1,6 +1,7 @@
 package tech.ydb.table.rpc;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.Nullable;
 
@@ -53,6 +54,8 @@ public interface TableRpc extends Rpc {
      */
     @Nullable
     EndpointInfo getEndpointBySessionId(String sessionId);
+
+    ScheduledExecutorService getScheduler();
 
     /**
      * Create new session. Implicit session creation is forbidden, so user must create new session

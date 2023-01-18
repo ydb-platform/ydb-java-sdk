@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -42,6 +44,13 @@ public class SessionRetryContextTest extends FutureHelper  {
     private static final Duration TEN_MILLIS = Duration.ofMillis(10);
     private static final Duration FIVE_SECONDS = Duration.ofSeconds(5);
     private static final Duration TEN_SECONDS = Duration.ofSeconds(10);
+
+    private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+    @AfterClass
+    public static void cleanUp() {
+        scheduler.shutdown();
+    }
 
     @Test
     public void successSession_successResult() {
@@ -396,7 +405,7 @@ public class SessionRetryContextTest extends FutureHelper  {
 
     @Test
     public void baseUsageTest() throws InterruptedException {
-        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 2).build();
 
         SessionRetryContext ctx = SessionRetryContext.create(client)
@@ -436,7 +445,7 @@ public class SessionRetryContextTest extends FutureHelper  {
     @Test
     public void customExecutorUsageTest() throws InterruptedException {
         ExecutorService custom = Executors.newSingleThreadExecutor();
-        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 2).build();
 
         SessionRetryContext ctx = SessionRetryContext.create(client)

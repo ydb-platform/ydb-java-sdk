@@ -3,8 +3,6 @@ package tech.ydb.table.impl;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 
 import com.google.common.base.Preconditions;
@@ -31,14 +29,10 @@ public class PooledTableClient implements TableClient {
             Issue.of("Timeout of getting session from pool", Issue.Severity.WARNING)
     );
 
-    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
-            (Runnable r) -> new Thread(r, "YdbTablePoolScheduler")
-    );
     private final SessionPool pool;
 
     PooledTableClient(Builder builder) {
         this.pool = new SessionPool(
-                executor,
                 Clock.systemUTC(),
                 builder.tableRpc,
                 builder.keepQueryText,
@@ -66,7 +60,6 @@ public class PooledTableClient implements TableClient {
     @Override
     public void close() {
         pool.close();
-        executor.shutdown();
     }
 
     @Override

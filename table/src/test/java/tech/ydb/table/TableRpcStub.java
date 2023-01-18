@@ -1,6 +1,7 @@
 package tech.ydb.table;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
@@ -43,6 +44,12 @@ import static tech.ydb.table.YdbTable.RollbackTransactionRequest;
  * @author Sergey Polovko
  */
 public class TableRpcStub implements TableRpc {
+    private final ScheduledExecutorService scheduler;
+
+    public TableRpcStub(ScheduledExecutorService scheduler) {
+        this.scheduler = scheduler;
+    }
+
     @Override
     public CompletableFuture<Result<CreateSessionResult>> createSession(CreateSessionRequest request,
                                                                           GrpcRequestSettings settings) {
@@ -158,6 +165,11 @@ public class TableRpcStub implements TableRpc {
     @Override
     public String getDatabase() {
         return "";
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return scheduler;
     }
 
     @Override

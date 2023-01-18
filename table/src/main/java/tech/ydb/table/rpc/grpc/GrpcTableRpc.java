@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -241,6 +242,11 @@ public final class GrpcTableRpc implements TableRpc {
     @Override
     public String getDatabase() {
         return transport.getDatabase();
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return transport.scheduler();
     }
 
     @Override
