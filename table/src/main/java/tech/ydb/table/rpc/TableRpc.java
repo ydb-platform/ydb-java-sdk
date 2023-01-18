@@ -55,7 +55,7 @@ public interface TableRpc extends Rpc {
     @Nullable
     EndpointInfo getEndpointBySessionId(String sessionId);
 
-    ScheduledExecutorService getScheduler();
+    ScheduledExecutorService scheduler();
 
     /**
      * Create new session. Implicit session creation is forbidden, so user must create new session

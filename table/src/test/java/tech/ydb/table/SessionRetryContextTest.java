@@ -494,6 +494,11 @@ public class SessionRetryContextTest extends FutureHelper  {
         public CompletableFuture<Result<Session>> createSession(Duration timeout) {
             return completedFuture(Result.success(new SessionStub()));
         }
+
+        @Override
+        public ScheduledExecutorService scheduler() {
+            return scheduler;
+        }
     }
 
     /**
@@ -507,6 +512,11 @@ public class SessionRetryContextTest extends FutureHelper  {
         FailSupplier(int maxFails, StatusCode statusCode) {
             this.maxFails = maxFails;
             this.statusCode = statusCode;
+        }
+
+        @Override
+        public ScheduledExecutorService scheduler() {
+            return scheduler;
         }
 
         int getRequestsCount() {
@@ -530,6 +540,11 @@ public class SessionRetryContextTest extends FutureHelper  {
 
         int getRetriesCount() {
             return retriesCount.get();
+        }
+
+        @Override
+        public ScheduledExecutorService scheduler() {
+            return scheduler;
         }
 
         @Override

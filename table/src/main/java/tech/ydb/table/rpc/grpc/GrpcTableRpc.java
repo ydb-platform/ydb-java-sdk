@@ -245,7 +245,7 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
-    public ScheduledExecutorService getScheduler() {
+    public ScheduledExecutorService scheduler() {
         return transport.scheduler();
     }
 

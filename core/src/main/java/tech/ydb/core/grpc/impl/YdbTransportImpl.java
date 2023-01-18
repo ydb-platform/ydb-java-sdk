@@ -74,7 +74,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         this.channelPool = new GrpcChannelPool(channelFactory);
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discoveryHandler = new YdbDiscoveryHandler();
-        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(discoveryRpc, discoveryHandler);
+        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, discoveryHandler);
     }
 
     public void init() {

@@ -39,7 +39,7 @@ public class SessionPool implements AutoCloseable {
         this.minSize = options.getMinSize();
 
         this.clock = clock;
-        this.scheduler = rpc.getScheduler();
+        this.scheduler = rpc.scheduler();
         this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
 
         KeepAliveTask keepAlive = new KeepAliveTask(options);

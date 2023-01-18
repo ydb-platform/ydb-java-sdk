@@ -62,6 +62,7 @@ public class Async {
         }
     }
 
+    @Deprecated
     public static Timeout runAfter(TimerTask task, long delay, TimeUnit unit) {
         return DEFAULT_TIMER.newTimeout(task, delay, unit);
     }
