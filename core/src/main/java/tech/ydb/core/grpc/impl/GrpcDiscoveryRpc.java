@@ -58,6 +58,7 @@ public class GrpcDiscoveryRpc {
     private GrpcTransport createTransport() {
         return new SingleChannelTransport(
                 parent.getCallOptions(),
+                parent.scheduler(),
                 parent.getDefaultReadTimeoutMillis(),
                 parent.getDatabase(),
                 endpoint,

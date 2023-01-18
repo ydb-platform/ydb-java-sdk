@@ -31,6 +31,7 @@ public class GrpcAuthRpc {
         // For auth provider we use transport without auth (with default CallOptions)
         return new SingleChannelTransport(
                 CallOptions.DEFAULT,
+                parent.scheduler(),
                 parent.getDefaultReadTimeoutMillis(),
                 parent.getDatabase(),
                 endpoint,

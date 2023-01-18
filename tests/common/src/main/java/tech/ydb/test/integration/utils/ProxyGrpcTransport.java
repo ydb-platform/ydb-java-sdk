@@ -1,6 +1,7 @@
 package tech.ydb.test.integration.utils;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import io.grpc.MethodDescriptor;
 
@@ -29,6 +30,11 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     @Override
     public String getEndpointByNodeId(int nodeId) {
         return checked().getEndpointByNodeId(nodeId);
+    }
+
+    @Override
+    public ScheduledExecutorService scheduler() {
+        return checked().scheduler();
     }
 
     @Override
