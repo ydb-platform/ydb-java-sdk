@@ -1,5 +1,6 @@
 package tech.ydb.core.grpc;
 
+import java.time.Duration;
 import java.util.function.Consumer;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -49,8 +50,32 @@ public class GrpcRequestSettings {
         private Metadata extraHeaders = null;
         private Consumer<Metadata> trailersHandler = null;
 
+        /**
+         * Returns a new {@code Builder} with a deadline, based on the running Java Virtual Machine's
+         * high-resolution time source {@link System#nanoTime() }
+         * If the value is null or negative, then the default
+         * {@link GrpcTransportBuilder#withReadTimeout(java.time.Duration)} will be used.
+         *
+         * @param deadlineAfter the value of the JVM time source, when request will be cancelled, in nanoseconds
+         * @return {@code Builder} with a deadline
+         */
         public Builder withDeadlineAfter(long deadlineAfter) {
             this.deadlineAfter = deadlineAfter;
+            return this;
+        }
+
+        /**
+         * Returns a new {@code Builder} with a deadline. Specified duration will be converted to the value of JVM
+         * high-resolution time source
+         * @param duration the deadline duration
+         * @return {@code Builder} with a deadline
+         */
+        public Builder withDeadline(Duration duration) {
+            if (duration != null && !duration.isNegative()) {
+                this.deadlineAfter = System.nanoTime() + duration.toNanos();
+            } else {
+                this.deadlineAfter = 0l;
+            }
             return this;
         }
 

@@ -101,7 +101,7 @@ class StaticCredentitalsRpc {
         rpc.getExecutor().submit(() -> {
             try (GrpcTransport transport = rpc.createTransport()) {
                 GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                        .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS).toNanos())
+                        .withDeadline(Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS))
                         .build();
 
                 transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)

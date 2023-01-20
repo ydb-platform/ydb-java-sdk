@@ -44,7 +44,7 @@ public class GrpcDiscoveryRpc {
                 .build();
 
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
+                .withDeadline(Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS))
                 .build();
 
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)

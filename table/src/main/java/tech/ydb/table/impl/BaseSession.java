@@ -1,6 +1,5 @@
 package tech.ydb.table.impl;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -108,7 +107,7 @@ public abstract class BaseSession implements Session {
 
     private GrpcRequestSettings makeGrpcRequestSettings(RequestSettings<?> settings) {
         return GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(calcDeadlineAfter(settings))
+                .withDeadline(settings.getTimeout().orElse(null))
                 .withPreferredEndpoint(endpoint)
                 .withTrailersHandler(shutdownHandler)
                 .build();
@@ -132,20 +131,12 @@ public abstract class BaseSession implements Session {
             headers.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, SERVER_BALANCER_HINT);
         }
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(calcDeadlineAfter(settings))
+                .withDeadline(settings.getTimeout().orElse(null))
                 .withExtraHeaders(headers)
                 .build();
 
         return tableRpc.createSession(request, grpcSettings)
                 .thenApply(result -> result.map(YdbTable.CreateSessionResult::getSessionId));
-    }
-
-    private static long calcDeadlineAfter(RequestSettings<?> settings) {
-        Optional<Duration> timeout = settings.getTimeout();
-        if (!timeout.isPresent()) {
-            return 0;
-        }
-        return System.nanoTime() + timeout.get().toNanos();
     }
 
     private static void applyPartitioningSettings(
