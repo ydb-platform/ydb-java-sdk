@@ -12,13 +12,13 @@ import io.grpc.Metadata;
  */
 public class GrpcRequestSettings {
     private final long deadlineAfter;
-    private final EndpointInfo preferredEndpoint;
+    private final Integer prefferedNodeID;
     private final Metadata extraHeaders;
     private final Consumer<Metadata> trailersHandler;
 
     private GrpcRequestSettings(Builder builder) {
         this.deadlineAfter = builder.getDeadlineAfter();
-        this.preferredEndpoint = builder.getPreferredEndpoint();
+        this.prefferedNodeID = builder.getPreferredNodeID();
         this.extraHeaders = builder.getExtraHeaders();
         this.trailersHandler = builder.getTrailersHandler();
     }
@@ -31,8 +31,8 @@ public class GrpcRequestSettings {
         return deadlineAfter;
     }
 
-    public EndpointInfo getPreferredEndpoint() {
-        return preferredEndpoint;
+    public Integer getPreferredNodeID() {
+        return prefferedNodeID;
     }
 
     public Metadata getExtraHeaders() {
@@ -46,7 +46,7 @@ public class GrpcRequestSettings {
     @ParametersAreNonnullByDefault
     public static final class Builder {
         private long deadlineAfter = 0;
-        private EndpointInfo preferredEndpoint = null;
+        private Integer prefferedNodeID = null;
         private Metadata extraHeaders = null;
         private Consumer<Metadata> trailersHandler = null;
 
@@ -74,13 +74,13 @@ public class GrpcRequestSettings {
             if (duration != null && !duration.isNegative()) {
                 this.deadlineAfter = System.nanoTime() + duration.toNanos();
             } else {
-                this.deadlineAfter = 0l;
+                this.deadlineAfter = 0L;
             }
             return this;
         }
 
-        public Builder withPreferredEndpoint(EndpointInfo preferredEndpoint) {
-            this.preferredEndpoint = preferredEndpoint;
+        public Builder withPreferredNodeID(Integer preferredNodeID) {
+            this.prefferedNodeID = preferredNodeID;
             return this;
         }
 
@@ -98,8 +98,8 @@ public class GrpcRequestSettings {
             return deadlineAfter;
         }
 
-        public EndpointInfo getPreferredEndpoint() {
-            return preferredEndpoint;
+        public Integer getPreferredNodeID() {
+            return prefferedNodeID;
         }
 
         public Metadata getExtraHeaders() {

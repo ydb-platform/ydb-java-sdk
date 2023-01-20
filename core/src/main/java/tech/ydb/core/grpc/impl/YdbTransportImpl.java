@@ -21,7 +21,6 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.BalancingSettings;
-import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.rpc.StreamControl;
@@ -128,11 +127,6 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public String getEndpointByNodeId(int nodeId) {
-        return endpointPool.getEndpointByNodeId(nodeId);
-    }
-
-    @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
@@ -201,12 +195,11 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
 
     private class YdbChannel implements CheckableChannel {
+        private final EndpointRecord endpoint;
         private final GrpcChannel channel;
 
         YdbChannel(GrpcRequestSettings settings) {
-            EndpointInfo preferredEndpoint = settings.getPreferredEndpoint();
-            EndpointRecord endpoint = endpointPool.getEndpoint(
-                    preferredEndpoint != null ? preferredEndpoint.getEndpoint() : null);
+            this.endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
             this.channel = channelPool.getChannel(endpoint);
         }
 
@@ -223,7 +216,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         @Override
         public void updateGrpcStatus(Status status) {
             if (!status.isOk()) {
-                endpointPool.pessimizeEndpoint(channel.getEndpoint());
+                endpointPool.pessimizeEndpoint(endpoint);
             }
         }
     }

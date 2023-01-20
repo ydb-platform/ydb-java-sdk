@@ -7,7 +7,6 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
@@ -175,11 +174,6 @@ public class TableRpcStub implements TableRpc {
     @Override
     public void close() {
         // nop
-    }
-
-    @Override
-    public EndpointInfo getEndpointBySessionId(String sessionId) {
-        return null;
     }
 
     private static <U> CompletableFuture<U> notImplemented(String method) {

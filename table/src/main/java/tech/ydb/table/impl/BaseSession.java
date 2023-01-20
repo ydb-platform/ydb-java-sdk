@@ -1,5 +1,7 @@
 package tech.ydb.table.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -23,11 +25,11 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.core.utils.URITools;
 import tech.ydb.table.Session;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.ColumnFamily.Compression;
@@ -92,7 +94,7 @@ public abstract class BaseSession implements Session {
     private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
     private final String id;
-    private final EndpointInfo endpoint;
+    private final Integer prefferedNodeID;
     private final TableRpc tableRpc;
     private final ShutdownHandler shutdownHandler;
     private final boolean keepQueryText;
@@ -101,14 +103,27 @@ public abstract class BaseSession implements Session {
         this.id = id;
         this.tableRpc = tableRpc;
         this.keepQueryText = keepQueryText;
-        this.endpoint = tableRpc.getEndpointBySessionId(id);
+        this.prefferedNodeID = getNodeBySessionId(id);
         this.shutdownHandler = new ShutdownHandler();
+    }
+
+    private static Integer getNodeBySessionId(String sessionId) {
+        try {
+            Map<String, List<String>> params = URITools.splitQuery(new URI(sessionId));
+            List<String> nodeParam = params.get("node_id");
+            if (nodeParam != null && !nodeParam.isEmpty()) {
+                return Integer.parseUnsignedInt(nodeParam.get(0));
+            }
+        } catch (URISyntaxException | RuntimeException e) {
+            logger.debug("Failed to parse session_id for node_id: {}", e.toString());
+        }
+        return null;
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(RequestSettings<?> settings) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getTimeout().orElse(null))
-                .withPreferredEndpoint(endpoint)
+                .withPreferredNodeID(prefferedNodeID)
                 .withTrailersHandler(shutdownHandler)
                 .build();
     }
@@ -713,7 +728,7 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
                 .withDeadlineAfter(settings.getDeadlineAfter())
-                .withPreferredEndpoint(endpoint)
+                .withPreferredNodeID(prefferedNodeID)
                 .withTrailersHandler(shutdownHandler)
                 .build();
         CompletableFuture<Status> promise = new CompletableFuture<>();
@@ -766,7 +781,7 @@ public abstract class BaseSession implements Session {
         CompletableFuture<Status> promise = new CompletableFuture<>();
         final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
                 .withDeadlineAfter(settings.getDeadlineAfter())
-                .withPreferredEndpoint(endpoint)
+                .withPreferredNodeID(prefferedNodeID)
                 .withTrailersHandler(shutdownHandler)
                 .build();
         StreamControl control = tableRpc.streamExecuteScanQuery(request,

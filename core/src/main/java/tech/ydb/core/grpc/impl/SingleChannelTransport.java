@@ -42,11 +42,6 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public String getEndpointByNodeId(int nodeId) {
-        return channel.getEndpoint();
-    }
-
-    @Override
     public String getDatabase() {
         return database;
     }
