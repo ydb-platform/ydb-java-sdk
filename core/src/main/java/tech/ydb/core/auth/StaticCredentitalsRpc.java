@@ -22,7 +22,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.impl.GrpcAuthRpc;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
 
 /**
  *

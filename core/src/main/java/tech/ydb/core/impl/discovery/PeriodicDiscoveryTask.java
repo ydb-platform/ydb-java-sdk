@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl.discovery;
 
 import java.time.Instant;
 import java.util.concurrent.ScheduledExecutorService;
@@ -48,7 +48,7 @@ public class PeriodicDiscoveryTask implements Runnable {
         this.discoveryHandler = handler;
     }
 
-    void stop() {
+    public void stop() {
         logger.debug("stopping PeriodicDiscoveryTask");
         state.stopped = true;
         if (currentSchedule != null) {
@@ -57,7 +57,7 @@ public class PeriodicDiscoveryTask implements Runnable {
         }
     }
 
-    void start() {
+    public void start() {
         logger.info("Waiting for init discovery...");
         runDiscovery();
         state.waitReady();

@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,6 +22,14 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.discovery.GrpcDiscoveryRpc;
+import tech.ydb.core.impl.discovery.PeriodicDiscoveryTask;
+import tech.ydb.core.impl.pool.EndpointPool;
+import tech.ydb.core.impl.pool.EndpointRecord;
+import tech.ydb.core.impl.pool.GrpcChannel;
+import tech.ydb.core.impl.pool.GrpcChannelPool;
+import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.discovery.DiscoveryProtos;

@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -12,6 +12,7 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcStatuses;
 
 
 /**

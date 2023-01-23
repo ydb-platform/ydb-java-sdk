@@ -16,9 +16,10 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 
 import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.auth.NopAuthProvider;
-import tech.ydb.core.grpc.impl.GrpcAuthRpc;
-import tech.ydb.core.grpc.impl.YdbTransportImpl;
+import tech.ydb.core.impl.YdbTransportImpl;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
 import tech.ydb.core.utils.Version;
+
 
 /**
  *

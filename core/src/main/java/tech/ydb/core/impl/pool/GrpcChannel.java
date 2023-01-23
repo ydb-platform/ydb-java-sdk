@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl.pool;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Nikolay Perfilov
  */
-class GrpcChannel {
+public class GrpcChannel {
     private static final long WAIT_FOR_CLOSING_MS = 1000;
     private static final long WAIT_FOR_CONNECT_MS = 5000;
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannel.class);
@@ -23,7 +23,7 @@ class GrpcChannel {
     private final ManagedChannel channel;
     private final ReadyWatcher readyWatcher;
 
-    GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory, boolean tryToConnect) {
+    public GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory, boolean tryToConnect) {
         logger.debug("Creating grpc channel with {}", endpoint);
         this.endpoint = endpoint;
         this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort());
@@ -31,11 +31,11 @@ class GrpcChannel {
         this.readyWatcher.check(tryToConnect);
     }
 
-    EndpointRecord getEndpoint() {
+    public EndpointRecord getEndpoint() {
         return this.endpoint;
     }
 
-    protected Channel getReadyChannel() {
+    public Channel getReadyChannel() {
         return readyWatcher.getReadyChannel();
     }
 

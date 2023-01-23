@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl.pool;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,7 +34,7 @@ public class GrpcChannelPool {
         this.channelFactory = channelFactory;
     }
 
-    GrpcChannel getChannel(EndpointRecord endpoint) {
+    public GrpcChannel getChannel(EndpointRecord endpoint) {
         // Workaround for https://bugs.openjdk.java.net/browse/JDK-8161372 to prevent unnecessary locks in Java 8
         // Was fixed in Java 9+
         GrpcChannel result = channels.get(endpoint.getHostAndPort());

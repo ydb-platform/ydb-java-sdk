@@ -1,5 +1,4 @@
-package tech.ydb.core.grpc.impl;
-
+package tech.ydb.core.impl.auth;
 
 import java.util.concurrent.Executor;
 
@@ -9,6 +8,9 @@ import io.grpc.CallOptions;
 import tech.ydb.auth.AuthIdentity;
 import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.core.grpc.YdbCallCredentials;
+import tech.ydb.core.impl.BaseGrpcTrasnsport;
+import tech.ydb.core.impl.pool.EndpointRecord;
+import tech.ydb.core.impl.pool.ManagedChannelFactory;
 
 /**
  *

@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl;
 
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -8,6 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.impl.pool.EndpointRecord;
+import tech.ydb.core.impl.pool.GrpcChannel;
+import tech.ydb.core.impl.pool.ManagedChannelFactory;
 
 /**
  *

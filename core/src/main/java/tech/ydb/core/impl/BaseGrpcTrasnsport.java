@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -18,8 +18,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.ServerStreamToObserver;
-import tech.ydb.core.grpc.UnaryStreamToFuture;
+import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 

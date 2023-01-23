@@ -1,4 +1,5 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl.discovery;
+
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -10,6 +11,10 @@ import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.AnonimousTransport;
+import tech.ydb.core.impl.BaseGrpcTrasnsport;
+import tech.ydb.core.impl.pool.EndpointRecord;
+import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.discovery.DiscoveryProtos;
 import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 

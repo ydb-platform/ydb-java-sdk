@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.impl;
 
 import java.util.function.Consumer;
 
@@ -9,6 +9,7 @@ import io.grpc.Metadata;
 import io.grpc.Status;
 import io.grpc.stub.ClientCallStreamObserver;
 
+import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.rpc.StreamObserver;
 
 

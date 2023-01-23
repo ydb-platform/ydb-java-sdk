@@ -1,4 +1,7 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl.pool;
+
+import tech.ydb.core.impl.pool.EndpointPool;
+import tech.ydb.core.impl.pool.EndpointRecord;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
