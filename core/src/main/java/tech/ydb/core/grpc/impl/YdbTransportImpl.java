@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
 import io.grpc.CallOptions;
-import io.grpc.Channel;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 import org.slf4j.Logger;
@@ -53,8 +52,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private volatile boolean shutdown = false;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
-        super(builder.getReadTimeoutMillis());
-        ChannelFactory channelFactory = ChannelFactory.fromBuilder(builder);
+        ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
         EndpointRecord discoveryEndpoint = getDiscoverytEndpoint(builder);
 
@@ -65,7 +63,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
                 discoveryEndpoint,
                 channelFactory,
                 builder.getAuthProvider(),
-                builder.getCallExecutor()
+                builder.getCallExecutor(),
+                builder.getReadTimeoutMillis()
         );
         this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
         this.scheduler = Executors.newScheduledThreadPool(1, new YdbSchedulerThreadFactory());
@@ -117,13 +116,13 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public CallOptions getCallOptions() {
-        return callOptionsProvider.getCallOptions();
+    public ScheduledExecutorService scheduler() {
+        return scheduler;
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
-        return scheduler;
+    public String getDatabase() {
+        return database;
     }
 
     @Override
@@ -183,41 +182,21 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         }
     }
 
-
     @Override
-    public String getDatabase() {
-        return database;
+    CallOptions getCallOptions() {
+        return callOptionsProvider.getCallOptions();
     }
 
     @Override
-    protected CheckableChannel getChannel(GrpcRequestSettings settings) {
-        return new YdbChannel(settings);
+    GrpcChannel getChannel(GrpcRequestSettings settings) {
+        EndpointRecord endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
+        return channelPool.getChannel(endpoint);
     }
 
-    private class YdbChannel implements CheckableChannel {
-        private final EndpointRecord endpoint;
-        private final GrpcChannel channel;
-
-        YdbChannel(GrpcRequestSettings settings) {
-            this.endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
-            this.channel = channelPool.getChannel(endpoint);
-        }
-
-        @Override
-        public Channel grpcChannel() {
-            return channel.getReadyChannel();
-        }
-
-        @Override
-        public String endpoint() {
-            return channel.getEndpoint();
-        }
-
-        @Override
-        public void updateGrpcStatus(Status status) {
-            if (!status.isOk()) {
-                endpointPool.pessimizeEndpoint(endpoint);
-            }
+    @Override
+    void updateChannelStatus(GrpcChannel channel, Status status) {
+        if (!status.isOk()) {
+            endpointPool.pessimizeEndpoint(channel.getEndpoint());
         }
     }
 

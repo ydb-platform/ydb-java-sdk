@@ -24,12 +24,12 @@ public class GrpcDiscoveryRpc {
 
     private final BaseGrpcTrasnsport parent;
     private final EndpointRecord endpoint;
-    private final ChannelFactory channelFactory;
+    private final ManagedChannelFactory channelFactory;
 
     public GrpcDiscoveryRpc(
             BaseGrpcTrasnsport parent,
             EndpointRecord endpoint,
-            ChannelFactory channelFactory) {
+            ManagedChannelFactory channelFactory) {
         this.parent = parent;
         this.endpoint = endpoint;
         this.channelFactory = channelFactory;
@@ -56,10 +56,8 @@ public class GrpcDiscoveryRpc {
     }
 
     private GrpcTransport createTransport() {
-        return new SingleChannelTransport(
-                parent.getCallOptions(),
+        return new AnonimousTransport(
                 parent.scheduler(),
-                parent.getDefaultReadTimeoutMillis(),
                 parent.getDatabase(),
                 endpoint,
                 channelFactory

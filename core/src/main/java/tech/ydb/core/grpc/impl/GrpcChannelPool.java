@@ -28,9 +28,9 @@ public class GrpcChannelPool {
     public static final long WAIT_FOR_EXECUTOR_SHUTDOWN_MS = 500;
 
     private final Map<String, GrpcChannel> channels = new ConcurrentHashMap<>();
-    private final ChannelFactory channelFactory;
+    private final ManagedChannelFactory channelFactory;
 
-    public GrpcChannelPool(ChannelFactory channelFactory) {
+    public GrpcChannelPool(ManagedChannelFactory channelFactory) {
         this.channelFactory = channelFactory;
     }
 

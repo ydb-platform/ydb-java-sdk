@@ -19,23 +19,23 @@ class GrpcChannel {
     private static final long WAIT_FOR_CONNECT_MS = 5000;
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannel.class);
 
-    private final String endpoint;
+    private final EndpointRecord endpoint;
     private final ManagedChannel channel;
     private final ReadyWatcher readyWatcher;
 
-    GrpcChannel(EndpointRecord endpointRecord, ChannelFactory channelFactory, boolean tryToConnect) {
-        logger.debug("Creating grpc channel with {}", endpointRecord);
-        endpoint = endpointRecord.getHostAndPort();
-        channel = channelFactory.newManagedChannel(endpointRecord.getHost(), endpointRecord.getPort());
-        readyWatcher = new ReadyWatcher();
-        readyWatcher.check(tryToConnect);
+    GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory, boolean tryToConnect) {
+        logger.debug("Creating grpc channel with {}", endpoint);
+        this.endpoint = endpoint;
+        this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort());
+        this.readyWatcher = new ReadyWatcher();
+        this.readyWatcher.check(tryToConnect);
     }
 
-    public String getEndpoint() {
-        return endpoint;
+    EndpointRecord getEndpoint() {
+        return this.endpoint;
     }
 
-    public Channel getReadyChannel() {
+    protected Channel getReadyChannel() {
         return readyWatcher.getReadyChannel();
     }
 

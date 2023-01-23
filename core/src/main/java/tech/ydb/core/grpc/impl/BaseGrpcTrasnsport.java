@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.CallOptions;
-import io.grpc.Channel;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
@@ -31,24 +30,9 @@ import tech.ydb.core.rpc.StreamObserver;
 public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
-    protected interface CheckableChannel {
-        Channel grpcChannel();
-        String endpoint();
-        void updateGrpcStatus(Status status);
-    }
-
-    private final long defaultReadTimeoutMillis;
-
-    protected BaseGrpcTrasnsport(long readTimeoutMillis) {
-        this.defaultReadTimeoutMillis = readTimeoutMillis;
-    }
-
-    public long getDefaultReadTimeoutMillis() {
-        return this.defaultReadTimeoutMillis;
-    }
-
-    protected abstract CallOptions getCallOptions();
-    protected abstract CheckableChannel getChannel(GrpcRequestSettings settings);
+    abstract CallOptions getCallOptions();
+    abstract GrpcChannel getChannel(GrpcRequestSettings settings);
+    abstract void updateChannelStatus(GrpcChannel channel, Status status);
 
     @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
@@ -63,23 +47,21 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
                 return CompletableFuture.completedFuture(deadlineExpiredResult(method));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
-        } else if (defaultReadTimeoutMillis > 0) {
-            options = options.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         try {
-            CheckableChannel channel = getChannel(settings);
+            GrpcChannel channel = getChannel(settings);
 
-            ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
+            ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending request to {}, method `{}', request: `{}'",
-                        channel.endpoint(),
+                        channel.getEndpoint(),
                         method,
                         request);
             }
             sendOneRequest(call, request, settings, new UnaryStreamToFuture<>(
-                    promise, settings.getTrailersHandler(), channel::updateGrpcStatus
+                    promise, settings.getTrailersHandler(), status -> updateChannelStatus(channel, status)
             ));
         } catch (RuntimeException ex) {
             logger.error("unary call problem {}", ex.getMessage());
@@ -103,21 +85,19 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
                 return () -> { };
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
-        } else if (defaultReadTimeoutMillis > 0) {
-            options = options.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         try {
-            CheckableChannel channel = getChannel(settings);
-            ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
+            GrpcChannel channel = getChannel(settings);
+            ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending stream call to {}, method `{}', request: `{}'",
-                        channel.endpoint(),
+                        channel.getEndpoint(),
                         method,
                         request);
             }
             sendOneRequest(call, request, settings, new ServerStreamToObserver<>(
-                    observer, call, settings.getTrailersHandler(), channel::updateGrpcStatus
+                    observer, call, settings.getTrailersHandler(), status -> updateChannelStatus(channel, status)
             ));
 
             return () -> {

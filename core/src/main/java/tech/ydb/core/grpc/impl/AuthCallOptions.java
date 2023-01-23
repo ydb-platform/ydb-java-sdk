@@ -21,9 +21,10 @@ public class AuthCallOptions implements AutoCloseable {
     public AuthCallOptions(
             BaseGrpcTrasnsport parent,
             EndpointRecord endpoint,
-            ChannelFactory channelFactory,
+            ManagedChannelFactory channelFactory,
             AuthRpcProvider<? super GrpcAuthRpc> authProvider,
-            Executor executor) {
+            Executor executor,
+            long defaul) {
         CallOptions options = CallOptions.DEFAULT;
         if (authProvider != null) {
             GrpcAuthRpc rpc = new GrpcAuthRpc(endpoint, parent, channelFactory);

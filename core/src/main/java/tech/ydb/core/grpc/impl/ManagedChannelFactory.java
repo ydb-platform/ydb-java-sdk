@@ -25,7 +25,7 @@ import tech.ydb.core.ssl.YandexTrustManagerFactory;
  * @author Nikolay Perfilov
  * @author Aleksandr Gorshenin
  */
-public class ChannelFactory {
+public class ManagedChannelFactory {
     private final String database;
     private final String version;
     private final Consumer<NettyChannelBuilder> channelInitializer;
@@ -33,7 +33,7 @@ public class ChannelFactory {
     private final byte[] cert;
     private final boolean retryEnabled;
 
-    private ChannelFactory(GrpcTransportBuilder builder) {
+    private ManagedChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
         this.version = builder.getVersionString();
         this.channelInitializer = builder.getChannelInitializer();
@@ -101,7 +101,7 @@ public class ChannelFactory {
         }
     }
 
-    public static ChannelFactory fromBuilder(GrpcTransportBuilder builder) {
-        return new ChannelFactory(builder);
+    public static ManagedChannelFactory fromBuilder(GrpcTransportBuilder builder) {
+        return new ManagedChannelFactory(builder);
     }
 }
