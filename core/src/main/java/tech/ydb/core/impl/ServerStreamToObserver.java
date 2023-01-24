@@ -7,7 +7,6 @@ import javax.annotation.Nullable;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import io.grpc.Status;
-import io.grpc.stub.ClientCallStreamObserver;
 
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.rpc.StreamObserver;
@@ -21,7 +20,7 @@ import tech.ydb.core.rpc.StreamObserver;
 public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<RespT> {
 
     private final StreamObserver<RespT> observer;
-    private final CallToStreamObserverAdapter<ReqT> adapter;
+    private final ClientCall<ReqT, RespT> call;
     private final Consumer<Metadata> trailersHandler;
     private final Consumer<Status> statusHandler;
 
@@ -30,7 +29,7 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
             Consumer<Metadata> trailersHandler,
             Consumer<Status> statusHandler) {
         this.observer = observer;
-        this.adapter = new CallToStreamObserverAdapter<>(call);
+        this.call = call;
         this.trailersHandler = trailersHandler;
         this.statusHandler = statusHandler;
     }
@@ -44,9 +43,9 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
         try {
             observer.onNext(message);
             // request delivery of the next inbound message.
-            adapter.request(1);
+            call.request(1);
         } catch (Exception ex) {
-            adapter.cancel(ex.getMessage(), ex);
+            call.cancel(ex.getMessage(), ex);
         }
     }
 
@@ -68,58 +67,5 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
 
     @Override
     public void onReady() {
-    }
-
-    private static final class CallToStreamObserverAdapter<T> extends ClientCallStreamObserver<T> {
-        private final ClientCall<T, ?> call;
-
-        CallToStreamObserverAdapter(ClientCall<T, ?> call) {
-            this.call = call;
-        }
-
-        @Override
-        public void onNext(T value) {
-            call.sendMessage(value);
-        }
-
-        @Override
-        public void onError(Throwable t) {
-            call.cancel("Cancelled by client with StreamObserver.onError()", t);
-        }
-
-        @Override
-        public void onCompleted() {
-            call.halfClose();
-        }
-
-        @Override
-        public boolean isReady() {
-            return call.isReady();
-        }
-
-        @Override
-        public void setOnReadyHandler(Runnable onReadyHandler) {
-            throw new IllegalStateException("Cannot alter onReadyHandler after call started");
-        }
-
-        @Override
-        public void disableAutoInboundFlowControl() {
-            throw new IllegalStateException("Cannot disable auto flow control call started");
-        }
-
-        @Override
-        public void request(int count) {
-            call.request(count);
-        }
-
-        @Override
-        public void setMessageCompression(boolean enable) {
-            call.setMessageCompression(enable);
-        }
-
-        @Override
-        public void cancel(@Nullable String message, @Nullable Throwable cause) {
-            call.cancel(message, cause);
-        }
     }
 }
