@@ -4,9 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
@@ -39,7 +37,6 @@ import tech.ydb.discovery.DiscoveryProtos;
  */
 public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private static final int DEFAULT_PORT = 2135;
-    private static final long WAIT_FOR_SHUTDOWN_MS = 1000;
 
     private static final Result<?> SHUTDOWN_RESULT =  Result.fail(tech.ydb.core.Status.of(
             StatusCode.CLIENT_CANCELLED, null,
@@ -75,7 +72,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
                 builder.getReadTimeoutMillis()
         );
         this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
-        this.scheduler = Executors.newScheduledThreadPool(1, new YdbSchedulerThreadFactory());
+        this.scheduler = YdbSchedulerFactory.createScheduler();
 
         this.channelPool = new GrpcChannelPool(channelFactory);
         this.endpointPool = new EndpointPool(balancingSettings);
@@ -87,7 +84,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         periodicDiscoveryTask.start();
     }
 
-    private static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
+    static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
         URI endpointURI = null;
         try {
             if (builder.getEndpoint() != null) {
@@ -166,28 +163,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         channelPool.shutdown();
         callOptionsProvider.close();
 
-        shutdownScheduler();
-    }
-
-    private boolean shutdownScheduler() {
-        try {
-            scheduler.shutdown();
-            boolean closed = scheduler.awaitTermination(WAIT_FOR_SHUTDOWN_MS, TimeUnit.MILLISECONDS);
-            if (!closed) {
-                logger.warn("ydb scheduler shutdown timeout exceeded, terminate");
-                scheduler.shutdownNow();
-                closed = scheduler.awaitTermination(WAIT_FOR_SHUTDOWN_MS, TimeUnit.MILLISECONDS);
-                if (!closed) {
-                    logger.warn("ydb scheduler shutdown problem");
-                }
-            }
-
-            return closed;
-        } catch (InterruptedException e) {
-            logger.warn("ydb scheduler shutdown interrupted {}", e);
-            Thread.currentThread().interrupt();
-            return false;
-        }
+        YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
     @Override
