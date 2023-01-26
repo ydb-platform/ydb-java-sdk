@@ -38,7 +38,6 @@ public class CredentialsAuthProviderTest {
 
     @Before
     public void setup() {
-        Mockito.when(rpc.getEndpoint()).thenReturn("Mocked endpoint");
         Mockito.when(rpc.getDatabase()).thenReturn("Mocked database name");
         Mockito.when(rpc.createTransport()).thenReturn(transport);
         Mockito.when(rpc.getExecutor()).thenReturn(MoreExecutors.newDirectExecutorService());

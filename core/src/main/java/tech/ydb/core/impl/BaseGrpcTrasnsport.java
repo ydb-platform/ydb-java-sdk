@@ -29,7 +29,7 @@ import tech.ydb.core.rpc.StreamObserver;
 public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
-    abstract CallOptions getCallOptions();
+    public abstract CallOptions getCallOptions();
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);
     abstract void updateChannelStatus(GrpcChannel channel, Status status);
 

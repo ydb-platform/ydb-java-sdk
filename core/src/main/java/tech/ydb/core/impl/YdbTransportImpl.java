@@ -2,6 +2,7 @@ package tech.ydb.core.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
@@ -20,7 +21,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
-import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.auth.CallOptionsFactory;
 import tech.ydb.core.impl.discovery.GrpcDiscoveryRpc;
 import tech.ydb.core.impl.discovery.PeriodicDiscoveryTask;
 import tech.ydb.core.impl.pool.EndpointPool;
@@ -46,8 +47,9 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final GrpcDiscoveryRpc discoveryRpc;
-    private final AuthCallOptions callOptionsProvider;
+    private final CallOptionsFactory callOptionsFactory;
     private final String database;
+    private final CallOptions callOptions;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
     private final YdbDiscoveryHandler discoveryHandler;
@@ -64,15 +66,17 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         logger.info("creating YDB transport with {}", balancingSettings);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.callOptionsProvider = new AuthCallOptions(this,
-                discoveryEndpoint,
-                channelFactory,
-                builder.getAuthProvider(),
-                builder.getCallExecutor(),
-                builder.getReadTimeoutMillis()
-        );
         this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
         this.scheduler = YdbSchedulerFactory.createScheduler();
+
+        this.callOptionsFactory = new CallOptionsFactory(this,
+                Arrays.asList(discoveryEndpoint),
+                channelFactory,
+                builder.getAuthProvider()
+        );
+        this.callOptions = callOptionsFactory.createCallOptions(
+                builder.getReadTimeoutMillis(), builder.getCallExecutor()
+        );
 
         this.channelPool = new GrpcChannelPool(channelFactory);
         this.endpointPool = new EndpointPool(balancingSettings);
@@ -161,14 +165,14 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         shutdown = true;
         periodicDiscoveryTask.stop();
         channelPool.shutdown();
-        callOptionsProvider.close();
+        callOptionsFactory.close();
 
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
     @Override
-    CallOptions getCallOptions() {
-        return callOptionsProvider.getCallOptions();
+    public CallOptions getCallOptions() {
+        return callOptions;
     }
 
     @Override

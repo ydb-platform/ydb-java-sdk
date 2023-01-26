@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.core.impl.auth;
 
 import java.util.concurrent.Executor;
 
@@ -14,25 +14,25 @@ import tech.ydb.auth.AuthIdentity;
 /**
  * @author Sergey Polovko
  */
-public class YdbCallCredentials extends CallCredentials {
+class YdbCallCredentials extends CallCredentials {
+    static final Metadata.Key<String> AUTH_TICKET =
+        Metadata.Key.of("x-ydb-auth-ticket", Metadata.ASCII_STRING_MARSHALLER);
+
     private static final Logger logger = LoggerFactory.getLogger(YdbCallCredentials.class);
 
     private final AuthIdentity identity;
 
-    public YdbCallCredentials(AuthIdentity identity) {
+    YdbCallCredentials(AuthIdentity identity) {
         this.identity = identity;
     }
 
     @Override
-    public void applyRequestMetadata(
-        RequestInfo requestInfo,
-        Executor appExecutor,
-        MetadataApplier applier) {
+    public void applyRequestMetadata(RequestInfo requestInfo, Executor appExecutor, MetadataApplier applier) {
         try {
             Metadata headers = new Metadata();
             String token = identity.getToken();
             if (token != null) {
-                headers.put(YdbHeaders.AUTH_TICKET, token);
+                headers.put(AUTH_TICKET, token);
             }
             applier.apply(headers);
         } catch (RuntimeException ex) {
@@ -42,6 +42,5 @@ public class YdbCallCredentials extends CallCredentials {
     }
 
     @Override
-    public void thisUsesUnstableApi() {
-    }
+    public void thisUsesUnstableApi() { }
 }

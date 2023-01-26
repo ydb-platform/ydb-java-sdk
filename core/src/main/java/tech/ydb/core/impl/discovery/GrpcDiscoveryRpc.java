@@ -11,8 +11,8 @@ import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.impl.AnonimousTransport;
 import tech.ydb.core.impl.BaseGrpcTrasnsport;
+import tech.ydb.core.impl.FixedCallOptionsTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.discovery.DiscoveryProtos;
@@ -61,8 +61,9 @@ public class GrpcDiscoveryRpc {
     }
 
     private GrpcTransport createTransport() {
-        return new AnonimousTransport(
+        return new FixedCallOptionsTransport(
                 parent.scheduler(),
+                parent.getCallOptions(),
                 parent.getDatabase(),
                 endpoint,
                 channelFactory

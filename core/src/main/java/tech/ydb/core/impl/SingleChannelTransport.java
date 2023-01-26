@@ -1,5 +1,6 @@
 package tech.ydb.core.impl;
 
+import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
@@ -10,7 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
-import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.auth.CallOptionsFactory;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -22,7 +23,8 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
 public class SingleChannelTransport extends BaseGrpcTrasnsport {
     private static final Logger logger = LoggerFactory.getLogger(SingleChannelTransport.class);
 
-    private final AuthCallOptions callOptionsProvider;
+    private final CallOptionsFactory callOptionsFactory;
+    private final CallOptions callOptions;
     private final GrpcChannel channel;
     private final String database;
     private final ScheduledExecutorService scheduler;
@@ -34,13 +36,15 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
         logger.info("creating signle channel transport with endpoint {}", endpoint);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.channel = new GrpcChannel(endpoint, channelFactory, false);
-        this.callOptionsProvider = new AuthCallOptions(this,
-                endpoint,
+        this.channel = new GrpcChannel(endpoint, channelFactory, true);
+
+        this.callOptionsFactory = new CallOptionsFactory(this,
+                Arrays.asList(endpoint),
                 channelFactory,
-                builder.getAuthProvider(),
-                builder.getCallExecutor(),
-                builder.getReadTimeoutMillis()
+                builder.getAuthProvider()
+        );
+        this.callOptions = callOptionsFactory.createCallOptions(
+                builder.getReadTimeoutMillis(), builder.getCallExecutor()
         );
         this.scheduler = YdbSchedulerFactory.createScheduler();
     }
@@ -58,14 +62,14 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     @Override
     public void close() {
         channel.shutdown();
-        callOptionsProvider.close();
+        callOptionsFactory.close();
 
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
     @Override
-    CallOptions getCallOptions() {
-        return callOptionsProvider.getCallOptions();
+    public CallOptions getCallOptions() {
+        return callOptions;
     }
 
     @Override

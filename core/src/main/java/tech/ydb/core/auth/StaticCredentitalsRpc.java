@@ -124,6 +124,12 @@ class StaticCredentitalsRpc {
 
     public CompletableFuture<Token> loginAsync() {
         CompletableFuture<Token> tokenFuture = new CompletableFuture<>();
+        tokenFuture.whenComplete((token, th) -> {
+            if (token == null || th != null) {
+                rpc.changeEndpoint();
+            }
+        });
+
         tryLogin(tokenFuture);
         return tokenFuture;
     }

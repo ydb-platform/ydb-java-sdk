@@ -16,19 +16,22 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
  *
  * @author Aleksandr Gorshenin
  */
-public class AnonimousTransport extends BaseGrpcTrasnsport {
-    private static final Logger logger = LoggerFactory.getLogger(AnonimousTransport.class);
+public class FixedCallOptionsTransport extends BaseGrpcTrasnsport {
+    private static final Logger logger = LoggerFactory.getLogger(FixedCallOptionsTransport.class);
 
     private final ScheduledExecutorService scheduler;
+    private final CallOptions callOptions;
     private final String database;
     private final GrpcChannel channel;
 
-    public AnonimousTransport(
+    public FixedCallOptionsTransport(
             ScheduledExecutorService scheduler,
+            CallOptions callOptions,
             String database,
             EndpointRecord endpoint,
             ManagedChannelFactory channelFactory) {
         this.scheduler = scheduler;
+        this.callOptions = callOptions;
         this.database = database;
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
     }
@@ -49,8 +52,8 @@ public class AnonimousTransport extends BaseGrpcTrasnsport {
     }
 
     @Override
-    CallOptions getCallOptions() {
-        return CallOptions.DEFAULT;
+    public CallOptions getCallOptions() {
+        return callOptions;
     }
 
     @Override
@@ -61,7 +64,7 @@ public class AnonimousTransport extends BaseGrpcTrasnsport {
     @Override
     void updateChannelStatus(GrpcChannel channel, Status status) {
         if (!status.isOk()) {
-            logger.warn("grpc error {}[{}] on auth channel {}",
+            logger.warn("grpc error {}[{}] on fixed channel {}",
                     status.getCode(),
                     status.getDescription(),
                     channel.getEndpoint());
