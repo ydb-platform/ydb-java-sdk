@@ -38,11 +38,12 @@ public class GrpcTransportBuilder {
     private Executor callExecutor = MoreExecutors.directExecutor();
     private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
+    private long connectTimeoutMillis = 5000;
 
     /**
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
      */
-    private boolean enableRetry = false;
+    private boolean grpcRetry = false;
 
     GrpcTransportBuilder(@Nullable String endpoint, @Nullable HostAndPort host, @Nonnull String database) {
         this.endpoint = endpoint;
@@ -103,8 +104,12 @@ public class GrpcTransportBuilder {
         return readTimeoutMillis;
     }
 
+    public long getConnectTimeoutMillis() {
+        return connectTimeoutMillis;
+    }
+
     public boolean isEnableRetry() {
-        return enableRetry;
+        return grpcRetry;
     }
 
     public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
@@ -150,18 +155,37 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    public GrpcTransportBuilder withConnectTimeout(Duration timeout) {
+        this.connectTimeoutMillis = timeout.toMillis();
+        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
+        return this;
+    }
+
+    public GrpcTransportBuilder withConnectTimeout(long timeout, TimeUnit unit) {
+        this.connectTimeoutMillis = unit.toMillis(timeout);
+        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
+        return this;
+    }
+
     public GrpcTransportBuilder withCallExecutor(Executor executor) {
         this.callExecutor = Objects.requireNonNull(executor);
         return this;
     }
 
-    public GrpcTransportBuilder enableRetry() {
-        this.enableRetry = true;
+    public GrpcTransportBuilder withGrpcRetry(boolean enabled) {
+        this.grpcRetry = enabled;
         return this;
     }
 
+    @Deprecated
+    public GrpcTransportBuilder enableRetry() {
+        this.grpcRetry = true;
+        return this;
+    }
+
+    @Deprecated
     public GrpcTransportBuilder disableRetry() {
-        this.enableRetry = false;
+        this.grpcRetry = false;
         return this;
     }
 

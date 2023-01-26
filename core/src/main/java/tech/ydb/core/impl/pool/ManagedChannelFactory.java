@@ -32,6 +32,7 @@ public class ManagedChannelFactory {
     private final boolean useTLS;
     private final byte[] cert;
     private final boolean retryEnabled;
+    private final long connectTimeoutMs;
 
     private ManagedChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
@@ -40,6 +41,11 @@ public class ManagedChannelFactory {
         this.useTLS = builder.getUseTls();
         this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
+        this.connectTimeoutMs = builder.getConnectTimeoutMillis();
+    }
+
+    public long getConnectTimeoutMs() {
+        return this.connectTimeoutMs;
     }
 
     public ManagedChannel newManagedChannel(String host, int port) {
