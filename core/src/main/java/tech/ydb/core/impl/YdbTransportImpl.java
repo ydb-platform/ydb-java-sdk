@@ -37,7 +37,7 @@ import tech.ydb.discovery.DiscoveryProtos;
  * @author Nikolay Perfilov
  */
 public class YdbTransportImpl extends BaseGrpcTrasnsport {
-    private static final int DEFAULT_PORT = 2135;
+    static final int DEFAULT_PORT = 2135;
 
     private static final Result<?> SHUTDOWN_RESULT =  Result.fail(tech.ydb.core.Status.of(
             StatusCode.CLIENT_CANCELLED, null,
@@ -67,7 +67,6 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
-        this.scheduler = YdbSchedulerFactory.createScheduler();
 
         this.callOptionsFactory = new CallOptionsFactory(this,
                 Arrays.asList(discoveryEndpoint),
@@ -81,6 +80,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         this.channelPool = new GrpcChannelPool(channelFactory);
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discoveryHandler = new YdbDiscoveryHandler();
+
+        this.scheduler = YdbSchedulerFactory.createScheduler();
         this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, discoveryHandler);
     }
 

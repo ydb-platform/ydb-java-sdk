@@ -42,10 +42,6 @@ public class ManagedChannelFactory {
         this.retryEnabled = builder.isEnableRetry();
     }
 
-    public String getDatabase() {
-        return database;
-    }
-
     public ManagedChannel newManagedChannel(String host, int port) {
         NettyChannelBuilder channelBuilder = NettyChannelBuilder
                 .forAddress(host, port);
