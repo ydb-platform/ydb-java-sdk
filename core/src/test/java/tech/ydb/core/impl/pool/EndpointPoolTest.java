@@ -1,8 +1,5 @@
 package tech.ydb.core.impl.pool;
 
-import tech.ydb.core.impl.pool.EndpointPool;
-import tech.ydb.core.impl.pool.EndpointRecord;
-
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -14,7 +11,6 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import tech.ydb.core.grpc.BalancingPolicy;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.discovery.DiscoveryProtos;
 
@@ -482,7 +478,7 @@ public class EndpointPoolTest {
     }
 
     private static BalancingSettings useAllNodes() {
-        return BalancingSettings.fromPolicy(BalancingPolicy.USE_ALL_NODES);
+        return BalancingSettings.fromPolicy(BalancingSettings.Policy.USE_ALL_NODES);
     }
 
     private static BalancingSettings prefferedNode(String selfLocaltion) {

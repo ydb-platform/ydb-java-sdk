@@ -12,7 +12,6 @@ import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.grpc.BalancingPolicy;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
@@ -69,7 +68,7 @@ public class MultiChannelTransport extends BaseGrpcTrasnsport {
         );
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
-        this.endpointPool = new EndpointPool(BalancingSettings.fromPolicy(BalancingPolicy.USE_ALL_NODES));
+        this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());
     }
 
     @Override

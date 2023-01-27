@@ -106,7 +106,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
             return BalancingSettings.fromLocation(builder.getLocalDc());
         }
 
-        return new BalancingSettings();
+        return BalancingSettings.defaultInstance();
     }
 
     @Override

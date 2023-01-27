@@ -39,6 +39,7 @@ public class GrpcTransportBuilder {
     private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
     private long connectTimeoutMillis = 5000;
+    private boolean useDefaultGrpcResolver = false;
 
     /**
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
@@ -112,11 +113,22 @@ public class GrpcTransportBuilder {
         return grpcRetry;
     }
 
+    public boolean useDefaultGrpcResolver() {
+        return useDefaultGrpcResolver;
+    }
+
     public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
         this.channelInitializer = Objects.requireNonNull(channelInitializer, "channelInitializer is null");
         return this;
     }
 
+    /**
+     * use {@link GrpcTransportBuilder#withBalancingSettings(tech.ydb.core.grpc.BalancingSettings) } instead
+     * @param dc preferable location
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder withLocalDataCenter(String dc) {
         this.localDc = dc;
         return this;
@@ -177,12 +189,27 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    public GrpcTransportBuilder withUseDefaultGrpcResolver(boolean use) {
+        this.useDefaultGrpcResolver = use;
+        return this;
+    }
+
+    /**
+     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
+     * @return this
+     * @deprecated
+     */
     @Deprecated
     public GrpcTransportBuilder enableRetry() {
         this.grpcRetry = true;
         return this;
     }
 
+    /**
+     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
+     * @return this
+     * @deprecated
+     */
     @Deprecated
     public GrpcTransportBuilder disableRetry() {
         this.grpcRetry = false;

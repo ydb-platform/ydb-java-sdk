@@ -18,7 +18,6 @@ import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.grpc.BalancingPolicy;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.discovery.DiscoveryProtos;
 
@@ -69,7 +68,7 @@ public final class EndpointPool {
     }
 
     private int getStartPriority(String selfLocation, String location) {
-        if (balancingSettings.getPolicy() == BalancingPolicy.USE_ALL_NODES) {
+        if (balancingSettings.getPolicy() == BalancingSettings.Policy.USE_ALL_NODES) {
             return 0;
         }
 

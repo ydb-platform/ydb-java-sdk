@@ -8,6 +8,7 @@ import javax.net.ssl.SSLException;
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
 import io.grpc.Metadata;
+import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
@@ -33,6 +34,7 @@ public class ManagedChannelFactory {
     private final byte[] cert;
     private final boolean retryEnabled;
     private final long connectTimeoutMs;
+    private final boolean useDefaultGrpcResolver;
 
     private ManagedChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
@@ -42,12 +44,14 @@ public class ManagedChannelFactory {
         this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
         this.connectTimeoutMs = builder.getConnectTimeoutMillis();
+        this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
     }
 
     public long getConnectTimeoutMs() {
         return this.connectTimeoutMs;
     }
 
+    @SuppressWarnings("deprecation")
     public ManagedChannel newManagedChannel(String host, int port) {
         NettyChannelBuilder channelBuilder = NettyChannelBuilder
                 .forAddress(host, port);
@@ -64,6 +68,13 @@ public class ManagedChannelFactory {
                 .maxInboundMessageSize(64 << 20) // 64 MiB
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
                 .intercept(metadataInterceptor());
+
+        if (!useDefaultGrpcResolver) {
+            // force usage of dns resolver and round_robin balancer
+            channelBuilder
+                    .nameResolverFactory(new DnsNameResolverProvider())
+                    .defaultLoadBalancingPolicy("round_robin");
+        }
 
         if (channelInitializer != null) {
             channelInitializer.accept(channelBuilder);
