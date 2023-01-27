@@ -3,18 +3,15 @@ package tech.ydb.core.impl.pool;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static java.util.concurrent.CompletableFuture.allOf;
 
 /**
  * @author Nikolay Perfilov
@@ -29,9 +26,11 @@ public class GrpcChannelPool {
 
     private final Map<String, GrpcChannel> channels = new ConcurrentHashMap<>();
     private final ManagedChannelFactory channelFactory;
+    private final ScheduledExecutorService executor;
 
-    public GrpcChannelPool(ManagedChannelFactory channelFactory) {
+    public GrpcChannelPool(ManagedChannelFactory channelFactory, ScheduledExecutorService executor) {
         this.channelFactory = channelFactory;
+        this.executor = executor;
     }
 
     public GrpcChannel getChannel(EndpointRecord endpoint) {
@@ -45,74 +44,43 @@ public class GrpcChannelPool {
         });
     }
 
-    private CompletableFuture<Boolean> shutdownChannels(Stream<GrpcChannel> channelsToShutdown, int channelCount) {
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(channelCount);
-        try {
-            List<CompletableFuture<Boolean>> futures = channelsToShutdown
-                    .map(channel -> {
-                        CompletableFuture<Boolean> promise = new CompletableFuture<>();
-                        if (channel != null) {
-                            executor.schedule(
-                                    () -> {
-                                        promise.complete(channel.shutdown());
-                                    },
-                                    WAIT_FOR_REQUESTS_MS,  // Waiting for already running requests to complete
-                                    TimeUnit.MILLISECONDS
-                            );
-                        } else {
-                            promise.complete(false);
-                        }
-                        return promise;
-                    })
-                    .collect(Collectors.toList());
-            CompletableFuture<Boolean> promise = new CompletableFuture<>();
-            allOf(futures.toArray(new CompletableFuture<?>[channelCount]))
-                    .thenRun(() -> {
-                        boolean shutdownResult = futures
-                                .stream()
-                                .allMatch(future -> {
-                                    try {
-                                        return future.get();
-                                    } catch (Exception e) {
-                                        return false;
-                                    }
-                                });
-                        promise.complete(shutdownResult);
-                    });
-            return promise;
-        } finally {
-            executor.shutdown();
-            try {
-                // WAIT_FOR_REQUESTS_MS to wait for already running requests to complete
-                // + shutdownTimeoutMs to wait for channels to shutdown
-                // + WAIT_FOR_EXECUTOR_SHUTDOWN_MS to wait for scheduled executor to shutdown
-                boolean closed = executor.awaitTermination(
-                        WAIT_FOR_REQUESTS_MS + WAIT_FOR_EXECUTOR_SHUTDOWN_MS,
-                        TimeUnit.SECONDS);
-                if (!closed) {
-                    logger.warn("scheduled executor termination timeout exceeded");
-                }
-            } catch (InterruptedException e) {
-                logger.warn("scheduled executor termination interrupted", e);
-            }
+    private CompletableFuture<Boolean> shutdownChannels(Collection<GrpcChannel> channelsToShutdown) {
+        if (channelsToShutdown == null || channelsToShutdown.isEmpty()) {
+            return CompletableFuture.completedFuture(Boolean.TRUE);
         }
+
+        logger.debug("shutdown {} channels", channelsToShutdown.size());
+        List<CompletableFuture<Boolean>> removed = channelsToShutdown.stream()
+                .map(channel -> CompletableFuture.supplyAsync(() -> channel.shutdown(), executor))
+                .collect(Collectors.toList());
+
+        return CompletableFuture
+                .allOf(removed.toArray(new CompletableFuture<?>[0]))
+                .thenApply((res) -> {
+                    // all shutdown futures are completed here, we can just count failed
+                    return removed.stream().filter(f -> !f.join()).count() == 0;
+                });
     }
 
-    public CompletableFuture<Boolean> removeChannels(List<EndpointRecord> endpointsToRemove) {
+    public CompletableFuture<Boolean> removeChannels(Collection<EndpointRecord> endpointsToRemove) {
         if (endpointsToRemove == null || endpointsToRemove.isEmpty()) {
-            return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(Boolean.TRUE);
         }
-        logger.debug("removing {} channels from pool: {}", endpointsToRemove.size(), endpointsToRemove);
-        Stream<GrpcChannel> removedChannels = endpointsToRemove.stream().map(channels::remove);
-        return shutdownChannels(removedChannels, endpointsToRemove.size());
+
+        logger.debug("removing {} endpoints from pool: {}", endpointsToRemove.size(), endpointsToRemove);
+        List<GrpcChannel> channelsToShutdown = endpointsToRemove.stream()
+                .map(EndpointRecord::getHostAndPort)
+                .map(channels::remove)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        return shutdownChannels(channelsToShutdown);
     }
 
     public void shutdown() {
         logger.debug("initiating grpc pool shutdown with {} channels...", channels.size());
-        Collection<GrpcChannel> channelsToShutdown = channels.values();
-        boolean shutDownResult =
-                shutdownChannels(channelsToShutdown.stream(), channelsToShutdown.size())
-                        .join();
+        boolean shutDownResult = shutdownChannels(channels.values()).join();
+
         if (shutDownResult) {
             logger.debug("grpc pool was shut down successfully");
         } else {

@@ -68,7 +68,7 @@ public class MultiChannelTransport extends BaseGrpcTrasnsport {
                 builder.getReadTimeoutMillis(), builder.getCallExecutor()
         );
 
-        this.channelPool = new GrpcChannelPool(channelFactory);
+        this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(BalancingSettings.fromPolicy(BalancingPolicy.USE_ALL_NODES));
     }
 
