@@ -25,10 +25,8 @@ import tech.ydb.table.rpc.TableRpc;
  * @author Aleksandr Gorshenin
  */
 public class PooledTableClient implements TableClient {
-    private static final Status SESSION_TIMEOUT = Status.of(
-            StatusCode.CLIENT_DEADLINE_EXCEEDED, null,
-            Issue.of("Timeout of getting session from pool", Issue.Severity.WARNING)
-    );
+    private static final Status SESSION_TIMEOUT = Status.of(StatusCode.CLIENT_DEADLINE_EXCEEDED)
+            .withIssues(Issue.of("Timeout of getting session from pool", Issue.Severity.WARNING));
 
     private final TableRpc tableRpc;
     private final SessionPool pool;

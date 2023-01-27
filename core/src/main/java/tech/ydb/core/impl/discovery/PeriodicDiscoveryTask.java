@@ -22,6 +22,9 @@ import tech.ydb.discovery.DiscoveryProtos;
  * @author Aleksandr Gorshenin
  */
 public class PeriodicDiscoveryTask implements Runnable {
+    private static final Status EMPTY_DISCOVERY = Status.of(StatusCode.CLIENT_DISCOVERY_FAILED)
+            .withIssues(Issue.of("Discovery return empty list of endpoints", Issue.Severity.ERROR));
+
     public interface DiscoveryHandler {
         boolean useMinDiscoveryPeriod();
         void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result);
@@ -97,9 +100,7 @@ public class PeriodicDiscoveryTask implements Runnable {
         DiscoveryProtos.ListEndpointsResult result = response.getValue();
         if (result.getEndpointsList().isEmpty()) {
             logger.error("discovery return empty list of endpoints");
-            Status status = Status.of(StatusCode.CLIENT_DISCOVERY_FAILED, null,
-                    Issue.of("Discovery return empty list of endpoints", Issue.Severity.ERROR));
-            state.handleProblem(new UnexpectedResultException("discovery fail", status));
+            state.handleProblem(new UnexpectedResultException("discovery fail", EMPTY_DISCOVERY));
             return;
         }
 

@@ -29,9 +29,9 @@ import tech.ydb.core.rpc.StreamObserver;
 public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
-    private static final Result<?> SHUTDOWN_RESULT =  Result.fail(Status.of(
-            StatusCode.CLIENT_CANCELLED, null,
-            Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
+    private static final Result<?> SHUTDOWN_RESULT =  Result.fail(Status
+            .of(StatusCode.CLIENT_CANCELLED)
+            .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
     ));
 
     public abstract CallOptions getCallOptions();
@@ -118,7 +118,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         } catch (RuntimeException ex) {
             logger.error("server stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
-            observer.onError(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
+            observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
             return () -> { };
         }
     }
@@ -146,8 +146,9 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
 
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
-        return Result.fail(tech.ydb.core.Status.of(
-                StatusCode.CLIENT_DEADLINE_EXPIRED, null, Issue.of(message, Issue.Severity.ERROR)));
+        return Result.fail(Status.of(
+                StatusCode.CLIENT_DEADLINE_EXPIRED, null, Issue.of(message, Issue.Severity.ERROR)
+        ));
     }
 
     private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {

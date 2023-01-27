@@ -153,7 +153,7 @@ public interface Result<T> {
      * ERROR
      */
     final class Error<V> implements Result<V> {
-        private static final Status ERROR = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null);
+        private static final Status ERROR = Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
         private final String message;
         private final Throwable cause;
         private final Status status;

@@ -6,6 +6,9 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -15,9 +18,6 @@ import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.TableRpcStub;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.rpc.TableRpc;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 
 /**
@@ -55,7 +55,7 @@ public class SimpleTableClientTest {
                     sessionIDs.remove(id);
                     return CompletableFuture.completedFuture(Status.SUCCESS);
                 } else {
-                    return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION, null));
+                    return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION));
                 }
             }
         };
@@ -82,7 +82,7 @@ public class SimpleTableClientTest {
             @Override
             public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
                 YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
-                return CompletableFuture.completedFuture(Result.fail(Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null)));
+                return CompletableFuture.completedFuture(Result.fail(Status.of(StatusCode.TRANSPORT_UNAVAILABLE)));
             }
         };
 

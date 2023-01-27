@@ -46,7 +46,7 @@ public class CredentialsAuthProviderTest {
     @Test
     public void credentitalsTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
-        Status unauhtorized = Status.of(StatusCode.UNAUTHORIZED, null);
+        Status unauhtorized = Status.of(StatusCode.UNAUTHORIZED);
 
         Mockito.when(clock.instant()).thenReturn(now);
 
@@ -97,8 +97,8 @@ public class CredentialsAuthProviderTest {
     @Test
     public void retriesTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
-        Status overloaded = Status.of(StatusCode.OVERLOADED, null);
-        Status unavailable = Status.of(StatusCode.UNAVAILABLE, null);
+        Status overloaded = Status.of(StatusCode.OVERLOADED);
+        Status unavailable = Status.of(StatusCode.UNAVAILABLE);
 
         Mockito.when(clock.instant()).thenReturn(now);
 
@@ -137,7 +137,7 @@ public class CredentialsAuthProviderTest {
 
     @Test
     public void refreshTokenTest() {
-        Status unavailable = Status.of(StatusCode.UNAVAILABLE, null);
+        Status unavailable = Status.of(StatusCode.UNAVAILABLE);
 
         Duration expireTime = Duration.ofHours(2);
         Instant firstHour = now.plus(Duration.ofHours(1));

@@ -14,10 +14,8 @@ import tech.ydb.OperationProtos.Operation;
  * @author Sergey Polovko
  */
 public final class Operations {
-    private static final Status ASYNC_ARE_UNSUPPORTED = Status.of(
-            StatusCode.CLIENT_INTERNAL_ERROR, null,
-            Issue.of("Async operations are not supported", Issue.Severity.ERROR)
-    );
+    private static final Status ASYNC_ARE_UNSUPPORTED = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
+            .withIssues(Issue.of("Async operations are not supported", Issue.Severity.ERROR));
 
     private Operations() { }
 

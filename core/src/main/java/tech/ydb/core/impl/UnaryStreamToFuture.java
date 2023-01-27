@@ -20,15 +20,11 @@ import tech.ydb.core.grpc.GrpcStatuses;
  * @param <T> type of value
  */
 public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
-    private static final Status NO_VALUE = Status.of(
-            StatusCode.CLIENT_INTERNAL_ERROR, null,
-            Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR)
-    );
+    private static final Status NO_VALUE = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
+            .withIssues(Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR));
 
-    private static final Status MULTIPLY_VALUES = Status.of(
-            StatusCode.CLIENT_INTERNAL_ERROR, null,
-            Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR)
-    );
+    private static final Status MULTIPLY_VALUES = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
+            .withIssues(Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR));
 
     private final CompletableFuture<Result<T>> responseFuture;
     private final Consumer<Metadata> trailersHandler;

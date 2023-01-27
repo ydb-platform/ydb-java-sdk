@@ -26,9 +26,9 @@ import tech.ydb.table.YdbTable;
  * @author Aleksandr Gorshenin
  */
 public class MockedTableRpc extends TableRpcStub {
-    private final static Status BAD_SESSION = Status.of(StatusCode.BAD_SESSION, null);
-    private final static Status OVERLOADED = Status.of(StatusCode.OVERLOADED, null);
-    private final static Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null);
+    private final static Status BAD_SESSION = Status.of(StatusCode.BAD_SESSION);
+    private final static Status OVERLOADED = Status.of(StatusCode.OVERLOADED);
+    private final static Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE);
 
     private final Clock clock;
     private final Set<String> activeSessions = new HashSet<>();
