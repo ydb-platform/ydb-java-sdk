@@ -4,20 +4,15 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
 import io.grpc.CallOptions;
-import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.Issue;
-import tech.ydb.core.Result;
-import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
@@ -29,8 +24,6 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.discovery.DiscoveryProtos;
 
 /**
@@ -38,11 +31,6 @@ import tech.ydb.discovery.DiscoveryProtos;
  */
 public class YdbTransportImpl extends BaseGrpcTrasnsport {
     static final int DEFAULT_PORT = 2135;
-
-    private static final Result<?> SHUTDOWN_RESULT =  Result.fail(tech.ydb.core.Status.of(
-            StatusCode.CLIENT_CANCELLED, null,
-            Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
-    ));
 
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
@@ -52,11 +40,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private final CallOptions callOptions;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
-    private final YdbDiscoveryHandler discoveryHandler;
     private final PeriodicDiscoveryTask periodicDiscoveryTask;
     private final ScheduledExecutorService scheduler;
-
-    private volatile boolean shutdown = false;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
@@ -80,9 +65,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         this.scheduler = YdbSchedulerFactory.createScheduler();
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
-        this.discoveryHandler = new YdbDiscoveryHandler();
 
-        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, discoveryHandler);
+        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, new YdbDiscoveryHandler());
     }
 
     public void init() {
@@ -136,34 +120,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
-            MethodDescriptor<ReqT, RespT> method,
-            GrpcRequestSettings settings,
-            ReqT request) {
-        if (shutdown) {
-            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
-        }
-
-        return super.unaryCall(method, settings, request);
-    }
-
-    @Override
-    public <ReqT, RespT> StreamControl serverStreamCall(
-            MethodDescriptor<ReqT, RespT> method,
-            GrpcRequestSettings settings,
-            ReqT request,
-            StreamObserver<RespT> observer) {
-        if (shutdown) {
-            observer.onError(SHUTDOWN_RESULT.getStatus());
-            return () -> { };
-        }
-
-        return super.serverStreamCall(method, settings, request, observer);
-    }
-
-    @Override
     public void close() {
-        shutdown = true;
         periodicDiscoveryTask.stop();
         channelPool.shutdown();
         callOptionsFactory.close();

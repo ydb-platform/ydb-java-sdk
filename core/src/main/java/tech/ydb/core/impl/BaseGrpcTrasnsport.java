@@ -8,12 +8,12 @@ import io.grpc.CallOptions;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
-import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
@@ -29,9 +29,14 @@ import tech.ydb.core.rpc.StreamObserver;
 public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
+    private static final Result<?> SHUTDOWN_RESULT =  Result.fail(Status.of(
+            StatusCode.CLIENT_CANCELLED, null,
+            Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
+    ));
+
     public abstract CallOptions getCallOptions();
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);
-    abstract void updateChannelStatus(GrpcChannel channel, Status status);
+    abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
 
     @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
@@ -51,6 +56,9 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         try {
             GrpcChannel channel = getChannel(settings);
+            if (channel == null || channel.isShutdown()) {
+                return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
+            }
 
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
@@ -88,6 +96,11 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
 
         try {
             GrpcChannel channel = getChannel(settings);
+            if (channel == null || channel.isShutdown()) {
+                observer.onError(SHUTDOWN_RESULT.getStatus());
+                return () -> { };
+            }
+
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending stream call to {}, method `{}', request: `{}'",
@@ -127,7 +140,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             } catch (Throwable ex) {
                 logger.error("Exception encountered while closing the call", ex);
             }
-            listener.onClose(Status.INTERNAL.withCause(t), null);
+            listener.onClose(io.grpc.Status.INTERNAL.withCause(t), null);
         }
     }
 
@@ -137,9 +150,9 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
                 StatusCode.CLIENT_DEADLINE_EXPIRED, null, Issue.of(message, Issue.Severity.ERROR)));
     }
 
-    private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
+    private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
-        return Status.DEADLINE_EXCEEDED.withDescription(message);
+        return io.grpc.Status.DEADLINE_EXCEEDED.withDescription(message);
     }
 
 }
