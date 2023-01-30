@@ -40,7 +40,7 @@ public final class Status implements Serializable {
     }
 
     public Status withIssues(Issue... newIssues) {
-        if (Objects.equals(this.issues, newIssues)) {
+        if (Arrays.equals(this.issues, newIssues)) {
             return this;
         }
         return new Status(this.code, this.consumedRu, newIssues);
@@ -100,7 +100,9 @@ public final class Status implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, consumedRu, issues);
+        int h1 = Objects.hash(code, consumedRu);
+        int h2 = Objects.hash((Object[]) issues);
+        return 31 * h1 + h2;
     }
 
     @Override

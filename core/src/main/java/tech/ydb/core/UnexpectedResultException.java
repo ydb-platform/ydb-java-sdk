@@ -24,6 +24,11 @@ public class UnexpectedResultException extends RuntimeException {
         this.status = Objects.requireNonNull(status);
     }
 
+    UnexpectedResultException(String message, UnexpectedResultException other) {
+        super(message + ": " + other.getMessage(), other.getCause());
+        this.status = other.status;
+    }
+
     @Nonnull
     public Status getStatus() {
         return status;
