@@ -27,6 +27,10 @@ import tech.ydb.core.ssl.YandexTrustManagerFactory;
  * @author Aleksandr Gorshenin
  */
 public class ManagedChannelFactory {
+
+    static final int INBOUND_MESSAGE_SIZE = 64 << 20; // 64 MiB
+    static final String DEFAULT_BALANCER_POLICY = "round_robin";
+
     private final String database;
     private final String version;
     private final Consumer<NettyChannelBuilder> channelInitializer;
@@ -65,7 +69,7 @@ public class ManagedChannelFactory {
         }
 
         channelBuilder
-                .maxInboundMessageSize(64 << 20) // 64 MiB
+                .maxInboundMessageSize(INBOUND_MESSAGE_SIZE)
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
                 .intercept(metadataInterceptor());
 
@@ -73,7 +77,7 @@ public class ManagedChannelFactory {
             // force usage of dns resolver and round_robin balancer
             channelBuilder
                     .nameResolverFactory(new DnsNameResolverProvider())
-                    .defaultLoadBalancingPolicy("round_robin");
+                    .defaultLoadBalancingPolicy(DEFAULT_BALANCER_POLICY);
         }
 
         if (channelInitializer != null) {
@@ -98,7 +102,6 @@ public class ManagedChannelFactory {
         return MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
     }
 
-
     private SslContext createSslContext() {
         try {
             SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient();
@@ -107,9 +110,8 @@ public class ManagedChannelFactory {
             } else {
                 sslContextBuilder.trustManager(new YandexTrustManagerFactory(""));
             }
-
             return sslContextBuilder.build();
-        } catch (SSLException e) {
+        } catch (SSLException | RuntimeException e) {
             throw new RuntimeException("cannot create ssl context", e);
         }
     }
