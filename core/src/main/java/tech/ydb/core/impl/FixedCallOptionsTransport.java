@@ -48,6 +48,7 @@ public class FixedCallOptionsTransport extends BaseGrpcTrasnsport {
 
     @Override
     public void close() {
+        super.close();
         channel.shutdown();
     }
 

@@ -76,7 +76,6 @@ public class GrpcChannelPool {
     public void shutdown() {
         logger.debug("initiating grpc pool shutdown with {} channels...", channels.size());
         boolean shutDownResult = shutdownChannels(channels.values()).join();
-        channels.clear();
 
         if (shutDownResult) {
             logger.debug("grpc pool was shutdown successfully");

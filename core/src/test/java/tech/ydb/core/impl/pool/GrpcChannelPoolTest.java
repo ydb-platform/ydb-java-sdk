@@ -64,13 +64,13 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel1.isShutdown());
         Assert.assertFalse(channel2.isShutdown());
 
-        pool.shutdown();
-        Assert.assertEquals(0, pool.getChannels().size());
+        pool.shutdown(); // shutdown doesn't remove channels from pool
+        Assert.assertEquals(2, pool.getChannels().size());
         Assert.assertTrue(channel1.isShutdown());
         Assert.assertTrue(channel2.isShutdown());
 
         pool.shutdown(); // double shutdown is ok
-        Assert.assertEquals(0, pool.getChannels().size());
+        Assert.assertEquals(2, pool.getChannels().size());
     }
 
     @Test
@@ -126,7 +126,6 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel3.isShutdown());
 
         pool.shutdown();
-        Assert.assertEquals(0, pool.getChannels().size());
     }
 
     @Test

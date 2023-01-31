@@ -61,6 +61,8 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
 
     @Override
     public void close() {
+        super.close();
+
         channel.shutdown();
         callOptionsFactory.close();
 

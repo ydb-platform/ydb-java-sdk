@@ -83,6 +83,8 @@ public class MultiChannelTransport extends BaseGrpcTrasnsport {
 
     @Override
     public void close() {
+        super.close();
+
         channelPool.shutdown();
         callOptionsFactory.close();
 

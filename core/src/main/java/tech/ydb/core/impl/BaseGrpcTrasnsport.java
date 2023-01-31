@@ -34,9 +34,16 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
     ));
 
+    private volatile boolean shutdown = false;
+
     public abstract CallOptions getCallOptions();
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);
     abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+
+    @Override
+    public void close() {
+        this.shutdown = true;
+    }
 
     @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
@@ -44,6 +51,10 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             GrpcRequestSettings settings,
             ReqT request
     ) {
+        if (shutdown) {
+            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
+        }
+
         CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
@@ -56,10 +67,6 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         try {
             GrpcChannel channel = getChannel(settings);
-            if (channel == null || channel.isShutdown()) {
-                return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
-            }
-
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending request to {}, method `{}', request: `{}'",
@@ -84,6 +91,11 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             ReqT request,
             StreamObserver<RespT> observer
         ) {
+        if (shutdown) {
+            observer.onError(SHUTDOWN_RESULT.getStatus());
+            return () -> { };
+        }
+
         CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
@@ -96,11 +108,6 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
 
         try {
             GrpcChannel channel = getChannel(settings);
-            if (channel == null || channel.isShutdown()) {
-                observer.onError(SHUTDOWN_RESULT.getStatus());
-                return () -> { };
-            }
-
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending stream call to {}, method `{}', request: `{}'",
