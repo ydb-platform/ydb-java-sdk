@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Aleksandr Gorshenin
  */
-class YdbSchedulerFactory {
+public class YdbSchedulerFactory {
     private static final long WAIT_FOR_SHUTDOWN_MS = 1000;
 
     private static final Logger logger = LoggerFactory.getLogger(YdbSchedulerFactory.class);

@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class ManagedChannelMock extends ManagedChannel {
     private static final Logger logger = LoggerFactory.getLogger(ManagedChannelMock.class);
 
-    private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private final ExecutorService executor = Executors.newFixedThreadPool(1);
     private final BlockingQueue<ConnectivityState> nextStates = new LinkedBlockingDeque<>();
     private final Object sync = new Object();
 
@@ -125,5 +125,19 @@ public class ManagedChannelMock extends ManagedChannel {
     public static ManagedChannelMock good() {
         return new ManagedChannelMock(ConnectivityState.IDLE)
                 .nextStates(ConnectivityState.CONNECTING, ConnectivityState.READY);
+    }
+
+    public static ManagedChannelMock wrongShutdown() {
+        return new ManagedChannelMock(ConnectivityState.IDLE) {
+            {
+                nextStates(ConnectivityState.CONNECTING, ConnectivityState.READY);
+            }
+
+            @Override
+            public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+                super.awaitTermination(timeout, unit);
+                return false;
+            }
+        };
     }
 }

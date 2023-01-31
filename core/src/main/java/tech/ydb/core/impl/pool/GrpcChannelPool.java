@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,11 +19,6 @@ import org.slf4j.LoggerFactory;
  */
 public class GrpcChannelPool {
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannelPool.class);
-
-    // How long should we wait for already running requests to complete before shutting down channels
-    public static final long WAIT_FOR_REQUESTS_MS = 1000;
-    // How long should we wait for executor termination after shutdownTimeoutMs and WAIT_FOR_REQUESTS_MS
-    public static final long WAIT_FOR_EXECUTOR_SHUTDOWN_MS = 500;
 
     private final Map<String, GrpcChannel> channels = new ConcurrentHashMap<>();
     private final ManagedChannelFactory channelFactory;
@@ -62,9 +58,9 @@ public class GrpcChannelPool {
                 });
     }
 
-    public CompletableFuture<Boolean> removeChannels(Collection<EndpointRecord> endpointsToRemove) {
+    public boolean removeChannels(Collection<EndpointRecord> endpointsToRemove) {
         if (endpointsToRemove == null || endpointsToRemove.isEmpty()) {
-            return CompletableFuture.completedFuture(Boolean.TRUE);
+            return true;
         }
 
         logger.debug("removing {} endpoints from pool: {}", endpointsToRemove.size(), endpointsToRemove);
@@ -74,17 +70,23 @@ public class GrpcChannelPool {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        return shutdownChannels(channelsToShutdown);
+        return shutdownChannels(channelsToShutdown).join();
     }
 
     public void shutdown() {
         logger.debug("initiating grpc pool shutdown with {} channels...", channels.size());
         boolean shutDownResult = shutdownChannels(channels.values()).join();
+        channels.clear();
 
         if (shutDownResult) {
-            logger.debug("grpc pool was shut down successfully");
+            logger.debug("grpc pool was shutdown successfully");
         } else {
-            logger.warn("grpc pool was not shut down properly");
+            logger.warn("grpc pool was not shutdown properly");
         }
+    }
+
+    @VisibleForTesting
+    Map<String, GrpcChannel> getChannels() {
+        return channels;
     }
 }
