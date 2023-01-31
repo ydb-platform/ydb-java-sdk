@@ -10,11 +10,13 @@
         <Logger name="io.grpc" level="warn" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="tech.ydb.core.grpc" level="debug" additivity="false">
+        <Logger name="tech.ydb.core" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Logger name="tech.ydb.core.grpc.GrpcStatuses" level="error" additivity="false">
             <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="tech.ydb.core.impl.pool.GrpcChannel" level="error"  additivity="false">
         </Logger>
 
         <Root level="debug" >
