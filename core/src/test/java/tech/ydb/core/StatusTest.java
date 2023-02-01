@@ -58,7 +58,7 @@ public class StatusTest {
 
         UnexpectedResultException ex1 = Assert.assertThrows(UnexpectedResultException.class,
                 wrong::expectSuccess);
-        Assert.assertEquals("Expected success status, but got BAD_REQUEST, code: BAD_REQUEST"
+        Assert.assertEquals("Expected success status, but got BAD_REQUEST, code: BAD_REQUEST, consumed 1.0 RU"
                 + ", issues: [issue1 (S_FATAL), issue2 (S_INFO)]",
                 ex1.getMessage());
         Assert.assertEquals(wrong, ex1.getStatus());
@@ -66,7 +66,7 @@ public class StatusTest {
         UnexpectedResultException ex2 = Assert.assertThrows(UnexpectedResultException.class,
                 () -> wrong.expectSuccess("check success"));
         Assert.assertEquals(
-                "check success, code: BAD_REQUEST, issues: [issue1 (S_FATAL), issue2 (S_INFO)]",
+                "check success, code: BAD_REQUEST, consumed 1.0 RU, issues: [issue1 (S_FATAL), issue2 (S_INFO)]",
                 ex2.getMessage());
         Assert.assertEquals(wrong, ex2.getStatus());
     }

@@ -199,7 +199,7 @@ public interface Result<T> {
 
         @Override
         public String toString() {
-            StringBuilder sb = new StringBuilder("Unexpected{message=").append(cause.getMessage());
+            StringBuilder sb = new StringBuilder("Unexpected{message='").append(cause.getMessage()).append("'");
             if (cause.getCause() != null) {
                 sb.append(", cause=").append(cause.getCause());
             }
@@ -260,7 +260,7 @@ public interface Result<T> {
 
         @Override
         public String toString() {
-            return "Error{message=" + message + ", cause=" + cause + '}';
+            return "Error{message='" + message + "', cause=" + cause + '}';
         }
     }
 }

@@ -131,7 +131,7 @@ public class ResultTest {
         Assert.assertEquals(r1.hashCode(), r3.hashCode());
         Assert.assertNotEquals(r1.hashCode(), r2.hashCode());
         Assert.assertEquals(
-                "Error{message=error message, cause=java.lang.RuntimeException: some exception}",
+                "Error{message='error message', cause=java.lang.RuntimeException: some exception}",
                 r1.toString());
 
         UnexpectedResultException ex = Assert.assertThrows(UnexpectedResultException.class, r1::getValue);
@@ -168,10 +168,10 @@ public class ResultTest {
         Assert.assertEquals(r1.hashCode(), r3.hashCode());
         Assert.assertNotEquals(r1.hashCode(), r2.hashCode());
         Assert.assertEquals(
-                "Unexpected{message=unexpected 1, code: CLIENT_CANCELLED, issues: [issue1 (S_ERROR)]}",
+                "Unexpected{message='unexpected 1, code: CLIENT_CANCELLED, issues: [issue1 (S_ERROR)]'}",
                 r1.toString());
-        Assert.assertEquals("Unexpected{message=some message: unexpected 2, "
-                + "code: INTERNAL_ERROR, cause=java.lang.RuntimeException: inner cause}",
+        Assert.assertEquals("Unexpected{message='some message: unexpected 2, "
+                + "code: INTERNAL_ERROR, consumed 5.0 RU', cause=java.lang.RuntimeException: inner cause}",
                 r2.toString());
 
         UnexpectedResultException res1 = Assert.assertThrows(UnexpectedResultException.class, r1::getValue);
@@ -184,7 +184,7 @@ public class ResultTest {
         UnexpectedResultException res2 = Assert.assertThrows(UnexpectedResultException.class, r2::getValue);
         Assert.assertEquals(r2.getStatus(), ex2.getStatus());
         Assert.assertNotEquals(res2, ex2);
-        Assert.assertEquals("some message: unexpected 2, code: INTERNAL_ERROR", res2.getMessage());
+        Assert.assertEquals("some message: unexpected 2, code: INTERNAL_ERROR, consumed 5.0 RU", res2.getMessage());
         Assert.assertEquals(res2.getStatus(), Status.of(StatusCode.INTERNAL_ERROR).withConsumedRu(5d));
         Assert.assertNotNull(res2.getCause());
         Assert.assertEquals("inner cause", res2.getCause().getMessage());

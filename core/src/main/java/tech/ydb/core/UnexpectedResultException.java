@@ -40,6 +40,9 @@ public class UnexpectedResultException extends RuntimeException {
             sb.append(message).append(", ");
         }
         sb.append("code: ").append(status.getCode().name());
+        if (status.hasConsumedRu()) {
+            sb.append(", consumed ").append(status.getConsumedRu()).append(" RU");
+        }
         Issue[] issues = status.getIssues();
         if (issues.length != 0) {
             sb.append(", issues: [");
