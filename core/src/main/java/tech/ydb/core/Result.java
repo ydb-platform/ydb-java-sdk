@@ -38,10 +38,13 @@ public interface Result<T> {
     }
 
     static <V> Result<V> fail(UnexpectedResultException unexpected) {
-        return new Fail<>(unexpected.getStatus());
+        return new Unexpected<>(Objects.requireNonNull(unexpected));
     }
 
     static <V> Result<V> error(String message, Throwable throwable) {
+        if (throwable != null && throwable instanceof UnexpectedResultException) {
+            return new Unexpected<>(message, (UnexpectedResultException) throwable);
+        }
         return new Error<>(message, throwable);
     }
 
@@ -149,23 +152,74 @@ public interface Result<T> {
         }
     }
 
+    final class Unexpected<V> implements Result<V> {
+        private final UnexpectedResultException cause;
+
+        private Unexpected(UnexpectedResultException cause) {
+            this.cause = cause;
+        }
+
+        private Unexpected(String message, UnexpectedResultException cause) {
+            this.cause = (message == null || message.isEmpty()) ? cause : new UnexpectedResultException(message, cause);
+        }
+
+        @Override
+        public Status getStatus() {
+            return cause.getStatus();
+        }
+
+        @Override
+        public V getValue() {
+            throw cause;
+        }
+
+        @Override
+        @SuppressWarnings("unchecked")
+        public <U> Unexpected<U> map(Function<V, U> mapper) {
+            return (Unexpected<U>) this;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+
+            Unexpected<?> error = (Unexpected<?>) o;
+            return Objects.equals(cause, error.cause);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(cause);
+        }
+
+        @Override
+        public String toString() {
+            StringBuilder sb = new StringBuilder("Unexpected{message='").append(cause.getMessage()).append("'");
+            if (cause.getCause() != null) {
+                sb.append(", cause=").append(cause.getCause());
+            }
+            return sb.append("}").toString();
+        }
+    }
+
     /*
      * ERROR
      */
     final class Error<V> implements Result<V> {
-        private static final Status ERROR = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null);
+        private static final Status ERROR = Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
         private final String message;
         private final Throwable cause;
         private final Status status;
 
         private Error(String message, Throwable cause) {
             this.message = message;
+            this.status = ERROR;
             this.cause = cause;
-            if (cause != null && cause instanceof UnexpectedResultException) {
-                this.status = ((UnexpectedResultException) cause).getStatus();
-            } else {
-                this.status = ERROR;
-            }
         }
 
         @Override
@@ -206,7 +260,7 @@ public interface Result<T> {
 
         @Override
         public String toString() {
-            return "Error{message=" + message + ", cause=" + cause + '}';
+            return "Error{message='" + message + "', cause=" + cause + '}';
         }
     }
 }

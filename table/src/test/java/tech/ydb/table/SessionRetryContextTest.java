@@ -33,13 +33,13 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  * @author Sergey Polovko
  */
 public class SessionRetryContextTest extends FutureHelper  {
-    private static final Status NOT_FOUND = Status.of(StatusCode.NOT_FOUND, null);
-    private static final Status SCHEME_ERROR = Status.of(StatusCode.SCHEME_ERROR, null);
-    private static final Status SESSION_BUSY = Status.of(StatusCode.SESSION_BUSY, null);
-    private static final Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null);
-    private static final Status CANCELLED = Status.of(StatusCode.CANCELLED, null);
-    private static final Status OVERLOADED = Status.of(StatusCode.OVERLOADED, null);
-    private static final Status CLIENT_RESOURCE_EXHAUSTED = Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED, null);
+    private static final Status NOT_FOUND = Status.of(StatusCode.NOT_FOUND);
+    private static final Status SCHEME_ERROR = Status.of(StatusCode.SCHEME_ERROR);
+    private static final Status SESSION_BUSY = Status.of(StatusCode.SESSION_BUSY);
+    private static final Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE);
+    private static final Status CANCELLED = Status.of(StatusCode.CANCELLED);
+    private static final Status OVERLOADED = Status.of(StatusCode.OVERLOADED);
+    private static final Status CLIENT_RESOURCE_EXHAUSTED = Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED);
 
     private static final Duration TEN_MILLIS = Duration.ofMillis(10);
     private static final Duration FIVE_SECONDS = Duration.ofSeconds(5);
@@ -528,7 +528,7 @@ public class SessionRetryContextTest extends FutureHelper  {
             if (requestsCount.getAndIncrement() >= maxFails) {
                 return completedFuture(Result.success(new SessionStub()));
             }
-            return completedFuture(Result.fail(Status.of(statusCode, null)));
+            return completedFuture(Result.fail(Status.of(statusCode)));
         }
     }
 

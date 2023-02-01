@@ -24,10 +24,6 @@ import tech.ydb.core.utils.URITools;
  */
 public interface GrpcTransport extends AutoCloseable {
 
-    ScheduledExecutorService scheduler();
-
-    String getEndpointByNodeId(int nodeId);
-
     <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
@@ -40,6 +36,8 @@ public interface GrpcTransport extends AutoCloseable {
             StreamObserver<RespT> observer);
 
     String getDatabase();
+
+    ScheduledExecutorService scheduler();
 
     @Override
     void close();

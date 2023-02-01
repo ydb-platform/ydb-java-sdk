@@ -1,9 +1,5 @@
 package tech.ydb.table.rpc.grpc;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -18,12 +14,10 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
-import tech.ydb.core.utils.URITools;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.AlterTableResponse;
@@ -254,21 +248,5 @@ public final class GrpcTableRpc implements TableRpc {
         if (transportOwned) {
             transport.close();
         }
-    }
-
-    @Override
-    public EndpointInfo getEndpointBySessionId(String sessionId) {
-        try {
-            Map<String, List<String>> params = URITools.splitQuery(new URI(sessionId));
-            List<String> nodeParam = params.get("node_id");
-            if (nodeParam != null && !nodeParam.isEmpty()) {
-                int nodeID = Integer.parseUnsignedInt(nodeParam.get(0));
-                String endpoint = transport.getEndpointByNodeId(nodeID);
-                return endpoint != null ? new EndpointInfo(nodeID, endpoint) : null;
-            }
-        } catch (URISyntaxException | RuntimeException e) {
-            logger.debug("Failed to parse session_id for node_id: {}", e.toString());
-        }
-        return null;
     }
 }

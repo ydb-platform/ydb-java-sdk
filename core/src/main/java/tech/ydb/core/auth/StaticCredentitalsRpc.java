@@ -22,7 +22,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.impl.GrpcAuthRpc;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
 
 /**
  *
@@ -101,7 +101,7 @@ class StaticCredentitalsRpc {
         rpc.getExecutor().submit(() -> {
             try (GrpcTransport transport = rpc.createTransport()) {
                 GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                        .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS).toNanos())
+                        .withDeadline(Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS))
                         .build();
 
                 transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
@@ -124,6 +124,12 @@ class StaticCredentitalsRpc {
 
     public CompletableFuture<Token> loginAsync() {
         CompletableFuture<Token> tokenFuture = new CompletableFuture<>();
+        tokenFuture.whenComplete((token, th) -> {
+            if (token == null || th != null) {
+                rpc.changeEndpoint();
+            }
+        });
+
         tryLogin(tokenFuture);
         return tokenFuture;
     }

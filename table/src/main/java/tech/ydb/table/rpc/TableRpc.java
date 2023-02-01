@@ -3,11 +3,8 @@ package tech.ydb.table.rpc;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
-import javax.annotation.Nullable;
-
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.rpc.Rpc;
 import tech.ydb.core.rpc.StreamControl;
@@ -45,15 +42,6 @@ import tech.ydb.table.YdbTable.RollbackTransactionRequest;
  * @author Sergey Polovko
  */
 public interface TableRpc extends Rpc {
-
-    /**
-     * Returns endpoint (host:port) for corresponding session id.
-     * Returns null if there is no such session id.
-     * @param sessionId session id
-     * @return endpoint associated with the session
-     */
-    @Nullable
-    EndpointInfo getEndpointBySessionId(String sessionId);
 
     ScheduledExecutorService scheduler();
 

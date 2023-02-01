@@ -1,4 +1,5 @@
-package tech.ydb.core.grpc.impl;
+package tech.ydb.core.impl.discovery;
+
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
@@ -10,6 +11,10 @@ import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.BaseGrpcTrasnsport;
+import tech.ydb.core.impl.FixedCallOptionsTransport;
+import tech.ydb.core.impl.pool.EndpointRecord;
+import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.discovery.DiscoveryProtos;
 import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 
@@ -24,12 +29,12 @@ public class GrpcDiscoveryRpc {
 
     private final BaseGrpcTrasnsport parent;
     private final EndpointRecord endpoint;
-    private final ChannelFactory channelFactory;
+    private final ManagedChannelFactory channelFactory;
 
     public GrpcDiscoveryRpc(
             BaseGrpcTrasnsport parent,
             EndpointRecord endpoint,
-            ChannelFactory channelFactory) {
+            ManagedChannelFactory channelFactory) {
         this.parent = parent;
         this.endpoint = endpoint;
         this.channelFactory = channelFactory;
@@ -44,7 +49,7 @@ public class GrpcDiscoveryRpc {
                 .build();
 
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(System.nanoTime() + Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS).toNanos())
+                .withDeadline(Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS))
                 .build();
 
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
@@ -56,10 +61,9 @@ public class GrpcDiscoveryRpc {
     }
 
     private GrpcTransport createTransport() {
-        return new SingleChannelTransport(
-                parent.getCallOptions(),
+        return new FixedCallOptionsTransport(
                 parent.scheduler(),
-                parent.getDefaultReadTimeoutMillis(),
+                parent.getCallOptions(),
                 parent.getDatabase(),
                 endpoint,
                 channelFactory
