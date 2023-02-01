@@ -34,7 +34,7 @@ public abstract class YdbHelperFactory {
             return new ExternalHelperFactory(env);
         }
 
-        // check is docker is availabled
+        // check if docker is availabled
         if (DockerClientFactory.instance().isDockerAvailable()) {
             logger.info("setup docker-based ydb helper");
             return new DockerHelperFactory(env);

@@ -34,7 +34,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <!--
-            We cannot use testcontainers withou junit4
+            We cannot use testcontainers without junit4
             See https://github.com/testcontainers/testcontainers-java/issues/87
             -->
             <!--<scope>test</scope>-->

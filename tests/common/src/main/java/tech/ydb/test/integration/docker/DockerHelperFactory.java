@@ -63,7 +63,7 @@ public class DockerHelperFactory extends YdbHelperFactory {
 
             @Override
             public String authToken() {
-                // connection to docker container always is anonimous
+                // connection to docker container always is anonymous
                 return null;
             }
 
