@@ -16,6 +16,7 @@ public class YdbEnvironmentTest {
     private final static String EMPTY_ENV_PARAM = "TEST_VAR3";
     private final static String BOOLEAN_ENV_PARAM = "TEST_VAR4";
     private final static String WRONG_BOOLEAN_ENV_PARAM = "TEST_VAR5";
+    private final static String WRONG_BOOLEAN_SYSTEM_PARAM = "TEST_VAR6";
 
     @Test
     public void envDefaultsTests() {
@@ -52,6 +53,7 @@ public class YdbEnvironmentTest {
             System.setProperty(NOT_EXIST_ENV_PARAM, "prop2");
             System.setProperty(EMPTY_ENV_PARAM, "true");
             System.setProperty(BOOLEAN_ENV_PARAM, "false");
+            System.setProperty(WRONG_BOOLEAN_SYSTEM_PARAM, "");
 
             YdbEnvironment env = new YdbEnvironment();
 
@@ -71,11 +73,13 @@ public class YdbEnvironmentTest {
 
             // Incorrect boolean value - use properites
             Assert.assertTrue("Check exist env param", env.readParam(EMPTY_ENV_PARAM, false));
+            Assert.assertFalse("Check exist env param", env.readParam(WRONG_BOOLEAN_SYSTEM_PARAM, false));
         } finally {
             System.getProperties().remove(ENV_PARAM);
             System.getProperties().remove(NOT_EXIST_ENV_PARAM);
             System.getProperties().remove(EMPTY_ENV_PARAM);
             System.getProperties().remove(BOOLEAN_ENV_PARAM);
+            System.getProperties().remove(WRONG_BOOLEAN_SYSTEM_PARAM);
         }
     }
 

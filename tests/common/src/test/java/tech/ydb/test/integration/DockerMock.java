@@ -1,5 +1,7 @@
 package tech.ydb.test.integration;
 
+import java.util.UUID;
+
 import com.github.dockerjava.api.DockerClient;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -12,17 +14,27 @@ import org.testcontainers.utility.TestcontainersConfiguration;
  * @author Aleksandr Gorshenin
  */
 public class DockerMock implements AutoCloseable {
-    private final MockedStatic<TestcontainersConfiguration> staticConfiguration =
-            Mockito.mockStatic(TestcontainersConfiguration.class);
-    private final MockedStatic<DockerClientFactory> staticDockerFactory =
-            Mockito.mockStatic(DockerClientFactory.class);
-    private final MockedStatic<ResourceReaper> staticResourceReaper =
-            Mockito.mockStatic(ResourceReaper.class);
+    public final static String UUID_MOCKED = "20354d7a-e4fe-47af-8ff6-187bca92f3f9";
+
+    private final MockedStatic<UUID> staticUUID;
+    private final MockedStatic<TestcontainersConfiguration> staticConfiguration;
+    private final MockedStatic<DockerClientFactory> staticDockerFactory;
+    private final MockedStatic<ResourceReaper> staticResourceReaper;
 
     private final TestcontainersConfiguration configration = Mockito.mock(TestcontainersConfiguration.class);
     private final DockerClientFactory dockerClientFactory = Mockito.mock(DockerClientFactory.class);
     private final ResourceReaper resourceReaper = Mockito.mock(ResourceReaper.class);
     private final DockerClient dockerClient = Mockito.mock(DockerClient.class);
+
+    public DockerMock() {
+        UUID mocked = UUID.fromString(UUID_MOCKED);
+        staticUUID = Mockito.mockStatic(UUID.class);
+        staticUUID.when(UUID::randomUUID).thenReturn(mocked);
+
+        staticConfiguration = Mockito.mockStatic(TestcontainersConfiguration.class);
+        staticDockerFactory = Mockito.mockStatic(DockerClientFactory.class);
+        staticResourceReaper = Mockito.mockStatic(ResourceReaper.class);
+    }
 
     public void setup(Boolean enabled) {
         setup(enabled, Boolean.FALSE);
@@ -48,5 +60,6 @@ public class DockerMock implements AutoCloseable {
         staticResourceReaper.close();
         staticDockerFactory.close();
         staticConfiguration.close();
+        staticUUID.close();
     }
 }
