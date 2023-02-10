@@ -1,5 +1,7 @@
 package tech.ydb.core;
 
+import java.util.EnumSet;
+
 import tech.ydb.StatusCodesProtos.StatusIds;
 
 import static tech.ydb.core.Constants.INTERNAL_CLIENT_FIRST;
@@ -58,6 +60,22 @@ public enum StatusCode {
     // Deadline expired before request was sent to server
     CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30);
 
+    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
+            ABORTED,
+            UNAVAILABLE,
+            OVERLOADED,
+            CLIENT_RESOURCE_EXHAUSTED,
+            BAD_SESSION,
+            SESSION_BUSY
+    );
+
+    private static final EnumSet<StatusCode> IDEMPOTENT_RETRYABLE_STATUSES = EnumSet.of(
+            CLIENT_CANCELLED,
+            CLIENT_INTERNAL_ERROR,
+            UNDETERMINED,
+            TRANSPORT_UNAVAILABLE
+    );
+
     private final int code;
 
     StatusCode(int code) {
@@ -96,5 +114,9 @@ public enum StatusCode {
             default:
                 return UNUSED_STATUS;
         }
+    }
+
+    public boolean isRetryable(boolean idempotent) {
+        return RETRYABLE_STATUSES.contains(this) || (idempotent && IDEMPOTENT_RETRYABLE_STATUSES.contains(this));
     }
 }
