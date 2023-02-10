@@ -55,7 +55,6 @@ public final class EndpointPool {
                 }
             }
             if (bestEndpointsCount == -1) {
-                assert records.isEmpty();
                 return null;
             } else {
                 // returns value in range [0, n)

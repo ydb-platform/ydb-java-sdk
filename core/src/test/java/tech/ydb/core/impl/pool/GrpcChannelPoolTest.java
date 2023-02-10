@@ -55,11 +55,13 @@ public class GrpcChannelPoolTest {
         Assert.assertNotNull(channel1);
         Assert.assertEquals(e1, channel1.getEndpoint());
         Assert.assertEquals(1, pool.getChannels().size());
+        Assert.assertSame(channel1, pool.getChannel(e1));
 
         GrpcChannel channel2 = pool.getChannel(e2);
         Assert.assertNotNull(channel2);
         Assert.assertEquals(e2, channel2.getEndpoint());
         Assert.assertEquals(2, pool.getChannels().size());
+        Assert.assertSame(channel2, pool.getChannel(e2));
 
         Assert.assertFalse(channel1.isShutdown());
         Assert.assertFalse(channel2.isShutdown());
