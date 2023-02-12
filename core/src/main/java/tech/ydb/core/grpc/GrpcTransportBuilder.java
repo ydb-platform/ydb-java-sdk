@@ -50,6 +50,9 @@ public class GrpcTransportBuilder {
         this.endpoint = endpoint;
         this.host = host;
         this.database = Objects.requireNonNull(database);
+        if (endpoint != null && endpoint.startsWith("grpcs://")) {
+            this.useTLS = true;
+        }
     }
 
     @Nullable

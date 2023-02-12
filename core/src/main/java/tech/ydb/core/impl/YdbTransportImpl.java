@@ -77,7 +77,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         URI endpointURI = null;
         try {
             if (builder.getEndpoint() != null) {
-                endpointURI = new URI(null, builder.getEndpoint(), null, null, null);
+                endpointURI = new URI(builder.getEndpoint());
             }
             HostAndPort host = builder.getHost();
             if (host != null) {
