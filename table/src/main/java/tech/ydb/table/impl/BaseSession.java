@@ -416,12 +416,23 @@ public abstract class BaseSession implements Session {
         return tableRpc.copyTables(request, grpcRequestSettings);
     }
 
-    private static List<YdbTable.CopyTableItem> convertCopyTableItems(CopyTablesSettings cts) {
-        return cts.getItems().stream().map(t -> YdbTable.CopyTableItem.newBuilder()
-                .setSourcePath(t.getSourcePath())
-                .setDestinationPath(t.getDestinationPath())
-                .setOmitIndexes(t.isOmitIndexes())
-                .build()).collect(Collectors.toList());
+    private List<YdbTable.CopyTableItem> convertCopyTableItems(CopyTablesSettings cts) {
+        final String dbpath = tableRpc.getDatabase();
+        return cts.getItems().stream().map(t -> {
+            String sp = t.getSourcePath();
+            if (!sp.startsWith("/")) {
+                sp = dbpath + "/" + sp;
+            }
+            String dp = t.getDestinationPath();
+            if (!dp.startsWith("/")) {
+                dp = dbpath + "/" + dp;
+            }
+            return YdbTable.CopyTableItem.newBuilder()
+                    .setSourcePath(sp)
+                    .setDestinationPath(dp)
+                    .setOmitIndexes(t.isOmitIndexes())
+                    .build();
+        }).collect(Collectors.toList());
     }
 
     @Override
