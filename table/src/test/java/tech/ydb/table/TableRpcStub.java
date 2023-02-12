@@ -16,6 +16,7 @@ import tech.ydb.table.YdbTable.BeginTransactionRequest;
 import tech.ydb.table.YdbTable.BeginTransactionResult;
 import tech.ydb.table.YdbTable.CommitTransactionRequest;
 import tech.ydb.table.YdbTable.CopyTableRequest;
+import tech.ydb.table.YdbTable.CopyTablesRequest;
 import tech.ydb.table.YdbTable.CreateSessionRequest;
 import tech.ydb.table.YdbTable.CreateSessionResult;
 import tech.ydb.table.YdbTable.CreateTableRequest;
@@ -88,6 +89,12 @@ public class TableRpcStub implements TableRpc {
     public CompletableFuture<Status> copyTable(CopyTableRequest request,
                                                                   GrpcRequestSettings settings) {
         return notImplemented("copyTable()");
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTables(CopyTablesRequest request,
+                                                                  GrpcRequestSettings settings) {
+        return notImplemented("copyTables()");
     }
 
     @Override

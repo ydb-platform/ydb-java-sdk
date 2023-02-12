@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
@@ -55,6 +56,7 @@ import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
+import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateSessionSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DeleteSessionSettings;
@@ -401,6 +403,25 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return tableRpc.copyTable(request, grpcRequestSettings);
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTables(CopyTablesSettings settings) {
+        YdbTable.CopyTablesRequest request = YdbTable.CopyTablesRequest.newBuilder()
+                .setSessionId(id)
+                .addAllTables(convertCopyTableItems(settings))
+                .build();
+
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return tableRpc.copyTables(request, grpcRequestSettings);
+    }
+
+    private static List<YdbTable.CopyTableItem> convertCopyTableItems(CopyTablesSettings cts) {
+        return cts.getItems().stream().map(t -> YdbTable.CopyTableItem.newBuilder()
+                .setSourcePath(t.getSourcePath())
+                .setDestinationPath(t.getDestinationPath())
+                .setOmitIndexes(t.isOmitIndexes())
+                .build()).collect(Collectors.toList());
     }
 
     @Override
