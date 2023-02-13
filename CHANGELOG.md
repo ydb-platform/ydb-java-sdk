@@ -11,6 +11,7 @@
 * API of authentication providers has been separated into a detached module with its own versioning
 * Removed unnecessary parameter EndpointsDiscoveryPeriod from GrpcTransportBuilder
 * Fixed serialization/deserialization of inner optional types
+* Added copyTables() consistent multi-table copy operation to the Session
 
 ## 2.0.1 ##
 

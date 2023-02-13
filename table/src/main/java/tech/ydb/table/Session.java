@@ -16,6 +16,7 @@ import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
+import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
@@ -55,6 +56,8 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Status> alterTable(String path, AlterTableSettings settings);
 
     CompletableFuture<Status> copyTable(String src, String dst, CopyTableSettings settings);
+
+    CompletableFuture<Status> copyTables(CopyTablesSettings settings);
 
     CompletableFuture<Result<TableDescription>> describeTable(String path, DescribeTableSettings settings);
 

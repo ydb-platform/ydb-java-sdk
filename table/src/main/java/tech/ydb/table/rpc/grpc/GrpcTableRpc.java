@@ -29,6 +29,8 @@ import tech.ydb.table.YdbTable.CommitTransactionRequest;
 import tech.ydb.table.YdbTable.CommitTransactionResponse;
 import tech.ydb.table.YdbTable.CopyTableRequest;
 import tech.ydb.table.YdbTable.CopyTableResponse;
+import tech.ydb.table.YdbTable.CopyTablesRequest;
+import tech.ydb.table.YdbTable.CopyTablesResponse;
 import tech.ydb.table.YdbTable.CreateTableRequest;
 import tech.ydb.table.YdbTable.CreateTableResponse;
 import tech.ydb.table.YdbTable.DeleteSessionRequest;
@@ -138,6 +140,14 @@ public final class GrpcTableRpc implements TableRpc {
         return transport
                 .unaryCall(TableServiceGrpc.getCopyTableMethod(), settings, request)
                 .thenApply(Operations.statusUnwrapper(CopyTableResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTables(CopyTablesRequest request,
+            GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getCopyTablesMethod(), settings, request)
+                .thenApply(Operations.statusUnwrapper(CopyTablesResponse::getOperation));
     }
 
     @Override

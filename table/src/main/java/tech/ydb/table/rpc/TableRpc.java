@@ -15,6 +15,7 @@ import tech.ydb.table.YdbTable.BeginTransactionResult;
 import tech.ydb.table.YdbTable.BulkUpsertRequest;
 import tech.ydb.table.YdbTable.CommitTransactionRequest;
 import tech.ydb.table.YdbTable.CopyTableRequest;
+import tech.ydb.table.YdbTable.CopyTablesRequest;
 import tech.ydb.table.YdbTable.CreateSessionRequest;
 import tech.ydb.table.YdbTable.CreateSessionResult;
 import tech.ydb.table.YdbTable.CreateTableRequest;
@@ -105,6 +106,14 @@ public interface TableRpc extends Rpc {
      * @return completable future with status of operation
      */
     CompletableFuture<Status> copyTable(CopyTableRequest request, GrpcRequestSettings settings);
+
+    /**
+     * Creates consistent copies of the given tables.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with status of operation
+     */
+    CompletableFuture<Status> copyTables(CopyTablesRequest request, GrpcRequestSettings settings);
 
     /**
      * Returns information about given table (metadata).
