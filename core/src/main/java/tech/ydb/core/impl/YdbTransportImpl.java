@@ -76,8 +76,13 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
         URI endpointURI = null;
         try {
-            if (builder.getEndpoint() != null) {
-                endpointURI = new URI(null, builder.getEndpoint(), null, null, null);
+            String endpoint = builder.getEndpoint();
+            if (endpoint != null) {
+                if (endpoint.startsWith("grpc://") || endpoint.startsWith("grpcs://")) {
+                    endpointURI = new URI(endpoint);
+                } else {
+                    endpointURI = new URI(null, endpoint, null, null, null);
+                }
             }
             HostAndPort host = builder.getHost();
             if (host != null) {
