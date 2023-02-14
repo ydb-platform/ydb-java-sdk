@@ -50,6 +50,11 @@
 
             <dependency>
                 <groupId>tech.ydb.test</groupId>
+                <artifactId>ydb-tests-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb.test</groupId>
                 <artifactId>ydb-junit4-support</artifactId>
                 <version>${project.version}</version>
             </dependency>

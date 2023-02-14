@@ -22,7 +22,6 @@
         <dependency>
             <groupId>tech.ydb</groupId>
             <artifactId>ydb-sdk-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>

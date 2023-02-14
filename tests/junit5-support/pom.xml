@@ -22,7 +22,6 @@
         <dependency>
             <groupId>tech.ydb.test</groupId>
             <artifactId>ydb-tests-common</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>

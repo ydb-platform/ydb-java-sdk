@@ -23,13 +23,11 @@
         <dependency>
             <groupId>tech.ydb</groupId>
             <artifactId>ydb-sdk-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
             <groupId>tech.ydb.test</groupId>
             <artifactId>ydb-junit4-support</artifactId>
-            <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
 
