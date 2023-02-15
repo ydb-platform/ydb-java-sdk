@@ -1,5 +1,6 @@
 ## 2.1.0 ##
 
+* Fixed exponential backoff calculation
 * Fixed null values for Result.success
 * Fixed bug of channels closing
 * Changed default load balancer policy from pick_first to round_robin
