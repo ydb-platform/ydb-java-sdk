@@ -3,6 +3,7 @@ package tech.ydb.test.integration;
 import java.util.UUID;
 
 import com.github.dockerjava.api.DockerClient;
+import org.mockito.Answers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testcontainers.DockerClientFactory;
@@ -28,7 +29,7 @@ public class DockerMock implements AutoCloseable {
 
     public DockerMock() {
         UUID mocked = UUID.fromString(UUID_MOCKED);
-        staticUUID = Mockito.mockStatic(UUID.class);
+        staticUUID = Mockito.mockStatic(UUID.class, Answers.CALLS_REAL_METHODS);
         staticUUID.when(UUID::randomUUID).thenReturn(mocked);
 
         staticConfiguration = Mockito.mockStatic(TestcontainersConfiguration.class);
