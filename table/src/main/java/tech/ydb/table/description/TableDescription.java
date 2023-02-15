@@ -131,15 +131,6 @@ public class TableDescription {
             return this;
         }
 
-        public Builder addNotNullColumn(String name, Type type) {
-            return addNotNullColumn(name, type, null);
-        }
-
-        public Builder addNotNullColumn(String name, Type type, String family) {
-            columns.put(name, new TypeAndFamily(type, family));
-            return this;
-        }
-
         public Builder setPrimaryKey(String name) {
             checkColumnKnown(name);
             primaryKeys = ImmutableList.of(name);
