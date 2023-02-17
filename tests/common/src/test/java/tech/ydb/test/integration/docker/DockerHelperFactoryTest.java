@@ -117,8 +117,8 @@ public class DockerHelperFactoryTest {
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("docker")) {
-                Assert.assertEquals("/local/docker", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
@@ -138,8 +138,8 @@ public class DockerHelperFactoryTest {
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("docker")) {
-                Assert.assertEquals("/local/docker", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
@@ -179,8 +179,8 @@ public class DockerHelperFactoryTest {
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("docker")) {
-                Assert.assertEquals("/local/docker", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
@@ -200,8 +200,8 @@ public class DockerHelperFactoryTest {
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("docker")) {
-                Assert.assertEquals("/local/docker", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
@@ -240,8 +240,8 @@ public class DockerHelperFactoryTest {
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("docker")) {
-                Assert.assertEquals("/local/docker", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
@@ -261,8 +261,8 @@ public class DockerHelperFactoryTest {
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("docker")) {
-                Assert.assertEquals("/local/docker", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }

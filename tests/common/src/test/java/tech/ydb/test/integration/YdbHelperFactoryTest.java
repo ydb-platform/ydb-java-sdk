@@ -60,8 +60,8 @@ public class YdbHelperFactoryTest {
             Assert.assertFalse("check helper tls mode", helper.useTls());
             Assert.assertNull("check helper pem cert", helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("local_test")) {
-                Assert.assertEquals("/database/local_test", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/database", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
@@ -99,8 +99,8 @@ public class YdbHelperFactoryTest {
             Assert.assertTrue("check helper tls mode", helper.useTls());
             Assert.assertArrayEquals("check helper pem cert", pemBody, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("local_tls")) {
-                Assert.assertEquals("/tls/local_tls", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/tls", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
@@ -131,8 +131,8 @@ public class YdbHelperFactoryTest {
             Assert.assertTrue("check helper tls mode", helper.useTls());
             Assert.assertNull("check helper pem cert", helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport("local_grpc")) {
-                Assert.assertEquals("/token/local_grpc", transport.getDatabase());
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/token", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
         }
