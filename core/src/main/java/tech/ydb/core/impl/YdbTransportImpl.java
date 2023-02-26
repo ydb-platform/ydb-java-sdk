@@ -46,7 +46,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
-        EndpointRecord discoveryEndpoint = getDiscoverytEndpoint(builder);
+        EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
 
         logger.info("creating YDB transport with {}", balancingSettings);
 
@@ -73,7 +73,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         periodicDiscoveryTask.start();
     }
 
-    static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
+    static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {
         URI endpointURI = null;
         try {
             String endpoint = builder.getEndpoint();

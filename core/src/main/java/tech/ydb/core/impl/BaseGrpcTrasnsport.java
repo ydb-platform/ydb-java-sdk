@@ -21,8 +21,6 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.pool.GrpcChannel;
-import tech.ydb.core.grpc.ServerStreamToObserver;
-import tech.ydb.core.grpc.UnaryStreamToFuture;
 import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
@@ -156,6 +154,10 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             StreamObserver<RespT> observer,
             GrpcRequestSettings settings) {
+        if (shutdown) {
+            observer.onError(SHUTDOWN_RESULT.getStatus());
+            return makeEmptyObserverStub();
+        }
         CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() > 0) {
             final long now = System.nanoTime();
@@ -164,16 +166,14 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
                 return makeEmptyObserverStub();
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
-        } else if (defaultReadTimeoutMillis > 0) {
-            options = options.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
         }
 
         try {
-            CheckableChannel channel = getChannel(settings);
-            ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
+            GrpcChannel channel = getChannel(settings);
+            ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             if (logger.isTraceEnabled()) {
                 logger.trace("Starting bidirectional stream to {}, method `{}'",
-                        channel.endpoint(),
+                        channel.getEndpoint(),
                         method);
             }
             AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
@@ -181,7 +181,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener = new AsyncBidiStreamingInAdapter<>(
                     observer,
                     adapter,
-                    channel::updateGrpcStatus,
+                    status -> updateChannelStatus(channel, status),
                     settings.getTrailersHandler()
             );
             Metadata extra = settings.getExtraHeaders();

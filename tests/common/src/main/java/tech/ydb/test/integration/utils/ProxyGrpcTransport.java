@@ -3,11 +3,13 @@ package tech.ydb.test.integration.utils;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
+import io.grpc.CallOptions;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 
@@ -46,12 +48,25 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
+    public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings) {
+        return checked().bidirectionalStreamCall(method, observer, settings);
+    }
+
+    @Override
     public String getDatabase() {
         return checked().getDatabase();
     }
 
     @Override
+    public CallOptions getCallOptions() {
+        return checked().getCallOptions();
+    }
+
+    @Override
     public void close() {
-        // Usally origin transport must be closed by its owner
+        // Usually origin transport must be closed by its owner
     }
 }

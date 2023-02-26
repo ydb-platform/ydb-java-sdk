@@ -31,7 +31,7 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
 
     public SingleChannelTransport(GrpcTransportBuilder builder) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
-        EndpointRecord endpoint = YdbTransportImpl.getDiscoverytEndpoint(builder);
+        EndpointRecord endpoint = YdbTransportImpl.getDiscoveryEndpoint(builder);
 
         logger.info("creating signle channel transport with endpoint {}", endpoint);
 

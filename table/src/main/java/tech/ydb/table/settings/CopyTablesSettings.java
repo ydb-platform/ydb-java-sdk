@@ -3,6 +3,8 @@ package tech.ydb.table.settings;
 import java.util.ArrayList;
 import java.util.List;
 
+import tech.ydb.core.settings.RequestSettings;
+
 /**
  *
  * @author Maksim Zinal
