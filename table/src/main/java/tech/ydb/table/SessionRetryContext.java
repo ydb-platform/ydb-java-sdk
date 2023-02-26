@@ -2,7 +2,6 @@ package tech.ydb.table;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.EnumSet;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -36,15 +35,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
     private static final Logger logger = LoggerFactory.getLogger(SessionRetryContext.class);
-
-    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
-        StatusCode.ABORTED,
-        StatusCode.UNAVAILABLE,
-        StatusCode.OVERLOADED,
-        StatusCode.CLIENT_RESOURCE_EXHAUSTED,
-        StatusCode.BAD_SESSION,
-        StatusCode.SESSION_BUSY
-    );
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -90,7 +80,7 @@ public class SessionRetryContext {
         Throwable cause = Async.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
-            return canRetry(statusCode);
+            return statusCode.isRetryable(idempotent, retryNotFound);
         }
         return false;
     }
@@ -105,24 +95,6 @@ public class SessionRetryContext {
             return statusCode.name();
         }
         return t.getMessage();
-    }
-
-    private boolean canRetry(StatusCode code) {
-        if (RETRYABLE_STATUSES.contains(code)) {
-            return true;
-        }
-        switch (code) {
-            case NOT_FOUND:
-                return retryNotFound;
-            case CLIENT_CANCELLED:
-            case CLIENT_INTERNAL_ERROR:
-            case UNDETERMINED:
-            case TRANSPORT_UNAVAILABLE:
-                return idempotent;
-            default:
-                break;
-        }
-        return false;
     }
 
     private long backoffTimeMillisInternal(int retryNumber, long backoffSlotMillis, int backoffCeiling) {
@@ -267,7 +239,7 @@ public class SessionRetryContext {
 
         private void handleError(@Nonnull StatusCode code, R result) {
             // Check retrayable status
-            if (!canRetry(code)) {
+            if (!code.isRetryable(idempotent, retryNotFound)) {
                 logger.debug("RetryCtx[{}] NON-RETRYABLE CODE[{}], finished after {} retries, {} ms total",
                         hashCode(), code, retryNumber.get(), ms());
                 promise.complete(result);

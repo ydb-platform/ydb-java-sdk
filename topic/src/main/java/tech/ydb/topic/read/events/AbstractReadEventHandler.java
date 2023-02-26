@@ -3,7 +3,7 @@ package tech.ydb.topic.read.events;
 /**
  * @author Nikolay Perfilov
  */
-public abstract class DefaultReadEventHandler implements ReadEventHandler {
+public abstract class AbstractReadEventHandler implements ReadEventHandler {
 
     // onMessages method should be defined in user's implementation
 

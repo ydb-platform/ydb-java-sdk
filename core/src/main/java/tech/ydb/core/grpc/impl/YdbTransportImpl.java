@@ -21,6 +21,7 @@ import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.discovery.DiscoveryProtos;
@@ -51,7 +52,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         super(builder.getReadTimeoutMillis());
         ChannelFactory channelFactory = ChannelFactory.fromBuilder(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
-        EndpointRecord discoveryEndpoint = getDiscoverytEndpoint(builder);
+        EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
 
         logger.info("creating YDB transport with {}", balancingSettings);
 
@@ -74,7 +75,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         periodicDiscoveryTask.start();
     }
 
-    private static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
+    private static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {
         URI endpointURI = null;
         try {
             if (builder.getEndpoint() != null) {
@@ -144,6 +145,18 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         }
 
         return super.serverStreamCall(method, settings, request, observer);
+    }
+
+    @Override
+    public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings) {
+        if (shutdown) {
+            observer.onError(SHUTDOWN_RESULT.getStatus());
+            return makeEmptyObserverStub();
+        }
+        return super.bidirectionalStreamCall(method, observer, settings);
     }
 
     @Override

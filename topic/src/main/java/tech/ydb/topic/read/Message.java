@@ -1,5 +1,7 @@
 package tech.ydb.topic.read;
 
+import java.util.concurrent.CompletableFuture;
+
 import com.google.protobuf.ByteString;
 
 /**
@@ -14,8 +16,8 @@ public class Message {
     }
 
     // Non-blocking
-    public void commit() {
-
+    public CompletableFuture<Void> commit() {
+        return new CompletableFuture<>();
     }
 
 }

@@ -1,9 +1,7 @@
 package tech.ydb.topic.settings;
 
-import java.time.Duration;
 import java.util.concurrent.Executor;
-
-import com.google.common.util.concurrent.MoreExecutors;
+import java.util.concurrent.Executors;
 
 import tech.ydb.topic.description.Codec;
 
@@ -12,7 +10,8 @@ import tech.ydb.topic.description.Codec;
  */
 public class WriterSettings {
     private static final long MAX_MEMORY_USAGE_BYTES_DEFAULT = 20 * 1024 * 1024; // 20 MB
-    private static final int MAX_INFLIGHT_COUNT_DEFAULT = 100000; // 20 MB
+    private static final int MAX_IN_FLIGHT_COUNT_DEFAULT = 100000;
+    private static final int DEFAULT_COMPRESSION_THREAD_COUNT = 2;
 
     private final String topicPath;
     private final String producerId;
@@ -20,11 +19,8 @@ public class WriterSettings {
     private final Long partitionId;
     private final Codec codec;
     private final int compressionLevel;
-    private final long maxMemoryUsageBytes;
-    private final Duration maxLag;
-    private final int maxInflightCount;
-    private final Duration batchFlushInterval;
-    private final long batchFlushSiseBytes;
+    private final long maxSendBufferMemorySize;
+    private final int maxSendBufferMessagesCount;
     private final Executor compressionExecutor;
 
     private WriterSettings(Builder builder) {
@@ -34,11 +30,8 @@ public class WriterSettings {
         this.partitionId = builder.partitionId;
         this.codec = builder.codec;
         this.compressionLevel = builder.compressionLevel;
-        this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
-        this.maxLag = builder.maxLag;
-        this.maxInflightCount = builder.maxInflightCount;
-        this.batchFlushInterval = builder.batchFlushInterval;
-        this.batchFlushSiseBytes = builder.batchFlushSiseBytes;
+        this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
+        this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
         this.compressionExecutor = builder.compressionExecutor;
     }
 
@@ -70,24 +63,12 @@ public class WriterSettings {
         return compressionLevel;
     }
 
-    public long getMaxMemoryUsageBytes() {
-        return maxMemoryUsageBytes;
+    public long getMaxSendBufferMemorySize() {
+        return maxSendBufferMemorySize;
     }
 
-    public Duration getMaxLag() {
-        return maxLag;
-    }
-
-    public int getMaxInflightCount() {
-        return maxInflightCount;
-    }
-
-    public Duration getBatchFlushInterval() {
-        return batchFlushInterval;
-    }
-
-    public long getBatchFlushSiseBytes() {
-        return batchFlushSiseBytes;
+    public int getMaxSendBufferMessagesCount() {
+        return maxSendBufferMessagesCount;
     }
 
     public Executor getCompressionExecutor() {
@@ -104,68 +85,103 @@ public class WriterSettings {
         private Long partitionId = null;
         private Codec codec = Codec.GZIP;
         private int compressionLevel = 4;
-        private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
-        private Duration maxLag;
-        private int maxInflightCount = MAX_INFLIGHT_COUNT_DEFAULT;
-        private Duration batchFlushInterval;
-        private long batchFlushSiseBytes;
-        private Executor compressionExecutor = MoreExecutors.directExecutor();
+        private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
+        private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
+        private Executor compressionExecutor = Executors.newFixedThreadPool(DEFAULT_COMPRESSION_THREAD_COUNT);
 
+        /**
+         * Set path to a topic to write to
+         * @param topicPath  path to a topic
+         * @return settings builder
+         */
         public Builder setTopicPath(String topicPath) {
             this.topicPath = topicPath;
             return this;
         }
 
+        /**
+         * Set producer ID (aka SourceId) to use
+         * ProducerId and MessageGroupId should be equal (temp requirement)
+         * @param producerId  producer ID
+         * @return settings builder
+         */
         public Builder setProducerId(String producerId) {
             this.producerId = producerId;
             return this;
         }
 
+        /**
+         * Set MessageGroup ID to use
+         * Producer ID and MessageGroup ID should be equal (temp requirement)
+         * @param messageGroupId  MessageGroup ID
+         * @return settings builder
+         */
         public Builder setMessageGroupId(String messageGroupId) {
             this.messageGroupId = messageGroupId;
             return this;
         }
 
+        /**
+         * Set partition ID.
+         * Write to an exact partition. Generally server assigns partition automatically by message_group_id.
+         * Using this option is not recommended unless you know for sure why you need it.
+         * @param partitionId  partition ID
+         * @return settings builder
+         */
         public Builder setPartitionId(long partitionId) {
             this.partitionId = partitionId;
             return this;
         }
 
+        /**
+         * Set codec to use for data compression prior to write
+         * @param codec  compression codec
+         * @return settings builder
+         */
         public Builder setCodec(Codec codec) {
             this.codec = codec;
             return this;
         }
 
+        /**
+         * Set compression level to use for data compression prior to write
+         * @param compressionLevel  compression level
+         * @return settings builder
+         */
         public Builder setCompressionLevel(int compressionLevel) {
             this.compressionLevel = compressionLevel;
             return this;
         }
 
-        public Builder setMaxMemoryUsageBytes(long maxMemoryUsageBytes) {
-            this.maxMemoryUsageBytes = maxMemoryUsageBytes;
+        /**
+         * Set memory usage limit for send buffer.
+         * Writer will not accept new messages if memory usage exceeds this limit.
+         * Memory usage consists of raw data pending compression and compressed messages being sent.
+         * @param maxMemoryUsageBytes  max memory usage in bytes
+         * @return settings builder
+         */
+        public Builder setMaxSendBufferMemorySize(long maxMemoryUsageBytes) {
+            this.maxSendBufferMemorySize = maxMemoryUsageBytes;
             return this;
         }
 
-        public Builder setMaxLag(Duration maxLag) {
-            this.maxLag = maxLag;
+        /**
+         * Set maximum messages accepted by writer but not written (with confirmation from server).
+         * Writer will not accept new messages after reaching the limit.
+         * @param maxMessagesCount  max message in-flight count
+         * @return settings builder
+         */
+        public Builder setMaxSendBufferMessagesCount(int maxMessagesCount) {
+            this.maxSendBufferMessagesCount = maxMessagesCount;
             return this;
         }
 
-        public Builder setMaxInflightCount(int maxInflightCount) {
-            this.maxInflightCount = maxInflightCount;
-            return this;
-        }
-
-        public Builder setBatchFlushInterval(Duration batchFlushInterval) {
-            this.batchFlushInterval = batchFlushInterval;
-            return this;
-        }
-
-        public Builder setBatchFlushSiseBytes(long batchFlushSiseBytes) {
-            this.batchFlushSiseBytes = batchFlushSiseBytes;
-            return this;
-        }
-
+        /**
+         * Set executor for compression tasks.
+         * If not set, default executor will be used.
+         * @param compressionExecutor  executor for compression tasks
+         * @return settings builder
+         */
         public Builder setCompressionExecutor(Executor compressionExecutor) {
             this.compressionExecutor = compressionExecutor;
             return this;

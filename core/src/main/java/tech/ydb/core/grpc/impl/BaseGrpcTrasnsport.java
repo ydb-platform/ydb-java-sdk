@@ -16,11 +16,14 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.AsyncBidiStreamingInAdapter;
+import tech.ydb.core.grpc.AsyncBidiStreamingOutAdapter;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.ServerStreamToObserver;
 import tech.ydb.core.grpc.UnaryStreamToFuture;
+import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 
@@ -47,7 +50,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         return this.defaultReadTimeoutMillis;
     }
 
-    protected abstract CallOptions getCallOptions();
+    //protected abstract CallOptions getCallOptions();
     protected abstract CheckableChannel getChannel(GrpcRequestSettings settings);
 
     @Override
@@ -128,6 +131,67 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
             observer.onError(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
             return () -> { };
+        }
+    }
+
+    protected <ReqT> OutStreamObserver<ReqT> makeEmptyObserverStub() {
+        return new OutStreamObserver<ReqT>() {
+            @Override
+            public void onNext(ReqT value) {
+            }
+
+            @Override
+            public void onError(Throwable t) {
+            }
+
+            @Override
+            public void onCompleted() {
+            }
+        };
+    }
+
+    @Override
+    public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings) {
+        CallOptions options = getCallOptions();
+        if (settings.getDeadlineAfter() > 0) {
+            final long now = System.nanoTime();
+            if (now >= settings.getDeadlineAfter()) {
+                observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
+                return makeEmptyObserverStub();
+            }
+            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        } else if (defaultReadTimeoutMillis > 0) {
+            options = options.withDeadlineAfter(defaultReadTimeoutMillis, TimeUnit.MILLISECONDS);
+        }
+
+        try {
+            CheckableChannel channel = getChannel(settings);
+            ClientCall<ReqT, RespT> call = channel.grpcChannel().newCall(method, options);
+            if (logger.isTraceEnabled()) {
+                logger.trace("Starting bidirectional stream to {}, method `{}'",
+                        channel.endpoint(),
+                        method);
+            }
+            AsyncBidiStreamingOutAdapter<ReqT, RespT> adapter
+                    = new AsyncBidiStreamingOutAdapter<>(call);
+            AsyncBidiStreamingInAdapter<ReqT, RespT> responseListener = new AsyncBidiStreamingInAdapter<>(
+                    observer,
+                    adapter,
+                    channel::updateGrpcStatus,
+                    settings.getTrailersHandler()
+            );
+            Metadata extra = settings.getExtraHeaders();
+            call.start(responseListener, extra != null ? extra : new Metadata());
+            responseListener.onStart();
+            return adapter;
+        } catch (RuntimeException ex) {
+            logger.error("server bidirectional stream call problem {}", ex.getMessage());
+            Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
+            observer.onError(tech.ydb.core.Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
+            return makeEmptyObserverStub();
         }
     }
 

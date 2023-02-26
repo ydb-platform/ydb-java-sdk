@@ -20,7 +20,10 @@ import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
-import tech.ydb.topic.read.Reader;
+import tech.ydb.topic.read.AsyncReader;
+import tech.ydb.topic.read.SyncReader;
+import tech.ydb.topic.read.impl.AsyncReaderImpl;
+import tech.ydb.topic.read.impl.SyncReaderImpl;
 import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
@@ -28,9 +31,13 @@ import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
+import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.WriterSettings;
-import tech.ydb.topic.write.Writer;
+import tech.ydb.topic.write.AsyncWriter;
+import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.write.impl.AsyncWriterImpl;
+import tech.ydb.topic.write.impl.SyncWriterImpl;
 
 /**
  * @author Nikolay Perfilov
@@ -244,30 +251,23 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
-    public Reader createReader(ReaderSettings settings) {
-        return new Reader();
+    public SyncReader createSyncReader(ReaderSettings settings) {
+        return new SyncReaderImpl();
     }
 
     @Override
-    public Writer createWriter(WriterSettings settings) {
-        return new Writer();
+    public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
+        return new AsyncReaderImpl();
     }
 
-    private static int toProto(Codec codec) {
-        switch (codec) {
-            case RAW:
-                return YdbTopic.Codec.CODEC_RAW_VALUE;
-            case GZIP:
-                return  YdbTopic.Codec.CODEC_GZIP_VALUE;
-            case LZOP:
-                return  YdbTopic.Codec.CODEC_LZOP_VALUE;
-            case ZSTD:
-                return  YdbTopic.Codec.CODEC_ZSTD_VALUE;
-            case CUSTOM:
-                return  YdbTopic.Codec.CODEC_CUSTOM_VALUE;
-            default:
-                throw new IllegalArgumentException("Unknown codec value: " + codec);
-        }
+    @Override
+    public SyncWriter createSyncWriter(WriterSettings settings) {
+        return new SyncWriterImpl(topicRpc, settings);
+    }
+
+    @Override
+    public AsyncWriter createAsyncWriter(WriterSettings settings) {
+        return new AsyncWriterImpl(topicRpc, settings);
     }
 
     private static Codec codecFromProto(int codec) {
@@ -336,7 +336,7 @@ public class TopicClientImpl implements TopicClient {
         List<Codec> supportedCodecsList = supportedCodecs.getCodecs();
         YdbTopic.SupportedCodecs.Builder codecsBuilder = YdbTopic.SupportedCodecs.newBuilder();
         for (Codec codec : supportedCodecsList) {
-            codecsBuilder.addCodecs(toProto(codec));
+            codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
         }
         return codecsBuilder.build();
     }

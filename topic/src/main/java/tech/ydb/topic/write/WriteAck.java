@@ -16,25 +16,18 @@ public class WriteAck {
 
     public enum State {
         WRITTEN,
-        ALREADY_WRITTEN,
-        DISCARDED
+        ALREADY_WRITTEN
     }
 
     public static class Details {
         private final long offset;
-        private final long partitionId;
 
-        private Details(long offset, long partitionId) {
+        public Details(long offset) {
             this.offset = offset;
-            this.partitionId = partitionId;
         }
 
         public long getOffset() {
             return offset;
-        }
-
-        public long getPartitionId() {
-            return partitionId;
         }
     }
 

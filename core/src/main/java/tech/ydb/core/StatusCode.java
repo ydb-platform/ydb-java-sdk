@@ -1,5 +1,7 @@
 package tech.ydb.core;
 
+import java.util.EnumSet;
+
 import tech.ydb.StatusCodesProtos.StatusIds;
 
 import static tech.ydb.core.Constants.INTERNAL_CLIENT_FIRST;
@@ -58,6 +60,15 @@ public enum StatusCode {
     // Deadline expired before request was sent to server
     CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30);
 
+    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
+            ABORTED,
+            UNAVAILABLE,
+            OVERLOADED,
+            CLIENT_RESOURCE_EXHAUSTED,
+            BAD_SESSION,
+            SESSION_BUSY
+    );
+
     private final int code;
 
     StatusCode(int code) {
@@ -70,6 +81,24 @@ public enum StatusCode {
 
     public boolean isTransportError() {
         return code >= TRANSPORT_STATUSES_FIRST && code <= TRANSPORT_STATUSES_LAST;
+    }
+
+    public boolean isRetryable(boolean isOperationIdempotent, boolean retryNotFound) {
+        if (RETRYABLE_STATUSES.contains(this)) {
+            return true;
+        }
+        switch (this) {
+            case NOT_FOUND:
+                return retryNotFound;
+            case CLIENT_CANCELLED:
+            case CLIENT_INTERNAL_ERROR:
+            case UNDETERMINED:
+            case TRANSPORT_UNAVAILABLE:
+                return isOperationIdempotent;
+            default:
+                break;
+        }
+        return false;
     }
 
     public static StatusCode fromProto(StatusIds.StatusCode code) {

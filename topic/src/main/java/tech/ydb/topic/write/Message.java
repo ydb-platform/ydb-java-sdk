@@ -6,7 +6,7 @@ import java.time.Instant;
  * @author Nikolay Perfilov
  */
 public class Message {
-    private final byte[] data;
+    private byte[] data;
     private final Long seqNo;
     private final Instant createTimestamp;
 
@@ -32,6 +32,10 @@ public class Message {
 
     public byte[] getData() {
         return data;
+    }
+
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public Long getSeqNo() {

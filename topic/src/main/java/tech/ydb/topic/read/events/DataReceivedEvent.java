@@ -1,6 +1,7 @@
 package tech.ydb.topic.read.events;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.read.Message;
 
@@ -11,6 +12,6 @@ public interface DataReceivedEvent {
 
     List<Message> getMessages();
 
-    void commit();
+    CompletableFuture<Void> commit();
 
 }

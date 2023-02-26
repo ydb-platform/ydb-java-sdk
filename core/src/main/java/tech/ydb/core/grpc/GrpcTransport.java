@@ -8,9 +8,11 @@ import java.util.concurrent.CompletableFuture;
 
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
+import io.grpc.CallOptions;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.rpc.OutStreamObserver;
 import tech.ydb.core.rpc.StreamControl;
 import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.URITools;
@@ -36,7 +38,14 @@ public interface GrpcTransport extends AutoCloseable {
             ReqT request,
             StreamObserver<RespT> observer);
 
+    <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            StreamObserver<RespT> observer,
+            GrpcRequestSettings settings);
+
     String getDatabase();
+
+    CallOptions getCallOptions();
 
     @Override
     void close();

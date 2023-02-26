@@ -47,7 +47,7 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     }
 
     @Override
-    protected CallOptions getCallOptions() {
+    public CallOptions getCallOptions() {
         return callOptions;
     }
 

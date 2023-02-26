@@ -10,14 +10,17 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
 import tech.ydb.topic.impl.TopicClientImpl;
-import tech.ydb.topic.read.Reader;
+import tech.ydb.topic.read.AsyncReader;
+import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
+import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.WriterSettings;
-import tech.ydb.topic.write.Writer;
+import tech.ydb.topic.write.AsyncWriter;
+import tech.ydb.topic.write.SyncWriter;
 
 
 /**
@@ -69,8 +72,8 @@ public interface TopicClient extends AutoCloseable {
 
     /**
      * Describe topic.
+     * Receives all topic properties.
      *
-     * Receives all topic propertiens.
      * @param path  path to topic
      * @param settings  request settings
      * @return {@link CompletableFuture} to a result with {@link TopicDescription}
@@ -80,7 +83,7 @@ public interface TopicClient extends AutoCloseable {
     /**
      * Describe topic.
      *
-     * Receives all topic propertiens.
+     * Receives all topic properties.
      * @param path  path to topic
      * @return {@link CompletableFuture} to a result with {@link TopicDescription}
      */
@@ -89,20 +92,37 @@ public interface TopicClient extends AutoCloseable {
     }
 
     /**
-     * Create topic reader.
+     * Create sync topic reader.
      *
      * @param settings  reader settings
-     * @return topic {@link Reader}
+     * @return topic {@link SyncReader}
      */
-    Reader createReader(ReaderSettings settings);
+    SyncReader createSyncReader(ReaderSettings settings);
 
     /**
-     * Create topic writer.
+     * Create async topic reader.
+     *
+     * @param settings  reader settings
+     * @param handlersSettings  settings for read event handling
+     * @return topic {@link AsyncReader}
+     */
+    AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings);
+
+    /**
+     * Create sync topic writer.
      *
      * @param settings  {@link WriterSettings}
-     * @return topic {@link Writer}
+     * @return topic {@link SyncWriter}
      */
-    Writer createWriter(WriterSettings settings);
+    SyncWriter createSyncWriter(WriterSettings settings);
+
+    /**
+     * Create async topic writer.
+     *
+     * @param settings  {@link WriterSettings}
+     * @return topic {@link AsyncWriter}
+     */
+    AsyncWriter createAsyncWriter(WriterSettings settings);
 
     @Override
     void close();
@@ -111,7 +131,6 @@ public interface TopicClient extends AutoCloseable {
      * BUILDER
      */
     interface Builder {
-
         TopicClient build();
     }
 }
