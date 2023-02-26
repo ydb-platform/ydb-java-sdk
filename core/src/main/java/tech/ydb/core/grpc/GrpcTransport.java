@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
@@ -25,8 +26,6 @@ import tech.ydb.core.utils.URITools;
  */
 public interface GrpcTransport extends AutoCloseable {
 
-    String getEndpointByNodeId(int nodeId);
-
     <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
@@ -44,6 +43,8 @@ public interface GrpcTransport extends AutoCloseable {
             GrpcRequestSettings settings);
 
     String getDatabase();
+
+    ScheduledExecutorService scheduler();
 
     CallOptions getCallOptions();
 

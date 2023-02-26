@@ -7,6 +7,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.grpc.Metadata;
@@ -25,9 +26,9 @@ import tech.ydb.table.YdbTable;
  * @author Aleksandr Gorshenin
  */
 public class MockedTableRpc extends TableRpcStub {
-    private final static Status BAD_SESSION = Status.of(StatusCode.BAD_SESSION, null);
-    private final static Status OVERLOADED = Status.of(StatusCode.OVERLOADED, null);
-    private final static Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null);
+    private final static Status BAD_SESSION = Status.of(StatusCode.BAD_SESSION);
+    private final static Status OVERLOADED = Status.of(StatusCode.OVERLOADED);
+    private final static Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE);
 
     private final Clock clock;
     private final Set<String> activeSessions = new HashSet<>();
@@ -39,7 +40,8 @@ public class MockedTableRpc extends TableRpcStub {
     private final Queue<KeepAlive> keepAliveQueue = new LinkedBlockingQueue<>();
     private final Queue<DeleteSession> deleteSessionQueue = new LinkedBlockingQueue<>();
 
-    public MockedTableRpc(Clock clock) {
+    public MockedTableRpc(Clock clock, ScheduledExecutorService scheduler) {
+        super(scheduler);
         this.clock = clock;
     }
 

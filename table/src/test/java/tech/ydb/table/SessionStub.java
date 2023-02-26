@@ -18,6 +18,7 @@ import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
+import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
@@ -74,6 +75,11 @@ public class SessionStub implements Session {
     @Override
     public CompletableFuture<Status> copyTable(String src, String dst, CopyTableSettings settings) {
         return notImplemented("copyTable()");
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTables(CopyTablesSettings settings) {
+        return notImplemented("copyTables()");
     }
 
     @Override

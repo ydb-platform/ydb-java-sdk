@@ -3,7 +3,10 @@ package tech.ydb.table.impl;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
@@ -22,6 +25,13 @@ import tech.ydb.table.impl.pool.MockedTableRpc;
  * @author Aleksandr Gorshenin
  */
 public class PooledTableClientTest {
+    private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+    @AfterClass
+    public static void cleanUp() {
+        scheduler.shutdown();
+    }
+
     private void testAssert(String exceptionMsg, ThrowingRunnable runnable) {
         IllegalArgumentException ex = Assert.assertThrows(
                 "IllegalArgumentException must be throwed",
@@ -192,7 +202,7 @@ public class PooledTableClientTest {
 
     @Test
     public void createSessionTimeout() throws InterruptedException {
-        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).build();
 
         CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
@@ -211,7 +221,7 @@ public class PooledTableClientTest {
 
     @Test
     public void createSessionException() throws InterruptedException {
-        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).build();
 
         CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
@@ -265,7 +275,7 @@ public class PooledTableClientTest {
 
     private class DumpTableRpc extends MockedTableRpc {
         public DumpTableRpc() {
-            super(Clock.systemUTC());
+            super(Clock.systemUTC(), scheduler);
         }
 
         @Override
@@ -279,7 +289,7 @@ public class PooledTableClientTest {
 
     private class UnavailableTableRpc extends MockedTableRpc {
         public UnavailableTableRpc() {
-            super(Clock.systemUTC());
+            super(Clock.systemUTC(), scheduler);
         }
 
         @Override

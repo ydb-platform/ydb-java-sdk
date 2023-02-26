@@ -3,7 +3,6 @@ package tech.ydb.table.impl;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
 
@@ -26,19 +25,15 @@ import tech.ydb.table.rpc.TableRpc;
  * @author Aleksandr Gorshenin
  */
 public class PooledTableClient implements TableClient {
-    private static final Status SESSION_TIMEOUT = Status.of(
-            StatusCode.CLIENT_DEADLINE_EXCEEDED, null,
-            Issue.of("Timeout of getting session from pool", Issue.Severity.WARNING)
-    );
+    private static final Status SESSION_TIMEOUT = Status.of(StatusCode.CLIENT_DEADLINE_EXCEEDED)
+            .withIssues(Issue.of("Timeout of getting session from pool", Issue.Severity.WARNING));
 
-    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(
-            (Runnable r) -> new Thread(r, "YdbTablePoolScheduler")
-    );
+    private final TableRpc tableRpc;
     private final SessionPool pool;
 
     PooledTableClient(Builder builder) {
+        this.tableRpc = builder.tableRpc;
         this.pool = new SessionPool(
-                executor,
                 Clock.systemUTC(),
                 builder.tableRpc,
                 builder.keepQueryText,
@@ -64,9 +59,13 @@ public class PooledTableClient implements TableClient {
     }
 
     @Override
+    public ScheduledExecutorService scheduler() {
+        return tableRpc.scheduler();
+    }
+
+    @Override
     public void close() {
         pool.close();
-        executor.shutdown();
     }
 
     @Override

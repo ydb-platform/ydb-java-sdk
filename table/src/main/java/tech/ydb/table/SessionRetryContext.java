@@ -8,15 +8,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import io.grpc.netty.shaded.io.netty.util.Timeout;
-import io.grpc.netty.shaded.io.netty.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,13 +63,13 @@ public class SessionRetryContext {
 
     public <T> CompletableFuture<Result<T>> supplyResult(Function<Session, CompletableFuture<Result<T>>> fn) {
         RetryableResultTask<T> task = new RetryableResultTask<>(fn);
-        task.run();
+        task.requestSession();
         return task.getFuture();
     }
 
     public CompletableFuture<Status> supplyStatus(Function<Session, CompletableFuture<Status>> fn) {
         RetryableStatusTask task = new RetryableStatusTask(fn);
-        task.run();
+        task.requestSession();
         return task.getFuture();
     }
 
@@ -146,7 +143,7 @@ public class SessionRetryContext {
     /**
      * BASE RETRYABLE TASK
      */
-    private abstract class BaseRetryableTask<R> implements TimerTask, BiConsumer<Result<Session>, Throwable> {
+    private abstract class BaseRetryableTask<R> implements Runnable {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
         private final AtomicInteger retryNumber = new AtomicInteger();
         private final Function<Session, CompletableFuture<R>> fn;
@@ -169,35 +166,32 @@ public class SessionRetryContext {
 
         // called on timer expiration
         @Override
-        public void run(Timeout timeout) {
+        public void run() {
             if (promise.isCancelled()) {
                 logger.debug("RetryCtx[{}] cancelled, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
                 return;
             }
-            // call run() method outside of the timer thread
-            executor.execute(this::run);
+            executor.execute(this::requestSession);
         }
 
-        public void run() {
+        public void requestSession() {
             CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.createSession(sessionCreationTimeout);
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
-                accept(sessionFuture.getNow(null), null);
+                acceptSession(sessionFuture.join());
             } else {
-                sessionFuture.whenCompleteAsync(this, executor);
+                sessionFuture.whenCompleteAsync((result, th) -> {
+                    if (result != null) {
+                        acceptSession(result);
+                    }
+                    if (th != null) {
+                        handleException(th);
+                    }
+                }, executor);
             }
         }
 
-        // called on session acquiring
-        @Override
-        public void accept(Result<Session> sessionResult, Throwable sessionException) {
-            assert (sessionResult == null) != (sessionException == null);
-
-            if (sessionException != null) {
-                handleException(sessionException);
-                return;
-            }
-
+        private void acceptSession(@Nonnull Result<Session> sessionResult) {
             if (!sessionResult.isSuccess()) {
                 handleError(sessionResult.getStatus().getCode(), toFailedResult(sessionResult));
                 return;
@@ -234,7 +228,7 @@ public class SessionRetryContext {
             if (promise.isCancelled()) {
                 return;
             }
-            Async.runAfter(this, delayMillis, TimeUnit.MILLISECONDS);
+            sessionSupplier.scheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
         private void handleError(@Nonnull StatusCode code, R result) {

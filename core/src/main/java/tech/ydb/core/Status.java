@@ -32,6 +32,27 @@ public final class Status implements Serializable {
         return new Status(code, consumedRu, hasIssues ? issues : Issue.EMPTY_ARRAY);
     }
 
+    public static Status of(StatusCode code) {
+        if (code == StatusCode.SUCCESS) {
+            return SUCCESS;
+        }
+        return new Status(code, null, Issue.EMPTY_ARRAY);
+    }
+
+    public Status withIssues(Issue... newIssues) {
+        if (Arrays.equals(this.issues, newIssues)) {
+            return this;
+        }
+        return new Status(this.code, this.consumedRu, newIssues);
+    }
+
+    public Status withConsumedRu(Double newConsumedRu) {
+        if (Objects.equals(this.consumedRu, newConsumedRu)) {
+            return this;
+        }
+        return new Status(this.code, newConsumedRu, this.issues);
+    }
+
     public boolean hasConsumedRu() {
         return consumedRu != null;
     }
@@ -79,7 +100,9 @@ public final class Status implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(code, consumedRu, issues);
+        int h1 = Objects.hash(code, consumedRu);
+        int h2 = Objects.hash((Object[]) issues);
+        return 31 * h1 + h2;
     }
 
     @Override

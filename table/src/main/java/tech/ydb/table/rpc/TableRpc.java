@@ -1,12 +1,10 @@
 package tech.ydb.table.rpc;
 
 import java.util.concurrent.CompletableFuture;
-
-import javax.annotation.Nullable;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.EndpointInfo;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.rpc.Rpc;
 import tech.ydb.core.rpc.StreamControl;
@@ -17,6 +15,7 @@ import tech.ydb.table.YdbTable.BeginTransactionResult;
 import tech.ydb.table.YdbTable.BulkUpsertRequest;
 import tech.ydb.table.YdbTable.CommitTransactionRequest;
 import tech.ydb.table.YdbTable.CopyTableRequest;
+import tech.ydb.table.YdbTable.CopyTablesRequest;
 import tech.ydb.table.YdbTable.CreateSessionRequest;
 import tech.ydb.table.YdbTable.CreateSessionResult;
 import tech.ydb.table.YdbTable.CreateTableRequest;
@@ -45,14 +44,7 @@ import tech.ydb.table.YdbTable.RollbackTransactionRequest;
  */
 public interface TableRpc extends Rpc {
 
-    /**
-     * Returns endpoint (host:port) for corresponding session id.
-     * Returns null if there is no such session id.
-     * @param sessionId session id
-     * @return endpoint associated with the session
-     */
-    @Nullable
-    EndpointInfo getEndpointBySessionId(String sessionId);
+    ScheduledExecutorService scheduler();
 
     /**
      * Create new session. Implicit session creation is forbidden, so user must create new session
@@ -114,6 +106,14 @@ public interface TableRpc extends Rpc {
      * @return completable future with status of operation
      */
     CompletableFuture<Status> copyTable(CopyTableRequest request, GrpcRequestSettings settings);
+
+    /**
+     * Creates consistent copies of the given tables.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with status of operation
+     */
+    CompletableFuture<Status> copyTables(CopyTablesRequest request, GrpcRequestSettings settings);
 
     /**
      * Returns information about given table (metadata).

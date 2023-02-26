@@ -7,9 +7,6 @@ import io.grpc.Metadata;
  * @author Sergey Polovko
  */
 public class YdbHeaders {
-    static final Metadata.Key<String> AUTH_TICKET =
-        Metadata.Key.of("x-ydb-auth-ticket", Metadata.ASCII_STRING_MARSHALLER);
-
     public static final Metadata.Key<String> DATABASE =
         Metadata.Key.of("x-ydb-database", Metadata.ASCII_STRING_MARSHALLER);
 

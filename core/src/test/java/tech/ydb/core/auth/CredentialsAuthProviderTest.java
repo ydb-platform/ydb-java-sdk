@@ -22,7 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.impl.GrpcAuthRpc;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
 
 /**
  *
@@ -38,15 +38,15 @@ public class CredentialsAuthProviderTest {
 
     @Before
     public void setup() {
-        Mockito.when(rpc.getEndpoint()).thenReturn("Mocked endpoint");
         Mockito.when(rpc.getDatabase()).thenReturn("Mocked database name");
         Mockito.when(rpc.createTransport()).thenReturn(transport);
+        Mockito.when(rpc.getExecutor()).thenReturn(MoreExecutors.newDirectExecutorService());
     }
 
     @Test
     public void credentitalsTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
-        Status unauhtorized = Status.of(StatusCode.UNAUTHORIZED, null);
+        Status unauhtorized = Status.of(StatusCode.UNAUTHORIZED);
 
         Mockito.when(clock.instant()).thenReturn(now);
 
@@ -97,8 +97,8 @@ public class CredentialsAuthProviderTest {
     @Test
     public void retriesTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
-        Status overloaded = Status.of(StatusCode.OVERLOADED, null);
-        Status unavailable = Status.of(StatusCode.UNAVAILABLE, null);
+        Status overloaded = Status.of(StatusCode.OVERLOADED);
+        Status unavailable = Status.of(StatusCode.UNAVAILABLE);
 
         Mockito.when(clock.instant()).thenReturn(now);
 
@@ -137,7 +137,7 @@ public class CredentialsAuthProviderTest {
 
     @Test
     public void refreshTokenTest() {
-        Status unavailable = Status.of(StatusCode.UNAVAILABLE, null);
+        Status unavailable = Status.of(StatusCode.UNAVAILABLE);
 
         Duration expireTime = Duration.ofHours(2);
         Instant firstHour = now.plus(Duration.ofHours(1));
@@ -208,8 +208,7 @@ public class CredentialsAuthProviderTest {
     }
 
     private tech.ydb.auth.AuthIdentity createAuth(String login, String password) {
-        return new StaticCredentials(clock, login, password,
-                () -> MoreExecutors.newDirectExecutorService())
+        return new StaticCredentials(clock, login, password)
                 .createAuthIdentity(rpc);
     }
 
