@@ -332,7 +332,8 @@ public class WriterImpl {
         isStopped.set(true);
         periodicUpdateTokenTask.stop();
         reconnectExecutor.shutdown();
-        return flushImpl();
+        return flushImpl()
+                .thenRun(() -> session.finish());
     }
 
     private class PeriodicUpdateTokenTask implements TimerTask {
@@ -382,7 +383,9 @@ public class WriterImpl {
                 return;
             }
 
-            if (message.getStatus() != StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
+            if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
+                reconnectCounter.set(0);
+            } else {
                 logger.error("Unexpected behaviour: got non-success status in onNext method");
                 shutdownImpl();
                 return;

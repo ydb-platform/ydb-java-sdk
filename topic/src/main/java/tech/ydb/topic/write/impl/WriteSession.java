@@ -14,17 +14,20 @@ import tech.ydb.topic.YdbTopic;
 public class WriteSession {
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
 
-    //private final EventQueue<YdbTopic.StreamWriteMessage.FromServer> inbound;
     private final OutStreamObserver<YdbTopic.StreamWriteMessage.FromClient> streamConnection;
 
     public WriteSession(TopicRpc rpc, StreamObserver<YdbTopic.StreamWriteMessage.FromServer> streamObserver) {
-        //this.inbound = new EventQueueImpl<>(onEventCallback);
         this.streamConnection = rpc.writeSession(streamObserver);
     }
 
     public void send(YdbTopic.StreamWriteMessage.FromClient request) {
-        logger.info("WriteSession request: \n{}", request);
+        logger.debug("WriteSession request: \n{}", request);
         streamConnection.onNext(request);
+    }
+
+    public void finish() {
+        logger.debug("WriteSession finish");
+        streamConnection.onCompleted();
     }
 
 }
