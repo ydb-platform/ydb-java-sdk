@@ -2,7 +2,6 @@ package tech.ydb.table;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.EnumSet;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -33,15 +32,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
     private static final Logger logger = LoggerFactory.getLogger(SessionRetryContext.class);
-
-    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
-        StatusCode.ABORTED,
-        StatusCode.UNAVAILABLE,
-        StatusCode.OVERLOADED,
-        StatusCode.CLIENT_RESOURCE_EXHAUSTED,
-        StatusCode.BAD_SESSION,
-        StatusCode.SESSION_BUSY
-    );
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -105,27 +95,13 @@ public class SessionRetryContext {
     }
 
     private boolean canRetry(StatusCode code) {
-        if (RETRYABLE_STATUSES.contains(code)) {
-            return true;
-        }
-        switch (code) {
-            case NOT_FOUND:
-                return retryNotFound;
-            case CLIENT_CANCELLED:
-            case CLIENT_INTERNAL_ERROR:
-            case UNDETERMINED:
-            case TRANSPORT_UNAVAILABLE:
-                return idempotent;
-            default:
-                break;
-        }
-        return false;
+        return code.isRetryable(idempotent) || (retryNotFound && code == StatusCode.NOT_FOUND);
     }
 
     private long backoffTimeMillisInternal(int retryNumber, long backoffSlotMillis, int backoffCeiling) {
         int slots = 1 << Math.min(retryNumber, backoffCeiling);
-        long maxDurationMillis = backoffSlotMillis * slots;
-        return backoffSlotMillis + ThreadLocalRandom.current().nextLong(maxDurationMillis);
+        long delay = backoffSlotMillis * slots;
+        return delay + ThreadLocalRandom.current().nextLong(delay);
     }
 
     private long slowBackoffTimeMillis(int retryNumber) {
@@ -351,7 +327,7 @@ public class SessionRetryContext {
         private Executor executor = MoreExecutors.directExecutor();
         private Duration sessionCreationTimeout = Duration.ofSeconds(5);
         private int maxRetries = 10;
-        private long backoffSlotMillis = 1000;
+        private long backoffSlotMillis = 500;
         private int backoffCeiling = 6;
         private long fastBackoffSlotMillis = 5;
         private int fastBackoffCeiling = 10;

@@ -8,7 +8,6 @@ import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.test.integration.YdbEnvironment;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
-import tech.ydb.test.integration.utils.PathProxyTransport;
 import tech.ydb.test.integration.utils.PortsGenerator;
 
 /**
@@ -35,15 +34,12 @@ public class DockerHelperFactory extends YdbHelperFactory {
 
         return new YdbHelper() {
             @Override
-            public GrpcTransport createTransport(String path) {
+            public GrpcTransport createTransport() {
                 GrpcTransportBuilder builder = GrpcTransport.forEndpoint(endpoint(), container.database());
                 if (env.ydbUseTls()) {
                     builder.withSecureConnection(container.pemCert());
                 }
-
-                PathProxyTransport proxy = new PathProxyTransport(builder.build(), path, env.cleanUpTests());
-                proxy.init();
-                return proxy;
+                return builder.build();
             }
 
             @Override

@@ -30,7 +30,7 @@ public interface Result<T> {
     }
 
     static <V> Result<V> success(V value, Status status) {
-        return new Success<>(Objects.requireNonNull(value), Objects.requireNonNull(status));
+        return new Success<>(value, Objects.requireNonNull(status));
     }
 
     static <V> Result<V> fail(Status status) {
