@@ -25,8 +25,13 @@ public class RequestSettings<Self extends RequestSettings> {
         return self();
     }
 
+    @Deprecated
     public Optional<Duration> getTimeout() {
         return Optional.ofNullable(timeout);
+    }
+
+    public Duration getTimeoutDuration() {
+        return timeout;
     }
 
     /**
@@ -38,7 +43,7 @@ public class RequestSettings<Self extends RequestSettings> {
      * @return this
      */
     public Self setTimeout(Duration duration) {
-        if (duration.compareTo(Duration.ZERO) > 0) {
+        if (duration != null && !duration.isNegative()) {
             this.timeout = duration;
         }
         return self();

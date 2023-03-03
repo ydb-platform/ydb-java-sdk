@@ -10,13 +10,17 @@ import static tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION
 
 public class ExecuteScanQuerySettings {
     private final YdbTable.ExecuteScanQueryRequest.Mode mode;
-    private final long timeoutNanos;
+    private final Duration timeout;
     private final YdbTable.QueryStatsCollection.Mode collectStats;
 
     public ExecuteScanQuerySettings(Builder b) {
-        this.timeoutNanos = b.timeoutNanos;
+        this.timeout = b.timeout;
         this.mode = b.mode;
         this.collectStats = b.collectStats;
+    }
+
+    public Duration getTimeoutDuration() {
+        return timeout;
     }
 
     public static Builder newBuilder() {
@@ -24,17 +28,21 @@ public class ExecuteScanQuerySettings {
     }
 
     public static final class Builder {
-        private long timeoutNanos = Duration.ofSeconds(60).toNanos();
+        private Duration timeout = Duration.ofSeconds(60);
         private YdbTable.ExecuteScanQueryRequest.Mode mode = MODE_EXEC;
         private YdbTable.QueryStatsCollection.Mode collectStats = STATS_COLLECTION_NONE;
 
         public Builder timeout(long duration, TimeUnit unit) {
-            this.timeoutNanos = unit.toNanos(duration);
+            if (duration > 0) {
+                this.timeout = Duration.ofNanos(unit.toNanos(duration));
+            }
             return this;
         }
 
         public Builder timeout(Duration duration) {
-            this.timeoutNanos = duration.toNanos();
+            if (duration != null && !duration.isNegative()) {
+                this.timeout = duration;
+            }
             return this;
         }
 
@@ -53,10 +61,6 @@ public class ExecuteScanQuerySettings {
         }
     }
 
-
-    public long getDeadlineAfter() {
-        return System.nanoTime() + timeoutNanos;
-    }
 
     public YdbTable.ExecuteScanQueryRequest.Mode getMode() {
         return mode;

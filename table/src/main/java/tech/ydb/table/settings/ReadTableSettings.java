@@ -30,7 +30,7 @@ public class ReadTableSettings {
     private final boolean toInclusive;
     private final int rowLimit;
     private final ImmutableList<String> columns;
-    private final long timeoutNanos;
+    private final Duration timeout;
 
     private ReadTableSettings(Builder b) {
         this.ordered = b.ordered;
@@ -40,7 +40,7 @@ public class ReadTableSettings {
         this.toInclusive = b.toInclusive;
         this.rowLimit = b.rowLimit;
         this.columns = ImmutableList.copyOf(b.columns);
-        this.timeoutNanos = b.timeoutNanos;
+        this.timeout = b.timeout;
     }
 
     public static Builder newBuilder() {
@@ -77,12 +77,8 @@ public class ReadTableSettings {
         return columns;
     }
 
-    public long getTimeoutNanos() {
-        return timeoutNanos;
-    }
-
-    public long getDeadlineAfter() {
-        return System.nanoTime() + timeoutNanos;
+    public Duration getTimeoutDuration() {
+        return timeout;
     }
 
     /**
@@ -97,7 +93,7 @@ public class ReadTableSettings {
         private boolean toInclusive = false;
         private int rowLimit = 0;
         private List<String> columns = Collections.emptyList();
-        private long timeoutNanos = 0;
+        private Duration timeout = Duration.ofSeconds(60);
 
         Builder() {
         }
@@ -176,12 +172,16 @@ public class ReadTableSettings {
         }
 
         public Builder timeout(long duration, TimeUnit unit) {
-            this.timeoutNanos = unit.toNanos(duration);
+            if (duration > 0) {
+                this.timeout = Duration.ofNanos(unit.toNanos(duration));
+            }
             return this;
         }
 
         public Builder timeout(Duration duration) {
-            this.timeoutNanos = duration.toNanos();
+            if (duration != null && !duration.isNegative()) {
+                this.timeout = duration;
+            }
             return this;
         }
 

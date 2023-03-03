@@ -2,6 +2,7 @@ package tech.ydb.table.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +73,6 @@ import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
-import tech.ydb.table.settings.RequestSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.settings.TtlSettings;
@@ -122,9 +122,9 @@ public abstract class BaseSession implements Session {
         return null;
     }
 
-    private GrpcRequestSettings makeGrpcRequestSettings(RequestSettings<?> settings) {
+    private GrpcRequestSettings makeGrpcRequestSettings(Duration timeout) {
         return GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getTimeout().orElse(null))
+                .withDeadline(timeout)
                 .withPreferredNodeID(prefferedNodeID)
                 .withTrailersHandler(shutdownHandler)
                 .build();
@@ -148,7 +148,7 @@ public abstract class BaseSession implements Session {
             headers.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, SERVER_BALANCER_HINT);
         }
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getTimeout().orElse(null))
+                .withDeadline(settings.getTimeoutDuration())
                 .withExtraHeaders(headers)
                 .build();
 
@@ -332,7 +332,7 @@ public abstract class BaseSession implements Session {
             dateTypeColumnBuilder.setExpireAfterSeconds(ttlSettings.getExpireAfterSeconds());
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.createTable(request.build(), grpcRequestSettings);
     }
 
@@ -354,7 +354,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.dropTable(request, grpcRequestSettings);
     }
 
@@ -388,7 +388,7 @@ public abstract class BaseSession implements Session {
 
         applyPartitioningSettings(settings.getPartitioningSettings(), builder::setAlterPartitioningSettings);
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.alterTable(builder.build(), grpcRequestSettings);
     }
 
@@ -401,7 +401,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.copyTable(request, grpcRequestSettings);
     }
 
@@ -412,7 +412,7 @@ public abstract class BaseSession implements Session {
                 .addAllTables(convertCopyTableItems(settings))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.copyTables(request, grpcRequestSettings);
     }
 
@@ -446,7 +446,7 @@ public abstract class BaseSession implements Session {
                 .setIncludePartitionStats(settings.isIncludePartitionStats())
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.describeTable(request, grpcRequestSettings)
                 .thenApply(result -> result.map(desc -> mapDescribeTable(desc, settings)));
     }
@@ -617,7 +617,7 @@ public abstract class BaseSession implements Session {
             msg = sb.toString();
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map(DataQueryResult::new));
     }
@@ -662,7 +662,7 @@ public abstract class BaseSession implements Session {
             msg = sb.toString();
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map(DataQueryResult::new));
     }
@@ -674,7 +674,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .setYqlText(query);
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResult(tableRpc.prepareDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map((value) -> {
             String queryId = value.getQueryId();
@@ -692,7 +692,7 @@ public abstract class BaseSession implements Session {
             .setYqlText(query)
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptStatus(tableRpc.executeSchemeQuery(request, grpcRequestSettings));
     }
 
@@ -705,7 +705,7 @@ public abstract class BaseSession implements Session {
             .setYqlText(query)
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResult(tableRpc.explainDataQuery(request, grpcRequestSettings))
                 .thenApply(result -> result.map(ExplainDataQueryResult::new));
     }
@@ -719,7 +719,7 @@ public abstract class BaseSession implements Session {
             .setTxSettings(txSettings(transactionMode))
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog("begin transaction",
                 tableRpc.beginTransaction(request, grpcRequestSettings))
                 .thenApply(result -> result.map(tx -> new TransactionImpl(this, tx.getTxMeta().getId())));
@@ -758,11 +758,7 @@ public abstract class BaseSession implements Session {
             request.addAllColumns(settings.getColumns());
         }
 
-        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(settings.getDeadlineAfter())
-                .withPreferredNodeID(prefferedNodeID)
-                .withTrailersHandler(shutdownHandler)
-                .build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         CompletableFuture<Status> promise = new CompletableFuture<>();
         StreamControl control = tableRpc.streamReadTable(request.build(), new StreamObserver<ReadTableResponse>() {
             @Override
@@ -811,11 +807,7 @@ public abstract class BaseSession implements Session {
             .build();
 
         CompletableFuture<Status> promise = new CompletableFuture<>();
-        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
-                .withDeadlineAfter(settings.getDeadlineAfter())
-                .withPreferredNodeID(prefferedNodeID)
-                .withTrailersHandler(shutdownHandler)
-                .build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         StreamControl control = tableRpc.streamExecuteScanQuery(request,
                 new StreamObserver<YdbTable.ExecuteScanQueryPartialResponse>() {
             @Override
@@ -861,7 +853,7 @@ public abstract class BaseSession implements Session {
             .setTxId(txId)
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptStatusWithLog("commit transaction",
                 tableRpc.commitTransaction(request, grpcRequestSettings));
     }
@@ -874,7 +866,7 @@ public abstract class BaseSession implements Session {
             .setTxId(txId)
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptStatusWithLog("rollback transaction",
                 tableRpc.rollbackTransaction(request, grpcRequestSettings));
     }
@@ -886,7 +878,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResult(tableRpc.keepAlive(request, grpcRequestSettings))
                 .thenApply(result -> result.map(BaseSession::mapSessionStatus));
     }
@@ -904,7 +896,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
 
         return interceptStatus(tableRpc.bulkUpsert(request, grpcRequestSettings));
     }
@@ -926,7 +918,7 @@ public abstract class BaseSession implements Session {
             .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
             .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptStatus(tableRpc.deleteSession(request, grpcRequestSettings));
     }
 
