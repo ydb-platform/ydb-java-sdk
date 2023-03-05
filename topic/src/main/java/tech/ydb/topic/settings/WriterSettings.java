@@ -1,7 +1,8 @@
 package tech.ydb.topic.settings;
 
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
+import javax.annotation.Nullable;
 
 import tech.ydb.topic.description.Codec;
 
@@ -11,14 +12,12 @@ import tech.ydb.topic.description.Codec;
 public class WriterSettings {
     private static final long MAX_MEMORY_USAGE_BYTES_DEFAULT = 20 * 1024 * 1024; // 20 MB
     private static final int MAX_IN_FLIGHT_COUNT_DEFAULT = 100000;
-    private static final int DEFAULT_COMPRESSION_THREAD_COUNT = 2;
 
     private final String topicPath;
     private final String producerId;
     private final String messageGroupId;
     private final Long partitionId;
     private final Codec codec;
-    private final int compressionLevel;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
     private final Executor compressionExecutor;
@@ -29,7 +28,6 @@ public class WriterSettings {
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
         this.codec = builder.codec;
-        this.compressionLevel = builder.compressionLevel;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
         this.compressionExecutor = builder.compressionExecutor;
@@ -59,10 +57,6 @@ public class WriterSettings {
         return codec;
     }
 
-    public int getCompressionLevel() {
-        return compressionLevel;
-    }
-
     public long getMaxSendBufferMemorySize() {
         return maxSendBufferMemorySize;
     }
@@ -71,6 +65,7 @@ public class WriterSettings {
         return maxSendBufferMessagesCount;
     }
 
+    @Nullable
     public Executor getCompressionExecutor() {
         return compressionExecutor;
     }
@@ -84,10 +79,9 @@ public class WriterSettings {
         private String messageGroupId = null;
         private Long partitionId = null;
         private Codec codec = Codec.GZIP;
-        private int compressionLevel = 4;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
-        private Executor compressionExecutor = Executors.newFixedThreadPool(DEFAULT_COMPRESSION_THREAD_COUNT);
+        private Executor compressionExecutor = null;
 
         /**
          * Set path to a topic to write to
@@ -140,16 +134,6 @@ public class WriterSettings {
          */
         public Builder setCodec(Codec codec) {
             this.codec = codec;
-            return this;
-        }
-
-        /**
-         * Set compression level to use for data compression prior to write
-         * @param compressionLevel  compression level
-         * @return settings builder
-         */
-        public Builder setCompressionLevel(int compressionLevel) {
-            this.compressionLevel = compressionLevel;
             return this;
         }
 

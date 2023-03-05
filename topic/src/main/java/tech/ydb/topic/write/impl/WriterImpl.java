@@ -4,6 +4,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -31,12 +34,13 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public class WriterImpl {
+public abstract class WriterImpl {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
     private static final int RECONNECT_DELAY_SECONDS = 5;
+    private static final int DEFAULT_COMPRESSION_THREAD_COUNT = 2;
 
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
@@ -57,11 +61,12 @@ public class WriterImpl {
     private long availableSizeBytes;
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
-    private final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final ScheduledThreadPoolExecutor reconnectExecutor = new ScheduledThreadPoolExecutor(1);
     // Future for flush method
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
+    private final Executor compressionExecutor;
+    private final ExecutorService defaultCompressionExecutorService;
 
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings) {
         this.topicRpc = topicRpc;
@@ -72,6 +77,13 @@ public class WriterImpl {
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.periodicUpdateTokenTask = new PeriodicUpdateTokenTask(topicRpc, this::sendToken);
         this.periodicUpdateTokenTask.start();
+        if (settings.getCompressionExecutor() != null) {
+            this.defaultCompressionExecutorService = null;
+            this.compressionExecutor = settings.getCompressionExecutor();
+        } else {
+            this.defaultCompressionExecutorService = Executors.newFixedThreadPool(DEFAULT_COMPRESSION_THREAD_COUNT);
+            this.compressionExecutor = defaultCompressionExecutorService;
+        }
     }
 
     private static class IncomingMessage {
@@ -121,7 +133,7 @@ public class WriterImpl {
         this.availableSizeBytes -= message.getUncompressedSizeBytes();
         this.encodingMessages.add(message);
 
-        CompletableFuture.runAsync(() -> encode(message), settings.getCompressionExecutor())
+        CompletableFuture.runAsync(() -> encode(message), compressionExecutor)
                 .thenRun(() -> {
                     boolean haveNewMessagesToSend = false;
                     // Working with encodingMessages under synchronized incomingQueue to prevent deadlocks
@@ -326,9 +338,6 @@ public class WriterImpl {
         this.session = new WriteSession(topicRpc,
                 new WriterImpl.ServerResponseObserver()
         );
-        if (!isReconnecting.compareAndSet(true, false)) {
-            logger.warn("Reconnecting flag was not set while reconnecting for some reason");
-        }
         initImpl();
     }
 
@@ -336,12 +345,15 @@ public class WriterImpl {
         isStopped.set(true);
         periodicUpdateTokenTask.stop();
         reconnectExecutor.shutdown();
+        if (defaultCompressionExecutorService != null) {
+            defaultCompressionExecutorService.shutdown();
+        }
         return flushImpl()
                 .thenRun(() -> session.finish());
     }
 
     private class ServerResponseObserver implements StreamObserver<YdbTopic.StreamWriteMessage.FromServer> {
-        private boolean working = true;
+        private AtomicBoolean isWorking = new AtomicBoolean(true);
 
         @Override
         public void onNext(YdbTopic.StreamWriteMessage.FromServer message) {
@@ -349,7 +361,7 @@ public class WriterImpl {
                 logger.info("ServerResponseObserver - onNext: {}", message);
             }
 
-            if (!working) {
+            if (!isWorking.get()) {
                 return;
             }
 
@@ -407,31 +419,27 @@ public class WriterImpl {
         @Override
         public void onError(Status status) {
             // This session is not working anymore
-            working = false;
-            if (!status.getCode().isRetryable(true, false)) {
-                logger.error("Non-retryable error occurred: " + status + ". Shutting down writer.");
-                shutdownImpl();
+            boolean stoppedWorking = isWorking.compareAndSet(true, false);
+            if (isStopped.get()) {
                 return;
-            } else if (!isStopped.get()) {
-                if (isReconnecting.compareAndSet(false, true)) {
-                    int currentReconnectCounter = reconnectCounter.incrementAndGet();
-                    if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
-                        if (isStopped.compareAndSet(false, true)) {
-                            logger.error("Maximum retry count ({}}) exceeded. Shutting down writer.",
-                                    MAX_RECONNECT_COUNT);
-                        } else {
-                            logger.debug("Maximum retry count ({}}) exceeded. But writer is already shut down.",
-                                    MAX_RECONNECT_COUNT);
-                        }
-                    } else {
-                        logger.warn("Retryable error occurred: " + status + ". Retry #" + currentReconnectCounter
-                                + ". Scheduling reconnect...");
-                        reconnectExecutor.schedule(WriterImpl.this::reconnect, RECONNECT_DELAY_SECONDS,
-                                TimeUnit.SECONDS);
-                    }
+            }
+            if (!stoppedWorking) {
+                logger.debug("Error occurred on session that had already have errors: " + status);
+                return;
+            }
+            int currentReconnectCounter = reconnectCounter.incrementAndGet();
+            if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
+                if (isStopped.compareAndSet(false, true)) {
+                    logger.error("Maximum retry count ({}}) exceeded. Shutting down writer.", MAX_RECONNECT_COUNT);
                 } else {
-                    logger.debug("Retryable error occurred: " + status + ". Reconnect is already in progress.");
+                    logger.debug("Maximum retry count ({}}) exceeded. But writer is already shut down.",
+                            MAX_RECONNECT_COUNT);
                 }
+            } else {
+                logger.warn("Error occurred: " + status + ". Retry #" + currentReconnectCounter
+                        + ". Scheduling reconnect...");
+                reconnectExecutor.schedule(WriterImpl.this::reconnect, RECONNECT_DELAY_SECONDS,
+                        TimeUnit.SECONDS);
             }
         }
 
