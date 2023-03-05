@@ -10,18 +10,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.ByteString;
-import io.grpc.netty.shaded.io.netty.util.Timeout;
-import io.grpc.netty.shaded.io.netty.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Status;
 import tech.ydb.core.rpc.StreamObserver;
-import tech.ydb.core.utils.Async;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.impl.PeriodicUpdateTokenTask;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
 import tech.ydb.topic.utils.ProtoUtils;
@@ -37,8 +35,8 @@ public class WriterImpl {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
     // TODO: add retry policy
-    private static final int MAX_RECONNECT_COUNT = 5;
-    private static final int RECONNECT_DELAY_SECONDS = 1;
+    private static final int MAX_RECONNECT_COUNT = 0; // Inf
+    private static final int RECONNECT_DELAY_SECONDS = 5;
 
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
@@ -51,10 +49,8 @@ public class WriterImpl {
     private final Queue<EnqueuedMessage> sendingQueue = new LinkedList<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
     private final Queue<EnqueuedMessage> sentMessages = new LinkedList<>();
-    // Signalled when all messages are sent and WriteAcks are received
-    private final PeriodicUpdateTokenTask periodicUpdateTokenTask = new PeriodicUpdateTokenTask();
+    private final PeriodicUpdateTokenTask periodicUpdateTokenTask;
     private WriteSession session;
-    private String previousToken = null;
     private Boolean isSeqNoProvided = null;
     private long seqNo = 0;
     private int currentInFlightCount = 0;
@@ -74,6 +70,7 @@ public class WriterImpl {
                 new WriterImpl.ServerResponseObserver()
         );
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
+        this.periodicUpdateTokenTask = new PeriodicUpdateTokenTask(topicRpc, this::sendToken);
         this.periodicUpdateTokenTask.start();
     }
 
@@ -132,9 +129,10 @@ public class WriterImpl {
                     synchronized (incomingQueue) {
                         // Taking all encoded messages to sending queue
                         while (true) {
-                            EnqueuedMessage encodedMessage = encodingMessages.poll();
+                            EnqueuedMessage encodedMessage = encodingMessages.peek();
                             if (encodedMessage != null
                                     && (encodedMessage.isCompressed() || settings.getCodec() == Codec.RAW)) {
+                                encodingMessages.remove();
                                 if (encodedMessage.isCompressed()) {
                                     // message was actually encoded. Need to free some bytes
                                     long bytesFreed = encodedMessage.getUncompressedSizeBytes()
@@ -160,6 +158,7 @@ public class WriterImpl {
                     }
                 })
                 .exceptionally((throwable) -> {
+                    logger.error("Exception while encoding message: ", throwable);
                     long bytesFreed = message.isCompressed()
                             ? message.getCompressedSizeBytes()
                             : message.getUncompressedSizeBytes();
@@ -177,8 +176,12 @@ public class WriterImpl {
             }
             Queue<EnqueuedMessage> messages;
             synchronized (sendingQueue) {
-                if (sendingQueue.isEmpty() || !writeRequestInProgress.compareAndSet(false, true)) {
-                    logger.debug("Nothing to send or send request is already in progress");
+                if (sendingQueue.isEmpty()) {
+                    logger.debug("Nothing to send");
+                    return;
+                }
+                if (!writeRequestInProgress.compareAndSet(false, true)) {
+                    logger.debug("Send request is already in progress");
                     return;
                 }
                 messages = new LinkedList<>();
@@ -194,7 +197,7 @@ public class WriterImpl {
 
     private void encode(EnqueuedMessage message) {
         if (logger.isTraceEnabled()) {
-            logger.info("Started encoding message");
+            logger.trace("Started encoding message");
         }
         if (settings.getCodec() == Codec.RAW) {
             return;
@@ -202,14 +205,15 @@ public class WriterImpl {
         message.getMessage().setData(Encoder.encode(settings.getCodec(), message.getMessage().getData()));
         message.setCompressedSizeBytes(message.getMessage().getData().length);
         message.setCompressed(true);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Successfully finished encoding message");
+        }
     }
 
-    private void updateTokenIfNeeded() {
-        String token = topicRpc.getCallOptions().getAuthority();
-        if (token == null || token.equals(previousToken)) {
+    private void sendToken(String token) {
+        if (isStopped.get()) {
             return;
         }
-        previousToken = token;
         session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
                 .setUpdateTokenRequest(YdbTopic.UpdateTokenRequest.newBuilder()
                         .setToken(token)
@@ -336,42 +340,8 @@ public class WriterImpl {
                 .thenRun(() -> session.finish());
     }
 
-    private class PeriodicUpdateTokenTask implements TimerTask {
-        private static final long UPDATE_TOKEN_PERIOD_SECONDS = 3600;
-        private Timeout currentSchedule = null;
-
-        void stop() {
-            logger.info("stopping PeriodicUpdateTokenTask");
-            if (currentSchedule != null) {
-                currentSchedule.cancel();
-                currentSchedule = null;
-            }
-        }
-
-        void start() {
-            logger.info("starting PeriodicUpdateTokenTask");
-            // do not check token at the start, just schedule next
-            scheduleNextTokenCheck();
-        }
-
-        @Override
-        public void run(Timeout timeout) {
-            if (timeout.isCancelled() || isStopped.get()) {
-                return;
-            }
-
-            updateTokenIfNeeded();
-            scheduleNextTokenCheck();
-        }
-
-        private void scheduleNextTokenCheck() {
-            currentSchedule = Async.runAfter(this, UPDATE_TOKEN_PERIOD_SECONDS, TimeUnit.SECONDS);
-        }
-    }
-
     private class ServerResponseObserver implements StreamObserver<YdbTopic.StreamWriteMessage.FromServer> {
         private boolean working = true;
-
 
         @Override
         public void onNext(YdbTopic.StreamWriteMessage.FromServer message) {
@@ -445,7 +415,7 @@ public class WriterImpl {
             } else if (!isStopped.get()) {
                 if (isReconnecting.compareAndSet(false, true)) {
                     int currentReconnectCounter = reconnectCounter.incrementAndGet();
-                    if (currentReconnectCounter > MAX_RECONNECT_COUNT) {
+                    if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
                         if (isStopped.compareAndSet(false, true)) {
                             logger.error("Maximum retry count ({}}) exceeded. Shutting down writer.",
                                     MAX_RECONNECT_COUNT);
@@ -454,7 +424,8 @@ public class WriterImpl {
                                     MAX_RECONNECT_COUNT);
                         }
                     } else {
-                        logger.warn("Retryable error occurred: " + status + ". Scheduling reconnect...");
+                        logger.warn("Retryable error occurred: " + status + ". Retry #" + currentReconnectCounter
+                                + ". Scheduling reconnect...");
                         reconnectExecutor.schedule(WriterImpl.this::reconnect, RECONNECT_DELAY_SECONDS,
                                 TimeUnit.SECONDS);
                     }
