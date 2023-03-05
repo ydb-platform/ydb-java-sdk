@@ -154,7 +154,7 @@ public abstract class WriterImpl {
                                     }
                                 }
                                 if (logger.isTraceEnabled()) {
-                                    logger.info("Adding message to sending queue");
+                                    logger.debug("Adding message to sending queue");
                                 }
                                 synchronized (sendingQueue) {
                                     sendingQueue.add(encodedMessage);
@@ -358,7 +358,7 @@ public abstract class WriterImpl {
         @Override
         public void onNext(YdbTopic.StreamWriteMessage.FromServer message) {
             if (logger.isTraceEnabled()) {
-                logger.info("ServerResponseObserver - onNext: {}", message);
+                logger.debug("ServerResponseObserver - onNext: {}", message);
             }
 
             if (!isWorking.get()) {
