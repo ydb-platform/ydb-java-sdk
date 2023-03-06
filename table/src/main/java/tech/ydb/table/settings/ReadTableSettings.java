@@ -84,7 +84,6 @@ public class ReadTableSettings {
     /**
      * BUILDER
      */
-    @ParametersAreNonnullByDefault
     public static final class Builder {
         private boolean ordered = false;
         private TupleValue fromKey = null;
@@ -93,7 +92,7 @@ public class ReadTableSettings {
         private boolean toInclusive = false;
         private int rowLimit = 0;
         private List<String> columns = Collections.emptyList();
-        private Duration timeout = Duration.ofSeconds(60);
+        private Duration timeout = null;
 
         Builder() {
         }

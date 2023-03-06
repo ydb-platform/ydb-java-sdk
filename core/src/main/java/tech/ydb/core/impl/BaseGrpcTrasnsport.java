@@ -56,7 +56,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         }
 
         CallOptions options = getCallOptions();
-        if (settings.getDeadlineAfter() > 0) {
+        if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
                 return CompletableFuture.completedFuture(deadlineExpiredResult(method));
@@ -97,7 +97,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         }
 
         CallOptions options = getCallOptions();
-        if (settings.getDeadlineAfter() > 0) {
+        if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
                 observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));

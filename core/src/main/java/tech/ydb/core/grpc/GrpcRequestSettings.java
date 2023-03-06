@@ -3,8 +3,6 @@ package tech.ydb.core.grpc;
 import java.time.Duration;
 import java.util.function.Consumer;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
 import io.grpc.Metadata;
 
 /**
@@ -43,9 +41,8 @@ public class GrpcRequestSettings {
         return trailersHandler;
     }
 
-    @ParametersAreNonnullByDefault
     public static final class Builder {
-        private long deadlineAfter = 0;
+        private long deadlineAfter = 0L;
         private Integer prefferedNodeID = null;
         private Metadata extraHeaders = null;
         private Consumer<Metadata> trailersHandler = null;
@@ -71,7 +68,7 @@ public class GrpcRequestSettings {
          * @return {@code Builder} with a deadline
          */
         public Builder withDeadline(Duration duration) {
-            if (duration != null && !duration.isNegative()) {
+            if (duration != null) {
                 this.deadlineAfter = System.nanoTime() + duration.toNanos();
             } else {
                 this.deadlineAfter = 0L;

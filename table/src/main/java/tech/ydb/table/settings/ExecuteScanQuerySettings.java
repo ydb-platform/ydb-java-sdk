@@ -5,8 +5,6 @@ import java.util.concurrent.TimeUnit;
 
 import tech.ydb.table.YdbTable;
 
-import static tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
-import static tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;
 
 public class ExecuteScanQuerySettings {
     private final YdbTable.ExecuteScanQueryRequest.Mode mode;
@@ -28,21 +26,18 @@ public class ExecuteScanQuerySettings {
     }
 
     public static final class Builder {
-        private Duration timeout = Duration.ofSeconds(60);
-        private YdbTable.ExecuteScanQueryRequest.Mode mode = MODE_EXEC;
-        private YdbTable.QueryStatsCollection.Mode collectStats = STATS_COLLECTION_NONE;
+        private Duration timeout = null;
+        private YdbTable.ExecuteScanQueryRequest.Mode mode = YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
+        private YdbTable.QueryStatsCollection.Mode collectStats = YdbTable.QueryStatsCollection.Mode.
+                STATS_COLLECTION_NONE;
 
         public Builder timeout(long duration, TimeUnit unit) {
-            if (duration > 0) {
-                this.timeout = Duration.ofNanos(unit.toNanos(duration));
-            }
+            this.timeout = Duration.ofNanos(unit.toNanos(duration));
             return this;
         }
 
         public Builder timeout(Duration duration) {
-            if (duration != null && !duration.isNegative()) {
-                this.timeout = duration;
-            }
+            this.timeout = duration;
             return this;
         }
 
