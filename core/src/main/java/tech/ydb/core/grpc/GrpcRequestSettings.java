@@ -68,7 +68,7 @@ public class GrpcRequestSettings {
          * @return {@code Builder} with a deadline
          */
         public Builder withDeadline(Duration duration) {
-            if (duration != null) {
+            if (duration != null && !duration.isZero()) {
                 this.deadlineAfter = System.nanoTime() + duration.toNanos();
             } else {
                 this.deadlineAfter = 0L;
