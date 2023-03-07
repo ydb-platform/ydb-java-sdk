@@ -158,12 +158,27 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    /**
+     * use {@link tech.ydb.table.settings.RequestSettings#setTimeout(java.time.Duration) } instead
+     * @param timeout global timeout for grpc calls
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder withReadTimeout(Duration timeout) {
         this.readTimeoutMillis = timeout.toMillis();
         Preconditions.checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
         return this;
     }
 
+    /**
+     * use {@link tech.ydb.table.settings.RequestSettings#setTimeout(long, java.time.TimeUnit) } instead
+     * @param timeout size of global timeout for grpc calls
+     * @param unit time unit of global timeout for grpc calls
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder withReadTimeout(long timeout, TimeUnit unit) {
         this.readTimeoutMillis = unit.toMillis(timeout);
         Preconditions.checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
