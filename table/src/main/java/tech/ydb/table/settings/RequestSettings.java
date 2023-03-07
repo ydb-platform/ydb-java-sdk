@@ -7,13 +7,14 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author Sergey Polovko
+ * @param <Self> type of settings
  */
 public class RequestSettings<Self extends RequestSettings> {
 
     private String traceId;
     private Duration operationTimeout;
     private Duration cancelAfter;
-    private Duration timeout;
+    private Duration timeout = null;
     private Boolean reportCostInfo;
 
     public String getTraceId() {
@@ -25,8 +26,13 @@ public class RequestSettings<Self extends RequestSettings> {
         return self();
     }
 
+    @Deprecated
     public Optional<Duration> getTimeout() {
         return Optional.ofNullable(timeout);
+    }
+
+    public Duration getTimeoutDuration() {
+        return timeout;
     }
 
     /**
@@ -38,16 +44,12 @@ public class RequestSettings<Self extends RequestSettings> {
      * @return this
      */
     public Self setTimeout(Duration duration) {
-        if (duration.compareTo(Duration.ZERO) > 0) {
-            this.timeout = duration;
-        }
+        this.timeout = duration;
         return self();
     }
 
     public Self setTimeout(long duration, TimeUnit unit) {
-        if (duration > 0) {
-            this.timeout = Duration.ofNanos(unit.toNanos(duration));
-        }
+        this.timeout = Duration.ofNanos(unit.toNanos(duration));
         return self();
     }
 

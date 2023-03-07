@@ -5,18 +5,20 @@ import java.util.concurrent.TimeUnit;
 
 import tech.ydb.table.YdbTable;
 
-import static tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
-import static tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;
 
 public class ExecuteScanQuerySettings {
     private final YdbTable.ExecuteScanQueryRequest.Mode mode;
-    private final long timeoutNanos;
+    private final Duration timeout;
     private final YdbTable.QueryStatsCollection.Mode collectStats;
 
     public ExecuteScanQuerySettings(Builder b) {
-        this.timeoutNanos = b.timeoutNanos;
+        this.timeout = b.timeout;
         this.mode = b.mode;
         this.collectStats = b.collectStats;
+    }
+
+    public Duration getTimeoutDuration() {
+        return timeout;
     }
 
     public static Builder newBuilder() {
@@ -24,17 +26,18 @@ public class ExecuteScanQuerySettings {
     }
 
     public static final class Builder {
-        private long timeoutNanos = Duration.ofSeconds(60).toNanos();
-        private YdbTable.ExecuteScanQueryRequest.Mode mode = MODE_EXEC;
-        private YdbTable.QueryStatsCollection.Mode collectStats = STATS_COLLECTION_NONE;
+        private Duration timeout = null;
+        private YdbTable.ExecuteScanQueryRequest.Mode mode = YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
+        private YdbTable.QueryStatsCollection.Mode collectStats = YdbTable.QueryStatsCollection.Mode.
+                STATS_COLLECTION_NONE;
 
         public Builder timeout(long duration, TimeUnit unit) {
-            this.timeoutNanos = unit.toNanos(duration);
+            this.timeout = Duration.ofNanos(unit.toNanos(duration));
             return this;
         }
 
         public Builder timeout(Duration duration) {
-            this.timeoutNanos = duration.toNanos();
+            this.timeout = duration;
             return this;
         }
 
@@ -53,10 +56,6 @@ public class ExecuteScanQuerySettings {
         }
     }
 
-
-    public long getDeadlineAfter() {
-        return System.nanoTime() + timeoutNanos;
-    }
 
     public YdbTable.ExecuteScanQueryRequest.Mode getMode() {
         return mode;

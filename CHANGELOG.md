@@ -1,5 +1,6 @@
 ## 2.1.0 ##
 
+* Added default timeout 60 seconds for readTable
 * Fixed exponential backoff calculation
 * Fixed null values for Result.success
 * Fixed bug of channels closing
