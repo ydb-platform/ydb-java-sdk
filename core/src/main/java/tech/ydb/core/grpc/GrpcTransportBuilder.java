@@ -159,7 +159,7 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * use {@link tech.ydb.table.settings.RequestSettings#setTimeout(java.time.Duration) } instead
+     * use tech.ydb.table.settings.RequestSettings#setTimeout(java.time.Duration) instead
      * @param timeout global timeout for grpc calls
      * @return this
      * @deprecated
@@ -172,7 +172,7 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * use {@link tech.ydb.table.settings.RequestSettings#setTimeout(long, java.time.TimeUnit) } instead
+     * use tech.ydb.table.settings.RequestSettings#setTimeout(long, java.time.TimeUnit) instead
      * @param timeout size of global timeout for grpc calls
      * @param unit time unit of global timeout for grpc calls
      * @return this
