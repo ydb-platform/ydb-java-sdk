@@ -1,6 +1,7 @@
 package tech.ydb.topic.write.impl;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
@@ -16,8 +17,8 @@ import tech.ydb.topic.write.SyncWriter;
 public class SyncWriterImpl extends WriterImpl implements SyncWriter {
     //private static final Logger logger = LoggerFactory.getLogger(SyncWriterImpl.class);
 
-    public SyncWriterImpl(TopicRpc topicRpc, WriterSettings settings) {
-        super(topicRpc, settings);
+    public SyncWriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
+        super(topicRpc, settings, compressionExecutor);
     }
 
     @Override

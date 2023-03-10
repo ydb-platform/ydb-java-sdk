@@ -1,6 +1,7 @@
 package tech.ydb.topic.write.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.settings.WriterSettings;
@@ -14,8 +15,8 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
 
-    public AsyncWriterImpl(TopicRpc topicRpc, WriterSettings settings) {
-        super(topicRpc, settings);
+    public AsyncWriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
+        super(topicRpc, settings, compressionExecutor);
     }
 
     @Override

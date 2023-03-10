@@ -1,9 +1,5 @@
 package tech.ydb.topic.settings;
 
-import java.util.concurrent.Executor;
-
-import javax.annotation.Nullable;
-
 import tech.ydb.topic.description.Codec;
 
 /**
@@ -20,7 +16,6 @@ public class WriterSettings {
     private final Codec codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
-    private final Executor compressionExecutor;
 
     private WriterSettings(Builder builder) {
         this.topicPath = builder.topicPath;
@@ -30,7 +25,6 @@ public class WriterSettings {
         this.codec = builder.codec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
-        this.compressionExecutor = builder.compressionExecutor;
     }
 
     public static Builder newBuilder() {
@@ -65,11 +59,6 @@ public class WriterSettings {
         return maxSendBufferMessagesCount;
     }
 
-    @Nullable
-    public Executor getCompressionExecutor() {
-        return compressionExecutor;
-    }
-
     /**
      * BUILDER
      */
@@ -81,7 +70,6 @@ public class WriterSettings {
         private Codec codec = Codec.GZIP;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
-        private Executor compressionExecutor = null;
 
         /**
          * Set path to a topic to write to
@@ -157,17 +145,6 @@ public class WriterSettings {
          */
         public Builder setMaxSendBufferMessagesCount(int maxMessagesCount) {
             this.maxSendBufferMessagesCount = maxMessagesCount;
-            return this;
-        }
-
-        /**
-         * Set executor for compression tasks.
-         * If not set, default executor will be used.
-         * @param compressionExecutor  executor for compression tasks
-         * @return settings builder
-         */
-        public Builder setCompressionExecutor(Executor compressionExecutor) {
-            this.compressionExecutor = compressionExecutor;
             return this;
         }
 

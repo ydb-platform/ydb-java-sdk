@@ -5,6 +5,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -43,11 +49,25 @@ import tech.ydb.topic.write.impl.SyncWriterImpl;
  * @author Nikolay Perfilov
  */
 public class TopicClientImpl implements TopicClient {
+    private static final Logger logger = LoggerFactory.getLogger(TopicClientImpl.class);
+    private static final int DEFAULT_COMPRESSION_THREAD_COUNT = 5;
 
     private final TopicRpc topicRpc;
+    private final Executor compressionExecutor;
+    private final ExecutorService defaultCompressionExecutorService;
 
     TopicClientImpl(TopicClientBuilderImpl builder) {
         this.topicRpc = builder.topicRpc;
+        if (builder.compressionExecutor != null) {
+            this.defaultCompressionExecutorService = null;
+            this.compressionExecutor = builder.compressionExecutor;
+        } else {
+            this.defaultCompressionExecutorService = Executors.newFixedThreadPool(
+                    builder.compressionExecutorThreadCount == null
+                            ? DEFAULT_COMPRESSION_THREAD_COUNT
+                            : builder.compressionExecutorThreadCount);
+            this.compressionExecutor = defaultCompressionExecutorService;
+        }
     }
 
     public static Builder newClient(TopicRpc rpc) {
@@ -262,12 +282,12 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public SyncWriter createSyncWriter(WriterSettings settings) {
-        return new SyncWriterImpl(topicRpc, settings);
+        return new SyncWriterImpl(topicRpc, settings, compressionExecutor);
     }
 
     @Override
     public AsyncWriter createAsyncWriter(WriterSettings settings) {
-        return new AsyncWriterImpl(topicRpc, settings);
+        return new AsyncWriterImpl(topicRpc, settings, compressionExecutor);
     }
 
     private static Codec codecFromProto(int codec) {
@@ -343,6 +363,10 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public void close() {
+        logger.debug("TopicClientImpl.close() is called");
         topicRpc.close();
+        if (defaultCompressionExecutorService != null) {
+            defaultCompressionExecutorService.shutdown();
+        }
     }
 }

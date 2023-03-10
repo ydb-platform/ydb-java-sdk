@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -40,7 +38,6 @@ public abstract class WriterImpl {
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
     private static final int RECONNECT_DELAY_SECONDS = 5;
-    private static final int DEFAULT_COMPRESSION_THREAD_COUNT = 2;
 
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
@@ -66,24 +63,17 @@ public abstract class WriterImpl {
     // Future for flush method
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
     private final Executor compressionExecutor;
-    private final ExecutorService defaultCompressionExecutorService;
 
-    public WriterImpl(TopicRpc topicRpc, WriterSettings settings) {
+    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new WriteSession(topicRpc,
                 new WriterImpl.ServerResponseObserver()
         );
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
+        this.compressionExecutor = compressionExecutor;
         this.periodicUpdateTokenTask = new PeriodicUpdateTokenTask(topicRpc, this::sendToken);
         this.periodicUpdateTokenTask.start();
-        if (settings.getCompressionExecutor() != null) {
-            this.defaultCompressionExecutorService = null;
-            this.compressionExecutor = settings.getCompressionExecutor();
-        } else {
-            this.defaultCompressionExecutorService = Executors.newFixedThreadPool(DEFAULT_COMPRESSION_THREAD_COUNT);
-            this.compressionExecutor = defaultCompressionExecutorService;
-        }
     }
 
     private static class IncomingMessage {
@@ -223,7 +213,7 @@ public abstract class WriterImpl {
     }
 
     private void sendToken(String token) {
-        if (isStopped.get()) {
+        if (isStopped.get() || !initResultFuture.isDone()) {
             return;
         }
         session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
@@ -345,9 +335,6 @@ public abstract class WriterImpl {
         isStopped.set(true);
         periodicUpdateTokenTask.stop();
         reconnectExecutor.shutdown();
-        if (defaultCompressionExecutorService != null) {
-            defaultCompressionExecutorService.shutdown();
-        }
         return flushImpl()
                 .thenRun(() -> session.finish());
     }

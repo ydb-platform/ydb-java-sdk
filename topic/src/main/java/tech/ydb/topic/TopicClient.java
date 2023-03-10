@@ -1,6 +1,7 @@
 package tech.ydb.topic;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 import javax.annotation.WillNotClose;
 
@@ -132,5 +133,25 @@ public interface TopicClient extends AutoCloseable {
      */
     interface Builder {
         TopicClient build();
+
+        /**
+         * Set executor for compression tasks.
+         * If not set, default executor will be used.
+         * You can change default executor thread count with setCompressionPoolThreadCount.
+         * If compressionExecutor is set, it will not be affected by compressionPoolThreadCount parameter.
+         * @param compressionExecutor  executor for compression tasks
+         * @return settings builder
+         */
+        Builder setCompressionExecutor(Executor compressionExecutor);
+
+        /**
+         * Set default executor thread count for compression tasks.
+         * If not set, default number of threads will be used.
+         * If compressionExecutor is set, current parameter will be ignored.
+         * @param compressionPoolThreadCount  executor thread count for compression tasks
+         * @return settings builder
+         */
+        Builder setCompressionPoolThreadCount(Integer compressionPoolThreadCount);
+
     }
 }
