@@ -8,7 +8,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 
 /**
- * @author Kurdyukov Kirill
+ * @author Kirill Kurdyukov
  */
 public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointEvaluator {
 

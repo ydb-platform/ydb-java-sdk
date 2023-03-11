@@ -3,7 +3,7 @@ package tech.ydb.core.impl.priority;
 import tech.ydb.discovery.DiscoveryProtos;
 
 /**t
- * @author Kurdyukov Kirill
+ * @author Kirill Kurdyukov
  */
 public interface PriorityEndpointEvaluator {
 

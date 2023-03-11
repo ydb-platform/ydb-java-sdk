@@ -28,7 +28,7 @@ import tech.ydb.discovery.DiscoveryProtos;
 
 /**
  * @author Nikolay Perfilov
- * @author Kurdyukov Kirill
+ * @author Kirill Kurdyukov
  */
 public final class EndpointPool {
     private static final Logger logger = LoggerFactory.getLogger(EndpointPool.class);
