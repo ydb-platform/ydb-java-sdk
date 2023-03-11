@@ -56,6 +56,8 @@ public class PriorityEndpointEvaluatorTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        systemMocked.close();
     }
 
     private static DiscoveryProtos.EndpointInfo endpoint(String location) {

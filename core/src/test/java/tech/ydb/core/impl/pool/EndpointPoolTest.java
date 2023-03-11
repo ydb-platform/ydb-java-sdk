@@ -1,7 +1,8 @@
 package tech.ydb.core.impl.pool;
 
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
@@ -19,9 +20,7 @@ import tech.ydb.core.utils.Timer;
 import tech.ydb.discovery.DiscoveryProtos;
 
 import javax.net.ServerSocketFactory;
-import javax.net.SocketFactory;
 
-import static org.mockito.ArgumentMatchers.startsWith;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -462,6 +461,8 @@ public class EndpointPoolTest {
                 throw new RuntimeException(e);
             }
         });
+
+        systemMocked.close();
     }
 
     private static class PoolChecker {
