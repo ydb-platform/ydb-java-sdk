@@ -52,10 +52,10 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
 
     private class IdentityImpl implements tech.ydb.auth.AuthIdentity {
         private final AtomicReference<State> state = new AtomicReference<>(new NullState());
-        private final StaticCredentitalsRpc rpc;
+        private final StaticCredentialsRpc rpc;
 
         IdentityImpl(GrpcAuthRpc authRpc) {
-            this.rpc = new StaticCredentitalsRpc(authRpc, request, clock);
+            this.rpc = new StaticCredentialsRpc(authRpc, request, clock);
         }
 
         private State updateState(State current, State next) {
@@ -113,10 +113,10 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
         }
 
         private class BackgroundLogin implements State {
-            private final StaticCredentitalsRpc.Token token;
+            private final StaticCredentialsRpc.Token token;
             private final CompletableFuture<State> future = new CompletableFuture<>();
 
-            BackgroundLogin(StaticCredentitalsRpc.Token token) {
+            BackgroundLogin(StaticCredentialsRpc.Token token) {
                 this.token = token;
             }
 
@@ -156,9 +156,9 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
         }
 
         private class LoggedInState implements State {
-            private final StaticCredentitalsRpc.Token token;
+            private final StaticCredentialsRpc.Token token;
 
-            LoggedInState(StaticCredentitalsRpc.Token token) {
+            LoggedInState(StaticCredentialsRpc.Token token) {
                 this.token = token;
                 logger.debug("logged in with expired at {} and updating at {}", token.expiredAt(), token.updateAt());
             }

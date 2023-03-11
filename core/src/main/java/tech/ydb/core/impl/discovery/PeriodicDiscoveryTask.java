@@ -138,7 +138,7 @@ public class PeriodicDiscoveryTask implements Runnable {
         });
     }
 
-    private class State {
+    private static class State {
         private volatile Instant lastUpdateTime = Instant.now();
         private volatile boolean isReady = false;
         private volatile boolean stopped = false;

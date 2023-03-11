@@ -28,7 +28,7 @@ import tech.ydb.discovery.DiscoveryProtos;
  * @author Aleksandr Gorshenin
  */
 @Deprecated
-public class MultiChannelTransport extends BaseGrpcTrasnsport {
+public class MultiChannelTransport extends BaseGrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final String database;
@@ -99,7 +99,7 @@ public class MultiChannelTransport extends BaseGrpcTrasnsport {
     @Override
     GrpcChannel getChannel(GrpcRequestSettings settings) {
         EndpointRecord endpoint = endpointPool.getEndpoint(null);
-        return channelPool.getChannel(endpoint);
+        return channelPool.getChannel(endpoint); // TODO обсудить этот момент
     }
 
     @Override

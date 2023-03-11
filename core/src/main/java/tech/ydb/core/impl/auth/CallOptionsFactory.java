@@ -9,7 +9,7 @@ import io.grpc.CallOptions;
 
 import tech.ydb.auth.AuthIdentity;
 import tech.ydb.auth.AuthRpcProvider;
-import tech.ydb.core.impl.BaseGrpcTrasnsport;
+import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 
@@ -21,7 +21,7 @@ public class CallOptionsFactory implements AutoCloseable {
     private final AuthIdentity authIdentity;
 
     public CallOptionsFactory(
-            BaseGrpcTrasnsport parent,
+            BaseGrpcTransport parent,
             List<EndpointRecord> endpoints,
             ManagedChannelFactory channelFactory,
             AuthRpcProvider<? super GrpcAuthRpc> authProvider) {

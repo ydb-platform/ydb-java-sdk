@@ -2,7 +2,7 @@ package tech.ydb.core.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -29,12 +29,11 @@ import tech.ydb.discovery.DiscoveryProtos;
 /**
  * @author Nikolay Perfilov
  */
-public class YdbTransportImpl extends BaseGrpcTrasnsport {
+public class YdbTransportImpl extends BaseGrpcTransport {
     static final int DEFAULT_PORT = 2135;
 
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
-    private final GrpcDiscoveryRpc discoveryRpc;
     private final CallOptionsFactory callOptionsFactory;
     private final String database;
     private final CallOptions callOptions;
@@ -46,15 +45,15 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
-        EndpointRecord discoveryEndpoint = getDiscoverytEndpoint(builder);
+        EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
 
         logger.info("creating YDB transport with {}", balancingSettings);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
+        GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
 
         this.callOptionsFactory = new CallOptionsFactory(this,
-                Arrays.asList(discoveryEndpoint),
+                Collections.singletonList(discoveryEndpoint),
                 channelFactory,
                 builder.getAuthProvider()
         );
@@ -73,7 +72,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         periodicDiscoveryTask.start();
     }
 
-    static EndpointRecord getDiscoverytEndpoint(GrpcTransportBuilder builder) {
+    static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {
         URI endpointURI = null;
         try {
             String endpoint = builder.getEndpoint();

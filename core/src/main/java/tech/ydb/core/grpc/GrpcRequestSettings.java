@@ -10,13 +10,13 @@ import io.grpc.Metadata;
  */
 public class GrpcRequestSettings {
     private final long deadlineAfter;
-    private final Integer prefferedNodeID;
+    private final Integer preferredNodeID;
     private final Metadata extraHeaders;
     private final Consumer<Metadata> trailersHandler;
 
     private GrpcRequestSettings(Builder builder) {
         this.deadlineAfter = builder.getDeadlineAfter();
-        this.prefferedNodeID = builder.getPreferredNodeID();
+        this.preferredNodeID = builder.getPreferredNodeID();
         this.extraHeaders = builder.getExtraHeaders();
         this.trailersHandler = builder.getTrailersHandler();
     }
@@ -30,7 +30,7 @@ public class GrpcRequestSettings {
     }
 
     public Integer getPreferredNodeID() {
-        return prefferedNodeID;
+        return preferredNodeID;
     }
 
     public Metadata getExtraHeaders() {
@@ -43,7 +43,7 @@ public class GrpcRequestSettings {
 
     public static final class Builder {
         private long deadlineAfter = 0L;
-        private Integer prefferedNodeID = null;
+        private Integer preferredNodeID = null;
         private Metadata extraHeaders = null;
         private Consumer<Metadata> trailersHandler = null;
 
@@ -77,7 +77,7 @@ public class GrpcRequestSettings {
         }
 
         public Builder withPreferredNodeID(Integer preferredNodeID) {
-            this.prefferedNodeID = preferredNodeID;
+            this.preferredNodeID = preferredNodeID;
             return this;
         }
 
@@ -96,7 +96,7 @@ public class GrpcRequestSettings {
         }
 
         public Integer getPreferredNodeID() {
-            return prefferedNodeID;
+            return preferredNodeID;
         }
 
         public Metadata getExtraHeaders() {
