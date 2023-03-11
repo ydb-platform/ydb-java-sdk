@@ -181,6 +181,11 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addGlobalAsyncIndex(String name, List<String> columns) {
+            indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL, TableIndex.ConsistencyType.ASYNC));
+            return this;
+        }
+
         public Builder setTableStats(TableStats tableStats) {
             this.tableStats = tableStats;
             return this;

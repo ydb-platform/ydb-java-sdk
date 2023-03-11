@@ -220,7 +220,12 @@ public abstract class BaseSession implements Session {
             b.setName(index.getName());
             b.addAllIndexColumns(index.getColumns());
             if (index.getType() == TableIndex.Type.GLOBAL) {
-                b.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
+                if (index.getConsistencyType() == TableIndex.ConsistencyType.SYNC) {
+                    b.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
+                }
+                if (index.getConsistencyType() == TableIndex.ConsistencyType.ASYNC) {
+                    b.setGlobalAsyncIndex(YdbTable.GlobalAsyncIndex.getDefaultInstance());
+                }
             }
         }
 
