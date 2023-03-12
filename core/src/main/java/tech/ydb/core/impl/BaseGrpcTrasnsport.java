@@ -16,6 +16,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -84,7 +85,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     }
 
     @Override
-    public <ReqT, RespT> GrpcReadStream<RespT> serverStreamCall(
+    public <ReqT, RespT> GrpcReadStream<RespT> readStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
             ReqT request
@@ -108,7 +109,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
 
             return new GrpcReadStream<RespT>() {
                 @Override
-                public CompletableFuture<Status> start(GrpcReadStream.Observer<RespT> observer) {
+                public CompletableFuture<Status> start(Observer<RespT> observer) {
                     if (logger.isTraceEnabled()) {
                         logger.trace("Sending stream call to {}, method `{}', request: `{}'",
                                 channel.getEndpoint(),
@@ -119,7 +120,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
                     CompletableFuture<Status> future = new CompletableFuture<>();
                     sendOneRequest(call, request, settings, new ServerStreamToObserver<>(
                             observer, future, call, settings.getTrailersHandler(),
-                            statu -> updateChannelStatus(channel, statu)
+                            status -> updateChannelStatus(channel, status)
                     ));
                     return future;
                 }
@@ -131,6 +132,72 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             };
         } catch (RuntimeException ex) {
             logger.error("server stream call problem {}", ex.getMessage());
+            Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
+            return new ErrorStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
+        }
+    }
+
+
+    @Override
+    public <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            GrpcRequestSettings settings
+        ) {
+        if (shutdown) {
+            return new ErrorStream<>(SHUTDOWN_RESULT.getStatus());
+        }
+
+        CallOptions options = getCallOptions();
+        if (settings.getDeadlineAfter() != 0) {
+            final long now = System.nanoTime();
+            if (now >= settings.getDeadlineAfter()) {
+                return new ErrorStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
+            }
+            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        }
+
+        try {
+            GrpcChannel channel = getChannel(settings);
+            ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+
+            return new GrpcReadWriteStream<RespT, ReqT>() {
+                @Override
+                public CompletableFuture<Status> start(Observer<RespT> observer) {
+                    if (logger.isTraceEnabled()) {
+                        logger.trace("Start bidirectional stream call to {}, method `{}'",
+                                channel.getEndpoint(),
+                                method);
+                    }
+
+                    CompletableFuture<Status> future = new CompletableFuture<>();
+
+                    Metadata headers = settings.getExtraHeaders() != null ? settings.getExtraHeaders() : new Metadata();
+                    call.start(new ServerStreamToObserver<>(
+                            observer, future, call, settings.getTrailersHandler(),
+                            status -> updateChannelStatus(channel, status)
+                    ), headers);
+                    call.request(1);
+
+                    return future;
+                }
+
+                @Override
+                public void cancel() {
+                    call.cancel("Cancelled on user request", new CancellationException());
+                }
+
+                @Override
+                public void sendNext(ReqT message) {
+                    call.sendMessage(message);
+                }
+
+                @Override
+                public void close() {
+                    call.halfClose();
+                }
+            };
+        } catch (RuntimeException ex) {
+            logger.error("server bidirectional stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
             return new ErrorStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
         }
@@ -170,7 +237,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     }
 
 
-    private class ErrorStream<V> implements GrpcReadStream<V> {
+    private class ErrorStream<R, W> implements GrpcReadWriteStream<R, W> {
         private final Status status;
 
         ErrorStream(Status status) {
@@ -183,8 +250,18 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         }
 
         @Override
-        public CompletableFuture<Status> start(GrpcReadStream.Observer<V> observer) {
+        public CompletableFuture<Status> start(GrpcReadStream.Observer<R> observer) {
             return CompletableFuture.completedFuture(status);
+        }
+
+        @Override
+        public void sendNext(W message) {
+            // nothing
+        }
+
+        @Override
+        public void close() {
+            // nothing
         }
     }
 }

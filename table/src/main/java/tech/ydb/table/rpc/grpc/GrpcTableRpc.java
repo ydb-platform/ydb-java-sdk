@@ -218,13 +218,13 @@ public final class GrpcTableRpc implements TableRpc {
     @Override
     public GrpcReadStream<YdbTable.ReadTableResponse> streamReadTable(
             YdbTable.ReadTableRequest request, GrpcRequestSettings settings) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamReadTableMethod(), settings, request);
+        return transport.readStreamCall(TableServiceGrpc.getStreamReadTableMethod(), settings, request);
     }
 
     @Override
     public GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
             YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), settings, request);
+        return transport.readStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), settings, request);
     }
 
     @Override

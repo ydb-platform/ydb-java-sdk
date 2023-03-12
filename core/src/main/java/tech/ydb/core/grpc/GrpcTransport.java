@@ -27,10 +27,14 @@ public interface GrpcTransport extends AutoCloseable {
             GrpcRequestSettings settings,
             ReqT request);
 
-    <ReqT, RespT> GrpcReadStream<RespT> serverStreamCall(
+    <ReqT, RespT> GrpcReadStream<RespT> readStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
             ReqT request);
+
+    <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            GrpcRequestSettings settings);
 
     String getDatabase();
 

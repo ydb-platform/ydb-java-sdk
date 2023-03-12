@@ -7,6 +7,7 @@ import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 
@@ -38,9 +39,15 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
-    public <ReqT, RespT> GrpcReadStream<RespT> serverStreamCall(
+    public <ReqT, RespT> GrpcReadStream<RespT> readStreamCall(
             MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings, ReqT request) {
-        return checked().serverStreamCall(method, settings, request);
+        return checked().readStreamCall(method, settings, request);
+    }
+
+    @Override
+    public <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
+            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings) {
+        return checked().readWriteStreamCall(method, settings);
     }
 
     @Override
