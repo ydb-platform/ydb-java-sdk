@@ -232,7 +232,7 @@ public class SessionRetryContext {
             if (promise.isCancelled()) {
                 return;
             }
-            sessionSupplier.scheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
+            sessionSupplier.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
         private void handleError(@Nonnull StatusCode code, R result) {

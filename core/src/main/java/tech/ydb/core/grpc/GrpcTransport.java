@@ -37,7 +37,7 @@ public interface GrpcTransport extends AutoCloseable {
 
     String getDatabase();
 
-    ScheduledExecutorService scheduler();
+    ScheduledExecutorService getScheduler();
 
     @Override
     void close();

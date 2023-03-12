@@ -24,6 +24,6 @@ public interface SessionSupplier {
      * Default scheduler for asynchronous tasks execution
      * @return Default tasks scheduler
      */
-    ScheduledExecutorService scheduler();
+    ScheduledExecutorService getScheduler();
 
 }

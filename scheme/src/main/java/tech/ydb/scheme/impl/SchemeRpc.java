@@ -1,11 +1,10 @@
-package tech.ydb.scheme;
+package tech.ydb.scheme.impl;
 
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.rpc.Rpc;
 import tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest;
 import tech.ydb.scheme.SchemeOperationProtos.DescribePathResult;
 import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest;
@@ -17,7 +16,12 @@ import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
 /**
  * @author Sergey Polovko
  */
-public interface SchemeRpc extends Rpc {
+public interface SchemeRpc extends AutoCloseable {
+
+    String getDatabase();
+
+    @Override
+    void close();
 
     /**
      * Make directory.

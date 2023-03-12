@@ -1,7 +1,6 @@
 package tech.ydb.scheme.impl;
 
 import tech.ydb.scheme.SchemeClient;
-import tech.ydb.scheme.SchemeRpc;
 
 
 

@@ -28,8 +28,8 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
-        return checked().scheduler();
+    public ScheduledExecutorService getScheduler() {
+        return checked().getScheduler();
     }
 
     @Override

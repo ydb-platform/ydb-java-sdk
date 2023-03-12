@@ -8,9 +8,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -66,8 +63,6 @@ import tech.ydb.table.v1.TableServiceGrpc;
  */
 @ParametersAreNonnullByDefault
 public final class GrpcTableRpc implements TableRpc {
-    private static final Logger logger = LoggerFactory.getLogger(TableRpc.class);
-
     private final GrpcTransport transport;
     private final boolean transportOwned;
 
@@ -249,8 +244,8 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
-        return transport.scheduler();
+    public ScheduledExecutorService getScheduler() {
+        return transport.getScheduler();
     }
 
     @Override

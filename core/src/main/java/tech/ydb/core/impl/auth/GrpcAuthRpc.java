@@ -34,7 +34,7 @@ public class GrpcAuthRpc {
     }
 
     public ExecutorService getExecutor() {
-        return parent.scheduler();
+        return parent.getScheduler();
     }
 
     public String getDatabase() {
@@ -48,7 +48,7 @@ public class GrpcAuthRpc {
     public GrpcTransport createTransport() {
         // For auth provider we use transport without auth (with default CallOptions)
         return new FixedCallOptionsTransport(
-                parent.scheduler(),
+                parent.getScheduler(),
                 CallOptions.DEFAULT,
                 parent.getDatabase(),
                 endpoints.get(endpointIdx),

@@ -62,7 +62,7 @@ public class GrpcDiscoveryRpc {
 
     private GrpcTransport createTransport() {
         return new FixedCallOptionsTransport(
-                parent.scheduler(),
+                parent.getScheduler(),
                 parent.getCallOptions(),
                 parent.getDatabase(),
                 endpoint,

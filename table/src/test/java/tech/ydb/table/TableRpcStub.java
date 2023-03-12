@@ -173,7 +173,7 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
+    public ScheduledExecutorService getScheduler() {
         return scheduler;
     }
 

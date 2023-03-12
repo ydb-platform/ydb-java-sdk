@@ -115,7 +115,7 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
+    public ScheduledExecutorService getScheduler() {
         return scheduler;
     }
 
