@@ -4,12 +4,14 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
+import tech.ydb.core.settings.OperationSettings;
+
 
 /**
  * @author Sergey Polovko
  * @param <Self> type of settings
  */
-public class RequestSettings<Self extends RequestSettings> {
+public class RequestSettings<Self extends RequestSettings<?>> {
 
     private String traceId;
     private Duration operationTimeout;
@@ -85,4 +87,12 @@ public class RequestSettings<Self extends RequestSettings> {
         return self();
     }
 
+    public OperationSettings toOperationSettings() {
+        return new OperationSettings.OperationBuilder<>()
+                .withRequestTimeout(timeout)
+                .withOperationTimeout(operationTimeout)
+                .withCancelTimeout(cancelAfter)
+                .withReportCostInfo(reportCostInfo)
+                .build();
+    }
 }

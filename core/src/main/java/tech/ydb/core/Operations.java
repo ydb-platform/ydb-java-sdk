@@ -3,11 +3,13 @@ package tech.ydb.core;
 import java.util.function.Function;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.protobuf.Duration;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 
 import tech.ydb.OperationProtos;
-import tech.ydb.OperationProtos.Operation;
+import tech.ydb.common.CommonProtos;
+import tech.ydb.core.settings.OperationSettings;
 
 
 /**
@@ -20,7 +22,7 @@ public final class Operations {
     private Operations() { }
 
     @VisibleForTesting
-    static Status status(Operation operation) {
+    static Status status(OperationProtos.Operation operation) {
         StatusCode code = StatusCode.fromProto(operation.getStatus());
         Double consumedRu = null;
         if (operation.hasCostInfo()) {
@@ -69,4 +71,32 @@ public final class Operations {
             return ASYNC_ARE_UNSUPPORTED;
         };
     }
+
+    public static OperationProtos.OperationParams createParams(OperationSettings settings) {
+        OperationProtos.OperationParams.Builder builder = OperationProtos.OperationParams.newBuilder();
+
+        if (settings.getOperationTimeout() != null) {
+            builder.setOperationTimeout(protobufDuration(settings.getOperationTimeout()));
+        }
+        if (settings.getCancelTimeout() != null) {
+            builder.setOperationTimeout(protobufDuration(settings.getCancelTimeout()));
+        }
+        if (settings.getReportCostInfo() != null) {
+            if (settings.getReportCostInfo()) {
+                 builder.setReportCostInfo(CommonProtos.FeatureFlag.Status.ENABLED);
+            } else {
+                 builder.setReportCostInfo(CommonProtos.FeatureFlag.Status.DISABLED);
+            }
+        }
+
+        return builder.build();
+    }
+
+    private static Duration protobufDuration(java.time.Duration duration) {
+        return Duration.newBuilder()
+                .setSeconds(duration.getSeconds())
+                .setNanos(duration.getNano())
+                .build();
+    }
+
 }
