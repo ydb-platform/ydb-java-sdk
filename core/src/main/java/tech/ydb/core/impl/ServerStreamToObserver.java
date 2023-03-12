@@ -1,15 +1,16 @@
 package tech.ydb.core.impl;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
-import io.grpc.Status;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcStatuses;
-import tech.ydb.core.rpc.StreamObserver;
 
 
 /**
@@ -18,16 +19,18 @@ import tech.ydb.core.rpc.StreamObserver;
  * @param <RespT> type of response
  */
 public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<RespT> {
-
-    private final StreamObserver<RespT> observer;
+    private final CompletableFuture<Status> statusFuture;
+    private final GrpcReadStream.Observer<RespT> observer;
     private final ClientCall<ReqT, RespT> call;
     private final Consumer<Metadata> trailersHandler;
-    private final Consumer<Status> statusHandler;
+    private final Consumer<io.grpc.Status> statusHandler;
 
-    public ServerStreamToObserver(StreamObserver<RespT> observer,
+    public ServerStreamToObserver(GrpcReadStream.Observer<RespT> observer,
+            CompletableFuture<Status> future,
             ClientCall<ReqT, RespT> call,
             Consumer<Metadata> trailersHandler,
-            Consumer<Status> statusHandler) {
+            Consumer<io.grpc.Status> statusHandler) {
+        this.statusFuture = future;
         this.observer = observer;
         this.call = call;
         this.trailersHandler = trailersHandler;
@@ -50,7 +53,7 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
     }
 
     @Override
-    public void onClose(Status status, @Nullable Metadata trailers) {
+    public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
         if (trailersHandler != null && trailers != null) {
             trailersHandler.accept(trailers);
         }
@@ -59,9 +62,9 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
         }
 
         if (status.isOk()) {
-            observer.onCompleted();
+            statusFuture.complete(Status.SUCCESS);
         } else {
-            observer.onError(GrpcStatuses.toStatus(status));
+            statusFuture.complete(GrpcStatuses.toStatus(status));
         }
     }
 

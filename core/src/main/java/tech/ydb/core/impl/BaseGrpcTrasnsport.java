@@ -15,12 +15,11 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.pool.GrpcChannel;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 
 /**
  *
@@ -85,23 +84,20 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
     }
 
     @Override
-    public <ReqT, RespT> StreamControl serverStreamCall(
+    public <ReqT, RespT> GrpcReadStream<RespT> serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
-            ReqT request,
-            StreamObserver<RespT> observer
+            ReqT request
         ) {
         if (shutdown) {
-            observer.onError(SHUTDOWN_RESULT.getStatus());
-            return () -> { };
+            return new ErrorStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
         CallOptions options = getCallOptions();
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                observer.onError(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
-                return () -> { };
+                return new ErrorStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
@@ -109,24 +105,34 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         try {
             GrpcChannel channel = getChannel(settings);
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
-            if (logger.isTraceEnabled()) {
-                logger.trace("Sending stream call to {}, method `{}', request: `{}'",
-                        channel.getEndpoint(),
-                        method,
-                        request);
-            }
-            sendOneRequest(call, request, settings, new ServerStreamToObserver<>(
-                    observer, call, settings.getTrailersHandler(), status -> updateChannelStatus(channel, status)
-            ));
 
-            return () -> {
-                call.cancel("Cancelled on user request", new CancellationException());
+            return new GrpcReadStream<RespT>() {
+                @Override
+                public CompletableFuture<Status> start(GrpcReadStream.Observer<RespT> observer) {
+                    if (logger.isTraceEnabled()) {
+                        logger.trace("Sending stream call to {}, method `{}', request: `{}'",
+                                channel.getEndpoint(),
+                                method,
+                                request);
+                    }
+
+                    CompletableFuture<Status> future = new CompletableFuture<>();
+                    sendOneRequest(call, request, settings, new ServerStreamToObserver<>(
+                            observer, future, call, settings.getTrailersHandler(),
+                            statu -> updateChannelStatus(channel, statu)
+                    ));
+                    return future;
+                }
+
+                @Override
+                public void cancel() {
+                    call.cancel("Cancelled on user request", new CancellationException());
+                }
             };
         } catch (RuntimeException ex) {
             logger.error("server stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
-            observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
-            return () -> { };
+            return new ErrorStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
         }
     }
 
@@ -163,4 +169,22 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
         return io.grpc.Status.DEADLINE_EXCEEDED.withDescription(message);
     }
 
+
+    private class ErrorStream<V> implements GrpcReadStream<V> {
+        private final Status status;
+
+        ErrorStream(Status status) {
+            this.status = status;
+        }
+
+        @Override
+        public void cancel() {
+            // nothing
+        }
+
+        @Override
+        public CompletableFuture<Status> start(GrpcReadStream.Observer<V> observer) {
+            return CompletableFuture.completedFuture(status);
+        }
+    }
 }

@@ -12,8 +12,6 @@ import com.google.common.net.HostAndPort;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.URITools;
 
 
@@ -29,11 +27,10 @@ public interface GrpcTransport extends AutoCloseable {
             GrpcRequestSettings settings,
             ReqT request);
 
-    <ReqT, RespT> StreamControl serverStreamCall(
+    <ReqT, RespT> GrpcReadStream<RespT> serverStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
-            ReqT request,
-            StreamObserver<RespT> observer);
+            ReqT request);
 
     String getDatabase();
 

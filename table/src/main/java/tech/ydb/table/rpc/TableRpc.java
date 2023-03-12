@@ -5,9 +5,8 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.BeginTransactionRequest;
 import tech.ydb.table.YdbTable.BeginTransactionResult;
@@ -199,23 +198,18 @@ public interface TableRpc extends AutoCloseable {
     /**
      * Streaming read table.
      * @param request request proto
-     * @param observer consumer of streaming data
      * @param settings rpc call settings
-     * @return StreamControl object that allows to cancel the stream
+     * @return GrpcReadStream object that allows to start and cancel the stream
      */
-    StreamControl streamReadTable(ReadTableRequest request,
-            StreamObserver<ReadTableResponse> observer,
-            GrpcRequestSettings settings);
+    GrpcReadStream<ReadTableResponse> streamReadTable(ReadTableRequest request, GrpcRequestSettings settings);
 
     /**
      * Streaming execute scan query.
      * @param request request proto
-     * @param observer consumer of streaming data
      * @param settings rpc call settings
-     * @return StreamControl object that allows to cancel the stream
+     * @return GrpcReadStream object that allows to start and  cancel the stream
      */
-    StreamControl streamExecuteScanQuery(ExecuteScanQueryRequest request,
-            StreamObserver<ExecuteScanQueryPartialResponse> observer,
+    GrpcReadStream<ExecuteScanQueryPartialResponse> streamExecuteScanQuery(ExecuteScanQueryRequest request,
             GrpcRequestSettings settings);
 
     /**

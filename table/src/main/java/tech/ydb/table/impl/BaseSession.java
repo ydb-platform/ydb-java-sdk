@@ -7,7 +7,6 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -27,16 +26,12 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.table.Session;
 import tech.ydb.table.YdbTable;
-import tech.ydb.table.YdbTable.ColumnFamily.Compression;
-import tech.ydb.table.YdbTable.ReadTableRequest;
-import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.KeyBound;
 import tech.ydb.table.description.KeyRange;
@@ -226,16 +221,16 @@ public abstract class BaseSession implements Session {
 
 
         for (ColumnFamily family : tableDescription.getColumnFamilies()) {
-            Compression compression;
+            YdbTable.ColumnFamily.Compression compression;
             switch (family.getCompression()) {
                 case COMPRESSION_NONE:
-                    compression = Compression.COMPRESSION_NONE;
+                    compression = YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
                     break;
                 case COMPRESSION_LZ4:
-                    compression = Compression.COMPRESSION_LZ4;
+                    compression = YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
                     break;
                 default:
-                    compression = Compression.COMPRESSION_UNSPECIFIED;
+                    compression = YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;
             }
             request.addColumnFamilies(
                 YdbTable.ColumnFamily.newBuilder()
@@ -726,9 +721,8 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings,
-            Consumer<ResultSetReader> fn) {
-        ReadTableRequest.Builder request = ReadTableRequest.newBuilder()
+    public GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
+        YdbTable.ReadTableRequest.Builder request = YdbTable.ReadTableRequest.newBuilder()
             .setSessionId(id)
             .setPath(tablePath)
             .setOrdered(settings.isOrdered())
@@ -759,46 +753,52 @@ public abstract class BaseSession implements Session {
         }
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
-        CompletableFuture<Status> promise = new CompletableFuture<>();
-        StreamControl control = tableRpc.streamReadTable(request.build(), new StreamObserver<ReadTableResponse>() {
+        final GrpcReadStream<YdbTable.ReadTableResponse> baseStream = tableRpc.streamReadTable(
+                request.build(), grpcRequestSettings
+        );
+
+        return new GrpcReadStream<ResultSetReader>() {
             @Override
-            public void onNext(ReadTableResponse response) {
-                StatusIds.StatusCode statusCode = response.getStatus();
-                if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                    try {
-                        fn.accept(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
-                    } catch (Throwable t) {
-                        promise.completeExceptionally(t);
-                        throw new IllegalStateException(t);
+            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
+                final CompletableFuture<Status> promise = new CompletableFuture<>();
+
+                baseStream.start(response -> {
+                    StatusIds.StatusCode statusCode = response.getStatus();
+                    if (statusCode == StatusIds.StatusCode.SUCCESS) {
+                        try {
+                            observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
+                        } catch (Throwable t) {
+                            promise.completeExceptionally(t);
+                            baseStream.cancel();
+                        }
+                    } else {
+                        Issue[] issues = Issue.fromPb(response.getIssuesList());
+                        StatusCode code = StatusCode.fromProto(statusCode);
+                        promise.complete(Status.of(code, null, issues));
                     }
-                } else {
-                    Issue[] issues = Issue.fromPb(response.getIssuesList());
-                    StatusCode code = StatusCode.fromProto(statusCode);
-                    promise.complete(Status.of(code, null, issues));
-                }
+                }).whenComplete((status, th) -> {
+                    if (th != null) {
+                        promise.completeExceptionally(th);
+                    }
+                    if (status != null) {
+                        promise.complete(status);
+                    }
+                });
+
+                return promise;
             }
 
             @Override
-            public void onError(Status status) {
-                assert !status.isSuccess();
-                promise.complete(status);
+            public void cancel() {
+                baseStream.cancel();
             }
-
-            @Override
-            public void onCompleted() {
-                promise.complete(Status.SUCCESS);
-            }
-        }, grpcRequestSettings);
-        return promise.whenComplete((status, ex) -> {
-            if (ex instanceof CancellationException) {
-                control.cancel();
-            }
-        });
+        };
     }
 
     @Override
-    public CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings,
-            Consumer<ResultSetReader> fn) {
+    public GrpcReadStream<ResultSetReader> executeScanQuery(
+            String query, Params params, ExecuteScanQuerySettings settings
+    ) {
         YdbTable.ExecuteScanQueryRequest request = YdbTable.ExecuteScanQueryRequest.newBuilder()
             .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
             .setMode(settings.getMode())
@@ -806,43 +806,47 @@ public abstract class BaseSession implements Session {
             .setCollectStats(settings.getCollectStats())
             .build();
 
-        CompletableFuture<Status> promise = new CompletableFuture<>();
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
-        StreamControl control = tableRpc.streamExecuteScanQuery(request,
-                new StreamObserver<YdbTable.ExecuteScanQueryPartialResponse>() {
+        final GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> baseStream = tableRpc.streamExecuteScanQuery(
+                request, grpcRequestSettings
+        );
+
+        return new GrpcReadStream<ResultSetReader>() {
             @Override
-            public void onNext(YdbTable.ExecuteScanQueryPartialResponse response) {
-                StatusIds.StatusCode statusCode = response.getStatus();
-                if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                    try {
-                        fn.accept(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
-                    } catch (Throwable t) {
-                        promise.completeExceptionally(t);
-                        throw new IllegalStateException(t);
+            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
+                final CompletableFuture<Status> promise = new CompletableFuture<>();
+
+                baseStream.start(response -> {
+                    StatusIds.StatusCode statusCode = response.getStatus();
+                    if (statusCode == StatusIds.StatusCode.SUCCESS) {
+                        try {
+                            observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
+                        } catch (Throwable t) {
+                            promise.completeExceptionally(t);
+                            baseStream.cancel();
+                        }
+                    } else {
+                        Issue[] issues = Issue.fromPb(response.getIssuesList());
+                        StatusCode code = StatusCode.fromProto(statusCode);
+                        promise.complete(Status.of(code, null, issues));
                     }
-                } else {
-                    Issue[] issues = Issue.fromPb(response.getIssuesList());
-                    StatusCode code = StatusCode.fromProto(statusCode);
-                    promise.complete(Status.of(code, null, issues));
-                }
+                }).whenComplete((status, th) -> {
+                    if (th != null) {
+                        promise.completeExceptionally(th);
+                    }
+                    if (status != null) {
+                        promise.complete(status);
+                    }
+                });
+
+                return promise;
             }
 
             @Override
-            public void onError(Status status) {
-                assert !status.isSuccess();
-                promise.complete(status);
+            public void cancel() {
+                baseStream.cancel();
             }
-
-            @Override
-            public void onCompleted() {
-                promise.complete(Status.SUCCESS);
-            }
-        }, grpcRequestSettings);
-        return promise.whenComplete((status, ex) -> {
-            if (ex instanceof CancellationException) {
-                control.cancel();
-            }
-        });
+        };
     }
 
     @Override

@@ -6,10 +6,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 
 /**
  *
@@ -39,10 +38,9 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
-    public <ReqT, RespT> StreamControl serverStreamCall(
-            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings,
-            ReqT request, StreamObserver<RespT> observer) {
-        return checked().serverStreamCall(method, settings, request, observer);
+    public <ReqT, RespT> GrpcReadStream<RespT> serverStreamCall(
+            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings, ReqT request) {
+        return checked().serverStreamCall(method, settings, request);
     }
 
     @Override

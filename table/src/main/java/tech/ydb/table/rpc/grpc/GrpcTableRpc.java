@@ -11,10 +11,9 @@ import javax.annotation.WillNotClose;
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.table.YdbTable;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.AlterTableResponse;
@@ -51,8 +50,6 @@ import tech.ydb.table.YdbTable.KeepAliveResult;
 import tech.ydb.table.YdbTable.PrepareDataQueryRequest;
 import tech.ydb.table.YdbTable.PrepareDataQueryResponse;
 import tech.ydb.table.YdbTable.PrepareQueryResult;
-import tech.ydb.table.YdbTable.ReadTableRequest;
-import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.table.rpc.TableRpc;
@@ -219,16 +216,15 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
-    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer,
-            GrpcRequestSettings settings) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamReadTableMethod(), settings, request, observer);
+    public GrpcReadStream<YdbTable.ReadTableResponse> streamReadTable(
+            YdbTable.ReadTableRequest request, GrpcRequestSettings settings) {
+        return transport.serverStreamCall(TableServiceGrpc.getStreamReadTableMethod(), settings, request);
     }
 
     @Override
-    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request,
-            StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, GrpcRequestSettings settings) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), settings,
-                request, observer);
+    public GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
+            YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings) {
+        return transport.serverStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), settings, request);
     }
 
     @Override
