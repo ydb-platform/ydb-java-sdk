@@ -30,6 +30,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
+import tech.ydb.core.impl.stream.ProxyReadStream;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.table.Session;
 import tech.ydb.table.YdbTable;
@@ -753,46 +754,26 @@ public abstract class BaseSession implements Session {
         }
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout());
-        final GrpcReadStream<YdbTable.ReadTableResponse> baseStream = tableRpc.streamReadTable(
+        final GrpcReadStream<YdbTable.ReadTableResponse> origin = tableRpc.streamReadTable(
                 request.build(), grpcRequestSettings
         );
 
-        return new GrpcReadStream<ResultSetReader>() {
-            @Override
-            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
-                final CompletableFuture<Status> promise = new CompletableFuture<>();
-
-                baseStream.start(response -> {
-                    StatusIds.StatusCode statusCode = response.getStatus();
-                    if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                        try {
-                            observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
-                        } catch (Throwable t) {
-                            promise.completeExceptionally(t);
-                            baseStream.cancel();
-                        }
-                    } else {
-                        Issue[] issues = Issue.fromPb(response.getIssuesList());
-                        StatusCode code = StatusCode.fromProto(statusCode);
-                        promise.complete(Status.of(code, null, issues));
-                    }
-                }).whenComplete((status, th) -> {
-                    if (th != null) {
-                        promise.completeExceptionally(th);
-                    }
-                    if (status != null) {
-                        promise.complete(status);
-                    }
-                });
-
-                return promise;
+        return new ProxyReadStream<>(origin, (response, future, observer) -> {
+            StatusIds.StatusCode statusCode = response.getStatus();
+            if (statusCode == StatusIds.StatusCode.SUCCESS) {
+                try {
+                    observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
+                } catch (Throwable t) {
+                    future.completeExceptionally(t);
+                    origin.cancel();
+                }
+            } else {
+                Issue[] issues = Issue.fromPb(response.getIssuesList());
+                StatusCode code = StatusCode.fromProto(statusCode);
+                future.complete(Status.of(code, null, issues));
+                origin.cancel();
             }
-
-            @Override
-            public void cancel() {
-                baseStream.cancel();
-            }
-        };
+        });
     }
 
     @Override
@@ -807,46 +788,26 @@ public abstract class BaseSession implements Session {
                 .build();
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout());
-        final GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> baseStream = tableRpc.streamExecuteScanQuery(
+        final GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = tableRpc.streamExecuteScanQuery(
                 request, grpcRequestSettings
         );
 
-        return new GrpcReadStream<ResultSetReader>() {
-            @Override
-            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
-                final CompletableFuture<Status> promise = new CompletableFuture<>();
-
-                baseStream.start(response -> {
-                    StatusIds.StatusCode statusCode = response.getStatus();
-                    if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                        try {
-                            observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
-                        } catch (Throwable t) {
-                            promise.completeExceptionally(t);
-                            baseStream.cancel();
-                        }
-                    } else {
-                        Issue[] issues = Issue.fromPb(response.getIssuesList());
-                        StatusCode code = StatusCode.fromProto(statusCode);
-                        promise.complete(Status.of(code, null, issues));
-                    }
-                }).whenComplete((status, th) -> {
-                    if (th != null) {
-                        promise.completeExceptionally(th);
-                    }
-                    if (status != null) {
-                        promise.complete(status);
-                    }
-                });
-
-                return promise;
+        return new ProxyReadStream<>(origin, (response, future, observer) -> {
+            StatusIds.StatusCode statusCode = response.getStatus();
+            if (statusCode == StatusIds.StatusCode.SUCCESS) {
+                try {
+                    observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
+                } catch (Throwable t) {
+                    future.completeExceptionally(t);
+                    origin.cancel();
+                }
+            } else {
+                Issue[] issues = Issue.fromPb(response.getIssuesList());
+                StatusCode code = StatusCode.fromProto(statusCode);
+                future.complete(Status.of(code, null, issues));
+                origin.cancel();
             }
-
-            @Override
-            public void cancel() {
-                baseStream.cancel();
-            }
-        };
+        });
     }
 
     @Override

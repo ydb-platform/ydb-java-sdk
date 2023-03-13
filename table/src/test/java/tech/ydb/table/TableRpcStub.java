@@ -9,6 +9,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.impl.stream.EmptyStream;
 import tech.ydb.core.utils.Async;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.BeginTransactionRequest;
@@ -145,31 +146,17 @@ public class TableRpcStub implements TableRpc {
     @Override
     public GrpcReadStream<YdbTable.ReadTableResponse> streamReadTable(
             YdbTable.ReadTableRequest request, GrpcRequestSettings settings) {
-        return new GrpcReadStream<YdbTable.ReadTableResponse>() {
-            @Override
-            public CompletableFuture<Status> start(Observer<YdbTable.ReadTableResponse> observer) {
-                Issue issue = Issue.of("streamReadTable() is not implemented", Issue.Severity.ERROR);
-                Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
-                return CompletableFuture.completedFuture(status);
-            }
-            @Override
-            public void cancel() { }
-        };
+        Issue issue = Issue.of("streamReadTable() is not implemented", Issue.Severity.ERROR);
+        Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
+        return new EmptyStream<>(status);
     }
 
     @Override
     public GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
             YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings) {
-        return new GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse>() {
-            @Override
-            public CompletableFuture<Status> start(Observer<YdbTable.ExecuteScanQueryPartialResponse> observer) {
-                Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", Issue.Severity.ERROR);
-                Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
-                return CompletableFuture.completedFuture(status);
-            }
-            @Override
-            public void cancel() { }
-        };
+        Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", Issue.Severity.ERROR);
+        Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
+        return new EmptyStream<>(status);
     }
 
     @Override

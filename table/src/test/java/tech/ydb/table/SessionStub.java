@@ -120,28 +120,12 @@ public class SessionStub implements Session {
 
     @Override
     public GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
-        return new GrpcReadStream<ResultSetReader>() {
-            @Override
-            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
-                return notImplemented("readTable");
-            }
-
-            @Override
-            public void cancel() { }
-        };
+        throw new UnsupportedOperationException("readTable not implemented");
     }
 
     @Override
     public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings) {
-        return new GrpcReadStream<ResultSetReader>() {
-            @Override
-            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
-                return notImplemented("executeScanQuery");
-            }
-
-            @Override
-            public void cancel() { }
-        };
+        throw new UnsupportedOperationException("executeScanQuery not implemented");
     }
 
     @Override
