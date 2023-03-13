@@ -60,7 +60,6 @@ public abstract class WriterImpl {
     private int currentInFlightCount = 0;
     private long availableSizeBytes;
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
-    private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final ScheduledThreadPoolExecutor reconnectExecutor = new ScheduledThreadPoolExecutor(1);
@@ -317,7 +316,6 @@ public abstract class WriterImpl {
     }
 
     private void reconnect() {
-        this.session.finish();
         this.session = new WriteSession(topicRpc);
         initImpl();
     }
@@ -330,14 +328,6 @@ public abstract class WriterImpl {
     }
 
     private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
-        if (logger.isTraceEnabled()) {
-            logger.debug("ServerResponseObserver - onNext: {}", message);
-        }
-
-        if (!isWorking.get()) {
-            return;
-        }
-
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
@@ -421,12 +411,9 @@ public abstract class WriterImpl {
 
     private void completeSession(Status status, Throwable th) {
         // This session is not working anymore
-        boolean stoppedWorking = isWorking.compareAndSet(true, false);
+        this.session.finish();
+
         if (isStopped.get()) {
-            return;
-        }
-        if (!stoppedWorking) {
-            logger.debug("Error occurred on session that had already have errors: " + status);
             return;
         }
         int currentReconnectCounter = reconnectCounter.incrementAndGet();

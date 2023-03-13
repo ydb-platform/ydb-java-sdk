@@ -2,6 +2,7 @@ package tech.ydb.topic.write.impl;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ public class WriteSession {
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
 
     private final GrpcReadWriteStream<FromServer, FromClient> streamConnection;
+    private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private String token;
 
     public WriteSession(TopicRpc rpc) {
@@ -30,7 +32,15 @@ public class WriteSession {
 
     public synchronized CompletableFuture<Status> start(GrpcReadStream.Observer<FromServer> streamObserver) {
         logger.debug("WriteSession start");
-        return streamConnection.start(streamObserver);
+        return streamConnection.start(message -> {
+            if (logger.isTraceEnabled()) {
+                logger.debug("ServerResponseObserver - onNext: {}", message);
+            }
+
+            if (isWorking.get()) {
+                streamObserver.onNext(message);
+            }
+        });
     }
 
     public synchronized void send(FromClient request) {
@@ -50,7 +60,11 @@ public class WriteSession {
         streamConnection.sendNext(request);
     }
 
-    public void finish() {
+    public synchronized void finish() {
+        if (isWorking.compareAndSet(true, false)) {
+            return;
+        }
+
         logger.debug("WriteSession finish");
         streamConnection.close();
     }
