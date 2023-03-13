@@ -8,10 +8,11 @@ import tech.ydb.discovery.DiscoveryProtos;
 public class RandomPriorityEndpointEvaluator implements PriorityEndpointEvaluator {
 
     @Override
-    public long evaluatePriority(
-            String selfLocation,
-            DiscoveryProtos.EndpointInfo endpointInfo
-    ) {
+    public long evaluatePriority(DiscoveryProtos.EndpointInfo endpointInfo) {
         return 0;
+    }
+
+    @Override
+    public void prepareStatement(DiscoveryProtos.ListEndpointsResult result) {
     }
 }

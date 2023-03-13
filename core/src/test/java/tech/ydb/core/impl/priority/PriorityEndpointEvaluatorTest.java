@@ -9,6 +9,7 @@ import tech.ydb.discovery.DiscoveryProtos;
 import javax.net.ServerSocketFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Arrays;
 
 import static org.mockito.Mockito.mockStatic;
 
@@ -17,11 +18,8 @@ public class PriorityEndpointEvaluatorTest {
     @Test
     public void randomEvaluatorTest() {
         RandomPriorityEndpointEvaluator evaluator = new RandomPriorityEndpointEvaluator();
-
-        Assert.assertEquals(0, evaluator.evaluatePriority(
-                "DC1",
-                endpoint("DC2")
-        ));
+        evaluator.prepareStatement(list());
+        Assert.assertEquals(0, evaluator.evaluatePriority(endpoint("DC2")));
     }
 
 
@@ -29,14 +27,10 @@ public class PriorityEndpointEvaluatorTest {
     public void localDCFixedTest() {
         LocalDCPriorityEndpointEvaluator evaluator = new LocalDCPriorityEndpointEvaluator("DC1");
 
-        Assert.assertEquals(0, evaluator.evaluatePriority(
-                "DC1",
-                endpoint("DC1")
-        ));
-        Assert.assertEquals(1000, evaluator.evaluatePriority(
-                "DC1",
-                endpoint("DC2")
-        )); // shift
+        evaluator.prepareStatement(list(endpoint("DC1")));
+
+        Assert.assertEquals(0, evaluator.evaluatePriority(endpoint("DC1")));
+        Assert.assertEquals(1000, evaluator.evaluatePriority(endpoint("DC2"))); // shift
     }
 
     @Test
@@ -45,12 +39,30 @@ public class PriorityEndpointEvaluatorTest {
 
         MockedStatic<Timer> systemMocked = mockStatic(Timer.class);
 
-        systemMocked.when(Timer::nanoTime).thenReturn(1L, 5L);
+        long delta = 10_000_000;
 
-        try(ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(8080)) {
-            Assert.assertEquals(4, evaluator.evaluatePriority(
-                    "DC1",
+        systemMocked.when(Timer::nanoTime).thenReturn(delta, 2 * delta,
+                5 * delta, 10 * delta, 10 * delta, 20 * delta);
+
+        try (ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(8080)) {
+            evaluator.prepareStatement(
+                    list(
+                            endpoint("DC1"),
+                            endpoint("DC2"),
+                            endpoint("DC3")
+                    )
+            );
+
+            Assert.assertEquals(4000, evaluator.evaluatePriority(
+                    endpoint("DC1")
+            ));
+
+            Assert.assertEquals(0, evaluator.evaluatePriority(
                     endpoint("DC2")
+            ));
+
+            Assert.assertEquals(9000, evaluator.evaluatePriority(
+                    endpoint("DC3")
             ));
 
         } catch (IOException e) {
@@ -68,4 +80,12 @@ public class PriorityEndpointEvaluatorTest {
                 .setLocation(location)
                 .build();
     }
+
+    private static DiscoveryProtos.ListEndpointsResult list(DiscoveryProtos.EndpointInfo... endpoints) {
+        return DiscoveryProtos.ListEndpointsResult.newBuilder()
+                .setSelfLocation("DC1")
+                .addAllEndpoints(Arrays.asList(endpoints))
+                .build();
+    }
+
 }

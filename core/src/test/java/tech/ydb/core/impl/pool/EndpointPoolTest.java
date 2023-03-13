@@ -435,7 +435,10 @@ public class EndpointPoolTest {
 
         MockedStatic<Timer> systemMocked = mockStatic(Timer.class);
 
-        systemMocked.when(Timer::nanoTime).thenReturn(1L, 5L, 6L, 8L, 9L, 10L);
+        long delta = 10_000_000;
+
+        systemMocked.when(Timer::nanoTime).thenReturn(delta, 2 * delta,
+                5 * delta, 10 * delta, 10 * delta, 20 * delta);
 
         pool.setNewState(list("DC",
                 endpoint(1, "localhost", 8081, "DC1"),
@@ -445,12 +448,12 @@ public class EndpointPoolTest {
 
         check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
 
-        check(pool.getEndpoint(null)).hostname("localhost").nodeID(3).port(8083); // detect local dc
-        check(pool.getEndpoint(0)).hostname("localhost").nodeID(3).port(8083); // random from local dc
+        check(pool.getEndpoint(null)).hostname("localhost").nodeID(2).port(8082); // detect local dc
+        check(pool.getEndpoint(0)).hostname("localhost").nodeID(2).port(8082); // random from local dc
         check(pool.getEndpoint(1)).hostname("localhost").nodeID(1).port(8081);
-        check(pool.getEndpoint(2)).hostname("localhost").nodeID(2).port(8082);
-        check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083); // local dc
-        check(pool.getEndpoint(4)).hostname("localhost").nodeID(3).port(8083); // random from local dc
+        check(pool.getEndpoint(2)).hostname("localhost").nodeID(2).port(8082); // local dc
+        check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083);
+        check(pool.getEndpoint(4)).hostname("localhost").nodeID(2).port(8082); // random from local dc
 
         systemMocked.verify(Timer::nanoTime, times(6));
 

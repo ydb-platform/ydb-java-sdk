@@ -7,8 +7,7 @@ import tech.ydb.discovery.DiscoveryProtos;
  */
 public interface PriorityEndpointEvaluator {
 
-    long evaluatePriority(
-            String selfLocation,
-            DiscoveryProtos.EndpointInfo endpointInfo
-    );
+    long evaluatePriority(DiscoveryProtos.EndpointInfo endpointInfo);
+
+    void prepareStatement(DiscoveryProtos.ListEndpointsResult result);
 }

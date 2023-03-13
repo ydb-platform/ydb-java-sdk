@@ -99,7 +99,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     @Override
     GrpcChannel getChannel(GrpcRequestSettings settings) {
         EndpointRecord endpoint = endpointPool.getEndpoint(null);
-        return channelPool.getChannel(endpoint); // TODO обсудить этот момент
+        return channelPool.getChannel(endpoint);
     }
 
     @Override
