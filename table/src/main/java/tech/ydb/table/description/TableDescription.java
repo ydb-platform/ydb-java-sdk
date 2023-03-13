@@ -182,7 +182,12 @@ public class TableDescription {
         }
 
         public Builder addGlobalAsyncIndex(String name, List<String> columns) {
-            indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL, TableIndex.ConsistencyType.ASYNC));
+            indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL_ASYNC));
+            return this;
+        }
+
+        public Builder addGlobalAsyncIndex(String name, List<String> columns, List<String> dataColumns) {
+            indexes.add(new TableIndex(name, columns, dataColumns, TableIndex.Type.GLOBAL_ASYNC));
             return this;
         }
 
@@ -274,7 +279,7 @@ public class TableDescription {
         private final long storeSize;
 
         public TableStats(@Nullable Instant creationTime, @Nullable Instant modificationTime,
-                long rowsEstimate, long storeSize) {
+                          long rowsEstimate, long storeSize) {
             this.creationTime = creationTime;
             this.modificationTime = modificationTime;
             this.rowsEstimate = rowsEstimate;

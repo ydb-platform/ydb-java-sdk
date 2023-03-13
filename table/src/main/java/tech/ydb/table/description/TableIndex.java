@@ -12,10 +12,8 @@ public class TableIndex {
 
     public enum Type {
         GLOBAL,
-    }
 
-    public enum ConsistencyType {
-        SYNC, ASYNC
+        GLOBAL_ASYNC,
     }
 
     /**
@@ -38,11 +36,6 @@ public class TableIndex {
      */
     private final Type type;
 
-    /**
-     * Consistency index type
-     */
-    private final ConsistencyType consistencyType;
-
     public TableIndex(
             String name,
             List<String> columns,
@@ -61,20 +54,6 @@ public class TableIndex {
         this.columns = columns;
         this.dataColumns = dataColumns;
         this.type = type;
-        this.consistencyType = ConsistencyType.SYNC;
-    }
-
-    public TableIndex(
-            String name,
-            List<String> columns,
-            Type type,
-            ConsistencyType consistencyType
-    ) {
-        this.name = name;
-        this.columns = columns;
-        this.dataColumns = emptyList();
-        this.type = type;
-        this.consistencyType = consistencyType;
     }
 
     public String getName() {
@@ -91,9 +70,5 @@ public class TableIndex {
 
     public Type getType() {
         return type;
-    }
-
-    public ConsistencyType getConsistencyType() {
-        return consistencyType;
     }
 }
