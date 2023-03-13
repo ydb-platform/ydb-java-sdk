@@ -7,7 +7,7 @@ import tech.ydb.core.grpc.GrpcTransport;
  * @author Aleksandr Gorshenin
  */
 public interface YdbHelper extends AutoCloseable {
-    GrpcTransport createTransport(String path);
+    GrpcTransport createTransport();
 
     String endpoint();
     String database();

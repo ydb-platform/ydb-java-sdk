@@ -43,7 +43,7 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
 
                 logger.debug("create ydb helper for test {}", path);
                 try (YdbHelper helper = factory.createHelper()) {
-                    try (GrpcTransport transport = helper.createTransport(path)) {
+                    try (GrpcTransport transport = helper.createTransport()) {
                         proxy.set(transport);
                         base.evaluate();
                         proxy.set(null);

@@ -59,8 +59,8 @@ public class PooledTableClient implements TableClient {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
-        return tableRpc.scheduler();
+    public ScheduledExecutorService getScheduler() {
+        return tableRpc.getScheduler();
     }
 
     @Override

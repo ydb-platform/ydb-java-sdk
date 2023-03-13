@@ -50,7 +50,7 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
+    public ScheduledExecutorService getScheduler() {
         return scheduler;
     }
 

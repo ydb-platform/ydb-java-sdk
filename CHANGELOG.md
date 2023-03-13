@@ -1,8 +1,12 @@
 ## 2.1.0 ##
 
+* New api for streamable requests
+* Fixed default timeout for readTable
+* Fixed exponential backoff calculation
+* Fixed null values for Result.success
 * Fixed bug of channels closing
 * Changed default load balancer policy from pick_first to round_robin
-* Added config form channel connect timeout
+* Added config for channel connect timeout
 * Fixed discard of UnexpectedResultException causes
 * All periodic tasks have been moved to unite scheduled executor service
 * Added support of integration tests for JUnit4 and JUnit5

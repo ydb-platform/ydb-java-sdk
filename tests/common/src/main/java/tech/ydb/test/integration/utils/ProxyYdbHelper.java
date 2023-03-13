@@ -20,8 +20,8 @@ public abstract class ProxyYdbHelper implements YdbHelper {
     }
 
     @Override
-    public GrpcTransport createTransport(String path) {
-        return checked().createTransport(path);
+    public GrpcTransport createTransport() {
+        return checked().createTransport();
     }
 
     @Override

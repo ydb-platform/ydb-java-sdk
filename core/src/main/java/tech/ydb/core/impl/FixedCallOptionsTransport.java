@@ -37,7 +37,7 @@ public class FixedCallOptionsTransport extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
+    public ScheduledExecutorService getScheduler() {
         return scheduler;
     }
 

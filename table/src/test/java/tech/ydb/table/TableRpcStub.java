@@ -7,9 +7,9 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.core.impl.stream.EmptyStream;
 import tech.ydb.core.utils.Async;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.BeginTransactionRequest;
@@ -33,8 +33,6 @@ import tech.ydb.table.YdbTable.KeepAliveRequest;
 import tech.ydb.table.YdbTable.KeepAliveResult;
 import tech.ydb.table.YdbTable.PrepareDataQueryRequest;
 import tech.ydb.table.YdbTable.PrepareQueryResult;
-import tech.ydb.table.YdbTable.ReadTableRequest;
-import tech.ydb.table.YdbTable.ReadTableResponse;
 import tech.ydb.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.rpc.TableRpc;
 
@@ -146,19 +144,19 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer,
-                                         GrpcRequestSettings settings) {
+    public GrpcReadStream<YdbTable.ReadTableResponse> streamReadTable(
+            YdbTable.ReadTableRequest request, GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamReadTable() is not implemented", Issue.Severity.ERROR);
-        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue));
-        return () -> {};
+        Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
+        return new EmptyStream<>(status);
     }
 
     @Override
-    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request,
-            StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, GrpcRequestSettings settings) {
+    public GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
+            YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", Issue.Severity.ERROR);
-        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue));
-        return () -> {};
+        Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
+        return new EmptyStream<>(status);
     }
 
     @Override
@@ -173,7 +171,7 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
+    public ScheduledExecutorService getScheduler() {
         return scheduler;
     }
 

@@ -16,11 +16,9 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Status;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.impl.PeriodicUpdateTokenTask;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
 import tech.ydb.topic.utils.ProtoUtils;
@@ -28,6 +26,11 @@ import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.WriteAck;
+
+import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.MessageWriteStatusCase.SKIPPED;
+import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.MessageWriteStatusCase.WRITTEN;
+import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Skipped.Reason.REASON_ALREADY_WRITTEN;
+import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Skipped.Reason.REASON_UNSPECIFIED;
 
 /**
  * @author Nikolay Perfilov
@@ -50,13 +53,14 @@ public abstract class WriterImpl {
     private final Queue<EnqueuedMessage> sendingQueue = new LinkedList<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
     private final Queue<EnqueuedMessage> sentMessages = new LinkedList<>();
-    private final PeriodicUpdateTokenTask periodicUpdateTokenTask;
+
     private WriteSession session;
     private Boolean isSeqNoProvided = null;
     private long seqNo = 0;
     private int currentInFlightCount = 0;
     private long availableSizeBytes;
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
+    private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final ScheduledThreadPoolExecutor reconnectExecutor = new ScheduledThreadPoolExecutor(1);
@@ -67,13 +71,10 @@ public abstract class WriterImpl {
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
         this.topicRpc = topicRpc;
         this.settings = settings;
-        this.session = new WriteSession(topicRpc,
-                new WriterImpl.ServerResponseObserver()
-        );
+        this.session = new WriteSession(topicRpc);
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
-        this.periodicUpdateTokenTask = new PeriodicUpdateTokenTask(topicRpc, this::sendToken);
-        this.periodicUpdateTokenTask.start();
+
     }
 
     private static class IncomingMessage {
@@ -224,6 +225,8 @@ public abstract class WriterImpl {
     }
 
     protected CompletableFuture<InitResult> initImpl() {
+        session.start(this::processMessage).whenComplete(this::completeSession);
+
         initResultFuture = new CompletableFuture<>();
         YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
                 .newBuilder()
@@ -325,143 +328,132 @@ public abstract class WriterImpl {
     }
 
     private void reconnect() {
-        this.session = new WriteSession(topicRpc,
-                new WriterImpl.ServerResponseObserver()
-        );
+        this.session.finish();
+        this.session = new WriteSession(topicRpc);
         initImpl();
     }
 
     protected CompletableFuture<Void> shutdownImpl() {
         isStopped.set(true);
-        periodicUpdateTokenTask.stop();
         reconnectExecutor.shutdown();
         return flushImpl()
                 .thenRun(() -> session.finish());
     }
 
-    private class ServerResponseObserver implements StreamObserver<YdbTopic.StreamWriteMessage.FromServer> {
-        private AtomicBoolean isWorking = new AtomicBoolean(true);
+    private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
+        if (logger.isTraceEnabled()) {
+            logger.debug("ServerResponseObserver - onNext: {}", message);
+        }
 
-        @Override
-        public void onNext(YdbTopic.StreamWriteMessage.FromServer message) {
-            if (logger.isTraceEnabled()) {
-                logger.debug("ServerResponseObserver - onNext: {}", message);
-            }
+        if (!isWorking.get()) {
+            return;
+        }
 
-            if (!isWorking.get()) {
-                return;
+        if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
+            reconnectCounter.set(0);
+        } else {
+            logger.error("Unexpected behaviour: got non-success status in onNext method");
+            shutdownImpl();
+            return;
+        }
+        if (message.hasInitResponse()) {
+            long lastSeqNo = message.getInitResponse().getLastSeqNo();
+            seqNo = lastSeqNo;
+            if (!sentMessages.isEmpty()) {
+                // resending messages that haven't received acks yet
+                sendMessages(sentMessages);
             }
-
-            if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
-                reconnectCounter.set(0);
-            } else {
-                logger.error("Unexpected behaviour: got non-success status in onNext method");
-                shutdownImpl();
-                return;
-            }
-            if (message.hasInitResponse()) {
-                long lastSeqNo = message.getInitResponse().getLastSeqNo();
-                seqNo = lastSeqNo;
-                if (!sentMessages.isEmpty()) {
-                    // resending messages that haven't received acks yet
-                    sendMessages(sentMessages);
-                }
-                initResultFuture.complete(new InitResult(lastSeqNo));
-                sendDataRequestIfNeeded();
-            } else if (message.hasWriteResponse()) {
-                List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks =
-                        message.getWriteResponse().getAcksList();
-                int inFlightFreed = 0;
-                long bytesFreed = 0;
-                for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
-                    while (true) {
-                        EnqueuedMessage sentMessage = sentMessages.peek();
-                        if (sentMessage == null) {
-                            break;
-                        }
-                        if (sentMessage.getSeqNo() == ack.getSeqNo()) {
-                            processWriteAck(sentMessage, ack);
-                            inFlightFreed++;
-                            bytesFreed += sentMessage.getSizeBytes();
-                            // TODO: sync to ensure its the same message
-                            sentMessages.poll();
-                            break;
-                        }
-                        if (sentMessage.getSeqNo() < ack.getSeqNo()) {
-                            // An older message hasn't received an Ack while a newer message has
-                            sentMessage.getFuture().completeExceptionally(
-                                    new RuntimeException("Didn't get ack from server for this message"));
-                            inFlightFreed++;
-                            bytesFreed += sentMessage.getSizeBytes();
-                            sentMessages.poll();
-                            break;
-                        }
-                        // Received an ack for a message older than the oldest message waiting for Ack. Ignoring
+            initResultFuture.complete(new InitResult(lastSeqNo));
+            sendDataRequestIfNeeded();
+        } else if (message.hasWriteResponse()) {
+            List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks =
+                    message.getWriteResponse().getAcksList();
+            int inFlightFreed = 0;
+            long bytesFreed = 0;
+            for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
+                while (true) {
+                    EnqueuedMessage sentMessage = sentMessages.peek();
+                    if (sentMessage == null) {
+                        break;
                     }
-                }
-                free(inFlightFreed, bytesFreed);
-            }
-        }
-
-        @Override
-        public void onError(Status status) {
-            // This session is not working anymore
-            boolean stoppedWorking = isWorking.compareAndSet(true, false);
-            if (isStopped.get()) {
-                return;
-            }
-            if (!stoppedWorking) {
-                logger.debug("Error occurred on session that had already have errors: " + status);
-                return;
-            }
-            int currentReconnectCounter = reconnectCounter.incrementAndGet();
-            if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
-                if (isStopped.compareAndSet(false, true)) {
-                    logger.error("Maximum retry count ({}}) exceeded. Shutting down writer.", MAX_RECONNECT_COUNT);
-                } else {
-                    logger.debug("Maximum retry count ({}}) exceeded. But writer is already shut down.",
-                            MAX_RECONNECT_COUNT);
-                }
-            } else {
-                logger.warn("Error occurred: " + status + ". Retry #" + currentReconnectCounter
-                        + ". Scheduling reconnect...");
-                reconnectExecutor.schedule(WriterImpl.this::reconnect, RECONNECT_DELAY_SECONDS,
-                        TimeUnit.SECONDS);
-            }
-        }
-
-        @Override
-        public void onCompleted() {
-            logger.info("ServerResponseObserver - onCompleted");
-        }
-
-        private void processWriteAck(EnqueuedMessage message,
-                                     YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
-            WriteAck resultAck;
-            switch (ack.getMessageWriteStatusCase()) {
-                case WRITTEN:
-                    WriteAck.Details details = new WriteAck.Details(ack.getWritten().getOffset());
-                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details);
-                    break;
-                case SKIPPED:
-                    switch (ack.getSkipped().getReason()) {
-                        case REASON_ALREADY_WRITTEN:
-                            resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null);
-                            break;
-                        case REASON_UNSPECIFIED:
-                        default:
-                            message.getFuture().completeExceptionally(
-                                    new RuntimeException("Unknown WriteAck skipped reason"));
-                            return;
+                    if (sentMessage.getSeqNo() == ack.getSeqNo()) {
+                        processWriteAck(sentMessage, ack);
+                        inFlightFreed++;
+                        bytesFreed += sentMessage.getSizeBytes();
+                        // TODO: sync to ensure its the same message
+                        sentMessages.poll();
+                        break;
                     }
-                    break;
-
-                default:
-                    message.getFuture().completeExceptionally(
-                            new RuntimeException("Unknown WriteAck state"));
-                    return;
+                    if (sentMessage.getSeqNo() < ack.getSeqNo()) {
+                        // An older message hasn't received an Ack while a newer message has
+                        sentMessage.getFuture().completeExceptionally(
+                                new RuntimeException("Didn't get ack from server for this message"));
+                        inFlightFreed++;
+                        bytesFreed += sentMessage.getSizeBytes();
+                        sentMessages.poll();
+                        break;
+                    }
+                    // Received an ack for a message older than the oldest message waiting for Ack. Ignoring
+                }
             }
-            message.getFuture().complete(resultAck);
+            free(inFlightFreed, bytesFreed);
         }
+    }
+
+
+    private void processWriteAck(EnqueuedMessage message,
+                                 YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
+        WriteAck resultAck;
+        switch (ack.getMessageWriteStatusCase()) {
+            case WRITTEN:
+                WriteAck.Details details = new WriteAck.Details(ack.getWritten().getOffset());
+                resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details);
+                break;
+            case SKIPPED:
+                switch (ack.getSkipped().getReason()) {
+                    case REASON_ALREADY_WRITTEN:
+                        resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null);
+                        break;
+                    case REASON_UNSPECIFIED:
+                    default:
+                        message.getFuture().completeExceptionally(
+                                new RuntimeException("Unknown WriteAck skipped reason"));
+                        return;
+                }
+                break;
+
+            default:
+                message.getFuture().completeExceptionally(
+                        new RuntimeException("Unknown WriteAck state"));
+                return;
+        }
+        message.getFuture().complete(resultAck);
+    }
+
+    private void completeSession(Status status, Throwable th) {
+        // This session is not working anymore
+        boolean stoppedWorking = isWorking.compareAndSet(true, false);
+        if (isStopped.get()) {
+            return;
+        }
+        if (!stoppedWorking) {
+            logger.debug("Error occurred on session that had already have errors: " + status);
+            return;
+        }
+        int currentReconnectCounter = reconnectCounter.incrementAndGet();
+        if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
+            if (isStopped.compareAndSet(false, true)) {
+                logger.error("Maximum retry count ({}}) exceeded. Shutting down writer.", MAX_RECONNECT_COUNT);
+            } else {
+                logger.debug("Maximum retry count ({}}) exceeded. But writer is already shut down.",
+                        MAX_RECONNECT_COUNT);
+            }
+        } else {
+            logger.warn("Error occurred: " + status + ". Retry #" + currentReconnectCounter
+                    + ". Scheduling reconnect...");
+            reconnectExecutor.schedule(WriterImpl.this::reconnect, RECONNECT_DELAY_SECONDS,
+                    TimeUnit.SECONDS);
+        }
+
     }
 }

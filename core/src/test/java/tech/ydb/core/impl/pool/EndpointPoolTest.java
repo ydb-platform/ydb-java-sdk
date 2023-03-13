@@ -106,6 +106,31 @@ public class EndpointPoolTest {
     }
 
     @Test
+    public void nodesWithoutDC() {
+        EndpointPool pool = new EndpointPool(prefferedNode(""));
+        check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpoinstCount(-1);
+
+        pool.setNewState(list("DC2",
+                endpoint(1, "n1.ydb.tech", 12345, "DC1"),
+                endpoint(2, "n2.ydb.tech", 12345, "DC2"),
+                endpoint(3, "n3.ydb.tech", 12345)
+        ));
+
+        check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpoinstCount(1);
+
+        when(random.nextInt(1)).thenReturn(0, 0, 0);
+
+        check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
+        check(pool.getEndpoint(0)).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
+        check(pool.getEndpoint(1)).hostname("n1.ydb.tech").nodeID(1).port(12345); // preffered
+        check(pool.getEndpoint(2)).hostname("n2.ydb.tech").nodeID(2).port(12345); // preffered
+        check(pool.getEndpoint(3)).hostname("n3.ydb.tech").nodeID(3).port(12345); // preffered
+        check(pool.getEndpoint(4)).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
+
+        verify(random, times(3)).nextInt(1);
+    }
+
+    @Test
     public void prefferedDcTest() {
         EndpointPool pool = new EndpointPool(prefferedNode("DC1"));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpoinstCount(-1);
@@ -498,6 +523,14 @@ public class EndpointPoolTest {
                 .setPort(port)
                 .setNodeId(nodeID)
                 .setLocation(location)
+                .build();
+    }
+
+    private static DiscoveryProtos.EndpointInfo endpoint(int nodeID, String hostname, int port) {
+        return DiscoveryProtos.EndpointInfo.newBuilder()
+                .setAddress(hostname)
+                .setPort(port)
+                .setNodeId(nodeID)
                 .build();
     }
 }

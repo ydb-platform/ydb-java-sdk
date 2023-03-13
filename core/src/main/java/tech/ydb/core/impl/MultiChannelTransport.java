@@ -72,7 +72,7 @@ public class MultiChannelTransport extends BaseGrpcTrasnsport {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
+    public ScheduledExecutorService getScheduler() {
         return scheduler;
     }
 
