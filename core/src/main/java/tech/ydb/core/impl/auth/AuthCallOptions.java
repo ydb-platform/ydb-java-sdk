@@ -17,20 +17,44 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
  *
  * @author Aleksandr Gorshenin
  */
-public class CallOptionsFactory implements AutoCloseable {
+public class AuthCallOptions implements AutoCloseable {
     private final AuthIdentity authIdentity;
+    private final CallOptions callOptions;
 
-    public CallOptionsFactory(
+    public AuthCallOptions() {
+        this.authIdentity = null;
+        this.callOptions = CallOptions.DEFAULT;
+    }
+
+    public AuthCallOptions(
             BaseGrpcTrasnsport parent,
             List<EndpointRecord> endpoints,
             ManagedChannelFactory channelFactory,
-            AuthRpcProvider<? super GrpcAuthRpc> authProvider) {
+            AuthRpcProvider<? super GrpcAuthRpc> authProvider,
+            long readTimeoutMillis,
+            Executor callExecutor) {
+
+        CallOptions options = CallOptions.DEFAULT;
+
         if (authProvider != null) {
             GrpcAuthRpc rpc = new GrpcAuthRpc(endpoints, parent, channelFactory);
             authIdentity = authProvider.createAuthIdentity(rpc);
         } else {
             authIdentity = null;
         }
+
+        if (authIdentity != null) {
+            options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
+        }
+
+        if (readTimeoutMillis > 0) {
+            options = options.withDeadlineAfter(readTimeoutMillis, TimeUnit.MILLISECONDS);
+        }
+        if (callExecutor != null && callExecutor != MoreExecutors.directExecutor()) {
+            options = options.withExecutor(callExecutor);
+        }
+
+        this.callOptions = options;
     }
 
     @Override
@@ -40,19 +64,14 @@ public class CallOptionsFactory implements AutoCloseable {
         }
     }
 
-    public CallOptions createCallOptions(long defaultReadTimeoutMs, Executor executor) {
-        CallOptions options = CallOptions.DEFAULT;
-
+    public String getToken() {
         if (authIdentity != null) {
-            options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
+            return authIdentity.getToken();
         }
-        if (defaultReadTimeoutMs > 0) {
-            options = options.withDeadlineAfter(defaultReadTimeoutMs, TimeUnit.MILLISECONDS);
-        }
-        if (executor != null && executor != MoreExecutors.directExecutor()) {
-            options = options.withExecutor(executor);
-        }
+        return null;
+    }
 
-        return options;
+    public CallOptions getGrpcCallOptions() {
+        return callOptions;
     }
 }

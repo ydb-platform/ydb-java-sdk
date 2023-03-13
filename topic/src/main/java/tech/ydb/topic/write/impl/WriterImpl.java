@@ -213,17 +213,6 @@ public abstract class WriterImpl {
         }
     }
 
-    private void sendToken(String token) {
-        if (isStopped.get() || !initResultFuture.isDone()) {
-            return;
-        }
-        session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
-                .setUpdateTokenRequest(YdbTopic.UpdateTokenRequest.newBuilder()
-                        .setToken(token)
-                        .build())
-                .build());
-    }
-
     protected CompletableFuture<InitResult> initImpl() {
         session.start(this::processMessage).whenComplete(this::completeSession);
 

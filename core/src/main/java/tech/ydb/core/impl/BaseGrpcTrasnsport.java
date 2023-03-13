@@ -20,6 +20,7 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.stream.EmptyStream;
 
@@ -37,7 +38,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
 
     private volatile boolean shutdown = false;
 
-    public abstract CallOptions getCallOptions();
+    public abstract AuthCallOptions getAuthCallOptions();
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);
     abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
 
@@ -56,7 +57,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
 
-        CallOptions options = getCallOptions();
+        CallOptions options = getAuthCallOptions().getGrpcCallOptions();
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
@@ -95,7 +96,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
-        CallOptions options = getCallOptions();
+        CallOptions options = getAuthCallOptions().getGrpcCallOptions();
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
@@ -148,7 +149,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
-        CallOptions options = getCallOptions();
+        CallOptions options = getAuthCallOptions().getGrpcCallOptions();
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
@@ -180,6 +181,11 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
                     call.request(1);
 
                     return future;
+                }
+
+                @Override
+                public String authToken() {
+                    return getAuthCallOptions().getToken();
                 }
 
                 @Override

@@ -20,6 +20,11 @@ public class EmptyStream<R, W> implements GrpcReadWriteStream<R, W> {
     }
 
     @Override
+    public String authToken() {
+        return null;
+    }
+
+    @Override
     public void cancel() {
         // nothing
     }

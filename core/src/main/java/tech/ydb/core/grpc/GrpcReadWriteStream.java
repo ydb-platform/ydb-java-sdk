@@ -8,6 +8,8 @@ package tech.ydb.core.grpc;
  * @param <W> type of message to be sent to the server
  */
 public interface GrpcReadWriteStream<R, W> extends GrpcReadStream<R>, AutoCloseable {
+    String authToken();
+
     void sendNext(W message);
 
     @Override

@@ -8,7 +8,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
-import io.grpc.CallOptions;
 import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
-import tech.ydb.core.impl.auth.CallOptionsFactory;
+import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.discovery.GrpcDiscoveryRpc;
 import tech.ydb.core.impl.discovery.PeriodicDiscoveryTask;
 import tech.ydb.core.impl.pool.EndpointPool;
@@ -35,9 +34,8 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final GrpcDiscoveryRpc discoveryRpc;
-    private final CallOptionsFactory callOptionsFactory;
+    private final AuthCallOptions callOptions;
     private final String database;
-    private final CallOptions callOptions;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
     private final PeriodicDiscoveryTask periodicDiscoveryTask;
@@ -53,13 +51,12 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
 
-        this.callOptionsFactory = new CallOptionsFactory(this,
+        this.callOptions = new AuthCallOptions(this,
                 Arrays.asList(discoveryEndpoint),
                 channelFactory,
-                builder.getAuthProvider()
-        );
-        this.callOptions = callOptionsFactory.createCallOptions(
-                builder.getReadTimeoutMillis(), builder.getCallExecutor()
+                builder.getAuthProvider(),
+                builder.getReadTimeoutMillis(),
+                builder.getCallExecutor()
         );
 
         this.scheduler = YdbSchedulerFactory.createScheduler();
@@ -130,13 +127,13 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
 
         periodicDiscoveryTask.stop();
         channelPool.shutdown();
-        callOptionsFactory.close();
+        callOptions.close();
 
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
     @Override
-    public CallOptions getCallOptions() {
+    public AuthCallOptions getAuthCallOptions() {
         return callOptions;
     }
 
