@@ -43,7 +43,14 @@ public class GrpcAuthRpc {
     }
 
     public void changeEndpoint() {
-        endpointIdx.getAndIncrement();
+        while (true) {
+            int cur = endpointIdx.get();
+            int next = (cur + 1) % endpoints.size();
+
+            if (endpointIdx.compareAndSet(cur, next)) {
+                break;
+            }
+        }
     }
 
     public GrpcTransport createTransport() {
@@ -52,7 +59,7 @@ public class GrpcAuthRpc {
                 parent.scheduler(),
                 CallOptions.DEFAULT,
                 parent.getDatabase(),
-                endpoints.get(endpointIdx.get() % endpoints.size()),
+                endpoints.get(endpointIdx.get()),
                 channelFactory
         );
     }

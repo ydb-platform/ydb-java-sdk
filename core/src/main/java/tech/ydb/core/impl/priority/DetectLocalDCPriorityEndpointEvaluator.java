@@ -1,14 +1,13 @@
 package tech.ydb.core.impl.priority;
 
-import tech.ydb.core.utils.Timer;
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.Ticker;
 import tech.ydb.discovery.DiscoveryProtos;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -16,12 +15,24 @@ import java.util.stream.Collectors;
  */
 public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointEvaluator {
 
-    private static final int TCP_PING_TIMEOUT = 5000;
+    private static final int TCP_PING_TIMEOUT_MS = 5000;
     private static final int LOCALITY_SHIFT = 1000;
-    private static final int DELTA_PING_BETWEEN_DC = 10_000_000;
     private static final int NODE_SIZE = 5;
 
+    private static final double LOCAL_DC_RATIO = 1.4;
+
+    private final Ticker ticker;
+
     private Map<String, Long> locationToPriority;
+
+    public DetectLocalDCPriorityEndpointEvaluator() {
+        ticker = Ticker.systemTicker();
+    }
+
+    @VisibleForTesting
+    public DetectLocalDCPriorityEndpointEvaluator(Ticker ticker) {
+        this.ticker = ticker;
+    }
 
     @Override
     public long evaluatePriority(DiscoveryProtos.EndpointInfo endpointInfo) {
@@ -38,27 +49,30 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
                 );
 
         HashMap<String, Long> dcLocationToTcpPing = new HashMap<>();
-        long minPing = Integer.MAX_VALUE;
+        long minPing = Long.MAX_VALUE;
 
         for (Map.Entry<String, List<DiscoveryProtos.EndpointInfo>> entry : dcLocationToNodes.entrySet()) {
             String dc = entry.getKey();
             List<DiscoveryProtos.EndpointInfo> nodes = entry.getValue();
 
+            assert !nodes.isEmpty();
+
             Collections.shuffle(nodes);
 
             int nodeSize = Math.min(nodes.size(), NODE_SIZE);
-            long tcpPing = nodes
-                    .subList(0, nodeSize)
-                    .stream()
-                    .map(this::tcpPing)
-                    .reduce((a, b) -> {
-                        if (a.equals(Long.MAX_VALUE) || b.equals(Long.MAX_VALUE)) {
-                            return Long.MAX_VALUE;
-                        } else {
-                            return a + b;
-                        }
-                    })
-                    .orElseThrow(RuntimeException::new) / nodeSize;
+            long tcpPing = 0;
+
+            for (DiscoveryProtos.EndpointInfo node : nodes.subList(0, nodeSize)) {
+                long currentPing = tcpPing(new InetSocketAddress(node.getAddress(), node.getPort()));
+
+                if (tcpPing == Long.MAX_VALUE || currentPing == Long.MAX_VALUE) {
+                    tcpPing = Long.MAX_VALUE;
+                } else {
+                    tcpPing += currentPing;
+                }
+            }
+
+            tcpPing /= nodeSize;
 
             minPing = Math.min(minPing, tcpPing);
 
@@ -68,31 +82,34 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
             );
         }
 
+        HashMap<String, Long> newLocationToPriority = new HashMap<>();
+
+        for (Map.Entry<String, Long> entry : dcLocationToTcpPing.entrySet()) {
+            double dcRatio = (double) entry.getValue() / minPing;
+
+            long priority = 0;
+            if (dcRatio > LOCAL_DC_RATIO) {
+                priority = (long) (dcRatio / LOCAL_DC_RATIO * LOCALITY_SHIFT);
+            }
+
+            newLocationToPriority.put(entry.getKey(), priority);
+        }
+
         synchronized (this) {
-            long finalMinPing = minPing;
-            locationToPriority = dcLocationToTcpPing
-                    .entrySet()
-                    .stream()
-                    .collect(Collectors
-                            .toMap(
-                                    Map.Entry::getKey,
-                                    entry -> (entry.getValue() - finalMinPing)
-                                            / DELTA_PING_BETWEEN_DC * LOCALITY_SHIFT
-                            )
-                    );
+            locationToPriority = newLocationToPriority;
         }
     }
 
-    private long tcpPing(DiscoveryProtos.EndpointInfo endpoint) {
+    private long tcpPing(InetSocketAddress socketAddress) {
         try (final Socket socket = new Socket()) {
-            final long startConnection = Timer.nanoTime();
+            final long startConnection = ticker.read();
 
             socket.connect(
-                    new InetSocketAddress(endpoint.getAddress(), endpoint.getPort()),
-                    TCP_PING_TIMEOUT
+                    socketAddress,
+                    TCP_PING_TIMEOUT_MS
             );
 
-            final long stopConnection = Timer.nanoTime();
+            final long stopConnection = ticker.read();
 
             return stopConnection - startConnection;
         } catch (IOException e) {

@@ -3,16 +3,20 @@ package tech.ydb.core.impl.priority;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.MockedStatic;
-import tech.ydb.core.utils.Timer;
+import tech.ydb.core.timer.TestTicker;
 import tech.ydb.discovery.DiscoveryProtos;
 
 import javax.net.ServerSocketFactory;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.Mockito.mockStatic;
 
+/**
+ * @author Kurdyukov Kirill
+ */
 public class PriorityEndpointEvaluatorTest {
 
     @Test
@@ -35,41 +39,44 @@ public class PriorityEndpointEvaluatorTest {
 
     @Test
     public void detectLocalDCTest() {
-        DetectLocalDCPriorityEndpointEvaluator evaluator = new DetectLocalDCPriorityEndpointEvaluator();
+        TestTicker testTicker = new TestTicker(
+                9, 15,
+                16, 50,
+                51, 74,
+                75, 77,
+                78, 82,
+                83, 125
+        );
 
-        MockedStatic<Timer> systemMocked = mockStatic(Timer.class);
-
-        long delta = 10_000_000;
-
-        systemMocked.when(Timer::nanoTime).thenReturn(delta, 2 * delta,
-                5 * delta, 10 * delta, 10 * delta, 20 * delta);
+        DetectLocalDCPriorityEndpointEvaluator evaluator = new DetectLocalDCPriorityEndpointEvaluator(testTicker);
 
         try (ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(8080)) {
             evaluator.prepareStatement(
                     list(
                             endpoint("DC1"),
+                            endpoint("DC1"),
+                            endpoint("DC2"),
+                            endpoint("DC2"),
                             endpoint("DC2"),
                             endpoint("DC3")
                     )
             );
 
-            Assert.assertEquals(4000, evaluator.evaluatePriority(
+            Assert.assertEquals(0, evaluator.evaluatePriority(
                     endpoint("DC1")
             ));
 
-            Assert.assertEquals(0, evaluator.evaluatePriority(
+            Assert.assertEquals(5000, evaluator.evaluatePriority(
                     endpoint("DC2")
             ));
 
-            Assert.assertEquals(9000, evaluator.evaluatePriority(
+            Assert.assertEquals(10000, evaluator.evaluatePriority(
                     endpoint("DC3")
             ));
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        systemMocked.close();
     }
 
     private static DiscoveryProtos.EndpointInfo endpoint(String location) {

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import com.google.common.base.Ticker;
+import io.grpc.Deadline;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,7 +18,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import tech.ydb.core.grpc.BalancingSettings;
-import tech.ydb.core.utils.Timer;
+import tech.ydb.core.timer.TestTicker;
 import tech.ydb.discovery.DiscoveryProtos;
 
 import javax.net.ServerSocketFactory;
@@ -417,55 +419,54 @@ public class EndpointPoolTest {
 
     @Test
     public void detectLocalDCTest() {
-        List<ServerSocket> servers = Arrays.stream(new int[]{8081, 8082, 8083})
-                .mapToObj(
-                        port -> {
-                            try {
-                                return ServerSocketFactory.getDefault()
-                                        .createServerSocket(port);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
+        try (MockedStatic<Ticker> systemMocked = mockStatic(Ticker.class)) {
+            TestTicker testTicker = new TestTicker(
+                    1, 4,
+                    5, 26,
+                    83, 125
+            );
+
+            systemMocked.when(Ticker::systemTicker).thenReturn(testTicker);
+
+            List<ServerSocket> servers = Arrays.stream(new int[]{8081, 8082, 8083})
+                    .mapToObj(
+                            port -> {
+                                try {
+                                    return ServerSocketFactory.getDefault()
+                                            .createServerSocket(port);
+                                } catch (IOException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
-                        }
-                )
-                .collect(Collectors.toList());
+                    )
+                    .collect(Collectors.toList());
 
-        EndpointPool pool = new EndpointPool(detectLocalDC());
-        check(pool).records(0).knownNodes(0).needToReDiscovery(false);
+            EndpointPool pool = new EndpointPool(detectLocalDC());
+            check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        MockedStatic<Timer> systemMocked = mockStatic(Timer.class);
+            pool.setNewState(list("DC",
+                    endpoint(1, "localhost", 8081, "DC1"),
+                    endpoint(2, "localhost", 8082, "DC2"),
+                    endpoint(3, "localhost", 8083, "DC3")
+            ));
 
-        long delta = 10_000_000;
+            check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
 
-        systemMocked.when(Timer::nanoTime).thenReturn(delta, 2 * delta,
-                5 * delta, 10 * delta, 10 * delta, 20 * delta);
+            check(pool.getEndpoint(null)).hostname("localhost").nodeID(2).port(8082); // detect local dc
+            check(pool.getEndpoint(0)).hostname("localhost").nodeID(2).port(8082); // random from local dc
+            check(pool.getEndpoint(1)).hostname("localhost").nodeID(1).port(8081);
+            check(pool.getEndpoint(2)).hostname("localhost").nodeID(2).port(8082); // local dc
+            check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083);
+            check(pool.getEndpoint(4)).hostname("localhost").nodeID(2).port(8082); // random from local dc
 
-        pool.setNewState(list("DC",
-                endpoint(1, "localhost", 8081, "DC1"),
-                endpoint(2, "localhost", 8082, "DC2"),
-                endpoint(3, "localhost", 8083, "DC3")
-        ));
-
-        check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
-
-        check(pool.getEndpoint(null)).hostname("localhost").nodeID(2).port(8082); // detect local dc
-        check(pool.getEndpoint(0)).hostname("localhost").nodeID(2).port(8082); // random from local dc
-        check(pool.getEndpoint(1)).hostname("localhost").nodeID(1).port(8081);
-        check(pool.getEndpoint(2)).hostname("localhost").nodeID(2).port(8082); // local dc
-        check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083);
-        check(pool.getEndpoint(4)).hostname("localhost").nodeID(2).port(8082); // random from local dc
-
-        systemMocked.verify(Timer::nanoTime, times(6));
-
-        servers.forEach(serverSocket -> {
-            try {
-                serverSocket.close();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
-
-        systemMocked.close();
+            servers.forEach(serverSocket -> {
+                try {
+                    serverSocket.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
     }
 
     private static class PoolChecker {
@@ -551,7 +552,8 @@ public class EndpointPoolTest {
         return BalancingSettings.detectLocalDs();
     }
 
-    private static DiscoveryProtos.ListEndpointsResult list(String selfLocation, DiscoveryProtos.EndpointInfo... endpoints) {
+    private static DiscoveryProtos.ListEndpointsResult list(String selfLocation,
+                                                            DiscoveryProtos.EndpointInfo... endpoints) {
         return DiscoveryProtos.ListEndpointsResult.newBuilder()
                 .setSelfLocation(selfLocation)
                 .addAllEndpoints(Arrays.asList(endpoints))
