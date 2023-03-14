@@ -469,14 +469,14 @@ public abstract class BaseSession implements Session {
         }
         description.setPrimaryKeys(result.getPrimaryKeyList());
         for (int i = 0; i < result.getIndexesCount(); i++) {
-            YdbTable.TableIndexDescription index = result.getIndexes(i);
+            YdbTable.TableIndexDescription idx = result.getIndexes(i);
 
-            if (index.hasGlobalIndex()) {
-                description.addGlobalIndex(index.getName(), index.getIndexColumnsList(), index.getDataColumnsList());
+            if (idx.hasGlobalIndex()) {
+                description.addGlobalIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
             }
 
-            if (index.hasGlobalAsyncIndex()) {
-                description.addGlobalAsyncIndex(index.getName(), index.getIndexColumnsList(), index.getDataColumnsList());
+            if (idx.hasGlobalAsyncIndex()) {
+                description.addGlobalAsyncIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
             }
         }
         YdbTable.TableStats tableStats = result.getTableStats();
@@ -637,7 +637,7 @@ public abstract class BaseSession implements Session {
     }
 
     CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(String queryId, @Nullable String queryText,
-                                                                        TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
+            TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
                 .setSessionId(id)
                 .setOperationParams(OperationParamUtils.fromRequestSettings(settings))
