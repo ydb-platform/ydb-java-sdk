@@ -6,7 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import com.google.common.base.Strings;
 import io.grpc.CallOptions;
 import io.grpc.Status;
-import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

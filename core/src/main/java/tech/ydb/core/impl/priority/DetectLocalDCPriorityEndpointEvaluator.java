@@ -2,12 +2,17 @@ package tech.ydb.core.impl.priority;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Ticker;
+
 import tech.ydb.discovery.DiscoveryProtos;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.*;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
