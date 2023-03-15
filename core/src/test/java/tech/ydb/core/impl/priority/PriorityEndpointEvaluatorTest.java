@@ -66,11 +66,11 @@ public class PriorityEndpointEvaluatorTest {
                     endpoint("DC1")
             ));
 
-            Assert.assertEquals(5000, evaluator.evaluatePriority(
+            Assert.assertEquals(18000, evaluator.evaluatePriority(
                     endpoint("DC2")
             ));
 
-            Assert.assertEquals(10000, evaluator.evaluatePriority(
+            Assert.assertEquals(39000, evaluator.evaluatePriority(
                     endpoint("DC3")
             ));
 

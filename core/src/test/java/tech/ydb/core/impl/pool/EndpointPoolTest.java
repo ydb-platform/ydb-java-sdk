@@ -459,6 +459,14 @@ public class EndpointPoolTest {
             check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083);
             check(pool.getEndpoint(4)).hostname("localhost").nodeID(2).port(8082); // random from local dc
 
+            pool.pessimizeEndpoint(pool.getEndpoint(2));
+            check(pool.getEndpoint(null)).hostname("localhost").nodeID(1).port(8081); // new local dc
+            check(pool.getEndpoint(0)).hostname("localhost").nodeID(1).port(8081); // random from local dc
+            check(pool.getEndpoint(1)).hostname("localhost").nodeID(1).port(8081);
+            check(pool.getEndpoint(2)).hostname("localhost").nodeID(2).port(8082); // local dc
+            check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083);
+            check(pool.getEndpoint(4)).hostname("localhost").nodeID(1).port(8081); // random from local dc
+
             servers.forEach(serverSocket -> {
                 try {
                     serverSocket.close();

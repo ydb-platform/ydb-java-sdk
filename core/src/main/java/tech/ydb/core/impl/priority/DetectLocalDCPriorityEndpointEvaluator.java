@@ -23,8 +23,6 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
     private static final int LOCALITY_SHIFT = 1000;
     private static final int NODE_SIZE = 5;
 
-    private static final double LOCAL_DC_RATIO = 1.4;
-
     private final Ticker ticker;
 
     private Map<String, Long> locationToPriority;
@@ -69,11 +67,7 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
             for (DiscoveryProtos.EndpointInfo node : nodes.subList(0, nodeSize)) {
                 long currentPing = tcpPing(new InetSocketAddress(node.getAddress(), node.getPort()));
 
-                if (tcpPing == Long.MAX_VALUE || currentPing == Long.MAX_VALUE) {
-                    tcpPing = Long.MAX_VALUE;
-                } else {
-                    tcpPing += currentPing;
-                }
+                tcpPing += currentPing;
             }
 
             tcpPing /= nodeSize;
@@ -89,14 +83,10 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
         HashMap<String, Long> newLocationToPriority = new HashMap<>();
 
         for (Map.Entry<String, Long> entry : dcLocationToTcpPing.entrySet()) {
-            double dcRatio = (double) entry.getValue() / minPing;
-
-            long priority = 0;
-            if (dcRatio > LOCAL_DC_RATIO) {
-                priority = (long) (dcRatio / LOCAL_DC_RATIO * LOCALITY_SHIFT);
-            }
-
-            newLocationToPriority.put(entry.getKey(), priority);
+            newLocationToPriority.put(
+                    entry.getKey(),
+                    (entry.getValue() - minPing) * LOCALITY_SHIFT
+            );
         }
 
         synchronized (this) {
@@ -117,7 +107,7 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
 
             return stopConnection - startConnection;
         } catch (IOException e) {
-            return Long.MAX_VALUE;
+            return TCP_PING_TIMEOUT_MS * 2_000_000L;
         }
     }
 }
