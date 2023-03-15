@@ -20,7 +20,7 @@ public class StatusTest {
         Assert.assertNotEquals(s1, null);
         Assert.assertEquals(s1.hashCode(), s2.hashCode());
 
-        Assert.assertEquals("Status{code = ABORTED, consumed RU = 5.0, issues = [issue1 (S_INFO), issue2 (S_INFO)]}",
+        Assert.assertEquals("Status{code = ABORTED(code=400040), consumed RU = 5.0, issues = [issue1 (S_INFO), issue2 (S_INFO)]}",
                 s1.toString());
     }
 
@@ -58,7 +58,7 @@ public class StatusTest {
 
         UnexpectedResultException ex1 = Assert.assertThrows(UnexpectedResultException.class,
                 wrong::expectSuccess);
-        Assert.assertEquals("Expected success status, but got BAD_REQUEST, code: BAD_REQUEST, consumed 1.0 RU"
+        Assert.assertEquals("Expected success status, but got BAD_REQUEST(code=400010), code: BAD_REQUEST, consumed 1.0 RU"
                 + ", issues: [issue1 (S_FATAL), issue2 (S_INFO)]",
                 ex1.getMessage());
         Assert.assertEquals(wrong, ex1.getStatus());

@@ -103,7 +103,7 @@ public class ResultTest {
         Assert.assertEquals(r1.hashCode(), r2.hashCode());
         Assert.assertNotEquals(r1.hashCode(), r3.hashCode());
         Assert.assertEquals(
-                "Fail{Status{code = BAD_SESSION, issues = [issue1 (S_ERROR), issue2 (S_FATAL)]}}",
+                "Fail{Status{code = BAD_SESSION(code=400100), issues = [issue1 (S_ERROR), issue2 (S_FATAL)]}}",
                 r1.toString());
 
         UnexpectedResultException ex = Assert.assertThrows(UnexpectedResultException.class, r1::getValue);
