@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Ticker;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import tech.ydb.discovery.DiscoveryProtos;
 
 /**
@@ -19,6 +21,8 @@ import tech.ydb.discovery.DiscoveryProtos;
  */
 public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointEvaluator {
 
+    private static final Logger logger = LoggerFactory
+            .getLogger(DetectLocalDCPriorityEndpointEvaluator.class);
     private static final int TCP_PING_TIMEOUT_MS = 5000;
     private static final int LOCALITY_SHIFT = 1000;
     private static final int NODE_SIZE = 5;
@@ -66,6 +70,7 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
 
             for (DiscoveryProtos.EndpointInfo node : nodes.subList(0, nodeSize)) {
                 long currentPing = tcpPing(new InetSocketAddress(node.getAddress(), node.getPort()));
+                logger.debug("Address: {}, port: {}, nanos ping: {}", node.getAddress(), node.getPort(), currentPing);
 
                 tcpPing += currentPing;
             }
@@ -83,9 +88,12 @@ public class DetectLocalDCPriorityEndpointEvaluator implements PriorityEndpointE
         HashMap<String, Long> newLocationToPriority = new HashMap<>();
 
         for (Map.Entry<String, Long> entry : dcLocationToTcpPing.entrySet()) {
+            long priority = (entry.getValue() - minPing) * LOCALITY_SHIFT;
+
+            logger.debug("Location: {}, priority: {}", entry.getKey(), priority);
             newLocationToPriority.put(
                     entry.getKey(),
-                    (entry.getValue() - minPing) * LOCALITY_SHIFT
+                    priority
             );
         }
 
