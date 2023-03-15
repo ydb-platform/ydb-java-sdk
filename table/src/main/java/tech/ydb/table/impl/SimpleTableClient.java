@@ -34,8 +34,8 @@ public class SimpleTableClient implements SessionSupplier {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
-        return tableRpc.scheduler();
+    public ScheduledExecutorService getScheduler() {
+        return tableRpc.getScheduler();
     }
 
     public static Builder newClient(TableRpc rpc) {

@@ -22,7 +22,6 @@ import tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest;
 import tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse;
 import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
 import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse;
-import tech.ydb.scheme.SchemeRpc;
 import tech.ydb.scheme.v1.SchemeServiceGrpc;
 
 

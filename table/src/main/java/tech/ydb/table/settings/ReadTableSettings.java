@@ -1,16 +1,15 @@
 package tech.ydb.table.settings;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.ImmutableList;
 
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.TupleValue;
 
@@ -21,7 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
  * @author Sergey Polovko
  */
 @ParametersAreNonnullByDefault
-public class ReadTableSettings {
+public class ReadTableSettings extends BaseRequestSettings {
 
     private final boolean ordered;
     private final TupleValue fromKey;
@@ -30,17 +29,16 @@ public class ReadTableSettings {
     private final boolean toInclusive;
     private final int rowLimit;
     private final ImmutableList<String> columns;
-    private final long timeoutNanos;
 
-    private ReadTableSettings(Builder b) {
-        this.ordered = b.ordered;
-        this.fromKey = b.fromKey;
-        this.fromInclusive = b.fromInclusive;
-        this.toKey = b.toKey;
-        this.toInclusive = b.toInclusive;
-        this.rowLimit = b.rowLimit;
-        this.columns = ImmutableList.copyOf(b.columns);
-        this.timeoutNanos = b.timeoutNanos;
+    private ReadTableSettings(Builder builder) {
+        super(builder);
+        this.ordered = builder.ordered;
+        this.fromKey = builder.fromKey;
+        this.fromInclusive = builder.fromInclusive;
+        this.toKey = builder.toKey;
+        this.toInclusive = builder.toInclusive;
+        this.rowLimit = builder.rowLimit;
+        this.columns = ImmutableList.copyOf(builder.columns);
     }
 
     public static Builder newBuilder() {
@@ -77,19 +75,10 @@ public class ReadTableSettings {
         return columns;
     }
 
-    public long getTimeoutNanos() {
-        return timeoutNanos;
-    }
-
-    public long getDeadlineAfter() {
-        return System.nanoTime() + timeoutNanos;
-    }
-
     /**
      * BUILDER
      */
-    @ParametersAreNonnullByDefault
-    public static final class Builder {
+    public static final class Builder extends BaseBuilder<Builder> {
         private boolean ordered = false;
         private TupleValue fromKey = null;
         private boolean fromInclusive = false;
@@ -97,10 +86,6 @@ public class ReadTableSettings {
         private boolean toInclusive = false;
         private int rowLimit = 0;
         private List<String> columns = Collections.emptyList();
-        private long timeoutNanos = 0;
-
-        Builder() {
-        }
 
         public Builder orderedRead(boolean ordered) {
             this.ordered = ordered;
@@ -175,16 +160,7 @@ public class ReadTableSettings {
             return this;
         }
 
-        public Builder timeout(long duration, TimeUnit unit) {
-            this.timeoutNanos = unit.toNanos(duration);
-            return this;
-        }
-
-        public Builder timeout(Duration duration) {
-            this.timeoutNanos = duration.toNanos();
-            return this;
-        }
-
+        @Override
         public ReadTableSettings build() {
             return new ReadTableSettings(this);
         }

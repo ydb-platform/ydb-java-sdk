@@ -94,10 +94,14 @@ public class SessionRetryContext {
         return t.getMessage();
     }
 
+    private boolean canRetry(StatusCode code) {
+        return code.isRetryable(idempotent) || (retryNotFound && code == StatusCode.NOT_FOUND);
+    }
+
     private long backoffTimeMillisInternal(int retryNumber, long backoffSlotMillis, int backoffCeiling) {
         int slots = 1 << Math.min(retryNumber, backoffCeiling);
-        long maxDurationMillis = backoffSlotMillis * slots;
-        return backoffSlotMillis + ThreadLocalRandom.current().nextLong(maxDurationMillis);
+        long delay = backoffSlotMillis * slots;
+        return delay + ThreadLocalRandom.current().nextLong(delay);
     }
 
     private long slowBackoffTimeMillis(int retryNumber) {
@@ -228,7 +232,7 @@ public class SessionRetryContext {
             if (promise.isCancelled()) {
                 return;
             }
-            sessionSupplier.scheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
+            sessionSupplier.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
         private void handleError(@Nonnull StatusCode code, R result) {
@@ -323,7 +327,7 @@ public class SessionRetryContext {
         private Executor executor = MoreExecutors.directExecutor();
         private Duration sessionCreationTimeout = Duration.ofSeconds(5);
         private int maxRetries = 10;
-        private long backoffSlotMillis = 1000;
+        private long backoffSlotMillis = 500;
         private int backoffCeiling = 6;
         private long fastBackoffSlotMillis = 5;
         private int fastBackoffCeiling = 10;

@@ -11,7 +11,6 @@ import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.test.integration.YdbEnvironment;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
-import tech.ydb.test.integration.utils.PathProxyTransport;
 
 /**
  *
@@ -29,7 +28,7 @@ public class ExternalHelperFactory extends YdbHelperFactory {
     public YdbHelper createHelper() {
         return new YdbHelper() {
             @Override
-            public GrpcTransport createTransport(String path) {
+            public GrpcTransport createTransport() {
                 GrpcTransportBuilder builder = GrpcTransport.forEndpoint(endpoint(), database());
 
                 if (authToken() != null) {
@@ -39,9 +38,7 @@ public class ExternalHelperFactory extends YdbHelperFactory {
                     builder.withSecureConnection(pemCert());
                 }
 
-                PathProxyTransport proxy = new PathProxyTransport(builder.build(), path, env.cleanUpTests());
-                proxy.init();
-                return proxy;
+                return builder.build();
             }
 
             @Override

@@ -4,18 +4,14 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
-
-import io.grpc.CallOptions;
 
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.rpc.OutStreamObserver;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.v1.TopicServiceGrpc;
@@ -28,21 +24,14 @@ import tech.ydb.topic.v1.TopicServiceGrpc;
 public final class GrpcTopicRpc implements TopicRpc {
 
     private final GrpcTransport transport;
-    private final boolean transportOwned;
 
-    private GrpcTopicRpc(GrpcTransport transport, boolean transportOwned) {
+    private GrpcTopicRpc(GrpcTransport transport) {
         this.transport = transport;
-        this.transportOwned = transportOwned;
     }
 
     @Nullable
     public static GrpcTopicRpc useTransport(@WillNotClose GrpcTransport transport) {
-        return new GrpcTopicRpc(transport, false);
-    }
-
-    @Nullable
-    public static GrpcTopicRpc ownTransport(@WillClose GrpcTransport transport) {
-        return new GrpcTopicRpc(transport, true);
+        return new GrpcTopicRpc(transport);
     }
 
     @Override
@@ -76,26 +65,11 @@ public final class GrpcTopicRpc implements TopicRpc {
     }
 
     @Override
-    public OutStreamObserver<YdbTopic.StreamWriteMessage.FromClient> writeSession(
-            StreamObserver<YdbTopic.StreamWriteMessage.FromServer> observer) {
-        return transport.bidirectionalStreamCall(TopicServiceGrpc.getStreamWriteMethod(), observer,
+    public GrpcReadWriteStream<
+        YdbTopic.StreamWriteMessage.FromServer,
+        YdbTopic.StreamWriteMessage.FromClient
+        > writeSession() {
+        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamWriteMethod(),
                 GrpcRequestSettings.newBuilder().build());
-    }
-
-    @Override
-    public String getDatabase() {
-        return transport.getDatabase();
-    }
-
-    @Override
-    public CallOptions getCallOptions() {
-        return transport.getCallOptions();
-    }
-
-    @Override
-    public void close() {
-        if (transportOwned) {
-            transport.close();
-        }
     }
 }

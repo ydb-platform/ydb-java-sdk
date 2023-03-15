@@ -3,8 +3,6 @@ package tech.ydb.core.impl.auth;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
-import io.grpc.CallOptions;
-
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.BaseGrpcTrasnsport;
 import tech.ydb.core.impl.FixedCallOptionsTransport;
@@ -34,7 +32,7 @@ public class GrpcAuthRpc {
     }
 
     public ExecutorService getExecutor() {
-        return parent.scheduler();
+        return parent.getScheduler();
     }
 
     public String getDatabase() {
@@ -48,8 +46,8 @@ public class GrpcAuthRpc {
     public GrpcTransport createTransport() {
         // For auth provider we use transport without auth (with default CallOptions)
         return new FixedCallOptionsTransport(
-                parent.scheduler(),
-                CallOptions.DEFAULT,
+                parent.getScheduler(),
+                new AuthCallOptions(),
                 parent.getDatabase(),
                 endpoints.get(endpointIdx),
                 channelFactory

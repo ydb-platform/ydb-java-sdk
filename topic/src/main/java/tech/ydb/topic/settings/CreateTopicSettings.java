@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import tech.ydb.core.settings.RequestSettings;
+import tech.ydb.core.settings.OperationSettings;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.SupportedCodecs;
@@ -21,7 +21,7 @@ import tech.ydb.topic.description.SupportedCodecs;
 /**
  * @author Nikolay Perfilov
  */
-public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
+public class CreateTopicSettings extends OperationSettings {
     @Nullable
     private final PartitioningSettings partitioningSettings;
     @Nullable
@@ -36,6 +36,7 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
     private final MeteringMode meteringMode;
 
     private CreateTopicSettings(Builder builder) {
+        super(builder);
         this.partitioningSettings = builder.partitioningSettings;
         this.retentionPeriod = builder.retentionPeriod;
         this.retentionStorageMb = builder.retentionStorageMb;
@@ -93,7 +94,7 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
     /**
      * BUILDER
      */
-    public static class Builder {
+    public static class Builder extends OperationBuilder<Builder> {
         private PartitioningSettings partitioningSettings = null;
         private Duration retentionPeriod = null;
         private long retentionStorageMb = 0;
@@ -164,6 +165,7 @@ public class CreateTopicSettings extends RequestSettings<CreateTopicSettings> {
             return this;
         }
 
+        @Override
         public CreateTopicSettings build() {
             return new CreateTopicSettings(this);
         }

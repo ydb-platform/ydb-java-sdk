@@ -68,7 +68,7 @@ public interface TopicClient extends AutoCloseable {
      * @return {@link CompletableFuture} to operation status
      */
     default CompletableFuture<Status> dropTopic(String path) {
-        return dropTopic(path, new DropTopicSettings());
+        return dropTopic(path, DropTopicSettings.newBuilder().build());
     }
 
     /**
@@ -89,7 +89,7 @@ public interface TopicClient extends AutoCloseable {
      * @return {@link CompletableFuture} to a result with {@link TopicDescription}
      */
     default CompletableFuture<Result<TopicDescription>> describeTopic(String path) {
-        return describeTopic(path, new DescribeTopicSettings());
+        return describeTopic(path, DescribeTopicSettings.newBuilder().build());
     }
 
     /**

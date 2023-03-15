@@ -73,7 +73,6 @@ public class GrpcTransportExtention extends ProxyGrpcTransport implements Execut
             }
 
             YdbHelperFactory factory = YdbHelperFactory.getInstance();
-            logger.debug("create ydb helper for test {}", ec.getDisplayName());
             helper = factory.createHelper();
             if (helper != null) {
                 context = ec;
@@ -86,7 +85,8 @@ public class GrpcTransportExtention extends ProxyGrpcTransport implements Execut
                     path += "/" + ec.getTestMethod().get().getName();
                 }
 
-                transport = helper.createTransport(path);
+                logger.debug("create ydb helper for path {}", path);
+                transport = helper.createTransport();
             }
         }
 

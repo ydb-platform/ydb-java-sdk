@@ -12,11 +12,12 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.utils.GrpcUtils;
-import tech.ydb.core.utils.ProtoUtils;
+import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
@@ -74,10 +75,16 @@ public class TopicClientImpl implements TopicClient {
         return new TopicClientBuilderImpl(rpc);
     }
 
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        return GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .build();
+    }
+
     @Override
     public CompletableFuture<Status> createTopic(String path, CreateTopicSettings settings) {
         YdbTopic.CreateTopicRequest.Builder requestBuilder = YdbTopic.CreateTopicRequest.newBuilder()
-                .setOperationParams(ProtoUtils.fromRequestSettings(settings))
+                .setOperationParams(Operations.createParams(settings))
                 .setPath(path)
                 .setRetentionStorageMb(settings.getRetentionStorageMb())
                 .setPartitionWriteSpeedBytesPerSecond(settings.getPartitionWriteSpeedBytesPerSecond())
@@ -94,7 +101,7 @@ public class TopicClientImpl implements TopicClient {
 
         Duration retentionPeriod = settings.getRetentionPeriod();
         if (retentionPeriod != null) {
-            requestBuilder.setRetentionPeriod(ProtoUtils.toProto(retentionPeriod));
+            requestBuilder.setRetentionPeriod(ProtobufUtils.toDuration(retentionPeriod));
         }
 
         SupportedCodecs supportedCodecs = settings.getSupportedCodecs();
@@ -106,14 +113,14 @@ public class TopicClientImpl implements TopicClient {
             requestBuilder.addConsumers(toProto(consumer));
         }
 
-        final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.createTopic(requestBuilder.build(), grpcRequestSettings);
     }
 
     @Override
     public CompletableFuture<Status> alterTopic(String path, AlterTopicSettings settings) {
         YdbTopic.AlterTopicRequest.Builder requestBuilder = YdbTopic.AlterTopicRequest.newBuilder()
-                .setOperationParams(ProtoUtils.fromRequestSettings(settings))
+                .setOperationParams(Operations.createParams(settings))
                 .setPath(path)/*
                 .putAllAttributes(settings.getAttributes())
                 .setMeteringMode(toProto(settings.getMeteringMode()))*/;
@@ -134,7 +141,7 @@ public class TopicClientImpl implements TopicClient {
 
         Duration retentionPeriod = settings.getRetentionPeriod();
         if (retentionPeriod != null) {
-            requestBuilder.setSetRetentionPeriod(ProtoUtils.toProto(retentionPeriod));
+            requestBuilder.setSetRetentionPeriod(ProtobufUtils.toDuration(retentionPeriod));
         }
 
         Long retentionStorageMb = settings.getRetentionStorageMb();
@@ -176,7 +183,7 @@ public class TopicClientImpl implements TopicClient {
                 }
                 Instant readFrom = alterConsumer.getReadFrom();
                 if (readFrom != null) {
-                    alterConsumerBuilder.setSetReadFrom(ProtoUtils.toProto(readFrom));
+                    alterConsumerBuilder.setSetReadFrom(ProtobufUtils.toTimestamp(readFrom));
                 }
 
                 SupportedCodecs consumerSupportedCodecs = alterConsumer.getSupportedCodecs();
@@ -191,34 +198,34 @@ public class TopicClientImpl implements TopicClient {
             requestBuilder.setSetMeteringMode(toProto(meteringMode));
         }
 
-        final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.alterTopic(requestBuilder.build(), grpcRequestSettings);
     }
 
     @Override
     public CompletableFuture<Status> dropTopic(String path, DropTopicSettings settings) {
         YdbTopic.DropTopicRequest request = YdbTopic.DropTopicRequest.newBuilder()
-                .setOperationParams(ProtoUtils.fromRequestSettings(settings))
+                .setOperationParams(Operations.createParams(settings))
                 .setPath(path)
                 .build();
-        final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.dropTopic(request, grpcRequestSettings);
     }
 
     @Override
     public CompletableFuture<Result<TopicDescription>> describeTopic(String path, DescribeTopicSettings settings) {
         YdbTopic.DescribeTopicRequest request = YdbTopic.DescribeTopicRequest.newBuilder()
-                .setOperationParams(ProtoUtils.fromRequestSettings(settings))
+                .setOperationParams(Operations.createParams(settings))
                 .setPath(path)
                 .build();
-        final GrpcRequestSettings grpcRequestSettings = GrpcUtils.makeGrpcRequestSettingsBuilder(settings).build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.describeTopic(request, grpcRequestSettings)
                 .thenApply(result -> result.map(desc -> mapDescribeTopic(desc)));
     }
 
     private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
         TopicDescription.Builder description = TopicDescription.newBuilder()
-                .setRetentionPeriod(ProtoUtils.fromProto(result.getRetentionPeriod()))
+                .setRetentionPeriod(ProtobufUtils.fromDuration(result.getRetentionPeriod()))
                 .setRetentionStorageMb(result.getRetentionStorageMb())
                 .setPartitionWriteSpeedBytesPerSecond(result.getPartitionWriteSpeedBytesPerSecond())
                 .setPartitionWriteBurstBytes(result.getPartitionWriteBurstBytes())
@@ -252,7 +259,7 @@ public class TopicClientImpl implements TopicClient {
             Consumer.Builder consumerBuilder = Consumer.newBuilder()
                     .setName(consumer.getName())
                     .setImportant(consumer.getImportant())
-                    .setReadFrom(ProtoUtils.fromProto(consumer.getReadFrom()))
+                    .setReadFrom(ProtobufUtils.fromTimestamp(consumer.getReadFrom()))
                     .setAttributes(consumer.getAttributesMap());
 
             SupportedCodecs.Builder consumerSupportedCodecsBuilder = SupportedCodecs.newBuilder();
@@ -347,7 +354,7 @@ public class TopicClientImpl implements TopicClient {
         }
         Instant readFrom = consumer.getReadFrom();
         if (readFrom != null) {
-            consumerBuilder.setReadFrom(ProtoUtils.toProto(readFrom));
+            consumerBuilder.setReadFrom(ProtobufUtils.toTimestamp(readFrom));
         }
         return consumerBuilder.build();
     }
@@ -364,7 +371,6 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public void close() {
         logger.debug("TopicClientImpl.close() is called");
-        topicRpc.close();
         if (defaultCompressionExecutorService != null) {
             defaultCompressionExecutorService.shutdown();
         }

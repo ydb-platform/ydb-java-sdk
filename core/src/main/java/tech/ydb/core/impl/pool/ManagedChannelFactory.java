@@ -95,9 +95,7 @@ public class ManagedChannelFactory {
 
     private ClientInterceptor metadataInterceptor() {
         Metadata extraHeaders = new Metadata();
-        if (database != null) {
-            extraHeaders.put(YdbHeaders.DATABASE, database);
-        }
+        extraHeaders.put(YdbHeaders.DATABASE, database);
         extraHeaders.put(YdbHeaders.BUILD_INFO, version);
         return MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
     }

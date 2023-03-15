@@ -2,10 +2,10 @@ package tech.ydb.table;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.utils.Async;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.query.DataQuery;
@@ -119,13 +119,13 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings, Consumer<ResultSetReader> fn) {
-        return notImplemented("readTable()");
+    public GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
+        throw new UnsupportedOperationException("readTable not implemented");
     }
 
     @Override
-    public CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings, Consumer<ResultSetReader> fn) {
-        return notImplemented("executeScanQuery");
+    public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings) {
+        throw new UnsupportedOperationException("executeScanQuery not implemented");
     }
 
     @Override

@@ -9,13 +9,9 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
-import io.grpc.CallOptions;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.rpc.OutStreamObserver;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.URITools;
 
 
@@ -31,22 +27,18 @@ public interface GrpcTransport extends AutoCloseable {
             GrpcRequestSettings settings,
             ReqT request);
 
-    <ReqT, RespT> StreamControl serverStreamCall(
+    <ReqT, RespT> GrpcReadStream<RespT> readStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
-            ReqT request,
-            StreamObserver<RespT> observer);
+            ReqT request);
 
-    <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
+    <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
             MethodDescriptor<ReqT, RespT> method,
-            StreamObserver<RespT> observer,
             GrpcRequestSettings settings);
 
     String getDatabase();
 
-    ScheduledExecutorService scheduler();
-
-    CallOptions getCallOptions();
+    ScheduledExecutorService getScheduler();
 
     @Override
     void close();

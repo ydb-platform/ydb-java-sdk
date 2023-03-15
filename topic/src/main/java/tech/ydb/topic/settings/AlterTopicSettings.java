@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import tech.ydb.core.settings.RequestSettings;
+import tech.ydb.core.settings.OperationSettings;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.SupportedCodecs;
@@ -20,7 +20,7 @@ import tech.ydb.topic.description.SupportedCodecs;
 /**
  * @author Nikolay Perfilov
  */
-public class AlterTopicSettings extends RequestSettings<AlterTopicSettings> {
+public class AlterTopicSettings extends OperationSettings {
     @Nullable
     private final AlterPartitioningSettings alterPartitioningSettings;
     @Nullable
@@ -41,6 +41,7 @@ public class AlterTopicSettings extends RequestSettings<AlterTopicSettings> {
     private final MeteringMode meteringMode;
 
     private AlterTopicSettings(Builder builder) {
+        super(builder);
         this.alterPartitioningSettings = builder.alterPartitioningSettings;
         this.retentionPeriod = builder.retentionPeriod;
         this.retentionStorageMb = builder.retentionStorageMb;
@@ -112,7 +113,7 @@ public class AlterTopicSettings extends RequestSettings<AlterTopicSettings> {
     /**
      * BUILDER
      */
-    public static class Builder {
+    public static class Builder extends OperationBuilder<Builder> {
         private AlterPartitioningSettings alterPartitioningSettings = null;
         private Duration retentionPeriod = null;
         private Long retentionStorageMb = null;
@@ -201,10 +202,9 @@ public class AlterTopicSettings extends RequestSettings<AlterTopicSettings> {
             return this;
         }
 
+        @Override
         public AlterTopicSettings build() {
             return new AlterTopicSettings(this);
         }
     }
-
-
 }

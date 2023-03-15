@@ -4,8 +4,6 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
@@ -20,8 +18,6 @@ import tech.ydb.test.integration.utils.PortsGenerator;
  * @author Alexandr Gorshenin
  */
 public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
-    private static final Logger logger = LoggerFactory.getLogger(YdbDockerContainer.class);
-
     private final YdbEnvironment env;
     private final int grpcsPort; // Secure connection
     private final int grpcPort;  // Non secure connection

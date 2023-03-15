@@ -41,7 +41,7 @@ public class GrpcChannelPool {
     }
 
     private CompletableFuture<Boolean> shutdownChannels(Collection<GrpcChannel> channelsToShutdown) {
-        if (channelsToShutdown == null || channelsToShutdown.isEmpty()) {
+        if (channelsToShutdown.isEmpty()) {
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }
 

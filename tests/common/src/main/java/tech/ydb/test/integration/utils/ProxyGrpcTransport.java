@@ -3,15 +3,13 @@ package tech.ydb.test.integration.utils;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
-import io.grpc.CallOptions;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.rpc.OutStreamObserver;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 
 /**
  *
@@ -30,8 +28,8 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
-        return checked().scheduler();
+    public ScheduledExecutorService getScheduler() {
+        return checked().getScheduler();
     }
 
     @Override
@@ -41,28 +39,20 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
-    public <ReqT, RespT> StreamControl serverStreamCall(
-            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings,
-            ReqT request, StreamObserver<RespT> observer) {
-        return checked().serverStreamCall(method, settings, request, observer);
+    public <ReqT, RespT> GrpcReadStream<RespT> readStreamCall(
+            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings, ReqT request) {
+        return checked().readStreamCall(method, settings, request);
     }
 
     @Override
-    public <ReqT, RespT> OutStreamObserver<ReqT> bidirectionalStreamCall(
-            MethodDescriptor<ReqT, RespT> method,
-            StreamObserver<RespT> observer,
-            GrpcRequestSettings settings) {
-        return checked().bidirectionalStreamCall(method, observer, settings);
+    public <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
+            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings) {
+        return checked().readWriteStreamCall(method, settings);
     }
 
     @Override
     public String getDatabase() {
         return checked().getDatabase();
-    }
-
-    @Override
-    public CallOptions getCallOptions() {
-        return checked().getCallOptions();
     }
 
     @Override
