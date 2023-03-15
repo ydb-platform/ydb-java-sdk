@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
+import javax.annotation.Nullable;
 
 /**
  * @author Nikolay Perfilov
@@ -19,7 +19,7 @@ public class TopicReadSettings {
 
     private TopicReadSettings(Builder builder) {
         this.path = builder.path;
-        this.partitionIds =  ImmutableList.copyOf(builder.partitionIds);
+        this.partitionIds = builder.partitionIds;
         this.maxLag = builder.maxLag;
         this.readFrom = builder.readFrom;
         this.connectTimeout = builder.connectTimeout;
@@ -33,14 +33,17 @@ public class TopicReadSettings {
         return partitionIds;
     }
 
+    @Nullable
     public Duration getMaxLag() {
         return maxLag;
     }
 
+    @Nullable
     public Instant getReadFrom() {
         return readFrom;
     }
 
+    @Nullable
     public Duration getConnectTimeout() {
         return connectTimeout;
     }
@@ -53,11 +56,11 @@ public class TopicReadSettings {
      * BUILDER
      */
     public static class Builder {
-        private String path;
-        private List<Long> partitionIds;
-        private Duration maxLag;
-        private Instant readFrom;
-        private Duration connectTimeout;
+        private String path = null;
+        private List<Long> partitionIds = null;
+        private Duration maxLag = null;
+        private Instant readFrom = null;
+        private Duration connectTimeout = null;
 
         public Builder setPath(String path) {
             this.path = path;
@@ -85,6 +88,9 @@ public class TopicReadSettings {
         }
 
         public TopicReadSettings build() {
+            if (path == null || path.isEmpty()) {
+                throw new IllegalArgumentException("Missing path for topic read settings");
+            }
             return new TopicReadSettings(this);
         }
 

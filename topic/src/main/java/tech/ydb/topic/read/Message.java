@@ -1,23 +1,24 @@
 package tech.ydb.topic.read;
 
+import java.time.Instant;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-
-import com.google.protobuf.ByteString;
 
 /**
  * @author Nikolay Perfilov
  */
-public class Message {
+public interface Message {
 
-    public ByteString getData() {
-        // Temp -----
-        return ByteString.copyFromUtf8("Message data");
-        // ----------
-    }
+    byte[] getData();
+    long getOffset();
+    long getSeqNo();
+    Instant getCreatedAt();
+    String getMessageGroupId();
+    String getProducerId();
+    Map<String, String> getWriteSessionMeta();
+    Instant getWrittenAt();
 
     // Non-blocking
-    public CompletableFuture<Void> commit() {
-        return new CompletableFuture<>();
-    }
+    CompletableFuture<Void> commit();
 
 }

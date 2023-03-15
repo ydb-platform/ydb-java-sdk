@@ -1,4 +1,4 @@
-package tech.ydb.topic.write.impl;
+package tech.ydb.topic.read.impl;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -12,29 +12,29 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
-import tech.ydb.topic.YdbTopic.StreamWriteMessage.FromClient;
-import tech.ydb.topic.YdbTopic.StreamWriteMessage.FromServer;
+import tech.ydb.topic.YdbTopic.StreamReadMessage.FromClient;
+import tech.ydb.topic.YdbTopic.StreamReadMessage.FromServer;
 
 /**
  * @author Nikolay Perfilov
  */
-public class WriteSession {
-    private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
+public class ReadSession {
+    private static final Logger logger = LoggerFactory.getLogger(ReadSession.class);
 
     private final GrpcReadWriteStream<FromServer, FromClient> streamConnection;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private String token;
 
-    public WriteSession(TopicRpc rpc) {
-        this.streamConnection = rpc.writeSession();
+    public ReadSession(TopicRpc rpc) {
+        this.streamConnection = rpc.readSession();
         this.token = streamConnection.authToken();
     }
 
     public synchronized CompletableFuture<Status> start(GrpcReadStream.Observer<FromServer> streamObserver) {
-        logger.debug("WriteSession start");
+        logger.debug("ReadSession start");
         return streamConnection.start(message -> {
-            if (logger.isDebugEnabled()) {
-                logger.debug("ServerResponseObserver - onNext: {}", message);
+            if (logger.isTraceEnabled()) {
+                logger.debug("ReadSession - onNext: {}", message);
             }
 
             if (isWorking.get()) {
@@ -55,15 +55,15 @@ public class WriteSession {
             token = currentToken;
             logger.info("ReadSession sending new token");
             streamConnection.sendNext(FromClient.newBuilder()
-                .setUpdateTokenRequest(YdbTopic.UpdateTokenRequest.newBuilder()
-                        .setToken(token)
-                        .build())
-                .build()
+                    .setUpdateTokenRequest(YdbTopic.UpdateTokenRequest.newBuilder()
+                            .setToken(token)
+                            .build())
+                    .build()
             );
         }
 
         if (logger.isDebugEnabled()) {
-            logger.debug("WriteSession request: \n{}", request);
+            logger.debug("ReadSession request: \n{}", request);
         }
         streamConnection.sendNext(request);
     }
@@ -73,7 +73,8 @@ public class WriteSession {
             return;
         }
 
-        logger.debug("WriteSession finish");
+        logger.debug("ReadSession finish");
         streamConnection.close();
     }
+
 }

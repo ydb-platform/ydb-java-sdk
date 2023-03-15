@@ -2,8 +2,6 @@ package tech.ydb.topic.settings;
 
 import java.util.concurrent.Executor;
 
-import com.google.common.util.concurrent.MoreExecutors;
-
 import tech.ydb.topic.read.events.ReadEventHandler;
 
 /**
@@ -34,7 +32,7 @@ public class ReadEventHandlersSettings {
      * BUILDER
      */
     public static class Builder {
-        private Executor executor = MoreExecutors.directExecutor();
+        private Executor executor;
         private ReadEventHandler eventHandler;
 
         public Builder setExecutor(Executor executor) {

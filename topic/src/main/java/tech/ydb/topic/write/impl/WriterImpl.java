@@ -27,11 +27,6 @@ import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.WriteAck;
 
-import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.MessageWriteStatusCase.SKIPPED;
-import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.MessageWriteStatusCase.WRITTEN;
-import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Skipped.Reason.REASON_ALREADY_WRITTEN;
-import static tech.ydb.topic.YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Skipped.Reason.REASON_UNSPECIFIED;
-
 /**
  * @author Nikolay Perfilov
  */
@@ -53,19 +48,20 @@ public abstract class WriterImpl {
     private final Queue<EnqueuedMessage> sendingQueue = new LinkedList<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
     private final Queue<EnqueuedMessage> sentMessages = new LinkedList<>();
-
-    private WriteSession session;
-    private Boolean isSeqNoProvided = null;
-    private long seqNo = 0;
-    private int currentInFlightCount = 0;
-    private long availableSizeBytes;
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final ScheduledThreadPoolExecutor reconnectExecutor = new ScheduledThreadPoolExecutor(1);
+    private final Executor compressionExecutor;
+
+    private WriteSession session;
+    private String currentSessionId;
+    private Boolean isSeqNoProvided = null;
+    private long seqNo = 0;
+    private int currentInFlightCount = 0;
+    private long availableSizeBytes;
     // Future for flush method
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
-    private final Executor compressionExecutor;
 
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
         this.topicRpc = topicRpc;
@@ -73,7 +69,6 @@ public abstract class WriterImpl {
         this.session = new WriteSession(topicRpc);
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
-
     }
 
     private static class IncomingMessage {
@@ -186,8 +181,7 @@ public abstract class WriterImpl {
                     logger.debug("Send request is already in progress");
                     return;
                 }
-                messages = new LinkedList<>();
-                messages.addAll(sendingQueue);
+                messages = new LinkedList<>(sendingQueue);
                 sendingQueue.clear();
             }
             sendMessages(messages);
@@ -261,8 +255,8 @@ public abstract class WriterImpl {
                 .build());
     }
 
-    // First future completes when message is put (or declined) into sending buffer
-    // Second future completes on receiving write ack from server
+    // Outer future completes when message is put (or declined) into sending buffer
+    // Inner future completes on receiving write ack from server
     protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message) {
         if (isStopped.get()) {
             throw new RuntimeException("Writer is already stopped");
@@ -336,8 +330,11 @@ public abstract class WriterImpl {
             return;
         }
         if (message.hasInitResponse()) {
+            currentSessionId = message.getInitResponse().getSessionId();
+            logger.info("Session {} initialized", currentSessionId);
             long lastSeqNo = message.getInitResponse().getLastSeqNo();
             seqNo = lastSeqNo;
+            // TODO: remember supported codecs for further validation
             if (!sentMessages.isEmpty()) {
                 // resending messages that haven't received acks yet
                 sendMessages(sentMessages);
@@ -379,7 +376,6 @@ public abstract class WriterImpl {
         }
     }
 
-
     private void processWriteAck(EnqueuedMessage message,
                                  YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
         WriteAck resultAck;
@@ -413,6 +409,22 @@ public abstract class WriterImpl {
         // This session is not working anymore
         this.session.finish();
 
+        if (th != null) {
+            logger.error("Exception in writing stream session {}: {}", currentSessionId, th);
+        } else {
+            if (status.isSuccess()) {
+                if (isStopped.get()) {
+                    logger.info("Writing stream session {} closed successfully", currentSessionId);
+                } else {
+                    logger.error("Writing stream session {} was closed unexpectedly. Shutting down the whole writer.",
+                            currentSessionId);
+                    shutdownImpl();
+                }
+                return;
+            }
+            logger.error("Error in writing stream session {}: {}", currentSessionId, status);
+        }
+
         if (isStopped.get()) {
             return;
         }
@@ -420,13 +432,13 @@ public abstract class WriterImpl {
         if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
             if (isStopped.compareAndSet(false, true)) {
                 logger.error("Maximum retry count ({}}) exceeded. Shutting down writer.", MAX_RECONNECT_COUNT);
+                shutdownImpl();
             } else {
                 logger.debug("Maximum retry count ({}}) exceeded. But writer is already shut down.",
                         MAX_RECONNECT_COUNT);
             }
         } else {
-            logger.warn("Error occurred: " + status + ". Retry #" + currentReconnectCounter
-                    + ". Scheduling reconnect...");
+            logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect...");
             reconnectExecutor.schedule(WriterImpl.this::reconnect, RECONNECT_DELAY_SECONDS,
                     TimeUnit.SECONDS);
         }

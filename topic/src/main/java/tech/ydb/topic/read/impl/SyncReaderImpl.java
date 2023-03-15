@@ -2,6 +2,8 @@ package tech.ydb.topic.read.impl;
 
 import java.time.Duration;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
 
@@ -18,9 +20,7 @@ public class SyncReaderImpl implements SyncReader {
 
     @Override
     public Message receive(Duration timeout) {
-        // Temp ----
-        return new Message();
-        // ---------
+        throw new NotImplementedException();
     }
 
     @Override

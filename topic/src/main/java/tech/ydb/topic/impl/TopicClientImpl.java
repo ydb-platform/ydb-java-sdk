@@ -101,7 +101,7 @@ public class TopicClientImpl implements TopicClient {
 
         Duration retentionPeriod = settings.getRetentionPeriod();
         if (retentionPeriod != null) {
-            requestBuilder.setRetentionPeriod(ProtobufUtils.toDuration(retentionPeriod));
+            requestBuilder.setRetentionPeriod(ProtobufUtils.durationToProto(retentionPeriod));
         }
 
         SupportedCodecs supportedCodecs = settings.getSupportedCodecs();
@@ -141,7 +141,7 @@ public class TopicClientImpl implements TopicClient {
 
         Duration retentionPeriod = settings.getRetentionPeriod();
         if (retentionPeriod != null) {
-            requestBuilder.setSetRetentionPeriod(ProtobufUtils.toDuration(retentionPeriod));
+            requestBuilder.setSetRetentionPeriod(ProtobufUtils.durationToProto(retentionPeriod));
         }
 
         Long retentionStorageMb = settings.getRetentionStorageMb();
@@ -183,7 +183,7 @@ public class TopicClientImpl implements TopicClient {
                 }
                 Instant readFrom = alterConsumer.getReadFrom();
                 if (readFrom != null) {
-                    alterConsumerBuilder.setSetReadFrom(ProtobufUtils.toTimestamp(readFrom));
+                    alterConsumerBuilder.setSetReadFrom(ProtobufUtils.instantToProto(readFrom));
                 }
 
                 SupportedCodecs consumerSupportedCodecs = alterConsumer.getSupportedCodecs();
@@ -220,12 +220,12 @@ public class TopicClientImpl implements TopicClient {
                 .build();
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.describeTopic(request, grpcRequestSettings)
-                .thenApply(result -> result.map(desc -> mapDescribeTopic(desc)));
+                .thenApply(result -> result.map(this::mapDescribeTopic));
     }
 
     private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
         TopicDescription.Builder description = TopicDescription.newBuilder()
-                .setRetentionPeriod(ProtobufUtils.fromDuration(result.getRetentionPeriod()))
+                .setRetentionPeriod(ProtobufUtils.protoToDuration(result.getRetentionPeriod()))
                 .setRetentionStorageMb(result.getRetentionStorageMb())
                 .setPartitionWriteSpeedBytesPerSecond(result.getPartitionWriteSpeedBytesPerSecond())
                 .setPartitionWriteBurstBytes(result.getPartitionWriteBurstBytes())
@@ -259,7 +259,7 @@ public class TopicClientImpl implements TopicClient {
             Consumer.Builder consumerBuilder = Consumer.newBuilder()
                     .setName(consumer.getName())
                     .setImportant(consumer.getImportant())
-                    .setReadFrom(ProtobufUtils.fromTimestamp(consumer.getReadFrom()))
+                    .setReadFrom(ProtobufUtils.protoToInstant(consumer.getReadFrom()))
                     .setAttributes(consumer.getAttributesMap());
 
             SupportedCodecs.Builder consumerSupportedCodecsBuilder = SupportedCodecs.newBuilder();
@@ -284,7 +284,7 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        return new AsyncReaderImpl();
+        return new AsyncReaderImpl(topicRpc, settings, handlersSettings);
     }
 
     @Override
@@ -354,7 +354,7 @@ public class TopicClientImpl implements TopicClient {
         }
         Instant readFrom = consumer.getReadFrom();
         if (readFrom != null) {
-            consumerBuilder.setReadFrom(ProtobufUtils.toTimestamp(readFrom));
+            consumerBuilder.setReadFrom(ProtobufUtils.instantToProto(readFrom));
         }
         return consumerBuilder.build();
     }

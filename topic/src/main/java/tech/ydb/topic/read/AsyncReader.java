@@ -10,7 +10,7 @@ public interface AsyncReader {
     /**
      * Initialize reading in the background. Non-blocking
      */
-    void init();
+    CompletableFuture<Void> init();
 
     /**
      * Stops internal threads and makes cleanup in background. Non-blocking

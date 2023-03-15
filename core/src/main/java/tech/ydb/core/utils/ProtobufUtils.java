@@ -15,7 +15,7 @@ public class ProtobufUtils {
     private ProtobufUtils() { }
 
     @Nullable
-    public static Duration toDuration(@Nullable java.time.Duration duration) {
+    public static Duration durationToProto(@Nullable java.time.Duration duration) {
         return duration == null
                 ? null
                 : Duration.newBuilder()
@@ -24,7 +24,7 @@ public class ProtobufUtils {
                     .build();
     }
 
-    public static Timestamp toTimestamp(java.time.Instant instant) {
+    public static Timestamp instantToProto(java.time.Instant instant) {
         return Timestamp.newBuilder()
                 .setSeconds(instant.getEpochSecond())
                 .setNanos(instant.getNano())
@@ -32,13 +32,13 @@ public class ProtobufUtils {
     }
 
     @Nullable
-    public static java.time.Duration fromDuration(@Nullable Duration duration) {
+    public static java.time.Duration protoToDuration(@Nullable Duration duration) {
         return duration == null
                 ? null
                 : java.time.Duration.ofSeconds(duration.getSeconds(), duration.getNanos());
     }
 
-    public static java.time.Instant fromTimestamp(Timestamp timestamp) {
+    public static java.time.Instant protoToInstant(Timestamp timestamp) {
         return Instant.ofEpochSecond(timestamp.getSeconds(), timestamp.getNanos());
     }
 }

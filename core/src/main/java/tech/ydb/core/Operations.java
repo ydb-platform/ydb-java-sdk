@@ -76,10 +76,10 @@ public final class Operations {
         OperationProtos.OperationParams.Builder builder = OperationProtos.OperationParams.newBuilder();
 
         if (settings.getOperationTimeout() != null) {
-            builder.setOperationTimeout(ProtobufUtils.toDuration(settings.getOperationTimeout()));
+            builder.setOperationTimeout(ProtobufUtils.durationToProto(settings.getOperationTimeout()));
         }
         if (settings.getCancelTimeout() != null) {
-            builder.setOperationTimeout(ProtobufUtils.toDuration(settings.getCancelTimeout()));
+            builder.setOperationTimeout(ProtobufUtils.durationToProto(settings.getCancelTimeout()));
         }
         if (settings.getReportCostInfo() != null) {
             if (settings.getReportCostInfo()) {
