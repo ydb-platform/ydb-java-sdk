@@ -103,7 +103,9 @@ public final class EndpointPool {
             if (!newKnownEndpoints.contains(endpoint)) {
                 logger.debug("added endpoint {}", entry);
                 newKnownEndpoints.add(endpoint);
-                newKnownEndpointsByNodeId.put(entry.getNodeId(), entry);
+                if (entry.getNodeId() != 0) {
+                    newKnownEndpointsByNodeId.put(entry.getNodeId(), entry);
+                }
                 newRecords.add(entry);
             } else {
                 logger.warn("duplicate endpoint {}", entry.getHostAndPort());
