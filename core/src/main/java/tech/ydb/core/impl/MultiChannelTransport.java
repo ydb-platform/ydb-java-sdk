@@ -28,7 +28,7 @@ import tech.ydb.discovery.DiscoveryProtos;
  * @author Aleksandr Gorshenin
  */
 @Deprecated
-public class MultiChannelTransport extends BaseGrpcTrasnsport {
+public class MultiChannelTransport extends BaseGrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final String database;

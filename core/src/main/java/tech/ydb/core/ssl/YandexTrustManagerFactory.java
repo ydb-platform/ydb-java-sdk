@@ -22,12 +22,7 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
     };
 
     private static final ThreadLocal<YandexTrustManagerFactorySpi> CURRENT_SPI =
-            new ThreadLocal<YandexTrustManagerFactorySpi>() {
-        @Override
-        protected YandexTrustManagerFactorySpi initialValue() {
-            return new YandexTrustManagerFactorySpi();
-        }
-    };
+            ThreadLocal.withInitial(YandexTrustManagerFactorySpi::new);
 
     public YandexTrustManagerFactory(String name) {
         super(CURRENT_SPI.get(), PROVIDER, name);

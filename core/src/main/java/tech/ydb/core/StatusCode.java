@@ -119,4 +119,13 @@ public enum StatusCode {
     public boolean isRetryable(boolean idempotent) {
         return RETRYABLE_STATUSES.contains(this) || (idempotent && IDEMPOTENT_RETRYABLE_STATUSES.contains(this));
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(name());
+        if (this != SUCCESS) {
+            sb = sb.append("(code=").append(code).append(")");
+        }
+        return sb.toString();
+    }
 }

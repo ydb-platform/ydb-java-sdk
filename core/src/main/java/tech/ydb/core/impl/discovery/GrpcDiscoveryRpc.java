@@ -11,7 +11,7 @@ import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.impl.BaseGrpcTrasnsport;
+import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.FixedCallOptionsTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -27,12 +27,12 @@ public class GrpcDiscoveryRpc {
     private static final Logger logger = LoggerFactory.getLogger(GrpcDiscoveryRpc.class);
     private static final long DISCOVERY_TIMEOUT_SECONDS = 10;
 
-    private final BaseGrpcTrasnsport parent;
+    private final BaseGrpcTransport parent;
     private final EndpointRecord endpoint;
     private final ManagedChannelFactory channelFactory;
 
     public GrpcDiscoveryRpc(
-            BaseGrpcTrasnsport parent,
+            BaseGrpcTransport parent,
             EndpointRecord endpoint,
             ManagedChannelFactory channelFactory) {
         this.parent = parent;

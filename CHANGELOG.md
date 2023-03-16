@@ -1,6 +1,7 @@
 ## 2.1.0 ##
 
 * New api for streamable requests
+* Added support detect local dc
 * Support creating asynchronous index in createTable and describeTable
 * Fixed default timeout for readTable
 * Fixed exponential backoff calculation

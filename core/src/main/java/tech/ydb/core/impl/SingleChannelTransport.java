@@ -1,6 +1,6 @@
 package tech.ydb.core.impl;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
@@ -17,10 +17,9 @@ import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 
 /**
- *
  * @author Aleksandr Gorshenin
  */
-public class SingleChannelTransport extends BaseGrpcTrasnsport {
+public class SingleChannelTransport extends BaseGrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(SingleChannelTransport.class);
 
     private final CallOptionsFactory callOptionsFactory;
@@ -31,7 +30,7 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
 
     public SingleChannelTransport(GrpcTransportBuilder builder) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
-        EndpointRecord endpoint = YdbTransportImpl.getDiscoverytEndpoint(builder);
+        EndpointRecord endpoint = YdbTransportImpl.getDiscoveryEndpoint(builder);
 
         logger.info("creating signle channel transport with endpoint {}", endpoint);
 
@@ -39,7 +38,7 @@ public class SingleChannelTransport extends BaseGrpcTrasnsport {
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
 
         this.callOptionsFactory = new CallOptionsFactory(this,
-                Arrays.asList(endpoint),
+                Collections.singletonList(endpoint),
                 channelFactory,
                 builder.getAuthProvider()
         );
