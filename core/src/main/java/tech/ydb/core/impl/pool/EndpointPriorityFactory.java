@@ -28,7 +28,6 @@ public class EndpointPriorityFactory {
     private static final int TCP_PING_TIMEOUT_MS = 5000;
 
     private final String locationDC;
-    private final Ticker ticker;
 
     public EndpointPriorityFactory(
             BalancingSettings settings,
@@ -43,8 +42,6 @@ public class EndpointPriorityFactory {
             DiscoveryProtos.ListEndpointsResult endpointsResult,
             Ticker ticker
     ) {
-        this.ticker = ticker;
-
         switch (settings.getPolicy()) {
             case USE_ALL_NODES:
                 locationDC = null;
@@ -59,7 +56,7 @@ public class EndpointPriorityFactory {
                 locationDC = preferred;
                 break;
             case USE_DETECT_LOCAL_DC:
-                locationDC = detectLocalDC(endpointsResult);
+                locationDC = detectLocalDC(endpointsResult, ticker);
                 break;
             default:
                 throw new RuntimeException("Not implemented balancing policy: "
@@ -78,7 +75,10 @@ public class EndpointPriorityFactory {
         );
     }
 
-    private String detectLocalDC(DiscoveryProtos.ListEndpointsResult endpointsResult) {
+    private static String detectLocalDC(
+            DiscoveryProtos.ListEndpointsResult endpointsResult,
+            Ticker ticker
+    ) {
         Map<String, List<DiscoveryProtos.EndpointInfo>> dcLocationToNodes = endpointsResult
                 .getEndpointsList()
                 .stream()
@@ -86,7 +86,7 @@ public class EndpointPriorityFactory {
                         .groupingBy(DiscoveryProtos.EndpointInfo::getLocation)
                 );
 
-        if (dcLocationToNodes.isEmpty()) {
+        if (dcLocationToNodes.size() < 2) {
             return null;
         }
 
@@ -105,7 +105,10 @@ public class EndpointPriorityFactory {
             long tcpPing = 0;
 
             for (DiscoveryProtos.EndpointInfo node : nodes.subList(0, nodeSize)) {
-                long currentPing = tcpPing(new InetSocketAddress(node.getAddress(), node.getPort()));
+                long currentPing = tcpPing(
+                        new InetSocketAddress(node.getAddress(), node.getPort()),
+                        ticker
+                );
                 logger.debug("Address: {}, port: {}, nanos ping: {}", node.getAddress(), node.getPort(), currentPing);
 
                 tcpPing += currentPing;
@@ -122,7 +125,10 @@ public class EndpointPriorityFactory {
         return localDC;
     }
 
-    private long tcpPing(InetSocketAddress socketAddress) {
+    private static long tcpPing(
+            InetSocketAddress socketAddress,
+            Ticker ticker
+    ) {
         try (Socket socket = new Socket()) {
             final long startConnection = ticker.read();
 
