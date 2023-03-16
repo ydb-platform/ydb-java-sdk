@@ -171,7 +171,7 @@ public final class EndpointPool {
     }
 
     @VisibleForTesting
-    public static class PriorityEndpoint extends EndpointRecord {
+    static class PriorityEndpoint extends EndpointRecord {
         static final Comparator<PriorityEndpoint> COMPARATOR = Comparator
                 .comparingLong(PriorityEndpoint::getPriority)
                 .thenComparing(PriorityEndpoint::getHost)

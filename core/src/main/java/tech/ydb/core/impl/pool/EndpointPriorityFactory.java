@@ -4,11 +4,9 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Ticker;
@@ -29,7 +27,7 @@ public class EndpointPriorityFactory {
     private static final int NODE_SIZE = 5;
     private static final int TCP_PING_TIMEOUT_MS = 5000;
 
-    private final Map<String, Long> locationDCToPriority;
+    private final String locationDC;
     private final Ticker ticker;
 
     public EndpointPriorityFactory(
@@ -40,26 +38,16 @@ public class EndpointPriorityFactory {
     }
 
     @VisibleForTesting
-    public EndpointPriorityFactory(
+    EndpointPriorityFactory(
             BalancingSettings settings,
             DiscoveryProtos.ListEndpointsResult endpointsResult,
             Ticker ticker
     ) {
         this.ticker = ticker;
 
-        Stream<DiscoveryProtos.EndpointInfo> endpointInfoStream = endpointsResult
-                .getEndpointsList()
-                .stream();
-
         switch (settings.getPolicy()) {
             case USE_ALL_NODES:
-                locationDCToPriority = endpointInfoStream
-                        .collect(Collectors.toMap(
-                                        DiscoveryProtos.EndpointInfo::getLocation,
-                                        e -> 0L,
-                                        (a, b) -> a
-                                )
-                        );
+                locationDC = null;
                 break;
             case USE_PREFERABLE_LOCATION:
                 String preferred = settings.getPreferableLocation();
@@ -68,19 +56,10 @@ public class EndpointPriorityFactory {
                     preferred = endpointsResult.getSelfLocation();
                 }
 
-                final String preferredDC = preferred;
-                locationDCToPriority = endpointInfoStream
-                        .collect(Collectors.toMap(
-                                        DiscoveryProtos.EndpointInfo::getLocation,
-                                        endpointInfo -> preferredDC
-                                                .equalsIgnoreCase(endpointInfo.getLocation())
-                                                ? 0L : LOCALITY_SHIFT,
-                                        (a, b) -> a
-                                )
-                        );
+                locationDC = preferred;
                 break;
             case USE_DETECT_LOCAL_DC:
-                locationDCToPriority = detectLocalDC(endpointInfoStream);
+                locationDC = detectLocalDC(endpointsResult);
                 break;
             default:
                 throw new RuntimeException("Not implemented balancing policy: "
@@ -93,21 +72,26 @@ public class EndpointPriorityFactory {
     ) {
         return new EndpointPool.PriorityEndpoint(
                 endpointInfo,
-                locationDCToPriority.getOrDefault(
-                        endpointInfo.getLocation(),
-                        Long.MAX_VALUE
-                )
+                locationDC == null
+                        ? 0 : locationDC.equalsIgnoreCase(endpointInfo.getLocation())
+                        ? 0 : LOCALITY_SHIFT
         );
     }
 
-    private Map<String, Long> detectLocalDC(Stream<DiscoveryProtos.EndpointInfo> endpointInfoStream) {
-        Map<String, List<DiscoveryProtos.EndpointInfo>> dcLocationToNodes = endpointInfoStream
+    private String detectLocalDC(DiscoveryProtos.ListEndpointsResult endpointsResult) {
+        Map<String, List<DiscoveryProtos.EndpointInfo>> dcLocationToNodes = endpointsResult
+                .getEndpointsList()
+                .stream()
                 .collect(Collectors
                         .groupingBy(DiscoveryProtos.EndpointInfo::getLocation)
                 );
 
-        HashMap<String, Long> dcLocationToTcpPing = new HashMap<>();
+        if (dcLocationToNodes.isEmpty()) {
+            return null;
+        }
+
         long minPing = Long.MAX_VALUE;
+        String localDC = null;
 
         for (Map.Entry<String, List<DiscoveryProtos.EndpointInfo>> entry : dcLocationToNodes.entrySet()) {
             String dc = entry.getKey();
@@ -129,27 +113,13 @@ public class EndpointPriorityFactory {
 
             tcpPing /= nodeSize;
 
-            minPing = Math.min(minPing, tcpPing);
-
-            dcLocationToTcpPing.put(
-                    dc,
-                    tcpPing
-            );
+            if (minPing > tcpPing) {
+                minPing = tcpPing;
+                localDC = dc;
+            }
         }
 
-        HashMap<String, Long> newLocationToPriority = new HashMap<>();
-
-        for (Map.Entry<String, Long> entry : dcLocationToTcpPing.entrySet()) {
-            long priority = entry.getValue() - minPing;
-
-            logger.debug("Location: {}, priority: {}", entry.getKey(), priority);
-            newLocationToPriority.put(
-                    entry.getKey(),
-                    priority
-            );
-        }
-
-        return newLocationToPriority;
+        return localDC;
     }
 
     private long tcpPing(InetSocketAddress socketAddress) {

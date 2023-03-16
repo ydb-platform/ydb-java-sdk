@@ -1,9 +1,8 @@
-package tech.ydb.core.impl.priority;
+package tech.ydb.core.impl.pool;
 
 import org.junit.Assert;
 import org.junit.Test;
 import tech.ydb.core.grpc.BalancingSettings;
-import tech.ydb.core.impl.pool.EndpointPriorityFactory;
 import tech.ydb.core.timer.TestTicker;
 import tech.ydb.discovery.DiscoveryProtos;
 
@@ -92,14 +91,14 @@ public class EndpointPriorityFactoryTest {
             );
 
             Assert.assertEquals(
-                    18,
+                    1000,
                     priorityFactory
                             .createEndpoint(endpoint("DC2"))
                             .getPriority()
             );
 
             Assert.assertEquals(
-                    39,
+                    1000,
                     priorityFactory
                             .createEndpoint(endpoint("DC3"))
                             .getPriority()
