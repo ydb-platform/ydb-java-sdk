@@ -87,7 +87,7 @@ public class JwtUtils {
         }
 
         if (startOfPart < jwt.length() && nextPart < 3) {
-            parts[nextPart] = jwt.substring(startOfPart, jwt.length());
+            parts[nextPart] = jwt.substring(startOfPart);
             nextPart += 1;
         }
 

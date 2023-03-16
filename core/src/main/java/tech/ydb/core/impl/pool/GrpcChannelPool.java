@@ -47,14 +47,14 @@ public class GrpcChannelPool {
 
         logger.debug("shutdown {} channels", channelsToShutdown.size());
         List<CompletableFuture<Boolean>> removed = channelsToShutdown.stream()
-                .map(channel -> CompletableFuture.supplyAsync(() -> channel.shutdown(), executor))
+                .map(channel -> CompletableFuture.supplyAsync(channel::shutdown, executor))
                 .collect(Collectors.toList());
 
         return CompletableFuture
                 .allOf(removed.toArray(new CompletableFuture<?>[0]))
                 .thenApply((res) -> {
                     // all shutdown futures are completed here, we can just count failed
-                    return removed.stream().filter(f -> !f.join()).count() == 0;
+                    return removed.stream().allMatch(CompletableFuture::join);
                 });
     }
 

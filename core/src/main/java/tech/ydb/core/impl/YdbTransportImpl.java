@@ -2,7 +2,7 @@ package tech.ydb.core.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -28,7 +28,7 @@ import tech.ydb.discovery.DiscoveryProtos;
 /**
  * @author Nikolay Perfilov
  */
-public class YdbTransportImpl extends BaseGrpcTrasnsport {
+public class YdbTransportImpl extends BaseGrpcTransport {
     static final int DEFAULT_PORT = 2135;
 
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
@@ -49,10 +49,10 @@ public class YdbTransportImpl extends BaseGrpcTrasnsport {
         logger.info("creating YDB transport with {}", balancingSettings);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
+        GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
 
         this.callOptions = new AuthCallOptions(this,
-                Arrays.asList(discoveryEndpoint),
+                Collections.singletonList(discoveryEndpoint),
                 channelFactory,
                 builder.getAuthProvider(),
                 builder.getReadTimeoutMillis(),

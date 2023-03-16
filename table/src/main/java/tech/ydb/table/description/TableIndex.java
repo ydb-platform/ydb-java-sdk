@@ -6,11 +6,14 @@ import static java.util.Collections.emptyList;
 
 /**
  * @author Sergey Polovko
+ * @author Kirill Kurdyukov
  */
 public class TableIndex {
 
     public enum Type {
         GLOBAL,
+
+        GLOBAL_ASYNC,
     }
 
     /**
@@ -33,11 +36,20 @@ public class TableIndex {
      */
     private final Type type;
 
-    public TableIndex(String name, List<String> columns, Type type) {
+    public TableIndex(
+            String name,
+            List<String> columns,
+            Type type
+    ) {
         this(name, columns, emptyList(), type);
     }
 
-    public TableIndex(String name, List<String> columns, List<String> dataColumns, Type type) {
+    public TableIndex(
+            String name,
+            List<String> columns,
+            List<String> dataColumns,
+            Type type
+    ) {
         this.name = name;
         this.columns = columns;
         this.dataColumns = dataColumns;

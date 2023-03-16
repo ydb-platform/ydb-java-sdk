@@ -23,14 +23,13 @@ import tech.ydb.discovery.DiscoveryProtos;
 
 /**
  * @author Nikolay Perfilov
+ * @author Kirill Kurdyukov
  */
 public final class EndpointPool {
     private static final Logger logger = LoggerFactory.getLogger(EndpointPool.class);
 
     // Maximum percent of endpoints pessimized by transport errors to start recheck
     private static final long DISCOVERY_PESSIMIZATION_THRESHOLD = 50;
-
-    private static final int LOCALITY_SHIFT = 1000;
 
     private final BalancingSettings balancingSettings;
     private final ReadWriteLock recordsLock = new ReentrantReadWriteLock();
@@ -42,6 +41,8 @@ public final class EndpointPool {
     private int bestEndpointsCount = -1;
 
     public EndpointPool(BalancingSettings balancingSettings) {
+        logger.debug("Creating endpoint pool with balancing settings policy: {}", balancingSettings.getPolicy());
+
         this.balancingSettings = balancingSettings;
     }
 
@@ -66,40 +67,31 @@ public final class EndpointPool {
         }
     }
 
-    private int getStartPriority(String selfLocation, String location) {
-        if (balancingSettings.getPolicy() == BalancingSettings.Policy.USE_ALL_NODES) {
-            return 0;
-        }
-
-        String prefered = balancingSettings.getPreferableLocation();
-        if (prefered == null || prefered.isEmpty()) { // If prefered location were not specified - use self location
-            prefered = selfLocation;
-        }
-
-        return (location != null && location.equalsIgnoreCase(prefered)) ? 0 : LOCALITY_SHIFT;
-    }
-
     // Sets new endpoints, returns removed
     public List<EndpointRecord> setNewState(DiscoveryProtos.ListEndpointsResult result) {
-        String selfLocation = result.getSelfLocation();
+        EndpointPriorityFactory priorityFactory = new EndpointPriorityFactory(
+                balancingSettings,
+                result
+        );
 
         Set<String> newKnownEndpoints = new HashSet<>();
         Map<Integer, PriorityEndpoint> newKnownEndpointsByNodeId = new HashMap<>();
         List<PriorityEndpoint> newRecords = new ArrayList<>();
 
-        logger.debug("init new state with location {} and {} endpoints", selfLocation, result.getEndpointsCount());
+        logger.debug("init new state with {} endpoints", result.getEndpointsCount());
         for (DiscoveryProtos.EndpointInfo info : result.getEndpointsList()) {
-            int priority = getStartPriority(selfLocation, info.getLocation());
-            PriorityEndpoint entry = new PriorityEndpoint(info, priority);
+            PriorityEndpoint entry = priorityFactory.createEndpoint(info);
             String endpoint = entry.getHostAndPort();
 
             if (!newKnownEndpoints.contains(endpoint)) {
-                logger.debug("  added endpoint {}", entry);
+                logger.debug("added endpoint {}", entry);
                 newKnownEndpoints.add(endpoint);
-                newKnownEndpointsByNodeId.put(entry.getNodeId(), entry);
+                if (entry.getNodeId() != 0) {
+                    newKnownEndpointsByNodeId.put(entry.getNodeId(), entry);
+                }
                 newRecords.add(entry);
             } else {
-                logger.warn("dublicate endpoint {}", entry.getHostAndPort());
+                logger.warn("duplicate endpoint {}", entry.getHostAndPort());
             }
         }
 
@@ -107,7 +99,7 @@ public final class EndpointPool {
         int newBestEndpointsCount = getBestEndpointsCount(newRecords);
 
         List<EndpointRecord> removed = new ArrayList<>();
-        for (PriorityEndpoint entry: records) {
+        for (PriorityEndpoint entry : records) {
             if (!newKnownEndpoints.contains(entry.getHostAndPort())) {
                 removed.add(entry);
             }
@@ -126,7 +118,7 @@ public final class EndpointPool {
     }
 
     public void pessimizeEndpoint(EndpointRecord endpoint) {
-        if (endpoint == null || !(endpoint instanceof PriorityEndpoint)) {
+        if (!(endpoint instanceof PriorityEndpoint)) {
             logger.trace("Endpoint {} is unknown", endpoint);
             return;
         }
@@ -167,7 +159,7 @@ public final class EndpointPool {
             return -1;
         }
 
-        final int bestPriority = records.get(0).priority;
+        final long bestPriority = records.get(0).priority;
         int pos = 1;
         while (pos < records.size()) {
             if (records.get(pos).priority != bestPriority) {
@@ -180,25 +172,28 @@ public final class EndpointPool {
 
     @VisibleForTesting
     static class PriorityEndpoint extends EndpointRecord {
-        static final Comparator<PriorityEndpoint> COMPARATOR = Comparator.comparingInt(PriorityEndpoint::getPriority);
+        static final Comparator<PriorityEndpoint> COMPARATOR = Comparator
+                .comparingLong(PriorityEndpoint::getPriority)
+                .thenComparing(PriorityEndpoint::getHost)
+                .thenComparing(PriorityEndpoint::getPort);
 
-        private int priority;
+        private long priority;
 
-        PriorityEndpoint(DiscoveryProtos.EndpointInfo endpoint, int priority) {
+        PriorityEndpoint(DiscoveryProtos.EndpointInfo endpoint, long priority) {
             super(endpoint.getAddress(), endpoint.getPort(), endpoint.getNodeId());
             this.priority = priority;
         }
 
-        private int getPriority() {
+        public long getPriority() {
             return this.priority;
         }
 
         public void pessimize() {
-            this.priority = Integer.MAX_VALUE;
+            this.priority = Long.MAX_VALUE;
         }
 
         public boolean isPessimized() {
-            return priority == Integer.MAX_VALUE;
+            return priority == Long.MAX_VALUE;
         }
 
         @Override

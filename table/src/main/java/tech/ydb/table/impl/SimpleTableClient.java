@@ -20,7 +20,7 @@ public class SimpleTableClient implements SessionSupplier {
     private final TableRpc tableRpc;
     private final boolean keepQueryText;
 
-    SimpleTableClient(Builder builder) {
+    private SimpleTableClient(Builder builder) {
         this.tableRpc = builder.tableRpc;
         this.keepQueryText = builder.keepQueryText;
     }

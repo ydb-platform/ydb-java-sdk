@@ -28,8 +28,8 @@ import tech.ydb.core.impl.auth.GrpcAuthRpc;
  *
  * @author Aleksandr Gorshenin
  */
-class StaticCredentitalsRpc {
-    private static final Logger logger = LoggerFactory.getLogger(StaticCredentitalsRpc.class);
+class StaticCredentialsRpc {
+    private static final Logger logger = LoggerFactory.getLogger(StaticCredentialsRpc.class);
 
     private static final long LOGIN_TIMEOUT_SECONDS = 10;
     private static final int MAX_RETRIES_COUNT = 5;
@@ -51,9 +51,9 @@ class StaticCredentitalsRpc {
     private final YdbAuth.LoginRequest request;
     private final Clock clock;
 
-    StaticCredentitalsRpc(GrpcAuthRpc rpc,
-            YdbAuth.LoginRequest request,
-            Clock clock) {
+    StaticCredentialsRpc(GrpcAuthRpc rpc,
+                         YdbAuth.LoginRequest request,
+                         Clock clock) {
         this.rpc = rpc;
         this.request = request;
         this.clock = clock;

@@ -22,8 +22,7 @@ final class MultiX509TrustManager implements X509TrustManager {
             try {
                 trustManager.checkClientTrusted(x509Certificates, authType);
                 return;
-            } catch (CertificateException e) {
-                continue;
+            } catch (CertificateException ignored) {
             }
         }
         throw new CertificateException("No trust manager trusts this certificates");
@@ -36,8 +35,7 @@ final class MultiX509TrustManager implements X509TrustManager {
             try {
                 trustManager.checkServerTrusted(x509Certificates, authType);
                 return;
-            } catch (CertificateException e) {
-                continue;
+            } catch (CertificateException ignored) {
             }
         }
         throw new CertificateException("No trust manager trusts this certificates");
@@ -49,6 +47,6 @@ final class MultiX509TrustManager implements X509TrustManager {
         for (X509TrustManager trustManager : trustManagers) {
             acceptedIssuers.addAll(Arrays.asList(trustManager.getAcceptedIssuers()));
         }
-        return acceptedIssuers.toArray(new X509Certificate[acceptedIssuers.size()]);
+        return acceptedIssuers.toArray(new X509Certificate[0]);
     }
 }
