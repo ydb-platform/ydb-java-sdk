@@ -28,7 +28,7 @@ import tech.ydb.core.impl.stream.EmptyStream;
  *
  * @author Aleksandr Gorshenin
  */
-public abstract class BaseGrpcTrasnsport implements GrpcTransport {
+public abstract class BaseGrpcTransport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
     private static final Result<?> SHUTDOWN_RESULT =  Result.fail(Status

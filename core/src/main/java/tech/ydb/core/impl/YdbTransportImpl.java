@@ -33,7 +33,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
-    private final GrpcDiscoveryRpc discoveryRpc;
     private final AuthCallOptions callOptions;
     private final String database;
     private final EndpointPool endpointPool;
