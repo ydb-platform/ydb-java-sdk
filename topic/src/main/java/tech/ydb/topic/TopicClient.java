@@ -5,6 +5,8 @@ import java.util.concurrent.Executor;
 
 import javax.annotation.WillNotClose;
 
+import io.grpc.ExperimentalApi;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -27,6 +29,7 @@ import tech.ydb.topic.write.SyncWriter;
 /**
  * @author Nikolay Perfilov
  */
+@ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface TopicClient extends AutoCloseable {
 
     static Builder newClient(@WillNotClose GrpcTransport transport) {
