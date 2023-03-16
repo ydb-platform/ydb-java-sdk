@@ -19,10 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.BalancingSettings;
-import tech.ydb.core.impl.priority.DetectLocalDCPriorityEndpointEvaluator;
-import tech.ydb.core.impl.priority.LocalDCPriorityEndpointEvaluator;
-import tech.ydb.core.impl.priority.PriorityEndpointEvaluator;
-import tech.ydb.core.impl.priority.RandomPriorityEndpointEvaluator;
 import tech.ydb.discovery.DiscoveryProtos;
 
 /**
@@ -35,7 +31,7 @@ public final class EndpointPool {
     // Maximum percent of endpoints pessimized by transport errors to start recheck
     private static final long DISCOVERY_PESSIMIZATION_THRESHOLD = 50;
 
-    private final PriorityEndpointEvaluator priorityEndpointEvaluator;
+    private final BalancingSettings balancingSettings;
     private final ReadWriteLock recordsLock = new ReentrantReadWriteLock();
     private final AtomicInteger pessimizationRatio = new AtomicInteger();
     private List<PriorityEndpoint> records = new ArrayList<>();
@@ -47,22 +43,7 @@ public final class EndpointPool {
     public EndpointPool(BalancingSettings balancingSettings) {
         logger.debug("Creating endpoint pool with balancing settings policy: {}", balancingSettings.getPolicy());
 
-        switch (balancingSettings.getPolicy()) {
-            case USE_ALL_NODES:
-                this.priorityEndpointEvaluator = new RandomPriorityEndpointEvaluator();
-                break;
-            case USE_DETECT_LOCAL_DC:
-                this.priorityEndpointEvaluator = new DetectLocalDCPriorityEndpointEvaluator();
-                break;
-            case USE_PREFERABLE_LOCATION:
-                this.priorityEndpointEvaluator = new LocalDCPriorityEndpointEvaluator(
-                        balancingSettings.getPreferableLocation()
-                );
-                break;
-            default:
-                throw new RuntimeException("Not implemented balancing policy: "
-                        + balancingSettings.getPolicy().name());
-        }
+        this.balancingSettings = balancingSettings;
     }
 
     public EndpointRecord getEndpoint(@Nullable Integer preferredNodeID) {
@@ -88,7 +69,10 @@ public final class EndpointPool {
 
     // Sets new endpoints, returns removed
     public List<EndpointRecord> setNewState(DiscoveryProtos.ListEndpointsResult result) {
-        priorityEndpointEvaluator.prepareStatement(result);
+        EndpointPriorityFactory priorityFactory = new EndpointPriorityFactory(
+                balancingSettings,
+                result
+        );
 
         Set<String> newKnownEndpoints = new HashSet<>();
         Map<Integer, PriorityEndpoint> newKnownEndpointsByNodeId = new HashMap<>();
@@ -96,8 +80,7 @@ public final class EndpointPool {
 
         logger.debug("init new state with {} endpoints", result.getEndpointsCount());
         for (DiscoveryProtos.EndpointInfo info : result.getEndpointsList()) {
-            long priority = priorityEndpointEvaluator.evaluatePriority(info);
-            PriorityEndpoint entry = new PriorityEndpoint(info, priority);
+            PriorityEndpoint entry = priorityFactory.createEndpoint(info);
             String endpoint = entry.getHostAndPort();
 
             if (!newKnownEndpoints.contains(endpoint)) {
@@ -116,7 +99,7 @@ public final class EndpointPool {
         int newBestEndpointsCount = getBestEndpointsCount(newRecords);
 
         List<EndpointRecord> removed = new ArrayList<>();
-        for (PriorityEndpoint entry: records) {
+        for (PriorityEndpoint entry : records) {
             if (!newKnownEndpoints.contains(entry.getHostAndPort())) {
                 removed.add(entry);
             }
@@ -133,6 +116,7 @@ public final class EndpointPool {
         }
         return removed;
     }
+
     public void pessimizeEndpoint(EndpointRecord endpoint) {
         if (!(endpoint instanceof PriorityEndpoint)) {
             logger.trace("Endpoint {} is unknown", endpoint);
@@ -187,7 +171,7 @@ public final class EndpointPool {
     }
 
     @VisibleForTesting
-    static class PriorityEndpoint extends EndpointRecord {
+    public static class PriorityEndpoint extends EndpointRecord {
         static final Comparator<PriorityEndpoint> COMPARATOR = Comparator
                 .comparingLong(PriorityEndpoint::getPriority)
                 .thenComparing(PriorityEndpoint::getHost)
@@ -200,7 +184,7 @@ public final class EndpointPool {
             this.priority = priority;
         }
 
-        private long getPriority() {
+        public long getPriority() {
             return this.priority;
         }
 
