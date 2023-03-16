@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
@@ -40,7 +41,7 @@ public abstract class ReaderImpl {
     private final TopicRpc topicRpc;
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final AtomicLong sizeBytesToRequest;
-    private final AtomicBoolean isStopped = new AtomicBoolean(false);
+    protected final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final ScheduledThreadPoolExecutor reconnectExecutor = new ScheduledThreadPoolExecutor(1);
     private final Map<Long, PartitionSession> partitionSessions = new HashMap<>();
     private final Executor decompressionExecutor;
@@ -64,6 +65,7 @@ public abstract class ReaderImpl {
     }
 
     protected CompletableFuture<Void> initImpl() {
+        logger.debug("initImpl started");
         session.start(this::processMessage).whenComplete(this::completeSession);
 
         initResultFuture = new CompletableFuture<>();
@@ -211,8 +213,8 @@ public abstract class ReaderImpl {
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
-            logger.error("Unexpected behaviour: got non-success status in onNext method. Shutting down reader.");
-            shutdownImpl();
+            logger.error("Got non-success status in processMessage method: {}", message);
+            completeSession(Status.of(StatusCode.fromProto(message.getStatus())), null);
             return;
         }
 
@@ -249,7 +251,8 @@ public abstract class ReaderImpl {
                 }
                 return;
             }
-            logger.error("Error in reading stream session {}: {}", currentSessionId, status);
+            logger.error("Error in reading stream session {}: {}", (currentSessionId != null ? currentSessionId : ""),
+                    status);
         }
 
         if (isStopped.get()) {

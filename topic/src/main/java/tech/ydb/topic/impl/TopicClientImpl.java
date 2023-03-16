@@ -279,7 +279,7 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public SyncReader createSyncReader(ReaderSettings settings) {
-        return new SyncReaderImpl();
+        return new SyncReaderImpl(topicRpc, settings);
     }
 
     @Override

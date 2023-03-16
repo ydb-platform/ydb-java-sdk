@@ -116,7 +116,7 @@ public class PartitionSession {
                                         && (decodingBatch.isDecompressed() || decodingBatch.getCodec() == Codec.RAW)) {
                                     decodingBatches.remove();
                                     if (logger.isTraceEnabled()) {
-                                        logger.debug("Adding message to reading queue");
+                                        logger.trace("Adding message to reading queue");
                                     }
                                     readingQueue.add(decodingBatch);
                                     haveNewBatchesReady = true;
@@ -181,7 +181,9 @@ public class PartitionSession {
                 return;
             }
             // Should be called maximum in 1 thread at a time
-            logger.debug("reading message batch");
+            if (logger.isTraceEnabled()) {
+                logger.trace("reading message batch");
+            }
             List<MessageImpl> messageImplList = batchToRead.getMessages();
             List<Message> messagesToRead = new ArrayList<>(messageImplList);
             DataReceivedEvent event = new DataReceivedEventImpl(messagesToRead,
@@ -197,7 +199,9 @@ public class PartitionSession {
                     });
             batchToRead.complete();
         } else {
-            logger.trace("No need to send data to readers: reading is already being performed");
+            if (logger.isTraceEnabled()) {
+                logger.trace("No need to send data to readers: reading is already being performed");
+            }
         }
     }
 

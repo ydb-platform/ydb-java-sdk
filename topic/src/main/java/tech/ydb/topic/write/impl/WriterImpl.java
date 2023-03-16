@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
@@ -325,9 +326,8 @@ public abstract class WriterImpl {
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
-            logger.error("Unexpected behaviour: got non-success status in onNext method");
-            shutdownImpl();
-            return;
+            logger.error("Got non-success status in processMessage method: {}", message);
+            completeSession(Status.of(StatusCode.fromProto(message.getStatus())), null);
         }
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
@@ -422,7 +422,8 @@ public abstract class WriterImpl {
                 }
                 return;
             }
-            logger.error("Error in writing stream session {}: {}", currentSessionId, status);
+            logger.error("Error in writing stream session {}: {}", (currentSessionId != null ? currentSessionId : ""),
+                    status);
         }
 
         if (isStopped.get()) {
