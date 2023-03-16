@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
@@ -108,6 +109,16 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                     });
         });
         return resultFuture;
+    }
+
+    @Override
+    protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
+        sendStartPartitionSessionResponse(request);
+    }
+
+    @Override
+    protected void handleStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
+        logger.debug("StopPartitionSessionRequest received. Ignoring.");
     }
 
     @Override

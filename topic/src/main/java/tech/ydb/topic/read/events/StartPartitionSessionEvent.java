@@ -1,34 +1,18 @@
 package tech.ydb.topic.read.events;
 
 import tech.ydb.topic.read.PartitionSession;
+import tech.ydb.topic.read.impl.OffsetsRange;
 
 /**
  * @author Nikolay Perfilov
  */
-public class StartPartitionSessionEvent {
-    private final PartitionSession partitionSession;
-    private final long committedOffset;
-    private final long endOffset;
+public interface StartPartitionSessionEvent {
 
-    public StartPartitionSessionEvent(PartitionSession partitionSession, long committedOffset, long endOffset) {
-        this.partitionSession = partitionSession;
-        this.committedOffset = committedOffset;
-        this.endOffset = endOffset;
-    }
+    PartitionSession getPartitionSession();
 
-    public PartitionSession getPartitionSession() {
-        return partitionSession;
-    }
+    long getCommittedOffset();
 
-    public long getCommittedOffset() {
-        return committedOffset;
-    }
+    OffsetsRange getPartitionOffsets();
 
-    public long getEndOffset() {
-        return endOffset;
-    }
-
-    public void confirm() {
-
-    }
+    void confirm();
 }

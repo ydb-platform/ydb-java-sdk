@@ -112,10 +112,9 @@ public abstract class ReaderImpl {
                 .build());
     }
 
-    private void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
-        final long partitionId = request.getPartitionSession().getPartitionSessionId();
+    protected void sendStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
         PartitionSession partitionSession = PartitionSession.newBuilder()
-                .setId(partitionId)
+                .setId(request.getPartitionSession().getPartitionSessionId())
                 .setPath(request.getPartitionSession().getPath())
                 .setPartitionId(request.getPartitionSession().getPartitionId())
                 .setCommittedOffset(request.getCommittedOffset())
@@ -126,14 +125,19 @@ public abstract class ReaderImpl {
                 .setCommitFunction(this::commitOffset)
                 .build();
         partitionSessions.put(partitionSession.getId(), partitionSession);
-        sendStartPartitionSessionResponse(partitionSession);
-    }
 
-    private void sendStartPartitionSessionResponse(PartitionSession partitionSession) {
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionResponse.newBuilder()
                         .setPartitionSessionId(partitionSession.getId())
                         // TODO: set offsets?
+                        .build())
+                .build());
+    }
+
+    protected void sendStopPartitionSessionResponse(long partitionSessionId) {
+        session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
+                .setStopPartitionSessionResponse(YdbTopic.StreamReadMessage.StopPartitionSessionResponse.newBuilder()
+                        .setPartitionSessionId(partitionSessionId)
                         .build())
                 .build());
     }
@@ -162,7 +166,7 @@ public abstract class ReaderImpl {
                 });
     }
 
-    private void handleCommitOffsetResponse(YdbTopic.StreamReadMessage.CommitOffsetResponse commitOffsetResponse) {
+    protected void handleCommitOffsetResponse(YdbTopic.StreamReadMessage.CommitOffsetResponse commitOffsetResponse) {
         for (YdbTopic.StreamReadMessage.CommitOffsetResponse.PartitionCommittedOffset partitionCommittedOffset :
                 commitOffsetResponse.getPartitionsCommittedOffsetsList()) {
             PartitionSession partitionSession = partitionSessions.get(partitionCommittedOffset.getPartitionSessionId());
@@ -176,6 +180,10 @@ public abstract class ReaderImpl {
     }
 
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
+    protected abstract void handleStopPartitionSessionRequest(
+            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request);
+    protected abstract void handleStartPartitionSessionRequest(
+            YdbTopic.StreamReadMessage.StartPartitionSessionRequest request);
 
     private void commitOffset(long partitionId, OffsetsRange offsets) {
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
@@ -225,6 +233,8 @@ public abstract class ReaderImpl {
             sendReadRequest();
         } else if (message.hasStartPartitionSessionRequest()) {
             handleStartPartitionSessionRequest(message.getStartPartitionSessionRequest());
+        } else if (message.hasStopPartitionSessionRequest()) {
+            handleStopPartitionSessionRequest(message.getStopPartitionSessionRequest());
         } else if (message.hasReadResponse()) {
             handleReadResponse(message.getReadResponse());
         } else if (message.hasCommitOffsetResponse()) {

@@ -5,7 +5,7 @@ package tech.ydb.topic.read.events;
  */
 public abstract class AbstractReadEventHandler implements ReadEventHandler {
 
-    // onMessages method should be defined in user's implementation
+    // onMessages(DataReceivedEvent event) method should be defined in user's implementation
 
     @Override
     public void onCommitOffsetAcknowledgement(CommitOffsetAcknowledgementEvent event) {
