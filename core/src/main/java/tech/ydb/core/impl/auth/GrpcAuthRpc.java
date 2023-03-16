@@ -2,11 +2,12 @@ package tech.ydb.core.impl.auth;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import io.grpc.CallOptions;
 
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.impl.BaseGrpcTrasnsport;
+import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.FixedCallOptionsTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -17,13 +18,13 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
  */
 public class GrpcAuthRpc {
     private final List<EndpointRecord> endpoints;
-    private final BaseGrpcTrasnsport parent;
+    private final BaseGrpcTransport parent;
     private final ManagedChannelFactory channelFactory;
-    private volatile int endpointIdx = 0;
+    private final AtomicInteger endpointIdx = new AtomicInteger(0);
 
     public GrpcAuthRpc(
             List<EndpointRecord> endpoints,
-            BaseGrpcTrasnsport parent,
+            BaseGrpcTransport parent,
             ManagedChannelFactory channelFactory) {
         if (endpoints == null || endpoints.isEmpty()) {
             throw new IllegalStateException("Empty endpoints list for auth rpc");
@@ -42,7 +43,14 @@ public class GrpcAuthRpc {
     }
 
     public void changeEndpoint() {
-        endpointIdx = (endpointIdx + 1) % endpoints.size();
+        while (true) {
+            int cur = endpointIdx.get();
+            int next = (cur + 1) % endpoints.size();
+
+            if (endpointIdx.compareAndSet(cur, next)) {
+                break;
+            }
+        }
     }
 
     public GrpcTransport createTransport() {
@@ -51,7 +59,7 @@ public class GrpcAuthRpc {
                 parent.scheduler(),
                 CallOptions.DEFAULT,
                 parent.getDatabase(),
-                endpoints.get(endpointIdx),
+                endpoints.get(endpointIdx.get()),
                 channelFactory
         );
     }

@@ -26,7 +26,7 @@ import tech.ydb.core.rpc.StreamObserver;
  *
  * @author Aleksandr Gorshenin
  */
-public abstract class BaseGrpcTrasnsport implements GrpcTransport {
+public abstract class BaseGrpcTransport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
     private static final Result<?> SHUTDOWN_RESULT =  Result.fail(Status
@@ -119,9 +119,7 @@ public abstract class BaseGrpcTrasnsport implements GrpcTransport {
                     observer, call, settings.getTrailersHandler(), status -> updateChannelStatus(channel, status)
             ));
 
-            return () -> {
-                call.cancel("Cancelled on user request", new CancellationException());
-            };
+            return () -> call.cancel("Cancelled on user request", new CancellationException());
         } catch (RuntimeException ex) {
             logger.error("server stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);

@@ -14,7 +14,7 @@ public final class X509TrustManagerWrapper extends X509ExtendedTrustManager {
     private final X509TrustManager delegate;
 
     X509TrustManagerWrapper(X509TrustManager delegate) {
-        this.delegate = (X509TrustManager) ObjectUtil.checkNotNull(delegate, "delegate");
+        this.delegate = ObjectUtil.checkNotNull(delegate, "delegate");
     }
 
     public void checkClientTrusted(X509Certificate[] chain, String s) throws CertificateException {

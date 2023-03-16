@@ -16,7 +16,7 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
  *
  * @author Aleksandr Gorshenin
  */
-public class FixedCallOptionsTransport extends BaseGrpcTrasnsport {
+public class FixedCallOptionsTransport extends BaseGrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(FixedCallOptionsTransport.class);
 
     private final ScheduledExecutorService scheduler;
