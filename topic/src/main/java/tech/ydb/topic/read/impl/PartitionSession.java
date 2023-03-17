@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Queue;
-import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
@@ -43,7 +43,7 @@ public class PartitionSession {
     private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
     private final AtomicBoolean isReadingNow = new AtomicBoolean(false);
     private final BiConsumer<Long, OffsetsRange> commitFunction;
-    private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
+    private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
 
     private long lastCommittedOffset;
 
@@ -136,8 +136,8 @@ public class PartitionSession {
     private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
         if (isWorking.get()) {
-            commitFunction.accept(getId(), offsets);
             commitFutures.put(offsets.getEnd(), resultFuture);
+            commitFunction.accept(getId(), offsets);
         } else {
             resultFuture.completeExceptionally(new RuntimeException("Partition session is already closed"));
         }
@@ -145,13 +145,9 @@ public class PartitionSession {
     }
 
     public void handleCommitResponse(long committedOffset) {
-        for (Map.Entry<Long, CompletableFuture<Void>> entry : commitFutures.entrySet()) {
-            if (entry.getKey() <= committedOffset) {
-                entry.getValue().complete(null);
-            } else {
-                return;
-            }
-        }
+        Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
+        futuresToComplete.values().forEach(future -> future.complete(null));
+        futuresToComplete.clear();
     }
 
     private void decode(Batch batch) {
