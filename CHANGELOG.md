@@ -1,7 +1,9 @@
 ## 2.1.0 ##
 
+* Added Topic API support
 * Added support detect local dc
 * Support creating asynchronous index in createTable and describeTable
+* New api for streamable requests
 * Fixed default timeout for readTable
 * Fixed exponential backoff calculation
 * Fixed null values for Result.success

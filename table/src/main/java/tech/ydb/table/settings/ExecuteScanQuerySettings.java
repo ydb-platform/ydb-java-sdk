@@ -1,45 +1,27 @@
 package tech.ydb.table.settings;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
-
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.table.YdbTable;
 
 
-public class ExecuteScanQuerySettings {
+public class ExecuteScanQuerySettings extends BaseRequestSettings {
     private final YdbTable.ExecuteScanQueryRequest.Mode mode;
-    private final Duration timeout;
     private final YdbTable.QueryStatsCollection.Mode collectStats;
 
-    public ExecuteScanQuerySettings(Builder b) {
-        this.timeout = b.timeout;
-        this.mode = b.mode;
-        this.collectStats = b.collectStats;
-    }
-
-    public Duration getTimeoutDuration() {
-        return timeout;
+    public ExecuteScanQuerySettings(Builder builder) {
+        super(builder);
+        this.mode = builder.mode;
+        this.collectStats = builder.collectStats;
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
-    public static final class Builder {
-        private Duration timeout = null;
+    public static final class Builder extends BaseBuilder<Builder> {
         private YdbTable.ExecuteScanQueryRequest.Mode mode = YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
         private YdbTable.QueryStatsCollection.Mode collectStats = YdbTable.QueryStatsCollection.Mode.
                 STATS_COLLECTION_NONE;
-
-        public Builder timeout(long duration, TimeUnit unit) {
-            this.timeout = Duration.ofNanos(unit.toNanos(duration));
-            return this;
-        }
-
-        public Builder timeout(Duration duration) {
-            this.timeout = duration;
-            return this;
-        }
 
         public Builder mode(YdbTable.ExecuteScanQueryRequest.Mode mode) {
             this.mode = mode;
@@ -51,6 +33,7 @@ public class ExecuteScanQuerySettings {
             return this;
         }
 
+        @Override
         public ExecuteScanQuerySettings build() {
             return new ExecuteScanQuerySettings(this);
         }

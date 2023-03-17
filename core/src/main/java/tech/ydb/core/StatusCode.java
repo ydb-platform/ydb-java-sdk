@@ -90,6 +90,24 @@ public enum StatusCode {
         return code >= TRANSPORT_STATUSES_FIRST && code <= TRANSPORT_STATUSES_LAST;
     }
 
+    public boolean isRetryable(boolean isOperationIdempotent, boolean retryNotFound) {
+        if (RETRYABLE_STATUSES.contains(this)) {
+            return true;
+        }
+        switch (this) {
+            case NOT_FOUND:
+                return retryNotFound;
+            case CLIENT_CANCELLED:
+            case CLIENT_INTERNAL_ERROR:
+            case UNDETERMINED:
+            case TRANSPORT_UNAVAILABLE:
+                return isOperationIdempotent;
+            default:
+                break;
+        }
+        return false;
+    }
+
     public static StatusCode fromProto(StatusIds.StatusCode code) {
         switch (code) {
             case SUCCESS: return SUCCESS;

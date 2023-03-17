@@ -496,7 +496,7 @@ public class SessionRetryContextTest extends FutureHelper  {
         }
 
         @Override
-        public ScheduledExecutorService scheduler() {
+        public ScheduledExecutorService getScheduler() {
             return scheduler;
         }
     }
@@ -515,7 +515,7 @@ public class SessionRetryContextTest extends FutureHelper  {
         }
 
         @Override
-        public ScheduledExecutorService scheduler() {
+        public ScheduledExecutorService getScheduler() {
             return scheduler;
         }
 
@@ -543,7 +543,7 @@ public class SessionRetryContextTest extends FutureHelper  {
         }
 
         @Override
-        public ScheduledExecutorService scheduler() {
+        public ScheduledExecutorService getScheduler() {
             return scheduler;
         }
 

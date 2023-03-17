@@ -77,7 +77,7 @@ public class SessionRetryContext {
         Throwable cause = Async.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
-            return canRetry(statusCode);
+            return statusCode.isRetryable(idempotent, retryNotFound);
         }
         return false;
     }
@@ -232,12 +232,12 @@ public class SessionRetryContext {
             if (promise.isCancelled()) {
                 return;
             }
-            sessionSupplier.scheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
+            sessionSupplier.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
         private void handleError(@Nonnull StatusCode code, R result) {
             // Check retrayable status
-            if (!canRetry(code)) {
+            if (!code.isRetryable(idempotent, retryNotFound)) {
                 logger.debug("RetryCtx[{}] NON-RETRYABLE CODE[{}], finished after {} retries, {} ms total",
                         hashCode(), code, retryNumber.get(), ms());
                 promise.complete(result);

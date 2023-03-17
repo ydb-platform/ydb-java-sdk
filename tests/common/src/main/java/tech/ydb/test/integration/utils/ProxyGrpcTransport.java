@@ -6,10 +6,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 
 /**
  *
@@ -28,8 +28,8 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
-    public ScheduledExecutorService scheduler() {
-        return checked().scheduler();
+    public ScheduledExecutorService getScheduler() {
+        return checked().getScheduler();
     }
 
     @Override
@@ -39,10 +39,15 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     }
 
     @Override
-    public <ReqT, RespT> StreamControl serverStreamCall(
-            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings,
-            ReqT request, StreamObserver<RespT> observer) {
-        return checked().serverStreamCall(method, settings, request, observer);
+    public <ReqT, RespT> GrpcReadStream<RespT> readStreamCall(
+            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings, ReqT request) {
+        return checked().readStreamCall(method, settings, request);
+    }
+
+    @Override
+    public <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
+            MethodDescriptor<ReqT, RespT> method, GrpcRequestSettings settings) {
+        return checked().readWriteStreamCall(method, settings);
     }
 
     @Override
@@ -52,6 +57,6 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
 
     @Override
     public void close() {
-        // Usally origin transport must be closed by its owner
+        // Usually origin transport must be closed by its owner
     }
 }

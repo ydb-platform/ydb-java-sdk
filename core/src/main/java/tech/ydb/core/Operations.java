@@ -7,7 +7,9 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 
 import tech.ydb.OperationProtos;
-import tech.ydb.OperationProtos.Operation;
+import tech.ydb.common.CommonProtos;
+import tech.ydb.core.settings.OperationSettings;
+import tech.ydb.core.utils.ProtobufUtils;
 
 
 /**
@@ -20,7 +22,7 @@ public final class Operations {
     private Operations() { }
 
     @VisibleForTesting
-    static Status status(Operation operation) {
+    static Status status(OperationProtos.Operation operation) {
         StatusCode code = StatusCode.fromProto(operation.getStatus());
         Double consumedRu = null;
         if (operation.hasCostInfo()) {
@@ -68,5 +70,25 @@ public final class Operations {
 
             return ASYNC_ARE_UNSUPPORTED;
         };
+    }
+
+    public static OperationProtos.OperationParams createParams(OperationSettings settings) {
+        OperationProtos.OperationParams.Builder builder = OperationProtos.OperationParams.newBuilder();
+
+        if (settings.getOperationTimeout() != null) {
+            builder.setOperationTimeout(ProtobufUtils.durationToProto(settings.getOperationTimeout()));
+        }
+        if (settings.getCancelTimeout() != null) {
+            builder.setOperationTimeout(ProtobufUtils.durationToProto(settings.getCancelTimeout()));
+        }
+        if (settings.getReportCostInfo() != null) {
+            if (settings.getReportCostInfo()) {
+                 builder.setReportCostInfo(CommonProtos.FeatureFlag.Status.ENABLED);
+            } else {
+                 builder.setReportCostInfo(CommonProtos.FeatureFlag.Status.DISABLED);
+            }
+        }
+
+        return builder.build();
     }
 }
