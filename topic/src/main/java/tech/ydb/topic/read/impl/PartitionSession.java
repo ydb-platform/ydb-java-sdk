@@ -1,10 +1,10 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -43,7 +43,7 @@ public class PartitionSession {
     private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
     private final AtomicBoolean isReadingNow = new AtomicBoolean(false);
     private final BiConsumer<Long, OffsetsRange> commitFunction;
-    private final Map<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
+    private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
 
     private long lastCommittedOffset;
 
@@ -145,17 +145,9 @@ public class PartitionSession {
     }
 
     public void handleCommitResponse(long committedOffset) {
-        commitFutures.entrySet().iterator();
-        for (Iterator<Map.Entry<Long, CompletableFuture<Void>>> it = commitFutures.entrySet().iterator();
-             it.hasNext(); ) {
-            Map.Entry<Long, CompletableFuture<Void>> entry = it.next();
-            if (entry.getKey() <= committedOffset) {
-                entry.getValue().complete(null);
-                it.remove();
-            } else {
-                return;
-            }
-        }
+        Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
+        futuresToComplete.values().forEach(future -> future.complete(null));
+        futuresToComplete.clear();
     }
 
     private void decode(Batch batch) {
