@@ -118,7 +118,7 @@ public class GrpcStatusesTest {
     public void statusThrowable() {
         Status status = GrpcStatuses.toStatus(io.grpc.Status.RESOURCE_EXHAUSTED.withCause(new RuntimeException("Hello")));
         Issue issue1 = Issue.of("gRPC error: (RESOURCE_EXHAUSTED)", Issue.Severity.ERROR);
-        Issue issue2 = Issue.of("Hello", Issue.Severity.ERROR);
+        Issue issue2 = Issue.of("java.lang.RuntimeException: Hello", Issue.Severity.ERROR);
         assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED).withIssues(issue1, issue2), status);
     }
 }

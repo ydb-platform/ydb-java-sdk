@@ -41,7 +41,7 @@ public final class GrpcStatuses {
             return tech.ydb.core.Status.of(code, null, message);
         }
 
-        return tech.ydb.core.Status.of(code, null, message, Issue.of(cause.getMessage(), Issue.Severity.ERROR));
+        return tech.ydb.core.Status.of(code, null, message, Issue.of(cause.toString(), Issue.Severity.ERROR));
     }
 
     private static String getMessage(Status status) {
