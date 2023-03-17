@@ -1,10 +1,10 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.NavigableMap;
 import java.util.Queue;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
@@ -43,7 +43,7 @@ public class PartitionSession {
     private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
     private final AtomicBoolean isReadingNow = new AtomicBoolean(false);
     private final BiConsumer<Long, OffsetsRange> commitFunction;
-    private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
+    private final Map<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
 
     private long lastCommittedOffset;
 
@@ -136,8 +136,10 @@ public class PartitionSession {
     private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
         if (isWorking.get()) {
+            synchronized (commitFutures) {
+                commitFutures.put(offsets.getEnd(), resultFuture);
+            }
             commitFunction.accept(getId(), offsets);
-            commitFutures.put(offsets.getEnd(), resultFuture);
         } else {
             resultFuture.completeExceptionally(new RuntimeException("Partition session is already closed"));
         }
@@ -145,11 +147,17 @@ public class PartitionSession {
     }
 
     public void handleCommitResponse(long committedOffset) {
-        for (Map.Entry<Long, CompletableFuture<Void>> entry : commitFutures.entrySet()) {
-            if (entry.getKey() <= committedOffset) {
-                entry.getValue().complete(null);
-            } else {
-                return;
+        synchronized (commitFutures) {
+            commitFutures.entrySet().iterator();
+            for (Iterator<Map.Entry<Long, CompletableFuture<Void>>> it = commitFutures.entrySet().iterator();
+                 it.hasNext(); ) {
+                Map.Entry<Long, CompletableFuture<Void>> entry = it.next();
+                if (entry.getKey() <= committedOffset) {
+                    entry.getValue().complete(null);
+                    it.remove();
+                } else {
+                    return;
+                }
             }
         }
     }
@@ -207,7 +215,10 @@ public class PartitionSession {
 
     public void shutdown() {
         isWorking.set(false);
-        commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session closed")));
+        synchronized (commitFutures) {
+            commitFutures.values().forEach(f ->
+                    f.completeExceptionally(new RuntimeException("Partition session closed")));
+        }
     }
 
     /**
