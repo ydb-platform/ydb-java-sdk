@@ -23,7 +23,6 @@
         <dependency>
             <groupId>tech.ydb</groupId>
             <artifactId>ydb-sdk-core</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -34,7 +33,7 @@
         <dependency>
             <groupId>com.github.luben</groupId>
             <artifactId>zstd-jni</artifactId>
-            <version>1.5.4-1</version>
+            <version>1.5.2-5</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
