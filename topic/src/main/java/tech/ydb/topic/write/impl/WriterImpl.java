@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -54,7 +53,6 @@ public abstract class WriterImpl {
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
-    private final ScheduledThreadPoolExecutor reconnectExecutor = new ScheduledThreadPoolExecutor(1);
     private final Executor compressionExecutor;
 
     private WriteSession session;
@@ -319,7 +317,6 @@ public abstract class WriterImpl {
 
     protected CompletableFuture<Void> shutdownImpl() {
         isStopped.set(true);
-        reconnectExecutor.shutdown();
         return flushImpl()
                 .thenRun(() -> session.finish());
     }
@@ -445,8 +442,7 @@ public abstract class WriterImpl {
             int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
                     ? EXP_BACKOFF_BASE_MS * (int) Math.pow(2, currentReconnectCounter)
                     : EXP_BACKOFF_CEILING_MS;
-            reconnectExecutor.schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
+            topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
         }
-
     }
 }

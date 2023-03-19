@@ -1,6 +1,7 @@
 package tech.ydb.topic;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -51,4 +52,5 @@ public interface TopicRpc {
 
     GrpcReadWriteStream<YdbTopic.StreamReadMessage.FromServer, YdbTopic.StreamReadMessage.FromClient> readSession();
 
+    ScheduledExecutorService getScheduler();
 }

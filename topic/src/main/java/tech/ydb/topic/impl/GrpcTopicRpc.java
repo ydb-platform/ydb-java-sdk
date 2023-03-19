@@ -1,6 +1,7 @@
 package tech.ydb.topic.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -80,5 +81,10 @@ public final class GrpcTopicRpc implements TopicRpc {
             > readSession() {
         return transport.readWriteStreamCall(TopicServiceGrpc.getStreamReadMethod(),
                 GrpcRequestSettings.newBuilder().build());
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return transport.getScheduler();
     }
 }
