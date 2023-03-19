@@ -34,7 +34,9 @@ public abstract class ReaderImpl {
 
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
-    private static final int RECONNECT_DELAY_SECONDS = 5;
+    private static final int EXP_BACKOFF_BASE_MS = 256;
+    private static final int EXP_BACKOFF_CEILING_MS = 60000; // 1 min
+    private static final int EXP_BACKOFF_MAX_POWER = 7;
     private static final int DEFAULT_DECOMPRESSION_THREAD_COUNT = 4;
 
     private final ReaderSettings settings;
@@ -279,7 +281,10 @@ public abstract class ReaderImpl {
             }
         } else {
             logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect...");
-            reconnectExecutor.schedule(this::reconnect, RECONNECT_DELAY_SECONDS, TimeUnit.SECONDS);
+            int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
+                    ? EXP_BACKOFF_BASE_MS * (int) Math.pow(2, currentReconnectCounter)
+                    : EXP_BACKOFF_CEILING_MS;
+            reconnectExecutor.schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
         }
     }
 }
