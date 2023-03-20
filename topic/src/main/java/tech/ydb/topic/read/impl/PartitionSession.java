@@ -191,9 +191,9 @@ public class PartitionSession {
                             logger.error("Error in DataReceivedEvent callback: ", th);
                         }
                         isReadingNow.set(false);
+                        batchToRead.complete();
                         sendDataToReadersIfNeeded();
                     });
-            batchToRead.complete();
         } else {
             if (logger.isTraceEnabled()) {
                 logger.trace("No need to send data to readers: reading is already being performed");
