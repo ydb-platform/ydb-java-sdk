@@ -209,6 +209,7 @@ public abstract class WriterImpl {
     }
 
     protected CompletableFuture<InitResult> initImpl() {
+        logger.debug("initImpl started");
         session.start(this::processMessage).whenComplete(this::completeSession);
 
         initResultFuture = new CompletableFuture<>();
@@ -441,7 +442,7 @@ public abstract class WriterImpl {
         } else {
             logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect...");
             int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
-                    ? EXP_BACKOFF_BASE_MS * (int) Math.pow(2, currentReconnectCounter)
+                    ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
                     : EXP_BACKOFF_CEILING_MS;
             // Add jitter
             delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
