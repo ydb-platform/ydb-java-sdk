@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -34,7 +35,7 @@ public abstract class ReaderImpl {
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
     private static final int EXP_BACKOFF_BASE_MS = 256;
-    private static final int EXP_BACKOFF_CEILING_MS = 60000; // 1 min
+    private static final int EXP_BACKOFF_CEILING_MS = 40000; // 40 sec (max delays would be 40-80 sec)
     private static final int EXP_BACKOFF_MAX_POWER = 7;
     private static final int DEFAULT_DECOMPRESSION_THREAD_COUNT = 4;
 
@@ -281,6 +282,8 @@ public abstract class ReaderImpl {
             int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
                     ? EXP_BACKOFF_BASE_MS * (int) Math.pow(2, currentReconnectCounter)
                     : EXP_BACKOFF_CEILING_MS;
+            // Add jitter
+            delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
             topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
         }
     }
