@@ -285,6 +285,9 @@ public abstract class WriterImpl {
     }
 
     protected CompletableFuture<Void> flushImpl() {
+        if (this.lastAcceptedMessageFuture == null) {
+            return CompletableFuture.completedFuture(null);
+        }
         synchronized (incomingQueue) {
             return this.lastAcceptedMessageFuture.isDone()
                     ? CompletableFuture.completedFuture(null)
