@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -36,7 +36,9 @@ public abstract class WriterImpl {
 
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
-    private static final int RECONNECT_DELAY_SECONDS = 5;
+    private static final int EXP_BACKOFF_BASE_MS = 256;
+    private static final int EXP_BACKOFF_CEILING_MS = 40000; // 40 sec (max delays would be 40-80 sec)
+    private static final int EXP_BACKOFF_MAX_POWER = 7;
 
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
@@ -52,7 +54,6 @@ public abstract class WriterImpl {
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
-    private final ScheduledThreadPoolExecutor reconnectExecutor = new ScheduledThreadPoolExecutor(1);
     private final Executor compressionExecutor;
 
     private WriteSession session;
@@ -208,6 +209,7 @@ public abstract class WriterImpl {
     }
 
     protected CompletableFuture<InitResult> initImpl() {
+        logger.debug("initImpl started");
         session.start(this::processMessage).whenComplete(this::completeSession);
 
         initResultFuture = new CompletableFuture<>();
@@ -317,7 +319,6 @@ public abstract class WriterImpl {
 
     protected CompletableFuture<Void> shutdownImpl() {
         isStopped.set(true);
-        reconnectExecutor.shutdown();
         return flushImpl()
                 .thenRun(() -> session.finish());
     }
@@ -440,9 +441,12 @@ public abstract class WriterImpl {
             }
         } else {
             logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect...");
-            reconnectExecutor.schedule(WriterImpl.this::reconnect, RECONNECT_DELAY_SECONDS,
-                    TimeUnit.SECONDS);
+            int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
+                    ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
+                    : EXP_BACKOFF_CEILING_MS;
+            // Add jitter
+            delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
+            topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
         }
-
     }
 }
