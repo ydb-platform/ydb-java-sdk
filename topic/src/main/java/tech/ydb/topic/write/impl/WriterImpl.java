@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -49,7 +50,7 @@ public abstract class WriterImpl {
     // Messages that are currently encoding
     private final Queue<EnqueuedMessage> encodingMessages = new LinkedList<>();
     // Messages that are taken into send buffer, are already compressed and are waiting for being sent
-    private final Queue<EnqueuedMessage> sendingQueue = new LinkedList<>();
+    private final Queue<EnqueuedMessage> sendingQueue = new ConcurrentLinkedQueue<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
     private final Queue<EnqueuedMessage> sentMessages = new LinkedList<>();
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
@@ -143,9 +144,7 @@ public abstract class WriterImpl {
                                 if (logger.isTraceEnabled()) {
                                     logger.debug("Adding message to sending queue");
                                 }
-                                synchronized (sendingQueue) {
-                                    sendingQueue.add(encodedMessage);
-                                }
+                                sendingQueue.add(encodedMessage);
                                 haveNewMessagesToSend = true;
                             } else {
                                 break;
@@ -174,24 +173,23 @@ public abstract class WriterImpl {
                 return;
             }
             Queue<EnqueuedMessage> messages;
-            synchronized (sendingQueue) {
-                if (sendingQueue.isEmpty()) {
-                    if (logger.isTraceEnabled()) {
-                        logger.trace("Nothing to send -- sendingQueue is empty");
-                    }
-                    return;
+            if (sendingQueue.isEmpty()) {
+                if (logger.isTraceEnabled()) {
+                    logger.trace("Nothing to send -- sendingQueue is empty");
                 }
-                if (!writeRequestInProgress.compareAndSet(false, true)) {
-                    logger.debug("Send request is already in progress");
-                    return;
-                }
-                messages = new LinkedList<>(sendingQueue);
-                sendingQueue.clear();
+                return;
             }
-            sendMessages(messages);
+            if (!writeRequestInProgress.compareAndSet(false, true)) {
+                logger.debug("Send request is already in progress");
+                return;
+            }
+            // This code can be run in one thread at a time due to acquiring writeRequestInProgress
+            messages = new LinkedList<>(sendingQueue);
+            sendingQueue.removeAll(messages);
             sentMessages.addAll(messages);
+            sendMessages(messages);
             if (!writeRequestInProgress.compareAndSet(true, false)) {
-                logger.error("Couldn't turn off writeRequestInProgress");
+                logger.error("Couldn't turn off writeRequestInProgress. Should not happen");
             }
         }
     }
