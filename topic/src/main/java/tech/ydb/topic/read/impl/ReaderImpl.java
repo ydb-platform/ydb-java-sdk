@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.utils.ProtobufUtils;
@@ -217,12 +218,24 @@ public abstract class ReaderImpl {
         });
     }
 
+    private CompletableFuture<Void> shutdownImpl(String reason) {
+        if (!initResultFuture.isDone()) {
+            initImpl().completeExceptionally(new RuntimeException(reason));
+        }
+        return shutdownImpl();
+    }
+
     private void processMessage(YdbTopic.StreamReadMessage.FromServer message) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("processMessage called");
+        }
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
             logger.error("Got non-success status in processMessage method: {}", message);
-            completeSession(Status.of(StatusCode.fromProto(message.getStatus())), null);
+            completeSession(Status.of(StatusCode.fromProto(message.getStatus()))
+                    .withIssues(Issue.of("Got a message with non-success status: " + message,
+                            Issue.Severity.ERROR)), null);
             return;
         }
 
@@ -245,6 +258,9 @@ public abstract class ReaderImpl {
     }
 
     private void completeSession(Status status, Throwable th) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("CompleteSession called");
+        }
         // This session is not working anymore
         this.session.finish();
 
@@ -257,7 +273,8 @@ public abstract class ReaderImpl {
                 } else {
                     logger.error("Reading stream session {} was closed unexpectedly. Shutting down the whole reader.",
                             currentSessionId);
-                    shutdownImpl();
+                    shutdownImpl("Reading stream session " + currentSessionId
+                            + " was closed unexpectedly. Shutting down reader.");
                 }
                 return;
             }
@@ -272,7 +289,8 @@ public abstract class ReaderImpl {
         if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
             if (isStopped.compareAndSet(false, true)) {
                 logger.error("Maximum retry count ({}}) exceeded. Shutting down reader.", MAX_RECONNECT_COUNT);
-                shutdownImpl();
+                shutdownImpl("Maximum retry count (" + MAX_RECONNECT_COUNT
+                        + ") exceeded. Shutting down reader with error: " + (th != null ? th : status));
             } else {
                 logger.debug("Maximum retry count ({}}) exceeded. But reader is already shut down.",
                         MAX_RECONNECT_COUNT);

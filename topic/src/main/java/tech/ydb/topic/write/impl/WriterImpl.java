@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.topic.TopicRpc;
@@ -47,7 +48,7 @@ public abstract class WriterImpl {
     private final Queue<IncomingMessage> incomingQueue = new LinkedList<>();
     // Messages that are currently encoding
     private final Queue<EnqueuedMessage> encodingMessages = new LinkedList<>();
-    // Messages that are taken into sending buffer, are already compressed and are waiting for being sent
+    // Messages that are taken into send buffer, are already compressed and are waiting for being sent
     private final Queue<EnqueuedMessage> sendingQueue = new LinkedList<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
     private final Queue<EnqueuedMessage> sentMessages = new LinkedList<>();
@@ -99,14 +100,13 @@ public abstract class WriterImpl {
             } else if (incomingQueue.isEmpty()) {
                 // Enough space to put the message into the queue right now
                 if (logger.isTraceEnabled()) {
-                    logger.trace("Enough space to put the message into the queue right now");
+                    logger.trace("Putting a message into the queue right now, enough space in send buffer");
                 }
                 acceptMessageIntoSendingQueue(message);
                 return CompletableFuture.completedFuture(null);
             }
 
-            // Message queue is overflown. Putting it in incoming waiting queue
-            logger.debug("Message queue is overflown. Putting it in incoming waiting queue");
+            logger.debug("Message queue send buffer is overflown. Putting the message into incoming waiting queue");
             IncomingMessage incomingMessage = new IncomingMessage(message);
             incomingQueue.add(incomingMessage);
             return incomingMessage.future;
@@ -121,7 +121,7 @@ public abstract class WriterImpl {
         this.encodingMessages.add(message);
 
         CompletableFuture.runAsync(() -> encode(message), compressionExecutor)
-                .thenRun(() -> {
+                .thenRunAsync(() -> {
                     boolean haveNewMessagesToSend = false;
                     // Working with encodingMessages under synchronized incomingQueue to prevent deadlocks
                     // while working with free method
@@ -176,7 +176,9 @@ public abstract class WriterImpl {
             Queue<EnqueuedMessage> messages;
             synchronized (sendingQueue) {
                 if (sendingQueue.isEmpty()) {
-                    logger.debug("Nothing to send");
+                    if (logger.isTraceEnabled()) {
+                        logger.trace("Nothing to send -- sendingQueue is empty");
+                    }
                     return;
                 }
                 if (!writeRequestInProgress.compareAndSet(false, true)) {
@@ -187,6 +189,7 @@ public abstract class WriterImpl {
                 sendingQueue.clear();
             }
             sendMessages(messages);
+            sentMessages.addAll(messages);
             if (!writeRequestInProgress.compareAndSet(true, false)) {
                 logger.error("Couldn't turn off writeRequestInProgress");
             }
@@ -251,14 +254,13 @@ public abstract class WriterImpl {
                     .setSeqNo(messageSeqNo)
                     .setData(ByteString.copyFrom(message.getMessage().getData()))
                     .build());
-            sentMessages.add(message);
         }
         session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
                 .setWriteRequest(writeRequestBuilder)
                 .build());
     }
 
-    // Outer future completes when message is put (or declined) into sending buffer
+    // Outer future completes when message is put (or declined) into send buffer
     // Inner future completes on receiving write ack from server
     protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message) {
         if (isStopped.get()) {
@@ -299,17 +301,25 @@ public abstract class WriterImpl {
         synchronized (incomingQueue) {
             currentInFlightCount -= messageCount;
             availableSizeBytes += sizeBytes;
-            // Try to add waiting messages into sending buffer
-            for (IncomingMessage incomingMessage : incomingQueue) {
-                if (incomingMessage.message.getUncompressedSizeBytes() > availableSizeBytes
-                        || currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
-                    return;
+            if (!incomingQueue.isEmpty()) {
+                // Try to add waiting messages into send buffer
+                for (IncomingMessage incomingMessage : incomingQueue) {
+                    if (incomingMessage.message.getUncompressedSizeBytes() > availableSizeBytes
+                            || currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
+                        if (logger.isTraceEnabled()) {
+                            logger.trace("There are messages in incomingQueue still, but no space in send buffer");
+                        }
+                        return;
+                    }
+                    if (logger.isTraceEnabled()) {
+                        logger.trace("Putting a message into send buffer after freeing some space");
+                    }
+                    if (incomingMessage.future.complete(null)) {
+                        acceptMessageIntoSendingQueue(incomingMessage.message);
+                    }
                 }
                 if (logger.isTraceEnabled()) {
-                    logger.trace("Enough space to put a message into the queue after freeing some space");
-                }
-                if (incomingMessage.future.complete(null)) {
-                    acceptMessageIntoSendingQueue(incomingMessage.message);
+                    logger.trace("All messages from incomingQueue are accepted into send buffer");
                 }
             }
         }
@@ -326,12 +336,24 @@ public abstract class WriterImpl {
                 .thenRun(() -> session.finish());
     }
 
+    private CompletableFuture<Void> shutdownImpl(String reason) {
+        if (!initResultFuture.isDone()) {
+            initImpl().completeExceptionally(new RuntimeException(reason));
+        }
+        return shutdownImpl();
+    }
+
     private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("processMessage called");
+        }
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
             logger.error("Got non-success status in processMessage method: {}", message);
-            completeSession(Status.of(StatusCode.fromProto(message.getStatus())), null);
+            completeSession(Status.of(StatusCode.fromProto(message.getStatus()))
+                            .withIssues(Issue.of("Got a message with non-success status: " + message,
+                                    Issue.Severity.ERROR)), null);
         }
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
@@ -351,29 +373,30 @@ public abstract class WriterImpl {
             int inFlightFreed = 0;
             long bytesFreed = 0;
             for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
-                while (true) {
-                    EnqueuedMessage sentMessage = sentMessages.peek();
-                    if (sentMessage == null) {
-                        break;
+                synchronized (sentMessages) {
+                    while (true) {
+                        EnqueuedMessage sentMessage = sentMessages.peek();
+                        if (sentMessage == null) {
+                            break;
+                        }
+                        if (sentMessage.getSeqNo() == ack.getSeqNo()) {
+                            processWriteAck(sentMessage, ack);
+                            inFlightFreed++;
+                            bytesFreed += sentMessage.getSizeBytes();
+                            sentMessages.poll();
+                            break;
+                        }
+                        if (sentMessage.getSeqNo() < ack.getSeqNo()) {
+                            // An older message hasn't received an Ack while a newer message has
+                            sentMessage.getFuture().completeExceptionally(
+                                    new RuntimeException("Didn't get ack from server for this message"));
+                            inFlightFreed++;
+                            bytesFreed += sentMessage.getSizeBytes();
+                            sentMessages.poll();
+                            break;
+                        }
+                        // Received an ack for a message older than the oldest message waiting for Ack. Ignoring
                     }
-                    if (sentMessage.getSeqNo() == ack.getSeqNo()) {
-                        processWriteAck(sentMessage, ack);
-                        inFlightFreed++;
-                        bytesFreed += sentMessage.getSizeBytes();
-                        // TODO: sync to ensure its the same message
-                        sentMessages.poll();
-                        break;
-                    }
-                    if (sentMessage.getSeqNo() < ack.getSeqNo()) {
-                        // An older message hasn't received an Ack while a newer message has
-                        sentMessage.getFuture().completeExceptionally(
-                                new RuntimeException("Didn't get ack from server for this message"));
-                        inFlightFreed++;
-                        bytesFreed += sentMessage.getSizeBytes();
-                        sentMessages.poll();
-                        break;
-                    }
-                    // Received an ack for a message older than the oldest message waiting for Ack. Ignoring
                 }
             }
             free(inFlightFreed, bytesFreed);
@@ -410,6 +433,9 @@ public abstract class WriterImpl {
     }
 
     private void completeSession(Status status, Throwable th) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("CompleteSession called");
+        }
         // This session is not working anymore
         this.session.finish();
 
@@ -422,7 +448,8 @@ public abstract class WriterImpl {
                 } else {
                     logger.error("Writing stream session {} was closed unexpectedly. Shutting down the whole writer.",
                             currentSessionId);
-                    shutdownImpl();
+                    shutdownImpl("Writing stream session " + currentSessionId
+                            + " was closed unexpectedly. Shutting down writer.");
                 }
                 return;
             }
@@ -437,7 +464,8 @@ public abstract class WriterImpl {
         if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
             if (isStopped.compareAndSet(false, true)) {
                 logger.error("Maximum retry count ({}}) exceeded. Shutting down writer.", MAX_RECONNECT_COUNT);
-                shutdownImpl();
+                shutdownImpl("Maximum retry count (" + MAX_RECONNECT_COUNT
+                        + ") exceeded. Shutting down writer with error: " + (th != null ? th : status));
             } else {
                 logger.debug("Maximum retry count ({}}) exceeded. But writer is already shut down.",
                         MAX_RECONNECT_COUNT);
