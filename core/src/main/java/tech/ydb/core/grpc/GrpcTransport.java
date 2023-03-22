@@ -12,6 +12,7 @@ import com.google.common.net.HostAndPort;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.impl.polling.PollingOperationManager;
 import tech.ydb.core.utils.URITools;
 
 
@@ -39,6 +40,8 @@ public interface GrpcTransport extends AutoCloseable {
     String getDatabase();
 
     ScheduledExecutorService getScheduler();
+
+    PollingOperationManager getPollingOperationManager();
 
     @Override
     void close();

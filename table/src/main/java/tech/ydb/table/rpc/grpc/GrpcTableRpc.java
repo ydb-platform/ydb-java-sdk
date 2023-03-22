@@ -83,7 +83,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getCreateSessionMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(
+                .thenApply(Operations.resultUnwrapped(
                         YdbTable.CreateSessionResponse::getOperation,
                         YdbTable.CreateSessionResult.class));
     }
@@ -93,7 +93,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getDeleteSessionMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(DeleteSessionResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(DeleteSessionResponse::getOperation));
     }
 
     @Override
@@ -101,7 +101,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getKeepAliveMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(KeepAliveResponse::getOperation, KeepAliveResult.class));
+                .thenApply(Operations.resultUnwrapped(KeepAliveResponse::getOperation, KeepAliveResult.class));
     }
 
     @Override
@@ -109,21 +109,21 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getCreateTableMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(CreateTableResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(CreateTableResponse::getOperation));
     }
 
     @Override
     public CompletableFuture<Status> dropTable(DropTableRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getDropTableMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(DropTableResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(DropTableResponse::getOperation));
     }
 
     @Override
     public CompletableFuture<Status> alterTable(AlterTableRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getAlterTableMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(AlterTableResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(AlterTableResponse::getOperation));
     }
 
     @Override
@@ -131,7 +131,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getCopyTableMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(CopyTableResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(CopyTableResponse::getOperation));
     }
 
     @Override
@@ -139,7 +139,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getCopyTablesMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(CopyTablesResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(CopyTablesResponse::getOperation));
     }
 
     @Override
@@ -147,7 +147,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getDescribeTableMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(DescribeTableResponse::getOperation, DescribeTableResult.class));
+                .thenApply(Operations.resultUnwrapped(DescribeTableResponse::getOperation, DescribeTableResult.class));
     }
 
     @Override
@@ -155,7 +155,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getExplainDataQueryMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(
+                .thenApply(Operations.resultUnwrapped(
                         ExplainDataQueryResponse::getOperation, ExplainQueryResult.class)
                 );
     }
@@ -166,7 +166,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getPrepareDataQueryMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(
+                .thenApply(Operations.resultUnwrapped(
                         PrepareDataQueryResponse::getOperation, PrepareQueryResult.class
                 ));
     }
@@ -176,7 +176,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getExecuteDataQueryMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(
+                .thenApply(Operations.resultUnwrapped(
                         ExecuteDataQueryResponse::getOperation, ExecuteQueryResult.class
                 ));
     }
@@ -186,7 +186,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getExecuteSchemeQueryMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(ExecuteSchemeQueryResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(ExecuteSchemeQueryResponse::getOperation));
     }
 
     @Override
@@ -194,7 +194,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getBeginTransactionMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapper(
+                .thenApply(Operations.resultUnwrapped(
                         BeginTransactionResponse::getOperation, BeginTransactionResult.class
                 ));
     }
@@ -204,7 +204,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getCommitTransactionMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(CommitTransactionResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(CommitTransactionResponse::getOperation));
     }
 
     @Override
@@ -212,7 +212,7 @@ public final class GrpcTableRpc implements TableRpc {
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getRollbackTransactionMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(RollbackTransactionResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(RollbackTransactionResponse::getOperation));
     }
 
     @Override
@@ -231,7 +231,7 @@ public final class GrpcTableRpc implements TableRpc {
     public CompletableFuture<Status> bulkUpsert(YdbTable.BulkUpsertRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getBulkUpsertMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapper(BulkUpsertResponse::getOperation));
+                .thenApply(Operations.statusUnwrapped(BulkUpsertResponse::getOperation));
     }
 
     @Override

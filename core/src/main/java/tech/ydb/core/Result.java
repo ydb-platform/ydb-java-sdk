@@ -43,7 +43,7 @@ public interface Result<T> {
     }
 
     static <V> Result<V> error(String message, Throwable throwable) {
-        if (throwable != null && throwable instanceof UnexpectedResultException) {
+        if (throwable instanceof UnexpectedResultException) {
             return new Unexpected<>(message, (UnexpectedResultException) throwable);
         }
         return new Error<>(message, throwable);
