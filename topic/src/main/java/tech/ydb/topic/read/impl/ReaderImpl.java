@@ -218,17 +218,15 @@ public abstract class ReaderImpl {
         });
     }
 
-    private CompletableFuture<Void> shutdownImpl(String reason) {
+    private void shutdownImpl(String reason) {
         if (!initResultFuture.isDone()) {
             initImpl().completeExceptionally(new RuntimeException(reason));
         }
-        return shutdownImpl();
+        shutdownImpl();
     }
 
     private void processMessage(YdbTopic.StreamReadMessage.FromServer message) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("processMessage called");
-        }
+        logger.trace("processMessage called");
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
@@ -258,9 +256,7 @@ public abstract class ReaderImpl {
     }
 
     private void completeSession(Status status, Throwable th) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("CompleteSession called");
-        }
+        logger.trace("CompleteSession called");
         // This session is not working anymore
         this.session.finish();
 

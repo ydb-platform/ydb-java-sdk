@@ -100,9 +100,7 @@ public abstract class WriterImpl {
                 }
             } else if (incomingQueue.isEmpty()) {
                 // Enough space to put the message into the queue right now
-                if (logger.isTraceEnabled()) {
-                    logger.trace("Putting a message into the queue right now, enough space in send buffer");
-                }
+                logger.trace("Putting a message into the queue right now, enough space in send buffer");
                 acceptMessageIntoSendingQueue(message);
                 return CompletableFuture.completedFuture(null);
             }
@@ -141,9 +139,7 @@ public abstract class WriterImpl {
                                         free(0, bytesFreed);
                                     }
                                 }
-                                if (logger.isTraceEnabled()) {
-                                    logger.debug("Adding message to sending queue");
-                                }
+                                logger.debug("Adding message to sending queue");
                                 sendingQueue.add(encodedMessage);
                                 haveNewMessagesToSend = true;
                             } else {
@@ -174,9 +170,7 @@ public abstract class WriterImpl {
             }
             Queue<EnqueuedMessage> messages;
             if (sendingQueue.isEmpty()) {
-                if (logger.isTraceEnabled()) {
-                    logger.trace("Nothing to send -- sendingQueue is empty");
-                }
+                logger.trace("Nothing to send -- sendingQueue is empty");
                 return;
             }
             if (!writeRequestInProgress.compareAndSet(false, true)) {
@@ -195,18 +189,14 @@ public abstract class WriterImpl {
     }
 
     private void encode(EnqueuedMessage message) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Started encoding message");
-        }
+        logger.trace("Started encoding message");
         if (settings.getCodec() == Codec.RAW) {
             return;
         }
         message.getMessage().setData(Encoder.encode(settings.getCodec(), message.getMessage().getData()));
         message.setCompressedSizeBytes(message.getMessage().getData().length);
         message.setCompressed(true);
-        if (logger.isTraceEnabled()) {
-            logger.trace("Successfully finished encoding message");
-        }
+        logger.trace("Successfully finished encoding message");
     }
 
     protected CompletableFuture<InitResult> initImpl() {
@@ -304,21 +294,15 @@ public abstract class WriterImpl {
                 for (IncomingMessage incomingMessage : incomingQueue) {
                     if (incomingMessage.message.getUncompressedSizeBytes() > availableSizeBytes
                             || currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
-                        if (logger.isTraceEnabled()) {
-                            logger.trace("There are messages in incomingQueue still, but no space in send buffer");
-                        }
+                        logger.trace("There are messages in incomingQueue still, but no space in send buffer");
                         return;
                     }
-                    if (logger.isTraceEnabled()) {
-                        logger.trace("Putting a message into send buffer after freeing some space");
-                    }
+                    logger.trace("Putting a message into send buffer after freeing some space");
                     if (incomingMessage.future.complete(null)) {
                         acceptMessageIntoSendingQueue(incomingMessage.message);
                     }
                 }
-                if (logger.isTraceEnabled()) {
-                    logger.trace("All messages from incomingQueue are accepted into send buffer");
-                }
+                logger.trace("All messages from incomingQueue are accepted into send buffer");
             }
         }
     }
@@ -334,17 +318,15 @@ public abstract class WriterImpl {
                 .thenRun(() -> session.finish());
     }
 
-    private CompletableFuture<Void> shutdownImpl(String reason) {
+    private void shutdownImpl(String reason) {
         if (!initResultFuture.isDone()) {
             initImpl().completeExceptionally(new RuntimeException(reason));
         }
-        return shutdownImpl();
+        shutdownImpl();
     }
 
     private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("processMessage called");
-        }
+        logger.trace("processMessage called");
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
@@ -431,9 +413,7 @@ public abstract class WriterImpl {
     }
 
     private void completeSession(Status status, Throwable th) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("CompleteSession called");
-        }
+        logger.trace("CompleteSession called");
         // This session is not working anymore
         this.session.finish();
 
