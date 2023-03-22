@@ -105,7 +105,7 @@ class StaticCredentialsRpc {
                         .build();
 
                 transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
-                        .thenApply(Operations.resultUnwrapper(
+                        .thenApply(Operations.resultUnwrapped(
                                 YdbAuth.LoginResponse::getOperation,
                                 YdbAuth.LoginResult.class
                         ))

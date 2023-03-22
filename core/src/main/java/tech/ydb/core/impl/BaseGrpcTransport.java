@@ -21,26 +21,35 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.polling.PollingOperationManager;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.stream.EmptyStream;
 
 /**
- *
  * @author Aleksandr Gorshenin
  */
 public abstract class BaseGrpcTransport implements GrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
-    private static final Result<?> SHUTDOWN_RESULT =  Result.fail(Status
+    private static final Result<?> SHUTDOWN_RESULT = Result.fail(Status
             .of(StatusCode.CLIENT_CANCELLED)
             .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
-    ));
+            ));
+
+    private final PollingOperationManager pollingOperationManager = new PollingOperationManager(this);
 
     private volatile boolean shutdown = false;
 
     public abstract AuthCallOptions getAuthCallOptions();
+
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);
+
     abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+
+    @Override
+    public PollingOperationManager getPollingOperationManager() {
+        return pollingOperationManager;
+    }
 
     @Override
     public void close() {
@@ -91,7 +100,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
             ReqT request
-        ) {
+    ) {
         if (shutdown) {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
@@ -144,7 +153,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     public <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings
-        ) {
+    ) {
         if (shutdown) {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }

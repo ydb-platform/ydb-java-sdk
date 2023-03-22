@@ -31,7 +31,7 @@ public final class Operations {
         return Status.of(code, consumedRu, Issue.fromPb(operation.getIssuesList()));
     }
 
-    public static <R, M extends Message> Function<Result<R>, Result<M>> resultUnwrapper(
+    public static <R, M extends Message> Function<Result<R>, Result<M>> resultUnwrapped(
         Function<R, OperationProtos.Operation> operationExtractor,
         Class<M> resultClass) {
         return (result) -> {
@@ -56,7 +56,7 @@ public final class Operations {
         };
     }
 
-    public static <R> Function<Result<R>, Status> statusUnwrapper(
+    public static <R> Function<Result<R>, Status> statusUnwrapped(
         Function<R, OperationProtos.Operation> operationExtractor) {
         return (result) -> {
             if (!result.isSuccess()) {

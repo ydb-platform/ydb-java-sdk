@@ -10,6 +10,7 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.polling.PollingOperationManager;
 
 /**
  *
@@ -30,6 +31,11 @@ public abstract class ProxyGrpcTransport implements GrpcTransport {
     @Override
     public ScheduledExecutorService getScheduler() {
         return checked().getScheduler();
+    }
+
+    @Override
+    public PollingOperationManager getPollingOperationManager() {
+        return new PollingOperationManager(this);
     }
 
     @Override
