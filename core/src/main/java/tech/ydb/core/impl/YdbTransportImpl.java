@@ -18,7 +18,6 @@ import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.discovery.GrpcDiscoveryRpc;
 import tech.ydb.core.impl.discovery.PeriodicDiscoveryTask;
-import tech.ydb.core.impl.polling.PollingOperationManager;
 import tech.ydb.core.impl.pool.EndpointPool;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;

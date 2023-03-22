@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.impl.polling.PollingOperationManager;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
 import tech.ydb.test.integration.utils.ProxyGrpcTransport;

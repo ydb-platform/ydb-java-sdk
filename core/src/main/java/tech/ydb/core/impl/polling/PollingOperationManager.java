@@ -9,6 +9,7 @@ import java.util.function.Function;
 import io.grpc.MethodDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import tech.ydb.OperationProtos;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
@@ -21,7 +22,7 @@ import tech.ydb.operation.v1.OperationServiceGrpc;
 /**
  * @author Kirill Kurdyukov
  */
-final public class PollingOperationManager {
+public final class PollingOperationManager {
 
     private static final Logger logger = LoggerFactory
             .getLogger(PollingOperationManager.class);
