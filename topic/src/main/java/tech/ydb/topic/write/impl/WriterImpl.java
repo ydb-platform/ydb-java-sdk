@@ -250,7 +250,7 @@ public abstract class WriterImpl {
 
     // Outer future completes when message is put (or declined) into send buffer
     // Inner future completes on receiving write ack from server
-    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message) {
+    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message, boolean instant) {
         if (isStopped.get()) {
             throw new RuntimeException("Writer is already stopped");
         }
@@ -271,7 +271,7 @@ public abstract class WriterImpl {
 
         EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message);
 
-        return tryToEnqueue(enqueuedMessage, false).thenApply(v -> enqueuedMessage.getFuture());
+        return tryToEnqueue(enqueuedMessage, instant).thenApply(v -> enqueuedMessage.getFuture());
     }
 
     protected CompletableFuture<Void> flushImpl() {

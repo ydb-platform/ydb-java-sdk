@@ -26,7 +26,7 @@ public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
 
     @Override
     public CompletableFuture<WriteAck> send(Message message) {
-        return sendImpl(message).join();
+        return sendImpl(message, true).join();
     }
 
     @Override
