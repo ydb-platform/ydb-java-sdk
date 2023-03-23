@@ -115,6 +115,19 @@ public final class PollingOperationManager {
                     OPERATION_CHECK_TIMEOUT_MS,
                     TimeUnit.MILLISECONDS
             );
+        } else {
+            while (true) {
+                Status status = pollingOperation.getStatus();
+
+                if (status == Status.of(StatusCode.CANCELLED) ||
+                        pollingOperation.status.compareAndSet(
+                                status,
+                                Status.of(StatusCode.fromProto(operation.getStatus()))
+                        )
+                ) {
+                    return;
+                }
+            }
         }
 
     }
