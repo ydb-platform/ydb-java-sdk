@@ -250,7 +250,7 @@ public abstract class WriterImpl {
 
     // Outer future completes when message is put (or declined) into send buffer
     // Inner future completes on receiving write ack from server
-    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message) {
+    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message, boolean instant) {
         if (isStopped.get()) {
             throw new RuntimeException("Writer is already stopped");
         }
@@ -271,7 +271,7 @@ public abstract class WriterImpl {
 
         EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message);
 
-        return tryToEnqueue(enqueuedMessage, false).thenApply(v -> enqueuedMessage.getFuture());
+        return tryToEnqueue(enqueuedMessage, instant).thenApply(v -> enqueuedMessage.getFuture());
     }
 
     protected CompletableFuture<Void> flushImpl() {
@@ -289,9 +289,14 @@ public abstract class WriterImpl {
         synchronized (incomingQueue) {
             currentInFlightCount -= messageCount;
             availableSizeBytes += sizeBytes;
+
+            // Try to add waiting messages into send buffer
             if (!incomingQueue.isEmpty()) {
-                // Try to add waiting messages into send buffer
-                for (IncomingMessage incomingMessage : incomingQueue) {
+                while (true) {
+                    IncomingMessage incomingMessage = incomingQueue.peek();
+                    if (incomingMessage == null) {
+                        break;
+                    }
                     if (incomingMessage.message.getUncompressedSizeBytes() > availableSizeBytes
                             || currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
                         logger.trace("There are messages in incomingQueue still, but no space in send buffer");
@@ -301,6 +306,7 @@ public abstract class WriterImpl {
                     if (incomingMessage.future.complete(null)) {
                         acceptMessageIntoSendingQueue(incomingMessage.message);
                     }
+                    incomingQueue.remove();
                 }
                 logger.trace("All messages from incomingQueue are accepted into send buffer");
             }
@@ -363,7 +369,7 @@ public abstract class WriterImpl {
                             processWriteAck(sentMessage, ack);
                             inFlightFreed++;
                             bytesFreed += sentMessage.getSizeBytes();
-                            sentMessages.poll();
+                            sentMessages.remove();
                             break;
                         }
                         if (sentMessage.getSeqNo() < ack.getSeqNo()) {
@@ -372,7 +378,7 @@ public abstract class WriterImpl {
                                     new RuntimeException("Didn't get ack from server for this message"));
                             inFlightFreed++;
                             bytesFreed += sentMessage.getSizeBytes();
-                            sentMessages.poll();
+                            sentMessages.remove();
                             break;
                         }
                         // Received an ack for a message older than the oldest message waiting for Ack. Ignoring
