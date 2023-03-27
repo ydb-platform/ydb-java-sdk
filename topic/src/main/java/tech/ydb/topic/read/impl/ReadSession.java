@@ -34,7 +34,9 @@ public class ReadSession {
         logger.debug("ReadSession start");
         return streamConnection.start(message -> {
             if (logger.isTraceEnabled()) {
-                logger.debug("ReadSession - onNext: {}", message);
+                logger.trace("Message received:\n{}", message);
+            } else {
+                logger.debug("Message received");
             }
 
             if (isWorking.get()) {
@@ -45,15 +47,15 @@ public class ReadSession {
 
     public synchronized void send(FromClient request) {
         if (!isWorking.get()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("ReadSession is already closed. This message is NOT sent: \n{}", request);
+            if (logger.isTraceEnabled()) {
+                logger.trace("ReadSession is already closed. This message is NOT sent:\n{}", request);
             }
             return;
         }
         String currentToken = streamConnection.authToken();
         if (!Objects.equals(token, currentToken)) {
             token = currentToken;
-            logger.info("ReadSession sending new token");
+            logger.info("Sending new token");
             streamConnection.sendNext(FromClient.newBuilder()
                     .setUpdateTokenRequest(YdbTopic.UpdateTokenRequest.newBuilder()
                             .setToken(token)
@@ -62,8 +64,10 @@ public class ReadSession {
             );
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("ReadSession request: \n{}", request);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Sending request:\n{}", request);
+        } else {
+            logger.debug("Sending request");
         }
         streamConnection.sendNext(request);
     }
