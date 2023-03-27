@@ -117,7 +117,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected void handleStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
+    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
         logger.debug("StopPartitionSessionRequest received. Ignoring.");
     }
 

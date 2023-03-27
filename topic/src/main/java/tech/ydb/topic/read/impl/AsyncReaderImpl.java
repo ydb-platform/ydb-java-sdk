@@ -79,14 +79,12 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
+    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
         final long partitionSessionId = request.getPartitionSessionId();
         final long committedOffset = request.getCommittedOffset();
-        final boolean isGraceful = request.getGraceful();
         final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(
                 partitionSessionId,
                 committedOffset,
-                isGraceful,
                 () -> sendStopPartitionSessionResponse(partitionSessionId)
         );
         handlerExecutor.execute(() -> {
