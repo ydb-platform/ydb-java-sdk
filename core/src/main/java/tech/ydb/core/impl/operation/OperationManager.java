@@ -3,11 +3,10 @@ package tech.ydb.core.impl.operation;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
 
 import com.google.common.annotations.VisibleForTesting;
-import io.grpc.MethodDescriptor;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +28,6 @@ public final class OperationManager {
             .getLogger(OperationManager.class);
     private static final long OPERATION_CHECK_TIMEOUT_MS = 1_000;
 
-
     private final GrpcTransport transport;
     private final ScheduledExecutorService scheduledExecutorService;
     private final GrpcRequestSettings requestSettings = GrpcRequestSettings.newBuilder().build();
@@ -39,102 +37,112 @@ public final class OperationManager {
         this.scheduledExecutorService = transport.getScheduler();
     }
 
-    public Operation startPollingOperation() {
-        return null;
+    public <Value extends Message> Operation<Value> createOperation(
+            final OperationProtos.Operation operationProto,
+            final Class<Value> resultClass
+    ) {
+        Operation<Value> operation = new Operation<>(
+                operationProto.getId(),
+                resultClass,
+                this
+        );
+
+        completeOperation(operationProto, operation);
+
+        return operation;
     }
 
 
-    private void completeOperation(
-            final OperationProtos.Operation operation,
-            final PollingOperation pollingOperation
+    private <Value extends Message> void completeOperation(
+            final OperationProtos.Operation operationProto,
+            final Operation<Value> operation
     ) {
-        if (!operation.getReady() &&
-                pollingOperation.getStatus() != Status.of(StatusCode.CANCELLED)) {
-            scheduledExecutorService.schedule(
-                    () -> {
-                        OperationProtos.GetOperationRequest operationRequest = OperationProtos
-                                .GetOperationRequest
-                                .newBuilder()
-                                .setId(operation.getId())
-                                .build();
-
-                        transport
-                                .unaryCall(
-                                        OperationServiceGrpc.getGetOperationMethod(),
-                                        requestSettings,
-                                        operationRequest
-                                )
-                                .whenCompleteAsync(
-                                        (getOperationResponseResult, throwable) -> {
-                                            if (throwable != null) {
-                                                logger.error("Fail get status poll operation, id: {}",
-                                                        pollingOperation.id, throwable);
-
-                                                return;
-                                            }
-
-                                            if (getOperationResponseResult.isSuccess()) {
-                                                completeOperation(
-                                                        getOperationResponseResult.getValue().getOperation(),
-                                                        pollingOperation
-                                                );
-                                            }
-                                        }
-                                );
-                    },
-                    OPERATION_CHECK_TIMEOUT_MS,
-                    TimeUnit.MILLISECONDS
-            );
-        } else {
-            while (true) {
-                Status status = pollingOperation.getStatus();
-
-                if (status == Status.of(StatusCode.CANCELLED) ||
-                        pollingOperation.status.compareAndSet(
-                                status,
-                                Status.of(StatusCode.fromProto(operation.getStatus()))
-                        )
-                ) {
-                    return;
-                }
-            }
+        if (operation.resultCompletableFuture.isCancelled()) {
+            return;
         }
 
+        final Status status = status(operationProto);
+
+        if (operationProto.getReady()) {
+            if (status.isSuccess()) {
+                try {
+                    Value resultMessage = operationProto
+                            .getResult()
+                            .unpack(operation.resultClass);
+                    operation.resultCompletableFuture
+                            .complete(Result.success(resultMessage, status));
+                } catch (InvalidProtocolBufferException ex) {
+                    operation.resultCompletableFuture.complete(
+                            Result.error(
+                                    "Can't unpack message " + operation.resultClass.getName(),
+                                    ex
+                            )
+                    );
+                }
+            } else {
+                operation.resultCompletableFuture.complete(Result.fail(status));
+            }
+
+            return;
+        }
+
+        scheduledExecutorService.schedule(
+                () -> {
+                    OperationProtos.GetOperationRequest request = OperationProtos.GetOperationRequest
+                            .newBuilder()
+                            .setId(operation.operationId)
+                            .build();
+
+                    transport.unaryCall(
+                            OperationServiceGrpc.getGetOperationMethod(),
+                            requestSettings,
+                            request
+                    ).whenComplete(
+                            (getOperationResponseResult, throwable) -> {
+                                if (throwable != null) {
+                                    operation.resultCompletableFuture.completeExceptionally(throwable);
+                                } else if (getOperationResponseResult != null) {
+                                    if (getOperationResponseResult.isSuccess()) {
+                                        completeOperation(
+                                                getOperationResponseResult.getValue().getOperation(),
+                                                operation
+                                        );
+                                    } else {
+                                        operation.resultCompletableFuture.complete(
+                                                getOperationResponseResult.map(null)
+                                        );
+                                    }
+                                }
+                            }
+                    );
+                },
+                OPERATION_CHECK_TIMEOUT_MS,
+                TimeUnit.MILLISECONDS
+        );
     }
 
     private CompletableFuture<Result<OperationProtos.CancelOperationResponse>> cancel(
-            final PollingOperation operation
+            final Operation<?> operation
     ) {
         return transport.unaryCall(
                 OperationServiceGrpc.getCancelOperationMethod(),
                 GrpcRequestSettings.newBuilder()
                         .build(),
                 OperationProtos.CancelOperationRequest.newBuilder()
-                        .setId(operation.id)
+                        .setId(operation.operationId)
                         .build()
         ).whenComplete(
                 (cancelOperationResponseResult, throwable) -> {
                     if (throwable != null) {
-                        logger.error("Fail cancel polling operation with id: {}", operation.id, throwable);
+                        logger.error("Fail cancel polling operation with id: {}", operation.operationId, throwable);
                     }
 
                     if (cancelOperationResponseResult.isSuccess()) {
-                        logger.info("Success cancel polling operation with id: {}", operation.id);
+                        logger.info("Success cancel polling operation with id: {}", operation.operationId);
 
-                        while (true) {
-                            Status status = operation.getStatus();
-
-                            if (status == Status.SUCCESS ||
-                                    operation.status.compareAndSet(
-                                            status,
-                                            Status.of(StatusCode.CANCELLED)
-                                    )
-                            ) {
-                                break;
-                            }
-                        }
+                        // TODO set status
                     } else {
-                        logger.error("Fail cancel polling operation with id: {}", operation.id);
+                        logger.error("Fail cancel polling operation with id: {}", operation.operationId);
                     }
                 }
         );
@@ -155,30 +163,33 @@ public final class OperationManager {
         );
     }
 
-    public static class PollingOperation<T> {
+    public static class Operation<Value extends Message> {
 
+        private final String operationId;
+        private final Class<Value> resultClass;
         private final OperationManager operationManager;
-        private final AtomicReference<Status> status; // ComFuture
-        private final String id;
+        private final CompletableFuture<Result<Value>> resultCompletableFuture;
 
-        private Result<T> result;
-
-        private PollingOperation(
-                OperationManager operationManager,
-                Status status,
-                String id
+        public Operation(
+                String operationId,
+                Class<Value> resultClass,
+                OperationManager operationManager
         ) {
+            this.operationId = operationId;
+            this.resultClass = resultClass;
             this.operationManager = operationManager;
-            this.status = new AtomicReference<>(status);
-            this.id = id;
+            this.resultCompletableFuture = new CompletableFuture<>();
         }
 
-        public Status getStatus() {
-            return status.get();
+        public Result<Value> getValue() {
+            return resultCompletableFuture.join();
         }
 
-        public CompletableFuture<Result<OperationProtos.CancelOperationResponse>> cancel() {
-            return operationManager.cancel(this);
+        public void cancel() {
+            operationManager.cancel(this)
+                    .whenComplete((cancelOperationResponseResult, throwable) ->
+                            resultCompletableFuture.complete(Result.fail(Status.of(StatusCode.CANCELLED)))
+                    );
         }
     }
 }
