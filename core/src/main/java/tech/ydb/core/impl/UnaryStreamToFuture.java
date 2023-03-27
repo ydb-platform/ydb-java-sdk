@@ -1,6 +1,7 @@
 package tech.ydb.core.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
@@ -29,7 +30,7 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
     private final CompletableFuture<Result<T>> responseFuture;
     private final Consumer<Metadata> trailersHandler;
     private final Consumer<io.grpc.Status> statusHandler;
-    private T value;
+    private final AtomicReference<T> value = new AtomicReference<>();
 
     public UnaryStreamToFuture(CompletableFuture<Result<T>> responseFuture,
             Consumer<Metadata> trailersHandler,
@@ -41,10 +42,9 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
 
     @Override
     public void onMessage(T value) {
-        if (this.value != null) {
+        if (!this.value.compareAndSet(null, value)) {
             responseFuture.complete(Result.fail(MULTIPLY_VALUES));
         }
-        this.value = value;
     }
 
     @Override
@@ -57,10 +57,12 @@ public class UnaryStreamToFuture<T> extends ClientCall.Listener<T> {
         }
 
         if (status.isOk()) {
-            if (value == null) {
+            T snapshotValue = value.get();
+
+            if (snapshotValue == null) {
                 responseFuture.complete(Result.fail(NO_VALUE));
             } else {
-                responseFuture.complete(Result.success(value));
+                responseFuture.complete(Result.success(snapshotValue));
             }
         } else {
             responseFuture.complete(GrpcStatuses.toResult(status));
