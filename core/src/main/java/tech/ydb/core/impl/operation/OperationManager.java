@@ -1,4 +1,4 @@
-package tech.ydb.core.impl.polling;
+package tech.ydb.core.impl.operation;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Function;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.grpc.MethodDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +23,10 @@ import tech.ydb.operation.v1.OperationServiceGrpc;
 /**
  * @author Kirill Kurdyukov
  */
-public final class PollingOperationManager {
+public final class OperationManager {
 
     private static final Logger logger = LoggerFactory
-            .getLogger(PollingOperationManager.class);
+            .getLogger(OperationManager.class);
     private static final long OPERATION_CHECK_TIMEOUT_MS = 1_000;
 
 
@@ -33,44 +34,13 @@ public final class PollingOperationManager {
     private final ScheduledExecutorService scheduledExecutorService;
     private final GrpcRequestSettings requestSettings = GrpcRequestSettings.newBuilder().build();
 
-    public PollingOperationManager(GrpcTransport transport) {
+    public OperationManager(GrpcTransport transport) {
         this.transport = transport;
         this.scheduledExecutorService = transport.getScheduler();
     }
 
-    public <ReqT, RespT> CompletableFuture<Result<PollingOperation>> startPollingOperation(
-            MethodDescriptor<ReqT, RespT> serviceRpcMethod,
-            ReqT request,
-            Function<RespT, OperationProtos.Operation> operationIdFetcher
-    ) {
-        return transport
-                .unaryCall(serviceRpcMethod, requestSettings, request)
-                .handleAsync(
-                        (result, ex) -> {
-                            if (ex != null || result == null) {
-                                return Result.error("Fail start polling operation", ex);
-                            }
-
-                            if (!result.isSuccess()) {
-                                return result.map(null);
-                            } else {
-                                final OperationProtos.Operation operation = operationIdFetcher
-                                        .apply(result.getValue());
-
-                                Status status = fetchStatus(operation);
-
-                                final PollingOperation pollingOperation = new PollingOperation(
-                                        this,
-                                        status,
-                                        operation.getId()
-                                );
-
-                                completeOperation(operation, pollingOperation);
-
-                                return Result.success(pollingOperation);
-                            }
-                        }
-                );
+    public Operation startPollingOperation() {
+        return null;
     }
 
 
@@ -142,7 +112,7 @@ public final class PollingOperationManager {
                 OperationProtos.CancelOperationRequest.newBuilder()
                         .setId(operation.id)
                         .build()
-        ).whenCompleteAsync(
+        ).whenComplete(
                 (cancelOperationResponseResult, throwable) -> {
                     if (throwable != null) {
                         logger.error("Fail cancel polling operation with id: {}", operation.id, throwable);
@@ -170,24 +140,31 @@ public final class PollingOperationManager {
         );
     }
 
-    private static Status fetchStatus(OperationProtos.Operation operation) {
+    @VisibleForTesting
+    static Status status(OperationProtos.Operation operation) {
         StatusCode code = StatusCode.fromProto(operation.getStatus());
         Double consumedRu = null;
         if (operation.hasCostInfo()) {
             consumedRu = operation.getCostInfo().getConsumedUnits();
         }
 
-        return Status.of(code, consumedRu, Issue.fromPb(operation.getIssuesList()));
+        return Status.of(
+                code,
+                consumedRu,
+                Issue.fromPb(operation.getIssuesList())
+        );
     }
 
-    public static class PollingOperation {
+    public static class PollingOperation<T> {
 
-        private final PollingOperationManager operationManager;
-        private final AtomicReference<Status> status;
+        private final OperationManager operationManager;
+        private final AtomicReference<Status> status; // ComFuture
         private final String id;
 
+        private Result<T> result;
+
         private PollingOperation(
-                PollingOperationManager operationManager,
+                OperationManager operationManager,
                 Status status,
                 String id
         ) {
