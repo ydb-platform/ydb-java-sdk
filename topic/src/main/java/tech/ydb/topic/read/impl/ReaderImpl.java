@@ -191,10 +191,21 @@ public abstract class ReaderImpl {
         }
     }
 
+    protected void handleStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
+        if (request.getGraceful()) {
+            handleStopPartitionSession(request);
+        } else {
+            PartitionSession partitionSession = partitionSessions.remove(request.getPartitionSessionId());
+            if (partitionSession != null) {
+                closePartitionSession(partitionSession);
+            }
+        }
+    }
+
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
     protected abstract void handleStartPartitionSessionRequest(
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request);
-    protected abstract void handleStopPartitionSessionRequest(
+    protected abstract void handleStopPartitionSession(
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest request);
     protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
     protected abstract void handleCloseReader();
@@ -248,11 +259,13 @@ public abstract class ReaderImpl {
     }
 
     private void closePartitionSessions() {
-        partitionSessions.values().forEach(partitionSession -> {
-            partitionSession.shutdown();
-            handleClosePartitionSession(partitionSession);
-        });
+        partitionSessions.values().forEach(this::closePartitionSession);
         partitionSessions.clear();
+    }
+
+    private void closePartitionSession(PartitionSession partitionSession) {
+        partitionSession.shutdown();
+        handleClosePartitionSession(partitionSession);
     }
 
     private void processMessage(YdbTopic.StreamReadMessage.FromServer message) {

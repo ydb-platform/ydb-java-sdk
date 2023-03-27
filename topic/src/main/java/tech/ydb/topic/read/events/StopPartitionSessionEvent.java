@@ -8,7 +8,5 @@ public interface StopPartitionSessionEvent {
 
     long getCommittedOffset();
 
-    boolean isGraceful();
-
     void confirm();
 }
