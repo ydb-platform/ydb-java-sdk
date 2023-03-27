@@ -113,12 +113,22 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
-        sendStartPartitionSessionResponse(request);
+        sendStartPartitionSessionResponse(request, null);
     }
 
     @Override
     protected void handleStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
         logger.debug("StopPartitionSessionRequest received. Ignoring.");
+    }
+
+    @Override
+    protected void handleClosePartitionSession(tech.ydb.topic.read.impl.PartitionSession partitionSession) {
+        logger.debug("ClosePartitionSession event received. Ignoring.");
+    }
+
+    @Override
+    protected void handleCloseReader() {
+        logger.debug("CloseReader event received. Ignoring.");
     }
 
     @Override

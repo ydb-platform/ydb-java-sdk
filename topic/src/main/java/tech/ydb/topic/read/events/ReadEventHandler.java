@@ -17,7 +17,7 @@ public interface ReadEventHandler {
 
     void onPartitionSessionClosed(PartitionSessionClosedEvent event);
 
-    void onSessionClosed(SessionClosedEvent event);
+    void onReaderClosed(ReaderClosedEvent event);
 
     void onError(Throwable throwable);
 }

@@ -33,7 +33,7 @@ public abstract class AbstractReadEventHandler implements ReadEventHandler {
     }
 
     @Override
-    public void onSessionClosed(SessionClosedEvent event) {
+    public void onReaderClosed(ReaderClosedEvent event) {
 
     }
 

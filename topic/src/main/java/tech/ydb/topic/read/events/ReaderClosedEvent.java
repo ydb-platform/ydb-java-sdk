@@ -3,5 +3,5 @@ package tech.ydb.topic.read.events;
 /**
  * @author Nikolay Perfilov
  */
-public class SessionClosedEvent {
+public class ReaderClosedEvent {
 }

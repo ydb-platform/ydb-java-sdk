@@ -66,6 +66,10 @@ public class PartitionSession {
         return id;
     }
 
+    public long getPartitionId() {
+        return partitionId;
+    }
+
     public String getPath() {
         return path;
     }
