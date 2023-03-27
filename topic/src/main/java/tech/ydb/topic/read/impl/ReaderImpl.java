@@ -1,10 +1,10 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,6 +26,7 @@ import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.StartPartitionSessionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -45,7 +46,7 @@ public abstract class ReaderImpl {
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final AtomicLong sizeBytesToRequest;
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
-    private final Map<Long, PartitionSession> partitionSessions = new HashMap<>();
+    private final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
     private CompletableFuture<Void> initResultFuture = new CompletableFuture<>();
@@ -114,7 +115,8 @@ public abstract class ReaderImpl {
                 .build());
     }
 
-    protected void sendStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
+    protected void sendStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
+                                                     StartPartitionSessionSettings startSettings) {
         PartitionSession partitionSession = PartitionSession.newBuilder()
                 .setId(request.getPartitionSession().getPartitionSessionId())
                 .setPath(request.getPartitionSession().getPath())
@@ -128,11 +130,19 @@ public abstract class ReaderImpl {
                 .build();
         partitionSessions.put(partitionSession.getId(), partitionSession);
 
+        YdbTopic.StreamReadMessage.StartPartitionSessionResponse.Builder responseBuilder =
+                YdbTopic.StreamReadMessage.StartPartitionSessionResponse.newBuilder()
+                        .setPartitionSessionId(partitionSession.getId());
+        if (startSettings != null) {
+            if (startSettings.getReadOffset() != null) {
+                responseBuilder.setReadOffset(startSettings.getReadOffset());
+            }
+            if (startSettings.getCommitOffset() != null) {
+                responseBuilder.setCommitOffset(startSettings.getCommitOffset());
+            }
+        }
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
-                .setStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionResponse.newBuilder()
-                        .setPartitionSessionId(partitionSession.getId())
-                        // TODO: set offsets?
-                        .build())
+                .setStartPartitionSessionResponse(responseBuilder.build())
                 .build());
     }
 
@@ -175,17 +185,19 @@ public abstract class ReaderImpl {
             if (partitionSession != null) {
                 partitionSession.handleCommitResponse(partitionCommittedOffset.getCommittedOffset());
             } else {
-                logger.debug("Received CommitOffsetResponse for closed session with id={}",
+                logger.debug("Received CommitOffsetResponse for closed partition session with id={}",
                         partitionCommittedOffset.getPartitionSessionId());
             }
         }
     }
 
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
-    protected abstract void handleStopPartitionSessionRequest(
-            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request);
     protected abstract void handleStartPartitionSessionRequest(
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request);
+    protected abstract void handleStopPartitionSessionRequest(
+            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request);
+    protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
+    protected abstract void handleCloseReader();
 
     private void commitOffset(long partitionId, OffsetsRange offsets) {
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
@@ -201,8 +213,6 @@ public abstract class ReaderImpl {
     }
 
     private void reconnect() {
-        partitionSessions.values().forEach(PartitionSession::shutdown);
-        partitionSessions.clear();
         this.session = new ReadSession(topicRpc);
         initImpl();
     }
@@ -211,6 +221,8 @@ public abstract class ReaderImpl {
         logger.info("Shutting down Topic Reader");
         isStopped.set(true);
         return CompletableFuture.runAsync(() -> {
+            closePartitionSessions();
+            handleCloseReader();
             if (defaultDecompressionExecutorService != null) {
                 defaultDecompressionExecutorService.shutdown();
             }
@@ -223,6 +235,24 @@ public abstract class ReaderImpl {
             initImpl().completeExceptionally(new RuntimeException(reason));
         }
         shutdownImpl();
+    }
+
+    private void closeSessionsAndScheduleReconnect(int currentReconnectCounter) {
+        closePartitionSessions();
+        int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
+                ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
+                : EXP_BACKOFF_CEILING_MS;
+        // Add jitter
+        delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
+        topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
+    }
+
+    private void closePartitionSessions() {
+        partitionSessions.values().forEach(partitionSession -> {
+            partitionSession.shutdown();
+            handleClosePartitionSession(partitionSession);
+        });
+        partitionSessions.clear();
     }
 
     private void processMessage(YdbTopic.StreamReadMessage.FromServer message) {
@@ -293,12 +323,7 @@ public abstract class ReaderImpl {
             }
         } else {
             logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect...");
-            int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
-                    ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
-                    : EXP_BACKOFF_CEILING_MS;
-            // Add jitter
-            delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
-            topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
+            closeSessionsAndScheduleReconnect(currentReconnectCounter);
         }
     }
 }

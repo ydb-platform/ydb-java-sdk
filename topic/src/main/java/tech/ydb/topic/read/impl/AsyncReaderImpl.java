@@ -13,9 +13,12 @@ import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
+import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
 import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
@@ -69,7 +72,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
                             partitionSession.getPath()),
                     request.getCommittedOffset(),
                     new OffsetsRange(offsetsRange.getStart(), offsetsRange.getEnd()),
-                    () -> sendStartPartitionSessionResponse(request)
+                    (startSettings) -> sendStartPartitionSessionResponse(request, startSettings)
             );
             eventHandler.onStartPartitionSession(event);
         });
@@ -77,17 +80,33 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected void handleStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
+        final long partitionSessionId = request.getPartitionSessionId();
+        final long committedOffset = request.getCommittedOffset();
+        final boolean isGraceful = request.getGraceful();
+        final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(
+                partitionSessionId,
+                committedOffset,
+                isGraceful,
+                () -> sendStopPartitionSessionResponse(partitionSessionId)
+        );
         handlerExecutor.execute(() -> {
-            long partitionSessionId = request.getPartitionSessionId();
-            long committedOffset = request.getCommittedOffset();
-            boolean isGraceful = request.getGraceful();
-            StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(
-                    partitionSessionId,
-                    committedOffset,
-                    isGraceful,
-                    () -> sendStopPartitionSessionResponse(partitionSessionId)
-            );
             eventHandler.onStopPartitionSession(event);
+        });
+    }
+
+    @Override
+    protected void handleClosePartitionSession(tech.ydb.topic.read.impl.PartitionSession partitionSession) {
+        final PartitionSessionClosedEvent event = new PartitionSessionClosedEventImpl(new PartitionSession(
+                partitionSession.getId(), partitionSession.getPartitionId(), partitionSession.getPath()));
+        handlerExecutor.execute(() -> {
+            eventHandler.onPartitionSessionClosed(event);
+        });
+    }
+
+    @Override
+    protected void handleCloseReader() {
+        handlerExecutor.execute(() -> {
+            eventHandler.onReaderClosed(new ReaderClosedEvent());
         });
     }
 
