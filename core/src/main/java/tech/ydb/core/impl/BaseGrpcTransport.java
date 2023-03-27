@@ -21,7 +21,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
-import tech.ydb.core.impl.polling.PollingOperationManager;
+import tech.ydb.core.impl.operation.OperationManager;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.stream.EmptyStream;
 
@@ -36,7 +36,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
             ));
 
-    private final PollingOperationManager pollingOperationManager = new PollingOperationManager(this);
+    private final OperationManager operationManager = new OperationManager(this);
 
     private volatile boolean shutdown = false;
 
@@ -47,8 +47,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
 
     @Override
-    public PollingOperationManager getPollingOperationManager() {
-        return pollingOperationManager;
+    public OperationManager getOperationManager() {
+        return operationManager;
     }
 
     @Override

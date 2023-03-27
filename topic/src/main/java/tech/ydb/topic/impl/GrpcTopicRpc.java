@@ -39,14 +39,14 @@ public final class GrpcTopicRpc implements TopicRpc {
     public CompletableFuture<Status> createTopic(YdbTopic.CreateTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getCreateTopicMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapped(YdbTopic.CreateTopicResponse::getOperation));
+                .thenApply(Operations.statusUnwrapper(YdbTopic.CreateTopicResponse::getOperation));
     }
 
     @Override
     public CompletableFuture<Status> alterTopic(YdbTopic.AlterTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getAlterTopicMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapped(YdbTopic.AlterTopicResponse::getOperation));
+                .thenApply(Operations.statusUnwrapper(YdbTopic.AlterTopicResponse::getOperation));
     }
 
     @Override
@@ -54,7 +54,7 @@ public final class GrpcTopicRpc implements TopicRpc {
                                                                                  GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDescribeTopicMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapped(YdbTopic.DescribeTopicResponse::getOperation,
+                .thenApply(Operations.resultUnwrapper(YdbTopic.DescribeTopicResponse::getOperation,
                         YdbTopic.DescribeTopicResult.class));
     }
 
@@ -62,7 +62,7 @@ public final class GrpcTopicRpc implements TopicRpc {
     public CompletableFuture<Status> dropTopic(YdbTopic.DropTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDropTopicMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapped(YdbTopic.DropTopicResponse::getOperation));
+                .thenApply(Operations.statusUnwrapper(YdbTopic.DropTopicResponse::getOperation));
     }
 
     @Override

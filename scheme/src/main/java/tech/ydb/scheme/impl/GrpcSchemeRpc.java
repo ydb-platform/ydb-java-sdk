@@ -53,7 +53,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     public CompletableFuture<Status> makeDirectory(MakeDirectoryRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getMakeDirectoryMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapped(MakeDirectoryResponse::getOperation));
+                .thenApply(Operations.statusUnwrapper(MakeDirectoryResponse::getOperation));
 
     }
 
@@ -61,7 +61,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     public CompletableFuture<Status> removeDirectory(RemoveDirectoryRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getRemoveDirectoryMethod(), settings, request)
-                .thenApply(Operations.statusUnwrapped(RemoveDirectoryResponse::getOperation));
+                .thenApply(Operations.statusUnwrapper(RemoveDirectoryResponse::getOperation));
     }
 
     @Override
@@ -69,7 +69,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
                                                                               GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getListDirectoryMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapped(ListDirectoryResponse::getOperation, ListDirectoryResult.class));
+                .thenApply(Operations.resultUnwrapper(ListDirectoryResponse::getOperation, ListDirectoryResult.class));
     }
 
     @Override
@@ -77,7 +77,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
                                                                         GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getDescribePathMethod(), settings, request)
-                .thenApply(Operations.resultUnwrapped(DescribePathResponse::getOperation, DescribePathResult.class));
+                .thenApply(Operations.resultUnwrapper(DescribePathResponse::getOperation, DescribePathResult.class));
     }
 
     @Override

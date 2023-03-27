@@ -54,7 +54,7 @@ public class GrpcDiscoveryRpc {
 
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
                 .whenComplete((res, ex) -> transport.close())
-                .thenApply(Operations.resultUnwrapped(
+                .thenApply(Operations.resultUnwrapper(
                         DiscoveryProtos.ListEndpointsResponse::getOperation,
                         DiscoveryProtos.ListEndpointsResult.class
                 ));

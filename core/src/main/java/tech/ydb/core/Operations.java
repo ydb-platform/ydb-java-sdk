@@ -14,6 +14,7 @@ import tech.ydb.core.utils.ProtobufUtils;
 
 /**
  * @author Sergey Polovko
+ * @author Kirill Kurdyukov
  */
 public final class Operations {
     private static final Status ASYNC_ARE_UNSUPPORTED = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
@@ -31,7 +32,7 @@ public final class Operations {
         return Status.of(code, consumedRu, Issue.fromPb(operation.getIssuesList()));
     }
 
-    public static <R, M extends Message> Function<Result<R>, Result<M>> resultUnwrapped(
+    public static <R, M extends Message> Function<Result<R>, Result<M>> resultUnwrapper(
         Function<R, OperationProtos.Operation> operationExtractor,
         Class<M> resultClass) {
         return (result) -> {
@@ -56,7 +57,7 @@ public final class Operations {
         };
     }
 
-    public static <R> Function<Result<R>, Status> statusUnwrapped(
+    public static <R> Function<Result<R>, Status> statusUnwrapper(
         Function<R, OperationProtos.Operation> operationExtractor) {
         return (result) -> {
             if (!result.isSuccess()) {
