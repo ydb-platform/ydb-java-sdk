@@ -140,7 +140,9 @@ public final class OperationManager {
                     if (cancelOperationResponseResult.isSuccess()) {
                         logger.info("Success cancel polling operation with id: {}", operation.operationId);
 
-                        // TODO set status
+                        operation.resultCompletableFuture.complete(
+                                Result.fail(Status.of(StatusCode.CANCELLED))
+                        );
                     } else {
                         logger.error("Fail cancel polling operation with id: {}", operation.operationId);
                     }
@@ -186,10 +188,7 @@ public final class OperationManager {
         }
 
         public void cancel() {
-            operationManager.cancel(this)
-                    .whenComplete((cancelOperationResponseResult, throwable) ->
-                            resultCompletableFuture.complete(Result.fail(Status.of(StatusCode.CANCELLED)))
-                    );
+            operationManager.cancel(this);
         }
     }
 }
