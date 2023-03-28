@@ -12,10 +12,10 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.impl.operation.OperationUtils;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.topic.TopicClient;
@@ -84,7 +84,7 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public CompletableFuture<Status> createTopic(String path, CreateTopicSettings settings) {
         YdbTopic.CreateTopicRequest.Builder requestBuilder = YdbTopic.CreateTopicRequest.newBuilder()
-                .setOperationParams(Operations.createParams(settings))
+                .setOperationParams(OperationUtils.createParams(settings))
                 .setPath(path)
                 .setRetentionStorageMb(settings.getRetentionStorageMb())
                 .setPartitionWriteSpeedBytesPerSecond(settings.getPartitionWriteSpeedBytesPerSecond())
@@ -120,7 +120,7 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public CompletableFuture<Status> alterTopic(String path, AlterTopicSettings settings) {
         YdbTopic.AlterTopicRequest.Builder requestBuilder = YdbTopic.AlterTopicRequest.newBuilder()
-                .setOperationParams(Operations.createParams(settings))
+                .setOperationParams(OperationUtils.createParams(settings))
                 .setPath(path)/*
                 .putAllAttributes(settings.getAttributes())
                 .setMeteringMode(toProto(settings.getMeteringMode()))*/;
@@ -205,7 +205,7 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public CompletableFuture<Status> dropTopic(String path, DropTopicSettings settings) {
         YdbTopic.DropTopicRequest request = YdbTopic.DropTopicRequest.newBuilder()
-                .setOperationParams(Operations.createParams(settings))
+                .setOperationParams(OperationUtils.createParams(settings))
                 .setPath(path)
                 .build();
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
@@ -215,7 +215,7 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public CompletableFuture<Result<TopicDescription>> describeTopic(String path, DescribeTopicSettings settings) {
         YdbTopic.DescribeTopicRequest request = YdbTopic.DescribeTopicRequest.newBuilder()
-                .setOperationParams(Operations.createParams(settings))
+                .setOperationParams(OperationUtils.createParams(settings))
                 .setPath(path)
                 .build();
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);

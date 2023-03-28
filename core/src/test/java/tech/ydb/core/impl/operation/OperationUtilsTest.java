@@ -1,10 +1,13 @@
-package tech.ydb.core;
+package tech.ydb.core.impl.operation;
 
 import org.junit.Test;
 
 import tech.ydb.OperationProtos.Operation;
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.YdbIssueMessage.IssueMessage;
+import tech.ydb.core.Issue;
+import tech.ydb.core.Status;
+import tech.ydb.core.impl.operation.OperationUtils;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -14,11 +17,11 @@ import static org.junit.Assert.assertTrue;
 /**
  * @author Sergey Polovko
  */
-public class OperationsTest {
+public class OperationUtilsTest {
 
     @Test
     public void successWithoutIssues() {
-        Status s = Operations.status(Operation.newBuilder()
+        Status s = OperationUtils.status(Operation.newBuilder()
             .setStatus(StatusIds.StatusCode.SUCCESS)
             .setId("some-id")
             .setReady(true)
@@ -30,7 +33,7 @@ public class OperationsTest {
 
     @Test
     public void successWithIssues() {
-        Status s = Operations.status(Operation.newBuilder()
+        Status s = OperationUtils.status(Operation.newBuilder()
             .setStatus(StatusIds.StatusCode.SUCCESS)
             .setId("some-id")
             .setReady(true)
