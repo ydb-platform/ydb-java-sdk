@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.operation.OperationManager;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -24,21 +25,30 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
     private final String database;
     private final GrpcChannel channel;
 
+    private final OperationManager operationManager;
+
     public FixedCallOptionsTransport(
             ScheduledExecutorService scheduler,
             AuthCallOptions callOptions,
             String database,
             EndpointRecord endpoint,
-            ManagedChannelFactory channelFactory) {
+            ManagedChannelFactory channelFactory,
+            OperationManager operationManager) {
         this.scheduler = scheduler;
         this.callOptions = callOptions;
         this.database = database;
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
+        this.operationManager = operationManager;
     }
 
     @Override
     public ScheduledExecutorService getScheduler() {
         return scheduler;
+    }
+
+    @Override
+    public OperationManager getOperationManager() {
+        return operationManager;
     }
 
     @Override

@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.operation.OperationManager;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -25,6 +26,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     private final GrpcChannel channel;
     private final String database;
     private final ScheduledExecutorService scheduler;
+    private final OperationManager operationManager;
 
     public SingleChannelTransport(GrpcTransportBuilder builder) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
@@ -43,11 +45,17 @@ public class SingleChannelTransport extends BaseGrpcTransport {
                 builder.getCallExecutor()
         );
         this.scheduler = YdbSchedulerFactory.createScheduler();
+        this.operationManager = new OperationManager(this);
     }
 
     @Override
     public ScheduledExecutorService getScheduler() {
         return scheduler;
+    }
+
+    @Override
+    public OperationManager getOperationManager() {
+        return operationManager;
     }
 
     @Override

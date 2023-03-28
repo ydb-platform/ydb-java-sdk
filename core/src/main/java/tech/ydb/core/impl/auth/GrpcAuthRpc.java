@@ -58,7 +58,8 @@ public class GrpcAuthRpc {
                 new AuthCallOptions(),
                 parent.getDatabase(),
                 endpoints.get(endpointIdx.get()),
-                channelFactory
+                channelFactory,
+                parent.getOperationManager()
         );
     }
 

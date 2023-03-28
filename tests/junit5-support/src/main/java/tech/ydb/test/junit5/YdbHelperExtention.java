@@ -20,7 +20,7 @@ import tech.ydb.test.integration.utils.ProxyYdbHelper;
  */
 public class YdbHelperExtention extends ProxyYdbHelper implements ExecutionCondition,
         BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
-    private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtention.class);
+    private static final Logger logger = LoggerFactory.getLogger(GrpTransportExtension.class);
 
     private final Holder holder = new Holder();
 

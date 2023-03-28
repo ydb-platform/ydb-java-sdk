@@ -36,8 +36,6 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
             ));
 
-    private final OperationManager operationManager = new OperationManager(this);
-
     private volatile boolean shutdown = false;
 
     public abstract AuthCallOptions getAuthCallOptions();
@@ -45,11 +43,6 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);
 
     abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
-
-    @Override
-    public OperationManager getOperationManager() {
-        return operationManager;
-    }
 
     @Override
     public void close() {

@@ -66,7 +66,8 @@ public class GrpcDiscoveryRpc {
                 parent.getAuthCallOptions(),
                 parent.getDatabase(),
                 endpoint,
-                channelFactory
+                channelFactory,
+                parent.getOperationManager()
         );
     }
 }
