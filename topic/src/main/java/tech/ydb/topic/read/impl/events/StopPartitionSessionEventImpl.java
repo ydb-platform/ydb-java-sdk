@@ -8,29 +8,25 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 public class StopPartitionSessionEventImpl implements StopPartitionSessionEvent {
     private final long partitionSessionId;
     private final long committedOffset;
-    private final boolean isGraceful;
     private final Runnable confirmCallback;
 
-    public StopPartitionSessionEventImpl(long partitionSessionId, long committedOffset, boolean isGraceful,
-                                         Runnable confirmCallback) {
+    public StopPartitionSessionEventImpl(long partitionSessionId, long committedOffset, Runnable confirmCallback) {
         this.partitionSessionId = partitionSessionId;
         this.committedOffset = committedOffset;
-        this.isGraceful = isGraceful;
         this.confirmCallback = confirmCallback;
     }
 
+    @Override
     public long getPartitionSessionId() {
         return partitionSessionId;
     }
 
+    @Override
     public long getCommittedOffset() {
         return committedOffset;
     }
 
-    public boolean isGraceful() {
-        return isGraceful;
-    }
-
+    @Override
     public void confirm() {
         confirmCallback.run();
     }
