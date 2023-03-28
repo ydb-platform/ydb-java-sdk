@@ -3,15 +3,14 @@ package tech.ydb.core.impl.operation;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.OperationProtos;
-import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -37,7 +36,48 @@ public final class OperationManager {
         this.scheduledExecutorService = transport.getScheduler();
     }
 
-    public <Value extends Message> Operation<Value> createOperation(
+    public <
+            ResultRpc,
+            UnwrapperResult extends Message
+            >
+    Function<Result<ResultRpc>, CompletableFuture<Result<UnwrapperResult>>> resultUnwrapper(
+            Function<ResultRpc, OperationProtos.Operation> operationExtractor,
+            Class<UnwrapperResult> resultClass
+    ) {
+        return (result) -> {
+            if (!result.isSuccess()) {
+                CompletableFuture<Result<UnwrapperResult>> future = new CompletableFuture<>();
+                future.complete(result.map(null));
+
+                return future;
+            }
+
+            return createOperation(
+                    operationExtractor.apply(result.getValue()),
+                    resultClass
+            ).getResultFuture();
+        };
+    }
+
+    public <ResultRpc> Function<Result<ResultRpc>, CompletableFuture<Status>> statusUnwrapper(
+            Function<ResultRpc, OperationProtos.Operation> operationExtractor) {
+        return (result) -> {
+            if (!result.isSuccess()) {
+                CompletableFuture<Status> future = new CompletableFuture<>();
+                future.complete(result.getStatus());
+
+                return future;
+            }
+
+            return createOperation(
+                    operationExtractor.apply(result.getValue()),
+                    null
+            ).getResultFuture()
+                    .thenApply(Result::getStatus);
+        };
+    }
+
+    private <Value extends Message> Operation<Value> createOperation(
             final OperationProtos.Operation operationProto,
             final Class<Value> resultClass
     ) {
@@ -61,14 +101,19 @@ public final class OperationManager {
             return;
         }
 
-        final Status status = status(operationProto);
+        final Status status = OperationUtils.status(operationProto);
 
         if (operationProto.getReady()) {
             if (status.isSuccess()) {
                 try {
-                    Value resultMessage = operationProto
-                            .getResult()
-                            .unpack(operation.resultClass);
+                    Value resultMessage = null;
+
+                    if (operation.resultClass != null) {
+                        resultMessage = operationProto
+                                .getResult()
+                                .unpack(operation.resultClass);
+                    }
+
                     operation.resultCompletableFuture
                             .complete(Result.success(resultMessage, status));
                 } catch (InvalidProtocolBufferException ex) {
@@ -150,21 +195,6 @@ public final class OperationManager {
         );
     }
 
-    @VisibleForTesting
-    static Status status(OperationProtos.Operation operation) {
-        StatusCode code = StatusCode.fromProto(operation.getStatus());
-        Double consumedRu = null;
-        if (operation.hasCostInfo()) {
-            consumedRu = operation.getCostInfo().getConsumedUnits();
-        }
-
-        return Status.of(
-                code,
-                consumedRu,
-                Issue.fromPb(operation.getIssuesList())
-        );
-    }
-
     public static class Operation<Value extends Message> {
 
         private final String operationId;
@@ -172,7 +202,7 @@ public final class OperationManager {
         private final OperationManager operationManager;
         private final CompletableFuture<Result<Value>> resultCompletableFuture;
 
-        public Operation(
+        private Operation(
                 String operationId,
                 Class<Value> resultClass,
                 OperationManager operationManager
@@ -183,13 +213,13 @@ public final class OperationManager {
             this.resultCompletableFuture = new CompletableFuture<>();
         }
 
-        public Result<Value> getValue() {
-            return resultCompletableFuture.join();
+        public CompletableFuture<Result<Value>> getResultFuture() {
+            return resultCompletableFuture;
         }
 
         public CompletableFuture<Result<Value>> cancel() {
             return operationManager.cancel(this)
-                    .thenApply(cancelOperationResponseResult -> getValue());
+                    .thenCompose(cancelOperationResponseResult -> getResultFuture());
         }
     }
 }

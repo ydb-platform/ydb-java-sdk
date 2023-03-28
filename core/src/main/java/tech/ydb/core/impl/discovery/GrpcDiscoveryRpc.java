@@ -7,12 +7,12 @@ import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.FixedCallOptionsTransport;
+import tech.ydb.core.impl.operation.OperationManager;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.discovery.DiscoveryProtos;
@@ -30,6 +30,7 @@ public class GrpcDiscoveryRpc {
     private final BaseGrpcTransport parent;
     private final EndpointRecord endpoint;
     private final ManagedChannelFactory channelFactory;
+    private final OperationManager operationManager;
 
     public GrpcDiscoveryRpc(
             BaseGrpcTransport parent,
@@ -38,6 +39,7 @@ public class GrpcDiscoveryRpc {
         this.parent = parent;
         this.endpoint = endpoint;
         this.channelFactory = channelFactory;
+        this.operationManager = parent.getOperationManager();
     }
 
     public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
@@ -54,7 +56,7 @@ public class GrpcDiscoveryRpc {
 
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
                 .whenComplete((res, ex) -> transport.close())
-                .thenApply(Operations.resultUnwrapper(
+                .thenCompose(operationManager.resultUnwrapper(
                         DiscoveryProtos.ListEndpointsResponse::getOperation,
                         DiscoveryProtos.ListEndpointsResult.class
                 ));

@@ -1,5 +1,6 @@
 ## 2.1.0 ##
 
+* Support pulling operations
 * Added Topic API support
 * Added support detect local dc
 * Support creating asynchronous index in createTable and describeTable
