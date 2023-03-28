@@ -187,8 +187,9 @@ public final class OperationManager {
             return resultCompletableFuture.join();
         }
 
-        public void cancel() {
-            operationManager.cancel(this);
+        public CompletableFuture<Result<Value>> cancel() {
+            return operationManager.cancel(this)
+                    .thenApply(cancelOperationResponseResult -> getValue());
         }
     }
 }
