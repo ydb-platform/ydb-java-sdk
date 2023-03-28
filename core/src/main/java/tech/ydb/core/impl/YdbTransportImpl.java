@@ -18,6 +18,7 @@ import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.discovery.GrpcDiscoveryRpc;
 import tech.ydb.core.impl.discovery.PeriodicDiscoveryTask;
+import tech.ydb.core.impl.operation.OperationManager;
 import tech.ydb.core.impl.pool.EndpointPool;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
@@ -39,6 +40,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private final GrpcChannelPool channelPool;
     private final PeriodicDiscoveryTask periodicDiscoveryTask;
     private final ScheduledExecutorService scheduler;
+    private final OperationManager operationManager;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
@@ -63,6 +65,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         this.endpointPool = new EndpointPool(balancingSettings);
 
         this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, new YdbDiscoveryHandler());
+
+        this.operationManager = new OperationManager(this);
     }
 
     public void init() {
@@ -113,6 +117,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     @Override
     public ScheduledExecutorService getScheduler() {
         return scheduler;
+    }
+
+    @Override
+    public OperationManager getOperationManager() {
+        return operationManager;
     }
 
     @Override

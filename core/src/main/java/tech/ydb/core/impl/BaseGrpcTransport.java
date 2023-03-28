@@ -38,7 +38,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     private final OperationManager operationManager = new OperationManager(this);
 
-    protected volatile boolean shutdown = false;
+    private volatile boolean shutdown = false;
 
     public abstract AuthCallOptions getAuthCallOptions();
 
