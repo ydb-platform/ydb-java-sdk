@@ -55,7 +55,8 @@ final class ProtoOptionalValueReader extends AbstractValueReader {
 
     @Override
     public ValueReader getOptionalItem() {
-        return present ? itemReader : null;
+        // we can return itemReader for empty values, it contains only empty value with NULL_FLAG_VALUE
+        return itemReader;
     }
 
     @Override
