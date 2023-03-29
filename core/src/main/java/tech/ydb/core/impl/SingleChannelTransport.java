@@ -36,6 +36,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
+        this.operationManager = new OperationManager(this);
 
         this.callOptions = new AuthCallOptions(this,
                 Collections.singletonList(endpoint),
@@ -45,7 +46,6 @@ public class SingleChannelTransport extends BaseGrpcTransport {
                 builder.getCallExecutor()
         );
         this.scheduler = YdbSchedulerFactory.createScheduler();
-        this.operationManager = new OperationManager(this);
     }
 
     @Override

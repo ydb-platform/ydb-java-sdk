@@ -46,6 +46,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.scheduler = YdbSchedulerFactory.createScheduler();
+        this.operationManager = new OperationManager(this);
 
         List<EndpointRecord> endpoints = new ArrayList<>();
         DiscoveryProtos.ListEndpointsResult.Builder discoveryBuilder = DiscoveryProtos.ListEndpointsResult.newBuilder();
@@ -68,7 +69,6 @@ public class MultiChannelTransport extends BaseGrpcTransport {
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());
-        this.operationManager = new OperationManager(this);
     }
 
     @Override
