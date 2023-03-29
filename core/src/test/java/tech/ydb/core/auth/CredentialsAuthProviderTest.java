@@ -23,6 +23,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
+import tech.ydb.core.impl.operation.OperationManager;
 
 /**
  *
@@ -32,6 +33,7 @@ public class CredentialsAuthProviderTest {
     private final Clock clock = Mockito.mock(Clock.class);
     private final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
     private final GrpcAuthRpc rpc = Mockito.mock(GrpcAuthRpc.class);
+    private final OperationManager operationManager = new OperationManager(transport);
 
     // Wednesday, June 1, 2022 00:00:00 UTC
     private final Instant now = Instant.ofEpochSecond(1654041600);
@@ -41,12 +43,13 @@ public class CredentialsAuthProviderTest {
         Mockito.when(rpc.getDatabase()).thenReturn("Mocked database name");
         Mockito.when(rpc.createTransport()).thenReturn(transport);
         Mockito.when(rpc.getExecutor()).thenReturn(MoreExecutors.newDirectExecutorService());
+        Mockito.when(transport.getOperationManager()).thenReturn(operationManager);
     }
 
     @Test
-    public void credentitalsTest() {
+    public void credentialsTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
-        Status unauhtorized = Status.of(StatusCode.UNAUTHORIZED);
+        Status unauthorized = Status.of(StatusCode.UNAUTHORIZED);
 
         Mockito.when(clock.instant()).thenReturn(now);
 
@@ -64,7 +67,7 @@ public class CredentialsAuthProviderTest {
                 Mockito.argThat(
                         req -> !req.getUser().equals("user") || !req.getPassword().equals("pass1")
                 )
-        )).thenReturn(CompletableFuture.completedFuture(Result.fail(unauhtorized)));
+        )).thenReturn(CompletableFuture.completedFuture(Result.fail(unauthorized)));
 
         // With correct credentitals
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass1")) {
@@ -78,7 +81,7 @@ public class CredentialsAuthProviderTest {
                     UnexpectedResultException.class,
                     () -> identity.getToken()
             );
-            Truth.assertThat(ex.getStatus()).isEqualTo(unauhtorized);
+            Truth.assertThat(ex.getStatus()).isEqualTo(unauthorized);
 
             UnexpectedResultException ex2 = Assert.assertThrows(
                     UnexpectedResultException.class,
