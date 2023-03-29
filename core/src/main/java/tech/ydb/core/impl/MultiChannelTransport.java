@@ -46,6 +46,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.scheduler = builder.getSchedulerFactory().get();
+        this.operationManager = new OperationManager(this);
 
         List<EndpointRecord> endpoints = new ArrayList<>();
         DiscoveryProtos.ListEndpointsResult.Builder discoveryBuilder = DiscoveryProtos.ListEndpointsResult.newBuilder();

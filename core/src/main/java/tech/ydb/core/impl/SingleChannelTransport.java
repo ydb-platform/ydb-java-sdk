@@ -44,8 +44,8 @@ public class SingleChannelTransport extends BaseGrpcTransport {
                 builder.getReadTimeoutMillis(),
                 builder.getCallExecutor()
         );
-        this.operationManager = new OperationManager(this);
         this.scheduler = builder.getSchedulerFactory().get();
+        this.operationManager = new OperationManager(this);
     }
 
     @Override

@@ -50,6 +50,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         logger.info("creating YDB transport with {}", balancingSettings);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
+        this.operationManager = new OperationManager(this);
+
         GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory);
 
         this.callOptions = new AuthCallOptions(this,
@@ -65,8 +67,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         this.endpointPool = new EndpointPool(balancingSettings);
 
         this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, new YdbDiscoveryHandler());
-
-        this.operationManager = new OperationManager(this);
     }
 
     public void init() {
