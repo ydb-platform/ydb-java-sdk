@@ -79,13 +79,13 @@ public class CredentialsAuthProviderTest {
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass2")) {
             UnexpectedResultException ex = Assert.assertThrows(
                     UnexpectedResultException.class,
-                    () -> identity.getToken()
+                    identity::getToken
             );
             Truth.assertThat(ex.getStatus()).isEqualTo(unauthorized);
 
             UnexpectedResultException ex2 = Assert.assertThrows(
                     UnexpectedResultException.class,
-                    () -> identity.getToken()
+                    identity::getToken
             );
             Truth.assertThat(ex2).isEqualTo(ex);
         }

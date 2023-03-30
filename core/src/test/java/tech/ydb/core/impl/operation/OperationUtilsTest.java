@@ -7,7 +7,6 @@ import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.YdbIssueMessage.IssueMessage;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
-import tech.ydb.core.impl.operation.OperationUtils;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
