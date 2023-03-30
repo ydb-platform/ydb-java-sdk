@@ -5,6 +5,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
+import javax.annotation.Nullable;
+
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 import org.slf4j.Logger;
@@ -44,18 +46,30 @@ public final class OperationManager {
             Function<ResultRpc, OperationProtos.Operation> operationExtractor,
             Class<UnwrapperResult> resultClass
     ) {
+        return ((Function<Operation<UnwrapperResult>, CompletableFuture<Result<UnwrapperResult>>>)
+                Operation::getResultFuture)
+                .compose(operationUnwrapper(operationExtractor, resultClass));
+    }
+
+    public <
+            ResultRpc,
+            UnwrapperResult extends Message
+            >
+    Function<Result<ResultRpc>, Operation<UnwrapperResult>> operationUnwrapper(
+            Function<ResultRpc, OperationProtos.Operation> operationExtractor,
+            Class<UnwrapperResult> resultClass
+    ) {
         return (result) -> {
             if (!result.isSuccess()) {
-                CompletableFuture<Result<UnwrapperResult>> future = new CompletableFuture<>();
-                future.complete(result.map(null));
-
-                return future;
+                return new FailOperation<>(
+                        result.map(null)
+                );
             }
 
             return createOperation(
                     operationExtractor.apply(result.getValue()),
                     resultClass
-            ).getResultFuture();
+            );
         };
     }
 
@@ -63,10 +77,7 @@ public final class OperationManager {
             Function<ResultRpc, OperationProtos.Operation> operationExtractor) {
         return (result) -> {
             if (!result.isSuccess()) {
-                CompletableFuture<Status> future = new CompletableFuture<>();
-                future.complete(result.getStatus());
-
-                return future;
+                return CompletableFuture.completedFuture(result.getStatus());
             }
 
             return createOperation(
@@ -196,11 +207,10 @@ public final class OperationManager {
     }
 
     public static class Operation<Value extends Message> {
-
         private final String operationId;
         private final Class<Value> resultClass;
         private final OperationManager operationManager;
-        private final CompletableFuture<Result<Value>> resultCompletableFuture;
+        protected final CompletableFuture<Result<Value>> resultCompletableFuture;
 
         private Operation(
                 String operationId,
@@ -213,6 +223,11 @@ public final class OperationManager {
             this.resultCompletableFuture = new CompletableFuture<>();
         }
 
+        @Nullable
+        public String getOperationId() {
+            return operationId;
+        }
+
         public CompletableFuture<Result<Value>> getResultFuture() {
             return resultCompletableFuture;
         }
@@ -220,6 +235,20 @@ public final class OperationManager {
         public CompletableFuture<Result<Value>> cancel() {
             return operationManager.cancel(this)
                     .thenCompose(cancelOperationResponseResult -> getResultFuture());
+        }
+    }
+
+    private static class FailOperation<Value extends Message> extends Operation<Value> {
+
+        private FailOperation(Result<Value> resultFailed) {
+            super(null, null, null);
+
+            resultCompletableFuture.complete(resultFailed);
+        }
+
+        @Override
+        public CompletableFuture<Result<Value>> cancel() {
+            return getResultFuture();
         }
     }
 }
