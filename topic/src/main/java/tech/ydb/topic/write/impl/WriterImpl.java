@@ -185,9 +185,14 @@ public abstract class WriterImpl {
             }
             // This code can be run in one thread at a time due to acquiring writeRequestInProgress
             messages = new LinkedList<>(sendingQueue);
-            sendingQueue.removeAll(messages);
-            sentMessages.addAll(messages);
-            sendMessages(messages);
+            // Checking second time under writeRequestInProgress "lock"
+            if (messages.isEmpty()) {
+                logger.debug("Nothing to send -- sendingQueue is empty #2");
+            } else {
+                sendingQueue.removeAll(messages);
+                sentMessages.addAll(messages);
+                sendMessages(messages);
+            }
             if (!writeRequestInProgress.compareAndSet(true, false)) {
                 logger.error("Couldn't turn off writeRequestInProgress. Should not happen");
             }
