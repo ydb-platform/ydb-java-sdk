@@ -117,6 +117,10 @@ public abstract class WriterImpl {
         this.lastAcceptedMessageFuture = message.getFuture();
         this.currentInFlightCount++;
         this.availableSizeBytes -= message.getUncompressedSizeBytes();
+        if (logger.isDebugEnabled()) {
+            logger.debug("Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, AvailableSizeBytes: {}",
+                    message.getUncompressedSizeBytes(), currentInFlightCount, availableSizeBytes);
+        }
         this.encodingMessages.add(message);
 
         CompletableFuture.runAsync(() -> encode(message), compressionExecutor)
@@ -132,12 +136,17 @@ public abstract class WriterImpl {
                                     && (encodedMessage.isCompressed() || settings.getCodec() == Codec.RAW)) {
                                 encodingMessages.remove();
                                 if (encodedMessage.isCompressed()) {
+                                    if (logger.isTraceEnabled()) {
+                                        logger.trace("Message compressed from {} to {} bytes",
+                                                encodedMessage.getUncompressedSizeBytes(),
+                                                encodedMessage.getCompressedSizeBytes());
+                                    }
                                     // message was actually encoded. Need to free some bytes
                                     long bytesFreed = encodedMessage.getUncompressedSizeBytes()
                                             - encodedMessage.getCompressedSizeBytes();
-                                    if (bytesFreed > 0) {
-                                        free(0, bytesFreed);
-                                    }
+                                    // bytesFreed can be less than 0
+                                    free(0, bytesFreed);
+
                                 }
                                 logger.debug("Adding message to sending queue");
                                 sendingQueue.add(encodedMessage);
@@ -153,10 +162,7 @@ public abstract class WriterImpl {
                 })
                 .exceptionally((throwable) -> {
                     logger.error("Exception while encoding message: ", throwable);
-                    long bytesFreed = message.isCompressed()
-                            ? message.getCompressedSizeBytes()
-                            : message.getUncompressedSizeBytes();
-                    free(1, bytesFreed);
+                    free(1, message.getSizeBytes());
                     message.getFuture().completeExceptionally(throwable);
                     return null;
                 });
@@ -289,9 +295,13 @@ public abstract class WriterImpl {
         synchronized (incomingQueue) {
             currentInFlightCount -= messageCount;
             availableSizeBytes += sizeBytes;
+            if (logger.isDebugEnabled()) {
+                logger.debug("Freed {} bytes in {} messages. Current In-flight: {}, current availableSize: {}",
+                        sizeBytes, messageCount, currentInFlightCount, availableSizeBytes);
+            }
 
             // Try to add waiting messages into send buffer
-            if (!incomingQueue.isEmpty()) {
+            if (sizeBytes > 0 && !incomingQueue.isEmpty()) {
                 while (true) {
                     IncomingMessage incomingMessage = incomingQueue.peek();
                     if (incomingMessage == null) {
@@ -419,7 +429,7 @@ public abstract class WriterImpl {
     }
 
     private void completeSession(Status status, Throwable th) {
-        logger.trace("CompleteSession called");
+        logger.info("CompleteSession called");
         // This session is not working anymore
         this.session.finish();
 
