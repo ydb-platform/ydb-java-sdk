@@ -389,14 +389,20 @@ public abstract class WriterImpl {
                         }
                         if (sentMessage.getSeqNo() < ack.getSeqNo()) {
                             // An older message hasn't received an Ack while a newer message has
+                            logger.warn("Received an ack for seqNo {}, but the oldest seqNo waiting for ack is {}",
+                                    ack.getSeqNo(), sentMessage.getSeqNo());
                             sentMessage.getFuture().completeExceptionally(
                                     new RuntimeException("Didn't get ack from server for this message"));
                             inFlightFreed++;
                             bytesFreed += sentMessage.getSizeBytes();
                             sentMessages.remove();
+                            // Checking next message waiting for ack
+                        } else {
+                            logger.info("Received an ack with seqNo {} which is older than the oldest message with " +
+                                            "seqNo {} waiting for ack",
+                                    ack.getSeqNo(), sentMessage.getSeqNo());
                             break;
                         }
-                        // Received an ack for a message older than the oldest message waiting for Ack. Ignoring
                     }
                 }
             }
