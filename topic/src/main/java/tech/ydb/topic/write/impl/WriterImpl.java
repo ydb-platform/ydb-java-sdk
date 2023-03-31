@@ -117,8 +117,8 @@ public abstract class WriterImpl {
         this.lastAcceptedMessageFuture = message.getFuture();
         this.currentInFlightCount++;
         this.availableSizeBytes -= message.getUncompressedSizeBytes();
-        if (logger.isDebugEnabled()) {
-            logger.debug("Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, AvailableSizeBytes: {}",
+        if (logger.isTraceEnabled()) {
+            logger.trace("Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, AvailableSizeBytes: {}",
                     message.getUncompressedSizeBytes(), currentInFlightCount, availableSizeBytes);
         }
         this.encodingMessages.add(message);
@@ -239,7 +239,9 @@ public abstract class WriterImpl {
     }
 
     private void sendMessages(Queue<EnqueuedMessage> messages) {
-        logger.debug("Sending messages...");
+        if (logger.isDebugEnabled()) {
+            logger.debug("Sending {} messages...", messages.size());
+        }
         YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder = YdbTopic.StreamWriteMessage.WriteRequest
                 .newBuilder()
                 .setCodec(ProtoUtils.toProto(settings.getCodec()));
@@ -300,8 +302,8 @@ public abstract class WriterImpl {
         synchronized (incomingQueue) {
             currentInFlightCount -= messageCount;
             availableSizeBytes += sizeBytes;
-            if (logger.isDebugEnabled()) {
-                logger.debug("Freed {} bytes in {} messages. Current In-flight: {}, current availableSize: {}",
+            if (logger.isTraceEnabled()) {
+                logger.trace("Freed {} bytes in {} messages. Current In-flight: {}, current availableSize: {}",
                         sizeBytes, messageCount, currentInFlightCount, availableSizeBytes);
             }
 
