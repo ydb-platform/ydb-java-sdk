@@ -52,7 +52,7 @@ public abstract class WriterImpl {
     // Messages that are taken into send buffer, are already compressed and are waiting for being sent
     private final Queue<EnqueuedMessage> sendingQueue = new ConcurrentLinkedQueue<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
-    private final Queue<EnqueuedMessage> sentMessages = new LinkedList<>();
+    private final Queue<EnqueuedMessage> sentMessages = new ConcurrentLinkedQueue<>();
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final AtomicBoolean isReconnecting = new AtomicBoolean(false);
@@ -195,8 +195,8 @@ public abstract class WriterImpl {
                 logger.debug("Nothing to send -- sendingQueue is empty #2");
             } else {
                 sendingQueue.removeAll(messages);
-                sentMessages.addAll(messages);
                 sendMessages(messages);
+                sentMessages.addAll(messages);
             }
             if (!writeRequestInProgress.compareAndSet(true, false)) {
                 logger.error("Couldn't turn off writeRequestInProgress. Should not happen");
@@ -386,35 +386,33 @@ public abstract class WriterImpl {
             int inFlightFreed = 0;
             long bytesFreed = 0;
             for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
-                synchronized (sentMessages) {
-                    while (true) {
-                        EnqueuedMessage sentMessage = sentMessages.peek();
-                        if (sentMessage == null) {
-                            break;
-                        }
-                        if (sentMessage.getSeqNo() == ack.getSeqNo()) {
-                            processWriteAck(sentMessage, ack);
-                            inFlightFreed++;
-                            bytesFreed += sentMessage.getSizeBytes();
-                            sentMessages.remove();
-                            break;
-                        }
-                        if (sentMessage.getSeqNo() < ack.getSeqNo()) {
-                            // An older message hasn't received an Ack while a newer message has
-                            logger.warn("Received an ack for seqNo {}, but the oldest seqNo waiting for ack is {}",
-                                    ack.getSeqNo(), sentMessage.getSeqNo());
-                            sentMessage.getFuture().completeExceptionally(
-                                    new RuntimeException("Didn't get ack from server for this message"));
-                            inFlightFreed++;
-                            bytesFreed += sentMessage.getSizeBytes();
-                            sentMessages.remove();
-                            // Checking next message waiting for ack
-                        } else {
-                            logger.info("Received an ack with seqNo {} which is older than the oldest message with " +
-                                            "seqNo {} waiting for ack",
-                                    ack.getSeqNo(), sentMessage.getSeqNo());
-                            break;
-                        }
+                while (true) {
+                    EnqueuedMessage sentMessage = sentMessages.peek();
+                    if (sentMessage == null) {
+                        break;
+                    }
+                    if (sentMessage.getSeqNo() == ack.getSeqNo()) {
+                        processWriteAck(sentMessage, ack);
+                        inFlightFreed++;
+                        bytesFreed += sentMessage.getSizeBytes();
+                        sentMessages.remove();
+                        break;
+                    }
+                    if (sentMessage.getSeqNo() < ack.getSeqNo()) {
+                        // An older message hasn't received an Ack while a newer message has
+                        logger.warn("Received an ack for seqNo {}, but the oldest seqNo waiting for ack is {}",
+                                ack.getSeqNo(), sentMessage.getSeqNo());
+                        sentMessage.getFuture().completeExceptionally(
+                                new RuntimeException("Didn't get ack from server for this message"));
+                        inFlightFreed++;
+                        bytesFreed += sentMessage.getSizeBytes();
+                        sentMessages.remove();
+                        // Checking next message waiting for ack
+                    } else {
+                        logger.info("Received an ack with seqNo {} which is older than the oldest message with " +
+                                        "seqNo {} waiting for ack",
+                                ack.getSeqNo(), sentMessage.getSeqNo());
+                        break;
                     }
                 }
             }
