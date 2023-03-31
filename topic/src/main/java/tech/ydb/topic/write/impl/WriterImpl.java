@@ -55,6 +55,7 @@ public abstract class WriterImpl {
     private final Queue<EnqueuedMessage> sentMessages = new LinkedList<>();
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
     private final AtomicBoolean isStopped = new AtomicBoolean(false);
+    private final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final Executor compressionExecutor;
 
@@ -170,6 +171,10 @@ public abstract class WriterImpl {
 
     private void sendDataRequestIfNeeded() {
         while (true) {
+            if (isReconnecting.get()) {
+                logger.debug("Can't send data -- reconnect in progress");
+                return;
+            }
             if (!initResultFuture.isDone()) {
                 logger.debug("Can't send data -- init was not yet received");
                 return;
@@ -331,11 +336,16 @@ public abstract class WriterImpl {
     }
 
     private void reconnect() {
+        logger.info("Reconnect #{} started", reconnectCounter.get());
         this.session = new WriteSession(topicRpc);
         initImpl();
+        if (!isReconnecting.compareAndSet(true, false)) {
+            logger.warn("Couldn't reset reconnect flag. Shouldn't happen");
+        }
     }
 
     protected CompletableFuture<Void> shutdownImpl() {
+        logger.info("Shutting down Topic Writer");
         isStopped.set(true);
         return flushImpl()
                 .thenRun(() -> session.finish());
@@ -453,10 +463,14 @@ public abstract class WriterImpl {
                 if (isStopped.get()) {
                     logger.info("Writing stream session {} closed successfully", currentSessionId);
                 } else {
-                    logger.error("Writing stream session {} was closed unexpectedly. Shutting down the whole writer.",
-                            currentSessionId);
-                    shutdownImpl("Writing stream session " + currentSessionId
-                            + " was closed unexpectedly. Shutting down writer.");
+                    if (isReconnecting.get()) {
+                        logger.info("Current session is closing, but reconnect is already scheduled");
+                    } else {
+                        logger.error("Writing stream session {} was closed unexpectedly. Shutting down the writer.",
+                                currentSessionId);
+                        shutdownImpl("Writing stream session " + currentSessionId
+                                + " was closed unexpectedly. Shutting down writer.");
+                    }
                 }
                 return;
             }
@@ -477,14 +491,16 @@ public abstract class WriterImpl {
                 logger.debug("Maximum retry count ({}}) exceeded. But writer is already shut down.",
                         MAX_RECONNECT_COUNT);
             }
-        } else {
-            logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect...");
+        } else if (isReconnecting.compareAndSet(false, true)) {
             int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
                     ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
                     : EXP_BACKOFF_CEILING_MS;
             // Add jitter
             delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
+            logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect in {}ms...", delayMs);
             topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
+        } else {
+            logger.debug("Should reconnect, but reconnect is already in progress");
         }
     }
 }
