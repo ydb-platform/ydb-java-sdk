@@ -110,11 +110,6 @@ public class CreateTopicSettings extends OperationSettings {
             return this;
         }
 
-        public Builder setPartitioningSettings(int minActivePartitions, int partitionCountLimit) {
-            this.partitioningSettings = new PartitioningSettings(minActivePartitions, partitionCountLimit);
-            return this;
-        }
-
         public Builder setRetentionPeriod(Duration retentionPeriod) {
             this.retentionPeriod = retentionPeriod;
             return this;
