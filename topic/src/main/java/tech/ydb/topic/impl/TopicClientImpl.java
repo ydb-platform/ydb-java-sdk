@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -190,6 +191,17 @@ public class TopicClientImpl implements TopicClient {
                 if (consumerSupportedCodecs != null) {
                     alterConsumerBuilder.setSetSupportedCodecs(toProto(consumerSupportedCodecs));
                 }
+
+                Map<String, String> consumerAttributes = alterConsumer.getAlterAttributes();
+                if (!consumerAttributes.isEmpty()) {
+                    alterConsumerBuilder.putAllAlterAttributes(consumerAttributes);
+                }
+
+                for (String attributeToDrop : alterConsumer.getDropAttributes()) {
+                    alterConsumerBuilder.putAlterAttributes(attributeToDrop, "");
+                }
+
+                requestBuilder.addAlterConsumers(alterConsumerBuilder);
             }
         }
 
