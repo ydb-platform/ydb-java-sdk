@@ -236,8 +236,10 @@ public class TopicClientImpl implements TopicClient {
                 .setMeteringMode(fromProto(result.getMeteringMode()));
 
         YdbTopic.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
-        description.setPartitioningSettings(new PartitioningSettings(partitioningSettings.getMinActivePartitions(),
-                partitioningSettings.getPartitionCountLimit()));
+        description.setPartitioningSettings(PartitioningSettings.newBuilder()
+                .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
+                .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
+                .build());
 
         List<PartitionInfo> partitions = new ArrayList<>();
         for (YdbTopic.DescribeTopicResult.PartitionInfo partition : result.getPartitionsList()) {
