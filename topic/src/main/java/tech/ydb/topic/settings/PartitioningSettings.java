@@ -23,7 +23,7 @@ public class PartitioningSettings {
     /**
      * @return  Limit for total partition count, including active (open for write) and
      *                             read-only partitions.
-     *                             Zero value means default - 1.
+     *                             Zero value means default - 100.
      */
     public long getPartitionCountLimit() {
         return partitionCountLimit;
@@ -53,7 +53,7 @@ public class PartitioningSettings {
         /**
          * @param partitionCountLimit  Limit for total partition count, including active (open for write) and
          *                             read-only partitions.
-         *                             Zero value means default - 1.
+         *                             Zero value means default - 100.
          * @return settings builder
          */
         public Builder setPartitionCountLimit(long partitionCountLimit) {
