@@ -135,8 +135,8 @@ public class CreateTopicSettings extends OperationSettings {
             return this;
         }
 
-        public Builder addAttribute(@Nonnull String key, String value) {
-            attributes.put(key, value);
+        public Builder addAttribute(@Nonnull String name, String value) {
+            attributes.put(name, value);
             return this;
         }
 
