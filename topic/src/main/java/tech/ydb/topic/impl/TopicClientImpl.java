@@ -224,6 +224,9 @@ public class TopicClientImpl implements TopicClient {
     }
 
     private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("Received topic describe response:\n{}", result);
+        }
         TopicDescription.Builder description = TopicDescription.newBuilder()
                 .setRetentionPeriod(ProtobufUtils.protoToDuration(result.getRetentionPeriod()))
                 .setRetentionStorageMb(result.getRetentionStorageMb())
