@@ -122,6 +122,9 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     public void close() {
+        if (shutdown) {
+            return;
+        }
         super.close();
 
         periodicDiscoveryTask.stop();
