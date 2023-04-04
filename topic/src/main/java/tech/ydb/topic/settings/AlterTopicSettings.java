@@ -157,8 +157,8 @@ public class AlterTopicSettings extends OperationSettings {
             return this;
         }
 
-        public Builder addAlterAttribute(@Nonnull String key, @Nullable String value) {
-            alterAttributes.put(key, value);
+        public Builder addAlterAttribute(@Nonnull String name, @Nullable String value) {
+            alterAttributes.put(name, value);
             return this;
         }
 

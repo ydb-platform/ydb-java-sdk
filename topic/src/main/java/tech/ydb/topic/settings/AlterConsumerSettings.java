@@ -117,12 +117,12 @@ public class AlterConsumerSettings {
 
         /**
          * Add consumer attribute to alter.
-         * @param key  Attribute name
+         * @param name  Attribute name
          * @param value  Attribute value
          * @return settings builder
          */
-        public Builder addAlterAttribute(@Nonnull String key, @Nonnull String value) {
-            alterAttributes.put(key, value);
+        public Builder addAlterAttribute(@Nonnull String name, @Nonnull String value) {
+            alterAttributes.put(name, value);
             return this;
         }
 
@@ -138,11 +138,11 @@ public class AlterConsumerSettings {
 
         /**
          * Add consumer attribute to drop.
-         * @param key  Attribute name
+         * @param name  Attribute name
          * @return settings builder
          */
-        public Builder addDropAttribute(@Nonnull String key) {
-            dropAttributes.add(key);
+        public Builder addDropAttribute(@Nonnull String name) {
+            dropAttributes.add(name);
             return this;
         }
 
