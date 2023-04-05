@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -10,8 +11,11 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.Timestamp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,8 +43,11 @@ public abstract class WriterImpl {
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
     private static final int EXP_BACKOFF_BASE_MS = 256;
-    private static final int EXP_BACKOFF_CEILING_MS = 40000; // 40 sec (max delays would be 40-80 sec)
+    private static final int EXP_BACKOFF_CEILING_MS = 40_000; // 40 sec (max delays would be 40-80 sec)
     private static final int EXP_BACKOFF_MAX_POWER = 7;
+
+    private static final int MESSAGE_OVERHEAD_OLD = calculateMessageOverhead();
+    private static final int MAX_GRPC_MESSAGE_SIZE = 64_000_000;
 
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
@@ -83,6 +90,26 @@ public abstract class WriterImpl {
         private IncomingMessage(EnqueuedMessage message) {
             this.message = message;
         }
+    }
+
+    static int calculateMessageOverhead() {
+        YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder =
+                YdbTopic.StreamWriteMessage.WriteRequest
+                .newBuilder()
+                .setCodec(ProtoUtils.toProto(Codec.CUSTOM))
+                .addMessages(YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
+                        .setSeqNo(Long.MAX_VALUE)
+                        .setData(ByteString.EMPTY)
+                        .setMessageGroupId(Stream.generate(() -> "a").limit(100).collect(Collectors.joining()))
+                        .setCreatedAt(Timestamp.newBuilder().setSeconds(Long.MAX_VALUE).build())
+                        .setUncompressedSize(Long.MAX_VALUE)
+                        .build());
+        YdbTopic.StreamWriteMessage.FromClient writeMessage = YdbTopic.StreamWriteMessage.FromClient.newBuilder()
+                .setWriteRequest(writeRequestBuilder)
+                .build();
+        int result = writeMessage.toByteArray().length;
+        logger.debug("Calculated per-message bytes overhead: {}", result);
+        return writeMessage.toByteArray().length;
     }
 
     public CompletableFuture<Void> tryToEnqueue(EnqueuedMessage message, boolean instant) {
@@ -244,26 +271,72 @@ public abstract class WriterImpl {
     }
 
     private void sendMessages(Queue<EnqueuedMessage> messages) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Sending {} messages...", messages.size());
-        }
-        YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder = YdbTopic.StreamWriteMessage.WriteRequest
-                .newBuilder()
-                .setCodec(ProtoUtils.toProto(settings.getCodec()));
+        List<List<EnqueuedMessage>> messageGroups = splitMessages(messages);
 
-        for (EnqueuedMessage message : messages) {
-            long messageSeqNo = message.getMessage().getSeqNo() == null
-                    ? ++seqNo
-                    : message.getMessage().getSeqNo();
-            message.setSeqNo(messageSeqNo);
-            writeRequestBuilder.addMessages(YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
-                    .setSeqNo(messageSeqNo)
-                    .setData(ByteString.copyFrom(message.getMessage().getData()))
-                    .build());
+        if (logger.isInfoEnabled()) {
+            logger.info("Trying to send {} message(s) in {} requests...", messages.size(), messageGroups.size());
         }
-        session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
-                .setWriteRequest(writeRequestBuilder)
-                .build());
+        for (int requestIndex = 0; requestIndex < messageGroups.size(); requestIndex++) {
+            List<EnqueuedMessage> messageGroup = messageGroups.get(requestIndex);
+            if (logger.isDebugEnabled()) {
+                logger.debug("Sending message group {}/{} of {} messages", requestIndex + 1, messageGroups.size(),
+                        messageGroup.size());
+            }
+
+            YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder
+                    = YdbTopic.StreamWriteMessage.WriteRequest.newBuilder()
+                    .setCodec(ProtoUtils.toProto(settings.getCodec()));
+
+            int messagesSizes = 0;
+
+            for (EnqueuedMessage message : messageGroup) {
+                long messageSeqNo = message.getMessage().getSeqNo() == null
+                        ? ++seqNo
+                        : message.getMessage().getSeqNo();
+                message.setSeqNo(messageSeqNo);
+                logger.debug("Message data of {} bytes", message.getMessage().getData().length);
+                messagesSizes += message.getMessage().getData().length;
+                writeRequestBuilder.addMessages(YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
+                        .setSeqNo(messageSeqNo)
+                        .setData(ByteString.copyFrom(message.getMessage().getData()))
+                        .build());
+            }
+            YdbTopic.StreamWriteMessage.FromClient msg = YdbTopic.StreamWriteMessage.FromClient.newBuilder()
+                    .setWriteRequest(writeRequestBuilder)
+                    .build();
+            logger.debug("Sending message of {} bytes", msg.getSerializedSize());
+            logger.debug("Estimated overhead per message: {}", MESSAGE_OVERHEAD_OLD);
+            logger.debug("Actual overhead per message:    {}",
+                    (msg.getSerializedSize() - messagesSizes) / messageGroup.size());
+            session.send(msg);
+        }
+    }
+
+    private List<List<EnqueuedMessage>> splitMessages(Queue<EnqueuedMessage> messages) {
+        List<List<EnqueuedMessage>> result = new ArrayList<>();
+        long estimatedRequestSizeBytes = 0;
+        List<EnqueuedMessage> currentRequestMessages = new ArrayList<>();
+        for (EnqueuedMessage message : messages) {
+            long messageSizeWithOverhead = message.getMessage().getData().length + MESSAGE_OVERHEAD_OLD;
+            logger.debug("SPLIT: Message size: {}, with overhead: {}", message.getMessage().getData().length,
+                    messageSizeWithOverhead);
+            // Sending a single message even its size by its own is larger than grpc limit
+            if (!currentRequestMessages.isEmpty()
+                    && estimatedRequestSizeBytes + messageSizeWithOverhead > MAX_GRPC_MESSAGE_SIZE) {
+                logger.debug("Reached grpc limit: est.size {} + messageWithOverhead {} = {}",
+                        estimatedRequestSizeBytes, messageSizeWithOverhead, estimatedRequestSizeBytes
+                                + messageSizeWithOverhead);
+                result.add(currentRequestMessages);
+                currentRequestMessages = new ArrayList<>();
+                estimatedRequestSizeBytes = 0;
+            }
+            estimatedRequestSizeBytes += messageSizeWithOverhead;
+            currentRequestMessages.add(message);
+        }
+        if (!currentRequestMessages.isEmpty()) {
+            result.add(currentRequestMessages);
+        }
+        return result;
     }
 
     // Outer future completes when message is put (or declined) into send buffer
