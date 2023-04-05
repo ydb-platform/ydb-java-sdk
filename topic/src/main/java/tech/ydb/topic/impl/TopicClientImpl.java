@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -190,6 +191,17 @@ public class TopicClientImpl implements TopicClient {
                 if (consumerSupportedCodecs != null) {
                     alterConsumerBuilder.setSetSupportedCodecs(toProto(consumerSupportedCodecs));
                 }
+
+                Map<String, String> consumerAttributes = alterConsumer.getAlterAttributes();
+                if (!consumerAttributes.isEmpty()) {
+                    alterConsumerBuilder.putAllAlterAttributes(consumerAttributes);
+                }
+
+                for (String attributeToDrop : alterConsumer.getDropAttributes()) {
+                    alterConsumerBuilder.putAlterAttributes(attributeToDrop, "");
+                }
+
+                requestBuilder.addAlterConsumers(alterConsumerBuilder);
             }
         }
 
@@ -224,6 +236,9 @@ public class TopicClientImpl implements TopicClient {
     }
 
     private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("Received topic describe response:\n{}", result);
+        }
         TopicDescription.Builder description = TopicDescription.newBuilder()
                 .setRetentionPeriod(ProtobufUtils.protoToDuration(result.getRetentionPeriod()))
                 .setRetentionStorageMb(result.getRetentionStorageMb())
@@ -233,8 +248,10 @@ public class TopicClientImpl implements TopicClient {
                 .setMeteringMode(fromProto(result.getMeteringMode()));
 
         YdbTopic.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
-        description.setPartitioningSettings(new PartitioningSettings(partitioningSettings.getMinActivePartitions(),
-                partitioningSettings.getPartitionCountLimit()));
+        description.setPartitioningSettings(PartitioningSettings.newBuilder()
+                .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
+                .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
+                .build());
 
         List<PartitionInfo> partitions = new ArrayList<>();
         for (YdbTopic.DescribeTopicResult.PartitionInfo partition : result.getPartitionsList()) {

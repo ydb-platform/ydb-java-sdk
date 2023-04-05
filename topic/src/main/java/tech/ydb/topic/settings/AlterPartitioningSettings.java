@@ -37,11 +37,22 @@ public class AlterPartitioningSettings {
         private Long minActivePartitions = null;
         private Long partitionCountLimit = null;
 
+        /**
+         * @param minActivePartitions  minimum partition count auto merge would stop working at.
+         *                             Zero value means default - 1.
+         * @return settings builder
+         */
         public Builder setMinActivePartitions(long minActivePartitions) {
             this.minActivePartitions = minActivePartitions;
             return this;
         }
 
+        /**
+         * @param partitionCountLimit  Limit for total partition count, including active (open for write) and
+         *                             read-only partitions.
+         *                             Zero value means default - 100.
+         * @return settings builder
+         */
         public Builder setPartitionCountLimit(long partitionCountLimit) {
             this.partitionCountLimit = partitionCountLimit;
             return this;
