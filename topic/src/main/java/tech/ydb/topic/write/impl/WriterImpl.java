@@ -316,7 +316,9 @@ public abstract class WriterImpl {
     private void reconnect() {
         logger.info("Reconnect #{} started", reconnectCounter.get());
         this.session = new WriteSession(topicRpc);
-        messageSender.setSession(session);
+        synchronized (messageSender) {
+            messageSender.setSession(session);
+        }
         initImpl();
         if (!isReconnecting.compareAndSet(true, false)) {
             logger.warn("Couldn't reset reconnect flag. Shouldn't happen");
