@@ -49,6 +49,9 @@ public class WriteSession {
         if (!isWorking.get()) {
             if (logger.isTraceEnabled()) {
                 logger.trace("WriteSession is already closed. This message is NOT sent:\n{}", request);
+            } else if (logger.isDebugEnabled()) {
+                logger.debug("WriteSession is already closed. A message of {} bytes was not sent",
+                        request.getSerializedSize());
             }
             return;
         }
@@ -66,8 +69,8 @@ public class WriteSession {
 
         if (logger.isTraceEnabled()) {
             logger.trace("Sending request:\n{}", request);
-        } else {
-            logger.debug("Sending request");
+        } else if (logger.isDebugEnabled()) {
+            logger.debug("Sending request of {} bytes", request.getSerializedSize());
         }
         streamConnection.sendNext(request);
     }
