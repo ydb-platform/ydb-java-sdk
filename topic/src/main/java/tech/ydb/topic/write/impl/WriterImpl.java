@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +23,6 @@ import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
-import tech.ydb.topic.utils.ProtoUtils;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
@@ -39,7 +37,7 @@ public abstract class WriterImpl {
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
     private static final int EXP_BACKOFF_BASE_MS = 256;
-    private static final int EXP_BACKOFF_CEILING_MS = 40000; // 40 sec (max delays would be 40-80 sec)
+    private static final int EXP_BACKOFF_CEILING_MS = 40_000; // 40 sec (max delays would be 40-80 sec)
     private static final int EXP_BACKOFF_MAX_POWER = 7;
 
     private final WriterSettings settings;
@@ -58,11 +56,11 @@ public abstract class WriterImpl {
     private final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final Executor compressionExecutor;
+    private final MessageSender messageSender;
 
     private WriteSession session;
     private String currentSessionId;
     private Boolean isSeqNoProvided = null;
-    private long seqNo = 0;
     private int currentInFlightCount = 0;
     private long availableSizeBytes;
     // Future for flush method
@@ -74,6 +72,7 @@ public abstract class WriterImpl {
         this.session = new WriteSession(topicRpc);
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
+        this.messageSender = new MessageSender(session, settings);
     }
 
     private static class IncomingMessage {
@@ -195,8 +194,10 @@ public abstract class WriterImpl {
                 logger.debug("Nothing to send -- sendingQueue is empty #2");
             } else {
                 sendingQueue.removeAll(messages);
-                sendMessages(messages);
                 sentMessages.addAll(messages);
+                synchronized (messageSender) {
+                    messageSender.sendMessages(messages);
+                }
             }
             if (!writeRequestInProgress.compareAndSet(true, false)) {
                 logger.error("Couldn't turn off writeRequestInProgress. Should not happen");
@@ -241,29 +242,6 @@ public abstract class WriterImpl {
                 .setInitRequest(initRequestBuilder)
                 .build());
         return initResultFuture;
-    }
-
-    private void sendMessages(Queue<EnqueuedMessage> messages) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("Sending {} messages...", messages.size());
-        }
-        YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder = YdbTopic.StreamWriteMessage.WriteRequest
-                .newBuilder()
-                .setCodec(ProtoUtils.toProto(settings.getCodec()));
-
-        for (EnqueuedMessage message : messages) {
-            long messageSeqNo = message.getMessage().getSeqNo() == null
-                    ? ++seqNo
-                    : message.getMessage().getSeqNo();
-            message.setSeqNo(messageSeqNo);
-            writeRequestBuilder.addMessages(YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
-                    .setSeqNo(messageSeqNo)
-                    .setData(ByteString.copyFrom(message.getMessage().getData()))
-                    .build());
-        }
-        session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
-                .setWriteRequest(writeRequestBuilder)
-                .build());
     }
 
     // Outer future completes when message is put (or declined) into send buffer
@@ -338,6 +316,9 @@ public abstract class WriterImpl {
     private void reconnect() {
         logger.info("Reconnect #{} started", reconnectCounter.get());
         this.session = new WriteSession(topicRpc);
+        synchronized (messageSender) {
+            messageSender.setSession(session);
+        }
         initImpl();
         if (!isReconnecting.compareAndSet(true, false)) {
             logger.warn("Couldn't reset reconnect flag. Shouldn't happen");
@@ -359,7 +340,7 @@ public abstract class WriterImpl {
     }
 
     private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
-        logger.trace("processMessage called");
+        logger.debug("processMessage called");
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
@@ -372,11 +353,13 @@ public abstract class WriterImpl {
             currentSessionId = message.getInitResponse().getSessionId();
             logger.info("Session {} initialized", currentSessionId);
             long lastSeqNo = message.getInitResponse().getLastSeqNo();
-            seqNo = lastSeqNo;
-            // TODO: remember supported codecs for further validation
-            if (!sentMessages.isEmpty()) {
-                // resending messages that haven't received acks yet
-                sendMessages(sentMessages);
+            synchronized (messageSender) {
+                messageSender.setSeqNo(lastSeqNo);
+                // TODO: remember supported codecs for further validation
+                if (!sentMessages.isEmpty()) {
+                    // resending messages that haven't received acks yet
+                    messageSender.sendMessages(sentMessages);
+                }
             }
             initResultFuture.complete(new InitResult(lastSeqNo));
             sendDataRequestIfNeeded();

@@ -12,7 +12,7 @@ public class EnqueuedMessage {
     private final AtomicBoolean isCompressed = new AtomicBoolean(false);
     private final long uncompressedSizeBytes;
     private long compressedSizeBytes;
-    private long seqNo;
+    private Long seqNo;
 
     public EnqueuedMessage(Message message) {
         this.message = message;
@@ -51,7 +51,7 @@ public class EnqueuedMessage {
         return isCompressed() ? getCompressedSizeBytes() : getUncompressedSizeBytes();
     }
 
-    public long getSeqNo() {
+    public Long getSeqNo() {
         return seqNo;
     }
 
