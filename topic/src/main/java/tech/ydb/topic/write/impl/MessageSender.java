@@ -141,6 +141,7 @@ public class MessageSender {
                         .setSeqNo(messageSeqNo)
                         .setData(ByteString.copyFrom(message.getMessage().getData()))
                         .setCreatedAt(ProtobufUtils.instantToProto(message.getMessage().getCreateTimestamp()))
+                        .setUncompressedSize(message.getUncompressedSizeBytes())
                         .build();
         long sizeWithCurrentMessage = getCurrentRequestSize() + messageData.getSerializedSize() + messageOverheadBytes;
         if (sizeWithCurrentMessage <= MAX_GRPC_MESSAGE_SIZE) {
