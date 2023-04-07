@@ -13,13 +13,13 @@ public class Message {
     private Message(Builder builder) {
         this.data = builder.data;
         this.seqNo = builder.seqNo;
-        this.createTimestamp = builder.createTimestamp;
+        this.createTimestamp = builder.createTimestamp != null ? builder.createTimestamp : Instant.now();
     }
 
     private Message(byte[] data) {
         this.data = data;
         this.seqNo = null;
-        this.createTimestamp = null;
+        this.createTimestamp = Instant.now();
     }
 
     public static Message of(byte[] data) {

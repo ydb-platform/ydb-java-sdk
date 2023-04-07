@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
@@ -8,6 +9,7 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.ProtoUtils;
@@ -51,6 +53,8 @@ public class MessageSender {
                 YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
                         .setSeqNo(Long.MAX_VALUE)
                         .setData(ByteString.EMPTY)
+                        .setCreatedAt(ProtobufUtils.instantToProto(Instant.now()))
+                        .setUncompressedSize(1_000_000)
                         .build();
         YdbTopic.StreamWriteMessage.FromClient requestWithMessage = YdbTopic.StreamWriteMessage.FromClient.newBuilder()
                 .setWriteRequest(writeRequestBuilder.addMessages(messageData))
@@ -139,6 +143,8 @@ public class MessageSender {
                 YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
                         .setSeqNo(messageSeqNo)
                         .setData(ByteString.copyFrom(message.getMessage().getData()))
+                        .setCreatedAt(ProtobufUtils.instantToProto(message.getMessage().getCreateTimestamp()))
+                        .setUncompressedSize(message.getUncompressedSizeBytes())
                         .build();
         long sizeWithCurrentMessage = getCurrentRequestSize() + messageData.getSerializedSize() + messageOverheadBytes;
         if (sizeWithCurrentMessage <= MAX_GRPC_MESSAGE_SIZE) {
