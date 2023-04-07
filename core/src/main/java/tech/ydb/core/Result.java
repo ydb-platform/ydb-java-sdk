@@ -4,6 +4,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 
 /**
@@ -15,7 +16,7 @@ public interface Result<T> {
     @Nonnull
     Status getStatus();
 
-    @Nonnull
+    @Nullable
     T getValue() throws UnexpectedResultException;
 
     @Nonnull
@@ -26,7 +27,7 @@ public interface Result<T> {
     }
 
     static <V> Result<V> success(V value) {
-        return new Success<>(Objects.requireNonNull(value), Status.SUCCESS);
+        return new Success<>(value, Status.SUCCESS);
     }
 
     static <V> Result<V> success(V value, Status status) {
