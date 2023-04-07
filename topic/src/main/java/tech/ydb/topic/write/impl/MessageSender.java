@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
@@ -52,6 +53,8 @@ public class MessageSender {
                 YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
                         .setSeqNo(Long.MAX_VALUE)
                         .setData(ByteString.EMPTY)
+                        .setCreatedAt(ProtobufUtils.instantToProto(Instant.now()))
+                        .setUncompressedSize(1_000_000)
                         .build();
         YdbTopic.StreamWriteMessage.FromClient requestWithMessage = YdbTopic.StreamWriteMessage.FromClient.newBuilder()
                 .setWriteRequest(writeRequestBuilder.addMessages(messageData))
