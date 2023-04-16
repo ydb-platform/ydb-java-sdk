@@ -52,6 +52,11 @@ public interface Message {
     Instant getWrittenAt();
 
     /**
+     * @return Partition session of this message
+     */
+    PartitionSession getPartitionSession();
+
+    /**
      * Commit this message
      * @return CompletableFuture that will be completed when commit confirmation from server will be received
      */

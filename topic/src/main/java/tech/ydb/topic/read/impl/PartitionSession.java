@@ -101,6 +101,7 @@ public class PartitionSession {
                 lastCommittedOffset = Math.max(messageData.getOffset() + 1, lastCommittedOffset);
                 newBatch.addMessage(new MessageImpl.Builder()
                         .setBatchMeta(batchMeta)
+                        .setPartitionSession(sessionInfo)
                         .setData(messageData.getData().toByteArray())
                         .setOffset(messageOffset)
                         .setSeqNo(messageData.getSeqNo())
