@@ -30,7 +30,6 @@ public final class GrpcTopicRpc implements TopicRpc {
         this.transport = transport;
     }
 
-    @Nullable
     public static GrpcTopicRpc useTransport(@WillNotClose GrpcTransport transport) {
         return new GrpcTopicRpc(transport);
     }
