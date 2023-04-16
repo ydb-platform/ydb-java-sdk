@@ -93,9 +93,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleClosePartitionSession(tech.ydb.topic.read.impl.PartitionSession partitionSession) {
-        final PartitionSessionClosedEvent event = new PartitionSessionClosedEventImpl(new PartitionSession(
-                partitionSession.getId(), partitionSession.getPartitionId(), partitionSession.getPath()));
+    protected void handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession) {
+        final PartitionSessionClosedEvent event = new PartitionSessionClosedEventImpl(partitionSession);
         handlerExecutor.execute(() -> {
             eventHandler.onPartitionSessionClosed(event);
         });

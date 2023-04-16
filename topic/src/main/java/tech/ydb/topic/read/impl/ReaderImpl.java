@@ -207,7 +207,7 @@ public abstract class ReaderImpl {
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request);
     protected abstract void handleStopPartitionSession(
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest request);
-    protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
+    protected abstract void handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession);
     protected abstract void handleCloseReader();
 
     private void commitOffset(long partitionId, OffsetsRange offsets) {
@@ -265,7 +265,7 @@ public abstract class ReaderImpl {
 
     private void closePartitionSession(PartitionSession partitionSession) {
         partitionSession.shutdown();
-        handleClosePartitionSession(partitionSession);
+        handleClosePartitionSession(partitionSession.getSessionInfo());
     }
 
     private void processMessage(YdbTopic.StreamReadMessage.FromServer message) {
