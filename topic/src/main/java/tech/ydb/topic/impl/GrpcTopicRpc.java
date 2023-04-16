@@ -33,7 +33,6 @@ public final class GrpcTopicRpc implements TopicRpc {
         this.operationManager = transport.getOperationManager();
     }
 
-    @Nullable
     public static GrpcTopicRpc useTransport(@WillNotClose GrpcTransport transport) {
         return new GrpcTopicRpc(transport);
     }
