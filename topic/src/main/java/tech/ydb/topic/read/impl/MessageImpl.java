@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.PartitionSession;
 
 /**
  * @author Nikolay Perfilov
@@ -18,6 +19,7 @@ public class MessageImpl implements Message {
     private final Instant createdAt;
     private final String messageGroupId;
     private final BatchMeta batchMeta;
+    private final PartitionSession partitionSession;
     private final Function<OffsetsRange, CompletableFuture<Void>> commitFunction;
     private boolean isDecompressed = false;
 
@@ -29,6 +31,7 @@ public class MessageImpl implements Message {
         this.createdAt = builder.createdAt;
         this.messageGroupId = builder.messageGroupId;
         this.batchMeta = builder.batchMeta;
+        this.partitionSession = builder.partitionSession;
         this.commitFunction = builder.commitFunction;
     }
 
@@ -80,6 +83,11 @@ public class MessageImpl implements Message {
         return batchMeta.getWrittenAt();
     }
 
+    @Override
+    public PartitionSession getPartitionSession() {
+        return partitionSession;
+    }
+
     public void setDecompressed(boolean decompressed) {
         isDecompressed = decompressed;
     }
@@ -100,6 +108,7 @@ public class MessageImpl implements Message {
         private Instant createdAt;
         private String messageGroupId;
         private BatchMeta batchMeta;
+        private PartitionSession partitionSession;
         private Function<OffsetsRange, CompletableFuture<Void>> commitFunction;
 
         public Builder setData(byte[] data) {
@@ -134,6 +143,11 @@ public class MessageImpl implements Message {
 
         public Builder setBatchMeta(BatchMeta batchMeta) {
             this.batchMeta = batchMeta;
+            return this;
+        }
+
+        public Builder setPartitionSession(PartitionSession partitionSession) {
+            this.partitionSession = partitionSession;
             return this;
         }
 
