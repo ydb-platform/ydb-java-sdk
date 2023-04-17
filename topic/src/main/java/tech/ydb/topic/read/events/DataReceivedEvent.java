@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.PartitionSession;
 
 /**
  * @author Nikolay Perfilov
@@ -11,6 +12,8 @@ import tech.ydb.topic.read.Message;
 public interface DataReceivedEvent {
 
     List<Message> getMessages();
+
+    PartitionSession getPartitionSession();
 
     CompletableFuture<Void> commit();
 

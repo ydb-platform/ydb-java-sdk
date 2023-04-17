@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -122,7 +123,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected void handleClosePartitionSession(tech.ydb.topic.read.impl.PartitionSession partitionSession) {
+    protected void handleClosePartitionSession(PartitionSession partitionSession) {
         logger.debug("ClosePartitionSession event received. Ignoring.");
     }
 

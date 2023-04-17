@@ -34,6 +34,7 @@ public class PartitionSession {
     private final long id;
     private final String path;
     private final long partitionId;
+    private final tech.ydb.topic.read.PartitionSession sessionInfo;
     private final OffsetsRange partitionOffsets;
     private final Executor decompressionExecutor;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
@@ -51,6 +52,7 @@ public class PartitionSession {
         this.id = builder.id;
         this.path = builder.path;
         this.partitionId = builder.partitionId;
+        this.sessionInfo = new tech.ydb.topic.read.PartitionSession(id, partitionId, path);
         this.lastCommittedOffset = builder.committedOffset;
         this.partitionOffsets = builder.partitionOffsets;
         this.decompressionExecutor = builder.decompressionExecutor;
@@ -74,6 +76,10 @@ public class PartitionSession {
         return path;
     }
 
+    public tech.ydb.topic.read.PartitionSession getSessionInfo() {
+        return sessionInfo;
+    }
+
     public CompletableFuture<Void> addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batches) {
         if (!isWorking.get()) {
             return CompletableFuture.completedFuture(null);
@@ -95,6 +101,7 @@ public class PartitionSession {
                 lastCommittedOffset = Math.max(messageData.getOffset() + 1, lastCommittedOffset);
                 newBatch.addMessage(new MessageImpl.Builder()
                         .setBatchMeta(batchMeta)
+                        .setPartitionSession(sessionInfo)
                         .setData(messageData.getData().toByteArray())
                         .setOffset(messageOffset)
                         .setSeqNo(messageData.getSeqNo())
@@ -186,7 +193,7 @@ public class PartitionSession {
             }
             List<MessageImpl> messageImplList = batchToRead.getMessages();
             List<Message> messagesToRead = new ArrayList<>(messageImplList);
-            DataReceivedEvent event = new DataReceivedEventImpl(messagesToRead,
+            DataReceivedEvent event = new DataReceivedEventImpl(messagesToRead, sessionInfo,
                     () -> commitOffset(new OffsetsRange(messageImplList.get(0).getCommitOffsetFrom(),
                             messageImplList.get(messageImplList.size() - 1).getOffset() + 1)));
             dataEventCallback.apply(event)
