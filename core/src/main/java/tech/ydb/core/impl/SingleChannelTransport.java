@@ -42,7 +42,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
                 builder.getReadTimeoutMillis(),
                 builder.getCallExecutor()
         );
-        this.scheduler = YdbSchedulerFactory.createScheduler();
+        this.scheduler = builder.getSchedulerFactory().get();
     }
 
     @Override

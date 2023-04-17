@@ -21,7 +21,9 @@ public class YdbSchedulerFactory {
     private YdbSchedulerFactory() { }
 
     public static ScheduledExecutorService createScheduler() {
-        return Executors.newScheduledThreadPool(1, new YdbThreadFactory());
+        // default size of ydb shared scheduler
+        int threads = Math.max(Runtime.getRuntime().availableProcessors() / 2, 2);
+        return Executors.newScheduledThreadPool(threads, new YdbThreadFactory());
     }
 
     public static boolean shutdownScheduler(ScheduledExecutorService scheduler) {
