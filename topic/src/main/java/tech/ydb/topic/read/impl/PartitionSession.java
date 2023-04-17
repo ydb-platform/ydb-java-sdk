@@ -64,6 +64,10 @@ public class PartitionSession {
         return new Builder();
     }
 
+    public void init() {
+        logger.info("Partition session {} (partition {}) is started", id, partitionId);
+    }
+
     public long getId() {
         return id;
     }
@@ -88,15 +92,27 @@ public class PartitionSession {
         batches.forEach(batch -> {
             BatchMeta batchMeta = new BatchMeta(batch);
             Batch newBatch = new Batch(batchMeta);
-            batch.getMessageDataList().forEach(messageData -> {
+            List<YdbTopic.StreamReadMessage.ReadResponse.MessageData> batchMessages = batch.getMessageDataList();
+            if (!batchMessages.isEmpty()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Received a batch of {} messages (offsets {} - {}) for partition session {} " +
+                                    "(partition {})", batchMessages.size(), batchMessages.get(0).getOffset(),
+                            batchMessages.get(batchMessages.size() - 1).getOffset(), id, partitionId);
+                }
+            } else {
+                logger.error("Received empty batch for partition session {} (partition {}). This shouldn't happen",
+                        id, partitionId);
+            }
+            batchMessages.forEach(messageData -> {
                 long commitOffsetFrom = lastCommittedOffset;
                 long messageOffset = messageData.getOffset();
                 long newCommittedOffset = messageOffset + 1;
                 if (newCommittedOffset > lastCommittedOffset) {
                     lastCommittedOffset = newCommittedOffset;
                 } else {
-                    logger.error("Received a message with offset {} which is less than last read committedOffset {}",
-                            messageOffset, lastCommittedOffset);
+                    logger.error("Received a message with offset {} which is less than last read committedOffset {} " +
+                                    "for partition session {} (partition {})",
+                            messageOffset, lastCommittedOffset, id, partitionId);
                 }
                 lastCommittedOffset = Math.max(messageData.getOffset() + 1, lastCommittedOffset);
                 newBatch.addMessage(new MessageImpl.Builder()
@@ -117,7 +133,6 @@ public class PartitionSession {
 
             CompletableFuture.runAsync(() -> decode(newBatch), decompressionExecutor)
                     .thenRun(() -> {
-
                         boolean haveNewBatchesReady = false;
                         synchronized (decodingBatches) {
                             // Taking all encoded messages to sending queue
@@ -127,7 +142,8 @@ public class PartitionSession {
                                         && (decodingBatch.isDecompressed() || decodingBatch.getCodec() == Codec.RAW)) {
                                     decodingBatches.remove();
                                     if (logger.isTraceEnabled()) {
-                                        logger.trace("Adding message to reading queue");
+                                        logger.trace("Adding message to reading queue of partition session {} " +
+                                                "(partition {})", id, partitionId);
                                     }
                                     readingQueue.add(decodingBatch);
                                     haveNewBatchesReady = true;
@@ -147,23 +163,33 @@ public class PartitionSession {
     private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
         if (isWorking.get()) {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Offset range [{}, {}) is requested to be committed for partition session {} " +
+                                "(partition {})", offsets.getStart(), offsets.getEnd(), id, partitionId);
+            }
             commitFutures.put(offsets.getEnd(), resultFuture);
             commitFunction.accept(getId(), offsets);
         } else {
-            resultFuture.completeExceptionally(new RuntimeException("Partition session is already closed"));
+            logger.info("Offset range [{}, {}) is requested to be committed, but partition session {} " +
+                    "(partition {}) is already closed", offsets.getStart(), offsets.getEnd(), id, partitionId);
+            resultFuture.completeExceptionally(new RuntimeException("Partition session " + id + " is already closed"));
         }
         return resultFuture;
     }
 
     public void handleCommitResponse(long committedOffset) {
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
+        if (logger.isDebugEnabled()) {
+            logger.debug("Commit response received for partition session {} (partition {}). Committed offset: {}. " +
+                            "Completing {} commit futures", id, partitionId, committedOffset, futuresToComplete.size());
+        }
         futuresToComplete.values().forEach(future -> future.complete(null));
         futuresToComplete.clear();
     }
 
     private void decode(Batch batch) {
         if (logger.isTraceEnabled()) {
-            logger.trace("Started decoding batch");
+            logger.trace("Started decoding batch for partition session {} (partition {})", id, partitionId);
         }
         if (batch.getCodec() == Codec.RAW) {
             return;
@@ -176,7 +202,7 @@ public class PartitionSession {
         batch.setDecompressed(true);
 
         if (logger.isTraceEnabled()) {
-            logger.trace("Finished decoding batch");
+            logger.trace("Finished decoding batch for partition session {} (partition {})", id, partitionId);
         }
     }
 
@@ -188,18 +214,23 @@ public class PartitionSession {
                 return;
             }
             // Should be called maximum in 1 thread at a time
-            if (logger.isTraceEnabled()) {
-                logger.trace("reading message batch");
-            }
             List<MessageImpl> messageImplList = batchToRead.getMessages();
             List<Message> messagesToRead = new ArrayList<>(messageImplList);
             DataReceivedEvent event = new DataReceivedEventImpl(messagesToRead, sessionInfo,
                     () -> commitOffset(new OffsetsRange(messageImplList.get(0).getCommitOffsetFrom(),
                             messageImplList.get(messageImplList.size() - 1).getOffset() + 1)));
+            if (logger.isDebugEnabled()) {
+                logger.debug("DataReceivedEvent callback for partition session {} (partition {}) is about to be " +
+                        "called...", id, partitionId);
+            }
             dataEventCallback.apply(event)
                     .whenComplete((res, th) -> {
                         if (th != null) {
-                            logger.error("Error in DataReceivedEvent callback: ", th);
+                            logger.error("DataReceivedEvent callback for partition session {} (partition {}) " +
+                                    "finished with error: {}", id, partitionId, th);
+                        } else if (logger.isDebugEnabled()) {
+                            logger.debug("DataReceivedEvent callback for partition session {} (partition {}) " +
+                                            "successfully finished", id, partitionId);
                         }
                         isReadingNow.set(false);
                         batchToRead.complete();
@@ -207,13 +238,16 @@ public class PartitionSession {
                     });
         } else {
             if (logger.isTraceEnabled()) {
-                logger.trace("No need to send data to readers: reading is already being performed");
+                logger.trace("Partition session {} (partition {}) - no need to send data to readers: " +
+                        "reading is already being performed", id, partitionId);
             }
         }
     }
 
     public void shutdown() {
         isWorking.set(false);
+        logger.info("Partition session {} (partition {}) is shutting down. Failing {} commit futures...", id,
+                partitionId, commitFutures.size());
         commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session closed")));
     }
 
