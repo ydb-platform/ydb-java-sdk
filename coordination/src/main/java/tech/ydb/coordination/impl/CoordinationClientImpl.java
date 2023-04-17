@@ -33,10 +33,7 @@ public class CoordinationClientImpl implements CoordinationClient {
 
     @Override
     public CoordinationSession createSession(String path) {
-        return new CoordinationSession(
-                path,
-                coordinationGrpc.session()
-        );
+        return new CoordinationSession(coordinationGrpc.session());
     }
 
     @Override
