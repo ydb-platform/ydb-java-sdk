@@ -62,7 +62,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                 builder.getCallExecutor()
         );
 
-        this.scheduler = YdbSchedulerFactory.createScheduler();
+        this.scheduler = builder.getSchedulerFactory().get();
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
 

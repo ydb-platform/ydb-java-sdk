@@ -15,7 +15,6 @@ import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.auth.AuthCallOptions;
-import tech.ydb.core.impl.operation.OperationManager;
 import tech.ydb.core.impl.pool.EndpointPool;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
@@ -37,7 +36,6 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
     private final ScheduledExecutorService scheduler;
-    private final OperationManager operationManager;
 
     public MultiChannelTransport(GrpcTransportBuilder builder, List<HostAndPort> hosts) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
@@ -45,8 +43,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         logger.info("creating multi channle transport with hosts {}", Objects.requireNonNull(hosts));
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.scheduler = YdbSchedulerFactory.createScheduler();
-        this.operationManager = new OperationManager(this);
+        this.scheduler = builder.getSchedulerFactory().get();
 
         List<EndpointRecord> endpoints = new ArrayList<>();
         DiscoveryProtos.ListEndpointsResult.Builder discoveryBuilder = DiscoveryProtos.ListEndpointsResult.newBuilder();
@@ -74,11 +71,6 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     @Override
     public ScheduledExecutorService getScheduler() {
         return scheduler;
-    }
-
-    @Override
-    public OperationManager getOperationManager() {
-        return operationManager;
     }
 
     @Override

@@ -3,8 +3,10 @@ package tech.ydb.core.grpc;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -16,6 +18,7 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 
 import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.auth.NopAuthProvider;
+import tech.ydb.core.impl.YdbSchedulerFactory;
 import tech.ydb.core.impl.YdbTransportImpl;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
 import tech.ydb.core.utils.Version;
@@ -33,6 +36,7 @@ public class GrpcTransportBuilder {
     private byte[] cert = null;
     private boolean useTLS = false;
     private Consumer<NettyChannelBuilder> channelInitializer = null;
+    private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
     private String localDc;
     private BalancingSettings balancingSettings;
     private Executor callExecutor = MoreExecutors.directExecutor();
@@ -86,6 +90,10 @@ public class GrpcTransportBuilder {
 
     public Consumer<NettyChannelBuilder> getChannelInitializer() {
         return channelInitializer;
+    }
+
+    public Supplier<ScheduledExecutorService> getSchedulerFactory() {
+        return schedulerFactory;
     }
 
     public String getLocalDc() {
@@ -209,6 +217,11 @@ public class GrpcTransportBuilder {
 
     public GrpcTransportBuilder withUseDefaultGrpcResolver(boolean use) {
         this.useDefaultGrpcResolver = use;
+        return this;
+    }
+
+    public GrpcTransportBuilder withSchedulerFactory(Supplier<ScheduledExecutorService> factory) {
+        this.schedulerFactory = Objects.requireNonNull(factory, "schedulerFactory is null");
         return this;
     }
 
