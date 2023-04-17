@@ -21,6 +21,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.operation.OperationManager;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.stream.EmptyStream;
 
