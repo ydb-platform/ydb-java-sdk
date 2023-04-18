@@ -1,6 +1,7 @@
 package tech.ydb.coordination.settings;
 
 import com.google.common.base.Preconditions;
+
 import tech.ydb.core.settings.OperationSettings;
 
 /**

@@ -32,14 +32,6 @@ public class CoordinationGrpc implements AutoCloseable {
     private final OperationManager operationManager;
     private final boolean transportOwned;
 
-    public static CoordinationGrpc useTransport(@WillNotClose GrpcTransport transport) {
-        return new CoordinationGrpc(transport, false);
-    }
-
-    public static CoordinationGrpc ownTransport(@WillClose GrpcTransport transport) {
-        return new CoordinationGrpc(transport, true);
-    }
-
     private CoordinationGrpc(
             GrpcTransport grpcTransport,
             boolean transportOwned
@@ -47,6 +39,14 @@ public class CoordinationGrpc implements AutoCloseable {
         this.grpcTransport = grpcTransport;
         this.operationManager = grpcTransport.getOperationManager();
         this.transportOwned = transportOwned;
+    }
+
+    public static CoordinationGrpc useTransport(@WillNotClose GrpcTransport transport) {
+        return new CoordinationGrpc(transport, false);
+    }
+
+    public static CoordinationGrpc ownTransport(@WillClose GrpcTransport transport) {
+        return new CoordinationGrpc(transport, true);
     }
 
     public GrpcReadWriteStream<SessionResponse, SessionRequest> session() {
