@@ -43,7 +43,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         logger.info("creating multi channle transport with hosts {}", Objects.requireNonNull(hosts));
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.scheduler = YdbSchedulerFactory.createScheduler();
+        this.scheduler = builder.getSchedulerFactory().get();
 
         List<EndpointRecord> endpoints = new ArrayList<>();
         DiscoveryProtos.ListEndpointsResult.Builder discoveryBuilder = DiscoveryProtos.ListEndpointsResult.newBuilder();
