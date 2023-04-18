@@ -17,11 +17,11 @@ import tech.ydb.coordination.DropNodeResponse;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.SessionResponse;
 import tech.ydb.coordination.v1.CoordinationServiceGrpc;
+import tech.ydb.core.Operations;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.impl.operation.OperationManager;
 
 /**
  * @author Kirill Kurdyukov
@@ -29,7 +29,6 @@ import tech.ydb.core.impl.operation.OperationManager;
 public class CoordinationGrpc implements AutoCloseable {
 
     private final GrpcTransport grpcTransport;
-    private final OperationManager operationManager;
     private final boolean transportOwned;
 
     private CoordinationGrpc(
@@ -37,7 +36,6 @@ public class CoordinationGrpc implements AutoCloseable {
             boolean transportOwned
     ) {
         this.grpcTransport = grpcTransport;
-        this.operationManager = grpcTransport.getOperationManager();
         this.transportOwned = transportOwned;
     }
 
@@ -61,9 +59,7 @@ public class CoordinationGrpc implements AutoCloseable {
                 CoordinationServiceGrpc.getCreateNodeMethod(),
                 settings,
                 request
-        ).thenCompose(
-                operationManager.statusUnwrapper(CreateNodeResponse::getOperation)
-        );
+        ).thenApply(Operations.statusUnwrapper(CreateNodeResponse::getOperation));
     }
 
     public CompletableFuture<Status> alterNode(AlterNodeRequest request, GrpcRequestSettings settings) {
@@ -71,9 +67,7 @@ public class CoordinationGrpc implements AutoCloseable {
                 CoordinationServiceGrpc.getAlterNodeMethod(),
                 settings,
                 request
-        ).thenCompose(
-                operationManager.statusUnwrapper(AlterNodeResponse::getOperation)
-        );
+        ).thenApply(Operations.statusUnwrapper(AlterNodeResponse::getOperation));
     }
 
     public CompletableFuture<Status> dropNode(DropNodeRequest request, GrpcRequestSettings settings) {
@@ -81,9 +75,7 @@ public class CoordinationGrpc implements AutoCloseable {
                 CoordinationServiceGrpc.getDropNodeMethod(),
                 settings,
                 request
-        ).thenCompose(
-                operationManager.statusUnwrapper(DropNodeResponse::getOperation)
-        );
+        ).thenApply(Operations.statusUnwrapper(DropNodeResponse::getOperation));
     }
 
     public CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings) {
@@ -91,9 +83,7 @@ public class CoordinationGrpc implements AutoCloseable {
                 CoordinationServiceGrpc.getDescribeNodeMethod(),
                 settings,
                 request
-        ).thenCompose(
-                operationManager.statusUnwrapper(DescribeNodeResponse::getOperation)
-        );
+        ).thenApply(Operations.statusUnwrapper(DescribeNodeResponse::getOperation));
     }
 
     @PreDestroy
