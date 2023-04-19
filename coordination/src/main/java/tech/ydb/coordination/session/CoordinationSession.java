@@ -19,6 +19,7 @@ public class CoordinationSession {
 
     private final GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
+    private final CompletableFuture<SessionResponse> stoppedFuture = new CompletableFuture<>();
 
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
 
@@ -31,8 +32,22 @@ public class CoordinationSession {
                 message -> {
                     logger.trace("Message received:\n{}", message);
 
+                    if (message.hasSessionStopped()) {
+                        stoppedFuture.complete(message);
+                    }
+
                     if (isWorking.get()) {
-                        observer.onNext(message);
+                        if (message.hasPing()) {
+                            coordinationStream.sendNext(
+                                    SessionRequest.newBuilder().setPong(
+                                            SessionRequest.PingPong.newBuilder()
+                                                    .setOpaque(message.getPing().getOpaque())
+                                                    .build()
+                                    ).build()
+                            );
+                        } else {
+                            observer.onNext(message);
+                        }
                     }
                 }
         );
@@ -143,9 +158,12 @@ public class CoordinationSession {
             coordinationStream.sendNext(
                     SessionRequest.newBuilder()
                             .setSessionStop(
-                                    SessionRequest.SessionStop.newBuilder().build()
+                                    SessionRequest.SessionStop.newBuilder()
+                                            .build()
                             ).build()
             );
+
+            stoppedFuture.join();
 
             coordinationStream.close();
         }
