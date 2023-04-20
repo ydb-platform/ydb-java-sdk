@@ -299,7 +299,7 @@ public abstract class ReaderImpl {
     }
 
     private void completeSession(Status status, Throwable th) {
-        logger.trace("CompleteSession called");
+        logger.info("CompleteSession called");
         // This session is not working anymore
         this.session.finish();
 
