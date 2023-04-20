@@ -144,8 +144,10 @@ public class PartitionSession {
                                         && (decodingBatch.isDecompressed() || decodingBatch.getCodec() == Codec.RAW)) {
                                     decodingBatches.remove();
                                     if (logger.isTraceEnabled()) {
-                                        logger.trace("Adding message to reading queue of partition session {} " +
-                                                "(partition {})", id, partitionId);
+                                        List<MessageImpl> messages = decodingBatch.getMessages();
+                                        logger.trace("Adding batch with offsets {}-{} to reading queue of partition " +
+                                                "session {} (partition {})", messages.get(0).getOffset(),
+                                                messages.get(messages.size() - 1).getOffset(), id, partitionId);
                                     }
                                     readingQueue.add(decodingBatch);
                                     haveNewBatchesReady = true;
