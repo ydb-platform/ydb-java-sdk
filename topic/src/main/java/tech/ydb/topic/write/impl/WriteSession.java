@@ -75,12 +75,16 @@ public class WriteSession {
         streamConnection.sendNext(request);
     }
 
-    public synchronized void finish() {
-        if (!isWorking.compareAndSet(true, false)) {
+    public boolean stop() {
+        logger.info("WriteSession stop");
+        return isWorking.compareAndSet(true, false);
+    }
+
+    public synchronized void shutdown() {
+        logger.info("WriteSession shutdown");
+        if (!stop()) {
             return;
         }
-
-        logger.debug("WriteSession finish");
         streamConnection.close();
     }
 }
