@@ -129,7 +129,9 @@ public class PartitionSession {
                 );
             });
             batchFutures.add(newBatch.getReadFuture());
-            decodingBatches.add(newBatch);
+            synchronized (decodingBatches) {
+                decodingBatches.add(newBatch);
+            }
 
             CompletableFuture.runAsync(() -> decode(newBatch), decompressionExecutor)
                     .thenRun(() -> {
