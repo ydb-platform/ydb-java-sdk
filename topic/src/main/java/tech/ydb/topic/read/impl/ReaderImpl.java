@@ -237,7 +237,7 @@ public abstract class ReaderImpl {
             if (defaultDecompressionExecutorService != null) {
                 defaultDecompressionExecutorService.shutdown();
             }
-            session.finish();
+            session.shutdown();
         });
     }
 
@@ -299,9 +299,9 @@ public abstract class ReaderImpl {
     }
 
     private void completeSession(Status status, Throwable th) {
-        logger.trace("CompleteSession called");
+        logger.info("CompleteSession called");
         // This session is not working anymore
-        this.session.finish();
+        this.session.stop();
 
         if (th != null) {
             logger.error("Exception in reading stream session {}: {}", currentSessionId, th);

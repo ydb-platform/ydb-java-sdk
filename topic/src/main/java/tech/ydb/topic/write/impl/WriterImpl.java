@@ -329,7 +329,7 @@ public abstract class WriterImpl {
         logger.info("Shutting down Topic Writer");
         isStopped.set(true);
         return flushImpl()
-                .thenRun(() -> session.finish());
+                .thenRun(() -> session.shutdown());
     }
 
     private void shutdownImpl(String reason) {
@@ -435,7 +435,7 @@ public abstract class WriterImpl {
     private void completeSession(Status status, Throwable th) {
         logger.info("CompleteSession called");
         // This session is not working anymore
-        this.session.finish();
+        this.session.stop();
 
         if (th != null) {
             logger.error("Exception in writing stream session {}: {}", currentSessionId, th);

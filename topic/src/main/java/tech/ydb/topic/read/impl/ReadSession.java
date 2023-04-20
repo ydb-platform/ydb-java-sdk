@@ -72,12 +72,16 @@ public class ReadSession {
         streamConnection.sendNext(request);
     }
 
-    public synchronized void finish() {
-        if (!isWorking.compareAndSet(true, false)) {
+    public boolean stop() {
+        logger.info("ReadSession stop");
+        return isWorking.compareAndSet(true, false);
+    }
+
+    public synchronized void shutdown() {
+        logger.info("ReadSession shutdown");
+        if (!stop()) {
             return;
         }
-
-        logger.debug("ReadSession finish");
         streamConnection.close();
     }
 
