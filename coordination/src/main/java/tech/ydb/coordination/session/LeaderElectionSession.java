@@ -76,6 +76,7 @@ public class LeaderElectionSession {
                         .setData(ByteString.copyFrom(
                                 publishEndpoint.getBytes(StandardCharsets.UTF_8)
                         ))
+                        .setTimeoutMillis(0) // Try acquire
                         .build()
         );
 
