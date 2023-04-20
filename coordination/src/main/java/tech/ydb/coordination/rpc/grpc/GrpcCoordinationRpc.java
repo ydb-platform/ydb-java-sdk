@@ -1,4 +1,4 @@
-package tech.ydb.coordination.rpc;
+package tech.ydb.coordination.rpc.grpc;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -16,6 +16,7 @@ import tech.ydb.coordination.DropNodeRequest;
 import tech.ydb.coordination.DropNodeResponse;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.SessionResponse;
+import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.v1.CoordinationServiceGrpc;
 import tech.ydb.core.Operations;
 import tech.ydb.core.Status;
@@ -26,12 +27,12 @@ import tech.ydb.core.grpc.GrpcTransport;
 /**
  * @author Kirill Kurdyukov
  */
-public class CoordinationGrpc implements AutoCloseable {
+public class GrpcCoordinationRpc implements CoordinationRpc {
 
     private final GrpcTransport grpcTransport;
     private final boolean transportOwned;
 
-    private CoordinationGrpc(
+    private GrpcCoordinationRpc(
             GrpcTransport grpcTransport,
             boolean transportOwned
     ) {
@@ -39,12 +40,12 @@ public class CoordinationGrpc implements AutoCloseable {
         this.transportOwned = transportOwned;
     }
 
-    public static CoordinationGrpc useTransport(@WillNotClose GrpcTransport transport) {
-        return new CoordinationGrpc(transport, false);
+    public static GrpcCoordinationRpc useTransport(@WillNotClose GrpcTransport transport) {
+        return new GrpcCoordinationRpc(transport, false);
     }
 
-    public static CoordinationGrpc ownTransport(@WillClose GrpcTransport transport) {
-        return new CoordinationGrpc(transport, true);
+    public static GrpcCoordinationRpc ownTransport(@WillClose GrpcTransport transport) {
+        return new GrpcCoordinationRpc(transport, true);
     }
 
     public GrpcReadWriteStream<SessionResponse, SessionRequest> session() {

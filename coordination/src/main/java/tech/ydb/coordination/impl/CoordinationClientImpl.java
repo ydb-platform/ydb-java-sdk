@@ -10,7 +10,7 @@ import tech.ydb.coordination.CreateNodeRequest;
 import tech.ydb.coordination.DescribeNodeRequest;
 import tech.ydb.coordination.DropNodeRequest;
 import tech.ydb.coordination.RateLimiterCountersMode;
-import tech.ydb.coordination.rpc.CoordinationGrpc;
+import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
@@ -25,15 +25,15 @@ import tech.ydb.core.settings.BaseRequestSettings;
  */
 public class CoordinationClientImpl implements CoordinationClient {
 
-    private final CoordinationGrpc coordinationGrpc;
+    private final CoordinationRpc coordinationRpc;
 
-    public CoordinationClientImpl(CoordinationGrpc coordinationGrpc) {
-        this.coordinationGrpc = coordinationGrpc;
+    public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc) {
+        this.coordinationRpc = grpcCoordinationRpc;
     }
 
     @Override
     public CoordinationSession createSession(String path) {
-        return new CoordinationSession(coordinationGrpc.session());
+        return new CoordinationSession(coordinationRpc.session());
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CoordinationClientImpl implements CoordinationClient {
             String path,
             CoordinationNodeSettings coordinationNodeSettings
     ) {
-        return coordinationGrpc.createNode(
+        return coordinationRpc.createNode(
                 CreateNodeRequest.newBuilder()
                         .setPath(path)
                         .setOperationParams(Operations.createParams(coordinationNodeSettings))
@@ -56,7 +56,7 @@ public class CoordinationClientImpl implements CoordinationClient {
             String path,
             CoordinationNodeSettings coordinationNodeSettings
     ) {
-        return coordinationGrpc.alterNode(
+        return coordinationRpc.alterNode(
                 AlterNodeRequest.newBuilder()
                         .setPath(path)
                         .setOperationParams(Operations.createParams(coordinationNodeSettings))
@@ -71,7 +71,7 @@ public class CoordinationClientImpl implements CoordinationClient {
             String path,
             DropCoordinationNodeSettings dropCoordinationNodeSettings
     ) {
-        return coordinationGrpc.dropNode(
+        return coordinationRpc.dropNode(
                 DropNodeRequest.newBuilder()
                         .setPath(path)
                         .setOperationParams(Operations.createParams(dropCoordinationNodeSettings))
@@ -85,7 +85,7 @@ public class CoordinationClientImpl implements CoordinationClient {
             String path,
             DescribeCoordinationNodeSettings describeCoordinationNodeSettings
     ) {
-        return coordinationGrpc.describeNode(
+        return coordinationRpc.describeNode(
                 DescribeNodeRequest.newBuilder()
                         .setPath(path)
                         .setOperationParams(Operations.createParams(describeCoordinationNodeSettings))

@@ -8,8 +8,7 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import tech.ydb.StatusCodesProtos;
-import tech.ydb.coordination.impl.CoordinationClientImpl;
-import tech.ydb.coordination.rpc.CoordinationGrpc;
+import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
 import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
@@ -22,8 +21,8 @@ public class CoordinationClientTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final String path = ydbTransport.getDatabase() + "/coordination-node";
-    private final CoordinationClient client = new CoordinationClientImpl(
-            CoordinationGrpc.useTransport(ydbTransport)
+    private final CoordinationClient client = CoordinationClient.newClient(
+            GrpcCoordinationRpc.useTransport(ydbTransport)
     );
 
     @Before

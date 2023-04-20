@@ -2,6 +2,8 @@ package tech.ydb.coordination;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.coordination.impl.CoordinationClientImpl;
+import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
@@ -12,6 +14,10 @@ import tech.ydb.core.Status;
  * @author Kirill Kurdyukov
  */
 public interface CoordinationClient {
+
+    static CoordinationClient newClient(CoordinationRpc coordinationRpc) {
+        return new CoordinationClientImpl(coordinationRpc);
+    }
 
     /**
      * Bidirectional stream used to establish a session with a coordination node
