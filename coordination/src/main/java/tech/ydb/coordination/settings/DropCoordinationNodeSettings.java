@@ -7,7 +7,7 @@ import tech.ydb.core.settings.OperationSettings;
  */
 public class DropCoordinationNodeSettings extends OperationSettings {
 
-    private DropCoordinationNodeSettings(OperationBuilder<?> builder) {
+    private DropCoordinationNodeSettings(Builder builder) {
         super(builder);
     }
 

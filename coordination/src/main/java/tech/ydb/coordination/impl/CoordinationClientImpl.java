@@ -10,11 +10,14 @@ import tech.ydb.coordination.CreateNodeRequest;
 import tech.ydb.coordination.DescribeNodeRequest;
 import tech.ydb.coordination.DropNodeRequest;
 import tech.ydb.coordination.RateLimiterCountersMode;
+import tech.ydb.coordination.exceptions.CreateLeaderElectionSessionException;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.session.CoordinationSession;
+import tech.ydb.coordination.session.LeaderElectionSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
+import tech.ydb.coordination.settings.SessionSettings;
 import tech.ydb.core.Operations;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -32,8 +35,26 @@ public class CoordinationClientImpl implements CoordinationClient {
     }
 
     @Override
-    public CoordinationSession createSession(String path) {
+    public CoordinationSession createSession() {
         return new CoordinationSession(coordinationRpc.session());
+    }
+
+    @Override
+    public CompletableFuture<LeaderElectionSession> createLeaderElectionSession(SessionSettings settings) {
+        final String coordinationNodePath = coordinationRpc.getDatabase() + "/" + settings.getCoordinationNodeName();
+
+        return createNode(
+                coordinationNodePath,
+                CoordinationNodeSettings.newBuilder().build()
+        ).thenApply(
+                status -> {
+                    if (status.isSuccess()) {
+                        return new LeaderElectionSession(this, settings, coordinationNodePath);
+                    } else {
+                        throw new CreateLeaderElectionSessionException(status);
+                    }
+                }
+        );
     }
 
     @Override

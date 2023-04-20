@@ -6,7 +6,7 @@ import tech.ydb.core.settings.OperationSettings;
  * @author Kirill Kurdyukov
  */
 public class DescribeCoordinationNodeSettings extends OperationSettings {
-    private DescribeCoordinationNodeSettings(OperationBuilder<?> builder) {
+    private DescribeCoordinationNodeSettings(Builder builder) {
         super(builder);
     }
 

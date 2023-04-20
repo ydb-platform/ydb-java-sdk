@@ -23,4 +23,6 @@ public interface CoordinationRpc {
     CompletableFuture<Status> dropNode(DropNodeRequest request, GrpcRequestSettings settings);
 
     CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings);
+
+    String getDatabase();
 }

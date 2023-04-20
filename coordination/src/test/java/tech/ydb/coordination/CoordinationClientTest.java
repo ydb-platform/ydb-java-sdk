@@ -53,7 +53,7 @@ public class CoordinationClientTest {
 
     @Test
     public void coordinationSessionFullCycleTest() {
-        CoordinationSession session = client.createSession(path);
+        CoordinationSession session = client.createSession();
 
         CompletableFuture<SessionResponse> startCompletableFuture = new CompletableFuture<>();
         CompletableFuture<SessionResponse> acquireCompletableFuture = new CompletableFuture<>();

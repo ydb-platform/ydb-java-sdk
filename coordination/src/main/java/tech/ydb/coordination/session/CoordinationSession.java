@@ -2,10 +2,15 @@ package tech.ydb.coordination.session;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
+
+import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.StatusCodesProtos;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.SessionResponse;
 import tech.ydb.core.Status;
@@ -20,6 +25,7 @@ public class CoordinationSession {
     private final GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final CompletableFuture<SessionResponse> stoppedFuture = new CompletableFuture<>();
+    private final AtomicReference<Long> sessionId = new AtomicReference<>(null);
 
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
 
@@ -27,13 +33,31 @@ public class CoordinationSession {
         this.coordinationStream = coordinationStream;
     }
 
+    @Nullable
+    public Long getSessionId() {
+        return sessionId.get();
+    }
+
     public CompletableFuture<Status> start(GrpcReadStream.Observer<SessionResponse> observer) {
         return coordinationStream.start(
                 message -> {
                     logger.trace("Message received:\n{}", message);
 
+                    if (message.hasSessionStarted()) {
+                        sessionId.set(message.getSessionStarted().getSessionId());
+                    }
+
                     if (message.hasSessionStopped()) {
                         stoppedFuture.complete(message);
+                    }
+
+                    if (message.hasFailure()) {
+                        if (message.getFailure().getStatus() ==
+                                StatusCodesProtos.StatusIds.StatusCode.NOT_FOUND) {
+                            observer.onNext(message);
+                        } else {
+                            coordinationStream.close();
+                        }
                     }
 
                     if (isWorking.get()) {

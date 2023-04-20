@@ -87,6 +87,11 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
         ).thenApply(Operations.statusUnwrapper(DescribeNodeResponse::getOperation));
     }
 
+    @Override
+    public String getDatabase() {
+        return grpcTransport.getDatabase();
+    }
+
     @PreDestroy
     public void close() {
         if (transportOwned) {
