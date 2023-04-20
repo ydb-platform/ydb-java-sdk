@@ -7,6 +7,8 @@ import javax.annotation.Nullable;
 
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
@@ -19,6 +21,8 @@ import tech.ydb.core.grpc.GrpcStatuses;
  * @param <RespT> type of response
  */
 public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<RespT> {
+    private static final Logger logger = LoggerFactory.getLogger(ServerStreamToObserver.class);
+
     private final CompletableFuture<Status> statusFuture;
     private final GrpcReadStream.Observer<RespT> observer;
     private final ClientCall<ReqT, RespT> call;
@@ -48,6 +52,7 @@ public class ServerStreamToObserver<ReqT, RespT> extends ClientCall.Listener<Res
             // request delivery of the next inbound message.
             call.request(1);
         } catch (Exception ex) {
+            logger.warn("Unhandled exception while processing a message from server: ", ex);
             call.cancel(ex.getMessage(), ex);
         }
     }
