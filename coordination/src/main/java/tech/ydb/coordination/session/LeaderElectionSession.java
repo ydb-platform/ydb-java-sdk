@@ -2,6 +2,7 @@ package tech.ydb.coordination.session;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ public class LeaderElectionSession {
     private final String coordinationNodePath;
     private final String semaphoreName;
     private final AtomicBoolean isWorking = new AtomicBoolean(false);
+    private final AtomicReference<CoordinationSession> currentCoordinationSession = new AtomicReference<>();
 
     public LeaderElectionSession(
             CoordinationClient coordinationClient,
@@ -91,6 +93,10 @@ public class LeaderElectionSession {
                     }
 
                     logger.info("Coordination session closing with status: {}", status);
+
+                    if (isWorking.get()) {
+                        start(publishEndpoint, observerOnEndpointLeader);
+                    }
                 }
         );
 
@@ -131,6 +137,16 @@ public class LeaderElectionSession {
     public void stop() {
         if (isWorking.compareAndSet(false, true)) {
             logger.info("Stopping leader election session...");
+
+            while (true) {
+                CoordinationSession coordinationSession = currentCoordinationSession.get();
+
+                coordinationSession.stop();
+
+                if (currentCoordinationSession.compareAndSet(coordinationSession, coordinationSession)) {
+                    break;
+                }
+            }
         }
     }
 }
