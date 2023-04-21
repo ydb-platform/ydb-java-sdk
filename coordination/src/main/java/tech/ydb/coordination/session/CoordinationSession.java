@@ -2,7 +2,6 @@ package tech.ydb.coordination.session;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
@@ -10,11 +9,10 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.StatusCodesProtos;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.SessionResponse;
+import tech.ydb.coordination.observer.Observer;
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 
 /**
@@ -38,29 +36,24 @@ public class CoordinationSession {
         return sessionId.get();
     }
 
-    public CompletableFuture<Status> start(GrpcReadStream.Observer<SessionResponse> observer) {
+    public CompletableFuture<Status> start(Observer observer) {
         return coordinationStream.start(
                 message -> {
                     logger.trace("Message received:\n{}", message);
-
-                    if (message.hasSessionStarted()) {
-                        sessionId.set(message.getSessionStarted().getSessionId());
-                    }
 
                     if (message.hasSessionStopped()) {
                         stoppedFuture.complete(message);
                     }
 
                     if (message.hasFailure()) {
-                        if (message.getFailure().getStatus() ==
-                                StatusCodesProtos.StatusIds.StatusCode.NOT_FOUND) {
-                            observer.onNext(message);
-                        } else {
-                            coordinationStream.close();
-                        }
+                        observer.onFailure(sessionId.get(), message.getFailure().getStatus());
                     }
 
                     if (isWorking.get()) {
+                        if (message.hasSessionStarted()) {
+                            sessionId.set(message.getSessionStarted().getSessionId());
+                        }
+
                         if (message.hasPing()) {
                             coordinationStream.sendNext(
                                     SessionRequest.newBuilder().setPong(
