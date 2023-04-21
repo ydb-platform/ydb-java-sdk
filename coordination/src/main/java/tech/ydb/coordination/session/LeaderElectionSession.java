@@ -103,8 +103,13 @@ public class LeaderElectionSession {
                     }
 
                     @Override
-                    public void onFailure(Long sessionId, StatusCodesProtos.StatusIds.StatusCode statusCode) {
-                        logger.error("Coordination session closing, sessionId = {}", sessionId);
+                    public void onFailure(StatusCodesProtos.StatusIds.StatusCode statusCode) {
+
+                        logger.error(
+                                "Coordination session closing, sessionId = {}",
+                                currentCoordinationSession.get() == null
+                                        ? null : currentCoordinationSession.get().getSessionId()
+                        );
 
                         coordinationSession.stop();
 

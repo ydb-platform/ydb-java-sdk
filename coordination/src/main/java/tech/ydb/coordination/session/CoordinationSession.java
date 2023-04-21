@@ -46,7 +46,7 @@ public class CoordinationSession {
                     }
 
                     if (message.hasFailure()) {
-                        observer.onFailure(sessionId.get(), message.getFailure().getStatus());
+                        observer.onFailure(message.getFailure().getStatus());
                     }
 
                     if (isWorking.get()) {

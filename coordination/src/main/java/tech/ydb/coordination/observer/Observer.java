@@ -10,6 +10,6 @@ public interface Observer {
 
     void onNext(SessionResponse sessionResponse);
 
-    default void onFailure(Long sessionId, StatusCodesProtos.StatusIds.StatusCode statusCode) {
+    default void onFailure(StatusCodesProtos.StatusIds.StatusCode statusCode) {
     }
 }
