@@ -2,6 +2,7 @@ package tech.ydb.coordination.session;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.protobuf.ByteString;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.SemaphoreSession;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.SessionResponse;
 import tech.ydb.coordination.observer.Observer;
@@ -34,6 +36,7 @@ public class LeaderElectionSession {
     private final String semaphoreName;
     private final AtomicBoolean isWorking = new AtomicBoolean(false);
     private final AtomicReference<CoordinationSession> currentCoordinationSession = new AtomicReference<>();
+    private final AtomicLong epochLeader = new AtomicLong();
 
     public LeaderElectionSession(
             CoordinationClient coordinationClient,
@@ -46,6 +49,14 @@ public class LeaderElectionSession {
         this.semaphoreName = "leader-election-" + session.getSessionNum();
     }
 
+    public long getEpoch() {
+        return epochLeader.get();
+    }
+
+    public String semaphoreName() {
+        return semaphoreName;
+    }
+
     public void start(
             final String publishEndpoint,
             final GrpcReadStream.Observer<String> observerOnEndpointLeader
@@ -53,20 +64,40 @@ public class LeaderElectionSession {
         logger.info("Starting leader election session, semaphoreName = {}", semaphoreName);
 
         final CoordinationSession coordinationSession = coordinationClient.createSession();
+        currentCoordinationSession.set(coordinationSession);
 
         coordinationSession.start(
                 new Observer() {
                     @Override
                     public void onNext(SessionResponse sessionResponse) {
-                        if (sessionResponse.hasDescribeSemaphoreChanged()) {
-                            String endpointLeader = sessionResponse.getDescribeSemaphoreResult()
-                                    .getSemaphoreDescription()
-                                    .getOwnersList()
-                                    .get(0)
-                                    .getData()
-                                    .toString(StandardCharsets.UTF_8);
+                        switch (sessionResponse.getResponseCase()) {
+                            case ACQUIRE_SEMAPHORE_RESULT:
+                                observerOnEndpointLeader.onNext(publishEndpoint);
+                                break;
+                            case ACQUIRE_SEMAPHORE_PENDING:
+                            case DESCRIBE_SEMAPHORE_CHANGED:
+                                coordinationSession.sendDescribeSemaphore(
+                                        SessionRequest.DescribeSemaphore.newBuilder()
+                                                .setName(semaphoreName)
+                                                .setWatchOwners(true)
+                                                .setIncludeOwners(true)
+                                                .build()
+                                );
+                                break;
+                            case DESCRIBE_SEMAPHORE_RESULT:
+                                SemaphoreSession semaphoreSessionLeader = sessionResponse
+                                        .getDescribeSemaphoreResult()
+                                        .getSemaphoreDescription()
+                                        .getOwnersList()
+                                        .get(0);
 
-                            observerOnEndpointLeader.onNext(endpointLeader);
+                                epochLeader.set(semaphoreSessionLeader.getSessionId());
+
+                                observerOnEndpointLeader.onNext(
+                                        semaphoreSessionLeader.getData()
+                                                .toString(StandardCharsets.UTF_8)
+                                );
+                                break;
                         }
                     }
 
@@ -120,16 +151,8 @@ public class LeaderElectionSession {
                 SessionRequest.AcquireSemaphore.newBuilder()
                         .setName(semaphoreName)
                         .setCount(COUNT_TOKENS)
+                        .setTimeoutMillis(-1)
                         .setData(ByteString.copyFrom(publishEndpoint.getBytes(StandardCharsets.UTF_8)))
-                        .setTimeoutMillis(0) // Try acquire
-                        .build()
-        );
-
-        coordinationSession.sendDescribeSemaphore(
-                SessionRequest.DescribeSemaphore.newBuilder()
-                        .setName(semaphoreName)
-                        .setWatchOwners(true)
-                        .setIncludeOwners(true)
                         .build()
         );
     }

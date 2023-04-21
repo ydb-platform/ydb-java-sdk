@@ -74,7 +74,7 @@ public class CoordinationSession {
      * First message used to start/restore a session
      */
     public void sendStartSession(SessionRequest.SessionStart sessionStart) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setSessionStart(sessionStart)
                         .build()
@@ -85,7 +85,7 @@ public class CoordinationSession {
      * Used for checking liveness of the connection
      */
     public void sendPingPong(SessionRequest.PingPong pingPong) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setPing(pingPong)
                         .build()
@@ -101,7 +101,7 @@ public class CoordinationSession {
      * e.g. to reduce acquired count, change timeout or attached data.
      */
     public void sendAcquireSemaphore(SessionRequest.AcquireSemaphore acquireSemaphore) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setAcquireSemaphore(acquireSemaphore)
                         .build()
@@ -117,7 +117,7 @@ public class CoordinationSession {
      * queue or release an already owned semaphore.
      */
     public void sendReleaseSemaphore(SessionRequest.ReleaseSemaphore releaseSemaphore) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setReleaseSemaphore(releaseSemaphore)
                         .build()
@@ -130,7 +130,7 @@ public class CoordinationSession {
      * WARNING: a describe operation will cancel previous watches on the same semaphore
      */
     public void sendDescribeSemaphore(SessionRequest.DescribeSemaphore describeSemaphore) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setDescribeSemaphore(describeSemaphore)
                         .build()
@@ -141,7 +141,7 @@ public class CoordinationSession {
      * Used to create a new semaphore
      */
     public void sendCreateSemaphore(SessionRequest.CreateSemaphore createSemaphore) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setCreateSemaphore(createSemaphore)
                         .build()
@@ -152,7 +152,7 @@ public class CoordinationSession {
      * Used to change semaphore data
      */
     public void sendUpdateSemaphore(SessionRequest.UpdateSemaphore updateSemaphore) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setUpdateSemaphore(updateSemaphore)
                         .build()
@@ -163,11 +163,17 @@ public class CoordinationSession {
      * Used to delete an existing semaphore
      */
     public void sendDeleteSemaphore(SessionRequest.DeleteSemaphore deleteSemaphore) {
-        coordinationStream.sendNext(
+        send(
                 SessionRequest.newBuilder()
                         .setDeleteSemaphore(deleteSemaphore)
                         .build()
         );
+    }
+
+    private void send(SessionRequest sessionRequest) {
+        logger.trace("Send message: {}", sessionRequest);
+
+        coordinationStream.sendNext(sessionRequest);
     }
 
     public void stop() {

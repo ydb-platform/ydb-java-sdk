@@ -52,22 +52,28 @@ public class SessionSettings {
         private int sessionNum = 1;
         private String description = "";
 
-        public void setCoordinationName(@Nonnull String coordinationName) {
+        public Builder setCoordinationName(@Nonnull String coordinationName) {
             this.coordinationName = Preconditions.checkNotNull(
                     coordinationName,
                     "Coordination node name  shouldn’t be null!"
             );
+
+            return this;
         }
 
-        public void setSessionNum(int sessionNum) {
+        public Builder setSessionNum(int sessionNum) {
             this.sessionNum = sessionNum;
+
+            return this;
         }
 
-        public void setDescription(@Nonnull String description) {
+        public Builder setDescription(@Nonnull String description) {
             this.description = Preconditions.checkNotNull(
                     description,
                     "Descriptions shouldn’t be null!"
             );
+
+            return this;
         }
 
         public SessionSettings build() {
