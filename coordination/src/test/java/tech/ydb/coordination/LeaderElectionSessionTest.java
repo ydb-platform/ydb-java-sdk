@@ -19,6 +19,9 @@ import tech.ydb.coordination.session.LeaderElectionSession;
 import tech.ydb.coordination.settings.SessionSettings;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
+/**
+ * @author Kirill Kurdyukov
+ */
 public class LeaderElectionSessionTest {
 
     @ClassRule

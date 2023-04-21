@@ -15,6 +15,9 @@ import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Status;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
+/**
+ * @author Kirill Kurdyukov
+ */
 public class CoordinationClientTest {
 
     @ClassRule

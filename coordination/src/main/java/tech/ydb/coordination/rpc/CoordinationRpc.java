@@ -12,6 +12,9 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 
+/**
+ * @author Kirill Kurdyukov
+ */
 public interface CoordinationRpc {
 
     GrpcReadWriteStream<SessionResponse, SessionRequest> session();

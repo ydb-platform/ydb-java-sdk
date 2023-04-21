@@ -98,6 +98,7 @@ public class LeaderElectionSession {
                                                 .toString(StandardCharsets.UTF_8)
                                 );
                                 break;
+                            default:
                         }
                     }
 
