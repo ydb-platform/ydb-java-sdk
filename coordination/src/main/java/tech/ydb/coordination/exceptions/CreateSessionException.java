@@ -5,8 +5,8 @@ import tech.ydb.core.Status;
 /**
  * @author Kirill Kurdyukov
  */
-public class CreateLeaderElectionSessionException extends RuntimeException {
-    public CreateLeaderElectionSessionException(Status status) {
+public class CreateSessionException extends RuntimeException {
+    public CreateSessionException(Status status) {
         super("Fail with status: " + status);
     }
 }

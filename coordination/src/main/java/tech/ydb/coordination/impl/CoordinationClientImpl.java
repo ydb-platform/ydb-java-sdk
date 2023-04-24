@@ -1,6 +1,7 @@
 package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 import tech.ydb.coordination.AlterNodeRequest;
 import tech.ydb.coordination.Config;
@@ -10,8 +11,10 @@ import tech.ydb.coordination.CreateNodeRequest;
 import tech.ydb.coordination.DescribeNodeRequest;
 import tech.ydb.coordination.DropNodeRequest;
 import tech.ydb.coordination.RateLimiterCountersMode;
-import tech.ydb.coordination.exceptions.CreateLeaderElectionSessionException;
+import tech.ydb.coordination.exceptions.CreateSessionException;
 import tech.ydb.coordination.rpc.CoordinationRpc;
+import tech.ydb.coordination.session.ConfigurationPublishSession;
+import tech.ydb.coordination.session.ConfigurationSubscribeSession;
 import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.session.LeaderElectionSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
@@ -40,20 +43,37 @@ public class CoordinationClientImpl implements CoordinationClient {
     }
 
     @Override
-    public CompletableFuture<LeaderElectionSession> createLeaderElectionSession(SessionSettings settings) {
-        final String coordinationNodePath = coordinationRpc.getDatabase() + "/" + settings.getCoordinationNodeName();
+    public CompletableFuture<LeaderElectionSession> createLeaderElectionSession(
+            final SessionSettings settings
+    ) {
+        return createSession(
+                settings,
+                coordinationNodeName -> new LeaderElectionSession(
+                        this, settings, coordinationNodeName)
+        );
+    }
 
-        return createNode(
-                coordinationNodePath,
-                CoordinationNodeSettings.newBuilder().build()
-        ).thenApply(
-                status -> {
-                    if (status.isSuccess()) {
-                        return new LeaderElectionSession(this, settings, coordinationNodePath);
-                    } else {
-                        throw new CreateLeaderElectionSessionException(status);
-                    }
-                }
+    @Override
+    public CompletableFuture<ConfigurationPublishSession> createConfigurationPublishSession(
+            final SessionSettings settings
+    ) {
+        return createSession(
+                settings,
+                coordinationNodeName -> new ConfigurationPublishSession(
+                        this.createSession(), settings, coordinationNodeName
+                )
+        );
+    }
+
+    @Override
+    public CompletableFuture<ConfigurationSubscribeSession> createConfigurationSubscribeSession(
+            final SessionSettings settings
+    ) {
+        return createSession(
+                settings,
+                coordinationNodeName -> new ConfigurationSubscribeSession(
+                        this.createSession(), settings, coordinationNodeName
+                )
         );
     }
 
@@ -112,6 +132,28 @@ public class CoordinationClientImpl implements CoordinationClient {
                         .setOperationParams(Operations.createParams(describeCoordinationNodeSettings))
                         .build(),
                 createGrpcRequestSettings(describeCoordinationNodeSettings)
+        );
+    }
+
+    private <T> CompletableFuture<T> createSession(
+            SessionSettings settings,
+            Function<String, T> converterStatusToSession
+    ) {
+        final String coordinationNodePath = coordinationRpc.getDatabase()
+                + "/" + settings.getCoordinationNodeName()
+                + "-" + settings.getCoordinationNodeNum();
+
+        return createNode(
+                coordinationNodePath,
+                CoordinationNodeSettings.newBuilder().build()
+        ).thenApply(
+                status -> {
+                    if (status.isSuccess()) {
+                        return converterStatusToSession.apply(coordinationNodePath);
+                    } else {
+                        throw new CreateSessionException(status);
+                    }
+                }
         );
     }
 

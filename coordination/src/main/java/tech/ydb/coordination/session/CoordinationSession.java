@@ -1,10 +1,12 @@
 package tech.ydb.coordination.session;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
+import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -176,6 +178,7 @@ public class CoordinationSession {
         coordinationStream.sendNext(sessionRequest);
     }
 
+    @PreDestroy
     public void stop() {
         if (isWorking.compareAndSet(true, false)) {
             coordinationStream.sendNext(
@@ -186,7 +189,11 @@ public class CoordinationSession {
                             ).build()
             );
 
-            stoppedFuture.join();
+            try {
+                stoppedFuture.get(10, TimeUnit.SECONDS);
+            } catch (Exception e) {
+                logger.error("Failed stopping awaiting", e);
+            }
 
             coordinationStream.close();
         }

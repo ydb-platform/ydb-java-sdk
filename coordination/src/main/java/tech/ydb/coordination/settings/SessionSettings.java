@@ -5,7 +5,9 @@ import javax.annotation.Nonnull;
 import com.google.common.base.Preconditions;
 
 public class SessionSettings {
+    public static final int START_SESSION_ID = 0;
 
+    private final int coordinationNodeNum;
     private final String coordinationNodeName;
 
     /**
@@ -24,9 +26,14 @@ public class SessionSettings {
     public SessionSettings(
             Builder builder
     ) {
-        this.coordinationNodeName = builder.coordinationName;
+        this.coordinationNodeNum = builder.coordinationNodeNum;
+        this.coordinationNodeName = builder.coordinationNodeName;
         this.sessionNum = builder.sessionNum;
         this.description = builder.description;
+    }
+
+    public int getCoordinationNodeNum() {
+        return coordinationNodeNum;
     }
 
     public String getCoordinationNodeName() {
@@ -47,14 +54,20 @@ public class SessionSettings {
 
     public static class Builder {
 
-        private String coordinationName = "coordination-node-default";
-
+        private int coordinationNodeNum = 1;
+        private String coordinationNodeName = "coordination-node-default";
         private int sessionNum = 1;
         private String description = "";
 
-        public Builder setCoordinationName(@Nonnull String coordinationName) {
-            this.coordinationName = Preconditions.checkNotNull(
-                    coordinationName,
+        public Builder setCoordinationNum(int coordinationNodeNum) {
+            this.coordinationNodeNum = coordinationNodeNum;
+
+            return this;
+        }
+
+        public Builder setCoordinationNodeName(@Nonnull String coordinationNodeName) {
+            this.coordinationNodeName = Preconditions.checkNotNull(
+                    coordinationNodeName,
                     "Coordination node name  shouldn’t be null!"
             );
 

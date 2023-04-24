@@ -15,12 +15,11 @@ import tech.ydb.test.integration.YdbHelperFactory;
 import tech.ydb.test.integration.utils.ProxyYdbHelper;
 
 /**
- *
  * @author Aleksandr Gorshenin
  */
-public class YdbHelperExtention extends ProxyYdbHelper implements ExecutionCondition,
+public class YdbHelperExtension extends ProxyYdbHelper implements ExecutionCondition,
         BeforeAllCallback, AfterAllCallback, BeforeEachCallback, AfterEachCallback {
-    private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtention.class);
+    private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtension.class);
 
     private final Holder holder = new Holder();
 

@@ -5,6 +5,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.PreDestroy;
+
 import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +27,6 @@ public class LeaderElectionSession {
 
     private static final Logger logger = LoggerFactory.getLogger(LeaderElectionSession.class);
 
-    private static final int START_SESSION_ID = 0;
     private static final int SESSION_KEEP_ALIVE_TIMEOUT_MS = 0;
     private static final int LIMIT_TOKENS_SEMAPHORE = 1;
     private static final int COUNT_TOKENS = 1;
@@ -34,7 +35,7 @@ public class LeaderElectionSession {
     private final SessionSettings session;
     private final String coordinationNodePath;
     private final String semaphoreName;
-    private final AtomicBoolean isWorking = new AtomicBoolean(false);
+    private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final AtomicReference<CoordinationSession> currentCoordinationSession = new AtomicReference<>();
     private final AtomicLong epochLeader = new AtomicLong();
 
@@ -72,6 +73,11 @@ public class LeaderElectionSession {
                     public void onNext(SessionResponse sessionResponse) {
                         switch (sessionResponse.getResponseCase()) {
                             case ACQUIRE_SEMAPHORE_RESULT:
+                                Long sessionId = coordinationSession.getSessionId();
+                                if (sessionId != null) {
+                                    epochLeader.set(sessionId);
+                                }
+
                                 observerOnEndpointLeader.onNext(publishEndpoint);
                                 break;
                             case ACQUIRE_SEMAPHORE_PENDING:
@@ -91,12 +97,14 @@ public class LeaderElectionSession {
                                         .getOwnersList()
                                         .get(0);
 
-                                epochLeader.set(semaphoreSessionLeader.getSessionId());
+                                if (semaphoreSessionLeader.getSessionId() != epochLeader.get()) {
+                                    epochLeader.set(semaphoreSessionLeader.getSessionId());
 
-                                observerOnEndpointLeader.onNext(
-                                        semaphoreSessionLeader.getData()
-                                                .toString(StandardCharsets.UTF_8)
-                                );
+                                    observerOnEndpointLeader.onNext(
+                                            semaphoreSessionLeader.getData()
+                                            .toString(StandardCharsets.UTF_8)
+                                    );
+                                }
                                 break;
                             default:
                         }
@@ -139,7 +147,7 @@ public class LeaderElectionSession {
 
         coordinationSession.sendStartSession(
                 SessionRequest.SessionStart.newBuilder()
-                        .setSessionId(START_SESSION_ID)
+                        .setSessionId(SessionSettings.START_SESSION_ID)
                         .setPath(coordinationNodePath)
                         .setDescription(session.getDescription())
                         .setTimeoutMillis(SESSION_KEEP_ALIVE_TIMEOUT_MS)
@@ -163,14 +171,17 @@ public class LeaderElectionSession {
         );
     }
 
+    @PreDestroy
     public void stop() {
-        if (isWorking.compareAndSet(false, true)) {
+        if (isWorking.compareAndSet(true, false)) {
             logger.info("Stopping leader election session...");
 
             while (true) {
                 CoordinationSession coordinationSession = currentCoordinationSession.get();
 
-                coordinationSession.stop();
+                if (coordinationSession != null) {
+                    coordinationSession.stop();
+                }
 
                 if (currentCoordinationSession.compareAndSet(coordinationSession, coordinationSession)) {
                     break;
