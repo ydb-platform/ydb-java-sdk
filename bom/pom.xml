@@ -74,6 +74,12 @@
                 <artifactId>yc-auth-provider</artifactId>
                 <version>${yc-auth.version}</version>
             </dependency>
+            <dependency>
+                <groupId>tech.ydb.auth</groupId>
+                <artifactId>yc-auth-provider</artifactId>
+                <version>${yc-auth.version}</version>
+                <classifier>shaded</classifier>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
