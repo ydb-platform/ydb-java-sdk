@@ -22,7 +22,7 @@ import tech.ydb.core.StatusCode;
 public class ConfigurationPublisher extends WorkingScenario {
 
     /**
-     * Semaphores must have limit > 0
+     * Semaphores must have limit more than zero
      */
     public static final int SEMAPHORE_LIMIT = 1;
 

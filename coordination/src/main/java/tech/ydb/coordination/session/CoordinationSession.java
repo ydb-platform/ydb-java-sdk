@@ -150,6 +150,8 @@ public class CoordinationSession {
 
     /**
      * First message used to start/restore a session
+     *
+     * @param sessionStart session start of proto body
      */
     public void sendStartSession(SessionRequest.SessionStart sessionStart) {
         send(
@@ -161,6 +163,8 @@ public class CoordinationSession {
 
     /**
      * Used for checking liveness of the connection
+     *
+     * @param pingPong ping pong of proto body
      */
     public void sendPingPong(SessionRequest.PingPong pingPong) {
         send(
@@ -177,6 +181,8 @@ public class CoordinationSession {
      * <p>
      * Later requests override previous operations with the same semaphore,
      * e.g. to reduce acquired count, change timeout or attached data.
+     *
+     * @param acquireSemaphore acquire semaphore of proto body
      */
     public void sendAcquireSemaphore(SessionRequest.AcquireSemaphore acquireSemaphore) {
         send(
@@ -193,6 +199,8 @@ public class CoordinationSession {
      * <p>
      * The release operation will either remove current session from waiters
      * queue or release an already owned semaphore.
+     *
+     * @param releaseSemaphore release semaphore of proto body
      */
     public void sendReleaseSemaphore(SessionRequest.ReleaseSemaphore releaseSemaphore) {
         send(
@@ -206,6 +214,8 @@ public class CoordinationSession {
      * Used to describe semaphores and watch them for changes
      * <p>
      * WARNING: a describe operation will cancel previous watches on the same semaphore
+     *
+     * @param describeSemaphore describe semaphore of proto body
      */
     public void sendDescribeSemaphore(SessionRequest.DescribeSemaphore describeSemaphore) {
         send(
@@ -217,6 +227,8 @@ public class CoordinationSession {
 
     /**
      * Used to create a new semaphore
+     *
+     * @param createSemaphore create semaphore of proto body
      */
     public void sendCreateSemaphore(SessionRequest.CreateSemaphore createSemaphore) {
         send(
@@ -228,6 +240,8 @@ public class CoordinationSession {
 
     /**
      * Used to change semaphore data
+     *
+     * @param updateSemaphore update semaphore of proto body
      */
     public void sendUpdateSemaphore(SessionRequest.UpdateSemaphore updateSemaphore) {
         send(
@@ -239,6 +253,8 @@ public class CoordinationSession {
 
     /**
      * Used to delete an existing semaphore
+     *
+     * @param deleteSemaphore delete semaphore of proto body
      */
     public void sendDeleteSemaphore(SessionRequest.DeleteSemaphore deleteSemaphore) {
         send(

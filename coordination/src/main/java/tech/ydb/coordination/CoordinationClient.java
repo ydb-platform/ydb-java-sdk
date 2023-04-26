@@ -27,11 +27,17 @@ public interface CoordinationClient {
      * messages in SessionRequest and SessionResponse. Session is established
      * with a specific coordination node (previously created using CreateNode
      * below) and semaphores are local to that coordination node.
+     *
+     * @return coordination node session
      */
     CoordinationSession createSession();
 
     /**
-     * Creates a new coordination node
+     * Creates a new coordination node.
+     *
+     * @param path full path to coordination node
+     * @param coordinationNodeSettings coordination node settings
+     * @return status of request
      */
     CompletableFuture<Status> createNode(
             String path,
@@ -40,6 +46,10 @@ public interface CoordinationClient {
 
     /**
      * Modifies settings of a coordination node
+     *
+     * @param path full path to coordination node
+     * @param coordinationNodeSettings coordination node settings
+     * @return status of request
      */
     CompletableFuture<Status> alterNode(
             String path,
@@ -48,6 +58,10 @@ public interface CoordinationClient {
 
     /**
      * Drops a coordination node
+     *
+     * @param path full path to coordination node
+     * @param dropCoordinationNodeSettings drop coordination node settings
+     * @return request of status
      */
     CompletableFuture<Status> dropNode(
             String path,
@@ -56,6 +70,10 @@ public interface CoordinationClient {
 
     /**
      * Describes a coordination node
+     *
+     * @param path full path to coordination node
+     * @param describeCoordinationNodeSettings describe coordination node settings
+     * @return request of status
      */
     CompletableFuture<Status> describeNode(
             String path,
@@ -64,6 +82,9 @@ public interface CoordinationClient {
 
     /**
      * Database path
+     * Using for creating coordination node path
+     *
+     * @return path to database
      */
     String getDatabase();
 }
