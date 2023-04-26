@@ -27,26 +27,12 @@
 
         <dependency>
             <groupId>tech.ydb.test</groupId>
-            <artifactId>ydb-junit5-support</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>tech.ydb.test</groupId>
             <artifactId>ydb-junit4-support</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

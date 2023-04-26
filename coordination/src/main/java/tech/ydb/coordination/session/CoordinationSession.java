@@ -1,20 +1,24 @@
 package tech.ydb.coordination.session;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicLong;
 
-import javax.annotation.Nullable;
 import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.StatusCodesProtos;
+import tech.ydb.YdbIssueMessage;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.SessionResponse;
-import tech.ydb.coordination.observer.Observer;
+import tech.ydb.coordination.observer.CoordinationSessionObserver;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 
 /**
@@ -22,50 +26,122 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
  */
 public class CoordinationSession {
 
+    private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
+
     private final GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final CompletableFuture<SessionResponse> stoppedFuture = new CompletableFuture<>();
-    private final AtomicReference<Long> sessionId = new AtomicReference<>(null);
-
-    private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
+    private final AtomicLong sessionId = new AtomicLong();
 
     public CoordinationSession(GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream) {
         this.coordinationStream = coordinationStream;
     }
 
-    @Nullable
-    public Long getSessionId() {
+    public long getSessionId() {
         return sessionId.get();
     }
 
-    public CompletableFuture<Status> start(Observer observer) {
+    public CompletableFuture<Status> start(CoordinationSessionObserver coordinationSessionObserver) {
         return coordinationStream.start(
                 message -> {
-                    logger.trace("Message received:\n{}", message);
+                    if (logger.isTraceEnabled()) {
+                        logger.trace("Message received:\n{}", message);
+                    }
 
                     if (message.hasSessionStopped()) {
                         stoppedFuture.complete(message);
-                    }
 
-                    if (message.hasFailure()) {
-                        observer.onFailure(message.getFailure().getStatus());
+                        return;
                     }
 
                     if (isWorking.get()) {
-                        if (message.hasSessionStarted()) {
-                            sessionId.set(message.getSessionStarted().getSessionId());
-                        }
+                        switch (message.getResponseCase()) {
+                            case SESSION_STARTED:
+                                sessionId.set(message.getSessionStarted().getSessionId());
 
-                        if (message.hasPing()) {
-                            coordinationStream.sendNext(
-                                    SessionRequest.newBuilder().setPong(
-                                            SessionRequest.PingPong.newBuilder()
-                                                    .setOpaque(message.getPing().getOpaque())
-                                                    .build()
-                                    ).build()
-                            );
-                        } else {
-                            observer.onNext(message);
+                                coordinationSessionObserver.onSessionStarted();
+                                break;
+                            case PING:
+                                coordinationStream.sendNext(
+                                        SessionRequest.newBuilder().setPong(
+                                                SessionRequest.PingPong.newBuilder()
+                                                        .setOpaque(message.getPing().getOpaque())
+                                                        .build()
+                                        ).build()
+                                );
+                                break;
+                            case ACQUIRE_SEMAPHORE_RESULT:
+                                coordinationSessionObserver.onAcquireSemaphoreResult(
+                                        message.getAcquireSemaphoreResult().getAcquired(),
+                                        getStatus(
+                                                message.getAcquireSemaphoreResult().getStatus(),
+                                                message.getAcquireSemaphoreResult().getIssuesList()
+                                        )
+                                );
+                                break;
+                            case ACQUIRE_SEMAPHORE_PENDING:
+                                coordinationSessionObserver.onAcquireSemaphorePending();
+                                break;
+                            case FAILURE:
+                                coordinationSessionObserver.onFailure(
+                                        getStatus(
+                                                message.getFailure().getStatus(),
+                                                message.getFailure().getIssuesList()
+                                        )
+                                );
+                                break;
+                            case DESCRIBE_SEMAPHORE_RESULT:
+                                coordinationSessionObserver.onDescribeSemaphoreResult(
+                                        message.getDescribeSemaphoreResult().getSemaphoreDescription(),
+                                        getStatus(
+                                                message.getDescribeSemaphoreResult().getStatus(),
+                                                message.getDescribeSemaphoreResult().getIssuesList()
+                                        )
+                                );
+                                break;
+                            case DESCRIBE_SEMAPHORE_CHANGED:
+                                coordinationSessionObserver.onDescribeSemaphoreChanged(
+                                        message.getDescribeSemaphoreChanged().getDataChanged(),
+                                        message.getDescribeSemaphoreChanged().getOwnersChanged()
+                                );
+                                break;
+                            case DELETE_SEMAPHORE_RESULT:
+                                coordinationSessionObserver.onDeleteSemaphoreResult(
+                                        getStatus(
+                                                message.getDeleteSemaphoreResult().getStatus(),
+                                                message.getDeleteSemaphoreResult().getIssuesList()
+                                        )
+                                );
+                                break;
+                            case CREATE_SEMAPHORE_RESULT:
+                                coordinationSessionObserver.onCreateSemaphoreResult(
+                                        getStatus(
+                                                message.getCreateSemaphoreResult().getStatus(),
+                                                message.getCreateSemaphoreResult().getIssuesList()
+                                        )
+                                );
+                                break;
+                            case RELEASE_SEMAPHORE_RESULT:
+                                coordinationSessionObserver.onReleaseSemaphoreResult(
+                                        message.getReleaseSemaphoreResult().getReleased(),
+                                        getStatus(
+                                                message.getReleaseSemaphoreResult().getStatus(),
+                                                message.getReleaseSemaphoreResult().getIssuesList()
+                                        )
+                                );
+                            case UPDATE_SEMAPHORE_RESULT:
+                                coordinationSessionObserver.onUpdateSemaphoreResult(
+                                        message.getUpdateSemaphoreResult().getReqId(),
+                                        getStatus(
+                                                message.getUpdateSemaphoreResult().getStatus(),
+                                                message.getUpdateSemaphoreResult().getIssuesList()
+                                        )
+                                );
+                            case PONG:
+                                coordinationSessionObserver.onPong(
+                                        message.getPong().getOpaque()
+                                );
+                            default:
                         }
                     }
                 }
@@ -173,9 +249,19 @@ public class CoordinationSession {
     }
 
     private void send(SessionRequest sessionRequest) {
-        logger.trace("Send message: {}", sessionRequest);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Send message: {}", sessionRequest);
+        }
 
         coordinationStream.sendNext(sessionRequest);
+    }
+
+    private static Status getStatus(
+            StatusCodesProtos.StatusIds.StatusCode statusCode,
+            List<YdbIssueMessage.IssueMessage> issueMessages
+    ) {
+        return Status.of(StatusCode.fromProto(statusCode))
+                .withIssues(Issue.fromPb(issueMessages));
     }
 
     @PreDestroy

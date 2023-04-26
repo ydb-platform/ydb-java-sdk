@@ -4,14 +4,10 @@ import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.coordination.impl.CoordinationClientImpl;
 import tech.ydb.coordination.rpc.CoordinationRpc;
-import tech.ydb.coordination.session.ConfigurationPublishSession;
-import tech.ydb.coordination.session.ConfigurationSubscribeSession;
 import tech.ydb.coordination.session.CoordinationSession;
-import tech.ydb.coordination.session.LeaderElectionSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.coordination.settings.SessionSettings;
 import tech.ydb.core.Status;
 
 /**
@@ -33,12 +29,6 @@ public interface CoordinationClient {
      * below) and semaphores are local to that coordination node.
      */
     CoordinationSession createSession();
-
-    CompletableFuture<LeaderElectionSession> createLeaderElectionSession(SessionSettings settings);
-
-    CompletableFuture<ConfigurationPublishSession> createConfigurationPublishSession(SessionSettings settings);
-
-    CompletableFuture<ConfigurationSubscribeSession> createConfigurationSubscribeSession(SessionSettings settings);
 
     /**
      * Creates a new coordination node
@@ -71,4 +61,9 @@ public interface CoordinationClient {
             String path,
             DescribeCoordinationNodeSettings describeCoordinationNodeSettings
     );
+
+    /**
+     * Database path
+     */
+    String getDatabase();
 }

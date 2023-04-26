@@ -1,7 +1,6 @@
 package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 import tech.ydb.coordination.AlterNodeRequest;
 import tech.ydb.coordination.Config;
@@ -11,16 +10,11 @@ import tech.ydb.coordination.CreateNodeRequest;
 import tech.ydb.coordination.DescribeNodeRequest;
 import tech.ydb.coordination.DropNodeRequest;
 import tech.ydb.coordination.RateLimiterCountersMode;
-import tech.ydb.coordination.exceptions.CreateSessionException;
 import tech.ydb.coordination.rpc.CoordinationRpc;
-import tech.ydb.coordination.session.ConfigurationPublishSession;
-import tech.ydb.coordination.session.ConfigurationSubscribeSession;
 import tech.ydb.coordination.session.CoordinationSession;
-import tech.ydb.coordination.session.LeaderElectionSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.coordination.settings.SessionSettings;
 import tech.ydb.core.Operations;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -40,41 +34,6 @@ public class CoordinationClientImpl implements CoordinationClient {
     @Override
     public CoordinationSession createSession() {
         return new CoordinationSession(coordinationRpc.session());
-    }
-
-    @Override
-    public CompletableFuture<LeaderElectionSession> createLeaderElectionSession(
-            final SessionSettings settings
-    ) {
-        return createSession(
-                settings,
-                coordinationNodeName -> new LeaderElectionSession(
-                        this, settings, coordinationNodeName)
-        );
-    }
-
-    @Override
-    public CompletableFuture<ConfigurationPublishSession> createConfigurationPublishSession(
-            final SessionSettings settings
-    ) {
-        return createSession(
-                settings,
-                coordinationNodeName -> new ConfigurationPublishSession(
-                        this.createSession(), settings, coordinationNodeName
-                )
-        );
-    }
-
-    @Override
-    public CompletableFuture<ConfigurationSubscribeSession> createConfigurationSubscribeSession(
-            final SessionSettings settings
-    ) {
-        return createSession(
-                settings,
-                coordinationNodeName -> new ConfigurationSubscribeSession(
-                        this.createSession(), settings, coordinationNodeName
-                )
-        );
     }
 
     @Override
@@ -135,26 +94,9 @@ public class CoordinationClientImpl implements CoordinationClient {
         );
     }
 
-    private <T> CompletableFuture<T> createSession(
-            SessionSettings settings,
-            Function<String, T> converterStatusToSession
-    ) {
-        final String coordinationNodePath = coordinationRpc.getDatabase()
-                + "/" + settings.getCoordinationNodeName()
-                + "-" + settings.getCoordinationNodeNum();
-
-        return createNode(
-                coordinationNodePath,
-                CoordinationNodeSettings.newBuilder().build()
-        ).thenApply(
-                status -> {
-                    if (status.isSuccess()) {
-                        return converterStatusToSession.apply(coordinationNodePath);
-                    } else {
-                        throw new CreateSessionException(status);
-                    }
-                }
-        );
+    @Override
+    public String getDatabase() {
+        return coordinationRpc.getDatabase();
     }
 
     private static ConsistencyMode toProto(CoordinationNodeSettings.ConsistencyMode consistencyMode) {

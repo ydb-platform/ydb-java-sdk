@@ -9,22 +9,22 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Kirill Kurdyukov
  */
-public class WrapperCompletableFuture {
+public class WrapperCompletableFuture<T> {
 
     private static final Logger logger = LoggerFactory.getLogger(WrapperCompletableFuture.class);
-    public final AtomicReference<CompletableFuture<String>> futureAtomicReference;
+    public final AtomicReference<CompletableFuture<T>> futureAtomicReference;
 
     public WrapperCompletableFuture() {
         futureAtomicReference = new AtomicReference<>(new CompletableFuture<>());
     }
 
-    public void complete(String endpoint) {
+    public void complete(T endpoint) {
         logger.info("Completing endpoint: {}", endpoint);
 
         futureAtomicReference.get().complete(endpoint);
     }
 
-    public String join() {
+    public T join() {
         return futureAtomicReference.get().join();
     }
 

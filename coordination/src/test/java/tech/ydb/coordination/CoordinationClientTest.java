@@ -7,7 +7,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-import tech.ydb.StatusCodesProtos;
+
+import tech.ydb.coordination.observer.CoordinationSessionObserver;
 import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
 import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
@@ -58,22 +59,27 @@ public class CoordinationClientTest {
     public void coordinationSessionFullCycleTest() {
         CoordinationSession session = client.createSession();
 
-        CompletableFuture<SessionResponse> startCompletableFuture = new CompletableFuture<>();
-        CompletableFuture<SessionResponse> acquireCompletableFuture = new CompletableFuture<>();
-        CompletableFuture<SessionResponse> createCompletableFuture = new CompletableFuture<>();
+        CompletableFuture<Boolean> startCompletableFuture = new CompletableFuture<>();
+        CompletableFuture<Boolean> acquireCompletableFuture = new CompletableFuture<>();
+        CompletableFuture<Status> createCompletableFuture = new CompletableFuture<>();
 
         CompletableFuture<Status> status = session.start(
-                value -> {
-                    switch (value.getResponseCase()) {
-                        case SESSION_STARTED:
-                            startCompletableFuture.complete(value);
-                            break;
-                        case ACQUIRE_SEMAPHORE_RESULT:
-                            acquireCompletableFuture.complete(value);
-                            break;
-                        case CREATE_SEMAPHORE_RESULT:
-                            createCompletableFuture.complete(value);
-                            break;
+                new CoordinationSessionObserver() {
+                    @Override
+                    public void onSessionStarted() {
+                        startCompletableFuture.complete(true);
+                    }
+
+                    @Override
+                    public void onAcquireSemaphoreResult(boolean acquired, Status status) {
+                        if (status.isSuccess()) {
+                            acquireCompletableFuture.complete(acquired);
+                        }
+                    }
+
+                    @Override
+                    public void onCreateSemaphoreResult(Status status) {
+                        createCompletableFuture.complete(status);
                     }
                 }
         );
@@ -86,7 +92,7 @@ public class CoordinationClientTest {
         );
 
         startCompletableFuture.join();
-        Assert.assertTrue(startCompletableFuture.join().hasSessionStarted());
+        Assert.assertTrue(startCompletableFuture.join());
 
         final String semaphoreName = "test-semaphore";
 
@@ -97,8 +103,7 @@ public class CoordinationClientTest {
                     .build()
         );
 
-        Assert.assertEquals(StatusCodesProtos.StatusIds.StatusCode.SUCCESS,
-                createCompletableFuture.join().getCreateSemaphoreResult().getStatus());
+        Assert.assertTrue(createCompletableFuture.join().isSuccess());
 
         session.sendAcquireSemaphore(
                 SessionRequest.AcquireSemaphore.newBuilder()
@@ -107,7 +112,7 @@ public class CoordinationClientTest {
                         .build()
         );
 
-        Assert.assertTrue(acquireCompletableFuture.join().getAcquireSemaphoreResult().getAcquired());
+        Assert.assertTrue(acquireCompletableFuture.join());
 
         session.stop();
         Assert.assertTrue(status.join().isSuccess());
