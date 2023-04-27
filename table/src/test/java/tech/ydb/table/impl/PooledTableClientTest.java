@@ -210,7 +210,7 @@ public class PooledTableClientTest {
 
         Result<Session> r1 = f1.join();
         Assert.assertFalse(r1.isSuccess());
-        Assert.assertEquals(StatusCode.CLIENT_DEADLINE_EXCEEDED, r1.getStatus().getCode());
+        Assert.assertEquals(StatusCode.CLIENT_DEADLINE_EXPIRED, r1.getStatus().getCode());
 
         rpc.check().sessionRequests(1);
         rpc.nextCreateSession().completeSuccess();
