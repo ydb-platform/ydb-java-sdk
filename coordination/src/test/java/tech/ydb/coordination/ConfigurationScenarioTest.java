@@ -62,6 +62,7 @@ public class ConfigurationScenarioTest {
 
         publish(newPublisher, wrappers, "test3".getBytes());
 
+        newPublisher.stop();
         subscribers.forEach(ConfigurationSubscriber::stop);
     }
 
