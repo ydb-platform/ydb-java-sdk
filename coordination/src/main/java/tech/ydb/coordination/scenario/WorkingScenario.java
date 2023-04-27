@@ -3,8 +3,6 @@ package tech.ydb.coordination.scenario;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import javax.annotation.PreDestroy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,7 +74,6 @@ public abstract class WorkingScenario {
         }
     }
 
-    @PreDestroy
     public void stop() {
         if (isWorking.compareAndSet(true, false)) {
             logger.info("Stopping session...");

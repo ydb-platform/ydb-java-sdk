@@ -9,10 +9,8 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
-import tech.ydb.coordination.scenario.WorkingScenario;
 import tech.ydb.coordination.scenario.configuration.ConfigurationPublisher;
 import tech.ydb.coordination.scenario.configuration.ConfigurationSubscriber;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
