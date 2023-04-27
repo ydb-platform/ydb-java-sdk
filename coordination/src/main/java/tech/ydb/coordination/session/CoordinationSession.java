@@ -129,6 +129,7 @@ public class CoordinationSession {
                                                 message.getReleaseSemaphoreResult().getIssuesList()
                                         )
                                 );
+                                break;
                             case UPDATE_SEMAPHORE_RESULT:
                                 coordinationSessionObserver.onUpdateSemaphoreResult(
                                         message.getUpdateSemaphoreResult().getReqId(),
@@ -137,10 +138,12 @@ public class CoordinationSession {
                                                 message.getUpdateSemaphoreResult().getIssuesList()
                                         )
                                 );
+                                break;
                             case PONG:
                                 coordinationSessionObserver.onPong(
                                         message.getPong().getOpaque()
                                 );
+                                break;
                             default:
                         }
                     }

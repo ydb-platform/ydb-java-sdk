@@ -28,84 +28,19 @@ public class LeaderElection extends WorkingScenario {
 
     private final AtomicLong epochLeader = new AtomicLong();
 
-    public LeaderElection(
+    private LeaderElection(
             CoordinationClient client,
-            ScenarioSettings settings,
-            String coordinationNodePath,
-            String ticket,
-            LeaderElectionObserver observer
+            ScenarioSettings settings
     ) {
-        super(client, settings, coordinationNodePath);
+        super(client, settings);
+    }
 
-        start(
-                new CoordinationSessionObserver() {
-                    @Override
-                    public void onAcquireSemaphoreResult(boolean acquired, Status status) {
-                        epochLeader.set(currentCoordinationSession.get().getSessionId());
-
-                        observer.onNext(ticket);
-                    }
-
-                    @Override
-                    public void onAcquireSemaphorePending() {
-                        describeSemaphore();
-                    }
-
-                    @Override
-                    public void onDescribeSemaphoreResult(SemaphoreDescription semaphoreDescription, Status status) {
-                        if (status.isSuccess()) {
-                            SemaphoreSession semaphoreSessionLeader = semaphoreDescription.getOwnersList().get(0);
-
-                            if (semaphoreSessionLeader.getSessionId() != epochLeader.get()) {
-                                epochLeader.set(semaphoreSessionLeader.getSessionId());
-
-                                observer.onNext(
-                                        semaphoreSessionLeader.getData()
-                                                .toString(StandardCharsets.UTF_8)
-                                );
-                            }
-                        } else {
-                            logger.error("Error describer result from leader election session, status: {}", status);
-                        }
-                    }
-
-                    @Override
-                    public void onDescribeSemaphoreChanged(boolean dataChanged, boolean ownersChanged) {
-                        if (ownersChanged) {
-                            describeSemaphore();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Status status) {
-                        logger.error("Fail from leader election session: {}", status);
-                    }
-
-                    @Override
-                    public void onSessionStarted() {
-                        CoordinationSession coordinationSession = currentCoordinationSession.get();
-
-                        logger.info("Starting leader election session, sessionId: {}",
-                                coordinationSession.getSessionId());
-
-                        coordinationSession.sendCreateSemaphore(
-                                SessionRequest.CreateSemaphore.newBuilder()
-                                        .setName(settings.getSemaphoreName())
-                                        .setLimit(LIMIT_TOKENS_SEMAPHORE)
-                                        .build()
-                        );
-
-                        coordinationSession.sendAcquireSemaphore(
-                                SessionRequest.AcquireSemaphore.newBuilder()
-                                        .setName(settings.getSemaphoreName())
-                                        .setCount(COUNT_TOKENS)
-                                        .setTimeoutMillis(-1)
-                                        .setData(ByteString.copyFrom(ticket.getBytes(StandardCharsets.UTF_8)))
-                                        .build()
-                        );
-                    }
-                }
-        );
+    public static Builder newBuilder(
+            CoordinationClient client,
+            String ticket,
+            Observer observer
+    ) {
+        return new Builder(client, ticket, observer);
     }
 
     public long epochLeader() {
@@ -120,5 +55,111 @@ public class LeaderElection extends WorkingScenario {
                         .setIncludeOwners(true)
                         .build()
         );
+    }
+
+    public interface Observer {
+
+        void onNext(String ticket);
+    }
+
+    public static class Builder extends ScenarioSettings.Builder<LeaderElection> {
+
+        private final String ticket;
+        private final Observer observer;
+
+        public Builder(
+                CoordinationClient client,
+                String ticket,
+                Observer observer
+        ) {
+            super(client);
+
+            this.ticket = ticket;
+            this.observer = observer;
+        }
+
+        @Override
+        protected LeaderElection buildScenario(ScenarioSettings settings) {
+            LeaderElection leaderElection = new LeaderElection(client, settings);
+            leaderElection.start(
+                    new CoordinationSessionObserver() {
+                        @Override
+                        public void onAcquireSemaphoreResult(boolean acquired, Status status) {
+                            leaderElection.epochLeader.set(
+                                    leaderElection.currentCoordinationSession.get().getSessionId()
+                            );
+
+                            observer.onNext(ticket);
+                        }
+
+                        @Override
+                        public void onAcquireSemaphorePending() {
+                            leaderElection.describeSemaphore();
+                        }
+
+                        @Override
+                        public void onDescribeSemaphoreResult(
+                                SemaphoreDescription semaphoreDescription,
+                                Status status
+                        ) {
+                            if (status.isSuccess()) {
+                                SemaphoreSession semaphoreSessionLeader =
+                                        semaphoreDescription.getOwnersList().get(0);
+
+                                if (semaphoreSessionLeader.getSessionId() != leaderElection.epochLeader()) {
+                                    leaderElection.epochLeader.set(semaphoreSessionLeader.getSessionId());
+
+                                    observer.onNext(
+                                            semaphoreSessionLeader.getData()
+                                                    .toString(StandardCharsets.UTF_8)
+                                    );
+                                }
+                            } else {
+                                logger.error("Error describer result from leader election session, " +
+                                        "status: {}", status);
+                            }
+                        }
+
+                        @Override
+                        public void onDescribeSemaphoreChanged(boolean dataChanged, boolean ownersChanged) {
+                            if (ownersChanged) {
+                                leaderElection.describeSemaphore();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Status status) {
+                            logger.error("Fail from leader election session: {}", status);
+                        }
+
+                        @Override
+                        public void onSessionStarted() {
+                            CoordinationSession coordinationSession =
+                                    leaderElection.currentCoordinationSession.get();
+
+                            logger.info("Starting leader election session, sessionId: {}",
+                                    coordinationSession.getSessionId());
+
+                            coordinationSession.sendCreateSemaphore(
+                                    SessionRequest.CreateSemaphore.newBuilder()
+                                            .setName(settings.getSemaphoreName())
+                                            .setLimit(LIMIT_TOKENS_SEMAPHORE)
+                                            .build()
+                            );
+
+                            coordinationSession.sendAcquireSemaphore(
+                                    SessionRequest.AcquireSemaphore.newBuilder()
+                                            .setName(settings.getSemaphoreName())
+                                            .setCount(COUNT_TOKENS)
+                                            .setTimeoutMillis(-1)
+                                            .setData(ByteString.copyFrom(ticket.getBytes(StandardCharsets.UTF_8)))
+                                            .build()
+                            );
+                        }
+                    }
+            );
+
+            return leaderElection;
+        }
     }
 }

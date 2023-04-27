@@ -3,21 +3,14 @@ package tech.ydb.coordination;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
-import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
 import tech.ydb.coordination.scenario.leader_election.LeaderElection;
-import tech.ydb.coordination.scenario.leader_election.LeaderElectionFactory;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -28,19 +21,11 @@ public class LeaderElectionScenarioTest {
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
-    private final CoordinationClient client = CoordinationClient.newClient(
-            GrpcCoordinationRpc.useTransport(ydbTransport)
-    );
+    private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
 
     @Test
     public void leaderElectionScenarioFullTest() {
-        LeaderElectionFactory factory = new LeaderElectionFactory(client);
         int sessionsSize = 50;
-
-        ScenarioSettings settings = ScenarioSettings.newBuilder()
-                .setCoordinationNodeName("leader-election-test")
-                .setSemaphoreName("leader-election-test")
-                .build();
 
         Map<String, WrapperCompletableFuture<String>> futures = new HashMap<>();
 
@@ -53,7 +38,11 @@ public class LeaderElectionScenarioTest {
                                     WrapperCompletableFuture<String> future = new WrapperCompletableFuture<>();
 
                                     futures.put(endpoint, future);
-                                    return factory.leaderElection(settings, endpoint, future::complete).join();
+                                    return LeaderElection.newBuilder(client, endpoint, future::complete)
+                                            .setCoordinationNodeName("leader-election-test")
+                                            .setSemaphoreName("leader-election-test")
+                                            .start()
+                                            .join();
                                 }
                         )
                 );

@@ -2,21 +2,24 @@ package tech.ydb.coordination;
 
 import java.util.concurrent.CompletableFuture;
 
+import javax.annotation.WillNotClose;
+
 import tech.ydb.coordination.impl.CoordinationClientImpl;
-import tech.ydb.coordination.rpc.CoordinationRpc;
+import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
 import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcTransport;
 
 /**
  * @author Kirill Kurdyukov
  */
 public interface CoordinationClient {
 
-    static CoordinationClient newClient(CoordinationRpc coordinationRpc) {
-        return new CoordinationClientImpl(coordinationRpc);
+    static CoordinationClient newClient(@WillNotClose GrpcTransport transport) {
+        return new CoordinationClientImpl(GrpcCoordinationRpc.useTransport(transport));
     }
 
     /**

@@ -21,54 +21,24 @@ import tech.ydb.core.StatusCode;
  */
 public class ConfigurationPublisher extends WorkingScenario {
 
+    private static final Logger logger = LoggerFactory.getLogger(ConfigurationPublisher.class);
+
     /**
      * Semaphores must have limit more than zero
      */
     public static final int SEMAPHORE_LIMIT = 1;
 
-    private static final Logger logger = LoggerFactory.getLogger(ConfigurationPublisher.class);
-    private final String semaphoreName;
     private final ConcurrentHashMap<Long, CompletableFuture<Status>> reqIdToStatus = new ConcurrentHashMap<>();
 
-    public ConfigurationPublisher(
+    private ConfigurationPublisher(
             CoordinationClient client,
-            ScenarioSettings settings,
-            String coordinationNodePath
+            ScenarioSettings settings
     ) {
-        super(client, settings, coordinationNodePath);
+        super(client, settings);
+    }
 
-        start(
-                new CoordinationSessionObserver() {
-                    @Override
-                    public void onUpdateSemaphoreResult(long reqId, Status status) {
-                        CompletableFuture<Status> statusCompletableFuture = reqIdToStatus.remove(reqId);
-
-                        if (statusCompletableFuture != null) {
-                            statusCompletableFuture.complete(status);
-                        }
-                    }
-
-                    @Override
-                    public void onSessionStarted() {
-                        logger.info("Starting coordination publisher session, sessionId: {}",
-                                currentCoordinationSession.get().getSessionId());
-
-                        currentCoordinationSession.get().sendCreateSemaphore(
-                                SessionRequest.CreateSemaphore.newBuilder()
-                                        .setName(settings.getSemaphoreName())
-                                        .setLimit(SEMAPHORE_LIMIT)
-                                        .build()
-                        );
-                    }
-
-                    @Override
-                    public void onFailure(Status status) {
-                        logger.error("Fail from publisher session: {}", status);
-                    }
-                }
-        );
-
-        this.semaphoreName = settings.getSemaphoreName();
+    public static Builder newBuilder(CoordinationClient client) {
+        return new Builder(client);
     }
 
     public CompletableFuture<Status> publishData(byte[] bytes) {
@@ -80,7 +50,7 @@ public class ConfigurationPublisher extends WorkingScenario {
         currentCoordinationSession.get().sendUpdateSemaphore(
                 SessionRequest.UpdateSemaphore.newBuilder()
                         .setReqId(reqId)
-                        .setName(semaphoreName)
+                        .setName(settings.getSemaphoreName())
                         .setData(ByteString.copyFrom(bytes))
                         .build()
         );
@@ -94,6 +64,53 @@ public class ConfigurationPublisher extends WorkingScenario {
 
         for (CompletableFuture<Status> futures : reqIdToStatus.values()) {
             futures.complete(Status.of(StatusCode.CANCELLED));
+        }
+        reqIdToStatus.clear();
+    }
+
+    public static class Builder extends ScenarioSettings.Builder<ConfigurationPublisher> {
+        public Builder(CoordinationClient client) {
+            super(client);
+        }
+
+        @Override
+        protected ConfigurationPublisher buildScenario(ScenarioSettings settings) {
+            ConfigurationPublisher publisher = new ConfigurationPublisher(client, settings);
+
+            publisher.start(
+                    new CoordinationSessionObserver() {
+                        @Override
+                        public void onUpdateSemaphoreResult(long reqId, Status status) {
+                            CompletableFuture<Status> statusCompletableFuture = publisher
+                                    .reqIdToStatus.remove(reqId);
+
+                            if (statusCompletableFuture != null) {
+                                statusCompletableFuture.complete(status);
+                            }
+                        }
+
+                        @Override
+                        public void onSessionStarted() {
+                            logger.info("Starting coordination publisher session, sessionId: {}",
+                                    publisher.currentCoordinationSession.get().getSessionId());
+
+                            publisher.currentCoordinationSession.get()
+                                    .sendCreateSemaphore(
+                                            SessionRequest.CreateSemaphore.newBuilder()
+                                                    .setName(settings.getSemaphoreName())
+                                                    .setLimit(SEMAPHORE_LIMIT)
+                                                    .build()
+                                    );
+                        }
+
+                        @Override
+                        public void onFailure(Status status) {
+                            logger.error("Fail from publisher session: {}", status);
+                        }
+                    }
+            );
+
+            return publisher;
         }
     }
 }

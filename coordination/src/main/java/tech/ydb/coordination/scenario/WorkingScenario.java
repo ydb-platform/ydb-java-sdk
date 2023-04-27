@@ -24,19 +24,16 @@ public abstract class WorkingScenario {
 
     protected final AtomicReference<CoordinationSession> currentCoordinationSession;
     protected final AtomicBoolean isWorking = new AtomicBoolean(true);
+    protected final ScenarioSettings settings;
 
     private final CoordinationClient client;
-    private final String coordinationNodePath;
-    protected final ScenarioSettings settings;
 
     public WorkingScenario(
          CoordinationClient client,
-         ScenarioSettings settings,
-         String coordinationNodePath
+         ScenarioSettings settings
     ) {
         this.client = client;
         this.settings = settings;
-        this.coordinationNodePath = coordinationNodePath;
         this.currentCoordinationSession = new AtomicReference<>(client.createSession());
     }
 
@@ -71,7 +68,7 @@ public abstract class WorkingScenario {
             coordinationSession.sendStartSession(
                     SessionRequest.SessionStart.newBuilder()
                             .setSessionId(ScenarioSettings.START_SESSION_ID)
-                            .setPath(coordinationNodePath)
+                            .setPath(settings.getCoordinationNodePath())
                             .setDescription(settings.getDescription())
                             .setTimeoutMillis(ScenarioSettings.SESSION_KEEP_ALIVE_TIMEOUT_MS)
                             .build()

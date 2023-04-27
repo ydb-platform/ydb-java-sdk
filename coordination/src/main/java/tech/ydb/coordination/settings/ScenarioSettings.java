@@ -1,15 +1,21 @@
 package tech.ydb.coordination.settings;
 
+import java.util.concurrent.CompletableFuture;
+
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Preconditions;
+
+import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.exceptions.CreateSessionException;
+import tech.ydb.coordination.scenario.WorkingScenario;
 
 public class ScenarioSettings {
 
     public static final int START_SESSION_ID = 0;
     public static final int SESSION_KEEP_ALIVE_TIMEOUT_MS = 0;
 
-    private final String coordinationNodeName;
+    private final String coordinationNodePath;
 
     /**
      * Used for creating semaphore name.
@@ -22,16 +28,16 @@ public class ScenarioSettings {
      */
     private final String description;
 
-    public ScenarioSettings(
-            Builder builder
+    private ScenarioSettings(
+            Builder<?> builder
     ) {
-        this.coordinationNodeName = builder.coordinationNodeName;
+        this.coordinationNodePath = builder.coordinationNodeName;
         this.semaphoreName = builder.semaphoreName;
         this.description = builder.description;
     }
 
-    public String getCoordinationNodeName() {
-        return coordinationNodeName;
+    public String getCoordinationNodePath() {
+        return coordinationNodePath;
     }
 
     public String getSemaphoreName() {
@@ -42,17 +48,19 @@ public class ScenarioSettings {
         return description;
     }
 
-    public static Builder newBuilder() {
-        return new Builder();
-    }
+    public abstract static class Builder<T extends WorkingScenario> {
 
-    public static class Builder {
+        protected final CoordinationClient client;
 
         private String coordinationNodeName = "coordination-node-default";
         private String semaphoreName = "semaphore-default";
         private String description = "";
 
-        public Builder setCoordinationNodeName(@Nonnull String coordinationNodeName) {
+        public Builder(CoordinationClient client) {
+            this.client = client;
+        }
+
+        public Builder<T> setCoordinationNodeName(@Nonnull String coordinationNodeName) {
             this.coordinationNodeName = Preconditions.checkNotNull(
                     coordinationNodeName,
                     "Coordination node name shouldn’t be null!"
@@ -61,16 +69,16 @@ public class ScenarioSettings {
             return this;
         }
 
-        public Builder setSemaphoreName(@Nonnull String semaphoreName) {
+        public Builder<T> setSemaphoreName(@Nonnull String semaphoreName) {
             this.semaphoreName = Preconditions.checkNotNull(
                     semaphoreName,
-            "Session semaphore name shouldn't be null!"
+                    "Session semaphore name shouldn't be null!"
             );
 
             return this;
         }
 
-        public Builder setDescription(@Nonnull String description) {
+        public Builder<T> setDescription(@Nonnull String description) {
             this.description = Preconditions.checkNotNull(
                     description,
                     "Descriptions shouldn’t be null!"
@@ -79,8 +87,25 @@ public class ScenarioSettings {
             return this;
         }
 
-        public ScenarioSettings build() {
-            return new ScenarioSettings(this);
+        protected abstract T buildScenario(ScenarioSettings settings);
+
+        public CompletableFuture<T> start() {
+            if (!coordinationNodeName.startsWith(client.getDatabase())) {
+                setCoordinationNodeName(client.getDatabase() + "/" + coordinationNodeName);
+            }
+
+            return client.createNode(
+                    coordinationNodeName,
+                    CoordinationNodeSettings.newBuilder().build()
+            ).thenApply(
+                    status -> {
+                        if (status.isSuccess()) {
+                            return buildScenario(new ScenarioSettings(this));
+                        } else {
+                            throw new CreateSessionException(status);
+                        }
+                    }
+            );
         }
     }
 }

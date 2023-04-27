@@ -9,11 +9,8 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
-import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
 import tech.ydb.coordination.scenario.configuration.ConfigurationPublisher;
-import tech.ydb.coordination.scenario.configuration.ConfigurationScenarioFactory;
 import tech.ydb.coordination.scenario.configuration.ConfigurationSubscriber;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -24,21 +21,16 @@ public class ConfigurationScenarioTest {
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
-    private final CoordinationClient client = CoordinationClient.newClient(
-            GrpcCoordinationRpc.useTransport(ydbTransport)
-    );
+    private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
 
     @Test
     public void configurationScenarioFullTest() {
-        ConfigurationScenarioFactory factory = new ConfigurationScenarioFactory(client);
-
-        ScenarioSettings settings = ScenarioSettings.newBuilder()
+        ConfigurationPublisher publisher = ConfigurationPublisher.newBuilder(client)
                 .setCoordinationNodeName("configuration-test")
                 .setSemaphoreName("configuration-test")
                 .setDescription("Test publisher")
-                .build();
-
-        ConfigurationPublisher publisher = factory.configurationPublisher(settings).join();
+                .start()
+                .join();
 
         List<WrapperCompletableFuture<byte[]>> wrappers = new ArrayList<>();
 
@@ -47,14 +39,18 @@ public class ConfigurationScenarioTest {
                             WrapperCompletableFuture<byte[]> wrapper = new WrapperCompletableFuture<>();
 
                             wrappers.add(wrapper);
-                            return factory.configurationSubscriber(
-                                    settings,
-                                    configurationData -> {
-                                        if (configurationData.length > 0) {
-                                            wrapper.complete(configurationData);
-                                        }
-                                    }
-                            );
+                            return ConfigurationSubscriber.newBuilder(
+                                            client,
+                                            configurationData -> {
+                                                if (configurationData.length > 0) {
+                                                    wrapper.complete(configurationData);
+                                                }
+                                            }
+                                    )
+                                    .setCoordinationNodeName("configuration-test")
+                                    .setSemaphoreName("configuration-test")
+                                    .setDescription("Test publisher")
+                                    .start();
                         }
                 )
                 .map(CompletableFuture::join)
@@ -69,7 +65,12 @@ public class ConfigurationScenarioTest {
 
         publisher.stop();
 
-        ConfigurationPublisher newPublisher = factory.configurationPublisher(settings).join();
+        ConfigurationPublisher newPublisher = ConfigurationPublisher.newBuilder(client)
+                .setCoordinationNodeName("configuration-test")
+                .setSemaphoreName("configuration-test")
+                .setDescription("Test publisher")
+                .start()
+                .join();
 
         publish(newPublisher, wrappers, "test3".getBytes());
 
