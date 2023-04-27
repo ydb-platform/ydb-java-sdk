@@ -31,29 +31,20 @@ public class ServiceDiscoveryScenarioTest {
                 .collect(Collectors.toCollection(CopyOnWriteArraySet::new));
 
         List<ServiceDiscoveryPublisher> publishers = hosts.stream()
-                .map(endpoint -> ServiceDiscoveryPublisher.newBuilder(client, endpoint)
-                        .setCoordinationNodeName("service-discovery-test")
-                        .setSemaphoreName("service-discovery-test")
-                        .setDescription("Test discovery settings")
-                        .start()
-                )
+                .map(endpoint -> Utils.getStart(ServiceDiscoveryPublisher.newBuilder(client, endpoint)))
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
 
         WrapperCompletableFuture<Set<String>> future = new WrapperCompletableFuture<>();
 
-        ServiceDiscoverySubscriber subscriber = ServiceDiscoverySubscriber.newBuilder(
+        ServiceDiscoverySubscriber subscriber = Utils.getStart(ServiceDiscoverySubscriber.newBuilder(
                         client,
                         endpoints -> {
                             if (hosts.size() == endpoints.size()) {
                                 future.complete(new HashSet<>(endpoints));
                             }
                         }
-                )
-                .setCoordinationNodeName("service-discovery-test")
-                .setSemaphoreName("service-discovery-test")
-                .setDescription("Test discovery settings")
-                .start()
+                ))
                 .join();
 
         assertEndpoints(hosts, future);
@@ -61,14 +52,7 @@ public class ServiceDiscoveryScenarioTest {
         future.clear();
         hosts.add("localhost3");
 
-        publishers.add(
-                ServiceDiscoveryPublisher.newBuilder(client, "localhost3")
-                        .setCoordinationNodeName("service-discovery-test")
-                        .setSemaphoreName("service-discovery-test")
-                        .setDescription("Test discovery settings")
-                        .start()
-                        .join()
-        );
+        publishers.add(Utils.getStart(ServiceDiscoveryPublisher.newBuilder(client, "localhost3")).join());
 
         assertEndpoints(hosts, future);
 

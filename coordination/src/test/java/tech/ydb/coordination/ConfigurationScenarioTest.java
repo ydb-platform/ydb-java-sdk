@@ -9,8 +9,10 @@ import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
+import tech.ydb.coordination.scenario.WorkingScenario;
 import tech.ydb.coordination.scenario.configuration.ConfigurationPublisher;
 import tech.ydb.coordination.scenario.configuration.ConfigurationSubscriber;
+import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -25,12 +27,7 @@ public class ConfigurationScenarioTest {
 
     @Test
     public void configurationScenarioFullTest() {
-        ConfigurationPublisher publisher = ConfigurationPublisher.newBuilder(client)
-                .setCoordinationNodeName("configuration-test")
-                .setSemaphoreName("configuration-test")
-                .setDescription("Test publisher")
-                .start()
-                .join();
+        ConfigurationPublisher publisher = Utils.getStart(ConfigurationPublisher.newBuilder(client)).join();
 
         List<WrapperCompletableFuture<byte[]>> wrappers = new ArrayList<>();
 
@@ -39,7 +36,8 @@ public class ConfigurationScenarioTest {
                             WrapperCompletableFuture<byte[]> wrapper = new WrapperCompletableFuture<>();
 
                             wrappers.add(wrapper);
-                            return ConfigurationSubscriber.newBuilder(
+                            return Utils.getStart(
+                                    ConfigurationSubscriber.newBuilder(
                                             client,
                                             configurationData -> {
                                                 if (configurationData.length > 0) {
@@ -47,10 +45,7 @@ public class ConfigurationScenarioTest {
                                                 }
                                             }
                                     )
-                                    .setCoordinationNodeName("configuration-test")
-                                    .setSemaphoreName("configuration-test")
-                                    .setDescription("Test publisher")
-                                    .start();
+                            );
                         }
                 )
                 .map(CompletableFuture::join)
@@ -65,12 +60,7 @@ public class ConfigurationScenarioTest {
 
         publisher.stop();
 
-        ConfigurationPublisher newPublisher = ConfigurationPublisher.newBuilder(client)
-                .setCoordinationNodeName("configuration-test")
-                .setSemaphoreName("configuration-test")
-                .setDescription("Test publisher")
-                .start()
-                .join();
+        ConfigurationPublisher newPublisher = Utils.getStart(ConfigurationPublisher.newBuilder(client)).join();
 
         publish(newPublisher, wrappers, "test3".getBytes());
 

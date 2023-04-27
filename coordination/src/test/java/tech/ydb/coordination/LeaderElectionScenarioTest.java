@@ -38,10 +38,9 @@ public class LeaderElectionScenarioTest {
                                     WrapperCompletableFuture<String> future = new WrapperCompletableFuture<>();
 
                                     futures.put(endpoint, future);
-                                    return LeaderElection.newBuilder(client, endpoint, future::complete)
-                                            .setCoordinationNodeName("leader-election-test")
-                                            .setSemaphoreName("leader-election-test")
-                                            .start()
+                                    return Utils.getStart(
+                                                    LeaderElection.newBuilder(client, endpoint, future::complete)
+                                            )
                                             .join();
                                 }
                         )
