@@ -119,5 +119,4 @@ public interface CoordinationSession {
         default void onPong(long pingValue) {
         }
     }
-
 }
