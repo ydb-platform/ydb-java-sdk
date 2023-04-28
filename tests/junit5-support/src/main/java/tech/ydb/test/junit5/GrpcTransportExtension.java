@@ -19,9 +19,9 @@ import tech.ydb.test.integration.utils.ProxyGrpcTransport;
  *
  * @author Aleksandr Gorshenin
  */
-public class GrpcTransportExtention extends ProxyGrpcTransport implements ExecutionCondition,
+public class GrpcTransportExtension extends ProxyGrpcTransport implements ExecutionCondition,
         AfterAllCallback, AfterEachCallback, BeforeAllCallback, BeforeEachCallback {
-    private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtention.class);
+    private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtension.class);
 
     private final Holder holder = new Holder();
 

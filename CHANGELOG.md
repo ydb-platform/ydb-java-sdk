@@ -1,5 +1,6 @@
 ## 2.1.0 ##
 
+* Added Coordination Service API support
 * Added Topic API support
 * Added support detect local dc
 * Support creating asynchronous index in createTable and describeTable
