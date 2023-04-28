@@ -19,7 +19,6 @@ import tech.ydb.topic.v1.TopicServiceGrpc;
 
 
 /**
- *
  * @author Nikolay Perfilov
  */
 @ParametersAreNonnullByDefault
@@ -32,7 +31,6 @@ public final class GrpcTopicRpc implements TopicRpc {
     }
 
     @Nullable
-
     public static GrpcTopicRpc useTransport(@WillNotClose GrpcTransport transport) {
         return new GrpcTopicRpc(transport);
     }
