@@ -3,6 +3,7 @@ package tech.ydb.topic.impl;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillNotClose;
 
@@ -28,6 +29,8 @@ public final class GrpcTopicRpc implements TopicRpc {
     private GrpcTopicRpc(GrpcTransport transport) {
         this.transport = transport;
     }
+
+    @Nullable
 
     public static GrpcTopicRpc useTransport(@WillNotClose GrpcTransport transport) {
         return new GrpcTopicRpc(transport);

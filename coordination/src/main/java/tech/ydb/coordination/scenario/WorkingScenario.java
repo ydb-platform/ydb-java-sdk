@@ -13,9 +13,9 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.exceptions.CreateSessionException;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.core.Status;
+import tech.ydb.core.UnexpectedResultException;
 
 /**
  * @author Kirill Kurdyukov
@@ -199,7 +199,7 @@ public abstract class WorkingScenario {
                         if (status.isSuccess()) {
                             return buildScenario(new WorkingScenario.Settings(this));
                         } else {
-                            throw new CreateSessionException(status);
+                            throw new UnexpectedResultException("Fail creating scenario", status);
                         }
                     }
             );
