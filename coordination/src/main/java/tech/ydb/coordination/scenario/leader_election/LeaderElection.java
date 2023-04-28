@@ -13,7 +13,6 @@ import tech.ydb.coordination.SemaphoreDescription;
 import tech.ydb.coordination.SemaphoreSession;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.scenario.WorkingScenario;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 
 /**
@@ -27,7 +26,7 @@ public class LeaderElection extends WorkingScenario {
 
     private final AtomicLong epochLeader = new AtomicLong();
 
-    private LeaderElection(CoordinationClient client, ScenarioSettings settings) {
+    private LeaderElection(CoordinationClient client, Settings settings) {
         super(client, settings, LIMIT_TOKENS_SEMAPHORE);
     }
 
@@ -58,7 +57,7 @@ public class LeaderElection extends WorkingScenario {
         void onNext(String ticket);
     }
 
-    public static class Builder extends ScenarioSettings.Builder<LeaderElection> {
+    public static class Builder extends WorkingScenario.Builder<LeaderElection> {
 
         private final String ticket;
         private final Observer observer;
@@ -75,7 +74,7 @@ public class LeaderElection extends WorkingScenario {
         }
 
         @Override
-        protected LeaderElection buildScenario(ScenarioSettings settings) {
+        protected LeaderElection buildScenario(Settings settings) {
             LeaderElection leaderElection = new LeaderElection(client, settings);
 
             leaderElection.start(

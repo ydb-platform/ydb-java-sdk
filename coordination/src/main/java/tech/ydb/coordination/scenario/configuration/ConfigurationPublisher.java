@@ -12,7 +12,6 @@ import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.scenario.WorkingScenario;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
@@ -30,7 +29,7 @@ public class ConfigurationPublisher extends WorkingScenario {
 
     private final ConcurrentHashMap<Long, CompletableFuture<Status>> reqIdToStatus = new ConcurrentHashMap<>();
 
-    private ConfigurationPublisher(CoordinationClient client, ScenarioSettings settings) {
+    private ConfigurationPublisher(CoordinationClient client, Settings settings) {
         super(client, settings, SEMAPHORE_LIMIT);
     }
 
@@ -65,13 +64,14 @@ public class ConfigurationPublisher extends WorkingScenario {
         reqIdToStatus.clear();
     }
 
-    public static class Builder extends ScenarioSettings.Builder<ConfigurationPublisher> {
+    public static class Builder extends WorkingScenario.Builder<ConfigurationPublisher> {
+
         public Builder(CoordinationClient client) {
             super(client);
         }
 
         @Override
-        protected ConfigurationPublisher buildScenario(ScenarioSettings settings) {
+        protected ConfigurationPublisher buildScenario(Settings settings) {
             ConfigurationPublisher publisher = new ConfigurationPublisher(client, settings);
 
             publisher.start(

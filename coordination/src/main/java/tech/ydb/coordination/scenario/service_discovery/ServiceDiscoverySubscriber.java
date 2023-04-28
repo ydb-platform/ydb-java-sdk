@@ -12,7 +12,6 @@ import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreDescription;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.scenario.WorkingScenario;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 
 /**
@@ -22,7 +21,7 @@ public class ServiceDiscoverySubscriber extends WorkingScenario {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceDiscoverySubscriber.class);
 
-    private ServiceDiscoverySubscriber(CoordinationClient client, ScenarioSettings settings) {
+    private ServiceDiscoverySubscriber(CoordinationClient client, Settings settings) {
         super(client, settings, Long.MAX_VALUE);
     }
 
@@ -45,7 +44,7 @@ public class ServiceDiscoverySubscriber extends WorkingScenario {
         void onNext(List<String> endpoints);
     }
 
-    public static class Builder extends ScenarioSettings.Builder<ServiceDiscoverySubscriber> {
+    public static class Builder extends WorkingScenario.Builder<ServiceDiscoverySubscriber> {
 
         private final Observer observer;
 
@@ -56,7 +55,7 @@ public class ServiceDiscoverySubscriber extends WorkingScenario {
         }
 
         @Override
-        protected ServiceDiscoverySubscriber buildScenario(ScenarioSettings settings) {
+        protected ServiceDiscoverySubscriber buildScenario(Settings settings) {
             ServiceDiscoverySubscriber subscriber = new ServiceDiscoverySubscriber(client, settings);
 
             subscriber.start(

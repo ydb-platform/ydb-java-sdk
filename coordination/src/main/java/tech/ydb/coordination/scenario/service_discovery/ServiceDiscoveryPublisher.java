@@ -10,7 +10,6 @@ import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.scenario.WorkingScenario;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 
 /**
@@ -20,7 +19,7 @@ public class ServiceDiscoveryPublisher extends WorkingScenario {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceDiscoveryPublisher.class);
 
-    private ServiceDiscoveryPublisher(CoordinationClient client, ScenarioSettings settings) {
+    private ServiceDiscoveryPublisher(CoordinationClient client, Settings settings) {
         super(client, settings, Long.MAX_VALUE);
     }
 
@@ -28,7 +27,7 @@ public class ServiceDiscoveryPublisher extends WorkingScenario {
         return new Builder(client, endpoint);
     }
 
-    public static class Builder extends ScenarioSettings.Builder<ServiceDiscoveryPublisher> {
+    public static class Builder extends WorkingScenario.Builder<ServiceDiscoveryPublisher> {
 
         private final String endpoint;
 
@@ -39,7 +38,7 @@ public class ServiceDiscoveryPublisher extends WorkingScenario {
         }
 
         @Override
-        protected ServiceDiscoveryPublisher buildScenario(ScenarioSettings settings) {
+        protected ServiceDiscoveryPublisher buildScenario(Settings settings) {
             ServiceDiscoveryPublisher publisher = new ServiceDiscoveryPublisher(client, settings);
 
             publisher.start(

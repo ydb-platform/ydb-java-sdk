@@ -8,7 +8,6 @@ import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreDescription;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.scenario.WorkingScenario;
-import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 
 /**
@@ -18,7 +17,7 @@ public class ConfigurationSubscriber extends WorkingScenario {
 
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationSubscriber.class);
 
-    private ConfigurationSubscriber(CoordinationClient client, ScenarioSettings settings) {
+    private ConfigurationSubscriber(CoordinationClient client, Settings settings) {
         super(client, settings, ConfigurationPublisher.SEMAPHORE_LIMIT);
     }
 
@@ -40,7 +39,7 @@ public class ConfigurationSubscriber extends WorkingScenario {
         void onNext(byte[] configurationData);
     }
 
-    public static class Builder extends ScenarioSettings.Builder<ConfigurationSubscriber> {
+    public static class Builder extends WorkingScenario.Builder<ConfigurationSubscriber> {
 
         private final Observer observer;
 
@@ -51,7 +50,7 @@ public class ConfigurationSubscriber extends WorkingScenario {
         }
 
         @Override
-        protected ConfigurationSubscriber buildScenario(ScenarioSettings settings) {
+        protected ConfigurationSubscriber buildScenario(Settings settings) {
             ConfigurationSubscriber subscriber = new ConfigurationSubscriber(client, settings);
 
             subscriber.start(

@@ -1,15 +1,20 @@
 package tech.ydb.coordination.scenario;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nonnull;
+
+import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.settings.ScenarioSettings;
+import tech.ydb.coordination.exceptions.CreateSessionException;
+import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.core.Status;
 
 /**
@@ -21,14 +26,14 @@ public abstract class WorkingScenario {
 
     protected final AtomicReference<CoordinationSession> currentCoordinationSession;
     protected final AtomicBoolean isWorking = new AtomicBoolean(true);
-    protected final ScenarioSettings settings;
+    protected final Settings settings;
 
     private final CoordinationClient client;
     private final long semaphoreLimit;
 
     public WorkingScenario(
          CoordinationClient client,
-         ScenarioSettings settings,
+         Settings settings,
          long semaphoreLimit
     ) {
         this.client = client;
@@ -66,10 +71,10 @@ public abstract class WorkingScenario {
 
             coordinationSession.sendStartSession(
                     SessionRequest.SessionStart.newBuilder()
-                            .setSessionId(ScenarioSettings.START_SESSION_ID)
+                            .setSessionId(Settings.START_SESSION_ID)
                             .setPath(settings.getCoordinationNodePath())
                             .setDescription(settings.getDescription())
-                            .setTimeoutMillis(ScenarioSettings.SESSION_KEEP_ALIVE_TIMEOUT_MS)
+                            .setTimeoutMillis(Settings.SESSION_KEEP_ALIVE_TIMEOUT_MS)
                             .build()
             );
 
@@ -99,6 +104,105 @@ public abstract class WorkingScenario {
                     break;
                 }
             }
+        }
+    }
+
+    protected static class Settings {
+        public static final int START_SESSION_ID = 0;
+        public static final int SESSION_KEEP_ALIVE_TIMEOUT_MS = 0;
+
+        private final String coordinationNodePath;
+
+        /**
+         * Used for creating semaphore name.
+         */
+        private final String semaphoreName;
+
+        /**
+         * Text description of the session is displayed in the internal interfaces and
+         * can be useful when diagnosing problems.
+         */
+        private final String description;
+
+        Settings(
+                Builder<?> builder
+        ) {
+            this.coordinationNodePath = builder.coordinationNodeName;
+            this.semaphoreName = builder.semaphoreName;
+            this.description = builder.description;
+        }
+
+        public String getCoordinationNodePath() {
+            return coordinationNodePath;
+        }
+
+        public String getSemaphoreName() {
+            return semaphoreName;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+    }
+
+    public abstract static class Builder<T extends WorkingScenario> {
+
+        protected final CoordinationClient client;
+
+        private String coordinationNodeName = "coordination-node-default";
+        private String semaphoreName = "semaphore-default";
+        private String description = "";
+
+        public Builder(CoordinationClient client) {
+            this.client = client;
+        }
+
+        public Builder<T> setCoordinationNodeName(@Nonnull String coordinationNodeName) {
+            this.coordinationNodeName = Preconditions.checkNotNull(
+                    coordinationNodeName,
+                    "Coordination node name shouldn’t be null!"
+            );
+
+            return this;
+        }
+
+        public Builder<T> setSemaphoreName(@Nonnull String semaphoreName) {
+            this.semaphoreName = Preconditions.checkNotNull(
+                    semaphoreName,
+                    "Session semaphore name shouldn't be null!"
+            );
+
+            return this;
+        }
+
+        public Builder<T> setDescription(@Nonnull String description) {
+            this.description = Preconditions.checkNotNull(
+                    description,
+                    "Descriptions shouldn’t be null!"
+            );
+
+            return this;
+        }
+
+        protected abstract T buildScenario(WorkingScenario.Settings settings);
+
+        public CompletableFuture<T> start() {
+            if (!coordinationNodeName.startsWith(client.getDatabase())) {
+                setCoordinationNodeName(client.getDatabase() + "/" + coordinationNodeName);
+            }
+
+            return client.createNode(
+                    coordinationNodeName,
+                    CoordinationNodeSettings.newBuilder().build()
+            ).thenApply(
+                    status -> {
+                        if (status.isSuccess()) {
+                            return buildScenario(new WorkingScenario.Settings(this));
+                        } else {
+                            throw new CreateSessionException(status);
+                        }
+                    }
+            );
         }
     }
 }
