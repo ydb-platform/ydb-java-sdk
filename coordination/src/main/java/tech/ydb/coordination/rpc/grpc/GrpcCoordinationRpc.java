@@ -32,10 +32,7 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
     private final GrpcTransport grpcTransport;
     private final boolean transportOwned;
 
-    private GrpcCoordinationRpc(
-            GrpcTransport grpcTransport,
-            boolean transportOwned
-    ) {
+    private GrpcCoordinationRpc(GrpcTransport grpcTransport, boolean transportOwned) {
         this.grpcTransport = grpcTransport;
         this.transportOwned = transportOwned;
     }

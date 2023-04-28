@@ -249,7 +249,11 @@ public class CoordinationSessionImpl implements CoordinationSession {
             logger.trace("Send message: {}", sessionRequest);
         }
 
-        coordinationStream.sendNext(sessionRequest);
+        try {
+            coordinationStream.sendNext(sessionRequest);
+        } catch (RuntimeException e) {
+            logger.error("Error sending message {}", sessionRequest, e);
+        }
     }
 
     private static Status getStatus(
