@@ -1,4 +1,4 @@
-package tech.ydb.coordination.session;
+package tech.ydb.coordination.impl;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -6,16 +6,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
-import javax.annotation.PreDestroy;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.YdbIssueMessage;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.SessionResponse;
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -24,24 +22,26 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 /**
  * @author Kirill Kurdyukov
  */
-public class CoordinationSession {
+public class CoordinationSessionImpl implements CoordinationSession {
 
-    private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
+    private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionImpl.class);
 
     private final GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final CompletableFuture<SessionResponse> stoppedFuture = new CompletableFuture<>();
     private final AtomicLong sessionId = new AtomicLong();
 
-    public CoordinationSession(GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream) {
+    public CoordinationSessionImpl(GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream) {
         this.coordinationStream = coordinationStream;
     }
 
-    public long getSessionId() {
+    @Override
+    public  long getSessionId() {
         return sessionId.get();
     }
 
-    public CompletableFuture<Status> start(CoordinationSessionObserver coordinationSessionObserver) {
+    @Override
+    public CompletableFuture<Status> start(CoordinationSession.Observer observer) {
         return coordinationStream.start(
                 message -> {
                     if (logger.isTraceEnabled()) {
@@ -59,7 +59,7 @@ public class CoordinationSession {
                             case SESSION_STARTED:
                                 sessionId.set(message.getSessionStarted().getSessionId());
 
-                                coordinationSessionObserver.onSessionStarted();
+                                observer.onSessionStarted();
                                 break;
                             case PING:
                                 coordinationStream.sendNext(
@@ -71,7 +71,7 @@ public class CoordinationSession {
                                 );
                                 break;
                             case ACQUIRE_SEMAPHORE_RESULT:
-                                coordinationSessionObserver.onAcquireSemaphoreResult(
+                                observer.onAcquireSemaphoreResult(
                                         message.getAcquireSemaphoreResult().getAcquired(),
                                         getStatus(
                                                 message.getAcquireSemaphoreResult().getStatus(),
@@ -80,10 +80,10 @@ public class CoordinationSession {
                                 );
                                 break;
                             case ACQUIRE_SEMAPHORE_PENDING:
-                                coordinationSessionObserver.onAcquireSemaphorePending();
+                                observer.onAcquireSemaphorePending();
                                 break;
                             case FAILURE:
-                                coordinationSessionObserver.onFailure(
+                                observer.onFailure(
                                         getStatus(
                                                 message.getFailure().getStatus(),
                                                 message.getFailure().getIssuesList()
@@ -91,7 +91,7 @@ public class CoordinationSession {
                                 );
                                 break;
                             case DESCRIBE_SEMAPHORE_RESULT:
-                                coordinationSessionObserver.onDescribeSemaphoreResult(
+                                observer.onDescribeSemaphoreResult(
                                         message.getDescribeSemaphoreResult().getSemaphoreDescription(),
                                         getStatus(
                                                 message.getDescribeSemaphoreResult().getStatus(),
@@ -100,13 +100,13 @@ public class CoordinationSession {
                                 );
                                 break;
                             case DESCRIBE_SEMAPHORE_CHANGED:
-                                coordinationSessionObserver.onDescribeSemaphoreChanged(
+                                observer.onDescribeSemaphoreChanged(
                                         message.getDescribeSemaphoreChanged().getDataChanged(),
                                         message.getDescribeSemaphoreChanged().getOwnersChanged()
                                 );
                                 break;
                             case DELETE_SEMAPHORE_RESULT:
-                                coordinationSessionObserver.onDeleteSemaphoreResult(
+                                observer.onDeleteSemaphoreResult(
                                         getStatus(
                                                 message.getDeleteSemaphoreResult().getStatus(),
                                                 message.getDeleteSemaphoreResult().getIssuesList()
@@ -114,7 +114,7 @@ public class CoordinationSession {
                                 );
                                 break;
                             case CREATE_SEMAPHORE_RESULT:
-                                coordinationSessionObserver.onCreateSemaphoreResult(
+                                observer.onCreateSemaphoreResult(
                                         getStatus(
                                                 message.getCreateSemaphoreResult().getStatus(),
                                                 message.getCreateSemaphoreResult().getIssuesList()
@@ -122,7 +122,7 @@ public class CoordinationSession {
                                 );
                                 break;
                             case RELEASE_SEMAPHORE_RESULT:
-                                coordinationSessionObserver.onReleaseSemaphoreResult(
+                                observer.onReleaseSemaphoreResult(
                                         message.getReleaseSemaphoreResult().getReleased(),
                                         getStatus(
                                                 message.getReleaseSemaphoreResult().getStatus(),
@@ -131,7 +131,7 @@ public class CoordinationSession {
                                 );
                                 break;
                             case UPDATE_SEMAPHORE_RESULT:
-                                coordinationSessionObserver.onUpdateSemaphoreResult(
+                                observer.onUpdateSemaphoreResult(
                                         message.getUpdateSemaphoreResult().getReqId(),
                                         getStatus(
                                                 message.getUpdateSemaphoreResult().getStatus(),
@@ -140,7 +140,7 @@ public class CoordinationSession {
                                 );
                                 break;
                             case PONG:
-                                coordinationSessionObserver.onPong(
+                                observer.onPong(
                                         message.getPong().getOpaque()
                                 );
                                 break;
@@ -151,11 +151,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * First message used to start/restore a session
-     *
-     * @param sessionStart session start of proto body
-     */
+    @Override
     public void sendStartSession(SessionRequest.SessionStart sessionStart) {
         send(
                 SessionRequest.newBuilder()
@@ -164,11 +160,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * Used for checking liveness of the connection
-     *
-     * @param pingPong ping pong of proto body
-     */
+    @Override
     public void sendPingPong(SessionRequest.PingPong pingPong) {
         send(
                 SessionRequest.newBuilder()
@@ -177,16 +169,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * Used to acquire a semaphore
-     * <p>
-     * WARNING: a single session cannot acquire the same semaphore multiple times
-     * <p>
-     * Later requests override previous operations with the same semaphore,
-     * e.g. to reduce acquired count, change timeout or attached data.
-     *
-     * @param acquireSemaphore acquire semaphore of proto body
-     */
+    @Override
     public void sendAcquireSemaphore(SessionRequest.AcquireSemaphore acquireSemaphore) {
         send(
                 SessionRequest.newBuilder()
@@ -195,16 +178,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * Used to release a semaphore
-     * <p>
-     * WARNING: a single session cannot release the same semaphore multiple times
-     * <p>
-     * The release operation will either remove current session from waiters
-     * queue or release an already owned semaphore.
-     *
-     * @param releaseSemaphore release semaphore of proto body
-     */
+    @Override
     public void sendReleaseSemaphore(SessionRequest.ReleaseSemaphore releaseSemaphore) {
         send(
                 SessionRequest.newBuilder()
@@ -213,13 +187,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * Used to describe semaphores and watch them for changes
-     * <p>
-     * WARNING: a describe operation will cancel previous watches on the same semaphore
-     *
-     * @param describeSemaphore describe semaphore of proto body
-     */
+    @Override
     public void sendDescribeSemaphore(SessionRequest.DescribeSemaphore describeSemaphore) {
         send(
                 SessionRequest.newBuilder()
@@ -228,11 +196,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * Used to create a new semaphore
-     *
-     * @param createSemaphore create semaphore of proto body
-     */
+    @Override
     public void sendCreateSemaphore(SessionRequest.CreateSemaphore createSemaphore) {
         send(
                 SessionRequest.newBuilder()
@@ -241,11 +205,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * Used to change semaphore data
-     *
-     * @param updateSemaphore update semaphore of proto body
-     */
+    @Override
     public void sendUpdateSemaphore(SessionRequest.UpdateSemaphore updateSemaphore) {
         send(
                 SessionRequest.newBuilder()
@@ -254,11 +214,7 @@ public class CoordinationSession {
         );
     }
 
-    /**
-     * Used to delete an existing semaphore
-     *
-     * @param deleteSemaphore delete semaphore of proto body
-     */
+    @Override
     public void sendDeleteSemaphore(SessionRequest.DeleteSemaphore deleteSemaphore) {
         send(
                 SessionRequest.newBuilder()
@@ -267,23 +223,7 @@ public class CoordinationSession {
         );
     }
 
-    private void send(SessionRequest sessionRequest) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("Send message: {}", sessionRequest);
-        }
-
-        coordinationStream.sendNext(sessionRequest);
-    }
-
-    private static Status getStatus(
-            StatusCodesProtos.StatusIds.StatusCode statusCode,
-            List<YdbIssueMessage.IssueMessage> issueMessages
-    ) {
-        return Status.of(StatusCode.fromProto(statusCode))
-                .withIssues(Issue.fromPb(issueMessages));
-    }
-
-    @PreDestroy
+    @Override
     public void stop() {
         if (isWorking.compareAndSet(true, false)) {
             coordinationStream.sendNext(
@@ -302,5 +242,21 @@ public class CoordinationSession {
 
             coordinationStream.close();
         }
+    }
+
+    private void send(SessionRequest sessionRequest) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("Send message: {}", sessionRequest);
+        }
+
+        coordinationStream.sendNext(sessionRequest);
+    }
+
+    private static Status getStatus(
+            StatusCodesProtos.StatusIds.StatusCode statusCode,
+            List<YdbIssueMessage.IssueMessage> issueMessages
+    ) {
+        return Status.of(StatusCode.fromProto(statusCode))
+                .withIssues(Issue.fromPb(issueMessages));
     }
 }

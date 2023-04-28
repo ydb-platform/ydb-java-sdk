@@ -9,8 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
 import tech.ydb.coordination.scenario.WorkingScenario;
 import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
@@ -30,11 +30,8 @@ public class ConfigurationPublisher extends WorkingScenario {
 
     private final ConcurrentHashMap<Long, CompletableFuture<Status>> reqIdToStatus = new ConcurrentHashMap<>();
 
-    private ConfigurationPublisher(
-            CoordinationClient client,
-            ScenarioSettings settings
-    ) {
-        super(client, settings);
+    private ConfigurationPublisher(CoordinationClient client, ScenarioSettings settings) {
+        super(client, settings, SEMAPHORE_LIMIT);
     }
 
     public static Builder newBuilder(CoordinationClient client) {
@@ -78,7 +75,7 @@ public class ConfigurationPublisher extends WorkingScenario {
             ConfigurationPublisher publisher = new ConfigurationPublisher(client, settings);
 
             publisher.start(
-                    new CoordinationSessionObserver() {
+                    new CoordinationSession.Observer() {
                         @Override
                         public void onUpdateSemaphoreResult(long reqId, Status status) {
                             CompletableFuture<Status> statusCompletableFuture = publisher
@@ -93,14 +90,6 @@ public class ConfigurationPublisher extends WorkingScenario {
                         public void onSessionStarted() {
                             logger.info("Starting coordination publisher session, sessionId: {}",
                                     publisher.currentCoordinationSession.get().getSessionId());
-
-                            publisher.currentCoordinationSession.get()
-                                    .sendCreateSemaphore(
-                                            SessionRequest.CreateSemaphore.newBuilder()
-                                                    .setName(settings.getSemaphoreName())
-                                                    .setLimit(SEMAPHORE_LIMIT)
-                                                    .build()
-                                    );
                         }
 
                         @Override

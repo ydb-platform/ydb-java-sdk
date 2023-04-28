@@ -8,12 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreDescription;
 import tech.ydb.coordination.SemaphoreSession;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
 import tech.ydb.coordination.scenario.WorkingScenario;
-import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 
@@ -28,11 +27,8 @@ public class LeaderElection extends WorkingScenario {
 
     private final AtomicLong epochLeader = new AtomicLong();
 
-    private LeaderElection(
-            CoordinationClient client,
-            ScenarioSettings settings
-    ) {
-        super(client, settings);
+    private LeaderElection(CoordinationClient client, ScenarioSettings settings) {
+        super(client, settings, LIMIT_TOKENS_SEMAPHORE);
     }
 
     public static Builder newBuilder(
@@ -81,8 +77,9 @@ public class LeaderElection extends WorkingScenario {
         @Override
         protected LeaderElection buildScenario(ScenarioSettings settings) {
             LeaderElection leaderElection = new LeaderElection(client, settings);
+
             leaderElection.start(
-                    new CoordinationSessionObserver() {
+                    new CoordinationSession.Observer() {
                         @Override
                         public void onAcquireSemaphoreResult(boolean acquired, Status status) {
                             leaderElection.epochLeader.set(
@@ -103,8 +100,7 @@ public class LeaderElection extends WorkingScenario {
                                 Status status
                         ) {
                             if (status.isSuccess()) {
-                                SemaphoreSession semaphoreSessionLeader =
-                                        semaphoreDescription.getOwnersList().get(0);
+                                SemaphoreSession semaphoreSessionLeader = semaphoreDescription.getOwnersList().get(0);
 
                                 if (semaphoreSessionLeader.getSessionId() != leaderElection.epochLeader()) {
                                     leaderElection.epochLeader.set(semaphoreSessionLeader.getSessionId());
@@ -139,13 +135,6 @@ public class LeaderElection extends WorkingScenario {
 
                             logger.info("Starting leader election session, sessionId: {}",
                                     coordinationSession.getSessionId());
-
-                            coordinationSession.sendCreateSemaphore(
-                                    SessionRequest.CreateSemaphore.newBuilder()
-                                            .setName(settings.getSemaphoreName())
-                                            .setLimit(LIMIT_TOKENS_SEMAPHORE)
-                                            .build()
-                            );
 
                             coordinationSession.sendAcquireSemaphore(
                                     SessionRequest.AcquireSemaphore.newBuilder()

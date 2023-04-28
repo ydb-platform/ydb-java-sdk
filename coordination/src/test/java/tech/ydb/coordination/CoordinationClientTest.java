@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
-import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Status;
@@ -61,7 +59,7 @@ public class CoordinationClientTest {
         CompletableFuture<Status> createCompletableFuture = new CompletableFuture<>();
 
         CompletableFuture<Status> status = session.start(
-                new CoordinationSessionObserver() {
+                new CoordinationSession.Observer() {
                     @Override
                     public void onSessionStarted() {
                         startCompletableFuture.complete(true);

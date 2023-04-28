@@ -4,9 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreDescription;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
 import tech.ydb.coordination.scenario.WorkingScenario;
 import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
@@ -19,7 +19,7 @@ public class ConfigurationSubscriber extends WorkingScenario {
     private static final Logger logger = LoggerFactory.getLogger(ConfigurationSubscriber.class);
 
     private ConfigurationSubscriber(CoordinationClient client, ScenarioSettings settings) {
-        super(client, settings);
+        super(client, settings, ConfigurationPublisher.SEMAPHORE_LIMIT);
     }
 
     public static Builder newBuilder(CoordinationClient client, Observer observer) {
@@ -55,18 +55,11 @@ public class ConfigurationSubscriber extends WorkingScenario {
             ConfigurationSubscriber subscriber = new ConfigurationSubscriber(client, settings);
 
             subscriber.start(
-                    new CoordinationSessionObserver() {
+                    new CoordinationSession.Observer() {
                         @Override
                         public void onSessionStarted() {
                             logger.info("Starting subscriber coordination session, sessionId: {}",
                                     subscriber.currentCoordinationSession.get().getSessionId());
-
-                            subscriber.currentCoordinationSession.get().sendCreateSemaphore(
-                                    SessionRequest.CreateSemaphore.newBuilder()
-                                            .setName(settings.getSemaphoreName())
-                                            .setLimit(ConfigurationPublisher.SEMAPHORE_LIMIT)
-                                            .build()
-                            );
 
                             subscriber.describeSemaphore();
                         }

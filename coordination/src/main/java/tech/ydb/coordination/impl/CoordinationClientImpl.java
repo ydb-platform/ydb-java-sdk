@@ -6,12 +6,12 @@ import tech.ydb.coordination.AlterNodeRequest;
 import tech.ydb.coordination.Config;
 import tech.ydb.coordination.ConsistencyMode;
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.CreateNodeRequest;
 import tech.ydb.coordination.DescribeNodeRequest;
 import tech.ydb.coordination.DropNodeRequest;
 import tech.ydb.coordination.RateLimiterCountersMode;
 import tech.ydb.coordination.rpc.CoordinationRpc;
-import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
@@ -33,7 +33,7 @@ public class CoordinationClientImpl implements CoordinationClient {
 
     @Override
     public CoordinationSession createSession() {
-        return new CoordinationSession(coordinationRpc.session());
+        return new CoordinationSessionImpl(coordinationRpc.session());
     }
 
     @Override

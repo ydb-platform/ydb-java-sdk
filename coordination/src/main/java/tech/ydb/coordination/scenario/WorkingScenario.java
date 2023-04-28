@@ -7,9 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
-import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 
@@ -25,23 +24,26 @@ public abstract class WorkingScenario {
     protected final ScenarioSettings settings;
 
     private final CoordinationClient client;
+    private final long semaphoreLimit;
 
     public WorkingScenario(
          CoordinationClient client,
-         ScenarioSettings settings
+         ScenarioSettings settings,
+         long semaphoreLimit
     ) {
         this.client = client;
         this.settings = settings;
+        this.semaphoreLimit = semaphoreLimit;
         this.currentCoordinationSession = new AtomicReference<>(client.createSession());
     }
 
-    protected void start(CoordinationSessionObserver observer) {
+    protected void start(CoordinationSession.Observer observer) {
         tryStart(null, observer);
     }
 
     protected void tryStart(
             Status status,
-            CoordinationSessionObserver observer
+            CoordinationSession.Observer observer
     ) {
         if (status != null) {
             logger.info("Stopped session with status: {}", status);
@@ -51,7 +53,6 @@ public abstract class WorkingScenario {
             logger.info("Starting session...");
 
             CoordinationSession coordinationSession = client.createSession();
-            currentCoordinationSession.set(coordinationSession);
 
             coordinationSession.start(observer).whenComplete(
                     (completableStatus, throwable) -> {
@@ -71,6 +72,15 @@ public abstract class WorkingScenario {
                             .setTimeoutMillis(ScenarioSettings.SESSION_KEEP_ALIVE_TIMEOUT_MS)
                             .build()
             );
+
+            coordinationSession.sendCreateSemaphore(
+                    SessionRequest.CreateSemaphore.newBuilder()
+                            .setName(settings.getSemaphoreName())
+                            .setLimit(semaphoreLimit)
+                            .build()
+            );
+
+            currentCoordinationSession.set(coordinationSession);
         }
     }
 

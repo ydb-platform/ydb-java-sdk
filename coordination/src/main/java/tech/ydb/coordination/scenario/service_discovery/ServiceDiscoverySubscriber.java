@@ -8,9 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreDescription;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
 import tech.ydb.coordination.scenario.WorkingScenario;
 import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
@@ -23,7 +23,7 @@ public class ServiceDiscoverySubscriber extends WorkingScenario {
     private static final Logger logger = LoggerFactory.getLogger(ServiceDiscoverySubscriber.class);
 
     private ServiceDiscoverySubscriber(CoordinationClient client, ScenarioSettings settings) {
-        super(client, settings);
+        super(client, settings, Long.MAX_VALUE);
     }
 
     public static Builder newBuilder(CoordinationClient client, Observer observer) {
@@ -60,18 +60,11 @@ public class ServiceDiscoverySubscriber extends WorkingScenario {
             ServiceDiscoverySubscriber subscriber = new ServiceDiscoverySubscriber(client, settings);
 
             subscriber.start(
-                    new CoordinationSessionObserver() {
+                    new CoordinationSession.Observer() {
                         @Override
                         public void onSessionStarted() {
                             logger.info("Starting service discovery subscriber session, sessionId: {}",
                                     subscriber.currentCoordinationSession.get().getSessionId());
-
-                            subscriber.currentCoordinationSession.get().sendCreateSemaphore(
-                                    SessionRequest.CreateSemaphore.newBuilder()
-                                            .setName(settings.getSemaphoreName())
-                                            .setLimit(Long.MAX_VALUE)
-                                            .build()
-                            );
 
                             subscriber.describeSemaphore();
                         }

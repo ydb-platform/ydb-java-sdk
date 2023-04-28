@@ -7,10 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.observer.CoordinationSessionObserver;
 import tech.ydb.coordination.scenario.WorkingScenario;
-import tech.ydb.coordination.session.CoordinationSession;
 import tech.ydb.coordination.settings.ScenarioSettings;
 import tech.ydb.core.Status;
 
@@ -22,7 +21,7 @@ public class ServiceDiscoveryPublisher extends WorkingScenario {
     private static final Logger logger = LoggerFactory.getLogger(ServiceDiscoveryPublisher.class);
 
     private ServiceDiscoveryPublisher(CoordinationClient client, ScenarioSettings settings) {
-        super(client, settings);
+        super(client, settings, Long.MAX_VALUE);
     }
 
     public static Builder newBuilder(CoordinationClient client, String endpoint) {
@@ -44,20 +43,13 @@ public class ServiceDiscoveryPublisher extends WorkingScenario {
             ServiceDiscoveryPublisher publisher = new ServiceDiscoveryPublisher(client, settings);
 
             publisher.start(
-                    new CoordinationSessionObserver() {
+                    new CoordinationSession.Observer() {
                         @Override
                         public void onSessionStarted() {
                             CoordinationSession coordinationSession = publisher.currentCoordinationSession.get();
 
                             logger.info("Starting service discovery publisher session, sessionId: {}",
                                     coordinationSession.getSessionId());
-
-                            coordinationSession.sendCreateSemaphore(
-                                    SessionRequest.CreateSemaphore.newBuilder()
-                                            .setName(settings.getSemaphoreName())
-                                            .setLimit(Long.MAX_VALUE)
-                                            .build()
-                            );
 
                             coordinationSession.sendAcquireSemaphore(
                                     SessionRequest.AcquireSemaphore.newBuilder()
