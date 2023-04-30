@@ -32,7 +32,9 @@ public class YdbSchedulerFactory {
             boolean closed = scheduler.awaitTermination(WAIT_FOR_SHUTDOWN_MS, TimeUnit.MILLISECONDS);
             if (!closed) {
                 logger.warn("ydb scheduler shutdown timeout exceeded, terminate");
-                scheduler.shutdownNow();
+                for (Runnable task: scheduler.shutdownNow()) {
+                    logger.warn("   task {} is terminated", task);
+                }
                 closed = scheduler.awaitTermination(WAIT_FOR_SHUTDOWN_MS, TimeUnit.MILLISECONDS);
                 if (!closed) {
                     logger.warn("ydb scheduler shutdown problem");
