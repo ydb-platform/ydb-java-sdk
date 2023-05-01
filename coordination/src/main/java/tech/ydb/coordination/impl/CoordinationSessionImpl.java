@@ -251,7 +251,7 @@ public class CoordinationSessionImpl implements CoordinationSession {
 
         try {
             coordinationStream.sendNext(sessionRequest);
-        } catch (RuntimeException e) {
+        } catch (IllegalStateException e) {
             logger.error("Error sending message {}", sessionRequest, e);
 
             logger.info("Stopping coordination session...");
