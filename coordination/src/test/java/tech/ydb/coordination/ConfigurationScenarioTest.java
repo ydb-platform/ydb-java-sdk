@@ -24,7 +24,7 @@ public class ConfigurationScenarioTest {
     private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
     private final String semaphoreName = "configuration-semaphore";
 
-    @Test(timeout = 5_000)
+    @Test(timeout = Utils.TIMEOUT)
     public void configurationScenarioFullTest() {
         ConfigurationPublisher publisher = Utils.getStart(
                 ConfigurationPublisher.newBuilder(client),

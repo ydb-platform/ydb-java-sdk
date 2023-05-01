@@ -24,7 +24,7 @@ public class LeaderElectionScenarioTest {
     private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
     private final String semaphoreName = "leader-election-semaphore";
 
-    @Test(timeout = 10_000)
+    @Test(timeout = Utils.TIMEOUT)
     public void leaderElectionScenarioFullTest() {
         int sessionsSize = 50;
 

@@ -26,7 +26,7 @@ public class ServiceDiscoveryScenarioTest {
     private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
     private final String semaphoreName = "service-discovery-semaphore";
 
-    @Test(timeout = 5_000)
+    @Test(timeout = Utils.TIMEOUT)
     public void serviceDiscoveryScenarioFullTest() {
         Set<String> hosts = Stream.of("localhost1", "localhost2")
                 .collect(Collectors.toCollection(CopyOnWriteArraySet::new));
