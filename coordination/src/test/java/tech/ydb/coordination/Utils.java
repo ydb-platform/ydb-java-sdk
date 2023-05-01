@@ -9,7 +9,6 @@ public class Utils {
     public static final int TIMEOUT = 20_000;
 
     private Utils() {
-
     }
 
     public static <T extends WorkingScenario> CompletableFuture<T> getStart(
