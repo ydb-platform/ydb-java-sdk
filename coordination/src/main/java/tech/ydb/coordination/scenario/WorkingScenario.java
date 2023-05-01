@@ -52,8 +52,6 @@ public abstract class WorkingScenario {
     ) {
         if (status != null) {
             logger.info("Stopped session with status: {}", status);
-
-            currentCoordinationSession.get().stop();
         }
 
         if (isWorking.get()) {
