@@ -60,8 +60,8 @@ public class ServiceDiscoveryScenarioTest {
 
         assertEndpoints(hosts, future);
 
-        publishers.forEach(ServiceDiscoveryPublisher::stop);
         subscriber.stop();
+        publishers.forEach(ServiceDiscoveryPublisher::stop);
     }
 
     private static void assertEndpoints(Set<String> hosts, WrapperCompletableFuture<Set<String>> future) {
