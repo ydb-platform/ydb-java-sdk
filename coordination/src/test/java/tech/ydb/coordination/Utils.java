@@ -4,6 +4,9 @@ import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.coordination.scenario.WorkingScenario;
 
+/**
+ * @author Kirill Kurdyukov
+ */
 public class Utils {
 
     public static final int TIMEOUT = 20_000;
