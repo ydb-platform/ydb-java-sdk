@@ -42,11 +42,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <environmentVariables>
-                        <YDB_DISABLE_INTEGRATION_TESTS>true</YDB_DISABLE_INTEGRATION_TESTS>
-                    </environmentVariables>
-                </configuration>
             </plugin>
         </plugins>
     </build>
