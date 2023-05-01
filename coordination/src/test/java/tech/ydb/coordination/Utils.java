@@ -10,10 +10,13 @@ public class Utils {
 
     }
 
-    public static <T extends WorkingScenario> CompletableFuture<T> getStart(WorkingScenario.Builder<T> builder) {
+    public static <T extends WorkingScenario> CompletableFuture<T> getStart(
+            WorkingScenario.Builder<T> builder,
+            String semaphoreName
+    ) {
         return builder
                 .setCoordinationNodeName("test")
-                .setSemaphoreName("test")
+                .setSemaphoreName(semaphoreName)
                 .setDescription("Test scenario")
                 .start();
     }
