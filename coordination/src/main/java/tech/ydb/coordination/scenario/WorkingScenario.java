@@ -52,6 +52,8 @@ public abstract class WorkingScenario {
     ) {
         if (status != null) {
             logger.info("Stopped session with status: {}", status);
+
+            currentCoordinationSession.get().stop();
         }
 
         if (isWorking.get()) {
@@ -69,6 +71,8 @@ public abstract class WorkingScenario {
                     }
             );
 
+            currentCoordinationSession.set(coordinationSession);
+
             coordinationSession.sendStartSession(
                     SessionRequest.SessionStart.newBuilder()
                             .setSessionId(Settings.START_SESSION_ID)
@@ -84,8 +88,6 @@ public abstract class WorkingScenario {
                             .setLimit(semaphoreLimit)
                             .build()
             );
-
-            currentCoordinationSession.set(coordinationSession);
         }
     }
 

@@ -64,6 +64,11 @@ public class ServiceDiscoverySubscriber extends WorkingScenario {
                         public void onSessionStarted() {
                             logger.info("Starting service discovery subscriber session, sessionId: {}",
                                     subscriber.currentCoordinationSession.get().getSessionId());
+                        }
+
+                        @Override
+                        public void onCreateSemaphoreResult(Status status) {
+                            logger.info("Creating semaphore {}, with status: {}", settings.getSemaphoreName(), status);
 
                             subscriber.describeSemaphore();
                         }

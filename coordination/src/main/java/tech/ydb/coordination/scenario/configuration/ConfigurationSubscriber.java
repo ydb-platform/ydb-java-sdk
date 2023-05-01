@@ -59,6 +59,11 @@ public class ConfigurationSubscriber extends WorkingScenario {
                         public void onSessionStarted() {
                             logger.info("Starting subscriber coordination session, sessionId: {}",
                                     subscriber.currentCoordinationSession.get().getSessionId());
+                        }
+
+                        @Override
+                        public void onCreateSemaphoreResult(Status status) {
+                            logger.info("Creating semaphore {}, with status: {}", settings.getSemaphoreName(), status);
 
                             subscriber.describeSemaphore();
                         }

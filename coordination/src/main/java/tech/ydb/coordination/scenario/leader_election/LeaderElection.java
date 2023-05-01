@@ -129,13 +129,15 @@ public class LeaderElection extends WorkingScenario {
 
                         @Override
                         public void onSessionStarted() {
-                            CoordinationSession coordinationSession =
-                                    leaderElection.currentCoordinationSession.get();
-
                             logger.info("Starting leader election session, sessionId: {}",
-                                    coordinationSession.getSessionId());
+                                    leaderElection.currentCoordinationSession.get().getSessionId());
+                        }
 
-                            coordinationSession.sendAcquireSemaphore(
+                        @Override
+                        public void onCreateSemaphoreResult(Status status) {
+                            logger.info("Creating semaphore {}, with status: {}", settings.getSemaphoreName(), status);
+
+                            leaderElection.currentCoordinationSession.get().sendAcquireSemaphore(
                                     SessionRequest.AcquireSemaphore.newBuilder()
                                             .setName(settings.getSemaphoreName())
                                             .setCount(COUNT_TOKENS)
