@@ -87,7 +87,10 @@ public class PeriodicDiscoveryTask implements Runnable {
     }
 
     private void scheduleNextDiscovery() {
-        currentSchedule = scheduler.schedule(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
+        if (!state.stopped) {
+            currentSchedule = scheduler.schedule(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
+            logger.debug("schedule next discovery in {} seconds", DISCOVERY_PERIOD_MIN_SECONDS);
+        }
     }
 
     private void handleDiscoveryResponse(Result<DiscoveryProtos.ListEndpointsResult> response) {
@@ -98,7 +101,7 @@ public class PeriodicDiscoveryTask implements Runnable {
         }
 
         DiscoveryProtos.ListEndpointsResult result = response.getValue();
-        if (result.getEndpointsList().isEmpty()) {
+        if (result == null || result.getEndpointsList().isEmpty()) {
             logger.error("discovery return empty list of endpoints");
             state.handleProblem(new UnexpectedResultException("discovery fail", EMPTY_DISCOVERY));
             return;
