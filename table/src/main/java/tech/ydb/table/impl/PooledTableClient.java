@@ -4,14 +4,10 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeoutException;
 
 import com.google.common.base.Preconditions;
 
-import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
-import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.Async;
 import tech.ydb.table.Session;
@@ -25,9 +21,6 @@ import tech.ydb.table.rpc.TableRpc;
  * @author Aleksandr Gorshenin
  */
 public class PooledTableClient implements TableClient {
-    private static final Status SESSION_TIMEOUT = Status.of(StatusCode.CLIENT_DEADLINE_EXCEEDED)
-            .withIssues(Issue.of("Timeout of getting session from pool", Issue.Severity.WARNING));
-
     private final TableRpc tableRpc;
     private final SessionPool pool;
 
@@ -48,8 +41,6 @@ public class PooledTableClient implements TableClient {
                 Throwable ex = Async.unwrapCompletionException(tw);
                 if (ex instanceof UnexpectedResultException) {
                     return Result.fail((UnexpectedResultException) ex);
-                } else if (ex instanceof TimeoutException) {
-                    return Result.fail(SESSION_TIMEOUT);
                 } else {
                     return Result.error("can't create session", ex);
                 }

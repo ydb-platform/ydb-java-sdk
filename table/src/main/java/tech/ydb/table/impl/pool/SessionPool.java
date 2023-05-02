@@ -9,13 +9,15 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.impl.BaseSession;
@@ -290,7 +292,9 @@ public class SessionPool implements AutoCloseable {
         @Override
         public void run() {
             if (f != null && !f.isDone()) {
-                f.completeExceptionally(new TimeoutException("deadline was expired"));
+                f.completeExceptionally(new UnexpectedResultException(
+                        "session acquire deadline was expired", Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED)
+                ));
             }
         }
     }

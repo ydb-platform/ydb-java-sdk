@@ -38,16 +38,16 @@ public enum StatusCode {
     SESSION_BUSY(SERVER_STATUSES_FIRST + 190),
 
     // Client statuses
-    // Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE)
+    /** Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE) */
     TRANSPORT_UNAVAILABLE(TRANSPORT_STATUSES_FIRST + 10),
 
-    // No more resources to accept RPC call
+    /** No more resources to accept RPC call */
     CLIENT_RESOURCE_EXHAUSTED(TRANSPORT_STATUSES_FIRST + 20),
 
-    // Network layer does not receive response in given time
+    /** Network layer does not receive response in given time */
     CLIENT_DEADLINE_EXCEEDED(TRANSPORT_STATUSES_FIRST + 30),
 
-    // Unknown client error
+    /** Unknown client error */
     CLIENT_INTERNAL_ERROR(TRANSPORT_STATUSES_FIRST + 50),
     CLIENT_CANCELLED(TRANSPORT_STATUSES_FIRST + 60),
     CLIENT_UNAUTHENTICATED(TRANSPORT_STATUSES_FIRST + 70),
@@ -57,7 +57,7 @@ public enum StatusCode {
     CLIENT_DISCOVERY_FAILED(INTERNAL_CLIENT_FIRST + 10),
     CLIENT_LIMITS_REACHED(INTERNAL_CLIENT_FIRST + 20),
 
-    // Deadline expired before request was sent to server
+    /** Deadline expired before request was sent to server */
     CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30);
 
     private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(

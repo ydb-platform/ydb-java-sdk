@@ -264,7 +264,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().sessionRequests(1);
         scheduler.runTasksTo(clock.instant().plus(TIMEOUT));
 
-        futureIsExceptionally(f1, "deadline was expired");
+        futureIsExceptionally(f1, "session acquire deadline was expired, code: CLIENT_DEADLINE_EXPIRED");
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.nextCreateSession().completeSuccess();

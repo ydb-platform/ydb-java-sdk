@@ -10,6 +10,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,7 +19,7 @@ import org.junit.Test;
  * @author Aleksandr Gorshenin
  */
 public class WaitingQueueTest extends FutureHelper {
-    private final static String LIMIT_EXCEEDED = "Objects limit exceeded";
+    private final static String LIMIT_EXCEEDED = "Objects limit exceeded, code: CLIENT_RESOURCE_EXHAUSTED";
     private final static String QUEUE_IS_CLOSED = "Queue is already closed";
 
     public class Resource {
@@ -105,8 +106,8 @@ public class WaitingQueueTest extends FutureHelper {
             return this;
         }
     }
-    
-    
+
+
 
     private QueueChecker check(WaitingQueue<Resource> queue) {
         return new QueueChecker(queue);
@@ -138,7 +139,7 @@ public class WaitingQueueTest extends FutureHelper {
         check(queue).queueSize(0).idleSize(0);
         check(rs).requestsCount(0).activeCount(0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(queue).queueSize(1).idleSize(0);
         // second acquire is rejected
@@ -197,7 +198,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
 
         check(queue).queueSize(1).idleSize(0);
@@ -206,7 +207,7 @@ public class WaitingQueueTest extends FutureHelper {
         first.cancel(true);
         rs.completeNext();
         check(queue).queueSize(1).idleSize(1);
-        
+
         // And resource can be acquired from idle immediately
         Resource r1 = readyFuture(acquire(queue));
         check(queue).queueSize(1).idleSize(0);
@@ -225,7 +226,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
         Resource one = pendingIsReady(first);
@@ -249,7 +250,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
@@ -277,7 +278,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
@@ -302,7 +303,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
@@ -331,7 +332,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         rs.completeNext();
 
@@ -361,7 +362,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(rs).requestsCount(1).activeCount(0);
         rs.completeNext();
@@ -391,7 +392,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(1).idleSize(0);
@@ -418,7 +419,7 @@ public class WaitingQueueTest extends FutureHelper {
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 5, 0);
         check(queue).queueSize(0).idleSize(0);
         check(rs).requestsCount(0).activeCount(0);
-        
+
         CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
@@ -429,30 +430,30 @@ public class WaitingQueueTest extends FutureHelper {
 
         check(queue).queueSize(5).idleSize(0);
         check(rs).requestsCount(5).activeCount(0);
-        
+
         rs.completeNextWithException(new Exception("trouble 1"));
         rs.completeNext();
         rs.completeNextWithException(new Exception("trouble 2"));
         rs.completeNext();
         rs.completeNextWithException(new Exception("trouble 3"));
-        
+
         futureIsExceptionally(f1, "trouble 1");
         futureIsExceptionally(f3, "trouble 2");
         futureIsExceptionally(f5, "trouble 3");
-        
+
         Resource r2 = pendingIsReady(f2);
         Resource r4 = pendingIsReady(f4);
         Assert.assertNotEquals("Get different resources", r2, r4);
-        
+
         check(queue).queueSize(2).idleSize(0);
         check(rs).requestsCount(0).activeCount(2);
-        
+
         queue.release(r2);
         queue.release(r4);
 
         check(queue).queueSize(2).idleSize(2);
         check(rs).requestsCount(0).activeCount(2);
-        
+
         queue.close();
         check(queue).queueSize(0).idleSize(0);
         check(rs).requestsCount(0).activeCount(0);
@@ -463,7 +464,7 @@ public class WaitingQueueTest extends FutureHelper {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 0);
 
-        // first acquire is pending 
+        // first acquire is pending
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(1).idleSize(0);
@@ -479,7 +480,7 @@ public class WaitingQueueTest extends FutureHelper {
         // object will be released and future will be canceled
         rs.completeNextWithException(new RuntimeException("big problem"));
         futureIsCanceled(first, QUEUE_IS_CLOSED);
-        
+
         check(queue).queueSize(0).idleSize(0);
         check(rs).requestsCount(0).activeCount(0);
     }
@@ -488,7 +489,7 @@ public class WaitingQueueTest extends FutureHelper {
     public void simpleWaitingRequests() {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1);
-        
+
         Assert.assertEquals("Validate queue limit", 1, queue.getTotalLimit());
         Assert.assertEquals("Validate waitings limit", WaitingQueue.WAITINGS_LIMIT_FACTOR, queue.getWaitingLimit());
 
@@ -523,13 +524,13 @@ public class WaitingQueueTest extends FutureHelper {
             queue.release(next);
             CompletableFuture<Resource> waiting = waitings.poll();
             next = pendingIsReady(waiting);
-            
+
             Assert.assertEquals("All waitings got single resource ", r1, next);
             check(rs).requestsCount(0).activeCount(1);
         }
-        
+
         queue.delete(next);
-        
+
         queue.close();
 
         check(queue).queueSize(0).idleSize(0).waitingsCount(0);
@@ -548,12 +549,12 @@ public class WaitingQueueTest extends FutureHelper {
 
         check(queue).queueSize(1).idleSize(0).waitingsCount(3);
         rs.completeNext();
-        
+
         Resource r1 = pendingIsReady(f1);
         queue.release(r1);
 
         check(queue).queueSize(1).idleSize(0).waitingsCount(2);
-        
+
         Resource r2 = pendingIsReady(w1);
         Assert.assertEquals("Next waiting got same resource ", r1, r2);
 
@@ -567,7 +568,7 @@ public class WaitingQueueTest extends FutureHelper {
         check(queue).queueSize(1).idleSize(0).waitingsCount(0);
         Resource r3 = pendingIsReady(w3);
         Assert.assertEquals("Next waiting got same resource ", r1, r3);
-        
+
         queue.delete(r3);
         queue.close();
 
@@ -588,7 +589,7 @@ public class WaitingQueueTest extends FutureHelper {
         check(queue).queueSize(1).idleSize(0).waitingsCount(3);
         rs.completeNext();
         check(rs).requestsCount(0).activeCount(1);
-        
+
         Resource r1 = pendingIsReady(f1);
 
         // After deleting current resource queue must create new pending to complete waiting
@@ -599,16 +600,16 @@ public class WaitingQueueTest extends FutureHelper {
         futureIsPending(w1);
         futureIsPending(w2);
         futureIsPending(w3);
-        
+
         rs.completeNext();
         check(rs).requestsCount(0).activeCount(1);
         check(queue).queueSize(1).idleSize(0).waitingsCount(2);
-        
+
         Resource r2 = pendingIsReady(w1);
         futureIsPending(w2);
 
         Assert.assertNotEquals("After deleting waiting got different resource ", r1, r2);
-        
+
         queue.delete(r2);
         check(rs).requestsCount(1).activeCount(0);
 
@@ -617,14 +618,14 @@ public class WaitingQueueTest extends FutureHelper {
         check(rs).requestsCount(1).activeCount(0);
 
         rs.completeNext();
-        
+
         Resource r3 = pendingIsReady(w2);
         futureIsPending(w3);
 
         Assert.assertNotEquals("After deleting waiting got different resource ", r1, r2);
         check(rs).requestsCount(0).activeCount(1);
         check(queue).queueSize(1).idleSize(0).waitingsCount(1);
-        
+
         queue.delete(r3);
 
         // After canceling of pending waiting queue will move resource to idle
@@ -651,14 +652,14 @@ public class WaitingQueueTest extends FutureHelper {
 
         // After closing all waitings will be canceled
         queue.close();
-        
+
         check(rs).requestsCount(0).activeCount(1);
-        
+
         futureIsCanceled(w1, QUEUE_IS_CLOSED);
-        
+
         queue.release(r1);
     }
-    
+
     @Test(expected = IllegalArgumentException.class)
     public void validateQueueMaxSize() {
         (new WaitingQueue<>(new ResourceHandler(), 0, 3)).getClass();
@@ -668,7 +669,7 @@ public class WaitingQueueTest extends FutureHelper {
     public void validateQueueHandler() {
         (new WaitingQueue<>(null, 1)).getClass();
     }
-    
+
     @Test
     public void testColdIterator() {
         ResourceHandler rs = new ResourceHandler();
@@ -677,20 +678,20 @@ public class WaitingQueueTest extends FutureHelper {
         CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
-        
+
         rs.completeNext().completeNext().completeNext();
-        
+
         Resource r1 = pendingIsReady(f1);
         Resource r2 = pendingIsReady(f2);
         Resource r3 = pendingIsReady(f3);
-        
+
         Iterator<Resource> cold = queue.coldIterator();
         Assert.assertFalse("All of resources in use, nothing is cold", cold.hasNext());
-        
+
         queue.release(r1);
         queue.release(r3);
         queue.release(r2);
-        
+
         cold = queue.coldIterator();
 
         Assert.assertTrue("There is next cold resource", cold.hasNext());
@@ -699,7 +700,7 @@ public class WaitingQueueTest extends FutureHelper {
         Assert.assertEquals("Next cold resource is r3", r3, cold.next());
         Assert.assertTrue("There is next cold resource", cold.hasNext());
         Assert.assertEquals("Next cold resource is r2", r2, cold.next());
-        
+
         Assert.assertFalse("There isn't cold resource", cold.hasNext());
 
         queue.close();
@@ -713,22 +714,22 @@ public class WaitingQueueTest extends FutureHelper {
         CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
-        
+
         rs.completeNext().completeNext().completeNext();
         check(rs).activeCount(3);
-        
+
         check(queue).queueSize(3).idleSize(0);
         Resource r1 = pendingIsReady(f1);
         Resource r2 = pendingIsReady(f2);
         Resource r3 = pendingIsReady(f3);
-        
+
         Iterator<Resource> cold = queue.coldIterator();
         Assert.assertFalse("All of resources in use, nothing is cold", cold.hasNext());
         // remove without next() do nothing
         cold.remove();
-        
+
         queue.release(r1);
-        
+
         check(queue).queueSize(3).idleSize(1);
         cold = queue.coldIterator();
         Assert.assertTrue("There is next cold resource", cold.hasNext());
@@ -749,19 +750,19 @@ public class WaitingQueueTest extends FutureHelper {
         Assert.assertEquals("Next cold resource is r2", r2, cold.next());
         Assert.assertTrue("There is next cold resource", cold.hasNext());
         Assert.assertEquals("Next cold resource is r3", r3, cold.next());
-        
+
         check(queue).queueSize(2).idleSize(2);
         // acquire the hottest resource r3
         Resource r4 = readyFuture(acquire(queue));
         check(queue).queueSize(2).idleSize(1);
-        
+
         // try to remove already used resource - nothing is changed
         cold.remove();
         check(rs).activeCount(2);
         check(queue).queueSize(2).idleSize(1);
-        
+
         queue.delete(r4);
-        
+
         queue.close();
     }
 }
