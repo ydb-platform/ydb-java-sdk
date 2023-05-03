@@ -1,12 +1,10 @@
 package tech.ydb.core.impl;
 
-import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
-import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +22,7 @@ import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.stream.EmptyStream;
 import tech.ydb.core.impl.stream.ReadStreamCall;
+import tech.ydb.core.impl.stream.ReadWriteStreamCall;
 import tech.ydb.core.impl.stream.UnaryCall;
 
 /**
@@ -40,7 +39,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     protected volatile boolean shutdown = false;
 
-    public abstract AuthCallOptions getAuthCallOptions();
+    abstract AuthCallOptions getAuthCallOptions();
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);
     abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
 
@@ -159,48 +158,19 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         try {
             GrpcChannel channel = getChannel(settings);
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+            if (logger.isTraceEnabled()) {
+                logger.trace("Creating bidirectional stream call to {}, method `{}'",
+                        channel.getEndpoint(),
+                        method);
+            }
 
-            return new GrpcReadWriteStream<RespT, ReqT>() {
-                @Override
-                public CompletableFuture<Status> start(Observer<RespT> observer) {
-                    if (logger.isTraceEnabled()) {
-                        logger.trace("Start bidirectional stream call to {}, method `{}'",
-                                channel.getEndpoint(),
-                                method);
-                    }
-
-                    CompletableFuture<Status> future = new CompletableFuture<>();
-
-                    Metadata headers = settings.getExtraHeaders() != null ? settings.getExtraHeaders() : new Metadata();
-                    call.start(new ServerStreamToObserver<>(
-                            observer, future, call, settings.getTrailersHandler(),
-                            status -> updateChannelStatus(channel, status)
-                    ), headers);
-                    call.request(1);
-
-                    return future;
-                }
-
-                @Override
-                public String authToken() {
-                    return getAuthCallOptions().getToken();
-                }
-
-                @Override
-                public void cancel() {
-                    call.cancel("Cancelled on user request", new CancellationException());
-                }
-
-                @Override
-                public void sendNext(ReqT message) {
-                    call.sendMessage(message);
-                }
-
-                @Override
-                public void close() {
-                    call.halfClose();
-                }
-            };
+            return new ReadWriteStreamCall<>(call, settings.getExtraHeaders(), getAuthCallOptions(),
+                    (status, trailers) -> {
+                        updateChannelStatus(channel, status);
+                        if (settings.getTrailersHandler() != null) {
+                            settings.getTrailersHandler().accept(trailers);
+                        }
+                    });
         } catch (RuntimeException ex) {
             logger.error("server bidirectional stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
