@@ -20,6 +20,8 @@ import tech.ydb.core.grpc.GrpcStatuses;
 /**
  *
  * @author Aleksandr Gorshenin
+ * @param <ReqT> type of call argument
+ * @param <RespT> type of call return
  */
 public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
     private static final Logger logger = LoggerFactory.getLogger(UnaryCall.class);
@@ -32,6 +34,7 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
 
     private final ClientCall<ReqT, RespT> call;
     private final BiConsumer<io.grpc.Status, Metadata> statusConsumer;
+
     private final CompletableFuture<Result<RespT>> future = new CompletableFuture<>();
     private final AtomicReference<RespT> value = new AtomicReference<>();
 
@@ -40,20 +43,19 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
         this.statusConsumer = statusConsumer;
     }
 
-    public CompletableFuture<Result<RespT>> start(ReqT request, Metadata headers) {
+    public CompletableFuture<Result<RespT>> startCall(ReqT request, Metadata headers) {
         try {
             call.start(this, headers != null ? headers : new Metadata());
             call.request(1);
             call.sendMessage(request);
             call.halfClose();
-        } catch (Throwable t) {
+        } catch (Exception ex) {
+            future.completeExceptionally(ex);
             try {
-                call.cancel(null, t);
-            } catch (Throwable ex) {
-                logger.error("Exception encountered while closing the unary call", ex);
+                call.cancel(ex.getMessage(), ex);
+            } catch (Exception ex2) {
+                logger.error("Exception encountered while closing the unary call", ex2);
             }
-
-            future.completeExceptionally(t);
         }
 
         return future;
