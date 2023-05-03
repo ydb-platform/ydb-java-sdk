@@ -24,7 +24,7 @@ public class EndpointPriorityFactory {
     private static final Logger logger = LoggerFactory
             .getLogger(EndpointPriorityFactory.class);
     private static final int LOCALITY_SHIFT = 1000;
-    private static final int NODE_SIZE = 5;
+    private static final int NODE_SIZE = 3;
     private static final int TCP_PING_TIMEOUT_MS = 5000;
 
     private final String locationDC;
