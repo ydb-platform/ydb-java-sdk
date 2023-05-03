@@ -23,6 +23,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.stream.EmptyStream;
+import tech.ydb.core.impl.stream.UnaryCall;
 
 /**
  *
@@ -66,24 +67,30 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
 
-        CompletableFuture<Result<RespT>> promise = new CompletableFuture<>();
         try {
             GrpcChannel channel = getChannel(settings);
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending request to {}, method `{}', request: `{}'",
                         channel.getEndpoint(),
                         method,
                         request);
             }
-            sendOneRequest(call, request, settings, new UnaryStreamToFuture<>(
-                    promise, settings.getTrailersHandler(), status -> updateChannelStatus(channel, status)
-            ));
+
+            UnaryCall<ReqT, RespT> unary = new UnaryCall<>(call, (status, trailers) -> {
+                updateChannelStatus(channel, status);
+                if (settings.getTrailersHandler() != null) {
+                    settings.getTrailersHandler().accept(trailers);
+                }
+            });
+
+            return unary.start(request, settings.getExtraHeaders());
+
         } catch (RuntimeException ex) {
             logger.error("unary call problem {}", ex.getMessage());
-            promise.completeExceptionally(ex);
+            return CompletableFuture.failedFuture(ex);
         }
-        return promise;
     }
 
     @Override
