@@ -1,11 +1,8 @@
-package tech.ydb.core.impl.stream;
+package tech.ydb.core.impl.call;
 
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
 
 import javax.annotation.Nullable;
 
@@ -15,47 +12,40 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcStatuses;
-import tech.ydb.core.impl.auth.AuthCallOptions;
 
 /**
  *
  * @author Aleksandr Gorshenin
- * @param <R> type of message received
- * @param <W> type of message to be sent to the server
+ * @param <ReqT> type of call argument
+ * @param <RespT> type of read stream messages
  */
-public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements GrpcReadWriteStream<R, W> {
+public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> implements GrpcReadStream<RespT> {
     private static final Logger logger = LoggerFactory.getLogger(ReadStreamCall.class);
 
-    private final ClientCall<W, R> call;
-    private final BiConsumer<io.grpc.Status, Metadata> statusConsumer;
+    private final ClientCall<ReqT, RespT> call;
+    private final GrpcStatusHandler statusConsumer;
+    private final ReqT request;
     private final Metadata headers;
-    private final AuthCallOptions callOptions;
 
     private final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
-    private final AtomicReference<Observer<R>> observerReference = new AtomicReference<>();
-    private final Queue<W> messagesQueue = new ArrayDeque<>();
+    private final AtomicReference<Observer<RespT>> observerReference = new AtomicReference<>();
 
-    public ReadWriteStreamCall(
-            ClientCall<W, R> call,
+    public ReadStreamCall(
+            ClientCall<ReqT, RespT> call,
+            ReqT request,
             Metadata headers,
-            AuthCallOptions callOptions,
-            BiConsumer<io.grpc.Status, Metadata> statusConsumer
+            GrpcStatusHandler statusConsumer
     ) {
         this.call = call;
+        this.request = request;
         this.headers = headers != null ? headers : new Metadata();
         this.statusConsumer = statusConsumer;
-        this.callOptions = callOptions;
     }
 
     @Override
-    public String authToken() {
-        return callOptions.getToken();
-    }
-
-    @Override
-    public CompletableFuture<Status> start(Observer<R> observer) {
+    public CompletableFuture<Status> start(Observer<RespT> observer) {
         if (!observerReference.compareAndSet(null, observer)) {
             throw new IllegalStateException("Read stream call is already started");
         }
@@ -64,6 +54,9 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
             try {
                 call.start(this, headers);
                 call.request(1);
+                call.sendMessage(request);
+                // close stream by client side
+                call.halfClose();
             } catch (Throwable t) {
                 try {
                     call.cancel(null, t);
@@ -79,30 +72,6 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     }
 
     @Override
-    public void sendNext(W message) {
-        synchronized (call) {
-            if (flush()) {
-                call.sendMessage(message);
-            } else {
-                messagesQueue.add(message);
-            }
-        }
-    }
-
-    private boolean flush() {
-        while (call.isReady()) {
-            W next = messagesQueue.poll();
-            if (next == null) { // queue is empty, call is ready to send messages
-                return true;
-            }
-
-            call.sendMessage(next);
-        }
-        // call is not ready
-        return false;
-    }
-
-    @Override
     public void cancel() {
         synchronized (call) {
             call.cancel("Cancelled on user request", new CancellationException());
@@ -110,7 +79,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     }
 
     @Override
-    public void onMessage(R message) {
+    public void onMessage(RespT message) {
         try {
             observerReference.get().onNext(message);
             // request delivery of the next inbound message.
@@ -125,22 +94,8 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
                     call.cancel("Canceled by exception from observer", ex);
                 }
             } catch (Throwable th) {
-                logger.error("Exception encountered while canceling the read write stream call", th);
+                logger.error("Exception encountered while canceling the read stream call", th);
             }
-        }
-    }
-
-    @Override
-    public void onReady() {
-        synchronized (call) {
-            flush();
-        }
-    }
-
-    @Override
-    public void close() {
-        synchronized (call) {
-            call.halfClose();
         }
     }
 
@@ -155,4 +110,3 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         }
     }
 }
-

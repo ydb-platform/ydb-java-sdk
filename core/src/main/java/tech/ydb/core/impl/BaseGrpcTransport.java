@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
+import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +20,12 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.core.impl.call.EmptyStream;
+import tech.ydb.core.impl.call.GrpcStatusHandler;
+import tech.ydb.core.impl.call.ReadStreamCall;
+import tech.ydb.core.impl.call.ReadWriteStreamCall;
+import tech.ydb.core.impl.call.UnaryCall;
 import tech.ydb.core.impl.pool.GrpcChannel;
-import tech.ydb.core.impl.stream.EmptyStream;
-import tech.ydb.core.impl.stream.ReadStreamCall;
-import tech.ydb.core.impl.stream.ReadWriteStreamCall;
-import tech.ydb.core.impl.stream.UnaryCall;
 
 /**
  *
@@ -70,6 +72,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         try {
             GrpcChannel channel = getChannel(settings);
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+            ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
                 logger.trace("Sending request to {}, method `{}', request: `{}'",
@@ -78,15 +81,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         request);
             }
 
-            UnaryCall<ReqT, RespT> unary = new UnaryCall<>(call, (status, trailers) -> {
-                updateChannelStatus(channel, status);
-                if (settings.getTrailersHandler() != null) {
-                    settings.getTrailersHandler().accept(trailers);
-                }
-            });
-
-            return unary.startCall(request, settings.getExtraHeaders());
-
+            return new UnaryCall<>(call, handler).startCall(request, settings.getExtraHeaders());
         } catch (RuntimeException ex) {
             logger.error("unary call problem {}", ex.getMessage());
             return CompletableFuture.failedFuture(ex);
@@ -115,6 +110,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         try {
             GrpcChannel channel = getChannel(settings);
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+            ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
                 logger.trace("Creating stream call to {}, method `{}', request: `{}'",
@@ -123,12 +119,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         request);
             }
 
-            return new ReadStreamCall<>(call, request, settings.getExtraHeaders(), (status, trailers) -> {
-                updateChannelStatus(channel, status);
-                if (settings.getTrailersHandler() != null) {
-                    settings.getTrailersHandler().accept(trailers);
-                }
-            });
+            return new ReadStreamCall<>(call, request, settings.getExtraHeaders(), handler);
         } catch (RuntimeException ex) {
             logger.error("server stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
@@ -158,19 +149,15 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         try {
             GrpcChannel channel = getChannel(settings);
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+            ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
+
             if (logger.isTraceEnabled()) {
                 logger.trace("Creating bidirectional stream call to {}, method `{}'",
                         channel.getEndpoint(),
                         method);
             }
 
-            return new ReadWriteStreamCall<>(call, settings.getExtraHeaders(), getAuthCallOptions(),
-                    (status, trailers) -> {
-                        updateChannelStatus(channel, status);
-                        if (settings.getTrailersHandler() != null) {
-                            settings.getTrailersHandler().accept(trailers);
-                        }
-                    });
+            return new ReadWriteStreamCall<>(call, settings.getExtraHeaders(), getAuthCallOptions(), handler);
         } catch (RuntimeException ex) {
             logger.error("server bidirectional stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
@@ -188,5 +175,23 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
         return io.grpc.Status.DEADLINE_EXCEEDED.withDescription(message);
+    }
+
+    private class ChannelStatusHandler implements GrpcStatusHandler {
+        private final GrpcChannel channel;
+        private final GrpcRequestSettings settings;
+
+        ChannelStatusHandler(GrpcChannel channel, GrpcRequestSettings settings) {
+            this.channel = channel;
+            this.settings = settings;
+        }
+
+        @Override
+        public void accept(io.grpc.Status status, Metadata trailers) {
+            updateChannelStatus(channel, status);
+            if (settings.getTrailersHandler() != null && trailers != null) {
+                settings.getTrailersHandler().accept(trailers);
+            }
+        }
     }
 }

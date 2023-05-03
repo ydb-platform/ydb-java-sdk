@@ -1,8 +1,7 @@
-package tech.ydb.core.impl.stream;
+package tech.ydb.core.impl.call;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.BiConsumer;
 
 import javax.annotation.Nullable;
 
@@ -33,12 +32,12 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
             .withIssues(Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR));
 
     private final ClientCall<ReqT, RespT> call;
-    private final BiConsumer<io.grpc.Status, Metadata> statusConsumer;
+    private final GrpcStatusHandler statusConsumer;
 
     private final CompletableFuture<Result<RespT>> future = new CompletableFuture<>();
     private final AtomicReference<RespT> value = new AtomicReference<>();
 
-    public UnaryCall(ClientCall<ReqT, RespT> call, BiConsumer<io.grpc.Status, Metadata> statusConsumer) {
+    public UnaryCall(ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
         this.call = call;
         this.statusConsumer = statusConsumer;
     }

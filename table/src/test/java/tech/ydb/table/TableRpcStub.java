@@ -9,7 +9,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.impl.stream.EmptyStream;
+import tech.ydb.core.impl.call.EmptyStream;
 import tech.ydb.core.utils.Async;
 import tech.ydb.table.YdbTable.AlterTableRequest;
 import tech.ydb.table.YdbTable.BeginTransactionRequest;
