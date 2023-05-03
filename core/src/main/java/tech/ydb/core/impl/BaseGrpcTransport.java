@@ -26,6 +26,7 @@ import tech.ydb.core.impl.call.ReadStreamCall;
 import tech.ydb.core.impl.call.ReadWriteStreamCall;
 import tech.ydb.core.impl.call.UnaryCall;
 import tech.ydb.core.impl.pool.GrpcChannel;
+import tech.ydb.core.utils.Async;
 
 /**
  *
@@ -84,7 +85,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             return new UnaryCall<>(call, handler).startCall(request, settings.getExtraHeaders());
         } catch (RuntimeException ex) {
             logger.error("unary call problem {}", ex.getMessage());
-            return CompletableFuture.failedFuture(ex);
+            return Async.failedFuture(ex);
         }
     }
 
