@@ -1,4 +1,4 @@
-package tech.ydb.core.impl.stream;
+package tech.ydb.core.impl.call;
 
 import java.util.concurrent.CompletableFuture;
 

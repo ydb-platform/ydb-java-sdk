@@ -30,7 +30,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
-import tech.ydb.core.impl.stream.ProxyReadStream;
+import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.table.Session;
 import tech.ydb.table.YdbTable;

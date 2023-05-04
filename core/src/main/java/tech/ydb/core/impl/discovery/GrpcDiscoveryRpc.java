@@ -13,6 +13,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.FixedCallOptionsTransport;
+import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.discovery.DiscoveryProtos;
@@ -30,14 +31,17 @@ public class GrpcDiscoveryRpc {
     private final BaseGrpcTransport parent;
     private final EndpointRecord endpoint;
     private final ManagedChannelFactory channelFactory;
+    private final AuthCallOptions callOptions;
 
     public GrpcDiscoveryRpc(
             BaseGrpcTransport parent,
             EndpointRecord endpoint,
-            ManagedChannelFactory channelFactory) {
+            ManagedChannelFactory channelFactory,
+            AuthCallOptions callOptions) {
         this.parent = parent;
         this.endpoint = endpoint;
         this.channelFactory = channelFactory;
+        this.callOptions = callOptions;
     }
 
     public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
@@ -63,7 +67,7 @@ public class GrpcDiscoveryRpc {
     private GrpcTransport createTransport() {
         return new FixedCallOptionsTransport(
                 parent.getScheduler(),
-                parent.getAuthCallOptions(),
+                callOptions,
                 parent.getDatabase(),
                 endpoint,
                 channelFactory

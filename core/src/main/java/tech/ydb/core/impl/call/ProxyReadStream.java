@@ -1,4 +1,4 @@
-package tech.ydb.core.impl.stream;
+package tech.ydb.core.impl.call;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +18,7 @@ public class ProxyReadStream<BaseR, DestR> implements GrpcReadStream<DestR> {
 
     private final GrpcReadStream<BaseR> origin;
     private final MessageFunctor<BaseR, DestR> functor;
+    private final CompletableFuture<Status> future = new CompletableFuture<>();
 
     public ProxyReadStream(GrpcReadStream<BaseR> origin, MessageFunctor<BaseR, DestR> functor) {
         this.origin = origin;
@@ -26,19 +27,17 @@ public class ProxyReadStream<BaseR, DestR> implements GrpcReadStream<DestR> {
 
     @Override
     public CompletableFuture<Status> start(Observer<DestR> observer) {
-        final CompletableFuture<Status> promise = new CompletableFuture<>();
-
-        origin.start(response -> functor.apply(response, promise, observer)).whenComplete((status, th) -> {
+        origin.start(response -> functor.apply(response, future, observer)).whenComplete((status, th) -> {
             // promise may be completed by functor and in that case this code will be ignored
             if (th != null) {
-                promise.completeExceptionally(th);
+                future.completeExceptionally(th);
             }
             if (status != null) {
-                promise.complete(status);
+                future.complete(status);
             }
         });
 
-        return promise;
+        return future;
     }
 
     @Override
