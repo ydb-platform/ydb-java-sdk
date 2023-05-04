@@ -49,15 +49,21 @@ public class ServiceDiscoveryPublisher extends WorkingScenario {
 
                             logger.info("Starting service discovery publisher session, sessionId: {}",
                                     coordinationSession.getSessionId());
+                        }
 
-                            coordinationSession.sendAcquireSemaphore(
+                        @Override
+                        public void onCreateSemaphoreResult(Status status) {
+                            logger.info("Creating semaphore {}, with status: {}", settings.getSemaphoreName(), status);
+
+                            publisher.currentCoordinationSession.get().sendAcquireSemaphore(
                                     SessionRequest.AcquireSemaphore.newBuilder()
                                             .setName(settings.getSemaphoreName())
                                             .setCount(1)
-                                            .setData(ByteString.copyFrom(endpoint.getBytes(StandardCharsets.UTF_8)))
+                                            .setData(ByteString
+                                                    .copyFrom(endpoint.getBytes(StandardCharsets.UTF_8)))
                                             .build()
                             );
-                        }
+                         }
 
                         @Override
                         public void onAcquireSemaphoreResult(boolean acquired, Status status) {

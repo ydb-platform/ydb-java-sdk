@@ -35,7 +35,7 @@ public class CoordinationClientTest {
         Assert.assertTrue(result.join().isSuccess());
     }
 
-    @Test
+    @Test(timeout = Utils.TIMEOUT)
     public void alterNodeTest() {
         CompletableFuture<Status> result = client.alterNode(
                 path,
@@ -50,7 +50,7 @@ public class CoordinationClientTest {
         Assert.assertTrue(result.join().isSuccess());
     }
 
-    @Test
+    @Test(timeout = Utils.TIMEOUT)
     public void coordinationSessionFullCycleTest() {
         CoordinationSession session = client.createSession();
 

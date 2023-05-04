@@ -22,8 +22,9 @@ public class LeaderElectionScenarioTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
+    private final String semaphoreName = "leader-election-semaphore";
 
-    @Test
+    @Test(timeout = Utils.TIMEOUT)
     public void leaderElectionScenarioFullTest() {
         int sessionsSize = 50;
 
@@ -39,7 +40,8 @@ public class LeaderElectionScenarioTest {
 
                                     futures.put(endpoint, future);
                                     return Utils.getStart(
-                                                    LeaderElection.newBuilder(client, endpoint, future::complete)
+                                                    LeaderElection.newBuilder(client, endpoint, future::complete),
+                                                    semaphoreName
                                             )
                                             .join();
                                 }

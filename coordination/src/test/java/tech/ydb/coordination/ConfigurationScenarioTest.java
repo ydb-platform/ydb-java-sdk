@@ -22,10 +22,14 @@ public class ConfigurationScenarioTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
+    private final String semaphoreName = "configuration-semaphore";
 
-    @Test
+    @Test(timeout = Utils.TIMEOUT)
     public void configurationScenarioFullTest() {
-        ConfigurationPublisher publisher = Utils.getStart(ConfigurationPublisher.newBuilder(client)).join();
+        ConfigurationPublisher publisher = Utils.getStart(
+                ConfigurationPublisher.newBuilder(client),
+                semaphoreName
+        ).join();
 
         List<WrapperCompletableFuture<byte[]>> wrappers = new ArrayList<>();
 
@@ -42,7 +46,8 @@ public class ConfigurationScenarioTest {
                                                     wrapper.complete(configurationData);
                                                 }
                                             }
-                                    )
+                                    ),
+                                    semaphoreName
                             );
                         }
                 )
@@ -58,7 +63,10 @@ public class ConfigurationScenarioTest {
 
         publisher.stop();
 
-        ConfigurationPublisher newPublisher = Utils.getStart(ConfigurationPublisher.newBuilder(client)).join();
+        ConfigurationPublisher newPublisher = Utils.getStart(
+                ConfigurationPublisher.newBuilder(client),
+                semaphoreName
+        ).join();
 
         publish(newPublisher, wrappers, "test3".getBytes());
 

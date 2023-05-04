@@ -24,14 +24,15 @@ public class ServiceDiscoveryScenarioTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final CoordinationClient client = CoordinationClient.newClient(ydbTransport);
+    private final String semaphoreName = "service-discovery-semaphore";
 
-    @Test
+    @Test(timeout = Utils.TIMEOUT)
     public void serviceDiscoveryScenarioFullTest() {
         Set<String> hosts = Stream.of("localhost1", "localhost2")
                 .collect(Collectors.toCollection(CopyOnWriteArraySet::new));
 
         List<ServiceDiscoveryPublisher> publishers = hosts.stream()
-                .map(endpoint -> Utils.getStart(ServiceDiscoveryPublisher.newBuilder(client, endpoint)))
+                .map(endpoint -> Utils.getStart(ServiceDiscoveryPublisher.newBuilder(client, endpoint), semaphoreName))
                 .map(CompletableFuture::join)
                 .collect(Collectors.toList());
 
@@ -44,7 +45,7 @@ public class ServiceDiscoveryScenarioTest {
                                 future.complete(new HashSet<>(endpoints));
                             }
                         }
-                ))
+                ), semaphoreName)
                 .join();
 
         assertEndpoints(hosts, future);
@@ -52,12 +53,15 @@ public class ServiceDiscoveryScenarioTest {
         future.clear();
         hosts.add("localhost3");
 
-        publishers.add(Utils.getStart(ServiceDiscoveryPublisher.newBuilder(client, "localhost3")).join());
+        publishers.add(Utils.getStart(
+                ServiceDiscoveryPublisher.newBuilder(client, "localhost3"),
+                semaphoreName
+        ).join());
 
         assertEndpoints(hosts, future);
 
-        publishers.forEach(ServiceDiscoveryPublisher::stop);
         subscriber.stop();
+        publishers.forEach(ServiceDiscoveryPublisher::stop);
     }
 
     private static void assertEndpoints(Set<String> hosts, WrapperCompletableFuture<Set<String>> future) {

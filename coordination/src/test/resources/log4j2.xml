@@ -13,7 +13,7 @@
         <Logger name="tech.ydb.core.grpc" level="error" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="tech.ydb.coordination.session" level="trace" additivity="false">
+        <Logger name="tech.ydb.coordination" level="trace" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
 
