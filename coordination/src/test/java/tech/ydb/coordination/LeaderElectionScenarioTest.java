@@ -1,7 +1,9 @@
 package tech.ydb.coordination;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -48,7 +50,7 @@ public class LeaderElectionScenarioTest {
                         )
                 );
 
-
+        List<Long> epochs = new ArrayList<>();
         for (int i = 0; i < sessionsSize; i++) {
             List<String> endpoints = futures.values()
                     .stream()
@@ -64,8 +66,14 @@ public class LeaderElectionScenarioTest {
             }
 
             LeaderElection election = electionMap.get(endpointLeader);
+            epochs.add(election.epochLeader());
+
             futures.remove(endpointLeader);
             election.stop();
+        }
+
+        for (int i = 0; i < epochs.size() - 1; i++) {
+            Assert.assertEquals(1L + epochs.get(i), (long) epochs.get(i + 1));
         }
     }
 }

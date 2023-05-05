@@ -1,6 +1,7 @@
 package tech.ydb.coordination.scenario.leader_election;
 
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.google.protobuf.ByteString;
@@ -81,11 +82,9 @@ public class LeaderElection extends WorkingScenario {
                     new CoordinationSession.Observer() {
                         @Override
                         public void onAcquireSemaphoreResult(boolean acquired, Status status) {
-                            leaderElection.epochLeader.set(
-                                    leaderElection.currentCoordinationSession.get().getSessionId()
-                            );
-
-                            observer.onNext(ticket);
+                            if (acquired) {
+                                leaderElection.describeSemaphore();
+                            }
                         }
 
                         @Override
@@ -101,8 +100,8 @@ public class LeaderElection extends WorkingScenario {
                             if (status.isSuccess()) {
                                 SemaphoreSession semaphoreSessionLeader = semaphoreDescription.getOwnersList().get(0);
 
-                                if (semaphoreSessionLeader.getSessionId() != leaderElection.epochLeader()) {
-                                    leaderElection.epochLeader.set(semaphoreSessionLeader.getSessionId());
+                                if (semaphoreSessionLeader.getOrderId() > leaderElection.epochLeader()) {
+                                    leaderElection.epochLeader.set(semaphoreSessionLeader.getOrderId());
 
                                     observer.onNext(
                                             semaphoreSessionLeader.getData()
