@@ -1,7 +1,6 @@
 package tech.ydb.coordination.scenario.leader_election;
 
 import java.nio.charset.StandardCharsets;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.google.protobuf.ByteString;
