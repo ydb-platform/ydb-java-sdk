@@ -32,9 +32,9 @@ public abstract class WorkingScenario {
     private final long semaphoreLimit;
 
     public WorkingScenario(
-         CoordinationClient client,
-         Settings settings,
-         long semaphoreLimit
+            CoordinationClient client,
+            Settings settings,
+            long semaphoreLimit
     ) {
         this.client = client;
         this.settings = settings;
@@ -65,7 +65,11 @@ public abstract class WorkingScenario {
                             logger.error("Failed coordination session", throwable);
                         }
 
-                        tryStart(completableStatus, observer);
+                        try {
+                            tryStart(completableStatus, observer);
+                        } catch (RuntimeException e) {
+                            logger.error("Failed trying start session", e);
+                        }
                     }
             );
 
