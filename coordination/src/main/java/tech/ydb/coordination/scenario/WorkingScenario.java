@@ -1,12 +1,14 @@
 package tech.ydb.coordination.scenario;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nonnull;
 
 import com.google.common.base.Preconditions;
+import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,12 +77,16 @@ public abstract class WorkingScenario {
 
             currentCoordinationSession.set(coordinationSession);
 
+            byte[] protectionKey = new byte[16];
+            ThreadLocalRandom.current().nextBytes(protectionKey);
+
             coordinationSession.sendStartSession(
                     SessionRequest.SessionStart.newBuilder()
                             .setSessionId(Settings.START_SESSION_ID)
                             .setPath(settings.getCoordinationNodePath())
                             .setDescription(settings.getDescription())
                             .setTimeoutMillis(Settings.SESSION_KEEP_ALIVE_TIMEOUT_MS)
+                            .setProtectionKey(ByteString.copyFrom(protectionKey))
                             .build()
             );
 
