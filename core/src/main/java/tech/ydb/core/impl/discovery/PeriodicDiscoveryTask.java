@@ -94,24 +94,23 @@ public class PeriodicDiscoveryTask implements Runnable {
     }
 
     private void handleDiscoveryResponse(Result<DiscoveryProtos.ListEndpointsResult> response) {
-        if (!response.isSuccess()) {
+        try {
+            DiscoveryProtos.ListEndpointsResult result = response.getValue();
+            if (result.getEndpointsList().isEmpty()) {
+                logger.error("discovery return empty list of endpoints");
+                state.handleProblem(new UnexpectedResultException("discovery fail", EMPTY_DISCOVERY));
+                return;
+            }
+
+            logger.debug("successfully received ListEndpoints result with {} endpoints",
+                    result.getEndpointsList().size());
+            discoveryHandler.handleDiscoveryResult(result);
+
+            state.handleOK();
+        } catch (UnexpectedResultException ex) {
             logger.error("discovery fail {}", response);
-            state.handleProblem(new UnexpectedResultException("discovery fail", response.getStatus()));
-            return;
+            state.handleProblem(ex);
         }
-
-        DiscoveryProtos.ListEndpointsResult result = response.getValue();
-        if (result == null || result.getEndpointsList().isEmpty()) {
-            logger.error("discovery return empty list of endpoints");
-            state.handleProblem(new UnexpectedResultException("discovery fail", EMPTY_DISCOVERY));
-            return;
-        }
-
-        logger.debug("successfully received ListEndpoints result with {} endpoints",
-                result.getEndpointsList().size());
-        discoveryHandler.handleDiscoveryResult(result);
-
-        state.handleOK();
     }
 
     private void runDiscovery() {

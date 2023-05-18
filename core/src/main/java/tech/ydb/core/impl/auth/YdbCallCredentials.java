@@ -35,9 +35,9 @@ class YdbCallCredentials extends CallCredentials {
                 headers.put(AUTH_TICKET, token);
             }
             applier.apply(headers);
-        } catch (RuntimeException ex) {
-            logger.error("invalid token", ex);
-            applier.fail(Status.UNAUTHENTICATED.withCause(ex));
+        } catch (Exception ex) {
+            logger.error("unexpected exception ", ex);
+            applier.fail(Status.INTERNAL.withCause(ex));
         }
     }
 
