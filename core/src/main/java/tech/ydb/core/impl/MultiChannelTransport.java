@@ -61,7 +61,8 @@ public class MultiChannelTransport extends BaseGrpcTransport {
                 channelFactory,
                 builder.getAuthProvider(),
                 builder.getReadTimeoutMillis(),
-                builder.getCallExecutor()
+                builder.getCallExecutor(),
+                builder.getGrpcCompression()
         );
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);

@@ -9,6 +9,7 @@ import io.grpc.CallOptions;
 
 import tech.ydb.auth.AuthIdentity;
 import tech.ydb.auth.AuthRpcProvider;
+import tech.ydb.core.grpc.GrpcCompression;
 import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -32,7 +33,8 @@ public class AuthCallOptions implements AutoCloseable {
             ManagedChannelFactory channelFactory,
             AuthRpcProvider<? super GrpcAuthRpc> authProvider,
             long readTimeoutMillis,
-            Executor callExecutor) {
+            Executor callExecutor,
+            GrpcCompression compression) {
 
         CallOptions options = CallOptions.DEFAULT;
 
@@ -52,6 +54,9 @@ public class AuthCallOptions implements AutoCloseable {
         }
         if (callExecutor != null && callExecutor != MoreExecutors.directExecutor()) {
             options = options.withExecutor(callExecutor);
+        }
+        if (compression != GrpcCompression.NO_COMPRESSION) {
+            options = options.withCompression(compression.compressor());
         }
 
         this.callOptions = options;

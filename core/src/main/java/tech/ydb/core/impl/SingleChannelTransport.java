@@ -40,7 +40,8 @@ public class SingleChannelTransport extends BaseGrpcTransport {
                 channelFactory,
                 builder.getAuthProvider(),
                 builder.getReadTimeoutMillis(),
-                builder.getCallExecutor()
+                builder.getCallExecutor(),
+                builder.getGrpcCompression()
         );
         this.scheduler = builder.getSchedulerFactory().get();
     }
