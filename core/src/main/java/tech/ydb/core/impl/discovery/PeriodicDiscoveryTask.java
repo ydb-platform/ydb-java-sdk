@@ -87,10 +87,8 @@ public class PeriodicDiscoveryTask implements Runnable {
     }
 
     private void scheduleNextDiscovery() {
-        if (!state.stopped) {
-            currentSchedule = scheduler.schedule(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
-            logger.debug("schedule next discovery in {} seconds", DISCOVERY_PERIOD_MIN_SECONDS);
-        }
+        logger.debug("schedule next discovery in {} seconds", DISCOVERY_PERIOD_MIN_SECONDS);
+        currentSchedule = scheduler.schedule(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
     }
 
     private void handleDiscoveryResponse(Result<DiscoveryProtos.ListEndpointsResult> response) {
@@ -136,7 +134,10 @@ public class PeriodicDiscoveryTask implements Runnable {
             }
 
             updateInProgress.set(false);
-            scheduleNextDiscovery();
+
+            if (state.isReady) {
+                scheduleNextDiscovery();
+            }
         });
     }
 

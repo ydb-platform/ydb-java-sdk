@@ -37,7 +37,7 @@ class YdbCallCredentials extends CallCredentials {
             applier.apply(headers);
         } catch (Exception ex) {
             logger.error("unexpected exception ", ex);
-            applier.fail(Status.INTERNAL.withCause(ex));
+            applier.fail(Status.INTERNAL.withDescription("get token exception").withCause(ex));
         }
     }
 

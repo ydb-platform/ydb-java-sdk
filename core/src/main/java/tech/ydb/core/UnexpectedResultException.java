@@ -27,6 +27,7 @@ public class UnexpectedResultException extends RuntimeException {
     UnexpectedResultException(String message, UnexpectedResultException other) {
         super(message + ": " + other.getMessage(), other.getCause());
         this.status = other.status;
+        this.setStackTrace(other.getStackTrace());
     }
 
     @Nonnull
