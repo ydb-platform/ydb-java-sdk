@@ -135,7 +135,7 @@ public class PeriodicDiscoveryTask implements Runnable {
 
             updateInProgress.set(false);
 
-            if (state.isReady) {
+            if (state.isReady && !state.stopped) {
                 scheduleNextDiscovery();
             }
         });
