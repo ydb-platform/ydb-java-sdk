@@ -45,6 +45,7 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
         return new GrpcCoordinationRpc(transport, true);
     }
 
+    @Override
     public GrpcReadWriteStream<SessionResponse, SessionRequest> session() {
         return grpcTransport.readWriteStreamCall(
                 CoordinationServiceGrpc.getSessionMethod(),
@@ -52,6 +53,7 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
         );
     }
 
+    @Override
     public CompletableFuture<Status> createNode(CreateNodeRequest request, GrpcRequestSettings settings) {
         return grpcTransport.unaryCall(
                 CoordinationServiceGrpc.getCreateNodeMethod(),
@@ -60,6 +62,7 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
         ).thenApply(Operations.statusUnwrapper(CreateNodeResponse::getOperation));
     }
 
+    @Override
     public CompletableFuture<Status> alterNode(AlterNodeRequest request, GrpcRequestSettings settings) {
         return grpcTransport.unaryCall(
                 CoordinationServiceGrpc.getAlterNodeMethod(),
@@ -68,6 +71,7 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
         ).thenApply(Operations.statusUnwrapper(AlterNodeResponse::getOperation));
     }
 
+    @Override
     public CompletableFuture<Status> dropNode(DropNodeRequest request, GrpcRequestSettings settings) {
         return grpcTransport.unaryCall(
                 CoordinationServiceGrpc.getDropNodeMethod(),
@@ -76,6 +80,7 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
         ).thenApply(Operations.statusUnwrapper(DropNodeResponse::getOperation));
     }
 
+    @Override
     public CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings) {
         return grpcTransport.unaryCall(
                 CoordinationServiceGrpc.getDescribeNodeMethod(),
