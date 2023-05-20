@@ -2,7 +2,6 @@ package tech.ydb.scheme.impl;
 
 import java.util.concurrent.CompletableFuture;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
@@ -39,12 +38,10 @@ public final class GrpcSchemeRpc implements SchemeRpc {
         this.transportOwned = transportOwned;
     }
 
-    @Nullable
     public static GrpcSchemeRpc useTransport(@WillNotClose GrpcTransport transport) {
         return new GrpcSchemeRpc(transport, false);
     }
 
-    @Nullable
     public static GrpcSchemeRpc ownTransport(@WillClose GrpcTransport transport) {
         return new GrpcSchemeRpc(transport, true);
     }
