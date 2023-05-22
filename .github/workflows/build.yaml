@@ -24,3 +24,14 @@ jobs:
         run: mvn --batch-mode --update-snapshots package
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+
+  examples:
+    runs-on: ubuntu-latest
+    needs: build
+
+    env:
+        EXAMPLES_BRANCH: ${{ github.GITHUB_REF == 'refs/heads/master' && 'master' || 'develop' }}
+
+    steps:
+      - name: test 1
+        run: echo "${GITHUB_REF} -> ${EXAMPLES_BRANCH}"

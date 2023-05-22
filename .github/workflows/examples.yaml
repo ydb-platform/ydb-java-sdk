@@ -1,0 +1,22 @@
+name: Build&Test YDB Java SDK Examples
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+      type: [opened, reopened, edited]
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+
+    env:
+        TEST: refs/heads/master
+        EXAMPLES_BRANCH: ${{ env.TEST == 'refs/heads/master' && 'master' || 'develop' }}
+
+    steps:
+      - name: test 1
+        run: echo "${GITHUB_REF} -> ${EXAMPLES_BRANCH}"
+
