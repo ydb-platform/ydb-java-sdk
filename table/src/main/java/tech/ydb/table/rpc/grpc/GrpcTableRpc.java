@@ -3,7 +3,6 @@ package tech.ydb.table.rpc.grpc;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
@@ -68,12 +67,10 @@ public final class GrpcTableRpc implements TableRpc {
         this.transportOwned = transportOwned;
     }
 
-    @Nullable
     public static GrpcTableRpc useTransport(@WillNotClose GrpcTransport transport) {
         return new GrpcTableRpc(transport, false);
     }
 
-    @Nullable
     public static GrpcTableRpc ownTransport(@WillClose GrpcTransport transport) {
         return new GrpcTableRpc(transport, true);
     }
