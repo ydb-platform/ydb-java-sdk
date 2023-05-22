@@ -43,7 +43,7 @@ public class YdbSchedulerFactory {
 
             return closed;
         } catch (InterruptedException e) {
-            logger.warn("ydb scheduler shutdown interrupted {}", e);
+            logger.warn("ydb scheduler shutdown interrupted", e);
             Thread.currentThread().interrupt();
             return false;
         }

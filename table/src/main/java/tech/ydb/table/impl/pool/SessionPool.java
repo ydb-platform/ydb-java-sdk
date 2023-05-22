@@ -105,11 +105,9 @@ public class SessionPool implements AutoCloseable {
         nextSession.whenComplete((session, th) -> {
             if (th != null) {
                 if (future.isDone() || future.isCancelled()) {
-                    logger.warn("can't get session, future is already canceled", th.getMessage());
-                    future.completeExceptionally(th);
-                } else {
-                    future.completeExceptionally(th);
+                    logger.warn("can't get session, future is already canceled", th);
                 }
+                future.completeExceptionally(th);
             }
             if (session != null) {
                 validateSession(session, future);
