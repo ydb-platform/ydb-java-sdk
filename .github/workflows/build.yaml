@@ -6,6 +6,7 @@ on:
       - master
       - develop
   pull_request:
+      type: [opened, reopened, edited]
 
 jobs:
   build:
