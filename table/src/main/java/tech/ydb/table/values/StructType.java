@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.Maps;
+
 import tech.ydb.ValueProtos;
 import tech.ydb.table.utils.Arrays2;
 
@@ -283,7 +285,7 @@ public final class StructType implements Type {
 
     private static Map<String, Integer> buildNamesIdx(String[] names) {
         // TODO: use structure with lower memory usage
-        HashMap<String, Integer> namesIdx = new HashMap<>(names.length);
+        HashMap<String, Integer> namesIdx = Maps.newHashMapWithExpectedSize(names.length);
         for (int i = 0; i < names.length; i++) {
             if (namesIdx.put(names[i], i) != null) {
                 throw new IllegalArgumentException("duplicate member name in struct: " + names[i]);

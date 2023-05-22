@@ -36,11 +36,11 @@ public interface Params {
     /**
      * Returns a modifiable implementation of {@link Params} with no parameters.
      *
-     * @param initialCapacity initial capacity of backing map
+     * @param expectedSize the expected number of parameters
      * @return an empty {@link Params}
      */
-    static Params create(int initialCapacity) {
-        return new ParamsMutableMap(initialCapacity);
+    static Params create(int expectedSize) {
+        return new ParamsMutableMap(expectedSize);
     }
 
     /**

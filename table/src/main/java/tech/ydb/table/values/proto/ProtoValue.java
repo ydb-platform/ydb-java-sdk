@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.collect.Maps;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.NullValue;
 import com.google.protobuf.UnsafeByteOperations;
@@ -668,7 +669,7 @@ public class ProtoValue {
                     return dictType.emptyValue();
                 }
 
-                HashMap<Value<?>, Value<?>> items = new HashMap<>(value.getPairsCount());
+                HashMap<Value<?>, Value<?>> items = Maps.newHashMapWithExpectedSize(value.getPairsCount());
                 for (int i = 0; i < value.getPairsCount(); i++) {
                     ValueProtos.ValuePair pair = value.getPairs(i);
                     items.put(
