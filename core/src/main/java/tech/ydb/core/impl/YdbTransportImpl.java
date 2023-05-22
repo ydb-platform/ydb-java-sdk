@@ -53,7 +53,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                 channelFactory,
                 builder.getAuthProvider(),
                 builder.getReadTimeoutMillis(),
-                builder.getCallExecutor()
+                builder.getCallExecutor(),
+                builder.getGrpcCompression()
         );
 
         GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory, callOptions);

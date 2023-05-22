@@ -44,6 +44,7 @@ public class GrpcTransportBuilder {
     private long readTimeoutMillis = 0;
     private long connectTimeoutMillis = 5000;
     private boolean useDefaultGrpcResolver = false;
+    private GrpcCompression compression = GrpcCompression.NO_COMPRESSION;
 
     /**
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
@@ -54,9 +55,7 @@ public class GrpcTransportBuilder {
         this.endpoint = endpoint;
         this.host = host;
         this.database = Objects.requireNonNull(database);
-        if (endpoint != null && endpoint.startsWith("grpcs://")) {
-            this.useTLS = true;
-        }
+        this.useTLS = endpoint != null && endpoint.startsWith("grpcs://");
     }
 
     @Nullable
@@ -120,6 +119,10 @@ public class GrpcTransportBuilder {
         return connectTimeoutMillis;
     }
 
+    public GrpcCompression getGrpcCompression() {
+        return compression;
+    }
+
     public boolean isEnableRetry() {
         return grpcRetry;
     }
@@ -163,6 +166,17 @@ public class GrpcTransportBuilder {
 
     public GrpcTransportBuilder withAuthProvider(AuthRpcProvider<? super GrpcAuthRpc> authProvider) {
         this.authProvider = Objects.requireNonNull(authProvider);
+        return this;
+    }
+
+    /**
+     * Sets the compression to use for the calls. See {@link io.grpc.CallOptions#withCompression(java.lang.String) }
+     * for details
+     * @param compression the compression value
+     * @return return GrpcTransportBuilder with the given compression
+     */
+    public GrpcTransportBuilder withGrpcCompression(@Nonnull GrpcCompression compression) {
+        this.compression = Objects.requireNonNull(compression, "compression is null");
         return this;
     }
 
