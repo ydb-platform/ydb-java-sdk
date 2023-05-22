@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 
 import tech.ydb.table.description.TableTtl.TtlMode;
 import tech.ydb.table.settings.PartitioningSettings;
@@ -142,7 +143,7 @@ public class TableDescription {
                 return setPrimaryKey(names[0]);
             }
 
-            HashSet<String> keys = new HashSet<>(names.length);
+            HashSet<String> keys = Sets.newHashSetWithExpectedSize(names.length);
             for (String name : names) {
                 checkColumnKnown(name);
                 if (!keys.add(name)) {
@@ -159,7 +160,7 @@ public class TableDescription {
                 return setPrimaryKey(names.get(0));
             }
 
-            HashSet<String> keys = new HashSet<>(names.size());
+            HashSet<String> keys = Sets.newHashSetWithExpectedSize(names.size());
             for (String name : names) {
                 checkColumnKnown(name);
                 if (!keys.add(name)) {
