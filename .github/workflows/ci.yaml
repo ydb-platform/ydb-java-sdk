@@ -25,6 +25,13 @@ jobs:
         run: mvn --batch-mode --update-snapshots install
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+      - name: Store YDB Java SDK artifacts
+        id: store-ydb-java-sdk
+        uses: actions/upload-artifact@v3
+        with:
+          name: ydb-java-sdk.zip
+          retention-days: 1
+          path: ~/.m2/repository/tech/ydb
 
   examples:
     name: Build and test Java SDK Examples
@@ -39,11 +46,23 @@ jobs:
         with:
           repository: ydb-platform/ydb-java-examples
           ref: ${{env.EXAMPLES_BRANCH}}
+
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
           java-version: '8'
           distribution: 'temurin'
           cache: 'maven'
+
+      - name: Cleanup tech.ydb artifacts
+        run: rm -rf ~/.m2/repository/tech/ydb >/dev/null || true
+
+      - name: Download built YDB Java SDK actifacts
+        id: download-ydb-java-sdk
+        uses: actions/download-artifact@v3
+        with:
+          path: ~/.m2/repository/tech/ydb/
+          name: ydb-java-sdk.zip
+
       - name: Build examples with Maven
         run: mvn test
