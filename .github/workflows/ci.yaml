@@ -1,4 +1,4 @@
-name: Maven Build
+name: YDB Java SDK CI with Maven
 
 on:
   push:
@@ -23,8 +23,11 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
+      - name: Download dependencies
+        run: mvn --batch-mode --update-snapshots dependency:go-offline
+
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots install
+        run: mvn --batch-mode install
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -68,8 +71,11 @@ jobs:
           path: ~/.m2/repository/tech/ydb/
           name: ydb-java-sdk.zip
 
+      - name: Download dependencies
+        run: mvn  --batch-mode --update-snapshots dependency:go-offline
+
       - name: Build YDB Java YC Auth privider
-        run: mvn --batch-mode --update-snapshots install
+        run: mvn --batch-mode install
 
       - name: Update YDB Java SDK artifacts
         id: update-ydb-java-sdk
@@ -110,5 +116,8 @@ jobs:
           path: ~/.m2/repository/tech/ydb/
           name: ydb-java-sdk.zip
 
-      - name: Build examples with Maven
-        run: mvn test
+      - name: Download dependencies
+        run: mvn --batch-mode --update-snapshots dependency:go-offline
+
+      - name: Test examples with Maven
+        run: mvn --batch-mode test
