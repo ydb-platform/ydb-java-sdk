@@ -27,10 +27,10 @@ jobs:
           cache: 'maven'
 
       - name: Download dependencies
-        run: mvn dependency:go-offline
+        run: mvn $MAVEN_ARGS dependency:go-offline
 
       - name: Build with Maven
-        run: mvn install
+        run: mvn $MAVEN_ARGS install
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
@@ -79,7 +79,7 @@ jobs:
 #        run: mvn dependency:go-offline
 
       - name: Build YDB Java YC Auth privider
-        run: mvn install
+        run: mvn $MAVEN_ARGS install
 
       - name: Update YDB Java SDK artifacts
         id: update-ydb-java-sdk
@@ -125,4 +125,4 @@ jobs:
 #        run: mvn --batch-mode --update-snapshots dependency:go-offline
 
       - name: Test examples with Maven
-        run: mvn test
+        run: mvn $MAVEN_ARGS test
