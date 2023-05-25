@@ -1,4 +1,4 @@
-name: YDB Java SDK CI with Maven
+name: YDB Java SDK Build
 
 on:
   push:
@@ -31,9 +31,6 @@ jobs:
 
       - name: Build with Maven
         run: mvn $MAVEN_ARGS install
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
 
       - name: Store YDB Java SDK artifacts
         id: store-ydb-java-sdk

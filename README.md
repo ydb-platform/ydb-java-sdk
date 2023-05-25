@@ -1,6 +1,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/ydb-platform/ydb-java-sdk/blob/master/LICENSE)
 [![Maven metadata URL](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Frepo1.maven.org%2Fmaven2%2Ftech%2Fydb%2Fydb-sdk-parent%2Fmaven-metadata.xml)](https://mvnrepository.com/artifact/tech.ydb/ydb-sdk-parent)
 [![Build](https://img.shields.io/github/actions/workflow/status/ydb-platform/ydb-java-sdk/build.yaml?branch=develop)](https://github.com/ydb-platform/ydb-java-sdk/actions/workflows/build.yaml)
+[![CI](https://img.shields.io/github/actions/workflow/status/ydb-platform/ydb-java-sdk/ci.yaml?branch=develop)](https://github.com/ydb-platform/ydb-java-sdk/actions/workflows/ci.yaml)
 [![Codecov](https://img.shields.io/codecov/c/github/ydb-platform/ydb-java-sdk)](https://app.codecov.io/gh/ydb-platform/ydb-java-sdk)
 
 The Java SDK for YDB enables Java developers to work with YDB.

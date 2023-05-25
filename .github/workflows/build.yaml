@@ -1,0 +1,37 @@
+name: YDB Java SDK CI with Maven
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+      type: [opened, reopened, edited]
+
+jobs:
+  build:
+    name: Build YDB Java SDK
+    runs-on: ubuntu-latest
+
+    env:
+        MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: '8'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Download dependencies
+        run: mvn $MAVEN_ARGS dependency:go-offline
+
+      - name: Build with Maven
+        run: mvn $MAVEN_ARGS package
+
+#      - name: Upload coverage to Codecov
+#        uses: codecov/codecov-action@v3
+
