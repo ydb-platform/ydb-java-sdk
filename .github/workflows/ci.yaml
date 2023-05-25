@@ -1,4 +1,4 @@
-name: YDB Java SDK Build
+name: YDB Java SDK CI with Maven
 
 on:
   push:
