@@ -1,4 +1,4 @@
-name: Maven Build
+name: Build YDB Java SDK
 
 on:
   push:
@@ -6,20 +6,54 @@ on:
       - master
       - develop
   pull_request:
+      type: [opened, reopened, edited]
 
 jobs:
   build:
+    name: Build YDB Java SDK
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java: [ '8', '11', '17']
+
+    env:
+        MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always
 
     steps:
       - uses: actions/checkout@v3
-      - name: Set up JDK 8
+
+      - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          java-version: '8'
+          java-version: ${{ matrix.java }}
           distribution: 'temurin'
           cache: 'maven'
+
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots package
+        run: mvn $MAVEN_ARGS verify
+
+  coverage:
+    name: Coverage YDB Java SDK
+    runs-on: ubuntu-latest
+    needs: build
+
+    env:
+        MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: 8
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn $MAVEN_ARGS test
+
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v3
+
