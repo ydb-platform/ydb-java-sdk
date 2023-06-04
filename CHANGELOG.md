@@ -1,3 +1,7 @@
+## 2.1.1 ##
+* Added export module
+* Operation manager
+
 ## 2.1.0 ##
 
 * Added config for GRPC compression
