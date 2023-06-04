@@ -21,7 +21,6 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.operation.v1.OperationServiceGrpc;
 
 /**
- * @author Sergey Polovko
  * @author Kirill Kurdyukov
  */
 public final class OperationManager {
