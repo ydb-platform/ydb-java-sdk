@@ -50,13 +50,9 @@ public final class OperationManager {
         return Status.of(code, consumedRu, Issue.fromPb(operation.getIssuesList()));
     }
 
-    public static <
-            ResultRpc,
-            UnwrapperResult extends Message
-            >
-    Function<Result<ResultRpc>, Result<UnwrapperResult>> syncResultUnwrapper(
-            Function<ResultRpc, OperationProtos.Operation> operationExtractor,
-            Class<UnwrapperResult> resultClass
+    public static <R, M extends Message> Function<Result<R>, Result<M>> syncResultUnwrapper(
+            Function<R, OperationProtos.Operation> operationExtractor,
+            Class<M> resultClass
     ) {
         return (result) -> {
             if (!result.isSuccess()) {
@@ -70,7 +66,7 @@ public final class OperationManager {
                 }
 
                 try {
-                    UnwrapperResult resultMessage = operation.getResult().unpack(resultClass);
+                    M resultMessage = operation.getResult().unpack(resultClass);
                     return Result.success(resultMessage, status);
                 } catch (InvalidProtocolBufferException ex) {
                     return Result.error("Can't unpack message " + resultClass.getName(), ex);
@@ -80,8 +76,8 @@ public final class OperationManager {
         };
     }
 
-    public static <ResultRpc> Function<Result<ResultRpc>, Status> syncStatusUnwrapper(
-            Function<ResultRpc, OperationProtos.Operation> operationExtractor
+    public static <R> Function<Result<R>, Status> syncStatusUnwrapper(
+            Function<R, OperationProtos.Operation> operationExtractor
     ) {
         return (result) -> {
             if (!result.isSuccess()) {
@@ -97,13 +93,9 @@ public final class OperationManager {
         };
     }
 
-    public <
-            ResultRpc,
-            UnwrapperResult extends Message
-            >
-    Function<Result<ResultRpc>, Operation<UnwrapperResult>> operationUnwrapper(
-            Function<ResultRpc, OperationProtos.Operation> operationExtractor,
-            Class<UnwrapperResult> resultClass
+    public <R, M extends Message> Function<Result<R>, Operation<M>> operationUnwrapper(
+            Function<R, OperationProtos.Operation> operationExtractor,
+            Class<M> resultClass
     ) {
         return (result) -> {
             if (!result.isSuccess()) {
@@ -114,7 +106,7 @@ public final class OperationManager {
 
             OperationProtos.Operation operationProto = operationExtractor.apply(result.getValue());
 
-            Operation<UnwrapperResult> operation = new Operation<>(
+            Operation<M> operation = new Operation<>(
                     operationProto.getId(),
                     resultClass,
                     this
@@ -126,9 +118,9 @@ public final class OperationManager {
         };
     }
 
-    private <Value extends Message> void completeOperation(
+    private <V extends Message> void completeOperation(
             final OperationProtos.Operation operationProto,
-            final Operation<Value> operation
+            final Operation<V> operation
     ) {
         if (operation.resultCompletableFuture.isCancelled()) {
             return;
@@ -161,7 +153,7 @@ public final class OperationManager {
                 () -> {
                     OperationProtos.GetOperationRequest request = OperationProtos.GetOperationRequest
                             .newBuilder()
-                            .setId(operation.operationId)
+                            .setId(operation.getOperationId())
                             .build();
 
                     grpcTransport.unaryCall(
@@ -192,7 +184,7 @@ public final class OperationManager {
         );
     }
 
-    private CompletableFuture<Result<OperationProtos.CancelOperationResponse>> cancel(
+    CompletableFuture<Result<OperationProtos.CancelOperationResponse>> cancel(
             final Operation<?> operation
     ) {
         return grpcTransport.unaryCall(
@@ -200,69 +192,25 @@ public final class OperationManager {
                 GrpcRequestSettings.newBuilder()
                         .build(),
                 OperationProtos.CancelOperationRequest.newBuilder()
-                        .setId(operation.operationId)
+                        .setId(operation.getOperationId())
                         .build()
         ).whenComplete(
                 (cancelOperationResponseResult, throwable) -> {
                     if (throwable != null) {
-                        logger.error("Fail cancel polling operation with id: {}", operation.operationId, throwable);
+                        logger.error("Fail cancel polling operation with id: {}",
+                                operation.getOperationId(), throwable);
                     }
 
                     if (cancelOperationResponseResult.isSuccess()) {
-                        logger.info("Success cancel polling operation with id: {}", operation.operationId);
+                        logger.info("Success cancel polling operation with id: {}", operation.getOperationId());
 
                         operation.resultCompletableFuture.complete(
                                 Result.fail(Status.of(StatusCode.CANCELLED))
                         );
                     } else {
-                        logger.error("Fail cancel polling operation with id: {}", operation.operationId);
+                        logger.error("Fail cancel polling operation with id: {}", operation.getOperationId());
                     }
                 }
         );
-    }
-
-    public static class Operation<Value extends Message> {
-        private final String operationId;
-        private final Class<Value> resultClass;
-        private final OperationManager operationManager;
-        protected final CompletableFuture<Result<Value>> resultCompletableFuture;
-
-        private Operation(
-                String operationId,
-                Class<Value> resultClass,
-                OperationManager operationManager
-        ) {
-            this.operationId = operationId;
-            this.resultClass = resultClass;
-            this.operationManager = operationManager;
-            this.resultCompletableFuture = new CompletableFuture<>();
-        }
-
-        public String getOperationId() {
-            return operationId;
-        }
-
-        public CompletableFuture<Result<Value>> getResultFuture() {
-            return resultCompletableFuture;
-        }
-
-        public CompletableFuture<Result<Value>> cancel() {
-            return operationManager.cancel(this)
-                    .thenCompose(cancelOperationResponseResult -> getResultFuture());
-        }
-    }
-
-    private static class FailOperation<Value extends Message> extends Operation<Value> {
-
-        private FailOperation(Result<Value> resultFailed) {
-            super(null, null, null);
-
-            resultCompletableFuture.complete(resultFailed);
-        }
-
-        @Override
-        public CompletableFuture<Result<Value>> cancel() {
-            return getResultFuture();
-        }
     }
 }

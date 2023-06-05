@@ -5,20 +5,18 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-import tech.ydb.core.operation.OperationMode;
-import tech.ydb.core.settings.OperationSettings;
+import tech.ydb.core.settings.LongOperationSettings;
 
 /**
  * @author Kirill Kurdyukov
  */
-public class ExportToYtSettings extends OperationSettings {
+public class ExportToYtSettings extends LongOperationSettings {
 
     private final Integer port;
     private final List<Item> itemList;
     private final String description;
     private final Integer numberOfRetries;
     private final Boolean useTypeV3;
-    private final OperationMode operationMode;
 
     public ExportToYtSettings(
             Builder b
@@ -29,7 +27,6 @@ public class ExportToYtSettings extends OperationSettings {
         this.description = b.description;
         this.numberOfRetries = b.numberOfRetries;
         this.useTypeV3 = b.useTypeV3;
-        this.operationMode = b.operationMode;
     }
 
     public Integer getPort() {
@@ -52,21 +49,16 @@ public class ExportToYtSettings extends OperationSettings {
         return useTypeV3;
     }
 
-    public OperationMode getOperationMode() {
-        return operationMode;
-    }
-
     public static Builder newBuilder() {
         return new Builder();
     }
 
-    public static class Builder extends OperationBuilder<Builder> {
+    public static class Builder extends LongOperationBuilder<Builder> {
         private Integer port = null;
         private final List<Item> itemList = new ArrayList<>();
         private String description = null;
         private Integer numberOfRetries = null;
         private Boolean useTypeV3 = null;
-        private OperationMode operationMode = OperationMode.ASYNC;
 
         public Builder setPort(Integer port) {
             this.port = port;
@@ -102,12 +94,6 @@ public class ExportToYtSettings extends OperationSettings {
 
         public Builder setUseTypeV3(Boolean useTypeV3) {
             this.useTypeV3 = useTypeV3;
-
-            return this;
-        }
-
-        public Builder setOperationMode(OperationMode operationMode) {
-            this.operationMode = operationMode;
 
             return this;
         }

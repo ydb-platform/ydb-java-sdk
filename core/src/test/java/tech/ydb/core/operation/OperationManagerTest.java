@@ -15,7 +15,6 @@ import org.junit.Test;
 
 import org.mockito.Mockito;
 import tech.ydb.OperationProtos;
-import tech.ydb.OperationProtos.Operation;
 import tech.ydb.StatusCodesProtos;
 import tech.ydb.StatusCodesProtos.StatusIds;
 import tech.ydb.YdbIssueMessage.IssueMessage;
@@ -38,7 +37,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 
 /**
- * @author Sergey Polovko
+ * @author Kirill Kurdyukov
  */
 public class OperationManagerTest {
 
@@ -58,7 +57,7 @@ public class OperationManagerTest {
 
     @Test
     public void successWithoutIssues() {
-        Status s = OperationManager.status(Operation.newBuilder()
+        Status s = OperationManager.status(OperationProtos.Operation.newBuilder()
             .setStatus(StatusIds.StatusCode.SUCCESS)
             .setId("some-id")
             .setReady(true)
@@ -70,7 +69,7 @@ public class OperationManagerTest {
 
     @Test
     public void successWithIssues() {
-        Status s = OperationManager.status(Operation.newBuilder()
+        Status s = OperationManager.status(OperationProtos.Operation.newBuilder()
             .setStatus(StatusIds.StatusCode.SUCCESS)
             .setId("some-id")
             .setReady(true)
@@ -147,7 +146,7 @@ public class OperationManagerTest {
     public void cancelPollingOperation() {
         mockExplainDataQueryMethodTransport(createResult(false, StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
 
-        OperationManager.Operation<YdbTable.ExplainQueryResult> resultCompletableFuture = operationUnwrap();
+        Operation<YdbTable.ExplainQueryResult> resultCompletableFuture = operationUnwrap();
 
         mockCancelOperationMethodTransport(
                 Result.success(
@@ -169,7 +168,7 @@ public class OperationManagerTest {
     public void failCancelThenSuccessPollingOperation() {
         mockExplainDataQueryMethodTransport(createResult(false, StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
 
-        OperationManager.Operation<YdbTable.ExplainQueryResult> resultCompletableFuture = operationUnwrap();
+        Operation<YdbTable.ExplainQueryResult> resultCompletableFuture = operationUnwrap();
 
         mockCancelOperationMethodTransport(Result.fail(Status.of(StatusCode.BAD_SESSION)));
         resultCompletableFuture.cancel();
@@ -180,7 +179,7 @@ public class OperationManagerTest {
         checkSuccessOperation(resultCompletableFuture.getResultFuture());
     }
 
-    private OperationManager.Operation<YdbTable.ExplainQueryResult> operationUnwrap() {
+    private Operation<YdbTable.ExplainQueryResult> operationUnwrap() {
         return transport
                 .unaryCall(
                         TableServiceGrpc.getExplainDataQueryMethod(),
@@ -257,7 +256,7 @@ public class OperationManagerTest {
                                 YdbTable.ExplainDataQueryResponse::getOperation,
                                 YdbTable.ExplainQueryResult.class
                         )
-                ).thenCompose(OperationManager.Operation::getResultFuture);
+                ).thenCompose(Operation::getResultFuture);
     }
 
     private static Result<YdbTable.ExplainDataQueryResponse> createResult(

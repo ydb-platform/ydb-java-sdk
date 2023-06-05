@@ -16,10 +16,6 @@ public class OperationUtils {
     }
 
     public static OperationProtos.OperationParams createParams(OperationSettings settings) {
-        return createParams(settings, OperationMode.SYNC);
-    }
-
-    public static OperationProtos.OperationParams createParams(OperationSettings settings, OperationMode mode) {
         OperationProtos.OperationParams.Builder builder = OperationProtos.OperationParams.newBuilder();
 
         if (settings.getOperationTimeout() != null) {
@@ -36,7 +32,7 @@ public class OperationUtils {
             }
         }
 
-        builder.setOperationMode(mode.toProto());
+        builder.setOperationMode(settings.getMode().toProto());
 
         return builder.build();
     }

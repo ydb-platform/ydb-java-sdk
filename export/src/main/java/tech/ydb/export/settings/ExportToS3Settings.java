@@ -5,14 +5,13 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-import tech.ydb.core.operation.OperationMode;
-import tech.ydb.core.settings.OperationSettings;
+import tech.ydb.core.settings.LongOperationSettings;
 import tech.ydb.export.YdbExport;
 
 /**
  * @author Kirill Kurdyukov
  */
-public class ExportToS3Settings extends OperationSettings {
+public class ExportToS3Settings extends LongOperationSettings {
 
     private final Schema schema;
     private final Integer numberOfRetries;
@@ -21,7 +20,6 @@ public class ExportToS3Settings extends OperationSettings {
     private final String region;
     private final String description;
     private final List<Item> itemList;
-    private final OperationMode operationMode;
 
     private ExportToS3Settings(
             Builder builder
@@ -34,7 +32,6 @@ public class ExportToS3Settings extends OperationSettings {
         this.region = builder.region;
         this.description = builder.description;
         this.itemList = builder.itemList;
-        this.operationMode = builder.operationMode;
     }
 
     public Schema getSchema() {
@@ -65,15 +62,11 @@ public class ExportToS3Settings extends OperationSettings {
         return itemList;
     }
 
-    public OperationMode getOperationMode() {
-        return operationMode;
-    }
-
     public static Builder newBuilder() {
         return new Builder();
     }
 
-    public static class Builder extends OperationBuilder<Builder> {
+    public static class Builder extends LongOperationBuilder<Builder> {
         private Schema schema = null;
         private Integer numberOfRetries = null;
         private StorageClass storageClass = null;
@@ -81,7 +74,6 @@ public class ExportToS3Settings extends OperationSettings {
         private String region = null;
         private String description = null;
         private final List<Item> itemList = new ArrayList<>();
-        private OperationMode operationMode = OperationMode.ASYNC;
 
         public Builder setSchema(Schema schema) {
             this.schema = schema;
@@ -129,12 +121,6 @@ public class ExportToS3Settings extends OperationSettings {
                     "Item params aren't null!"
             );
             itemList.add(new Item(sourcePath, destinationPrefix));
-
-            return this;
-        }
-
-        public Builder setMode(OperationMode operationMode) {
-            this.operationMode = operationMode;
 
             return this;
         }

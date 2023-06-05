@@ -6,6 +6,7 @@ import javax.annotation.WillNotClose;
 
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.operation.Operation;
 import tech.ydb.core.operation.OperationManager;
 import tech.ydb.export.ExportRpc;
 import tech.ydb.export.YdbExport;
@@ -29,7 +30,7 @@ public class GrpcExportRpcImpl implements ExportRpc {
     }
 
     @Override
-    public CompletableFuture<OperationManager.Operation<YdbExport.ExportToS3Result>> exportS3(
+    public CompletableFuture<Operation<YdbExport.ExportToS3Result>> exportS3(
             YdbExport.ExportToS3Request exportToS3Request,
             GrpcRequestSettings grpcRequestSettings
     ) {
@@ -46,7 +47,7 @@ public class GrpcExportRpcImpl implements ExportRpc {
     }
 
     @Override
-    public CompletableFuture<OperationManager.Operation<YdbExport.ExportToYtResult>> exportYt(
+    public CompletableFuture<Operation<YdbExport.ExportToYtResult>> exportYt(
             YdbExport.ExportToYtRequest exportToYtRequest,
             GrpcRequestSettings grpcRequestSettings
     ) {

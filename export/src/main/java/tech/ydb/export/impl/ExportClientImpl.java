@@ -2,7 +2,7 @@ package tech.ydb.export.impl;
 
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.Operation;
 import tech.ydb.core.operation.OperationUtils;
 import tech.ydb.export.ExportClient;
 import tech.ydb.export.ExportRpc;
@@ -23,7 +23,7 @@ public class ExportClientImpl implements ExportClient {
         this.exportRpc = exportRpc;
     }
 
-    public CompletableFuture<OperationManager.Operation<ExportToS3Result>> exportS3(
+    public CompletableFuture<Operation<ExportToS3Result>> exportS3(
             String endpoint,
             String bucket,
             String accessKey,
@@ -72,14 +72,14 @@ public class ExportClientImpl implements ExportClient {
                 YdbExport.ExportToS3Request.newBuilder()
                         .setSettings(exportToYtSettingsBuilder.build())
                         .setOperationParams(
-                                OperationUtils.createParams(exportToS3Settings, exportToS3Settings.getOperationMode())
+                                OperationUtils.createParams(exportToS3Settings)
                         )
                         .build(),
                 OperationUtils.createGrpcRequestSettings(exportToS3Settings)
         );
     }
 
-    public CompletableFuture<OperationManager.Operation<ExportToYtResult>> exportYt(
+    public CompletableFuture<Operation<ExportToYtResult>> exportYt(
             String host,
             String token,
             ExportToYtSettings exportToYtSettings
@@ -115,9 +115,7 @@ public class ExportClientImpl implements ExportClient {
         return exportRpc.exportYt(
                 YdbExport.ExportToYtRequest.newBuilder()
                         .setSettings(exportToYtSettingBuilder.build())
-                        .setOperationParams(
-                                OperationUtils.createParams(exportToYtSettings, exportToYtSettings.getOperationMode())
-                        )
+                        .setOperationParams(OperationUtils.createParams(exportToYtSettings))
                         .build(),
                 OperationUtils.createGrpcRequestSettings(exportToYtSettings)
         );
