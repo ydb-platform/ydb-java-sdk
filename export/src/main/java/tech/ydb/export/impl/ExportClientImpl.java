@@ -7,8 +7,8 @@ import tech.ydb.core.operation.OperationUtils;
 import tech.ydb.export.ExportClient;
 import tech.ydb.export.ExportRpc;
 import tech.ydb.export.YdbExport;
-import tech.ydb.export.YdbExport.ExportToS3Result;
-import tech.ydb.export.YdbExport.ExportToYtResult;
+import tech.ydb.export.result.ExportToS3Result;
+import tech.ydb.export.result.ExportToYtResult;
 import tech.ydb.export.settings.ExportToS3Settings;
 import tech.ydb.export.settings.ExportToYtSettings;
 
@@ -76,7 +76,7 @@ public class ExportClientImpl implements ExportClient {
                         )
                         .build(),
                 OperationUtils.createGrpcRequestSettings(exportToS3Settings)
-        );
+        ).thenApply(Operation.transformOperation(exportToS3Result -> new ExportToS3Result()));
     }
 
     public CompletableFuture<Operation<ExportToYtResult>> exportYt(
@@ -118,6 +118,6 @@ public class ExportClientImpl implements ExportClient {
                         .setOperationParams(OperationUtils.createParams(exportToYtSettings))
                         .build(),
                 OperationUtils.createGrpcRequestSettings(exportToYtSettings)
-        );
+        ).thenApply(Operation.transformOperation(exportToYtResult -> new ExportToYtResult()));
     }
 }
