@@ -7,7 +7,6 @@ import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -16,6 +15,7 @@ import tech.ydb.core.impl.FixedCallOptionsTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.operation.OperationManager;
 import tech.ydb.discovery.DiscoveryProtos;
 import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
 
@@ -58,7 +58,7 @@ public class GrpcDiscoveryRpc {
 
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
                 .whenComplete((res, ex) -> transport.close())
-                .thenApply(Operations.resultUnwrapper(
+                .thenApply(OperationManager.syncResultUnwrapper(
                         DiscoveryProtos.ListEndpointsResponse::getOperation,
                         DiscoveryProtos.ListEndpointsResult.class
                 ));

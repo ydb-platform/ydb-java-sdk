@@ -16,13 +16,13 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.auth.YdbAuth;
 import tech.ydb.auth.v1.AuthServiceGrpc;
-import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
+import tech.ydb.core.operation.OperationManager;
 
 /**
  *
@@ -105,7 +105,7 @@ class StaticCredentialsRpc {
                         .build();
 
                 transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
-                        .thenApply(Operations.resultUnwrapper(
+                        .thenApply(OperationManager.syncResultUnwrapper(
                                 YdbAuth.LoginResponse::getOperation,
                                 YdbAuth.LoginResult.class
                         ))

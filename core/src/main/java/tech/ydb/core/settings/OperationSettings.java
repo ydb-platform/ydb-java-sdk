@@ -3,6 +3,8 @@ package tech.ydb.core.settings;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
+import tech.ydb.OperationProtos;
+
 /**
  *
  * @author Aleksandr Gorshenin
@@ -29,6 +31,10 @@ public class OperationSettings extends BaseRequestSettings {
 
     public Boolean getReportCostInfo() {
         return reportCostInfo;
+    }
+
+    public Mode getMode() {
+        return Mode.SYNC;
     }
 
     public static class OperationBuilder<Self extends OperationBuilder<?>> extends BaseBuilder<Self> {
@@ -64,6 +70,21 @@ public class OperationSettings extends BaseRequestSettings {
         @Override
         public OperationSettings build() {
             return new OperationSettings(this);
+        }
+    }
+
+    public enum Mode {
+        SYNC, ASYNC;
+
+        public OperationProtos.OperationParams.OperationMode toProto() {
+            switch (this) {
+                case SYNC:
+                    return OperationProtos.OperationParams.OperationMode.SYNC;
+                case ASYNC:
+                    return OperationProtos.OperationParams.OperationMode.ASYNC;
+                default:
+                    throw new RuntimeException("Unsupported operation mode");
+            }
         }
     }
 }

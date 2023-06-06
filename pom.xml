@@ -25,6 +25,7 @@
         <module>tests/junit4-support</module>
         <module>tests/junit5-support</module>
         <module>coordination</module>
+        <module>export</module>
     </modules>
 
     <properties>
