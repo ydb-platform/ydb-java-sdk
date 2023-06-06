@@ -13,25 +13,19 @@ import tech.ydb.core.Result;
 public class Operation<V> {
     private final String operationId;
     private final OperationManager operationManager;
-    final CompletableFuture<Result<V>> resultCompletableFuture;
+    private final CompletableFuture<Result<V>> resultFuture;
 
-    Operation(
-            String operationId,
-            OperationManager operationManager,
-            CompletableFuture<Result<V>> resultCompletableFuture
-    ) {
+    Operation(String operationId, OperationManager operationManager, CompletableFuture<Result<V>> resultFuture) {
         this.operationId = operationId;
         this.operationManager = operationManager;
-        this.resultCompletableFuture = resultCompletableFuture;
+        this.resultFuture = resultFuture;
     }
 
-    public <T> Operation<T> transform(
-            Function<V, T> transform
-    ) {
+    public <T> Operation<T> transform(Function<V, T> transform) {
         return new Operation<>(
                 this.operationId,
                 this.operationManager,
-                this.resultCompletableFuture.thenApply(result -> result.map(transform))
+                this.resultFuture.thenApply(result -> result.map(transform))
         );
     }
 
@@ -41,12 +35,12 @@ public class Operation<V> {
     }
 
     public CompletableFuture<Result<V>> getResultFuture() {
-        return resultCompletableFuture;
+        return resultFuture;
     }
 
     public CompletableFuture<Result<V>> cancel() {
-        if (resultCompletableFuture.isDone()) {
-            return resultCompletableFuture;
+        if (resultFuture.isDone()) {
+            return resultFuture;
         }
 
         return operationManager.cancel(this)

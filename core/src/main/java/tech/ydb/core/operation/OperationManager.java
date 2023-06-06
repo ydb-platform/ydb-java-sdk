@@ -121,7 +121,7 @@ public final class OperationManager {
             final Operation<V> operation,
             final Class<V> resultClass
     ) {
-        if (operation.resultCompletableFuture.isCancelled()) {
+        if (operation.getResultFuture().isCancelled()) {
             return;
         }
 
@@ -130,11 +130,11 @@ public final class OperationManager {
         if (operationProto.getReady()) {
             if (status.isSuccess()) {
                 try {
-                    operation.resultCompletableFuture.complete(
+                    operation.getResultFuture().complete(
                             Result.success(operationProto.getResult().unpack(resultClass), status)
                     );
                 } catch (InvalidProtocolBufferException ex) {
-                    operation.resultCompletableFuture.complete(
+                    operation.getResultFuture().complete(
                             Result.error(
                                     "Can't unpack message " + resultClass.getName(),
                                     ex
@@ -142,7 +142,7 @@ public final class OperationManager {
                     );
                 }
             } else {
-                operation.resultCompletableFuture.complete(Result.fail(status));
+                operation.getResultFuture().complete(Result.fail(status));
             }
 
             return;
@@ -163,7 +163,7 @@ public final class OperationManager {
                     ).whenComplete(
                             (getOperationResponseResult, throwable) -> {
                                 if (throwable != null) {
-                                    operation.resultCompletableFuture.completeExceptionally(throwable);
+                                    operation.getResultFuture().completeExceptionally(throwable);
                                 } else if (getOperationResponseResult != null) {
                                     if (getOperationResponseResult.isSuccess()) {
                                         completeOperation(
@@ -172,7 +172,7 @@ public final class OperationManager {
                                                 resultClass
                                         );
                                     } else {
-                                        operation.resultCompletableFuture.complete(
+                                        operation.getResultFuture().complete(
                                                 getOperationResponseResult.map(null)
                                         );
                                     }
@@ -206,7 +206,7 @@ public final class OperationManager {
                     if (cancelOperationResponseResult.isSuccess()) {
                         logger.info("Success cancel polling operation with id: {}", operation.getOperationId());
 
-                        operation.resultCompletableFuture.complete(
+                        operation.getResultFuture().complete(
                                 Result.fail(Status.of(StatusCode.CANCELLED))
                         );
                     } else {
