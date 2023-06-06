@@ -146,6 +146,10 @@ public final class OperationManager {
         scheduledExecutorService.schedule(
                 () -> {
                     assert operation.getOperationId() != null;
+                    if (operation.getResultFuture().isDone()) {
+                        return;
+                    }
+
                     OperationProtos.GetOperationRequest request = OperationProtos.GetOperationRequest
                             .newBuilder()
                             .setId(operation.getOperationId())
