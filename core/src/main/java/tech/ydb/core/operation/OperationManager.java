@@ -99,20 +99,18 @@ public final class OperationManager {
     ) {
         return (result) -> {
             if (!result.isSuccess()) {
-                return new FailOperation<>(
-                        result.map(null)
+                return new Operation<>(
+                        null,
+                        null,
+                        CompletableFuture.completedFuture(result.map(null))
                 );
             }
 
             OperationProtos.Operation operationProto = operationExtractor.apply(result.getValue());
 
-            Operation<M> operation = new Operation<>(
-                    operationProto.getId(),
-                    resultClass,
-                    this
-            );
+            Operation<M> operation = new Operation<>(operationProto.getId(), this, new CompletableFuture<>());
 
-            completeOperation(operationProto, operation);
+            completeOperation(operationProto, operation, resultClass);
 
             return operation;
         };
@@ -120,7 +118,8 @@ public final class OperationManager {
 
     private <V extends Message> void completeOperation(
             final OperationProtos.Operation operationProto,
-            final Operation<V> operation
+            final Operation<V> operation,
+            final Class<V> resultClass
     ) {
         if (operation.resultCompletableFuture.isCancelled()) {
             return;
@@ -132,12 +131,12 @@ public final class OperationManager {
             if (status.isSuccess()) {
                 try {
                     operation.resultCompletableFuture.complete(
-                            Result.success(operationProto.getResult().unpack(operation.resultClass), status)
+                            Result.success(operationProto.getResult().unpack(resultClass), status)
                     );
                 } catch (InvalidProtocolBufferException ex) {
                     operation.resultCompletableFuture.complete(
                             Result.error(
-                                    "Can't unpack message " + operation.resultClass.getName(),
+                                    "Can't unpack message " + resultClass.getName(),
                                     ex
                             )
                     );
@@ -151,6 +150,7 @@ public final class OperationManager {
 
         scheduledExecutorService.schedule(
                 () -> {
+                    assert operation.getOperationId() != null;
                     OperationProtos.GetOperationRequest request = OperationProtos.GetOperationRequest
                             .newBuilder()
                             .setId(operation.getOperationId())
@@ -168,7 +168,8 @@ public final class OperationManager {
                                     if (getOperationResponseResult.isSuccess()) {
                                         completeOperation(
                                                 getOperationResponseResult.getValue().getOperation(),
-                                                operation
+                                                operation,
+                                                resultClass
                                         );
                                     } else {
                                         operation.resultCompletableFuture.complete(
@@ -187,6 +188,7 @@ public final class OperationManager {
     CompletableFuture<Result<OperationProtos.CancelOperationResponse>> cancel(
             final Operation<?> operation
     ) {
+        assert operation.getOperationId() != null;
         return grpcTransport.unaryCall(
                 OperationServiceGrpc.getCancelOperationMethod(),
                 GrpcRequestSettings.newBuilder()

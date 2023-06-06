@@ -3,7 +3,7 @@ package tech.ydb.core.operation;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
-import com.google.protobuf.Message;
+import javax.annotation.Nullable;
 
 import tech.ydb.core.Result;
 
@@ -13,21 +13,9 @@ import tech.ydb.core.Result;
 public class Operation<V> {
     private final String operationId;
     private final OperationManager operationManager;
-    protected final CompletableFuture<Result<V>> resultCompletableFuture;
-    final Class<V> resultClass;
+    final CompletableFuture<Result<V>> resultCompletableFuture;
 
     Operation(
-            String operationId,
-            Class<V> resultClass,
-            OperationManager operationManager
-    ) {
-        this.operationId = operationId;
-        this.resultClass = resultClass;
-        this.operationManager = operationManager;
-        this.resultCompletableFuture = new CompletableFuture<>();
-    }
-
-    private Operation(
             String operationId,
             OperationManager operationManager,
             CompletableFuture<Result<V>> resultCompletableFuture
@@ -35,19 +23,19 @@ public class Operation<V> {
         this.operationId = operationId;
         this.operationManager = operationManager;
         this.resultCompletableFuture = resultCompletableFuture;
-        this.resultClass = null; // unused class token;
     }
 
-    public static <A extends Message, B> Function<Operation<A>, Operation<B>> transformOperation(
-            Function<A, B> transform
+    public <T> Operation<T> transform(
+            Function<V, T> transform
     ) {
-        return operation -> new Operation<>(
-                operation.operationId,
-                operation.operationManager,
-                operation.resultCompletableFuture.thenApply(aResult -> aResult.map(transform))
+        return new Operation<>(
+                this.operationId,
+                this.operationManager,
+                this.resultCompletableFuture.thenApply(result -> result.map(transform))
         );
     }
 
+    @Nullable
     public String getOperationId() {
         return operationId;
     }
@@ -57,6 +45,10 @@ public class Operation<V> {
     }
 
     public CompletableFuture<Result<V>> cancel() {
+        if (resultCompletableFuture.isDone()) {
+            return resultCompletableFuture;
+        }
+
         return operationManager.cancel(this)
                 .thenCompose(cancelOperationResponseResult -> getResultFuture());
     }

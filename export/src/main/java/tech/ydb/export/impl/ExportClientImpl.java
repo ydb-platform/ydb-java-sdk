@@ -76,7 +76,7 @@ public class ExportClientImpl implements ExportClient {
                         )
                         .build(),
                 OperationUtils.createGrpcRequestSettings(exportToS3Settings)
-        ).thenApply(Operation.transformOperation(exportToS3Result -> new ExportToS3Result()));
+        ).thenApply(op -> op.transform(ExportToS3Result::new));
     }
 
     public CompletableFuture<Operation<ExportToYtResult>> exportYt(
@@ -118,6 +118,6 @@ public class ExportClientImpl implements ExportClient {
                         .setOperationParams(OperationUtils.createParams(exportToYtSettings))
                         .build(),
                 OperationUtils.createGrpcRequestSettings(exportToYtSettings)
-        ).thenApply(Operation.transformOperation(exportToYtResult -> new ExportToYtResult()));
+        ).thenApply(op -> op.transform(ExportToYtResult::new));
     }
 }

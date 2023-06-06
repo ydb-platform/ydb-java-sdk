@@ -192,7 +192,7 @@ public class OperationManagerTest {
                                 YdbTable.ExplainQueryResult.class
                         )
                 ).thenApply(
-                        Operation.transformOperation(a -> new TestTransform(a.getQueryPlan()))
+                        t -> t.transform(explainQueryResult -> new TestTransform(explainQueryResult.getQueryPlan()))
                 ).join();
     }
 
@@ -269,7 +269,7 @@ public class OperationManagerTest {
                                         YdbTable.ExplainQueryResult.class
                                 )
                 )
-                .thenApply(Operation.transformOperation(a -> new TestTransform(a.getQueryPlan())))
+                .thenApply(t -> t.transform(explainQueryResult -> new TestTransform(explainQueryResult.getQueryPlan())))
                 .thenCompose(Operation::getResultFuture);
     }
 
