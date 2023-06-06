@@ -58,10 +58,10 @@ public class OperationManagerTest {
     @Test
     public void successWithoutIssues() {
         Status s = OperationManager.status(OperationProtos.Operation.newBuilder()
-            .setStatus(StatusIds.StatusCode.SUCCESS)
-            .setId("some-id")
-            .setReady(true)
-            .build());
+                .setStatus(StatusIds.StatusCode.SUCCESS)
+                .setId("some-id")
+                .setReady(true)
+                .build());
 
         assertSame(Status.SUCCESS, s);
         assertEquals(0, s.getIssues().length);
@@ -70,19 +70,19 @@ public class OperationManagerTest {
     @Test
     public void successWithIssues() {
         Status s = OperationManager.status(OperationProtos.Operation.newBuilder()
-            .setStatus(StatusIds.StatusCode.SUCCESS)
-            .setId("some-id")
-            .setReady(true)
-            .addIssues(IssueMessage.newBuilder()
-                .setIssueCode(12345)
-                .setSeverity(Issue.Severity.INFO.getCode())
-                .setMessage("some-issue")
-                .build())
-            .build());
+                .setStatus(StatusIds.StatusCode.SUCCESS)
+                .setId("some-id")
+                .setReady(true)
+                .addIssues(IssueMessage.newBuilder()
+                        .setIssueCode(12345)
+                        .setSeverity(Issue.Severity.INFO.getCode())
+                        .setMessage("some-issue")
+                        .build())
+                .build());
 
         assertTrue(s.isSuccess());
         assertArrayEquals(new Issue[]{
-            Issue.of(12345, "some-issue", Issue.Severity.INFO)
+                Issue.of(12345, "some-issue", Issue.Severity.INFO)
         }, s.getIssues());
     }
 
@@ -98,7 +98,7 @@ public class OperationManagerTest {
         mockExplainDataQueryMethodTransport(createResult(true,
                 StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION));
 
-        Result<YdbTable.ExplainQueryResult> result = resultUnwrap().join();
+        Result<TestTransform> result = resultUnwrap().join();
 
         Assert.assertEquals(Status.of(StatusCode.BAD_SESSION), result.getStatus());
     }
@@ -107,7 +107,7 @@ public class OperationManagerTest {
     public void failUnwrapOperation() {
         mockExplainDataQueryMethodTransport(Result.fail(Status.of(StatusCode.BAD_SESSION)));
 
-        Result<YdbTable.ExplainQueryResult> result = resultUnwrap().join();
+        Result<TestTransform> result = resultUnwrap().join();
 
         Assert.assertEquals(Status.of(StatusCode.BAD_SESSION), result.getStatus());
     }
@@ -117,7 +117,7 @@ public class OperationManagerTest {
         mockExplainDataQueryMethodTransport(createResult(false,
                 StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
 
-        CompletableFuture<Result<YdbTable.ExplainQueryResult>> resultCompletableFuture = resultUnwrap();
+        CompletableFuture<Result<TestTransform>> resultCompletableFuture = resultUnwrap();
 
         Assert.assertFalse(resultCompletableFuture.isDone());
 
@@ -132,7 +132,7 @@ public class OperationManagerTest {
         mockExplainDataQueryMethodTransport(createResult(false,
                 StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
 
-        CompletableFuture<Result<YdbTable.ExplainQueryResult>> resultCompletableFuture = resultUnwrap();
+        CompletableFuture<Result<TestTransform>> resultCompletableFuture = resultUnwrap();
 
         Assert.assertFalse(resultCompletableFuture.isDone());
 
@@ -146,7 +146,7 @@ public class OperationManagerTest {
     public void cancelPollingOperation() {
         mockExplainDataQueryMethodTransport(createResult(false, StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
 
-        Operation<YdbTable.ExplainQueryResult> resultCompletableFuture = operationUnwrap();
+        Operation<TestTransform> resultCompletableFuture = operationUnwrap();
 
         mockCancelOperationMethodTransport(
                 Result.success(
@@ -159,7 +159,7 @@ public class OperationManagerTest {
         mockGetOperationMethodTransport(StatusCodesProtos.StatusIds.StatusCode.SUCCESS);
         scheduledExecutorServiceTest.execCommand();
 
-        Result<YdbTable.ExplainQueryResult> result = resultCompletableFuture.getResultFuture().join();
+        Result<TestTransform> result = resultCompletableFuture.getResultFuture().join();
 
         Assert.assertEquals(Status.of(StatusCode.CANCELLED), result.getStatus());
     }
@@ -168,7 +168,7 @@ public class OperationManagerTest {
     public void failCancelThenSuccessPollingOperation() {
         mockExplainDataQueryMethodTransport(createResult(false, StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
 
-        Operation<YdbTable.ExplainQueryResult> resultCompletableFuture = operationUnwrap();
+        Operation<TestTransform> resultCompletableFuture = operationUnwrap();
 
         mockCancelOperationMethodTransport(Result.fail(Status.of(StatusCode.BAD_SESSION)));
         resultCompletableFuture.cancel();
@@ -179,7 +179,7 @@ public class OperationManagerTest {
         checkSuccessOperation(resultCompletableFuture.getResultFuture());
     }
 
-    private Operation<YdbTable.ExplainQueryResult> operationUnwrap() {
+    private Operation<TestTransform> operationUnwrap() {
         return transport
                 .unaryCall(
                         TableServiceGrpc.getExplainDataQueryMethod(),
@@ -191,16 +191,27 @@ public class OperationManagerTest {
                                 YdbTable.ExplainDataQueryResponse::getOperation,
                                 YdbTable.ExplainQueryResult.class
                         )
+                ).thenApply(
+                        Operation.transformOperation(a -> new TestTransform(a.getQueryPlan()))
                 ).join();
     }
 
+    private static class TestTransform {
+
+        final String plan;
+
+        public TestTransform(String plan) {
+            this.plan = plan;
+        }
+    }
+
     private static void checkSuccessOperation(
-            CompletableFuture<Result<YdbTable.ExplainQueryResult>> resultCompletableFuture
+            CompletableFuture<Result<TestTransform>> resultCompletableFuture
     ) {
-        Result<YdbTable.ExplainQueryResult> result = resultCompletableFuture.join();
+        Result<TestTransform> result = resultCompletableFuture.join();
 
         Assert.assertTrue(result.isSuccess());
-        Assert.assertEquals(YdbTable.ExplainQueryResult.getDefaultInstance(), result.getValue());
+        Assert.assertEquals("Hello", result.getValue().plan);
     }
 
     private void mockCancelOperationMethodTransport(Result<OperationProtos.CancelOperationResponse> responseResult) {
@@ -244,19 +255,22 @@ public class OperationManagerTest {
         );
     }
 
-    private CompletableFuture<Result<YdbTable.ExplainQueryResult>> resultUnwrap() {
+    private CompletableFuture<Result<TestTransform>> resultUnwrap() {
         return transport
                 .unaryCall(
                         TableServiceGrpc.getExplainDataQueryMethod(),
                         GrpcRequestSettings.newBuilder().build(),
                         YdbTable.ExplainDataQueryRequest.getDefaultInstance()
                 )
-                .thenApply(operationManager
-                        .operationUnwrapper(
-                                YdbTable.ExplainDataQueryResponse::getOperation,
-                                YdbTable.ExplainQueryResult.class
-                        )
-                ).thenCompose(Operation::getResultFuture);
+                .thenApply(
+                        operationManager
+                                .operationUnwrapper(
+                                        YdbTable.ExplainDataQueryResponse::getOperation,
+                                        YdbTable.ExplainQueryResult.class
+                                )
+                )
+                .thenApply(Operation.transformOperation(a -> new TestTransform(a.getQueryPlan())))
+                .thenCompose(Operation::getResultFuture);
     }
 
     private static Result<YdbTable.ExplainDataQueryResponse> createResult(
@@ -284,7 +298,11 @@ public class OperationManagerTest {
                 .setReady(ready)
                 .setId(OPERATION_ID)
                 .setStatus(statusCode)
-                .setResult(Any.pack(YdbTable.ExplainQueryResult.getDefaultInstance()))
+                .setResult(
+                        Any.pack(YdbTable.ExplainQueryResult.newBuilder()
+                                .setQueryPlan("Hello")
+                                .build())
+                )
                 .build();
     }
 
