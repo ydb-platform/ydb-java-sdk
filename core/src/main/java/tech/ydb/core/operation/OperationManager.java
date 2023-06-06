@@ -130,16 +130,11 @@ public final class OperationManager {
         if (operationProto.getReady()) {
             if (status.isSuccess()) {
                 try {
-                    operation.getResultFuture().complete(
-                            Result.success(operationProto.getResult().unpack(resultClass), status)
-                    );
+                    V unpackResult = operationProto.getResult().unpack(resultClass);
+
+                    operation.getResultFuture().complete(Result.success(unpackResult, status));
                 } catch (InvalidProtocolBufferException ex) {
-                    operation.getResultFuture().complete(
-                            Result.error(
-                                    "Can't unpack message " + resultClass.getName(),
-                                    ex
-                            )
-                    );
+                    operation.getResultFuture().completeExceptionally(ex);
                 }
             } else {
                 operation.getResultFuture().complete(Result.fail(status));
@@ -206,9 +201,7 @@ public final class OperationManager {
                     if (cancelOperationResponseResult.isSuccess()) {
                         logger.info("Success cancel polling operation with id: {}", operation.getOperationId());
 
-                        operation.getResultFuture().complete(
-                                Result.fail(Status.of(StatusCode.CANCELLED))
-                        );
+                        operation.getResultFuture().complete(Result.fail(Status.of(StatusCode.CANCELLED)));
                     } else {
                         logger.error("Fail cancel polling operation with id: {}", operation.getOperationId());
                     }
