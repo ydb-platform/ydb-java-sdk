@@ -121,7 +121,7 @@ public final class OperationManager {
             final Operation<V> operation,
             final Class<V> resultClass
     ) {
-        if (operation.getResultFuture().isCancelled()) {
+        if (operation.getResultFuture().isDone()) {
             return;
         }
 
