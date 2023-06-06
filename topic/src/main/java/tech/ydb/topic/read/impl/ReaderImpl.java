@@ -141,12 +141,23 @@ public abstract class ReaderImpl {
                 responseBuilder.setCommitOffset(startSettings.getCommitOffset());
             }
         }
+        logger.info("Sending StartPartitionSessionResponse for partition session {} (partition {})",
+                partitionSession.getId(), partitionSession.getPartitionId());
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setStartPartitionSessionResponse(responseBuilder.build())
                 .build());
     }
 
     protected void sendStopPartitionSessionResponse(long partitionSessionId) {
+
+        PartitionSession partitionSession = partitionSessions.get(partitionSessionId);
+        if (partitionSession != null) {
+            logger.info("Sending StartPartitionSessionResponse for partition session {} (partition {})",
+                    partitionSessionId, partitionSession.getPartitionId());
+        } else {
+            logger.warn("Sending StartPartitionSessionResponse for partition session {}, " +
+                    "but have no such partition session running", partitionSessionId);
+        }
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setStopPartitionSessionResponse(YdbTopic.StreamReadMessage.StopPartitionSessionResponse.newBuilder()
                         .setPartitionSessionId(partitionSessionId)
@@ -193,11 +204,24 @@ public abstract class ReaderImpl {
 
     protected void handleStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
         if (request.getGraceful()) {
+            PartitionSession partitionSession = partitionSessions.get(request.getPartitionSessionId());
+            if (partitionSession != null) {
+                logger.info("Received graceful StopPartitionSessionRequest for partition session {} (partition {})",
+                        partitionSession.getId(), partitionSession.getPartitionId());
+            } else {
+                logger.warn("Received graceful StopPartitionSessionRequest for partition session {}, " +
+                                "but have no such partition session running", request.getPartitionSessionId());
+            }
             handleStopPartitionSession(request);
         } else {
             PartitionSession partitionSession = partitionSessions.remove(request.getPartitionSessionId());
             if (partitionSession != null) {
+                logger.info("Received force StopPartitionSessionRequest for partition session {} (partition {})",
+                        partitionSession.getId(), partitionSession.getPartitionId());
                 closePartitionSession(partitionSession);
+            } else {
+                logger.warn("Received force StopPartitionSessionRequest for partition session {}, " +
+                        "but have no such partition session running", request.getPartitionSessionId());
             }
         }
     }
@@ -286,7 +310,11 @@ public abstract class ReaderImpl {
             logger.info("Session {} initialized", currentSessionId);
             sendReadRequest();
         } else if (message.hasStartPartitionSessionRequest()) {
-            handleStartPartitionSessionRequest(message.getStartPartitionSessionRequest());
+            YdbTopic.StreamReadMessage.StartPartitionSessionRequest request = message.getStartPartitionSessionRequest();
+            logger.info("Received StartPartitionSessionRequest: partition session {} (partition {})",
+                    request.getPartitionSession().getPartitionSessionId(),
+                    request.getPartitionSession().getPartitionId());
+            handleStartPartitionSessionRequest(request);
         } else if (message.hasStopPartitionSessionRequest()) {
             handleStopPartitionSessionRequest(message.getStopPartitionSessionRequest());
         } else if (message.hasReadResponse()) {
