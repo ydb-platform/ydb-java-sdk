@@ -1,5 +1,7 @@
 package tech.ydb.topic.write;
 
+import javax.annotation.Nullable;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -39,6 +41,7 @@ public class WriteAck {
         return state;
     }
 
+    @Nullable
     public Details getDetails() {
         return details;
     }
