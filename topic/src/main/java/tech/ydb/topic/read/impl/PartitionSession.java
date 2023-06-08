@@ -46,6 +46,7 @@ public class PartitionSession {
     private final BiConsumer<Long, OffsetsRange> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
 
+    private long lastReadOffset;
     private long lastCommittedOffset;
 
     private PartitionSession(Builder builder) {
@@ -53,6 +54,7 @@ public class PartitionSession {
         this.path = builder.path;
         this.partitionId = builder.partitionId;
         this.sessionInfo = new tech.ydb.topic.read.PartitionSession(id, partitionId, path);
+        this.lastReadOffset = builder.committedOffset;
         this.lastCommittedOffset = builder.committedOffset;
         this.partitionOffsets = builder.partitionOffsets;
         this.decompressionExecutor = builder.decompressionExecutor;
@@ -104,17 +106,16 @@ public class PartitionSession {
                         id, partitionId);
             }
             batchMessages.forEach(messageData -> {
-                long commitOffsetFrom = lastCommittedOffset;
+                long commitOffsetFrom = lastReadOffset;
                 long messageOffset = messageData.getOffset();
-                long newCommittedOffset = messageOffset + 1;
-                if (newCommittedOffset > lastCommittedOffset) {
-                    lastCommittedOffset = newCommittedOffset;
+                long newReadOffset = messageOffset + 1;
+                if (newReadOffset > lastReadOffset) {
+                    lastReadOffset = newReadOffset;
                 } else {
-                    logger.error("Received a message with offset {} which is less than last read committedOffset {} " +
+                    logger.error("Received a message with offset {} which is less than last read offset {} " +
                                     "for partition session {} (partition {})",
-                            messageOffset, lastCommittedOffset, id, partitionId);
+                            messageOffset, lastReadOffset, id, partitionId);
                 }
-                lastCommittedOffset = Math.max(messageData.getOffset() + 1, lastCommittedOffset);
                 newBatch.addMessage(new MessageImpl.Builder()
                         .setBatchMeta(batchMeta)
                         .setPartitionSession(sessionInfo)
@@ -169,7 +170,9 @@ public class PartitionSession {
         if (isWorking.get()) {
             if (logger.isDebugEnabled()) {
                 logger.debug("Offset range [{}, {}) is requested to be committed for partition session {} " +
-                                "(partition {})", offsets.getStart(), offsets.getEnd(), id, partitionId);
+                                "(partition {}). Last committed offset is {} (read lag is {})", offsets.getStart(),
+                        offsets.getEnd(), id, partitionId, lastCommittedOffset,
+                        offsets.getStart() - lastCommittedOffset);
             }
             commitFutures.put(offsets.getEnd(), resultFuture);
             commitFunction.accept(getId(), offsets);
@@ -182,11 +185,20 @@ public class PartitionSession {
     }
 
     public void handleCommitResponse(long committedOffset) {
+        if (committedOffset <= lastCommittedOffset) {
+            logger.error("Commit response received for partition session {} (partition {}). Committed offset: {} " +
+                            "which is not greater than previous committed offset: {}.",
+                    id, partitionId, committedOffset, lastCommittedOffset);
+            return;
+        }
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
         if (logger.isDebugEnabled()) {
             logger.debug("Commit response received for partition session {} (partition {}). Committed offset: {}. " +
-                            "Completing {} commit futures", id, partitionId, committedOffset, futuresToComplete.size());
+                    "Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
+                    id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
+                    futuresToComplete.size());
         }
+        lastCommittedOffset = committedOffset;
         futuresToComplete.values().forEach(future -> future.complete(null));
         futuresToComplete.clear();
     }
