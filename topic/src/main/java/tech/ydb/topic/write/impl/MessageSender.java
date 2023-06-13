@@ -10,7 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.utils.ProtobufUtils;
-import tech.ydb.topic.YdbTopic;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.ProtoUtils;
 

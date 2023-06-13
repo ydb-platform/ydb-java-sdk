@@ -8,8 +8,8 @@ import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;

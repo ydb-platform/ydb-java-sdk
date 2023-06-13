@@ -14,12 +14,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.StatusCodesProtos;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.proto.StatusCodesProtos;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;

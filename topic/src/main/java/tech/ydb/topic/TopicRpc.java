@@ -7,7 +7,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.topic.YdbTopic.CreateTopicRequest;
+import tech.ydb.proto.topic.YdbTopic;
 
 
 /**
@@ -21,7 +21,7 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
-    CompletableFuture<Status> createTopic(CreateTopicRequest request, GrpcRequestSettings settings);
+    CompletableFuture<Status> createTopic(YdbTopic.CreateTopicRequest request, GrpcRequestSettings settings);
 
     /**
      * Alter topic.

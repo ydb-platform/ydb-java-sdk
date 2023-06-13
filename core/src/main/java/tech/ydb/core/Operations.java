@@ -6,10 +6,10 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 
-import tech.ydb.OperationProtos;
-import tech.ydb.common.CommonProtos;
 import tech.ydb.core.settings.OperationSettings;
 import tech.ydb.core.utils.ProtobufUtils;
+import tech.ydb.proto.OperationProtos;
+import tech.ydb.proto.common.CommonProtos;
 
 
 /**

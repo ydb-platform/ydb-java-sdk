@@ -2,7 +2,7 @@ package tech.ydb.scheme.description;
 
 import java.util.List;
 
-import tech.ydb.scheme.SchemeOperationProtos;
+import tech.ydb.proto.scheme.SchemeOperationProtos;
 
 /**
  * @author Sergey Polovko

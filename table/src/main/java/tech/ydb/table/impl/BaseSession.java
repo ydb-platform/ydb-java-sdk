@@ -19,9 +19,6 @@ import io.grpc.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.StatusCodesProtos.StatusIds;
-import tech.ydb.ValueProtos;
-import tech.ydb.common.CommonProtos;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
@@ -32,8 +29,11 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.utils.URITools;
+import tech.ydb.proto.StatusCodesProtos.StatusIds;
+import tech.ydb.proto.ValueProtos;
+import tech.ydb.proto.common.CommonProtos;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.Session;
-import tech.ydb.table.YdbTable;
 import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.KeyBound;
 import tech.ydb.table.description.KeyRange;
@@ -240,8 +240,8 @@ public abstract class BaseSession implements Session {
             request.addColumnFamilies(
                     YdbTable.ColumnFamily.newBuilder()
                             .setKeepInMemoryValue(family.isKeepInMemory() ?
-                                    tech.ydb.common.CommonProtos.FeatureFlag.Status.ENABLED.getNumber() :
-                                    tech.ydb.common.CommonProtos.FeatureFlag.Status.DISABLED.getNumber())
+                                    tech.ydb.proto.common.CommonProtos.FeatureFlag.Status.ENABLED.getNumber() :
+                                    tech.ydb.proto.common.CommonProtos.FeatureFlag.Status.DISABLED.getNumber())
                             .setCompression(compression)
                             .setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()))
                             .setName(family.getName())
@@ -522,7 +522,7 @@ public abstract class BaseSession implements Session {
                         new ColumnFamily(family.getName(),
                                 new StoragePool(family.getData().getMedia()),
                                 compression,
-                                family.getKeepInMemory().equals(tech.ydb.common.CommonProtos.
+                                family.getKeepInMemory().equals(tech.ydb.proto.common.CommonProtos.
                                         FeatureFlag.Status.ENABLED))
                 );
             }

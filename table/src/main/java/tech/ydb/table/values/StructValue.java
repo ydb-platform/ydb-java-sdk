@@ -3,7 +3,7 @@ package tech.ydb.table.values;
 import java.util.Arrays;
 import java.util.Map;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.utils.Arrays2;
 
 

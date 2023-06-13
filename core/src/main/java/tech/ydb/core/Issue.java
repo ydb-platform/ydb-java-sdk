@@ -7,7 +7,7 @@ import java.util.Objects;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.concurrent.Immutable;
 
-import tech.ydb.YdbIssueMessage.IssueMessage;
+import tech.ydb.proto.YdbIssueMessage.IssueMessage;
 
 
 /**

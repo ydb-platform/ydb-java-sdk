@@ -15,7 +15,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.Async;
-import tech.ydb.discovery.DiscoveryProtos;
+import tech.ydb.proto.discovery.DiscoveryProtos;
 
 /**
  * @author Nikolay Perfilov

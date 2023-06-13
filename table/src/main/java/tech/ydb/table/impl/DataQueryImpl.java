@@ -16,8 +16,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 
-import tech.ydb.ValueProtos;
 import tech.ydb.core.Result;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
@@ -104,7 +104,7 @@ final class DataQueryImpl implements DataQuery {
     /**
      * Special implementation of the {@link Params} interface that will check
      * types of all values added to this container and reuses known in data query
-     * protobuf {@link tech.ydb.ValueProtos.TypedValue} objects.
+     * protobuf {@link tech.ydb.proto.ValueProtos.TypedValue} objects.
      */
     @ParametersAreNonnullByDefault
     static final class DataQueryParams implements Params {

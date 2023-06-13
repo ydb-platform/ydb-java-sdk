@@ -16,8 +16,8 @@ import tech.ydb.core.impl.FixedCallOptionsTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
-import tech.ydb.discovery.DiscoveryProtos;
-import tech.ydb.discovery.v1.DiscoveryServiceGrpc;
+import tech.ydb.proto.discovery.DiscoveryProtos;
+import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
 
 /**

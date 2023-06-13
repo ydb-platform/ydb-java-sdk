@@ -9,11 +9,11 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.SemaphoreDescription;
-import tech.ydb.coordination.SemaphoreSession;
-import tech.ydb.coordination.SessionRequest;
 import tech.ydb.coordination.scenario.WorkingScenario;
 import tech.ydb.core.Status;
+import tech.ydb.proto.coordination.SemaphoreDescription;
+import tech.ydb.proto.coordination.SemaphoreSession;
+import tech.ydb.proto.coordination.SessionRequest;
 
 /**
  * @author Kirill Kurdyukov

@@ -9,15 +9,15 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.StatusCodesProtos;
-import tech.ydb.YdbIssueMessage;
 import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.SessionResponse;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.proto.StatusCodesProtos;
+import tech.ydb.proto.YdbIssueMessage;
+import tech.ydb.proto.coordination.SessionRequest;
+import tech.ydb.proto.coordination.SessionResponse;
 
 /**
  * @author Kirill Kurdyukov

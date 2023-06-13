@@ -14,8 +14,8 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.YdbTopic;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;

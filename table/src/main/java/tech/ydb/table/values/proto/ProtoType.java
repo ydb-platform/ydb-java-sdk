@@ -5,8 +5,8 @@ import java.util.Arrays;
 
 import com.google.protobuf.NullValue;
 
-import tech.ydb.ValueProtos;
-import tech.ydb.ValueProtos.Type.PrimitiveTypeId;
+import tech.ydb.proto.ValueProtos;
+import tech.ydb.proto.ValueProtos.Type.PrimitiveTypeId;
 import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DictType;
 import tech.ydb.table.values.ListType;

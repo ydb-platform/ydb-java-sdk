@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.BalancingSettings;
-import tech.ydb.discovery.DiscoveryProtos;
+import tech.ydb.proto.discovery.DiscoveryProtos;
 
 /**
  * @author Nikolay Perfilov

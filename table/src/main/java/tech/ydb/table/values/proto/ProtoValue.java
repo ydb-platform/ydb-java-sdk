@@ -19,7 +19,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.NullValue;
 import com.google.protobuf.UnsafeByteOperations;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DecimalValue;

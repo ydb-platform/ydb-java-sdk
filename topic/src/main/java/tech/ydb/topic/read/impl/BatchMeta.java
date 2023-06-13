@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.Map;
 
 import tech.ydb.core.utils.ProtobufUtils;
-import tech.ydb.topic.YdbTopic;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 
 /**

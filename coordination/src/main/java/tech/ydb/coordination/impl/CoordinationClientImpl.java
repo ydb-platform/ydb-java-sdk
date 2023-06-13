@@ -2,15 +2,8 @@ package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.coordination.AlterNodeRequest;
-import tech.ydb.coordination.Config;
-import tech.ydb.coordination.ConsistencyMode;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.CreateNodeRequest;
-import tech.ydb.coordination.DescribeNodeRequest;
-import tech.ydb.coordination.DropNodeRequest;
-import tech.ydb.coordination.RateLimiterCountersMode;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
@@ -19,6 +12,13 @@ import tech.ydb.core.Operations;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.proto.coordination.AlterNodeRequest;
+import tech.ydb.proto.coordination.Config;
+import tech.ydb.proto.coordination.ConsistencyMode;
+import tech.ydb.proto.coordination.CreateNodeRequest;
+import tech.ydb.proto.coordination.DescribeNodeRequest;
+import tech.ydb.proto.coordination.DropNodeRequest;
+import tech.ydb.proto.coordination.RateLimiterCountersMode;
 
 /**
  * @author Kirill Kurdyukov

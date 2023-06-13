@@ -5,12 +5,12 @@ import java.util.concurrent.CompletableFuture;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest;
-import tech.ydb.scheme.SchemeOperationProtos.DescribePathResult;
-import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest;
-import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult;
-import tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest;
-import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathResult;
+import tech.ydb.proto.scheme.SchemeOperationProtos.ListDirectoryRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.ListDirectoryResult;
+import tech.ydb.proto.scheme.SchemeOperationProtos.MakeDirectoryRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
 
 
 /**

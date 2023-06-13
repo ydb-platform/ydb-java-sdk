@@ -18,7 +18,7 @@ import com.google.common.escape.Escapers;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
 

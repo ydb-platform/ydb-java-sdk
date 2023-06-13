@@ -1,16 +1,17 @@
 package tech.ydb.core.impl.pool;
 
-import org.junit.Assert;
-import org.junit.Test;
-import tech.ydb.core.grpc.BalancingSettings;
-import tech.ydb.core.timer.TestTicker;
-import tech.ydb.discovery.DiscoveryProtos;
-
-import javax.net.ServerSocketFactory;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Arrays;
+
+import javax.net.ServerSocketFactory;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import tech.ydb.core.grpc.BalancingSettings;
+import tech.ydb.core.timer.TestTicker;
+import tech.ydb.proto.discovery.DiscoveryProtos;
 
 /**
  * @author Kirill

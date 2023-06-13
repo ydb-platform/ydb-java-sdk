@@ -10,8 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.auth.AuthRpcProvider;
-import tech.ydb.auth.YdbAuth;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
+import tech.ydb.proto.auth.YdbAuth;
 
 /**
  *

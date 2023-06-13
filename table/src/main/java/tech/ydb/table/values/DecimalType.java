@@ -5,7 +5,7 @@ import java.math.BigInteger;
 
 import com.google.common.base.Preconditions;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoType;
 
 
