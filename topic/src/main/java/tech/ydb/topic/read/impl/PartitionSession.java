@@ -18,7 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.utils.ProtobufUtils;
-import tech.ydb.topic.YdbTopic;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.events.DataReceivedEvent;

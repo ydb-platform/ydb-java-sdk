@@ -1,6 +1,6 @@
 package tech.ydb.table.values;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 
 
 /**

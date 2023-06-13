@@ -10,10 +10,10 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromClient;
+import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromServer;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.YdbTopic;
-import tech.ydb.topic.YdbTopic.StreamReadMessage.FromClient;
-import tech.ydb.topic.YdbTopic.StreamReadMessage.FromServer;
 
 /**
  * @author Nikolay Perfilov

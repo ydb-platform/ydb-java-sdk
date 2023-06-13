@@ -7,7 +7,7 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.utils.Arrays2;
 
 import static com.google.common.base.Preconditions.checkArgument;

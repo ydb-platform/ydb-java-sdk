@@ -1,6 +1,6 @@
 package tech.ydb.scheme.description;
 
-import tech.ydb.scheme.SchemeOperationProtos;
+import tech.ydb.proto.scheme.SchemeOperationProtos;
 
 
 /**

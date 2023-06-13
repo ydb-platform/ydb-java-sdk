@@ -1,6 +1,6 @@
 package tech.ydb.topic.utils;
 
-import tech.ydb.topic.YdbTopic;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 
 /**

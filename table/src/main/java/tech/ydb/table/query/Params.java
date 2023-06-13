@@ -4,7 +4,7 @@ import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 
@@ -219,7 +219,7 @@ public interface Params {
     <T extends Type> Params put(String name, Value<T> value);
 
     /**
-     * Converts each parameter value into Protobuf message {@link tech.ydb.ValueProtos.TypedValue}
+     * Converts each parameter value into Protobuf message {@link tech.ydb.proto.ValueProtos.TypedValue}
      * and return them as unmodifiable map.
      *
      * @return map of converted parameters

@@ -11,6 +11,7 @@ import org.junit.Test;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Status;
+import tech.ydb.proto.coordination.SessionRequest;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**

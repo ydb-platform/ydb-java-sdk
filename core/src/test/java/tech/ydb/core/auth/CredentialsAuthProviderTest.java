@@ -13,16 +13,16 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import tech.ydb.OperationProtos;
-import tech.ydb.StatusCodesProtos;
-import tech.ydb.auth.YdbAuth;
-import tech.ydb.auth.v1.AuthServiceGrpc;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
+import tech.ydb.proto.OperationProtos;
+import tech.ydb.proto.StatusCodesProtos;
+import tech.ydb.proto.auth.YdbAuth;
+import tech.ydb.proto.auth.v1.AuthServiceGrpc;
 
 /**
  *

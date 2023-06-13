@@ -2,7 +2,7 @@ package tech.ydb.core;
 
 import java.util.EnumSet;
 
-import tech.ydb.StatusCodesProtos.StatusIds;
+import tech.ydb.proto.StatusCodesProtos.StatusIds;
 
 import static tech.ydb.core.Constants.INTERNAL_CLIENT_FIRST;
 import static tech.ydb.core.Constants.SERVER_STATUSES_FIRST;

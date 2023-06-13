@@ -20,7 +20,7 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
-import tech.ydb.discovery.DiscoveryProtos;
+import tech.ydb.proto.discovery.DiscoveryProtos;
 
 /**
  *

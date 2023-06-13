@@ -2,15 +2,15 @@ package tech.ydb.coordination.rpc;
 
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.coordination.AlterNodeRequest;
-import tech.ydb.coordination.CreateNodeRequest;
-import tech.ydb.coordination.DescribeNodeRequest;
-import tech.ydb.coordination.DropNodeRequest;
-import tech.ydb.coordination.SessionRequest;
-import tech.ydb.coordination.SessionResponse;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.proto.coordination.AlterNodeRequest;
+import tech.ydb.proto.coordination.CreateNodeRequest;
+import tech.ydb.proto.coordination.DescribeNodeRequest;
+import tech.ydb.proto.coordination.DropNodeRequest;
+import tech.ydb.proto.coordination.SessionRequest;
+import tech.ydb.proto.coordination.SessionResponse;
 
 /**
  * @author Kirill Kurdyukov

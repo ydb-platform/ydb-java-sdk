@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.values.DecimalValue;
 import tech.ydb.table.values.Type;

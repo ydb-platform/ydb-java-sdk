@@ -19,7 +19,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.table.TableRpcStub;
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 
 /**
  *

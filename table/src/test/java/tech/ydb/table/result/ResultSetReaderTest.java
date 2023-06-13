@@ -3,7 +3,7 @@ package tech.ydb.table.result;
 import org.junit.Assert;
 import org.junit.Test;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;

@@ -12,9 +12,9 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.proto.topic.v1.TopicServiceGrpc;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.YdbTopic;
-import tech.ydb.topic.v1.TopicServiceGrpc;
 
 
 /**

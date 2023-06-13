@@ -11,17 +11,17 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.scheme.SchemeOperationProtos.DescribePathRequest;
-import tech.ydb.scheme.SchemeOperationProtos.DescribePathResponse;
-import tech.ydb.scheme.SchemeOperationProtos.DescribePathResult;
-import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryRequest;
-import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResponse;
-import tech.ydb.scheme.SchemeOperationProtos.ListDirectoryResult;
-import tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryRequest;
-import tech.ydb.scheme.SchemeOperationProtos.MakeDirectoryResponse;
-import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
-import tech.ydb.scheme.SchemeOperationProtos.RemoveDirectoryResponse;
-import tech.ydb.scheme.v1.SchemeServiceGrpc;
+import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathResponse;
+import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathResult;
+import tech.ydb.proto.scheme.SchemeOperationProtos.ListDirectoryRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.ListDirectoryResponse;
+import tech.ydb.proto.scheme.SchemeOperationProtos.ListDirectoryResult;
+import tech.ydb.proto.scheme.SchemeOperationProtos.MakeDirectoryRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.MakeDirectoryResponse;
+import tech.ydb.proto.scheme.SchemeOperationProtos.RemoveDirectoryRequest;
+import tech.ydb.proto.scheme.SchemeOperationProtos.RemoveDirectoryResponse;
+import tech.ydb.proto.scheme.v1.SchemeServiceGrpc;
 
 
 /**

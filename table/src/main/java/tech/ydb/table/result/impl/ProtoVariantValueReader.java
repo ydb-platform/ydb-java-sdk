@@ -1,6 +1,6 @@
 package tech.ydb.table.result.impl;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.result.ValueReader;
 
 

@@ -2,7 +2,7 @@ package tech.ydb.table.settings;
 
 import java.util.Objects;
 
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 
 /**
  * @author Egor Litvinenko

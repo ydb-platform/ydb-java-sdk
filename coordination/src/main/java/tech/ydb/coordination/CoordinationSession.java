@@ -3,6 +3,8 @@ package tech.ydb.coordination;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Status;
+import tech.ydb.proto.coordination.SemaphoreDescription;
+import tech.ydb.proto.coordination.SessionRequest;
 
 /**
  * @author Kirill Kurdyukov

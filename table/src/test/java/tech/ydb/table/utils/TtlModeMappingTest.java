@@ -2,7 +2,7 @@ package tech.ydb.table.utils;
 
 import org.junit.Assert;
 import org.junit.Test;
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.description.TableTtl;
 
 public class TtlModeMappingTest {

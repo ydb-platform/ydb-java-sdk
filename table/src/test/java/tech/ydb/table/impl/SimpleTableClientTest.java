@@ -16,7 +16,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.TableRpcStub;
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.rpc.TableRpc;
 
 

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
+import javax.net.ServerSocketFactory;
+
 import com.google.common.base.Ticker;
 import org.junit.After;
 import org.junit.Assert;
@@ -18,9 +20,7 @@ import org.mockito.MockitoAnnotations;
 
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.timer.TestTicker;
-import tech.ydb.discovery.DiscoveryProtos;
-
-import javax.net.ServerSocketFactory;
+import tech.ydb.proto.discovery.DiscoveryProtos;
 
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;

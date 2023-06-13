@@ -8,7 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.Maps;
 
-import tech.ydb.ValueProtos.TypedValue;
+import tech.ydb.proto.ValueProtos.TypedValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 

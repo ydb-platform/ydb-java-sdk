@@ -1,7 +1,7 @@
 package tech.ydb.table.settings;
 
 import tech.ydb.core.settings.BaseRequestSettings;
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 
 
 public class ExecuteScanQuerySettings extends BaseRequestSettings {
