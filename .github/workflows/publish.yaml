@@ -42,11 +42,11 @@ jobs:
         with:
           script: core.setFailed('SNAPSHOT version cannot be published')
 
-      - name: Fail workflow if SDK version does not equal tag name
+      - name: Fail workflow if SDK version is not equal to tag name
         if: format('v{0}', env.SDK_VERSION) != github.ref_name
         uses: actions/github-script@v6
         with:
-          script: core.setFailed('Release name must be equals project version')
+          script: core.setFailed('Release name must be equal to project version')
 
       - name: Download dependencies
         run: mvn $MAVEN_ARGS dependency:go-offline
