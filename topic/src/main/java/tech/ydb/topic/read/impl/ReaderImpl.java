@@ -248,6 +248,7 @@ public abstract class ReaderImpl {
     }
 
     private void reconnect() {
+        logger.info("Reconnect #{} started. Creating new ReadSession", reconnectCounter.get());
         this.session = new ReadSession(topicRpc);
         initImpl();
     }
@@ -279,6 +280,7 @@ public abstract class ReaderImpl {
                 : EXP_BACKOFF_CEILING_MS;
         // Add jitter
         delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
+        logger.warn("Retry #{}. Scheduling reconnect in {}ms...", currentReconnectCounter, delayMs);
         topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
     }
 
@@ -363,7 +365,6 @@ public abstract class ReaderImpl {
                         MAX_RECONNECT_COUNT);
             }
         } else {
-            logger.warn("Retry #" + currentReconnectCounter + ". Scheduling reconnect...");
             closeSessionsAndScheduleReconnect(currentReconnectCounter);
         }
     }

@@ -314,7 +314,7 @@ public abstract class WriterImpl {
     }
 
     private void reconnect() {
-        logger.info("Reconnect #{} started", reconnectCounter.get());
+        logger.info("Reconnect #{} started. Creating new WriteSession", reconnectCounter.get());
         this.session = new WriteSession(topicRpc);
         synchronized (messageSender) {
             messageSender.setSession(session);
