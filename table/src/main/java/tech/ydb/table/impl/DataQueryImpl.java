@@ -97,7 +97,7 @@ final class DataQueryImpl implements DataQuery {
 
     @Override
     public CompletableFuture<Result<DataQueryResult>> execute(
-            TxControl txControl, Params params, ExecuteDataQuerySettings settings) {
+            TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
         return session.executePreparedDataQuery(queryId, text, txControl, params, settings);
     }
 
