@@ -61,7 +61,7 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
 
         @Override
         protected TrustManager[] engineGetTrustManagers() {
-            return (TrustManager[]) trustManagers.clone();
+            return trustManagers.clone();
         }
     }
 

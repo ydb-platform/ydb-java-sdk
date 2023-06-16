@@ -60,7 +60,7 @@ public class Arrays2Test {
 
     @SuppressWarnings("unchecked")
     private static <T> T[] array() {
-        return (T[]) new Comparable[0];
+        return (T[]) new Comparable<?>[0];
     }
 
     // sugar

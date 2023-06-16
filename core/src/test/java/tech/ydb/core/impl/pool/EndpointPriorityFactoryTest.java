@@ -71,6 +71,8 @@ public class EndpointPriorityFactoryTest {
         );
 
         try (ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(8080)) {
+            Assert.assertFalse(serverSocket.isClosed());
+
             EndpointPriorityFactory priorityFactory = new EndpointPriorityFactory(
                     BalancingSettings.detectLocalDs(),
                     list(

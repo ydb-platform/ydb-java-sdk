@@ -162,7 +162,7 @@ public class PartitionSession {
                         }
                     });
         });
-        return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture[0]));
+        return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 
     private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {

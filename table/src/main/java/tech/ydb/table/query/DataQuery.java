@@ -29,13 +29,13 @@ public interface DataQuery {
     Optional<String> getText();
 
     CompletableFuture<Result<DataQueryResult>> execute(
-        TxControl txControl, Params params, ExecuteDataQuerySettings settings);
+        TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings);
 
-    default CompletableFuture<Result<DataQueryResult>> execute(TxControl txControl, Params params) {
+    default CompletableFuture<Result<DataQueryResult>> execute(TxControl<?> txControl, Params params) {
         return execute(txControl, params, new ExecuteDataQuerySettings());
     }
 
-    default CompletableFuture<Result<DataQueryResult>> execute(TxControl txControl) {
+    default CompletableFuture<Result<DataQueryResult>> execute(TxControl<?> txControl) {
         return execute(txControl, Params.empty(), new ExecuteDataQuerySettings());
     }
 }
