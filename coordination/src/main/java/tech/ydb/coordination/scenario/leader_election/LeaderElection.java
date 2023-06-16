@@ -122,7 +122,7 @@ public class LeaderElection extends WorkingScenario {
 
                         @Override
                         public void onFailure(Status status) {
-                            logger.error("Fail from leader election session: {}", status);
+                            logger.info("Fail from leader election session: {}", status);
                         }
 
                         @Override

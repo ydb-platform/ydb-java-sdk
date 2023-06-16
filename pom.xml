@@ -21,10 +21,10 @@
         <module>table</module>
         <module>scheme</module>
         <module>topic</module>
+        <module>coordination</module>
         <module>tests/common</module>
         <module>tests/junit4-support</module>
         <module>tests/junit5-support</module>
-        <module>coordination</module>
     </modules>
 
     <properties>
