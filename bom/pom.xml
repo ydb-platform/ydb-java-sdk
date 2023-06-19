@@ -11,12 +11,35 @@
     <name>Java SDK Bill of Materials</name>
     <description>Java SDK Bill of Materials (BOM)</description>
     <packaging>pom</packaging>
+    <url>https://github.com/ydb-platform/ydb-java-sdk</url>
 
     <properties>
         <ydb-auth-api.version>1.0.0</ydb-auth-api.version>
         <ydb-proto-api.version>1.4.0</ydb-proto-api.version>
         <yc-auth.version>2.1.0</yc-auth.version>
     </properties>
+
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/ydb-platform/ydb-java-sdk</url>
+        <connection>scm:git:https://github.com/ydb-platform/ydb-java-sdk.git</connection>
+        <developerConnection>scm:git:https://github.com/ydb-platform/ydb-java-sdk.git</developerConnection>
+    </scm>
+
+    <developers>
+        <developer>
+            <name>Aleksandr Gorshenin</name>
+            <email>alexandr268@ydb.tech</email>
+            <organization>YDB</organization>
+            <organizationUrl>https://ydb.tech/</organizationUrl>
+        </developer>
+    </developers>
 
     <dependencyManagement>
         <dependencies>
@@ -86,4 +109,87 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <target>1.8</target>
+                    <source>1.8</source>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                        <!-- Silence warning "No processor claimed any of these annotations". One of the
+                        annotations that would trigger it is org.junit.jupiter.api.Test -->
+                        <arg>-Xlint:-processing</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>jdk8-bootstrap</id>
+            <activation>
+                <jdk>[9</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <configuration>
+                            <release>8</release>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>ossrh-s01</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.6</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.8</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh-s01</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
