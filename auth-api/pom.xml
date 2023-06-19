@@ -7,7 +7,7 @@
 
     <groupId>tech.ydb</groupId>
     <artifactId>ydb-auth-api</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>Auth API module</name>
     <description>The YDB authentication providers API</description>
