@@ -21,20 +21,48 @@ To use YDB Java SDK you will need **Java 1.8+**.
 
 #### Install the SDK ####
 
-The recommended way to use the YDB Java SDK in your project is to consume it from Maven. Specify the SDK Maven modules that your project needs in the
-dependencies:
+The recommended way to use the YDB Java SDK in your project is to consume it from Maven.
+Firstly you can import YDB Java BOM to specify correct versions of SDK modules.
 
 ```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>tech.ydb</groupId>
+            <artifactId>ydb-sdk-bom</artifactId>
+            <version>2.1.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```
+
+After that you can specify the SDK modules that your project needs in the dependencies:
+```xml
 <dependencies>
+    <!-- Scheme service client -->
     <dependency>
         <groupId>tech.ydb</groupId>
-        <artifactId>ydb-sdk-core</artifactId>
-        <version>2.0.1</version>
+        <artifactId>ydb-sdk-scheme</artifactId>
     </dependency>
+
+    <!-- Table service client -->
     <dependency>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-table</artifactId>
-        <version>2.0.1</version>
+    </dependency>
+
+    <!-- Topic service client -->
+    <dependency>
+        <groupId>tech.ydb</groupId>
+        <artifactId>ydb-sdk-topic</artifactId>
+    </dependency>
+
+    <!-- Coordination service client -->
+    <dependency>
+        <groupId>tech.ydb</groupId>
+        <artifactId>ydb-sdk-coordination</artifactId>
     </dependency>
 </dependencies>
 ```
