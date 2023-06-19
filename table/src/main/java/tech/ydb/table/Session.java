@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
@@ -16,6 +17,7 @@ import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
+import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
@@ -56,6 +58,8 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Status> copyTable(String src, String dst, CopyTableSettings settings);
 
+    CompletableFuture<Status> copyTables(CopyTablesSettings settings);
+
     CompletableFuture<Result<TableDescription>> describeTable(String path, DescribeTableSettings settings);
 
     CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings);
@@ -76,10 +80,21 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings);
 
-    CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings, Consumer<ResultSetReader> fn);
+    GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings);
 
-    CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings,
-            Consumer<ResultSetReader> fn);
+    GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings);
+
+    @Deprecated
+    default CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings,
+            Consumer<ResultSetReader> fn) {
+        return readTable(tablePath, settings).start(fn::accept);
+    }
+
+    @Deprecated
+    default CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings,
+            Consumer<ResultSetReader> fn) {
+        return executeScanQuery(query, params, settings).start(fn::accept);
+    }
 
     CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings);
 

@@ -6,6 +6,9 @@ import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -13,22 +16,20 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.TableRpcStub;
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.rpc.TableRpc;
-
-import org.junit.Assert;
-import org.junit.Test;
 
 
 /**
  * @author Sergey Polovko
  */
 public class SimpleTableClientTest {
+
     @Test
     public void createSessionAndRelease() throws InterruptedException, ExecutionException {
         Set<String> sessionIDs = new HashSet<>();
 
-        TableRpc fakeRpc = new TableRpcStub() {
+        TableRpc fakeRpc = new TableRpcStub(null) {
             private int counter = 0;
 
             @Override
@@ -54,7 +55,7 @@ public class SimpleTableClientTest {
                     sessionIDs.remove(id);
                     return CompletableFuture.completedFuture(Status.SUCCESS);
                 } else {
-                    return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION, null));
+                    return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_SESSION));
                 }
             }
         };
@@ -77,11 +78,11 @@ public class SimpleTableClientTest {
 
     @Test
     public void unavailableSessions() {
-        TableRpc fakeRpc = new TableRpcStub() {
+        TableRpc fakeRpc = new TableRpcStub(null) {
             @Override
             public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
                 YdbTable.CreateSessionRequest request, GrpcRequestSettings settings) {
-                return CompletableFuture.completedFuture(Result.fail(Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null)));
+                return CompletableFuture.completedFuture(Result.fail(Status.of(StatusCode.TRANSPORT_UNAVAILABLE)));
             }
         };
 

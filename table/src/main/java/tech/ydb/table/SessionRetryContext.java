@@ -2,22 +2,18 @@ package tech.ydb.table;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.EnumSet;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import io.netty.util.Timeout;
-import io.netty.util.TimerTask;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,15 +32,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
     private static final Logger logger = LoggerFactory.getLogger(SessionRetryContext.class);
-
-    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
-        StatusCode.ABORTED,
-        StatusCode.UNAVAILABLE,
-        StatusCode.OVERLOADED,
-        StatusCode.CLIENT_RESOURCE_EXHAUSTED,
-        StatusCode.BAD_SESSION,
-        StatusCode.SESSION_BUSY
-    );
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -76,13 +63,13 @@ public class SessionRetryContext {
 
     public <T> CompletableFuture<Result<T>> supplyResult(Function<Session, CompletableFuture<Result<T>>> fn) {
         RetryableResultTask<T> task = new RetryableResultTask<>(fn);
-        task.run();
+        task.requestSession();
         return task.getFuture();
     }
 
     public CompletableFuture<Status> supplyStatus(Function<Session, CompletableFuture<Status>> fn) {
         RetryableStatusTask task = new RetryableStatusTask(fn);
-        task.run();
+        task.requestSession();
         return task.getFuture();
     }
 
@@ -90,7 +77,7 @@ public class SessionRetryContext {
         Throwable cause = Async.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
-            return canRetry(statusCode);
+            return statusCode.isRetryable(idempotent, retryNotFound);
         }
         return false;
     }
@@ -108,27 +95,13 @@ public class SessionRetryContext {
     }
 
     private boolean canRetry(StatusCode code) {
-        if (RETRYABLE_STATUSES.contains(code)) {
-            return true;
-        }
-        switch (code) {
-            case NOT_FOUND:
-                return retryNotFound;
-            case CLIENT_CANCELLED:
-            case CLIENT_INTERNAL_ERROR:
-            case UNDETERMINED:
-            case TRANSPORT_UNAVAILABLE:
-                return idempotent;
-            default:
-                break;
-        }
-        return false;
+        return code.isRetryable(idempotent) || (retryNotFound && code == StatusCode.NOT_FOUND);
     }
 
     private long backoffTimeMillisInternal(int retryNumber, long backoffSlotMillis, int backoffCeiling) {
         int slots = 1 << Math.min(retryNumber, backoffCeiling);
-        long maxDurationMillis = backoffSlotMillis * slots;
-        return backoffSlotMillis + ThreadLocalRandom.current().nextLong(maxDurationMillis);
+        long delay = backoffSlotMillis * slots;
+        return delay + ThreadLocalRandom.current().nextLong(delay);
     }
 
     private long slowBackoffTimeMillis(int retryNumber) {
@@ -174,7 +147,7 @@ public class SessionRetryContext {
     /**
      * BASE RETRYABLE TASK
      */
-    private abstract class BaseRetryableTask<R> implements TimerTask, BiConsumer<Result<Session>, Throwable> {
+    private abstract class BaseRetryableTask<R> implements Runnable {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
         private final AtomicInteger retryNumber = new AtomicInteger();
         private final Function<Session, CompletableFuture<R>> fn;
@@ -197,35 +170,32 @@ public class SessionRetryContext {
 
         // called on timer expiration
         @Override
-        public void run(Timeout timeout) {
+        public void run() {
             if (promise.isCancelled()) {
                 logger.debug("RetryCtx[{}] cancelled, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
                 return;
             }
-            // call run() method outside of the timer thread
-            executor.execute(this::run);
+            executor.execute(this::requestSession);
         }
 
-        public void run() {
+        public void requestSession() {
             CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.createSession(sessionCreationTimeout);
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
-                accept(sessionFuture.getNow(null), null);
+                acceptSession(sessionFuture.join());
             } else {
-                sessionFuture.whenCompleteAsync(this, executor);
+                sessionFuture.whenCompleteAsync((result, th) -> {
+                    if (result != null) {
+                        acceptSession(result);
+                    }
+                    if (th != null) {
+                        handleException(th);
+                    }
+                }, executor);
             }
         }
 
-        // called on session acquiring
-        @Override
-        public void accept(Result<Session> sessionResult, Throwable sessionException) {
-            assert (sessionResult == null) != (sessionException == null);
-
-            if (sessionException != null) {
-                handleException(sessionException);
-                return;
-            }
-
+        private void acceptSession(@Nonnull Result<Session> sessionResult) {
             if (!sessionResult.isSuccess()) {
                 handleError(sessionResult.getStatus().getCode(), toFailedResult(sessionResult));
                 return;
@@ -262,12 +232,12 @@ public class SessionRetryContext {
             if (promise.isCancelled()) {
                 return;
             }
-            Async.runAfter(this, delayMillis, TimeUnit.MILLISECONDS);
+            sessionSupplier.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
         private void handleError(@Nonnull StatusCode code, R result) {
             // Check retrayable status
-            if (!canRetry(code)) {
+            if (!code.isRetryable(idempotent, retryNotFound)) {
                 logger.debug("RetryCtx[{}] NON-RETRYABLE CODE[{}], finished after {} retries, {} ms total",
                         hashCode(), code, retryNumber.get(), ms());
                 promise.complete(result);
@@ -357,7 +327,7 @@ public class SessionRetryContext {
         private Executor executor = MoreExecutors.directExecutor();
         private Duration sessionCreationTimeout = Duration.ofSeconds(5);
         private int maxRetries = 10;
-        private long backoffSlotMillis = 1000;
+        private long backoffSlotMillis = 500;
         private int backoffCeiling = 6;
         private long fastBackoffSlotMillis = 5;
         private int fastBackoffCeiling = 10;

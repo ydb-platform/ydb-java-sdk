@@ -14,11 +14,12 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.common.collect.Maps;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.NullValue;
 import com.google.protobuf.UnsafeByteOperations;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DecimalValue;
@@ -556,9 +557,6 @@ public class ProtoValue {
     }
 
     public static ValueProtos.Value optional(ValueProtos.Value value) {
-        if (value.getValueCase() != ValueProtos.Value.ValueCase.NULL_FLAG_VALUE) {
-            return value;
-        }
         ValueProtos.Value.Builder builder = ValueProtos.Value.newBuilder();
         builder.setNestedValue(value);
         return builder.build();
@@ -671,7 +669,7 @@ public class ProtoValue {
                     return dictType.emptyValue();
                 }
 
-                HashMap<Value<?>, Value<?>> items = new HashMap<>(value.getPairsCount());
+                HashMap<Value<?>, Value<?>> items = Maps.newHashMapWithExpectedSize(value.getPairsCount());
                 for (int i = 0; i < value.getPairsCount(); i++) {
                     ValueProtos.ValuePair pair = value.getPairs(i);
                     items.put(

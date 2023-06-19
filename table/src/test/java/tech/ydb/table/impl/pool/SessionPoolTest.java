@@ -30,7 +30,7 @@ public class SessionPoolTest extends FutureHelper {
 
     private final MockedClock clock = MockedClock.create(ZoneId.of("UTC"));
     private final MockedScheduler scheduler = new MockedScheduler(clock);
-    private final MockedTableRpc tableRpc = new MockedTableRpc(clock);
+    private final MockedTableRpc tableRpc = new MockedTableRpc(clock, scheduler);
 
     @Before
     public void setup() {
@@ -52,7 +52,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void baseTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
         check(pool).idle(0).acquired(0).pending(0).size(0, 2);
@@ -90,7 +90,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void createSessionWithErrorTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 3));
 
         check(pool).idle(0).acquired(0).pending(0);
@@ -118,7 +118,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void createSessionShutdownHintTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 3));
 
         check(pool).idle(0).acquired(0).pending(0);
@@ -180,7 +180,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void sessionUseAfterClosingTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
         check(pool).idle(0).acquired(0).pending(0);
@@ -253,7 +253,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void createSessionTimeoutTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
         check(pool).idle(0).acquired(0).pending(0);
@@ -264,7 +264,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().sessionRequests(1);
         scheduler.runTasksTo(clock.instant().plus(TIMEOUT));
 
-        futureIsExceptionally(f1, "deadline was expired");
+        futureIsExceptionally(f1, "session acquire deadline was expired, code: CLIENT_DEADLINE_EXPIRED");
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.nextCreateSession().completeSuccess();
@@ -280,7 +280,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void canceledSessionsTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
         check(pool).idle(0).acquired(0).pending(0);
@@ -310,7 +310,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void sessionDataQueryErrorsTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
         check(pool).idle(0).acquired(0).pending(0);
 
@@ -356,7 +356,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void sessionDeleteErrorsTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
         // Create session1 request
@@ -407,7 +407,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void removeIdleSessionsTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT
                         .withSize(2, 5)
                         .withKeepAliveTimeMillis(5000)
@@ -495,7 +495,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void keepAliveSessionsTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT
                         .withSize(2, 3)
                         .withKeepAliveTimeMillis(1000)
@@ -579,7 +579,7 @@ public class SessionPoolTest extends FutureHelper {
 
     @Test
     public void wrongKeepAliveSessionsTest() {
-        SessionPool pool = new SessionPool(scheduler, clock, tableRpc, true,
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT
                         .withSize(2, 3)
                         .withKeepAliveTimeMillis(1000)

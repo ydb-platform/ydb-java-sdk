@@ -2,7 +2,7 @@ package tech.ydb.table.values;
 
 import java.util.List;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoType;
 
 
@@ -101,7 +101,7 @@ public final class VariantType implements Type {
         return ProtoType.getVariant(tupleType.build());
     }
 
-    public VariantValue newValue(Value item, int typeIndex) {
+    public VariantValue newValue(Value<?> item, int typeIndex) {
         return new VariantValue(this, item, typeIndex);
     }
 }

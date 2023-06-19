@@ -2,6 +2,7 @@ package tech.ydb.table.impl;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
@@ -19,7 +20,7 @@ public class SimpleTableClient implements SessionSupplier {
     private final TableRpc tableRpc;
     private final boolean keepQueryText;
 
-    SimpleTableClient(Builder builder) {
+    private SimpleTableClient(Builder builder) {
         this.tableRpc = builder.tableRpc;
         this.keepQueryText = builder.keepQueryText;
     }
@@ -30,6 +31,11 @@ public class SimpleTableClient implements SessionSupplier {
                 .setTimeout(duration);
         return BaseSession.createSessionId(tableRpc, settings, false)
                 .thenApply(response -> response.map(SimpleSession::new));
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return tableRpc.getScheduler();
     }
 
     public static Builder newClient(TableRpc rpc) {

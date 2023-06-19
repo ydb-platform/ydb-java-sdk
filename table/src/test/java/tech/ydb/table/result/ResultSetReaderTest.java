@@ -1,11 +1,12 @@
 package tech.ydb.table.result;
 
-import tech.ydb.ValueProtos;
+import org.junit.Assert;
+import org.junit.Test;
+
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
-import org.junit.Assert;
-import org.junit.Test;
 
 
 /**
@@ -49,7 +50,7 @@ public class ResultSetReaderTest {
 
         Assert.assertFalse(reader.next());
     }
-    
+
     @Test
     public void readUnsignedInts() {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
@@ -58,10 +59,10 @@ public class ResultSetReaderTest {
             .addColumns(newColumn("u32", ProtoType.getUint32()))
             .addColumns(newColumn("u64", ProtoType.getUint64()))
             .addRows(newRow(
-                    ProtoValue.fromUint8(1), ProtoValue.fromUint16(1), 
+                    ProtoValue.fromUint8(1), ProtoValue.fromUint16(1),
                     ProtoValue.fromUint32(1), ProtoValue.fromUint64(1)))
             .addRows(newRow(
-                    ProtoValue.fromUint8(-1), ProtoValue.fromUint16(-1), 
+                    ProtoValue.fromUint8(-1), ProtoValue.fromUint16(-1),
                     ProtoValue.fromUint32(-1), ProtoValue.fromUint64(-1)))
             .addRows(newRow(
                     ProtoValue.fromUint8(0xFF), ProtoValue.fromUint16(0xFFFF),
@@ -103,8 +104,8 @@ public class ResultSetReaderTest {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
             .addColumns(newColumn("utf8", ProtoType.getOptional(ProtoType.getText())))
             .addColumns(newColumn("uint32", ProtoType.getOptional(ProtoType.getUint32())))
-            .addRows(newRow(ProtoValue.optional(ProtoValue.fromText("a")), ProtoValue.optional()))
-            .addRows(newRow(ProtoValue.optional(), ProtoValue.optional(ProtoValue.fromUint32(42))))
+            .addRows(newRow(ProtoValue.fromText("a"), ProtoValue.optional()))
+            .addRows(newRow(ProtoValue.optional(), ProtoValue.fromUint32(42)))
             .build();
 
         ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);

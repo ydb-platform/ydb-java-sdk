@@ -8,7 +8,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.Maps;
 
-import tech.ydb.ValueProtos.TypedValue;
+import tech.ydb.proto.ValueProtos.TypedValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 
@@ -185,9 +185,7 @@ final class ParamsImmutableMap implements Params {
 
     @Override
     public Map<String, TypedValue> toPb() {
-        Map<String, TypedValue> result = new HashMap<>(
-                (int) ((((float) params.size()) / 0.75f) + 1.0f)
-        );
+        Map<String, TypedValue> result = Maps.newHashMapWithExpectedSize(params.size());
         for (Map.Entry<String, Value<?>> entry : params.entrySet()) {
             result.put(entry.getKey(), toTypedValue(entry.getValue()));
         }

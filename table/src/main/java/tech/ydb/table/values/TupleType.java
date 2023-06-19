@@ -3,7 +3,7 @@ package tech.ydb.table.values;
 import java.util.Arrays;
 import java.util.List;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoType;
 
 
@@ -110,35 +110,35 @@ public final class TupleType implements Type {
         return ValueProtos.Type.newBuilder().setTupleType(tupleType).build();
     }
 
-    public TupleValue newValue(Value item) {
+    public TupleValue newValue(Value<?> item) {
         return new TupleValue(this, item);
     }
 
-    public TupleValue newValue(Value a, Value b) {
+    public TupleValue newValue(Value<?> a, Value<?> b) {
         return new TupleValue(this, a, b);
     }
 
-    public TupleValue newValue(Value a, Value b, Value c) {
+    public TupleValue newValue(Value<?> a, Value<?> b, Value<?> c) {
         return new TupleValue(this, a, b, c);
     }
 
-    public TupleValue newValue(Value a, Value b, Value c, Value d) {
+    public TupleValue newValue(Value<?> a, Value<?> b, Value<?> c, Value<?> d) {
         return new TupleValue(this, a, b, c, d);
     }
 
-    public TupleValue newValue(Value a, Value b, Value c, Value d, Value e) {
+    public TupleValue newValue(Value<?> a, Value<?> b, Value<?> c, Value<?> d, Value<?> e) {
         return new TupleValue(this, a, b, c, d, e);
     }
 
-    public TupleValue newValue(List<Value> items) {
+    public TupleValue newValue(List<Value<?>> items) {
         return new TupleValue(this, items.toArray(Value.EMPTY_ARRAY));
     }
 
-    public TupleValue newValueCopy(Value... items) {
+    public TupleValue newValueCopy(Value<?>... items) {
         return new TupleValue(this, items.clone());
     }
 
-    public TupleValue newValueOwn(Value... items) {
+    public TupleValue newValueOwn(Value<?>... items) {
         return new TupleValue(this, items);
     }
 }

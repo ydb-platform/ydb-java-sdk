@@ -19,7 +19,7 @@ final class YandexTrustManagersProvider {
     private static final String JSK_YANDEX_CA_STORE = "certificates/YandexAllCAs.pkcs";
     private static final String STORE_PASSWORD = "yandex";
 
-    private TrustManager[] trustManagers;
+    private final TrustManager[] trustManagers;
 
     private YandexTrustManagersProvider() {
         try {

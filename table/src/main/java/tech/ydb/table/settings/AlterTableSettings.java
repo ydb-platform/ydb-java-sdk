@@ -23,9 +23,8 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
     private TtlSettings ttlSettings;
     @Nullable
     private PartitioningSettings partitioningSettings;
-    @Nullable
+
     private List<Changefeed> addChangefeeds = new ArrayList<>();
-    @Nullable
     private List<String> dropChangefeeds = new ArrayList<>();
 
     public AlterTableSettings() {

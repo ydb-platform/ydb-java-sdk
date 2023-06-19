@@ -1,0 +1,81 @@
+name: YDB Java SDK CI with Maven
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+  pull_request:
+      type: [opened, reopened, edited]
+
+jobs:
+  build:
+    name: YDB Java SDK CI with Maven
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        java: [ '8', '11', '17']
+
+    env:
+        MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          path: sdk
+
+      - name: Set up JDK 8
+        uses: actions/setup-java@v3
+        with:
+          java-version: ${{ matrix.java }}
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Extract SDK version
+        working-directory: ./sdk
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "SDK_VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Extract Auth API version
+        working-directory: ./sdk/auth-api
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "AUTH_API_VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Download YDK SDK dependencies
+        working-directory: ./sdk
+        run: mvn $MAVEN_ARGS dependency:go-offline
+
+      - name: Build YDB SDK
+        working-directory: ./sdk
+        run: mvn $MAVEN_ARGS install
+
+      - uses: actions/checkout@v3
+        with:
+          repository: ydb-platform/ydb-java-yc
+          ref: develop
+          path: yc
+
+      - name: Download YDB YC Auth provider dependencies
+        working-directory: ./yc
+        run: mvn $MAVEN_ARGS -Dydb.auth-api.version=$AUTH_API_VERSION dependency:go-offline
+
+      - name: Build YDB YC Auth provider
+        working-directory: ./yc
+        run: mvn $MAVEN_ARGS -Dydb.auth-api.version=$AUTH_API_VERSION install
+
+      - uses: actions/checkout@v3
+        with:
+          repository: ydb-platform/ydb-java-examples
+          ref: develop
+          path: examples
+
+      - name: Download dependencies
+        working-directory: ./examples
+        run: mvn $MAVEN_ARGS -Dydb.sdk.version=$SDK_VERSION dependency:go-offline
+
+      - name: Test examples with Maven
+        working-directory: ./examples
+        run: mvn $MAVEN_ARGS -Dydb.sdk.version=$SDK_VERSION test

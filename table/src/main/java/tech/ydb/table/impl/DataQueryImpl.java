@@ -13,10 +13,11 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Maps;
 import com.google.common.hash.Hashing;
 
-import tech.ydb.ValueProtos;
 import tech.ydb.core.Result;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
@@ -96,14 +97,14 @@ final class DataQueryImpl implements DataQuery {
 
     @Override
     public CompletableFuture<Result<DataQueryResult>> execute(
-            TxControl txControl, Params params, ExecuteDataQuerySettings settings) {
+            TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
         return session.executePreparedDataQuery(queryId, text, txControl, params, settings);
     }
 
     /**
      * Special implementation of the {@link Params} interface that will check
      * types of all values added to this container and reuses known in data query
-     * protobuf {@link tech.ydb.ValueProtos.TypedValue} objects.
+     * protobuf {@link tech.ydb.proto.ValueProtos.TypedValue} objects.
      */
     @ParametersAreNonnullByDefault
     static final class DataQueryParams implements Params {
@@ -114,7 +115,7 @@ final class DataQueryImpl implements DataQuery {
         DataQueryParams(ImmutableMap<String, Type> types, ImmutableMap<String, ValueProtos.Type> typesPb) {
             this.types = types;
             this.typesPb = typesPb;
-            this.params = new HashMap<>(types.size());
+            this.params = Maps.newHashMapWithExpectedSize(types.size());
         }
 
         @Override
@@ -137,7 +138,7 @@ final class DataQueryImpl implements DataQuery {
 
         @Override
         public Map<String, ValueProtos.TypedValue> toPb() {
-            Map<String, ValueProtos.TypedValue> result = new HashMap<>(params.size());
+            Map<String, ValueProtos.TypedValue> result = Maps.newHashMapWithExpectedSize(params.size());
             for (Map.Entry<String, Value<?>> entry : params.entrySet()) {
                 Value<?> value = entry.getValue();
                 String name = entry.getKey();

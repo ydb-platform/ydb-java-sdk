@@ -4,7 +4,7 @@ import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 
@@ -36,16 +36,18 @@ public interface Params {
     /**
      * Returns a modifiable implementation of {@link Params} with no parameters.
      *
-     * @param initialCapacity initial capacity of backing map
+     * @param expectedSize the expected number of parameters
      * @return an empty {@link Params}
      */
-    static Params create(int initialCapacity) {
-        return new ParamsMutableMap(initialCapacity);
+    static Params create(int expectedSize) {
+        return new ParamsMutableMap(expectedSize);
     }
 
     /**
      * Returns an immutable implementation of {@link Params} with single parameter.
      *
+     * @param name param name
+     * @param value param value
      * @return non empty {@link Params} with single parameter
      */
     static Params of(String name, Value<?> value) {
@@ -217,7 +219,7 @@ public interface Params {
     <T extends Type> Params put(String name, Value<T> value);
 
     /**
-     * Converts each parameter value into Protobuf message {@link tech.ydb.ValueProtos.TypedValue}
+     * Converts each parameter value into Protobuf message {@link tech.ydb.proto.ValueProtos.TypedValue}
      * and return them as unmodifiable map.
      *
      * @return map of converted parameters

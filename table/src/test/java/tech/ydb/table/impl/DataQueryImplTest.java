@@ -4,8 +4,8 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.extensions.proto.ProtoTruth;
-import tech.ydb.ValueProtos;
-import tech.ydb.ValueProtos.TypedValue;
+import tech.ydb.proto.ValueProtos;
+import tech.ydb.proto.ValueProtos.TypedValue;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;

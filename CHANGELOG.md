@@ -1,3 +1,27 @@
+## 2.1.0 ##
+
+* Added config for GRPC compression
+* Added Coordination Service API support
+* Added Topic API support
+* Added support detect local dc
+* Support creating asynchronous index in createTable and describeTable
+* New api for streamable requests
+* Fixed default timeout for readTable
+* Fixed exponential backoff calculation
+* Fixed null values for Result.success
+* Fixed bug of channels closing
+* Changed default load balancer policy from pick_first to round_robin
+* Added config for channel connect timeout
+* Fixed discard of UnexpectedResultException causes
+* All periodic tasks have been moved to unite scheduled executor service
+* Added support of integration tests for JUnit4 and JUnit5
+* Added bom module to simplify the import of SDK and its dependencies
+* SchemeClient has been moved to its own module
+* API of authentication providers has been separated into a detached module with its own versioning
+* Removed unnecessary parameter EndpointsDiscoveryPeriod from GrpcTransportBuilder
+* Fixed serialization/deserialization of inner optional types
+* Added copyTables() consistent multi-table copy operation to the Session
+
 ## 2.0.1 ##
 
 * Fixed broken sessions handling in the session pool

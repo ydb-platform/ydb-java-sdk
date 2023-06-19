@@ -1,16 +1,9 @@
 package tech.ydb.core.auth;
 
 /**
- * @author Sergey Polovko
+ * @deprecated
+ * Use {@link tech.ydb.auth.NopAuthProvider} instead.
  */
-public class NopAuthProvider implements AuthProvider {
-    public static final NopAuthProvider INSTANCE = new NopAuthProvider();
-
-    private NopAuthProvider() {
-    }
-
-    @Override
-    public AuthIdentity createAuthIdentity(AuthRpc rpc) {
-        return null;
-    }
+@Deprecated
+public class NopAuthProvider extends tech.ydb.auth.NopAuthProvider {
 }

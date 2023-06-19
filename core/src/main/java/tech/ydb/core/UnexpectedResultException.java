@@ -3,6 +3,7 @@ package tech.ydb.core;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 
@@ -19,9 +20,15 @@ public class UnexpectedResultException extends RuntimeException {
         this(message, status, null);
     }
 
-    public UnexpectedResultException(String message, Status status, Throwable cause) {
+    public UnexpectedResultException(String message, Status status, @Nullable Throwable cause) {
         super(formatMessage(message, status), cause);
         this.status = Objects.requireNonNull(status);
+    }
+
+    UnexpectedResultException(String message, UnexpectedResultException other) {
+        super(message + ": " + other.getMessage(), other.getCause());
+        this.status = other.status;
+        this.setStackTrace(other.getStackTrace());
     }
 
     @Nonnull
@@ -35,6 +42,9 @@ public class UnexpectedResultException extends RuntimeException {
             sb.append(message).append(", ");
         }
         sb.append("code: ").append(status.getCode().name());
+        if (status.hasConsumedRu()) {
+            sb.append(", consumed ").append(status.getConsumedRu()).append(" RU");
+        }
         Issue[] issues = status.getIssues();
         if (issues.length != 0) {
             sb.append(", issues: [");

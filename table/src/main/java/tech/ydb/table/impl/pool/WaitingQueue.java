@@ -16,6 +16,10 @@ import javax.annotation.concurrent.ThreadSafe;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
+
 /**
  *
  * @author Aleksandr Gorshenin
@@ -78,7 +82,9 @@ public class WaitingQueue<T> implements AutoCloseable {
                 || tryToCreateNewWaiting(acquire);
 
         if (!ok) {
-            acquire.completeExceptionally(new RuntimeException("Objects limit exceeded"));
+            acquire.completeExceptionally(new UnexpectedResultException(
+                    "Objects limit exceeded", Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED)
+            ));
         }
     }
 

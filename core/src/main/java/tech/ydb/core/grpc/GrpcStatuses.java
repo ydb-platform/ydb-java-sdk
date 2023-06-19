@@ -41,11 +41,16 @@ public final class GrpcStatuses {
             return tech.ydb.core.Status.of(code, null, message);
         }
 
-        return tech.ydb.core.Status.of(code, null, message, Issue.of(cause.getMessage(), Issue.Severity.ERROR));
+        return tech.ydb.core.Status.of(code, null, message, Issue.of(cause.toString(), Issue.Severity.ERROR));
     }
 
     private static String getMessage(Status status) {
-        logger.warn("gRPC issue", status.asException());
+        if (status.getCode() == Status.Code.CANCELLED) {
+            logger.debug("gRPC cancellation: {}, {}", status.getCode(), status.getDescription());
+        } else {
+            logger.warn("gRPC issue: {}, {}", status.getCode(), status.getDescription());
+        }
+
         String message = "gRPC error: (" + status.getCode() + ')';
         return status.getDescription() == null
             ? message

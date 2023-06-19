@@ -1,9 +1,10 @@
 package tech.ydb.core;
 
-import tech.ydb.OperationProtos.Operation;
-import tech.ydb.StatusCodesProtos.StatusIds;
-import tech.ydb.YdbIssueMessage.IssueMessage;
 import org.junit.Test;
+
+import tech.ydb.proto.OperationProtos.Operation;
+import tech.ydb.proto.StatusCodesProtos.StatusIds;
+import tech.ydb.proto.YdbIssueMessage.IssueMessage;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;

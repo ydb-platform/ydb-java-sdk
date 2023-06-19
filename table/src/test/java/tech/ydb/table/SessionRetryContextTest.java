@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -31,17 +33,24 @@ import static java.util.concurrent.CompletableFuture.completedFuture;
  * @author Sergey Polovko
  */
 public class SessionRetryContextTest extends FutureHelper  {
-    private static final Status NOT_FOUND = Status.of(StatusCode.NOT_FOUND, null);
-    private static final Status SCHEME_ERROR = Status.of(StatusCode.SCHEME_ERROR, null);
-    private static final Status SESSION_BUSY = Status.of(StatusCode.SESSION_BUSY, null);
-    private static final Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE, null);
-    private static final Status CANCELLED = Status.of(StatusCode.CANCELLED, null);
-    private static final Status OVERLOADED = Status.of(StatusCode.OVERLOADED, null);
-    private static final Status CLIENT_RESOURCE_EXHAUSTED = Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED, null);
+    private static final Status NOT_FOUND = Status.of(StatusCode.NOT_FOUND);
+    private static final Status SCHEME_ERROR = Status.of(StatusCode.SCHEME_ERROR);
+    private static final Status SESSION_BUSY = Status.of(StatusCode.SESSION_BUSY);
+    private static final Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE);
+    private static final Status CANCELLED = Status.of(StatusCode.CANCELLED);
+    private static final Status OVERLOADED = Status.of(StatusCode.OVERLOADED);
+    private static final Status CLIENT_RESOURCE_EXHAUSTED = Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED);
 
     private static final Duration TEN_MILLIS = Duration.ofMillis(10);
     private static final Duration FIVE_SECONDS = Duration.ofSeconds(5);
     private static final Duration TEN_SECONDS = Duration.ofSeconds(10);
+
+    private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+    @AfterClass
+    public static void cleanUp() {
+        scheduler.shutdown();
+    }
 
     @Test
     public void successSession_successResult() {
@@ -396,7 +405,7 @@ public class SessionRetryContextTest extends FutureHelper  {
 
     @Test
     public void baseUsageTest() throws InterruptedException {
-        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 2).build();
 
         SessionRetryContext ctx = SessionRetryContext.create(client)
@@ -436,7 +445,7 @@ public class SessionRetryContextTest extends FutureHelper  {
     @Test
     public void customExecutorUsageTest() throws InterruptedException {
         ExecutorService custom = Executors.newSingleThreadExecutor();
-        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC());
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 2).build();
 
         SessionRetryContext ctx = SessionRetryContext.create(client)
@@ -485,6 +494,11 @@ public class SessionRetryContextTest extends FutureHelper  {
         public CompletableFuture<Result<Session>> createSession(Duration timeout) {
             return completedFuture(Result.success(new SessionStub()));
         }
+
+        @Override
+        public ScheduledExecutorService getScheduler() {
+            return scheduler;
+        }
     }
 
     /**
@@ -500,6 +514,11 @@ public class SessionRetryContextTest extends FutureHelper  {
             this.statusCode = statusCode;
         }
 
+        @Override
+        public ScheduledExecutorService getScheduler() {
+            return scheduler;
+        }
+
         int getRequestsCount() {
             return requestsCount.get();
         }
@@ -509,7 +528,7 @@ public class SessionRetryContextTest extends FutureHelper  {
             if (requestsCount.getAndIncrement() >= maxFails) {
                 return completedFuture(Result.success(new SessionStub()));
             }
-            return completedFuture(Result.fail(Status.of(statusCode, null)));
+            return completedFuture(Result.fail(Status.of(statusCode)));
         }
     }
 
@@ -521,6 +540,11 @@ public class SessionRetryContextTest extends FutureHelper  {
 
         int getRetriesCount() {
             return retriesCount.get();
+        }
+
+        @Override
+        public ScheduledExecutorService getScheduler() {
+            return scheduler;
         }
 
         @Override

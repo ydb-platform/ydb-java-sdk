@@ -1,76 +1,64 @@
 package tech.ydb.table.rpc.grpc;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.EndpointInfo;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
-import tech.ydb.core.utils.URITools;
-import tech.ydb.table.YdbTable;
-import tech.ydb.table.YdbTable.AlterTableRequest;
-import tech.ydb.table.YdbTable.AlterTableResponse;
-import tech.ydb.table.YdbTable.BeginTransactionRequest;
-import tech.ydb.table.YdbTable.BeginTransactionResponse;
-import tech.ydb.table.YdbTable.BeginTransactionResult;
-import tech.ydb.table.YdbTable.BulkUpsertResponse;
-import tech.ydb.table.YdbTable.CommitTransactionRequest;
-import tech.ydb.table.YdbTable.CommitTransactionResponse;
-import tech.ydb.table.YdbTable.CopyTableRequest;
-import tech.ydb.table.YdbTable.CopyTableResponse;
-import tech.ydb.table.YdbTable.CreateTableRequest;
-import tech.ydb.table.YdbTable.CreateTableResponse;
-import tech.ydb.table.YdbTable.DeleteSessionRequest;
-import tech.ydb.table.YdbTable.DeleteSessionResponse;
-import tech.ydb.table.YdbTable.DescribeTableRequest;
-import tech.ydb.table.YdbTable.DescribeTableResponse;
-import tech.ydb.table.YdbTable.DescribeTableResult;
-import tech.ydb.table.YdbTable.DropTableRequest;
-import tech.ydb.table.YdbTable.DropTableResponse;
-import tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
-import tech.ydb.table.YdbTable.ExecuteDataQueryResponse;
-import tech.ydb.table.YdbTable.ExecuteQueryResult;
-import tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
-import tech.ydb.table.YdbTable.ExecuteSchemeQueryResponse;
-import tech.ydb.table.YdbTable.ExplainDataQueryRequest;
-import tech.ydb.table.YdbTable.ExplainDataQueryResponse;
-import tech.ydb.table.YdbTable.ExplainQueryResult;
-import tech.ydb.table.YdbTable.KeepAliveRequest;
-import tech.ydb.table.YdbTable.KeepAliveResponse;
-import tech.ydb.table.YdbTable.KeepAliveResult;
-import tech.ydb.table.YdbTable.PrepareDataQueryRequest;
-import tech.ydb.table.YdbTable.PrepareDataQueryResponse;
-import tech.ydb.table.YdbTable.PrepareQueryResult;
-import tech.ydb.table.YdbTable.ReadTableRequest;
-import tech.ydb.table.YdbTable.ReadTableResponse;
-import tech.ydb.table.YdbTable.RollbackTransactionRequest;
-import tech.ydb.table.YdbTable.RollbackTransactionResponse;
+import tech.ydb.proto.table.YdbTable;
+import tech.ydb.proto.table.YdbTable.AlterTableRequest;
+import tech.ydb.proto.table.YdbTable.AlterTableResponse;
+import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
+import tech.ydb.proto.table.YdbTable.BeginTransactionResponse;
+import tech.ydb.proto.table.YdbTable.BeginTransactionResult;
+import tech.ydb.proto.table.YdbTable.BulkUpsertResponse;
+import tech.ydb.proto.table.YdbTable.CommitTransactionRequest;
+import tech.ydb.proto.table.YdbTable.CommitTransactionResponse;
+import tech.ydb.proto.table.YdbTable.CopyTableRequest;
+import tech.ydb.proto.table.YdbTable.CopyTableResponse;
+import tech.ydb.proto.table.YdbTable.CopyTablesRequest;
+import tech.ydb.proto.table.YdbTable.CopyTablesResponse;
+import tech.ydb.proto.table.YdbTable.CreateTableRequest;
+import tech.ydb.proto.table.YdbTable.CreateTableResponse;
+import tech.ydb.proto.table.YdbTable.DeleteSessionRequest;
+import tech.ydb.proto.table.YdbTable.DeleteSessionResponse;
+import tech.ydb.proto.table.YdbTable.DescribeTableRequest;
+import tech.ydb.proto.table.YdbTable.DescribeTableResponse;
+import tech.ydb.proto.table.YdbTable.DescribeTableResult;
+import tech.ydb.proto.table.YdbTable.DropTableRequest;
+import tech.ydb.proto.table.YdbTable.DropTableResponse;
+import tech.ydb.proto.table.YdbTable.ExecuteDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExecuteDataQueryResponse;
+import tech.ydb.proto.table.YdbTable.ExecuteQueryResult;
+import tech.ydb.proto.table.YdbTable.ExecuteSchemeQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExecuteSchemeQueryResponse;
+import tech.ydb.proto.table.YdbTable.ExplainDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExplainDataQueryResponse;
+import tech.ydb.proto.table.YdbTable.ExplainQueryResult;
+import tech.ydb.proto.table.YdbTable.KeepAliveRequest;
+import tech.ydb.proto.table.YdbTable.KeepAliveResponse;
+import tech.ydb.proto.table.YdbTable.KeepAliveResult;
+import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.PrepareDataQueryResponse;
+import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
+import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
+import tech.ydb.proto.table.YdbTable.RollbackTransactionResponse;
+import tech.ydb.proto.table.v1.TableServiceGrpc;
 import tech.ydb.table.rpc.TableRpc;
-import tech.ydb.table.v1.TableServiceGrpc;
 
 /**
  * @author Sergey Polovko
  */
 @ParametersAreNonnullByDefault
 public final class GrpcTableRpc implements TableRpc {
-    private static final Logger logger = LoggerFactory.getLogger(TableRpc.class);
-
     private final GrpcTransport transport;
     private final boolean transportOwned;
 
@@ -79,12 +67,10 @@ public final class GrpcTableRpc implements TableRpc {
         this.transportOwned = transportOwned;
     }
 
-    @Nullable
     public static GrpcTableRpc useTransport(@WillNotClose GrpcTransport transport) {
         return new GrpcTableRpc(transport, false);
     }
 
-    @Nullable
     public static GrpcTableRpc ownTransport(@WillClose GrpcTransport transport) {
         return new GrpcTableRpc(transport, true);
     }
@@ -143,6 +129,14 @@ public final class GrpcTableRpc implements TableRpc {
         return transport
                 .unaryCall(TableServiceGrpc.getCopyTableMethod(), settings, request)
                 .thenApply(Operations.statusUnwrapper(CopyTableResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTables(CopyTablesRequest request,
+            GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getCopyTablesMethod(), settings, request)
+                .thenApply(Operations.statusUnwrapper(CopyTablesResponse::getOperation));
     }
 
     @Override
@@ -219,16 +213,15 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
-    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer,
-            GrpcRequestSettings settings) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamReadTableMethod(), settings, request, observer);
+    public GrpcReadStream<YdbTable.ReadTableResponse> streamReadTable(
+            YdbTable.ReadTableRequest request, GrpcRequestSettings settings) {
+        return transport.readStreamCall(TableServiceGrpc.getStreamReadTableMethod(), settings, request);
     }
 
     @Override
-    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request,
-            StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, GrpcRequestSettings settings) {
-        return transport.serverStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), settings,
-                request, observer);
+    public GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
+            YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings) {
+        return transport.readStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), settings, request);
     }
 
     @Override
@@ -244,25 +237,14 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
+    public ScheduledExecutorService getScheduler() {
+        return transport.getScheduler();
+    }
+
+    @Override
     public void close() {
         if (transportOwned) {
             transport.close();
         }
-    }
-
-    @Override
-    public EndpointInfo getEndpointBySessionId(String sessionId) {
-        try {
-            Map<String, List<String>> params = URITools.splitQuery(new URI(sessionId));
-            List<String> nodeParam = params.get("node_id");
-            if (nodeParam != null && !nodeParam.isEmpty()) {
-                int nodeID = Integer.parseUnsignedInt(nodeParam.get(0));
-                String endpoint = transport.getEndpointByNodeId(nodeID);
-                return endpoint != null ? new EndpointInfo(nodeID, endpoint) : null;
-            }
-        } catch (URISyntaxException | RuntimeException e) {
-            logger.debug("Failed to parse session_id for node_id: {}", e.toString());
-        }
-        return null;
     }
 }

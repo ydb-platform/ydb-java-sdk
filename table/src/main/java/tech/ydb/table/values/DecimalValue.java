@@ -3,7 +3,7 @@ package tech.ydb.table.values;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
 
 /**

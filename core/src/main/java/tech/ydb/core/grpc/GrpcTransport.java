@@ -5,14 +5,13 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
 import tech.ydb.core.utils.URITools;
 
 
@@ -23,20 +22,23 @@ import tech.ydb.core.utils.URITools;
  */
 public interface GrpcTransport extends AutoCloseable {
 
-    String getEndpointByNodeId(int nodeId);
-
     <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
             ReqT request);
 
-    <ReqT, RespT> StreamControl serverStreamCall(
+    <ReqT, RespT> GrpcReadStream<RespT> readStreamCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,
-            ReqT request,
-            StreamObserver<RespT> observer);
+            ReqT request);
+
+    <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
+            MethodDescriptor<ReqT, RespT> method,
+            GrpcRequestSettings settings);
 
     String getDatabase();
+
+    ScheduledExecutorService getScheduler();
 
     @Override
     void close();

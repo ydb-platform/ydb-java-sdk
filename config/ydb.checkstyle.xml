@@ -45,13 +45,6 @@
     <!-- See http://checkstyle.sourceforge.net/config_filters.html#SuppressWarningsFilter -->
     <module name="SuppressWarningsFilter"/>
 
-    <!-- Excludes some checks for test classes                                   -->
-    <!-- http://checkstyle.sourceforge.net/config_filters.html#SuppressionFilter -->
-<!--    <module name="SuppressionFilter">
-        <property name="file" value="checkstyle/ydb.suppressions.xml"/>
-        <property name="optional" value="false"/>
-    </module>-->
-
     <!-- Sets max length of one line to 120 symbols. See https://clubs.at.yandex-team.ru/java/593 for more details -->
     <!-- See http://checkstyle.sourceforge.net/config_sizes.html#LineLength                                        -->
     <module name="LineLength">

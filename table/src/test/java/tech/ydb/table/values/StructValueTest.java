@@ -2,7 +2,7 @@ package tech.ydb.table.values;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.truth.extensions.proto.ProtoTruth;
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
 import org.junit.Test;
 

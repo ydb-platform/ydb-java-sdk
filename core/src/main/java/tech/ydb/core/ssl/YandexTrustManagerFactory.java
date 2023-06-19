@@ -12,7 +12,7 @@ import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509ExtendedTrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import io.netty.util.internal.PlatformDependent;
+import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
 
 public final class YandexTrustManagerFactory extends TrustManagerFactory {
 
@@ -22,12 +22,7 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
     };
 
     private static final ThreadLocal<YandexTrustManagerFactorySpi> CURRENT_SPI =
-            new ThreadLocal<YandexTrustManagerFactorySpi>() {
-        @Override
-        protected YandexTrustManagerFactorySpi initialValue() {
-            return new YandexTrustManagerFactorySpi();
-        }
-    };
+            ThreadLocal.withInitial(YandexTrustManagerFactorySpi::new);
 
     public YandexTrustManagerFactory(String name) {
         super(CURRENT_SPI.get(), PROVIDER, name);
@@ -66,7 +61,7 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
 
         @Override
         protected TrustManager[] engineGetTrustManagers() {
-            return (TrustManager[]) trustManagers.clone();
+            return trustManagers.clone();
         }
     }
 

@@ -1,6 +1,8 @@
 package tech.ydb.core;
 
-import tech.ydb.StatusCodesProtos.StatusIds;
+import java.util.EnumSet;
+
+import tech.ydb.proto.StatusCodesProtos.StatusIds;
 
 import static tech.ydb.core.Constants.INTERNAL_CLIENT_FIRST;
 import static tech.ydb.core.Constants.SERVER_STATUSES_FIRST;
@@ -36,16 +38,16 @@ public enum StatusCode {
     SESSION_BUSY(SERVER_STATUSES_FIRST + 190),
 
     // Client statuses
-    // Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE)
+    /** Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE) */
     TRANSPORT_UNAVAILABLE(TRANSPORT_STATUSES_FIRST + 10),
 
-    // No more resources to accept RPC call
+    /** No more resources to accept RPC call */
     CLIENT_RESOURCE_EXHAUSTED(TRANSPORT_STATUSES_FIRST + 20),
 
-    // Network layer does not receive response in given time
+    /** Network layer does not receive response in given time */
     CLIENT_DEADLINE_EXCEEDED(TRANSPORT_STATUSES_FIRST + 30),
 
-    // Unknown client error
+    /** Unknown client error */
     CLIENT_INTERNAL_ERROR(TRANSPORT_STATUSES_FIRST + 50),
     CLIENT_CANCELLED(TRANSPORT_STATUSES_FIRST + 60),
     CLIENT_UNAUTHENTICATED(TRANSPORT_STATUSES_FIRST + 70),
@@ -55,8 +57,24 @@ public enum StatusCode {
     CLIENT_DISCOVERY_FAILED(INTERNAL_CLIENT_FIRST + 10),
     CLIENT_LIMITS_REACHED(INTERNAL_CLIENT_FIRST + 20),
 
-    // Deadline expired before request was sent to server
+    /** Deadline expired before request was sent to server */
     CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30);
+
+    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
+            ABORTED,
+            UNAVAILABLE,
+            OVERLOADED,
+            CLIENT_RESOURCE_EXHAUSTED,
+            BAD_SESSION,
+            SESSION_BUSY
+    );
+
+    private static final EnumSet<StatusCode> IDEMPOTENT_RETRYABLE_STATUSES = EnumSet.of(
+            CLIENT_CANCELLED,
+            CLIENT_INTERNAL_ERROR,
+            UNDETERMINED,
+            TRANSPORT_UNAVAILABLE
+    );
 
     private final int code;
 
@@ -70,6 +88,24 @@ public enum StatusCode {
 
     public boolean isTransportError() {
         return code >= TRANSPORT_STATUSES_FIRST && code <= TRANSPORT_STATUSES_LAST;
+    }
+
+    public boolean isRetryable(boolean isOperationIdempotent, boolean retryNotFound) {
+        if (RETRYABLE_STATUSES.contains(this)) {
+            return true;
+        }
+        switch (this) {
+            case NOT_FOUND:
+                return retryNotFound;
+            case CLIENT_CANCELLED:
+            case CLIENT_INTERNAL_ERROR:
+            case UNDETERMINED:
+            case TRANSPORT_UNAVAILABLE:
+                return isOperationIdempotent;
+            default:
+                break;
+        }
+        return false;
     }
 
     public static StatusCode fromProto(StatusIds.StatusCode code) {
@@ -96,5 +132,18 @@ public enum StatusCode {
             default:
                 return UNUSED_STATUS;
         }
+    }
+
+    public boolean isRetryable(boolean idempotent) {
+        return RETRYABLE_STATUSES.contains(this) || (idempotent && IDEMPOTENT_RETRYABLE_STATUSES.contains(this));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(name());
+        if (this != SUCCESS) {
+            sb = sb.append("(code=").append(code).append(")");
+        }
+        return sb.toString();
     }
 }

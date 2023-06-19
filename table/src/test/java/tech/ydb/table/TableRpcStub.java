@@ -1,48 +1,53 @@
 package tech.ydb.table;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.grpc.EndpointInfo;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
+import tech.ydb.core.impl.call.EmptyStream;
 import tech.ydb.core.utils.Async;
+import tech.ydb.proto.table.YdbTable;
+import tech.ydb.proto.table.YdbTable.AlterTableRequest;
+import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
+import tech.ydb.proto.table.YdbTable.BeginTransactionResult;
+import tech.ydb.proto.table.YdbTable.CommitTransactionRequest;
+import tech.ydb.proto.table.YdbTable.CopyTableRequest;
+import tech.ydb.proto.table.YdbTable.CopyTablesRequest;
+import tech.ydb.proto.table.YdbTable.CreateSessionRequest;
+import tech.ydb.proto.table.YdbTable.CreateSessionResult;
+import tech.ydb.proto.table.YdbTable.CreateTableRequest;
+import tech.ydb.proto.table.YdbTable.DeleteSessionRequest;
+import tech.ydb.proto.table.YdbTable.DescribeTableRequest;
+import tech.ydb.proto.table.YdbTable.DescribeTableResult;
+import tech.ydb.proto.table.YdbTable.DropTableRequest;
+import tech.ydb.proto.table.YdbTable.ExecuteDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExecuteQueryResult;
+import tech.ydb.proto.table.YdbTable.ExecuteSchemeQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExplainDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExplainQueryResult;
+import tech.ydb.proto.table.YdbTable.KeepAliveRequest;
+import tech.ydb.proto.table.YdbTable.KeepAliveResult;
+import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
+import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.rpc.TableRpc;
-
-import static tech.ydb.table.YdbTable.AlterTableRequest;
-import static tech.ydb.table.YdbTable.BeginTransactionRequest;
-import static tech.ydb.table.YdbTable.BeginTransactionResult;
-import static tech.ydb.table.YdbTable.CommitTransactionRequest;
-import static tech.ydb.table.YdbTable.CopyTableRequest;
-import static tech.ydb.table.YdbTable.CreateSessionRequest;
-import static tech.ydb.table.YdbTable.CreateSessionResult;
-import static tech.ydb.table.YdbTable.CreateTableRequest;
-import static tech.ydb.table.YdbTable.DeleteSessionRequest;
-import static tech.ydb.table.YdbTable.DescribeTableRequest;
-import static tech.ydb.table.YdbTable.DescribeTableResult;
-import static tech.ydb.table.YdbTable.DropTableRequest;
-import static tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
-import static tech.ydb.table.YdbTable.ExecuteQueryResult;
-import static tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
-import static tech.ydb.table.YdbTable.ExplainDataQueryRequest;
-import static tech.ydb.table.YdbTable.ExplainQueryResult;
-import static tech.ydb.table.YdbTable.KeepAliveRequest;
-import static tech.ydb.table.YdbTable.KeepAliveResult;
-import static tech.ydb.table.YdbTable.PrepareDataQueryRequest;
-import static tech.ydb.table.YdbTable.PrepareQueryResult;
-import static tech.ydb.table.YdbTable.ReadTableRequest;
-import static tech.ydb.table.YdbTable.ReadTableResponse;
-import static tech.ydb.table.YdbTable.RollbackTransactionRequest;
 
 
 /**
  * @author Sergey Polovko
  */
 public class TableRpcStub implements TableRpc {
+    private final ScheduledExecutorService scheduler;
+
+    public TableRpcStub(ScheduledExecutorService scheduler) {
+        this.scheduler = scheduler;
+    }
+
     @Override
     public CompletableFuture<Result<CreateSessionResult>> createSession(CreateSessionRequest request,
                                                                           GrpcRequestSettings settings) {
@@ -83,6 +88,12 @@ public class TableRpcStub implements TableRpc {
     public CompletableFuture<Status> copyTable(CopyTableRequest request,
                                                                   GrpcRequestSettings settings) {
         return notImplemented("copyTable()");
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTables(CopyTablesRequest request,
+                                                                  GrpcRequestSettings settings) {
+        return notImplemented("copyTables()");
     }
 
     @Override
@@ -134,19 +145,19 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public StreamControl streamReadTable(ReadTableRequest request, StreamObserver<ReadTableResponse> observer,
-                                         GrpcRequestSettings settings) {
+    public GrpcReadStream<YdbTable.ReadTableResponse> streamReadTable(
+            YdbTable.ReadTableRequest request, GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamReadTable() is not implemented", Issue.Severity.ERROR);
-        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
-        return () -> {};
+        Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
+        return new EmptyStream<>(status);
     }
 
     @Override
-    public StreamControl streamExecuteScanQuery(YdbTable.ExecuteScanQueryRequest request,
-            StreamObserver<YdbTable.ExecuteScanQueryPartialResponse> observer, GrpcRequestSettings settings) {
+    public GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
+            YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings) {
         Issue issue = Issue.of("streamExecuteScanQuery() is not implemented", Issue.Severity.ERROR);
-        observer.onError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
-        return () -> {};
+        Status status = Status.of(StatusCode.CLIENT_INTERNAL_ERROR).withIssues(issue);
+        return new EmptyStream<>(status);
     }
 
     @Override
@@ -161,13 +172,13 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public void close() {
-        // nop
+    public ScheduledExecutorService getScheduler() {
+        return scheduler;
     }
 
     @Override
-    public EndpointInfo getEndpointBySessionId(String sessionId) {
-        return null;
+    public void close() {
+        // nop
     }
 
     private static <U> CompletableFuture<U> notImplemented(String method) {

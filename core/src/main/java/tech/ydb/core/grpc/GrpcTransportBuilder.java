@@ -3,8 +3,10 @@ package tech.ydb.core.grpc;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -12,12 +14,15 @@ import javax.annotation.Nullable;
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
-import io.grpc.netty.NettyChannelBuilder;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 
-import tech.ydb.core.auth.AuthProvider;
-import tech.ydb.core.auth.NopAuthProvider;
-import tech.ydb.core.grpc.impl.YdbTransportImpl;
+import tech.ydb.auth.AuthRpcProvider;
+import tech.ydb.auth.NopAuthProvider;
+import tech.ydb.core.impl.YdbSchedulerFactory;
+import tech.ydb.core.impl.YdbTransportImpl;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
 import tech.ydb.core.utils.Version;
+
 
 /**
  *
@@ -31,22 +36,26 @@ public class GrpcTransportBuilder {
     private byte[] cert = null;
     private boolean useTLS = false;
     private Consumer<NettyChannelBuilder> channelInitializer = null;
+    private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
     private String localDc;
-    private Duration endpointsDiscoveryPeriod = Duration.ofSeconds(60);
     private BalancingSettings balancingSettings;
     private Executor callExecutor = MoreExecutors.directExecutor();
-    private AuthProvider authProvider = NopAuthProvider.INSTANCE;
+    private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
+    private long connectTimeoutMillis = 5000;
+    private boolean useDefaultGrpcResolver = false;
+    private GrpcCompression compression = GrpcCompression.NO_COMPRESSION;
 
     /**
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
      */
-    private boolean enableRetry = false;
+    private boolean grpcRetry = false;
 
     GrpcTransportBuilder(@Nullable String endpoint, @Nullable HostAndPort host, @Nonnull String database) {
         this.endpoint = endpoint;
         this.host = host;
         this.database = Objects.requireNonNull(database);
+        this.useTLS = endpoint != null && endpoint.startsWith("grpcs://");
     }
 
     @Nullable
@@ -68,11 +77,6 @@ public class GrpcTransportBuilder {
         return endpoint;
     }
 
-    public Duration getEndpointsDiscoveryPeriod() {
-        return endpointsDiscoveryPeriod;
-    }
-
-    @Nullable
     public String getDatabase() {
         return database;
     }
@@ -87,6 +91,10 @@ public class GrpcTransportBuilder {
         return channelInitializer;
     }
 
+    public Supplier<ScheduledExecutorService> getSchedulerFactory() {
+        return schedulerFactory;
+    }
+
     public String getLocalDc() {
         return localDc;
     }
@@ -99,7 +107,7 @@ public class GrpcTransportBuilder {
         return callExecutor;
     }
 
-    public AuthProvider getAuthProvider() {
+    public AuthRpcProvider<? super GrpcAuthRpc> getAuthProvider() {
         return authProvider;
     }
 
@@ -107,8 +115,20 @@ public class GrpcTransportBuilder {
         return readTimeoutMillis;
     }
 
+    public long getConnectTimeoutMillis() {
+        return connectTimeoutMillis;
+    }
+
+    public GrpcCompression getGrpcCompression() {
+        return compression;
+    }
+
     public boolean isEnableRetry() {
-        return enableRetry;
+        return grpcRetry;
+    }
+
+    public boolean useDefaultGrpcResolver() {
+        return useDefaultGrpcResolver;
     }
 
     public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
@@ -116,13 +136,15 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    /**
+     * use {@link GrpcTransportBuilder#withBalancingSettings(tech.ydb.core.grpc.BalancingSettings) } instead
+     * @param dc preferable location
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder withLocalDataCenter(String dc) {
         this.localDc = dc;
-        return this;
-    }
-
-    public GrpcTransportBuilder withEndpointsDiscoveryPeriod(Duration period) {
-        this.endpointsDiscoveryPeriod = period;
         return this;
     }
 
@@ -142,20 +164,58 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    public GrpcTransportBuilder withAuthProvider(AuthProvider authProvider) {
+    public GrpcTransportBuilder withAuthProvider(AuthRpcProvider<? super GrpcAuthRpc> authProvider) {
         this.authProvider = Objects.requireNonNull(authProvider);
         return this;
     }
 
+    /**
+     * Sets the compression to use for the calls. See {@link io.grpc.CallOptions#withCompression(java.lang.String) }
+     * for details
+     * @param compression the compression value
+     * @return return GrpcTransportBuilder with the given compression
+     */
+    public GrpcTransportBuilder withGrpcCompression(@Nonnull GrpcCompression compression) {
+        this.compression = Objects.requireNonNull(compression, "compression is null");
+        return this;
+    }
+
+    /**
+     * use tech.ydb.table.settings.RequestSettings#setTimeout(java.time.Duration) instead
+     * @param timeout global timeout for grpc calls
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder withReadTimeout(Duration timeout) {
         this.readTimeoutMillis = timeout.toMillis();
         Preconditions.checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
         return this;
     }
 
+    /**
+     * use tech.ydb.table.settings.RequestSettings#setTimeout(long, java.time.TimeUnit) instead
+     * @param timeout size of global timeout for grpc calls
+     * @param unit time unit of global timeout for grpc calls
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder withReadTimeout(long timeout, TimeUnit unit) {
         this.readTimeoutMillis = unit.toMillis(timeout);
         Preconditions.checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
+        return this;
+    }
+
+    public GrpcTransportBuilder withConnectTimeout(Duration timeout) {
+        this.connectTimeoutMillis = timeout.toMillis();
+        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
+        return this;
+    }
+
+    public GrpcTransportBuilder withConnectTimeout(long timeout, TimeUnit unit) {
+        this.connectTimeoutMillis = unit.toMillis(timeout);
+        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
         return this;
     }
 
@@ -164,13 +224,40 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    public GrpcTransportBuilder enableRetry() {
-        this.enableRetry = true;
+    public GrpcTransportBuilder withGrpcRetry(boolean enabled) {
+        this.grpcRetry = enabled;
         return this;
     }
 
+    public GrpcTransportBuilder withUseDefaultGrpcResolver(boolean use) {
+        this.useDefaultGrpcResolver = use;
+        return this;
+    }
+
+    public GrpcTransportBuilder withSchedulerFactory(Supplier<ScheduledExecutorService> factory) {
+        this.schedulerFactory = Objects.requireNonNull(factory, "schedulerFactory is null");
+        return this;
+    }
+
+    /**
+     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
+    public GrpcTransportBuilder enableRetry() {
+        this.grpcRetry = true;
+        return this;
+    }
+
+    /**
+     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder disableRetry() {
-        this.enableRetry = false;
+        this.grpcRetry = false;
         return this;
     }
 

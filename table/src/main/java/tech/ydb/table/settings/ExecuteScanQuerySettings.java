@@ -1,42 +1,27 @@
 package tech.ydb.table.settings;
 
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
+import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.proto.table.YdbTable;
 
-import tech.ydb.table.YdbTable;
 
-import static tech.ydb.table.YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
-import static tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;
-
-public class ExecuteScanQuerySettings {
+public class ExecuteScanQuerySettings extends BaseRequestSettings {
     private final YdbTable.ExecuteScanQueryRequest.Mode mode;
-    private final long timeoutNanos;
     private final YdbTable.QueryStatsCollection.Mode collectStats;
 
-    public ExecuteScanQuerySettings(Builder b) {
-        this.timeoutNanos = b.timeoutNanos;
-        this.mode = b.mode;
-        this.collectStats = b.collectStats;
+    public ExecuteScanQuerySettings(Builder builder) {
+        super(builder);
+        this.mode = builder.mode;
+        this.collectStats = builder.collectStats;
     }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
-    public static final class Builder {
-        private long timeoutNanos = Duration.ofSeconds(60).toNanos();
-        private YdbTable.ExecuteScanQueryRequest.Mode mode = MODE_EXEC;
-        private YdbTable.QueryStatsCollection.Mode collectStats = STATS_COLLECTION_NONE;
-
-        public Builder timeout(long duration, TimeUnit unit) {
-            this.timeoutNanos = unit.toNanos(duration);
-            return this;
-        }
-
-        public Builder timeout(Duration duration) {
-            this.timeoutNanos = duration.toNanos();
-            return this;
-        }
+    public static final class Builder extends BaseBuilder<Builder> {
+        private YdbTable.ExecuteScanQueryRequest.Mode mode = YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
+        private YdbTable.QueryStatsCollection.Mode collectStats = YdbTable.QueryStatsCollection.Mode.
+                STATS_COLLECTION_NONE;
 
         public Builder mode(YdbTable.ExecuteScanQueryRequest.Mode mode) {
             this.mode = mode;
@@ -48,15 +33,12 @@ public class ExecuteScanQuerySettings {
             return this;
         }
 
+        @Override
         public ExecuteScanQuerySettings build() {
             return new ExecuteScanQuerySettings(this);
         }
     }
 
-
-    public long getDeadlineAfter() {
-        return System.nanoTime() + timeoutNanos;
-    }
 
     public YdbTable.ExecuteScanQueryRequest.Mode getMode() {
         return mode;

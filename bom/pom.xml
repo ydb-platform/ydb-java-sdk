@@ -1,0 +1,89 @@
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>tech.ydb</groupId>
+    <version>2.1.0</version>
+    <artifactId>ydb-sdk-bom</artifactId>
+    <name>Java SDK Bill of Materials</name>
+    <description>Java SDK Bill of Materials (BOM)</description>
+    <packaging>pom</packaging>
+
+    <properties>
+        <ydb-auth-api.version>1.0.0</ydb-auth-api.version>
+        <ydb-proto-api.version>1.4.0</ydb-proto-api.version>
+        <yc-auth.version>2.1.0</yc-auth.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-proto-api</artifactId>
+                <version>${ydb-proto-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-auth-api</artifactId>
+                <version>${ydb-auth-api.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-sdk-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-sdk-table</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-sdk-scheme</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-sdk-topic</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-sdk-coordination</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>tech.ydb.test</groupId>
+                <artifactId>ydb-tests-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb.test</groupId>
+                <artifactId>ydb-junit4-support</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb.test</groupId>
+                <artifactId>ydb-junit5-support</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>tech.ydb.auth</groupId>
+                <artifactId>yc-auth-provider</artifactId>
+                <version>${yc-auth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb.auth</groupId>
+                <artifactId>yc-auth-provider-shaded</artifactId>
+                <version>${yc-auth.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

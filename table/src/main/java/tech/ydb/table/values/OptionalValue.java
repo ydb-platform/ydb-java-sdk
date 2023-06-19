@@ -6,7 +6,7 @@ import java.util.Objects;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
-import tech.ydb.ValueProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -18,14 +18,14 @@ public class OptionalValue implements Value<OptionalType> {
 
     private final OptionalType type;
     @Nullable
-    private final Value value;
+    private final Value<?> value;
 
-    OptionalValue(OptionalType type, @Nullable Value value) {
+    OptionalValue(OptionalType type, @Nullable Value<?> value) {
         this.type = type;
         this.value = value;
     }
 
-    public static OptionalValue of(Value value) {
+    public static OptionalValue of(Value<?> value) {
         return new OptionalValue(
             OptionalType.of(value.getType()),
             Objects.requireNonNull(value, "value"));
@@ -35,14 +35,14 @@ public class OptionalValue implements Value<OptionalType> {
         return value != null;
     }
 
-    public Value get() {
+    public Value<?> get() {
         if (value == null) {
             throw new NoSuchElementException("No value present");
         }
         return value;
     }
 
-    public Value orElse(Value other) {
+    public Value<?> orElse(Value<?> other) {
         return value != null ? value : other;
     }
 
@@ -88,7 +88,9 @@ public class OptionalValue implements Value<OptionalType> {
     public ValueProtos.Value toPb() {
         if (isPresent()) {
             ValueProtos.Value pb = get().toPb();
-            return ProtoValue.optional(pb);
+            boolean implicit = type.getItemType().getKind() == Type.Kind.PRIMITIVE
+                    || type.getItemType().getKind() == Type.Kind.DECIMAL;
+            return implicit ? pb : ProtoValue.optional(pb);
         }
 
         return ProtoValue.optional();

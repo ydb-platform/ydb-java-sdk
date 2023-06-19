@@ -1,30 +1,12 @@
 package tech.ydb.core.auth;
 
 /**
- * @author Sergey Polovko
+ * @deprecated
+ * Use {@link tech.ydb.auth.TokenAuthProvider} instead.
  */
-public class TokenAuthProvider implements AuthProvider {
-    private final TokenIdentity identity;
-
+@Deprecated
+public class TokenAuthProvider extends tech.ydb.auth.TokenAuthProvider {
     public TokenAuthProvider(String token) {
-        this.identity = new TokenIdentity(token);
-    }
-
-    @Override
-    public AuthIdentity createAuthIdentity(AuthRpc rpc) {
-        return identity;
-    }
-
-    private static final class TokenIdentity implements AuthIdentity {
-        private final String token;
-
-        private TokenIdentity(String token) {
-            this.token = token;
-        }
-
-        @Override
-        public String getToken() {
-            return token;
-        }
+        super(token);
     }
 }

@@ -1,6 +1,6 @@
 package tech.ydb.table.query;
 
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 
 /**
  * @author Sergey Polovko

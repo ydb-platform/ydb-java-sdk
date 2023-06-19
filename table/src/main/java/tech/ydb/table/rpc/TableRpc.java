@@ -1,58 +1,54 @@
 package tech.ydb.table.rpc;
 
 import java.util.concurrent.CompletableFuture;
-
-import javax.annotation.Nullable;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.EndpointInfo;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.rpc.Rpc;
-import tech.ydb.core.rpc.StreamControl;
-import tech.ydb.core.rpc.StreamObserver;
-import tech.ydb.table.YdbTable.AlterTableRequest;
-import tech.ydb.table.YdbTable.BeginTransactionRequest;
-import tech.ydb.table.YdbTable.BeginTransactionResult;
-import tech.ydb.table.YdbTable.BulkUpsertRequest;
-import tech.ydb.table.YdbTable.CommitTransactionRequest;
-import tech.ydb.table.YdbTable.CopyTableRequest;
-import tech.ydb.table.YdbTable.CreateSessionRequest;
-import tech.ydb.table.YdbTable.CreateSessionResult;
-import tech.ydb.table.YdbTable.CreateTableRequest;
-import tech.ydb.table.YdbTable.DeleteSessionRequest;
-import tech.ydb.table.YdbTable.DescribeTableRequest;
-import tech.ydb.table.YdbTable.DescribeTableResult;
-import tech.ydb.table.YdbTable.DropTableRequest;
-import tech.ydb.table.YdbTable.ExecuteDataQueryRequest;
-import tech.ydb.table.YdbTable.ExecuteQueryResult;
-import tech.ydb.table.YdbTable.ExecuteScanQueryPartialResponse;
-import tech.ydb.table.YdbTable.ExecuteScanQueryRequest;
-import tech.ydb.table.YdbTable.ExecuteSchemeQueryRequest;
-import tech.ydb.table.YdbTable.ExplainDataQueryRequest;
-import tech.ydb.table.YdbTable.ExplainQueryResult;
-import tech.ydb.table.YdbTable.KeepAliveRequest;
-import tech.ydb.table.YdbTable.KeepAliveResult;
-import tech.ydb.table.YdbTable.PrepareDataQueryRequest;
-import tech.ydb.table.YdbTable.PrepareQueryResult;
-import tech.ydb.table.YdbTable.ReadTableRequest;
-import tech.ydb.table.YdbTable.ReadTableResponse;
-import tech.ydb.table.YdbTable.RollbackTransactionRequest;
+import tech.ydb.proto.table.YdbTable.AlterTableRequest;
+import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
+import tech.ydb.proto.table.YdbTable.BeginTransactionResult;
+import tech.ydb.proto.table.YdbTable.BulkUpsertRequest;
+import tech.ydb.proto.table.YdbTable.CommitTransactionRequest;
+import tech.ydb.proto.table.YdbTable.CopyTableRequest;
+import tech.ydb.proto.table.YdbTable.CopyTablesRequest;
+import tech.ydb.proto.table.YdbTable.CreateSessionRequest;
+import tech.ydb.proto.table.YdbTable.CreateSessionResult;
+import tech.ydb.proto.table.YdbTable.CreateTableRequest;
+import tech.ydb.proto.table.YdbTable.DeleteSessionRequest;
+import tech.ydb.proto.table.YdbTable.DescribeTableRequest;
+import tech.ydb.proto.table.YdbTable.DescribeTableResult;
+import tech.ydb.proto.table.YdbTable.DropTableRequest;
+import tech.ydb.proto.table.YdbTable.ExecuteDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExecuteQueryResult;
+import tech.ydb.proto.table.YdbTable.ExecuteScanQueryPartialResponse;
+import tech.ydb.proto.table.YdbTable.ExecuteScanQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExecuteSchemeQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExplainDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.ExplainQueryResult;
+import tech.ydb.proto.table.YdbTable.KeepAliveRequest;
+import tech.ydb.proto.table.YdbTable.KeepAliveResult;
+import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
+import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
+import tech.ydb.proto.table.YdbTable.ReadTableRequest;
+import tech.ydb.proto.table.YdbTable.ReadTableResponse;
+import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 
 
 /**
  * @author Sergey Polovko
  */
-public interface TableRpc extends Rpc {
+public interface TableRpc extends AutoCloseable {
 
-    /**
-     * Returns endpoint (host:port) for corresponding session id.
-     * Returns null if there is no such session id.
-     * @param sessionId session id
-     * @return endpoint associated with the session
-     */
-    @Nullable
-    EndpointInfo getEndpointBySessionId(String sessionId);
+    String getDatabase();
+
+    ScheduledExecutorService getScheduler();
+
+    @Override
+    void close();
+
 
     /**
      * Create new session. Implicit session creation is forbidden, so user must create new session
@@ -114,6 +110,14 @@ public interface TableRpc extends Rpc {
      * @return completable future with status of operation
      */
     CompletableFuture<Status> copyTable(CopyTableRequest request, GrpcRequestSettings settings);
+
+    /**
+     * Creates consistent copies of the given tables.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with status of operation
+     */
+    CompletableFuture<Status> copyTables(CopyTablesRequest request, GrpcRequestSettings settings);
 
     /**
      * Returns information about given table (metadata).
@@ -194,23 +198,18 @@ public interface TableRpc extends Rpc {
     /**
      * Streaming read table.
      * @param request request proto
-     * @param observer consumer of streaming data
      * @param settings rpc call settings
-     * @return StreamControl object that allows to cancel the stream
+     * @return GrpcReadStream object that allows to start and cancel the stream
      */
-    StreamControl streamReadTable(ReadTableRequest request,
-            StreamObserver<ReadTableResponse> observer,
-            GrpcRequestSettings settings);
+    GrpcReadStream<ReadTableResponse> streamReadTable(ReadTableRequest request, GrpcRequestSettings settings);
 
     /**
      * Streaming execute scan query.
      * @param request request proto
-     * @param observer consumer of streaming data
      * @param settings rpc call settings
-     * @return StreamControl object that allows to cancel the stream
+     * @return GrpcReadStream object that allows to start and  cancel the stream
      */
-    StreamControl streamExecuteScanQuery(ExecuteScanQueryRequest request,
-            StreamObserver<ExecuteScanQueryPartialResponse> observer,
+    GrpcReadStream<ExecuteScanQueryPartialResponse> streamExecuteScanQuery(ExecuteScanQueryRequest request,
             GrpcRequestSettings settings);
 
     /**

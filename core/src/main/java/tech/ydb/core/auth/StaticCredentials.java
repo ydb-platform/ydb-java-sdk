@@ -3,32 +3,28 @@ package tech.ydb.core.auth;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Supplier;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.auth.YdbAuth;
+import tech.ydb.auth.AuthRpcProvider;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
+import tech.ydb.proto.auth.YdbAuth;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class StaticCredentials implements AuthProvider {
+public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
     private static final Logger logger = LoggerFactory.getLogger(StaticCredentials.class);
-    private static final Supplier<ExecutorService> DEFAULT_EXECUTOR = () -> Executors
-            .newSingleThreadExecutor(r -> new Thread(r, "StaticCredsExecutor"));
 
     private final Clock clock;
     private final YdbAuth.LoginRequest request;
-    private final Supplier<ExecutorService> executorSupplier;
 
     @VisibleForTesting
-    StaticCredentials(Clock clock, String username, String password, Supplier<ExecutorService> executorSupplier) {
+    StaticCredentials(Clock clock, String username, String password) {
         this.clock = clock;
         YdbAuth.LoginRequest.Builder builder = YdbAuth.LoginRequest.newBuilder()
                 .setUser(username);
@@ -36,15 +32,14 @@ public class StaticCredentials implements AuthProvider {
             builder.setPassword(password);
         }
         this.request = builder.build();
-        this.executorSupplier = executorSupplier;
     }
 
     public StaticCredentials(String username, String password) {
-        this(Clock.systemUTC(), username, password, DEFAULT_EXECUTOR);
+        this(Clock.systemUTC(), username, password);
     }
 
     @Override
-    public AuthIdentity createAuthIdentity(AuthRpc rpc) {
+    public tech.ydb.auth.AuthIdentity createAuthIdentity(GrpcAuthRpc rpc) {
         logger.info("create static identity for database {}", rpc.getDatabase());
         return new IdentityImpl(rpc);
     }
@@ -55,12 +50,12 @@ public class StaticCredentials implements AuthProvider {
         String token();
     }
 
-    private class IdentityImpl implements AuthIdentity {
+    private class IdentityImpl implements tech.ydb.auth.AuthIdentity {
         private final AtomicReference<State> state = new AtomicReference<>(new NullState());
-        private final StaticCredentitalsRpc rpc;
+        private final StaticCredentialsRpc rpc;
 
-        IdentityImpl(AuthRpc authRpc) {
-            this.rpc = new StaticCredentitalsRpc(authRpc, request, clock, executorSupplier);
+        IdentityImpl(GrpcAuthRpc authRpc) {
+            this.rpc = new StaticCredentialsRpc(authRpc, request, clock);
         }
 
         private State updateState(State current, State next) {
@@ -73,11 +68,6 @@ public class StaticCredentials implements AuthProvider {
         @Override
         public String getToken() {
             return state.get().validate(clock.instant()).token();
-        }
-
-        @Override
-        public void close() {
-            rpc.close();
         }
 
         private class NullState implements State {
@@ -123,10 +113,10 @@ public class StaticCredentials implements AuthProvider {
         }
 
         private class BackgroundLogin implements State {
-            private final StaticCredentitalsRpc.Token token;
+            private final StaticCredentialsRpc.Token token;
             private final CompletableFuture<State> future = new CompletableFuture<>();
 
-            BackgroundLogin(StaticCredentitalsRpc.Token token) {
+            BackgroundLogin(StaticCredentialsRpc.Token token) {
                 this.token = token;
             }
 
@@ -166,9 +156,9 @@ public class StaticCredentials implements AuthProvider {
         }
 
         private class LoggedInState implements State {
-            private final StaticCredentitalsRpc.Token token;
+            private final StaticCredentialsRpc.Token token;
 
-            LoggedInState(StaticCredentitalsRpc.Token token) {
+            LoggedInState(StaticCredentialsRpc.Token token) {
                 this.token = token;
                 logger.debug("logged in with expired at {} and updating at {}", token.expiredAt(), token.updateAt());
             }

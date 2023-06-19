@@ -11,7 +11,9 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Sets;
 
+import tech.ydb.table.description.TableTtl.TtlMode;
 import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
@@ -34,6 +36,8 @@ public class TableDescription {
 
     private final List<PartitionStats> partitionStats;
 
+    private final TableTtl tableTtl;
+
     private TableDescription(Builder builder) {
         this.primaryKeys = ImmutableList.copyOf(builder.primaryKeys);
         this.columns = builder.buildColumns();
@@ -44,6 +48,7 @@ public class TableDescription {
         this.tableStats = builder.tableStats;
         this.partitioningSettings = builder.partitioningSettings;
         this.partitionStats = ImmutableList.copyOf(builder.partitionStats);
+        this.tableTtl = builder.ttlSettings;
     }
 
     public static Builder newBuilder() {
@@ -84,6 +89,10 @@ public class TableDescription {
         return keyRanges;
     }
 
+    public TableTtl getTableTtl() {
+        return tableTtl;
+    }
+
     /**
      * BUILDER
      */
@@ -98,6 +107,7 @@ public class TableDescription {
         private TableStats tableStats = null;
         private PartitioningSettings partitioningSettings = null;
         private final List<PartitionStats> partitionStats = new ArrayList<>();
+        private TableTtl ttlSettings = new TableTtl();
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
@@ -122,15 +132,6 @@ public class TableDescription {
             return this;
         }
 
-        public Builder addNotNullColumn(String name, Type type) {
-            return addNotNullColumn(name, type, null);
-        }
-
-        public Builder addNotNullColumn(String name, Type type, String family) {
-            columns.put(name, new TypeAndFamily(type, family));
-            return this;
-        }
-
         public Builder setPrimaryKey(String name) {
             checkColumnKnown(name);
             primaryKeys = ImmutableList.of(name);
@@ -142,7 +143,7 @@ public class TableDescription {
                 return setPrimaryKey(names[0]);
             }
 
-            HashSet<String> keys = new HashSet<>(names.length);
+            HashSet<String> keys = Sets.newHashSetWithExpectedSize(names.length);
             for (String name : names) {
                 checkColumnKnown(name);
                 if (!keys.add(name)) {
@@ -159,7 +160,7 @@ public class TableDescription {
                 return setPrimaryKey(names.get(0));
             }
 
-            HashSet<String> keys = new HashSet<>(names.size());
+            HashSet<String> keys = Sets.newHashSetWithExpectedSize(names.size());
             for (String name : names) {
                 checkColumnKnown(name);
                 if (!keys.add(name)) {
@@ -181,6 +182,16 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addGlobalAsyncIndex(String name, List<String> columns) {
+            indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL_ASYNC));
+            return this;
+        }
+
+        public Builder addGlobalAsyncIndex(String name, List<String> columns, List<String> dataColumns) {
+            indexes.add(new TableIndex(name, columns, dataColumns, TableIndex.Type.GLOBAL_ASYNC));
+            return this;
+        }
+
         public Builder setTableStats(TableStats tableStats) {
             this.tableStats = tableStats;
             return this;
@@ -198,6 +209,11 @@ public class TableDescription {
 
         public Builder addPartitionStat(long rows, long size) {
             this.partitionStats.add(new PartitionStats(rows, size));
+            return this;
+        }
+
+        public Builder setTtlSettings(int ttlModeCase, String columnName, int expireAfterSeconds) {
+            this.ttlSettings = new TableTtl(TtlMode.forCase(ttlModeCase), columnName, expireAfterSeconds);
             return this;
         }
 
@@ -264,7 +280,7 @@ public class TableDescription {
         private final long storeSize;
 
         public TableStats(@Nullable Instant creationTime, @Nullable Instant modificationTime,
-                long rowsEstimate, long storeSize) {
+                          long rowsEstimate, long storeSize) {
             this.creationTime = creationTime;
             this.modificationTime = modificationTime;
             this.rowsEstimate = rowsEstimate;

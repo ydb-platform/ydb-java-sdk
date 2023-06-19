@@ -2,9 +2,9 @@ package tech.ydb.table.settings;
 
 import javax.annotation.Nonnull;
 
-import tech.ydb.table.YdbTable;
+import tech.ydb.proto.table.YdbTable;
 
-import static tech.ydb.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;
+import static tech.ydb.proto.table.YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;
 
 /**
  * @author Sergey Polovko

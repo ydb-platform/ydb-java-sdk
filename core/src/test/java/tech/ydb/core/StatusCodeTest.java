@@ -3,10 +3,10 @@ package tech.ydb.core;
 import java.util.HashSet;
 import java.util.Set;
 
-import tech.ydb.StatusCodesProtos.StatusIds;
-
 import org.junit.Assert;
 import org.junit.Test;
+
+import tech.ydb.proto.StatusCodesProtos.StatusIds;
 
 
 /**

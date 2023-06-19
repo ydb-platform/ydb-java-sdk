@@ -3,18 +3,18 @@ package tech.ydb.table.description;
 import tech.ydb.table.values.Value;
 
 public class KeyBound {
-    private final Value value;
+    private final Value<?> value;
     private final boolean inclusive;
 
     public KeyBound(
-            Value value,
+            Value<?> value,
             boolean inclusive
     ) {
         this.value = value;
         this.inclusive = inclusive;
     }
 
-    public Value getValue() {
+    public Value<?> getValue() {
         return value;
     }
 
@@ -22,11 +22,11 @@ public class KeyBound {
         return inclusive;
     }
 
-    public static KeyBound inclusive(Value value) {
+    public static KeyBound inclusive(Value<?> value) {
         return new KeyBound(value, true);
     }
 
-    public static KeyBound exclusive(Value value) {
+    public static KeyBound exclusive(Value<?> value) {
         return new KeyBound(value, false);
     }
 }

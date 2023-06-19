@@ -1,10 +1,10 @@
 package tech.ydb.table.transaction;
 
-import tech.ydb.table.YdbTable.OnlineModeSettings;
-import tech.ydb.table.YdbTable.SerializableModeSettings;
-import tech.ydb.table.YdbTable.StaleModeSettings;
-import tech.ydb.table.YdbTable.TransactionControl;
-import tech.ydb.table.YdbTable.TransactionSettings;
+import tech.ydb.proto.table.YdbTable.OnlineModeSettings;
+import tech.ydb.proto.table.YdbTable.SerializableModeSettings;
+import tech.ydb.proto.table.YdbTable.StaleModeSettings;
+import tech.ydb.proto.table.YdbTable.TransactionControl;
+import tech.ydb.proto.table.YdbTable.TransactionSettings;
 
 import com.google.common.truth.Truth;
 import com.google.common.truth.extensions.proto.ProtoTruth;

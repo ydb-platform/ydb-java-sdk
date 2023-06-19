@@ -9,13 +9,15 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.impl.BaseSession;
@@ -35,12 +37,11 @@ public class SessionPool implements AutoCloseable {
     private final WaitingQueue<ClosableSession> queue;
     private final ScheduledFuture<?> keepAliveFuture;
 
-    public SessionPool(ScheduledExecutorService scheduler, Clock clock,
-            TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
+    public SessionPool(Clock clock, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
         this.minSize = options.getMinSize();
 
         this.clock = clock;
-        this.scheduler = scheduler;
+        this.scheduler = rpc.getScheduler();
         this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
 
         KeepAliveTask keepAlive = new KeepAliveTask(options);
@@ -104,11 +105,9 @@ public class SessionPool implements AutoCloseable {
         nextSession.whenComplete((session, th) -> {
             if (th != null) {
                 if (future.isDone() || future.isCancelled()) {
-                    logger.warn("can't get session, future is already canceled", th.getMessage());
-                    future.completeExceptionally(th);
-                } else {
-                    future.completeExceptionally(th);
+                    logger.warn("can't get session, future is already canceled", th);
                 }
+                future.completeExceptionally(th);
             }
             if (session != null) {
                 validateSession(session, future);
@@ -291,7 +290,9 @@ public class SessionPool implements AutoCloseable {
         @Override
         public void run() {
             if (f != null && !f.isDone()) {
-                f.completeExceptionally(new TimeoutException("deadline was expired"));
+                f.completeExceptionally(new UnexpectedResultException(
+                        "session acquire deadline was expired", Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED)
+                ));
             }
         }
     }

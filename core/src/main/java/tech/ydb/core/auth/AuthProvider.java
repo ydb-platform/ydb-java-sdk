@@ -1,9 +1,13 @@
 package tech.ydb.core.auth;
 
+import tech.ydb.auth.AuthRpcProvider;
+
 /**
- *
- * @author Aleksandr Gorshenin
+ * @deprecated
+ * Use {@link tech.ydb.auth.AuthProvider} instead.
  */
-public interface AuthProvider {
+@Deprecated
+public interface AuthProvider extends AuthRpcProvider<AuthRpc> {
+    @Override
     AuthIdentity createAuthIdentity(AuthRpc rpc);
 }

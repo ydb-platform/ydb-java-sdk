@@ -4,22 +4,38 @@ package tech.ydb.core.grpc;
  * @author Nikolay Perfilov
  */
 public class BalancingSettings {
-    public static final BalancingPolicy DEFAULT_BALANCING_POLICY = BalancingPolicy.USE_ALL_NODES;
+    public enum Policy {
+        /**
+         * Use all available cluster nodes regardless datacenter locality
+         */
+        USE_ALL_NODES,
 
-    private final BalancingPolicy policy;
+        /**
+         * Use preferable location (data center),
+         * preferableLocation is a name of location (VLA, MYT, SAS, MAN).
+         * If preferableLocation is not set local datacenter is used (not recommended)
+         */
+        USE_PREFERABLE_LOCATION,
+
+        /**
+         * Detecting of local DC by the latency measuring
+         */
+        USE_DETECT_LOCAL_DC,
+    }
+
+    private final Policy policy;
     private final String preferableLocation;
 
-    public BalancingSettings(BalancingPolicy policy, String preferableLocation) {
+    private BalancingSettings(Policy policy) {
+        this(policy, null);
+    }
+
+    private BalancingSettings(Policy policy, String preferableLocation) {
         this.policy = policy;
         this.preferableLocation = preferableLocation;
     }
 
-    public BalancingSettings() {
-        this.policy = DEFAULT_BALANCING_POLICY;
-        this.preferableLocation = null;
-    }
-
-    public BalancingPolicy getPolicy() {
+    public Policy getPolicy() {
         return policy;
     }
 
@@ -27,19 +43,27 @@ public class BalancingSettings {
         return preferableLocation;
     }
 
-    public static BalancingSettings fromPolicy(BalancingPolicy balancingPolicy) {
-        return new BalancingSettings(balancingPolicy, null);
+    public static BalancingSettings defaultInstance() {
+        return new BalancingSettings(Policy.USE_ALL_NODES);
+    }
+
+    public static BalancingSettings fromPolicy(Policy balancingPolicy) {
+        return new BalancingSettings(balancingPolicy);
     }
 
     public static BalancingSettings fromLocation(String preferableLocation) {
-        return new BalancingSettings(BalancingPolicy.USE_PREFERABLE_LOCATION, preferableLocation);
+        return new BalancingSettings(Policy.USE_PREFERABLE_LOCATION, preferableLocation);
+    }
+
+    public static BalancingSettings detectLocalDs() {
+        return new BalancingSettings(Policy.USE_DETECT_LOCAL_DC);
     }
 
     @Override
     public String toString() {
         return "BalancingSettings{" +
                 "policy=" + policy +
-                ", preferableLocation='" + preferableLocation + '\'' +
+                ", preferableLocation='" + preferableLocation +
                 '}';
     }
 }
