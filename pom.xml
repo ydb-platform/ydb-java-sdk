@@ -16,7 +16,6 @@
 
     <modules>
         <module>bom</module>
-        <module>auth-api</module>
         <module>core</module>
         <module>table</module>
         <module>scheme</module>
@@ -255,6 +254,13 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>with-auth-api</id>
+            <modules>
+                <module>auth-api</module>
+            </modules>
         </profile>
 
         <profile>
