@@ -44,9 +44,9 @@ public class CredentialsAuthProviderTest {
     }
 
     @Test
-    public void credentitalsTest() {
+    public void credentialsTest() {
         String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
-        Status unauhtorized = Status.of(StatusCode.UNAUTHORIZED);
+        Status unauthorized = Status.of(StatusCode.UNAUTHORIZED);
 
         Mockito.when(clock.instant()).thenReturn(now);
 
@@ -64,7 +64,7 @@ public class CredentialsAuthProviderTest {
                 Mockito.argThat(
                         req -> !req.getUser().equals("user") || !req.getPassword().equals("pass1")
                 )
-        )).thenReturn(CompletableFuture.completedFuture(Result.fail(unauhtorized)));
+        )).thenReturn(CompletableFuture.completedFuture(Result.fail(unauthorized)));
 
         // With correct credentitals
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass1")) {
@@ -78,7 +78,7 @@ public class CredentialsAuthProviderTest {
                     UnexpectedResultException.class,
                     () -> identity.getToken()
             );
-            Truth.assertThat(ex.getStatus()).isEqualTo(unauhtorized);
+            Truth.assertThat(ex.getStatus()).isEqualTo(unauthorized);
 
             UnexpectedResultException ex2 = Assert.assertThrows(
                     UnexpectedResultException.class,
@@ -110,7 +110,7 @@ public class CredentialsAuthProviderTest {
                 .thenReturn(failedFuture(new RuntimeException("error2")))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
 
-        // With any credentitals
+        // With any credentials
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", null)) {
             Truth.assertThat(identity.getToken()).isEqualTo(token);
             Truth.assertThat(identity.getToken()).isEqualTo(token);
@@ -125,7 +125,7 @@ public class CredentialsAuthProviderTest {
                 .thenReturn(CompletableFuture.completedFuture(Result.fail(overloaded)))
                 .thenReturn(CompletableFuture.completedFuture(Result.success(responseOk(token))));
 
-        // With any credentitals
+        // With any credentials
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", null)) {
             UnexpectedResultException ex = Assert.assertThrows(
                     UnexpectedResultException.class,
@@ -201,7 +201,7 @@ public class CredentialsAuthProviderTest {
         Truth.assertThat(identity.getToken()).isEqualTo(token1);
 
         Mockito.when(clock.instant()).thenReturn(secondHour.plusMillis(1));
-        // token1 is alredy expired, use sync request to new token
+        // token1 is already expired, use sync request to new token
         Truth.assertThat(identity.getToken()).isEqualTo(token2);
 
         identity.close();

@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Issue;
-import tech.ydb.core.Operations;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -28,6 +27,7 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
+import tech.ydb.core.operation.OperationUtils;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.ValueProtos;
@@ -135,7 +135,7 @@ public abstract class BaseSession implements Session {
                                                                     CreateSessionSettings settings,
                                                                     boolean useServerBalancer) {
         YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .build();
 
         Metadata headers = null;
@@ -196,7 +196,7 @@ public abstract class BaseSession implements Session {
         YdbTable.CreateTableRequest.Builder request = YdbTable.CreateTableRequest.newBuilder()
                 .setSessionId(id)
                 .setPath(path)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .addAllPrimaryKey(tableDescription.getPrimaryKeys());
 
         applyPartitioningSettings(tableDescription.getPartitioningSettings(), request::setPartitioningSettings);
@@ -354,7 +354,7 @@ public abstract class BaseSession implements Session {
         YdbTable.DropTableRequest request = YdbTable.DropTableRequest.newBuilder()
                 .setSessionId(id)
                 .setPath(path)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .build();
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
@@ -366,7 +366,7 @@ public abstract class BaseSession implements Session {
         YdbTable.AlterTableRequest.Builder builder = YdbTable.AlterTableRequest.newBuilder()
                 .setSessionId(id)
                 .setPath(path)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()));
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()));
 
         settings.forEachAddColumn((name, type) -> {
             builder.addAddColumns(YdbTable.ColumnMeta.newBuilder()
@@ -401,7 +401,7 @@ public abstract class BaseSession implements Session {
                 .setSessionId(id)
                 .setSourcePath(src)
                 .setDestinationPath(dst)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .build();
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
@@ -443,7 +443,7 @@ public abstract class BaseSession implements Session {
         YdbTable.DescribeTableRequest request = YdbTable.DescribeTableRequest.newBuilder()
                 .setSessionId(id)
                 .setPath(path)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setIncludeTableStats(settings.isIncludeTableStats())
                 .setIncludeShardKeyBounds(settings.isIncludeShardKeyBounds())
                 .setIncludePartitionStats(settings.isIncludePartitionStats())
@@ -595,7 +595,7 @@ public abstract class BaseSession implements Session {
             String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setTxControl(txControl.toPb())
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
                 .setCollectStats(settings.collectStats())
@@ -633,10 +633,11 @@ public abstract class BaseSession implements Session {
     }
 
     CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(String queryId, @Nullable String queryText,
-            TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
+                                                                        TxControl<?> txControl, Params params,
+                                                                        ExecuteDataQuerySettings settings) {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setTxControl(txControl.toPb())
                 .setCollectStats(settings.collectStats());
 
@@ -681,7 +682,7 @@ public abstract class BaseSession implements Session {
     public CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings) {
         YdbTable.PrepareDataQueryRequest.Builder request = YdbTable.PrepareDataQueryRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setYqlText(query);
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
@@ -698,7 +699,7 @@ public abstract class BaseSession implements Session {
     public CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings) {
         YdbTable.ExecuteSchemeQueryRequest request = YdbTable.ExecuteSchemeQueryRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setYqlText(query)
                 .build();
 
@@ -711,7 +712,7 @@ public abstract class BaseSession implements Session {
                                                                               ExplainDataQuerySettings settings) {
         YdbTable.ExplainDataQueryRequest request = YdbTable.ExplainDataQueryRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setYqlText(query)
                 .build();
 
@@ -725,7 +726,7 @@ public abstract class BaseSession implements Session {
                                                                    BeginTxSettings settings) {
         YdbTable.BeginTransactionRequest request = YdbTable.BeginTransactionRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setTxSettings(txSettings(transactionMode))
                 .build();
 
@@ -828,7 +829,7 @@ public abstract class BaseSession implements Session {
     public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
         YdbTable.CommitTransactionRequest request = YdbTable.CommitTransactionRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setTxId(txId)
                 .build();
 
@@ -841,7 +842,7 @@ public abstract class BaseSession implements Session {
     public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
         YdbTable.RollbackTransactionRequest request = YdbTable.RollbackTransactionRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .setTxId(txId)
                 .build();
 
@@ -854,7 +855,7 @@ public abstract class BaseSession implements Session {
     public CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings) {
         YdbTable.KeepAliveRequest request = YdbTable.KeepAliveRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .build();
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
@@ -872,7 +873,7 @@ public abstract class BaseSession implements Session {
         YdbTable.BulkUpsertRequest request = YdbTable.BulkUpsertRequest.newBuilder()
                 .setTable(tablePath)
                 .setRows(typedRows)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .build();
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
@@ -897,7 +898,7 @@ public abstract class BaseSession implements Session {
     public CompletableFuture<Status> delete(DeleteSessionSettings settings) {
         YdbTable.DeleteSessionRequest request = YdbTable.DeleteSessionRequest.newBuilder()
                 .setSessionId(id)
-                .setOperationParams(Operations.createParams(settings.toOperationSettings()))
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
                 .build();
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
