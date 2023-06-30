@@ -333,6 +333,8 @@ public abstract class ReaderImpl {
                     partitionSession == null ? "unknown" : partitionSession.getPartitionId(),
                     response.getPartitionOffsets().getStart(), response.getPartitionOffsets().getEnd(),
                     response.getCommittedOffset());
+        } else if (message.hasUpdateTokenResponse()) {
+            logger.debug("Received UpdateTokenResponse");
         } else {
             logger.error("Unhandled message from server: {}", message);
         }
