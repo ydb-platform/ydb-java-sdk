@@ -35,6 +35,7 @@ import tech.ydb.topic.read.impl.SyncReaderImpl;
 import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
+import tech.ydb.topic.settings.CommitOffsetSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
@@ -302,6 +303,19 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
         return new AsyncReaderImpl(topicRpc, settings, handlersSettings);
+    }
+
+    @Override
+    public CompletableFuture<Status> commitOffset(String path, CommitOffsetSettings settings) {
+        YdbTopic.CommitOffsetRequest request = YdbTopic.CommitOffsetRequest.newBuilder()
+                .setOperationParams(OperationUtils.createParams(settings))
+                .setOffset(settings.getOffset())
+                .setPath(path)
+                .setConsumer(settings.getConsumer())
+                .setPartitionId(settings.getPartitionId())
+                .build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return topicRpc.commitOffset(request, grpcRequestSettings);
     }
 
     @Override
