@@ -36,7 +36,9 @@ abstract class StatefulSession extends BaseSession {
         while (!state.compareAndSet(current, current.updated(clock.instant(), th, code, gracefulShutdown))) {
             current = state.get();
         }
-        logger.debug("{} updated => {}", toString(), state.get().status);
+        if (logger.isTraceEnabled()) {
+            logger.trace("{} updated => {}, {}", toString(), state.get().status, state.get().lastUpdate);
+        }
     }
 
     public State state() {
