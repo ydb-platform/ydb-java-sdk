@@ -16,6 +16,7 @@ import tech.ydb.topic.impl.TopicClientImpl;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.AlterTopicSettings;
+import tech.ydb.topic.settings.CommitOffsetSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
@@ -111,6 +112,15 @@ public interface TopicClient extends AutoCloseable {
      * @return topic {@link AsyncReader}
      */
     AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings);
+
+    /**
+     * Commit offset to topic
+     *
+     * @param path  path to topic
+     * @param settings  request settings
+     * @return {@link CompletableFuture} to operation status
+     */
+    CompletableFuture<Status> commitOffset(String path, CommitOffsetSettings settings);
 
     /**
      * Create sync topic writer.
