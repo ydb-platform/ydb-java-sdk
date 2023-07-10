@@ -8,8 +8,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.utils.Async;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -36,17 +34,7 @@ public class PooledTableClient implements TableClient {
 
     @Override
     public CompletableFuture<Result<Session>> createSession(Duration timeout) {
-        return pool.acquire(timeout).handle((session, tw) -> {
-            if (tw != null) {
-                Throwable ex = Async.unwrapCompletionException(tw);
-                if (ex instanceof UnexpectedResultException) {
-                    return Result.fail((UnexpectedResultException) ex);
-                } else {
-                    return Result.error("can't create session", ex);
-                }
-            }
-            return Result.success(session);
-        });
+        return pool.acquire(timeout);
     }
 
     @Override

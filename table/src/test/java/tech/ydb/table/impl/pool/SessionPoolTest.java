@@ -57,9 +57,9 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0).size(0, 2);
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(0).pending(3);
 
@@ -69,14 +69,14 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(2).pending(1);
 
-        Session s1 = futureIsReady(f1);
-        Session s2 = futureIsReady(f2);
+        Session s1 = futureIsReady(f1).getValue();
+        Session s2 = futureIsReady(f2).getValue();
         futureIsPending(f3);
 
         s2.close();
         check(pool).idle(0).acquired(2).pending(0);
 
-        Session s3 = futureIsReady(f3);
+        Session s3 = futureIsReady(f3).getValue();
         Assert.assertEquals("Third future get the same session", s2, s3);
 
         s1.close();
@@ -95,9 +95,9 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
 
         tableRpc.check().sessionRequests(3);
         tableRpc.nextCreateSession().completeSuccess();
@@ -107,9 +107,9 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().sessionRequests(0);
         check(pool).idle(0).acquired(1).pending(0);
 
-        Session s1 = futureIsReady(f1);
-        futureIsExceptionally(f2, "Cannot get value, code: OVERLOADED");
-        futureIsExceptionally(f3, "Can't create session");
+        Session s1 = futureIsReady(f1).getValue();
+        resultIsWrong(f2, StatusCode.OVERLOADED);
+        resultIsWrong(f3, StatusCode.CLIENT_INTERNAL_ERROR);
 
         s1.close();
         pool.close();
@@ -123,18 +123,18 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
 
         tableRpc.check().sessionRequests(3);
         tableRpc.nextCreateSession().completeSuccess();
         tableRpc.nextCreateSession().completeSuccess();
         tableRpc.nextCreateSession().completeSuccess();
 
-        Session s1 = futureIsReady(f1);
-        Session s2 = futureIsReady(f2);
-        Session s3 = futureIsReady(f3);
+        Session s1 = futureIsReady(f1).getValue();
+        Session s2 = futureIsReady(f2).getValue();
+        Session s3 = futureIsReady(f3).getValue();
 
         CompletableFuture<Result<DataQueryResult>> r1 = s1.executeDataQuery("SELECT 1;", TxControl.onlineRo());
         CompletableFuture<Result<DataQueryResult>> r2 = s2.executeDataQuery("SELECT 1;", TxControl.onlineRo());
@@ -185,15 +185,15 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
 
         tableRpc.check().sessionRequests(2);
         tableRpc.nextCreateSession().completeSuccess();
         tableRpc.nextCreateSession().completeSuccess();
 
-        Session s1 = futureIsReady(f1);
-        Session s2 = futureIsReady(f2);
+        Session s1 = futureIsReady(f1).getValue();
+        Session s2 = futureIsReady(f2).getValue();
 
         check(pool).idle(0).acquired(2).pending(0);
 
@@ -215,8 +215,8 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(2).acquired(0).pending(0);
 
-        s1 = futureIsReady(pool.acquire(TIMEOUT));
-        s2 = futureIsReady(pool.acquire(TIMEOUT));
+        s1 = futureIsReady(pool.acquire(TIMEOUT)).getValue();
+        s2 = futureIsReady(pool.acquire(TIMEOUT)).getValue();
         check(pool).idle(0).acquired(2).pending(0);
 
         s1.close();
@@ -245,7 +245,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextDeleteSession().completeSuccess();
         tableRpc.nextCreateSession().completeSuccess();
 
-        futureIsReady(f1).close();
+        futureIsReady(f1).getValue().close();
 
         pool.close();
         tableRpc.completeSessionDeleteRequests();
@@ -258,19 +258,20 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
         scheduler.runTasksTo(clock.instant().plus(TIMEOUT));
 
-        futureIsExceptionally(f1, "session acquire deadline was expired, code: CLIENT_DEADLINE_EXPIRED");
+        resultIsWrong(f1, StatusCode.CLIENT_DEADLINE_EXPIRED);
+
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.nextCreateSession().completeSuccess();
         check(pool).idle(1).acquired(0).pending(0);
 
-        Session s1 = readyFuture(() -> pool.acquire(TIMEOUT));
+        Session s1 = readyFuture(() -> pool.acquire(TIMEOUT)).getValue();
         check(pool).idle(0).acquired(1).pending(0);
 
         s1.close();
@@ -285,7 +286,7 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         f1.cancel(true);
@@ -295,7 +296,7 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         f2.cancel(true);
@@ -315,13 +316,13 @@ public class SessionPoolTest extends FutureHelper {
         check(pool).idle(0).acquired(0).pending(0);
 
         // Test TRANSPORT_UNAVAILABLE on executeDataQuery - session will be removed from pool
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
         tableRpc.nextCreateSession().completeSuccess();
 
-        Session s1 = futureIsReady(f1);
+        Session s1 = futureIsReady(f1).getValue();
 
         CompletableFuture<Result<DataQueryResult>> r1 = s1.executeDataQuery("SELECT 1;", TxControl.onlineRo());
         tableRpc.check().executeDataRequests(1);
@@ -333,13 +334,13 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextDeleteSession().completeSuccess();
 
         // Test OVERLOADED on executeDataQuery - session will be returned to pool
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
         tableRpc.nextCreateSession().completeSuccess();
 
-        Session s2 = futureIsReady(f2);
+        Session s2 = futureIsReady(f2).getValue();
 
         CompletableFuture<Result<DataQueryResult>> r2 = s2.executeDataQuery("SELECT 1;", TxControl.onlineRo());
         tableRpc.check().executeDataRequests(1);
@@ -360,7 +361,7 @@ public class SessionPoolTest extends FutureHelper {
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
         // Create session1 request
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
@@ -368,7 +369,7 @@ public class SessionPoolTest extends FutureHelper {
         check(pool).idle(0).acquired(1).pending(0);
 
         // Get error of the data query request
-        Session s1 = futureIsReady(f1);
+        Session s1 = futureIsReady(f1).getValue();
         s1.executeDataQuery("SELECT 1;", TxControl.onlineRo());
         tableRpc.check().executeDataRequests(1);
         tableRpc.nextExecuteDataQuery().completeTransportUnavailable();
@@ -380,7 +381,7 @@ public class SessionPoolTest extends FutureHelper {
         check(pool).idle(0).acquired(0).pending(0);
 
         // Create session2 request
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
@@ -388,7 +389,7 @@ public class SessionPoolTest extends FutureHelper {
         check(pool).idle(0).acquired(1).pending(0);
 
         // Get error of the data query request
-        Session s2 = futureIsReady(f2);
+        Session s2 = futureIsReady(f2).getValue();
         s2.executeDataQuery("SELECT 1;", TxControl.onlineRo());
         tableRpc.check().executeDataRequests(1);
         tableRpc.nextExecuteDataQuery().completeTransportUnavailable();
@@ -417,10 +418,10 @@ public class SessionPoolTest extends FutureHelper {
 
         Instant now = clock.instant();
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f4 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f4 = pendingFuture(() -> pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(0).pending(4);
         tableRpc.check().sessionRequests(4);
@@ -429,10 +430,10 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextCreateSession().completeSuccess();
         tableRpc.nextCreateSession().completeSuccess();
 
-        Session s1 = futureIsReady(f1);
-        Session s2 = futureIsReady(f2);
-        Session s3 = futureIsReady(f3);
-        Session s4 = futureIsReady(f4);
+        Session s1 = futureIsReady(f1).getValue();
+        Session s2 = futureIsReady(f2).getValue();
+        Session s3 = futureIsReady(f3).getValue();
+        Session s4 = futureIsReady(f4).getValue();
 
         CompletableFuture<Result<DataQueryResult>> r3 = s3.executeDataQuery("SELECT 1;", TxControl.onlineRo());
         CompletableFuture<Result<DataQueryResult>> r1 = s1.executeDataQuery("SELECT 1;", TxControl.onlineRo());
@@ -477,8 +478,8 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextDeleteSession().completeSuccess();
         check(pool).idle(2).acquired(0).pending(0);
 
-        Session s5 = readyFuture(() -> pool.acquire(Duration.ZERO));
-        Session s6 = readyFuture(() -> pool.acquire(Duration.ZERO));
+        Session s5 = readyFuture(() -> pool.acquire(Duration.ZERO)).getValue();
+        Session s6 = readyFuture(() -> pool.acquire(Duration.ZERO)).getValue();
         check(pool).idle(0).acquired(2).pending(0);
 
         Assert.assertEquals("Check acquire order", s5, s4);
@@ -505,9 +506,9 @@ public class SessionPoolTest extends FutureHelper {
 
         Instant now = clock.instant();
 
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(0).pending(3);
         tableRpc.check().sessionRequests(3);
@@ -517,9 +518,9 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(3).pending(0);
 
-        futureIsReady(f1).close();
-        futureIsReady(f2).close();
-        futureIsReady(f3).close();
+        futureIsReady(f1).getValue().close();
+        futureIsReady(f2).getValue().close();
+        futureIsReady(f3).getValue().close();
 
         check(pool).idle(3).acquired(0).pending(0);
 
@@ -590,8 +591,8 @@ public class SessionPoolTest extends FutureHelper {
         Instant now = clock.instant();
 
         // Fill the pool with 2 session
-        CompletableFuture<Session> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Session> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(0).pending(2);
         tableRpc.check().sessionRequests(2);
@@ -600,8 +601,8 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(2).pending(0);
 
-        futureIsReady(f1).close();
-        futureIsReady(f2).close();
+        futureIsReady(f1).getValue().close();
+        futureIsReady(f2).getValue().close();
 
         check(pool).idle(2).acquired(0).pending(0);
 
@@ -619,7 +620,7 @@ public class SessionPoolTest extends FutureHelper {
 
         // Now we get the broken session firstly, close it and retry get the good session
         tableRpc.check().deleteSessionRequests(0);
-        Session s1 = futureIsReady(pool.acquire(TIMEOUT));
+        Session s1 = futureIsReady(pool.acquire(TIMEOUT)).getValue();
         tableRpc.check().deleteSessionRequests(1);
         tableRpc.nextDeleteSession().completeSuccess();
 
@@ -632,7 +633,7 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(2).pending(0);
         s1.close();
-        futureIsReady(f2).close();
+        futureIsReady(f2).getValue().close();
 
         check(pool).idle(2).acquired(0).pending(0);
         // Go to future to run keep alive request
@@ -663,8 +664,8 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.completeSessionDeleteRequests();
 
         check(pool).idle(0).acquired(2).pending(0);
-        futureIsReady(f1).close();
-        futureIsReady(f2).close();
+        futureIsReady(f1).getValue().close();
+        futureIsReady(f2).getValue().close();
 
         check(pool).idle(2).acquired(0).pending(0);
 
@@ -734,8 +735,8 @@ public class SessionPoolTest extends FutureHelper {
         return result.getValue();
     }
 
-    private void resultIsWrong(CompletableFuture<Result<DataQueryResult>> future, StatusCode code) {
-        Result<DataQueryResult> result = futureIsReady(future);
+    private<T> void resultIsWrong(CompletableFuture<Result<T>> future, StatusCode code) {
+        Result<T> result = futureIsReady(future);
         Assert.assertFalse("Check data query result", result.isSuccess());
         Assert.assertEquals("Check  data query result status", code, result.getStatus().getCode());
     }
