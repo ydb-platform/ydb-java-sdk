@@ -59,6 +59,10 @@ public class SessionPool implements AutoCloseable {
                 keepAlive.periodMillis);
     }
 
+    public void updateMaxSize(int maxSize) {
+        this.queue.updateLimits(maxSize);
+    }
+
     @Override
     public void close() {
         logger.info("closing session pool");

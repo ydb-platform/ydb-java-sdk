@@ -36,10 +36,8 @@ public class WaitingQueue<T> implements AutoCloseable {
     @VisibleForTesting
     static final int WAITINGS_LIMIT_FACTOR = 10;
 
-    private final int maxSize;
-    private final int waitingsLimit;
-
     private final Handler<T> handler;
+    private volatile Limits limits;
     private volatile boolean stopped = false;
 
     /** Deque of idle objects */
@@ -63,12 +61,20 @@ public class WaitingQueue<T> implements AutoCloseable {
         Preconditions.checkArgument(handler != null, "WaitingQueue handler must be not null");
 
         this.handler = handler;
-        this.maxSize = maxSize;
-        this.waitingsLimit = waitingsLimit;
+        this.limits = new Limits(maxSize, waitingsLimit);
     }
 
     public WaitingQueue(Handler<T> handler, int maxSize) {
         this(handler, maxSize, maxSize * WAITINGS_LIMIT_FACTOR);
+    }
+
+    public void updateLimits(int maxSize) {
+        updateLimits(maxSize, maxSize * WAITINGS_LIMIT_FACTOR);
+    }
+
+    public void updateLimits(int maxSize, int waitingsLimit) {
+        this.limits = new Limits(maxSize, waitingsLimit);
+        checkNextWaitingAcquire();
     }
 
     public void acquire(CompletableFuture<T> acquire) {
@@ -95,6 +101,13 @@ public class WaitingQueue<T> implements AutoCloseable {
 
         // Try to complete waiting request
         if (!tryToCompleteWaiting(object)) {
+            // if queue is overflowed
+            if (queueSize.get() > limits.maxSize) {
+                queueSize.decrementAndGet();
+                handler.destroy(object);
+                return;
+            }
+
             // Put object to idle deque as hottest object
             idle.offerFirst(object); // ConcurrentLinkedDeque always return true
             if (stopped) {
@@ -145,11 +158,11 @@ public class WaitingQueue<T> implements AutoCloseable {
     }
 
     public int getTotalLimit() {
-        return maxSize;
+        return limits.maxSize;
     }
 
     public int getWaitingLimit() {
-        return waitingsLimit;
+        return limits.waitingsLimit;
     }
 
     private void safeAcquireObject(CompletableFuture<T> acquire, T object) {
@@ -177,7 +190,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     private boolean tryToCreateNewPending(CompletableFuture<T> acquire) {
         int count = queueSize.get();
-        while (count < maxSize) {
+        while (count < limits.maxSize) {
             if (!queueSize.compareAndSet(count, count + 1)) {
                 count = queueSize.get();
                 continue;
@@ -194,7 +207,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     private boolean tryToCreateNewWaiting(CompletableFuture<T> acquire) {
         int waitingsCount = waitingAcqueireCount.get();
-        while (waitingsCount < waitingsLimit) {
+        while (waitingsCount < limits.waitingsLimit) {
             if (!waitingAcqueireCount.compareAndSet(waitingsCount, waitingsCount + 1)) {
                 waitingsCount = waitingAcqueireCount.get();
                 continue;
@@ -265,6 +278,16 @@ public class WaitingQueue<T> implements AutoCloseable {
             queueSize.decrementAndGet();
             handler.destroy(nextIdle);
             nextIdle = idle.poll();
+        }
+    }
+
+    private static class Limits {
+        private final int maxSize;
+        private final int waitingsLimit;
+
+        Limits(int queueSize, int waitingsSize) {
+            this.maxSize = queueSize;
+            this.waitingsLimit = waitingsSize;
         }
     }
 

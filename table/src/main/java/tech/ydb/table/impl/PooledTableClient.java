@@ -47,6 +47,10 @@ public class PooledTableClient implements TableClient {
         pool.close();
     }
 
+    public void updatePoolMaxSize(int maxSize) {
+        pool.updateMaxSize(maxSize);
+    }
+
     @Override
     public SessionPoolStats sessionPoolStats() {
         return pool.stats();
