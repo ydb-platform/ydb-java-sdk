@@ -3,6 +3,8 @@ package tech.ydb.table.impl.pool;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.concurrent.CompletableFuture;
 
 import org.junit.After;
@@ -55,26 +57,26 @@ public class SessionPoolTest extends FutureHelper {
         SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
-        check(pool).idle(0).acquired(0).pending(0).size(0, 2);
+        check(pool).idle(0).acquired(0).pending(0).size(0, 2).totalClient(0, 0).totalServer(0, 0, 0, 0);
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(pool.acquire(TIMEOUT));
 
-        check(pool).idle(0).acquired(0).pending(3);
+        check(pool).idle(0).acquired(0).pending(3).totalClient(0, 0).totalServer(2, 0, 0, 0);
 
         tableRpc.check().sessionRequests(2);
         tableRpc.nextCreateSession().completeSuccess();
         tableRpc.nextCreateSession().completeSuccess();
 
-        check(pool).idle(0).acquired(2).pending(1);
+        check(pool).idle(0).acquired(2).pending(1).totalClient(2, 0).totalServer(2, 2, 0, 0);
 
         Session s1 = futureIsReady(f1).getValue();
         Session s2 = futureIsReady(f2).getValue();
         futureIsPending(f3);
 
         s2.close();
-        check(pool).idle(0).acquired(2).pending(0);
+        check(pool).idle(0).acquired(2).pending(0).totalClient(3, 1).totalServer(2, 2, 0, 0);
 
         Session s3 = futureIsReady(f3).getValue();
         Assert.assertEquals("Third future get the same session", s2, s3);
@@ -82,9 +84,139 @@ public class SessionPoolTest extends FutureHelper {
         s1.close();
         s3.close();
 
-        check(pool).idle(2).acquired(0).pending(0);
+        check(pool).idle(2).acquired(0).pending(0).totalClient(3, 3).totalServer(2, 2, 0, 0);
         pool.close();
 
+        check(pool).idle(0).acquired(0).pending(0).totalClient(3, 3).totalServer(2, 2, 0, 2);
+        tableRpc.completeSessionDeleteRequests();
+    }
+
+    @Test
+    public void increaseLimitsTest() {
+        int wsize = WaitingQueue.WAITINGS_LIMIT_FACTOR;
+        SessionPool pool = new SessionPool(clock, tableRpc, true, SessionPoolOptions.DEFAULT.withSize(0, 1));
+
+        check(pool).idle(0).acquired(0).pending(0).size(0, 1).totalClient(0, 0).totalServer(0, 0, 0, 0);
+        Deque<CompletableFuture<Result<Session>>> futures = new ArrayDeque<>();
+
+        // one request we can make directly
+        futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
+        tableRpc.check().sessionRequests(1);
+        check(pool).idle(0).acquired(0).pending(1).size(0, 1).totalClient(0, 0).totalServer(1, 0, 0, 0);
+
+        // and WAITINGS_LIMIT_FACTOR extra requests will be in waitings queue
+        for (int i = 0; i < wsize; i += 1) {
+            futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
+        }
+        tableRpc.check().sessionRequests(1);
+        check(pool).idle(0).acquired(0).pending(1 + wsize).size(0, 1).totalClient(0, 0).totalServer(1, 0, 0, 0);
+
+        // next request returns error
+        resultIsWrong(pool.acquire(TIMEOUT), StatusCode.CLIENT_RESOURCE_EXHAUSTED);
+
+        // increase pool limit
+        pool.updateMaxSize(2);
+        tableRpc.check().sessionRequests(2);
+        // NOTE: we have increasing of pendings because one request may be in both queues (pendings + waitings)
+        check(pool).idle(0).acquired(0).pending(2 + wsize).size(0, 2).totalClient(0, 0).totalServer(2, 0, 0, 0);
+
+        tableRpc.nextCreateSession().completeSuccess();
+        check(pool).idle(0).acquired(1).pending(1 + wsize).size(0, 2).totalClient(1, 0).totalServer(2, 1, 0, 0);
+
+        tableRpc.nextCreateSession().completeSuccess();
+        check(pool).idle(0).acquired(2).pending(-1 + wsize).size(0, 2).totalClient(2, 0).totalServer(2, 2, 0, 0);
+
+        while (!futures.isEmpty()) {
+            futureIsReady(futures.removeFirst()).getValue().close();
+        }
+
+        check(pool).idle(2).acquired(0).pending(0).size(0, 2).totalClient(1 + wsize, 1 + wsize).totalServer(2, 2, 0, 0);
+        pool.close();
+        check(pool).idle(0).acquired(0).pending(0).size(0, 2).totalClient(1 + wsize, 1 + wsize).totalServer(2, 2, 0, 2);
+        tableRpc.completeSessionDeleteRequests();
+    }
+
+    @Test
+    public void decreaseLimitsTest() {
+        int wsize = WaitingQueue.WAITINGS_LIMIT_FACTOR;
+        SessionPool pool = new SessionPool(clock, tableRpc, true, SessionPoolOptions.DEFAULT.withSize(0, 2));
+
+        check(pool).idle(0).acquired(0).pending(0).size(0, 2).totalClient(0, 0).totalServer(0, 0, 0, 0);
+        Deque<CompletableFuture<Result<Session>>> futures = new ArrayDeque<>();
+
+        // two request we can make directly
+        futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
+        futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
+        tableRpc.check().sessionRequests(2);
+        check(pool).idle(0).acquired(0).pending(2).size(0, 2).totalClient(0, 0).totalServer(2, 0, 0, 0);
+
+        // and WAITINGS_LIMIT_FACTOR extra requests will be in waitings queue
+        for (int i = 0; i < 2 * wsize; i += 1) {
+            futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
+        }
+        tableRpc.check().sessionRequests(2);
+        check(pool).idle(0).acquired(0).pending(2 + 2 * wsize).size(0, 2).totalClient(0, 0).totalServer(2, 0, 0, 0);
+
+        // next request returns error
+        resultIsWrong(pool.acquire(TIMEOUT), StatusCode.CLIENT_RESOURCE_EXHAUSTED);
+
+        // decrease pool limit
+        pool.updateMaxSize(1);
+
+        tableRpc.check().sessionRequests(2);
+        check(pool).idle(0).acquired(0).pending(2 + 2 * wsize).size(0, 1).totalClient(0, 0).totalServer(2, 0, 0, 0);
+
+        tableRpc.nextCreateSession().completeSuccess();
+        check(pool).idle(0).acquired(1).pending(1 + 2 * wsize).size(0, 1).totalClient(1, 0).totalServer(2, 1, 0, 0);
+
+        tableRpc.nextCreateSession().completeSuccess();
+        check(pool).idle(0).acquired(2).pending(2 * wsize).size(0, 1).totalClient(2, 0).totalServer(2, 2, 0, 0);
+
+        // new requests will be rejected
+        resultIsWrong(pool.acquire(TIMEOUT), StatusCode.CLIENT_RESOURCE_EXHAUSTED);
+        for (int i = 0; i < wsize; i += 1) {
+            resultIsWrong(pool.acquire(TIMEOUT), StatusCode.CLIENT_RESOURCE_EXHAUSTED);
+
+            check(pool).idle(0).acquired(2).pending(2 * wsize - i).size(0, 1)
+                    .totalClient(2 + i, i).totalServer(2, 2, 0, 0);
+            futureIsReady(futures.removeFirst()).getValue().close();
+        }
+
+        check(pool).idle(0).acquired(2).pending(wsize).size(0, 1).totalClient(2 + wsize, wsize).totalServer(2, 2, 0, 0);
+        resultIsWrong(pool.acquire(TIMEOUT), StatusCode.CLIENT_RESOURCE_EXHAUSTED);
+        futureIsReady(futures.removeFirst()).getValue().close();
+
+        check(pool).idle(0).acquired(2).pending(wsize - 1).size(0, 1)
+                .totalClient(3 + wsize, 1 + wsize).totalServer(2, 2, 0, 0);
+        futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
+
+        for (int i = 0; i < wsize; i += 1) {
+            check(pool).idle(0).acquired(2).pending(wsize - i).size(0, 1)
+                    .totalClient(3 + wsize + i, wsize + 1 + i).totalServer(2, 2, 0, 0);
+            futureIsReady(futures.removeFirst()).getValue().close();
+        }
+
+        check(pool).idle(0).acquired(2).pending(0).size(0, 1)
+                .totalClient(3 + 2 * wsize, 1 + 2 * wsize).totalServer(2, 2, 0, 0);
+        futureIsReady(futures.removeFirst()).getValue().close();
+
+        check(pool).idle(0).acquired(1).pending(0).size(0, 1)
+                .totalClient(3 + 2 * wsize, 2 + 2 * wsize).totalServer(2, 2, 0, 1);
+        futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
+
+        check(pool).idle(0).acquired(1).pending(1).size(0, 1)
+                .totalClient(3 + 2 * wsize, 2 + 2 * wsize).totalServer(2, 2, 0, 1);
+
+        futureIsReady(futures.removeFirst()).getValue().close();
+        futureIsReady(futures.removeFirst()).getValue().close();
+
+        check(pool).idle(1).acquired(0).pending(0).size(0, 1)
+                .totalClient(4 + 2 * wsize, 4 + 2 * wsize).totalServer(2, 2, 0, 1);
+
+        pool.close();
+
+        check(pool).idle(0).acquired(0).pending(0).size(0, 1)
+                .totalClient(4 + 2 * wsize, 4 + 2 * wsize).totalServer(2, 2, 0, 2);
         tableRpc.completeSessionDeleteRequests();
     }
 
@@ -93,11 +225,11 @@ public class SessionPoolTest extends FutureHelper {
         SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 3));
 
-        check(pool).idle(0).acquired(0).pending(0);
+        check(pool).idle(0).acquired(0).pending(0).size(0, 3).totalClient(0, 0).totalServer(0, 0, 0, 0);
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(pool.acquire(TIMEOUT));
 
         tableRpc.check().sessionRequests(3);
         tableRpc.nextCreateSession().completeSuccess();
@@ -105,14 +237,16 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextCreateSession().completeRuntimeException();
 
         tableRpc.check().sessionRequests(0);
-        check(pool).idle(0).acquired(1).pending(0);
+        check(pool).idle(0).acquired(1).pending(0).size(0, 3).totalClient(1, 0).totalServer(3, 1, 1, 0);
 
         Session s1 = futureIsReady(f1).getValue();
         resultIsWrong(f2, StatusCode.OVERLOADED);
         resultIsWrong(f3, StatusCode.CLIENT_INTERNAL_ERROR);
 
         s1.close();
+        check(pool).idle(1).acquired(0).pending(0).size(0, 3).totalClient(1, 1).totalServer(3, 1, 1, 0);
         pool.close();
+        check(pool).idle(0).acquired(0).pending(0).size(0, 3).totalClient(1, 1).totalServer(3, 1, 1, 1);
         tableRpc.completeSessionDeleteRequests();
     }
 
@@ -121,11 +255,11 @@ public class SessionPoolTest extends FutureHelper {
         SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 3));
 
-        check(pool).idle(0).acquired(0).pending(0);
+        check(pool).idle(0).acquired(0).pending(0).size(0, 3).totalClient(0, 0).totalServer(0, 0, 0, 0);
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(pool.acquire(TIMEOUT));
 
         tableRpc.check().sessionRequests(3);
         tableRpc.nextCreateSession().completeSuccess();
@@ -145,7 +279,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextExecuteDataQuery().completeSuccessWithShutdownHook();
         tableRpc.nextExecuteDataQuery().completeSuccessWithShutdownHook();
 
-        check(pool).idle(0).acquired(3).pending(0);
+        check(pool).idle(0).acquired(3).pending(0).size(0, 3).totalClient(3, 0).totalServer(3, 3, 0, 0);
 
         futureIsReady(r1);
         futureIsReady(r2);
@@ -153,7 +287,7 @@ public class SessionPoolTest extends FutureHelper {
 
         s3.close(); // will be shutdowned
 
-        check(pool).idle(0).acquired(2).pending(0);
+        check(pool).idle(0).acquired(2).pending(0).size(0, 3).totalClient(3, 1).totalServer(3, 3, 0, 1);
         tableRpc.check().deleteSessionRequests(1);
         tableRpc.nextDeleteSession().completeSuccess();
 
@@ -170,7 +304,7 @@ public class SessionPoolTest extends FutureHelper {
         s1.close(); // will be shutdowned
         s2.close(); // will be shutdowned
 
-        check(pool).idle(0).acquired(0).pending(0);
+        check(pool).idle(0).acquired(0).pending(0).size(0, 3).totalClient(3, 3).totalServer(3, 3, 0, 3);
         tableRpc.check().deleteSessionRequests(2);
         tableRpc.nextDeleteSession().completeSuccess();
         tableRpc.nextDeleteSession().completeSuccess();
@@ -183,10 +317,10 @@ public class SessionPoolTest extends FutureHelper {
         SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
-        check(pool).idle(0).acquired(0).pending(0);
+        check(pool).idle(0).acquired(0).pending(0).size(0, 2).totalClient(0, 0).totalServer(0, 0, 0, 0);
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
 
         tableRpc.check().sessionRequests(2);
         tableRpc.nextCreateSession().completeSuccess();
@@ -195,12 +329,12 @@ public class SessionPoolTest extends FutureHelper {
         Session s1 = futureIsReady(f1).getValue();
         Session s2 = futureIsReady(f2).getValue();
 
-        check(pool).idle(0).acquired(2).pending(0);
+        check(pool).idle(0).acquired(2).pending(0).size(0, 2).totalClient(2, 0).totalServer(2, 2, 0, 0);
 
         s1.close();
         s2.close();
 
-        check(pool).idle(2).acquired(0).pending(0);
+        check(pool).idle(2).acquired(0).pending(0).size(0, 2).totalClient(2, 2).totalServer(2, 2, 0, 0);
 
         // try to use session after closing - must be fixed in futher versions
         CompletableFuture<Result<DataQueryResult>> r1 = s1.executeDataQuery("SELECT 1;", TxControl.onlineRo());
@@ -213,15 +347,15 @@ public class SessionPoolTest extends FutureHelper {
         futureIsReady(r1);
         futureIsReady(r2);
 
-        check(pool).idle(2).acquired(0).pending(0);
+        check(pool).idle(2).acquired(0).pending(0).size(0, 2).totalClient(2, 2).totalServer(2, 2, 0, 0);
 
         s1 = futureIsReady(pool.acquire(TIMEOUT)).getValue();
         s2 = futureIsReady(pool.acquire(TIMEOUT)).getValue();
-        check(pool).idle(0).acquired(2).pending(0);
+        check(pool).idle(0).acquired(2).pending(0).size(0, 2).totalClient(4, 2).totalServer(2, 2, 0, 0);
 
         s1.close();
         s2.close();
-        check(pool).idle(2).acquired(0).pending(0);
+        check(pool).idle(2).acquired(0).pending(0).size(0, 2).totalClient(4, 4).totalServer(2, 2, 0, 0);
 
         // broke session inside the pool
         r1 = s1.executeDataQuery("SELECT 1;", TxControl.onlineRo());
@@ -234,20 +368,23 @@ public class SessionPoolTest extends FutureHelper {
         futureIsReady(r1);
         futureIsReady(r2);
 
-        check(pool).idle(2).acquired(0).pending(0);
+        check(pool).idle(2).acquired(0).pending(0).size(0, 2).totalClient(4, 4).totalServer(2, 2, 0, 0);
 
         // next session acquire removed broken sessions
-        f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        check(pool).idle(0).acquired(0).pending(1);
+        f1 = pendingFuture(pool.acquire(TIMEOUT));
+        check(pool).idle(0).acquired(0).pending(1).size(0, 2).totalClient(4, 4).totalServer(3, 2, 0, 2);
         tableRpc.check().sessionRequests(1);
         tableRpc.check().deleteSessionRequests(2);
         tableRpc.nextDeleteSession().completeSuccess();
         tableRpc.nextDeleteSession().completeSuccess();
         tableRpc.nextCreateSession().completeSuccess();
 
+        check(pool).idle(0).acquired(1).pending(0).size(0, 2).totalClient(5, 4).totalServer(3, 3, 0, 2);
         futureIsReady(f1).getValue().close();
 
+        check(pool).idle(1).acquired(0).pending(0).size(0, 2).totalClient(5, 5).totalServer(3, 3, 0, 2);
         pool.close();
+        check(pool).idle(0).acquired(0).pending(0).size(0, 2).totalClient(5, 5).totalServer(3, 3, 0, 3);
         tableRpc.completeSessionDeleteRequests();
     }
 
@@ -258,7 +395,7 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
@@ -286,7 +423,7 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         f1.cancel(true);
@@ -296,7 +433,7 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(0).acquired(0).pending(0);
 
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         f2.cancel(true);
@@ -316,7 +453,7 @@ public class SessionPoolTest extends FutureHelper {
         check(pool).idle(0).acquired(0).pending(0);
 
         // Test TRANSPORT_UNAVAILABLE on executeDataQuery - session will be removed from pool
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
@@ -334,7 +471,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextDeleteSession().completeSuccess();
 
         // Test OVERLOADED on executeDataQuery - session will be returned to pool
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
@@ -361,7 +498,7 @@ public class SessionPoolTest extends FutureHelper {
                 SessionPoolOptions.DEFAULT.withSize(0, 2));
 
         // Create session1 request
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
@@ -381,7 +518,7 @@ public class SessionPoolTest extends FutureHelper {
         check(pool).idle(0).acquired(0).pending(0);
 
         // Create session2 request
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
         check(pool).idle(0).acquired(0).pending(1);
 
         tableRpc.check().sessionRequests(1);
@@ -418,10 +555,10 @@ public class SessionPoolTest extends FutureHelper {
 
         Instant now = clock.instant();
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f4 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f4 = pendingFuture(pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(0).pending(4);
         tableRpc.check().sessionRequests(4);
@@ -506,9 +643,9 @@ public class SessionPoolTest extends FutureHelper {
 
         Instant now = clock.instant();
 
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f3 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f3 = pendingFuture(pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(0).pending(3);
         tableRpc.check().sessionRequests(3);
@@ -591,8 +728,8 @@ public class SessionPoolTest extends FutureHelper {
         Instant now = clock.instant();
 
         // Fill the pool with 2 session
-        CompletableFuture<Result<Session>> f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
-        CompletableFuture<Result<Session>> f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f1 = pendingFuture(pool.acquire(TIMEOUT));
+        CompletableFuture<Result<Session>> f2 = pendingFuture(pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(0).pending(2);
         tableRpc.check().sessionRequests(2);
@@ -625,7 +762,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextDeleteSession().completeSuccess();
 
         // Because the broken session was closed, second request is pending
-        f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        f2 = pendingFuture(pool.acquire(TIMEOUT));
 
         check(pool).idle(0).acquired(1).pending(1);
         tableRpc.check().sessionRequests(1);
@@ -650,11 +787,11 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().deleteSessionRequests(0);
         check(pool).idle(2).acquired(0).pending(0);
 
-        f1 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        f1 = pendingFuture(pool.acquire(TIMEOUT));
         tableRpc.check().deleteSessionRequests(2);
         check(pool).idle(0).acquired(0).pending(1);
 
-        f2 = pendingFuture(() -> pool.acquire(TIMEOUT));
+        f2 = pendingFuture(pool.acquire(TIMEOUT));
         tableRpc.check().deleteSessionRequests(2);
         check(pool).idle(0).acquired(0).pending(2);
 
@@ -720,6 +857,20 @@ public class SessionPoolTest extends FutureHelper {
 
         public PoolChecker pending(int size) {
             Assert.assertEquals("Check pool pending size", size, stats.getPendingAcquireCount());
+            return this;
+        }
+
+        public PoolChecker totalClient(long acquired, long released) {
+            Assert.assertEquals("Check pool total acquired count", acquired, stats.getAcquiredTotal());
+            Assert.assertEquals("Check pool total released count", released, stats.getReleasedTotal());
+            return this;
+        }
+
+        public PoolChecker totalServer(long requested, long created, long failed, long deleted) {
+            Assert.assertEquals("Check pool total requested count", requested, stats.getRequestedTotal());
+            Assert.assertEquals("Check pool total created count", created, stats.getCreatedTotal());
+            Assert.assertEquals("Check pool total failed count", failed, stats.getFailedTotal());
+            Assert.assertEquals("Check pool total deleted count", deleted, stats.getDeletedTotal());
             return this;
         }
     }

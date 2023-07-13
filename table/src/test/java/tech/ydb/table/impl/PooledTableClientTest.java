@@ -17,7 +17,9 @@ import org.junit.function.ThrowingRunnable;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.proto.table.YdbTable;
+import tech.ydb.table.GrpcTransportStub;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -42,6 +44,15 @@ public class PooledTableClientTest {
                 runnable
         );
         Assert.assertEquals("Validate exception msg", exceptionMsg, ex.getMessage());
+    }
+
+    @Test
+    public void testTableClient() {
+        GrpcTransport transport = new GrpcTransportStub(scheduler, "test");
+        try (TableClient client = TableClient.newClient(transport).build()) {
+            Assert.assertTrue(client instanceof PooledTableClient);
+            Assert.assertEquals(scheduler, client.getScheduler());
+        }
     }
 
     @Test
@@ -203,6 +214,14 @@ public class PooledTableClientTest {
     }
 
     @Test
+    public void tableClientScheduleTest() {
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
+        try (TableClient client = PooledTableClient.newClient(rpc).build()) {
+            Assert.assertEquals(scheduler, client.getScheduler());
+        }
+    }
+
+    @Test
     public void createSessionTimeout() throws InterruptedException {
         MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).build();
@@ -236,6 +255,49 @@ public class PooledTableClientTest {
 
         client.close();
         rpc.completeSessionDeleteRequests();
+
+        client.close();
+    }
+
+    @Test
+    public void testUpdatePoolSize() {
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
+        PooledTableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 1).build();
+
+        CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofSeconds(5));
+        CompletableFuture<Result<Session>> f2 = client.createSession(Duration.ofSeconds(5));
+        rpc.check().sessionRequests(1);
+
+        client.updatePoolMaxSize(2);
+
+        rpc.check().sessionRequests(2);
+        rpc.nextCreateSession().completeSuccess();
+        rpc.nextCreateSession().completeSuccess();
+
+        f1.join().getValue().close();
+        f2.join().getValue().close();
+
+        f1 = client.createSession(Duration.ofSeconds(5));
+
+        client.updatePoolMaxSize(1);
+
+        f2 = client.createSession(Duration.ofSeconds(5));
+
+        f2.join().getValue().close();
+        f1.join().getValue().close();
+
+        f1 = client.createSession(Duration.ofSeconds(5));
+        f2 = client.createSession(Duration.ofSeconds(5));
+
+        Assert.assertTrue(f1.isDone());
+        Assert.assertFalse(f2.isDone());
+
+        f1.join().getValue().close();
+        Assert.assertTrue(f2.isDone());
+
+        f2.join().getValue().close();
+
+        client.close();
     }
 
     @Test
