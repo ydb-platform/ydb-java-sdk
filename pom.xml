@@ -20,6 +20,7 @@
         <module>table</module>
         <module>scheme</module>
         <module>topic</module>
+        <module>query</module>
         <module>coordination</module>
         <module>export</module>
         <module>tests/common</module>
