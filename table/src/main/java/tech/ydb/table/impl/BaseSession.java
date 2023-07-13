@@ -45,6 +45,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.rpc.TableRpc;
@@ -736,7 +737,7 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
+    public GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings) {
         YdbTable.ReadTableRequest.Builder request = YdbTable.ReadTableRequest.newBuilder()
                 .setSessionId(id)
                 .setPath(tablePath)
@@ -776,7 +777,7 @@ public abstract class BaseSession implements Session {
             StatusIds.StatusCode statusCode = response.getStatus();
             if (statusCode == StatusIds.StatusCode.SUCCESS) {
                 try {
-                    observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
+                    observer.onNext(new ReadTablePart(response.getResult(), response.getSnapshot()));
                 } catch (Throwable t) {
                     future.completeExceptionally(t);
                     origin.cancel();
