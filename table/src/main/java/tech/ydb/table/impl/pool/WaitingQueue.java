@@ -15,6 +15,8 @@ import javax.annotation.concurrent.ThreadSafe;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -27,6 +29,8 @@ import tech.ydb.core.UnexpectedResultException;
 */
 @ThreadSafe
 public class WaitingQueue<T> implements AutoCloseable {
+    private static final Logger logger = LoggerFactory.getLogger(WaitingQueue.class);
+
     public interface Handler<T> {
         CompletableFuture<T> create();
         void destroy(T object);
@@ -96,6 +100,12 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     public void release(T object) {
         if (!used.remove(object, object)) {
+            if (!logger.isTraceEnabled()) {
+                logger.warn("obj {} double release, possible pool leaks!!", object);
+            } else {
+                Exception stackTrace = new RuntimeException("Double release");
+                logger.warn("obj {} double release, possible pool leaks!!", object, stackTrace);
+            }
             return;
         }
 
@@ -118,6 +128,12 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     public void delete(T object) {
         if (!used.remove(object, object)) {
+            if (!logger.isTraceEnabled()) {
+                logger.warn("obj {} double delete, possible pool leaks!!", object);
+            } else {
+                Exception stackTrace = new RuntimeException("Double delete");
+                logger.warn("obj {} double delete, possible pool leaks!!", object, stackTrace);
+            }
             return;
         }
         queueSize.decrementAndGet();
