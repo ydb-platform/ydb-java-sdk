@@ -143,11 +143,6 @@ abstract class StatefulSession extends BaseSession {
                 return new State(Status.BROKEN, lastActive, now);
             }
 
-            //switching to the same status is forbidden
-            if (nextStatus == status) {
-                return null;
-            }
-
             if (nextStatus == Status.ACTIVE) {
                 return new State(nextStatus, now);
             }
