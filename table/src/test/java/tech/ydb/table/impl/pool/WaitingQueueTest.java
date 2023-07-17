@@ -622,7 +622,7 @@ public class WaitingQueueTest extends FutureHelper {
         Resource r3 = pendingIsReady(w2);
         futureIsPending(w3);
 
-        Assert.assertNotEquals("After deleting waiting got different resource ", r1, r2);
+        Assert.assertNotEquals("After deleting waiting got different resource ", r2, r3);
         check(rs).requestsCount(0).activeCount(1);
         check(queue).queueSize(1).idleSize(0).waitingsCount(1);
 

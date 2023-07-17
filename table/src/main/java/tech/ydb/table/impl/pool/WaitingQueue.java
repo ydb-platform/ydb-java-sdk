@@ -181,7 +181,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         return limits.waitingsLimit;
     }
 
-    private void safeAcquireObject(CompletableFuture<T> acquire, T object) {
+    private boolean safeAcquireObject(CompletableFuture<T> acquire, T object) {
         used.put(object, object);
         if (stopped) {
             acquire.completeExceptionally(new CancellationException("Queue is already closed"));
@@ -189,19 +189,30 @@ public class WaitingQueue<T> implements AutoCloseable {
                 queueSize.decrementAndGet();
                 handler.destroy(object);
             }
-        } else {
-            acquire.complete(object);
+            return true;
         }
+
+        if (!acquire.complete(object)) {
+            used.remove(object, object);
+            return false;
+        }
+
+        return true;
     }
 
     private boolean tryToPollIdle(CompletableFuture<T> acquire) {
         // Try to poll hottest element
         T next = idle.pollFirst();
-        if (next != null) {
-            safeAcquireObject(acquire, next);
-            return true;
+        if (next == null) {
+            return false;
         }
-        return false;
+
+        if (!safeAcquireObject(acquire, next)) {
+            idle.offerFirst(next);
+            return false;
+        }
+
+        return true;
     }
 
     private boolean tryToCreateNewPending(CompletableFuture<T> acquire) {
@@ -245,10 +256,10 @@ public class WaitingQueue<T> implements AutoCloseable {
         while (next != null) {
             waitingAcqueireCount.decrementAndGet();
 
-            if (!next.isDone() && !next.isCancelled()) {
-                safeAcquireObject(next, object);
+            if (safeAcquireObject(next, object)) {
                 return true;
             }
+
             next = waitingAcquires.poll();
         }
 
@@ -269,7 +280,7 @@ public class WaitingQueue<T> implements AutoCloseable {
                 }
                 if (object != null) {
                     if (!tryToCompleteWaiting(object)) {
-                        release(object);
+                        idle.offerFirst(object);
                     }
                 }
             });
@@ -318,13 +329,9 @@ public class WaitingQueue<T> implements AutoCloseable {
 
         @Override
         public void accept(T object, Throwable th) {
-            boolean ready = !acquire.isDone() && !acquire.isCancelled();
-
             // If pool is already closed and clean
             if (!pendingRequests.remove(pending, pending)) {
-                if (ready) {
-                    acquire.completeExceptionally(new CancellationException("Queue is already closed"));
-                }
+                acquire.completeExceptionally(new CancellationException("Queue is already closed"));
                 if (object != null) {
                     handler.destroy(object);
                 }
@@ -335,14 +342,11 @@ public class WaitingQueue<T> implements AutoCloseable {
             // guarantees that if object is null then th is not null
             if (th != null) {
                 queueSize.decrementAndGet();
-                if (ready) {
-                    acquire.completeExceptionally(th);
-                }
+                acquire.completeExceptionally(th);
                 return;
             }
 
-            if (ready) {
-                safeAcquireObject(acquire, object);
+            if (!acquire.isDone() && safeAcquireObject(acquire, object)) {
                 return;
             }
 
