@@ -6,11 +6,13 @@ import java.util.function.Consumer;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
@@ -80,14 +82,21 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings);
 
-    GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings);
+    GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings);
 
     GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings);
 
     @Deprecated
+    default GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
+        return new ProxyReadStream<>(executeReadTable(tablePath, settings), (part, promise, observer) -> {
+            observer.onNext(part.getResultSetReader());
+        });
+    }
+
+    @Deprecated
     default CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings,
             Consumer<ResultSetReader> fn) {
-        return readTable(tablePath, settings).start(fn::accept);
+        return executeReadTable(tablePath, settings).start(part -> fn.accept(part.getResultSetReader()));
     }
 
     @Deprecated
