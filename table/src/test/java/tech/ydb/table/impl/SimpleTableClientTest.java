@@ -13,10 +13,10 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.TableRpcStub;
-import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.rpc.TableRpc;
 
 
@@ -86,9 +86,11 @@ public class SimpleTableClientTest {
             }
         };
 
-        SessionSupplier client = SimpleTableClient.newClient(fakeRpc)
+        SimpleTableClient client = SimpleTableClient.newClient(fakeRpc)
                 .keepQueryText(true)
                 .build();
+
+        Assert.assertNull(client.getScheduler());
 
         // Test TableClient interface
         Result<Session> sessionResult = client.createSession(Duration.ZERO).join();
