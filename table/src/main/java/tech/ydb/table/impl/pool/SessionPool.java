@@ -335,6 +335,22 @@ public class SessionPool implements AutoCloseable {
         public long getDeletedTotal() {
             return deleted.sum();
         }
+
+        @Override
+        public String toString() {
+            return "SessionPoolStats{minSize=" + getMinSize()
+                    + ", maxSize=" + getMaxSize()
+                    + ", idleCount=" + getIdleCount()
+                    + ", acquiredCount=" + getAcquiredCount()
+                    + ", pendingAcquireCount=" + getPendingAcquireCount()
+                    + ", acquiredTotal=" + getPendingAcquireCount()
+                    + ", releasedTotal=" + getReleasedTotal()
+                    + ", requestsTotal=" + getRequestedTotal()
+                    + ", createdTotal=" + getCreatedTotal()
+                    + ", failedTotal=" + getFailedTotal()
+                    + ", deletedTotal=" + getDeletedTotal()
+                    + "}";
+        }
     }
 
 
