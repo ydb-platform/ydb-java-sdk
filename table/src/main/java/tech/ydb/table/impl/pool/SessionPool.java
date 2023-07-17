@@ -35,6 +35,11 @@ import tech.ydb.table.settings.DeleteSessionSettings;
  */
 public class SessionPool implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(SessionPool.class);
+
+    private static final CreateSessionSettings CREATE_SETTINGS = new CreateSessionSettings()
+            .setTimeout(Duration.ofSeconds(300))
+            .setOperationTimeout(Duration.ofSeconds(299));
+
     private final int minSize;
     private final Clock clock;
     private final ScheduledExecutorService scheduler;
@@ -176,7 +181,7 @@ public class SessionPool implements AutoCloseable {
         public CompletableFuture<ClosableSession> create() {
             stats.requested.increment();
             return BaseSession
-                    .createSessionId(tableRpc, new CreateSessionSettings(), true)
+                    .createSessionId(tableRpc, CREATE_SETTINGS, true)
                     .thenApply(response -> {
                         if (!response.isSuccess()) {
                             stats.failed.increment();
