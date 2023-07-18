@@ -323,6 +323,18 @@ public abstract class ReaderImpl {
             handleReadResponse(message.getReadResponse());
         } else if (message.hasCommitOffsetResponse()) {
             handleCommitOffsetResponse(message.getCommitOffsetResponse());
+        } else if (message.hasPartitionSessionStatusResponse()) {
+            YdbTopic.StreamReadMessage.PartitionSessionStatusResponse response =
+                    message.getPartitionSessionStatusResponse();
+            PartitionSession partitionSession = partitionSessions.get(response.getPartitionSessionId());
+            logger.info("Received PartitionSessionStatusResponse: partition session {} (partition {})." +
+                            " Partition offsets: [{}, {}). Committed offset: {}",
+                    response.getPartitionSessionId(),
+                    partitionSession == null ? "unknown" : partitionSession.getPartitionId(),
+                    response.getPartitionOffsets().getStart(), response.getPartitionOffsets().getEnd(),
+                    response.getCommittedOffset());
+        } else if (message.hasUpdateTokenResponse()) {
+            logger.debug("Received UpdateTokenResponse");
         } else {
             logger.error("Unhandled message from server: {}", message);
         }

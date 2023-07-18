@@ -2,9 +2,12 @@ package tech.ydb.table.impl;
 
 import java.time.Clock;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -14,10 +17,12 @@ import org.junit.function.ThrowingRunnable;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.proto.table.YdbTable;
+import tech.ydb.table.GrpcTransportStub;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
-import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.impl.pool.MockedTableRpc;
 
 /**
@@ -39,6 +44,15 @@ public class PooledTableClientTest {
                 runnable
         );
         Assert.assertEquals("Validate exception msg", exceptionMsg, ex.getMessage());
+    }
+
+    @Test
+    public void testTableClient() {
+        GrpcTransport transport = new GrpcTransportStub(scheduler, "test");
+        try (TableClient client = TableClient.newClient(transport).build()) {
+            Assert.assertTrue(client instanceof PooledTableClient);
+            Assert.assertEquals(scheduler, client.getScheduler());
+        }
     }
 
     @Test
@@ -148,7 +162,7 @@ public class PooledTableClientTest {
 
 
     @Test
-    public void getOrCreateSessionAndReleaseRepeat() {
+    public void createSessionAndReleaseRepeat() {
         TableClient client = PooledTableClient.newClient(new DumpTableRpc())
                 .sessionPoolSize(0, 5)
                 .build();
@@ -165,7 +179,7 @@ public class PooledTableClientTest {
     }
 
     @Test
-    public void getOrCreateSessionAndReleaseMultipleTimes() {
+    public void createSessionAndReleaseMultipleTimes() {
         TableClient client = PooledTableClient.newClient(new DumpTableRpc())
                 .sessionPoolSize(0, 5)
                 .sessionMaxIdleTime(Duration.ofSeconds(2))
@@ -191,13 +205,20 @@ public class PooledTableClientTest {
     public void unavailableSessions() {
         TableClient client = PooledTableClient.newClient(new UnavailableTableRpc()).build();
 
-
         CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
         Result<Session> r1 = f1.join();
         Assert.assertFalse(r1.isSuccess());
         Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, r1.getStatus().getCode());
 
         client.close();
+    }
+
+    @Test
+    public void tableClientScheduleTest() {
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
+        try (TableClient client = PooledTableClient.newClient(rpc).build()) {
+            Assert.assertEquals(scheduler, client.getScheduler());
+        }
     }
 
     @Test
@@ -224,7 +245,7 @@ public class PooledTableClientTest {
         MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).build();
 
-        CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofMillis(50));
+        CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofSeconds(5));
         rpc.check().sessionRequests(1);
         rpc.nextCreateSession().completeRuntimeException();
 
@@ -234,6 +255,132 @@ public class PooledTableClientTest {
 
         client.close();
         rpc.completeSessionDeleteRequests();
+
+        client.close();
+    }
+
+    @Test
+    public void testUpdatePoolSize() {
+        MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
+        PooledTableClient client = PooledTableClient.newClient(rpc).sessionPoolSize(0, 1).build();
+
+        CompletableFuture<Result<Session>> f1 = client.createSession(Duration.ofSeconds(5));
+        CompletableFuture<Result<Session>> f2 = client.createSession(Duration.ofSeconds(5));
+        rpc.check().sessionRequests(1);
+
+        client.updatePoolMaxSize(2);
+
+        rpc.check().sessionRequests(2);
+        rpc.nextCreateSession().completeSuccess();
+        rpc.nextCreateSession().completeSuccess();
+
+        f1.join().getValue().close();
+        f2.join().getValue().close();
+
+        f1 = client.createSession(Duration.ofSeconds(5));
+
+        client.updatePoolMaxSize(1);
+
+        f2 = client.createSession(Duration.ofSeconds(5));
+
+        f2.join().getValue().close();
+        f1.join().getValue().close();
+
+        f1 = client.createSession(Duration.ofSeconds(5));
+        f2 = client.createSession(Duration.ofSeconds(5));
+
+        Assert.assertTrue(f1.isDone());
+        Assert.assertFalse(f2.isDone());
+
+        f1.join().getValue().close();
+        Assert.assertTrue(f2.isDone());
+
+        f2.join().getValue().close();
+
+        client.close();
+    }
+
+    @Test
+    public void testPoolPendingTasks() throws InterruptedException {
+        MockedTableRpc fakeRpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
+        int maxSize = 5;
+
+        try (TableClient client = PooledTableClient.newClient(fakeRpc).sessionPoolSize(0, maxSize).build()) {
+            List<CompletableFuture<Result<Session>>> futures = new ArrayList<>();
+
+            // create 3*maxSize requests of session creating
+            for (int idx = 0; idx < maxSize * 3; idx += 1) {
+                futures.add(client.createSession(Duration.ofSeconds(5)));
+            }
+
+            fakeRpc.check().sessionRequests(maxSize);
+
+            Assert.assertEquals(0, client.sessionPoolStats().getAcquiredCount());
+            Assert.assertEquals(0, client.sessionPoolStats().getIdleCount());
+            Assert.assertEquals(3 * maxSize, client.sessionPoolStats().getPendingAcquireCount());
+
+            Assert.assertEquals(3 * maxSize, futures.size());
+            Assert.assertEquals(0, futures.stream().filter(CompletableFuture::isDone).count());
+            Assert.assertEquals(0, futures.stream().filter(CompletableFuture::isCancelled).count());
+
+            // cancel maxSize requests
+            for (int idx = 0; idx < maxSize * 2; idx += 2) {
+                futures.get(idx).cancel(true);
+            }
+
+            Assert.assertEquals(maxSize, futures.stream().filter(CompletableFuture::isDone).count());
+            Assert.assertEquals(maxSize, futures.stream().filter(CompletableFuture::isCancelled).count());
+
+            for (int idx = 0; idx < maxSize; idx += 1) {
+                fakeRpc.nextCreateSession().completeSuccess();
+            }
+
+            Assert.assertEquals(2 * maxSize, futures.stream().filter(CompletableFuture::isDone).count());
+            Assert.assertEquals(maxSize, futures.stream().filter(CompletableFuture::isCancelled).count());
+
+            fakeRpc.check().sessionRequests(0);
+
+            Assert.assertEquals(maxSize, client.sessionPoolStats().getAcquiredCount());
+            Assert.assertEquals(0, client.sessionPoolStats().getIdleCount());
+            Assert.assertEquals(maxSize, client.sessionPoolStats().getPendingAcquireCount());
+
+            // release completed and canceled futures
+            List<CompletableFuture<Result<Session>>> completed = futures.stream()
+                    .filter(CompletableFuture::isDone).collect(Collectors.toList());
+            completed.forEach(future -> {
+                if (!future.isCancelled()) {
+                    future.join().getValue().close();
+                }
+            });
+            futures.removeAll(completed);
+
+            // After releasing next pending futures must be completed
+            Assert.assertEquals(maxSize, client.sessionPoolStats().getAcquiredCount());
+            Assert.assertEquals(0, client.sessionPoolStats().getIdleCount());
+            Assert.assertEquals(0, client.sessionPoolStats().getPendingAcquireCount());
+
+            Assert.assertEquals(maxSize, futures.size());
+            Assert.assertEquals(maxSize, futures.stream().filter(CompletableFuture::isDone).count());
+            Assert.assertEquals(0, futures.stream().filter(CompletableFuture::isCancelled).count());
+
+            // release completed futures
+            completed = futures.stream().filter(CompletableFuture::isDone).collect(Collectors.toList());
+            completed.forEach(future -> {
+                if (!future.isCancelled()) {
+                    future.join().getValue().close();
+                }
+            });
+            futures.removeAll(completed);
+
+            // all sessions are idle
+            Assert.assertEquals(0, client.sessionPoolStats().getAcquiredCount());
+            Assert.assertEquals(maxSize, client.sessionPoolStats().getIdleCount());
+            Assert.assertEquals(0, client.sessionPoolStats().getPendingAcquireCount());
+        }
+
+        // After closing TableClient SessionPool released all sessions
+        fakeRpc.check().deleteSessionRequests(maxSize);
+        fakeRpc.completeSessionDeleteRequests();
     }
 
     private Session nextSession(TableClient client) {

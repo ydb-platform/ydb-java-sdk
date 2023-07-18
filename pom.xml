@@ -8,7 +8,7 @@
 
     <groupId>tech.ydb</groupId>
     <artifactId>ydb-sdk-parent</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1</version>
 
     <name>Java SDK for YDB</name>
     <description>Java SDK for YDB</description>
@@ -16,7 +16,6 @@
 
     <modules>
         <module>bom</module>
-        <module>auth-api</module>
         <module>core</module>
         <module>table</module>
         <module>scheme</module>
@@ -255,6 +254,13 @@
                     </plugin>
                 </plugins>
             </build>
+        </profile>
+
+        <profile>
+            <id>with-auth-api</id>
+            <modules>
+                <module>auth-api</module>
+            </modules>
         </profile>
 
         <profile>

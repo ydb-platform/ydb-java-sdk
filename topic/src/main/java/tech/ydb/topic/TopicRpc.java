@@ -48,6 +48,14 @@ public interface TopicRpc {
     CompletableFuture<Result<YdbTopic.DescribeTopicResult>> describeTopic(YdbTopic.DescribeTopicRequest request,
                                                                           GrpcRequestSettings settings);
 
+    /**
+     * Commit offset.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with result of operation
+     */
+    CompletableFuture<Status> commitOffset(YdbTopic.CommitOffsetRequest request, GrpcRequestSettings settings);
+
     GrpcReadWriteStream<YdbTopic.StreamWriteMessage.FromServer, YdbTopic.StreamWriteMessage.FromClient> writeSession();
 
     GrpcReadWriteStream<YdbTopic.StreamReadMessage.FromServer, YdbTopic.StreamReadMessage.FromClient> readSession();

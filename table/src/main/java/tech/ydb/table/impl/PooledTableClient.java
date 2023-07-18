@@ -8,8 +8,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.utils.Async;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -36,17 +34,7 @@ public class PooledTableClient implements TableClient {
 
     @Override
     public CompletableFuture<Result<Session>> createSession(Duration timeout) {
-        return pool.acquire(timeout).handle((session, tw) -> {
-            if (tw != null) {
-                Throwable ex = Async.unwrapCompletionException(tw);
-                if (ex instanceof UnexpectedResultException) {
-                    return Result.fail((UnexpectedResultException) ex);
-                } else {
-                    return Result.error("can't create session", ex);
-                }
-            }
-            return Result.success(session);
-        });
+        return pool.acquire(timeout);
     }
 
     @Override
@@ -59,16 +47,20 @@ public class PooledTableClient implements TableClient {
         pool.close();
     }
 
+    public void updatePoolMaxSize(int maxSize) {
+        pool.updateMaxSize(maxSize);
+    }
+
     @Override
     public SessionPoolStats sessionPoolStats() {
         return pool.stats();
     }
 
-    public static TableClient.Builder newClient(TableRpc rpc) {
+    public static Builder newClient(TableRpc rpc) {
         return new Builder(rpc);
     }
 
-    private static class Builder implements TableClient.Builder {
+    public static class Builder implements TableClient.Builder {
         /** Minimal duration of keep alive and idle */
         private static final Duration MIN_DURATION = Duration.ofSeconds(1);
         /** Maximal duration of keep alive and idle */
@@ -139,7 +131,7 @@ public class PooledTableClient implements TableClient {
         }
 
         @Override
-        public TableClient build() {
+        public PooledTableClient build() {
             return new PooledTableClient(this);
         }
     }

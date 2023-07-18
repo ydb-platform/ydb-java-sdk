@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Supplier;
+
 import org.junit.Assert;
 
 /**
@@ -14,6 +15,10 @@ import org.junit.Assert;
 public class FutureHelper {
     protected <T> T readyFuture(Supplier<CompletableFuture<T>> supplier) {
         return futureIsReady(supplier.get());
+    }
+
+    protected <T> CompletableFuture<T> pendingFuture(CompletableFuture<T> future) {
+        return futureIsPending(future);
     }
 
     protected <T> CompletableFuture<T> pendingFuture(Supplier<CompletableFuture<T>> supplier) {
@@ -64,6 +69,6 @@ public class FutureHelper {
             Assert.assertNotNull("Test interrupted", ex);
         }
     }
-    
-    
+
+
 }

@@ -64,6 +64,13 @@ public final class GrpcTopicRpc implements TopicRpc {
     }
 
     @Override
+    public CompletableFuture<Status> commitOffset(YdbTopic.CommitOffsetRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TopicServiceGrpc.getCommitOffsetMethod(), settings, request)
+                .thenApply(Operations.statusUnwrapper(YdbTopic.CommitOffsetResponse::getOperation));
+    }
+
+    @Override
     public GrpcReadWriteStream<
         YdbTopic.StreamWriteMessage.FromServer,
         YdbTopic.StreamWriteMessage.FromClient

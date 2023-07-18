@@ -1,5 +1,6 @@
 package tech.ydb.table.settings;
 
+import java.time.Duration;
 import java.util.Objects;
 
 import tech.ydb.proto.table.YdbTable;
@@ -8,37 +9,6 @@ import tech.ydb.proto.table.YdbTable;
  * @author Egor Litvinenko
  */
 public class Changefeed {
-
-    private final String name;
-    private final Mode mode;
-    private final Format format;
-
-    public Changefeed(String name, Mode mode, Format format) {
-        this.name = Objects.requireNonNull(name);
-        this.mode = Objects.requireNonNull(mode);
-        this.format = Objects.requireNonNull(format);
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public Mode getMode() {
-        return mode;
-    }
-
-    public Format getFormat() {
-        return format;
-    }
-
-    public YdbTable.Changefeed toProto() {
-        return YdbTable.Changefeed.newBuilder()
-                .setName(name)
-                .setFormat(format.toProto())
-                .setMode(mode.toProto())
-                .build();
-    }
-
     public enum Mode {
         KEYS_ONLY(YdbTable.ChangefeedMode.Mode.MODE_KEYS_ONLY),
         UPDATES(YdbTable.ChangefeedMode.Mode.MODE_UPDATES),
@@ -71,4 +41,107 @@ public class Changefeed {
         }
     }
 
+    private final String name;
+    private final Mode mode;
+    private final Format format;
+    private final boolean virtualTimestamps;
+    private final Duration retentionPeriod;
+    private final boolean initialScan;
+
+    private Changefeed(Builder builder) {
+        this.name = builder.name;
+        this.mode = builder.mode;
+        this.format = builder.format;
+        this.virtualTimestamps = builder.virtualTimestamps;
+        this.retentionPeriod = builder.retentionPeriod;
+        this.initialScan = builder.initialScan;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Mode getMode() {
+        return mode;
+    }
+
+    public Format getFormat() {
+        return format;
+    }
+
+    public boolean hasVirtualTimestamps() {
+        return virtualTimestamps;
+    }
+
+    public boolean hasInitialScan() {
+        return initialScan;
+    }
+
+    public Duration getRetentionPeriod() {
+        return retentionPeriod;
+    }
+
+    public YdbTable.Changefeed toProto() {
+        YdbTable.Changefeed.Builder builder = YdbTable.Changefeed.newBuilder()
+                .setName(name)
+                .setFormat(format.toProto())
+                .setVirtualTimestamps(virtualTimestamps)
+                .setInitialScan(initialScan)
+                .setMode(mode.toProto());
+
+        if (retentionPeriod != null) {
+            builder = builder.setRetentionPeriod(com.google.protobuf.Duration.newBuilder()
+                    .setSeconds(retentionPeriod.getSeconds())
+                    .setNanos(retentionPeriod.getNano())
+                    .build());
+        }
+
+        return builder.build();
+    }
+
+    public static Builder newBuilder(String changefeedName) {
+        return new Builder(changefeedName);
+    }
+
+    public static class Builder {
+        private String name;
+        private Mode mode = Mode.KEYS_ONLY;
+        private Format format = Format.JSON;
+        private boolean virtualTimestamps = false;
+        private Duration retentionPeriod = null;
+        private boolean initialScan = false;
+
+        private Builder(String name) {
+            this.name = Objects.requireNonNull(name);
+        }
+
+        public Builder withMode(Mode mode) {
+            this.mode = mode;
+            return this;
+        }
+
+        public Builder withFormat(Format format) {
+            this.format = format;
+            return this;
+        }
+
+        public Builder withVirtualTimestamps(boolean value) {
+            this.virtualTimestamps = value;
+            return this;
+        }
+
+        public Builder withInitialScan(boolean value) {
+            this.initialScan = value;
+            return this;
+        }
+
+        public Builder withRetentionPeriod(Duration retentionPeriod) {
+            this.retentionPeriod = retentionPeriod;
+            return this;
+        }
+
+        public Changefeed build() {
+            return new Changefeed(this);
+        }
+    }
 }

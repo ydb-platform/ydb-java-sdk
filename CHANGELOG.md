@@ -1,3 +1,11 @@
+## 2.1.1 ##
+
+* Added commitOffset method to topic service
+* Updated class Changefeed - added fields inititialScan, virtualTimestamps and retentionPeriod
+* Added method executeReadTable with support of virtual timestamps
+* Fixed session leaks if to cancel future from session pool
+* Added addtional session pool metrics
+
 ## 2.1.0 ##
 
 * Added config for GRPC compression
