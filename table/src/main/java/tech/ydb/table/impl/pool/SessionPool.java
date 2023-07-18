@@ -10,6 +10,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
@@ -34,11 +35,18 @@ import tech.ydb.table.settings.DeleteSessionSettings;
  */
 public class SessionPool implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(SessionPool.class);
+
+    private static final CreateSessionSettings CREATE_SETTINGS = new CreateSessionSettings()
+            .setTimeout(Duration.ofSeconds(300))
+            .setOperationTimeout(Duration.ofSeconds(299));
+
     private final int minSize;
     private final Clock clock;
     private final ScheduledExecutorService scheduler;
     private final WaitingQueue<ClosableSession> queue;
     private final ScheduledFuture<?> keepAliveFuture;
+
+    private final StatsImpl stats = new StatsImpl();
 
     public SessionPool(Clock clock, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
         this.minSize = options.getMinSize();
@@ -59,6 +67,10 @@ public class SessionPool implements AutoCloseable {
                 keepAlive.periodMillis);
     }
 
+    public void updateMaxSize(int maxSize) {
+        this.queue.updateLimits(maxSize);
+    }
+
     @Override
     public void close() {
         logger.info("closing session pool");
@@ -68,12 +80,7 @@ public class SessionPool implements AutoCloseable {
     }
 
     public SessionPoolStats stats() {
-        return new SessionPoolStats(
-                minSize,
-                queue.getTotalLimit(),
-                queue.getIdleCount(),
-                queue.getUsedCount(),
-                queue.getWaitingCount() + queue.getPendingCount());
+        return stats;
     }
 
     public CompletableFuture<Result<Session>> acquire(Duration timeout) {
@@ -131,6 +138,7 @@ public class SessionPool implements AutoCloseable {
 
         if (session.state().switchToActive(clock.instant())) {
             logger.debug("session {} accepted", session.getId());
+            stats.acquired.increment();
             future.complete(Result.success(session));
             return true;
         }
@@ -144,10 +152,12 @@ public class SessionPool implements AutoCloseable {
         ClosableSession(String id, TableRpc rpc, boolean keepQueryText) {
             super(id, clock, rpc, keepQueryText);
             logger.debug("session {} successful created", id);
+            stats.created.increment();
         }
 
         @Override
         public void close() {
+            stats.released.increment();
             if (state().switchToIdle(clock.instant())) {
                 logger.debug("session {} release", getId());
                 queue.release(this);
@@ -169,9 +179,13 @@ public class SessionPool implements AutoCloseable {
 
         @Override
         public CompletableFuture<ClosableSession> create() {
+            stats.requested.increment();
             return BaseSession
-                    .createSessionId(tableRpc, new CreateSessionSettings(), true)
+                    .createSessionId(tableRpc, CREATE_SETTINGS, true)
                     .thenApply(response -> {
+                        if (!response.isSuccess()) {
+                            stats.failed.increment();
+                        }
                         String id = response.getValue();
                         return new ClosableSession(id, tableRpc, keepQueryText);
                     });
@@ -179,6 +193,7 @@ public class SessionPool implements AutoCloseable {
 
         @Override
         public void destroy(ClosableSession session) {
+            stats.deleted.increment();
             session.delete(new DeleteSessionSettings()).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
@@ -261,6 +276,88 @@ public class SessionPool implements AutoCloseable {
             }
         }
     }
+
+    private class StatsImpl implements SessionPoolStats {
+        private final LongAdder acquired = new LongAdder();
+        private final LongAdder released = new LongAdder();
+
+        private final LongAdder requested = new LongAdder();
+        private final LongAdder failed = new LongAdder();
+        private final LongAdder created = new LongAdder();
+        private final LongAdder deleted = new LongAdder();
+
+        @Override
+        public int getMinSize() {
+            return minSize;
+        }
+
+        @Override
+        public int getMaxSize() {
+            return queue.getTotalLimit();
+        }
+
+        @Override
+        public int getIdleCount() {
+            return queue.getIdleCount();
+        }
+
+        @Override
+        public int getAcquiredCount() {
+            return queue.getUsedCount();
+        }
+
+        @Override
+        public int getPendingAcquireCount() {
+            return queue.getWaitingCount() + queue.getPendingCount();
+        }
+
+        @Override
+        public long getAcquiredTotal() {
+            return acquired.sum();
+        }
+
+        @Override
+        public long getReleasedTotal() {
+            return released.sum();
+        }
+
+        @Override
+        public long getRequestedTotal() {
+            return requested.sum();
+        }
+
+        @Override
+        public long getCreatedTotal() {
+            return created.sum();
+        }
+
+        @Override
+        public long getFailedTotal() {
+            return failed.sum();
+        }
+
+        @Override
+        public long getDeletedTotal() {
+            return deleted.sum();
+        }
+
+        @Override
+        public String toString() {
+            return "SessionPoolStats{minSize=" + getMinSize()
+                    + ", maxSize=" + getMaxSize()
+                    + ", idleCount=" + getIdleCount()
+                    + ", acquiredCount=" + getAcquiredCount()
+                    + ", pendingAcquireCount=" + getPendingAcquireCount()
+                    + ", acquiredTotal=" + getPendingAcquireCount()
+                    + ", releasedTotal=" + getReleasedTotal()
+                    + ", requestsTotal=" + getRequestedTotal()
+                    + ", createdTotal=" + getCreatedTotal()
+                    + ", failedTotal=" + getFailedTotal()
+                    + ", deletedTotal=" + getDeletedTotal()
+                    + "}";
+        }
+    }
+
 
     /**
      * This is the part based on the code written by Doug Lea with assistance from members

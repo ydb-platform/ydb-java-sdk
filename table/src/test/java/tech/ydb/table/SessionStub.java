@@ -12,6 +12,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
@@ -119,8 +120,8 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
-        throw new UnsupportedOperationException("readTable not implemented");
+    public GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings) {
+        throw new UnsupportedOperationException("executeReadTable not implemented");
     }
 
     @Override

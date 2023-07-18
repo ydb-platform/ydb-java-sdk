@@ -15,6 +15,8 @@ import javax.annotation.concurrent.ThreadSafe;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -27,6 +29,8 @@ import tech.ydb.core.UnexpectedResultException;
 */
 @ThreadSafe
 public class WaitingQueue<T> implements AutoCloseable {
+    private static final Logger logger = LoggerFactory.getLogger(WaitingQueue.class);
+
     public interface Handler<T> {
         CompletableFuture<T> create();
         void destroy(T object);
@@ -36,10 +40,8 @@ public class WaitingQueue<T> implements AutoCloseable {
     @VisibleForTesting
     static final int WAITINGS_LIMIT_FACTOR = 10;
 
-    private final int maxSize;
-    private final int waitingsLimit;
-
     private final Handler<T> handler;
+    private volatile Limits limits;
     private volatile boolean stopped = false;
 
     /** Deque of idle objects */
@@ -63,12 +65,20 @@ public class WaitingQueue<T> implements AutoCloseable {
         Preconditions.checkArgument(handler != null, "WaitingQueue handler must be not null");
 
         this.handler = handler;
-        this.maxSize = maxSize;
-        this.waitingsLimit = waitingsLimit;
+        this.limits = new Limits(maxSize, waitingsLimit);
     }
 
     public WaitingQueue(Handler<T> handler, int maxSize) {
         this(handler, maxSize, maxSize * WAITINGS_LIMIT_FACTOR);
+    }
+
+    public void updateLimits(int maxSize) {
+        updateLimits(maxSize, maxSize * WAITINGS_LIMIT_FACTOR);
+    }
+
+    public void updateLimits(int maxSize, int waitingsLimit) {
+        this.limits = new Limits(maxSize, waitingsLimit);
+        checkNextWaitingAcquire();
     }
 
     public void acquire(CompletableFuture<T> acquire) {
@@ -90,11 +100,24 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     public void release(T object) {
         if (!used.remove(object, object)) {
+            if (!logger.isTraceEnabled()) {
+                logger.warn("obj {} double release, possible pool leaks!!", object);
+            } else {
+                Exception stackTrace = new RuntimeException("Double release");
+                logger.warn("obj {} double release, possible pool leaks!!", object, stackTrace);
+            }
             return;
         }
 
         // Try to complete waiting request
         if (!tryToCompleteWaiting(object)) {
+            // if queue is overflowed
+            if (queueSize.get() > limits.maxSize) {
+                queueSize.decrementAndGet();
+                handler.destroy(object);
+                return;
+            }
+
             // Put object to idle deque as hottest object
             idle.offerFirst(object); // ConcurrentLinkedDeque always return true
             if (stopped) {
@@ -105,6 +128,12 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     public void delete(T object) {
         if (!used.remove(object, object)) {
+            if (!logger.isTraceEnabled()) {
+                logger.warn("obj {} double delete, possible pool leaks!!", object);
+            } else {
+                Exception stackTrace = new RuntimeException("Double delete");
+                logger.warn("obj {} double delete, possible pool leaks!!", object, stackTrace);
+            }
             return;
         }
         queueSize.decrementAndGet();
@@ -145,14 +174,14 @@ public class WaitingQueue<T> implements AutoCloseable {
     }
 
     public int getTotalLimit() {
-        return maxSize;
+        return limits.maxSize;
     }
 
     public int getWaitingLimit() {
-        return waitingsLimit;
+        return limits.waitingsLimit;
     }
 
-    private void safeAcquireObject(CompletableFuture<T> acquire, T object) {
+    private boolean safeAcquireObject(CompletableFuture<T> acquire, T object) {
         used.put(object, object);
         if (stopped) {
             acquire.completeExceptionally(new CancellationException("Queue is already closed"));
@@ -160,24 +189,35 @@ public class WaitingQueue<T> implements AutoCloseable {
                 queueSize.decrementAndGet();
                 handler.destroy(object);
             }
-        } else {
-            acquire.complete(object);
+            return true;
         }
+
+        if (!acquire.complete(object)) {
+            used.remove(object, object);
+            return false;
+        }
+
+        return true;
     }
 
     private boolean tryToPollIdle(CompletableFuture<T> acquire) {
         // Try to poll hottest element
         T next = idle.pollFirst();
-        if (next != null) {
-            safeAcquireObject(acquire, next);
-            return true;
+        if (next == null) {
+            return false;
         }
-        return false;
+
+        if (!safeAcquireObject(acquire, next)) {
+            idle.offerFirst(next);
+            return false;
+        }
+
+        return true;
     }
 
     private boolean tryToCreateNewPending(CompletableFuture<T> acquire) {
         int count = queueSize.get();
-        while (count < maxSize) {
+        while (count < limits.maxSize) {
             if (!queueSize.compareAndSet(count, count + 1)) {
                 count = queueSize.get();
                 continue;
@@ -194,7 +234,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     private boolean tryToCreateNewWaiting(CompletableFuture<T> acquire) {
         int waitingsCount = waitingAcqueireCount.get();
-        while (waitingsCount < waitingsLimit) {
+        while (waitingsCount < limits.waitingsLimit) {
             if (!waitingAcqueireCount.compareAndSet(waitingsCount, waitingsCount + 1)) {
                 waitingsCount = waitingAcqueireCount.get();
                 continue;
@@ -216,10 +256,10 @@ public class WaitingQueue<T> implements AutoCloseable {
         while (next != null) {
             waitingAcqueireCount.decrementAndGet();
 
-            if (!next.isDone() && !next.isCancelled()) {
-                safeAcquireObject(next, object);
+            if (safeAcquireObject(next, object)) {
                 return true;
             }
+
             next = waitingAcquires.poll();
         }
 
@@ -240,7 +280,7 @@ public class WaitingQueue<T> implements AutoCloseable {
                 }
                 if (object != null) {
                     if (!tryToCompleteWaiting(object)) {
-                        release(object);
+                        idle.offerFirst(object);
                     }
                 }
             });
@@ -268,6 +308,16 @@ public class WaitingQueue<T> implements AutoCloseable {
         }
     }
 
+    private static class Limits {
+        private final int maxSize;
+        private final int waitingsLimit;
+
+        Limits(int queueSize, int waitingsSize) {
+            this.maxSize = queueSize;
+            this.waitingsLimit = waitingsSize;
+        }
+    }
+
     private class PendingHandler implements BiConsumer<T, Throwable> {
         private final CompletableFuture<T> acquire;
         private final CompletableFuture<T> pending;
@@ -279,13 +329,9 @@ public class WaitingQueue<T> implements AutoCloseable {
 
         @Override
         public void accept(T object, Throwable th) {
-            boolean ready = !acquire.isDone() && !acquire.isCancelled();
-
             // If pool is already closed and clean
             if (!pendingRequests.remove(pending, pending)) {
-                if (ready) {
-                    acquire.completeExceptionally(new CancellationException("Queue is already closed"));
-                }
+                acquire.completeExceptionally(new CancellationException("Queue is already closed"));
                 if (object != null) {
                     handler.destroy(object);
                 }
@@ -296,14 +342,11 @@ public class WaitingQueue<T> implements AutoCloseable {
             // guarantees that if object is null then th is not null
             if (th != null) {
                 queueSize.decrementAndGet();
-                if (ready) {
-                    acquire.completeExceptionally(th);
-                }
+                acquire.completeExceptionally(th);
                 return;
             }
 
-            if (ready) {
-                safeAcquireObject(acquire, object);
+            if (!acquire.isDone() && safeAcquireObject(acquire, object)) {
                 return;
             }
 

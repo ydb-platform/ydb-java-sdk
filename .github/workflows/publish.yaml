@@ -24,7 +24,7 @@ jobs:
       - name: Extract SDK versions
         run: |
           SDK_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
-          AUTH_API_VERSION=$(mvn -pl auth-api help:evaluate -Dexpression=project.version -q -DforceStdout)
+          AUTH_API_VERSION=$(mvn -Pwith-auth-api -pl auth-api help:evaluate -Dexpression=project.version -q -DforceStdout)
           BOM_AUTH_API_VERSION=$(mvn -pl bom help:evaluate -Dexpression=ydb-auth-api.version -q -DforceStdout)
           BOM_YC_AUTH_VERSION=$(mvn -pl bom help:evaluate -Dexpression=yc-auth.version -q -DforceStdout)
           echo "SDK_VERSION=$SDK_VERSION" >> "$GITHUB_ENV"

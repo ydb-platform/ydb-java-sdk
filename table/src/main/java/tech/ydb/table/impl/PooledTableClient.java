@@ -47,16 +47,20 @@ public class PooledTableClient implements TableClient {
         pool.close();
     }
 
+    public void updatePoolMaxSize(int maxSize) {
+        pool.updateMaxSize(maxSize);
+    }
+
     @Override
     public SessionPoolStats sessionPoolStats() {
         return pool.stats();
     }
 
-    public static TableClient.Builder newClient(TableRpc rpc) {
+    public static Builder newClient(TableRpc rpc) {
         return new Builder(rpc);
     }
 
-    private static class Builder implements TableClient.Builder {
+    public static class Builder implements TableClient.Builder {
         /** Minimal duration of keep alive and idle */
         private static final Duration MIN_DURATION = Duration.ofSeconds(1);
         /** Maximal duration of keep alive and idle */
@@ -127,7 +131,7 @@ public class PooledTableClient implements TableClient {
         }
 
         @Override
-        public TableClient build() {
+        public PooledTableClient build() {
             return new PooledTableClient(this);
         }
     }
