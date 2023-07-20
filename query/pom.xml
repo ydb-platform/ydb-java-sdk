@@ -12,8 +12,8 @@
     </parent>
 
     <artifactId>ydb-sdk-query</artifactId>
-    <name>YDB Query service client</name>
-    <description>Query service client implementation</description>
+    <name>Query service client</name>
+    <description>YDB QueryService client implementation</description>
 
     <dependencies>
         <dependency>

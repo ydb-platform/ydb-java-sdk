@@ -21,4 +21,13 @@ public interface QueryClient extends AutoCloseable {
 
     @Override
     void close();
+
+    interface Builder {
+        Builder sessionPoolMinSize(int minSize);
+        Builder sessionPoolMaxSize(int maxSize);
+
+        Builder sessionMaxIdleTime(Duration duration);
+
+        QueryClient build();
+    }
 }
