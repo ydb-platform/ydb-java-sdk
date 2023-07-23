@@ -43,9 +43,9 @@ public abstract class ReaderImpl {
 
     private final ReaderSettings settings;
     private final TopicRpc topicRpc;
-    private final AtomicInteger reconnectCounter = new AtomicInteger(0);
+    private final AtomicInteger reconnectCounter = new AtomicInteger();
     private final AtomicLong sizeBytesToRequest;
-    protected final AtomicBoolean isStopped = new AtomicBoolean(false);
+    protected final AtomicBoolean isStopped = new AtomicBoolean();
     private final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;

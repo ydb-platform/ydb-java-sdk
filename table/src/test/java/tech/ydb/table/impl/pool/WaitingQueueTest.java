@@ -31,7 +31,7 @@ public class WaitingQueueTest extends FutureHelper {
     }
 
     private class ResourceHandler implements WaitingQueue.Handler<Resource> {
-        private final AtomicInteger idGenerator = new AtomicInteger(0);
+        private final AtomicInteger idGenerator = new AtomicInteger();
         private final Queue<CompletableFuture<Resource>> futures = new ConcurrentLinkedQueue<>();
         private final Set<Resource> active = new HashSet<>();
 

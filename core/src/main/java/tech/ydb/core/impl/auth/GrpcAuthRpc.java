@@ -18,7 +18,7 @@ public class GrpcAuthRpc {
     private final List<EndpointRecord> endpoints;
     private final BaseGrpcTransport parent;
     private final ManagedChannelFactory channelFactory;
-    private final AtomicInteger endpointIdx = new AtomicInteger(0);
+    private final AtomicInteger endpointIdx = new AtomicInteger();
 
     public GrpcAuthRpc(
             List<EndpointRecord> endpoints,

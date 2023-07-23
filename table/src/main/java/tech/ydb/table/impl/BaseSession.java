@@ -945,7 +945,7 @@ public abstract class BaseSession implements Session {
 
     private static class ShutdownHandler implements Consumer<Metadata> {
         private static final String GRACEFUL_SHUTDOWN_HINT = "session-close";
-        private volatile boolean needShutdown = false;
+        private volatile boolean needShutdown;
 
         public boolean isGracefulShutdown() {
             return needShutdown;
