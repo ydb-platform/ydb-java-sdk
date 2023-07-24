@@ -51,10 +51,10 @@ public abstract class WriterImpl {
     private final Queue<EnqueuedMessage> sendingQueue = new ConcurrentLinkedQueue<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
     private final Queue<EnqueuedMessage> sentMessages = new ConcurrentLinkedQueue<>();
-    private final AtomicBoolean writeRequestInProgress = new AtomicBoolean(false);
-    private final AtomicBoolean isStopped = new AtomicBoolean(false);
-    private final AtomicBoolean isReconnecting = new AtomicBoolean(false);
-    private final AtomicInteger reconnectCounter = new AtomicInteger(0);
+    private final AtomicBoolean writeRequestInProgress = new AtomicBoolean();
+    private final AtomicBoolean isStopped = new AtomicBoolean();
+    private final AtomicBoolean isReconnecting = new AtomicBoolean();
+    private final AtomicInteger reconnectCounter = new AtomicInteger();
     private final Executor compressionExecutor;
     private final MessageSender messageSender;
 

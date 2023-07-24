@@ -42,7 +42,7 @@ public class PartitionSession {
     private final Queue<Batch> decodingBatches = new LinkedList<>();
     private final Queue<Batch> readingQueue = new ConcurrentLinkedQueue<>();
     private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
-    private final AtomicBoolean isReadingNow = new AtomicBoolean(false);
+    private final AtomicBoolean isReadingNow = new AtomicBoolean();
     private final BiConsumer<Long, OffsetsRange> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
 
