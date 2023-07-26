@@ -78,6 +78,12 @@ public abstract class WriterImpl {
         this.maxSendBufferMemorySize = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
         this.messageSender = new MessageSender(session, settings);
+        String message = "Writer" +
+                " (generated id " + id + ")" +
+                " created for topic \"" + settings.getTopicPath() + "\"" +
+                " with producerId \"" + settings.getProducerId() + "\"" +
+                " and messageGroupId \"" + settings.getMessageGroupId() + "\"";
+        logger.info(message);
     }
 
     private static class IncomingMessage {
