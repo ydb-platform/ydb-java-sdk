@@ -57,6 +57,7 @@ public abstract class WriterImpl {
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
     private final Executor compressionExecutor;
     private final MessageSender messageSender;
+    private final long maxSendBufferMemorySize;
 
     private WriteSession session;
     private String currentSessionId;
@@ -71,6 +72,7 @@ public abstract class WriterImpl {
         this.settings = settings;
         this.session = new WriteSession(topicRpc);
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
+        this.maxSendBufferMemorySize = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
         this.messageSender = new MessageSender(session, settings);
     }
@@ -92,14 +94,13 @@ public abstract class WriterImpl {
                     result.completeExceptionally(new QueueOverflowException("Message queue in-flight limit reached"));
                     return result;
                 }
-            } else if (availableSizeBytes < message.getMessage().getData().length) {
+            } else if (availableSizeBytes <= message.getMessage().getData().length) {
                 if (instant) {
                     CompletableFuture<Void> result = new CompletableFuture<>();
                     result.completeExceptionally(new QueueOverflowException("Message queue size limit reached"));
                     return result;
                 }
             } else if (incomingQueue.isEmpty()) {
-                // Enough space to put the message into the queue right now
                 logger.trace("Putting a message into the queue right now, enough space in send buffer");
                 acceptMessageIntoSendingQueue(message);
                 return CompletableFuture.completedFuture(null);
@@ -118,8 +119,9 @@ public abstract class WriterImpl {
         this.currentInFlightCount++;
         this.availableSizeBytes -= message.getUncompressedSizeBytes();
         if (logger.isTraceEnabled()) {
-            logger.trace("Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, AvailableSizeBytes: {}",
-                    message.getUncompressedSizeBytes(), currentInFlightCount, availableSizeBytes);
+            logger.trace("Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, AvailableSizeBytes: {} " +
+                            "({} / {} acquired)", message.getUncompressedSizeBytes(), currentInFlightCount,
+                    availableSizeBytes, maxSendBufferMemorySize - availableSizeBytes, maxSendBufferMemorySize);
         }
         this.encodingMessages.add(message);
 
@@ -146,7 +148,6 @@ public abstract class WriterImpl {
                                             - encodedMessage.getCompressedSizeBytes();
                                     // bytesFreed can be less than 0
                                     free(0, bytesFreed);
-
                                 }
                                 logger.debug("Adding message to sending queue");
                                 sendingQueue.add(encodedMessage);
@@ -171,11 +172,11 @@ public abstract class WriterImpl {
     private void sendDataRequestIfNeeded() {
         while (true) {
             if (isReconnecting.get()) {
-                logger.debug("Can't send data -- reconnect in progress");
+                logger.debug("Can't send data: reconnect is in progress");
                 return;
             }
             if (!initResultFuture.isDone()) {
-                logger.debug("Can't send data -- init was not yet received");
+                logger.debug("Can't send data: init was not yet received");
                 return;
             }
             Queue<EnqueuedMessage> messages;
@@ -198,6 +199,7 @@ public abstract class WriterImpl {
                 synchronized (messageSender) {
                     messageSender.sendMessages(messages);
                 }
+                logger.trace("Sent {} messages to server", messages.size());
             }
             if (!writeRequestInProgress.compareAndSet(true, false)) {
                 logger.error("Couldn't turn off writeRequestInProgress. Should not happen");
@@ -286,8 +288,9 @@ public abstract class WriterImpl {
             currentInFlightCount -= messageCount;
             availableSizeBytes += sizeBytes;
             if (logger.isTraceEnabled()) {
-                logger.trace("Freed {} bytes in {} messages. Current In-flight: {}, current availableSize: {}",
-                        sizeBytes, messageCount, currentInFlightCount, availableSizeBytes);
+                logger.trace("Freed {} bytes in {} messages. Current In-flight: {}, current availableSize: {} " +
+                                "({} / {} acquired)", sizeBytes, messageCount, currentInFlightCount, availableSizeBytes,
+                        maxSendBufferMemorySize - availableSizeBytes, maxSendBufferMemorySize);
             }
 
             // Try to add waiting messages into send buffer
@@ -438,7 +441,7 @@ public abstract class WriterImpl {
         this.session.stop();
 
         if (th != null) {
-            logger.error("Exception in writing stream session {}: {}", currentSessionId, th);
+            logger.error("Exception in writing stream session {}: ", currentSessionId, th);
         } else {
             if (status.isSuccess()) {
                 if (isStopped.get()) {
