@@ -47,8 +47,12 @@ public abstract class ReaderImpl {
     private final ReaderSettings settings;
     private final TopicRpc topicRpc;
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
-    private final AtomicLong sizeBytesToRequest;
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
+    // Total size of all messages that are read from server and are not handled yet
+    private final AtomicLong sizeBytesAcquired = new AtomicLong(0);
+    // Total size to request with next ReadRequest.
+    // Used to group several ReadResponses in one on high rps
+    private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
     private final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
@@ -61,7 +65,6 @@ public abstract class ReaderImpl {
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new ReadSession(topicRpc);
-        this.sizeBytesToRequest = new AtomicLong(settings.getMaxMemoryUsageBytes());
         if (settings.getDecompressionExecutor() != null) {
             this.defaultDecompressionExecutorService = null;
             this.decompressionExecutor = settings.getDecompressionExecutor();
@@ -123,8 +126,10 @@ public abstract class ReaderImpl {
     private void sendReadRequest() {
         long currentSizeBytesToRequest = sizeBytesToRequest.getAndSet(0);
         if (currentSizeBytesToRequest == 0) {
+            logger.debug("[{}] Nothing to request in DataRequest. sizeBytesToRequest == 0", id);
             return;
         }
+        logger.debug("[{}] Sending DataRequest with {} bytes", id, currentSizeBytesToRequest);
 
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setReadRequest(YdbTopic.StreamReadMessage.ReadRequest.newBuilder()
@@ -185,6 +190,8 @@ public abstract class ReaderImpl {
 
     private void handleReadResponse(YdbTopic.StreamReadMessage.ReadResponse readResponse) {
         final long responseBytesSize = readResponse.getBytesSize();
+        sizeBytesAcquired.addAndGet(responseBytesSize);
+        logger.trace("Received ReadResponse of {} bytes", responseBytesSize);
         List<CompletableFuture<Void>> batchReadFutures = new ArrayList<>();
         readResponse.getPartitionDataList().forEach((YdbTopic.StreamReadMessage.ReadResponse.PartitionData data) -> {
             long partitionId = data.getPartitionSessionId();
@@ -202,6 +209,8 @@ public abstract class ReaderImpl {
                     if (th != null) {
                         logger.error("[{}] Exception while waiting for batches to be read:", id, th);
                     }
+                    logger.trace("Finished handling ReadResponse of {} bytes", responseBytesSize);
+                    sizeBytesAcquired.addAndGet(-responseBytesSize);
                     this.sizeBytesToRequest.addAndGet(responseBytesSize);
                     sendReadRequest();
                 });
@@ -327,7 +336,10 @@ public abstract class ReaderImpl {
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
             initResultFuture.complete(null);
-            logger.info("[{}] Session {} initialized", id, currentSessionId);
+            long bytesAvailable = settings.getMaxMemoryUsageBytes() - sizeBytesAcquired.get();
+            sizeBytesToRequest.addAndGet(bytesAvailable);
+            logger.info("[{}] Session {} initialized. Requesting available {} bytes...", id, currentSessionId,
+                    bytesAvailable);
             sendReadRequest();
         } else if (message.hasStartPartitionSessionRequest()) {
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request = message.getStartPartitionSessionRequest();
