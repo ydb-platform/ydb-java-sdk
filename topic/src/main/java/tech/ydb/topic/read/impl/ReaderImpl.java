@@ -59,6 +59,7 @@ public abstract class ReaderImpl {
     private CompletableFuture<Void> initResultFuture = new CompletableFuture<>();
     private ReadSession session;
     private String currentSessionId;
+    private AtomicBoolean isReconnecting = new AtomicBoolean(false);
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         this.id = UUID.randomUUID().toString();
@@ -125,8 +126,9 @@ public abstract class ReaderImpl {
 
     private void sendReadRequest() {
         long currentSizeBytesToRequest = sizeBytesToRequest.getAndSet(0);
-        if (currentSizeBytesToRequest == 0) {
-            logger.debug("[{}] Nothing to request in DataRequest. sizeBytesToRequest == 0", id);
+        if (currentSizeBytesToRequest <= 0) {
+            logger.debug("[{}] Nothing to request in DataRequest. sizeBytesToRequest == {}", id,
+                    currentSizeBytesToRequest);
             return;
         }
         logger.debug("[{}] Sending DataRequest with {} bytes", id, currentSizeBytesToRequest);
@@ -209,10 +211,22 @@ public abstract class ReaderImpl {
                     if (th != null) {
                         logger.error("[{}] Exception while waiting for batches to be read:", id, th);
                     }
-                    logger.trace("Finished handling ReadResponse of {} bytes", responseBytesSize);
-                    sizeBytesAcquired.addAndGet(-responseBytesSize);
-                    this.sizeBytesToRequest.addAndGet(responseBytesSize);
-                    sendReadRequest();
+                    boolean needToSendDataRequest = false;
+                    synchronized (sizeBytesAcquired) {
+                        long newAcquiredSize = sizeBytesAcquired.addAndGet(-responseBytesSize);
+                        if (isReconnecting.get()) {
+                            logger.trace("[{}] Finished handling ReadResponse of {} bytes. Reconnect is in progress" +
+                                    " -- no need to send ReadRequest", id, responseBytesSize);
+                        } else {
+                            logger.trace("[{}] Finished handling ReadResponse of {} bytes. sizeBytesAcquired is now " +
+                                    "{}. Sending ReadRequest...", id, responseBytesSize, newAcquiredSize);
+                            this.sizeBytesToRequest.addAndGet(responseBytesSize);
+                            needToSendDataRequest = true;
+                        }
+                    }
+                    if (needToSendDataRequest) {
+                        sendReadRequest();
+                    }
                 });
     }
 
@@ -301,6 +315,7 @@ public abstract class ReaderImpl {
     }
 
     private void closeSessionsAndScheduleReconnect(int currentReconnectCounter) {
+        isReconnecting.set(true);
         closePartitionSessions();
         int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
                 ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
@@ -336,10 +351,13 @@ public abstract class ReaderImpl {
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
             initResultFuture.complete(null);
-            long bytesAvailable = settings.getMaxMemoryUsageBytes() - sizeBytesAcquired.get();
-            sizeBytesToRequest.addAndGet(bytesAvailable);
-            logger.info("[{}] Session {} initialized. Requesting available {} bytes...", id, currentSessionId,
-                    bytesAvailable);
+            synchronized (sizeBytesAcquired) {
+                long bytesAvailable = settings.getMaxMemoryUsageBytes() - sizeBytesAcquired.get();
+                sizeBytesToRequest.addAndGet(bytesAvailable);
+                isReconnecting.set(false);
+                logger.info("[{}] Session {} initialized. Requesting available {} bytes...", id, currentSessionId,
+                        bytesAvailable);
+            }
             sendReadRequest();
         } else if (message.hasStartPartitionSessionRequest()) {
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request = message.getStartPartitionSessionRequest();
