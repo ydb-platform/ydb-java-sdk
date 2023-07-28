@@ -7,7 +7,6 @@ import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.impl.ProtoValueReaders;
 
-
 /**
  * @author Sergey Polovko
  */
@@ -15,10 +14,12 @@ public class DataQueryResult {
 
     private final String txId;
     private final List<ValueProtos.ResultSet> resultSets;
+    private final YdbQueryStats.QueryStats queryStats;
 
     public DataQueryResult(YdbTable.ExecuteQueryResult result) {
         this.txId = result.getTxMeta().getId();
         this.resultSets = result.getResultSetsList();
+        queryStats = new YdbQueryStats.QueryStats(result.getQueryStats());
     }
 
     public String getTxId() {
@@ -43,5 +44,9 @@ public class DataQueryResult {
 
     public boolean isEmpty() {
         return txId.isEmpty() && resultSets.isEmpty();
+    }
+
+    public YdbQueryStats.QueryStats getQueryStats() {
+        return queryStats;
     }
 }
