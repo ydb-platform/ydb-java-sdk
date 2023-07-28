@@ -368,6 +368,7 @@ public abstract class WriterImpl {
             completeSession(Status.of(StatusCode.fromProto(message.getStatus()))
                             .withIssues(Issue.of("Got a message with non-success status: " + message,
                                     Issue.Severity.ERROR)), null);
+            return;
         }
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
