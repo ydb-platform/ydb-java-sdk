@@ -599,7 +599,7 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operations.createParams(settings.toOperationSettings()))
                 .setTxControl(txControl.toPb())
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
-                .setCollectStats(settings.collectStats())
+                .setCollectStats(settings.collectStats().toPb())
                 .putAllParameters(params.toPb());
 
         final boolean keepInServerQueryCache = settings.isKeepInQueryCache();
@@ -639,7 +639,7 @@ public abstract class BaseSession implements Session {
                 .setSessionId(id)
                 .setOperationParams(Operations.createParams(settings.toOperationSettings()))
                 .setTxControl(txControl.toPb())
-                .setCollectStats(settings.collectStats());
+                .setCollectStats(settings.collectStats().toPb());
 
         request.getQueryBuilder().setId(queryId);
         request.putAllParameters(params.toPb());
@@ -690,8 +690,7 @@ public abstract class BaseSession implements Session {
                 .thenApply(result -> result.map((value) -> {
                     String queryId = value.getQueryId();
                     Map<String, ValueProtos.Type> types = value.getParametersTypesMap();
-                    DataQueryImpl dataQuery = new DataQueryImpl(this, queryId, query, keepQueryText, types);
-                    return dataQuery;
+                    return new DataQueryImpl(this, queryId, query, keepQueryText, types);
                 }));
     }
 
@@ -797,9 +796,9 @@ public abstract class BaseSession implements Session {
     ) {
         YdbTable.ExecuteScanQueryRequest request = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
-                .setMode(settings.getMode())
+                .setMode(settings.getMode().toPb())
                 .putAllParameters(params.toPb())
-                .setCollectStats(settings.getCollectStats())
+                .setCollectStats(settings.getCollectStats().toPb())
                 .build();
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout());
