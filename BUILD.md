@@ -17,3 +17,4 @@ If you don't need the test executions, just disable them
 ```
 mvn clean install -DskipTests=true
 ```
+
