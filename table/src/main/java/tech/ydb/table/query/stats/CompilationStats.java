@@ -7,7 +7,6 @@ public final class CompilationStats implements Serializable {
     private final boolean fromCache;
     private final long durationUs;
     private final long cpuTimeUs;
-    private int memoizedHashCode;
 
     public CompilationStats(tech.ydb.proto.YdbQueryStats.CompilationStats protoAutoGenCompilationStats) {
         this.fromCache = protoAutoGenCompilationStats.getFromCache();
@@ -43,10 +42,7 @@ public final class CompilationStats implements Serializable {
 
     @Override
     public int hashCode() {
-        if (this.memoizedHashCode == 0) {
-            this.memoizedHashCode = Objects.hash(fromCache, durationUs, cpuTimeUs);
-        }
-        return this.memoizedHashCode;
+        return Objects.hash(fromCache, durationUs, cpuTimeUs);
     }
 
     @Override

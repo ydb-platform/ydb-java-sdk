@@ -8,7 +8,6 @@ public final class TableAccessStats {
     private final OperationStats updates;
     private final OperationStats deletes;
     private final long partitionsCount;
-    private int memoizedHashCode;
 
     public TableAccessStats(tech.ydb.proto.YdbQueryStats.TableAccessStats protoAutoGenTableAccessStats) {
         this.name = protoAutoGenTableAccessStats.getName();
@@ -55,11 +54,7 @@ public final class TableAccessStats {
 
     @Override
     public int hashCode() {
-        if (this.memoizedHashCode == 0) {
-            this.memoizedHashCode =
-                    Objects.hash(getName(), getReads(), getUpdates(), getDeletes(), getPartitionsCount());
-        }
-        return this.memoizedHashCode;
+        return Objects.hash(getName(), getReads(), getUpdates(), getDeletes(), getPartitionsCount());
     }
 
     @Override

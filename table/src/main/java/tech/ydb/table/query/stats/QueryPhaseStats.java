@@ -11,7 +11,7 @@ public final class QueryPhaseStats implements Serializable {
     private final long cpuTimeUs;
     private final long affectedShards;
     private final boolean literalPhase;
-    private int memoizedHashCode;
+
 
     public QueryPhaseStats(tech.ydb.proto.YdbQueryStats.QueryPhaseStats protoAutoGenQueryPhaseStats) {
         this.durationUs = protoAutoGenQueryPhaseStats.getDurationUs();
@@ -68,12 +68,8 @@ public final class QueryPhaseStats implements Serializable {
 
     @Override
     public int hashCode() {
-        if (this.memoizedHashCode == 0) {
-            this.memoizedHashCode =
-                    Objects.hash(getDurationUs(), getTableAccessList(), getCpuTimeUs(), getAffectedShards(),
-                            getLiteralPhase());
-        }
-        return this.memoizedHashCode;
+        return Objects.hash(getDurationUs(), getTableAccessList(), getCpuTimeUs(), getAffectedShards(),
+                getLiteralPhase());
     }
 
     @Override

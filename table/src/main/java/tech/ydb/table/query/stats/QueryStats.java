@@ -13,7 +13,6 @@ public final class QueryStats implements Serializable {
     private final String queryAst;
     private final long totalDurationUs;
     private final long totalCpuTimeUs;
-    private int memoizedHashCode;
 
     public QueryStats(tech.ydb.proto.YdbQueryStats.QueryStats protoAutoGenQueryStats) {
         this.queryPhases = protoAutoGenQueryStats.getQueryPhasesList().stream().map(QueryPhaseStats::new)
@@ -87,12 +86,8 @@ public final class QueryStats implements Serializable {
 
     @Override
     public int hashCode() {
-        if (this.memoizedHashCode == 0) {
-            this.memoizedHashCode =
-                    Objects.hash(getQueryPhasesList(), getCompilation(), getProcessCpuTimeUs(), getQueryPlan(),
-                            getQueryAst(), getTotalDurationUs(), getTotalCpuTimeUs());
-        }
-        return this.memoizedHashCode;
+        return Objects.hash(getQueryPhasesList(), getCompilation(), getProcessCpuTimeUs(), getQueryPlan(),
+                getQueryAst(), getTotalDurationUs(), getTotalCpuTimeUs());
     }
 
     @Override
