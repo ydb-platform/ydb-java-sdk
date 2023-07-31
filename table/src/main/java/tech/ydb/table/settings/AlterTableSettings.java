@@ -17,15 +17,15 @@ import tech.ydb.table.values.Type;
  */
 public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
 
-    private LinkedHashMap<String, Type> addColumns = new LinkedHashMap<>();
-    private HashSet<String> dropColumns = new HashSet<>();
+    private final LinkedHashMap<String, Type> addColumns = new LinkedHashMap<>();
+    private final HashSet<String> dropColumns = new HashSet<>();
     @Nullable
     private TtlSettings ttlSettings;
     @Nullable
     private PartitioningSettings partitioningSettings;
 
-    private List<Changefeed> addChangefeeds = new ArrayList<>();
-    private List<String> dropChangefeeds = new ArrayList<>();
+    private final List<Changefeed> addChangefeeds = new ArrayList<>();
+    private final List<String> dropChangefeeds = new ArrayList<>();
 
     public AlterTableSettings() {
     }
