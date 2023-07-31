@@ -4,21 +4,13 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public final class OperationStats implements Serializable {
-    private static final OperationStats DEFAULT_INSTANCE = new OperationStats();
-    private long rows;
-    private long bytes;
+    private final long rows;
+    private final long bytes;
     private int memoizedHashCode;
-
-    private OperationStats() {
-    }
 
     public OperationStats(tech.ydb.proto.YdbQueryStats.OperationStats protoAutoGenOperationStats) {
         this.rows = protoAutoGenOperationStats.getRows();
         this.bytes = protoAutoGenOperationStats.getBytes();
-    }
-
-    public static OperationStats getDefaultInstance() {
-        return DEFAULT_INSTANCE;
     }
 
     public long getRows() {

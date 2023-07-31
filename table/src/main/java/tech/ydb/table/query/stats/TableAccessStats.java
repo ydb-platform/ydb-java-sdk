@@ -3,16 +3,12 @@ package tech.ydb.table.query.stats;
 import java.util.Objects;
 
 public final class TableAccessStats {
-    private static final TableAccessStats DEFAULT_INSTANCE = new TableAccessStats();
-    private String name;
-    private OperationStats reads;
-    private OperationStats updates;
-    private OperationStats deletes;
-    private long partitionsCount;
+    private final String name;
+    private final OperationStats reads;
+    private final OperationStats updates;
+    private final OperationStats deletes;
+    private final long partitionsCount;
     private int memoizedHashCode;
-
-    private TableAccessStats() {
-    }
 
     public TableAccessStats(tech.ydb.proto.YdbQueryStats.TableAccessStats protoAutoGenTableAccessStats) {
         this.name = protoAutoGenTableAccessStats.getName();
@@ -22,24 +18,20 @@ public final class TableAccessStats {
         this.partitionsCount = protoAutoGenTableAccessStats.getPartitionsCount();
     }
 
-    private static TableAccessStats getDefaultInstance() {
-        return DEFAULT_INSTANCE;
-    }
-
     public String getName() {
         return name;
     }
 
     public OperationStats getReads() {
-        return this.reads == null ? OperationStats.getDefaultInstance() : this.reads;
+        return this.reads;
     }
 
     public OperationStats getUpdates() {
-        return this.updates == null ? OperationStats.getDefaultInstance() : this.updates;
+        return this.updates;
     }
 
     public OperationStats getDeletes() {
-        return this.deletes == null ? OperationStats.getDefaultInstance() : this.deletes;
+        return this.deletes;
     }
 
     public long getPartitionsCount() {

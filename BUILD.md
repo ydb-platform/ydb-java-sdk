@@ -14,7 +14,7 @@ mvn clean install
 ```
 
 If you don't need the test executions, just disable them
-```
+``` xc3
 mvn clean install -DskipTests=true
 ```
 
