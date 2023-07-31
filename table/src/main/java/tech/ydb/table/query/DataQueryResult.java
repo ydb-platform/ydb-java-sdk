@@ -20,7 +20,7 @@ public class DataQueryResult {
     public DataQueryResult(YdbTable.ExecuteQueryResult result) {
         this.txId = result.getTxMeta().getId();
         this.resultSets = result.getResultSetsList();
-        queryStats = new QueryStats(result.getQueryStats());
+        queryStats = result.hasQueryStats() ? new QueryStats(result.getQueryStats()) : null;
     }
 
     public String getTxId() {
@@ -49,5 +49,9 @@ public class DataQueryResult {
 
     public QueryStats getQueryStats() {
         return queryStats;
+    }
+
+    public boolean hasQueryStats() {
+        return queryStats != null;
     }
 }
