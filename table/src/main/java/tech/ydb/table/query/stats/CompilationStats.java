@@ -1,6 +1,7 @@
 package tech.ydb.table.query.stats;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public final class CompilationStats implements Serializable {
     private static final CompilationStats DEFAULT_INSTANCE = new CompilationStats();
@@ -26,24 +27,12 @@ public final class CompilationStats implements Serializable {
         return this.fromCache;
     }
 
-    public void setFromCache(boolean fromCache) {
-        this.fromCache = fromCache;
-    }
-
     public long getDurationUs() {
         return this.durationUs;
     }
 
-    public void setDurationUs(long durationUs) {
-        this.durationUs = durationUs;
-    }
-
     public long getCpuTimeUs() {
         return this.cpuTimeUs;
-    }
-
-    public void setCpuTimeUs(long cpuTimeUs) {
-        this.cpuTimeUs = cpuTimeUs;
     }
 
     @Override
@@ -54,31 +43,18 @@ public final class CompilationStats implements Serializable {
             return super.equals(obj);
         } else {
             CompilationStats other = (CompilationStats) obj;
-            if (this.getFromCache() != other.getFromCache()) {
-                return false;
-            } else if (this.getDurationUs() != other.getDurationUs()) {
-                return false;
-            } else {
-                return this.getCpuTimeUs() == other.getCpuTimeUs();
-            }
+            return Objects.equals(getDurationUs(), other.getDurationUs()) &&
+                    Objects.equals(getFromCache(), other.getFromCache()) &&
+                    Objects.equals(getCpuTimeUs(), other.getCpuTimeUs());
         }
     }
 
     @Override
     public int hashCode() {
-        if (this.memoizedHashCode != 0) {
-            return this.memoizedHashCode;
-        } else {
-            int hash = 41;
-            hash = 37 * hash + 1;
-            hash = 53 * hash + Boolean.hashCode(getFromCache());
-            hash = 37 * hash + 2;
-            hash = 53 * hash + Long.hashCode(getDurationUs());
-            hash = 37 * hash + 3;
-            hash = 53 * hash + Long.hashCode(getCpuTimeUs());
-            this.memoizedHashCode = hash;
-            return hash;
+        if (this.memoizedHashCode == 0) {
+            this.memoizedHashCode = Objects.hash(fromCache, durationUs, cpuTimeUs);
         }
+        return this.memoizedHashCode;
     }
 
     @Override

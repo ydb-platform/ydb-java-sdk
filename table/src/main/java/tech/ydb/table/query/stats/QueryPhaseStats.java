@@ -3,13 +3,13 @@ package tech.ydb.table.query.stats;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class QueryPhaseStats implements Serializable {
-    private static final long serialVersionUID = 0L;
     private static final QueryPhaseStats DEFAULT_INSTANCE = new QueryPhaseStats();
     private long durationUs;
-    private List<TableAccessStats> tableAccess;
+    private final List<TableAccessStats> tableAccess;
     private long cpuTimeUs;
     private long affectedShards;
     private boolean literalPhase;
@@ -36,10 +36,6 @@ public final class QueryPhaseStats implements Serializable {
         return this.durationUs;
     }
 
-    public void setDurationUs(long durationUs) {
-        this.durationUs = durationUs;
-    }
-
     public List<TableAccessStats> getTableAccessList() {
         return this.tableAccess;
     }
@@ -56,24 +52,12 @@ public final class QueryPhaseStats implements Serializable {
         return this.cpuTimeUs;
     }
 
-    public void setCpuTimeUs(long cpuTimeUs) {
-        this.cpuTimeUs = cpuTimeUs;
-    }
-
     public long getAffectedShards() {
         return this.affectedShards;
     }
 
-    public void setAffectedShards(long affectedShards) {
-        this.affectedShards = affectedShards;
-    }
-
     public boolean getLiteralPhase() {
         return this.literalPhase;
-    }
-
-    public void setLiteralPhase(boolean literalPhase) {
-        this.literalPhase = literalPhase;
     }
 
     @Override
@@ -84,46 +68,22 @@ public final class QueryPhaseStats implements Serializable {
             return super.equals(obj);
         } else {
             QueryPhaseStats other = (QueryPhaseStats) obj;
-            if (this.getDurationUs() != other.getDurationUs()) {
-                return false;
-            } else if (!this.getTableAccessList().equals(other.getTableAccessList())) {
-                return false;
-            } else if (this.getCpuTimeUs() != other.getCpuTimeUs()) {
-                return false;
-            } else if (this.getAffectedShards() != other.getAffectedShards()) {
-                return false;
-            } else {
-                return this.getLiteralPhase() == other.getLiteralPhase();
-            }
+            return Objects.equals(getDurationUs(), other.getDurationUs()) &&
+                    Objects.equals(getTableAccessList(), other.getTableAccessList()) &&
+                    Objects.equals(getCpuTimeUs(), other.getCpuTimeUs()) &&
+                    Objects.equals(getAffectedShards(), other.getAffectedShards()) &&
+                    Objects.equals(getLiteralPhase(), other.getLiteralPhase());
         }
     }
 
     @Override
     public int hashCode() {
-        if (this.memoizedHashCode != 0) {
-            return this.memoizedHashCode;
-        } else {
-            int hash = 41;
-            hash = 37 * hash + 1;
-            hash = 53 * hash + Long.hashCode(this.getDurationUs());
-            if (this.getTableAccessCount() > 0) {
-                hash = 37 * hash + 2;
-                hash = 53 * hash + this.getTableAccessList().hashCode();
-            }
-
-            hash = 37 * hash + 3;
-            hash = 53 * hash + Long.hashCode(this.getCpuTimeUs());
-            hash = 37 * hash + 4;
-            hash = 53 * hash + Long.hashCode(this.getAffectedShards());
-            hash = 37 * hash + 5;
-            hash = 53 * hash + Boolean.hashCode(this.getLiteralPhase());
-            this.memoizedHashCode = hash;
-            return hash;
+        if (this.memoizedHashCode == 0) {
+            this.memoizedHashCode =
+                    Objects.hash(getDurationUs(), getTableAccessList(), getCpuTimeUs(), getAffectedShards(),
+                            getLiteralPhase());
         }
-    }
-
-    public void setTableAccess(List<TableAccessStats> tableAccess) {
-        this.tableAccess = tableAccess;
+        return this.memoizedHashCode;
     }
 
     @Override

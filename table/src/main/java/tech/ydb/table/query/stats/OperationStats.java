@@ -1,6 +1,7 @@
 package tech.ydb.table.query.stats;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public final class OperationStats implements Serializable {
     private static final OperationStats DEFAULT_INSTANCE = new OperationStats();
@@ -10,6 +11,7 @@ public final class OperationStats implements Serializable {
 
     private OperationStats() {
     }
+
     public OperationStats(tech.ydb.proto.YdbQueryStats.OperationStats protoAutoGenOperationStats) {
         this.rows = protoAutoGenOperationStats.getRows();
         this.bytes = protoAutoGenOperationStats.getBytes();
@@ -23,16 +25,8 @@ public final class OperationStats implements Serializable {
         return this.rows;
     }
 
-    public void setRows(long rows) {
-        this.rows = rows;
-    }
-
     public long getBytes() {
         return this.bytes;
-    }
-
-    public void setBytes(long bytes) {
-        this.bytes = bytes;
     }
 
     @Override
@@ -43,27 +37,16 @@ public final class OperationStats implements Serializable {
             return super.equals(obj);
         } else {
             OperationStats other = (OperationStats) obj;
-            if (this.getRows() != other.getRows()) {
-                return false;
-            } else {
-                return this.getBytes() == other.getBytes();
-            }
+            return Objects.equals(getRows(), other.getRows()) && Objects.equals(getBytes(), other.getBytes());
         }
     }
 
     @Override
     public int hashCode() {
-        if (this.memoizedHashCode != 0) {
-            return this.memoizedHashCode;
-        } else {
-            int hash = 41;
-            hash = 37 * hash + 1;
-            hash = 53 * hash + Long.hashCode(this.getRows());
-            hash = 37 * hash + 2;
-            hash = 53 * hash + Long.hashCode(this.getBytes());
-            this.memoizedHashCode = hash;
-            return hash;
+        if (this.memoizedHashCode == 0) {
+            this.memoizedHashCode = Objects.hash(getRows(), getBytes());
         }
+        return this.memoizedHashCode;
     }
 
     @Override
