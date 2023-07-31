@@ -2,6 +2,7 @@ package tech.ydb.table.query.stats;
 
 import tech.ydb.proto.table.YdbTable.QueryStatsCollection.Mode;
 
+
 public enum QueryStatsCollectionMode {
     UNSPECIFIED,
     NONE,
