@@ -4,23 +4,15 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public final class CompilationStats implements Serializable {
-    private static final CompilationStats DEFAULT_INSTANCE = new CompilationStats();
-    private boolean fromCache;
-    private long durationUs;
-    private long cpuTimeUs;
+    private final boolean fromCache;
+    private final long durationUs;
+    private final long cpuTimeUs;
     private int memoizedHashCode;
-
-    private CompilationStats() {
-    }
 
     public CompilationStats(tech.ydb.proto.YdbQueryStats.CompilationStats protoAutoGenCompilationStats) {
         this.fromCache = protoAutoGenCompilationStats.getFromCache();
         this.durationUs = protoAutoGenCompilationStats.getDurationUs();
         this.cpuTimeUs = protoAutoGenCompilationStats.getCpuTimeUs();
-    }
-
-    public static CompilationStats getDefaultInstance() {
-        return DEFAULT_INSTANCE;
     }
 
     public boolean getFromCache() {

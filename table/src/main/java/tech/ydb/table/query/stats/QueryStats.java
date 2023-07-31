@@ -1,27 +1,19 @@
 package tech.ydb.table.query.stats;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class QueryStats implements Serializable {
-    private static final QueryStats DEFAULT_INSTANCE = new QueryStats();
     private final List<QueryPhaseStats> queryPhases;
-    private CompilationStats compilation;
-    private long processCpuTimeUs;
+    private final CompilationStats compilation;
+    private final long processCpuTimeUs;
     private final String queryPlan;
     private final String queryAst;
-    private long totalDurationUs;
-    private long totalCpuTimeUs;
+    private final long totalDurationUs;
+    private final long totalCpuTimeUs;
     private int memoizedHashCode;
-
-    private QueryStats() {
-        this.queryPhases = Collections.emptyList();
-        this.queryPlan = "";
-        this.queryAst = "";
-    }
 
     public QueryStats(tech.ydb.proto.YdbQueryStats.QueryStats protoAutoGenQueryStats) {
         this.queryPhases = protoAutoGenQueryStats.getQueryPhasesList().stream().map(QueryPhaseStats::new)
@@ -32,10 +24,6 @@ public final class QueryStats implements Serializable {
         this.queryAst = protoAutoGenQueryStats.getQueryAst();
         this.totalDurationUs = protoAutoGenQueryStats.getTotalDurationUs();
         this.totalCpuTimeUs = protoAutoGenQueryStats.getProcessCpuTimeUs();
-    }
-
-    public static QueryStats getDefaultInstance() {
-        return DEFAULT_INSTANCE;
     }
 
     public List<QueryPhaseStats> getQueryPhasesList() {
@@ -55,7 +43,7 @@ public final class QueryStats implements Serializable {
     }
 
     public CompilationStats getCompilation() {
-        return this.compilation == null ? CompilationStats.getDefaultInstance() : this.compilation;
+        return this.compilation;
     }
 
     public long getProcessCpuTimeUs() {

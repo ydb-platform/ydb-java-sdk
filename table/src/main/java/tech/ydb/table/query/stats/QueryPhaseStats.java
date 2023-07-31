@@ -1,23 +1,17 @@
 package tech.ydb.table.query.stats;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 public final class QueryPhaseStats implements Serializable {
-    private static final QueryPhaseStats DEFAULT_INSTANCE = new QueryPhaseStats();
-    private long durationUs;
+    private final long durationUs;
     private final List<TableAccessStats> tableAccess;
-    private long cpuTimeUs;
-    private long affectedShards;
-    private boolean literalPhase;
+    private final long cpuTimeUs;
+    private final long affectedShards;
+    private final boolean literalPhase;
     private int memoizedHashCode;
-
-    private QueryPhaseStats() {
-        this.tableAccess = Collections.emptyList();
-    }
 
     public QueryPhaseStats(tech.ydb.proto.YdbQueryStats.QueryPhaseStats protoAutoGenQueryPhaseStats) {
         this.durationUs = protoAutoGenQueryPhaseStats.getDurationUs();
@@ -26,10 +20,6 @@ public final class QueryPhaseStats implements Serializable {
         this.cpuTimeUs = protoAutoGenQueryPhaseStats.getCpuTimeUs();
         this.affectedShards = protoAutoGenQueryPhaseStats.getAffectedShards();
         this.literalPhase = protoAutoGenQueryPhaseStats.getLiteralPhase();
-    }
-
-    public static QueryPhaseStats getDefaultInstance() {
-        return DEFAULT_INSTANCE;
     }
 
     public long getDurationUs() {
