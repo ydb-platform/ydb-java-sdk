@@ -43,6 +43,7 @@ public class GrpcTransportBuilder {
     private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
     private long connectTimeoutMillis = 5000;
+    private long discoveryTimeoutMillis = 30_000;
     private boolean useDefaultGrpcResolver = false;
     private GrpcCompression compression = GrpcCompression.NO_COMPRESSION;
 
@@ -117,6 +118,10 @@ public class GrpcTransportBuilder {
 
     public long getConnectTimeoutMillis() {
         return connectTimeoutMillis;
+    }
+
+    public long getDiscoveryTimeoutMillis() {
+        return discoveryTimeoutMillis;
     }
 
     public GrpcCompression getGrpcCompression() {
@@ -216,6 +221,18 @@ public class GrpcTransportBuilder {
     public GrpcTransportBuilder withConnectTimeout(long timeout, TimeUnit unit) {
         this.connectTimeoutMillis = unit.toMillis(timeout);
         Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
+        return this;
+    }
+
+    public GrpcTransportBuilder withDiscoveryTimeout(Duration timeout) {
+        this.discoveryTimeoutMillis = timeout.toMillis();
+        Preconditions.checkArgument(discoveryTimeoutMillis > 0, "discoveryTimeoutMillis must be greater than 0");
+        return this;
+    }
+
+    public GrpcTransportBuilder withDiscoveryTimeout(long timeout, TimeUnit unit) {
+        this.discoveryTimeoutMillis = unit.toMillis(timeout);
+        Preconditions.checkArgument(discoveryTimeoutMillis > 0, "discoveryTimeoutMillis must be greater than 0");
         return this;
     }
 

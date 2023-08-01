@@ -10,11 +10,8 @@ public class ReplicationPolicy {
 
     @Nullable
     private String presetName;
-    @Nullable
     private int replicasCount;
-    @Nullable
     private boolean createPerAvailabilityZone;
-    @Nullable
     private boolean allowPromotion;
 
     @Nullable

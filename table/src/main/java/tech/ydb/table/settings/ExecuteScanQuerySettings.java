@@ -2,11 +2,31 @@ package tech.ydb.table.settings;
 
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.table.YdbTable;
+import tech.ydb.table.query.stats.QueryStatsCollectionMode;
 
 
 public class ExecuteScanQuerySettings extends BaseRequestSettings {
-    private final YdbTable.ExecuteScanQueryRequest.Mode mode;
-    private final YdbTable.QueryStatsCollection.Mode collectStats;
+    public enum Mode {
+        UNSPECIFIED,
+        EXPLAIN,
+        EXEC;
+
+        public YdbTable.ExecuteScanQueryRequest.Mode toPb() {
+            switch (this) {
+                case UNSPECIFIED:
+                    return YdbTable.ExecuteScanQueryRequest.Mode.MODE_UNSPECIFIED;
+                case EXPLAIN:
+                    return YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXPLAIN;
+                case EXEC:
+                    return YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
+                default:
+                    throw new IllegalStateException("Unsupported ExecuteScanQueryRequest mode.");
+            }
+        }
+    }
+
+    private final Mode mode;
+    private final QueryStatsCollectionMode collectStats;
 
     public ExecuteScanQuerySettings(Builder builder) {
         super(builder);
@@ -19,16 +39,15 @@ public class ExecuteScanQuerySettings extends BaseRequestSettings {
     }
 
     public static final class Builder extends BaseBuilder<Builder> {
-        private YdbTable.ExecuteScanQueryRequest.Mode mode = YdbTable.ExecuteScanQueryRequest.Mode.MODE_EXEC;
-        private YdbTable.QueryStatsCollection.Mode collectStats = YdbTable.QueryStatsCollection.Mode.
-                STATS_COLLECTION_NONE;
+        private Mode mode = Mode.EXEC;
+        private QueryStatsCollectionMode collectStats = QueryStatsCollectionMode.NONE;
 
-        public Builder mode(YdbTable.ExecuteScanQueryRequest.Mode mode) {
+        public Builder setMode(Mode mode) {
             this.mode = mode;
             return this;
         }
 
-        public Builder collectStats(YdbTable.QueryStatsCollection.Mode collectStats) {
+        public Builder setCollectStats(QueryStatsCollectionMode collectStats) {
             this.collectStats = collectStats;
             return this;
         }
@@ -39,12 +58,11 @@ public class ExecuteScanQuerySettings extends BaseRequestSettings {
         }
     }
 
-
-    public YdbTable.ExecuteScanQueryRequest.Mode getMode() {
+    public Mode getMode() {
         return mode;
     }
 
-    public YdbTable.QueryStatsCollection.Mode getCollectStats() {
+    public QueryStatsCollectionMode getCollectStats() {
         return collectStats;
     }
 }
