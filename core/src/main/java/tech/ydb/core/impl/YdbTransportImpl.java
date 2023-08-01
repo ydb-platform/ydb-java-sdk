@@ -2,6 +2,7 @@ package tech.ydb.core.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -41,13 +42,14 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private final ScheduledExecutorService scheduler;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
+        this.database = Strings.nullToEmpty(builder.getDatabase());
+
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
         EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
 
-        logger.info("creating YDB transport with {}", balancingSettings);
+        logger.info("Create YDB transport with endpoint {} and {}", discoveryEndpoint, balancingSettings);
 
-        this.database = Strings.nullToEmpty(builder.getDatabase());
         this.callOptions = new AuthCallOptions(this,
                 Collections.singletonList(discoveryEndpoint),
                 channelFactory,
@@ -57,8 +59,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                 builder.getGrpcCompression()
         );
 
-        GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this, discoveryEndpoint, channelFactory, callOptions);
-
+        GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this,
+                discoveryEndpoint,
+                channelFactory,
+                callOptions,
+                Duration.ofMillis(builder.getDiscoveryTimeoutMillis()));
 
         this.scheduler = builder.getSchedulerFactory().get();
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
