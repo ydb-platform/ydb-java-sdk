@@ -1,3 +1,9 @@
+## 2.1.2 ##
+
+* Added withDiscoveryTimeout to GrpcTransportBuilder
+* Added query statistics to DataQueryResult
+* Fixed topic reader hang-up on server restart
+
 ## 2.1.1 ##
 
 * Added commitOffset method to topic service

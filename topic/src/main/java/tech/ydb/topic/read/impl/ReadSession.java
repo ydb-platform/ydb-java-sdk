@@ -31,7 +31,7 @@ public class ReadSession {
     }
 
     public synchronized CompletableFuture<Status> start(GrpcReadStream.Observer<FromServer> streamObserver) {
-        logger.debug("ReadSession start");
+        logger.info("ReadSession start");
         return streamConnection.start(message -> {
             if (logger.isTraceEnabled()) {
                 logger.trace("Message received:\n{}", message);

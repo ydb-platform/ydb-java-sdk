@@ -3,6 +3,7 @@ package tech.ydb.topic.read.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
@@ -27,6 +28,7 @@ import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
+import tech.ydb.topic.settings.TopicReadSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -41,23 +43,29 @@ public abstract class ReaderImpl {
     private static final int EXP_BACKOFF_MAX_POWER = 7;
     private static final int DEFAULT_DECOMPRESSION_THREAD_COUNT = 4;
 
+    private final String id;
     private final ReaderSettings settings;
     private final TopicRpc topicRpc;
     private final AtomicInteger reconnectCounter = new AtomicInteger(0);
-    private final AtomicLong sizeBytesToRequest;
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
+    // Total size of all messages that are read from server and are not handled yet
+    private final AtomicLong sizeBytesAcquired = new AtomicLong(0);
+    // Total size to request with next ReadRequest.
+    // Used to group several ReadResponses in one on high rps
+    private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
     private final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
     private CompletableFuture<Void> initResultFuture = new CompletableFuture<>();
     private ReadSession session;
     private String currentSessionId;
+    private AtomicBoolean isReconnecting = new AtomicBoolean(false);
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
+        this.id = UUID.randomUUID().toString();
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new ReadSession(topicRpc);
-        this.sizeBytesToRequest = new AtomicLong(settings.getMaxMemoryUsageBytes());
         if (settings.getDecompressionExecutor() != null) {
             this.defaultDecompressionExecutorService = null;
             this.decompressionExecutor = settings.getDecompressionExecutor();
@@ -65,10 +73,24 @@ public abstract class ReaderImpl {
             this.defaultDecompressionExecutorService = Executors.newFixedThreadPool(DEFAULT_DECOMPRESSION_THREAD_COUNT);
             this.decompressionExecutor = defaultDecompressionExecutorService;
         }
+        StringBuilder message = new StringBuilder("Reader");
+        if (settings.getReaderName() != null && !settings.getReaderName().isEmpty()) {
+            message.append(" \"").append(settings.getReaderName()).append("\"");
+        }
+        message.append(" (generated id ").append(id).append(")");
+        message.append(" created for topic(s): ");
+        for (TopicReadSettings topic : settings.getTopics()) {
+            if (topic != settings.getTopics().get(0)) {
+                message.append(", ");
+            }
+            message.append("\"").append(topic.getPath()).append("\"");
+        }
+        message.append(" and Consumer: \"").append(settings.getConsumerName()).append("\"");
+        logger.info(message.toString());
     }
 
     protected CompletableFuture<Void> initImpl() {
-        logger.debug("initImpl started");
+        logger.debug("[{}] initImpl started", id);
         session.start(this::processMessage).whenComplete(this::completeSession);
 
         initResultFuture = new CompletableFuture<>();
@@ -104,9 +126,12 @@ public abstract class ReaderImpl {
 
     private void sendReadRequest() {
         long currentSizeBytesToRequest = sizeBytesToRequest.getAndSet(0);
-        if (currentSizeBytesToRequest == 0) {
+        if (currentSizeBytesToRequest <= 0) {
+            logger.debug("[{}] Nothing to request in DataRequest. sizeBytesToRequest == {}", id,
+                    currentSizeBytesToRequest);
             return;
         }
+        logger.debug("[{}] Sending DataRequest with {} bytes", id, currentSizeBytesToRequest);
 
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setReadRequest(YdbTopic.StreamReadMessage.ReadRequest.newBuilder()
@@ -141,7 +166,7 @@ public abstract class ReaderImpl {
                 responseBuilder.setCommitOffset(startSettings.getCommitOffset());
             }
         }
-        logger.info("Sending StartPartitionSessionResponse for partition session {} (partition {})",
+        logger.info("[{}] Sending StartPartitionSessionResponse for partition session {} (partition {})", id,
                 partitionSession.getId(), partitionSession.getPartitionId());
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setStartPartitionSessionResponse(responseBuilder.build())
@@ -152,11 +177,11 @@ public abstract class ReaderImpl {
 
         PartitionSession partitionSession = partitionSessions.get(partitionSessionId);
         if (partitionSession != null) {
-            logger.info("Sending StartPartitionSessionResponse for partition session {} (partition {})",
+            logger.info("[{}] Sending StartPartitionSessionResponse for partition session {} (partition {})", id,
                     partitionSessionId, partitionSession.getPartitionId());
         } else {
-            logger.warn("Sending StartPartitionSessionResponse for partition session {}, " +
-                    "but have no such partition session running", partitionSessionId);
+            logger.warn("[{}] Sending StartPartitionSessionResponse for partition session {}, " +
+                    "but have no such partition session running", id, partitionSessionId);
         }
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setStopPartitionSessionResponse(YdbTopic.StreamReadMessage.StopPartitionSessionResponse.newBuilder()
@@ -167,6 +192,8 @@ public abstract class ReaderImpl {
 
     private void handleReadResponse(YdbTopic.StreamReadMessage.ReadResponse readResponse) {
         final long responseBytesSize = readResponse.getBytesSize();
+        sizeBytesAcquired.addAndGet(responseBytesSize);
+        logger.trace("Received ReadResponse of {} bytes", responseBytesSize);
         List<CompletableFuture<Void>> batchReadFutures = new ArrayList<>();
         readResponse.getPartitionDataList().forEach((YdbTopic.StreamReadMessage.ReadResponse.PartitionData data) -> {
             long partitionId = data.getPartitionSessionId();
@@ -176,16 +203,30 @@ public abstract class ReaderImpl {
                 CompletableFuture<Void> readFuture = partitionSession.addBatches(data.getBatchesList());
                 batchReadFutures.add(readFuture);
             } else {
-                logger.debug("Received PartitionData for unknown(closed?) PartitionSessionId={}", partitionId);
+                logger.debug("[{}] Received PartitionData for unknown(closed?) PartitionSessionId={}", id, partitionId);
             }
         });
         CompletableFuture.allOf(batchReadFutures.toArray(new CompletableFuture<?>[0]))
                 .whenComplete((res, th) -> {
                     if (th != null) {
-                        logger.error("Exception while waiting for batches to be read:", th);
+                        logger.error("[{}] Exception while waiting for batches to be read:", id, th);
                     }
-                    this.sizeBytesToRequest.addAndGet(responseBytesSize);
-                    sendReadRequest();
+                    boolean needToSendDataRequest = false;
+                    synchronized (sizeBytesAcquired) {
+                        long newAcquiredSize = sizeBytesAcquired.addAndGet(-responseBytesSize);
+                        if (isReconnecting.get()) {
+                            logger.trace("[{}] Finished handling ReadResponse of {} bytes. Reconnect is in progress" +
+                                    " -- no need to send ReadRequest", id, responseBytesSize);
+                        } else {
+                            logger.trace("[{}] Finished handling ReadResponse of {} bytes. sizeBytesAcquired is now " +
+                                    "{}. Sending ReadRequest...", id, responseBytesSize, newAcquiredSize);
+                            this.sizeBytesToRequest.addAndGet(responseBytesSize);
+                            needToSendDataRequest = true;
+                        }
+                    }
+                    if (needToSendDataRequest) {
+                        sendReadRequest();
+                    }
                 });
     }
 
@@ -196,7 +237,7 @@ public abstract class ReaderImpl {
             if (partitionSession != null) {
                 partitionSession.handleCommitResponse(partitionCommittedOffset.getCommittedOffset());
             } else {
-                logger.debug("Received CommitOffsetResponse for closed partition session with id={}",
+                logger.debug("[{}] Received CommitOffsetResponse for closed partition session with id={}", id,
                         partitionCommittedOffset.getPartitionSessionId());
             }
         }
@@ -206,22 +247,22 @@ public abstract class ReaderImpl {
         if (request.getGraceful()) {
             PartitionSession partitionSession = partitionSessions.get(request.getPartitionSessionId());
             if (partitionSession != null) {
-                logger.info("Received graceful StopPartitionSessionRequest for partition session {} (partition {})",
-                        partitionSession.getId(), partitionSession.getPartitionId());
+                logger.info("[{}] Received graceful StopPartitionSessionRequest for partition session {} " +
+                                "(partition {})", id, partitionSession.getId(), partitionSession.getPartitionId());
             } else {
-                logger.warn("Received graceful StopPartitionSessionRequest for partition session {}, " +
-                                "but have no such partition session running", request.getPartitionSessionId());
+                logger.warn("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
+                                "but have no such partition session running", id, request.getPartitionSessionId());
             }
             handleStopPartitionSession(request);
         } else {
             PartitionSession partitionSession = partitionSessions.remove(request.getPartitionSessionId());
             if (partitionSession != null) {
-                logger.info("Received force StopPartitionSessionRequest for partition session {} (partition {})",
-                        partitionSession.getId(), partitionSession.getPartitionId());
+                logger.info("[{}] Received force StopPartitionSessionRequest for partition session {} (partition {})",
+                        id, partitionSession.getId(), partitionSession.getPartitionId());
                 closePartitionSession(partitionSession);
             } else {
-                logger.warn("Received force StopPartitionSessionRequest for partition session {}, " +
-                        "but have no such partition session running", request.getPartitionSessionId());
+                logger.warn("[{}] Received force StopPartitionSessionRequest for partition session {}, " +
+                        "but have no such partition session running", id, request.getPartitionSessionId());
             }
         }
     }
@@ -248,13 +289,13 @@ public abstract class ReaderImpl {
     }
 
     private void reconnect() {
-        logger.info("Reconnect #{} started. Creating new ReadSession", reconnectCounter.get());
+        logger.info("[{}] Reconnect #{} started. Creating new ReadSession", id, reconnectCounter.get());
         this.session = new ReadSession(topicRpc);
         initImpl();
     }
 
     protected CompletableFuture<Void> shutdownImpl() {
-        logger.info("Shutting down Topic Reader");
+        logger.info("[{}] Shutting down Topic Reader", id);
         isStopped.set(true);
         return CompletableFuture.runAsync(() -> {
             closePartitionSessions();
@@ -274,13 +315,14 @@ public abstract class ReaderImpl {
     }
 
     private void closeSessionsAndScheduleReconnect(int currentReconnectCounter) {
+        isReconnecting.set(true);
         closePartitionSessions();
         int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
                 ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
                 : EXP_BACKOFF_CEILING_MS;
         // Add jitter
         delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
-        logger.warn("Retry #{}. Scheduling reconnect in {}ms...", currentReconnectCounter, delayMs);
+        logger.warn("[{}] Retry #{}. Scheduling reconnect in {}ms...", id, currentReconnectCounter, delayMs);
         topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
     }
 
@@ -295,11 +337,11 @@ public abstract class ReaderImpl {
     }
 
     private void processMessage(YdbTopic.StreamReadMessage.FromServer message) {
-        logger.trace("processMessage called");
+        logger.trace("[{}] processMessage called", id);
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
-            logger.error("Got non-success status in processMessage method: {}", message);
+            logger.error("[{}] Got non-success status in processMessage method: {}", id, message);
             completeSession(Status.of(StatusCode.fromProto(message.getStatus()))
                     .withIssues(Issue.of("Got a message with non-success status: " + message,
                             Issue.Severity.ERROR)), null);
@@ -309,11 +351,17 @@ public abstract class ReaderImpl {
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
             initResultFuture.complete(null);
-            logger.info("Session {} initialized", currentSessionId);
+            synchronized (sizeBytesAcquired) {
+                long bytesAvailable = settings.getMaxMemoryUsageBytes() - sizeBytesAcquired.get();
+                sizeBytesToRequest.addAndGet(bytesAvailable);
+                isReconnecting.set(false);
+                logger.info("[{}] Session {} initialized. Requesting available {} bytes...", id, currentSessionId,
+                        bytesAvailable);
+            }
             sendReadRequest();
         } else if (message.hasStartPartitionSessionRequest()) {
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request = message.getStartPartitionSessionRequest();
-            logger.info("Received StartPartitionSessionRequest: partition session {} (partition {})",
+            logger.info("[{}] Received StartPartitionSessionRequest: partition session {} (partition {})", id,
                     request.getPartitionSession().getPartitionSessionId(),
                     request.getPartitionSession().getPartitionId());
             handleStartPartitionSessionRequest(request);
@@ -327,40 +375,40 @@ public abstract class ReaderImpl {
             YdbTopic.StreamReadMessage.PartitionSessionStatusResponse response =
                     message.getPartitionSessionStatusResponse();
             PartitionSession partitionSession = partitionSessions.get(response.getPartitionSessionId());
-            logger.info("Received PartitionSessionStatusResponse: partition session {} (partition {})." +
-                            " Partition offsets: [{}, {}). Committed offset: {}",
+            logger.info("[{}] Received PartitionSessionStatusResponse: partition session {} (partition {})." +
+                            " Partition offsets: [{}, {}). Committed offset: {}", id,
                     response.getPartitionSessionId(),
                     partitionSession == null ? "unknown" : partitionSession.getPartitionId(),
                     response.getPartitionOffsets().getStart(), response.getPartitionOffsets().getEnd(),
                     response.getCommittedOffset());
         } else if (message.hasUpdateTokenResponse()) {
-            logger.debug("Received UpdateTokenResponse");
+            logger.debug("[{}] Received UpdateTokenResponse", id);
         } else {
-            logger.error("Unhandled message from server: {}", message);
+            logger.error("[{}] Unhandled message from server: {}", id, message);
         }
     }
 
     private void completeSession(Status status, Throwable th) {
-        logger.info("CompleteSession called");
+        logger.info("[{}] CompleteSession called", id);
         // This session is not working anymore
         this.session.stop();
 
         if (th != null) {
-            logger.error("Exception in reading stream session {}: {}", currentSessionId, th);
+            logger.error("[{}] Exception in reading stream session {}: ", id, currentSessionId, th);
         } else {
             if (status.isSuccess()) {
                 if (isStopped.get()) {
-                    logger.info("Reading stream session {} closed successfully", currentSessionId);
+                    logger.info("[{}] Reading stream session {} closed successfully", id, currentSessionId);
                 } else {
-                    logger.error("Reading stream session {} was closed unexpectedly. Shutting down the whole reader.",
-                            currentSessionId);
+                    logger.error("[{}] Reading stream session {} was closed unexpectedly. " +
+                                    "Shutting down the whole reader.", id, currentSessionId);
                     shutdownImpl("Reading stream session " + currentSessionId
                             + " was closed unexpectedly. Shutting down reader.");
                 }
                 return;
             }
-            logger.error("Error in reading stream session {}: {}", (currentSessionId != null ? currentSessionId : ""),
-                    status);
+            logger.error("[{}] Error in reading stream session {}: {}", id,
+                    (currentSessionId != null ? currentSessionId : ""), status);
         }
 
         if (isStopped.get()) {
@@ -369,11 +417,11 @@ public abstract class ReaderImpl {
         int currentReconnectCounter = reconnectCounter.incrementAndGet();
         if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
             if (isStopped.compareAndSet(false, true)) {
-                logger.error("Maximum retry count ({}}) exceeded. Shutting down reader.", MAX_RECONNECT_COUNT);
+                logger.error("[{}] Maximum retry count ({}}) exceeded. Shutting down reader.", id, MAX_RECONNECT_COUNT);
                 shutdownImpl("Maximum retry count (" + MAX_RECONNECT_COUNT
                         + ") exceeded. Shutting down reader with error: " + (th != null ? th : status));
             } else {
-                logger.debug("Maximum retry count ({}}) exceeded. But reader is already shut down.",
+                logger.debug("[{}] Maximum retry count ({}}) exceeded. But reader is already shut down.", id,
                         MAX_RECONNECT_COUNT);
             }
         } else {

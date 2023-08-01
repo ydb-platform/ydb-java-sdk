@@ -26,34 +26,36 @@ import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
  */
 public class GrpcDiscoveryRpc {
     private static final Logger logger = LoggerFactory.getLogger(GrpcDiscoveryRpc.class);
-    private static final long DISCOVERY_TIMEOUT_SECONDS = 10;
 
     private final BaseGrpcTransport parent;
     private final EndpointRecord endpoint;
     private final ManagedChannelFactory channelFactory;
     private final AuthCallOptions callOptions;
+    private final Duration discoveryTimeout;
 
     public GrpcDiscoveryRpc(
             BaseGrpcTransport parent,
             EndpointRecord endpoint,
             ManagedChannelFactory channelFactory,
-            AuthCallOptions callOptions) {
+            AuthCallOptions callOptions,
+            Duration discoveryTimeout) {
         this.parent = parent;
         this.endpoint = endpoint;
         this.channelFactory = channelFactory;
         this.callOptions = callOptions;
+        this.discoveryTimeout = discoveryTimeout;
     }
 
     public CompletableFuture<Result<DiscoveryProtos.ListEndpointsResult>> listEndpoints() {
         GrpcTransport transport = createTransport();
 
-        logger.debug("list endpoints from {}", endpoint.getHostAndPort());
+        logger.debug("list endpoints from {} with timeout {}", endpoint.getHostAndPort(), discoveryTimeout);
         DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
                 .setDatabase(parent.getDatabase())
                 .build();
 
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadline(Duration.ofSeconds(DISCOVERY_TIMEOUT_SECONDS))
+                .withDeadline(discoveryTimeout)
                 .build();
 
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)

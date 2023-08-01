@@ -22,7 +22,7 @@ public class Changefeed {
             this.proto = proto;
         }
 
-        YdbTable.ChangefeedMode.Mode toProto() {
+        YdbTable.ChangefeedMode.Mode toPb() {
             return proto;
         }
     }
@@ -87,10 +87,10 @@ public class Changefeed {
                 .setFormat(format.toProto())
                 .setVirtualTimestamps(virtualTimestamps)
                 .setInitialScan(initialScan)
-                .setMode(mode.toProto());
+                .setMode(mode.toPb());
 
         if (retentionPeriod != null) {
-            builder = builder.setRetentionPeriod(com.google.protobuf.Duration.newBuilder()
+            builder.setRetentionPeriod(com.google.protobuf.Duration.newBuilder()
                     .setSeconds(retentionPeriod.getSeconds())
                     .setNanos(retentionPeriod.getNano())
                     .build());
@@ -104,7 +104,7 @@ public class Changefeed {
     }
 
     public static class Builder {
-        private String name;
+        private final String name;
         private Mode mode = Mode.KEYS_ONLY;
         private Format format = Format.JSON;
         private boolean virtualTimestamps = false;
