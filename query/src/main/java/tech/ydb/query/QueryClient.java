@@ -3,13 +3,21 @@ package tech.ydb.query;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
+import javax.annotation.WillNotClose;
+
 import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.query.impl.QueryClientImpl;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public interface QueryClient extends AutoCloseable {
+    static Builder newClient(@WillNotClose GrpcTransport transport) {
+        return QueryClientImpl.newClient(transport);
+    }
+
     /**
      * Create new session asynchronous
      *
