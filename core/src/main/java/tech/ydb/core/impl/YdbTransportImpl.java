@@ -154,7 +154,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     void updateChannelStatus(GrpcChannel channel, Status status) {
-        if (!status.isOk()) {
+        // Usally CANCELLED is received when ClientCall is canceled on client side
+        if (!status.isOk() && status.getCode() != Status.Code.CANCELLED) {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());
         }
     }
