@@ -1,5 +1,7 @@
 package tech.ydb.query.impl;
 
+import java.time.Clock;
+import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
 import io.grpc.Metadata;
@@ -17,7 +19,7 @@ import tech.ydb.query.settings.DeleteSessionSettings;
  *
  * @author Aleksandr Gorshenin
  */
-public class QuerySessionImpl implements QuerySession {
+public abstract class QuerySessionImpl implements QuerySession {
     private static final Metadata SERVER_HINT_DATA = new Metadata();
     static {
         SERVER_HINT_DATA.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, "session-balancer");
@@ -31,18 +33,26 @@ public class QuerySessionImpl implements QuerySession {
             YdbQuery.DeleteSessionResponse::getStatus, YdbQuery.DeleteSessionResponse::getIssuesList
     );
 
+    private final Clock clock;
     private final QueryServiceRpc rpc;
     private final String id;
     private final long nodeID;
+    private volatile Instant lastActive;
 
-    private QuerySessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
+    QuerySessionImpl(Clock clock, QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
+        this.clock = clock;
         this.rpc = rpc;
         this.id = response.getSessionId();
         this.nodeID = response.getNodeId();
+        this.lastActive = clock.instant();
     }
 
     public String getId() {
         return this.id;
+    }
+
+    public Instant getLastActive() {
+        return this.lastActive;
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(OperationSettings settings) {
@@ -62,12 +72,7 @@ public class QuerySessionImpl implements QuerySession {
         return rpc.deleteSession(request, grpcSettings).thenApply(DELETE_SESSION);
     }
 
-    @Override
-    public void close() {
-
-    }
-
-    public static CompletableFuture<Result<QuerySessionImpl>> createSession(
+    static CompletableFuture<Result<YdbQuery.CreateSessionResponse>> createSession(
             QueryServiceRpc rpc,
             CreateSessionSettings settings,
             boolean useServerBalancer) {
@@ -79,8 +84,6 @@ public class QuerySessionImpl implements QuerySession {
                 .withExtraHeaders(useServerBalancer ? SERVER_HINT_DATA : null)
                 .build();
 
-        return rpc.createSession(request, grpcSettings)
-                .thenApply(CREATE_SESSION)
-                .thenApply(result -> result.map(response -> new QuerySessionImpl(rpc, response)));
+        return rpc.createSession(request, grpcSettings).thenApply(CREATE_SESSION);
     }
 }

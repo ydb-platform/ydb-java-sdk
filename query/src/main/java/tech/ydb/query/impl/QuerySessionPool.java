@@ -2,9 +2,12 @@ package tech.ydb.query.impl;
 
 import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
@@ -17,6 +20,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.Async;
+import tech.ydb.proto.draft.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
@@ -35,10 +39,16 @@ public class QuerySessionPool implements AutoCloseable {
             .withOperationTimeout(Duration.ofSeconds(299))
             .build();
 
+    private static final DeleteSessionSettings DELETE_SETTINGS = DeleteSessionSettings.newBuilder()
+            .withRequestTimeout(Duration.ofSeconds(5))
+            .withOperationTimeout(Duration.ofSeconds(4))
+            .build();
+
     private final int minSize;
     private final Clock clock;
     private final ScheduledExecutorService scheduler;
     private final WaitingQueue<QuerySessionImpl> queue;
+    private final ScheduledFuture<?> cleanerFuture;
 
     public QuerySessionPool(
             Clock clock,
@@ -52,6 +62,17 @@ public class QuerySessionPool implements AutoCloseable {
         this.clock = clock;
         this.scheduler = scheduler;
         this.queue = new WaitingQueue<>(new Handler(rpc), maxSize);
+
+        CleanerTask cleaner = new CleanerTask(idleDuration);
+        this.cleanerFuture = scheduler.scheduleAtFixedRate(
+                cleaner,
+                cleaner.periodMillis / 2,
+                cleaner.periodMillis,
+                TimeUnit.MILLISECONDS);
+        logger.info("init query session pool, min size = {}, max size = {}, keep alive period = {}",
+                minSize,
+                maxSize,
+                cleaner.periodMillis);
     }
 
     public void updateMaxSize(int maxSize) {
@@ -61,6 +82,7 @@ public class QuerySessionPool implements AutoCloseable {
     @Override
     public void close() {
         logger.info("closing session pool");
+        cleanerFuture.cancel(false);
         queue.close();
     }
 
@@ -86,7 +108,7 @@ public class QuerySessionPool implements AutoCloseable {
         queue.acquire(nextSession);
 
         if (nextSession.isDone() && !nextSession.isCompletedExceptionally()) {
-            return validateSession(nextSession.join(), future);
+            return tryComplete(future, nextSession.join());
         }
 
         nextSession.whenComplete((session, th) -> {
@@ -104,21 +126,31 @@ public class QuerySessionPool implements AutoCloseable {
                 }
             }
             if (session != null) {
-                validateSession(session, future);
+                tryComplete(future, session);
             }
         });
         return false;
     }
 
-    private boolean validateSession(QuerySessionImpl session, CompletableFuture<Result<QuerySession>> future) {
-        if (future.isDone()) {
-            logger.debug("session future already canceled, return session to the pool");
+    private boolean tryComplete(CompletableFuture<Result<QuerySession>> future, QuerySessionImpl session) {
+        if (!future.complete(Result.success(session))) {
+            logger.debug("session future already done, return session to the pool");
             queue.release(session);
-            return true;
+            return false;
         }
 
-        future.complete(Result.success(session));
         return true;
+    }
+
+    private class PooledQuerySession extends QuerySessionImpl {
+        PooledQuerySession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
+            super(clock, rpc, response);
+        }
+
+        @Override
+        public void close() {
+            queue.release(this);
+        }
     }
 
     private class Handler implements WaitingQueue.Handler<QuerySessionImpl> {
@@ -132,12 +164,12 @@ public class QuerySessionPool implements AutoCloseable {
         public CompletableFuture<QuerySessionImpl> create() {
             return QuerySessionImpl
                     .createSession(rpc, CREATE_SETTINGS, true)
-                    .thenApply(Result::getValue);
+                    .thenApply(result -> new PooledQuerySession(rpc, result.getValue()));
         }
 
         @Override
         public void destroy(QuerySessionImpl session) {
-            session.delete(DeleteSessionSettings.newBuilder().build()).whenComplete((status, th) -> {
+            session.delete(DELETE_SETTINGS).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
                 }
@@ -148,10 +180,37 @@ public class QuerySessionPool implements AutoCloseable {
                         logger.warn("session {} removed with status {}", session.getId(), status.toString());
                     }
                 }
-            });
+            }).join();
         }
     }
 
+    private class CleanerTask implements Runnable {
+        private final long maxIdleTimeMillis;
+        private final long periodMillis;
+
+        CleanerTask(Duration idleDuration) {
+            this.maxIdleTimeMillis = idleDuration.toMillis();
+
+            // Cleaner task execution frequency limit - must be executed at least 3 times
+            // for idle, but no more than once every 500 ms
+            this.periodMillis = Math.max(500, maxIdleTimeMillis / 3);
+        }
+
+        @Override
+        public void run() {
+            Iterator<QuerySessionImpl> coldIterator = queue.coldIterator();
+            Instant now = clock.instant();
+            Instant idleToRemove = now.minusMillis(maxIdleTimeMillis);
+
+            while (coldIterator.hasNext()) {
+                QuerySessionImpl session = coldIterator.next();
+
+                if (!session.getLastActive().isAfter(idleToRemove) && queue.getTotalCount() > minSize) {
+                    coldIterator.remove();
+                }
+            }
+        }
+    }
 
     /**
      * This is the part based on the code written by Doug Lea with assistance from members
