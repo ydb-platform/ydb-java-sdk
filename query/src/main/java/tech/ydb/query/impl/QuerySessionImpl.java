@@ -6,12 +6,18 @@ import java.util.concurrent.CompletableFuture;
 
 import io.grpc.Metadata;
 
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
+import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.settings.OperationSettings;
 import tech.ydb.proto.draft.query.YdbQuery;
 import tech.ydb.query.QuerySession;
+import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
 
@@ -53,6 +59,20 @@ public abstract class QuerySessionImpl implements QuerySession {
 
     public Instant getLastActive() {
         return this.lastActive;
+    }
+
+    GrpcReadStream<Status> attach(AttachSessionSettings settings) {
+        YdbQuery.AttachSessionRequest request = YdbQuery.AttachSessionRequest.newBuilder()
+                .setSessionId(id)
+                .build();
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
+            observer.onNext(Status.of(
+                    StatusCode.fromProto(message.getStatus()),
+                    null,
+                    Issue.fromPb(message.getIssuesList())
+            ));
+        });
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(OperationSettings settings) {

@@ -17,7 +17,7 @@ public class QueryIntegrationTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     @Test
-    public void testQueryClient() {
+    public void testQueryClient() throws InterruptedException {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue();
             session.close();

@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
@@ -19,11 +20,12 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.utils.Async;
 import tech.ydb.proto.draft.query.YdbQuery;
 import tech.ydb.query.QuerySession;
+import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
-import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.table.impl.pool.WaitingQueue;
 
 
@@ -39,15 +41,20 @@ public class QuerySessionPool implements AutoCloseable {
             .withOperationTimeout(Duration.ofSeconds(299))
             .build();
 
-    private static final DeleteSessionSettings DELETE_SETTINGS = DeleteSessionSettings.newBuilder()
-            .withRequestTimeout(Duration.ofSeconds(5))
-            .withOperationTimeout(Duration.ofSeconds(4))
+//    private static final DeleteSessionSettings DELETE_SETTINGS = DeleteSessionSettings.newBuilder()
+//            .withRequestTimeout(Duration.ofSeconds(5))
+//            .withOperationTimeout(Duration.ofSeconds(4))
+//            .build();
+
+    private static final AttachSessionSettings ATTACH_SETTINGS = AttachSessionSettings.newBuilder()
+//            .withRequestTimeout(Duration.ofSeconds(5))
+//            .withOperationTimeout(Duration.ofSeconds(4))
             .build();
 
     private final int minSize;
     private final Clock clock;
     private final ScheduledExecutorService scheduler;
-    private final WaitingQueue<QuerySessionImpl> queue;
+    private final WaitingQueue<PooledQuerySession> queue;
     private final ScheduledFuture<?> cleanerFuture;
 
     public QuerySessionPool(
@@ -69,7 +76,7 @@ public class QuerySessionPool implements AutoCloseable {
                 cleaner.periodMillis / 2,
                 cleaner.periodMillis,
                 TimeUnit.MILLISECONDS);
-        logger.info("init query session pool, min size = {}, max size = {}, keep alive period = {}",
+        logger.info("init QuerySession pool, min size = {}, max size = {}, keep alive period = {}",
                 minSize,
                 maxSize,
                 cleaner.periodMillis);
@@ -81,13 +88,13 @@ public class QuerySessionPool implements AutoCloseable {
 
     @Override
     public void close() {
-        logger.info("closing session pool");
+        logger.info("closing QuerySession pool");
         cleanerFuture.cancel(false);
         queue.close();
     }
 
     public CompletableFuture<Result<QuerySession>> acquire(Duration timeout) {
-        logger.debug("acquire session with timeout {}", timeout);
+        logger.debug("acquire QuerySession with timeout {}", timeout);
 
         CompletableFuture<Result<QuerySession>> future = new CompletableFuture<>();
 
@@ -104,7 +111,7 @@ public class QuerySessionPool implements AutoCloseable {
     }
 
     private boolean pollNext(CompletableFuture<Result<QuerySession>> future) {
-        CompletableFuture<QuerySessionImpl> nextSession = new CompletableFuture<>();
+        CompletableFuture<PooledQuerySession> nextSession = new CompletableFuture<>();
         queue.acquire(nextSession);
 
         if (nextSession.isDone() && !nextSession.isCompletedExceptionally()) {
@@ -114,7 +121,7 @@ public class QuerySessionPool implements AutoCloseable {
         nextSession.whenComplete((session, th) -> {
             if (th != null) {
                 if (future.isDone()) {
-                    logger.warn("can't get session, future is already canceled", th);
+                    logger.warn("can't get QuerySession, future is already canceled", th);
                     return;
                 }
 
@@ -122,7 +129,7 @@ public class QuerySessionPool implements AutoCloseable {
                 if (ex instanceof UnexpectedResultException) {
                     future.complete(Result.fail((UnexpectedResultException) ex));
                 } else {
-                    future.complete(Result.error("can't create session", ex));
+                    future.complete(Result.error("can't create QuerySession", ex));
                 }
             }
             if (session != null) {
@@ -132,9 +139,9 @@ public class QuerySessionPool implements AutoCloseable {
         return false;
     }
 
-    private boolean tryComplete(CompletableFuture<Result<QuerySession>> future, QuerySessionImpl session) {
+    private boolean tryComplete(CompletableFuture<Result<QuerySession>> future, PooledQuerySession session) {
         if (!future.complete(Result.success(session))) {
-            logger.debug("session future already done, return session to the pool");
+            logger.debug("QuerySession future already done, return session to the pool");
             queue.release(session);
             return false;
         }
@@ -143,8 +150,53 @@ public class QuerySessionPool implements AutoCloseable {
     }
 
     private class PooledQuerySession extends QuerySessionImpl {
+        private final AtomicReference<GrpcReadStream<Status>> attachStream = new AtomicReference<>();
+
         PooledQuerySession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
             super(clock, rpc, response);
+        }
+
+        public void initSession() {
+            GrpcReadStream<Status> stream = attach(ATTACH_SETTINGS);
+            if (attachStream.compareAndSet(null, stream)) {
+                logger.debug("QuerySession[{}] attach", getId());
+                stream.start(this::attachStatus).whenComplete(this::attachFinish);
+            }
+        }
+
+        public void closeSession() {
+            GrpcReadStream<Status> stream = attachStream.get();
+            if (stream != null && attachStream.compareAndSet(stream, null)) {
+                stream.cancel();
+            }
+        }
+
+        private void deleteSession() {
+            GrpcReadStream<Status> stream = attachStream.get();
+            if (stream != null && attachStream.compareAndSet(stream, null)) {
+                stream.cancel();
+                queue.delete(this);
+            }
+        }
+
+        private void attachStatus(Status status) {
+            if (!status.isSuccess()) {
+                logger.warn("QuerySession[{}] update status {}, closing", getId(), status);
+                deleteSession();
+            } else {
+                logger.trace("QuerySession[{}] update status {}", getId(), status);
+            }
+        }
+
+        private void attachFinish(Status status, Throwable th) {
+            if (status != null) {
+                logger.debug("QuerySession {} finished with status {}", getId(), status);
+            }
+            if (th != null) {
+                logger.debug("QuerySession {} finished with exception", getId(), th);
+            }
+
+            deleteSession();
         }
 
         @Override
@@ -153,7 +205,7 @@ public class QuerySessionPool implements AutoCloseable {
         }
     }
 
-    private class Handler implements WaitingQueue.Handler<QuerySessionImpl> {
+    private class Handler implements WaitingQueue.Handler<PooledQuerySession> {
         private final QueryServiceRpc rpc;
 
         Handler(QueryServiceRpc rpc) {
@@ -161,26 +213,34 @@ public class QuerySessionPool implements AutoCloseable {
         }
 
         @Override
-        public CompletableFuture<QuerySessionImpl> create() {
+        public CompletableFuture<PooledQuerySession> create() {
             return QuerySessionImpl
                     .createSession(rpc, CREATE_SETTINGS, true)
-                    .thenApply(result -> new PooledQuerySession(rpc, result.getValue()));
+                    .thenApply(this::createSession);
+        }
+
+        private PooledQuerySession createSession(Result<YdbQuery.CreateSessionResponse> response) {
+            PooledQuerySession session = new PooledQuerySession(rpc, response.getValue());
+            session.initSession();
+            return session;
         }
 
         @Override
-        public void destroy(QuerySessionImpl session) {
-            session.delete(DELETE_SETTINGS).whenComplete((status, th) -> {
-                if (th != null) {
-                    logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
-                }
-                if (status != null) {
-                    if (status.isSuccess()) {
-                        logger.debug("session {} successful removed", session.getId());
-                    } else {
-                        logger.warn("session {} removed with status {}", session.getId(), status.toString());
-                    }
-                }
-            }).join();
+        public void destroy(PooledQuerySession session) {
+            session.closeSession();
+            // TODO: delete session is unimplemented
+//            session.delete(DELETE_SETTINGS).whenComplete((status, th) -> {
+//                if (th != null) {
+//                    logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
+//                }
+//                if (status != null) {
+//                    if (status.isSuccess()) {
+//                        logger.debug("session {} successful removed", session.getId());
+//                    } else {
+//                        logger.warn("session {} removed with status {}", session.getId(), status.toString());
+//                    }
+//                }
+//            });
         }
     }
 
@@ -198,7 +258,7 @@ public class QuerySessionPool implements AutoCloseable {
 
         @Override
         public void run() {
-            Iterator<QuerySessionImpl> coldIterator = queue.coldIterator();
+            Iterator<PooledQuerySession> coldIterator = queue.coldIterator();
             Instant now = clock.instant();
             Instant idleToRemove = now.minusMillis(maxIdleTimeMillis);
 
