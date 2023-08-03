@@ -17,9 +17,12 @@ import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.settings.OperationSettings;
 import tech.ydb.proto.draft.query.YdbQuery;
 import tech.ydb.query.QuerySession;
+import tech.ydb.query.TxMode;
+import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
+import tech.ydb.query.settings.ExecuteQuerySettings;
 
 /**
  *
@@ -81,6 +84,32 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .withPreferredNodeID((int) nodeID)
 //                .withTrailersHandler(shutdownHandler)
                 .build();
+    }
+
+    @Override
+    public GrpcReadStream<QueryResultPart> executeQuery(String query, TxMode txMode, ExecuteQuerySettings settings) {
+        YdbQuery.ExecuteQueryRequest request = YdbQuery.ExecuteQueryRequest.newBuilder()
+                .setSessionId(id)
+                .setExecMode(YdbQuery.ExecMode.EXEC_MODE_EXECUTE)
+                .setStatsMode(YdbQuery.StatsMode.STATS_MODE_NONE)
+                .setTxControl(txMode.toPb())
+                .setQueryContent(YdbQuery.QueryContent.newBuilder().setText(query).build())
+                .build();
+
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        return new ProxyReadStream<>(rpc.executeQuery(request, grpcSettings), (message, promise, observer) -> {
+            Status status = Status.of(
+                    StatusCode.fromProto(message.getStatus()),
+                    null,
+                    Issue.fromPb(message.getIssuesList())
+            );
+
+            if (!status.isSuccess()) {
+                promise.complete(status);
+            } else {
+                observer.onNext(new QueryResultPart(message));
+            }
+        });
     }
 
     public CompletableFuture<Result<YdbQuery.DeleteSessionResponse>> delete(DeleteSessionSettings settings) {
