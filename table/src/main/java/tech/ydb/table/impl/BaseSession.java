@@ -76,11 +76,14 @@ import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
+import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
+
 
 
 /**
@@ -631,6 +634,37 @@ public abstract class BaseSession implements Session {
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map(DataQueryResult::new));
+    }
+
+    @Override
+    public CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys,
+                                                               @Nullable List<String> columns,
+                                                               Duration timeout) {
+        if (keys.isEmpty()) {
+            throw new IllegalArgumentException("List of keys in readRows query shouldn't be empty.");
+        }
+        YdbTable.ReadRowsRequest.Builder requestBuilder = YdbTable.ReadRowsRequest.newBuilder()
+                .setSessionId(id)
+                .setKeys(
+                        ValueProtos.TypedValue.newBuilder()
+                                .setType(ListType.of(keys.get(0).getType()).toPb())
+                                .setValue(ValueProtos.Value.newBuilder()
+                                        .addAllItems(keys.stream().map(StructValue::toPb).collect(Collectors.toList())))
+                                .build())
+                .setPath(pathToTable);
+
+        if (columns != null && !columns.isEmpty()) {
+            requestBuilder.addAllColumns(columns);
+        }
+
+        return interceptResult(tableRpc.readRows(requestBuilder.build(), makeGrpcRequestSettings(timeout)))
+                .thenApply(result -> result.map(ProtoValueReaders::forResultSet));
+    }
+
+    @Override
+    public CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys,
+                                                               Duration timeout) {
+        return readRows(pathToTable, keys, null, timeout);
     }
 
     CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(String queryId, @Nullable String queryText,

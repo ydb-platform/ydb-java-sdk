@@ -1,5 +1,8 @@
 package tech.ydb.table;
 
+import java.sql.ResultSet;
+import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -34,6 +37,7 @@ import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.StructValue;
 
 
 /**
@@ -93,6 +97,16 @@ public class SessionStub implements Session {
         String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings)
     {
         return notImplemented("executeDataQuery()");
+    }
+
+    @Override
+    public CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys, List<String> columns, Duration timeout) {
+        return notImplemented("readRows()");
+    }
+
+    @Override
+    public CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys, Duration timeout) {
+        return readRows(pathToTable, keys, null, timeout);
     }
 
     @Override

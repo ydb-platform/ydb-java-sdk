@@ -1,5 +1,7 @@
 package tech.ydb.table;
 
+import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -34,6 +36,7 @@ import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.StructValue;
 
 
 /**
@@ -52,7 +55,7 @@ public interface Session extends AutoCloseable {
     void close();
 
     CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions,
-            CreateTableSettings settings);
+                                          CreateTableSettings settings);
 
     CompletableFuture<Status> dropTable(String path, DropTableSettings settings);
 
@@ -67,10 +70,16 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings);
 
     CompletableFuture<Result<DataQueryResult>> executeDataQuery(
-        String query,
-        TxControl<?> txControl,
-        Params params,
-        ExecuteDataQuerySettings settings);
+            String query,
+            TxControl<?> txControl,
+            Params params,
+            ExecuteDataQuerySettings settings);
+
+    CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys,
+                                                        List<String> columns,
+                                                        Duration timeout);
+
+    CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys, Duration timeout);
 
     CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings);
 
@@ -95,13 +104,13 @@ public interface Session extends AutoCloseable {
 
     @Deprecated
     default CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings,
-            Consumer<ResultSetReader> fn) {
+                                                Consumer<ResultSetReader> fn) {
         return executeReadTable(tablePath, settings).start(part -> fn.accept(part.getResultSetReader()));
     }
 
     @Deprecated
     default CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings,
-            Consumer<ResultSetReader> fn) {
+                                                       Consumer<ResultSetReader> fn) {
         return executeScanQuery(query, params, settings).start(fn::accept);
     }
 
@@ -130,7 +139,7 @@ public interface Session extends AutoCloseable {
     }
 
     default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl,
-            Params params) {
+                                                                        Params params) {
         return executeDataQuery(query, txControl, params, new ExecuteDataQuerySettings());
     }
 

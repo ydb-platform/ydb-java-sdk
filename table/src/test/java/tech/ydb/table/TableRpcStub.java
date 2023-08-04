@@ -11,6 +11,7 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.impl.call.EmptyStream;
 import tech.ydb.core.utils.Async;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.AlterTableRequest;
 import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
@@ -118,6 +119,11 @@ public class TableRpcStub implements TableRpc {
     public CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request,
                                                                                 GrpcRequestSettings settings) {
         return notImplemented("executeDataQuery()");
+    }
+
+    @Override
+    public CompletableFuture<Result<ValueProtos.ResultSet>> readRows(YdbTable.ReadRowsRequest request, GrpcRequestSettings settings) {
+        return notImplemented("readRows()");
     }
 
     @Override

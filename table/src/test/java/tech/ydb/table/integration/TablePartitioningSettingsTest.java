@@ -19,7 +19,6 @@ import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
- *
  * @author Alexandr Gorshenin
  */
 public class TablePartitioningSettingsTest {
