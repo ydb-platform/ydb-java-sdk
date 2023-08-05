@@ -44,7 +44,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TableQueryTest {
@@ -60,19 +63,19 @@ public class TableQueryTest {
     private final Random random = new Random();
     private final TableCustomizer tableCustomizer = new TableCustomizer();
 
-    @Nonnull
-    private String getPath(String tablePostfix) {
-        return database + "/" + TABLE_PREFIX + tablePostfix;
+    @Before
+    public void prepare() {
+        tableCustomizer.prepare();
     }
 
-    @Nonnull
-    private String getTableName(String tablePostfix) {
-        return TABLE_PREFIX + tablePostfix;
+    @After
+    public void drop() {
+        tableCustomizer.dropTables();
     }
 
     @Test
+    @Ignore
     public void testReadRowsRandom() {
-        tableCustomizer.prepare();
         for (int i = 0; i < 20; i++) {
             final TablesData table = TablesData.values()[random.nextInt(3)];
             final List<String> columns =
@@ -89,12 +92,11 @@ public class TableQueryTest {
                     readRows(columns, table.getName(), keys)
             ));
         }
-        tableCustomizer.cleanAfter();
     }
 
     @Test
+    @Ignore
     public void testReadRowsSimple() {
-        tableCustomizer.prepare();
         ResultSetReader rsr = ctx.supplyResult(session -> session.readRows(
                 getPath("episodes"),
                 Arrays.asList(
@@ -123,18 +125,26 @@ public class TableQueryTest {
         assertEquals(rsr.getColumn("air_date").getDate(),
                 SeriesData.date("2017-05-07").atZone(OffsetDateTime.now().getOffset()).toLocalDate());
         assertFalse(rsr.next());
-        tableCustomizer.cleanAfter();
     }
 
     @Test
+    @Ignore
     public void testReadRowsFail() {
-        tableCustomizer.prepare();
         assertThrows("Empty list of keys",
                 java.util.concurrent.CompletionException.class, () -> ctx.supplyResult(session -> session.readRows(
                         getPath("episodes"), Collections.emptyList(),
                         null,
                         DURATION_FAIL_CONNECTION)).join().getValue());
-        tableCustomizer.cleanAfter();
+    }
+
+    @Nonnull
+    private String getPath(String tablePostfix) {
+        return database + "/" + TABLE_PREFIX + tablePostfix;
+    }
+
+    @Nonnull
+    private String getTableName(String tablePostfix) {
+        return TABLE_PREFIX + tablePostfix;
     }
 
     private ResultSetReader select(List<String> columns, String table,

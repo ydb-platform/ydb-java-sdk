@@ -9,7 +9,7 @@ import org.testcontainers.shaded.com.google.common.base.Suppliers;
  * @author Aleksandr Gorshenin
  */
 public class YdbEnvironment {
-    private static final String YDB_DEFAULT_IMAGE = "cr.yandex/yc/yandex-docker-local-ydb:trunk";
+    private static final String YDB_DEFAULT_IMAGE = "cr.yandex/yc/yandex-docker-local-ydb:latest";
 
     private final Supplier<String> ydbEndpoint = createParam("YDB_ENDPOINT", null);
     private final Supplier<String> ydbDatabase = createParam("YDB_DATABASE", null);

@@ -58,18 +58,16 @@ public interface TableRpc extends AutoCloseable {
      * of requests are forbidden. Sessions are volatile, can be invalidated by server, e.g. in case
      * of fatal errors. All requests with this session will fail with BAD_SESSION status.
      * So, client must be able to handle BAD_SESSION status.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with id of new session
      */
     CompletableFuture<Result<CreateSessionResult>> createSession(CreateSessionRequest request,
-                                                                 GrpcRequestSettings settings);
+                                                                   GrpcRequestSettings settings);
 
     /**
      * Ends a session, releasing server resources associated with it.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
@@ -77,8 +75,7 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Idle sessions can be kept alive by calling KeepAlive periodically.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
@@ -86,8 +83,7 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Creates new table.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
@@ -95,8 +91,7 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Drop table.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
@@ -104,8 +99,7 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Modifies schema of given table.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
@@ -113,8 +107,7 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Creates copy of given table.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
@@ -122,8 +115,7 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Creates consistent copies of the given tables.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
@@ -131,95 +123,93 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Returns information about given table (metadata).
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
     CompletableFuture<Result<DescribeTableResult>> describeTable(DescribeTableRequest request,
-                                                                 GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Explains data query.
      * SessionId of previously created session must be provided.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
     CompletableFuture<Result<ExplainQueryResult>> explainDataQuery(ExplainDataQueryRequest request,
-                                                                   GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Prepares data query, returns query id.
      * SessionId of previously created session must be provided.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
     CompletableFuture<Result<PrepareQueryResult>> prepareDataQuery(PrepareDataQueryRequest request,
-                                                                   GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Executes data query.
      * SessionId of previously created session must be provided.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
     CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request,
-                                                                   GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
+    /**
+     * Read rows in the key-value form.
+     * SessionId of previously created session must be provided.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with result set
+     */
     CompletableFuture<Result<ValueProtos.ResultSet>> readRows(ReadRowsRequest request,
-                                                              GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Executes scheme query.
      * SessionId of previously created session must be provided.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
     CompletableFuture<Status> executeSchemeQuery(ExecuteSchemeQueryRequest request,
-                                                 GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Begins new transaction.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
     CompletableFuture<Result<BeginTransactionResult>> beginTransaction(BeginTransactionRequest request,
-                                                                       GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Commits specified active transaction.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
     CompletableFuture<Status> commitTransaction(CommitTransactionRequest request,
-                                                GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Performs a rollback of the specified active transaction.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
     CompletableFuture<Status> rollbackTransaction(RollbackTransactionRequest request,
-                                                  GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Streaming read table.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return GrpcReadStream object that allows to start and cancel the stream
      */
@@ -227,18 +217,16 @@ public interface TableRpc extends AutoCloseable {
 
     /**
      * Streaming execute scan query.
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return GrpcReadStream object that allows to start and  cancel the stream
      */
     GrpcReadStream<ExecuteScanQueryPartialResponse> streamExecuteScanQuery(ExecuteScanQueryRequest request,
-                                                                           GrpcRequestSettings settings);
+            GrpcRequestSettings settings);
 
     /**
      * Execute bulk upsert
-     *
-     * @param request  request proto
+     * @param request request proto
      * @param settings rpc call settings
      * @return completable future with status of operation
      */

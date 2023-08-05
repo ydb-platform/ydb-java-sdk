@@ -7,7 +7,7 @@ import tech.ydb.proto.ValueProtos;
  * @author Sergey Polovko
  * @param <T> type of value
  */
-public interface Value<T extends Type>   {
+public interface Value<T extends Type> {
 
     Value<?>[] EMPTY_ARRAY = {};
 

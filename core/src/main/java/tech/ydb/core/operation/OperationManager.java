@@ -18,6 +18,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.proto.OperationProtos;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.operation.v1.OperationServiceGrpc;
 
 /**
@@ -73,6 +74,22 @@ public final class OperationManager {
                 }
             }
             return Result.fail(ASYNC_ARE_UNSUPPORTED);
+        };
+    }
+
+    public static <R> Function<Result<R>, Result<ValueProtos.ResultSet>> resultUnwrapper(
+            Function<R, ValueProtos.ResultSet> resultSetExtractor
+    ) {
+        return result -> {
+            if (!result.isSuccess()) {
+                return result.map(null);
+            }
+            final Status status = result.getStatus();
+
+            if (!status.isSuccess()) {
+                return Result.fail(status);
+            }
+            return Result.success(resultSetExtractor.apply(result.getValue()), status);
         };
     }
 

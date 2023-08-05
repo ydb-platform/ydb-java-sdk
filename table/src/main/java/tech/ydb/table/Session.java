@@ -70,10 +70,10 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings);
 
     CompletableFuture<Result<DataQueryResult>> executeDataQuery(
-            String query,
-            TxControl<?> txControl,
-            Params params,
-            ExecuteDataQuerySettings settings);
+        String query,
+        TxControl<?> txControl,
+        Params params,
+        ExecuteDataQuerySettings settings);
 
     CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys,
                                                         List<String> columns,
@@ -104,13 +104,13 @@ public interface Session extends AutoCloseable {
 
     @Deprecated
     default CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings,
-                                                Consumer<ResultSetReader> fn) {
+            Consumer<ResultSetReader> fn) {
         return executeReadTable(tablePath, settings).start(part -> fn.accept(part.getResultSetReader()));
     }
 
     @Deprecated
     default CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings,
-                                                       Consumer<ResultSetReader> fn) {
+            Consumer<ResultSetReader> fn) {
         return executeScanQuery(query, params, settings).start(fn::accept);
     }
 
@@ -139,7 +139,7 @@ public interface Session extends AutoCloseable {
     }
 
     default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl,
-                                                                        Params params) {
+            Params params) {
         return executeDataQuery(query, txControl, params, new ExecuteDataQuerySettings());
     }
 
