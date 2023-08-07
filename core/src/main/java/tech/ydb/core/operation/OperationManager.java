@@ -18,7 +18,6 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.proto.OperationProtos;
-import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.operation.v1.OperationServiceGrpc;
 
 /**
@@ -77,19 +76,19 @@ public final class OperationManager {
         };
     }
 
-    public static <R> Function<Result<R>, Result<ValueProtos.ResultSet>> resultUnwrapper(
-            Function<R, ValueProtos.ResultSet> resultSetExtractor
+    public static <R extends Message> Function<Result<R>, Result<R>> resultUnwrapper(
+            Function<R, Status> statusExtractor
     ) {
         return result -> {
+            logger.debug("Transport level status: " + result.toString());
             if (!result.isSuccess()) {
                 return result.map(null);
             }
-            final Status status = result.getStatus();
-
-            if (!status.isSuccess()) {
-                return Result.fail(status);
-            }
-            return Result.success(resultSetExtractor.apply(result.getValue()), status);
+            final Status status = statusExtractor.apply(result.getValue());
+//            if (!status.isSuccess()) {
+//                return Result.fail(status);
+//            }
+            return Result.success(result.getValue(), status);
         };
     }
 

@@ -1,6 +1,5 @@
 package tech.ydb.table;
 
-import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
@@ -14,6 +13,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
@@ -31,6 +31,7 @@ import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
@@ -75,11 +76,8 @@ public interface Session extends AutoCloseable {
         Params params,
         ExecuteDataQuerySettings settings);
 
-    CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys,
-                                                        List<String> columns,
-                                                        Duration timeout);
-
-    CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys, Duration timeout);
+    CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, List<StructValue> keys,
+        ReadRowsSettings settings);
 
     CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings);
 

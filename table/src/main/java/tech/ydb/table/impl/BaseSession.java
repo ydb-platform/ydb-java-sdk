@@ -45,6 +45,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.impl.ProtoValueReaders;
@@ -69,6 +70,7 @@ import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PartitioningPolicy;
 import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
 import tech.ydb.table.settings.RollbackTxSettings;
@@ -120,19 +122,6 @@ public abstract class BaseSession implements Session {
             logger.debug("Failed to parse session_id for node_id: {}", e.toString());
         }
         return null;
-    }
-
-    private GrpcRequestSettings makeGrpcRequestSettings(Duration timeout) {
-        return GrpcRequestSettings.newBuilder()
-                .withDeadline(timeout)
-                .withPreferredNodeID(prefferedNodeID)
-                .withTrailersHandler(shutdownHandler)
-                .build();
-    }
-
-    @Override
-    public String getId() {
-        return id;
     }
 
     public static CompletableFuture<Result<String>> createSessionId(TableRpc tableRpc,
@@ -189,6 +178,182 @@ public abstract class BaseSession implements Session {
         }
 
         consumer.accept(builder.build());
+    }
+
+    private static YdbTable.PartitioningPolicy.AutoPartitioningPolicy toPb(AutoPartitioningPolicy policy) {
+        switch (policy) {
+            case AUTO_SPLIT:
+                return YdbTable.PartitioningPolicy.AutoPartitioningPolicy.AUTO_SPLIT;
+            case AUTO_SPLIT_MERGE:
+                return YdbTable.PartitioningPolicy.AutoPartitioningPolicy.AUTO_SPLIT_MERGE;
+            case DISABLED:
+                return YdbTable.PartitioningPolicy.AutoPartitioningPolicy.DISABLED;
+            default:
+                throw new IllegalArgumentException("unknown AutoPartitioningPolicy: " + policy);
+        }
+    }
+
+    private static TableDescription mapDescribeTable(
+            YdbTable.DescribeTableResult result,
+            DescribeTableSettings describeTableSettings
+    ) {
+        TableDescription.Builder description = TableDescription.newBuilder();
+        for (int i = 0; i < result.getColumnsCount(); i++) {
+            YdbTable.ColumnMeta column = result.getColumns(i);
+            description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());
+        }
+        description.setPrimaryKeys(result.getPrimaryKeyList());
+        for (int i = 0; i < result.getIndexesCount(); i++) {
+            YdbTable.TableIndexDescription idx = result.getIndexes(i);
+
+            if (idx.hasGlobalIndex()) {
+                description.addGlobalIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
+            }
+
+            if (idx.hasGlobalAsyncIndex()) {
+                description.addGlobalAsyncIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
+            }
+        }
+        YdbTable.TableStats tableStats = result.getTableStats();
+        if (describeTableSettings.isIncludeTableStats() && tableStats != null) {
+            Timestamp creationTime = tableStats.getCreationTime();
+            Instant createdAt = creationTime == null ? null : Instant.ofEpochSecond(creationTime.getSeconds(),
+                    creationTime.getNanos());
+            Timestamp modificationTime = tableStats.getCreationTime();
+            Instant modifiedAt = modificationTime == null ? null : Instant.ofEpochSecond(modificationTime.getSeconds(),
+                    modificationTime.getNanos());
+            TableDescription.TableStats stats = new TableDescription.TableStats(
+                    createdAt, modifiedAt, tableStats.getRowsEstimate(), tableStats.getStoreSize());
+            description.setTableStats(stats);
+
+            List<YdbTable.PartitionStats> partitionStats = tableStats.getPartitionStatsList();
+            if (describeTableSettings.isIncludePartitionStats() && partitionStats != null) {
+                for (YdbTable.PartitionStats stat : partitionStats) {
+                    description.addPartitionStat(stat.getRowsEstimate(), stat.getStoreSize());
+                }
+            }
+        }
+        YdbTable.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
+        if (partitioningSettings != null) {
+            PartitioningSettings settings = new PartitioningSettings();
+            settings.setPartitionSize(partitioningSettings.getPartitionSizeMb());
+            settings.setMinPartitionsCount(partitioningSettings.getMinPartitionsCount());
+            settings.setMaxPartitionsCount(partitioningSettings.getMaxPartitionsCount());
+            settings.setPartitioningByLoad(partitioningSettings.getPartitioningByLoad() == CommonProtos.
+                    FeatureFlag.Status.ENABLED);
+            settings.setPartitioningBySize(partitioningSettings.getPartitioningBySize() == CommonProtos.
+                    FeatureFlag.Status.ENABLED);
+            description.setPartitioningSettings(settings);
+        }
+
+        List<YdbTable.ColumnFamily> columnFamiliesList = result.getColumnFamiliesList();
+        if (columnFamiliesList != null) {
+            for (YdbTable.ColumnFamily family : columnFamiliesList) {
+                ColumnFamily.Compression compression;
+                switch (family.getCompression()) {
+                    case COMPRESSION_LZ4:
+                        compression = ColumnFamily.Compression.COMPRESSION_LZ4;
+                        break;
+                    default:
+                        compression = ColumnFamily.Compression.COMPRESSION_NONE;
+                }
+                description.addColumnFamily(
+                        new ColumnFamily(family.getName(),
+                                new StoragePool(family.getData().getMedia()),
+                                compression,
+                                family.getKeepInMemory().equals(tech.ydb.proto.common.CommonProtos.
+                                        FeatureFlag.Status.ENABLED))
+                );
+            }
+        }
+        if (describeTableSettings.isIncludeShardKeyBounds()) {
+            List<ValueProtos.TypedValue> shardKeyBoundsList = result.getShardKeyBoundsList();
+            if (shardKeyBoundsList != null) {
+                Optional<Value<?>> leftValue = Optional.empty();
+                for (ValueProtos.TypedValue typedValue : shardKeyBoundsList) {
+                    Optional<KeyBound> fromBound = leftValue.map(KeyBound::inclusive);
+                    Value<?> value = ProtoValue.fromPb(
+                            ProtoType.fromPb(typedValue.getType()),
+                            typedValue.getValue()
+                    );
+                    Optional<KeyBound> toBound = Optional.of(KeyBound.exclusive(value));
+                    description.addKeyRange(new KeyRange(fromBound, toBound));
+                    leftValue = Optional.of(value);
+                }
+                description.addKeyRange(
+                        new KeyRange(leftValue.map(KeyBound::inclusive), Optional.empty())
+                );
+            }
+        }
+
+        YdbTable.TtlSettings ttlSettings = result.getTtlSettings();
+        int ttlModeCase = ttlSettings.getModeCase().getNumber();
+        switch (ttlSettings.getModeCase()) {
+            case DATE_TYPE_COLUMN:
+                YdbTable.DateTypeColumnModeSettings dateTypeColumn = ttlSettings.getDateTypeColumn();
+                description.setTtlSettings(ttlModeCase, dateTypeColumn.getColumnName(),
+                        dateTypeColumn.getExpireAfterSeconds());
+                break;
+            case VALUE_SINCE_UNIX_EPOCH:
+                YdbTable.ValueSinceUnixEpochModeSettings valueSinceUnixEpoch = ttlSettings.getValueSinceUnixEpoch();
+                description.setTtlSettings(ttlModeCase, valueSinceUnixEpoch.getColumnName(),
+                        valueSinceUnixEpoch.getExpireAfterSeconds());
+                break;
+            default:
+                break;
+        }
+
+        return description.build();
+    }
+
+    private static YdbTable.TransactionSettings txSettings(Transaction.Mode transactionMode) {
+        YdbTable.TransactionSettings.Builder settings = YdbTable.TransactionSettings.newBuilder();
+        if (transactionMode != null) {
+            switch (transactionMode) {
+                case SERIALIZABLE_READ_WRITE:
+                    settings.setSerializableReadWrite(YdbTable.SerializableModeSettings.getDefaultInstance());
+                    break;
+                case ONLINE_READ_ONLY:
+                    settings.setOnlineReadOnly(YdbTable.OnlineModeSettings.getDefaultInstance());
+                    break;
+                case STALE_READ_ONLY:
+                    settings.setStaleReadOnly(YdbTable.StaleModeSettings.getDefaultInstance());
+                    break;
+                case SNAPSHOT_READ_ONLY:
+                    settings.setSnapshotReadOnly(YdbTable.SnapshotModeSettings.getDefaultInstance());
+                    break;
+                default:
+                    break;
+            }
+        }
+        return settings.build();
+    }
+
+    private static State mapSessionStatus(YdbTable.KeepAliveResult result) {
+        switch (result.getSessionStatus()) {
+            case UNRECOGNIZED:
+            case SESSION_STATUS_UNSPECIFIED:
+                return State.UNSPECIFIED;
+            case SESSION_STATUS_BUSY:
+                return State.BUSY;
+            case SESSION_STATUS_READY:
+                return State.READY;
+            default:
+                throw new IllegalStateException("unknown session status: " + result.getSessionStatus());
+        }
+    }
+
+    private GrpcRequestSettings makeGrpcRequestSettings(Duration timeout) {
+        return GrpcRequestSettings.newBuilder()
+                .withDeadline(timeout)
+                .withPreferredNodeID(prefferedNodeID)
+                .withTrailersHandler(shutdownHandler)
+                .build();
+    }
+
+    @Override
+    public String getId() {
+        return id;
     }
 
     @Override
@@ -340,19 +505,6 @@ public abstract class BaseSession implements Session {
         return tableRpc.createTable(request.build(), grpcRequestSettings);
     }
 
-    private static YdbTable.PartitioningPolicy.AutoPartitioningPolicy toPb(AutoPartitioningPolicy policy) {
-        switch (policy) {
-            case AUTO_SPLIT:
-                return YdbTable.PartitioningPolicy.AutoPartitioningPolicy.AUTO_SPLIT;
-            case AUTO_SPLIT_MERGE:
-                return YdbTable.PartitioningPolicy.AutoPartitioningPolicy.AUTO_SPLIT_MERGE;
-            case DISABLED:
-                return YdbTable.PartitioningPolicy.AutoPartitioningPolicy.DISABLED;
-            default:
-                throw new IllegalArgumentException("unknown AutoPartitioningPolicy: " + policy);
-        }
-    }
-
     @Override
     public CompletableFuture<Status> dropTable(String path, DropTableSettings settings) {
         YdbTable.DropTableRequest request = YdbTable.DropTableRequest.newBuilder()
@@ -458,142 +610,6 @@ public abstract class BaseSession implements Session {
                 .thenApply(result -> result.map(desc -> mapDescribeTable(desc, settings)));
     }
 
-    private static TableDescription mapDescribeTable(
-            YdbTable.DescribeTableResult result,
-            DescribeTableSettings describeTableSettings
-    ) {
-        TableDescription.Builder description = TableDescription.newBuilder();
-        for (int i = 0; i < result.getColumnsCount(); i++) {
-            YdbTable.ColumnMeta column = result.getColumns(i);
-            description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());
-        }
-        description.setPrimaryKeys(result.getPrimaryKeyList());
-        for (int i = 0; i < result.getIndexesCount(); i++) {
-            YdbTable.TableIndexDescription idx = result.getIndexes(i);
-
-            if (idx.hasGlobalIndex()) {
-                description.addGlobalIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
-            }
-
-            if (idx.hasGlobalAsyncIndex()) {
-                description.addGlobalAsyncIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
-            }
-        }
-        YdbTable.TableStats tableStats = result.getTableStats();
-        if (describeTableSettings.isIncludeTableStats() && tableStats != null) {
-            Timestamp creationTime = tableStats.getCreationTime();
-            Instant createdAt = creationTime == null ? null : Instant.ofEpochSecond(creationTime.getSeconds(),
-                    creationTime.getNanos());
-            Timestamp modificationTime = tableStats.getCreationTime();
-            Instant modifiedAt = modificationTime == null ? null : Instant.ofEpochSecond(modificationTime.getSeconds(),
-                    modificationTime.getNanos());
-            TableDescription.TableStats stats = new TableDescription.TableStats(
-                    createdAt, modifiedAt, tableStats.getRowsEstimate(), tableStats.getStoreSize());
-            description.setTableStats(stats);
-
-            List<YdbTable.PartitionStats> partitionStats = tableStats.getPartitionStatsList();
-            if (describeTableSettings.isIncludePartitionStats() && partitionStats != null) {
-                for (YdbTable.PartitionStats stat : partitionStats) {
-                    description.addPartitionStat(stat.getRowsEstimate(), stat.getStoreSize());
-                }
-            }
-        }
-        YdbTable.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
-        if (partitioningSettings != null) {
-            PartitioningSettings settings = new PartitioningSettings();
-            settings.setPartitionSize(partitioningSettings.getPartitionSizeMb());
-            settings.setMinPartitionsCount(partitioningSettings.getMinPartitionsCount());
-            settings.setMaxPartitionsCount(partitioningSettings.getMaxPartitionsCount());
-            settings.setPartitioningByLoad(partitioningSettings.getPartitioningByLoad() == CommonProtos.
-                    FeatureFlag.Status.ENABLED);
-            settings.setPartitioningBySize(partitioningSettings.getPartitioningBySize() == CommonProtos.
-                    FeatureFlag.Status.ENABLED);
-            description.setPartitioningSettings(settings);
-        }
-
-        List<YdbTable.ColumnFamily> columnFamiliesList = result.getColumnFamiliesList();
-        if (columnFamiliesList != null) {
-            for (YdbTable.ColumnFamily family : columnFamiliesList) {
-                ColumnFamily.Compression compression;
-                switch (family.getCompression()) {
-                    case COMPRESSION_LZ4:
-                        compression = ColumnFamily.Compression.COMPRESSION_LZ4;
-                        break;
-                    default:
-                        compression = ColumnFamily.Compression.COMPRESSION_NONE;
-                }
-                description.addColumnFamily(
-                        new ColumnFamily(family.getName(),
-                                new StoragePool(family.getData().getMedia()),
-                                compression,
-                                family.getKeepInMemory().equals(tech.ydb.proto.common.CommonProtos.
-                                        FeatureFlag.Status.ENABLED))
-                );
-            }
-        }
-        if (describeTableSettings.isIncludeShardKeyBounds()) {
-            List<ValueProtos.TypedValue> shardKeyBoundsList = result.getShardKeyBoundsList();
-            if (shardKeyBoundsList != null) {
-                Optional<Value<?>> leftValue = Optional.empty();
-                for (ValueProtos.TypedValue typedValue : shardKeyBoundsList) {
-                    Optional<KeyBound> fromBound = leftValue.map(KeyBound::inclusive);
-                    Value<?> value = ProtoValue.fromPb(
-                            ProtoType.fromPb(typedValue.getType()),
-                            typedValue.getValue()
-                    );
-                    Optional<KeyBound> toBound = Optional.of(KeyBound.exclusive(value));
-                    description.addKeyRange(new KeyRange(fromBound, toBound));
-                    leftValue = Optional.of(value);
-                }
-                description.addKeyRange(
-                        new KeyRange(leftValue.map(KeyBound::inclusive), Optional.empty())
-                );
-            }
-        }
-
-        YdbTable.TtlSettings ttlSettings = result.getTtlSettings();
-        int ttlModeCase = ttlSettings.getModeCase().getNumber();
-        switch (ttlSettings.getModeCase()) {
-            case DATE_TYPE_COLUMN:
-                YdbTable.DateTypeColumnModeSettings dateTypeColumn = ttlSettings.getDateTypeColumn();
-                description.setTtlSettings(ttlModeCase, dateTypeColumn.getColumnName(),
-                        dateTypeColumn.getExpireAfterSeconds());
-                break;
-            case VALUE_SINCE_UNIX_EPOCH:
-                YdbTable.ValueSinceUnixEpochModeSettings valueSinceUnixEpoch = ttlSettings.getValueSinceUnixEpoch();
-                description.setTtlSettings(ttlModeCase, valueSinceUnixEpoch.getColumnName(),
-                        valueSinceUnixEpoch.getExpireAfterSeconds());
-                break;
-            default:
-                break;
-        }
-
-        return description.build();
-    }
-
-    private static YdbTable.TransactionSettings txSettings(Transaction.Mode transactionMode) {
-        YdbTable.TransactionSettings.Builder settings = YdbTable.TransactionSettings.newBuilder();
-        if (transactionMode != null) {
-            switch (transactionMode) {
-                case SERIALIZABLE_READ_WRITE:
-                    settings.setSerializableReadWrite(YdbTable.SerializableModeSettings.getDefaultInstance());
-                    break;
-                case ONLINE_READ_ONLY:
-                    settings.setOnlineReadOnly(YdbTable.OnlineModeSettings.getDefaultInstance());
-                    break;
-                case STALE_READ_ONLY:
-                    settings.setStaleReadOnly(YdbTable.StaleModeSettings.getDefaultInstance());
-                    break;
-                case SNAPSHOT_READ_ONLY:
-                    settings.setSnapshotReadOnly(YdbTable.SnapshotModeSettings.getDefaultInstance());
-                    break;
-                default:
-                    break;
-            }
-        }
-        return settings.build();
-    }
-
     @Override
     public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
             String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
@@ -637,9 +653,8 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys,
-                                                               @Nullable List<String> columns,
-                                                               Duration timeout) {
+    public CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, List<StructValue> keys,
+                                                              ReadRowsSettings settings) {
         if (keys.isEmpty()) {
             throw new IllegalArgumentException("List of keys in readRows query shouldn't be empty.");
         }
@@ -653,18 +668,13 @@ public abstract class BaseSession implements Session {
                                 .build())
                 .setPath(pathToTable);
 
-        if (columns != null && !columns.isEmpty()) {
-            requestBuilder.addAllColumns(columns);
+        if (settings.getColumns() != null && !settings.getColumns().isEmpty()) {
+            requestBuilder.addAllColumns(settings.getColumns());
         }
 
-        return interceptResult(tableRpc.readRows(requestBuilder.build(), makeGrpcRequestSettings(timeout)))
-                .thenApply(result -> result.map(ProtoValueReaders::forResultSet));
-    }
-
-    @Override
-    public CompletableFuture<Result<ResultSetReader>> readRows(String pathToTable, List<StructValue> keys,
-                                                               Duration timeout) {
-        return readRows(pathToTable, keys, null, timeout);
+        return interceptResult(
+                tableRpc.readRows(requestBuilder.build(), makeGrpcRequestSettings(settings.getTimeout())))
+                .thenApply(result -> result.map(ReadRowsResult::new));
     }
 
     CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(String queryId, @Nullable String queryText,
@@ -913,20 +923,6 @@ public abstract class BaseSession implements Session {
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
 
         return interceptStatus(tableRpc.bulkUpsert(request, grpcRequestSettings));
-    }
-
-    private static State mapSessionStatus(YdbTable.KeepAliveResult result) {
-        switch (result.getSessionStatus()) {
-            case UNRECOGNIZED:
-            case SESSION_STATUS_UNSPECIFIED:
-                return State.UNSPECIFIED;
-            case SESSION_STATUS_BUSY:
-                return State.BUSY;
-            case SESSION_STATUS_READY:
-                return State.READY;
-            default:
-                throw new IllegalStateException("unknown session status: " + result.getSessionStatus());
-        }
     }
 
     public CompletableFuture<Status> delete(DeleteSessionSettings settings) {

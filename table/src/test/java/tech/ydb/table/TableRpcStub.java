@@ -35,6 +35,7 @@ import tech.ydb.proto.table.YdbTable.KeepAliveRequest;
 import tech.ydb.proto.table.YdbTable.KeepAliveResult;
 import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
 import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
+import tech.ydb.proto.table.YdbTable.ReadRowsResponse;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.rpc.TableRpc;
 
@@ -122,7 +123,7 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
-    public CompletableFuture<Result<ValueProtos.ResultSet>> readRows(YdbTable.ReadRowsRequest request, GrpcRequestSettings settings) {
+    public CompletableFuture<Result<ReadRowsResponse>> readRows(YdbTable.ReadRowsRequest request, GrpcRequestSettings settings) {
         return notImplemented("readRows()");
     }
 
