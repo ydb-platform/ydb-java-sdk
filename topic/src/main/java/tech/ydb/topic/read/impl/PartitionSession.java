@@ -243,7 +243,7 @@ public class PartitionSession {
                             messageImplList.get(messageImplList.size() - 1).getOffset() + 1)));
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) for partition " +
-                                "session {} " +"(partition {}) is about to be called...", path, messagesToRead.size(),
+                                "session {} " + "(partition {}) is about to be called...", path, messagesToRead.size(),
                         messagesToRead.get(0).getOffset(), messagesToRead.get(messagesToRead.size() - 1).getOffset(),
                         id, partitionId);
             }
