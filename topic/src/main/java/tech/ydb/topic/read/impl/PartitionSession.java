@@ -45,7 +45,7 @@ public class PartitionSession {
     private final AtomicBoolean isReadingNow = new AtomicBoolean(false);
     private final BiConsumer<Long, OffsetsRange> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
-
+    // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
 
@@ -111,6 +111,11 @@ public class PartitionSession {
                 long newReadOffset = messageOffset + 1;
                 if (newReadOffset > lastReadOffset) {
                     lastReadOffset = newReadOffset;
+                    if (logger.isTraceEnabled()) {
+                        logger.trace("[{}] Received a message with offset {} for partition session {} " +
+                                        "(partition {}). lastReadOffset is now {}", path, messageOffset, id,
+                                partitionId, lastReadOffset);
+                    }
                 } else {
                     logger.error("[{}] Received a message with offset {} which is less than last read offset {} " +
                                     "for partition session {} (partition {})", path, messageOffset, lastReadOffset, id,
@@ -171,7 +176,7 @@ public class PartitionSession {
         if (isWorking.get()) {
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] Offset range [{}, {}) is requested to be committed for partition session {} " +
-                                "(partition {}). Last committed offset is {} (read lag is {})", path,
+                                "(partition {}). Last committed offset is {} (commit lag is {})", path,
                         offsets.getStart(), offsets.getEnd(), id, partitionId, lastCommittedOffset,
                         offsets.getStart() - lastCommittedOffset);
             }
