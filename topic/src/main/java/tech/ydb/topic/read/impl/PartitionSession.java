@@ -243,8 +243,9 @@ public class PartitionSession {
                     () -> commitOffset(new OffsetsRange(messageImplList.get(0).getCommitOffsetFrom(),
                             messageImplList.get(messageImplList.size() - 1).getOffset() + 1)));
             if (logger.isDebugEnabled()) {
-                logger.debug("[{}] DataReceivedEvent callback for partition session {} (partition {}) is about to be " +
-                        "called...", path, id, partitionId);
+                logger.debug("[{}] DataReceivedEvent callback with offsets {}-{} for partition session {} " +
+                        "(partition {}) is about to be called...", path, messagesToRead.get(0).getOffset(),
+                        messagesToRead.get(messagesToRead.size() - 1).getOffset(), id, partitionId);
             }
             dataEventCallback.apply(event)
                     .whenComplete((res, th) -> {
