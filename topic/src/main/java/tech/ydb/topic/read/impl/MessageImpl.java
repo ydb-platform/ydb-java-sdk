@@ -5,6 +5,9 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 
@@ -12,6 +15,7 @@ import tech.ydb.topic.read.PartitionSession;
  * @author Nikolay Perfilov
  */
 public class MessageImpl implements Message {
+    private static final Logger logger = LoggerFactory.getLogger(MessageImpl.class);
     private byte[] data;
     private final long offset;
     private final long seqNo;
@@ -94,7 +98,13 @@ public class MessageImpl implements Message {
 
     @Override
     public CompletableFuture<Void> commit() {
-        return commitFunction.apply(new OffsetsRange(commitOffsetFrom, offset + 1));
+        final long commitOffsetTo = offset + 1;
+        if (logger.isDebugEnabled()) {
+            logger.debug("[{}] partition session {} (partition {}): committing message with offset {} [{}-{})",
+                    partitionSession.getPath(), partitionSession.getId(), partitionSession.getPartitionId(),
+                    offset, commitOffsetFrom, commitOffsetTo);
+        }
+        return commitFunction.apply(new OffsetsRange(commitOffsetFrom, commitOffsetTo));
     }
 
     /**
