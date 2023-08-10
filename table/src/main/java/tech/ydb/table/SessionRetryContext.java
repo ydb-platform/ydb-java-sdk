@@ -14,8 +14,6 @@ import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.util.concurrent.MoreExecutors;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -31,7 +29,6 @@ import static com.google.common.base.Preconditions.checkArgument;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
-    private static final Logger logger = LoggerFactory.getLogger(SessionRetryContext.class);
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -62,13 +59,23 @@ public class SessionRetryContext {
     }
 
     public <T> CompletableFuture<Result<T>> supplyResult(Function<Session, CompletableFuture<Result<T>>> fn) {
-        RetryableResultTask<T> task = new RetryableResultTask<>(fn);
+        return supplyResult(SessionRetryHandler.DEFAULT, fn);
+    }
+
+    public CompletableFuture<Status> supplyStatus(Function<Session, CompletableFuture<Status>> fn) {
+        return supplyStatus(SessionRetryHandler.DEFAULT, fn);
+    }
+
+    public <T> CompletableFuture<Result<T>> supplyResult(SessionRetryHandler h,
+            Function<Session, CompletableFuture<Result<T>>> fn) {
+        RetryableResultTask<T> task = new RetryableResultTask<>(h, fn);
         task.requestSession();
         return task.getFuture();
     }
 
-    public CompletableFuture<Status> supplyStatus(Function<Session, CompletableFuture<Status>> fn) {
-        RetryableStatusTask task = new RetryableStatusTask(fn);
+    public CompletableFuture<Status> supplyStatus(SessionRetryHandler h,
+            Function<Session, CompletableFuture<Status>> fn) {
+        RetryableStatusTask task = new RetryableStatusTask(h, fn);
         task.requestSession();
         return task.getFuture();
     }
@@ -80,22 +87,6 @@ public class SessionRetryContext {
             return statusCode.isRetryable(idempotent, retryNotFound);
         }
         return false;
-    }
-
-    private String errorMsg(Throwable t) {
-        if (!logger.isDebugEnabled()) {
-            return "unknown";
-        }
-        Throwable cause = Async.unwrapCompletionException(t);
-        if (cause instanceof UnexpectedResultException) {
-            StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
-            return statusCode.name();
-        }
-        return t.getMessage();
-    }
-
-    private boolean canRetry(StatusCode code) {
-        return code.isRetryable(idempotent) || (retryNotFound && code == StatusCode.NOT_FOUND);
     }
 
     private long backoffTimeMillisInternal(int retryNumber, long backoffSlotMillis, int backoffCeiling) {
@@ -152,9 +143,11 @@ public class SessionRetryContext {
         private final AtomicInteger retryNumber = new AtomicInteger();
         private final Function<Session, CompletableFuture<R>> fn;
         private final long createTimestamp = Instant.now().toEpochMilli();
+        private final SessionRetryHandler handler;
 
-        BaseRetryableTask(Function<Session, CompletableFuture<R>> fn) {
+        BaseRetryableTask(SessionRetryHandler h, Function<Session, CompletableFuture<R>> fn) {
             this.fn = fn;
+            this.handler = h;
         }
 
         CompletableFuture<R> getFuture() {
@@ -172,7 +165,7 @@ public class SessionRetryContext {
         @Override
         public void run() {
             if (promise.isCancelled()) {
-                logger.debug("RetryCtx[{}] cancelled, {} retries, {} ms", hashCode(), retryNumber.get(), ms());
+                handler.onCancel(SessionRetryContext.this, retryNumber.get(), ms());
                 return;
             }
             executor.execute(this::requestSession);
@@ -214,15 +207,13 @@ public class SessionRetryContext {
 
                         StatusCode statusCode = toStatusCode(fnResult);
                         if (statusCode == StatusCode.SUCCESS) {
-                            logger.debug("RetryCtx[{}] OK, finished after {} retries, {} ms total",
-                                    hashCode(), retryNumber.get(), ms());
+                            handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
                             promise.complete(fnResult);
                         } else {
                             handleError(statusCode, fnResult);
                         }
                     } catch (Throwable unexpected) {
-                        logger.debug("RetryCtx[{}] UNEXPECTED[{}], finished after {} retries, {} ms total",
-                                hashCode(), unexpected.getMessage(), retryNumber.get(), ms());
+                        handler.onError(SessionRetryContext.this, unexpected, retryNumber.get(), ms());
                         promise.completeExceptionally(unexpected);
                     }
                 });
@@ -238,8 +229,7 @@ public class SessionRetryContext {
         private void handleError(@Nonnull StatusCode code, R result) {
             // Check retrayable status
             if (!code.isRetryable(idempotent, retryNotFound)) {
-                logger.debug("RetryCtx[{}] NON-RETRYABLE CODE[{}], finished after {} retries, {} ms total",
-                        hashCode(), code, retryNumber.get(), ms());
+                handler.onError(SessionRetryContext.this, code, retryNumber.get(), ms());
                 promise.complete(result);
                 return;
             }
@@ -247,12 +237,10 @@ public class SessionRetryContext {
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(code, retry);
-                logger.debug("RetryCtx[{}] RETRYABLE CODE[{}], scheduling next retry #{} in {} ms, {} ms total",
-                        hashCode(), code, retry, next, ms());
+                handler.onRetry(SessionRetryContext.this, code, retry, next, ms());
                 scheduleNext(next);
             } else {
-                logger.debug("RetryCtx[{}] RETRYABLE CODE[{}], finished by retries limit ({}), {} ms total",
-                        hashCode(), code, maxRetries, ms());
+                handler.onLimit(SessionRetryContext.this, code, maxRetries, ms());
                 promise.complete(result);
             }
         }
@@ -260,8 +248,7 @@ public class SessionRetryContext {
         private void handleException(@Nonnull Throwable ex) {
             // Check retrayable execption
             if (!canRetry(ex)) {
-                logger.debug("RetryCtx[{}] NON-RETRYABLE ERROR[{}], finished after {} retries, {} ms total",
-                        hashCode(), errorMsg(ex), retryNumber.get(), ms());
+                handler.onError(SessionRetryContext.this, ex, retryNumber.get(), ms());
                 promise.completeExceptionally(ex);
                 return;
             }
@@ -269,12 +256,10 @@ public class SessionRetryContext {
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(ex, retry);
-                logger.debug("RetryCtx[{}] RETRYABLE ERROR[{}], scheduling next retry #{} in {} ms, {} ms total",
-                        hashCode(), errorMsg(ex), retry, next, ms());
+                handler.onRetry(SessionRetryContext.this, ex, retry, next, ms());
                 scheduleNext(next);
             } else {
-                logger.debug("RetryCtx[{}] RETRYABLE ERROR[{}], finished by retries limit ({}), {} ms total",
-                        hashCode(), errorMsg(ex), maxRetries, ms());
+                handler.onError(SessionRetryContext.this, ex, maxRetries, ms());
                 promise.completeExceptionally(ex);
             }
         }
@@ -284,8 +269,8 @@ public class SessionRetryContext {
      * RETRYABLE RESULT TASK
      */
     private final class RetryableResultTask<T> extends BaseRetryableTask<Result<T>> {
-        RetryableResultTask(Function<Session, CompletableFuture<Result<T>>> fn) {
-            super(fn);
+        RetryableResultTask(SessionRetryHandler h, Function<Session, CompletableFuture<Result<T>>> fn) {
+            super(h, fn);
         }
 
         @Override
@@ -303,8 +288,8 @@ public class SessionRetryContext {
      * RETRYABLE STATUS TASK
      */
     private final class RetryableStatusTask extends BaseRetryableTask<Status> {
-        RetryableStatusTask(Function<Session, CompletableFuture<Status>> fn) {
-            super(fn);
+        RetryableStatusTask(SessionRetryHandler h, Function<Session, CompletableFuture<Status>> fn) {
+            super(h, fn);
         }
 
         @Override
