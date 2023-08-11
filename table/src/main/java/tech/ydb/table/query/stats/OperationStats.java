@@ -1,9 +1,8 @@
 package tech.ydb.table.query.stats;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public final class OperationStats implements Serializable {
+public final class OperationStats {
     private final long rows;
     private final long bytes;
 

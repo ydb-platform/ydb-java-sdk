@@ -1,11 +1,10 @@
 package tech.ydb.table.query.stats;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public final class QueryPhaseStats implements Serializable {
+public final class QueryPhaseStats {
     private final long durationUs;
     private final List<TableAccessStats> tableAccess;
     private final long cpuTimeUs;
