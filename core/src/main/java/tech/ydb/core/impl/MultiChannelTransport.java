@@ -40,7 +40,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     public MultiChannelTransport(GrpcTransportBuilder builder, List<HostAndPort> hosts) {
         ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
 
-        logger.info("creating multi channle transport with hosts {}", Objects.requireNonNull(hosts));
+        logger.info("creating multi channel transport with hosts {}", Objects.requireNonNull(hosts));
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.scheduler = builder.getSchedulerFactory().get();
@@ -66,7 +66,9 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         );
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
-        this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());
+        this.endpointPool = new EndpointPool(null, BalancingSettings.defaultInstance());
+
+        this.endpointPool.setNewState(discoveryResult);
     }
 
     @Override
