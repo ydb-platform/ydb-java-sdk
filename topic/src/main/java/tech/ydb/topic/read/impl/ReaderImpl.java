@@ -177,10 +177,10 @@ public abstract class ReaderImpl {
 
         PartitionSession partitionSession = partitionSessions.get(partitionSessionId);
         if (partitionSession != null) {
-            logger.info("[{}] Sending StartPartitionSessionResponse for partition session {} (partition {})", id,
+            logger.info("[{}] Sending StopPartitionSessionResponse for partition session {} (partition {})", id,
                     partitionSessionId, partitionSession.getPartitionId());
         } else {
-            logger.warn("[{}] Sending StartPartitionSessionResponse for partition session {}, " +
+            logger.warn("[{}] Sending StopPartitionSessionResponse for partition session {}, " +
                     "but have no such partition session running", id, partitionSessionId);
         }
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
