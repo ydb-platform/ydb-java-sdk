@@ -177,6 +177,9 @@ public abstract class ReaderImpl {
 
         PartitionSession partitionSession = partitionSessions.get(partitionSessionId);
         if (partitionSession != null) {
+            logger.info("[{}] User confirmed graceful shutdown of partition session {} (partition {})", id,
+                partitionSessionId, partitionSession.getPartitionId());
+            partitionSession.shutdown();
             logger.info("[{}] Sending StopPartitionSessionResponse for partition session {} (partition {})", id,
                     partitionSessionId, partitionSession.getPartitionId());
         } else {
