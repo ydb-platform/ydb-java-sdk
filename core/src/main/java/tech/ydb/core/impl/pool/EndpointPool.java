@@ -57,12 +57,12 @@ public final class EndpointPool {
                     return knownEndpoint;
                 }
             }
-            if (bestEndpointsCount == -1) {
-                return discoveryEndpoint;
-            } else {
+            if (bestEndpointsCount > 0) {
                 // returns value in range [0, n)
                 int idx = ThreadLocalRandom.current().nextInt(bestEndpointsCount);
                 return records.get(idx);
+            } else {
+                return discoveryEndpoint;
             }
         } finally {
             recordsLock.readLock().unlock();
