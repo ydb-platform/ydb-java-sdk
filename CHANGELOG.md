@@ -1,6 +1,11 @@
 ## 2.2.0 ##
+
 * Added export module
 * Operation manager
+
+## 2.1.3 ##
+
+* Enhanced message commit logging
 
 ## 2.1.2 ##
 
