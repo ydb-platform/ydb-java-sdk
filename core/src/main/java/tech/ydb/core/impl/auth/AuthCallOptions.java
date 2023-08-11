@@ -21,10 +21,12 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
 public class AuthCallOptions implements AutoCloseable {
     private final AuthIdentity authIdentity;
     private final CallOptions callOptions;
+    private final long readTimeoutMillis;
 
     public AuthCallOptions() {
         this.authIdentity = null;
         this.callOptions = CallOptions.DEFAULT;
+        this.readTimeoutMillis = 0;
     }
 
     public AuthCallOptions(
@@ -35,7 +37,6 @@ public class AuthCallOptions implements AutoCloseable {
             long readTimeoutMillis,
             Executor callExecutor,
             GrpcCompression compression) {
-
         CallOptions options = CallOptions.DEFAULT;
 
         if (authProvider != null) {
@@ -49,9 +50,6 @@ public class AuthCallOptions implements AutoCloseable {
             options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
         }
 
-        if (readTimeoutMillis > 0) {
-            options = options.withDeadlineAfter(readTimeoutMillis, TimeUnit.MILLISECONDS);
-        }
         if (callExecutor != null && callExecutor != MoreExecutors.directExecutor()) {
             options = options.withExecutor(callExecutor);
         }
@@ -60,6 +58,7 @@ public class AuthCallOptions implements AutoCloseable {
         }
 
         this.callOptions = options;
+        this.readTimeoutMillis = readTimeoutMillis;
     }
 
     @Override
@@ -77,6 +76,9 @@ public class AuthCallOptions implements AutoCloseable {
     }
 
     public CallOptions getGrpcCallOptions() {
+        if (readTimeoutMillis > 0) {
+            return callOptions.withDeadlineAfter(readTimeoutMillis, TimeUnit.MILLISECONDS);
+        }
         return callOptions;
     }
 }

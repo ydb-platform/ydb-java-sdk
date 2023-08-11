@@ -34,15 +34,17 @@ public final class EndpointPool {
     private final BalancingSettings balancingSettings;
     private final ReadWriteLock recordsLock = new ReentrantReadWriteLock();
     private final AtomicInteger pessimizationRatio = new AtomicInteger();
+    private final EndpointRecord discoveryEndpoint;
     private List<PriorityEndpoint> records = new ArrayList<>();
     private Map<Integer, PriorityEndpoint> endpointsByNodeId = new HashMap<>();
 
     // Number of endpoints with best load factor (priority)
     private int bestEndpointsCount = -1;
 
-    public EndpointPool(BalancingSettings balancingSettings) {
+    public EndpointPool(EndpointRecord discoveryEndpoint, BalancingSettings balancingSettings) {
         logger.debug("Creating endpoint pool with balancing settings policy: {}", balancingSettings.getPolicy());
 
+        this.discoveryEndpoint = discoveryEndpoint;
         this.balancingSettings = balancingSettings;
     }
 
@@ -55,12 +57,12 @@ public final class EndpointPool {
                     return knownEndpoint;
                 }
             }
-            if (bestEndpointsCount == -1) {
-                return null;
-            } else {
+            if (bestEndpointsCount > 0) {
                 // returns value in range [0, n)
                 int idx = ThreadLocalRandom.current().nextInt(bestEndpointsCount);
                 return records.get(idx);
+            } else {
+                return discoveryEndpoint;
             }
         } finally {
             recordsLock.readLock().unlock();

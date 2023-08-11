@@ -32,6 +32,8 @@ import static org.mockito.Mockito.when;
  * @author Kirill Kurdyukov
  */
 public class EndpointPoolTest {
+    private final EndpointRecord discovery = new EndpointRecord("discovery", 2136, -1);
+
     private final AutoCloseable mocks = MockitoAnnotations.openMocks(this);
     private final MockedStatic<ThreadLocalRandom> threadLocalStaticMock = mockStatic(ThreadLocalRandom.class);
     private final ThreadLocalRandom random = Mockito.mock(ThreadLocalRandom.class);
@@ -49,23 +51,23 @@ public class EndpointPoolTest {
 
     @Test
     public void uninitializedTest() {
-        EndpointPool pool = new EndpointPool(useAllNodes());
+        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        check(pool.getEndpoint(null)).isNull();
-        check(pool.getEndpoint(0)).isNull();
-        check(pool.getEndpoint(1)).isNull();
+        check(pool.getEndpoint(null)).hostname("discovery").nodeID(-1).port(2136);
+        check(pool.getEndpoint(0)).hostname("discovery").nodeID(-1).port(2136);
+        check(pool.getEndpoint(1)).hostname("discovery").nodeID(-1).port(2136);
 
         pool.setNewState(list("DC1"));
 
-        check(pool.getEndpoint(null)).isNull();
-        check(pool.getEndpoint(0)).isNull();
-        check(pool.getEndpoint(1)).isNull();
+        check(pool.getEndpoint(null)).hostname("discovery").nodeID(-1).port(2136);
+        check(pool.getEndpoint(0)).hostname("discovery").nodeID(-1).port(2136);
+        check(pool.getEndpoint(1)).hostname("discovery").nodeID(-1).port(2136);
     }
 
     @Test
     public void useAllNodesTest() {
-        EndpointPool pool = new EndpointPool(useAllNodes());
+        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
         pool.setNewState(list("DC1",
@@ -91,7 +93,7 @@ public class EndpointPoolTest {
 
     @Test
     public void localDcTest() {
-        EndpointPool pool = new EndpointPool(preferredNode(null));
+        EndpointPool pool = new EndpointPool(discovery, preferredNode(null));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
         pool.setNewState(list("DC2",
@@ -116,7 +118,7 @@ public class EndpointPoolTest {
 
     @Test
     public void preferredDcTest() {
-        EndpointPool pool = new EndpointPool(preferredNode("DC1"));
+        EndpointPool pool = new EndpointPool(discovery, preferredNode("DC1"));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
         pool.setNewState(list("DC3",
@@ -141,7 +143,7 @@ public class EndpointPoolTest {
 
     @Test
     public void preferredEndpointsTest() {
-        EndpointPool pool = new EndpointPool(useAllNodes());
+        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
         pool.setNewState(list("DC3",
@@ -171,7 +173,7 @@ public class EndpointPoolTest {
 
     @Test
     public void nodePessimizationTest() {
-        EndpointPool pool = new EndpointPool(useAllNodes());
+        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
         pool.setNewState(list("DC3",
@@ -239,7 +241,7 @@ public class EndpointPoolTest {
 
     @Test
     public void nodePessimizationFallbackTest() {
-        EndpointPool pool = new EndpointPool(preferredNode("DC1"));
+        EndpointPool pool = new EndpointPool(discovery, preferredNode("DC1"));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
         pool.setNewState(list("DC3",
@@ -298,7 +300,7 @@ public class EndpointPoolTest {
 
     @Test
     public void duplicateEndpointsTest() {
-        EndpointPool pool = new EndpointPool(useAllNodes());
+        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
         pool.setNewState(list("DC",
@@ -333,7 +335,7 @@ public class EndpointPoolTest {
 
     @Test
     public void duplicateNodesTest() {
-        EndpointPool pool = new EndpointPool(useAllNodes());
+        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
         pool.setNewState(list("DC",
@@ -361,7 +363,7 @@ public class EndpointPoolTest {
 
     @Test
     public void removeEndpointsTest() {
-        EndpointPool pool = new EndpointPool(useAllNodes());
+        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
         pool.setNewState(list("DC",
@@ -440,7 +442,7 @@ public class EndpointPoolTest {
                     )
                     .collect(Collectors.toList());
 
-            EndpointPool pool = new EndpointPool(detectLocalDC());
+            EndpointPool pool = new EndpointPool(discovery, detectLocalDC());
             check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
             pool.setNewState(list("DC",
@@ -513,11 +515,6 @@ public class EndpointPoolTest {
 
         public EndpointRecordChecker(EndpointRecord record) {
             this.record = record;
-        }
-
-        public EndpointRecordChecker isNull() {
-            Assert.assertNull("Check endpoint is null", record);
-            return this;
         }
 
         public EndpointRecordChecker hostname(String hostname) {

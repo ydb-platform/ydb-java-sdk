@@ -75,7 +75,7 @@ public class ManagedChannelFactoryTest {
         ManagedChannelFactory factory = ManagedChannelFactory.fromBuilder(builder);
         channelStaticMock.verify(FOR_ADDRESS, times(0));
 
-        Assert.assertEquals(5000l, factory.getConnectTimeoutMs());
+        Assert.assertEquals(30_000l, factory.getConnectTimeoutMs());
         Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
 
         channelStaticMock.verify(FOR_ADDRESS, times(1));
