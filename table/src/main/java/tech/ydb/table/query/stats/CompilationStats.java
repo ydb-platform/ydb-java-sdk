@@ -1,9 +1,8 @@
 package tech.ydb.table.query.stats;
 
-import java.io.Serializable;
 import java.util.Objects;
 
-public final class CompilationStats implements Serializable {
+public final class CompilationStats {
     private final boolean fromCache;
     private final long durationUs;
     private final long cpuTimeUs;

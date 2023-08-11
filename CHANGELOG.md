@@ -1,3 +1,9 @@
+## 2.1.4 ##
+
+* Fixed partition session graceful shutdown
+* Increased default timeouts for GrcpTransport
+* Fixed NPE on empty discovery result
+
 ## 2.1.3 ##
 
 * Enhanced message commit logging
