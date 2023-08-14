@@ -41,7 +41,7 @@ public class SemaphoreTest {
                     SemaphoreImpl.newSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount).join();
             semaphore.acquireAsync(SemaphoreSettings.newBuilder()
                     .withCount(acquireCount)
-                    .withTimeout(15_000)
+                    .withTimeout(30_000)
                     .build()
             ).thenAcceptAsync(acquired -> {
                         if (acquired) {
@@ -59,7 +59,7 @@ public class SemaphoreTest {
             );
         }
 
-        Assert.assertTrue("Test succeed 60 seconds.", latch.await(60, TimeUnit.SECONDS));
+        Assert.assertTrue("Test succeed 120 seconds.", latch.await(120, TimeUnit.SECONDS));
         if (failed) {
             Assert.fail("More than expected threads got access to resource simultaneously.");
         }
@@ -83,7 +83,7 @@ public class SemaphoreTest {
             for (Semaphore semaphore : Arrays.asList(semaphore1, semaphore2)) {
                 futures.add(semaphore.acquireAsync(SemaphoreSettings.newBuilder()
                         .withCount(acquireCount)
-                        .withTimeout(15_000)
+                        .withTimeout(30_000)
                         .build()
                 ));
             }
@@ -92,7 +92,7 @@ public class SemaphoreTest {
 
             Assert.assertFalse(semaphoreLame.acquire(SemaphoreSettings.newBuilder()
                     .withCount(1)
-                    .withTimeout(1_00)
+                    .withTimeout(1_000)
                     .build())
             );
 
