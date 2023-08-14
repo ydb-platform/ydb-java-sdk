@@ -6,6 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.google.protobuf.ByteString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.CoordinationSession.Observer;
@@ -20,9 +24,7 @@ import tech.ydb.proto.coordination.SessionRequest.DescribeSemaphore;
 import tech.ydb.proto.coordination.SessionRequest.ReleaseSemaphore;
 import tech.ydb.proto.coordination.SessionRequest.SessionStart;
 
-import com.google.protobuf.ByteString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 
 
 public class SemaphoreImpl implements Semaphore {
