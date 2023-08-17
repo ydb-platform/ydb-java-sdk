@@ -1,5 +1,9 @@
 package tech.ydb.table.integration;
 
+import org.junit.Assert;
+import org.junit.ClassRule;
+import org.junit.Test;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.table.SessionRetryContext;
@@ -14,11 +18,8 @@ import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
-import org.junit.Assert;
-import org.junit.ClassRule;
-import org.junit.Test;
-
 /**
+ *
  * @author Alexandr Gorshenin
  */
 public class TablePartitioningSettingsTest {

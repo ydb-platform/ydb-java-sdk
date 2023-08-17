@@ -102,8 +102,7 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, List<StructValue> keys,
-        ReadRowsSettings settings) {
+    public CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings) {
         return notImplemented("readRows()");
     }
 

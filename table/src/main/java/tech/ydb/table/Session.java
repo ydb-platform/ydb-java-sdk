@@ -1,6 +1,5 @@
 package tech.ydb.table;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -37,7 +36,6 @@ import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
-import tech.ydb.table.values.StructValue;
 
 
 /**
@@ -76,8 +74,7 @@ public interface Session extends AutoCloseable {
         Params params,
         ExecuteDataQuerySettings settings);
 
-    CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, List<StructValue> keys,
-        ReadRowsSettings settings);
+    CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings);
 
     CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings);
 

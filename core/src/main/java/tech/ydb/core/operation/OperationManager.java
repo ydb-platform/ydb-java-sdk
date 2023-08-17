@@ -76,22 +76,6 @@ public final class OperationManager {
         };
     }
 
-    public static <R extends Message> Function<Result<R>, Result<R>> resultUnwrapper(
-            Function<R, Status> statusExtractor
-    ) {
-        return result -> {
-            logger.debug("Transport level status: " + result.toString());
-            if (!result.isSuccess()) {
-                return result.map(null);
-            }
-            final Status status = statusExtractor.apply(result.getValue());
-//            if (!status.isSuccess()) {
-//                return Result.fail(status);
-//            }
-            return Result.success(result.getValue(), status);
-        };
-    }
-
     public static <R> Function<Result<R>, Status> syncStatusUnwrapper(
             Function<R, OperationProtos.Operation> operationExtractor
     ) {

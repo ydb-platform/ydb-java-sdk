@@ -1,25 +1,21 @@
 package tech.ydb.table.rpc.grpc;
 
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.function.Function;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
 
-import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
+import tech.ydb.core.StatusExtractor;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.OperationManager;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
-import tech.ydb.proto.YdbIssueMessage.IssueMessage;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.AlterTableRequest;
 import tech.ydb.proto.table.YdbTable.AlterTableResponse;
@@ -71,8 +67,8 @@ public final class GrpcTableRpc implements TableRpc {
     private final GrpcTransport transport;
     private final boolean transportOwned;
 
-    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = new StatusExtractor<>(
-        response -> response.getStatus() == StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED ?
+    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = new StatusExtractor<>(response ->
+                    response.getStatus() == StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED ?
                 StatusIds.StatusCode.SUCCESS : response.getStatus(),
         ReadRowsResponse::getIssuesList
     );
@@ -271,38 +267,5 @@ public final class GrpcTableRpc implements TableRpc {
         if (transportOwned) {
             transport.close();
         }
-    }
-}
-
-class StatusExtractor<R> implements Function<Result<R>, Result<R>> {
-    private final Function<R, StatusIds.StatusCode> statusCodeExtractor;
-    private final Function<R, List<IssueMessage>> issueListExtractor;
-
-    StatusExtractor(Function<R, StatusIds.StatusCode> statusCodeExtractor,
-                    Function<R, List<IssueMessage>> issueListExtractor) {
-        this.statusCodeExtractor = statusCodeExtractor;
-        this.issueListExtractor = issueListExtractor;
-    }
-
-    public Function<R, StatusIds.StatusCode> getStatusCodeExtractor() {
-        return statusCodeExtractor;
-    }
-
-    public Function<R, List<IssueMessage>> getIssueListExtractor() {
-        return issueListExtractor;
-    }
-
-    @Override
-    public Result<R> apply(Result<R> result) {
-        if (!result.isSuccess()) {
-            return result.map(null);
-        }
-        final Status status = Status.of(StatusCode.fromProto(statusCodeExtractor.apply(result.getValue())));
-        final List<IssueMessage> issueMessageList = issueListExtractor.apply(result.getValue());
-        if (!issueMessageList.isEmpty()) {
-            status.withIssues((Issue[]) issueMessageList.stream().map(Issue::fromPb).toArray());
-        }
-
-        return Result.success(result.getValue(), status);
     }
 }
