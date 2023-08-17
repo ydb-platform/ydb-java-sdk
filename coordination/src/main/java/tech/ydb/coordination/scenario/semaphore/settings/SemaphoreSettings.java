@@ -1,4 +1,4 @@
-package tech.ydb.coordination.instruments.semaphore;
+package tech.ydb.coordination.scenario.semaphore.settings;
 
 public class SemaphoreSettings {
     private final long timeout;

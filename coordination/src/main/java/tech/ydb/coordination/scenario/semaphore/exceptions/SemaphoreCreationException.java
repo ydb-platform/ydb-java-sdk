@@ -1,4 +1,4 @@
-package tech.ydb.coordination.instruments.semaphore.exceptions;
+package tech.ydb.coordination.scenario.semaphore.exceptions;
 
 import tech.ydb.proto.coordination.SemaphoreDescription;
 
