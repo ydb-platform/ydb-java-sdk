@@ -1,5 +1,7 @@
 package tech.ydb.topic.read.impl.events;
 
+import javax.annotation.Nullable;
+
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 
 /**
@@ -7,11 +9,15 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
  */
 public class StopPartitionSessionEventImpl implements StopPartitionSessionEvent {
     private final long partitionSessionId;
+    @Nullable
+    private final Long partitionId;
     private final long committedOffset;
     private final Runnable confirmCallback;
 
-    public StopPartitionSessionEventImpl(long partitionSessionId, long committedOffset, Runnable confirmCallback) {
+    public StopPartitionSessionEventImpl(long partitionSessionId, @Nullable Long partitionId, long committedOffset,
+                                         Runnable confirmCallback) {
         this.partitionSessionId = partitionSessionId;
+        this.partitionId = partitionId;
         this.committedOffset = committedOffset;
         this.confirmCallback = confirmCallback;
     }
@@ -24,6 +30,12 @@ public class StopPartitionSessionEventImpl implements StopPartitionSessionEvent 
     @Override
     public long getCommittedOffset() {
         return committedOffset;
+    }
+
+    @Override
+    @Nullable
+    public Long getPartitionId() {
+        return partitionId;
     }
 
     @Override
