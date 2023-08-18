@@ -51,16 +51,12 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         logger.info("Create YDB transport with endpoint {} and {}", discoveryEndpoint, balancingSettings);
 
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = AuthCallOptions.newBuilder()
-                .setScheduler(scheduler)
-                .setDatabase(database)
-                .setEndpoints(Collections.singletonList(discoveryEndpoint))
-                .setChannelFactory(channelFactory)
-                .setAuthProvider(builder.getAuthProvider())
-                .setReadTimeoutMillis(builder.getReadTimeoutMillis())
-                .setCallExecutor(builder.getCallExecutor())
-                .setCompression(builder.getGrpcCompression())
-                .build();
+        this.callOptions = new AuthCallOptions(scheduler,
+                database,
+                Collections.singletonList(discoveryEndpoint),
+                channelFactory,
+                builder
+        );
 
         GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this,
                 discoveryEndpoint,
