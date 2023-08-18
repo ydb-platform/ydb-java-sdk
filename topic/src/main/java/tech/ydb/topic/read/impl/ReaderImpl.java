@@ -15,6 +15,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -253,7 +255,7 @@ public abstract class ReaderImpl {
                 logger.warn("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
                                 "but have no such partition session running", id, request.getPartitionSessionId());
             }
-            handleStopPartitionSession(request);
+            handleStopPartitionSession(request, partitionSession == null ? null : partitionSession.getPartitionId());
         } else {
             PartitionSession partitionSession = partitionSessions.remove(request.getPartitionSessionId());
             if (partitionSession != null) {
@@ -271,7 +273,7 @@ public abstract class ReaderImpl {
     protected abstract void handleStartPartitionSessionRequest(
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request);
     protected abstract void handleStopPartitionSession(
-            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request);
+            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request, @Nullable Long partitionId);
     protected abstract void handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession);
     protected abstract void handleCloseReader();
 

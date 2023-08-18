@@ -1,16 +1,15 @@
 package tech.ydb.core.impl.auth;
 
 import java.util.List;
-import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.CallOptions;
 
 import tech.ydb.auth.AuthIdentity;
-import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.core.grpc.GrpcCompression;
-import tech.ydb.core.impl.BaseGrpcTransport;
+import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 
@@ -28,19 +27,17 @@ public class AuthCallOptions implements AutoCloseable {
     }
 
     public AuthCallOptions(
-            BaseGrpcTransport parent,
+            ScheduledExecutorService scheduler,
+            String database,
             List<EndpointRecord> endpoints,
             ManagedChannelFactory channelFactory,
-            AuthRpcProvider<? super GrpcAuthRpc> authProvider,
-            long readTimeoutMillis,
-            Executor callExecutor,
-            GrpcCompression compression) {
+            GrpcTransportBuilder transportBuilder) {
 
         CallOptions options = CallOptions.DEFAULT;
 
-        if (authProvider != null) {
-            GrpcAuthRpc rpc = new GrpcAuthRpc(endpoints, parent, channelFactory);
-            authIdentity = authProvider.createAuthIdentity(rpc);
+        if (transportBuilder.getAuthProvider() != null) {
+            GrpcAuthRpc rpc = new GrpcAuthRpc(endpoints, scheduler, database, channelFactory);
+            authIdentity = transportBuilder.getAuthProvider().createAuthIdentity(rpc);
         } else {
             authIdentity = null;
         }
@@ -49,14 +46,15 @@ public class AuthCallOptions implements AutoCloseable {
             options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
         }
 
-        if (readTimeoutMillis > 0) {
-            options = options.withDeadlineAfter(readTimeoutMillis, TimeUnit.MILLISECONDS);
+        if (transportBuilder.getReadTimeoutMillis() > 0) {
+            options = options.withDeadlineAfter(transportBuilder.getReadTimeoutMillis(), TimeUnit.MILLISECONDS);
         }
-        if (callExecutor != null && callExecutor != MoreExecutors.directExecutor()) {
-            options = options.withExecutor(callExecutor);
+        if (transportBuilder.getCallExecutor() != null
+                && transportBuilder.getCallExecutor() != MoreExecutors.directExecutor()) {
+            options = options.withExecutor(transportBuilder.getCallExecutor());
         }
-        if (compression != GrpcCompression.NO_COMPRESSION) {
-            options = options.withCompression(compression.compressor());
+        if (transportBuilder.getGrpcCompression() != GrpcCompression.NO_COMPRESSION) {
+            options = options.withCompression(transportBuilder.getGrpcCompression().compressor());
         }
 
         this.callOptions = options;
