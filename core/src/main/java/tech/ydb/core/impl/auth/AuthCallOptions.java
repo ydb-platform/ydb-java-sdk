@@ -2,6 +2,7 @@ package tech.ydb.core.impl.auth;
 
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.util.concurrent.MoreExecutors;
@@ -10,7 +11,6 @@ import io.grpc.CallOptions;
 import tech.ydb.auth.AuthIdentity;
 import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.core.grpc.GrpcCompression;
-import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 
@@ -26,21 +26,14 @@ public class AuthCallOptions implements AutoCloseable {
         this.authIdentity = null;
         this.callOptions = CallOptions.DEFAULT;
     }
-
-    public AuthCallOptions(
-            BaseGrpcTransport parent,
-            List<EndpointRecord> endpoints,
-            ManagedChannelFactory channelFactory,
-            AuthRpcProvider<? super GrpcAuthRpc> authProvider,
-            long readTimeoutMillis,
-            Executor callExecutor,
-            GrpcCompression compression) {
+    private AuthCallOptions(Builder builder) {
 
         CallOptions options = CallOptions.DEFAULT;
 
-        if (authProvider != null) {
-            GrpcAuthRpc rpc = new GrpcAuthRpc(endpoints, parent, channelFactory);
-            authIdentity = authProvider.createAuthIdentity(rpc);
+        if (builder.authProvider != null) {
+            GrpcAuthRpc rpc = new GrpcAuthRpc(builder.endpoints, builder.scheduler, builder.database,
+                    builder.channelFactory);
+            authIdentity = builder.authProvider.createAuthIdentity(rpc);
         } else {
             authIdentity = null;
         }
@@ -49,14 +42,14 @@ public class AuthCallOptions implements AutoCloseable {
             options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
         }
 
-        if (readTimeoutMillis > 0) {
-            options = options.withDeadlineAfter(readTimeoutMillis, TimeUnit.MILLISECONDS);
+        if (builder.readTimeoutMillis > 0) {
+            options = options.withDeadlineAfter(builder.readTimeoutMillis, TimeUnit.MILLISECONDS);
         }
-        if (callExecutor != null && callExecutor != MoreExecutors.directExecutor()) {
-            options = options.withExecutor(callExecutor);
+        if (builder.callExecutor != null && builder.callExecutor != MoreExecutors.directExecutor()) {
+            options = options.withExecutor(builder.callExecutor);
         }
-        if (compression != GrpcCompression.NO_COMPRESSION) {
-            options = options.withCompression(compression.compressor());
+        if (builder.compression != GrpcCompression.NO_COMPRESSION) {
+            options = options.withCompression(builder.compression.compressor());
         }
 
         this.callOptions = options;
@@ -78,5 +71,67 @@ public class AuthCallOptions implements AutoCloseable {
 
     public CallOptions getGrpcCallOptions() {
         return callOptions;
+    }
+
+    public static Builder newBuilder() {
+        return new Builder();
+    }
+
+    /**
+     * BUILDER
+     */
+    public static class Builder {
+        private ScheduledExecutorService scheduler;
+        private String database;
+        private List<EndpointRecord> endpoints;
+        private ManagedChannelFactory channelFactory;
+        private AuthRpcProvider<? super GrpcAuthRpc> authProvider;
+        private long readTimeoutMillis;
+        private Executor callExecutor;
+        private GrpcCompression compression;
+
+        public Builder setScheduler(ScheduledExecutorService scheduler) {
+            this.scheduler = scheduler;
+            return this;
+        }
+
+        public Builder setDatabase(String database) {
+            this.database = database;
+            return this;
+        }
+
+        public Builder setEndpoints(List<EndpointRecord> endpoints) {
+            this.endpoints = endpoints;
+            return this;
+        }
+
+        public Builder setChannelFactory(ManagedChannelFactory channelFactory) {
+            this.channelFactory = channelFactory;
+            return this;
+        }
+
+        public Builder setAuthProvider(AuthRpcProvider<? super GrpcAuthRpc> authProvider) {
+            this.authProvider = authProvider;
+            return this;
+        }
+
+        public Builder setReadTimeoutMillis(long readTimeoutMillis) {
+            this.readTimeoutMillis = readTimeoutMillis;
+            return this;
+        }
+
+        public Builder setCallExecutor(Executor callExecutor) {
+            this.callExecutor = callExecutor;
+            return this;
+        }
+
+        public Builder setCompression(GrpcCompression compression) {
+            this.compression = compression;
+            return this;
+        }
+
+        public AuthCallOptions build() {
+            return new AuthCallOptions(this);
+        }
     }
 }

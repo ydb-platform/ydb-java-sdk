@@ -56,14 +56,16 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         });
 
         this.discoveryResult = discoveryBuilder.build();
-        this.callOptions = new AuthCallOptions(this,
-                endpoints,
-                channelFactory,
-                builder.getAuthProvider(),
-                builder.getReadTimeoutMillis(),
-                builder.getCallExecutor(),
-                builder.getGrpcCompression()
-        );
+        this.callOptions = AuthCallOptions.newBuilder()
+                .setScheduler(scheduler)
+                .setDatabase(database)
+                .setEndpoints(endpoints)
+                .setChannelFactory(channelFactory)
+                .setAuthProvider(builder.getAuthProvider())
+                .setReadTimeoutMillis(builder.getReadTimeoutMillis())
+                .setCallExecutor(builder.getCallExecutor())
+                .setCompression(builder.getGrpcCompression())
+                .build();
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());

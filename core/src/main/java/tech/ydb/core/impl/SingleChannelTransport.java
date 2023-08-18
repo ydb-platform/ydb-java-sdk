@@ -35,15 +35,17 @@ public class SingleChannelTransport extends BaseGrpcTransport {
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
 
-        this.callOptions = new AuthCallOptions(this,
-                Collections.singletonList(endpoint),
-                channelFactory,
-                builder.getAuthProvider(),
-                builder.getReadTimeoutMillis(),
-                builder.getCallExecutor(),
-                builder.getGrpcCompression()
-        );
         this.scheduler = builder.getSchedulerFactory().get();
+        this.callOptions = AuthCallOptions.newBuilder()
+                .setScheduler(scheduler)
+                .setDatabase(database)
+                .setEndpoints(Collections.singletonList(endpoint))
+                .setChannelFactory(channelFactory)
+                .setAuthProvider(builder.getAuthProvider())
+                .setReadTimeoutMillis(builder.getReadTimeoutMillis())
+                .setCallExecutor(builder.getCallExecutor())
+                .setCompression(builder.getGrpcCompression())
+                .build();
     }
 
     @Override
