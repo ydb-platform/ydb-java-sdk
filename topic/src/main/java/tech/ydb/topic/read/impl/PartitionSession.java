@@ -172,20 +172,23 @@ public class PartitionSession {
 
     private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
-        if (isWorking.get()) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("[{}] Offset range [{}, {}) is requested to be committed for partition session {} " +
-                                "(partition {}). Last committed offset is {} (commit lag is {})", path,
-                        offsets.getStart(), offsets.getEnd(), id, partitionId, lastCommittedOffset,
-                        offsets.getStart() - lastCommittedOffset);
+        synchronized (commitFutures) {
+            if (isWorking.get()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("[{}] Offset range [{}, {}) is requested to be committed for partition session {} " +
+                                    "(partition {}). Last committed offset is {} (commit lag is {})", path,
+                            offsets.getStart(), offsets.getEnd(), id, partitionId, lastCommittedOffset,
+                            offsets.getStart() - lastCommittedOffset);
+                }
+                commitFutures.put(offsets.getEnd(), resultFuture);
+                commitFunction.accept(getId(), offsets);
+            } else {
+                logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session {} " +
+                        "(partition {}) is already closed", path, offsets.getStart(), offsets.getEnd(), id,
+                        partitionId);
+                resultFuture.completeExceptionally(new RuntimeException("Partition session " + id + " (partition " +
+                        partitionId + ") for " + path + " is already closed"));
             }
-            commitFutures.put(offsets.getEnd(), resultFuture);
-            commitFunction.accept(getId(), offsets);
-        } else {
-            logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session {} " +
-                    "(partition {}) is already closed", path, offsets.getStart(), offsets.getEnd(), id, partitionId);
-            resultFuture.completeExceptionally(new RuntimeException("Partition session " + id + " (partition " +
-                    partitionId + ") for " + path + " is already closed"));
         }
         return resultFuture;
     }
@@ -273,11 +276,13 @@ public class PartitionSession {
     }
 
     public void shutdown() {
-        isWorking.set(false);
-        logger.info("[{}] Partition session {} (partition {}) is shutting down. Failing {} commit futures...", path, id,
-                partitionId, commitFutures.size());
-        commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session " + id +
-                " (partition " + partitionId + ") for " + path + " is closed")));
+        synchronized (commitFutures) {
+            isWorking.set(false);
+            logger.info("[{}] Partition session {} (partition {}) is shutting down. Failing {} commit futures...", path,
+                    id, partitionId, commitFutures.size());
+            commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session " + id +
+                    " (partition " + partitionId + ") for " + path + " is closed")));
+        }
     }
 
     /**

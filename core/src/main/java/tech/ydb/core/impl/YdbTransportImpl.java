@@ -65,7 +65,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                 Duration.ofMillis(builder.getDiscoveryTimeoutMillis()));
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
-        this.endpointPool = new EndpointPool(balancingSettings);
+        this.endpointPool = new EndpointPool(discoveryEndpoint, balancingSettings);
 
         this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, new YdbDiscoveryHandler());
     }

@@ -20,10 +20,12 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
 public class AuthCallOptions implements AutoCloseable {
     private final AuthIdentity authIdentity;
     private final CallOptions callOptions;
+    private final long readTimeoutMillis;
 
     public AuthCallOptions() {
         this.authIdentity = null;
         this.callOptions = CallOptions.DEFAULT;
+        this.readTimeoutMillis = 0;
     }
 
     public AuthCallOptions(
@@ -32,7 +34,6 @@ public class AuthCallOptions implements AutoCloseable {
             List<EndpointRecord> endpoints,
             ManagedChannelFactory channelFactory,
             GrpcTransportBuilder transportBuilder) {
-
         CallOptions options = CallOptions.DEFAULT;
 
         if (transportBuilder.getAuthProvider() != null) {
@@ -58,6 +59,7 @@ public class AuthCallOptions implements AutoCloseable {
         }
 
         this.callOptions = options;
+        this.readTimeoutMillis = transportBuilder.getReadTimeoutMillis();
     }
 
     @Override
@@ -75,6 +77,9 @@ public class AuthCallOptions implements AutoCloseable {
     }
 
     public CallOptions getGrpcCallOptions() {
+        if (readTimeoutMillis > 0) {
+            return callOptions.withDeadlineAfter(readTimeoutMillis, TimeUnit.MILLISECONDS);
+        }
         return callOptions;
     }
 }
