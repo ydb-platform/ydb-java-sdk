@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.scenario.semaphore.AsyncSemaphore;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.scenario.semaphore.Semaphore;
 import tech.ydb.coordination.scenario.semaphore.settings.SemaphoreSettings;
 import tech.ydb.core.Status;
@@ -13,17 +13,16 @@ import tech.ydb.core.Status;
 
 public class SemaphoreImpl extends AsyncSemaphoreImpl implements Semaphore {
 
-    @SuppressWarnings("unchecked")
-    protected SemaphoreImpl(CoordinationClient client, String nodePath, String semaphoreName, long limit,
-                            CompletableFuture<? super Semaphore> initFuture) {
-        super(client, nodePath, semaphoreName, limit, (CompletableFuture<? super AsyncSemaphore>) initFuture);
+    protected SemaphoreImpl(CoordinationSession session, SemaphoreObserver observer) {
+        super(session, observer);
     }
 
     public static CompletableFuture<Semaphore> newSemaphore(
             CoordinationClient client, String path, String semaphoreName, long limit) {
-        CompletableFuture<Semaphore> initFuture = new CompletableFuture<>();
-        new SemaphoreImpl(client, path, semaphoreName, limit, initFuture);
-        return initFuture;
+        final CoordinationSession session = client.createSession();
+
+        return prepareSessionAndCreateCoordinationSemaphore(client, session, path, semaphoreName, limit)
+                .thenApply(observer -> new SemaphoreImpl(session, observer));
     }
 
     public static Status deleteSemaphore(CoordinationClient client, String path,
