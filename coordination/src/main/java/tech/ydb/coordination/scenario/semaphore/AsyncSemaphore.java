@@ -29,9 +29,9 @@ public interface AsyncSemaphore {
      * @return a CompletableFuture that completes with a new AsyncSemaphore instance or an exception in case of the bad
      * connection and other coordination problems.
      */
-    static CompletableFuture<? extends AsyncSemaphore> newSemaphore(
+    static CompletableFuture<AsyncSemaphore> newAsyncSemaphore(
             CoordinationClient client, String path, String semaphoreName, long limit) {
-        return AsyncSemaphoreImpl.newSemaphore(client, path, semaphoreName, limit);
+        return AsyncSemaphoreImpl.newAsyncSemaphore(client, path, semaphoreName, limit);
     }
 
     /**

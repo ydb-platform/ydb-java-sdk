@@ -18,11 +18,11 @@ import tech.ydb.core.Status;
  */
 public interface Semaphore extends AsyncSemaphore {
     /**
-     * Blocking equivalent of {@link AsyncSemaphore#newSemaphore(CoordinationClient, String, String, long)}
+     * Blocking equivalent of {@link AsyncSemaphore#newAsyncSemaphore(CoordinationClient, String, String, long)}
      *
      * @return New instance of Semaphore or an exception.
      */
-    static CompletableFuture<? extends Semaphore> newSemaphore(
+    static CompletableFuture<Semaphore> newSemaphore(
             CoordinationClient client, String path, String semaphoreName, long limit) {
         return SemaphoreImpl.newSemaphore(client, path, semaphoreName, limit);
     }

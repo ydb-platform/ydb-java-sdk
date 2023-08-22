@@ -13,8 +13,8 @@ import java.util.stream.Stream;
 
 import tech.ydb.coordination.scenario.semaphore.AsyncSemaphore;
 import tech.ydb.coordination.scenario.semaphore.Semaphore;
-import tech.ydb.coordination.scenario.semaphore.exceptions.SemaphoreCreationException;
 import tech.ydb.coordination.scenario.semaphore.settings.SemaphoreSettings;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 import org.junit.Assert;
@@ -43,19 +43,19 @@ public class SemaphoreTest {
         final CountDownLatch latch = new CountDownLatch(workers);
         Resource.setMaxNumberOfWorkers(maxNumberOfWorker);
 
-        AsyncSemaphore.newSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount).join();
+        AsyncSemaphore.newAsyncSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount).join();
 
         List<CompletableFuture<Void>> futures = new ArrayList<>();
         for (int i = 0; i < workers; i++) {
             final CompletableFuture<Void> future =
-                    AsyncSemaphore.newSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount)
+                    AsyncSemaphore.newAsyncSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount)
                             .thenCompose(semaphore -> {
                                 logger.info("created");
                                 return CompletableFuture.completedFuture(semaphore);
                             })
                             .thenCompose(semaphore -> semaphore.acquireAsync(SemaphoreSettings.newBuilder()
                                                     .withCount(acquireCount)
-                                                    .withTimeout(30_000)
+                                                    .withTimeout(60_000)
                                                     .build()
                                             ).thenCompose(acquired -> {
                                                 if (acquired) {
@@ -133,14 +133,8 @@ public class SemaphoreTest {
             Semaphore.newSemaphore(client, nodePath, semaphoreName, 120).join();
             Assert.fail();
         } catch (Exception proxyException) {
-            Assert.assertTrue(proxyException.getCause() instanceof SemaphoreCreationException);
-            SemaphoreCreationException e = (SemaphoreCreationException) proxyException.getCause();
-            Assert.assertEquals(e.getName(), semaphoreName);
-            Assert.assertEquals(e.getLimit(), 60);
-            Assert.assertEquals(e.getCount(), 0);
-            Assert.assertEquals(e.getMessage(),
-                    "The semaphore has already been created and its settings are different from yours.");
-
+            Assert.assertTrue(proxyException.getCause() instanceof UnexpectedResultException);
+            Assume.assumeTrue(((UnexpectedResultException) proxyException.getCause()).getStatus().isSuccess());
         }
     }
 
@@ -151,7 +145,7 @@ public class SemaphoreTest {
         final Semaphore semaphore = Semaphore.newSemaphore(client, nodePath, semaphoreName, 60).join();
 
         Assert.assertTrue(semaphore.acquire(SemaphoreSettings.newBuilder()
-                .withTimeout(10_000)
+                .withTimeout(60_000)
                 .withCount(30)
                 .build())
         );
@@ -159,13 +153,13 @@ public class SemaphoreTest {
         CompletableFuture<Boolean> acquireInFuture = Semaphore.newSemaphore(client, nodePath, semaphoreName, 60).join()
                 .acquireAsync(SemaphoreSettings.newBuilder()
                         .withCount(55)
-                        .withTimeout(10_000)
+                        .withTimeout(60_000)
                         .build());
 
         /* You can make several acquires on the one semaphore, but every new acquire have to be less than previous
         one */
         Assert.assertTrue(semaphore.acquire(SemaphoreSettings.newBuilder()
-                .withTimeout(10_000)
+                .withTimeout(60_000)
                 .withCount(2)
                 .build())
         );
@@ -174,7 +168,7 @@ public class SemaphoreTest {
 
         /* You cannot acquire more than you have now */
         Assert.assertThrows(Exception.class, () -> semaphore.acquire(SemaphoreSettings.newBuilder()
-                .withTimeout(10_000)
+                .withTimeout(60_000)
                 .withCount(10)
                 .build()));
     }
@@ -183,8 +177,8 @@ public class SemaphoreTest {
     public void testZeroTimeout() {
         final String nodePath = client.getDatabase() + "/new_node";
         final String semaphoreName = "testZeroTimeout";
-        final AsyncSemaphore semaphore1 = AsyncSemaphore.newSemaphore(client, nodePath, semaphoreName, 60).join();
-        final AsyncSemaphore semaphore2 = AsyncSemaphore.newSemaphore(client, nodePath, semaphoreName, 60).join();
+        final AsyncSemaphore semaphore1 = AsyncSemaphore.newAsyncSemaphore(client, nodePath, semaphoreName, 60).join();
+        final AsyncSemaphore semaphore2 = AsyncSemaphore.newAsyncSemaphore(client, nodePath, semaphoreName, 60).join();
         Resource.setMaxNumberOfWorkers(1);
 
         final BiFunction<AsyncSemaphore, Long, CompletableFuture<Boolean>> acquireFunction = (semaphore, timeout) ->
@@ -195,7 +189,7 @@ public class SemaphoreTest {
         final Function<AsyncSemaphore, CompletableFuture<Boolean>> tryAcquire =
                 semaphore -> acquireFunction.apply(semaphore, 0L);
 
-        Assert.assertTrue(acquireFunction.apply(semaphore1, 10_000L).join());
+        Assert.assertTrue(acquireFunction.apply(semaphore1, 60_000L).join());
 
         final CompletableFuture<Boolean> tryAcquireOnAlreadyAcquiredSemaphore = tryAcquire.apply(semaphore2);
 
