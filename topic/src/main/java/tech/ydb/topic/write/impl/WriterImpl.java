@@ -1,10 +1,12 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
@@ -52,7 +54,7 @@ public abstract class WriterImpl {
     // Messages that are taken into send buffer, are already compressed and are waiting for being sent
     private final Queue<EnqueuedMessage> sendingQueue = new ConcurrentLinkedQueue<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
-    private final Queue<EnqueuedMessage> sentMessages = new ConcurrentLinkedQueue<>();
+    private final Deque<EnqueuedMessage> sentMessages = new ConcurrentLinkedDeque<>();
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean();
     private final AtomicBoolean isStopped = new AtomicBoolean();
     private final AtomicBoolean isReconnecting = new AtomicBoolean();
@@ -212,8 +214,8 @@ public abstract class WriterImpl {
                 logger.debug("[{}] Nothing to send -- sendingQueue is empty #2", id);
             } else {
                 sendingQueue.removeAll(messages);
-                sentMessages.addAll(messages);
                 synchronized (messageSender) {
+                    sentMessages.addAll(messages);
                     messageSender.sendMessages(messages);
                 }
                 logger.trace("[{}] Sent {} messages to server", id, messages.size());
@@ -375,7 +377,13 @@ public abstract class WriterImpl {
             logger.info("[{}] Session {} initialized", id, currentSessionId);
             long lastSeqNo = message.getInitResponse().getLastSeqNo();
             synchronized (messageSender) {
-                messageSender.setSeqNo(lastSeqNo);
+                long realLastSeqNo = lastSeqNo;
+                // If there are messages that were already sent before reconnect but haven't received acks,
+                // their highest seqNo should also be taken in consideration when calculating next seqNo automatically
+                if (!sentMessages.isEmpty()) {
+                    realLastSeqNo = Math.max(lastSeqNo, sentMessages.getLast().getSeqNo());
+                }
+                messageSender.setSeqNo(realLastSeqNo);
                 // TODO: remember supported codecs for further validation
                 if (!sentMessages.isEmpty()) {
                     // resending messages that haven't received acks yet
