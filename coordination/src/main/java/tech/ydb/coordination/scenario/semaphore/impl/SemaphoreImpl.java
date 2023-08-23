@@ -20,14 +20,8 @@ public class SemaphoreImpl extends AsyncSemaphoreImpl implements Semaphore {
     public static CompletableFuture<Semaphore> newSemaphore(
             CoordinationClient client, String path, String semaphoreName, long limit) {
         final CompletableFuture<Semaphore> creationFuture = new CompletableFuture<>();
-        prepareSessionAndCreateCoordinationSemaphore(client, path, semaphoreName, limit, creationFuture)
-                .handle((pair, ex) -> {
-                    if (ex == null) {
-                        return creationFuture.complete(new SemaphoreImpl(pair.getKey(), pair.getValue()));
-                    } else {
-                        return creationFuture.completeExceptionally(ex);
-                    }
-                });
+        prepareSessionAndCreateCoordinationSemaphore(client, path, semaphoreName, limit, creationFuture,
+                SemaphoreImpl::new);
         return creationFuture;
     }
 
