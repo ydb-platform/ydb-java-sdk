@@ -12,8 +12,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-import tech.ydb.coordination.impl.CoordinationClientStub;
-import tech.ydb.coordination.impl.CoordinationSessionStub;
 import tech.ydb.coordination.scenario.semaphore.AsyncSemaphore;
 import tech.ydb.coordination.scenario.semaphore.Semaphore;
 import tech.ydb.coordination.scenario.semaphore.settings.SemaphoreSettings;
@@ -217,20 +215,31 @@ public class SemaphoreTest {
         final String nodePath = stubClient.getDatabase() + "/new_node";
         final String semaphoreName = "testCancelSemaphoreCreation";
 
-        CoordinationSessionStub.setDelay(new AtomicLong(10_000));
+        CoordinationSessionStub.getStagesQueue().clear();
         CoordinationSessionStub.setNumberOfStartSession(new AtomicLong(0));
         CoordinationSessionStub.setNumberOfCreateSemaphore(new AtomicLong(0));
 
         List<CompletableFuture<AsyncSemaphore>> semaphoreFutures = new ArrayList<>();
 
-        for (int i = 0; i < 10; i++) {
-            semaphoreFutures.add(AsyncSemaphore.newAsyncSemaphore(client, nodePath, semaphoreName, 60));
+        for (int i = 0; i < 3; i++) {
+            semaphoreFutures.add(AsyncSemaphore.newAsyncSemaphore(stubClient, nodePath, semaphoreName, 60));
         }
 
         /* If you immediately cancel the creation of Asynchronous Semaphore, you may suppose that there were no extra
          sessions created */
-        semaphoreFutures.forEach(createFuture -> createFuture.cancel(true));
-        Assert.assertEquals(0, CoordinationSessionStub.getNumberOfStartSession().get());
+        semaphoreFutures.forEach(createFuture -> {
+            try {
+                createFuture.get(300, TimeUnit.MILLISECONDS);
+            } catch (Exception e) {
+                logger.info(e.toString());
+                createFuture.cancel(true);
+            }
+        });
+        CoordinationSessionStub.runNStagesInQueue(3);
+        Assert.assertEquals(3, CoordinationSessionStub.getNumberOfStartSession().get());
+
+        /* Creation was canceled on the previous stage, hence Semaphore won't be created */
+        CoordinationSessionStub.runNStagesInQueue(3);
         Assert.assertEquals(0, CoordinationSessionStub.getNumberOfCreateSemaphore().get());
     }
 }

@@ -1,9 +1,10 @@
-package tech.ydb.coordination.impl;
+package tech.ydb.coordination;
 
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicLong;
 
-import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.core.Status;
 import tech.ydb.proto.coordination.SemaphoreDescription;
 import tech.ydb.proto.coordination.SessionRequest.AcquireSemaphore;
@@ -16,7 +17,6 @@ import tech.ydb.proto.coordination.SessionRequest.SessionStart;
 import tech.ydb.proto.coordination.SessionRequest.UpdateSemaphore;
 
 public class CoordinationSessionStub implements CoordinationSession {
-    private static AtomicLong delay = new AtomicLong(0);
     private static AtomicLong numberOfStartSession = new AtomicLong(0);
     private static AtomicLong numberOfPingPong = new AtomicLong(0);
     private static AtomicLong numberOfAcquireSemaphore = new AtomicLong(0);
@@ -25,8 +25,21 @@ public class CoordinationSessionStub implements CoordinationSession {
     private static AtomicLong numberOfCreateSemaphore = new AtomicLong(0);
     private static AtomicLong numberOfUpdateSemaphore = new AtomicLong(0);
     private static AtomicLong numberOfDeleteSemaphore = new AtomicLong(0);
+
+    private static Queue<Runnable> stagesQueue = new ArrayDeque<>();
     private final AtomicLong sessionId = new AtomicLong();
     private Observer observer;
+
+    public static Queue<Runnable> getStagesQueue() {
+        return stagesQueue;
+    }
+
+    public static void runNStagesInQueue(int n) {
+        final int size = stagesQueue.size();
+        for (int i = 0; i < Math.min(n, size); i++) {
+            stagesQueue.remove().run();
+        }
+    }
 
     public static AtomicLong getNumberOfStartSession() {
         return numberOfStartSession;
@@ -92,14 +105,6 @@ public class CoordinationSessionStub implements CoordinationSession {
         CoordinationSessionStub.numberOfDeleteSemaphore = numberOfDeleteSemaphore;
     }
 
-    public static AtomicLong getDelay() {
-        return delay;
-    }
-
-    public static void setDelay(AtomicLong delay) {
-        CoordinationSessionStub.delay = delay;
-    }
-
     @Override
     public long getSessionId() {
         return sessionId.get();
@@ -113,65 +118,69 @@ public class CoordinationSessionStub implements CoordinationSession {
 
     @Override
     public void sendStartSession(SessionStart sessionStart) {
-        runAfterDelay(() -> numberOfStartSession.incrementAndGet()).thenRun(() -> observer.onSessionStarted()).join();
+        stagesQueue.add(() -> {
+            numberOfStartSession.incrementAndGet();
+            observer.onSessionStarted();
+        });
     }
 
     @Override
     public void sendPingPong(PingPong pingPong) {
-        runAfterDelay(() -> numberOfPingPong.incrementAndGet()).thenRun(() -> observer.onPong(pingPong.getOpaque()))
-                .join();
+        stagesQueue.add(() -> {
+            numberOfPingPong.incrementAndGet();
+            observer.onPong(pingPong.getOpaque());
+        });
     }
 
     @Override
     public void sendAcquireSemaphore(AcquireSemaphore acquireSemaphore) {
-        runAfterDelay(() -> numberOfAcquireSemaphore.incrementAndGet()).thenRun(
-                () -> observer.onAcquireSemaphoreResult(true, Status.SUCCESS)).join();
+        stagesQueue.add(() -> {
+            numberOfAcquireSemaphore.incrementAndGet();
+            observer.onAcquireSemaphoreResult(true, Status.SUCCESS);
+        });
     }
 
     @Override
     public void sendReleaseSemaphore(ReleaseSemaphore releaseSemaphore) {
-        runAfterDelay(() -> numberOfReleaseSemaphore.incrementAndGet()).thenRun(
-                () -> observer.onReleaseSemaphoreResult(true, Status.SUCCESS)).join();
+        stagesQueue.add(() -> {
+            numberOfReleaseSemaphore.incrementAndGet();
+            observer.onReleaseSemaphoreResult(true, Status.SUCCESS);
+        });
     }
 
     @Override
     public void sendDescribeSemaphore(DescribeSemaphore describeSemaphore) {
-        runAfterDelay(() -> numberOfDescribeSemaphore.incrementAndGet()).thenRun(
-                        () -> observer.onDescribeSemaphoreResult(SemaphoreDescription.newBuilder().build(),
-                                Status.SUCCESS))
-                .join();
+        stagesQueue.add(() -> {
+            numberOfDescribeSemaphore.incrementAndGet();
+            observer.onDescribeSemaphoreResult(SemaphoreDescription.newBuilder().build(), Status.SUCCESS);
+        });
     }
 
     @Override
     public void sendCreateSemaphore(CreateSemaphore createSemaphore) {
-        runAfterDelay(() -> numberOfCreateSemaphore.incrementAndGet()).thenRun(
-                () -> observer.onCreateSemaphoreResult(Status.SUCCESS)).join();
+        stagesQueue.add(() -> {
+            numberOfCreateSemaphore.incrementAndGet();
+            observer.onCreateSemaphoreResult(Status.SUCCESS);
+        });
     }
 
     @Override
     public void sendUpdateSemaphore(UpdateSemaphore updateSemaphore) {
-        runAfterDelay(() -> numberOfUpdateSemaphore.incrementAndGet()).thenRun(
-                () -> observer.onUpdateSemaphoreResult(updateSemaphore.getReqId(), Status.SUCCESS)).join();
+        stagesQueue.add(() -> {
+            numberOfUpdateSemaphore.incrementAndGet();
+            observer.onUpdateSemaphoreResult(updateSemaphore.getReqId(), Status.SUCCESS);
+        });
     }
 
     @Override
     public void sendDeleteSemaphore(DeleteSemaphore deleteSemaphore) {
-        runAfterDelay(() -> numberOfDeleteSemaphore.incrementAndGet()).thenRun(
-                () -> observer.onDeleteSemaphoreResult(Status.SUCCESS)).join();
+        stagesQueue.add(() -> {
+            numberOfDeleteSemaphore.incrementAndGet();
+            observer.onDeleteSemaphoreResult(Status.SUCCESS);
+        });
     }
 
     @Override
     public void stop() {
-    }
-
-    private CompletableFuture<Void> runAfterDelay(Runnable runnable) {
-        return CompletableFuture.runAsync(() -> {
-                    try {
-                        Thread.sleep(delay.get());
-                    } catch (InterruptedException e) {
-                        runAfterDelay(runnable);
-                    }
-                }
-        ).thenRun(runnable);
     }
 }

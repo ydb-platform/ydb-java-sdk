@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.google.protobuf.ByteString;
+import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +12,7 @@ import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.CoordinationSession.Observer;
 import tech.ydb.coordination.scenario.semaphore.AsyncSemaphore;
+import tech.ydb.coordination.scenario.semaphore.Semaphore;
 import tech.ydb.coordination.scenario.semaphore.settings.SemaphoreSettings;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.core.Status;
@@ -39,10 +41,16 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
 
     public static CompletableFuture<AsyncSemaphore> newAsyncSemaphore(CoordinationClient client, String path,
                                                                       String semaphoreName, long limit) {
-        final CoordinationSession session = client.createSession();
-
-        return prepareSessionAndCreateCoordinationSemaphore(client, session, path, semaphoreName, limit)
-                .thenApply(observer -> new AsyncSemaphoreImpl(session, observer));
+        final CompletableFuture<AsyncSemaphore> creationFuture = new CompletableFuture<>();
+        prepareSessionAndCreateCoordinationSemaphore(client, path, semaphoreName, limit, creationFuture)
+                .handle((pair, ex) -> {
+                    if (ex == null) {
+                        return creationFuture.complete(new AsyncSemaphoreImpl(pair.getKey(), pair.getValue()));
+                    } else {
+                        return creationFuture.completeExceptionally(ex);
+                    }
+                });
+        return creationFuture;
     }
 
 
@@ -77,21 +85,37 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         return deleteFuture;
     }
 
-    protected static CompletableFuture<SemaphoreObserver> prepareSessionAndCreateCoordinationSemaphore(
-            CoordinationClient client, CoordinationSession session, String path, String semaphoreName, long limit) {
-        final SemaphoreObserver observer = new SemaphoreObserver(session, path, semaphoreName, limit);
-        return client.createNode(path, CoordinationNodeSettings.newBuilder().build()).thenCompose(status -> {
+    protected static <T> CompletableFuture<Pair<CoordinationSession, SemaphoreObserver>>
+    prepareSessionAndCreateCoordinationSemaphore(CoordinationClient client, String path, String semaphoreName,
+                                                 long limit, CompletableFuture<T> cancelFuture) {
+        final SemaphoreObserver[] observer = new SemaphoreObserver[1];
+        final CoordinationSession[] session = new CoordinationSession[1];
+        return client.createNode(path, CoordinationNodeSettings.newBuilder().build()
+        ).thenCompose(status -> {
+            logger.info("node creation: " + status);
             if (!status.isSuccess()) {
                 throw new UnexpectedResultException("Node creation wasn't success", status);
             }
-            session.start(observer);
-            return observer.createSemaphore();
+            if (cancelFuture.isCancelled()) {
+                return getCanceledFuture();
+            }
+            session[0] = client.createSession();
+            observer[0] = new SemaphoreObserver(session[0], path, semaphoreName, limit);
+            session[0].start(observer[0]);
+            return observer[0].createSemaphore(cancelFuture);
         }).thenApply(status -> {
             if (!status.isSuccess()) {
+                session[0].stop();
                 throw new UnexpectedResultException("Couldn't create semaphore", status);
             }
-            return observer;
+            return new Pair<>(session[0], observer[0]);
         });
+    }
+
+    private static <T> CompletableFuture<T> getCanceledFuture() {
+        CompletableFuture<T> future = new CompletableFuture<>();
+        future.cancel(true);
+        return future;
     }
 
     @Override
@@ -129,6 +153,7 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         private final CoordinationSession session;
         private final long limit;
         private final String semaphoreName;
+        private CompletableFuture<?> cancelFuture;
         private CompletableFuture<Boolean> acquiredFuture = new CompletableFuture<>();
         private CompletableFuture<Boolean> releaseFuture = new CompletableFuture<>();
 
@@ -158,7 +183,7 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         @Override
         public void onDescribeSemaphoreResult(SemaphoreDescription semaphoreDescription, Status status) {
             logger.trace("Semaphore.onDescribeSemaphoreResult: " + status);
-            if (!createSemaphoreFuture.isDone()) {
+            if (!cancelFuture.isCancelled()) {
                 if (status.isSuccess()) {
                     if (semaphoreDescription.getName().equals(semaphoreName) &&
                             semaphoreDescription.getLimit() == limit) {
@@ -173,6 +198,8 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
                     createSemaphoreFuture.completeExceptionally(new UnexpectedResultException(
                             "The semaphore has already been created and failed to compare settings", status));
                 }
+            } else {
+                createSemaphoreFuture.cancel(true);
             }
         }
 
@@ -186,7 +213,8 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         @Override
         public void onCreateSemaphoreResult(Status status) {
             logger.trace("Semaphore.onCreateSemaphoreResult: " + status);
-            if (!createSemaphoreFuture.isDone()) {
+            logger.info("Semaphore.onCreateSemaphoreResult, creationFuture = " + createSemaphoreFuture);
+            if (!cancelFuture.isCancelled()) {
                 if (status.getCode() == StatusCode.ALREADY_EXISTS) {
                     session.sendDescribeSemaphore(
                             DescribeSemaphore.newBuilder().setReqId(ThreadLocalRandom.current().nextLong())
@@ -200,6 +228,8 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
                                 new UnexpectedResultException("Failed to create semaphore", status));
                     }
                 }
+            } else {
+                createSemaphoreFuture.cancel(true);
             }
         }
 
@@ -228,18 +258,21 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         @Override
         public void onSessionStarted() {
             logger.trace("Semaphore.onSessionStarted");
-
-            if (!createSemaphoreFuture.isDone()) {
+            logger.info("Semaphore.onSessionStarted, creationFuture = " + createSemaphoreFuture);
+            if (!cancelFuture.isCancelled()) {
                 session.sendCreateSemaphore(
                         CreateSemaphore.newBuilder().setName(semaphoreName)
                                 .setReqId(ThreadLocalRandom.current().nextInt())
                                 .setLimit(limit).build());
+            } else {
+                createSemaphoreFuture.cancel(true);
             }
         }
 
-        protected CompletableFuture<Status> createSemaphore() {
+        protected <T> CompletableFuture<Status> createSemaphore(CompletableFuture<T> cancelFuture) {
             final byte[] protectionKey = new byte[16];
             ThreadLocalRandom.current().nextBytes(protectionKey);
+            this.cancelFuture = cancelFuture;
 
             session.sendStartSession(SessionStart.newBuilder().setSessionId(session.getSessionId()).setPath(nodePath)
                     .setProtectionKey(ByteString.copyFrom(protectionKey)).build());

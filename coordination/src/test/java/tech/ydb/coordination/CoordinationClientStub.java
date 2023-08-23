@@ -1,11 +1,9 @@
-package tech.ydb.coordination.impl;
+package tech.ydb.coordination;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
