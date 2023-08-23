@@ -4,7 +4,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.google.protobuf.ByteString;
-import javafx.util.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +11,8 @@ import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.CoordinationSession.Observer;
 import tech.ydb.coordination.scenario.semaphore.AsyncSemaphore;
-import tech.ydb.coordination.scenario.semaphore.Semaphore;
 import tech.ydb.coordination.scenario.semaphore.settings.SemaphoreSettings;
+import tech.ydb.coordination.scenario.semaphore.util.Pair;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -92,7 +91,6 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         final CoordinationSession[] session = new CoordinationSession[1];
         return client.createNode(path, CoordinationNodeSettings.newBuilder().build()
         ).thenCompose(status -> {
-            logger.info("node creation: " + status);
             if (!status.isSuccess()) {
                 throw new UnexpectedResultException("Node creation wasn't success", status);
             }
@@ -213,7 +211,6 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         @Override
         public void onCreateSemaphoreResult(Status status) {
             logger.trace("Semaphore.onCreateSemaphoreResult: " + status);
-            logger.info("Semaphore.onCreateSemaphoreResult, creationFuture = " + createSemaphoreFuture);
             if (!cancelFuture.isCancelled()) {
                 if (status.getCode() == StatusCode.ALREADY_EXISTS) {
                     session.sendDescribeSemaphore(
@@ -258,7 +255,6 @@ public class AsyncSemaphoreImpl implements AsyncSemaphore {
         @Override
         public void onSessionStarted() {
             logger.trace("Semaphore.onSessionStarted");
-            logger.info("Semaphore.onSessionStarted, creationFuture = " + createSemaphoreFuture);
             if (!cancelFuture.isCancelled()) {
                 session.sendCreateSemaphore(
                         CreateSemaphore.newBuilder().setName(semaphoreName)
