@@ -289,7 +289,7 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     }
 
     @Override
-    protected void reconnect() {
+    protected void onReconnect() {
         logger.info("[{}] Reconnect #{} started. Creating new ReadSession", id, reconnectCounter.get());
         this.session = new ReadSession(topicRpc);
         initImpl();
@@ -341,9 +341,6 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
             synchronized (sizeBytesAcquired) {
                 long bytesAvailable = settings.getMaxMemoryUsageBytes() - sizeBytesAcquired.get();
                 sizeBytesToRequest.addAndGet(bytesAvailable);
-                if (!isReconnecting.compareAndSet(true, false)) {
-                    logger.warn("[{}] Couldn't reset reconnect flag. Shouldn't happen", id);
-                }
                 logger.info("[{}] Session {} initialized. Requesting available {} bytes...", id, currentSessionId,
                         bytesAvailable);
             }
