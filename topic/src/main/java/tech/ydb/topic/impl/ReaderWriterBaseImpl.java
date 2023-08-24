@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 
 import tech.ydb.core.Status;
 
+/**
+ * @author Nikolay Perfilov
+ */
 public abstract class ReaderWriterBaseImpl<SessionType extends Session> {
     // TODO: add retry policy
     private static final int MAX_RECONNECT_COUNT = 0; // Inf
