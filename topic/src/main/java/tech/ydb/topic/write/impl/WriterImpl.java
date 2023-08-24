@@ -330,7 +330,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     }
 
     @Override
-    protected void reconnect() {
+    protected void onReconnect() {
         logger.info("[{}] Reconnect #{} started. Creating new WriteSession", id, reconnectCounter.get());
         this.session = new WriteSession(topicRpc);
         synchronized (messageSender) {
@@ -365,9 +365,6 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
             logger.info("[{}] Session {} initialized", id, currentSessionId);
-            if (!isReconnecting.compareAndSet(true, false)) {
-                logger.warn("[{}] Couldn't reset reconnect flag. Shouldn't happen", id);
-            }
             long lastSeqNo = message.getInitResponse().getLastSeqNo();
             synchronized (messageSender) {
                 long realLastSeqNo = lastSeqNo;
