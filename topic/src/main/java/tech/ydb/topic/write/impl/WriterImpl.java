@@ -78,7 +78,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     }
 
     @Override
-    protected String getSessionType() {
+    protected String getStreamName() {
         return "Writer";
     }
 
@@ -335,7 +335,8 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     }
 
     @Override
-    protected void onReconnect() {
+    protected void onStreamReconnect() {
+        super.onStreamReconnect(); // Create new session
         synchronized (messageSender) {
             messageSender.setSession(session);
         }
@@ -344,6 +345,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
 
     @Override
     protected void onShutdown(String reason) {
+        super.onShutdown(reason);
         if (!initResultFuture.isDone()) {
             initImpl().completeExceptionally(new RuntimeException(reason));
         }

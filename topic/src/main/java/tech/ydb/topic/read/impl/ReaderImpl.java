@@ -82,7 +82,7 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     }
 
     @Override
-    protected String getSessionType() {
+    protected String getStreamName() {
         return "Reader";
     }
 
@@ -294,12 +294,14 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     }
 
     @Override
-    protected void onReconnect() {
+    protected void onStreamReconnect() {
+        super.onStreamReconnect(); // Create new session
         initImpl();
     }
 
     @Override
     protected void onShutdown(String reason) {
+        super.onShutdown(reason);
         if (!initResultFuture.isDone()) {
             initResultFuture.completeExceptionally(new RuntimeException(reason));
         }
