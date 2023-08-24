@@ -2,11 +2,6 @@ package tech.ydb.coordination.impl;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -21,9 +16,7 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.YdbIssueMessage;
 import tech.ydb.proto.coordination.SessionRequest;
-import tech.ydb.proto.coordination.SessionRequest.CreateSemaphore;
 import tech.ydb.proto.coordination.SessionRequest.SessionStop;
-import tech.ydb.proto.coordination.SessionRequest.SessionStop.Builder;
 import tech.ydb.proto.coordination.SessionResponse;
 
 /**
