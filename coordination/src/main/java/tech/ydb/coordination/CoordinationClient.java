@@ -18,7 +18,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 public interface CoordinationClient {
 
     static CoordinationClient newClient(@WillNotClose GrpcTransport transport) {
-        return new CoordinationClientImpl(GrpcCoordinationRpc.useTransport(transport));
+        return new CoordinationClientImpl(GrpcCoordinationRpc.useTransport(transport), transport.getScheduler());
     }
 
     /**

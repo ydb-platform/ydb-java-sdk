@@ -1,6 +1,8 @@
 package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
@@ -24,14 +26,20 @@ import tech.ydb.proto.coordination.RateLimiterCountersMode;
 public class CoordinationClientImpl implements CoordinationClient {
 
     private final CoordinationRpc coordinationRpc;
+    private final ScheduledExecutorService executorService;
 
     public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc) {
+        this(grpcCoordinationRpc, Executors.newSingleThreadScheduledExecutor());
+    }
+
+    public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc, ScheduledExecutorService executorService) {
         this.coordinationRpc = grpcCoordinationRpc;
+        this.executorService = executorService;
     }
 
     @Override
     public CoordinationSession createSession() {
-        return new CoordinationSessionImpl(coordinationRpc.session());
+        return new CoordinationSessionImpl(coordinationRpc.session(), executorService);
     }
 
     @Override

@@ -2,8 +2,13 @@ package tech.ydb.coordination.impl;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,17 +30,32 @@ import tech.ydb.proto.coordination.SessionResponse;
 public class CoordinationSessionImpl implements CoordinationSession {
 
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionImpl.class);
-
     private final GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
+    private final CompletableFuture<SessionResponse> stoppedFuture = new CompletableFuture<>();
     private final AtomicLong sessionId = new AtomicLong();
+    private final ScheduledExecutorService executorService;
 
     public CoordinationSessionImpl(GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream) {
+        this(coordinationStream, Executors.newSingleThreadScheduledExecutor());
+    }
+
+    public CoordinationSessionImpl(GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream,
+                                   ScheduledExecutorService executorService) {
         this.coordinationStream = coordinationStream;
+        this.executorService = executorService;
+    }
+
+    private static Status getStatus(
+            StatusCodesProtos.StatusIds.StatusCode statusCode,
+            List<YdbIssueMessage.IssueMessage> issueMessages
+    ) {
+        return Status.of(StatusCode.fromProto(statusCode))
+                .withIssues(Issue.fromPb(issueMessages));
     }
 
     @Override
-    public  long getSessionId() {
+    public long getSessionId() {
         return sessionId.get();
     }
 
@@ -48,7 +68,10 @@ public class CoordinationSessionImpl implements CoordinationSession {
                     }
 
                     if (message.hasSessionStopped()) {
-                        coordinationStream.close();
+                        if (!stoppedFuture.isDone()) {
+                            stoppedFuture.complete(message);
+                            coordinationStream.close();
+                        }
                         return;
                     }
 
@@ -224,8 +247,11 @@ public class CoordinationSessionImpl implements CoordinationSession {
     @Override
     public void stop() {
         if (isWorking.compareAndSet(true, false)) {
-            send(SessionRequest.newBuilder()
-                    .setSessionStop(SessionStop.newBuilder().build()).build());
+            send(SessionRequest.newBuilder().setSessionStop(SessionStop.newBuilder().build()).build());
+            stoppedFuture
+                    .whenComplete(new Canceller(executorService.schedule(
+                    coordinationStream::close, 10, TimeUnit.SECONDS))
+            );
         }
     }
 
@@ -241,11 +267,19 @@ public class CoordinationSessionImpl implements CoordinationSession {
         }
     }
 
-    private static Status getStatus(
-            StatusCodesProtos.StatusIds.StatusCode statusCode,
-            List<YdbIssueMessage.IssueMessage> issueMessages
-    ) {
-        return Status.of(StatusCode.fromProto(statusCode))
-                .withIssues(Issue.fromPb(issueMessages));
+    static final class Canceller implements BiConsumer<Object, Throwable> {
+        private final Future<?> f;
+
+        Canceller(Future<?> f) {
+            this.f = f;
+        }
+
+        @Override
+        public void accept(Object ignore, Throwable ex) {
+            if (f != null && !f.isDone()) {
+                logger.info("accept Canceller");
+                f.cancel(false);
+            }
+        }
     }
 }
