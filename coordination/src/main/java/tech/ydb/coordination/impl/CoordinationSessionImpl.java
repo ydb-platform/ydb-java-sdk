@@ -2,6 +2,10 @@ package tech.ydb.coordination.impl;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
@@ -17,6 +21,9 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.YdbIssueMessage;
 import tech.ydb.proto.coordination.SessionRequest;
+import tech.ydb.proto.coordination.SessionRequest.CreateSemaphore;
+import tech.ydb.proto.coordination.SessionRequest.SessionStop;
+import tech.ydb.proto.coordination.SessionRequest.SessionStop.Builder;
 import tech.ydb.proto.coordination.SessionResponse;
 
 /**
@@ -28,7 +35,6 @@ public class CoordinationSessionImpl implements CoordinationSession {
 
     private final GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
-    private final CompletableFuture<SessionResponse> stoppedFuture = new CompletableFuture<>();
     private final AtomicLong sessionId = new AtomicLong();
 
     public CoordinationSessionImpl(GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream) {
@@ -49,8 +55,7 @@ public class CoordinationSessionImpl implements CoordinationSession {
                     }
 
                     if (message.hasSessionStopped()) {
-                        stoppedFuture.complete(message);
-
+                        coordinationStream.close();
                         return;
                     }
 
@@ -226,21 +231,8 @@ public class CoordinationSessionImpl implements CoordinationSession {
     @Override
     public void stop() {
         if (isWorking.compareAndSet(true, false)) {
-            coordinationStream.sendNext(
-                    SessionRequest.newBuilder()
-                            .setSessionStop(
-                                    SessionRequest.SessionStop.newBuilder()
-                                            .build()
-                            ).build()
-            );
-
-            try {
-                stoppedFuture.get(10, TimeUnit.SECONDS);
-            } catch (Exception e) {
-                logger.error("Failed stopping awaiting", e);
-            }
-
-            coordinationStream.close();
+            send(SessionRequest.newBuilder()
+                    .setSessionStop(SessionStop.newBuilder().build()).build());
         }
     }
 
