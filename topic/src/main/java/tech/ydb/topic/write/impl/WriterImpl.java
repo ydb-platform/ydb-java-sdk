@@ -330,9 +330,12 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     }
 
     @Override
+    protected WriteSession createNewSession() {
+        return new WriteSession(topicRpc);
+    }
+
+    @Override
     protected void onReconnect() {
-        logger.info("[{}] Reconnect #{} started. Creating new WriteSession", id, reconnectCounter.get());
-        this.session = new WriteSession(topicRpc);
         synchronized (messageSender) {
             messageSender.setSession(session);
         }
