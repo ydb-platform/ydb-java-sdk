@@ -44,12 +44,12 @@ public class SemaphoreTest {
         final CountDownLatch latch = new CountDownLatch(workers);
         Resource.setMaxNumberOfWorkers(maxNumberOfWorker);
 
-        AsyncSemaphore.newAsyncSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount).join();
+        AsyncSemaphore.newAsyncSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount, true).join();
 
         List<CompletableFuture<Void>> futures = new ArrayList<>();
         for (int i = 0; i < workers; i++) {
             final CompletableFuture<Void> future =
-                    AsyncSemaphore.newAsyncSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount)
+                    AsyncSemaphore.newAsyncSemaphore(client, nodePath, "testSimultaneousWork", semaphoreCount, false)
                             .thenCompose(semaphore -> {
                                 logger.info("created");
                                 return CompletableFuture.completedFuture(semaphore);
@@ -90,11 +90,11 @@ public class SemaphoreTest {
         final int acquireCount = 30;
 
         final Semaphore worker1 =
-                Semaphore.newSemaphore(client, nodePath, "testAcquireMultipleTimes", semaphoreCount).join();
+                Semaphore.newSemaphore(client, nodePath, "testAcquireMultipleTimes", semaphoreCount, true).join();
         final Semaphore worker2 =
-                Semaphore.newSemaphore(client, nodePath, "testAcquireMultipleTimes", semaphoreCount).join();
+                Semaphore.newSemaphore(client, nodePath, "testAcquireMultipleTimes", semaphoreCount, false).join();
         final Semaphore workerWhoNeverWork =
-                Semaphore.newSemaphore(client, nodePath, "testAcquireMultipleTimes", semaphoreCount).join();
+                Semaphore.newSemaphore(client, nodePath, "testAcquireMultipleTimes", semaphoreCount, false).join();
 
         for (int i = 0; i < 3; i++) {
             final List<CompletableFuture<Boolean>> futures = new ArrayList<>();
@@ -125,13 +125,13 @@ public class SemaphoreTest {
         final String semaphoreName = "testFailCreateSemaphoreWithDifferentSettings";
 
         try {
-            Semaphore.newSemaphore(client, nodePath, semaphoreName, 60).join();
+            Semaphore.newSemaphore(client, nodePath, semaphoreName, 60, true).join();
         } catch (Exception e) {
             Assume.assumeNoException("Error while trying to create/connect semaphore.", e);
         }
 
         try {
-            Semaphore.newSemaphore(client, nodePath, semaphoreName, 120).join();
+            Semaphore.newSemaphore(client, nodePath, semaphoreName, 120, false).join();
             Assert.fail();
         } catch (Exception proxyException) {
             Assert.assertTrue(proxyException.getCause() instanceof UnexpectedResultException);
@@ -143,7 +143,7 @@ public class SemaphoreTest {
     public void testSeveralAcquires() {
         final String nodePath = client.getDatabase() + "/new_node";
         final String semaphoreName = "testChangeCountInAcquire";
-        final Semaphore semaphore = Semaphore.newSemaphore(client, nodePath, semaphoreName, 60).join();
+        final Semaphore semaphore = Semaphore.newSemaphore(client, nodePath, semaphoreName, 60, true).join();
 
         Assert.assertTrue(semaphore.acquire(SemaphoreSettings.newBuilder()
                 .withTimeout(60_000)
@@ -151,11 +151,12 @@ public class SemaphoreTest {
                 .build())
         );
 
-        CompletableFuture<Boolean> acquireInFuture = Semaphore.newSemaphore(client, nodePath, semaphoreName, 60).join()
-                .acquireAsync(SemaphoreSettings.newBuilder()
-                        .withCount(55)
-                        .withTimeout(60_000)
-                        .build());
+        CompletableFuture<Boolean> acquireInFuture =
+                Semaphore.newSemaphore(client, nodePath, semaphoreName, 60, false).join()
+                        .acquireAsync(SemaphoreSettings.newBuilder()
+                                .withCount(55)
+                                .withTimeout(60_000)
+                                .build());
 
         /* You can make several acquires on the one semaphore, but every new acquire have to be less than previous
         one */
@@ -178,8 +179,10 @@ public class SemaphoreTest {
     public void testZeroTimeout() {
         final String nodePath = client.getDatabase() + "/new_node";
         final String semaphoreName = "testZeroTimeout";
-        final AsyncSemaphore semaphore1 = AsyncSemaphore.newAsyncSemaphore(client, nodePath, semaphoreName, 60).join();
-        final AsyncSemaphore semaphore2 = AsyncSemaphore.newAsyncSemaphore(client, nodePath, semaphoreName, 60).join();
+        final AsyncSemaphore semaphore1 =
+                AsyncSemaphore.newAsyncSemaphore(client, nodePath, semaphoreName, 60, true).join();
+        final AsyncSemaphore semaphore2 =
+                AsyncSemaphore.newAsyncSemaphore(client, nodePath, semaphoreName, 60, false).join();
         Resource.setMaxNumberOfWorkers(1);
 
         final BiFunction<AsyncSemaphore, Long, CompletableFuture<Boolean>> acquireFunction = (semaphore, timeout) ->
@@ -222,7 +225,7 @@ public class SemaphoreTest {
         List<CompletableFuture<AsyncSemaphore>> semaphoreFutures = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            semaphoreFutures.add(AsyncSemaphore.newAsyncSemaphore(stubClient, nodePath, semaphoreName, 60));
+            semaphoreFutures.add(AsyncSemaphore.newAsyncSemaphore(stubClient, nodePath, semaphoreName, 60, true));
         }
 
         /* If you immediately cancel the creation of Asynchronous Semaphore, you may suppose that there were no extra

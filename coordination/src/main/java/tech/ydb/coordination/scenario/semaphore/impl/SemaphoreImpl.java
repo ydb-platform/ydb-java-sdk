@@ -17,12 +17,9 @@ public class SemaphoreImpl extends AsyncSemaphoreImpl implements Semaphore {
         super(session, observer);
     }
 
-    public static CompletableFuture<Semaphore> newSemaphore(
-            CoordinationClient client, String path, String semaphoreName, long limit) {
-        final CompletableFuture<Semaphore> creationFuture = new CompletableFuture<>();
-        prepareSessionAndCreateCoordinationSemaphore(client, path, semaphoreName, limit, creationFuture,
-                SemaphoreImpl::new);
-        return creationFuture;
+    public static CompletableFuture<Semaphore> newSemaphore(CoordinationClient client, String path,
+                                                              String semaphoreName, long limit, boolean createNode) {
+        return newSemaphoreDetail(client, path, semaphoreName, limit, createNode, SemaphoreImpl::new);
     }
 
     public static Status deleteSemaphore(CoordinationClient client, String path,

@@ -26,12 +26,13 @@ public interface AsyncSemaphore {
      * @param semaphoreName the name of the semaphore on this Coordination Node (different nodes could have different
      *                      semaphores with the same name).
      * @param limit the maximum number of tokens for the semaphore.
+     * @param createNode create node before semaphore creation or not
      * @return a CompletableFuture that completes with a new AsyncSemaphore instance or an exception in case of the bad
      * connection and other coordination problems.
      */
     static CompletableFuture<AsyncSemaphore> newAsyncSemaphore(
-            CoordinationClient client, String path, String semaphoreName, long limit) {
-        return AsyncSemaphoreImpl.newAsyncSemaphore(client, path, semaphoreName, limit);
+            CoordinationClient client, String path, String semaphoreName, long limit, boolean createNode) {
+        return AsyncSemaphoreImpl.newAsyncSemaphore(client, path, semaphoreName, limit, createNode);
     }
 
     /**
