@@ -106,7 +106,8 @@ public abstract class ReaderWriterBaseImpl<SessionType extends Session> {
                             currentSessionId);
                 }
             } else {
-                getLogger().warn("[{}] Error in {} stream session {}: {}", id, getSessionType(), currentSessionId, status);
+                getLogger().warn("[{}] Error in {} stream session {}: {}", id, getSessionType(), currentSessionId,
+                        status);
             }
         }
 
