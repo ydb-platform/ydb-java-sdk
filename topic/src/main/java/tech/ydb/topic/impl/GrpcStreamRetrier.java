@@ -1,4 +1,4 @@
-package tech.ydb.core.grpc;
+package tech.ydb.topic.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
