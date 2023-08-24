@@ -4,15 +4,11 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +20,7 @@ import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.impl.ReaderWriterBaseImpl;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
 import tech.ydb.topic.write.InitResult;
@@ -34,16 +31,8 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public abstract class WriterImpl {
+public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
-
-    // TODO: add retry policy
-    private static final int MAX_RECONNECT_COUNT = 0; // Inf
-    private static final int EXP_BACKOFF_BASE_MS = 256;
-    private static final int EXP_BACKOFF_CEILING_MS = 40_000; // 40 sec (max delays would be 40-80 sec)
-    private static final int EXP_BACKOFF_MAX_POWER = 7;
-
-    private final String id;
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
     private CompletableFuture<InitResult> initResultFuture = new CompletableFuture<>();
@@ -56,15 +45,10 @@ public abstract class WriterImpl {
     // Messages that are currently trying to be sent and haven't received a response from server yet
     private final Deque<EnqueuedMessage> sentMessages = new ConcurrentLinkedDeque<>();
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean();
-    private final AtomicBoolean isStopped = new AtomicBoolean();
-    private final AtomicBoolean isReconnecting = new AtomicBoolean();
-    private final AtomicInteger reconnectCounter = new AtomicInteger();
     private final Executor compressionExecutor;
     private final MessageSender messageSender;
     private final long maxSendBufferMemorySize;
 
-    private WriteSession session;
-    private String currentSessionId;
     private Boolean isSeqNoProvided = null;
     private int currentInFlightCount = 0;
     private long availableSizeBytes;
@@ -72,7 +56,7 @@ public abstract class WriterImpl {
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
 
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
-        this.id = UUID.randomUUID().toString();
+        super(topicRpc.getScheduler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new WriteSession(topicRpc);
@@ -86,6 +70,16 @@ public abstract class WriterImpl {
                 " with producerId \"" + settings.getProducerId() + "\"" +
                 " and messageGroupId \"" + settings.getMessageGroupId() + "\"";
         logger.info(message);
+    }
+
+    @Override
+    protected Logger getLogger() {
+        return logger;
+    }
+
+    @Override
+    protected String getStreamName() {
+        return "Writer";
     }
 
     private static class IncomingMessage {
@@ -335,30 +329,31 @@ public abstract class WriterImpl {
         }
     }
 
-    private void reconnect() {
-        logger.info("[{}] Reconnect #{} started. Creating new WriteSession", id, reconnectCounter.get());
-        this.session = new WriteSession(topicRpc);
+    @Override
+    protected WriteSession createNewSession() {
+        return new WriteSession(topicRpc);
+    }
+
+    @Override
+    protected void onStreamReconnect() {
+        super.onStreamReconnect(); // Create new session
         synchronized (messageSender) {
             messageSender.setSession(session);
         }
         initImpl();
-        if (!isReconnecting.compareAndSet(true, false)) {
-            logger.warn("[{}] Couldn't reset reconnect flag. Shouldn't happen", id);
-        }
     }
 
-    protected CompletableFuture<Void> shutdownImpl() {
-        logger.info("[{}] Shutting down Topic Writer", id);
-        isStopped.set(true);
-        return flushImpl()
-                .thenRun(() -> session.shutdown());
-    }
-
-    private void shutdownImpl(String reason) {
+    @Override
+    protected void onShutdown(String reason) {
+        super.onShutdown(reason);
         if (!initResultFuture.isDone()) {
             initImpl().completeExceptionally(new RuntimeException(reason));
         }
-        shutdownImpl();
+    }
+
+    @Override
+    protected void onSessionStop() {
+        logger.info("[{}] Write session is stopped", id);
     }
 
     private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
@@ -366,7 +361,7 @@ public abstract class WriterImpl {
         if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             reconnectCounter.set(0);
         } else {
-            logger.error("[{}] Got non-success status in processMessage method: {}", id, message);
+            logger.warn("[{}] Got non-success status in processMessage method: {}", id, message);
             completeSession(Status.of(StatusCode.fromProto(message.getStatus()))
                             .withIssues(Issue.of("Got a message with non-success status: " + message,
                                     Issue.Severity.ERROR)), null);
@@ -458,58 +453,5 @@ public abstract class WriterImpl {
                 return;
         }
         message.getFuture().complete(resultAck);
-    }
-
-    private void completeSession(Status status, Throwable th) {
-        logger.info("[{}] CompleteSession called", id);
-        // This session is not working anymore
-        this.session.stop();
-
-        if (th != null) {
-            logger.error("[{}] Exception in writing stream session {}: ", id, currentSessionId, th);
-        } else {
-            if (status.isSuccess()) {
-                if (isStopped.get()) {
-                    logger.info("[{}] Writing stream session {} closed successfully", id, currentSessionId);
-                } else {
-                    if (isReconnecting.get()) {
-                        logger.info("[{}] Current session is closing, but reconnect is already scheduled", id);
-                    } else {
-                        logger.error("[{}] Writing stream session {} was closed unexpectedly. Shutting down the " +
-                                        "writer.", id, currentSessionId);
-                        shutdownImpl("Writing stream session " + currentSessionId
-                                + " was closed unexpectedly. Shutting down writer.");
-                    }
-                }
-                return;
-            }
-            logger.error("[{}] Error in writing stream session {}: {}", id,
-                    (currentSessionId != null ? currentSessionId : ""), status);
-        }
-
-        if (isStopped.get()) {
-            return;
-        }
-        int currentReconnectCounter = reconnectCounter.incrementAndGet();
-        if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
-            if (isStopped.compareAndSet(false, true)) {
-                logger.error("[{}] Maximum retry count ({}}) exceeded. Shutting down writer.", id, MAX_RECONNECT_COUNT);
-                shutdownImpl("Maximum retry count (" + MAX_RECONNECT_COUNT
-                        + ") exceeded. Shutting down writer with error: " + (th != null ? th : status));
-            } else {
-                logger.debug("[{}] Maximum retry count ({}}) exceeded. But writer is already shut down.", id,
-                        MAX_RECONNECT_COUNT);
-            }
-        } else if (isReconnecting.compareAndSet(false, true)) {
-            int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
-                    ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
-                    : EXP_BACKOFF_CEILING_MS;
-            // Add jitter
-            delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
-            logger.warn("[{}] Retry #" + currentReconnectCounter + ". Scheduling reconnect in {}ms...", id, delayMs);
-            topicRpc.getScheduler().schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
-        } else {
-            logger.debug("[{}] Should reconnect, but reconnect is already in progress", id);
-        }
     }
 }
