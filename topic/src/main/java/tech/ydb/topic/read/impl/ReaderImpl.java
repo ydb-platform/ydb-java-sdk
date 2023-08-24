@@ -289,9 +289,12 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     }
 
     @Override
+    protected ReadSession createNewSession() {
+        return new ReadSession(topicRpc);
+    }
+
+    @Override
     protected void onReconnect() {
-        logger.info("[{}] Reconnect #{} started. Creating new ReadSession", id, reconnectCounter.get());
-        this.session = new ReadSession(topicRpc);
         initImpl();
     }
 

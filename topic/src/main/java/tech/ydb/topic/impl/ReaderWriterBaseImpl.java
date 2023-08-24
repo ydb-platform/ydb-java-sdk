@@ -38,6 +38,7 @@ public abstract class ReaderWriterBaseImpl<SessionType extends Session> {
     protected abstract Logger getLogger();
     protected abstract String getSessionType();
     protected abstract void onSessionStop();
+    protected abstract SessionType createNewSession();
     protected abstract void onReconnect();
     protected abstract void onShutdown(String reason);
 
@@ -67,12 +68,17 @@ public abstract class ReaderWriterBaseImpl<SessionType extends Session> {
             getLogger().info("[{}] Should reconnect, but reconnect is already in progress", id);
         }
     }
+
     void reconnect() {
+        getLogger().info("[{}] Reconnect #{} started. Creating new {} session", id, reconnectCounter.get(),
+                getSessionType());
         if (!isReconnecting.compareAndSet(true, false)) {
             getLogger().warn("[{}] Couldn't reset reconnect flag. Shouldn't happen", id);
         }
+        this.session = createNewSession();
         onReconnect();
     }
+
     protected CompletableFuture<Void> shutdownImpl() {
         return shutdownImpl("");
     }
