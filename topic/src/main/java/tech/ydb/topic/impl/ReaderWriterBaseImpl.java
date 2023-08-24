@@ -41,8 +41,21 @@ public abstract class ReaderWriterBaseImpl<SessionType extends Session> {
     protected abstract void onReconnect();
     protected abstract void onShutdown(String reason);
 
-    private void scheduleReconnect(int currentReconnectCounter) {
+    private void tryScheduleReconnect() {
+        int currentReconnectCounter = reconnectCounter.get() + 1;
+        if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
+            if (isStopped.compareAndSet(false, true)) {
+                getLogger().error("[{}] Maximum retry count ({}}) exceeded. Shutting down {}.", id,
+                        MAX_RECONNECT_COUNT, getSessionType());
+                shutdownImpl("Maximum retry count (" + MAX_RECONNECT_COUNT
+                        + ") exceeded. Shutting down " + getSessionType());
+            } else {
+                getLogger().debug("[{}] Maximum retry count ({}}) exceeded. But writer is already shut down.", id,
+                        MAX_RECONNECT_COUNT);
+            }
+        }
         if (isReconnecting.compareAndSet(false, true)) {
+            reconnectCounter.set(currentReconnectCounter);
             int delayMs = currentReconnectCounter <= EXP_BACKOFF_MAX_POWER
                     ? EXP_BACKOFF_BASE_MS * (1 << currentReconnectCounter)
                     : EXP_BACKOFF_CEILING_MS;
@@ -51,7 +64,7 @@ public abstract class ReaderWriterBaseImpl<SessionType extends Session> {
             getLogger().warn("[{}] Retry #{}. Scheduling reconnect in {}ms...", id, currentReconnectCounter, delayMs);
             scheduler.schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
         } else {
-            getLogger().debug("[{}] Should reconnect, but reconnect is already in progress", id);
+            getLogger().info("[{}] Should reconnect, but reconnect is already in progress", id);
         }
     }
     void reconnect() {
@@ -87,32 +100,20 @@ public abstract class ReaderWriterBaseImpl<SessionType extends Session> {
                 if (isStopped.get()) {
                     getLogger().info("[{}] {} stream session {} closed successfully", id, getSessionType(),
                             currentSessionId);
+                    return;
                 } else {
                     getLogger().warn("[{}] {} stream session {} was closed unexpectedly", id, getSessionType(),
                             currentSessionId);
                 }
-                return;
+            } else {
+                getLogger().warn("[{}] Error in {} stream session {}: {}", id, getSessionType(), currentSessionId, status);
             }
-            getLogger().warn("[{}] Error in {} stream session {}: {}", id, getSessionType(), currentSessionId, status);
         }
 
-        if (isStopped.get()) {
-            return;
-        }
-        int currentReconnectCounter = reconnectCounter.incrementAndGet();
-        if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
-            if (isStopped.compareAndSet(false, true)) {
-                getLogger().error("[{}] Maximum retry count ({}}) exceeded. Shutting down {}.", id,
-                        MAX_RECONNECT_COUNT, getSessionType());
-                shutdownImpl("Maximum retry count (" + MAX_RECONNECT_COUNT
-                        + ") exceeded. Shutting down " + getSessionType() + " with error: "
-                        + (th != null ? th : status));
-            } else {
-                getLogger().debug("[{}] Maximum retry count ({}}) exceeded. But writer is already shut down.", id,
-                        MAX_RECONNECT_COUNT);
-            }
+        if (!isStopped.get()) {
+            tryScheduleReconnect();
         } else  {
-            scheduleReconnect(currentReconnectCounter);
+            getLogger().info("[{}] {} is already stopped, no need to schedule reconnect", id, getSessionType());
         }
     }
 
