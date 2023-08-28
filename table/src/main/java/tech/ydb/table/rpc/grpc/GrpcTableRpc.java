@@ -67,11 +67,8 @@ public final class GrpcTableRpc implements TableRpc {
     private final GrpcTransport transport;
     private final boolean transportOwned;
 
-    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = new StatusExtractor<>(response ->
-                    response.getStatus() == StatusIds.StatusCode.STATUS_CODE_UNSPECIFIED ?
-                StatusIds.StatusCode.SUCCESS : response.getStatus(),
-        ReadRowsResponse::getIssuesList
-    );
+    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = new StatusExtractor<>(
+        ReadRowsResponse::getStatus, ReadRowsResponse::getIssuesList);
 
     private GrpcTableRpc(GrpcTransport transport, boolean transportOwned) {
         this.transport = transport;
