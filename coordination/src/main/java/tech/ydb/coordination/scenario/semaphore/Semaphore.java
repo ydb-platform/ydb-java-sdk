@@ -27,6 +27,16 @@ public interface Semaphore extends AsyncSemaphore {
         return SemaphoreImpl.newSemaphore(client, path, semaphoreName, limit, createNode);
     }
 
+    static CompletableFuture<Semaphore> newSemaphore(
+            CoordinationClient client, String path, String semaphoreName, long limit) {
+        return newSemaphore(client, path, semaphoreName, limit, true);
+    }
+
+    static CompletableFuture<Semaphore> newSemaphore(
+            CoordinationClient client, String path, String semaphoreName) {
+        return newSemaphore(client, path, semaphoreName, 1);
+    }
+
     /**
      * Blocking equivalent of {@link AsyncSemaphore#deleteSemaphoreAsync(CoordinationClient, String, String, boolean)}
      *

@@ -35,6 +35,16 @@ public interface AsyncSemaphore {
         return AsyncSemaphoreImpl.newAsyncSemaphore(client, path, semaphoreName, limit, createNode);
     }
 
+    static CompletableFuture<AsyncSemaphore> newAsyncSemaphore(
+            CoordinationClient client, String path, String semaphoreName, long limit) {
+        return newAsyncSemaphore(client, path, semaphoreName, limit, true);
+    }
+
+    static CompletableFuture<AsyncSemaphore> newAsyncSemaphore(
+            CoordinationClient client, String path, String semaphoreName) {
+        return newAsyncSemaphore(client, path, semaphoreName, 1);
+    }
+
     /**
      * Asynchronously deletes a semaphore with the specified coordination client, path, and semaphore name.
      *
