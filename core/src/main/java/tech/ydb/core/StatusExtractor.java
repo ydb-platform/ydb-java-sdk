@@ -34,6 +34,9 @@ public class StatusExtractor<R> implements Function<Result<R>, Result<R>> {
                 result.getStatus().getConsumedRu(),
                 Issue.fromPb(issueListExtractor.apply(result.getValue()))
         );
+        if (!status.isSuccess()) {
+            return Result.fail(status);
+        }
         return Result.success(result.getValue(), status);
     }
 }
