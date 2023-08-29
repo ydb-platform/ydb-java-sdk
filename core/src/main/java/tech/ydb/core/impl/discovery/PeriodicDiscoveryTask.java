@@ -199,10 +199,15 @@ public class PeriodicDiscoveryTask implements Runnable {
                 }
 
                 try {
-                    readyLock.wait(TimeUnit.SECONDS.toMillis(DISCOVERY_PERIOD_MIN_SECONDS));
+                    // waiting for initialization
+                    readyLock.wait(TimeUnit.SECONDS.toMillis(DISCOVERY_PERIOD_NORMAL_SECONDS));
 
                     if (lastProblem != null) {
                         throw lastProblem;
+                    }
+
+                    if (!isReady) {
+                        throw new RuntimeException("Ydb transport in not ready");
                     }
                 } catch (InterruptedException ex) {
                     logger.warn("ydb transport wait for ready interrupted", ex);
