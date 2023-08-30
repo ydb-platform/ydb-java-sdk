@@ -40,15 +40,21 @@ public class PeriodicDiscoveryTask implements Runnable {
     private final ScheduledExecutorService scheduler;
     private final GrpcDiscoveryRpc discoveryRpc;
     private final DiscoveryHandler discoveryHandler;
+    private final long waitingTimeoutMillis;
 
     private final AtomicBoolean updateInProgress = new AtomicBoolean();
     private final State state = new State();
     private volatile ScheduledFuture<?> currentSchedule = null;
 
-    public PeriodicDiscoveryTask(ScheduledExecutorService scheduler, GrpcDiscoveryRpc rpc, DiscoveryHandler handler) {
+    public PeriodicDiscoveryTask(
+            ScheduledExecutorService scheduler,
+            GrpcDiscoveryRpc rpc,
+            DiscoveryHandler handler,
+            long waitingTimeoutMillis) {
         this.scheduler = scheduler;
         this.discoveryRpc = rpc;
         this.discoveryHandler = handler;
+        this.waitingTimeoutMillis = waitingTimeoutMillis;
     }
 
     public void stop() {
@@ -63,7 +69,7 @@ public class PeriodicDiscoveryTask implements Runnable {
     public void start() {
         logger.info("Waiting for init discovery...");
         runDiscovery();
-        state.waitReady();
+        state.waitReady(waitingTimeoutMillis);
         logger.info("Discovery is finished");
     }
 
@@ -184,7 +190,7 @@ public class PeriodicDiscoveryTask implements Runnable {
             }
         }
 
-        public void waitReady() {
+        public void waitReady(long timeoutMillis) {
             if (isReady) {
                 return;
             }
@@ -200,7 +206,7 @@ public class PeriodicDiscoveryTask implements Runnable {
 
                 try {
                     // waiting for initialization
-                    readyLock.wait(TimeUnit.SECONDS.toMillis(DISCOVERY_PERIOD_NORMAL_SECONDS));
+                    readyLock.wait(timeoutMillis);
 
                     if (lastProblem != null) {
                         throw lastProblem;
