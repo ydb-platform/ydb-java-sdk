@@ -84,7 +84,7 @@ public abstract class GrpcStreamRetrier {
         return shutdownImpl("");
     }
 
-    private CompletableFuture<Void> shutdownImpl(String reason) {
+    protected CompletableFuture<Void> shutdownImpl(String reason) {
         getLogger().info("Shutting down {}" + (reason == null || reason.isEmpty() ? "" : " with reason: " + reason),
                 getStreamName());
         isStopped.set(true);
