@@ -104,13 +104,9 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         }
 
         synchronized (batchesInQueue) {
-            if (batchesInQueue.isEmpty()) {
-                logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
-                batchesInQueue.notify();
-            } else {
-                logger.info("Just putting a message batch into queue");
-            }
+            logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
             batchesInQueue.add(new MessageBatchWrapper(event.getMessages(), resultFuture));
+            batchesInQueue.notify();
         }
         return resultFuture;
     }
