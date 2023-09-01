@@ -1,6 +1,7 @@
 package tech.ydb.topic.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -39,10 +40,10 @@ public abstract class GrpcStreamRetrier {
         int currentReconnectCounter = reconnectCounter.get() + 1;
         if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
             if (isStopped.compareAndSet(false, true)) {
-                getLogger().error("Maximum retry count ({}}) exceeded. Shutting down {}.", MAX_RECONNECT_COUNT,
-                        getStreamName());
-                shutdownImpl("Maximum retry count (" + MAX_RECONNECT_COUNT + ") exceeded. Shutting down "
-                        + getStreamName());
+                String errorMessage = "Maximum retry count (" + MAX_RECONNECT_COUNT + ") exceeded. Shutting down "
+                        + getStreamName();
+                getLogger().error(errorMessage);
+                shutdownImpl(errorMessage);
                 return;
             } else {
                 getLogger().debug("Maximum retry count ({}}) exceeded. But {} is already shut down.",
@@ -58,7 +59,14 @@ public abstract class GrpcStreamRetrier {
             delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
             getLogger().warn("Retry #{}. Scheduling {} reconnect in {}ms...", currentReconnectCounter, getStreamName(),
                     delayMs);
-            scheduler.schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
+            try {
+                scheduler.schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
+            } catch (RejectedExecutionException exception) {
+                String errorMessage = "Couldn't schedule reconnect: scheduler is already shut down. Shutting down "
+                        + getStreamName();
+                getLogger().error(errorMessage);
+                shutdownImpl(errorMessage);
+            }
         } else {
             getLogger().info("should reconnect {} stream, but reconnect is already in progress", getStreamName());
         }
