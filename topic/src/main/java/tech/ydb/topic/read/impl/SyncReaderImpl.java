@@ -72,7 +72,8 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                     if (now.isAfter(deadline)) {
                         break;
                     }
-                    millisToWait = Duration.between(now, deadline).toMillis();
+                    // Using Math.max to prevent rounding duration to 0 which would lead to infinite wait
+                    millisToWait = Math.max(1, Duration.between(now, deadline).toMillis());
                     logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
                     batchesInQueue.wait(millisToWait);
                 }
