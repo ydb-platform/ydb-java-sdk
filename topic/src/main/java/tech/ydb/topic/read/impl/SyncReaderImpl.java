@@ -1,5 +1,7 @@
 package tech.ydb.topic.read.impl;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -61,8 +63,20 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         synchronized (batchesInQueue) {
             if (batchesInQueue.isEmpty()) {
                 long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
-                logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
-                batchesInQueue.wait(millisToWait);
+                Instant deadline = Instant.now().plusMillis(millisToWait);
+                while (true) {
+                    if (!batchesInQueue.isEmpty()) {
+                        break;
+                    }
+                    Instant now = Instant.now();
+                    if (now.isAfter(deadline)) {
+                        break;
+                    }
+                    millisToWait = Duration.between(now, deadline).toMillis();
+                    logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
+                    batchesInQueue.wait(millisToWait);
+                };
+
                 if (batchesInQueue.isEmpty()) {
                     logger.trace("Still no messages in queue. Returning null");
                     return null;
