@@ -232,6 +232,9 @@ public class PartitionSession {
     }
 
     private void sendDataToReadersIfNeeded() {
+        if (!isWorking.get()) {
+            return;
+        }
         if (isReadingNow.compareAndSet(false, true)) {
             Batch batchToRead = readingQueue.poll();
             if (batchToRead == null) {

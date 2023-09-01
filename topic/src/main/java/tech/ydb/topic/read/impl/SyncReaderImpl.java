@@ -1,12 +1,11 @@
 package tech.ydb.topic.read.impl;
 
-import java.util.ArrayList;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -27,26 +26,20 @@ import tech.ydb.topic.settings.ReaderSettings;
  */
 public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
-
-    private static final int DEFAULT_HANDLER_THREAD_COUNT = 1;
     private static final int POLL_INTERVAL_SECONDS = 5;
-    private static final int MAX_MESSAGES_IN_BUFFER = 20;
-
-    BlockingQueue<MessageWrapper> messageBuffer = new ArrayBlockingQueue<>(MAX_MESSAGES_IN_BUFFER);
-    private final ExecutorService handlerExecutor;
+    private final Queue<MessageBatchWrapper> batchesInQueue = new LinkedList<>();
+    private int currentMessageIndex = 0;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         super(topicRpc, settings);
-
-        this.handlerExecutor = Executors.newFixedThreadPool(DEFAULT_HANDLER_THREAD_COUNT);
     }
 
-    private static class MessageWrapper {
-        private final Message message;
+    private static class MessageBatchWrapper {
+        private final List<Message> messages;
         private final CompletableFuture<Void> future;
 
-        private MessageWrapper(Message message, CompletableFuture<Void> future) {
-            this.message = message;
+        private MessageBatchWrapper(List<Message> messages, CompletableFuture<Void> future) {
+            this.messages = messages;
             this.future = future;
         }
     }
@@ -67,12 +60,40 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         if (isStopped.get()) {
             throw new RuntimeException("Reader was stopped");
         }
-        MessageWrapper wrapper = messageBuffer.poll(timeout, unit);
-        if (wrapper != null) {
-            wrapper.future.complete(null);
-            return wrapper.message;
-        } else {
-            return null;
+        synchronized (batchesInQueue) {
+            if (batchesInQueue.isEmpty()) {
+                long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
+                Instant deadline = Instant.now().plusMillis(millisToWait);
+                while (true) {
+                    if (!batchesInQueue.isEmpty()) {
+                        break;
+                    }
+                    Instant now = Instant.now();
+                    if (now.isAfter(deadline)) {
+                        break;
+                    }
+                    millisToWait = Duration.between(now, deadline).toMillis();
+                    logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
+                    batchesInQueue.wait(millisToWait);
+                }
+
+                if (batchesInQueue.isEmpty()) {
+                    logger.trace("Still no messages in queue. Returning null");
+                    return null;
+                }
+            }
+
+            logger.trace("Taking a message with index {} from batch", currentMessageIndex);
+            MessageBatchWrapper currentBatch = batchesInQueue.element();
+            Message result = currentBatch.messages.get(currentMessageIndex);
+            currentMessageIndex++;
+            if (currentMessageIndex >= currentBatch.messages.size()) {
+                logger.debug("Batch is read. signalling core reader impl");
+                batchesInQueue.remove();
+                currentMessageIndex = 0;
+                currentBatch.future.complete(null);
+            }
+            return result;
         }
     }
 
@@ -90,25 +111,21 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     protected CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
         // Completes when all messages from this event are read by user
         final CompletableFuture<Void> resultFuture = new CompletableFuture<>();
-        handlerExecutor.execute(() -> {
-            List<CompletableFuture<Void>> futures = new ArrayList<>();
-            event.getMessages().forEach(message -> {
-                CompletableFuture<Void> future = new CompletableFuture<>();
-                futures.add(future);
-                try {
-                    messageBuffer.put(new MessageWrapper(message, future));
-                } catch (InterruptedException e) {
-                    logger.warn("Putting message to message buffer was interrupted: ", e);
-                    future.completeExceptionally(e);
-                }
-            });
-            CompletableFuture.allOf(futures.toArray(new CompletableFuture<?>[0]))
-                    .thenRun(() -> resultFuture.complete(null))
-                    .exceptionally(throwable -> {
-                        resultFuture.completeExceptionally(throwable);
-                        return null;
-                    });
-        });
+
+        if (isStopped.get()) {
+            resultFuture.completeExceptionally(new RuntimeException("Reader was stopped"));
+            return resultFuture;
+        }
+        if (event.getMessages().isEmpty()) {
+            resultFuture.completeExceptionally(new RuntimeException("Batch has no messages"));
+            return resultFuture;
+        }
+
+        synchronized (batchesInQueue) {
+            logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
+            batchesInQueue.add(new MessageBatchWrapper(event.getMessages(), resultFuture));
+            batchesInQueue.notify();
+        }
         return resultFuture;
     }
 
@@ -135,10 +152,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     protected CompletableFuture<Void> shutdownImpl() {
-        return super.shutdownImpl().whenComplete((res, th) -> {
-            logger.debug("Shutting down default handler executor");
-            handlerExecutor.shutdown();
-        });
+        return super.shutdownImpl();
     }
 
     @Override
