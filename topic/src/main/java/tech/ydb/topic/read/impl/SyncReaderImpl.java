@@ -116,6 +116,10 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             resultFuture.completeExceptionally(new RuntimeException("Reader was stopped"));
             return resultFuture;
         }
+        if (event.getMessages().isEmpty()) {
+            resultFuture.completeExceptionally(new RuntimeException("Batch has no messages"));
+            return resultFuture;
+        }
 
         synchronized (batchesInQueue) {
             logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
