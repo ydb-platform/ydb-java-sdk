@@ -26,7 +26,6 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
     private static final int POLL_INTERVAL_SECONDS = 5;
     private final Queue<MessageBatchWrapper> batchesInQueue = new LinkedList<>();
-    private MessageBatchWrapper currentMessageBatch = null;
     private int currentMessageIndex = 0;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
@@ -60,28 +59,25 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             throw new RuntimeException("Reader was stopped");
         }
         synchronized (batchesInQueue) {
-            if (currentMessageBatch == null) {
+            if (batchesInQueue.isEmpty()) {
+                long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
+                logger.info("No messages in queue. Waiting for {} ms...", millisToWait);
+                batchesInQueue.wait(millisToWait);
                 if (batchesInQueue.isEmpty()) {
-                    logger.info("No messages in queue. Waiting for {} ms...",
-                            TimeUnit.MILLISECONDS.convert(timeout, unit));
-                    batchesInQueue.wait(TimeUnit.MILLISECONDS.convert(timeout, unit));
-                    if (currentMessageBatch == null) {
-                        logger.info("Still no messages to read. Returning null");
-                        return null;
-                    }
-                } else {
-                    logger.info("Taking next batch from queue");
-                    currentMessageBatch = batchesInQueue.poll();
-                    currentMessageIndex = 0;
+                    logger.info("Still no messages in queue. Returning null");
+                    return null;
                 }
             }
+
             logger.info("Taking a message with index {} from batch", currentMessageIndex);
-            Message result = currentMessageBatch.messages.get(currentMessageIndex);
+            MessageBatchWrapper currentBatch = batchesInQueue.element();
+            Message result = currentBatch.messages.get(currentMessageIndex);
             currentMessageIndex++;
-            if (currentMessageIndex >= currentMessageBatch.messages.size()) {
+            if (currentMessageIndex >= currentBatch.messages.size()) {
                 logger.info("Batch is read. signalling core reader impl");
-                currentMessageBatch.future.complete(null);
-                currentMessageBatch = null;
+                batchesInQueue.remove();
+                currentMessageIndex = 0;
+                currentBatch.future.complete(null);
             }
             return result;
         }
@@ -108,18 +104,14 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             return resultFuture;
         }
 
-        MessageBatchWrapper newBatch = new MessageBatchWrapper(event.getMessages(), resultFuture);
-
         synchronized (batchesInQueue) {
-            if (currentMessageBatch == null) {
-                currentMessageBatch = newBatch;
-                currentMessageIndex = 0;
+            if (batchesInQueue.isEmpty()) {
                 logger.info("Putting a message and notifying in case receive method is waiting");
                 batchesInQueue.notify();
             } else {
                 logger.info("Just putting a message and notifying in case receive method is waiting");
-                batchesInQueue.add(newBatch);
             }
+            batchesInQueue.add(new MessageBatchWrapper(event.getMessages(), resultFuture));
         }
         return resultFuture;
     }
