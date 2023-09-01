@@ -75,7 +75,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                     millisToWait = Duration.between(now, deadline).toMillis();
                     logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
                     batchesInQueue.wait(millisToWait);
-                };
+                }
 
                 if (batchesInQueue.isEmpty()) {
                     logger.trace("Still no messages in queue. Returning null");
