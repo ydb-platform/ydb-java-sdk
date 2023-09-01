@@ -236,15 +236,11 @@ public class PartitionSession {
             return;
         }
         if (isReadingNow.compareAndSet(false, true)) {
-            logger.info("[{}] readingQueue size before poll: {} for partition session {} (partition {})", path,
-                    readingQueue.size(), id, partitionId);
             Batch batchToRead = readingQueue.poll();
             if (batchToRead == null) {
                 isReadingNow.set(false);
                 return;
             }
-            logger.info("[{}] readingQueue size after poll: {} for partition session {} (partition {})", path,
-                    readingQueue.size(), id, partitionId);
             // Should be called maximum in 1 thread at a time
             List<MessageImpl> messageImplList = batchToRead.getMessages();
             List<Message> messagesToRead = new ArrayList<>(messageImplList);
@@ -283,8 +279,6 @@ public class PartitionSession {
     }
 
     public void shutdown() {
-        logger.info("[{}] readingQueue size on shutdown: {} for partition session {} (partition {})", path,
-                readingQueue.size(), id, partitionId);
         synchronized (commitFutures) {
             isWorking.set(false);
             logger.info("[{}] Partition session {} (partition {}) is shutting down. Failing {} commit futures...", path,

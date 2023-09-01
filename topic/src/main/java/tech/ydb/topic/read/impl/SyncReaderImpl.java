@@ -61,20 +61,20 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         synchronized (batchesInQueue) {
             if (batchesInQueue.isEmpty()) {
                 long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
-                logger.info("No messages in queue. Waiting for {} ms...", millisToWait);
+                logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
                 batchesInQueue.wait(millisToWait);
                 if (batchesInQueue.isEmpty()) {
-                    logger.info("Still no messages in queue. Returning null");
+                    logger.trace("Still no messages in queue. Returning null");
                     return null;
                 }
             }
 
-            logger.info("Taking a message with index {} from batch", currentMessageIndex);
+            logger.trace("Taking a message with index {} from batch", currentMessageIndex);
             MessageBatchWrapper currentBatch = batchesInQueue.element();
             Message result = currentBatch.messages.get(currentMessageIndex);
             currentMessageIndex++;
             if (currentMessageIndex >= currentBatch.messages.size()) {
-                logger.info("Batch is read. signalling core reader impl");
+                logger.debug("Batch is read. signalling core reader impl");
                 batchesInQueue.remove();
                 currentMessageIndex = 0;
                 currentBatch.future.complete(null);
@@ -95,7 +95,6 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     protected CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-        logger.info("handleDataReceivedEvent called");
         // Completes when all messages from this event are read by user
         final CompletableFuture<Void> resultFuture = new CompletableFuture<>();
 
@@ -106,10 +105,10 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
         synchronized (batchesInQueue) {
             if (batchesInQueue.isEmpty()) {
-                logger.info("Putting a message and notifying in case receive method is waiting");
+                logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
                 batchesInQueue.notify();
             } else {
-                logger.info("Just putting a message and notifying in case receive method is waiting");
+                logger.info("Just putting a message batch into queue");
             }
             batchesInQueue.add(new MessageBatchWrapper(event.getMessages(), resultFuture));
         }
