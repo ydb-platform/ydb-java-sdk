@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - develop
+      - release*
   pull_request:
       type: [opened, reopened, edited]
 

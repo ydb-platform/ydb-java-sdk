@@ -1,3 +1,15 @@
+## 2.1.5 ##
+
+* GrpcTransport: Added async initialization
+* GrpcTransport: Increased default timeout of the initialization waiting
+* Topics: Added partitionId to StopPartitionSessionEvent
+* Topics: Fixed a bug where Writer could end up receiving errors from server in a loop on restarts.
+* Topics: Fixed a bug where not all errors were retried by Readers and Writers
+* Topics: SyncReader refactored which also fixed possible memory leaks in it
+* Topics: Fixed a bug where Writer.init future was not completed on shutdown
+* Topics: Fixed a bug where Readers and Writers were not shutdown after closing transport they were using
+* Topics: AsyncReader is now shutdown on any unhandled exception in user callback
+
 ## 2.1.4 ##
 
 * Fixed partition session graceful shutdown

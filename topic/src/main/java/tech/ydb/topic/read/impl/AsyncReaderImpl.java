@@ -5,6 +5,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import javax.annotation.Nullable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +59,15 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-        return CompletableFuture.runAsync(() -> eventHandler.onMessages(event), handlerExecutor);
+        return CompletableFuture.runAsync(() -> {
+            try {
+                eventHandler.onMessages(event);
+            } catch (Exception exception) {
+                String errorMessage = "Error in user DataReceivedEvent callback: " + exception;
+                logger.error(errorMessage);
+                shutdownImpl(errorMessage);
+            }
+        }, handlerExecutor);
     }
 
     @Override
@@ -79,11 +89,13 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
+    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
+                                              @Nullable Long partitionId) {
         final long partitionSessionId = request.getPartitionSessionId();
         final long committedOffset = request.getCommittedOffset();
         final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(
                 partitionSessionId,
+                partitionId,
                 committedOffset,
                 () -> sendStopPartitionSessionResponse(partitionSessionId)
         );

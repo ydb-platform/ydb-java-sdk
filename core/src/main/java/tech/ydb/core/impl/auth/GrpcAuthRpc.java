@@ -2,10 +2,10 @@ package tech.ydb.core.impl.auth;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.impl.BaseGrpcTransport;
 import tech.ydb.core.impl.FixedCallOptionsTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -16,28 +16,31 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
  */
 public class GrpcAuthRpc {
     private final List<EndpointRecord> endpoints;
-    private final BaseGrpcTransport parent;
+    private final ScheduledExecutorService scheduler;
+    private final String database;
     private final ManagedChannelFactory channelFactory;
     private final AtomicInteger endpointIdx = new AtomicInteger(0);
 
     public GrpcAuthRpc(
             List<EndpointRecord> endpoints,
-            BaseGrpcTransport parent,
+            ScheduledExecutorService scheduler,
+            String database,
             ManagedChannelFactory channelFactory) {
         if (endpoints == null || endpoints.isEmpty()) {
             throw new IllegalStateException("Empty endpoints list for auth rpc");
         }
         this.endpoints = endpoints;
-        this.parent = parent;
+        this.scheduler = scheduler;
+        this.database = database;
         this.channelFactory = channelFactory;
     }
 
     public ExecutorService getExecutor() {
-        return parent.getScheduler();
+        return scheduler;
     }
 
     public String getDatabase() {
-        return parent.getDatabase();
+        return database;
     }
 
     public void changeEndpoint() {
@@ -54,9 +57,9 @@ public class GrpcAuthRpc {
     public GrpcTransport createTransport() {
         // For auth provider we use transport without auth (with default CallOptions)
         return new FixedCallOptionsTransport(
-                parent.getScheduler(),
+                scheduler,
                 new AuthCallOptions(),
-                parent.getDatabase(),
+                database,
                 endpoints.get(endpointIdx.get()),
                 channelFactory
         );
