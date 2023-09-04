@@ -76,8 +76,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     public void init() {
-
         periodicDiscoveryTask.start();
+    }
+
+    public void initAsync(Runnable readyWatcher) {
+        periodicDiscoveryTask.startAsync(readyWatcher);
     }
 
     static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {

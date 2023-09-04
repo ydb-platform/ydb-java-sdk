@@ -73,6 +73,18 @@ public class PeriodicDiscoveryTask implements Runnable {
         logger.info("Discovery is finished");
     }
 
+    public void startAsync(Runnable readyWatcher) {
+        scheduler.execute(() -> {
+            logger.info("Waiting for init discovery...");
+            runDiscovery();
+            state.waitReady(waitingTimeoutMillis);
+            logger.info("Discovery is finished");
+            if (readyWatcher != null) {
+                readyWatcher.run();
+            }
+        });
+    }
+
     @Override
     public void run() {
         if (state.stopped) {
