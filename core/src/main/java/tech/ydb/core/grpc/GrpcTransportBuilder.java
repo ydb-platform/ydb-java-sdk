@@ -288,4 +288,10 @@ public class GrpcTransportBuilder {
             throw ex;
         }
     }
+
+    public GrpcTransport buildAsync(Runnable ready) {
+        YdbTransportImpl impl = new YdbTransportImpl(this);
+        impl.initAsync(ready);
+        return impl;
+    }
 }
