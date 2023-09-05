@@ -130,16 +130,16 @@ public class SessionPool implements AutoCloseable {
     }
 
     private boolean validateSession(ClosableSession session, CompletableFuture<Result<Session>> future) {
-        if (future.isDone()) {
-            logger.debug("session future already canceled, return session to the pool");
-            queue.release(session);
-            return true;
-        }
-
         if (session.state().switchToActive(clock.instant())) {
             logger.debug("session {} accepted", session.getId());
-            stats.acquired.increment();
-            future.complete(Result.success(session));
+            if (future.complete(Result.success(session))) {
+                stats.acquired.increment();
+            } else {
+                // Future is already completed
+                logger.debug("session future already canceled, return session to the pool");
+                session.state().switchToIdle(clock.instant());
+                queue.release(session);
+            }
             return true;
         }
 

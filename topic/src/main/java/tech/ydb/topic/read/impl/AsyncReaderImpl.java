@@ -59,7 +59,15 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-        return CompletableFuture.runAsync(() -> eventHandler.onMessages(event), handlerExecutor);
+        return CompletableFuture.runAsync(() -> {
+            try {
+                eventHandler.onMessages(event);
+            } catch (Exception exception) {
+                String errorMessage = "Error in user DataReceivedEvent callback: " + exception;
+                logger.error(errorMessage);
+                shutdownImpl(errorMessage);
+            }
+        }, handlerExecutor);
     }
 
     @Override

@@ -67,11 +67,20 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(discoveryEndpoint, balancingSettings);
 
-        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, new YdbDiscoveryHandler());
+        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(
+                scheduler,
+                discoveryRpc,
+                new YdbDiscoveryHandler(),
+                builder.getConnectTimeoutMillis() + builder.getDiscoveryTimeoutMillis()
+        );
     }
 
     public void init() {
         periodicDiscoveryTask.start();
+    }
+
+    public void initAsync(Runnable readyWatcher) {
+        periodicDiscoveryTask.startAsync(readyWatcher);
     }
 
     static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {

@@ -27,7 +27,6 @@ public class AuthCallOptions implements AutoCloseable {
         this.callOptions = CallOptions.DEFAULT;
         this.readTimeoutMillis = 0;
     }
-
     public AuthCallOptions(
             ScheduledExecutorService scheduler,
             String database,
@@ -47,13 +46,11 @@ public class AuthCallOptions implements AutoCloseable {
             options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
         }
 
-        if (transportBuilder.getReadTimeoutMillis() > 0) {
-            options = options.withDeadlineAfter(transportBuilder.getReadTimeoutMillis(), TimeUnit.MILLISECONDS);
-        }
         if (transportBuilder.getCallExecutor() != null
                 && transportBuilder.getCallExecutor() != MoreExecutors.directExecutor()) {
             options = options.withExecutor(transportBuilder.getCallExecutor());
         }
+
         if (transportBuilder.getGrpcCompression() != GrpcCompression.NO_COMPRESSION) {
             options = options.withCompression(transportBuilder.getGrpcCompression().compressor());
         }

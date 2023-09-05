@@ -347,7 +347,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     protected void onShutdown(String reason) {
         super.onShutdown(reason);
         if (!initResultFuture.isDone()) {
-            initImpl().completeExceptionally(new RuntimeException(reason));
+            initResultFuture.completeExceptionally(new RuntimeException(reason));
         }
     }
 
