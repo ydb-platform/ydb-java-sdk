@@ -132,13 +132,13 @@ public class TableQueryTest {
         ).join().getValue().getResultSetReader();
 
         Assert.assertTrue(rsr.next());
-        Assert.assertEquals(rsr.getColumn("series_id").getUint64(), 1);
-        Assert.assertEquals(rsr.getColumn("season_id").getUint64(), 1);
-        Assert.assertEquals(rsr.getColumn("title").getText(), "But I flew too high");
+        Assert.assertEquals(1, rsr.getColumn("series_id").getUint64());
+        Assert.assertEquals(1, rsr.getColumn("season_id").getUint64());
+        Assert.assertEquals("But I flew too high", rsr.getColumn("title").getText());
         Assert.assertTrue(rsr.next());
-        Assert.assertEquals(rsr.getColumn("series_id").getUint64(), 2);
-        Assert.assertEquals(rsr.getColumn("season_id").getUint64(), 3);
-        Assert.assertEquals(rsr.getColumn("title").getText(), "Though my mind could think, I still was a mad man");
+        Assert.assertEquals(2, rsr.getColumn("series_id").getUint64());
+        Assert.assertEquals(3, rsr.getColumn("season_id").getUint64());
+        Assert.assertEquals("Though my mind could think, I still was a mad man", rsr.getColumn("title").getText());
         Assert.assertFalse(rsr.next());
     }
 
@@ -147,18 +147,14 @@ public class TableQueryTest {
      */
     @Test
     public void testReadRowsEmptyKeys() {
-        try {
-            CTX.supplyResult(session ->
-                    session.readRows(getPath("series"),
-                            ReadRowsSettings.newBuilder()
-                                    .addColumns("series_id", "title")
-                                    .build()
-                    )
-            ).join().getValue();
-            Assert.fail("Empty list of keys should provoke exception.");
-        } catch (UnexpectedResultException e) {
-            Assert.assertEquals(e.getStatus().getCode(), StatusCode.BAD_REQUEST);
-        }
+        final StatusCode responseStatusCode = CTX.supplyResult(session ->
+                session.readRows(getPath("series"),
+                        ReadRowsSettings.newBuilder()
+                                .addColumns("series_id", "title")
+                                .build()
+                )
+        ).join().getStatus().getCode();
+        Assert.assertEquals(StatusCode.BAD_REQUEST, responseStatusCode);
     }
 
     /**
@@ -177,12 +173,12 @@ public class TableQueryTest {
 
         Assert.assertTrue(rsr.next());
         Assert.assertEquals(rsr.getColumn("series_id").getUint64(), 1);
-        Assert.assertEquals(rsr.getColumn("title").getText(), "Once I rose above the noise and confusion");
-        Assert.assertEquals(rsr.getColumn("series_info").getText(), "Carry on my wayward son");
+        Assert.assertEquals("Once I rose above the noise and confusion", rsr.getColumn("title").getText());
+        Assert.assertEquals("Carry on my wayward son", rsr.getColumn("series_info").getText());
         Assert.assertTrue(rsr.next());
         Assert.assertEquals(rsr.getColumn("series_id").getUint64(), 2);
-        Assert.assertEquals(rsr.getColumn("title").getText(), "There'll be peace when you are done");
-        Assert.assertEquals(rsr.getColumn("series_info").getText(), "Lay your weary head to rest");
+        Assert.assertEquals("There'll be peace when you are done", rsr.getColumn("title").getText());
+        Assert.assertEquals("Lay your weary head to rest", rsr.getColumn("series_info").getText());
         Assert.assertFalse(rsr.next());
     }
 
@@ -193,11 +189,6 @@ public class TableQueryTest {
 
     @Test(expected = NullPointerException.class)
     public void testReadRowsNullKeys() {
-        try {
-            ReadRowsSettings.newBuilder().addKey(null).addKey(null).build();
-            Assert.fail("Null instead of list of keys should provoke exception.");
-        } catch (UnexpectedResultException e) {
-            Assert.assertEquals(e.getStatus().getCode(), StatusCode.BAD_REQUEST);
-        }
+        ReadRowsSettings.newBuilder().addKey(null).addKey(null).build();
     }
 }
