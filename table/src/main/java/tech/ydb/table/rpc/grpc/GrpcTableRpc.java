@@ -7,8 +7,10 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusExtractor;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -49,6 +51,8 @@ import tech.ydb.proto.table.YdbTable.KeepAliveResult;
 import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
 import tech.ydb.proto.table.YdbTable.PrepareDataQueryResponse;
 import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
+import tech.ydb.proto.table.YdbTable.ReadRowsRequest;
+import tech.ydb.proto.table.YdbTable.ReadRowsResponse;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.proto.table.v1.TableServiceGrpc;
@@ -61,6 +65,9 @@ import tech.ydb.table.rpc.TableRpc;
 public final class GrpcTableRpc implements TableRpc {
     private final GrpcTransport transport;
     private final boolean transportOwned;
+
+    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = new StatusExtractor<>(
+        ReadRowsResponse::getStatus, ReadRowsResponse::getIssuesList);
 
     private GrpcTableRpc(GrpcTransport transport, boolean transportOwned) {
         this.transport = transport;
@@ -178,6 +185,14 @@ public final class GrpcTableRpc implements TableRpc {
                 .thenApply(OperationManager.syncResultUnwrapper(
                         ExecuteDataQueryResponse::getOperation, ExecuteQueryResult.class
                 ));
+    }
+
+    @Override
+    public CompletableFuture<Result<ReadRowsResponse>> readRows(ReadRowsRequest request,
+                                                                     GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getReadRowsMethod(), settings, request)
+                .thenApply(READ_ROWS);
     }
 
     @Override

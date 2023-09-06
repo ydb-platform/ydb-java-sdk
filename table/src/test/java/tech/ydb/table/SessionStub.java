@@ -1,5 +1,8 @@
 package tech.ydb.table;
 
+import java.sql.ResultSet;
+import java.time.Duration;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -12,6 +15,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
@@ -29,11 +33,13 @@ import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.StructValue;
 
 
 /**
@@ -93,6 +99,11 @@ public class SessionStub implements Session {
         String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings)
     {
         return notImplemented("executeDataQuery()");
+    }
+
+    @Override
+    public CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings) {
+        return notImplemented("readRows()");
     }
 
     @Override

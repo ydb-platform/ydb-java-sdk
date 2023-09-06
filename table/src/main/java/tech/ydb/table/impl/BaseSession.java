@@ -31,6 +31,7 @@ import tech.ydb.core.operation.OperationUtils;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.ValueProtos;
+import tech.ydb.proto.ValueProtos.TypedValue;
 import tech.ydb.proto.common.CommonProtos;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.Session;
@@ -45,6 +46,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.impl.ProtoValueReaders;
@@ -69,6 +71,7 @@ import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PartitioningPolicy;
 import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
 import tech.ydb.table.settings.RollbackTxSettings;
@@ -76,11 +79,14 @@ import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
+import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
+
 
 
 /**
@@ -631,6 +637,24 @@ public abstract class BaseSession implements Session {
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map(DataQueryResult::new));
+    }
+
+    @Override
+    public CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings) {
+        YdbTable.ReadRowsRequest.Builder requestBuilder = YdbTable.ReadRowsRequest.newBuilder()
+                .setSessionId(id)
+                .setPath(pathToTable)
+                .addAllColumns(settings.getColumns())
+                .setKeys(settings.getKeys().isEmpty() ? TypedValue.newBuilder().build() :
+                    ValueProtos.TypedValue.newBuilder()
+                            .setType(ListType.of(settings.getKeys().get(0).getType()).toPb())
+                            .setValue(ValueProtos.Value.newBuilder()
+                                    .addAllItems(settings.getKeys().stream().map(StructValue::toPb)
+                                            .collect(Collectors.toList())))
+                            .build());
+        return interceptResult(
+                tableRpc.readRows(requestBuilder.build(), makeGrpcRequestSettings(settings.getRequestTimeout())))
+                .thenApply(result -> result.map(ReadRowsResult::new));
     }
 
     CompletableFuture<Result<DataQueryResult>> executePreparedDataQuery(String queryId, @Nullable String queryText,

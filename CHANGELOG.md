@@ -2,6 +2,7 @@
 
 * Added export module
 * Operation manager
+* Added readRows operation in table service
 
 ## 2.1.5 ##
 
