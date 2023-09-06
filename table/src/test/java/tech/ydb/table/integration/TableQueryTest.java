@@ -6,6 +6,8 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
@@ -145,14 +147,18 @@ public class TableQueryTest {
      */
     @Test
     public void testReadRowsEmptyKeys() {
-        final ResultSetReader rsr = CTX.supplyResult(session ->
-                session.readRows(getPath("series"),
-                        ReadRowsSettings.newBuilder()
-                                .addColumns("series_id", "title")
-                                .build()
-                )
-        ).join().getValue().getResultSetReader();
-        Assert.assertFalse(rsr.next());
+        try {
+            CTX.supplyResult(session ->
+                    session.readRows(getPath("series"),
+                            ReadRowsSettings.newBuilder()
+                                    .addColumns("series_id", "title")
+                                    .build()
+                    )
+            ).join().getValue();
+            Assert.fail("Empty list of keys should provoke exception.");
+        } catch (UnexpectedResultException e) {
+            Assert.assertEquals(e.getStatus().getCode(), StatusCode.BAD_REQUEST);
+        }
     }
 
     /**
@@ -187,6 +193,11 @@ public class TableQueryTest {
 
     @Test(expected = NullPointerException.class)
     public void testReadRowsNullKeys() {
-        ReadRowsSettings.newBuilder().addKey(null).addKey(null).build();
+        try {
+            ReadRowsSettings.newBuilder().addKey(null).addKey(null).build();
+            Assert.fail("Null instead of list of keys should provoke exception.");
+        } catch (UnexpectedResultException e) {
+            Assert.assertEquals(e.getStatus().getCode(), StatusCode.BAD_REQUEST);
+        }
     }
 }
