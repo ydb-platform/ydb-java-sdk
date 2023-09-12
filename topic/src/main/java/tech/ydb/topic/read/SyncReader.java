@@ -40,6 +40,8 @@ public interface SyncReader {
      */
     Message receive() throws InterruptedException;
 
+    DeferredCommitter createDeferredCommitter();
+
     /**
      * Stops internal threads and makes cleanup in background. Blocking
      */

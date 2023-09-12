@@ -43,7 +43,7 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     // Total size to request with next ReadRequest.
     // Used to group several ReadResponses in one on high rps
     private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
-    private final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
+    protected final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
     private CompletableFuture<Void> initResultFuture = new CompletableFuture<>();

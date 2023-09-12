@@ -58,6 +58,7 @@ public class MessageImpl implements Message {
         return seqNo;
     }
 
+    @Override
     public long getCommitOffsetFrom() {
         return commitOffsetFrom;
     }

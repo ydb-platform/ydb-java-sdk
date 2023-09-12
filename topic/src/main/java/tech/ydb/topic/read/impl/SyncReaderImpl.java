@@ -2,11 +2,14 @@ package tech.ydb.topic.read.impl;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
@@ -15,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
@@ -106,6 +110,13 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             result = receive(POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
         } while (result == null);
         return result;
+    }
+
+    @Override
+    public DeferredCommitter createDeferredCommitter() {
+        Map<Long, Function<OffsetsRange, CompletableFuture<Void>>> commitFunctions = new HashMap<>();
+        partitionSessions.forEach((id, partitionSession) -> commitFunctions.put(id, partitionSession::commitOffset));
+        return new DeferredCommitterImpl(commitFunctions);
     }
 
     @Override

@@ -22,6 +22,11 @@ public interface Message {
     long getOffset();
 
     /**
+     * @return Message commitOffsetFrom
+     */
+    long getCommitOffsetFrom();
+
+    /**
      * @return Message seqNo
      */
     long getSeqNo();
