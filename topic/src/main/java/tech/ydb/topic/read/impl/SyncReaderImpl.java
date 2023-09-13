@@ -2,14 +2,11 @@ package tech.ydb.topic.read.impl;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 import javax.annotation.Nullable;
 
@@ -114,9 +111,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     public DeferredCommitter createDeferredCommitter() {
-        Map<Long, Function<OffsetsRange, CompletableFuture<Void>>> commitFunctions = new HashMap<>();
-        partitionSessions.forEach((id, partitionSession) -> commitFunctions.put(id, partitionSession::commitOffset));
-        return new DeferredCommitterImpl(commitFunctions);
+        return new DeferredCommitterImpl(this::commitOffset);
     }
 
     @Override

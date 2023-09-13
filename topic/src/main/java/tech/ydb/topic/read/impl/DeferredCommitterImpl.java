@@ -5,62 +5,67 @@ import tech.ydb.topic.read.Message;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.function.BiFunction;
 
 public class DeferredCommitterImpl implements DeferredCommitter {
-    private final Map<Long, Function<OffsetsRange, CompletableFuture<Void>>> commitFunctions;
-    private final Set<Message> messages = new HashSet<>();
+    private final BiFunction<Long, OffsetsRange, CompletableFuture<Void>> commitFunction;
+    private final Map<Long, SortedSet<Message>> messages = new HashMap<>();
 
-    DeferredCommitterImpl(Map<Long, Function<OffsetsRange, CompletableFuture<Void>>> commitFunctions) {
-        this.commitFunctions = commitFunctions;
+    DeferredCommitterImpl(BiFunction<Long, OffsetsRange, CompletableFuture<Void>> commitFunction) {
+        this.commitFunction = commitFunction;
     }
 
     @Override
     public synchronized void add(Message message) {
-        messages.add(message);
+        messages.computeIfAbsent(
+                message.getPartitionSession().getId(),
+                ignore -> new TreeSet<>(Comparator.comparingLong(Message::getOffset))
+        ).add(message);
     }
 
     @Override
-    public synchronized CompletableFuture<Void> commit(long partitionId) {
-        Map<Long, List<Message>> messagesToCommit = messages.stream()
-                .filter(message -> message.getPartitionSession().getPartitionId() == partitionId)
-                .sorted(Comparator.comparingLong(Message::getOffset))
-                .collect(Collectors.groupingBy(message -> message.getPartitionSession().getId()));
-
+    public synchronized CompletableFuture<Void> commit() {
         return CompletableFuture.allOf(
-                messagesToCommit.entrySet().stream()
-                        .flatMap(entry -> commitOnePartitionSession(entry.getKey(), entry.getValue()).stream())
+                messages.entrySet().stream()
+                        .flatMap(entry -> commitOnePartitionSession(
+                                entry.getKey(),
+                                new ArrayList<>(entry.getValue())
+                        ).stream())
                         .toArray(CompletableFuture<?>[]::new)
         );
     }
 
-    private List<CompletableFuture<Void>> commitOnePartitionSession(long partitionSessionId, List<Message> messagesToCommit) {
+    private List<CompletableFuture<Void>> commitOnePartitionSession(
+            long partitionSessionId,
+            List<Message> messagesToCommit
+    ) {
         List<CompletableFuture<Void>> commitFutures = new ArrayList<>();
         int startIntervalIndex = 0;
         while (startIntervalIndex < messagesToCommit.size()) {
             int endIntervalIndex = getIntervalEnd(messagesToCommit, startIntervalIndex);
             commitFutures.add(
-                    commitFunctions.get(partitionSessionId).apply(new OffsetsRange(
+                    commitFunction.apply(partitionSessionId, new OffsetsRange(
                             messagesToCommit.get(startIntervalIndex).getCommitOffsetFrom(),
                             messagesToCommit.get(endIntervalIndex).getOffset() + 1
                     ))
             );
             startIntervalIndex = endIntervalIndex + 1;
         }
-        messagesToCommit.forEach(messages::remove);
+        messages.remove(partitionSessionId);
         return commitFutures;
     }
 
     private static int getIntervalEnd(List<Message> messagesToCommit, int startIntervalIndex) {
         int endIntervalIndex = startIntervalIndex;
         while (endIntervalIndex < messagesToCommit.size() - 1) {
-            if (messagesToCommit.get(endIntervalIndex + 1).getCommitOffsetFrom() == messagesToCommit.get(endIntervalIndex).getCommitOffsetFrom() + 1) {
+            if (messagesToCommit.get(endIntervalIndex + 1).getCommitOffsetFrom() ==
+                    messagesToCommit.get(endIntervalIndex).getCommitOffsetFrom() + 1) {
                 endIntervalIndex++;
             } else {
                 break;

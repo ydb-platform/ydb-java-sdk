@@ -3,8 +3,10 @@ package tech.ydb.topic.read.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -43,10 +45,11 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     // Total size to request with next ReadRequest.
     // Used to group several ReadResponses in one on high rps
     private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
-    protected final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
+    private final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
     private CompletableFuture<Void> initResultFuture = new CompletableFuture<>();
+    private final Map< Long, NavigableMap<Long, CompletableFuture<Void>>> commitFutures = new ConcurrentHashMap<>();
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         super(topicRpc.getScheduler());
@@ -240,6 +243,14 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
                 logger.debug("[{}] Received CommitOffsetResponse for closed partition session with id={}", id,
                         partitionCommittedOffset.getPartitionSessionId());
             }
+            NavigableMap<Long, CompletableFuture<Void>> futuresForPartitionSessionId =
+                    commitFutures.get(partitionCommittedOffset.getPartitionSessionId());
+            if (futuresForPartitionSessionId != null) {
+                Map<Long, CompletableFuture<Void>> futuresToComplete =
+                        futuresForPartitionSessionId.headMap(partitionCommittedOffset.getCommittedOffset(), true);
+                futuresToComplete.values().forEach(future -> future.complete(null));
+                futuresToComplete.clear();
+            }
         }
     }
 
@@ -275,17 +286,23 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     protected abstract void handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession);
     protected abstract void handleCloseReader();
 
-    private void commitOffset(long partitionId, OffsetsRange offsets) {
+    protected CompletableFuture<Void> commitOffset(long partitionSessionId, OffsetsRange offsets) {
+        CompletableFuture<Void> resultFuture = new CompletableFuture<>();
+        commitFutures.computeIfAbsent(
+                partitionSessionId,
+                ignore -> new ConcurrentSkipListMap<>()
+        ).put(offsets.getEnd(), resultFuture);
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setCommitOffsetRequest(YdbTopic.StreamReadMessage.CommitOffsetRequest.newBuilder()
                         .addCommitOffsets(
                                 YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset.newBuilder()
-                                        .setPartitionSessionId(partitionId)
+                                        .setPartitionSessionId(partitionSessionId)
                                         .addOffsets(YdbTopic.OffsetsRange.newBuilder()
                                                 .setStart(offsets.getStart())
                                                 .setEnd(offsets.getEnd()))
                         ))
                 .build());
+        return resultFuture;
     }
 
     @Override
@@ -305,6 +322,9 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
         if (!initResultFuture.isDone()) {
             initResultFuture.completeExceptionally(new RuntimeException(reason));
         }
+        commitFutures.values().forEach(futures -> futures.values().forEach(f -> f.completeExceptionally(
+                new RuntimeException("Read session is stopped. Closing all current Partition sessions..."))
+        ));
         closePartitionSessions();
         handleCloseReader();
         if (defaultDecompressionExecutorService != null) {

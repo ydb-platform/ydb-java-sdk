@@ -170,7 +170,7 @@ public class PartitionSession {
         return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 
-    public CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
+    private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
         synchronized (commitFutures) {
             if (isWorking.get()) {
