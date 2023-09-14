@@ -1,5 +1,6 @@
 package tech.ydb.topic.impl;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -21,6 +22,8 @@ public abstract class GrpcStreamRetrier {
     private static final int EXP_BACKOFF_BASE_MS = 256;
     private static final int EXP_BACKOFF_CEILING_MS = 40000; // 40 sec (max delays would be 40-80 sec)
     private static final int EXP_BACKOFF_MAX_POWER = 7;
+
+    protected final String id;
     protected final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final ScheduledExecutorService scheduler;
@@ -28,6 +31,7 @@ public abstract class GrpcStreamRetrier {
 
     protected GrpcStreamRetrier(ScheduledExecutorService scheduler) {
         this.scheduler = scheduler;
+        this.id = UUID.randomUUID().toString();
     }
 
     protected abstract Logger getLogger();
@@ -40,13 +44,13 @@ public abstract class GrpcStreamRetrier {
         int currentReconnectCounter = reconnectCounter.get() + 1;
         if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
             if (isStopped.compareAndSet(false, true)) {
-                String errorMessage = "Maximum retry count (" + MAX_RECONNECT_COUNT + ") exceeded. Shutting down "
-                        + getStreamName();
+                String errorMessage = "[" + id + "] Maximum retry count (" + MAX_RECONNECT_COUNT
+                        + ") exceeded. Shutting down " + getStreamName();
                 getLogger().error(errorMessage);
                 shutdownImpl(errorMessage);
                 return;
             } else {
-                getLogger().debug("Maximum retry count ({}}) exceeded. But {} is already shut down.",
+                getLogger().debug("[{}] Maximum retry count ({}}) exceeded. But {} is already shut down.", id,
                         MAX_RECONNECT_COUNT, getStreamName());
             }
         }
@@ -57,23 +61,24 @@ public abstract class GrpcStreamRetrier {
                     : EXP_BACKOFF_CEILING_MS;
             // Add jitter
             delayMs = delayMs + ThreadLocalRandom.current().nextInt(delayMs);
-            getLogger().warn("Retry #{}. Scheduling {} reconnect in {}ms...", currentReconnectCounter, getStreamName(),
-                    delayMs);
+            getLogger().warn("[{}] Retry #{}. Scheduling {} reconnect in {}ms...", id, currentReconnectCounter,
+                    getStreamName(), delayMs);
             try {
                 scheduler.schedule(this::reconnect, delayMs, TimeUnit.MILLISECONDS);
             } catch (RejectedExecutionException exception) {
-                String errorMessage = "Couldn't schedule reconnect: scheduler is already shut down. Shutting down "
-                        + getStreamName();
+                String errorMessage = "[" + id + "] Couldn't schedule reconnect: scheduler is already shut down. " +
+                        "Shutting down " + getStreamName();
                 getLogger().error(errorMessage);
                 shutdownImpl(errorMessage);
             }
         } else {
-            getLogger().info("should reconnect {} stream, but reconnect is already in progress", getStreamName());
+            getLogger().info("[{}] should reconnect {} stream, but reconnect is already in progress", id,
+                    getStreamName());
         }
     }
 
     void reconnect() {
-        getLogger().info("{} reconnect #{} started", reconnectCounter.get(), getStreamName());
+        getLogger().info("[{}] {} reconnect #{} started", id, getStreamName(), reconnectCounter.get());
         if (!isReconnecting.compareAndSet(true, false)) {
             getLogger().warn("Couldn't reset reconnect flag. Shouldn't happen");
         }
@@ -85,8 +90,8 @@ public abstract class GrpcStreamRetrier {
     }
 
     protected CompletableFuture<Void> shutdownImpl(String reason) {
-        getLogger().info("Shutting down {}" + (reason == null || reason.isEmpty() ? "" : " with reason: " + reason),
-                getStreamName());
+        getLogger().info("[{}] Shutting down {}"
+                        + (reason == null || reason.isEmpty() ? "" : " with reason: " + reason), id, getStreamName());
         isStopped.set(true);
         return CompletableFuture.runAsync(() -> {
             onShutdown(reason);
@@ -94,28 +99,28 @@ public abstract class GrpcStreamRetrier {
     }
 
     protected void completeSession(Status status, Throwable th) {
-        getLogger().info("CompleteSession called");
+        getLogger().info("[{}] CompleteSession called", id);
         onStreamFinished();
 
         if (th != null) {
-            getLogger().error("Exception in {} stream session: ", getStreamName(), th);
+            getLogger().error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
         } else {
             if (status.isSuccess()) {
                 if (isStopped.get()) {
-                    getLogger().info("{} stream session closed successfully", getStreamName());
+                    getLogger().info("[{}] {} stream session closed successfully", id, getStreamName());
                     return;
                 } else {
-                    getLogger().warn("{} stream session was closed unexpectedly", getStreamName());
+                    getLogger().warn("[{}] {} stream session was closed unexpectedly", id, getStreamName());
                 }
             } else {
-                getLogger().warn("Error in {} stream session: {}", getStreamName(), status);
+                getLogger().warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
             }
         }
 
         if (!isStopped.get()) {
             tryScheduleReconnect();
         } else  {
-            getLogger().info(" {} is already stopped, no need to schedule reconnect", getStreamName());
+            getLogger().info("[{}] {} is already stopped, no need to schedule reconnect", id, getStreamName());
         }
     }
 }

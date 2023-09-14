@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,8 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
-    private CompletableFuture<InitResult> initResultFuture = new CompletableFuture<>();
+    private final AtomicReference<CompletableFuture<InitResult>> initResultFutureRef = new AtomicReference<>(null);
+    private final AtomicBoolean sessionInitialized = new AtomicBoolean(false);
     // Messages that are waiting for being put into sending queue due to queue overflow
     private final Queue<IncomingMessage> incomingQueue = new LinkedList<>();
     // Messages that are currently encoding
@@ -184,12 +186,8 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
 
     private void sendDataRequestIfNeeded() {
         while (true) {
-            if (isReconnecting.get()) {
-                logger.debug("[{}] Can't send data: reconnect is in progress", id);
-                return;
-            }
-            if (!initResultFuture.isDone()) {
-                logger.debug("[{}] Can't send data: init was not yet received", id);
+            if (!sessionInitialized.get()) {
+                logger.debug("[{}] Can't send data: current session is not yet initialized or has already stopped", id);
                 return;
             }
             Queue<EnqueuedMessage> messages;
@@ -212,7 +210,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                     sentMessages.addAll(messages);
                     messageSender.sendMessages(messages);
                 }
-                logger.trace("[{}] Sent {} messages to server", id, messages.size());
+                logger.debug("[{}] Sent {} messages to server", id, messages.size());
             }
             if (!writeRequestInProgress.compareAndSet(true, false)) {
                 logger.error("[{}] Couldn't turn off writeRequestInProgress. Should not happen", id);
@@ -232,10 +230,19 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     }
 
     protected CompletableFuture<InitResult> initImpl() {
-        logger.debug("[{}] initImpl started", id);
+        logger.info("[{}] initImpl called", id);
+        if (initResultFutureRef.compareAndSet(null, new CompletableFuture<>())) {
+            startSessionAndSendInitRequest();
+        } else {
+            logger.warn("[{}] Init is called on this writer more than once. Nothing is done", id);
+        }
+        return initResultFutureRef.get();
+    }
+
+    private void startSessionAndSendInitRequest() {
+        logger.debug("[{}] startSessionAndSendInitRequest started", id);
         session.start(this::processMessage).whenComplete(this::completeSession);
 
-        initResultFuture = new CompletableFuture<>();
         YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
                 .newBuilder()
                 .setPath(settings.getTopicPath());
@@ -256,7 +263,6 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
         session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
                 .setInitRequest(initRequestBuilder)
                 .build());
-        return initResultFuture;
     }
 
     // Outer future completes when message is put (or declined) into send buffer
@@ -340,20 +346,21 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
         synchronized (messageSender) {
             messageSender.setSession(session);
         }
-        initImpl();
+        startSessionAndSendInitRequest();
     }
 
     @Override
     protected void onShutdown(String reason) {
         super.onShutdown(reason);
-        if (!initResultFuture.isDone()) {
-            initResultFuture.completeExceptionally(new RuntimeException(reason));
+        if (initResultFutureRef.get() != null && !initResultFutureRef.get().isDone()) {
+            initResultFutureRef.get().completeExceptionally(new RuntimeException(reason));
         }
     }
 
     @Override
     protected void onSessionStop() {
         logger.info("[{}] Write session is stopped", id);
+        sessionInitialized.set(false);
     }
 
     private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
@@ -382,10 +389,15 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                 // TODO: remember supported codecs for further validation
                 if (!sentMessages.isEmpty()) {
                     // resending messages that haven't received acks yet
+                    logger.info("Resending {} messages that haven't received ack's yet into new session...",
+                            sentMessages.size());
                     messageSender.sendMessages(sentMessages);
                 }
             }
-            initResultFuture.complete(new InitResult(lastSeqNo));
+            if (initResultFutureRef.get() != null) {
+                initResultFutureRef.get().complete(new InitResult(lastSeqNo));
+            }
+            sessionInitialized.set(true);
             sendDataRequestIfNeeded();
         } else if (message.hasWriteResponse()) {
             List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks =
