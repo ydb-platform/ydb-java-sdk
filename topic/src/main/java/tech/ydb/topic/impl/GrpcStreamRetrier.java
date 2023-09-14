@@ -73,7 +73,7 @@ public abstract class GrpcStreamRetrier {
     }
 
     void reconnect() {
-        getLogger().info("{} reconnect #{} started", reconnectCounter.get(), getStreamName());
+        getLogger().info("{} reconnect #{} started", getStreamName(), reconnectCounter.get());
         if (!isReconnecting.compareAndSet(true, false)) {
             getLogger().warn("Couldn't reset reconnect flag. Shouldn't happen");
         }
