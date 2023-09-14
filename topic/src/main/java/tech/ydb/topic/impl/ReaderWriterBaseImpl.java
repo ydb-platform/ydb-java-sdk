@@ -1,20 +1,16 @@
 package tech.ydb.topic.impl;
 
-import java.util.UUID;
 import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author Nikolay Perfilov
  */
 public abstract class ReaderWriterBaseImpl<SessionType extends Session> extends GrpcStreamRetrier {
-
-    protected final String id;
     protected String currentSessionId = "";
     protected SessionType session;
 
     protected ReaderWriterBaseImpl(ScheduledExecutorService scheduler) {
         super(scheduler);
-        this.id = UUID.randomUUID().toString();
     }
     protected abstract void onSessionStop();
     protected abstract SessionType createNewSession();

@@ -390,6 +390,8 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                 // TODO: remember supported codecs for further validation
                 if (!sentMessages.isEmpty()) {
                     // resending messages that haven't received acks yet
+                    logger.info("Resending {} messages that haven't received ack's yet into new session...",
+                            sentMessages.size());
                     messageSender.sendMessages(sentMessages);
                 }
             }
