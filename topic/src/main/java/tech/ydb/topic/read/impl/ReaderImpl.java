@@ -8,7 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
 
@@ -46,7 +48,8 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     private final Map<Long, PartitionSession> partitionSessions = new ConcurrentHashMap<>();
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
-    private CompletableFuture<Void> initResultFuture = new CompletableFuture<>();
+    private final AtomicReference<CompletableFuture<Void>> initResultFutureRef = new AtomicReference<>(null);
+    private final AtomicBoolean sessionInitialized = new AtomicBoolean(false);
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         super(topicRpc.getScheduler());
@@ -87,10 +90,19 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     }
 
     protected CompletableFuture<Void> initImpl() {
-        logger.debug("[{}] initImpl started", id);
+        logger.info("[{}] initImpl called", id);
+        if (initResultFutureRef.compareAndSet(null, new CompletableFuture<>())) {
+            startSessionAndSendInitRequest();
+        } else {
+            logger.warn("Init is called on this reader more than once. Nothing is done");
+        }
+        return initResultFutureRef.get();
+    }
+
+    private void startSessionAndSendInitRequest() {
+        logger.debug("[{}] startSessionAndCallInitRequest started", id);
         session.start(this::processMessage).whenComplete(this::completeSession);
 
-        initResultFuture = new CompletableFuture<>();
         YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
                 .newBuilder()
                 .setConsumer(settings.getConsumerName());
@@ -118,7 +130,6 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
         session.send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setInitRequest(initRequestBuilder)
                 .build());
-        return initResultFuture;
     }
 
     private void sendReadRequest() {
@@ -214,7 +225,7 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
                     boolean needToSendDataRequest = false;
                     synchronized (sizeBytesAcquired) {
                         long newAcquiredSize = sizeBytesAcquired.addAndGet(-responseBytesSize);
-                        if (isReconnecting.get()) {
+                        if (!sessionInitialized.get()) {
                             logger.trace("[{}] Finished handling ReadResponse of {} bytes. Reconnect is in progress" +
                                     " -- no need to send ReadRequest", id, responseBytesSize);
                         } else {
@@ -296,14 +307,14 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     @Override
     protected void onStreamReconnect() {
         super.onStreamReconnect(); // Create new session
-        initImpl();
+        startSessionAndSendInitRequest();
     }
 
     @Override
     protected void onShutdown(String reason) {
         super.onShutdown(reason);
-        if (!initResultFuture.isDone()) {
-            initResultFuture.completeExceptionally(new RuntimeException(reason));
+        if (initResultFutureRef.get() != null && !initResultFutureRef.get().isDone()) {
+            initResultFutureRef.get().completeExceptionally(new RuntimeException(reason));
         }
         closePartitionSessions();
         handleCloseReader();
@@ -315,6 +326,7 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     @Override
     protected void onSessionStop() {
         logger.info("[{}] Read session is stopped. Closing all current Partition sessions...", id);
+        sessionInitialized.set(false);
         closePartitionSessions();
     }
 
@@ -342,14 +354,20 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
 
         if (message.hasInitResponse()) {
             currentSessionId = message.getInitResponse().getSessionId();
-            initResultFuture.complete(null);
+
+            if (initResultFutureRef.get() != null) {
+                // do not send InitRequest more than once
+                initResultFutureRef.get().complete(null);
+            }
             synchronized (sizeBytesAcquired) {
+                sessionInitialized.set(true);
                 long bytesAvailable = settings.getMaxMemoryUsageBytes() - sizeBytesAcquired.get();
                 sizeBytesToRequest.addAndGet(bytesAvailable);
                 logger.info("[{}] Session {} initialized. Requesting available {} bytes...", id, currentSessionId,
                         bytesAvailable);
             }
             sendReadRequest();
+
         } else if (message.hasStartPartitionSessionRequest()) {
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request = message.getStartPartitionSessionRequest();
             logger.info("[{}] Received StartPartitionSessionRequest: partition session {} (partition {})", id,
