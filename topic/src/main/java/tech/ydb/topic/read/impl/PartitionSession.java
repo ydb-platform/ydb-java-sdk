@@ -286,6 +286,10 @@ public class PartitionSession {
             commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session " + id +
                     " (partition " + partitionId + ") for " + path + " is closed")));
         }
+        synchronized (decodingBatches) {
+            decodingBatches.forEach(Batch::complete);
+            readingQueue.forEach(Batch::complete);
+        }
     }
 
     /**

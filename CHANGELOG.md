@@ -1,3 +1,8 @@
+## 2.1.6 ##
+
+* Topics: Fixed a bug where topic writer / reader init() future was not completed under certain conditions
+* Topics: Memory usage is now managed in topic reader within each session separately
+
 ## 2.1.5 ##
 
 * GrpcTransport: Added async initialization
