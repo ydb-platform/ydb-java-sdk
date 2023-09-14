@@ -100,7 +100,7 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
     }
 
     private void startSessionAndSendInitRequest() {
-        logger.debug("[{}] startSessionAndCallInitRequest started", id);
+        logger.debug("[{}] startSessionAndSendInitRequest started", id);
         session.start(this::processMessage).whenComplete(this::completeSession);
 
         YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
