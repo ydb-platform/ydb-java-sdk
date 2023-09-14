@@ -94,7 +94,7 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
         if (initResultFutureRef.compareAndSet(null, new CompletableFuture<>())) {
             startSessionAndSendInitRequest();
         } else {
-            logger.warn("Init is called on this reader more than once. Nothing is done");
+            logger.warn("[{}] Init is called on this reader more than once. Nothing is done", id);
         }
         return initResultFutureRef.get();
     }
@@ -356,7 +356,6 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
             currentSessionId = message.getInitResponse().getSessionId();
 
             if (initResultFutureRef.get() != null) {
-                // do not send InitRequest more than once
                 initResultFutureRef.get().complete(null);
             }
             synchronized (sizeBytesAcquired) {
@@ -367,7 +366,6 @@ public abstract class ReaderImpl extends ReaderWriterBaseImpl<ReadSession> {
                         bytesAvailable);
             }
             sendReadRequest();
-
         } else if (message.hasStartPartitionSessionRequest()) {
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request = message.getStartPartitionSessionRequest();
             logger.info("[{}] Received StartPartitionSessionRequest: partition session {} (partition {})", id,

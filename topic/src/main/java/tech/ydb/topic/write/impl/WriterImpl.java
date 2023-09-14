@@ -232,10 +232,9 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     protected CompletableFuture<InitResult> initImpl() {
         logger.info("[{}] initImpl called", id);
         if (initResultFutureRef.compareAndSet(null, new CompletableFuture<>())) {
-            // do not send InitRequest more than once
             startSessionAndSendInitRequest();
         } else {
-            logger.warn("Init is called on this writer more than once. Nothing is done");
+            logger.warn("[{}] Init is called on this writer more than once. Nothing is done", id);
         }
         return initResultFutureRef.get();
     }
