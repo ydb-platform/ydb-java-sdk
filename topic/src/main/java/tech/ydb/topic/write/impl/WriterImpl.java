@@ -210,7 +210,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                 synchronized (messageSender) {
                     messageSender.sendMessages(messages);
                 }
-                logger.trace("[{}] Sent {} messages to server", id, messages.size());
+                logger.debug("[{}] Sent {} messages to server", id, messages.size());
             }
             if (!writeRequestInProgress.compareAndSet(true, false)) {
                 logger.error("[{}] Couldn't turn off writeRequestInProgress. Should not happen", id);
