@@ -240,7 +240,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     }
 
     private void startSessionAndSendInitRequest() {
-        logger.debug("[{}] startSessionAndCallInitRequest started", id);
+        logger.debug("[{}] startSessionAndSendInitRequest started", id);
         session.start(this::processMessage).whenComplete(this::completeSession);
 
         YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
