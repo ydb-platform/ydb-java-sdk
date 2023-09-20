@@ -12,7 +12,7 @@ import tech.ydb.topic.impl.SessionBase;
 /**
  * @author Nikolay Perfilov
  */
-public class ReadSession extends SessionBase<FromServer, FromClient> {
+public abstract class ReadSession extends SessionBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(ReadSession.class);
 
     public ReadSession(TopicRpc rpc) {

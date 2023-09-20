@@ -18,7 +18,7 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 public abstract class SessionBase<R, W> implements Session {
 
     protected final GrpcReadWriteStream<R, W> streamConnection;
-    private final AtomicBoolean isWorking = new AtomicBoolean(true);
+    protected final AtomicBoolean isWorking = new AtomicBoolean(true);
     private String token;
 
     public SessionBase(GrpcReadWriteStream<R, W> streamConnection) {
@@ -30,7 +30,9 @@ public abstract class SessionBase<R, W> implements Session {
 
     protected abstract void sendUpdateTokenRequest(String token);
 
-    public synchronized CompletableFuture<Status> start(GrpcReadStream.Observer<R> streamObserver) {
+    protected abstract void onStop();
+
+    protected synchronized CompletableFuture<Status> start(GrpcReadStream.Observer<R> streamObserver) {
         getLogger().info("Session start");
         return streamConnection.start(message -> {
             if (getLogger().isTraceEnabled()) {
@@ -67,18 +69,18 @@ public abstract class SessionBase<R, W> implements Session {
         streamConnection.sendNext(request);
     }
 
-    @Override
-    public boolean stop() {
+    private boolean stop() {
         getLogger().info("Session stop");
         return isWorking.compareAndSet(true, false);
     }
 
+
     @Override
     public synchronized void shutdown() {
         getLogger().info("Session shutdown");
-        if (!stop()) {
-            return;
+        if (stop()) {
+            onStop();
+            streamConnection.close();
         }
-        streamConnection.close();
     }
 }
