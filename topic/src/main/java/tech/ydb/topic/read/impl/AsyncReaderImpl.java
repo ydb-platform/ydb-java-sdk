@@ -4,6 +4,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
@@ -25,6 +26,7 @@ import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.StartPartitionSessionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -71,18 +73,16 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
+    protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
+                                                      PartitionSession partitionSession,
+                                                      Consumer<StartPartitionSessionSettings> confirmCallback) {
         handlerExecutor.execute(() -> {
-            YdbTopic.StreamReadMessage.PartitionSession partitionSession =  request.getPartitionSession();
             YdbTopic.OffsetsRange offsetsRange = request.getPartitionOffsets();
             StartPartitionSessionEvent event = new StartPartitionSessionEventImpl(
-                    new PartitionSession(
-                            partitionSession.getPartitionSessionId(),
-                            partitionSession.getPartitionId(),
-                            partitionSession.getPath()),
+                    partitionSession,
                     request.getCommittedOffset(),
                     new OffsetsRange(offsetsRange.getStart(), offsetsRange.getEnd()),
-                    (startSettings) -> sendStartPartitionSessionResponse(request, startSettings)
+                    confirmCallback
             );
             eventHandler.onStartPartitionSession(event);
         });
@@ -90,15 +90,11 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                              @Nullable Long partitionId) {
+                                              @Nullable Long partitionId, Runnable confirmCallback) {
         final long partitionSessionId = request.getPartitionSessionId();
         final long committedOffset = request.getCommittedOffset();
-        final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(
-                partitionSessionId,
-                partitionId,
-                committedOffset,
-                () -> sendStopPartitionSessionResponse(partitionSessionId)
-        );
+        final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(partitionSessionId, partitionId,
+                committedOffset, confirmCallback);
         handlerExecutor.execute(() -> {
             eventHandler.onStopPartitionSession(event);
         });

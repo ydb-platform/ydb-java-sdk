@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.slf4j.Logger;
@@ -21,6 +21,7 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 import tech.ydb.topic.utils.Encoder;
@@ -28,13 +29,13 @@ import tech.ydb.topic.utils.Encoder;
 /**
  * @author Nikolay Perfilov
  */
-public class PartitionSession {
-    private static final Logger logger = LoggerFactory.getLogger(PartitionSession.class);
+public class PartitionSessionImpl {
+    private static final Logger logger = LoggerFactory.getLogger(PartitionSessionImpl.class);
 
     private final long id;
     private final String path;
     private final long partitionId;
-    private final tech.ydb.topic.read.PartitionSession sessionInfo;
+    private final PartitionSession sessionInfo;
     private final OffsetsRange partitionOffsets;
     private final Executor decompressionExecutor;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
@@ -42,18 +43,18 @@ public class PartitionSession {
     private final Queue<Batch> decodingBatches = new LinkedList<>();
     private final Queue<Batch> readingQueue = new ConcurrentLinkedQueue<>();
     private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
-    private final AtomicBoolean isReadingNow = new AtomicBoolean(false);
-    private final BiConsumer<Long, OffsetsRange> commitFunction;
+    private final AtomicBoolean isReadingNow = new AtomicBoolean();
+    private final Consumer<OffsetsRange> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
     // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
 
-    private PartitionSession(Builder builder) {
+    private PartitionSessionImpl(Builder builder) {
         this.id = builder.id;
         this.path = builder.path;
         this.partitionId = builder.partitionId;
-        this.sessionInfo = new tech.ydb.topic.read.PartitionSession(id, partitionId, path);
+        this.sessionInfo = new PartitionSession(id, partitionId, path);
         this.lastReadOffset = builder.committedOffset;
         this.lastCommittedOffset = builder.committedOffset;
         this.partitionOffsets = builder.partitionOffsets;
@@ -81,7 +82,7 @@ public class PartitionSession {
         return path;
     }
 
-    public tech.ydb.topic.read.PartitionSession getSessionInfo() {
+    public PartitionSession getSessionInfo() {
         return sessionInfo;
     }
 
@@ -181,7 +182,7 @@ public class PartitionSession {
                             offsets.getStart() - lastCommittedOffset);
                 }
                 commitFutures.put(offsets.getEnd(), resultFuture);
-                commitFunction.accept(getId(), offsets);
+                commitFunction.accept(offsets);
             } else {
                 logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session {} " +
                         "(partition {}) is already closed", path, offsets.getStart(), offsets.getEnd(), id,
@@ -201,12 +202,10 @@ public class PartitionSession {
             return;
         }
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
-        if (logger.isDebugEnabled()) {
-            logger.debug("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
-                            ". Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
-                    path, id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
-                    futuresToComplete.size());
-        }
+        logger.info("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
+                        ". Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
+                path, id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
+                futuresToComplete.size());
         lastCommittedOffset = committedOffset;
         futuresToComplete.values().forEach(future -> future.complete(null));
         futuresToComplete.clear();
@@ -303,7 +302,7 @@ public class PartitionSession {
         private OffsetsRange partitionOffsets;
         private Executor decompressionExecutor;
         private Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
-        private BiConsumer<Long, OffsetsRange> commitFunction;
+        private Consumer<OffsetsRange> commitFunction;
 
         public Builder setId(long id) {
             this.id = id;
@@ -340,13 +339,13 @@ public class PartitionSession {
             return this;
         }
 
-        public Builder setCommitFunction(BiConsumer<Long, OffsetsRange> commitFunction) {
+        public Builder setCommitFunction(Consumer<OffsetsRange> commitFunction) {
             this.commitFunction = commitFunction;
             return this;
         }
 
-        public PartitionSession build() {
-            return new PartitionSession(this);
+        public PartitionSessionImpl build() {
+            return new PartitionSessionImpl(this);
         }
     }
 }
