@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -220,8 +221,14 @@ public class PartitionSessionImpl {
         }
 
         batch.getMessages().forEach(message -> {
-            message.setData(Encoder.decode(batch.getCodec(), message.getData()));
-            message.setDecompressed(true);
+            try {
+                message.setData(Encoder.decode(batch.getCodec(), message.getData()));
+                message.setDecompressed(true);
+            } catch (IOException exception) {
+                message.setException(exception);
+                logger.info("[{}] Exception was thrown while decoding a message in partition session {} " +
+                        "(partition {})", path, id, partitionId);
+            }
         });
         batch.setDecompressed(true);
 
