@@ -55,38 +55,34 @@ public class Encoder {
         return byteArrayOutputStream.toByteArray();
     }
 
-    public static byte[] decode(Codec codec, byte[] input) {
+    public static byte[] decode(Codec codec, byte[] input) throws IOException {
         if (codec == Codec.RAW) {
             return input;
         }
 
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try {
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
-            InputStream is;
-            switch (codec) {
-                case GZIP:
-                    is = new GZIPInputStream(byteArrayInputStream);
-                    break;
-                case ZSTD:
-                    is = new ZstdInputStream(byteArrayInputStream);
-                    break;
-                case LZOP:
-                    is = new LzopInputStream(byteArrayInputStream);
-                    break;
-                case CUSTOM:
-                default:
-                    throw new RuntimeException("Unsupported codec: " + codec);
-            }
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = is.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, length);
-            }
-            is.close();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
+        InputStream is;
+        switch (codec) {
+            case GZIP:
+                is = new GZIPInputStream(byteArrayInputStream);
+                break;
+            case ZSTD:
+                is = new ZstdInputStream(byteArrayInputStream);
+                break;
+            case LZOP:
+                is = new LzopInputStream(byteArrayInputStream);
+                break;
+            case CUSTOM:
+            default:
+                throw new RuntimeException("Unsupported codec: " + codec);
         }
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = is.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, length);
+        }
+        is.close();
         return byteArrayOutputStream.toByteArray();
     }
 

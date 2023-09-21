@@ -1,8 +1,11 @@
 package tech.ydb.topic.read;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+
+import javax.annotation.Nullable;
 
 import io.grpc.ExperimentalApi;
 
@@ -12,9 +15,28 @@ import io.grpc.ExperimentalApi;
 @ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface Message {
     /**
-     * @return Message byte data
+     * @return Message byte data.
+     * @throws IOException in case of decompression error. Raw data can be retrieved via getRawData() method
      */
-    byte[] getData();
+    byte[] getData() throws IOException;
+
+    /**
+     * @return Message raw byte data if it was not compressed. Return null if the message was actually decompressed
+     * Data may not be compressed in 2 cases:
+     * 1) It shouldn't be compressed due to codec settings (RAW codec)
+     * 2) There was an exception caught during decompression. Use getException method to get that exception
+     */
+    @Nullable
+    byte[] getRawData();
+
+    /**
+     * @return IOException if it was thrown during message decompression
+     * Data may not be compressed in 2 cases:
+     * 1) It shouldn't be compressed due to codec settings (RAW codec)
+     * 2) There was an exception caught during decompression. Use getException method to get that exception
+     */
+    @Nullable
+    IOException getException();
 
     /**
      * @return Message offset

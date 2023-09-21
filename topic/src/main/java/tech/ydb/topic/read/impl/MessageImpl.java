@@ -1,9 +1,12 @@
 package tech.ydb.topic.read.impl;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
+
+import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +29,7 @@ public class MessageImpl implements Message {
     private final PartitionSession partitionSession;
     private final Function<OffsetsRange, CompletableFuture<Void>> commitFunction;
     private boolean isDecompressed = false;
+    private IOException exception = null;
 
     private MessageImpl(Builder builder) {
         this.data = builder.data;
@@ -40,12 +44,35 @@ public class MessageImpl implements Message {
     }
 
     @Override
-    public byte[] getData() {
+    public byte[] getData() throws IOException {
+        if (exception != null) {
+            throw exception;
+        }
         return data;
     }
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    @Override
+    @Nullable
+    public byte[] getRawData() {
+        if (!isDecompressed || exception != null) {
+            return data;
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    @Nullable
+    public IOException getException() {
+        return exception;
+    }
+
+    public void setException(IOException exception) {
+        this.exception = exception;
     }
 
     @Override
