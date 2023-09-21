@@ -11,7 +11,7 @@ import tech.ydb.topic.impl.SessionBase;
 /**
  * @author Nikolay Perfilov
  */
-public class WriteSession extends SessionBase<FromServer, FromClient> {
+public abstract class WriteSession extends SessionBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
 
     public WriteSession(TopicRpc rpc) {

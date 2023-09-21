@@ -9,6 +9,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
@@ -21,7 +22,7 @@ import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.impl.ReaderWriterBaseImpl;
+import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
 import tech.ydb.topic.write.InitResult;
@@ -32,12 +33,13 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
+public abstract class WriterImpl extends GrpcStreamRetrier {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
+
+    private WriteSessionImpl session;
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
     private final AtomicReference<CompletableFuture<InitResult>> initResultFutureRef = new AtomicReference<>(null);
-    private final AtomicBoolean sessionInitialized = new AtomicBoolean(false);
     // Messages that are waiting for being put into sending queue due to queue overflow
     private final Queue<IncomingMessage> incomingQueue = new LinkedList<>();
     // Messages that are currently encoding
@@ -48,8 +50,10 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     private final Deque<EnqueuedMessage> sentMessages = new ConcurrentLinkedDeque<>();
     private final AtomicBoolean writeRequestInProgress = new AtomicBoolean();
     private final Executor compressionExecutor;
-    private final MessageSender messageSender;
     private final long maxSendBufferMemorySize;
+
+    // Every writing stream has a sequential number (for debug purposes)
+    private final AtomicLong seqNumberCounter = new AtomicLong(0);
 
     private Boolean isSeqNoProvided = null;
     private int currentInFlightCount = 0;
@@ -61,11 +65,10 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
         super(topicRpc.getScheduler());
         this.topicRpc = topicRpc;
         this.settings = settings;
-        this.session = new WriteSession(topicRpc);
+        this.session = new WriteSessionImpl();
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.maxSendBufferMemorySize = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
-        this.messageSender = new MessageSender(session, settings);
         String message = "Writer" +
                 " (generated id " + id + ")" +
                 " created for topic \"" + settings.getTopicPath() + "\"" +
@@ -173,7 +176,7 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                         }
                     }
                     if (haveNewMessagesToSend) {
-                        sendDataRequestIfNeeded();
+                        session.sendDataRequestIfNeeded();
                     }
                 })
                 .exceptionally((throwable) -> {
@@ -182,40 +185,6 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                     message.getFuture().completeExceptionally(throwable);
                     return null;
                 });
-    }
-
-    private void sendDataRequestIfNeeded() {
-        while (true) {
-            if (!sessionInitialized.get()) {
-                logger.debug("[{}] Can't send data: current session is not yet initialized or has already stopped", id);
-                return;
-            }
-            Queue<EnqueuedMessage> messages;
-            if (sendingQueue.isEmpty()) {
-                logger.trace("[{}] Nothing to send -- sendingQueue is empty", id);
-                return;
-            }
-            if (!writeRequestInProgress.compareAndSet(false, true)) {
-                logger.debug("[{}] Send request is already in progress", id);
-                return;
-            }
-            // This code can be run in one thread at a time due to acquiring writeRequestInProgress
-            messages = new LinkedList<>(sendingQueue);
-            // Checking second time under writeRequestInProgress "lock"
-            if (messages.isEmpty()) {
-                logger.debug("[{}] Nothing to send -- sendingQueue is empty #2", id);
-            } else {
-                sendingQueue.removeAll(messages);
-                synchronized (messageSender) {
-                    sentMessages.addAll(messages);
-                    messageSender.sendMessages(messages);
-                }
-                logger.debug("[{}] Sent {} messages to server", id, messages.size());
-            }
-            if (!writeRequestInProgress.compareAndSet(true, false)) {
-                logger.error("[{}] Couldn't turn off writeRequestInProgress. Should not happen", id);
-            }
-        }
     }
 
     private void encode(EnqueuedMessage message) {
@@ -232,37 +201,11 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     protected CompletableFuture<InitResult> initImpl() {
         logger.info("[{}] initImpl called", id);
         if (initResultFutureRef.compareAndSet(null, new CompletableFuture<>())) {
-            startSessionAndSendInitRequest();
+            session.startAndInitialize();
         } else {
             logger.warn("[{}] Init is called on this writer more than once. Nothing is done", id);
         }
         return initResultFutureRef.get();
-    }
-
-    private void startSessionAndSendInitRequest() {
-        logger.debug("[{}] startSessionAndSendInitRequest started", id);
-        session.start(this::processMessage).whenComplete(this::completeSession);
-
-        YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
-                .newBuilder()
-                .setPath(settings.getTopicPath());
-        String producerId = settings.getProducerId();
-        if (producerId != null) {
-            initRequestBuilder.setProducerId(producerId);
-        }
-        String messageGroupId = settings.getMessageGroupId();
-        Long partitionId = settings.getPartitionId();
-        if (messageGroupId != null) {
-            if (partitionId != null) {
-                throw new RuntimeException("Both MessageGroupId and PartitionId are set in WriterSettings");
-            }
-            initRequestBuilder.setMessageGroupId(messageGroupId);
-        } else if (partitionId != null) {
-            initRequestBuilder.setPartitionId(partitionId);
-        }
-        session.send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
-                .setInitRequest(initRequestBuilder)
-                .build());
     }
 
     // Outer future completes when message is put (or declined) into send buffer
@@ -336,72 +279,123 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
     }
 
     @Override
-    protected WriteSession createNewSession() {
-        return new WriteSession(topicRpc);
-    }
-
-    @Override
     protected void onStreamReconnect() {
-        super.onStreamReconnect(); // Create new session
-        synchronized (messageSender) {
-            messageSender.setSession(session);
-        }
-        startSessionAndSendInitRequest();
+        session = new WriteSessionImpl();
+        session.startAndInitialize();
     }
 
     @Override
     protected void onShutdown(String reason) {
-        super.onShutdown(reason);
+        session.shutdown();
         if (initResultFutureRef.get() != null && !initResultFutureRef.get().isDone()) {
             initResultFutureRef.get().completeExceptionally(new RuntimeException(reason));
         }
     }
 
-    @Override
-    protected void onSessionStop() {
-        logger.info("[{}] Write session is stopped", id);
-        sessionInitialized.set(false);
-    }
+    private class WriteSessionImpl extends WriteSession {
+        protected String sessionId = "";
+        private final String fullId;
+        private final MessageSender messageSender;
+        private final AtomicBoolean isInitialized = new AtomicBoolean(false);
 
-    private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
-        logger.debug("[{}] processMessage called", id);
-        if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
-            reconnectCounter.set(0);
-        } else {
-            logger.warn("[{}] Got non-success status in processMessage method: {}", id, message);
-            completeSession(Status.of(StatusCode.fromProto(message.getStatus()))
-                            .withIssues(Issue.of("Got a message with non-success status: " + message,
-                                    Issue.Severity.ERROR)), null);
-            return;
+        private WriteSessionImpl() {
+            super(topicRpc);
+            this.fullId = id + '.' + seqNumberCounter.incrementAndGet();
+            this.messageSender = new MessageSender(settings);
         }
-        if (message.hasInitResponse()) {
-            currentSessionId = message.getInitResponse().getSessionId();
-            logger.info("[{}] Session {} initialized", id, currentSessionId);
-            long lastSeqNo = message.getInitResponse().getLastSeqNo();
-            synchronized (messageSender) {
-                long realLastSeqNo = lastSeqNo;
-                // If there are messages that were already sent before reconnect but haven't received acks,
-                // their highest seqNo should also be taken in consideration when calculating next seqNo automatically
-                if (!sentMessages.isEmpty()) {
-                    realLastSeqNo = Math.max(lastSeqNo, sentMessages.getLast().getSeqNo());
+
+        public void startAndInitialize() {
+            logger.debug("[{}] Session {} startAndInitialize called", fullId, sessionId);
+            start(this::processMessage).whenComplete(this::onSessionClosing);
+
+            YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
+                    .newBuilder()
+                    .setPath(settings.getTopicPath());
+            String producerId = settings.getProducerId();
+            if (producerId != null) {
+                initRequestBuilder.setProducerId(producerId);
+            }
+            String messageGroupId = settings.getMessageGroupId();
+            Long partitionId = settings.getPartitionId();
+            if (messageGroupId != null) {
+                if (partitionId != null) {
+                    throw new IllegalArgumentException("Both MessageGroupId and PartitionId are set in WriterSettings");
                 }
-                messageSender.setSeqNo(realLastSeqNo);
-                // TODO: remember supported codecs for further validation
-                if (!sentMessages.isEmpty()) {
-                    // resending messages that haven't received acks yet
-                    logger.info("Resending {} messages that haven't received ack's yet into new session...",
-                            sentMessages.size());
-                    messageSender.sendMessages(sentMessages);
+                initRequestBuilder.setMessageGroupId(messageGroupId);
+            } else if (partitionId != null) {
+                initRequestBuilder.setPartitionId(partitionId);
+            }
+            send(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
+                    .setInitRequest(initRequestBuilder)
+                    .build());
+        }
+
+        private void sendDataRequestIfNeeded() {
+            while (true) {
+                if (!isInitialized.get()) {
+                    logger.debug("[{}] Can't send data: current session is not yet initialized",
+                            fullId);
+                    return;
                 }
+                if (!isWorking.get()) {
+                    logger.debug("[{}] Can't send data: current session has been already stopped",
+                            fullId);
+                    return;
+                }
+                Queue<EnqueuedMessage> messages;
+                if (sendingQueue.isEmpty()) {
+                    logger.trace("[{}] Nothing to send -- sendingQueue is empty", fullId);
+                    return;
+                }
+                if (!writeRequestInProgress.compareAndSet(false, true)) {
+                    logger.debug("[{}] Send request is already in progress", fullId);
+                    return;
+                }
+                // This code can be run in one thread at a time due to acquiring writeRequestInProgress
+                messages = new LinkedList<>(sendingQueue);
+                // Checking second time under writeRequestInProgress "lock"
+                if (messages.isEmpty()) {
+                    logger.debug("[{}] Nothing to send -- sendingQueue is empty #2", fullId);
+                } else {
+                    sendingQueue.removeAll(messages);
+                    sentMessages.addAll(messages);
+                    messageSender.sendMessages(messages);
+                    logger.debug("[{}] Sent {} messages to server", fullId, messages.size());
+                }
+                if (!writeRequestInProgress.compareAndSet(true, false)) {
+                    logger.error("[{}] Couldn't turn off writeRequestInProgress. Should not happen", fullId);
+                }
+            }
+        }
+
+        private void onInitResponse(YdbTopic.StreamWriteMessage.InitResponse response) {
+            sessionId = response.getSessionId();
+            logger.info("[{}] Session {} initialized", fullId, sessionId);
+            long lastSeqNo = response.getLastSeqNo();
+            long actualLastSeqNo = lastSeqNo;
+            // If there are messages that were already sent before reconnect but haven't received acks,
+            // their highest seqNo should also be taken in consideration when calculating next seqNo automatically
+            if (!sentMessages.isEmpty()) {
+                actualLastSeqNo = Math.max(lastSeqNo, sentMessages.getLast().getSeqNo());
+            }
+            messageSender.setSession(this);
+            messageSender.setSeqNo(actualLastSeqNo);
+            // TODO: remember supported codecs for further validation
+            if (!sentMessages.isEmpty()) {
+                // resending messages that haven't received acks yet
+                logger.info("Resending {} messages that haven't received ack's yet into new session...",
+                        sentMessages.size());
+                messageSender.sendMessages(sentMessages);
             }
             if (initResultFutureRef.get() != null) {
                 initResultFutureRef.get().complete(new InitResult(lastSeqNo));
             }
-            sessionInitialized.set(true);
+            isInitialized.set(true);
             sendDataRequestIfNeeded();
-        } else if (message.hasWriteResponse()) {
-            List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks =
-                    message.getWriteResponse().getAcksList();
+        }
+
+        private void onWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse response) {
+            List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks = response.getAcksList();
             int inFlightFreed = 0;
             long bytesFreed = 0;
             for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
@@ -419,8 +413,8 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                     }
                     if (sentMessage.getSeqNo() < ack.getSeqNo()) {
                         // An older message hasn't received an Ack while a newer message has
-                        logger.warn("[{}] Received an ack for seqNo {}, but the oldest seqNo waiting for ack is {}", id,
-                                ack.getSeqNo(), sentMessage.getSeqNo());
+                        logger.warn("[{}] Received an ack for seqNo {}, but the oldest seqNo waiting for ack is {}",
+                                fullId, ack.getSeqNo(), sentMessage.getSeqNo());
                         sentMessage.getFuture().completeExceptionally(
                                 new RuntimeException("Didn't get ack from server for this message"));
                         inFlightFreed++;
@@ -429,41 +423,73 @@ public abstract class WriterImpl extends ReaderWriterBaseImpl<WriteSession> {
                         // Checking next message waiting for ack
                     } else {
                         logger.info("[{}] Received an ack with seqNo {} which is older than the oldest message with " +
-                                        "seqNo {} waiting for ack", id, ack.getSeqNo(), sentMessage.getSeqNo());
+                                "seqNo {} waiting for ack", fullId, ack.getSeqNo(), sentMessage.getSeqNo());
                         break;
                     }
                 }
             }
             free(inFlightFreed, bytesFreed);
         }
-    }
 
-    private void processWriteAck(EnqueuedMessage message,
-                                 YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
-        WriteAck resultAck;
-        switch (ack.getMessageWriteStatusCase()) {
-            case WRITTEN:
-                WriteAck.Details details = new WriteAck.Details(ack.getWritten().getOffset());
-                resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details);
-                break;
-            case SKIPPED:
-                switch (ack.getSkipped().getReason()) {
-                    case REASON_ALREADY_WRITTEN:
-                        resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null);
-                        break;
-                    case REASON_UNSPECIFIED:
-                    default:
-                        message.getFuture().completeExceptionally(
-                                new RuntimeException("Unknown WriteAck skipped reason"));
-                        return;
-                }
-                break;
-
-            default:
-                message.getFuture().completeExceptionally(
-                        new RuntimeException("Unknown WriteAck state"));
+        private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
+            logger.debug("[{}] processMessage called", fullId);
+            if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
+                reconnectCounter.set(0);
+            } else {
+                logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, message);
+                onSessionClosed(Status.of(StatusCode.fromProto(message.getStatus()))
+                        .withIssues(Issue.of("Got a message with non-success status: " + message,
+                                Issue.Severity.ERROR)), null);
                 return;
+            }
+            if (message.hasInitResponse()) {
+                onInitResponse(message.getInitResponse());
+            } else if (message.hasWriteResponse()) {
+                onWriteResponse(message.getWriteResponse());
+            }
         }
-        message.getFuture().complete(resultAck);
+
+        private void processWriteAck(EnqueuedMessage message,
+                                     YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
+            WriteAck resultAck;
+            switch (ack.getMessageWriteStatusCase()) {
+                case WRITTEN:
+                    WriteAck.Details details = new WriteAck.Details(ack.getWritten().getOffset());
+                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details);
+                    break;
+                case SKIPPED:
+                    switch (ack.getSkipped().getReason()) {
+                        case REASON_ALREADY_WRITTEN:
+                            resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null);
+                            break;
+                        case REASON_UNSPECIFIED:
+                        default:
+                            message.getFuture().completeExceptionally(
+                                    new RuntimeException("Unknown WriteAck skipped reason"));
+                            return;
+                    }
+                    break;
+
+                default:
+                    message.getFuture().completeExceptionally(
+                            new RuntimeException("Unknown WriteAck state"));
+                    return;
+            }
+            message.getFuture().complete(resultAck);
+        }
+
+        private void onSessionClosing(Status status, Throwable th) {
+            logger.info("[{}] Session {} onSessionClosing called", fullId, sessionId);
+            if (isWorking.get()) {
+                shutdown();
+                // Signal writer to retry
+                onSessionClosed(status, th);
+            }
+        }
+
+        @Override
+        protected void onStop() {
+            logger.debug("[{}] Session {} onStop called", fullId, sessionId);
+        }
     }
 }
