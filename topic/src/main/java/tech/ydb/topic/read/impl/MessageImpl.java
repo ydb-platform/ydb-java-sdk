@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -8,6 +9,7 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 
@@ -26,6 +28,7 @@ public class MessageImpl implements Message {
     private final PartitionSession partitionSession;
     private final Function<OffsetsRange, CompletableFuture<Void>> commitFunction;
     private boolean isDecompressed = false;
+    private IOException exception = null;
 
     private MessageImpl(Builder builder) {
         this.data = builder.data;
@@ -41,11 +44,19 @@ public class MessageImpl implements Message {
 
     @Override
     public byte[] getData() {
+        if (exception != null) {
+            throw new DecompressionException("Error occurred while decoding a message",
+                    exception, data);
+        }
         return data;
     }
 
     public void setData(byte[] data) {
         this.data = data;
+    }
+
+    public void setException(IOException exception) {
+        this.exception = exception;
     }
 
     @Override
