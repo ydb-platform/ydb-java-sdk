@@ -33,8 +33,7 @@ public class MessageSender {
     private YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder;
     private int messageCount;
 
-    public MessageSender(WriteSession session, WriterSettings settings) {
-        this.session = session;
+    public MessageSender(WriterSettings settings) {
         this.settings = settings;
         List<Integer> overheads = calculateOverheads();
         this.messageOverheadBytes = overheads.get(0);

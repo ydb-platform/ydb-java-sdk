@@ -37,7 +37,6 @@ public abstract class GrpcStreamRetrier {
     protected abstract Logger getLogger();
     protected abstract String getStreamName();
     protected abstract void onStreamReconnect();
-    protected abstract void onStreamFinished();
     protected abstract void onShutdown(String reason);
 
     private void tryScheduleReconnect() {
@@ -98,9 +97,8 @@ public abstract class GrpcStreamRetrier {
         });
     }
 
-    protected void completeSession(Status status, Throwable th) {
-        getLogger().info("[{}] CompleteSession called", id);
-        onStreamFinished();
+    protected void onSessionClosed(Status status, Throwable th) {
+        getLogger().info("[{}] onSessionClosed called", id);
 
         if (th != null) {
             getLogger().error("[{}] Exception in {} stream session: ", id, getStreamName(), th);

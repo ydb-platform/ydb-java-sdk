@@ -12,7 +12,8 @@ import io.grpc.ExperimentalApi;
 @ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface Message {
     /**
-     * @return Message byte data
+     * @return Message byte data.
+     * @throws DecompressionException in case of decompression error. Raw data can be retrieved this exception
      */
     byte[] getData();
 
