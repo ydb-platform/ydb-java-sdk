@@ -13,6 +13,9 @@ public class DecompressionException extends UncheckedIOException {
         this.rawData = rawData;
     }
 
+    /**
+     * @return Raw message byte data that failed be decompressed
+     */
     public byte[] getRawData() {
         return rawData;
     }
