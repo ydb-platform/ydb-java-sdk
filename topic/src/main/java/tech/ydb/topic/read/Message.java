@@ -16,27 +16,9 @@ import io.grpc.ExperimentalApi;
 public interface Message {
     /**
      * @return Message byte data.
-     * @throws IOException in case of decompression error. Raw data can be retrieved via getRawData() method
+     * @throws DecompressionException in case of decompression error. Raw data can be retrieved this exception
      */
-    byte[] getData() throws IOException;
-
-    /**
-     * @return Message raw byte data if it was not compressed. Return null if the message was actually decompressed
-     * Data may not be compressed in 2 cases:
-     * 1) It shouldn't be compressed due to codec settings (RAW codec)
-     * 2) There was an exception caught during decompression. Use getException method to get that exception
-     */
-    @Nullable
-    byte[] getRawData();
-
-    /**
-     * @return IOException if it was thrown during message decompression
-     * Data may not be compressed in 2 cases:
-     * 1) It shouldn't be compressed due to codec settings (RAW codec)
-     * 2) There was an exception caught during decompression. Use getException method to get that exception
-     */
-    @Nullable
-    IOException getException();
+    byte[] getData();
 
     /**
      * @return Message offset
