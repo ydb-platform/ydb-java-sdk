@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 
@@ -44,31 +45,16 @@ public class MessageImpl implements Message {
     }
 
     @Override
-    public byte[] getData() throws IOException {
+    public byte[] getData() {
         if (exception != null) {
-            throw exception;
+            throw new DecompressionException("Error occurred while decoding a message",
+                    exception, data);
         }
         return data;
     }
 
     public void setData(byte[] data) {
         this.data = data;
-    }
-
-    @Override
-    @Nullable
-    public byte[] getRawData() {
-        if (!isDecompressed || exception != null) {
-            return data;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
-    @Nullable
-    public IOException getException() {
-        return exception;
     }
 
     public void setException(IOException exception) {
