@@ -4,6 +4,11 @@
 * Core: Operation manager
 * Table: Added readRows operation in table service
 
+## 2.1.7 ##
+
+* Topics: Rethrow IO exceptions to user handlers while decoding messages
+* Topics: Tie partition sessions to streams
+
 ## 2.1.6 ##
 
 * Topics: Fixed a bug where topic writer / reader init() future was not completed under certain conditions

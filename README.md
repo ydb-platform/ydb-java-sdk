@@ -30,7 +30,7 @@ Firstly you can import YDB Java BOM to specify correct versions of SDK modules.
         <dependency>
             <groupId>tech.ydb</groupId>
             <artifactId>ydb-sdk-bom</artifactId>
-            <version>2.1.6</version>
+            <version>2.1.7</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
