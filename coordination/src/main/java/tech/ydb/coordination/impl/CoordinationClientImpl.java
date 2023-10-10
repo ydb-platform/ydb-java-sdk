@@ -1,9 +1,12 @@
 package tech.ydb.coordination.impl;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.CoordinationSession;
+import tech.ydb.coordination.CoordinationSessionNew;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
@@ -30,8 +33,11 @@ public class CoordinationClientImpl implements CoordinationClient {
     }
 
     @Override
-    public CoordinationSession createSession() {
-        return new CoordinationSessionImpl(coordinationRpc.session());
+    public CompletableFuture<CoordinationSessionNew> createSession(String nodePath, Duration timeout) {
+        return CoordinationSessionNewImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
+                        Executors.newScheduledThreadPool(Thread.activeCount()),
+                        nodePath),
+                timeout);
     }
 
     @Override
