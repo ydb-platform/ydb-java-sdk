@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CoordinationSessionNewImpl implements CoordinationSessionNew {
-    // TODO: Add logs
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionNew.class);
     private static final byte[] BYTE_ARRAY_STUB = new byte[0];
     private final CoordinationRetryableStreamImpl stream;
@@ -47,6 +46,7 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
             data = BYTE_ARRAY_STUB;
         }
         final int semaphoreId = lastId.getAndIncrement();
+        logger.trace("Send createSemaphore {} with limit {}", semaphoreName, limit);
         return stream.sendCreateSemaphore(semaphoreName, limit, data, semaphoreId)
                 .thenApply(status -> (status.isSuccess() || status.getCode() == StatusCode.ALREADY_EXISTS) ?
                         Result.success(new CoordinationSemaphoreImpl(stream, lastId.getAndIncrement(), semaphoreName,
@@ -63,7 +63,7 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
         final int semaphoreCreateId = lastId.getAndIncrement();
         final CompletableFuture<Status> acquireFuture = new CompletableFuture<>();
         stream.sendAcquireSemaphore(semaphoreName, count, timeout, true, data, semaphoreCreateId);
-
+        logger.trace("Send acquireEphemeralSemaphore {} with count {}", semaphoreName, count);
         return acquireFuture.thenApply(status -> status.isSuccess() ?
                 Result.success(new CoordinationEphemeralSemaphoreImpl(stream, lastId.getAndIncrement(), semaphoreName,
                         lastId)) :
@@ -73,6 +73,7 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
 
     @Override
     public void close() {
+        logger.trace("Closed");
         if (isWorking.compareAndSet(true, false)) {
             stream.stop();
         }
