@@ -3,7 +3,6 @@ package tech.ydb.coordination;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -111,7 +110,8 @@ public class CoordinationClientTest {
     public void retryCoordinationSessionTest() {
         final CoordinationRpc mockedRpc = Mockito.mock(CoordinationRpc.class);
         final CoordinationRpc goodRpc = GrpcCoordinationRpc.useTransport(YDB_TRANSPORT);
-        Mockito.when(mockedRpc.session()).then(invocationOnMock -> new MockedStream(goodRpc.session()));
+        // TODO: Create CoordinationProxyRpc
+        Mockito.when(mockedRpc.session()).then(invocationOnMock -> new ProxyStream(goodRpc.session()));
         CoordinationClient mockClient = new CoordinationClientImpl(mockedRpc);
 
         try (CoordinationSessionNew session = mockClient.createSession(path, Duration.ofSeconds(100)).join();
@@ -127,7 +127,7 @@ public class CoordinationClientTest {
                     .map(CompletableFuture::join)
                     .collect(Collectors.toList());
 
-            MockedStream.IS_STOPPED.set(true);
+            ProxyStream.IS_STOPPED.set(true);
 //            ------------------------
             List<CompletableFuture<Result<Boolean>>> acquireFutures = new ArrayList<>();
             sessions.forEach(otherSession -> {
@@ -143,7 +143,7 @@ public class CoordinationClientTest {
 
             semaphore.update("changed data".getBytes(StandardCharsets.UTF_8));
 //            ------------------------
-            MockedStream.IS_STOPPED.set(false);
+            ProxyStream.IS_STOPPED.set(false);
 
             for (CompletableFuture<Result<Boolean>> future : acquireFutures) {
                 Assert.assertEquals(Status.SUCCESS, future.get(100, TimeUnit.SECONDS).getStatus());
@@ -170,12 +170,12 @@ public class CoordinationClientTest {
         Assert.assertTrue(result.join().isSuccess());
     }
 
-    private static final class MockedStream implements GrpcReadWriteStream<SessionResponse, SessionRequest> {
+    private static final class ProxyStream implements GrpcReadWriteStream<SessionResponse, SessionRequest> {
         private final GrpcReadWriteStream<SessionResponse, SessionRequest> workStream;
         private static final AtomicBoolean IS_STOPPED = new AtomicBoolean(false);
         private Observer<SessionResponse> observer;
 
-        private MockedStream(GrpcReadWriteStream<SessionResponse, SessionRequest> workStream) {
+        private ProxyStream(GrpcReadWriteStream<SessionResponse, SessionRequest> workStream) {
             logger.trace("Create MockedStream: " + workStream);
             this.workStream = workStream;
         }
