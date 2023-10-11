@@ -19,6 +19,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
+import tech.ydb.coordination.CoordinationStream;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
 import tech.ydb.coordination.settings.SemaphoreDescription;
@@ -43,8 +44,7 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: interface
-public class CoordinationRetryableStreamImpl {
+public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationRetryableStreamImpl.class);
     private static final byte[] BYTE_ARRAY_STUB = new byte[0];
     private final CoordinationRpc coordinationRpc;
@@ -85,10 +85,6 @@ public class CoordinationRetryableStreamImpl {
     ) {
         return Status.of(StatusCode.fromProto(statusCode))
                 .withIssues(Issue.fromPb(issueMessages));
-    }
-
-    public long getSessionId() {
-        return sessionId.get();
     }
 
     protected CompletableFuture<Long> start(Duration timeout) {
@@ -237,14 +233,14 @@ public class CoordinationRetryableStreamImpl {
         return sessionStartFuture;
     }
 
-    protected void retry() {
+    private void retry() {
         isRetryState.set(true);
         final int attemptsBefore = leftRetryAttempts.get();
         executorService.schedule(this::retryInner, 1000, TimeUnit.MILLISECONDS);
         leftRetryAttempts.set(attemptsBefore);
     }
 
-    protected void retryInner() {
+    private void retryInner() {
         if (isWorking.get()) {
             leftRetryAttempts.decrementAndGet();
             logger.debug("Attempt to retry stream: left {} attempts.", leftRetryAttempts.get());
@@ -277,14 +273,6 @@ public class CoordinationRetryableStreamImpl {
             logger.trace("Resend request: {}", requestMap.get(requestId).toString());
             send(requestMap.get(requestId));
         }
-    }
-
-    public void sendStartSession(SessionStart sessionStart) {
-        send(
-                SessionRequest.newBuilder()
-                        .setSessionStart(sessionStart)
-                        .build()
-        );
     }
 
     public CompletableFuture<Result<Boolean>> sendAcquireSemaphore(String semaphoreName, long count, Duration timeout,
@@ -352,8 +340,8 @@ public class CoordinationRetryableStreamImpl {
         return describeFuture;
     }
 
-    public void sendCreateSemaphore(String semaphoreName, long limit, int requestId) {
-        sendCreateSemaphore(semaphoreName, limit, BYTE_ARRAY_STUB, requestId);
+    public CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, int requestId) {
+        return sendCreateSemaphore(semaphoreName, limit, BYTE_ARRAY_STUB, requestId);
     }
 
     public CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, @Nonnull byte[] data,
@@ -374,8 +362,8 @@ public class CoordinationRetryableStreamImpl {
         return createSemaphoreFuture;
     }
 
-    public void sendUpdateSemaphore(String semaphoreName, int requestId) {
-        sendUpdateSemaphore(semaphoreName, BYTE_ARRAY_STUB, requestId);
+    public CompletableFuture<Status> sendUpdateSemaphore(String semaphoreName, int requestId) {
+        return sendUpdateSemaphore(semaphoreName, BYTE_ARRAY_STUB, requestId);
     }
 
     public CompletableFuture<Status> sendUpdateSemaphore(String semaphoreName, byte[] data, int requestId) {
@@ -430,10 +418,6 @@ public class CoordinationRetryableStreamImpl {
                 logger.error("Error sending message {}", sessionRequest, e);
             }
         }
-    }
-
-    public CompletableFuture<Status> getLifetimeFuture() {
-        return stoppedFuture;
     }
 
     public void stop() {
