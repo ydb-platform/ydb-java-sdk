@@ -25,6 +25,11 @@ import tech.ydb.coordination.settings.SemaphoreDescription;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.proto.coordination.AlterNodeRequest;
+import tech.ydb.proto.coordination.CreateNodeRequest;
+import tech.ydb.proto.coordination.DescribeNodeRequest;
+import tech.ydb.proto.coordination.DropNodeRequest;
 import tech.ydb.proto.coordination.SessionRequest;
 import tech.ydb.proto.coordination.SessionResponse;
 import tech.ydb.proto.coordination.SessionResponse.Failure;
@@ -35,7 +40,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -108,11 +112,8 @@ public class CoordinationClientTest {
 
     @Test
     public void retryCoordinationSessionTest() {
-        final CoordinationRpc mockedRpc = Mockito.mock(CoordinationRpc.class);
-        final CoordinationRpc goodRpc = GrpcCoordinationRpc.useTransport(YDB_TRANSPORT);
-        // TODO: Create CoordinationProxyRpc
-        Mockito.when(mockedRpc.session()).then(invocationOnMock -> new ProxyStream(goodRpc.session()));
-        CoordinationClient mockClient = new CoordinationClientImpl(mockedRpc);
+        final CoordinationRpc rpc = new CoordinationProxyRpc(GrpcCoordinationRpc.useTransport(YDB_TRANSPORT));
+        CoordinationClient mockClient = new CoordinationClientImpl(rpc);
 
         try (CoordinationSessionNew session = mockClient.createSession(path, Duration.ofSeconds(100)).join();
              CoordinationSemaphore semaphore = session.createSemaphore("retry-test", 101).join().getValue()
@@ -168,6 +169,43 @@ public class CoordinationClientTest {
                         .build()
         );
         Assert.assertTrue(result.join().isSuccess());
+    }
+
+    private static final class CoordinationProxyRpc implements CoordinationRpc {
+        private final CoordinationRpc rpc;
+        private CoordinationProxyRpc(CoordinationRpc rpc) {
+            this.rpc = rpc;
+        }
+
+        @Override
+        public GrpcReadWriteStream<SessionResponse, SessionRequest> session() {
+            return new ProxyStream(rpc.session());
+        }
+
+        @Override
+        public CompletableFuture<Status> createNode(CreateNodeRequest request, GrpcRequestSettings settings) {
+            return rpc.createNode(request, settings);
+        }
+
+        @Override
+        public CompletableFuture<Status> alterNode(AlterNodeRequest request, GrpcRequestSettings settings) {
+            return rpc.alterNode(request, settings);
+        }
+
+        @Override
+        public CompletableFuture<Status> dropNode(DropNodeRequest request, GrpcRequestSettings settings) {
+            return rpc.dropNode(request, settings);
+        }
+
+        @Override
+        public CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings) {
+            return rpc.describeNode(request, settings);
+        }
+
+        @Override
+        public String getDatabase() {
+            return rpc.getDatabase();
+        }
     }
 
     private static final class ProxyStream implements GrpcReadWriteStream<SessionResponse, SessionRequest> {
