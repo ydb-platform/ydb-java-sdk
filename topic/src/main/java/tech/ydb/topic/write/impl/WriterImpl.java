@@ -100,26 +100,29 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         synchronized (incomingQueue) {
             if (currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
                 if (instant) {
-                    logger.info("[{}] Rejecting a message due to reaching message queue in-flight limit", id);
+                    logger.info("[{}] Rejecting a message due to reaching message queue in-flight limit of {}", id,
+                            settings.getMaxSendBufferMessagesCount());
                     CompletableFuture<Void> result = new CompletableFuture<>();
-                    result.completeExceptionally(new QueueOverflowException("Message queue in-flight limit reached"));
+                    result.completeExceptionally(new QueueOverflowException("Message queue in-flight limit of "
+                            + settings.getMaxSendBufferMessagesCount() + " reached"));
                     return result;
                 } else {
-                    logger.info("[{}] Message queue in-flight limit reached. Putting the message into incoming " +
-                            "waiting queue", id);
+                    logger.info("[{}] Message queue in-flight limit of {} reached. Putting the message into incoming " +
+                            "waiting queue", id, settings.getMaxSendBufferMessagesCount());
                 }
             } else if (availableSizeBytes <= message.getMessage().getData().length) {
                 if (instant) {
-                    logger.info("[{}] Rejecting a message due to reaching message queue size limit", id);
+                    logger.info("[{}] Rejecting a message due to reaching message queue size limit of {} bytes", id,
+                            settings.getMaxSendBufferMemorySize());
                     CompletableFuture<Void> result = new CompletableFuture<>();
-                    result.completeExceptionally(new QueueOverflowException("Message queue size limit reached"));
+                    result.completeExceptionally(new QueueOverflowException("Message queue size limit of "
+                            + settings.getMaxSendBufferMemorySize() + " bytes reached"));
                     return result;
                 } else {
-                    logger.info("[{}] Message queue size limit reached. Putting the message into incoming waiting " +
-                                    "queue", id);
+                    logger.info("[{}] Message queue size limit of {} bytes reached. Putting the message into incoming" +
+                            " waiting queue", id, settings.getMaxSendBufferMemorySize());
                 }
             } else if (incomingQueue.isEmpty()) {
-                logger.trace("[{}] Putting a message into the queue right now, enough space in send buffer", id);
                 acceptMessageIntoSendingQueue(message);
                 return CompletableFuture.completedFuture(null);
             }
