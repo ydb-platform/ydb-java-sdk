@@ -13,7 +13,7 @@ public interface CoordinationSessionNew extends AutoCloseable {
     /**
      * {@link CoordinationSessionNew#createSemaphore(String, long, byte[])}
      */
-    default CompletableFuture<Result<CoordinationSemaphore>> createSemaphore(String semaphoreName, long limit) {
+    default CompletableFuture<Status> createSemaphore(String semaphoreName, long limit) {
         return createSemaphore(semaphoreName, limit, null);
     }
 
@@ -24,14 +24,20 @@ public interface CoordinationSessionNew extends AutoCloseable {
      * @param limit         Number of tokens that may be acquired by sessions
      * @param data          User-defined data that is attached to the semaphore
      */
-    CompletableFuture<Result<CoordinationSemaphore>> createSemaphore(String semaphoreName, long limit, byte[] data);
+    CompletableFuture<Status> createSemaphore(String semaphoreName, long limit, byte[] data);
+
+
+    default CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(
+            String semaphoreName, long count, boolean ephemeral, Duration timeout) {
+        return acquireSemaphore(semaphoreName, count, ephemeral, timeout, null);
+    }
 
     /**
-     * {@link CoordinationSessionNew#acquireEphemeralSemaphore(String, long, Duration, byte[])}
+     * {@link CoordinationSessionNew#acquireSemaphore(String, long, boolean, Duration, byte[])}
      */
-    default CompletableFuture<Result<CoordinationSemaphore>> acquireEphemeralSemaphore(
+    default CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(
             String semaphoreName, long count, Duration timeout) {
-        return acquireEphemeralSemaphore(semaphoreName, count, timeout, null);
+        return acquireSemaphore(semaphoreName, count, false, timeout, null);
     }
 
     /**
@@ -50,71 +56,19 @@ public interface CoordinationSessionNew extends AutoCloseable {
      *                      if it's still waiting in the waiters queue
      * @param data          User-defined binary data that may be attached to the operation
      */
-    CompletableFuture<Result<CoordinationSemaphore>> acquireEphemeralSemaphore(String semaphoreName, long count,
-                                                                               Duration timeout, byte[] data);
+    CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(String semaphoreName, long count,
+                                                                      boolean ephemeral,
+                                                                      Duration timeout, byte[] data);
 
-    interface CoordinationSemaphore extends AutoCloseable {
-        /**
-         * Used to change semaphore data
-         *
-         * @param data User-defined data that is attached to the semaphore
-         */
-        CompletableFuture<Status> update(byte[] data);
+    CompletableFuture<Status> updateSemaphore(String semaphoreName, byte[] data);
 
-        /**
-         * {@link CoordinationSemaphore#acquire(long, Duration, byte[])}
-         */
-        default CompletableFuture<Result<Boolean>> acquire(long count, Duration timeout) {
-            return acquire(count, timeout, null);
-        }
+    CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode describeMode,
+                                                                      WatchMode watchMode,
+                                                                      Consumer<DescribeSemaphoreChanged> updateWatcher);
 
-        /**
-         * Used to acquire a semaphore
-         * <p>
-         * WARNING: a single session cannot acquire the same semaphore multiple times
-         * <p>
-         * Later requests override previous operations with the same semaphore,
-         * e.g. to reduce acquired count, change timeout or attached data
-         *
-         * @param count   Number of tokens to acquire on the semaphore
-         * @param timeout Duration after which operation will fail
-         *                if it's still waiting in the waiters queue
-         * @param data    User-defined binary data that may be attached to the operation
-         */
-        CompletableFuture<Result<Boolean>> acquire(long count, Duration timeout, byte[] data);
+    CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force);
 
-        /**
-         * Used to release a semaphore
-         * <p>
-         * WARNING: a single session cannot release the same semaphore multiple times
-         * </p>
-         * The release operation will either remove current session from waiters
-         * queue or release an already owned semaphore.
-         */
-        CompletableFuture<Result<Boolean>> release();
-
-        /**
-         * Used to describe semaphores and watch them for changes
-         * <p>
-         * WARNING: a describe operation will cancel previous watches on the same semaphore
-         * </p>
-         *
-         * @param options       Description options which let to choose a result of a query and let to subscribe on
-         *                      Semaphore changes
-         * @param updateWatcher if you subscribe on changes this Consumer will process them
-         */
-        CompletableFuture<Result<SemaphoreDescription>> describe(DescribeMode describeMode, WatchMode watchMode,
-                                                                 Consumer<DescribeSemaphoreChanged> updateWatcher);
-
-        /**
-         * Used to delete an existing semaphore
-         *
-         * @param force Will delete semaphore even if currently acquired by sessions
-         */
-        CompletableFuture<Status> delete(boolean force);
-
-        void close();
-    }
+    boolean removeWatcher(String semaphoreName);
 
     enum DescribeMode {
         /**
@@ -180,5 +134,17 @@ public interface CoordinationSessionNew extends AutoCloseable {
         public boolean watchOwners() {
             return watchOwners;
         }
+    }
+
+    interface CoordinationSemaphore {
+        /**
+         * Used to release a semaphore
+         * <p>
+         * WARNING: a single session cannot release the same semaphore multiple times
+         * </p>
+         * The release operation will either remove current session from waiters
+         * queue or release an already owned semaphore.
+         */
+        CompletableFuture<Result<Boolean>> release();
     }
 }
