@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import tech.ydb.coordination.CoordinationSessionNew;
+import tech.ydb.core.Issue;
+import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -61,14 +63,18 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
             data = BYTE_ARRAY_STUB;
         }
         final int semaphoreCreateId = lastId.getAndIncrement();
-        final CompletableFuture<Status> acquireFuture = new CompletableFuture<>();
-        stream.sendAcquireSemaphore(semaphoreName, count, timeout, true, data, semaphoreCreateId);
         logger.trace("Send acquireEphemeralSemaphore {} with count {}", semaphoreName, count);
-        return acquireFuture.thenApply(status -> status.isSuccess() ?
-                Result.success(new CoordinationEphemeralSemaphoreImpl(stream, lastId.getAndIncrement(), semaphoreName,
-                        lastId)) :
-                Result.fail(status)
-        );
+        return stream.sendAcquireSemaphore(semaphoreName, count, timeout, true, data, semaphoreCreateId)
+                .thenApply(result -> result.isSuccess() && result.getValue() ?
+                        Result.success(new CoordinationEphemeralSemaphoreImpl(
+                                stream, lastId.getAndIncrement(), semaphoreName, lastId)
+                        ) :
+                        Result.fail(result.isSuccess() ?
+                                Status.of(
+                                        StatusCode.BAD_REQUEST,
+                                        (double) 0, Issue.of("Semaphore has already existed.", Severity.WARNING)) :
+                                result.getStatus())
+                );
     }
 
     @Override

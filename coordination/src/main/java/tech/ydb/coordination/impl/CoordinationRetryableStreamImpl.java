@@ -135,7 +135,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                                                 .build()
                                 ).build()
                         );
-                        break;
+                        break; // TODO: почистить логирование в чужих классах (for example - ReadWriteStreamCall)
                     case ACQUIRE_SEMAPHORE_RESULT:
                         requestId = message.getAcquireSemaphoreResult().getReqId();
                         status = getStatus(
@@ -144,7 +144,6 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         );
                         requestMap.remove(requestId);
                         final CompletableFuture<Status> acquireEphemeralSemaphore;
-                        // TODO: write tests with Ephemeral Semaphores
                         if ((acquireEphemeralSemaphore = createEphemeralSemaphoreFutures.remove(requestId)) != null) {
                             acquireEphemeralSemaphore.complete(status);
                         } else {
@@ -236,7 +235,6 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
             protectionKey = new byte[16];
             ThreadLocalRandom.current().nextBytes(protectionKey);
         }
-        Arrays.stream(Thread.currentThread().getStackTrace()).map(e -> "stack: " + e).forEach(logger::debug);
         coordinationStream.sendNext(
                 SessionRequest.newBuilder().setSessionStart(
                         SessionStart.newBuilder()

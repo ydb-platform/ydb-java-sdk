@@ -10,6 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import tech.ydb.coordination.CoordinationSessionNew.CoordinationSemaphore;
@@ -110,6 +111,31 @@ public class CoordinationClientTest {
         }
     }
 
+    @Test(timeout = 60_000)
+    public void ephemeralSemaphoreBaseTest() {
+        final String semaphoreName = "ephemeral-semaphore-base-test";
+        /* 18446744073709551615 = 2^64 - 1 (or just -1 in Java) */
+        final long count = -1;
+        try (CoordinationSessionNew session = client.createSession(path, Duration.ofSeconds(3)).join();
+             CoordinationSemaphore semaphore = session.acquireEphemeralSemaphore(semaphoreName,
+                     count, Duration.ofSeconds(3))
+                     .join()
+                     .getValue()) {
+            final SemaphoreDescription description = semaphore.describe(
+                            DescribeMode.DATA_ONLY,
+                            WatchMode.WATCH_DATA,
+                            Function.identity()::apply)
+                    .join()
+                    .getValue();
+            Assert.assertEquals(-1, description.getLimit());
+            Assert.assertEquals(-1, description.getCount());
+            Assert.assertEquals(semaphoreName, description.getName());
+            Assert.assertEquals(Collections.emptyList(), description.getWaitersList());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     public void retryCoordinationSessionTest() {
         final CoordinationRpc rpc = new CoordinationProxyRpc(GrpcCoordinationRpc.useTransport(YDB_TRANSPORT));
@@ -138,7 +164,7 @@ public class CoordinationClientTest {
                         .whenComplete((result, thSem) -> {
                             Assert.assertNull(thSem);
                             result.getValue().acquire(1, Duration.ofSeconds(100)).whenComplete((acquired, th) ->
-                            acquireFuture.complete(acquired));
+                                    acquireFuture.complete(acquired));
                         });
             });
 
@@ -156,6 +182,9 @@ public class CoordinationClientTest {
             Assert.assertEquals(90 + 10, desc.getCount());
             Assert.assertArrayEquals("changed data".getBytes(StandardCharsets.UTF_8), desc.getData());
 
+            for (CoordinationSessionNew coordinationSessionNew : sessions) {
+                coordinationSessionNew.close();
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -173,6 +202,7 @@ public class CoordinationClientTest {
 
     private static final class CoordinationProxyRpc implements CoordinationRpc {
         private final CoordinationRpc rpc;
+
         private CoordinationProxyRpc(CoordinationRpc rpc) {
             this.rpc = rpc;
         }
@@ -209,8 +239,8 @@ public class CoordinationClientTest {
     }
 
     private static final class ProxyStream implements GrpcReadWriteStream<SessionResponse, SessionRequest> {
-        private final GrpcReadWriteStream<SessionResponse, SessionRequest> workStream;
         private static final AtomicBoolean IS_STOPPED = new AtomicBoolean(false);
+        private final GrpcReadWriteStream<SessionResponse, SessionRequest> workStream;
         private Observer<SessionResponse> observer;
 
         private ProxyStream(GrpcReadWriteStream<SessionResponse, SessionRequest> workStream) {
