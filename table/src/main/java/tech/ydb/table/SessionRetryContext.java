@@ -80,11 +80,15 @@ public class SessionRetryContext {
         return task.getFuture();
     }
 
+    private boolean canRetry(StatusCode code) {
+        return code.isRetryable(idempotent) || (retryNotFound && code == StatusCode.NOT_FOUND);
+    }
+
     private boolean canRetry(Throwable t) {
         Throwable cause = Async.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
-            return statusCode.isRetryable(idempotent, retryNotFound);
+            return canRetry(statusCode);
         }
         return false;
     }
@@ -228,7 +232,7 @@ public class SessionRetryContext {
 
         private void handleError(@Nonnull StatusCode code, R result) {
             // Check retrayable status
-            if (!code.isRetryable(idempotent, retryNotFound)) {
+            if (!canRetry(code)) {
                 handler.onError(SessionRetryContext.this, code, retryNumber.get(), ms());
                 promise.complete(result);
                 return;
