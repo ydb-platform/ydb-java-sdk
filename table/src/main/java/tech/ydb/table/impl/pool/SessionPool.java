@@ -348,7 +348,7 @@ public class SessionPool implements AutoCloseable {
                     + ", idleCount=" + getIdleCount()
                     + ", acquiredCount=" + getAcquiredCount()
                     + ", pendingAcquireCount=" + getPendingAcquireCount()
-                    + ", acquiredTotal=" + getPendingAcquireCount()
+                    + ", acquiredTotal=" + getAcquiredTotal()
                     + ", releasedTotal=" + getReleasedTotal()
                     + ", requestsTotal=" + getRequestedTotal()
                     + ", createdTotal=" + getCreatedTotal()
