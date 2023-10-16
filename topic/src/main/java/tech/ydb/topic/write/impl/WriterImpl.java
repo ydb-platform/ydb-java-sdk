@@ -147,8 +147,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         this.encodingMessages.add(message);
 
         CompletableFuture
-                .runAsync(() -> encode(message), compressionExecutor)
-                .thenRunAsync(this::moveEncodedMessagesToSendingQueue)
+                .runAsync(() -> {
+                    encode(message);
+                    moveEncodedMessagesToSendingQueue();
+                }, compressionExecutor)
                 .exceptionally((throwable) -> {
                     logger.error("[{}] Exception while encoding message: ", id, throwable);
                     free(1, message.getSizeBytes());
