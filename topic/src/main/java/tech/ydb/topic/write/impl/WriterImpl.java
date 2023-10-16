@@ -53,7 +53,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private final long maxSendBufferMemorySize;
 
     // Every writing stream has a sequential number (for debug purposes)
-    private final AtomicLong seqNumberCounter = new AtomicLong(0);
+    private final AtomicLong sessionSeqNumberCounter = new AtomicLong(0);
 
     private Boolean isSeqNoProvided = null;
     private int currentInFlightCount = 0;
@@ -100,26 +100,29 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         synchronized (incomingQueue) {
             if (currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
                 if (instant) {
-                    logger.trace("[{}] Rejecting a message due to reaching message queue in-flight limit", id);
+                    logger.info("[{}] Rejecting a message due to reaching message queue in-flight limit of {}", id,
+                            settings.getMaxSendBufferMessagesCount());
                     CompletableFuture<Void> result = new CompletableFuture<>();
-                    result.completeExceptionally(new QueueOverflowException("Message queue in-flight limit reached"));
+                    result.completeExceptionally(new QueueOverflowException("Message queue in-flight limit of "
+                            + settings.getMaxSendBufferMessagesCount() + " reached"));
                     return result;
                 } else {
-                    logger.debug("[{}] Message queue in-flight limit reached. Putting the message into incoming " +
-                            "waiting queue", id);
+                    logger.info("[{}] Message queue in-flight limit of {} reached. Putting the message into incoming " +
+                            "waiting queue", id, settings.getMaxSendBufferMessagesCount());
                 }
             } else if (availableSizeBytes <= message.getMessage().getData().length) {
                 if (instant) {
-                    logger.trace("[{}] Rejecting a message due to reaching message queue size limit", id);
+                    logger.info("[{}] Rejecting a message due to reaching message queue size limit of {} bytes", id,
+                            settings.getMaxSendBufferMemorySize());
                     CompletableFuture<Void> result = new CompletableFuture<>();
-                    result.completeExceptionally(new QueueOverflowException("Message queue size limit reached"));
+                    result.completeExceptionally(new QueueOverflowException("Message queue size limit of "
+                            + settings.getMaxSendBufferMemorySize() + " bytes reached"));
                     return result;
                 } else {
-                    logger.debug("[{}] Message queue size limit reached. Putting the message into incoming waiting " +
-                                    "queue", id);
+                    logger.info("[{}] Message queue size limit of {} bytes reached. Putting the message into incoming" +
+                            " waiting queue", id, settings.getMaxSendBufferMemorySize());
                 }
             } else if (incomingQueue.isEmpty()) {
-                logger.trace("[{}] Putting a message into the queue right now, enough space in send buffer", id);
                 acceptMessageIntoSendingQueue(message);
                 return CompletableFuture.completedFuture(null);
             }
@@ -143,46 +146,17 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
         this.encodingMessages.add(message);
 
-        CompletableFuture.runAsync(() -> encode(message), compressionExecutor)
-                .thenRunAsync(() -> {
-                    boolean haveNewMessagesToSend = false;
-                    // Working with encodingMessages under synchronized incomingQueue to prevent deadlocks
-                    // while working with free method
-                    synchronized (incomingQueue) {
-                        // Taking all encoded messages to sending queue
-                        while (true) {
-                            EnqueuedMessage encodedMessage = encodingMessages.peek();
-                            if (encodedMessage != null
-                                    && (encodedMessage.isCompressed() || settings.getCodec() == Codec.RAW)) {
-                                encodingMessages.remove();
-                                if (encodedMessage.isCompressed()) {
-                                    if (logger.isTraceEnabled()) {
-                                        logger.trace("[{}] Message compressed from {} to {} bytes", id,
-                                                encodedMessage.getUncompressedSizeBytes(),
-                                                encodedMessage.getCompressedSizeBytes());
-                                    }
-                                    // message was actually encoded. Need to free some bytes
-                                    long bytesFreed = encodedMessage.getUncompressedSizeBytes()
-                                            - encodedMessage.getCompressedSizeBytes();
-                                    // bytesFreed can be less than 0
-                                    free(0, bytesFreed);
-                                }
-                                logger.debug("[{}] Adding message to sending queue", id);
-                                sendingQueue.add(encodedMessage);
-                                haveNewMessagesToSend = true;
-                            } else {
-                                break;
-                            }
-                        }
-                    }
-                    if (haveNewMessagesToSend) {
-                        session.sendDataRequestIfNeeded();
-                    }
-                })
+        CompletableFuture
+                .runAsync(() -> {
+                    encode(message);
+                    moveEncodedMessagesToSendingQueue();
+                }, compressionExecutor)
                 .exceptionally((throwable) -> {
                     logger.error("[{}] Exception while encoding message: ", id, throwable);
                     free(1, message.getSizeBytes());
                     message.getFuture().completeExceptionally(throwable);
+                    message.setProcessingFailed(true);
+                    moveEncodedMessagesToSendingQueue();
                     return null;
                 });
     }
@@ -196,6 +170,46 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         message.setCompressedSizeBytes(message.getMessage().getData().length);
         message.setCompressed(true);
         logger.trace("[{}] Successfully finished encoding message", id);
+    }
+
+    private void moveEncodedMessagesToSendingQueue() {
+        boolean haveNewMessagesToSend = false;
+        // Working with encodingMessages under synchronized incomingQueue to prevent deadlocks
+        // while working with free method
+        synchronized (incomingQueue) {
+            // Taking all encoded messages to sending queue
+            while (true) {
+                EnqueuedMessage encodedMessage = encodingMessages.peek();
+                if (encodedMessage == null) {
+                    break;
+                }
+                if (encodedMessage.isProcessingFailed()) {
+                    encodingMessages.remove();
+                } else if (encodedMessage.isCompressed() || settings.getCodec() == Codec.RAW) {
+                    encodingMessages.remove();
+                    if (encodedMessage.isCompressed()) {
+                        if (logger.isTraceEnabled()) {
+                            logger.trace("[{}] Message compressed from {} to {} bytes", id,
+                                    encodedMessage.getUncompressedSizeBytes(),
+                                    encodedMessage.getCompressedSizeBytes());
+                        }
+                        // message was actually encoded. Need to free some bytes
+                        long bytesFreed = encodedMessage.getUncompressedSizeBytes()
+                                - encodedMessage.getCompressedSizeBytes();
+                        // bytesFreed can be less than 0
+                        free(0, bytesFreed);
+                    }
+                    logger.debug("[{}] Adding message to sending queue", id);
+                    sendingQueue.add(encodedMessage);
+                    haveNewMessagesToSend = true;
+                } else {
+                    break;
+                }
+            }
+        }
+        if (haveNewMessagesToSend) {
+            session.sendDataRequestIfNeeded();
+        }
     }
 
     protected CompletableFuture<InitResult> initImpl() {
@@ -300,7 +314,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         private WriteSessionImpl() {
             super(topicRpc);
-            this.fullId = id + '.' + seqNumberCounter.incrementAndGet();
+            this.fullId = id + '.' + sessionSeqNumberCounter.incrementAndGet();
             this.messageSender = new MessageSender(settings);
         }
 
