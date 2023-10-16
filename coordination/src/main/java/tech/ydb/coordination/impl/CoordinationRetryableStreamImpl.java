@@ -434,6 +434,10 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         }
     }
 
+    void removeUpdateWatcher(int semaphoreId) {
+        updateWatchers.remove(semaphoreId);
+    }
+
     public void stop() {
         isWorking.set(false);
         coordinationStream.close();

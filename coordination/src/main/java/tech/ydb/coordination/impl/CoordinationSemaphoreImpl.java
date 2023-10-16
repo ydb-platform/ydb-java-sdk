@@ -81,6 +81,7 @@ public class CoordinationSemaphoreImpl implements CoordinationSemaphore {
 
     @Override
     public void close() {
+        stream.removeUpdateWatcher(semaphoreId);
         release();
     }
 
