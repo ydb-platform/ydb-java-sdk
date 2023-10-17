@@ -182,7 +182,8 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                             if (value != null) {
                                 value.accept(new DescribeSemaphoreChanged(
                                         message.getDescribeSemaphoreChanged().getDataChanged(),
-                                        message.getDescribeSemaphoreChanged().getOwnersChanged()));
+                                        message.getDescribeSemaphoreChanged().getOwnersChanged(),
+                                        false));
                             }
                             return value;
                         });
@@ -296,6 +297,9 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
             logger.trace("Resend request: {}", requestMap.get(requestId).toString());
             send(requestMap.get(requestId));
         }
+        updateWatchers.forEach((id, watcher) -> {
+            watcher.accept(new DescribeSemaphoreChanged(false, false, true));
+        });
     }
 
     public CompletableFuture<Result<Boolean>> sendAcquireSemaphore(String semaphoreName, long count, Duration timeout,

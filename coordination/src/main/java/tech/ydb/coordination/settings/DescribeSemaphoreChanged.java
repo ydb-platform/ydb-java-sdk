@@ -5,10 +5,12 @@ import java.util.Objects;
 public class DescribeSemaphoreChanged {
     private final boolean dataChanged;
     private final boolean ownersChanged;
+    private final boolean connectionWasFailed;
 
-    public DescribeSemaphoreChanged(boolean dataChanged, boolean ownersChanged) {
+    public DescribeSemaphoreChanged(boolean dataChanged, boolean ownersChanged, boolean connectionWasFailed) {
         this.dataChanged = dataChanged;
         this.ownersChanged = ownersChanged;
+        this.connectionWasFailed = connectionWasFailed;
     }
 
     public boolean isDataChanged() {
@@ -17,6 +19,10 @@ public class DescribeSemaphoreChanged {
 
     public boolean isOwnersChanged() {
         return ownersChanged;
+    }
+
+    public boolean isConnectionWasFailed() {
+        return connectionWasFailed;
     }
 
     @Override
@@ -28,12 +34,13 @@ public class DescribeSemaphoreChanged {
             return false;
         }
         DescribeSemaphoreChanged that = (DescribeSemaphoreChanged) o;
-        return dataChanged == that.dataChanged && ownersChanged == that.ownersChanged;
+        return dataChanged == that.dataChanged && ownersChanged == that.ownersChanged &&
+                connectionWasFailed == that.connectionWasFailed;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(dataChanged, ownersChanged);
+        return Objects.hash(dataChanged, ownersChanged, connectionWasFailed);
     }
 
     @Override
@@ -41,6 +48,7 @@ public class DescribeSemaphoreChanged {
         return "DescribeSemaphoreChanged{" +
                 "dataChanged=" + dataChanged +
                 ", ownersChanged=" + ownersChanged +
+                ", connectionWasFailed=" + connectionWasFailed +
                 '}';
     }
 }
