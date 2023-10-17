@@ -103,11 +103,6 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
     }
 
     @Override
-    public boolean removeWatcher(String semaphoreName) {
-        return stream.removeUpdateWatcher(semaphoreName);
-    }
-
-    @Override
     public void close() {
         logger.trace("Closed");
         if (isWorking.compareAndSet(true, false)) {
