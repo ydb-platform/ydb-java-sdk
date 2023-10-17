@@ -338,6 +338,26 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     }
 
     public CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphore(
+            String semaphoreName, boolean includeOwners, boolean includeWaiters) {
+        final long fullRequestId = getFullRequestId(innerRequestId.get());
+        final SessionRequest request = SessionRequest.newBuilder().setDescribeSemaphore(
+                DescribeSemaphore.newBuilder()
+                        .setName(semaphoreName)
+                        .setIncludeOwners(includeOwners)
+                        .setIncludeWaiters(includeWaiters)
+                        .setWatchData(false)
+                        .setWatchOwners(false)
+                        .setReqId(fullRequestId)
+                        .build()
+        ).build();
+        requestMap.put(fullRequestId, request);
+        final CompletableFuture<Result<SemaphoreDescription>> describeFuture = new CompletableFuture<>();
+        describeSemaphoreFutures.put(fullRequestId, describeFuture);
+        send(request);
+        return describeFuture;
+    }
+
+    public CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphore(
             String semaphoreName, boolean includeOwners, boolean includeWaiters,
             boolean watchData, boolean watchOwners, Consumer<DescribeSemaphoreChanged> updateWatcher) {
         final long fullRequestId = getFullRequestId(semaphoreId.compute(semaphoreName,
