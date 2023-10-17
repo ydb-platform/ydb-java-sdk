@@ -68,6 +68,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private final Map<Integer, Consumer<DescribeSemaphoreChanged>> updateWatchers = new ConcurrentHashMap<>();
     private final Map<Long, CompletableFuture<Status>> updateSemaphoreFutures = new ConcurrentHashMap<>();
     private final Map<String, Integer> semaphoreId = new ConcurrentHashMap<>();
+    private final AtomicInteger nextSemaphoreId = new AtomicInteger(1);
     private GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
     private CompletableFuture<Status> stoppedFuture;
     private byte[] protectionKey;
@@ -361,7 +362,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
             String semaphoreName, boolean includeOwners, boolean includeWaiters,
             boolean watchData, boolean watchOwners, Consumer<DescribeSemaphoreChanged> updateWatcher) {
         final long fullRequestId = getFullRequestId(semaphoreId.compute(semaphoreName,
-                (key, value) -> value == null ? semaphoreId.size() : value));
+                (key, value) -> value == null ? nextSemaphoreId.incrementAndGet() : value));
         final SessionRequest request = SessionRequest.newBuilder().setDescribeSemaphore(
                 DescribeSemaphore.newBuilder()
                         .setName(semaphoreName)
