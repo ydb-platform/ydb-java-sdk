@@ -1,6 +1,6 @@
 package tech.ydb.query.result;
 
-import tech.ydb.proto.draft.query.YdbQuery;
+import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.impl.ProtoValueReaders;
 

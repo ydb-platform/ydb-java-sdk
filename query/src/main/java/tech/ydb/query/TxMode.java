@@ -1,6 +1,6 @@
 package tech.ydb.query;
 
-import tech.ydb.proto.draft.query.YdbQuery;
+import tech.ydb.proto.query.YdbQuery;
 
 /**
  *

@@ -22,7 +22,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.utils.Async;
-import tech.ydb.proto.draft.query.YdbQuery;
+import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;

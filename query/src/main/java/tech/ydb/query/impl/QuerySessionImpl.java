@@ -15,7 +15,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.settings.OperationSettings;
-import tech.ydb.proto.draft.query.YdbQuery;
+import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.TxMode;
 import tech.ydb.query.result.QueryResultPart;

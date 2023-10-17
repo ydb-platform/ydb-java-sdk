@@ -7,8 +7,8 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.proto.OperationProtos;
-import tech.ydb.proto.draft.query.YdbQuery;
-import tech.ydb.proto.draft.query.v1.QueryServiceGrpc;
+import tech.ydb.proto.query.YdbQuery;
+import tech.ydb.proto.query.v1.QueryServiceGrpc;
 
 /**
  *
@@ -43,21 +43,6 @@ public class QueryServiceRpc {
     private static final StatusExtract<YdbQuery.FetchScriptResultsResponse> FETCH_SCRIPT = StatusExtract.of(
             YdbQuery.FetchScriptResultsResponse::getStatus,
             YdbQuery.FetchScriptResultsResponse::getIssuesList
-    );
-
-    private static final StatusExtract<YdbQuery.SaveScriptResponse> SAVE_SCRIPT = StatusExtract.of(
-            YdbQuery.SaveScriptResponse::getStatus,
-            YdbQuery.SaveScriptResponse::getIssuesList
-    );
-
-    private static final StatusExtract<YdbQuery.ListScriptsResponse> LIST_SCRIPTS = StatusExtract.of(
-            YdbQuery.ListScriptsResponse::getStatus,
-            YdbQuery.ListScriptsResponse::getIssuesList
-    );
-
-    private static final StatusExtract<YdbQuery.DeleteScriptResponse> DELETE_SCRIPT = StatusExtract.of(
-            YdbQuery.DeleteScriptResponse::getStatus,
-            YdbQuery.DeleteScriptResponse::getIssuesList
     );
 
     private final GrpcTransport transport;
@@ -121,26 +106,5 @@ public class QueryServiceRpc {
         return transport
                 .unaryCall(QueryServiceGrpc.getFetchScriptResultsMethod(), settings, request)
                 .thenApply(FETCH_SCRIPT);
-    }
-
-    public CompletableFuture<Result<YdbQuery.SaveScriptResponse>> saveScript(
-            YdbQuery.SaveScriptRequest request, GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(QueryServiceGrpc.getSaveScriptMethod(), settings, request)
-                .thenApply(SAVE_SCRIPT);
-    }
-
-    public CompletableFuture<Result<YdbQuery.DeleteScriptResponse>> deleteScript(
-            YdbQuery.DeleteScriptRequest request, GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(QueryServiceGrpc.getDeleteScriptMethod(), settings, request)
-                .thenApply(DELETE_SCRIPT);
-    }
-
-    public CompletableFuture<Result<YdbQuery.ListScriptsResponse>> listScripts(
-            YdbQuery.ListScriptsRequest request, GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(QueryServiceGrpc.getListScriptsMethod(), settings, request)
-                .thenApply(LIST_SCRIPTS);
     }
 }
