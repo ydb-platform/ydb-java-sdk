@@ -93,6 +93,11 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
     }
 
     @Override
+    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode mode) {
+        return stream.sendDescribeSemaphore(semaphoreName, mode.includeOwners(), mode.includeWaiters());
+    }
+
+    @Override
     public CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force) {
         return stream.sendDeleteSemaphore(semaphoreName, force, lastId.getAndIncrement());
     }

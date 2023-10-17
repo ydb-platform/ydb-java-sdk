@@ -123,17 +123,13 @@ public class CoordinationClientTest {
                             count, true, Duration.ofSeconds(3))
                     .join()
                     .getValue();
-            final SemaphoreDescription description = session.describeSemaphore(semaphoreName,
-                            DescribeMode.DATA_ONLY,
-                            WatchMode.WATCH_DATA,
-                            Function.identity()::apply)
+            final SemaphoreDescription description = session.describeSemaphore(semaphoreName, DescribeMode.DATA_ONLY)
                     .join()
                     .getValue();
             Assert.assertEquals(-1, description.getLimit());
             Assert.assertEquals(-1, description.getCount());
             Assert.assertEquals(semaphoreName, description.getName());
             Assert.assertEquals(Collections.emptyList(), description.getWaitersList());
-            session.removeWatcher(semaphoreName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -181,9 +177,7 @@ public class CoordinationClientTest {
             for (CompletableFuture<Result<CoordinationSemaphore>> future : acquireFutures) {
                 Assert.assertEquals(Status.SUCCESS, future.get(100, TimeUnit.SECONDS).getStatus());
             }
-            final SemaphoreDescription desc = session.describeSemaphore(semaphoreName,
-                            DescribeMode.DATA_ONLY, WatchMode.WATCH_DATA, a -> {
-                    })
+            final SemaphoreDescription desc = session.describeSemaphore(semaphoreName, DescribeMode.DATA_ONLY)
                     .get(100, TimeUnit.SECONDS)
                     .getValue();
             Assert.assertEquals(90 + 10, desc.getCount());
@@ -192,7 +186,6 @@ public class CoordinationClientTest {
             for (CoordinationSessionNew coordinationSessionNew : sessions) {
                 coordinationSessionNew.close();
             }
-            session.removeWatcher(semaphoreName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

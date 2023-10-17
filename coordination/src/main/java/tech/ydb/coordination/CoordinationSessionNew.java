@@ -66,6 +66,8 @@ public interface CoordinationSessionNew extends AutoCloseable {
                                                                       WatchMode watchMode,
                                                                       Consumer<DescribeSemaphoreChanged> updateWatcher);
 
+    CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode mode);
+
     CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force);
 
     boolean removeWatcher(String semaphoreName);
