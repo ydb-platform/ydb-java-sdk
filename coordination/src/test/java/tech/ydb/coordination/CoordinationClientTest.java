@@ -81,15 +81,15 @@ public class CoordinationClientTest {
     @Test(timeout = 60_000)
     public void coordinationSessionFullCycleTest() {
         final String semaphoreName = "test-semaphore";
-        try (CoordinationSessionNew session = client.createSession(path, Duration.ofSeconds(3)).join();
-             CoordinationSemaphore semaphore = session.createSemaphore(semaphoreName, 100).join().getValue()) {
-
-            Assert.assertTrue(semaphore.acquire(70, Duration.ofSeconds(3)).join().getValue());
+        try (CoordinationSessionNew session = client.createSession(path, Duration.ofSeconds(3)).join()) {
+            session.createSemaphore(semaphoreName, 100).get(3, TimeUnit.SECONDS);
+            CoordinationSemaphore semaphore = session.acquireSemaphore(semaphoreName, 70, Duration.ofSeconds(3))
+                    .join().getValue();
             final CompletableFuture<Boolean> dataChangedFuture = new CompletableFuture<>();
             final Consumer<DescribeSemaphoreChanged> updateWatcher =
                     changes -> dataChangedFuture.complete(changes.isDataChanged());
 
-            final SemaphoreDescription description = semaphore.describe(
+            final SemaphoreDescription description = session.describeSemaphore(semaphoreName,
                     DescribeMode.WITH_OWNERS_AND_WAITERS,
                     WatchMode.WATCH_DATA,
                     updateWatcher
@@ -102,9 +102,11 @@ public class CoordinationClientTest {
 
             Assert.assertFalse(dataChangedFuture.isDone());
             final byte[] data = "Hello".getBytes(StandardCharsets.UTF_8);
-            semaphore.update(data).join();
+            session.updateSemaphore(semaphoreName, data).join();
             Assert.assertTrue(dataChangedFuture.get(1, TimeUnit.MINUTES));
             Assert.assertTrue(semaphore.release().join().getValue());
+
+            session.removeWatcher(semaphoreName);
         } catch (Exception e) {
             Assert.fail("There have to be no exceptions. [exception]: " + e);
             throw new RuntimeException(e);
@@ -116,12 +118,12 @@ public class CoordinationClientTest {
         final String semaphoreName = "ephemeral-semaphore-base-test";
         /* 18446744073709551615 = 2^64 - 1 (or just -1 in Java) */
         final long count = -1;
-        try (CoordinationSessionNew session = client.createSession(path, Duration.ofSeconds(3)).join();
-             CoordinationSemaphore semaphore = session.acquireEphemeralSemaphore(semaphoreName,
-                     count, Duration.ofSeconds(3))
-                     .join()
-                     .getValue()) {
-            final SemaphoreDescription description = semaphore.describe(
+        try (CoordinationSessionNew session = client.createSession(path, Duration.ofSeconds(3)).join()) {
+            session.acquireSemaphore(semaphoreName,
+                            count, true, Duration.ofSeconds(3))
+                    .join()
+                    .getValue();
+            final SemaphoreDescription description = session.describeSemaphore(semaphoreName,
                             DescribeMode.DATA_ONLY,
                             WatchMode.WATCH_DATA,
                             Function.identity()::apply)
@@ -131,6 +133,7 @@ public class CoordinationClientTest {
             Assert.assertEquals(-1, description.getCount());
             Assert.assertEquals(semaphoreName, description.getName());
             Assert.assertEquals(Collections.emptyList(), description.getWaitersList());
+            session.removeWatcher(semaphoreName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -139,13 +142,15 @@ public class CoordinationClientTest {
     @Test
     public void retryCoordinationSessionTest() {
         final CoordinationRpc rpc = new CoordinationProxyRpc(GrpcCoordinationRpc.useTransport(YDB_TRANSPORT));
+        final String semaphoreName = "retry-test";
         CoordinationClient mockClient = new CoordinationClientImpl(rpc);
 
-        try (CoordinationSessionNew session = mockClient.createSession(path, Duration.ofSeconds(100)).join();
-             CoordinationSemaphore semaphore = session.createSemaphore("retry-test", 101).join().getValue()
-        ) {
-            Assert.assertTrue(semaphore.acquire(90, Duration.ofSeconds(20)).join().getValue());
-            Assert.assertEquals(semaphore.update("data".getBytes(StandardCharsets.UTF_8)).join(), Status.SUCCESS);
+        try (CoordinationSessionNew session = mockClient.createSession(path, Duration.ofSeconds(100)).join();) {
+            session.createSemaphore(semaphoreName, 101).join();
+            CoordinationSemaphore semaphore = session.acquireSemaphore(semaphoreName, 90, Duration.ofSeconds(20))
+                    .join().getValue();
+            Assert.assertEquals(session.updateSemaphore(semaphoreName,
+                    "data".getBytes(StandardCharsets.UTF_8)).join(), Status.SUCCESS);
 
             List<CoordinationSessionNew> sessions = ThreadLocalRandom
                     .current()
@@ -156,26 +161,28 @@ public class CoordinationClientTest {
 
             ProxyStream.IS_STOPPED.set(true);
 //            ------------------------
-            List<CompletableFuture<Result<Boolean>>> acquireFutures = new ArrayList<>();
+            List<CompletableFuture<Result<CoordinationSemaphore>>> acquireFutures = new ArrayList<>();
             sessions.forEach(otherSession -> {
-                final CompletableFuture<Result<Boolean>> acquireFuture = new CompletableFuture<>();
+                final CompletableFuture<Result<CoordinationSemaphore>> acquireFuture = new CompletableFuture<>();
                 acquireFutures.add(acquireFuture);
-                otherSession.createSemaphore("retry-test", 1)
+                otherSession.createSemaphore(semaphoreName, 1)
                         .whenComplete((result, thSem) -> {
                             Assert.assertNull(thSem);
-                            result.getValue().acquire(1, Duration.ofSeconds(100)).whenComplete((acquired, th) ->
-                                    acquireFuture.complete(acquired));
+                            otherSession.acquireSemaphore(semaphoreName, 1, Duration.ofSeconds(100))
+                                    .whenComplete((acquired, th) ->
+                                            acquireFuture.complete(acquired));
                         });
             });
 
-            semaphore.update("changed data".getBytes(StandardCharsets.UTF_8));
+            session.updateSemaphore(semaphoreName, "changed data".getBytes(StandardCharsets.UTF_8));
 //            ------------------------
             ProxyStream.IS_STOPPED.set(false);
 
-            for (CompletableFuture<Result<Boolean>> future : acquireFutures) {
+            for (CompletableFuture<Result<CoordinationSemaphore>> future : acquireFutures) {
                 Assert.assertEquals(Status.SUCCESS, future.get(100, TimeUnit.SECONDS).getStatus());
             }
-            final SemaphoreDescription desc = semaphore.describe(DescribeMode.DATA_ONLY, WatchMode.WATCH_DATA, a -> {
+            final SemaphoreDescription desc = session.describeSemaphore(semaphoreName,
+                            DescribeMode.DATA_ONLY, WatchMode.WATCH_DATA, a -> {
                     })
                     .get(100, TimeUnit.SECONDS)
                     .getValue();
@@ -185,6 +192,7 @@ public class CoordinationClientTest {
             for (CoordinationSessionNew coordinationSessionNew : sessions) {
                 coordinationSessionNew.close();
             }
+            session.removeWatcher(semaphoreName);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

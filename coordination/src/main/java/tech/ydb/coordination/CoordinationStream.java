@@ -22,9 +22,7 @@ public interface CoordinationStream {
 
     CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphore(
             String semaphoreName, boolean includeOwners, boolean includeWaiters,
-            boolean watchData, boolean watchOwners, Consumer<DescribeSemaphoreChanged> updateWatcher,
-            int requestId
-    );
+            boolean watchData, boolean watchOwners, Consumer<DescribeSemaphoreChanged> updateWatcher);
 
     CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, int requestId);
 

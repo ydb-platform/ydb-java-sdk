@@ -5,8 +5,11 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 import tech.ydb.coordination.CoordinationSessionNew;
+import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
+import tech.ydb.coordination.settings.SemaphoreDescription;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
@@ -42,32 +45,28 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
     }
 
     @Override
-    public CompletableFuture<Result<CoordinationSemaphore>> createSemaphore(String semaphoreName, long limit,
-                                                                            byte[] data) {
+    public CompletableFuture<Status> createSemaphore(String semaphoreName, long limit,
+                                                     byte[] data) {
         if (data == null) {
             data = BYTE_ARRAY_STUB;
         }
         final int semaphoreId = lastId.getAndIncrement();
         logger.trace("Send createSemaphore {} with limit {}", semaphoreName, limit);
-        return stream.sendCreateSemaphore(semaphoreName, limit, data, semaphoreId)
-                .thenApply(status -> (status.isSuccess() || status.getCode() == StatusCode.ALREADY_EXISTS) ?
-                        Result.success(new CoordinationSemaphoreImpl(stream, lastId.getAndIncrement(), semaphoreName,
-                                lastId)) :
-                        Result.fail(status));
+        return stream.sendCreateSemaphore(semaphoreName, limit, data, semaphoreId);
     }
 
     @Override
-    public CompletableFuture<Result<CoordinationSemaphore>> acquireEphemeralSemaphore(
-            String semaphoreName, long count, Duration timeout, byte[] data) {
+    public CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(
+            String semaphoreName, long count, boolean ephemeral, Duration timeout, byte[] data) {
         if (data == null) {
             data = BYTE_ARRAY_STUB;
         }
         final int semaphoreCreateId = lastId.getAndIncrement();
-        logger.trace("Send acquireEphemeralSemaphore {} with count {}", semaphoreName, count);
-        return stream.sendAcquireSemaphore(semaphoreName, count, timeout, true, data, semaphoreCreateId)
-                .thenApply(result -> result.isSuccess() && result.getValue() ?
-                        Result.success(new CoordinationEphemeralSemaphoreImpl(
-                                stream, lastId.getAndIncrement(), semaphoreName, lastId)
+        logger.trace("Send acquireSemaphore {} with count {}", semaphoreName, count);
+        return stream.sendAcquireSemaphore(semaphoreName, count, timeout, ephemeral, data, semaphoreCreateId)
+                .thenApply(result -> (result.isSuccess() && result.getValue()) ?
+                        Result.success(new CoordinationSemaphoreImpl(
+                                stream, semaphoreName, lastId)
                         ) :
                         Result.fail(result.isSuccess() ?
                                 Status.of(
@@ -75,6 +74,32 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
                                         (double) 0, Issue.of("Semaphore has already existed.", Severity.WARNING)) :
                                 result.getStatus())
                 );
+    }
+
+    @Override
+    public CompletableFuture<Status> updateSemaphore(String semaphoreName, byte[] data) {
+        if (data == null) {
+            data = BYTE_ARRAY_STUB;
+        }
+        return stream.sendUpdateSemaphore(semaphoreName, data, lastId.getAndIncrement());
+    }
+
+    @Override
+    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName,
+                                                         DescribeMode describeMode, WatchMode watchMode,
+                                                         Consumer<DescribeSemaphoreChanged> updateWatcher) {
+        return stream.sendDescribeSemaphore(semaphoreName, describeMode.includeOwners(), describeMode.includeWaiters(),
+                watchMode.watchData(), watchMode.watchData(), updateWatcher);
+    }
+
+    @Override
+    public CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force) {
+        return stream.sendDeleteSemaphore(semaphoreName, force, lastId.getAndIncrement());
+    }
+
+    @Override
+    public boolean removeWatcher(String semaphoreName) {
+        return stream.removeUpdateWatcher(semaphoreName);
     }
 
     @Override
