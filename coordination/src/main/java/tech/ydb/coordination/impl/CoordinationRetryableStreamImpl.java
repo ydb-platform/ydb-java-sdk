@@ -178,15 +178,14 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         break;
                     case DESCRIBE_SEMAPHORE_CHANGED:
                         requestId = message.getDescribeSemaphoreChanged().getReqId();
-                        updateWatchers.compute(getUserRequestId(requestId), (key, value) -> {
-                            if (value != null) {
-                                value.accept(new DescribeSemaphoreChanged(
-                                        message.getDescribeSemaphoreChanged().getDataChanged(),
-                                        message.getDescribeSemaphoreChanged().getOwnersChanged(),
-                                        false));
-                            }
-                            return value;
-                        });
+                        final Consumer<DescribeSemaphoreChanged> watcher =
+                                updateWatchers.remove(getUserRequestId(requestId));
+                        if (watcher != null) {
+                            watcher.accept(new DescribeSemaphoreChanged(
+                                    message.getDescribeSemaphoreChanged().getDataChanged(),
+                                    message.getDescribeSemaphoreChanged().getOwnersChanged(),
+                                    false));
+                        }
                         break;
                     case DELETE_SEMAPHORE_RESULT:
                         requestId = message.getDeleteSemaphoreResult().getReqId();
@@ -297,9 +296,10 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
             logger.trace("Resend request: {}", requestMap.get(requestId).toString());
             send(requestMap.get(requestId));
         }
-        updateWatchers.forEach((id, watcher) -> {
-            watcher.accept(new DescribeSemaphoreChanged(false, false, true));
-        });
+        updateWatchers.forEach((id, watcher) ->
+            watcher.accept(new DescribeSemaphoreChanged(false, false, true))
+        );
+        updateWatchers.clear();
     }
 
     public CompletableFuture<Result<Boolean>> sendAcquireSemaphore(String semaphoreName, long count, Duration timeout,
@@ -463,14 +463,6 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                 logger.error("Error sending message {}", sessionRequest, e);
             }
         }
-    }
-
-    boolean removeUpdateWatcher(String semaphoreName) {
-        final Integer id = semaphoreId.remove(semaphoreName);
-        if (id != null) {
-            return updateWatchers.remove(id) != null;
-        }
-        return false;
     }
 
     public void stop() {

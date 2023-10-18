@@ -70,8 +70,6 @@ public interface CoordinationSessionNew extends AutoCloseable {
 
     CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force);
 
-    boolean removeWatcher(String semaphoreName);
-
     enum DescribeMode {
         /**
          * Describe only semaphore's data (name, user-defined data and others)

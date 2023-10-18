@@ -10,7 +10,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import tech.ydb.coordination.CoordinationSessionNew.CoordinationSemaphore;
@@ -105,8 +104,6 @@ public class CoordinationClientTest {
             session.updateSemaphore(semaphoreName, data).join();
             Assert.assertTrue(dataChangedFuture.get(1, TimeUnit.MINUTES));
             Assert.assertTrue(semaphore.release().join().getValue());
-
-            session.removeWatcher(semaphoreName);
         } catch (Exception e) {
             Assert.fail("There have to be no exceptions. [exception]: " + e);
             throw new RuntimeException(e);
