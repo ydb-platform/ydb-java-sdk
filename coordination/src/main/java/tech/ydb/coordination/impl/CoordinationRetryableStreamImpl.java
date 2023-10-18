@@ -352,6 +352,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                                                                                         SessionRequest request) {
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Result<SemaphoreDescription>> describeFuture = new CompletableFuture<>();
+        describeFuture.whenComplete((res, th) -> logger.info("debug sendDescribeSemaphoreDetail: res = {}", res));
         futuresMap.put(fullRequestId, (semaphoreDescription, status) -> {
             if (status.isSuccess() && semaphoreDescription.isPresent()) {
                 describeFuture.complete(Result.success((SemaphoreDescription) semaphoreDescription.get()));

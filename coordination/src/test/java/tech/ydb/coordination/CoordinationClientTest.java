@@ -3,14 +3,17 @@ package tech.ydb.coordination;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import tech.ydb.coordination.CoordinationSessionNew.CoordinationSemaphore;
 import tech.ydb.coordination.CoordinationSessionNew.DescribeMode;
@@ -24,6 +27,7 @@ import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.coordination.settings.SemaphoreDescription;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.proto.coordination.AlterNodeRequest;
@@ -43,9 +47,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * @author Kirill Kurdyukov
- */
 public class CoordinationClientTest {
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
@@ -188,6 +189,62 @@ public class CoordinationClientTest {
         }
     }
 
+    @Test
+    public void leaderElectionTest() throws InterruptedException {
+        final Duration duration = Duration.ofSeconds(60);
+        final String semaphoreName = "leader-election-semaphore";
+        final int sessionCount = 10;
+        final CountDownLatch latch1 = new CountDownLatch(sessionCount);
+        List<CoordinationSessionNew> sessions = Stream.generate(() -> client.createSession(path, duration).join())
+                .limit(sessionCount)
+                .collect(Collectors.toList());
+
+        CompletableFuture<CoordinationSemaphore> semaphore = new CompletableFuture<>();
+        CompletableFuture<CoordinationSessionNew> leader = new CompletableFuture<>();
+
+        sessions.forEach(session ->
+                session.createSemaphore(semaphoreName, 1)
+                        .whenComplete((status, createSemaphoreTh) -> {
+                                    latch1.countDown();
+                                    Assert.assertNull(createSemaphoreTh);
+                                    Assert.assertTrue(status == Status.SUCCESS &&
+                                            status.getCode() == StatusCode.ALREADY_EXISTS);
+                                }
+                        )
+        );
+
+        latch1.await();
+        final CountDownLatch latch2 = new CountDownLatch(sessionCount);
+
+        sessions.forEach(session -> session.acquireSemaphore(semaphoreName, 1, false, Duration.ZERO,
+                        String.valueOf(session.getId()).getBytes())
+                .whenComplete((result, acquireSemaphoreTh) -> {
+                            Assert.assertNull(acquireSemaphoreTh);
+                            if (result.isSuccess()) {
+                                semaphore.complete(result.getValue());
+                                leader.complete(session);
+                            }
+                            latch2.countDown();
+                        }
+                )
+        );
+
+        latch2.await();
+        final CoordinationSessionNew leaderSession = leader.join();
+        final CountDownLatch latch3 = new CountDownLatch(sessionCount);
+
+        sessions.forEach(session -> session.describeSemaphore(semaphoreName, DescribeMode.WITH_OWNERS)
+                .whenComplete((result, th) -> {
+                    Assert.assertTrue(result.isSuccess());
+                    Assert.assertNull(th);
+                    Assert.assertArrayEquals(String.valueOf(leaderSession.getId()).getBytes(),
+                            result.getValue().getOwnersList().get(0).getData());
+                    latch3.countDown();
+                }));
+
+        latch3.await();
+    }
+
     @After
     public void deleteNode() {
         CompletableFuture<Status> result = client.dropNode(
@@ -197,86 +254,87 @@ public class CoordinationClientTest {
         );
         Assert.assertTrue(result.join().isSuccess());
     }
+}
 
-    private static final class CoordinationProxyRpc implements CoordinationRpc {
-        private final CoordinationRpc rpc;
+final class CoordinationProxyRpc implements CoordinationRpc {
+    private final CoordinationRpc rpc;
 
-        private CoordinationProxyRpc(CoordinationRpc rpc) {
-            this.rpc = rpc;
-        }
+    CoordinationProxyRpc(CoordinationRpc rpc) {
+        this.rpc = rpc;
+    }
 
-        @Override
-        public GrpcReadWriteStream<SessionResponse, SessionRequest> session() {
-            return new ProxyStream(rpc.session());
-        }
+    @Override
+    public GrpcReadWriteStream<SessionResponse, SessionRequest> session() {
+        return new ProxyStream(rpc.session());
+    }
 
-        @Override
-        public CompletableFuture<Status> createNode(CreateNodeRequest request, GrpcRequestSettings settings) {
-            return rpc.createNode(request, settings);
-        }
+    @Override
+    public CompletableFuture<Status> createNode(CreateNodeRequest request, GrpcRequestSettings settings) {
+        return rpc.createNode(request, settings);
+    }
 
-        @Override
-        public CompletableFuture<Status> alterNode(AlterNodeRequest request, GrpcRequestSettings settings) {
-            return rpc.alterNode(request, settings);
-        }
+    @Override
+    public CompletableFuture<Status> alterNode(AlterNodeRequest request, GrpcRequestSettings settings) {
+        return rpc.alterNode(request, settings);
+    }
 
-        @Override
-        public CompletableFuture<Status> dropNode(DropNodeRequest request, GrpcRequestSettings settings) {
-            return rpc.dropNode(request, settings);
-        }
+    @Override
+    public CompletableFuture<Status> dropNode(DropNodeRequest request, GrpcRequestSettings settings) {
+        return rpc.dropNode(request, settings);
+    }
 
-        @Override
-        public CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings) {
-            return rpc.describeNode(request, settings);
-        }
+    @Override
+    public CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings) {
+        return rpc.describeNode(request, settings);
+    }
 
-        @Override
-        public String getDatabase() {
-            return rpc.getDatabase();
+    @Override
+    public String getDatabase() {
+        return rpc.getDatabase();
+    }
+}
+
+final class ProxyStream implements GrpcReadWriteStream<SessionResponse, SessionRequest> {
+    static final AtomicBoolean IS_STOPPED = new AtomicBoolean(false);
+    private static final Logger logger = LoggerFactory.getLogger(ProxyStream.class);
+    private final GrpcReadWriteStream<SessionResponse, SessionRequest> workStream;
+    private Observer<SessionResponse> observer;
+
+    ProxyStream(GrpcReadWriteStream<SessionResponse, SessionRequest> workStream) {
+        logger.trace("Create MockedStream: " + workStream);
+        this.workStream = workStream;
+    }
+
+    @Override
+    public CompletableFuture<Status> start(Observer<SessionResponse> observer) {
+        // TODO: test with stream ruin in start method
+        this.observer = observer;
+        final CompletableFuture<Status> c = workStream.start(observer);
+        logger.trace("Start in MockedStream: return " + IS_STOPPED);
+        return IS_STOPPED.get() ? new CompletableFuture<>() : c;
+    }
+
+    @Override
+    public void cancel() {
+        workStream.cancel();
+    }
+
+    @Override
+    public String authToken() {
+        return workStream.authToken();
+    }
+
+    @Override
+    public void sendNext(SessionRequest message) {
+        if (!IS_STOPPED.get()) {
+            workStream.sendNext(message);
+        } else {
+            observer.onNext(SessionResponse.newBuilder().setFailure(Failure.newBuilder().build()).build());
         }
     }
 
-    private static final class ProxyStream implements GrpcReadWriteStream<SessionResponse, SessionRequest> {
-        private static final AtomicBoolean IS_STOPPED = new AtomicBoolean(false);
-        private final GrpcReadWriteStream<SessionResponse, SessionRequest> workStream;
-        private Observer<SessionResponse> observer;
-
-        private ProxyStream(GrpcReadWriteStream<SessionResponse, SessionRequest> workStream) {
-            logger.trace("Create MockedStream: " + workStream);
-            this.workStream = workStream;
-        }
-
-        @Override
-        public CompletableFuture<Status> start(Observer<SessionResponse> observer) {
-            // TODO: test with stream ruin in start method
-            this.observer = observer;
-            final CompletableFuture<Status> c = workStream.start(observer);
-            logger.trace("Start in MockedStream: return " + IS_STOPPED);
-            return IS_STOPPED.get() ? new CompletableFuture<>() : c;
-        }
-
-        @Override
-        public void cancel() {
-            workStream.cancel();
-        }
-
-        @Override
-        public String authToken() {
-            return workStream.authToken();
-        }
-
-        @Override
-        public void sendNext(SessionRequest message) {
-            if (!IS_STOPPED.get()) {
-                workStream.sendNext(message);
-            } else {
-                observer.onNext(SessionResponse.newBuilder().setFailure(Failure.newBuilder().build()).build());
-            }
-        }
-
-        @Override
-        public void close() {
-            workStream.close();
-        }
+    @Override
+    public void close() {
+        workStream.close();
     }
 }
