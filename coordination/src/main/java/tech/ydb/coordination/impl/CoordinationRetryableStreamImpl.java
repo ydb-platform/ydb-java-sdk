@@ -20,6 +20,10 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
+import com.google.protobuf.ByteString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
 import tech.ydb.coordination.settings.SemaphoreDescription;
@@ -40,10 +44,6 @@ import tech.ydb.proto.coordination.SessionRequest.ReleaseSemaphore;
 import tech.ydb.proto.coordination.SessionRequest.SessionStart;
 import tech.ydb.proto.coordination.SessionRequest.UpdateSemaphore;
 import tech.ydb.proto.coordination.SessionResponse;
-
-import com.google.protobuf.ByteString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationRetryableStreamImpl.class);
@@ -352,6 +352,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                                                                                         SessionRequest request) {
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Result<SemaphoreDescription>> describeFuture = new CompletableFuture<>();
+        describeFuture.whenComplete((res, th) -> logger.info("debug sendDescribeSemaphoreDetail: res = {}", res));
         futuresMap.put(fullRequestId, (semaphoreDescription, status) -> {
             if (status.isSuccess() && semaphoreDescription.isPresent()) {
                 describeFuture.complete(Result.success((SemaphoreDescription) semaphoreDescription.get()));

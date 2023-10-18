@@ -1,7 +1,6 @@
 package tech.ydb.coordination;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Function;
 
 import tech.ydb.coordination.settings.SemaphoreDescription;
 import tech.ydb.core.Status;

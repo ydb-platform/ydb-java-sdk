@@ -10,6 +10,10 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 
 public interface CoordinationSessionNew extends AutoCloseable {
+
+    @Override
+    void close();
+
     /**
      * {@link CoordinationSessionNew#createSemaphore(String, long, byte[])}
      */
@@ -69,6 +73,8 @@ public interface CoordinationSessionNew extends AutoCloseable {
     CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode mode);
 
     CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force);
+
+    long getId();
 
     enum DescribeMode {
         /**

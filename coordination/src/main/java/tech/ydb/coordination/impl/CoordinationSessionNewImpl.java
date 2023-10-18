@@ -1,11 +1,15 @@
 package tech.ydb.coordination.impl;
 
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationSessionNew;
 import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
@@ -15,9 +19,6 @@ import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CoordinationSessionNewImpl implements CoordinationSessionNew {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionNew.class);
@@ -100,6 +101,28 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
     @Override
     public CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force) {
         return stream.sendDeleteSemaphore(semaphoreName, force, lastId.getAndIncrement());
+    }
+
+    @Override
+    public long getId() {
+        return sessionId.get();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof CoordinationSessionNewImpl)) {
+            return false;
+        }
+        CoordinationSessionNewImpl that = (CoordinationSessionNewImpl) o;
+        return Objects.equals(sessionId, that.sessionId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Math.toIntExact(sessionId.get());
     }
 
     @Override
