@@ -1,4 +1,4 @@
-package tech.ydb.coordination;
+package tech.ydb.coordination.impl;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;

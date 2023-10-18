@@ -18,7 +18,6 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
-import tech.ydb.coordination.CoordinationStream;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
 import tech.ydb.coordination.settings.SemaphoreDescription;
@@ -143,6 +142,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                                 message.getAcquireSemaphoreResult().getStatus(),
                                 message.getAcquireSemaphoreResult().getIssuesList()
                         );
+                        // TODO: maybe ephemeral is no need
                         requestMap.remove(requestId);
                         final CompletableFuture<Status> acquireEphemeralSemaphore;
                         if ((acquireEphemeralSemaphore = createEphemeralSemaphoreFutures.remove(requestId)) != null) {
@@ -232,7 +232,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         });
 
         stoppedFuture.thenRun(() -> {
-            if (!isRetryState.get()) {
+            if (!isRetryState.get() && isWorking.get()) {
                 isRetryState.set(true);
                 retry();
             }
