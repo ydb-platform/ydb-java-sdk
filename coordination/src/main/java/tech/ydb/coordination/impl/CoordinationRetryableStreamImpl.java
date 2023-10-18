@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
@@ -27,6 +29,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.proto.StatusCodesProtos;
+import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.YdbIssueMessage.IssueMessage;
 import tech.ydb.proto.coordination.SessionRequest;
 import tech.ydb.proto.coordination.SessionRequest.AcquireSemaphore;
@@ -56,16 +59,8 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private final Duration timeoutInRetryAttempt;
     private final Duration timeoutBetweenAttempts;
     private final ScheduledExecutorService executorService;
-    private final Map<Long, CompletableFuture<Status>> createSemaphoreFutures =
-            new ConcurrentHashMap<>();
-    private final Map<Long, CompletableFuture<Status>> createEphemeralSemaphoreFutures = new ConcurrentHashMap<>();
-    private final Map<Long, CompletableFuture<Result<Boolean>>> acquireSemaphoreFutures = new ConcurrentHashMap<>();
-    private final Map<Long, CompletableFuture<Result<Boolean>>> releaseSemaphoreFutures = new ConcurrentHashMap<>();
-    private final Map<Long, CompletableFuture<Result<SemaphoreDescription>>> describeSemaphoreFutures =
-            new ConcurrentHashMap<>();
-    private final Map<Long, CompletableFuture<Status>> deleteSemaphoreFutures = new ConcurrentHashMap<>();
     private final Map<Integer, Consumer<DescribeSemaphoreChanged>> updateWatchers = new ConcurrentHashMap<>();
-    private final Map<Long, CompletableFuture<Status>> updateSemaphoreFutures = new ConcurrentHashMap<>();
+    private final Map<Long, BiConsumer<Optional<Object>, Status>> futuresMap = new ConcurrentHashMap<>();
     private final Map<String, Integer> semaphoreId = new ConcurrentHashMap<>();
     private final AtomicInteger nextSemaphoreId = new AtomicInteger(1);
     private GrpcReadWriteStream<SessionResponse, SessionRequest> coordinationStream;
@@ -107,7 +102,6 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     protected CompletableFuture<Long> start(Duration timeout) {
         final CompletableFuture<Long> sessionStartFuture = new CompletableFuture<>();
         this.stoppedFuture = coordinationStream.start(message -> {
-            Status status;
             long requestId;
             if (logger.isTraceEnabled()) {
                 logger.trace("Message received:\n{}", message);
@@ -137,44 +131,32 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         );
                         break;
                     case ACQUIRE_SEMAPHORE_RESULT:
-                        requestId = message.getAcquireSemaphoreResult().getReqId();
-                        status = getStatus(
-                                message.getAcquireSemaphoreResult().getStatus(),
-                                message.getAcquireSemaphoreResult().getIssuesList()
-                        );
                         // TODO: maybe ephemeral is no need
-                        requestMap.remove(requestId);
-                        final CompletableFuture<Status> acquireEphemeralSemaphore;
-                        if ((acquireEphemeralSemaphore = createEphemeralSemaphoreFutures.remove(requestId)) != null) {
-                            acquireEphemeralSemaphore.complete(status);
-                        } else {
-                            acquireSemaphoreFutures.remove(requestId).complete(status.isSuccess() ?
-                                    Result.success(message.getAcquireSemaphoreResult().getAcquired()) :
-                                    Result.fail(status));
-                        }
+                        requestMap.remove(message.getAcquireSemaphoreResult().getReqId());
+                        futuresMap.remove(message.getAcquireSemaphoreResult().getReqId()).accept(
+                                Optional.of(message.getAcquireSemaphoreResult().getAcquired()),
+                                getStatus(
+                                        message.getAcquireSemaphoreResult().getStatus(),
+                                        message.getAcquireSemaphoreResult().getIssuesList()
+                                )
+                        );
                         break;
                     case ACQUIRE_SEMAPHORE_PENDING:
                         break;
                     case FAILURE:
-                        if (!isRetryState.get()) {
+                        if (!isRetryState.get() && isWorking.get()) {
                             retry();
                         }
                         break;
                     case DESCRIBE_SEMAPHORE_RESULT:
-                        requestId = message.getDescribeSemaphoreResult().getReqId();
-                        status = getStatus(
-                                message.getDescribeSemaphoreResult().getStatus(),
-                                message.getDescribeSemaphoreResult().getIssuesList()
+                        futuresMap.remove(message.getDescribeSemaphoreResult().getReqId()).accept(
+                                Optional.of(new SemaphoreDescription(
+                                        message.getDescribeSemaphoreResult().getSemaphoreDescription())
+                                ), getStatus(
+                                        message.getDescribeSemaphoreResult().getStatus(),
+                                        message.getDescribeSemaphoreResult().getIssuesList()
+                                )
                         );
-                        final CompletableFuture<Result<SemaphoreDescription>> describeFuture =
-                                describeSemaphoreFutures.remove(requestId);
-                        requestMap.remove(message.getDescribeSemaphoreResult().getReqId());
-                        if (status.isSuccess()) {
-                            describeFuture.complete(Result.success(new SemaphoreDescription(
-                                    message.getDescribeSemaphoreResult().getSemaphoreDescription())));
-                        } else {
-                            describeFuture.complete(Result.fail(status));
-                        }
                         break;
                     case DESCRIBE_SEMAPHORE_CHANGED:
                         requestId = message.getDescribeSemaphoreChanged().getReqId();
@@ -188,42 +170,44 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         }
                         break;
                     case DELETE_SEMAPHORE_RESULT:
-                        requestId = message.getDeleteSemaphoreResult().getReqId();
-                        status = getStatus(
-                                message.getDeleteSemaphoreResult().getStatus(),
-                                message.getDeleteSemaphoreResult().getIssuesList()
+                        requestMap.remove(message.getDeleteSemaphoreResult().getReqId());
+                        futuresMap.remove(message.getDeleteSemaphoreResult().getReqId()).accept(
+                                Optional.empty(),
+                                getStatus(
+                                        message.getDeleteSemaphoreResult().getStatus(),
+                                        message.getDeleteSemaphoreResult().getIssuesList()
+                                )
                         );
-                        requestMap.remove(requestId);
-                        deleteSemaphoreFutures.remove(requestId).complete(status);
                         break;
                     case CREATE_SEMAPHORE_RESULT:
-                        requestId = message.getCreateSemaphoreResult().getReqId();
-                        status = getStatus(
-                                message.getCreateSemaphoreResult().getStatus(),
-                                message.getCreateSemaphoreResult().getIssuesList()
-                        );
                         requestMap.remove(message.getCreateSemaphoreResult().getReqId());
-                        createSemaphoreFutures.remove(requestId).complete(status);
+                        futuresMap.remove(message.getCreateSemaphoreResult().getReqId()).accept(
+                                Optional.empty(),
+                                getStatus(
+                                        message.getCreateSemaphoreResult().getStatus(),
+                                        message.getCreateSemaphoreResult().getIssuesList()
+                                )
+                        );
                         break;
                     case RELEASE_SEMAPHORE_RESULT:
-                        requestId = message.getReleaseSemaphoreResult().getReqId();
-                        status = getStatus(
-                                message.getReleaseSemaphoreResult().getStatus(),
-                                message.getReleaseSemaphoreResult().getIssuesList()
-                        );
                         requestMap.remove(message.getReleaseSemaphoreResult().getReqId());
-                        releaseSemaphoreFutures.remove(requestId).complete(status.isSuccess() ?
-                                Result.success(message.getReleaseSemaphoreResult().getReleased()) :
-                                Result.fail(status));
+                        futuresMap.remove(message.getReleaseSemaphoreResult().getReqId()).accept(
+                                Optional.of(message.getReleaseSemaphoreResult().getReleased()),
+                                getStatus(
+                                        message.getReleaseSemaphoreResult().getStatus(),
+                                        message.getReleaseSemaphoreResult().getIssuesList()
+                                )
+                        );
                         break;
                     case UPDATE_SEMAPHORE_RESULT:
-                        requestId = message.getUpdateSemaphoreResult().getReqId();
-                        status = getStatus(
-                                message.getUpdateSemaphoreResult().getStatus(),
-                                message.getUpdateSemaphoreResult().getIssuesList()
-                        );
                         requestMap.remove(message.getUpdateSemaphoreResult().getReqId());
-                        updateSemaphoreFutures.remove(requestId).complete(status);
+                        futuresMap.remove(message.getUpdateSemaphoreResult().getReqId()).accept(
+                                Optional.empty(),
+                                getStatus(
+                                        message.getUpdateSemaphoreResult().getStatus(),
+                                        message.getUpdateSemaphoreResult().getIssuesList()
+                                )
+                        );
                         break;
                     default:
                 }
@@ -297,7 +281,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
             send(requestMap.get(requestId));
         }
         updateWatchers.forEach((id, watcher) ->
-            watcher.accept(new DescribeSemaphoreChanged(false, false, true))
+                watcher.accept(new DescribeSemaphoreChanged(false, false, true))
         );
         updateWatchers.clear();
     }
@@ -320,11 +304,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         .setReqId(fullRequestId)
                         .build()
         ).build();
-        requestMap.put(fullRequestId, request);
-        final CompletableFuture<Result<Boolean>> acquireFuture = new CompletableFuture<>();
-        acquireSemaphoreFutures.put(fullRequestId, acquireFuture);
-        send(request);
-        return acquireFuture;
+        return getFutureAcquireRelease(fullRequestId, request);
     }
 
     public CompletableFuture<Result<Boolean>> sendReleaseSemaphore(String semaphoreName, int requestId) {
@@ -335,9 +315,17 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         .setReqId(fullRequestId)
                         .build()
         ).build();
+        return getFutureAcquireRelease(fullRequestId, request);
+    }
+
+    @Nonnull
+    private CompletableFuture<Result<Boolean>> getFutureAcquireRelease(long fullRequestId, SessionRequest request) {
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Result<Boolean>> releaseFuture = new CompletableFuture<>();
-        releaseSemaphoreFutures.put(fullRequestId, releaseFuture);
+        futuresMap.put(fullRequestId, (released, status) ->
+                releaseFuture.complete(status.isSuccess() && released.isPresent() ?
+                        Result.success((Boolean) released.get()) : Result.fail(status))
+        );
         send(request);
         return releaseFuture;
     }
@@ -355,10 +343,22 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         .setReqId(fullRequestId)
                         .build()
         ).build();
+        CompletableFuture<Result<SemaphoreDescription>> future = sendDescribeSemaphoreDetail(fullRequestId, request);
+        send(request);
+        return future;
+    }
+
+    private CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphoreDetail(long fullRequestId,
+                                                                                        SessionRequest request) {
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Result<SemaphoreDescription>> describeFuture = new CompletableFuture<>();
-        describeSemaphoreFutures.put(fullRequestId, describeFuture);
-        send(request);
+        futuresMap.put(fullRequestId, (semaphoreDescription, status) -> {
+            if (status.isSuccess() && semaphoreDescription.isPresent()) {
+                describeFuture.complete(Result.success((SemaphoreDescription) semaphoreDescription.get()));
+            } else {
+                describeFuture.complete(Result.fail(status));
+            }
+        });
         return describeFuture;
     }
 
@@ -377,12 +377,10 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         .setReqId(fullRequestId)
                         .build()
         ).build();
-        requestMap.put(fullRequestId, request);
-        final CompletableFuture<Result<SemaphoreDescription>> describeFuture = new CompletableFuture<>();
-        describeSemaphoreFutures.put(fullRequestId, describeFuture);
+        CompletableFuture<Result<SemaphoreDescription>> future = sendDescribeSemaphoreDetail(fullRequestId, request);
         updateWatchers.put(getUserRequestId(fullRequestId), updateWatcher);
         send(request);
-        return describeFuture;
+        return future;
     }
 
     public CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, int requestId) {
@@ -402,7 +400,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         ).build();
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Status> createSemaphoreFuture = new CompletableFuture<>();
-        createSemaphoreFutures.put(fullRequestId, createSemaphoreFuture);
+        futuresMap.put(fullRequestId, (empty, status) -> createSemaphoreFuture.complete(status));
         send(request);
         return createSemaphoreFuture;
     }
@@ -422,7 +420,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         ).build();
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Status> updateFuture = new CompletableFuture<>();
-        updateSemaphoreFutures.put(fullRequestId, updateFuture);
+        futuresMap.put(fullRequestId, (empty, status) -> updateFuture.complete(status));
         send(request);
         return updateFuture;
     }
@@ -438,7 +436,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         ).build();
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Status> deleteFuture = new CompletableFuture<>();
-        deleteSemaphoreFutures.put(fullRequestId, deleteFuture);
+        futuresMap.put(fullRequestId, (deleted, status) -> deleteFuture.complete(status));
         send(request);
         return deleteFuture;
     }
@@ -467,6 +465,9 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
 
     public void stop() {
         isWorking.set(false);
+        futuresMap.forEach((key, biConsumer) -> biConsumer.accept(Optional.empty(),
+                getStatus(StatusIds.StatusCode.SESSION_EXPIRED, Collections.emptyList())));
+        futuresMap.clear();
         coordinationStream.close();
     }
 }
