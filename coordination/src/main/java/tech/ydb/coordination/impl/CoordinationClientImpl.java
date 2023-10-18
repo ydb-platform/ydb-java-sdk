@@ -10,10 +10,8 @@ import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.core.Operations;
 import tech.ydb.core.Status;
-import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.core.operation.OperationUtils;
 import tech.ydb.proto.coordination.AlterNodeRequest;
 import tech.ydb.proto.coordination.Config;
 import tech.ydb.proto.coordination.ConsistencyMode;
@@ -49,10 +47,10 @@ public class CoordinationClientImpl implements CoordinationClient {
         return coordinationRpc.createNode(
                 CreateNodeRequest.newBuilder()
                         .setPath(path)
-                        .setOperationParams(Operations.createParams(coordinationNodeSettings))
+                        .setOperationParams(OperationUtils.createParams(coordinationNodeSettings))
                         .setConfig(createConfig(coordinationNodeSettings))
                         .build(),
-                createGrpcRequestSettings(coordinationNodeSettings)
+                OperationUtils.createGrpcRequestSettings(coordinationNodeSettings)
         );
     }
 
@@ -64,10 +62,10 @@ public class CoordinationClientImpl implements CoordinationClient {
         return coordinationRpc.alterNode(
                 AlterNodeRequest.newBuilder()
                         .setPath(path)
-                        .setOperationParams(Operations.createParams(coordinationNodeSettings))
+                        .setOperationParams(OperationUtils.createParams(coordinationNodeSettings))
                         .setConfig(createConfig(coordinationNodeSettings))
                         .build(),
-                createGrpcRequestSettings(coordinationNodeSettings)
+                OperationUtils.createGrpcRequestSettings(coordinationNodeSettings)
         );
     }
 
@@ -79,9 +77,9 @@ public class CoordinationClientImpl implements CoordinationClient {
         return coordinationRpc.dropNode(
                 DropNodeRequest.newBuilder()
                         .setPath(path)
-                        .setOperationParams(Operations.createParams(dropCoordinationNodeSettings))
+                        .setOperationParams(OperationUtils.createParams(dropCoordinationNodeSettings))
                         .build(),
-                createGrpcRequestSettings(dropCoordinationNodeSettings)
+                OperationUtils.createGrpcRequestSettings(dropCoordinationNodeSettings)
         );
     }
 
@@ -93,9 +91,9 @@ public class CoordinationClientImpl implements CoordinationClient {
         return coordinationRpc.describeNode(
                 DescribeNodeRequest.newBuilder()
                         .setPath(path)
-                        .setOperationParams(Operations.createParams(describeCoordinationNodeSettings))
+                        .setOperationParams(OperationUtils.createParams(describeCoordinationNodeSettings))
                         .build(),
-                createGrpcRequestSettings(describeCoordinationNodeSettings)
+                OperationUtils.createGrpcRequestSettings(describeCoordinationNodeSettings)
         );
     }
 
@@ -140,11 +138,5 @@ public class CoordinationClientImpl implements CoordinationClient {
         }
 
         return configBuilder.build();
-    }
-
-    private GrpcRequestSettings createGrpcRequestSettings(BaseRequestSettings settings) {
-        return GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getRequestTimeout())
-                .build();
     }
 }

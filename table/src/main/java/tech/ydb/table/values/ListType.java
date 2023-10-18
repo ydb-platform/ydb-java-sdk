@@ -64,7 +64,7 @@ public final class ListType implements Type {
         return new ListValue(this, Value.EMPTY_ARRAY);
     }
 
-    public ListValue newValue(List<Value<?>> items) {
+    public ListValue newValue(List<? extends Value<?>> items) {
         if (items.isEmpty()) {
             return emptyValue();
         }

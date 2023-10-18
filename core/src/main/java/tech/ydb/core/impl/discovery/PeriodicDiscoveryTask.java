@@ -40,15 +40,21 @@ public class PeriodicDiscoveryTask implements Runnable {
     private final ScheduledExecutorService scheduler;
     private final GrpcDiscoveryRpc discoveryRpc;
     private final DiscoveryHandler discoveryHandler;
+    private final long waitingTimeoutMillis;
 
     private final AtomicBoolean updateInProgress = new AtomicBoolean();
     private final State state = new State();
-    private volatile ScheduledFuture<?> currentSchedule = null;
+    private volatile ScheduledFuture<?> currentSchedule;
 
-    public PeriodicDiscoveryTask(ScheduledExecutorService scheduler, GrpcDiscoveryRpc rpc, DiscoveryHandler handler) {
+    public PeriodicDiscoveryTask(
+            ScheduledExecutorService scheduler,
+            GrpcDiscoveryRpc rpc,
+            DiscoveryHandler handler,
+            long waitingTimeoutMillis) {
         this.scheduler = scheduler;
         this.discoveryRpc = rpc;
         this.discoveryHandler = handler;
+        this.waitingTimeoutMillis = waitingTimeoutMillis;
     }
 
     public void stop() {
@@ -63,8 +69,20 @@ public class PeriodicDiscoveryTask implements Runnable {
     public void start() {
         logger.info("Waiting for init discovery...");
         runDiscovery();
-        state.waitReady();
+        state.waitReady(waitingTimeoutMillis);
         logger.info("Discovery is finished");
+    }
+
+    public void startAsync(Runnable readyWatcher) {
+        scheduler.execute(() -> {
+            logger.info("Waiting for init discovery...");
+            runDiscovery();
+            state.waitReady(waitingTimeoutMillis);
+            logger.info("Discovery is finished");
+            if (readyWatcher != null) {
+                readyWatcher.run();
+            }
+        });
     }
 
     @Override
@@ -143,9 +161,9 @@ public class PeriodicDiscoveryTask implements Runnable {
 
     private static class State {
         private volatile Instant lastUpdateTime = Instant.now();
-        private volatile boolean isReady = false;
-        private volatile boolean stopped = false;
-        private volatile RuntimeException lastProblem = null;
+        private volatile boolean isReady;
+        private volatile boolean stopped;
+        private volatile RuntimeException lastProblem;
         private final Object readyLock = new Object();
 
         public void handleOK() {
@@ -184,7 +202,7 @@ public class PeriodicDiscoveryTask implements Runnable {
             }
         }
 
-        public void waitReady() {
+        public void waitReady(long timeoutMillis) {
             if (isReady) {
                 return;
             }
@@ -199,10 +217,15 @@ public class PeriodicDiscoveryTask implements Runnable {
                 }
 
                 try {
-                    readyLock.wait(TimeUnit.SECONDS.toMillis(DISCOVERY_PERIOD_MIN_SECONDS));
+                    // waiting for initialization
+                    readyLock.wait(timeoutMillis);
 
                     if (lastProblem != null) {
                         throw lastProblem;
+                    }
+
+                    if (!isReady) {
+                        throw new RuntimeException("Ydb transport in not ready");
                     }
                 } catch (InterruptedException ex) {
                     logger.warn("ydb transport wait for ready interrupted", ex);

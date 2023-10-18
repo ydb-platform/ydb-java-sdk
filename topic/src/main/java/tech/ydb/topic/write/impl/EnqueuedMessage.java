@@ -9,7 +9,8 @@ import tech.ydb.topic.write.WriteAck;
 public class EnqueuedMessage {
     private final Message message;
     private final CompletableFuture<WriteAck> future = new CompletableFuture<>();
-    private final AtomicBoolean isCompressed = new AtomicBoolean(false);
+    private final AtomicBoolean isCompressed = new AtomicBoolean();
+    private final AtomicBoolean isProcessingFailed = new AtomicBoolean();
     private final long uncompressedSizeBytes;
     private long compressedSizeBytes;
     private Long seqNo;
@@ -34,6 +35,14 @@ public class EnqueuedMessage {
     public void setCompressed(boolean compressed) {
         this.isCompressed.set(compressed);
     }
+
+    public boolean isProcessingFailed() {
+        return isProcessingFailed.get();
+    }
+
+     public void setProcessingFailed(boolean procesingFailed) {
+        isProcessingFailed.set(procesingFailed);
+     }
 
     public long getUncompressedSizeBytes() {
         return uncompressedSizeBytes;

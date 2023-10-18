@@ -90,22 +90,17 @@ public enum StatusCode {
         return code >= TRANSPORT_STATUSES_FIRST && code <= TRANSPORT_STATUSES_LAST;
     }
 
-    public boolean isRetryable(boolean isOperationIdempotent, boolean retryNotFound) {
-        if (RETRYABLE_STATUSES.contains(this)) {
-            return true;
+    public boolean isRetryable(boolean idempotent) {
+        return RETRYABLE_STATUSES.contains(this) || (idempotent && IDEMPOTENT_RETRYABLE_STATUSES.contains(this));
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder(name());
+        if (this != SUCCESS) {
+            sb = sb.append("(code=").append(code).append(")");
         }
-        switch (this) {
-            case NOT_FOUND:
-                return retryNotFound;
-            case CLIENT_CANCELLED:
-            case CLIENT_INTERNAL_ERROR:
-            case UNDETERMINED:
-            case TRANSPORT_UNAVAILABLE:
-                return isOperationIdempotent;
-            default:
-                break;
-        }
-        return false;
+        return sb.toString();
     }
 
     public static StatusCode fromProto(StatusIds.StatusCode code) {
@@ -132,18 +127,5 @@ public enum StatusCode {
             default:
                 return UNUSED_STATUS;
         }
-    }
-
-    public boolean isRetryable(boolean idempotent) {
-        return RETRYABLE_STATUSES.contains(this) || (idempotent && IDEMPOTENT_RETRYABLE_STATUSES.contains(this));
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(name());
-        if (this != SUCCESS) {
-            sb = sb.append("(code=").append(code).append(")");
-        }
-        return sb.toString();
     }
 }

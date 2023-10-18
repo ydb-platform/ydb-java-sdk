@@ -1,3 +1,31 @@
+## 2.2.0 ##
+
+* Added export module
+* Core: Operation manager
+* Table: Added readRows operation in table service
+
+## 2.1.7 ##
+
+* Topics: Rethrow IO exceptions to user handlers while decoding messages
+* Topics: Tie partition sessions to streams
+
+## 2.1.6 ##
+
+* Topics: Fixed a bug where topic writer / reader init() future was not completed under certain conditions
+* Topics: Memory usage is now managed in topic reader within each session separately
+
+## 2.1.5 ##
+
+* GrpcTransport: Added async initialization
+* GrpcTransport: Increased default timeout of the initialization waiting
+* Topics: Added partitionId to StopPartitionSessionEvent
+* Topics: Fixed a bug where Writer could end up receiving errors from server in a loop on restarts.
+* Topics: Fixed a bug where not all errors were retried by Readers and Writers
+* Topics: SyncReader refactored which also fixed possible memory leaks in it
+* Topics: Fixed a bug where Writer.init future was not completed on shutdown
+* Topics: Fixed a bug where Readers and Writers were not shutdown after closing transport they were using
+* Topics: AsyncReader is now shutdown on any unhandled exception in user callback
+
 ## 2.1.4 ##
 
 * Fixed partition session graceful shutdown

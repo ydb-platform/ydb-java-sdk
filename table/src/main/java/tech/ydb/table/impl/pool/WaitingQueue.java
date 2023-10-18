@@ -42,7 +42,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     private final Handler<T> handler;
     private volatile Limits limits;
-    private volatile boolean stopped = false;
+    private volatile boolean stopped;
 
     /** Deque of idle objects */
     private final ConcurrentLinkedDeque<T> idle = new ConcurrentLinkedDeque<>();
@@ -52,12 +52,12 @@ public class WaitingQueue<T> implements AutoCloseable {
     private final Map<CompletableFuture<T>, CompletableFuture<T>> pendingRequests = new ConcurrentHashMap<>();
 
     /** Summary size of queue = idle.size() + used.size() + pendingRequests.size() */
-    private final AtomicInteger queueSize = new AtomicInteger(0);
+    private final AtomicInteger queueSize = new AtomicInteger();
 
     /** Queue of waiting acquire requests */
     private final Queue<CompletableFuture<T>> waitingAcquires = new ConcurrentLinkedQueue<>();
     /** Size of waiting acquires queue */
-    private final AtomicInteger waitingAcqueireCount = new AtomicInteger(0);
+    private final AtomicInteger waitingAcqueireCount = new AtomicInteger();
 
     @VisibleForTesting
     WaitingQueue(Handler<T> handler, int maxSize, int waitingsLimit) {
@@ -361,7 +361,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     /** Iterator with custom remove action */
     private class ColdIterator implements Iterator<T> {
         private final Iterator<T> iter;
-        private volatile T lastRet = null;
+        private volatile T lastRet;
 
         ColdIterator(Iterator<T> iter) {
             this.iter = iter;

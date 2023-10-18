@@ -40,7 +40,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
     ));
 
-    protected volatile boolean shutdown = false;
+    protected volatile boolean shutdown;
 
     abstract AuthCallOptions getAuthCallOptions();
     abstract GrpcChannel getChannel(GrpcRequestSettings settings);

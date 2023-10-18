@@ -50,13 +50,12 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         logger.info("Create YDB transport with endpoint {} and {}", discoveryEndpoint, balancingSettings);
 
-        this.callOptions = new AuthCallOptions(this,
+        this.scheduler = builder.getSchedulerFactory().get();
+        this.callOptions = new AuthCallOptions(scheduler,
+                database,
                 Collections.singletonList(discoveryEndpoint),
                 channelFactory,
-                builder.getAuthProvider(),
-                builder.getReadTimeoutMillis(),
-                builder.getCallExecutor(),
-                builder.getGrpcCompression()
+                builder
         );
 
         GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this,
@@ -65,15 +64,23 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                 callOptions,
                 Duration.ofMillis(builder.getDiscoveryTimeoutMillis()));
 
-        this.scheduler = builder.getSchedulerFactory().get();
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(discoveryEndpoint, balancingSettings);
 
-        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(scheduler, discoveryRpc, new YdbDiscoveryHandler());
+        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(
+                scheduler,
+                discoveryRpc,
+                new YdbDiscoveryHandler(),
+                builder.getConnectTimeoutMillis() + builder.getDiscoveryTimeoutMillis()
+        );
     }
 
     public void init() {
         periodicDiscoveryTask.start();
+    }
+
+    public void initAsync(Runnable readyWatcher) {
+        periodicDiscoveryTask.startAsync(readyWatcher);
     }
 
     static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {
@@ -154,7 +161,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     void updateChannelStatus(GrpcChannel channel, Status status) {
-        if (!status.isOk()) {
+        // Usally CANCELLED is received when ClientCall is canceled on client side
+        if (!status.isOk() && status.getCode() != Status.Code.CANCELLED) {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());
         }
     }

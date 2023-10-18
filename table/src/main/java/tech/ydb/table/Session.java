@@ -12,6 +12,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
@@ -29,6 +30,7 @@ import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
@@ -52,7 +54,7 @@ public interface Session extends AutoCloseable {
     void close();
 
     CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions,
-            CreateTableSettings settings);
+                                          CreateTableSettings settings);
 
     CompletableFuture<Status> dropTable(String path, DropTableSettings settings);
 
@@ -71,6 +73,8 @@ public interface Session extends AutoCloseable {
         TxControl<?> txControl,
         Params params,
         ExecuteDataQuerySettings settings);
+
+    CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings);
 
     CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings);
 
