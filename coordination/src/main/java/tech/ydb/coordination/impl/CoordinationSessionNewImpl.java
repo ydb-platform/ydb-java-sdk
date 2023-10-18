@@ -8,6 +8,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.coordination.CoordinationSessionNew;
 import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
 import tech.ydb.coordination.settings.SemaphoreDescription;
@@ -16,9 +19,6 @@ import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CoordinationSessionNewImpl implements CoordinationSessionNew {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionNew.class);

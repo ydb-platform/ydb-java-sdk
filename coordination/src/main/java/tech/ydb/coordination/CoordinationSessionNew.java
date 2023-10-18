@@ -10,6 +10,10 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 
 public interface CoordinationSessionNew extends AutoCloseable {
+
+    @Override
+    void close();
+
     /**
      * {@link CoordinationSessionNew#createSemaphore(String, long, byte[])}
      */
