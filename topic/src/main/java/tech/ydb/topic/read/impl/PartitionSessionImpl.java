@@ -124,14 +124,13 @@ public class PartitionSessionImpl {
                 }
                 newBatch.addMessage(new MessageImpl.Builder()
                         .setBatchMeta(batchMeta)
-                        .setPartitionSession(sessionInfo)
+                        .setPartitionSession(this)
                         .setData(messageData.getData().toByteArray())
                         .setOffset(messageOffset)
                         .setSeqNo(messageData.getSeqNo())
                         .setCommitOffsetFrom(commitOffsetFrom)
                         .setCreatedAt(ProtobufUtils.protoToInstant(messageData.getCreatedAt()))
                         .setMessageGroupId(messageData.getMessageGroupId())
-                        .setCommitFunction(this::commitOffset)
                         .build()
                 );
             });
@@ -172,7 +171,7 @@ public class PartitionSessionImpl {
         return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 
-    private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
+    public CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
         synchronized (commitFutures) {
             if (isWorking.get()) {
@@ -250,9 +249,9 @@ public class PartitionSessionImpl {
             // Should be called maximum in 1 thread at a time
             List<MessageImpl> messageImplList = batchToRead.getMessages();
             List<Message> messagesToRead = new ArrayList<>(messageImplList);
-            DataReceivedEvent event = new DataReceivedEventImpl(messagesToRead, sessionInfo,
-                    () -> commitOffset(new OffsetsRange(messageImplList.get(0).getCommitOffsetFrom(),
-                            messageImplList.get(messageImplList.size() - 1).getOffset() + 1)));
+            OffsetsRange offsetsToCommit = new OffsetsRange(messageImplList.get(0).getCommitOffsetFrom(),
+                    messageImplList.get(messageImplList.size() - 1).getOffset() + 1);
+            DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead, offsetsToCommit);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) for partition " +
                                 "session {} " + "(partition {}) is about to be called...", path, messagesToRead.size(),

@@ -58,9 +58,22 @@ public interface Message {
     PartitionSession getPartitionSession();
 
     /**
-     * Commit this message
+     * Commits this message
+     * If there was an error while committing, there is no point of retrying committing the same message:
+     * the whole PartitionSession should be shut down by that time. And if commit hadn't reached the server,
+     * it will resend all these messages in next PartitionSession.
+     *
      * @return CompletableFuture that will be completed when commit confirmation from server will be received
      */
     CompletableFuture<Void> commit();
+
+    /**
+     * Returns a Committer object to call commit() on later.
+     * This object has no data references and therefore may be useful in cases where commit() is called after
+     * processing data in an external system
+     *
+     * @return a Committer object
+     */
+    Committer getCommitter();
 
 }
