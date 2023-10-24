@@ -53,7 +53,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final AtomicBoolean isRetryState = new AtomicBoolean(false);
     private final AtomicLong sessionId = new AtomicLong();
-    private final AtomicInteger innerRequestId = new AtomicInteger(1);
+    private final AtomicInteger innerRequestId = new AtomicInteger(ThreadLocalRandom.current().nextInt());
     private final String nodePath;
     private final AtomicInteger attemptsToRetry;
     private final Duration timeoutInRetryAttempt;
@@ -104,7 +104,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         this.stoppedFuture = coordinationStream.start(message -> {
             long requestId;
             if (logger.isTraceEnabled()) {
-                logger.trace("Message received:\n{}", message);
+                logger.trace("Message received for session {}:\n{}", sessionId.get(), message);
             }
 
             if (message.hasSessionStopped()) {
@@ -352,7 +352,6 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                                                                                         SessionRequest request) {
         requestMap.put(fullRequestId, request);
         final CompletableFuture<Result<SemaphoreDescription>> describeFuture = new CompletableFuture<>();
-        describeFuture.whenComplete((res, th) -> logger.info("debug sendDescribeSemaphoreDetail: res = {}", res));
         futuresMap.put(fullRequestId, (semaphoreDescription, status) -> {
             if (status.isSuccess() && semaphoreDescription.isPresent()) {
                 describeFuture.complete(Result.success((SemaphoreDescription) semaphoreDescription.get()));
@@ -452,7 +451,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
 
     private void send(SessionRequest sessionRequest) {
         if (logger.isTraceEnabled()) {
-            logger.trace("Send message: {}", sessionRequest);
+            logger.trace("Send message from {}: {}", sessionId.get(), sessionRequest);
         }
 
         if (isWorking.get()) {
