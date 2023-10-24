@@ -1,13 +1,13 @@
-package tech.ydb.coordination.settings;
+package tech.ydb.coordination.description;
 
 import java.util.Objects;
 
-public class DescribeSemaphoreChanged {
+public class SemaphoreChangedEvent {
     private final boolean dataChanged;
     private final boolean ownersChanged;
     private final boolean connectionWasFailed;
 
-    public DescribeSemaphoreChanged(boolean dataChanged, boolean ownersChanged, boolean connectionWasFailed) {
+    public SemaphoreChangedEvent(boolean dataChanged, boolean ownersChanged, boolean connectionWasFailed) {
         this.dataChanged = dataChanged;
         this.ownersChanged = ownersChanged;
         this.connectionWasFailed = connectionWasFailed;
@@ -30,10 +30,10 @@ public class DescribeSemaphoreChanged {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof DescribeSemaphoreChanged)) {
+        if (!(o instanceof SemaphoreChangedEvent)) {
             return false;
         }
-        DescribeSemaphoreChanged that = (DescribeSemaphoreChanged) o;
+        SemaphoreChangedEvent that = (SemaphoreChangedEvent) o;
         return dataChanged == that.dataChanged && ownersChanged == that.ownersChanged &&
                 connectionWasFailed == that.connectionWasFailed;
     }
@@ -45,7 +45,7 @@ public class DescribeSemaphoreChanged {
 
     @Override
     public String toString() {
-        return "DescribeSemaphoreChanged{" +
+        return "SemaphoreChangedEvent{" +
                 "dataChanged=" + dataChanged +
                 ", ownersChanged=" + ownersChanged +
                 ", connectionWasFailed=" + connectionWasFailed +
