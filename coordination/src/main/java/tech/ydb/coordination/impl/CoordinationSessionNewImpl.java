@@ -88,9 +88,8 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
 
     @Override
     public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName,
-                                                                             DescribeMode describeMode,
-                                                                             WatchMode watchMode,
-                                                                             Consumer<DescribeSemaphoreChanged> updateWatcher) {
+                                                 DescribeMode describeMode, WatchMode watchMode,
+                                                 Consumer<DescribeSemaphoreChanged> updateWatcher) {
         return stream.sendDescribeSemaphore(semaphoreName, describeMode.includeOwners(), describeMode.includeWaiters(),
                 watchMode.watchData(), watchMode.watchData(), updateWatcher);
     }

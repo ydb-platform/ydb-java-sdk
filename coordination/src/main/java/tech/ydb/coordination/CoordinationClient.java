@@ -2,6 +2,7 @@ package tech.ydb.coordination;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.WillNotClose;
 
@@ -34,6 +35,9 @@ public interface CoordinationClient {
      * @return coordination node session
      */
     CompletableFuture<CoordinationSessionNew> createSession(String nodePath, Duration timeout);
+
+    CompletableFuture<CoordinationSessionNew> createSession(String nodePath, ScheduledExecutorService executor,
+                                                            Duration timeout);
 
     /**
      * Creates a new coordination node.
