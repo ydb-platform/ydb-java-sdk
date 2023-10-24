@@ -3,6 +3,7 @@ package tech.ydb.coordination.impl;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -26,7 +27,7 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
     private final CoordinationRetryableStreamImpl stream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final AtomicLong sessionId = new AtomicLong();
-    private final AtomicInteger lastId = new AtomicInteger(1);
+    private final AtomicInteger lastId = new AtomicInteger(ThreadLocalRandom.current().nextInt());
 
     protected CoordinationSessionNewImpl(CoordinationRetryableStreamImpl stream) {
         this.stream = stream;
@@ -87,8 +88,9 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
 
     @Override
     public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName,
-                                                         DescribeMode describeMode, WatchMode watchMode,
-                                                         Consumer<DescribeSemaphoreChanged> updateWatcher) {
+                                                                             DescribeMode describeMode,
+                                                                             WatchMode watchMode,
+                                                                             Consumer<DescribeSemaphoreChanged> updateWatcher) {
         return stream.sendDescribeSemaphore(semaphoreName, describeMode.includeOwners(), describeMode.includeWaiters(),
                 watchMode.watchData(), watchMode.watchData(), updateWatcher);
     }
@@ -127,7 +129,7 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
 
     @Override
     public void close() {
-        logger.trace("Closed");
+        logger.trace("Close session with id={}", sessionId.get());
         if (isWorking.compareAndSet(true, false)) {
             stream.stop();
         }
