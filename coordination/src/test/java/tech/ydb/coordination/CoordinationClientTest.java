@@ -136,7 +136,7 @@ public class CoordinationClientTest {
     public void retryCoordinationSessionTest() {
         final CoordinationRpc rpc = new CoordinationProxyRpc(GrpcCoordinationRpc.useTransport(YDB_TRANSPORT));
         final String semaphoreName = "retry-test";
-        CoordinationClient mockClient = new CoordinationClientImpl(rpc);
+        CoordinationClient mockClient = new CoordinationClientImpl(rpc, YDB_TRANSPORT.getScheduler());
 
         try (CoordinationSession session = mockClient.createSession(path, Duration.ofSeconds(100)).join();) {
             session.createSemaphore(semaphoreName, 101).join();

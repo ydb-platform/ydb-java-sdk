@@ -27,17 +27,18 @@ import tech.ydb.proto.coordination.RateLimiterCountersMode;
 public class CoordinationClientImpl implements CoordinationClient {
 
     private final CoordinationRpc coordinationRpc;
+    private final ScheduledExecutorService executorService;
 
-    public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc) {
+    public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc, ScheduledExecutorService executorService) {
         this.coordinationRpc = grpcCoordinationRpc;
+        this.executorService = executorService;
     }
 
     @Override
     public CompletableFuture<CoordinationSession> createSession(String nodePath, Duration timeout) {
-        return CoordinationSessionImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
-                        Executors.newScheduledThreadPool(Thread.activeCount()),
-                        nodePath),
-                timeout);
+        return CoordinationSessionImpl.newSession(
+                new CoordinationRetryableStreamImpl(coordinationRpc, executorService, nodePath), timeout
+        );
     }
 
     @Override
