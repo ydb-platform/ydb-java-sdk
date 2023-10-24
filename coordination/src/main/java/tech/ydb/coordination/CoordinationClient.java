@@ -34,10 +34,10 @@ public interface CoordinationClient {
      *
      * @return coordination node session
      */
-    CompletableFuture<CoordinationSessionNew> createSession(String nodePath, Duration timeout);
+    CompletableFuture<CoordinationSession> createSession(String nodePath, Duration timeout);
 
-    CompletableFuture<CoordinationSessionNew> createSession(String nodePath, ScheduledExecutorService executor,
-                                                            Duration timeout);
+    CompletableFuture<CoordinationSession> createSession(String nodePath, ScheduledExecutorService executor,
+                                                         Duration timeout);
 
     /**
      * Creates a new coordination node.

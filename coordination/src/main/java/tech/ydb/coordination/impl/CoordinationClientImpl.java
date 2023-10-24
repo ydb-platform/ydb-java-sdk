@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.CoordinationSessionNew;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
@@ -33,17 +33,17 @@ public class CoordinationClientImpl implements CoordinationClient {
     }
 
     @Override
-    public CompletableFuture<CoordinationSessionNew> createSession(String nodePath, Duration timeout) {
-        return CoordinationSessionNewImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
+    public CompletableFuture<CoordinationSession> createSession(String nodePath, Duration timeout) {
+        return CoordinationSessionImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
                         Executors.newScheduledThreadPool(Thread.activeCount()),
                         nodePath),
                 timeout);
     }
 
     @Override
-    public CompletableFuture<CoordinationSessionNew> createSession(String nodePath, ScheduledExecutorService executor,
-                                                                   Duration timeout) {
-        return CoordinationSessionNewImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
+    public CompletableFuture<CoordinationSession> createSession(String nodePath, ScheduledExecutorService executor,
+                                                                Duration timeout) {
+        return CoordinationSessionImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
                         executor, nodePath), timeout);
     }
 

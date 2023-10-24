@@ -3,7 +3,7 @@ package tech.ydb.coordination.impl;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import tech.ydb.coordination.CoordinationSessionNew.CoordinationSemaphore;
+import tech.ydb.coordination.CoordinationSession.CoordinationSemaphore;
 import tech.ydb.core.Result;
 
 public class CoordinationSemaphoreImpl implements CoordinationSemaphore {

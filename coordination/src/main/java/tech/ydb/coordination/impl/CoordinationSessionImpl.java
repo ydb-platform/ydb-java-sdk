@@ -12,7 +12,7 @@ import java.util.function.Consumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.coordination.CoordinationSessionNew;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
 import tech.ydb.coordination.settings.SemaphoreDescription;
 import tech.ydb.core.Issue;
@@ -21,22 +21,22 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
-public class CoordinationSessionNewImpl implements CoordinationSessionNew {
-    private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionNew.class);
+public class CoordinationSessionImpl implements CoordinationSession {
+    private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
     private static final byte[] BYTE_ARRAY_STUB = new byte[0];
     private final CoordinationRetryableStreamImpl stream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final AtomicLong sessionId = new AtomicLong();
     private final AtomicInteger lastId = new AtomicInteger(ThreadLocalRandom.current().nextInt());
 
-    protected CoordinationSessionNewImpl(CoordinationRetryableStreamImpl stream) {
+    protected CoordinationSessionImpl(CoordinationRetryableStreamImpl stream) {
         this.stream = stream;
     }
 
-    public static CompletableFuture<CoordinationSessionNew> newSession(final CoordinationRetryableStreamImpl stream,
-                                                                       Duration timeout) {
-        final CoordinationSessionNewImpl session = new CoordinationSessionNewImpl(stream);
-        final CompletableFuture<CoordinationSessionNew> sessionStartFuture = CompletableFuture.completedFuture(session);
+    public static CompletableFuture<CoordinationSession> newSession(final CoordinationRetryableStreamImpl stream,
+                                                                    Duration timeout) {
+        final CoordinationSessionImpl session = new CoordinationSessionImpl(stream);
+        final CompletableFuture<CoordinationSession> sessionStartFuture = CompletableFuture.completedFuture(session);
         return session.start(timeout)
                 .thenAccept(session.sessionId::set)
                 .thenCompose(ignored -> sessionStartFuture);
@@ -114,10 +114,10 @@ public class CoordinationSessionNewImpl implements CoordinationSessionNew {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof CoordinationSessionNewImpl)) {
+        if (!(o instanceof CoordinationSessionImpl)) {
             return false;
         }
-        CoordinationSessionNewImpl that = (CoordinationSessionNewImpl) o;
+        CoordinationSessionImpl that = (CoordinationSessionImpl) o;
         return Objects.equals(sessionId, that.sessionId);
     }
 
