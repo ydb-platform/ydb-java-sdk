@@ -14,9 +14,9 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import tech.ydb.coordination.CoordinationSessionNew.CoordinationSemaphore;
-import tech.ydb.coordination.CoordinationSessionNew.DescribeMode;
-import tech.ydb.coordination.CoordinationSessionNew.WatchMode;
+import tech.ydb.coordination.CoordinationSession.CoordinationSemaphore;
+import tech.ydb.coordination.CoordinationSession.DescribeMode;
+import tech.ydb.coordination.CoordinationSession.WatchMode;
 import tech.ydb.coordination.impl.CoordinationClientImpl;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
@@ -80,7 +80,7 @@ public class CoordinationClientTest {
     @Test(timeout = 60_000)
     public void coordinationSessionFullCycleTest() {
         final String semaphoreName = "test-semaphore";
-        try (CoordinationSessionNew session = client.createSession(path, Duration.ofSeconds(3)).join()) {
+        try (CoordinationSession session = client.createSession(path, Duration.ofSeconds(3)).join()) {
             session.createSemaphore(semaphoreName, 100).get(3, TimeUnit.SECONDS);
             CoordinationSemaphore semaphore = session.acquireSemaphore(semaphoreName, 70, Duration.ofSeconds(3))
                     .join().getValue();
@@ -115,7 +115,7 @@ public class CoordinationClientTest {
         final String semaphoreName = "ephemeral-semaphore-base-test";
         /* 18446744073709551615 = 2^64 - 1 (or just -1 in Java) */
         final long count = -1;
-        try (CoordinationSessionNew session = client.createSession(path, Duration.ofSeconds(3)).join()) {
+        try (CoordinationSession session = client.createSession(path, Duration.ofSeconds(3)).join()) {
             session.acquireSemaphore(semaphoreName,
                             count, true, Duration.ofSeconds(3))
                     .join()
@@ -136,16 +136,16 @@ public class CoordinationClientTest {
     public void retryCoordinationSessionTest() {
         final CoordinationRpc rpc = new CoordinationProxyRpc(GrpcCoordinationRpc.useTransport(YDB_TRANSPORT));
         final String semaphoreName = "retry-test";
-        CoordinationClient mockClient = new CoordinationClientImpl(rpc);
+        CoordinationClient mockClient = new CoordinationClientImpl(rpc, YDB_TRANSPORT.getScheduler());
 
-        try (CoordinationSessionNew session = mockClient.createSession(path, Duration.ofSeconds(100)).join();) {
+        try (CoordinationSession session = mockClient.createSession(path, Duration.ofSeconds(100)).join();) {
             session.createSemaphore(semaphoreName, 101).join();
             CoordinationSemaphore semaphore = session.acquireSemaphore(semaphoreName, 90, Duration.ofSeconds(20))
                     .join().getValue();
             Assert.assertEquals(session.updateSemaphore(semaphoreName,
                     "data".getBytes(StandardCharsets.UTF_8)).join(), Status.SUCCESS);
 
-            List<CoordinationSessionNew> sessions = ThreadLocalRandom
+            List<CoordinationSession> sessions = ThreadLocalRandom
                     .current()
                     .ints(10)
                     .mapToObj(n -> mockClient.createSession(path, Duration.ofSeconds(100)))
@@ -180,8 +180,8 @@ public class CoordinationClientTest {
             Assert.assertEquals(90 + 10, desc.getCount());
             Assert.assertArrayEquals("changed data".getBytes(StandardCharsets.UTF_8), desc.getData());
 
-            for (CoordinationSessionNew coordinationSessionNew : sessions) {
-                coordinationSessionNew.close();
+            for (CoordinationSession coordinationSession : sessions) {
+                coordinationSession.close();
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -194,12 +194,12 @@ public class CoordinationClientTest {
         final String semaphoreName = "leader-election-semaphore";
         final int sessionCount = 10;
         final CountDownLatch latch1 = new CountDownLatch(sessionCount);
-        List<CoordinationSessionNew> sessions = Stream.generate(() -> client.createSession(path, duration).join())
+        List<CoordinationSession> sessions = Stream.generate(() -> client.createSession(path, duration).join())
                 .limit(sessionCount)
                 .collect(Collectors.toList());
 
         CompletableFuture<CoordinationSemaphore> semaphore = new CompletableFuture<>();
-        CompletableFuture<CoordinationSessionNew> leader = new CompletableFuture<>();
+        CompletableFuture<CoordinationSession> leader = new CompletableFuture<>();
 
         sessions.forEach(session ->
                 session.createSemaphore(semaphoreName, 1)
@@ -229,7 +229,7 @@ public class CoordinationClientTest {
         );
 
         latch2.await();
-        final CoordinationSessionNew leaderSession = leader.join();
+        final CoordinationSession leaderSession = leader.join();
         final CountDownLatch latch3 = new CountDownLatch(sessionCount);
 
         sessions.forEach(session -> session.describeSemaphore(semaphoreName, DescribeMode.WITH_OWNERS)

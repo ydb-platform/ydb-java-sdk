@@ -3,9 +3,10 @@ package tech.ydb.coordination.impl;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.CoordinationSessionNew;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
@@ -26,17 +27,25 @@ import tech.ydb.proto.coordination.RateLimiterCountersMode;
 public class CoordinationClientImpl implements CoordinationClient {
 
     private final CoordinationRpc coordinationRpc;
+    private final ScheduledExecutorService executorService;
 
-    public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc) {
+    public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc, ScheduledExecutorService executorService) {
         this.coordinationRpc = grpcCoordinationRpc;
+        this.executorService = executorService;
     }
 
     @Override
-    public CompletableFuture<CoordinationSessionNew> createSession(String nodePath, Duration timeout) {
-        return CoordinationSessionNewImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
-                        Executors.newScheduledThreadPool(Thread.activeCount()),
-                        nodePath),
-                timeout);
+    public CompletableFuture<CoordinationSession> createSession(String nodePath, Duration timeout) {
+        return CoordinationSessionImpl.newSession(
+                new CoordinationRetryableStreamImpl(coordinationRpc, executorService, nodePath), timeout
+        );
+    }
+
+    @Override
+    public CompletableFuture<CoordinationSession> createSession(String nodePath, ScheduledExecutorService executor,
+                                                                Duration timeout) {
+        return CoordinationSessionImpl.newSession(new CoordinationRetryableStreamImpl(coordinationRpc,
+                        executor, nodePath), timeout);
     }
 
     @Override
