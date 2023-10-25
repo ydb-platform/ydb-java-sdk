@@ -5,10 +5,10 @@ import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.read.Committer;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.CommitterImpl;
-import tech.ydb.topic.read.impl.OffsetsRange;
 import tech.ydb.topic.read.impl.PartitionSessionImpl;
 
 /**

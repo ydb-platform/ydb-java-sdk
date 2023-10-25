@@ -8,6 +8,7 @@ import java.util.concurrent.CompletableFuture;
 import tech.ydb.topic.read.Committer;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 
 /**
@@ -22,6 +23,7 @@ public class MessageImpl implements Message {
     private final String messageGroupId;
     private final BatchMeta batchMeta;
     private final PartitionSessionImpl partitionSession;
+    private final OffsetsRange offsetsToCommit;
     private final CommitterImpl committer;
     private boolean isDecompressed = false;
     private IOException exception = null;
@@ -35,7 +37,8 @@ public class MessageImpl implements Message {
         this.messageGroupId = builder.messageGroupId;
         this.batchMeta = builder.batchMeta;
         this.partitionSession = builder.partitionSession;
-        this.committer = new CommitterImpl(partitionSession, 1, new OffsetsRange(commitOffsetFrom, offset + 1));
+        this.offsetsToCommit = new OffsetsRangeImpl(commitOffsetFrom, offset + 1);
+        this.committer = new CommitterImpl(partitionSession, 1, offsetsToCommit);
     }
 
     @Override
@@ -99,6 +102,10 @@ public class MessageImpl implements Message {
         return partitionSession.getSessionInfo();
     }
 
+    public PartitionSessionImpl getPartitionSessionImpl() {
+        return partitionSession;
+    }
+
     public void setDecompressed(boolean decompressed) {
         isDecompressed = decompressed;
     }
@@ -106,6 +113,10 @@ public class MessageImpl implements Message {
     @Override
     public CompletableFuture<Void> commit() {
         return committer.commitImpl(false);
+    }
+
+    public OffsetsRange getOffsetsToCommit() {
+        return offsetsToCommit;
     }
 
     @Override

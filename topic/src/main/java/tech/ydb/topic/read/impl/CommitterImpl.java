@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.topic.read.Committer;
+import tech.ydb.topic.read.OffsetsRange;
 
 /**
  * @author Nikolay Perfilov
@@ -34,6 +35,6 @@ public class CommitterImpl implements Committer {
                     partitionSession.getId(), partitionSession.getPartitionId(), messageCount,
                     offsetsToCommit.getStart(), offsetsToCommit.getEnd());
         }
-        return partitionSession.commitOffset(offsetsToCommit);
+        return partitionSession.commitOffsetRange(offsetsToCommit);
     }
 }
