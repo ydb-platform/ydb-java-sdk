@@ -81,7 +81,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
             StartPartitionSessionEvent event = new StartPartitionSessionEventImpl(
                     partitionSession,
                     request.getCommittedOffset(),
-                    new OffsetsRange(offsetsRange.getStart(), offsetsRange.getEnd()),
+                    new OffsetsRangeImpl(offsetsRange.getStart(), offsetsRange.getEnd()),
                     confirmCallback
             );
             eventHandler.onStartPartitionSession(event);

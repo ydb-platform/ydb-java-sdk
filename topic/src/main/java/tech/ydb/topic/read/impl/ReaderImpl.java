@@ -25,6 +25,7 @@ import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -240,24 +241,39 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .build());
         }
 
-        private void commitOffset(long partitionSessionId, long partitionId, OffsetsRange offsets) {
+        private void sendCommitOffsetRequest(long partitionSessionId, long partitionId,
+                                       List<OffsetsRange> rangesToCommit) {
             if (!isWorking.get()) {
-                logger.info("[{}] Need to send CommitRequest for partition session {} (partition {})," +
-                                " but reading session is already closed", fullId, partitionSessionId, partitionId);
+                if (logger.isInfoEnabled()) {
+                    StringBuilder message = new StringBuilder("[").append(fullId)
+                            .append("] Need to send CommitRequest for partition session ").append(partitionSessionId)
+                            .append(" (partition ").append(partitionId).append(") with offset ranges ");
+                    for (int i = 0; i < rangesToCommit.size(); i++) {
+                        if (i > 0) {
+                            message.append(", ");
+                        }
+                        OffsetsRange range = rangesToCommit.get(i);
+                        message.append("[").append(range.getStart()).append(",").append(range.getEnd()).append(")");
+                    }
+                    message.append(", but reading session is already closed");
+                    logger.info(message.toString());
+                }
                 return;
             }
-            logger.info("[{}] Sending CommitRequest for partition session {} (partition {}) with offset range [{},{})",
-                    fullId, partitionSessionId, partitionId, offsets.getStart(), offsets.getEnd());
+
+            YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset.Builder builder =
+            YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset.newBuilder()
+                    .setPartitionSessionId(partitionSessionId);
+            rangesToCommit.forEach(range -> {
+                builder.addOffsets(YdbTopic.OffsetsRange.newBuilder()
+                        .setStart(range.getStart())
+                        .setEnd(range.getEnd()));
+            });
             send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                     .setCommitOffsetRequest(YdbTopic.StreamReadMessage.CommitOffsetRequest.newBuilder()
-                            .addCommitOffsets(
-                                    YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset.newBuilder()
-                                            .setPartitionSessionId(partitionSessionId)
-                                            .addOffsets(YdbTopic.OffsetsRange.newBuilder()
-                                                    .setStart(offsets.getStart())
-                                                    .setEnd(offsets.getEnd()))
-                            ))
+                            .addCommitOffsets(builder))
                     .build());
+
         }
 
         private void closePartitionSessions() {
@@ -293,11 +309,11 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .setPath(request.getPartitionSession().getPath())
                     .setPartitionId(partitionId)
                     .setCommittedOffset(request.getCommittedOffset())
-                    .setPartitionOffsets(new OffsetsRange(request.getPartitionOffsets().getStart(),
+                    .setPartitionOffsets(new OffsetsRangeImpl(request.getPartitionOffsets().getStart(),
                             request.getPartitionOffsets().getEnd()))
                     .setDecompressionExecutor(decompressionExecutor)
                     .setDataEventCallback(ReaderImpl.this::handleDataReceivedEvent)
-                    .setCommitFunction((offsets) -> commitOffset(partitionSessionId, partitionId, offsets))
+                    .setCommitFunction((offsets) -> sendCommitOffsetRequest(partitionSessionId, partitionId, offsets))
                     .build();
             partitionSessions.put(partitionSession.getId(), partitionSession);
 
