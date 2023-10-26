@@ -17,23 +17,20 @@ public class DisjointOffsetRangeSet {
 
     public void add(OffsetsRange rangeToCommit) {
         Map.Entry<Long, OffsetsRangeImpl> floorEntry = ranges.floorEntry(rangeToCommit.getStart());
-        boolean mergedFloor = false;
-        if (floorEntry != null) {
-            if (floorEntry.getValue().getStart() > rangeToCommit.getStart()) {
-                throwClashesException(floorEntry.getValue(), rangeToCommit);
-            }
-            if (floorEntry.getValue().getEnd() == rangeToCommit.getStart()) {
-                floorEntry.getValue().setEnd(rangeToCommit.getEnd());
-                mergedFloor = true;
-            }
+        if (floorEntry != null && floorEntry.getValue().getEnd() > rangeToCommit.getStart()) {
+            throwClashesException(floorEntry.getValue(), rangeToCommit);
         }
-        Map.Entry<Long, OffsetsRangeImpl> ceilingEntry =
-                ranges.ceilingEntry(rangeToCommit.getStart());
+        Map.Entry<Long, OffsetsRangeImpl> ceilingEntry = ranges.ceilingEntry(rangeToCommit.getStart());
+        if (ceilingEntry != null && rangeToCommit.getEnd() > ceilingEntry.getValue().getStart()) {
+            throwClashesException(ceilingEntry.getValue(), rangeToCommit);
+        }
+        boolean mergedFloor = false;
+        if (floorEntry != null && floorEntry.getValue().getEnd() == rangeToCommit.getStart()) {
+            floorEntry.getValue().setEnd(rangeToCommit.getEnd());
+            mergedFloor = true;
+        }
         if (ceilingEntry != null) {
             OffsetsRangeImpl ceilingValue = ceilingEntry.getValue();
-            if (rangeToCommit.getEnd() > ceilingValue.getStart()) {
-                throwClashesException(ceilingValue, rangeToCommit);
-            }
             if (rangeToCommit.getEnd() == ceilingValue.getStart()) {
                 ranges.remove(ceilingEntry.getKey());
                 if (mergedFloor) {
