@@ -22,6 +22,7 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
@@ -45,7 +46,7 @@ public class PartitionSessionImpl {
     private final Queue<Batch> readingQueue = new ConcurrentLinkedQueue<>();
     private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
     private final AtomicBoolean isReadingNow = new AtomicBoolean();
-    private final Consumer<OffsetsRange> commitFunction;
+    private final Consumer<List<OffsetsRange>> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
     // Offset of the last read message + 1
     private long lastReadOffset;
@@ -124,14 +125,13 @@ public class PartitionSessionImpl {
                 }
                 newBatch.addMessage(new MessageImpl.Builder()
                         .setBatchMeta(batchMeta)
-                        .setPartitionSession(sessionInfo)
+                        .setPartitionSession(this)
                         .setData(messageData.getData().toByteArray())
                         .setOffset(messageOffset)
                         .setSeqNo(messageData.getSeqNo())
                         .setCommitOffsetFrom(commitOffsetFrom)
                         .setCreatedAt(ProtobufUtils.protoToInstant(messageData.getCreatedAt()))
                         .setMessageGroupId(messageData.getMessageGroupId())
-                        .setCommitFunction(this::commitOffset)
                         .build()
                 );
             });
@@ -172,27 +172,61 @@ public class PartitionSessionImpl {
         return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 
-    private CompletableFuture<Void> commitOffset(OffsetsRange offsets) {
+    // Сommit single offset range with result future
+    public CompletableFuture<Void> commitOffsetRange(OffsetsRange rangeToCommit) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
         synchronized (commitFutures) {
             if (isWorking.get()) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("[{}] Offset range [{}, {}) is requested to be committed for partition session {} " +
                                     "(partition {}). Last committed offset is {} (commit lag is {})", path,
-                            offsets.getStart(), offsets.getEnd(), id, partitionId, lastCommittedOffset,
-                            offsets.getStart() - lastCommittedOffset);
+                            rangeToCommit.getStart(), rangeToCommit.getEnd(), id, partitionId, lastCommittedOffset,
+                            rangeToCommit.getStart() - lastCommittedOffset);
                 }
-                commitFutures.put(offsets.getEnd(), resultFuture);
-                commitFunction.accept(offsets);
+                commitFutures.put(rangeToCommit.getEnd(), resultFuture);
             } else {
                 logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session {} " +
-                        "(partition {}) is already closed", path, offsets.getStart(), offsets.getEnd(), id,
+                        "(partition {}) is already closed", path, rangeToCommit.getStart(), rangeToCommit.getEnd(), id,
                         partitionId);
                 resultFuture.completeExceptionally(new RuntimeException("Partition session " + id + " (partition " +
                         partitionId + ") for " + path + " is already closed"));
+                return resultFuture;
             }
         }
+        List<OffsetsRange> rangeWrapper = new ArrayList<>(1);
+        rangeWrapper.add(rangeToCommit);
+        commitFunction.accept(rangeWrapper);
         return resultFuture;
+    }
+
+    // Bulk commit without result future
+    public void commitOffsetRanges(List<OffsetsRange> rangesToCommit) {
+        if (isWorking.get()) {
+            if (logger.isDebugEnabled()) {
+                StringBuilder message = new StringBuilder("[").append(path)
+                        .append("] Sending CommitRequest for partition session ").append(id)
+                        .append(" (partition ").append(partitionId).append(") with offset ranges ");
+                addRangesToString(message, rangesToCommit);
+                logger.info(message.toString());
+            }
+            commitFunction.accept(rangesToCommit);
+        } else if (logger.isInfoEnabled()) {
+            StringBuilder message = new StringBuilder("[").append(path).append("] Offset ranges ");
+            addRangesToString(message, rangesToCommit);
+            message.append(" are requested to be committed, but partition session ").append(id)
+                    .append(" (partition ").append(partitionId).append(") is already closed");
+            logger.info(message.toString());
+        }
+    }
+
+    private static void addRangesToString(StringBuilder stringBuilder, List<OffsetsRange> ranges) {
+        for (int i = 0; i < ranges.size(); i++) {
+            if (i > 0) {
+                stringBuilder.append(", ");
+            }
+            OffsetsRange range = ranges.get(i);
+            stringBuilder.append("[").append(range.getStart()).append(",").append(range.getEnd()).append(")");
+        }
     }
 
     public void handleCommitResponse(long committedOffset) {
@@ -250,9 +284,9 @@ public class PartitionSessionImpl {
             // Should be called maximum in 1 thread at a time
             List<MessageImpl> messageImplList = batchToRead.getMessages();
             List<Message> messagesToRead = new ArrayList<>(messageImplList);
-            DataReceivedEvent event = new DataReceivedEventImpl(messagesToRead, sessionInfo,
-                    () -> commitOffset(new OffsetsRange(messageImplList.get(0).getCommitOffsetFrom(),
-                            messageImplList.get(messageImplList.size() - 1).getOffset() + 1)));
+            OffsetsRange offsetsToCommit = new OffsetsRangeImpl(messageImplList.get(0).getCommitOffsetFrom(),
+                    messageImplList.get(messageImplList.size() - 1).getOffset() + 1);
+            DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead, offsetsToCommit);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) for partition " +
                                 "session {} " + "(partition {}) is about to be called...", path, messagesToRead.size(),
@@ -309,7 +343,7 @@ public class PartitionSessionImpl {
         private OffsetsRange partitionOffsets;
         private Executor decompressionExecutor;
         private Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
-        private Consumer<OffsetsRange> commitFunction;
+        private Consumer<List<OffsetsRange>> commitFunction;
 
         public Builder setId(long id) {
             this.id = id;
@@ -346,7 +380,7 @@ public class PartitionSessionImpl {
             return this;
         }
 
-        public Builder setCommitFunction(Consumer<OffsetsRange> commitFunction) {
+        public Builder setCommitFunction(Consumer<List<OffsetsRange>> commitFunction) {
             this.commitFunction = commitFunction;
             return this;
         }
