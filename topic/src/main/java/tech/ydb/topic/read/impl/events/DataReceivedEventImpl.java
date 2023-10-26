@@ -3,7 +3,6 @@ package tech.ydb.topic.read.impl.events;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.topic.read.Committer;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
@@ -49,10 +48,5 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
 
     public OffsetsRange getOffsetsToCommit() {
         return offsetsToCommit;
-    }
-
-    @Override
-    public Committer getCommitter() {
-        return committer;
     }
 }

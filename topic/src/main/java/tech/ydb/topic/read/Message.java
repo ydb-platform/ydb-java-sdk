@@ -67,13 +67,4 @@ public interface Message {
      */
     CompletableFuture<Void> commit();
 
-    /**
-     * Returns a Committer object to call commit() on later.
-     * This object has no data references and therefore may be useful in cases where commit() is called after
-     * processing data in an external system
-     *
-     * @return a Committer object
-     */
-    Committer getCommitter();
-
 }

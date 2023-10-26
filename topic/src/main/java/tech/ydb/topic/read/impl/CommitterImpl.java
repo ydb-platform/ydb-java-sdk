@@ -5,13 +5,12 @@ import java.util.concurrent.CompletableFuture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.topic.read.Committer;
 import tech.ydb.topic.read.OffsetsRange;
 
 /**
  * @author Nikolay Perfilov
  */
-public class CommitterImpl implements Committer {
+public class CommitterImpl {
     private static final Logger logger = LoggerFactory.getLogger(CommitterImpl.class);
     private final PartitionSessionImpl partitionSession;
     private final int messageCount;
@@ -23,7 +22,7 @@ public class CommitterImpl implements Committer {
         this.offsetsToCommit = offsetsToCommit;
     }
 
-    @Override
+
     public CompletableFuture<Void> commit() {
         return commitImpl(true);
     }
