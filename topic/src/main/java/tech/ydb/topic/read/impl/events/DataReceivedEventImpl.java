@@ -17,12 +17,14 @@ import tech.ydb.topic.read.impl.PartitionSessionImpl;
 public class DataReceivedEventImpl implements DataReceivedEvent {
     private final List<Message> messages;
     private final PartitionSessionImpl partitionSession;
+    private final OffsetsRange offsetsToCommit;
     private final CommitterImpl committer;
 
     public DataReceivedEventImpl(PartitionSessionImpl partitionSession, List<Message> messages,
                                  OffsetsRange offsetsToCommit) {
         this.messages = messages;
         this.partitionSession = partitionSession;
+        this.offsetsToCommit = offsetsToCommit;
         this.committer = new CommitterImpl(partitionSession, messages.size(), offsetsToCommit);
     }
 
@@ -36,9 +38,17 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
         return partitionSession.getSessionInfo();
     }
 
+    public PartitionSessionImpl getPartitionSessionImpl() {
+        return partitionSession;
+    }
+
     @Override
     public CompletableFuture<Void> commit() {
         return committer.commitImpl(false);
+    }
+
+    public OffsetsRange getOffsetsToCommit() {
+        return offsetsToCommit;
     }
 
     @Override

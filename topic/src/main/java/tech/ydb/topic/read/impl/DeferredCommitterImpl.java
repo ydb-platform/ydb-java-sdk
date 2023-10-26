@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 
 /**
  * @author Nikolay Perfilov
@@ -27,10 +29,10 @@ public class DeferredCommitterImpl implements DeferredCommitter {
             this.partitionSession = partitionSession;
         }
 
-        private void add(MessageImpl message) {
+        private void add(OffsetsRange offsetRange) {
             try {
                 synchronized (ranges) {
-                    ranges.add(message.getOffsetsToCommit());
+                    ranges.add(offsetRange);
                 }
             } catch (RuntimeException exception) {
                 String errorMessage = "Error adding new offset range to DeferredCommitter for partition session " +
@@ -55,7 +57,15 @@ public class DeferredCommitterImpl implements DeferredCommitter {
         MessageImpl messageImpl = (MessageImpl) message;
         PartitionRanges partitionRanges = rangesByPartition
                 .computeIfAbsent(messageImpl.getPartitionSessionImpl(), PartitionRanges::new);
-        partitionRanges.add(messageImpl);
+        partitionRanges.add(messageImpl.getOffsetsToCommit());
+    }
+
+    @Override
+    public void add(DataReceivedEvent event) {
+        DataReceivedEventImpl eventImpl = (DataReceivedEventImpl) event;
+        PartitionRanges partitionRanges = rangesByPartition
+                .computeIfAbsent(eventImpl.getPartitionSessionImpl(), PartitionRanges::new);
+        partitionRanges.add(eventImpl.getOffsetsToCommit());
     }
 
     @Override
