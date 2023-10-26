@@ -3,7 +3,6 @@ package tech.ydb.topic.read.events;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.topic.read.Committer;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 
@@ -36,14 +35,5 @@ public interface DataReceivedEvent {
      * @return a CompletableFuture that will be completed when commit confirmation from server will be received
      */
     CompletableFuture<Void> commit();
-
-    /**
-     * Returns a Committer object to call commit() on later.
-     * This object has no data references and therefore may be useful in cases where commit() is called after
-     * processing data in an external system
-     *
-     * @return a Committer object
-     */
-    Committer getCommitter();
 
 }

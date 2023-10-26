@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.topic.read.Committer;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.OffsetsRange;
@@ -117,11 +116,6 @@ public class MessageImpl implements Message {
 
     public OffsetsRange getOffsetsToCommit() {
         return offsetsToCommit;
-    }
-
-    @Override
-    public Committer getCommitter() {
-        return committer;
     }
 
     /**
