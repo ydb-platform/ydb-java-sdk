@@ -6,6 +6,7 @@ package tech.ydb.topic.read.events;
 public interface ReadEventHandler {
 
     void onMessages(DataReceivedEvent event);
+    void onCommitResponse(CommitOffsetAcknowledgementEvent event);
 
     void onStartPartitionSession(StartPartitionSessionEvent event);
 

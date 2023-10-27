@@ -8,6 +8,11 @@ public abstract class AbstractReadEventHandler implements ReadEventHandler {
     // onMessages(DataReceivedEvent event) method should be defined in user's implementation
 
     @Override
+    public void onCommitResponse(CommitOffsetAcknowledgementEvent event) {
+
+    }
+
+    @Override
     public void onStartPartitionSession(StartPartitionSessionEvent event) {
         event.confirm();
     }
