@@ -3,7 +3,6 @@ package tech.ydb.coordination;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -22,6 +21,8 @@ import tech.ydb.coordination.CoordinationSession.WatchMode;
 import tech.ydb.coordination.impl.CoordinationClientImpl;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
+import tech.ydb.coordination.scenario.service_discovery.Subscriber;
+import tech.ydb.coordination.scenario.service_discovery.Worker;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
@@ -248,65 +249,51 @@ public class CoordinationClientTest {
         latch3.await();
     }
 
-    private void publish(String semaphoreName, List<ServiceDiscovery> services) {
-        final ArrayList<CompletableFuture<Status>> createFutures = new ArrayList<>();
-        for (ServiceDiscovery service : services) {
-            createFutures.add(service.getSession().createSemaphore(semaphoreName, -1));
-        }
-        createFutures.forEach(CompletableFuture::join);
-        final ArrayList<CompletableFuture<Result<CoordinationSemaphore>>> acquireFutures = new ArrayList<>();
-        for (ServiceDiscovery service : services) {
-            acquireFutures.add(service.getSession().acquireSemaphore(semaphoreName, 1, false, timeout,
-                    service.getEndpoint().getBytes(StandardCharsets.UTF_8)));
-        }
-        acquireFutures.forEach(CompletableFuture::join);
-    }
-
-    private void subscribe(String semaphoreName,
-                           BiConsumer<ServiceDiscovery, SemaphoreDescription> newEndpointSubscriber,
-                           List<ServiceDiscovery> services) {
-        List<Result<SemaphoreDescription>> descriptions = services.stream()
-                .map(serviceDiscovery -> serviceDiscovery.getSession()
-                        .describeSemaphore(semaphoreName, DescribeMode.WITH_OWNERS,
-                                WatchMode.WATCH_OWNERS,
-                                changed -> YDB_TRANSPORT.getScheduler().execute(
-                                        () -> subscribe(semaphoreName, newEndpointSubscriber,
-                                                Collections.singletonList(serviceDiscovery))))
-                )
-                .map(CompletableFuture::join).collect(Collectors.toList());
-
-        descriptions.forEach(result -> Assert.assertTrue(result.isSuccess()));
-
-        for (int i = 0; i < services.size(); i++) {
-            newEndpointSubscriber.accept(services.get(i), descriptions.get(i).getValue());
-        }
-    }
-
     @Test(timeout = 20_000)
     public void serviceDiscoveryTest() {
-        final String semaphoreName = "service-discovery-test";
-        try (CoordinationSession session1 = client.createSession(path, timeout).join();
-             CoordinationSession session2 = client.createSession(path, timeout).join()) {
+        try (CoordinationSession checkSession = client.createSession(path, timeout).join()) {
+            final CoordinationSession session1 = client.createSession(path, timeout).join();
+            final Worker worker1 = Worker.newWorker(session1, "endpoint-1", timeout).join();
 
-            final List<ServiceDiscovery> services = new ArrayList<>(Arrays.asList(
-                    new ServiceDiscovery(session1, "localhost1"),
-                    new ServiceDiscovery(session2, "localhost2"))
+            final SemaphoreDescription oneWorkerDescription = checkSession
+                    .describeSemaphore(Worker.SEMAPHORE_NAME, DescribeMode.WITH_OWNERS)
+                    .join()
+                    .getValue();
+
+            Assert.assertEquals("endpoint-1", new String(oneWorkerDescription.getOwnersList().get(0).getData()));
+            Assert.assertEquals(1, oneWorkerDescription.getOwnersList().size());
+
+            final CoordinationSession session2 = client.createSession(path, timeout).join();
+            final Worker worker2 = Worker.newWorker(session2, "endpoint-2", timeout).join();
+            /* The First knows about The Second */
+            final Subscriber subscriber1 = Subscriber.newSubscriber(session1).join();
+            SemaphoreDescription subscriberOneDescription = subscriber1.getDescription().join();
+            Assert.assertTrue(subscriberOneDescription
+                    .getOwnersList()
+                    .stream()
+                    .anyMatch(semaphoreSession -> "endpoint-2".equals(new String(semaphoreSession.getData())))
             );
+            Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
+            /* The Second knows about The First */
+            final Subscriber subscriber2 = Subscriber.newSubscriber(session2).join();
+            subscriberOneDescription = subscriber2.getDescription().join();
+            Assert.assertTrue(subscriberOneDescription
+                    .getOwnersList()
+                    .stream()
+                    .anyMatch(semaphoreSession -> "endpoint-1".equals(new String(semaphoreSession.getData())))
+            );
+            Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
 
-            publish(semaphoreName, services);
+            /* Remove The First worker */
+            final Boolean stoppedWorker1 = worker1.stop().join().getValue();
+            Assert.assertEquals(true, stoppedWorker1);
+            final SemaphoreDescription removeDescription = subscriber2.getDescription().join();
+            Assert.assertEquals("endpoint-2", new String(removeDescription.getOwnersList().get(0).getData()));
+            Assert.assertEquals(1, removeDescription.getOwnersList().size());
+            Assert.assertEquals(removeDescription,
+                    checkSession.describeSemaphore(Worker.SEMAPHORE_NAME, DescribeMode.WITH_OWNERS).join().getValue());
 
-            final BiConsumer<ServiceDiscovery, SemaphoreDescription> newEndpointSubscriber =
-                    (service, description) -> logger.trace("{} notified by changes. Services: {}", service,
-                            description);
-
-            subscribe(semaphoreName, newEndpointSubscriber, services);
-
-            final ServiceDiscovery service3 = new ServiceDiscovery(client.createSession(path, timeout).join(),
-                    "localhost3");
-
-            publish(semaphoreName, Collections.singletonList(service3));
-            services.add(service3);
-            subscribe(semaphoreName, newEndpointSubscriber, services);
+            Assert.assertEquals(true, worker2.stop().join().getValue());
         } catch (Exception e) {
             Assert.fail("There shouldn't be an exception.");
         }
