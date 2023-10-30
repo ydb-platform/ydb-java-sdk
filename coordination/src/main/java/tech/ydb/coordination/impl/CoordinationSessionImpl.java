@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.settings.DescribeSemaphoreMode;
+import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
@@ -87,16 +89,16 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName,
-                                                 DescribeMode describeMode, WatchMode watchMode,
+    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name,
+                                                 DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode,
                                                  Consumer<SemaphoreChangedEvent> updateWatcher) {
-        return stream.sendDescribeSemaphore(semaphoreName, describeMode.includeOwners(), describeMode.includeWaiters(),
+        return stream.sendDescribeSemaphore(name, describeMode.includeOwners(), describeMode.includeWaiters(),
                 watchMode.watchData(), watchMode.watchData(), updateWatcher);
     }
 
     @Override
-    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode mode) {
-        return stream.sendDescribeSemaphore(semaphoreName, mode.includeOwners(), mode.includeWaiters());
+    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
+        return stream.sendDescribeSemaphore(name, mode.includeOwners(), mode.includeWaiters());
     }
 
     @Override

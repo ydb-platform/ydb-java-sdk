@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.settings.DescribeSemaphoreMode;
+import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 
@@ -66,81 +68,14 @@ public interface CoordinationSession extends AutoCloseable {
 
     CompletableFuture<Status> updateSemaphore(String semaphoreName, byte[] data);
 
-    CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode describeMode,
-                                                                      WatchMode watchMode,
-                                                                      Consumer<SemaphoreChangedEvent> updateWatcher);
+    CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode);
 
-    CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode mode);
+    CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name,
+            DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode, Consumer<SemaphoreChangedEvent> watcher);
 
     CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force);
 
     long getId();
-
-    enum DescribeMode {
-        /**
-         * Describe only semaphore's data (name, user-defined data and others)
-         */
-        DATA_ONLY(false, false),
-        /**
-         * Include owners list to describe result
-         */
-        WITH_OWNERS(true, false),
-        /**
-         * Include waiters list to describe result
-         */
-        WITH_WAITERS(false, true),
-        /**
-         * Include waiters and owners lists to describe result
-         */
-        WITH_OWNERS_AND_WAITERS(true, true);
-
-        private final boolean includeOwners;
-        private final boolean includeWaiters;
-
-        DescribeMode(boolean includeOwners, boolean includeWaiters) {
-            this.includeOwners = includeOwners;
-            this.includeWaiters = includeWaiters;
-        }
-
-        public boolean includeOwners() {
-            return includeOwners;
-        }
-
-        public boolean includeWaiters() {
-            return includeWaiters;
-        }
-    }
-
-    enum WatchMode {
-        /**
-         * Watch for changes in semaphore data
-         */
-        WATCH_DATA(true, false),
-        /**
-         * Watch for changes in semaphore owners
-         */
-        WATCH_OWNERS(false, true),
-        /**
-         * Watch for changes in semaphore data or owners
-         */
-        WATCH_DATA_AND_OWNERS(true, true);
-
-        private final boolean watchData;
-        private final boolean watchOwners;
-
-        WatchMode(boolean watchData, boolean watchOwners) {
-            this.watchData = watchData;
-            this.watchOwners = watchOwners;
-        }
-
-        public boolean watchData() {
-            return watchData;
-        }
-
-        public boolean watchOwners() {
-            return watchOwners;
-        }
-    }
 
     interface CoordinationSemaphore {
         /**

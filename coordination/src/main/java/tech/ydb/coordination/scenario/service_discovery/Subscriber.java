@@ -5,10 +5,10 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.CoordinationSession.DescribeMode;
-import tech.ydb.coordination.CoordinationSession.WatchMode;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.settings.DescribeSemaphoreMode;
+import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -33,8 +33,8 @@ public class Subscriber {
         this.subscribeFunctor[0] = changes -> {
             this.description[0] = new CompletableFuture<>();
             session.describeSemaphore(SEMAPHORE_NAME,
-                            DescribeMode.WITH_OWNERS,
-                            WatchMode.WATCH_DATA_AND_OWNERS,
+                            DescribeSemaphoreMode.WITH_OWNERS,
+                            WatchSemaphoreMode.WATCH_DATA_AND_OWNERS,
                             subscribeFunctor[0])
                     .whenComplete(this.dataSetter[0]);
         };
@@ -44,8 +44,8 @@ public class Subscriber {
         final Subscriber subscriber = new Subscriber(session);
         return session.describeSemaphore(
                 SEMAPHORE_NAME,
-                DescribeMode.WITH_OWNERS,
-                WatchMode.WATCH_DATA_AND_OWNERS,
+                DescribeSemaphoreMode.WITH_OWNERS,
+                WatchSemaphoreMode.WATCH_DATA_AND_OWNERS,
                 subscriber.subscribeFunctor[0]
         ).whenComplete(subscriber.dataSetter[0]).thenApply(ignored -> subscriber);
     }

@@ -10,23 +10,30 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.coordination.CoordinationSession.CoordinationSemaphore;
-import tech.ydb.coordination.CoordinationSession.DescribeMode;
-import tech.ydb.coordination.CoordinationSession.WatchMode;
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.impl.CoordinationClientImpl;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
 import tech.ydb.coordination.scenario.service_discovery.Subscriber;
 import tech.ydb.coordination.scenario.service_discovery.Worker;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
-import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -40,14 +47,6 @@ import tech.ydb.proto.coordination.SessionRequest;
 import tech.ydb.proto.coordination.SessionResponse;
 import tech.ydb.proto.coordination.SessionResponse.Failure;
 import tech.ydb.test.junit4.GrpcTransportRule;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CoordinationClientTest {
     @ClassRule
@@ -93,8 +92,8 @@ public class CoordinationClientTest {
                     changes -> dataChangedFuture.complete(changes.isDataChanged());
 
             final SemaphoreDescription description = session.describeSemaphore(semaphoreName,
-                    DescribeMode.WITH_OWNERS_AND_WAITERS,
-                    WatchMode.WATCH_DATA,
+                    DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS,
+                    WatchSemaphoreMode.WATCH_DATA,
                     updateWatcher
             ).join().getValue();
 
@@ -124,7 +123,7 @@ public class CoordinationClientTest {
                             count, true, Duration.ofSeconds(3))
                     .join()
                     .getValue();
-            final SemaphoreDescription description = session.describeSemaphore(semaphoreName, DescribeMode.DATA_ONLY)
+            final SemaphoreDescription description = session.describeSemaphore(semaphoreName, DescribeSemaphoreMode.DATA_ONLY)
                     .join()
                     .getValue();
             Assert.assertEquals(-1, description.getLimit());
@@ -179,7 +178,7 @@ public class CoordinationClientTest {
             for (CompletableFuture<Result<CoordinationSemaphore>> future : acquireFutures) {
                 Assert.assertEquals(Status.SUCCESS, future.get(timeout.toMillis(), TimeUnit.MILLISECONDS).getStatus());
             }
-            final SemaphoreDescription desc = session.describeSemaphore(semaphoreName, DescribeMode.DATA_ONLY)
+            final SemaphoreDescription desc = session.describeSemaphore(semaphoreName, DescribeSemaphoreMode.DATA_ONLY)
                     .get(timeout.toMillis(), TimeUnit.MILLISECONDS)
                     .getValue();
             Assert.assertEquals(90 + sessionNum, desc.getCount());
@@ -237,7 +236,7 @@ public class CoordinationClientTest {
         final CoordinationSession leaderSession = leader.join();
         final CountDownLatch latch3 = new CountDownLatch(sessionCount);
 
-        sessions.forEach(session -> session.describeSemaphore(semaphoreName, DescribeMode.WITH_OWNERS)
+        sessions.forEach(session -> session.describeSemaphore(semaphoreName, DescribeSemaphoreMode.WITH_OWNERS)
                 .whenComplete((result, th) -> {
                     Assert.assertTrue(result.isSuccess());
                     Assert.assertNull(th);
@@ -256,7 +255,7 @@ public class CoordinationClientTest {
             final Worker worker1 = Worker.newWorker(session1, "endpoint-1", timeout).join();
 
             final SemaphoreDescription oneWorkerDescription = checkSession
-                    .describeSemaphore(Worker.SEMAPHORE_NAME, DescribeMode.WITH_OWNERS)
+                    .describeSemaphore(Worker.SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS)
                     .join()
                     .getValue();
 
@@ -291,7 +290,7 @@ public class CoordinationClientTest {
             Assert.assertEquals("endpoint-2", new String(removeDescription.getOwnersList().get(0).getData()));
             Assert.assertEquals(1, removeDescription.getOwnersList().size());
             Assert.assertEquals(removeDescription,
-                    checkSession.describeSemaphore(Worker.SEMAPHORE_NAME, DescribeMode.WITH_OWNERS).join().getValue());
+                    checkSession.describeSemaphore(Worker.SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS).join().getValue());
 
             Assert.assertEquals(true, worker2.stop().join().getValue());
         } catch (Exception e) {
