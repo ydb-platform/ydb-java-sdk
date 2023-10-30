@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.TreeMap;
 
 import tech.ydb.topic.read.OffsetsRange;
 
@@ -13,7 +13,7 @@ import tech.ydb.topic.read.OffsetsRange;
  * @author Nikolay Perfilov
  */
 public class DisjointOffsetRangeSet {
-    private final NavigableMap<Long, OffsetsRangeImpl> ranges = new ConcurrentSkipListMap<>();
+    private final NavigableMap<Long, OffsetsRangeImpl> ranges = new TreeMap<>();
 
     public void add(OffsetsRange rangeToCommit) {
         Map.Entry<Long, OffsetsRangeImpl> floorEntry = ranges.floorEntry(rangeToCommit.getStart());
