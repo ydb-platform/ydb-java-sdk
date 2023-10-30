@@ -7,8 +7,8 @@ import java.util.function.Consumer;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.CoordinationSession.DescribeMode;
 import tech.ydb.coordination.CoordinationSession.WatchMode;
-import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
-import tech.ydb.coordination.settings.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -16,7 +16,7 @@ import tech.ydb.core.UnexpectedResultException;
 
 public class Subscriber {
     public static final String SEMAPHORE_NAME = "service-discovery-semaphore";
-    private final Consumer<DescribeSemaphoreChanged>[] subscribeFunctor = new Consumer[1];
+    private final Consumer<SemaphoreChangedEvent>[] subscribeFunctor = new Consumer[1];
     private final BiConsumer<? super Result<SemaphoreDescription>, ? super Throwable>[] dataSetter = new BiConsumer[1];
     private final CompletableFuture<SemaphoreDescription>[] description = new CompletableFuture[1];
 

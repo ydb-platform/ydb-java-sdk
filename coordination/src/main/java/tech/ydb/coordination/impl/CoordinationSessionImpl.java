@@ -13,8 +13,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
-import tech.ydb.coordination.settings.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
@@ -89,7 +89,7 @@ public class CoordinationSessionImpl implements CoordinationSession {
     @Override
     public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName,
                                                  DescribeMode describeMode, WatchMode watchMode,
-                                                 Consumer<DescribeSemaphoreChanged> updateWatcher) {
+                                                 Consumer<SemaphoreChangedEvent> updateWatcher) {
         return stream.sendDescribeSemaphore(semaphoreName, describeMode.includeOwners(), describeMode.includeWaiters(),
                 watchMode.watchData(), watchMode.watchData(), updateWatcher);
     }

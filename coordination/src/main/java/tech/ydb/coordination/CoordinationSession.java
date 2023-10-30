@@ -4,8 +4,8 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
-import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
-import tech.ydb.coordination.settings.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 
@@ -68,7 +68,7 @@ public interface CoordinationSession extends AutoCloseable {
 
     CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode describeMode,
                                                                       WatchMode watchMode,
-                                                                      Consumer<DescribeSemaphoreChanged> updateWatcher);
+                                                                      Consumer<SemaphoreChangedEvent> updateWatcher);
 
     CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String semaphoreName, DescribeMode mode);
 

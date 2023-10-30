@@ -24,9 +24,9 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.rpc.CoordinationRpc;
-import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
-import tech.ydb.coordination.settings.SemaphoreDescription;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -59,7 +59,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private final Duration timeoutInRetryAttempt;
     private final Duration timeoutBetweenAttempts;
     private final ScheduledExecutorService executorService;
-    private final Map<Integer, Consumer<DescribeSemaphoreChanged>> updateWatchers = new ConcurrentHashMap<>();
+    private final Map<Integer, Consumer<SemaphoreChangedEvent>> updateWatchers = new ConcurrentHashMap<>();
     private final Map<Long, BiConsumer<Optional<Object>, Status>> futuresMap = new ConcurrentHashMap<>();
     private final Map<String, Integer> semaphoreId = new ConcurrentHashMap<>();
     private final AtomicInteger nextSemaphoreId = new AtomicInteger(1);
@@ -159,10 +159,10 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         break;
                     case DESCRIBE_SEMAPHORE_CHANGED:
                         requestId = message.getDescribeSemaphoreChanged().getReqId();
-                        final Consumer<DescribeSemaphoreChanged> watcher =
+                        final Consumer<SemaphoreChangedEvent> watcher =
                                 updateWatchers.remove(getUserRequestId(requestId));
                         if (watcher != null) {
-                            watcher.accept(new DescribeSemaphoreChanged(
+                            watcher.accept(new SemaphoreChangedEvent(
                                     message.getDescribeSemaphoreChanged().getDataChanged(),
                                     message.getDescribeSemaphoreChanged().getOwnersChanged(),
                                     false));
@@ -281,7 +281,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
             send(requestMap.get(requestId));
         }
         updateWatchers.forEach((id, watcher) ->
-                watcher.accept(new DescribeSemaphoreChanged(false, false, true))
+                watcher.accept(new SemaphoreChangedEvent(false, false, true))
         );
         updateWatchers.clear();
     }
@@ -363,7 +363,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
 
     public CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphore(
             String semaphoreName, boolean includeOwners, boolean includeWaiters,
-            boolean watchData, boolean watchOwners, Consumer<DescribeSemaphoreChanged> updateWatcher) {
+            boolean watchData, boolean watchOwners, Consumer<SemaphoreChangedEvent> updateWatcher) {
         final long fullRequestId = getFullRequestId(semaphoreId.compute(semaphoreName,
                 (key, value) -> value == null ? nextSemaphoreId.incrementAndGet() : value));
         final SessionRequest request = SessionRequest.newBuilder().setDescribeSemaphore(

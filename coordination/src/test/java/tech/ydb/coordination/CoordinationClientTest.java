@@ -24,9 +24,9 @@ import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
 import tech.ydb.coordination.scenario.service_discovery.Subscriber;
 import tech.ydb.coordination.scenario.service_discovery.Worker;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
-import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.coordination.settings.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -89,7 +89,7 @@ public class CoordinationClientTest {
             CoordinationSemaphore semaphore = session.acquireSemaphore(semaphoreName, 70, Duration.ofSeconds(3))
                     .join().getValue();
             final CompletableFuture<Boolean> dataChangedFuture = new CompletableFuture<>();
-            final Consumer<DescribeSemaphoreChanged> updateWatcher =
+            final Consumer<SemaphoreChangedEvent> updateWatcher =
                     changes -> dataChangedFuture.complete(changes.isDataChanged());
 
             final SemaphoreDescription description = session.describeSemaphore(semaphoreName,

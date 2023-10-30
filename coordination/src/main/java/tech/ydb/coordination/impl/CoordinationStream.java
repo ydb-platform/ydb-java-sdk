@@ -6,8 +6,8 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
-import tech.ydb.coordination.settings.DescribeSemaphoreChanged;
-import tech.ydb.coordination.settings.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 
@@ -22,7 +22,7 @@ public interface CoordinationStream {
 
     CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphore(
             String semaphoreName, boolean includeOwners, boolean includeWaiters,
-            boolean watchData, boolean watchOwners, Consumer<DescribeSemaphoreChanged> updateWatcher);
+            boolean watchData, boolean watchOwners, Consumer<SemaphoreChangedEvent> updateWatcher);
 
     CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, int requestId);
 
