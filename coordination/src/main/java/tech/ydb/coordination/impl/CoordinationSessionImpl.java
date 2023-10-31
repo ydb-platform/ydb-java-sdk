@@ -3,22 +3,25 @@ package tech.ydb.coordination.impl;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationSession;
+import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreWatcher;
+import tech.ydb.coordination.rpc.CoordinationRpc;
+import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
-import tech.ydb.core.Issue;
-import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -35,11 +38,17 @@ public class CoordinationSessionImpl implements CoordinationSession {
         this.stream = stream;
     }
 
-    public static CompletableFuture<CoordinationSession> newSession(final CoordinationRetryableStreamImpl stream,
-                                                                    Duration timeout) {
+    public static CompletableFuture<CoordinationSession> newSession(CoordinationRpc rpc, String nodePath,
+            CoordinationSessionSettings settings) {
+        Executor executor = settings.getExecutor();
+        if (executor == null) {
+            executor = ForkJoinPool.commonPool();
+        }
+
+        final CoordinationRetryableStreamImpl stream = new CoordinationRetryableStreamImpl(rpc, executor, nodePath);
         final CoordinationSessionImpl session = new CoordinationSessionImpl(stream);
         final CompletableFuture<CoordinationSession> sessionStartFuture = CompletableFuture.completedFuture(session);
-        return session.start(timeout)
+        return session.start(settings.getCreateTimeout())
                 .thenAccept(session.sessionId::set)
                 .thenCompose(ignored -> sessionStartFuture);
     }
@@ -60,24 +69,45 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(
-            String semaphoreName, long count, boolean ephemeral, Duration timeout, byte[] data) {
-        if (data == null) {
-            data = BYTE_ARRAY_STUB;
-        }
-        final int semaphoreCreateId = lastId.getAndIncrement();
-        logger.trace("Send acquireSemaphore {} with count {}", semaphoreName, count);
-        return stream.sendAcquireSemaphore(semaphoreName, count, timeout, ephemeral, data, semaphoreCreateId)
-                .thenApply(result -> (result.isSuccess() && result.getValue()) ?
-                        Result.success(new CoordinationSemaphoreImpl(
-                                stream, semaphoreName, lastId)
-                        ) :
-                        Result.fail(result.isSuccess() ?
-                                Status.of(
-                                        StatusCode.BAD_REQUEST,
-                                        (double) 0, Issue.of("Semaphore has already existed.", Severity.WARNING)) :
-                                result.getStatus())
-                );
+    public CompletableFuture<SemaphoreLease> acquireSemaphore(String name, long count, byte[] data, Duration timeout) {
+        byte[] sepamhoreData = data != null ? data : BYTE_ARRAY_STUB;
+        final int reqId = lastId.getAndIncrement();
+        logger.trace("Send acquireSemaphore {} with count {}", name, count);
+        return stream.sendAcquireSemaphore(name, count, timeout, false, sepamhoreData, reqId)
+                .thenApply(result -> {
+                    SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, name);
+                    if (!result.getValue()) { // timeout expired
+                        lease.completeLease(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED));
+                    }
+                    return lease;
+                });
+    }
+
+    @Override
+    public CompletableFuture<SemaphoreLease> acquireEphemeralSemaphore(String name, byte[] data, Duration timeout) {
+        byte[] sepamhoreData = data != null ? data : BYTE_ARRAY_STUB;
+        final int reqId = lastId.getAndIncrement();
+        logger.trace("Send acquireEphemeralSemaphore {}", name);
+        return stream.sendAcquireSemaphore(name, -1L, timeout, true, sepamhoreData, reqId)
+                .thenApply(result -> {
+                    SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, name);
+                    if (!result.getValue()) { // timeout expired
+                        lease.completeLease(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED));
+                    }
+                    return lease;
+                });
+    }
+
+
+    CompletableFuture<Boolean> releaseSemaphore(SemaphoreLeaseImpl lease) {
+        final int semaphoreReleaseId = lastId.getAndIncrement();
+        logger.trace("Send releaseSemaphore {}", lease.getSemaphoreName());
+        return stream.sendReleaseSemaphore(lease.getSemaphoreName(), semaphoreReleaseId).thenApply(result -> {
+            if (result.getValue()) {
+                lease.completeLease(Status.SUCCESS);
+            }
+            return result.getValue();
+        });
     }
 
     @Override
@@ -89,16 +119,19 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name,
-                                                 DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode,
-                                                 Consumer<SemaphoreChangedEvent> updateWatcher) {
-        return stream.sendDescribeSemaphore(name, describeMode.includeOwners(), describeMode.includeWaiters(),
-                watchMode.watchData(), watchMode.watchData(), updateWatcher);
+    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
+        return stream.sendDescribeSemaphore(name, mode.includeOwners(), mode.includeWaiters());
     }
 
     @Override
-    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
-        return stream.sendDescribeSemaphore(name, mode.includeOwners(), mode.includeWaiters());
+    public CompletableFuture<Result<SemaphoreWatcher>> describeAndWatchSemaphore(String name,
+            DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode) {
+        final CompletableFuture<SemaphoreChangedEvent> changeFuture = new CompletableFuture<>();
+        return stream.sendDescribeSemaphore(name,
+                describeMode.includeOwners(), describeMode.includeWaiters(),
+                watchMode.watchData(), watchMode.watchOwners(),
+                (ev) -> changeFuture.complete(ev)
+        ).thenApply(r -> r.map(desc -> new SemaphoreWatcher(desc, changeFuture)));
     }
 
     @Override
@@ -109,6 +142,11 @@ public class CoordinationSessionImpl implements CoordinationSession {
     @Override
     public long getId() {
         return sessionId.get();
+    }
+
+    @Override
+    public boolean isClosed() {
+        return !isWorking.get();
     }
 
     @Override
