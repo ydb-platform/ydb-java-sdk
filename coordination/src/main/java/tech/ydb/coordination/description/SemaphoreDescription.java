@@ -16,7 +16,7 @@ public class SemaphoreDescription {
     private final List<Session> waitersList;
 
     public SemaphoreDescription(tech.ydb.proto.coordination.SemaphoreDescription description) {
-    this.name = description.getName();
+        this.name = description.getName();
         this.data = description.getData().toByteArray();
         this.count = description.getCount();
         this.limit = description.getLimit();

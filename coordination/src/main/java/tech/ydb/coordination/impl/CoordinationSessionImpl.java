@@ -3,6 +3,8 @@ package tech.ydb.coordination.impl;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.rpc.CoordinationRpc;
+import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Issue;
@@ -35,11 +39,17 @@ public class CoordinationSessionImpl implements CoordinationSession {
         this.stream = stream;
     }
 
-    public static CompletableFuture<CoordinationSession> newSession(final CoordinationRetryableStreamImpl stream,
-                                                                    Duration timeout) {
+    public static CompletableFuture<CoordinationSession> newSession(CoordinationRpc rpc, String nodePath,
+            CoordinationSessionSettings settings) {
+        Executor executor = settings.getExecutor();
+        if (executor == null) {
+            executor = ForkJoinPool.commonPool();
+        }
+
+        final CoordinationRetryableStreamImpl stream = new CoordinationRetryableStreamImpl(rpc, executor, nodePath);
         final CoordinationSessionImpl session = new CoordinationSessionImpl(stream);
         final CompletableFuture<CoordinationSession> sessionStartFuture = CompletableFuture.completedFuture(session);
-        return session.start(timeout)
+        return session.start(settings.getCreateTimeout())
                 .thenAccept(session.sessionId::set)
                 .thenCompose(ignored -> sessionStartFuture);
     }

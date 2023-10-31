@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -51,7 +52,6 @@ import tech.ydb.test.junit4.GrpcTransportRule;
 public class CoordinationClientTest {
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
-    private static final Logger logger = LoggerFactory.getLogger(CoordinationClientTest.class);
     private final String path = YDB_TRANSPORT.getDatabase() + "/coordination-node";
     private final Duration timeout = Duration.ofSeconds(60);
     private final CoordinationClient client = CoordinationClient.newClient(YDB_TRANSPORT);
@@ -83,7 +83,7 @@ public class CoordinationClientTest {
     @Test(timeout = 20_000)
     public void coordinationSessionFullCycleTest() {
         final String semaphoreName = "test-semaphore";
-        try (CoordinationSession session = client.createSession(path, Duration.ofSeconds(3)).join()) {
+        try (CoordinationSession session = client.createSession(path).join()) {
             session.createSemaphore(semaphoreName, 100).get(3, TimeUnit.SECONDS);
             CoordinationSemaphore semaphore = session.acquireSemaphore(semaphoreName, 70, Duration.ofSeconds(3))
                     .join().getValue();
@@ -118,7 +118,7 @@ public class CoordinationClientTest {
         final String semaphoreName = "ephemeral-semaphore-base-test";
         /* 18446744073709551615 = 2^64 - 1 (or just -1 in Java) */
         final long count = -1;
-        try (CoordinationSession session = client.createSession(path, Duration.ofSeconds(3)).join()) {
+        try (CoordinationSession session = client.createSession(path).join()) {
             session.acquireSemaphore(semaphoreName,
                             count, true, Duration.ofSeconds(3))
                     .join()
@@ -140,9 +140,9 @@ public class CoordinationClientTest {
         final CoordinationRpc rpc = new CoordinationProxyRpc(GrpcCoordinationRpc.useTransport(YDB_TRANSPORT));
         final String semaphoreName = "retry-test";
         final int sessionNum = 10;
-        CoordinationClient mockClient = new CoordinationClientImpl(rpc, YDB_TRANSPORT.getScheduler());
+        CoordinationClient mockClient = new CoordinationClientImpl(rpc);
 
-        try (CoordinationSession session = mockClient.createSession(path, timeout).join()) {
+        try (CoordinationSession session = mockClient.createSession(path).join()) {
             session.createSemaphore(semaphoreName, 90 + sessionNum + 1).join();
             CoordinationSemaphore semaphore = session.acquireSemaphore(semaphoreName, 90, timeout)
                     .join().getValue();
@@ -152,7 +152,7 @@ public class CoordinationClientTest {
             List<CoordinationSession> sessions = ThreadLocalRandom
                     .current()
                     .ints(sessionNum)
-                    .mapToObj(n -> mockClient.createSession(path, timeout))
+                    .mapToObj(n -> mockClient.createSession(path))
                     .map(CompletableFuture::join)
                     .collect(Collectors.toList());
 
@@ -198,7 +198,7 @@ public class CoordinationClientTest {
         final String semaphoreName = "leader-election-semaphore";
         final int sessionCount = 10;
         final CountDownLatch latch1 = new CountDownLatch(sessionCount);
-        List<CoordinationSession> sessions = Stream.generate(() -> client.createSession(path, duration).join())
+        List<CoordinationSession> sessions = Stream.generate(() -> client.createSession(path).join())
                 .limit(sessionCount)
                 .collect(Collectors.toList());
 
@@ -250,8 +250,8 @@ public class CoordinationClientTest {
 
     @Test(timeout = 20_000)
     public void serviceDiscoveryTest() {
-        try (CoordinationSession checkSession = client.createSession(path, timeout).join()) {
-            final CoordinationSession session1 = client.createSession(path, timeout).join();
+        try (CoordinationSession checkSession = client.createSession(path).join()) {
+            final CoordinationSession session1 = client.createSession(path).join();
             final Worker worker1 = Worker.newWorker(session1, "endpoint-1", timeout).join();
 
             final SemaphoreDescription oneWorkerDescription = checkSession
@@ -262,7 +262,7 @@ public class CoordinationClientTest {
             Assert.assertEquals("endpoint-1", new String(oneWorkerDescription.getOwnersList().get(0).getData()));
             Assert.assertEquals(1, oneWorkerDescription.getOwnersList().size());
 
-            final CoordinationSession session2 = client.createSession(path, timeout).join();
+            final CoordinationSession session2 = client.createSession(path).join();
             final Worker worker2 = Worker.newWorker(session2, "endpoint-2", timeout).join();
             /* The First knows about The Second */
             final Subscriber subscriber1 = Subscriber.newSubscriber(session1).join();
@@ -362,6 +362,11 @@ final class CoordinationProxyRpc implements CoordinationRpc {
     @Override
     public String getDatabase() {
         return rpc.getDatabase();
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return rpc.getScheduler();
     }
 }
 

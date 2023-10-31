@@ -1,6 +1,7 @@
 package tech.ydb.coordination.rpc.grpc;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.WillNotClose;
 
@@ -84,5 +85,10 @@ public class GrpcCoordinationRpc implements CoordinationRpc {
     @Override
     public String getDatabase() {
         return grpcTransport.getDatabase();
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return grpcTransport.getScheduler();
     }
 }

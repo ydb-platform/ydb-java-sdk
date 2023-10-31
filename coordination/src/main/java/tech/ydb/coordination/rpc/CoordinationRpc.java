@@ -1,6 +1,7 @@
 package tech.ydb.coordination.rpc;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
@@ -28,4 +29,6 @@ public interface CoordinationRpc {
     CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings);
 
     String getDatabase();
+
+    ScheduledExecutorService getScheduler();
 }
