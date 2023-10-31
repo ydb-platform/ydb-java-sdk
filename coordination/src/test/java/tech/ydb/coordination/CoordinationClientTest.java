@@ -28,7 +28,7 @@ import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.impl.CoordinationClientImpl;
 import tech.ydb.coordination.rpc.CoordinationRpc;
-import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
+import tech.ydb.coordination.impl.CoordinationGrpc;
 import tech.ydb.coordination.scenario.service_discovery.Subscriber;
 import tech.ydb.coordination.scenario.service_discovery.Worker;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
@@ -137,7 +137,7 @@ public class CoordinationClientTest {
 
     @Test(timeout = 60_000)
     public void retryCoordinationSessionTest() {
-        final CoordinationRpc rpc = new CoordinationProxyRpc(GrpcCoordinationRpc.useTransport(YDB_TRANSPORT));
+        final CoordinationRpc rpc = new CoordinationProxyRpc(CoordinationGrpc.useTransport(YDB_TRANSPORT));
         final String semaphoreName = "retry-test";
         final int sessionNum = 10;
         CoordinationClient mockClient = new CoordinationClientImpl(rpc);

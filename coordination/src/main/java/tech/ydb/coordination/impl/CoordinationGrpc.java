@@ -1,4 +1,4 @@
-package tech.ydb.coordination.rpc.grpc;
+package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
@@ -26,16 +26,16 @@ import tech.ydb.proto.coordination.v1.CoordinationServiceGrpc;
 /**
  * @author Kirill Kurdyukov
  */
-public class GrpcCoordinationRpc implements CoordinationRpc {
+public class CoordinationGrpc implements CoordinationRpc {
 
     private final GrpcTransport grpcTransport;
 
-    private GrpcCoordinationRpc(GrpcTransport grpcTransport) {
+    private CoordinationGrpc(GrpcTransport grpcTransport) {
         this.grpcTransport = grpcTransport;
     }
 
-    public static GrpcCoordinationRpc useTransport(@WillNotClose GrpcTransport transport) {
-        return new GrpcCoordinationRpc(transport);
+    public static CoordinationGrpc useTransport(@WillNotClose GrpcTransport transport) {
+        return new CoordinationGrpc(transport);
     }
 
     @Override

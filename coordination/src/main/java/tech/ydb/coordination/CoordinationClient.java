@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import javax.annotation.WillNotClose;
 
 import tech.ydb.coordination.impl.CoordinationClientImpl;
-import tech.ydb.coordination.rpc.grpc.GrpcCoordinationRpc;
+import tech.ydb.coordination.impl.CoordinationGrpc;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
@@ -20,7 +20,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 public interface CoordinationClient {
 
     static CoordinationClient newClient(@WillNotClose GrpcTransport transport) {
-        return new CoordinationClientImpl(GrpcCoordinationRpc.useTransport(transport));
+        return new CoordinationClientImpl(CoordinationGrpc.useTransport(transport));
     }
 
     /**
