@@ -7,6 +7,8 @@ public interface ReadEventHandler {
 
     void onMessages(DataReceivedEvent event);
 
+    void onCommitResponse(CommitOffsetAcknowledgementEvent event);
+
     void onStartPartitionSession(StartPartitionSessionEvent event);
 
     void onStopPartitionSession(StopPartitionSessionEvent event);

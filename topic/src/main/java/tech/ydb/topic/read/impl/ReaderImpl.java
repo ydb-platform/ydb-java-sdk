@@ -99,6 +99,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     }
 
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
+    protected abstract void handleCommitResponse(long committedOffset, PartitionSession partitionSession);
     protected abstract void handleStartPartitionSessionRequest(
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
             PartitionSession partitionSession,
@@ -359,7 +360,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                             CompletableFuture<Void> readFuture = partitionSession.addBatches(data.getBatchesList());
                             batchReadFutures.add(readFuture);
                         } else {
-                            logger.warn("[{}] Received PartitionData for unknown(closed?) PartitionSessionId={}",
+                            logger.error("[{}] Received PartitionData for unknown(closed?) PartitionSessionId={}. " +
+                                            "This shouldn't happen",
                                     fullId, partitionId);
                         }
                     });
@@ -387,9 +389,14 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 PartitionSessionImpl partitionSession =
                         partitionSessions.get(partitionCommittedOffset.getPartitionSessionId());
                 if (partitionSession != null) {
+                    // Handling CompletableFuture completions for single commits
                     partitionSession.handleCommitResponse(partitionCommittedOffset.getCommittedOffset());
+                    // Handling onCommitResponse callback
+                    handleCommitResponse(partitionCommittedOffset.getCommittedOffset(),
+                            partitionSession.getSessionInfo());
                 } else {
-                    logger.debug("[{}] Received CommitOffsetResponse for closed partition session with id={}", fullId,
+                    logger.error("[{}] Received CommitOffsetResponse for unknown (closed?) partition session with " +
+                                    "id={}. This shouldn't happen", fullId,
                             partitionCommittedOffset.getPartitionSessionId());
                 }
             }

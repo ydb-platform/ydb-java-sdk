@@ -1,7 +1,11 @@
 package tech.ydb.topic.read.events;
 
+import tech.ydb.topic.read.PartitionSession;
+
 /**
  * @author Nikolay Perfilov
  */
-public class CommitOffsetAcknowledgementEvent {
+public interface CommitOffsetAcknowledgementEvent {
+    PartitionSession getPartitionSession();
+    long getCommittedOffset();
 }

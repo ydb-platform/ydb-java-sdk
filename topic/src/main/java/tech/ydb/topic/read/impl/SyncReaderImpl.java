@@ -133,6 +133,14 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
+    protected void handleCommitResponse(long committedOffset, PartitionSession partitionSession) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("CommitResponse received for partition session {} (partition {}) with committedOffset {}",
+                    partitionSession.getId(), partitionSession.getPartitionId(), committedOffset);
+        }
+    }
+
+    @Override
     protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
                                                       PartitionSession partitionSession,
                                                       Consumer<StartPartitionSessionSettings> confirmCallback) {
