@@ -3,7 +3,6 @@ package tech.ydb.coordination;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
@@ -98,7 +97,7 @@ public class CoordinationClientTest {
             Assert.assertEquals(semaphoreName, description.getName());
             Assert.assertEquals(70, description.getCount());
             Assert.assertEquals(100, description.getLimit());
-            Assert.assertEquals(Collections.emptyList(), description.getWaitersList());
+            Assert.assertTrue(description.getWaitersList().isEmpty());
 
             Assert.assertFalse(dataChangedFuture.isDone());
             final byte[] data = "Hello".getBytes(StandardCharsets.UTF_8);
@@ -114,19 +113,16 @@ public class CoordinationClientTest {
     @Test(timeout = 20_000)
     public void ephemeralSemaphoreBaseTest() {
         final String semaphoreName = "ephemeral-semaphore-base-test";
-        /* 18446744073709551615 = 2^64 - 1 (or just -1 in Java) */
-        final long count = -1;
         try (CoordinationSession session = client.createSession(path).join()) {
-            session.acquireSemaphore(semaphoreName,
-                            count, true, Duration.ofSeconds(3))
+            session.acquireEphemeralSemaphore(semaphoreName, Duration.ofSeconds(3))
                     .join();
             final SemaphoreDescription description = session.describeSemaphore(semaphoreName, DescribeSemaphoreMode.DATA_ONLY)
                     .join()
                     .getValue();
-            Assert.assertEquals(-1, description.getLimit());
-            Assert.assertEquals(-1, description.getCount());
+            Assert.assertEquals(-1l, description.getLimit());
+            Assert.assertEquals(-1l, description.getCount());
             Assert.assertEquals(semaphoreName, description.getName());
-            Assert.assertEquals(Collections.emptyList(), description.getWaitersList());
+            Assert.assertTrue(description.getWaitersList().isEmpty());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -141,7 +137,9 @@ public class CoordinationClientTest {
 
         try (CoordinationSession session = mockClient.createSession(path).join()) {
             session.createSemaphore(semaphoreName, 90 + sessionNum + 1).join();
-            SemaphoreLease semaphore = session.acquireSemaphore(semaphoreName, 90, timeout).join();
+            SemaphoreLease lease = session.acquireSemaphore(semaphoreName, 90, timeout).join();
+
+            Assert.assertTrue(lease.isValid());
             Assert.assertEquals(session.updateSemaphore(semaphoreName,
                     "data".getBytes(StandardCharsets.UTF_8)).join(), Status.SUCCESS);
 
@@ -190,7 +188,6 @@ public class CoordinationClientTest {
 
     @Test(timeout = 20_000)
     public void leaderElectionTest() throws InterruptedException {
-        final Duration duration = Duration.ofSeconds(60);
         final String semaphoreName = "leader-election-semaphore";
         final int sessionCount = 10;
         final CountDownLatch latch1 = new CountDownLatch(sessionCount);
@@ -215,18 +212,17 @@ public class CoordinationClientTest {
         latch1.await();
         final CountDownLatch latch2 = new CountDownLatch(sessionCount);
 
-        sessions.forEach(session -> session.acquireSemaphore(semaphoreName, 1, false, Duration.ZERO,
-                        String.valueOf(session.getId()).getBytes())
+        sessions.forEach(session -> session
+                .acquireSemaphore(semaphoreName, 1, String.valueOf(session.getId()).getBytes(), Duration.ZERO)
                 .whenComplete((lease, acquireSemaphoreTh) -> {
-                            Assert.assertNull(acquireSemaphoreTh);
-                            if (lease.isValid()) {
-                                semaphore.complete(lease);
-                                leader.complete(session);
-                            }
-                            latch2.countDown();
-                        }
-                )
-        );
+                    Assert.assertNull(acquireSemaphoreTh);
+                    if (lease.isValid()) {
+                        semaphore.complete(lease);
+                        leader.complete(session);
+                    }
+                    latch2.countDown();
+                }
+        ));
 
         latch2.await();
         final CoordinationSession leaderSession = leader.join();
@@ -281,14 +277,14 @@ public class CoordinationClientTest {
 
             /* Remove The First worker */
             final Boolean stoppedWorker1 = worker1.stop().join();
-            Assert.assertEquals(true, stoppedWorker1);
+            Assert.assertTrue(stoppedWorker1);
             final SemaphoreDescription removeDescription = subscriber2.getDescription().join();
             Assert.assertEquals("endpoint-2", new String(removeDescription.getOwnersList().get(0).getData()));
             Assert.assertEquals(1, removeDescription.getOwnersList().size());
             Assert.assertEquals(removeDescription,
                     checkSession.describeSemaphore(Worker.SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS).join().getValue());
 
-            Assert.assertEquals(true, worker2.stop().join());
+            Assert.assertTrue(worker2.stop().join());
         } catch (Exception e) {
             Assert.fail("There shouldn't be an exception.");
         }

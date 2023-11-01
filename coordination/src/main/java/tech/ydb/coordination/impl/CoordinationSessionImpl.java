@@ -69,33 +69,35 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public CompletableFuture<SemaphoreLease> acquireSemaphore(
-            String semaphoreName, long count, boolean ephemeral, Duration timeout, byte[] data) {
-        if (data == null) {
-            data = BYTE_ARRAY_STUB;
-        }
-        final int semaphoreCreateId = lastId.getAndIncrement();
-        logger.trace("Send acquireSemaphore {} with count {}", semaphoreName, count);
-        CompletableFuture<SemaphoreLease> future = new CompletableFuture<>();
-        stream.sendAcquireSemaphore(semaphoreName, count, timeout, ephemeral, data, semaphoreCreateId)
-                .whenComplete((result, th) -> {
-                    if (th != null) {
-                        future.completeExceptionally(th);
-                        return;
+    public CompletableFuture<SemaphoreLease> acquireSemaphore(String name, long count, byte[] data, Duration timeout) {
+        byte[] sepamhoreData = data != null ? data : BYTE_ARRAY_STUB;
+        final int reqId = lastId.getAndIncrement();
+        logger.trace("Send acquireSemaphore {} with count {}", name, count);
+        return stream.sendAcquireSemaphore(name, count, timeout, false, sepamhoreData, reqId)
+                .thenApply(result -> {
+                    SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, name);
+                    if (!result.getValue()) { // timeout expired
+                        lease.completeLease(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED));
                     }
-
-                    try {
-                        SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, semaphoreName);
-                        if (!result.getValue()) { // timeout expired
-                            lease.completeLease(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED));
-                        }
-                        future.complete(lease);
-                    } catch (RuntimeException ex) {
-                        future.completeExceptionally(ex);
-                    }
+                    return lease;
                 });
-        return future;
     }
+
+    @Override
+    public CompletableFuture<SemaphoreLease> acquireEphemeralSemaphore(String name, byte[] data, Duration timeout) {
+        byte[] sepamhoreData = data != null ? data : BYTE_ARRAY_STUB;
+        final int reqId = lastId.getAndIncrement();
+        logger.trace("Send acquireEphemeralSemaphore {}", name);
+        return stream.sendAcquireSemaphore(name, -1L, timeout, true, sepamhoreData, reqId)
+                .thenApply(result -> {
+                    SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, name);
+                    if (!result.getValue()) { // timeout expired
+                        lease.completeLease(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED));
+                    }
+                    return lease;
+                });
+    }
+
 
     CompletableFuture<Boolean> releaseSemaphore(SemaphoreLeaseImpl lease) {
         final int semaphoreReleaseId = lastId.getAndIncrement();

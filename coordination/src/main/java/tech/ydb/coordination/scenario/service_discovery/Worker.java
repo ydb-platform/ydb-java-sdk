@@ -18,8 +18,8 @@ public class Worker {
 
     public static CompletableFuture<Worker> newWorker(CoordinationSession session, String endpoint,
                                                       Duration maxAttemptTimeout) {
-        return session.acquireSemaphore(SEMAPHORE_NAME, 1, true, maxAttemptTimeout,
-                endpoint.getBytes(StandardCharsets.UTF_8)).thenApply(lease -> {
+        byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
+        return session.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(lease -> {
             if (lease.isValid()) {
                 return new Worker(lease);
             } else {
