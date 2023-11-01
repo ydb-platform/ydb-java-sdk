@@ -13,6 +13,8 @@ import tech.ydb.core.Status;
 
 public interface CoordinationSession extends AutoCloseable {
 
+    long getId();
+
     @Override
     void close();
 
@@ -33,7 +35,7 @@ public interface CoordinationSession extends AutoCloseable {
     CompletableFuture<Status> createSemaphore(String semaphoreName, long limit, byte[] data);
 
 
-    default CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(
+    default CompletableFuture<SemaphoreLease> acquireSemaphore(
             String semaphoreName, long count, boolean ephemeral, Duration timeout) {
         return acquireSemaphore(semaphoreName, count, ephemeral, timeout, null);
     }
@@ -41,7 +43,7 @@ public interface CoordinationSession extends AutoCloseable {
     /**
      * {@link CoordinationSession#acquireSemaphore(String, long, boolean, Duration, byte[])}
      */
-    default CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(
+    default CompletableFuture<SemaphoreLease> acquireSemaphore(
             String semaphoreName, long count, Duration timeout) {
         return acquireSemaphore(semaphoreName, count, false, timeout, null);
     }
@@ -62,7 +64,7 @@ public interface CoordinationSession extends AutoCloseable {
      *                      if it's still waiting in the waiters queue
      * @param data          User-defined binary data that may be attached to the operation
      */
-    CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(String semaphoreName, long count,
+    CompletableFuture<SemaphoreLease> acquireSemaphore(String semaphoreName, long count,
                                                                       boolean ephemeral,
                                                                       Duration timeout, byte[] data);
 
@@ -74,18 +76,4 @@ public interface CoordinationSession extends AutoCloseable {
             DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode, Consumer<SemaphoreChangedEvent> watcher);
 
     CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force);
-
-    long getId();
-
-    interface CoordinationSemaphore {
-        /**
-         * Used to release a semaphore
-         * <p>
-         * WARNING: a single session cannot release the same semaphore multiple times
-         * </p>
-         * The release operation will either remove current session from waiters
-         * queue or release an already owned semaphore.
-         */
-        CompletableFuture<Result<Boolean>> release();
-    }
 }

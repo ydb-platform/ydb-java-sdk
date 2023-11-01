@@ -15,14 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.CoordinationSession;
+import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
-import tech.ydb.core.Issue;
-import tech.ydb.core.Issue.Severity;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -70,24 +69,43 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public CompletableFuture<Result<CoordinationSemaphore>> acquireSemaphore(
+    public CompletableFuture<SemaphoreLease> acquireSemaphore(
             String semaphoreName, long count, boolean ephemeral, Duration timeout, byte[] data) {
         if (data == null) {
             data = BYTE_ARRAY_STUB;
         }
         final int semaphoreCreateId = lastId.getAndIncrement();
         logger.trace("Send acquireSemaphore {} with count {}", semaphoreName, count);
-        return stream.sendAcquireSemaphore(semaphoreName, count, timeout, ephemeral, data, semaphoreCreateId)
-                .thenApply(result -> (result.isSuccess() && result.getValue()) ?
-                        Result.success(new CoordinationSemaphoreImpl(
-                                stream, semaphoreName, lastId)
-                        ) :
-                        Result.fail(result.isSuccess() ?
-                                Status.of(
-                                        StatusCode.BAD_REQUEST,
-                                        (double) 0, Issue.of("Semaphore has already existed.", Severity.WARNING)) :
-                                result.getStatus())
-                );
+        CompletableFuture<SemaphoreLease> future = new CompletableFuture<>();
+        stream.sendAcquireSemaphore(semaphoreName, count, timeout, ephemeral, data, semaphoreCreateId)
+                .whenComplete((result, th) -> {
+                    if (th != null) {
+                        future.completeExceptionally(th);
+                        return;
+                    }
+
+                    try {
+                        SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, semaphoreName);
+                        if (!result.getValue()) { // timeout expired
+                            lease.completeLease(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED));
+                        }
+                        future.complete(lease);
+                    } catch (RuntimeException ex) {
+                        future.completeExceptionally(ex);
+                    }
+                });
+        return future;
+    }
+
+    CompletableFuture<Boolean> releaseSemaphore(SemaphoreLeaseImpl lease) {
+        final int semaphoreReleaseId = lastId.getAndIncrement();
+        logger.trace("Send releaseSemaphore {}", lease.getSemaphoreName());
+        return stream.sendReleaseSemaphore(lease.getSemaphoreName(), semaphoreReleaseId).thenApply(result -> {
+            if (result.getValue()) {
+                lease.completeLease(Status.SUCCESS);
+            }
+            return result.getValue();
+        });
     }
 
     @Override

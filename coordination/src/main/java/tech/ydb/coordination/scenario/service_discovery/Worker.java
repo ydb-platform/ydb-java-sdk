@@ -5,32 +5,31 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.CoordinationSession.CoordinationSemaphore;
-import tech.ydb.core.Result;
+import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.core.UnexpectedResultException;
 
 public class Worker {
     public static final String SEMAPHORE_NAME = "service-discovery-semaphore";
-    private final CoordinationSemaphore semaphore;
+    private final SemaphoreLease semaphore;
 
-    private Worker(CoordinationSemaphore semaphore) {
+    private Worker(SemaphoreLease semaphore) {
         this.semaphore = semaphore;
     }
 
     public static CompletableFuture<Worker> newWorker(CoordinationSession session, String endpoint,
                                                       Duration maxAttemptTimeout) {
         return session.acquireSemaphore(SEMAPHORE_NAME, 1, true, maxAttemptTimeout,
-                endpoint.getBytes(StandardCharsets.UTF_8)).thenApply(semaphoreResult -> {
-            if (semaphoreResult.isSuccess()) {
-                return new Worker(semaphoreResult.getValue());
+                endpoint.getBytes(StandardCharsets.UTF_8)).thenApply(lease -> {
+            if (lease.isValid()) {
+                return new Worker(lease);
             } else {
                 throw new UnexpectedResultException("The semaphore for Worker wasn't acquired.",
-                        semaphoreResult.getStatus());
+                        lease.getStatusFuture().join());
             }
         });
     }
 
-    public CompletableFuture<Result<Boolean>> stop() {
+    public CompletableFuture<Boolean> stop() {
         return semaphore.release();
     }
 }
