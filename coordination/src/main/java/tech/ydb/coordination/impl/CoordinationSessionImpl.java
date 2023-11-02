@@ -145,6 +145,11 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
+    public boolean isClosed() {
+        return !isWorking.get();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

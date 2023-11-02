@@ -22,6 +22,8 @@ public interface CoordinationSession extends AutoCloseable {
     @Override
     void close();
 
+    boolean isClosed();
+
     /**
      * Create a new semaphore. This operation doesn't change internal state of the coordination session
      * so one session may be used for creating different semaphores
