@@ -11,10 +11,29 @@ import tech.ydb.topic.read.PartitionSession;
  */
 public interface DataReceivedEvent {
 
+    /**
+     * Returns a list of messages grouped in one batch.
+     * Each message can be committed individually or all messages can be committed at once with commit() method
+     *
+     * @return a list of messages
+     */
     List<Message> getMessages();
 
+    /**
+     * Returns a partition session this data was received on
+     *
+     * @return a partition session this data was received on
+     */
     PartitionSession getPartitionSession();
 
+    /**
+     * Commits all messages in this event at once.
+     * If there was an error while committing, there is no point of retrying committing the same messages:
+     * the whole PartitionSession should be shut down by that time. And if commit hadn't reached the server,
+     * it will resend all these messages in next PartitionSession.
+     *
+     * @return a CompletableFuture that will be completed when commit confirmation from server will be received
+     */
     CompletableFuture<Void> commit();
 
 }

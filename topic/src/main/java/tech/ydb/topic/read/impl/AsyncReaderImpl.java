@@ -15,12 +15,14 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionSession;
+import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
 import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
@@ -73,6 +75,15 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
+    protected void handleCommitResponse(long committedOffset, PartitionSession partitionSession) {
+        handlerExecutor.execute(() -> {
+            CommitOffsetAcknowledgementEvent event = new CommitOffsetAcknowledgementEventImpl(partitionSession,
+                    committedOffset);
+            eventHandler.onCommitResponse(event);
+        });
+    }
+
+    @Override
     protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
                                                       PartitionSession partitionSession,
                                                       Consumer<StartPartitionSessionSettings> confirmCallback) {
@@ -81,7 +92,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
             StartPartitionSessionEvent event = new StartPartitionSessionEventImpl(
                     partitionSession,
                     request.getCommittedOffset(),
-                    new OffsetsRange(offsetsRange.getStart(), offsetsRange.getEnd()),
+                    new OffsetsRangeImpl(offsetsRange.getStart(), offsetsRange.getEnd()),
                     confirmCallback
             );
             eventHandler.onStartPartitionSession(event);
