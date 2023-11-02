@@ -9,7 +9,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +17,7 @@ import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.coordination.rpc.CoordinationRpc;
 import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
@@ -119,16 +119,19 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name,
-                                                 DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode,
-                                                 Consumer<SemaphoreChangedEvent> updateWatcher) {
-        return stream.sendDescribeSemaphore(name, describeMode.includeOwners(), describeMode.includeWaiters(),
-                watchMode.watchData(), watchMode.watchData(), updateWatcher);
+    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
+        return stream.sendDescribeSemaphore(name, mode.includeOwners(), mode.includeWaiters());
     }
 
     @Override
-    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
-        return stream.sendDescribeSemaphore(name, mode.includeOwners(), mode.includeWaiters());
+    public CompletableFuture<Result<SemaphoreWatcher>> describeAndWatchSemaphore(String name,
+            DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode) {
+        final CompletableFuture<SemaphoreChangedEvent> changeFuture = new CompletableFuture<>();
+        return stream.sendDescribeSemaphore(name,
+                describeMode.includeOwners(), describeMode.includeWaiters(),
+                watchMode.watchData(), watchMode.watchOwners(),
+                (ev) -> changeFuture.complete(ev)
+        ).thenApply(r -> r.map(desc -> new SemaphoreWatcher(desc, changeFuture)));
     }
 
     @Override

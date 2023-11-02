@@ -10,7 +10,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -22,8 +21,8 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.coordination.impl.CoordinationClientImpl;
 import tech.ydb.coordination.impl.CoordinationGrpc;
 import tech.ydb.coordination.rpc.CoordinationRpc;
@@ -84,25 +83,21 @@ public class CoordinationClientTest {
             session.createSemaphore(semaphoreName, 100).get(3, TimeUnit.SECONDS);
             SemaphoreLease semaphore = session.acquireSemaphore(semaphoreName, 70, Duration.ofSeconds(3))
                     .join();
-            final CompletableFuture<Boolean> dataChangedFuture = new CompletableFuture<>();
-            final Consumer<SemaphoreChangedEvent> updateWatcher =
-                    changes -> dataChangedFuture.complete(changes.isDataChanged());
 
-            final SemaphoreDescription description = session.describeSemaphore(semaphoreName,
+            SemaphoreWatcher watch = session.describeAndWatchSemaphore(semaphoreName,
                     DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS,
-                    WatchSemaphoreMode.WATCH_DATA,
-                    updateWatcher
+                    WatchSemaphoreMode.WATCH_DATA
             ).join().getValue();
 
-            Assert.assertEquals(semaphoreName, description.getName());
-            Assert.assertEquals(70, description.getCount());
-            Assert.assertEquals(100, description.getLimit());
-            Assert.assertTrue(description.getWaitersList().isEmpty());
+            Assert.assertEquals(semaphoreName, watch.getDescription().getName());
+            Assert.assertEquals(70, watch.getDescription().getCount());
+            Assert.assertEquals(100, watch.getDescription().getLimit());
+            Assert.assertTrue(watch.getDescription().getWaitersList().isEmpty());
 
-            Assert.assertFalse(dataChangedFuture.isDone());
+            Assert.assertFalse(watch.getChangedFuture().isDone());
             final byte[] data = "Hello".getBytes(StandardCharsets.UTF_8);
             session.updateSemaphore(semaphoreName, data).join();
-            Assert.assertTrue(dataChangedFuture.get(1, TimeUnit.MINUTES));
+            Assert.assertTrue(watch.getChangedFuture().get(1, TimeUnit.MINUTES).isDataChanged());
             Assert.assertTrue(semaphore.release().join());
         } catch (Exception e) {
             Assert.fail("There have to be no exceptions. [exception]: " + e);
@@ -243,6 +238,9 @@ public class CoordinationClientTest {
     @Test(timeout = 20_000)
     public void serviceDiscoveryTest() {
         try (CoordinationSession checkSession = client.createSession(path).join()) {
+            Status create = checkSession.createSemaphore(Worker.SEMAPHORE_NAME, 100).join();
+            Assert.assertTrue(create.isSuccess());
+
             final CoordinationSession session1 = client.createSession(path).join();
             final Worker worker1 = Worker.newWorker(session1, "endpoint-1", timeout).join();
 
@@ -256,18 +254,19 @@ public class CoordinationClientTest {
 
             final CoordinationSession session2 = client.createSession(path).join();
             final Worker worker2 = Worker.newWorker(session2, "endpoint-2", timeout).join();
-            /* The First knows about The Second */
-            final Subscriber subscriber1 = Subscriber.newSubscriber(session1).join();
-            SemaphoreDescription subscriberOneDescription = subscriber1.getDescription().join();
+            // The First knows about The Second
+            final Subscriber subscriber1 = Subscriber.newSubscriber(session1);
+            SemaphoreDescription subscriberOneDescription = subscriber1.getDescription();
             Assert.assertTrue(subscriberOneDescription
                     .getOwnersList()
                     .stream()
                     .anyMatch(semaphoreSession -> "endpoint-2".equals(new String(semaphoreSession.getData())))
             );
             Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
-            /* The Second knows about The First */
-            final Subscriber subscriber2 = Subscriber.newSubscriber(session2).join();
-            subscriberOneDescription = subscriber2.getDescription().join();
+
+            // The Second knows about The First
+            final Subscriber subscriber2 = Subscriber.newSubscriber(session2);
+            subscriberOneDescription = subscriber2.getDescription();
             Assert.assertTrue(subscriberOneDescription
                     .getOwnersList()
                     .stream()
@@ -275,16 +274,24 @@ public class CoordinationClientTest {
             );
             Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
 
-            /* Remove The First worker */
+            // Remove The First worker
+            final CompletableFuture<Void> waitUpdate = new CompletableFuture<>();
+            subscriber2.setUndateWaiter(() -> waitUpdate.complete(null));
+
             final Boolean stoppedWorker1 = worker1.stop().join();
             Assert.assertTrue(stoppedWorker1);
-            final SemaphoreDescription removeDescription = subscriber2.getDescription().join();
-            Assert.assertEquals("endpoint-2", new String(removeDescription.getOwnersList().get(0).getData()));
+
+            waitUpdate.join();
+            final SemaphoreDescription removeDescription = subscriber2.getDescription();
             Assert.assertEquals(1, removeDescription.getOwnersList().size());
+            Assert.assertEquals("endpoint-2", new String(removeDescription.getOwnersList().get(0).getData()));
             Assert.assertEquals(removeDescription,
                     checkSession.describeSemaphore(Worker.SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS).join().getValue());
 
             Assert.assertTrue(worker2.stop().join());
+
+            Status remove = checkSession.deleteSemaphore(Worker.SEMAPHORE_NAME, true).join();
+            Assert.assertTrue(remove.isSuccess());
         } catch (Exception e) {
             Assert.fail("There shouldn't be an exception.");
         }
