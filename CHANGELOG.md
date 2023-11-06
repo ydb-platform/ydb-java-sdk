@@ -3,6 +3,14 @@
 * Added export module
 * Core: Operation manager
 * Table: Added readRows operation in table service
+* 
+## 2.1.8 ##
+
+* Topics: Added DeferredCommitter class to group several read commits into one or just defer each commit without holding data reference
+* Topics: Added onCommitResponse callback for AsyncReader to subscribe to server event directly and control commits more efficiently
+* Topics: Removed usage of ForkJoinPool.commonPool()
+* Table: Fixed typo in SessionPoolStats
+
 
 ## 2.1.7 ##
 
