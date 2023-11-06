@@ -94,7 +94,7 @@ public class Subscriber {
         isStopped = true;
     }
 
-    public void setUndateWaiter(Runnable runnable) {
+    public void setUpdateWaiter(Runnable runnable) {
         Runnable old = updateWaiter.getAndSet(runnable);
         if (old != null) {
             old.run();
