@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.After;
@@ -17,7 +18,6 @@ import org.junit.Test;
 import tech.ydb.coordination.description.SemaphoreDescription.Session;
 import tech.ydb.coordination.scenario.leader_election.LeaderElection;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
-import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Status;
@@ -28,7 +28,6 @@ public class LeaderElectionScenarioTest {
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
     private final String path = YDB_TRANSPORT.getDatabase() + "/coordination-node";
-    private final Duration timeout = Duration.ofSeconds(60);
     private final CoordinationClient client = CoordinationClient.newClient(YDB_TRANSPORT);
 
     @Before
@@ -42,19 +41,60 @@ public class LeaderElectionScenarioTest {
         Assert.assertTrue(result.join().isSuccess());
     }
 
-    @Test
-    public void leaderElectionScenarioTest() {
-        final Duration duration = Duration.ofSeconds(60);
-        final int sessionCount = 10;
+    @Test(timeout = 20_000)
+    public void leaderElectionBaseTest() {
+        /* ID for definition Leader Election. Every session has to point the same token. */
+        final long electionToken = 1_000_001;
+
+        try (LeaderElection participant1 = LeaderElection
+                .joinElection(client, path, "endpoint-1", electionToken)
+                .join();
+             LeaderElection participant2 = LeaderElection
+                 .joinElection(client, path, "endpoint-2", electionToken)
+                 .join()) {
+
+            final Session leader = participant1.getLeader().join();
+            Assert.assertEquals(leader, participant2.getLeader().join());
+
+            try (LeaderElection participant3 = LeaderElection
+                    .joinElection(client, path, "endpoint-3", electionToken)
+                    .join()) {
+                Assert.assertEquals(leader, participant3.getLeader().join());
+
+                /* The leader is not a leader anymore */
+                final Session newLeader;
+                if (participant1.isLeader()) {
+                    participant1.leaveElection().join();
+                    newLeader = participant2.forceUpdateLeader().join();
+                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader().join());
+                    Assert.assertNotEquals(newLeader, leader);
+                } else if (participant2.isLeader()) {
+                    participant2.leaveElection().join();
+                    newLeader = participant1.forceUpdateLeader().join();
+                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader().join());
+                    Assert.assertNotEquals(newLeader, leader);
+                } else if (participant3.isLeader()) {
+                    participant3.leaveElection().join();
+                    newLeader = participant1.forceUpdateLeader().join();
+                    Assert.assertEquals(newLeader, participant2.forceUpdateLeader().join());
+                    Assert.assertNotEquals(newLeader, leader);
+                }
+            } catch (Exception e) {
+                Assert.fail("Exception in leader election test.");
+            }
+        } catch (Exception e) {
+            Assert.fail("Exception in leader election test.");
+        }
+    }
+
+    @Test(timeout = 60_000)
+    public void leaderElectionStressTest1() {
+        final int sessionCount = 20;
         /* ID for definition Leader Election. Every session has to point the same token. */
         final long electionToken = 1_000_000;
-        List<CoordinationSession> sessions = Stream.generate(() -> client.createSession(path,
-                        CoordinationSessionSettings.newBuilder().withCreateTimeout(duration).build()).join())
-                .limit(sessionCount)
-                .collect(Collectors.toList());
 
-        List<LeaderElection> participants = sessions.stream().map(session -> LeaderElection
-                        .joinElection(session, "endpoint-" + session.getId(), electionToken))
+        List<LeaderElection> participants = IntStream.range(0, sessionCount).mapToObj(id -> LeaderElection
+                        .joinElection(client, path, "endpoint-" + id, electionToken).join())
                 .collect(Collectors.toList());
 
         final AtomicReference<Session> leader = new AtomicReference<>();
@@ -65,10 +105,10 @@ public class LeaderElectionScenarioTest {
         }
 
         /* The leader is not a leader anymore */
-        for (int i = 0; i < sessions.size(); i++) {
-            final CoordinationSession session = sessions.get(i);
-            if (session.getId() == leader.get().getId()) {
-                participants.remove(i).leaveElection();
+        for (int i = 0; i < sessionCount; i++) {
+            if (participants.get(i).isLeader()) {
+                participants.remove(i).leaveElection().join();
+                break;
             }
         }
 
@@ -79,11 +119,13 @@ public class LeaderElectionScenarioTest {
             newLeader.updateAndGet(currLeader -> currLeader == null ? localLeader : currLeader);
             Assert.assertEquals(newLeader.get(), localLeader);
         }
+
         Assert.assertNotEquals(leader.get(), newLeader.get());
+
+        participants.stream().map(LeaderElection::leaveElection).forEach(CompletableFuture::join);
     }
 
-
-    @Test(timeout = 20_000)
+    @Test(timeout = 60_000)
     public void leaderElectionOnPureSessionsTest() throws InterruptedException {
         final String semaphoreName = "leader-election-semaphore";
         final int sessionCount = 10;

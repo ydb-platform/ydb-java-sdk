@@ -36,14 +36,13 @@ public class ServiceDiscoveryScenarioTest {
         Assert.assertTrue(result.join().isSuccess());
     }
 
-    @Test(timeout = 20_000)
+    @Test(timeout = 30_000)
     public void serviceDiscoveryTest() {
         try (CoordinationSession checkSession = client.createSession(path).join()) {
             Status create = checkSession.createSemaphore(Worker.SEMAPHORE_NAME, 100).join();
             Assert.assertTrue(create.isSuccess());
 
-            final CoordinationSession session1 = client.createSession(path).join();
-            final Worker worker1 = Worker.newWorker(session1, "endpoint-1", timeout).join();
+            final Worker worker1 = Worker.newWorker(client, path, "endpoint-1", timeout).join();
 
             final SemaphoreDescription oneWorkerDescription = checkSession
                     .describeSemaphore(Worker.SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS)
@@ -53,11 +52,10 @@ public class ServiceDiscoveryScenarioTest {
             Assert.assertEquals("endpoint-1", new String(oneWorkerDescription.getOwnersList().get(0).getData()));
             Assert.assertEquals(1, oneWorkerDescription.getOwnersList().size());
 
-            final CoordinationSession session2 = client.createSession(path).join();
-            final Worker worker2 = Worker.newWorker(session2, "endpoint-2", timeout).join();
+            final Worker worker2 = Worker.newWorker(client, path, "endpoint-2", timeout).join();
 
             /* The First knows about The Second */
-            final Subscriber subscriber1 = Subscriber.newSubscriber(session1);
+            final Subscriber subscriber1 = Subscriber.newSubscriber(client, path).join();
             SemaphoreDescription subscriberOneDescription = subscriber1.getDescription();
             Assert.assertTrue(subscriberOneDescription
                     .getOwnersList()
@@ -67,7 +65,7 @@ public class ServiceDiscoveryScenarioTest {
             Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
 
             /* The Second knows about The First */
-            final Subscriber subscriber2 = Subscriber.newSubscriber(session2);
+            final Subscriber subscriber2 = Subscriber.newSubscriber(client, path).join();
             subscriberOneDescription = subscriber2.getDescription();
             Assert.assertTrue(subscriberOneDescription
                     .getOwnersList()
