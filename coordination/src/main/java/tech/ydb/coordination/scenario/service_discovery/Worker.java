@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.core.UnexpectedResultException;
@@ -16,16 +17,18 @@ public class Worker {
         this.semaphore = semaphore;
     }
 
-    public static CompletableFuture<Worker> newWorker(CoordinationSession session, String endpoint,
+    public static CompletableFuture<Worker> newWorker(CoordinationClient client, String fullPath, String endpoint,
                                                       Duration maxAttemptTimeout) {
-        byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
-        return session.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(lease -> {
-            if (lease.isValid()) {
-                return new Worker(lease);
-            } else {
-                throw new UnexpectedResultException("The semaphore for Worker wasn't acquired.",
-                        lease.getStatusFuture().join());
-            }
+        return client.createSession(fullPath).thenCompose(session -> {
+            byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
+            return session.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(lease -> {
+                if (lease.isValid()) {
+                    return new Worker(lease);
+                } else {
+                    throw new UnexpectedResultException("The semaphore for Worker wasn't acquired.",
+                            lease.getStatusFuture().join());
+                }
+            });
         });
     }
 
