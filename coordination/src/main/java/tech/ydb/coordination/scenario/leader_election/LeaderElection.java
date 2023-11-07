@@ -2,141 +2,135 @@ package tech.ydb.coordination.scenario.leader_election;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import javax.annotation.Nonnull;
 
+import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription.Session;
+import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
+import tech.ydb.core.Result;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LeaderElection {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
     private static final String SEMAPHORE_PREFIX = "leader-election-";
-    private final AtomicBoolean isElecting;
-    private final CompletableFuture<Session>[] describer;
-    private final CompletableFuture<SemaphoreLease>[] acquireFuture;
-    private final CompletableFuture<SemaphoreChangedEvent>[] changedEventFuture;
+    private final AtomicBoolean isElecting = new AtomicBoolean(true);
+    private final CompletableFuture<SemaphoreLease> acquireFuture = new CompletableFuture<>();
+    private CompletableFuture<Session> describeFuture;
+    private CompletableFuture<SemaphoreChangedEvent> changedEventFuture;
 
-    private LeaderElection(AtomicBoolean isElecting, CompletableFuture<Session>[] describer,
-                           CompletableFuture<SemaphoreLease>[] acquireFuture,
-                           CompletableFuture<SemaphoreChangedEvent>[] changedEventFuture) {
-        this.isElecting = isElecting;
-        this.describer = describer;
-        this.acquireFuture = acquireFuture;
-        this.changedEventFuture = changedEventFuture;
+    private LeaderElection(CoordinationSession session, String name, byte[] data) {
+        recursiveAcquire(session, name, data);
+        recursiveDescribe(session, name);
     }
 
-    public static LeaderElection joinElection(CoordinationSession session, String endpoint,
+    @Nonnull
+    private static RuntimeException getSemaphoreWatcherException(Result<SemaphoreWatcher> semaphoreWatcherResult) {
+        final RuntimeException e;
+        if (semaphoreWatcherResult == null) {
+            e = new NullPointerException(
+                    "Describe semaphore in LeaderElection was unsuccessful");
+        } else {
+            e = new UnexpectedResultException(
+                    "Describe semaphore in LeaderElection was unsuccessful.",
+                    semaphoreWatcherResult.getStatus());
+        }
+        return e;
+    }
+
+    public static CompletableFuture<LeaderElection> joinElection(CoordinationClient client, String fullPath, String endpoint,
                                               long electionToken) {
-        AtomicBoolean isElecting = new AtomicBoolean(true);
         final String semaphoreName = SEMAPHORE_PREFIX + electionToken;
+        return client.createSession(fullPath)
+                .thenApply(session ->
+                        new LeaderElection(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8)));
+    }
 
-        final CompletableFuture<SemaphoreChangedEvent>[] changedEventFuture = new CompletableFuture[1];
+    private CompletableFuture<SemaphoreChangedEvent> recursiveDescribeDetail(CoordinationSession session, String name) {
+        return session.describeAndWatchSemaphore(name,
+                        DescribeSemaphoreMode.WITH_OWNERS,
+                        WatchSemaphoreMode.WATCH_OWNERS)
+                .thenCompose((semaphoreWatcherResult -> {
+                            if (semaphoreWatcherResult != null && semaphoreWatcherResult.isSuccess()) {
+                                describeFuture.complete(
+                                        semaphoreWatcherResult
+                                                .getValue()
+                                                .getDescription()
+                                                .getOwnersList()
+                                                .get(0)
+                                );
+                                return semaphoreWatcherResult.getValue().getChangedFuture();
+                            } else if (semaphoreWatcherResult != null &&
+                                    semaphoreWatcherResult.getStatus().getCode() == StatusCode.NOT_FOUND) {
+                                return CompletableFuture.completedFuture(new SemaphoreChangedEvent(false, false,
+                                        false));
+                            } else {
+                                logger.debug("session.describeAndWatchSemaphore.whenComplete() {}",
+                                        semaphoreWatcherResult);
+                                final RuntimeException e = getSemaphoreWatcherException(semaphoreWatcherResult);
+                                isElecting.set(false);
+                                describeFuture.completeExceptionally(e);
+                                throw e;
+                            }
+                        })
+                );
+    }
 
-        CompletableFuture<Session>[] describer = new CompletableFuture[1];
-        Consumer<SemaphoreChangedEvent>[] changeProcessor = new Consumer[1];
-        describer[0] = new CompletableFuture<>();
-
-
-        Consumer<SemaphoreChangedEvent> describerLocal = changes -> {
-            /* Leader was changed */
-            describer[0] = new CompletableFuture<>();
-            if (isElecting.get()) {
-                session.describeAndWatchSemaphore(semaphoreName,
-                                DescribeSemaphoreMode.WITH_OWNERS,
-                                WatchSemaphoreMode.WATCH_OWNERS)
-                        .whenComplete(((semaphoreWatcherResult, throwable) -> {
-                                    if (semaphoreWatcherResult != null && semaphoreWatcherResult.isSuccess()
-                                            && throwable == null) {
-                                        describer[0].complete(
-                                                semaphoreWatcherResult
-                                                        .getValue()
-                                                        .getDescription()
-                                                        .getOwnersList()
-                                                        .get(0)
-                                        );
-                                        changedEventFuture[0] = semaphoreWatcherResult.getValue().getChangedFuture();
-                                        changedEventFuture[0]
-                                                .whenComplete((semaphoreChangedEvent, throwable1) -> {
-                                                    if (semaphoreChangedEvent != null && throwable1 == null) {
-                                                        changeProcessor[0].accept(semaphoreChangedEvent);
-                                                    }
-                                                });
-                                    } else {
-                                        logger.debug("session.describeAndWatchSemaphore.whenComplete() {}, {}",
-                                                semaphoreWatcherResult, throwable);
-                                        if (throwable != null) {
-                                            describer[0].completeExceptionally(throwable);
-                                        } else if (semaphoreWatcherResult == null) {
-                                            describer[0].completeExceptionally(new NullPointerException(
-                                                    "Describe semaphore in LeaderElection was unsuccessful")
-                                            );
-                                        } else {
-                                            describer[0].completeExceptionally(
-                                                    new UnexpectedResultException(
-                                                            "Describe semaphore in LeaderElection was unsuccessful.",
-                                                            semaphoreWatcherResult.getStatus())
-                                            );
-                                        }
-                                        isElecting.set(false);
-                                    }
-                                })
-                        );
+    private void recursiveDescribe(CoordinationSession session, String name) {
+        describeFuture = new CompletableFuture<>();
+        changedEventFuture = recursiveDescribeDetail(session, name);
+        changedEventFuture.whenComplete((semaphoreChangedEvent, th) -> {
+            if (semaphoreChangedEvent != null && th == null && isElecting.get()) {
+                recursiveDescribe(session, name);
             }
-        };
-        changeProcessor[0] = describerLocal;
+        });
+    }
 
-        final CompletableFuture<SemaphoreLease>[] acquireFuture = new CompletableFuture[1];
-        BiConsumer<? super SemaphoreLease, ? super Throwable>[] biConsumer = new BiConsumer[1];
-        BiConsumer<? super SemaphoreLease, ? super Throwable> afterAcquire =
-                /* Rejoin the queue on the semaphore */
-                ((lease, throwable) -> {
+    private void recursiveAcquire(CoordinationSession session, String semaphoreName, byte[] data) {
+        session.acquireEphemeralSemaphore(semaphoreName, data, Duration.ofHours(1)).whenComplete(
+                (lease, throwable) -> {
                     if ((lease == null || throwable != null) && isElecting.get()) {
-                        acquireFuture[0] =
-                                acquire(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8),
-                                        biConsumer[0]);
-                    } else if (lease != null && !isElecting.get()) {
-                        lease.release();
+                        recursiveAcquire(session, semaphoreName, data);
+                    } else if (lease != null) {
+                        if (!isElecting.get()) {
+                            lease.release();
+                        } else {
+                            acquireFuture.complete(lease);
+                        }
                     }
                 });
-        biConsumer[0] = afterAcquire;
-        acquireFuture[0] =
-                acquire(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8), afterAcquire);
-        describerLocal.accept(new SemaphoreChangedEvent(false, false, false));
-
-        return new LeaderElection(isElecting, describer, acquireFuture, changedEventFuture);
-    }
-
-    private static CompletableFuture<SemaphoreLease>
-    acquire(CoordinationSession session, String semaphoreName, byte[] data,
-            BiConsumer<? super SemaphoreLease, ? super Throwable> after) {
-        return session.acquireEphemeralSemaphore(semaphoreName, data, Duration.ofHours(1)).whenComplete(after);
     }
 
     public CompletableFuture<Session> forceUpdateLeader() {
-        changedEventFuture[0].complete(new SemaphoreChangedEvent(false, false, false));
+        changedEventFuture.complete(new SemaphoreChangedEvent(false, false, false));
         return getLeader();
     }
 
     public CompletableFuture<Session> getLeader() {
-        return describer[0];
+        return describeFuture;
+    }
+
+    public boolean isLeader() {
+        return acquireFuture.getNow(null) != null;
     }
 
     public CompletableFuture<Boolean> leaveElection() {
         isElecting.set(false);
-        if (acquireFuture[0].isDone()) {
-            return acquireFuture[0].join().release();
+        if (acquireFuture.isDone()) {
+            return acquireFuture.join().release();
         }
-        /* acquireFuture[0].cancel(true);  <-- future option */
         return CompletableFuture.completedFuture(true);
     }
 }

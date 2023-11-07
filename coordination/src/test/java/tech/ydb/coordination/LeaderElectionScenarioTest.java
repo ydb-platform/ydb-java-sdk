@@ -6,6 +6,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.junit.After;
@@ -48,13 +49,9 @@ public class LeaderElectionScenarioTest {
         final int sessionCount = 10;
         /* ID for definition Leader Election. Every session has to point the same token. */
         final long electionToken = 1_000_000;
-        List<CoordinationSession> sessions = Stream.generate(() -> client.createSession(path,
-                        CoordinationSessionSettings.newBuilder().withCreateTimeout(duration).build()).join())
-                .limit(sessionCount)
-                .collect(Collectors.toList());
 
-        List<LeaderElection> participants = sessions.stream().map(session -> LeaderElection
-                        .joinElection(session, "endpoint-" + session.getId(), electionToken))
+        List<LeaderElection> participants = IntStream.range(0, sessionCount).mapToObj(id -> LeaderElection
+                        .joinElection(client, path, "endpoint-" + id, electionToken).join())
                 .collect(Collectors.toList());
 
         final AtomicReference<Session> leader = new AtomicReference<>();
@@ -65,10 +62,10 @@ public class LeaderElectionScenarioTest {
         }
 
         /* The leader is not a leader anymore */
-        for (int i = 0; i < sessions.size(); i++) {
-            final CoordinationSession session = sessions.get(i);
-            if (session.getId() == leader.get().getId()) {
-                participants.remove(i).leaveElection();
+        for (int i = 0; i < sessionCount; i++) {
+            if (participants.get(i).isLeader()) {
+                participants.remove(i).leaveElection().join();
+                break;
             }
         }
 
@@ -79,7 +76,10 @@ public class LeaderElectionScenarioTest {
             newLeader.updateAndGet(currLeader -> currLeader == null ? localLeader : currLeader);
             Assert.assertEquals(newLeader.get(), localLeader);
         }
+
         Assert.assertNotEquals(leader.get(), newLeader.get());
+
+        participants.stream().map(LeaderElection::leaveElection).forEach(CompletableFuture::join);
     }
 
 
