@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.core.UnexpectedResultException;
 

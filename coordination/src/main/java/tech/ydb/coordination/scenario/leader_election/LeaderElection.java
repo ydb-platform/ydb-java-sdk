@@ -7,6 +7,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nonnull;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
@@ -18,9 +21,6 @@ import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class LeaderElection {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
