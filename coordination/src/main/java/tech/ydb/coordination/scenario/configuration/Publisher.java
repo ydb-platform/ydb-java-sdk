@@ -11,32 +11,25 @@ public class Publisher {
 
     private final String semaphoreName;
     private final CoordinationSession session;
-    private final CompletableFuture<Status>[] semaphoreFuture;
+    private CompletableFuture<Status> semaphoreFuture;
 
-    private Publisher(CoordinationSession session, String semaphoreName, CompletableFuture<Status>[] semaphoreFuture) {
+    private Publisher(CoordinationSession session, String semaphoreName) {
         this.session = session;
         this.semaphoreName = semaphoreName;
-        this.semaphoreFuture = semaphoreFuture;
+        this.semaphoreFuture = session.createSemaphore(semaphoreName, 1);
     }
 
     public static CompletableFuture<Publisher> newPublisher(CoordinationClient client, String path, long token) {
         return client.createSession(path)
-                .thenApply(session -> {
-                    final CompletableFuture<Status>[] isSemaphoreCreated = new CompletableFuture[1];
-                    final CompletableFuture<Status> createFuture = new CompletableFuture<>();
-                    isSemaphoreCreated[0] = createFuture;
-                    session.createSemaphore(SEMAPHORE_PREFIX + token, 1).whenComplete(
-                            (status, throwable) -> createFuture.complete(status));
-                    return new Publisher(session, SEMAPHORE_PREFIX + token, isSemaphoreCreated);
-                });
+                .thenApply(session -> new Publisher(session, SEMAPHORE_PREFIX + token));
     }
 
     public synchronized CompletableFuture<Status> publish(byte[] data) {
-        if (semaphoreFuture[0].isDone()) {
-            semaphoreFuture[0] = session.updateSemaphore(semaphoreName, data);
+        if (semaphoreFuture.isDone()) {
+            semaphoreFuture = session.updateSemaphore(semaphoreName, data);
         } else {
-            semaphoreFuture[0] = semaphoreFuture[0].thenCompose(status -> session.updateSemaphore(semaphoreName, data));
+            semaphoreFuture = semaphoreFuture.thenCompose(status -> session.updateSemaphore(semaphoreName, data));
         }
-        return semaphoreFuture[0];
+        return semaphoreFuture;
     }
 }

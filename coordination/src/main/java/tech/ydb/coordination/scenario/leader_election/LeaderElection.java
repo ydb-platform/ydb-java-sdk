@@ -2,7 +2,6 @@ package tech.ydb.coordination.scenario.leader_election;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -50,8 +49,9 @@ public class LeaderElection {
         return e;
     }
 
-    public static CompletableFuture<LeaderElection> joinElection(CoordinationClient client, String fullPath, String endpoint,
-                                              long electionToken) {
+    public static CompletableFuture<LeaderElection> joinElection(CoordinationClient client, String fullPath,
+                                                                 String endpoint,
+                                                                 long electionToken) {
         final String semaphoreName = SEMAPHORE_PREFIX + electionToken;
         return client.createSession(fullPath)
                 .thenApply(session ->
