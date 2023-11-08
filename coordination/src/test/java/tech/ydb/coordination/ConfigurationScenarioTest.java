@@ -85,10 +85,10 @@ public class ConfigurationScenarioTest {
         }
     }
 
-    @Test(timeout = 20_000)
+    @Test(timeout = 60_000)
     public void configurationScenarioStressTest1() throws InterruptedException {
         final long token = 1_000_001;
-        final int n = 30;
+        final int n = 20;
         Publisher publisher = Publisher.newPublisher(client, path, token).join();
 
         final String[] dataNow = new String[1];

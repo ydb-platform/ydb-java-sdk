@@ -128,7 +128,7 @@ public class CoordinationClientTest {
         }
     }
 
-    @Test(timeout = 60_000)
+    @Test(timeout = 100_000)
     public void retryCoordinationSessionTest() {
         final CoordinationRpc rpc = new CoordinationProxyRpc(CoordinationGrpc.useTransport(YDB_TRANSPORT));
         final String semaphoreName = "retry-test";

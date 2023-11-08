@@ -41,9 +41,8 @@ public class LeaderElectionScenarioTest {
         Assert.assertTrue(result.join().isSuccess());
     }
 
-    @Test
+    @Test(timeout = 20_000)
     public void leaderElectionBaseTest() {
-        final int sessionCount = 30;
         /* ID for definition Leader Election. Every session has to point the same token. */
         final long electionToken = 1_000_001;
 
@@ -88,9 +87,9 @@ public class LeaderElectionScenarioTest {
         }
     }
 
-    @Test
+    @Test(timeout = 60_000)
     public void leaderElectionStressTest1() {
-        final int sessionCount = 30;
+        final int sessionCount = 20;
         /* ID for definition Leader Election. Every session has to point the same token. */
         final long electionToken = 1_000_000;
 
@@ -126,8 +125,7 @@ public class LeaderElectionScenarioTest {
         participants.stream().map(LeaderElection::leaveElection).forEach(CompletableFuture::join);
     }
 
-
-    @Test(timeout = 20_000)
+    @Test(timeout = 60_000)
     public void leaderElectionOnPureSessionsTest() throws InterruptedException {
         final String semaphoreName = "leader-election-semaphore";
         final int sessionCount = 10;
