@@ -15,7 +15,7 @@ import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 
-public class Subscriber {
+public class Subscriber implements AutoCloseable {
     public static final String SEMAPHORE_NAME = "service-discovery-semaphore";
     private static final Logger logger = LoggerFactory.getLogger(Subscriber.class);
     private final CoordinationSession session;
@@ -90,14 +90,18 @@ public class Subscriber {
         return description;
     }
 
-    public void stop() {
-        isStopped = true;
-    }
-
     public void setUpdateWaiter(Runnable runnable) {
         Runnable old = updateWaiter.getAndSet(runnable);
         if (old != null) {
             old.run();
+        }
+    }
+
+    @Override
+    public void close() throws Exception {
+        if (!isStopped) {
+            isStopped = true;
+            session.close();
         }
     }
 }
