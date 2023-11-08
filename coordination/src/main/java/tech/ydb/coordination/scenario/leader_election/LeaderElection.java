@@ -22,15 +22,17 @@ import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 
-public class LeaderElection {
+public class LeaderElection implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
     private static final String SEMAPHORE_PREFIX = "leader-election-";
     private final AtomicBoolean isElecting = new AtomicBoolean(true);
     private final CompletableFuture<SemaphoreLease> acquireFuture = new CompletableFuture<>();
     private CompletableFuture<Session> describeFuture;
     private CompletableFuture<SemaphoreChangedEvent> changedEventFuture;
+    private final CoordinationSession session;
 
     private LeaderElection(CoordinationSession session, String name, byte[] data) {
+        this.session = session;
         recursiveAcquire(session, name, data);
         recursiveDescribe(session, name);
     }
@@ -80,7 +82,7 @@ public class LeaderElection {
                                 logger.debug("session.describeAndWatchSemaphore.whenComplete() {}",
                                         semaphoreWatcherResult);
                                 final RuntimeException e = getSemaphoreWatcherException(semaphoreWatcherResult);
-                                isElecting.set(false);
+                                leaveElection();
                                 describeFuture.completeExceptionally(e);
                                 throw e;
                             }
@@ -127,10 +129,19 @@ public class LeaderElection {
     }
 
     public CompletableFuture<Boolean> leaveElection() {
-        isElecting.set(false);
-        if (acquireFuture.isDone()) {
-            return acquireFuture.join().release();
+        if (isElecting.compareAndSet(true, false)) {
+            if (acquireFuture.isDone()) {
+                final CompletableFuture<Boolean> releaseFuture = acquireFuture.join().release();
+                releaseFuture.thenRun(session::close);
+                return releaseFuture;
+            }
+            session.close();
         }
         return CompletableFuture.completedFuture(true);
+    }
+
+    @Override
+    public void close() throws Exception {
+        leaveElection();
     }
 }
