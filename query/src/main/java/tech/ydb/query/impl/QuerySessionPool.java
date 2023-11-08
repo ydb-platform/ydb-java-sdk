@@ -26,6 +26,7 @@ import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
+import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.table.impl.pool.WaitingQueue;
 
 
@@ -41,10 +42,10 @@ public class QuerySessionPool implements AutoCloseable {
             .withOperationTimeout(Duration.ofSeconds(299))
             .build();
 
-//    private static final DeleteSessionSettings DELETE_SETTINGS = DeleteSessionSettings.newBuilder()
-//            .withRequestTimeout(Duration.ofSeconds(5))
-//            .withOperationTimeout(Duration.ofSeconds(4))
-//            .build();
+    private static final DeleteSessionSettings DELETE_SETTINGS = DeleteSessionSettings.newBuilder()
+            .withRequestTimeout(Duration.ofSeconds(5))
+            .withOperationTimeout(Duration.ofSeconds(4))
+            .build();
 
     private static final AttachSessionSettings ATTACH_SETTINGS = AttachSessionSettings.newBuilder()
 //            .withRequestTimeout(Duration.ofSeconds(5))
@@ -228,19 +229,18 @@ public class QuerySessionPool implements AutoCloseable {
         @Override
         public void destroy(PooledQuerySession session) {
             session.closeSession();
-            // TODO: delete session is unimplemented
-//            session.delete(DELETE_SETTINGS).whenComplete((status, th) -> {
-//                if (th != null) {
-//                    logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
-//                }
-//                if (status != null) {
-//                    if (status.isSuccess()) {
-//                        logger.debug("session {} successful removed", session.getId());
-//                    } else {
-//                        logger.warn("session {} removed with status {}", session.getId(), status.toString());
-//                    }
-//                }
-//            });
+            session.delete(DELETE_SETTINGS).whenComplete((status, th) -> {
+                if (th != null) {
+                    logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
+                }
+                if (status != null) {
+                    if (status.isSuccess()) {
+                        logger.debug("session {} successful removed", session.getId());
+                    } else {
+                        logger.warn("session {} removed with status {}", session.getId(), status.toString());
+                    }
+                }
+            });
         }
     }
 

@@ -70,6 +70,7 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
+            lastActive = clock.instant();
             observer.onNext(Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,
@@ -98,6 +99,8 @@ public abstract class QuerySessionImpl implements QuerySession {
 
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return new ProxyReadStream<>(rpc.executeQuery(request, grpcSettings), (message, promise, observer) -> {
+            lastActive = clock.instant();
+
             Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,
