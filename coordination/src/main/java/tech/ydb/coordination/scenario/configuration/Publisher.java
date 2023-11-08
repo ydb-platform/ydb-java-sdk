@@ -5,10 +5,10 @@ import java.util.concurrent.CompletableFuture;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 
-public class Publisher {
+public class Publisher implements AutoCloseable {
     static final String SEMAPHORE_PREFIX = "configuration-";
-
     private final String semaphoreName;
     private final CoordinationSession session;
     private CompletableFuture<Status> semaphoreFuture;
@@ -31,5 +31,11 @@ public class Publisher {
             semaphoreFuture = semaphoreFuture.thenCompose(status -> session.updateSemaphore(semaphoreName, data));
         }
         return semaphoreFuture;
+    }
+
+    @Override
+    public void close() {
+        semaphoreFuture.complete(Status.of(StatusCode.ABORTED));
+        session.close();
     }
 }

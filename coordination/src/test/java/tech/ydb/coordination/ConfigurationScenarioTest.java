@@ -3,9 +3,9 @@ package tech.ydb.coordination;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,9 +40,55 @@ public class ConfigurationScenarioTest {
     }
 
     @Test(timeout = 20_000)
-    public void configurationScenarioTest() throws BrokenBarrierException, InterruptedException {
+    public void configurationScenarioBaseTest() {
+        final long token = 1_000_000;
+
+        try (Publisher publisher1 = Publisher.newPublisher(client, path, token).join()) {
+            final AtomicReference<CountDownLatch> subscriberApproveCounter =
+                    new AtomicReference<>(new CountDownLatch(2));
+            final AtomicReference<String> dataNow = new AtomicReference<>();
+            dataNow.set("First message.");
+            /* Public first data */
+            publisher1.publish(dataNow.get().getBytes(StandardCharsets.UTF_8)).join();
+            /* Create 2 subscribers */
+            try (Subscriber subscriber1 = Subscriber.newSubscriber(client, path, token, data -> {
+                if (Arrays.equals(data, dataNow.get().getBytes())) {
+                    subscriberApproveCounter.get().countDown();
+                }
+            }).join();
+             Subscriber subscriber2 = Subscriber.newSubscriber(client, path, token, data -> {
+                 if (Arrays.equals(data, dataNow.get().getBytes())) {
+                     subscriberApproveCounter.get().countDown();
+                 }
+             }).join()) {
+                subscriberApproveCounter.get().await();
+                subscriberApproveCounter.set(new CountDownLatch(2));
+
+                dataNow.set("Second message.");
+                publisher1.publish(dataNow.get().getBytes(StandardCharsets.UTF_8)).join();
+                subscriberApproveCounter.get().await();
+                subscriberApproveCounter.set(new CountDownLatch(2));
+
+                /* Create another publisher */
+                try (Publisher publisher2 = Publisher.newPublisher(client, path, token).join()) {
+                    dataNow.set("Third message.");
+                    publisher2.publish(dataNow.get().getBytes(StandardCharsets.UTF_8)).join();
+                    subscriberApproveCounter.get().await();
+                } catch (Exception e) {
+                    Assert.fail("Exception in Configuration scenario test.");
+                }
+            } catch (Exception e) {
+                Assert.fail("Exception in Configuration scenario test.");
+            }
+        } catch (Exception e) {
+            Assert.fail("Exception in Configuration scenario test.");
+        }
+    }
+
+    @Test(timeout = 20_000)
+    public void configurationScenarioStressTest1() throws InterruptedException {
         final long token = 1_000_001;
-        final int n = 5;
+        final int n = 30;
         Publisher publisher = Publisher.newPublisher(client, path, token).join();
 
         final String[] dataNow = new String[1];
@@ -66,7 +112,7 @@ public class ConfigurationScenarioTest {
         publisher.publish(dataNow[0].getBytes(StandardCharsets.UTF_8)).join();
 
         updateCounter[0].await();
-
+        publisher.close();
         subscribers.forEach(Subscriber::close);
     }
 
