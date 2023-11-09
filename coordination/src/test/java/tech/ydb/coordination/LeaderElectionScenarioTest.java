@@ -1,5 +1,6 @@
 package tech.ydb.coordination;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -14,6 +15,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.description.SemaphoreDescription.Session;
 import tech.ydb.coordination.scenario.leader_election.LeaderElection;
@@ -25,6 +28,8 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 public class LeaderElectionScenarioTest {
+    private static final Logger logger = LoggerFactory.getLogger(LeaderElectionScenarioTest.class);
+    private static final String SEMAPHORE_PREFIX = "leader-election-";
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
     private final String path = YDB_TRANSPORT.getDatabase() + "/coordination-node";
@@ -44,20 +49,21 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest() {
         /* ID for definition Leader Election. Every session has to point the same token. */
-        final long electionToken = 1_000_001;
+        final String semaphoreName = SEMAPHORE_PREFIX + 1_000_001;
 
         try (LeaderElection participant1 = LeaderElection
-                .joinElection(client, path, "endpoint-1", electionToken)
+                .joinElection(client, path, "endpoint-1", semaphoreName)
                 .join();
              LeaderElection participant2 = LeaderElection
-                 .joinElection(client, path, "endpoint-2", electionToken)
+                 .joinElection(client, path, "endpoint-2", semaphoreName)
                  .join()) {
 
             final Session leader = participant1.getLeader().join();
             Assert.assertEquals(leader, participant2.getLeader().join());
+            logger.info("The first leader: " + new String(leader.getData(), StandardCharsets.UTF_8));
 
             try (LeaderElection participant3 = LeaderElection
-                    .joinElection(client, path, "endpoint-3", electionToken)
+                    .joinElection(client, path, "endpoint-3", semaphoreName)
                     .join()) {
                 Assert.assertEquals(leader, participant3.getLeader().join());
 
@@ -78,7 +84,11 @@ public class LeaderElectionScenarioTest {
                     newLeader = participant1.forceUpdateLeader().join();
                     Assert.assertEquals(newLeader, participant2.forceUpdateLeader().join());
                     Assert.assertNotEquals(newLeader, leader);
+                } else {
+                    newLeader = null;
+                    Assert.fail("None of participants is a leader.");
                 }
+                logger.info("The second leader: " + new String(newLeader.getData(), StandardCharsets.UTF_8));
             } catch (Exception e) {
                 Assert.fail("Exception in leader election test.");
             }
@@ -91,10 +101,10 @@ public class LeaderElectionScenarioTest {
     public void leaderElectionStressTest1() {
         final int sessionCount = 20;
         /* ID for definition Leader Election. Every session has to point the same token. */
-        final long electionToken = 1_000_000;
+        final String semaphoreName = SEMAPHORE_PREFIX + 1_000_000;
 
         List<LeaderElection> participants = IntStream.range(0, sessionCount).mapToObj(id -> LeaderElection
-                        .joinElection(client, path, "endpoint-" + id, electionToken).join())
+                        .joinElection(client, path, "endpoint-" + id, semaphoreName).join())
                 .collect(Collectors.toList());
 
         final AtomicReference<Session> leader = new AtomicReference<>();

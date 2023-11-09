@@ -98,7 +98,7 @@ public class Subscriber implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         if (!isStopped) {
             isStopped = true;
             session.close();
