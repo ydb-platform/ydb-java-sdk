@@ -17,12 +17,17 @@ import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
+import tech.ydb.query.TxId;
 import tech.ydb.query.TxMode;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.AttachSessionSettings;
+import tech.ydb.query.settings.BeginTransactionSettings;
+import tech.ydb.query.settings.CommitTransactionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
+import tech.ydb.query.settings.RollbackTransactionSettings;
+import tech.ydb.table.query.Params;
 
 /**
  *
@@ -87,13 +92,19 @@ public abstract class QuerySessionImpl implements QuerySession {
     }
 
     @Override
-    public GrpcReadStream<QueryResultPart> executeQuery(String query, TxMode txMode, ExecuteQuerySettings settings) {
+    public GrpcReadStream<QueryResultPart> executeQuery(
+            String query, Tx tx, Params params, ExecuteQuerySettings settings
+    ) {
         YdbQuery.ExecuteQueryRequest request = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(id)
                 .setExecMode(YdbQuery.ExecMode.EXEC_MODE_EXECUTE)
                 .setStatsMode(YdbQuery.StatsMode.STATS_MODE_NONE)
-                .setTxControl(txMode.toPb())
-                .setQueryContent(YdbQuery.QueryContent.newBuilder().setText(query).build())
+                .setTxControl(tx.toTxControlPb())
+                .setQueryContent(YdbQuery.QueryContent.newBuilder()
+                        .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1).setText(query)
+                        .build()
+                )
+                .putAllParameters(params.toPb())
                 .build();
 
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
@@ -112,6 +123,40 @@ public abstract class QuerySessionImpl implements QuerySession {
                 observer.onNext(new QueryResultPart(message));
             }
         });
+    }
+
+    @Override
+    public CompletableFuture<Result<TxId>> beginTransaction(TxMode txMode, BeginTransactionSettings settings) {
+        YdbQuery.BeginTransactionRequest request = YdbQuery.BeginTransactionRequest.newBuilder()
+                .setSessionId(id)
+                .setTxSettings(txMode.toTxSettingsPb())
+                .build();
+
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        return rpc.beginTransaction(request, grpcSettings)
+                .thenApply(r -> r.map(TxId::id));
+    }
+
+    @Override
+    public CompletableFuture<Status> commitTransaction(TxId tx, CommitTransactionSettings settings) {
+        YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
+                .setSessionId(id)
+                .setTxId(tx.txID())
+                .build();
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        return rpc.commitTransaction(request, grpcSettings)
+                .thenApply(Result::getStatus);
+    }
+
+    @Override
+    public CompletableFuture<Status> rollbackTransaction(TxId tx, RollbackTransactionSettings settings) {
+        YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
+                .setSessionId(id)
+                .setTxId(tx.txID())
+                .build();
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        return rpc.rollbackTransaction(request, grpcSettings)
+                .thenApply(Result::getStatus);
     }
 
     public CompletableFuture<Result<YdbQuery.DeleteSessionResponse>> delete(DeleteSessionSettings settings) {

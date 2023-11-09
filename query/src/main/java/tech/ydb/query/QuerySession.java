@@ -19,7 +19,7 @@ import tech.ydb.table.query.Params;
  */
 public interface QuerySession extends AutoCloseable {
     interface Tx {
-        YdbQuery.TransactionControl toPb();
+        YdbQuery.TransactionControl toTxControlPb();
     }
 
     CompletableFuture<Result<TxId>> beginTransaction(TxMode txMode, BeginTransactionSettings settings);

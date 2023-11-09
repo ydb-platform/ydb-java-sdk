@@ -16,7 +16,7 @@ public class TxId implements QuerySession.Tx {
     }
 
     @Override
-    public YdbQuery.TransactionControl toPb() {
+    public YdbQuery.TransactionControl toTxControlPb() {
         return YdbQuery.TransactionControl.newBuilder()
                 .setTxId(id)
                 .setCommitTx(commitTx)
@@ -37,5 +37,9 @@ public class TxId implements QuerySession.Tx {
 
     public static TxId id(String id) {
         return new TxId(id, false);
+    }
+
+    public static TxId id(YdbQuery.BeginTransactionResponse response) {
+        return new TxId(response.getTxMeta().getId(), false);
     }
 }

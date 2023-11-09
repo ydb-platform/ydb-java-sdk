@@ -7,31 +7,32 @@ import tech.ydb.proto.query.YdbQuery;
  * @author Aleksandr Gorshenin
  */
 public class TxMode implements QuerySession.Tx {
-    protected final YdbQuery.TransactionControl tx;
-
-    private TxMode(YdbQuery.TransactionControl tx) {
-        this.tx = tx;
-    }
+    private final YdbQuery.TransactionSettings txMode;
+    private final boolean commitTx;
 
     private TxMode(YdbQuery.TransactionSettings txMode, boolean commitTx) {
-        this(YdbQuery.TransactionControl.newBuilder().setBeginTx(txMode).setCommitTx(commitTx).build());
-    }
-
-    private TxMode(YdbQuery.TransactionControl txControl, boolean commitTx) {
-        this(YdbQuery.TransactionControl.newBuilder(txControl).setCommitTx(commitTx).build());
+        this.txMode = txMode;
+        this.commitTx = commitTx;
     }
 
     @Override
-    public YdbQuery.TransactionControl toPb() {
-        return tx;
+    public YdbQuery.TransactionControl toTxControlPb() {
+        return YdbQuery.TransactionControl.newBuilder()
+                .setBeginTx(txMode)
+                .setCommitTx(commitTx)
+                .build();
+    }
+
+    public YdbQuery.TransactionSettings toTxSettingsPb() {
+        return txMode;
     }
 
     public boolean isCommitTx() {
-        return tx.getCommitTx();
+        return commitTx;
     }
 
     public TxMode setCommitTx(boolean commitTx) {
-        return new TxMode(tx, commitTx);
+        return new TxMode(txMode, commitTx);
     }
 
     public TxMode withCommitTx() {
@@ -122,7 +123,7 @@ public class TxMode implements QuerySession.Tx {
         }
 
         public boolean isAllowInconsistentReads() {
-            return tx.getBeginTx().getOnlineReadOnly().getAllowInconsistentReads();
+            return toTxSettingsPb().getOnlineReadOnly().getAllowInconsistentReads();
         }
 
         public TxOnlineRo setAllowInconsistentReads(boolean allow) {
