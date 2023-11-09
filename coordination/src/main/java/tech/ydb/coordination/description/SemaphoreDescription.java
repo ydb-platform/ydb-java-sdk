@@ -1,5 +1,6 @@
 package tech.ydb.coordination.description;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -101,7 +102,7 @@ public class SemaphoreDescription {
             this.id = semaphoreSession.getSessionId();
             this.timeoutMillis = semaphoreSession.getTimeoutMillis();
             this.count = semaphoreSession.getCount();
-            this.data = semaphoreSession.getData().toByteArray();
+            this.data = Arrays.copyOf(semaphoreSession.getData().toByteArray(), semaphoreSession.getData().size());
             this.orderId = semaphoreSession.getOrderId();
         }
 
@@ -153,6 +154,7 @@ public class SemaphoreDescription {
             return "Session{" +
                     "id=" + id +
                     ", count=" + count +
+                    ", data=" + new String(data, StandardCharsets.UTF_8) +
                     ", orderId=" + orderId +
                     ", timeoutMillis=" + timeoutMillis +
                     '}';

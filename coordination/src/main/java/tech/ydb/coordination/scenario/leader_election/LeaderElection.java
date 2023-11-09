@@ -24,7 +24,6 @@ import tech.ydb.core.UnexpectedResultException;
 
 public class LeaderElection implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
-    private static final String SEMAPHORE_PREFIX = "leader-election-";
     private final AtomicBoolean isElecting = new AtomicBoolean(true);
     private final CompletableFuture<SemaphoreLease> acquireFuture = new CompletableFuture<>();
     private CompletableFuture<Session> describeFuture;
@@ -51,10 +50,10 @@ public class LeaderElection implements AutoCloseable {
         return e;
     }
 
-    public static CompletableFuture<LeaderElection> joinElection(CoordinationClient client, String fullPath,
+    public static CompletableFuture<LeaderElection> joinElection(CoordinationClient client,
+                                                                 String fullPath,
                                                                  String endpoint,
-                                                                 long electionToken) {
-        final String semaphoreName = SEMAPHORE_PREFIX + electionToken;
+                                                                 String semaphoreName) {
         return client.createSession(fullPath)
                 .thenApply(session ->
                         new LeaderElection(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8)));
