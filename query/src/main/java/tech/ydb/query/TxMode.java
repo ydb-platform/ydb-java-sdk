@@ -6,15 +6,11 @@ import tech.ydb.proto.query.YdbQuery;
  *
  * @author Aleksandr Gorshenin
  */
-public class TxMode {
+public class TxMode implements QuerySession.Tx {
     protected final YdbQuery.TransactionControl tx;
 
     private TxMode(YdbQuery.TransactionControl tx) {
         this.tx = tx;
-    }
-
-    private TxMode(String txID, boolean commitTx) {
-        this(YdbQuery.TransactionControl.newBuilder().setTxId(txID).setCommitTx(commitTx).build());
     }
 
     private TxMode(YdbQuery.TransactionSettings txMode, boolean commitTx) {
@@ -25,12 +21,9 @@ public class TxMode {
         this(YdbQuery.TransactionControl.newBuilder(txControl).setCommitTx(commitTx).build());
     }
 
+    @Override
     public YdbQuery.TransactionControl toPb() {
         return tx;
-    }
-
-    public String txID() {
-        return tx.getTxId();
     }
 
     public boolean isCommitTx() {
@@ -47,14 +40,6 @@ public class TxMode {
 
     public TxMode withoutCommitTx() {
         return setCommitTx(false);
-    }
-
-    public static TxMode id(String id, boolean commitTx) {
-        return new TxMode(id, commitTx);
-    }
-
-    public static TxMode id(String id) {
-        return new TxMode(id, false);
     }
 
     public static TxMode serializableRw() {

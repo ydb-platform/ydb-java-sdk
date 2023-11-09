@@ -14,7 +14,7 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
-import tech.ydb.core.settings.OperationSettings;
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.TxMode;
@@ -79,11 +79,10 @@ public abstract class QuerySessionImpl implements QuerySession {
         });
     }
 
-    private GrpcRequestSettings makeGrpcRequestSettings(OperationSettings settings) {
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withPreferredNodeID((int) nodeID)
-//                .withTrailersHandler(shutdownHandler)
                 .build();
     }
 
