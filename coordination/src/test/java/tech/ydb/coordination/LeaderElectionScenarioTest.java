@@ -108,6 +108,7 @@ public class LeaderElectionScenarioTest {
                         break;
                     case "endpoint3":
                         participant3.interruptLeadership();
+                        break;
                     default:
                         throw new RuntimeException("No leader was elected.");
                 }
@@ -296,11 +297,11 @@ public class LeaderElectionScenarioTest {
         final CountDownLatch latch2 = new CountDownLatch(sessionCount);
 
         sessions.forEach(session -> session
-                .acquireSemaphore(semaphoreName, 1, String.valueOf(session.getId()).getBytes(), Duration.ZERO)
-                .whenComplete((lease, acquireSemaphoreTh) -> {
+                .acquireSemaphore(semaphoreName, 1, String.valueOf(session.getId()).getBytes(), Duration.ofSeconds(2))
+                .whenComplete((res, acquireSemaphoreTh) -> {
                             threadWorkAssert(assertChecker, acquireSemaphoreTh == null);
-                            if (lease.isValid()) {
-                                semaphore.complete(lease);
+                            if (res.isSuccess()) {
+                                semaphore.complete(res.getValue());
                                 leader.complete(session);
                             }
                             latch2.countDown();
