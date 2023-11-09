@@ -8,26 +8,26 @@ import java.util.concurrent.Executor;
  * @author Aleksandr Gorshenin
  */
 public class CoordinationSessionSettings {
-    private final Duration createTimeout;
     private final Executor executor;
-    private final int retriesCount;
+    private final Duration connectTimeout;
+    private final Duration reconnectBackoffDelay;
 
     private CoordinationSessionSettings(Builder builder) {
-        this.createTimeout = builder.createTimeout;
+        this.connectTimeout = builder.connectTimeout;
         this.executor = builder.executor;
-        this.retriesCount = builder.retriesCount;
+        this.reconnectBackoffDelay = builder.reconnectBackoffDelay;
     }
 
-    public Duration getCreateTimeout() {
-        return createTimeout;
+    public Duration getConnectTimeout() {
+        return connectTimeout;
     }
 
     public Executor getExecutor() {
         return executor;
     }
 
-    public int getRetriesCount() {
-        return retriesCount;
+    public Duration getReconnectBackoffDelay() {
+        return reconnectBackoffDelay;
     }
 
     public static Builder newBuilder() {
@@ -35,22 +35,17 @@ public class CoordinationSessionSettings {
     }
 
     public static class Builder {
-        private Duration createTimeout = Duration.ofSeconds(5);
         private Executor executor = null;
-        private int retriesCount = 3;
-
-        public Builder withCreateTimeout(Duration duration) {
-            this.createTimeout = duration;
-            return this;
-        }
+        private Duration connectTimeout = Duration.ofSeconds(5);
+        private Duration reconnectBackoffDelay = Duration.ofMillis(250);
 
         public Builder withExecutor(Executor executor) {
             this.executor = executor;
             return this;
         }
 
-        public Builder withRetriesCount(int retriesCount) {
-            this.retriesCount = retriesCount;
+        public Builder withConnectTimeout(Duration timeout) {
+            this.connectTimeout = timeout;
             return this;
         }
 
