@@ -50,13 +50,16 @@ public class LeaderElection implements AutoCloseable {
         return e;
     }
 
-    public static CompletableFuture<LeaderElection> joinElection(CoordinationClient client,
-                                                                 String fullPath,
-                                                                 String endpoint,
-                                                                 String semaphoreName) {
+    public static CompletableFuture<LeaderElection> joinElectionAsync(CoordinationClient client, String fullPath,
+                                                                 String endpoint, String semaphoreName) {
         return client.createSession(fullPath)
                 .thenApply(session ->
                         new LeaderElection(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    public static LeaderElection joinElection(CoordinationClient client, String fullPath, String endpoint,
+                                                                 String semaphoreName) {
+        return joinElectionAsync(client, fullPath, endpoint, semaphoreName).join();
     }
 
     private CompletableFuture<SemaphoreChangedEvent> recursiveDescribeDetail(CoordinationSession session, String name) {
@@ -81,7 +84,7 @@ public class LeaderElection implements AutoCloseable {
                                 logger.debug("session.describeAndWatchSemaphore.whenComplete() {}",
                                         semaphoreWatcherResult);
                                 final RuntimeException e = getSemaphoreWatcherException(semaphoreWatcherResult);
-                                leaveElection();
+                                close();
                                 describeFuture.completeExceptionally(e);
                                 throw e;
                             }
@@ -114,33 +117,36 @@ public class LeaderElection implements AutoCloseable {
                 });
     }
 
-    public CompletableFuture<Session> forceUpdateLeader() {
+    public CompletableFuture<String> forceUpdateLeaderAsync() {
         changedEventFuture.complete(new SemaphoreChangedEvent(false, false, false));
-        return getLeader();
+        return getLeaderAsync();
     }
 
-    public CompletableFuture<Session> getLeader() {
-        return describeFuture;
+    public String forceUpdateLeader() {
+        return forceUpdateLeaderAsync().join();
+    }
+
+    public CompletableFuture<String> getLeaderAsync() {
+        return describeFuture.thenApply(session -> new String(session.getData(), StandardCharsets.UTF_8));
+    }
+
+    public String getLeader() {
+        return getLeaderAsync().join();
     }
 
     public boolean isLeader() {
         return acquireFuture.getNow(null) != null;
     }
 
-    public CompletableFuture<Boolean> leaveElection() {
+    @Override
+    public void close() {
         if (isElecting.compareAndSet(true, false)) {
             if (acquireFuture.isDone()) {
                 final CompletableFuture<Boolean> releaseFuture = acquireFuture.join().release();
                 releaseFuture.thenRun(session::close);
-                return releaseFuture;
+                return;
             }
             session.close();
         }
-        return CompletableFuture.completedFuture(true);
-    }
-
-    @Override
-    public void close() {
-        leaveElection();
     }
 }

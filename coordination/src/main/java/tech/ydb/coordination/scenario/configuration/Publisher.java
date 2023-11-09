@@ -8,7 +8,6 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
 public class Publisher implements AutoCloseable {
-    static final String SEMAPHORE_PREFIX = "configuration-";
     private final String semaphoreName;
     private final CoordinationSession session;
     private CompletableFuture<Status> semaphoreFuture;
@@ -19,18 +18,27 @@ public class Publisher implements AutoCloseable {
         this.semaphoreFuture = session.createSemaphore(semaphoreName, 1);
     }
 
-    public static CompletableFuture<Publisher> newPublisher(CoordinationClient client, String path, long token) {
+    public static CompletableFuture<Publisher> newPublisherAsync(CoordinationClient client, String path,
+                                                                 String semaphoreName) {
         return client.createSession(path)
-                .thenApply(session -> new Publisher(session, SEMAPHORE_PREFIX + token));
+                .thenApply(session -> new Publisher(session, semaphoreName));
     }
 
-    public synchronized CompletableFuture<Status> publish(byte[] data) {
+    public static Publisher newPublisher(CoordinationClient client, String path, String semaphoreName) {
+        return newPublisherAsync(client, path, semaphoreName).join();
+    }
+
+    public synchronized CompletableFuture<Status> publishAsync(byte[] data) {
         if (semaphoreFuture.isDone()) {
             semaphoreFuture = session.updateSemaphore(semaphoreName, data);
         } else {
             semaphoreFuture = semaphoreFuture.thenCompose(status -> session.updateSemaphore(semaphoreName, data));
         }
         return semaphoreFuture;
+    }
+
+    public synchronized Status publish(byte[] data) {
+        return publishAsync(data).join();
     }
 
     @Override

@@ -42,7 +42,7 @@ public class ServiceDiscoveryScenarioTest {
             Status create = checkSession.createSemaphore(Worker.SEMAPHORE_NAME, 100).join();
             Assert.assertTrue(create.isSuccess());
 
-            final Worker worker1 = Worker.newWorker(client, path, "endpoint-1", timeout).join();
+            final Worker worker1 = Worker.newWorker(client, path, "endpoint-1", timeout);
 
             final SemaphoreDescription oneWorkerDescription = checkSession
                     .describeSemaphore(Worker.SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS)
@@ -52,10 +52,10 @@ public class ServiceDiscoveryScenarioTest {
             Assert.assertEquals("endpoint-1", new String(oneWorkerDescription.getOwnersList().get(0).getData()));
             Assert.assertEquals(1, oneWorkerDescription.getOwnersList().size());
 
-            final Worker worker2 = Worker.newWorker(client, path, "endpoint-2", timeout).join();
+            final Worker worker2 = Worker.newWorker(client, path, "endpoint-2", timeout);
 
             /* The First knows about The Second */
-            final Subscriber subscriber1 = Subscriber.newSubscriber(client, path).join();
+            final Subscriber subscriber1 = Subscriber.newSubscriber(client, path);
             SemaphoreDescription subscriberOneDescription = subscriber1.getDescription();
             Assert.assertTrue(subscriberOneDescription
                     .getOwnersList()
@@ -65,7 +65,7 @@ public class ServiceDiscoveryScenarioTest {
             Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
 
             /* The Second knows about The First */
-            final Subscriber subscriber2 = Subscriber.newSubscriber(client, path).join();
+            final Subscriber subscriber2 = Subscriber.newSubscriber(client, path);
             subscriberOneDescription = subscriber2.getDescription();
             Assert.assertTrue(subscriberOneDescription
                     .getOwnersList()
@@ -78,7 +78,7 @@ public class ServiceDiscoveryScenarioTest {
             final CompletableFuture<Void> waitUpdate = new CompletableFuture<>();
             subscriber2.setUpdateWaiter(() -> waitUpdate.complete(null));
 
-            final Boolean stoppedWorker1 = worker1.stop().join();
+            final Boolean stoppedWorker1 = worker1.stop();
             Assert.assertTrue(stoppedWorker1);
 
             waitUpdate.join();
@@ -89,7 +89,7 @@ public class ServiceDiscoveryScenarioTest {
                     checkSession.describeSemaphore(Worker.SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS).join()
                             .getValue());
 
-            Assert.assertTrue(worker2.stop().join());
+            Assert.assertTrue(worker2.stop());
 
             Status remove = checkSession.deleteSemaphore(Worker.SEMAPHORE_NAME, true).join();
             Assert.assertTrue(remove.isSuccess());

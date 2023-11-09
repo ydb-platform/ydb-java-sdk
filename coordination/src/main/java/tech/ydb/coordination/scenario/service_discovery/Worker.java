@@ -19,7 +19,7 @@ public class Worker {
         this.semaphore = semaphore;
     }
 
-    public static CompletableFuture<Worker> newWorker(CoordinationClient client, String fullPath, String endpoint,
+    public static CompletableFuture<Worker> newWorkerAsync(CoordinationClient client, String fullPath, String endpoint,
                                                       Duration maxAttemptTimeout) {
         return client.createSession(fullPath).thenCompose(session -> {
             byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
@@ -34,9 +34,18 @@ public class Worker {
         });
     }
 
-    public CompletableFuture<Boolean> stop() {
+    public static Worker newWorker(CoordinationClient client, String fullPath, String endpoint,
+                                                      Duration maxAttemptTimeout) {
+        return newWorkerAsync(client, fullPath, endpoint, maxAttemptTimeout).join();
+    }
+
+    public CompletableFuture<Boolean> stopAsync() {
         CompletableFuture<Boolean> releaseFuture = semaphore.release();
         releaseFuture.thenRun(session::close);
         return releaseFuture;
+    }
+
+    public boolean stop() {
+        return stopAsync().join();
     }
 }
