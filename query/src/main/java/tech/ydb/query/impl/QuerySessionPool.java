@@ -48,8 +48,6 @@ public class QuerySessionPool implements AutoCloseable {
             .build();
 
     private static final AttachSessionSettings ATTACH_SETTINGS = AttachSessionSettings.newBuilder()
-//            .withRequestTimeout(Duration.ofSeconds(5))
-//            .withOperationTimeout(Duration.ofSeconds(4))
             .build();
 
     private final int minSize;

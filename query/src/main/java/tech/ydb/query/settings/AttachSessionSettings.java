@@ -1,12 +1,12 @@
 package tech.ydb.query.settings;
 
-import tech.ydb.core.settings.OperationSettings;
+import tech.ydb.core.settings.BaseRequestSettings;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class AttachSessionSettings extends OperationSettings {
+public class AttachSessionSettings extends BaseRequestSettings {
     private AttachSessionSettings(Builder builder) {
         super(builder);
     }
@@ -15,7 +15,7 @@ public class AttachSessionSettings extends OperationSettings {
         return new Builder();
     }
 
-    public static class Builder extends OperationBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
         @Override
         public AttachSessionSettings build() {
             return new AttachSessionSettings(this);

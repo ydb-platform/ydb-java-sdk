@@ -1,12 +1,12 @@
 package tech.ydb.query.settings;
 
-import tech.ydb.core.settings.OperationSettings;
+import tech.ydb.core.settings.BaseRequestSettings;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class ExecuteQuerySettings extends OperationSettings {
+public class ExecuteQuerySettings extends BaseRequestSettings {
     private ExecuteQuerySettings(Builder builder) {
         super(builder);
     }
@@ -15,7 +15,7 @@ public class ExecuteQuerySettings extends OperationSettings {
         return new Builder();
     }
 
-    public static class Builder extends OperationSettings.OperationBuilder<Builder> {
+    public static class Builder extends BaseBuilder<Builder> {
         @Override
         public ExecuteQuerySettings build() {
             return new ExecuteQuerySettings(this);

@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
 import tech.ydb.query.result.QueryResultPart;
-import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
@@ -29,10 +28,7 @@ public class QueryIntegrationTest {
     public void testQueryClient() {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                session.executeQuery("SELECT 2 + 3;",
-                        TxMode.serializableRw(),
-                        ExecuteQuerySettings.newBuilder().build()
-                ).start(part -> {
+                session.executeQuery("SELECT 2 + 3;", TxMode.serializableRw()).start(part -> {
                     ResultSetReader rs = part.getResultSetReader();
 
                     Assert.assertTrue(rs.next());
@@ -56,16 +52,15 @@ public class QueryIntegrationTest {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 TxMode tx = TxMode.serializableRw();
-                ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder().build();
 
                 CompletableFuture<Status> createTable = session
-                        .executeQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", tx, settings)
+                        .executeQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", tx)
                         .start(this::printQuerySetPart);
                 createTable.join().expectSuccess();
 
 
                 CompletableFuture<Status> dropTable = session
-                        .executeQuery("DROP TABLE demo_table;", tx, settings)
+                        .executeQuery("DROP TABLE demo_table;", tx)
                         .start(this::printQuerySetPart);
                 dropTable.join().expectSuccess();
             }
