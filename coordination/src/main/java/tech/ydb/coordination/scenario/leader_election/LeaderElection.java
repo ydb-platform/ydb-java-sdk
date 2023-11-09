@@ -140,7 +140,7 @@ public class LeaderElection implements AutoCloseable {
     }
 
     @Override
-    public void close() throws Exception {
+    public void close() {
         leaveElection();
     }
 }
