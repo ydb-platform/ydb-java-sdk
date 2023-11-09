@@ -50,13 +50,16 @@ public class LeaderElection implements AutoCloseable {
         return e;
     }
 
-    public static CompletableFuture<LeaderElection> joinElection(CoordinationClient client,
-                                                                 String fullPath,
-                                                                 String endpoint,
-                                                                 String semaphoreName) {
+    public static CompletableFuture<LeaderElection> joinElectionAsync(CoordinationClient client, String fullPath,
+                                                                 String endpoint, String semaphoreName) {
         return client.createSession(fullPath)
                 .thenApply(session ->
                         new LeaderElection(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8)));
+    }
+
+    public static LeaderElection joinElection(CoordinationClient client, String fullPath, String endpoint,
+                                                                 String semaphoreName) {
+        return joinElectionAsync(client, fullPath, endpoint, semaphoreName).join();
     }
 
     private CompletableFuture<SemaphoreChangedEvent> recursiveDescribeDetail(CoordinationSession session, String name) {
@@ -114,20 +117,28 @@ public class LeaderElection implements AutoCloseable {
                 });
     }
 
-    public CompletableFuture<Session> forceUpdateLeader() {
+    public CompletableFuture<Session> forceUpdateLeaderAsync() {
         changedEventFuture.complete(new SemaphoreChangedEvent(false, false, false));
-        return getLeader();
+        return getLeaderAsync();
     }
 
-    public CompletableFuture<Session> getLeader() {
+    public Session forceUpdateLeader() {
+        return forceUpdateLeaderAsync().join();
+    }
+
+    public CompletableFuture<Session> getLeaderAsync() {
         return describeFuture;
+    }
+
+    public Session getLeader() {
+        return getLeaderAsync().join();
     }
 
     public boolean isLeader() {
         return acquireFuture.getNow(null) != null;
     }
 
-    public CompletableFuture<Boolean> leaveElection() {
+    public CompletableFuture<Boolean> leaveElectionAsync() {
         if (isElecting.compareAndSet(true, false)) {
             if (acquireFuture.isDone()) {
                 final CompletableFuture<Boolean> releaseFuture = acquireFuture.join().release();
@@ -137,6 +148,10 @@ public class LeaderElection implements AutoCloseable {
             session.close();
         }
         return CompletableFuture.completedFuture(true);
+    }
+
+    public boolean leaveElection() {
+        return leaveElectionAsync().join();
     }
 
     @Override

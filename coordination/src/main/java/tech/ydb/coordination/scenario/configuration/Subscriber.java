@@ -13,7 +13,6 @@ import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 
 public class Subscriber implements AutoCloseable {
-    static final String SEMAPHORE_PREFIX = "configuration-";
     private static final Logger logger = LoggerFactory.getLogger(Subscriber.class);
     private final AtomicBoolean isWorking;
 
@@ -21,16 +20,21 @@ public class Subscriber implements AutoCloseable {
         this.isWorking = isWorking;
     }
 
-    public static CompletableFuture<Subscriber> newSubscriber(CoordinationClient client, String path,
-                                                              long token, Consumer<byte[]> observer) {
+    public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String path,
+             String semaphoreName, Consumer<byte[]> observer) {
         return client.createSession(path)
                 .thenApply(session -> {
-                    final String name = SEMAPHORE_PREFIX + token;
                     final AtomicBoolean isWorking = new AtomicBoolean(true);
-                    session.createSemaphore(name, 1)
-                            .whenComplete((status, th1) -> recursiveDescribe(session, name, isWorking, observer));
+                    session.createSemaphore(semaphoreName, 1)
+                            .whenComplete((status, th1) ->
+                                    recursiveDescribe(session, semaphoreName, isWorking, observer));
                     return new Subscriber(isWorking);
                 });
+    }
+
+    public static Subscriber newSubscriber(CoordinationClient client, String path,
+                                                              String semaphoreName, Consumer<byte[]> observer) {
+        return newSubscriberAsync(client, path, semaphoreName, observer).join();
     }
 
     private static void recursiveDescribe(CoordinationSession session, String name, AtomicBoolean isWorking,

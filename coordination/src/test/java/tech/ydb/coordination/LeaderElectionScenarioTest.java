@@ -52,37 +52,33 @@ public class LeaderElectionScenarioTest {
         final String semaphoreName = SEMAPHORE_PREFIX + 1_000_001;
 
         try (LeaderElection participant1 = LeaderElection
-                .joinElection(client, path, "endpoint-1", semaphoreName)
-                .join();
+                .joinElection(client, path, "endpoint-1", semaphoreName);
              LeaderElection participant2 = LeaderElection
-                 .joinElection(client, path, "endpoint-2", semaphoreName)
-                 .join()) {
-
-            final Session leader = participant1.getLeader().join();
-            Assert.assertEquals(leader, participant2.getLeader().join());
+                 .joinElection(client, path, "endpoint-2", semaphoreName)) {
+            final Session leader = participant1.getLeader();
+            Assert.assertEquals(leader, participant2.getLeader());
             logger.info("The first leader: " + new String(leader.getData(), StandardCharsets.UTF_8));
 
             try (LeaderElection participant3 = LeaderElection
-                    .joinElection(client, path, "endpoint-3", semaphoreName)
-                    .join()) {
-                Assert.assertEquals(leader, participant3.getLeader().join());
+                    .joinElection(client, path, "endpoint-3", semaphoreName)) {
+                Assert.assertEquals(leader, participant3.getLeader());
 
                 /* The leader is not a leader anymore */
                 final Session newLeader;
                 if (participant1.isLeader()) {
-                    participant1.leaveElection().join();
-                    newLeader = participant2.forceUpdateLeader().join();
-                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader().join());
+                    participant1.leaveElection();
+                    newLeader = participant2.forceUpdateLeader();
+                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader());
                     Assert.assertNotEquals(newLeader, leader);
                 } else if (participant2.isLeader()) {
-                    participant2.leaveElection().join();
-                    newLeader = participant1.forceUpdateLeader().join();
-                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader().join());
+                    participant2.leaveElection();
+                    newLeader = participant1.forceUpdateLeader();
+                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader());
                     Assert.assertNotEquals(newLeader, leader);
                 } else if (participant3.isLeader()) {
-                    participant3.leaveElection().join();
-                    newLeader = participant1.forceUpdateLeader().join();
-                    Assert.assertEquals(newLeader, participant2.forceUpdateLeader().join());
+                    participant3.leaveElection();
+                    newLeader = participant1.forceUpdateLeader();
+                    Assert.assertEquals(newLeader, participant2.forceUpdateLeader());
                     Assert.assertNotEquals(newLeader, leader);
                 } else {
                     newLeader = null;
@@ -104,12 +100,12 @@ public class LeaderElectionScenarioTest {
         final String semaphoreName = SEMAPHORE_PREFIX + 1_000_000;
 
         List<LeaderElection> participants = IntStream.range(0, sessionCount).mapToObj(id -> LeaderElection
-                        .joinElection(client, path, "endpoint-" + id, semaphoreName).join())
+                        .joinElection(client, path, "endpoint-" + id, semaphoreName))
                 .collect(Collectors.toList());
 
         final AtomicReference<Session> leader = new AtomicReference<>();
         for (LeaderElection participant : participants) {
-            Session localLeader = participant.getLeader().join();
+            Session localLeader = participant.getLeader();
             leader.updateAndGet(currLeader -> currLeader == null ? localLeader : currLeader);
             Assert.assertEquals(leader.get(), localLeader);
         }
@@ -117,22 +113,22 @@ public class LeaderElectionScenarioTest {
         /* The leader is not a leader anymore */
         for (int i = 0; i < sessionCount; i++) {
             if (participants.get(i).isLeader()) {
-                participants.remove(i).leaveElection().join();
+                participants.remove(i).leaveElection();
                 break;
             }
         }
 
         final AtomicReference<Session> newLeader = new AtomicReference<>();
         for (LeaderElection participant : participants) {
-            participant.forceUpdateLeader().join();
-            Session localLeader = participant.getLeader().join();
+            participant.forceUpdateLeader();
+            Session localLeader = participant.getLeader();
             newLeader.updateAndGet(currLeader -> currLeader == null ? localLeader : currLeader);
             Assert.assertEquals(newLeader.get(), localLeader);
         }
 
         Assert.assertNotEquals(leader.get(), newLeader.get());
 
-        participants.stream().map(LeaderElection::leaveElection).forEach(CompletableFuture::join);
+        participants.stream().map(LeaderElection::leaveElectionAsync).forEach(CompletableFuture::join);
     }
 
     @Test(timeout = 60_000)

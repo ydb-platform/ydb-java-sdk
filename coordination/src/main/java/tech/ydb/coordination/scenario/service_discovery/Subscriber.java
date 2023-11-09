@@ -28,13 +28,17 @@ public class Subscriber implements AutoCloseable {
         updateDescription(watcherResult, null);
     }
 
-    public static CompletableFuture<Subscriber> newSubscriber(CoordinationClient client, String fullPath) {
+    public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath) {
         return client.createSession(fullPath)
                 .thenCompose(session ->
                         session.describeAndWatchSemaphore(SEMAPHORE_NAME,
                                         DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS)
                                 .thenApply(semaphoreWatcherResult -> new Subscriber(session, semaphoreWatcherResult))
                 );
+    }
+
+    public static Subscriber newSubscriber(CoordinationClient client, String fullPath) {
+        return newSubscriberAsync(client, fullPath).join();
     }
 
     private void updateDescription(Result<SemaphoreWatcher> result, Throwable th) {
