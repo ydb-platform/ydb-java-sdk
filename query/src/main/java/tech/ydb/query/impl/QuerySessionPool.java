@@ -48,6 +48,7 @@ public class QuerySessionPool implements AutoCloseable {
             .build();
 
     private static final AttachSessionSettings ATTACH_SETTINGS = AttachSessionSettings.newBuilder()
+            .withRequestTimeout(Duration.ofSeconds(5))
             .build();
 
     private final int minSize;
@@ -155,7 +156,7 @@ public class QuerySessionPool implements AutoCloseable {
             super(clock, rpc, response);
         }
 
-        public void initSession() {
+        public void initAttachStream() {
             GrpcReadStream<Status> stream = attach(ATTACH_SETTINGS);
             if (attachStream.compareAndSet(null, stream)) {
                 logger.debug("QuerySession[{}] attach", getId());
@@ -163,11 +164,8 @@ public class QuerySessionPool implements AutoCloseable {
             }
         }
 
-        public void closeSession() {
-            GrpcReadStream<Status> stream = attachStream.get();
-            if (stream != null && attachStream.compareAndSet(stream, null)) {
-                stream.cancel();
-            }
+        public void closeAttachStream() {
+            attachStream.set(null);
         }
 
         private void deleteSession() {
@@ -220,13 +218,13 @@ public class QuerySessionPool implements AutoCloseable {
 
         private PooledQuerySession createSession(Result<YdbQuery.CreateSessionResponse> response) {
             PooledQuerySession session = new PooledQuerySession(rpc, response.getValue());
-            session.initSession();
+            session.initAttachStream();
             return session;
         }
 
         @Override
         public void destroy(PooledQuerySession session) {
-            session.closeSession();
+            session.closeAttachStream();
             session.delete(DELETE_SETTINGS).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
