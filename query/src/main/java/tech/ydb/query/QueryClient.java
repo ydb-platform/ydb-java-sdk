@@ -2,6 +2,7 @@ package tech.ydb.query;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.WillNotClose;
 
@@ -26,6 +27,8 @@ public interface QueryClient extends AutoCloseable {
      * Result when session created, and fail Result otherwise
      */
     CompletableFuture<Result<QuerySession>> createSession(Duration duration);
+
+    ScheduledExecutorService getScheduler();
 
     @Override
     void close();

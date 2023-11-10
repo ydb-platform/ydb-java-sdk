@@ -3,6 +3,7 @@ package tech.ydb.query.impl;
 import java.time.Clock;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Preconditions;
 
@@ -17,6 +18,7 @@ import tech.ydb.query.QuerySession;
  */
 public class QueryClientImpl implements  QueryClient {
     private final QuerySessionPool pool;
+    private final ScheduledExecutorService scheduler;
 
     public QueryClientImpl(Builder builder) {
         this.pool = new QuerySessionPool(
@@ -27,11 +29,17 @@ public class QueryClientImpl implements  QueryClient {
                 builder.sessionPoolMaxSize,
                 builder.sessionPoolIdleDuration
         );
+        this.scheduler = builder.transport.getScheduler();
     }
 
     @Override
     public CompletableFuture<Result<QuerySession>> createSession(Duration timeout) {
         return pool.acquire(timeout);
+    }
+
+    @Override
+    public ScheduledExecutorService getScheduler() {
+        return scheduler;
     }
 
     @Override
