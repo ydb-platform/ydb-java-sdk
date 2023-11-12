@@ -1,4 +1,4 @@
-package tech.ydb.query.retry;
+package tech.ydb.query.tools;
 
 import java.time.Duration;
 import java.time.Instant;

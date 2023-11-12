@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
 import tech.ydb.query.result.QueryResultPart;
+import tech.ydb.query.tools.QueryDataReader;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
@@ -98,16 +99,20 @@ public class QueryIntegrationTest {
     @Test
     public void testSimpleSelect() {
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
-            session.executeQuery("SELECT 2 + 3;", TxMode.serializableRw()).start(part -> {
-                ResultSetReader rs = part.getResultSetReader();
+            QueryDataReader reader = QueryDataReader.readFrom(
+                    session.executeQuery("SELECT 2 + 3;", TxMode.serializableRw())
+            ).join().getValue();
 
-                Assert.assertTrue(rs.next());
-                Assert.assertEquals(1, rs.getColumnCount());
-                Assert.assertEquals("column0", rs.getColumnName(0));
-                Assert.assertEquals(5, rs.getColumn(0).getInt32());
 
-                Assert.assertFalse(rs.next());
-            }).join().expectSuccess();
+            Assert.assertEquals(1, reader.getResultSetCount());
+            ResultSetReader rs = reader.getResultSet(0);
+
+            Assert.assertTrue(rs.next());
+            Assert.assertEquals(1, rs.getColumnCount());
+            Assert.assertEquals("column0", rs.getColumnName(0));
+            Assert.assertEquals(5, rs.getColumn(0).getInt32());
+
+            Assert.assertFalse(rs.next());
         }
     }
 
