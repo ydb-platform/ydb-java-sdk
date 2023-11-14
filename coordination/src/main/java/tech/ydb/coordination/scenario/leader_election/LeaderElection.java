@@ -84,7 +84,7 @@ public class LeaderElection implements AutoCloseable {
                                 logger.debug("session.describeAndWatchSemaphore.whenComplete() {}",
                                         semaphoreWatcherResult);
                                 final RuntimeException e = getSemaphoreWatcherException(semaphoreWatcherResult);
-                                leaveElection();
+                                close();
                                 describeFuture.completeExceptionally(e);
                                 throw e;
                             }
@@ -117,20 +117,20 @@ public class LeaderElection implements AutoCloseable {
                 });
     }
 
-    public CompletableFuture<Session> forceUpdateLeaderAsync() {
+    public CompletableFuture<String> forceUpdateLeaderAsync() {
         changedEventFuture.complete(new SemaphoreChangedEvent(false, false, false));
         return getLeaderAsync();
     }
 
-    public Session forceUpdateLeader() {
+    public String forceUpdateLeader() {
         return forceUpdateLeaderAsync().join();
     }
 
-    public CompletableFuture<Session> getLeaderAsync() {
-        return describeFuture;
+    public CompletableFuture<String> getLeaderAsync() {
+        return describeFuture.thenApply(session -> new String(session.getData(), StandardCharsets.UTF_8));
     }
 
-    public Session getLeader() {
+    public String getLeader() {
         return getLeaderAsync().join();
     }
 
@@ -138,24 +138,15 @@ public class LeaderElection implements AutoCloseable {
         return acquireFuture.getNow(null) != null;
     }
 
-    public CompletableFuture<Boolean> leaveElectionAsync() {
+    @Override
+    public void close() {
         if (isElecting.compareAndSet(true, false)) {
             if (acquireFuture.isDone()) {
                 final CompletableFuture<Boolean> releaseFuture = acquireFuture.join().release();
                 releaseFuture.thenRun(session::close);
-                return releaseFuture;
+                return;
             }
             session.close();
         }
-        return CompletableFuture.completedFuture(true);
-    }
-
-    public boolean leaveElection() {
-        return leaveElectionAsync().join();
-    }
-
-    @Override
-    public void close() {
-        leaveElection();
     }
 }
