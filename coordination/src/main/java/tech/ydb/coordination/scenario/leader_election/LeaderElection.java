@@ -216,9 +216,7 @@ public class LeaderElection implements AutoCloseable {
     public void close() {
         if (isElecting.compareAndSet(true, false)) {
             if (acquireFuture.isDone()) {
-                final CompletableFuture<Boolean> releaseFuture = acquireFuture.join().release();
-                releaseFuture.thenRun(session::close);
-                return;
+                acquireFuture.join().release().join();
             }
             session.close();
         }
