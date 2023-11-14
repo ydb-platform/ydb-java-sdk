@@ -4,6 +4,8 @@ import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -46,7 +48,6 @@ public class LeaderElectionScenarioTest {
 
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest() {
-        /* ID for definition Leader Election. Every session has to point the same token. */
         final String semaphoreName = SEMAPHORE_PREFIX + 1_000_001;
 
         try (LeaderElection participant1 = LeaderElection
@@ -88,6 +89,57 @@ public class LeaderElectionScenarioTest {
             }
         } catch (Exception e) {
             Assert.fail("Exception in leader election test.");
+        }
+    }
+
+    @Test(timeout = 20_000)
+    public void leaderElectionBaseTest2() {
+        final String name = "leader-election-base-test-2";
+        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name);
+             LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
+        ) {
+            Assert.assertTrue(participant1.isLeader());
+            participant1.interruptLeadership();
+            participant2.forceUpdateLeader();
+            Assert.assertTrue(participant2.isLeader());
+        } catch (Exception e) {
+            Assert.fail("Exception while testing leader election scenario.");
+        }
+    }
+
+    @Test(timeout = 20_000)
+    public void leaderElectionBaseTest3() {
+        final String name = "leader-election-base-test-3";
+        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name);
+             LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
+        ) {
+            CountDownLatch counter = new CountDownLatch(2);
+            participant1.whenTakeLead(() -> {
+                logger.info("Endpoint-1 is a leader now!");
+                counter.countDown();
+            });
+            participant2.whenTakeLead(() -> {
+                logger.info("Endpoint-2 is a leader now!");
+                counter.countDown();
+            });
+            if (participant1.isLeader()) {
+                participant1.interruptLeadership();
+            } else {
+                participant2.interruptLeadership();
+            }
+
+            participant1.forceUpdateLeader();
+            participant2.forceUpdateLeader();
+
+            if (participant1.isLeader()) {
+                participant1.interruptLeadership();
+            } else {
+                participant2.interruptLeadership();
+            }
+
+            Assert.assertTrue(counter.await(20_000, TimeUnit.MILLISECONDS));
+        } catch (Exception e) {
+            Assert.fail("Exception while testing leader election scenario.");
         }
     }
 

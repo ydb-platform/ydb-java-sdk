@@ -2,6 +2,9 @@ package tech.ydb.coordination.scenario.leader_election;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -25,15 +28,29 @@ import tech.ydb.core.UnexpectedResultException;
 public class LeaderElection implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
     private final AtomicBoolean isElecting = new AtomicBoolean(true);
-    private final CompletableFuture<SemaphoreLease> acquireFuture = new CompletableFuture<>();
+    private CompletableFuture<SemaphoreLease> acquireFuture;
     private CompletableFuture<Session> describeFuture;
+    private final Queue<Runnable> afterAcquireFuture;
     private CompletableFuture<SemaphoreChangedEvent> changedEventFuture;
     private final CoordinationSession session;
+    private final String name;
+    private final byte[] data;
 
     private LeaderElection(CoordinationSession session, String name, byte[] data) {
         this.session = session;
-        recursiveAcquire(session, name, data);
-        recursiveDescribe(session, name);
+        this.name = name;
+        this.data = data;
+        afterAcquireFuture = new ArrayDeque<>();
+        initializeAcquireFuture();
+        recursiveAcquire();
+        recursiveDescribe();
+    }
+
+    private void initializeAcquireFuture() {
+        acquireFuture = new CompletableFuture<>();
+        for (final Runnable r : afterAcquireFuture) {
+            acquireFuture.thenRun(r);
+        }
     }
 
     @Nonnull
@@ -92,21 +109,21 @@ public class LeaderElection implements AutoCloseable {
                 );
     }
 
-    private void recursiveDescribe(CoordinationSession session, String name) {
+    private void recursiveDescribe() {
         describeFuture = new CompletableFuture<>();
         changedEventFuture = recursiveDescribeDetail(session, name);
         changedEventFuture.whenComplete((semaphoreChangedEvent, th) -> {
             if (semaphoreChangedEvent != null && th == null && isElecting.get()) {
-                recursiveDescribe(session, name);
+                recursiveDescribe();
             }
         });
     }
 
-    private void recursiveAcquire(CoordinationSession session, String semaphoreName, byte[] data) {
-        session.acquireEphemeralSemaphore(semaphoreName, data, Duration.ofHours(1)).whenComplete(
+    private void recursiveAcquire() {
+        session.acquireEphemeralSemaphore(name, data, Duration.ofHours(1)).whenComplete(
                 (lease, throwable) -> {
                     if ((lease == null || throwable != null) && isElecting.get()) {
-                        recursiveAcquire(session, semaphoreName, data);
+                        recursiveAcquire();
                     } else if (lease != null) {
                         if (!isElecting.get()) {
                             lease.release();
@@ -117,7 +134,7 @@ public class LeaderElection implements AutoCloseable {
                 });
     }
 
-    public CompletableFuture<String> forceUpdateLeaderAsync() {
+    public synchronized CompletableFuture<String> forceUpdateLeaderAsync() {
         changedEventFuture.complete(new SemaphoreChangedEvent(false, false, false));
         return getLeaderAsync();
     }
@@ -132,6 +149,21 @@ public class LeaderElection implements AutoCloseable {
 
     public String getLeader() {
         return getLeaderAsync().join();
+    }
+
+    public synchronized void interruptLeadership() {
+        if (isLeader()) {
+            acquireFuture.join().release();
+            initializeAcquireFuture();
+            recursiveAcquire();
+        }
+    }
+
+    public synchronized void whenTakeLead(final Runnable r) {
+        afterAcquireFuture.add(r);
+        if (acquireFuture != null && !acquireFuture.isDone()) {
+            acquireFuture.thenRun(r);
+        }
     }
 
     public boolean isLeader() {
