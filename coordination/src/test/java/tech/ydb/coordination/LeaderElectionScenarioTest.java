@@ -98,7 +98,7 @@ public class LeaderElectionScenarioTest {
              LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
         ) {
             Assert.assertTrue(participant1.isLeader());
-            participant1.interruptLeadership();
+            participant1.close();
             participant2.forceUpdateLeader();
             Assert.assertTrue(participant2.isLeader());
         } catch (Exception e) {
