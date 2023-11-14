@@ -3,7 +3,6 @@ package tech.ydb.coordination.scenario.leader_election;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -67,6 +66,17 @@ public class LeaderElection implements AutoCloseable {
         return e;
     }
 
+    /**
+     * Join an election.
+     * When you only start an election, you should use this method as well as when you join an already
+     * existing election.
+     * @param client - Coordination client
+     * @param fullPath - full path to the coordination node path
+     * @param endpoint - Leader's identifier. All participants see leader's endpoint
+     * @param semaphoreName - All participants try to acquire the same semaphore. This semaphore will be deleted after
+     *                      election, hence you shouldn't create semaphore with this name before election.
+     * @return Completable future with leader election participant class.
+     */
     public static CompletableFuture<LeaderElection> joinElectionAsync(CoordinationClient client, String fullPath,
                                                                  String endpoint, String semaphoreName) {
         return client.createSession(fullPath)
@@ -74,6 +84,9 @@ public class LeaderElection implements AutoCloseable {
                         new LeaderElection(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8)));
     }
 
+    /**
+     * {@link LeaderElection#joinElectionAsync(CoordinationClient, String, String, String)}
+     */
     public static LeaderElection joinElection(CoordinationClient client, String fullPath, String endpoint,
                                                                  String semaphoreName) {
         return joinElectionAsync(client, fullPath, endpoint, semaphoreName).join();
@@ -134,23 +147,41 @@ public class LeaderElection implements AutoCloseable {
                 });
     }
 
+    /**
+     * Don't wait until the node notifies session about change the leader and require information about current leader
+     * @return Completable future of leader's endpoint.
+     */
     public synchronized CompletableFuture<String> forceUpdateLeaderAsync() {
         changedEventFuture.complete(new SemaphoreChangedEvent(false, false, false));
         return getLeaderAsync();
     }
 
+    /**
+     * {@link LeaderElection#forceUpdateLeaderAsync()}
+     */
     public String forceUpdateLeader() {
         return forceUpdateLeaderAsync().join();
     }
 
+    /**
+     * When your participant know the leader, you can see its endpoint
+     * @return Completable future of leader's endpoint.
+     */
     public CompletableFuture<String> getLeaderAsync() {
         return describeFuture.thenApply(session -> new String(session.getData(), StandardCharsets.UTF_8));
     }
 
+    /**
+     * {@link LeaderElection#getLeaderAsync()}
+     */
     public String getLeader() {
         return getLeaderAsync().join();
     }
 
+    /**
+     * Pass on your leadership in the election, but this session is still participating in the election.
+     * So it could be the leader again.
+     */
     public synchronized void interruptLeadership() {
         if (isLeader()) {
             acquireFuture.join().release();
@@ -159,13 +190,21 @@ public class LeaderElection implements AutoCloseable {
         }
     }
 
-    public synchronized void whenTakeLead(final Runnable r) {
-        afterAcquireFuture.add(r);
+    /**
+     * Attention: using this method multiple times save all previous runnable arguments,
+     * and all of them will be executed.
+     * @param runnable - after acquiring leadership, execute this functional interface
+     */
+    public synchronized void whenTakeLead(final Runnable runnable) {
+        afterAcquireFuture.add(runnable);
         if (acquireFuture != null && !acquireFuture.isDone()) {
-            acquireFuture.thenRun(r);
+            acquireFuture.thenRun(runnable);
         }
     }
 
+    /**
+     * @return true, if you are a leader at this moment otherwise false
+     */
     public boolean isLeader() {
         return acquireFuture.getNow(null) != null;
     }
