@@ -22,7 +22,7 @@ public class Worker {
     /**
      * Acquire Service discovery semaphore for letting Subscriber observe you
      * @param client - Coordination client
-     * @param fullPath - full path to the coordination node path
+     * @param fullPath - full path to the coordination node
      * @param endpoint - Endpoint which all Subscribers will see
      * @param maxAttemptTimeout - max timeout you can spend for acquiring Service discovery semaphore
      * @return Completable future with Worker

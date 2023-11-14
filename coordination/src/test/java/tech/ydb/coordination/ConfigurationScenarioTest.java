@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -83,6 +85,27 @@ public class ConfigurationScenarioTest {
             }
         } catch (Exception e) {
             Assert.fail("Exception in Configuration scenario test.");
+        }
+    }
+
+    @Test(timeout = 20_000)
+    public void configurationScenarioResetObserverTest() {
+        final String name = "configuration-reset-observer-test";
+        try (Publisher publisher = Publisher.newPublisher(client, path, name);
+             Subscriber subscriber = Subscriber.newSubscriber(client, path, name, Function.identity()::apply)
+        ) {
+            publisher.publish("data-1".getBytes(StandardCharsets.UTF_8));
+            publisher.publish("data-2".getBytes(StandardCharsets.UTF_8));
+            CountDownLatch counter = new CountDownLatch(1);
+            subscriber.resetObserver(data -> {
+                if (Arrays.equals(data, "data-3".getBytes(StandardCharsets.UTF_8))) {
+                    counter.countDown();
+                }
+            });
+            publisher.publish("data-3".getBytes(StandardCharsets.UTF_8));
+            Assert.assertTrue(counter.await(20_000, TimeUnit.MILLISECONDS));
+        } catch (Exception e) {
+            Assert.fail("Catch exception in configuration scenario test, exception = " + e.getMessage());
         }
     }
 

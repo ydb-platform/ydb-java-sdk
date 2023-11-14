@@ -97,10 +97,16 @@ public class LeaderElectionScenarioTest {
         try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name);
              LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
         ) {
-            Assert.assertTrue(participant1.isLeader());
-            participant1.interruptLeadership();
+            String firstLeader = participant1.getLeader();
+            if (firstLeader.equals("endpoint-1")) {
+                participant1.interruptLeadership();
+            } else {
+                participant2.interruptLeadership();
+            }
+            participant1.forceUpdateLeader();
             participant2.forceUpdateLeader();
-            Assert.assertTrue(participant2.isLeader());
+            Assert.assertNotEquals(firstLeader, participant1.getLeader());
+            Assert.assertNotEquals(firstLeader, participant2.getLeader());
         } catch (Exception e) {
             Assert.fail("Exception while testing leader election scenario.");
         }

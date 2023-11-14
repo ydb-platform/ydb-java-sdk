@@ -18,16 +18,31 @@ public class Publisher implements AutoCloseable {
         this.semaphoreFuture = session.createSemaphore(semaphoreName, 1);
     }
 
-    public static CompletableFuture<Publisher> newPublisherAsync(CoordinationClient client, String path,
+    /**
+     * Create new Publisher for Configuration service
+     * @param client - Coordination client
+     * @param fullPath - full path to the coordination node
+     * @param semaphoreName - name of Configuration service semaphore
+     * @return Completable future with Publisher
+     */
+    public static CompletableFuture<Publisher> newPublisherAsync(CoordinationClient client, String fullPath,
                                                                  String semaphoreName) {
-        return client.createSession(path)
+        return client.createSession(fullPath)
                 .thenApply(session -> new Publisher(session, semaphoreName));
     }
 
+    /**
+     * {@link Publisher#newPublisherAsync(CoordinationClient, String, String)}
+     */
     public static Publisher newPublisher(CoordinationClient client, String path, String semaphoreName) {
         return newPublisherAsync(client, path, semaphoreName).join();
     }
 
+    /**
+     * Change data on semaphore
+     * @param data - data which all Subscribers will see
+     * @return Completable future with status of change data on semaphore
+     */
     public synchronized CompletableFuture<Status> publishAsync(byte[] data) {
         if (semaphoreFuture.isDone()) {
             semaphoreFuture = session.updateSemaphore(semaphoreName, data);
@@ -37,10 +52,16 @@ public class Publisher implements AutoCloseable {
         return semaphoreFuture;
     }
 
+    /**
+     * {@link Publisher#publishAsync(byte[])}
+     */
     public synchronized Status publish(byte[] data) {
         return publishAsync(data).join();
     }
 
+    /**
+     * Close Publisher with closing session resource
+     */
     @Override
     public void close() {
         semaphoreFuture.complete(Status.of(StatusCode.ABORTED));

@@ -71,7 +71,7 @@ public class LeaderElection implements AutoCloseable {
      * When you only start an election, you should use this method as well as when you join an already
      * existing election.
      * @param client - Coordination client
-     * @param fullPath - full path to the coordination node path
+     * @param fullPath - full path to the coordination node
      * @param endpoint - Leader's identifier. All participants see leader's endpoint
      * @param semaphoreName - All participants try to acquire the same semaphore. This semaphore will be deleted after
      *                      election, hence you shouldn't create semaphore with this name before election.
@@ -216,9 +216,7 @@ public class LeaderElection implements AutoCloseable {
     public void close() {
         if (isElecting.compareAndSet(true, false)) {
             if (acquireFuture.isDone()) {
-                final CompletableFuture<Boolean> releaseFuture = acquireFuture.join().release();
-                releaseFuture.thenRun(session::close);
-                return;
+                acquireFuture.join().release().join();
             }
             session.close();
         }
