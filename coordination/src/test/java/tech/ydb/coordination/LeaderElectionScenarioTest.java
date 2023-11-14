@@ -103,10 +103,8 @@ public class LeaderElectionScenarioTest {
             } else {
                 participant2.interruptLeadership();
             }
-            participant1.forceUpdateLeader();
-            participant2.forceUpdateLeader();
-            Assert.assertNotEquals(firstLeader, participant1.getLeader());
-            Assert.assertNotEquals(firstLeader, participant2.getLeader());
+            Assert.assertNotEquals(firstLeader, participant1.forceUpdateLeader());
+            Assert.assertNotEquals(firstLeader, participant2.forceUpdateLeader());
         } catch (Exception e) {
             Assert.fail("Exception while testing leader election scenario.");
         }

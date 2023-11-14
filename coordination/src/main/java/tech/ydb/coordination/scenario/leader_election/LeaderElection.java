@@ -182,12 +182,21 @@ public class LeaderElection implements AutoCloseable {
      * Pass on your leadership in the election, but this session is still participating in the election.
      * So it could be the leader again.
      */
-    public synchronized void interruptLeadership() {
+    public synchronized CompletableFuture<Void> interruptLeadershipAsync() {
         if (isLeader()) {
-            acquireFuture.join().release();
-            initializeAcquireFuture();
-            recursiveAcquire();
+            return acquireFuture.join().release().thenRun(() -> {
+                initializeAcquireFuture();
+                recursiveAcquire();
+            });
         }
+        return CompletableFuture.completedFuture(null);
+    }
+
+    /**
+     * {@link LeaderElection#interruptLeadershipAsync()}
+     */
+    public synchronized void interruptLeadership() {
+        interruptLeadershipAsync().join();
     }
 
     /**
