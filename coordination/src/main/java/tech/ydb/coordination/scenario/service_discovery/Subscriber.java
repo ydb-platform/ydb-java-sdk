@@ -28,6 +28,12 @@ public class Subscriber implements AutoCloseable {
         updateDescription(watcherResult, null);
     }
 
+    /**
+     * Create a new subscriber for service discovery
+     * @param client - Coordination client
+     * @param fullPath - full path to the coordination node path
+     * @return Completable future with Subscriber
+     */
     public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath) {
         return client.createSession(fullPath)
                 .thenCompose(session ->
@@ -37,6 +43,9 @@ public class Subscriber implements AutoCloseable {
                 );
     }
 
+    /**
+     * {@link Subscriber#newSubscriberAsync(CoordinationClient, String)}
+     */
     public static Subscriber newSubscriber(CoordinationClient client, String fullPath) {
         return newSubscriberAsync(client, fullPath).join();
     }
@@ -90,10 +99,18 @@ public class Subscriber implements AutoCloseable {
         ).whenCompleteAsync(this::updateDescription).join();
     }
 
+    /**
+     * Get the last received (maybe out-of-date) information about Workers
+     * @return description of semaphore where you can see all Workers
+     */
     public SemaphoreDescription getDescription() {
         return description;
     }
 
+    /**
+     * Replace or set new runnable
+     * @param runnable - will be executed when Subscriber receives information about changes on semaphore
+     */
     public void setUpdateWaiter(Runnable runnable) {
         Runnable old = updateWaiter.getAndSet(runnable);
         if (old != null) {
@@ -101,6 +118,9 @@ public class Subscriber implements AutoCloseable {
         }
     }
 
+    /**
+     * Stop to observe Workers and close session
+     */
     @Override
     public void close() {
         if (!isStopped) {
