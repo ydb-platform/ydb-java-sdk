@@ -209,6 +209,9 @@ public class LeaderElection implements AutoCloseable {
         return acquireFuture.getNow(null) != null;
     }
 
+    /**
+     * Leave election with closing all resources
+     */
     @Override
     public void close() {
         if (isElecting.compareAndSet(true, false)) {

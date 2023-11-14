@@ -19,6 +19,14 @@ public class Worker {
         this.semaphore = semaphore;
     }
 
+    /**
+     * Acquire Service discovery semaphore for letting Subscriber observe you
+     * @param client - Coordination client
+     * @param fullPath - full path to the coordination node path
+     * @param endpoint - Endpoint which all Subscribers will see
+     * @param maxAttemptTimeout - max timeout you can spend for acquiring Service discovery semaphore
+     * @return Completable future with Worker
+     */
     public static CompletableFuture<Worker> newWorkerAsync(CoordinationClient client, String fullPath, String endpoint,
                                                       Duration maxAttemptTimeout) {
         return client.createSession(fullPath).thenCompose(session -> {
@@ -34,17 +42,27 @@ public class Worker {
         });
     }
 
+    /**
+     *  {@link Worker#newWorkerAsync(CoordinationClient, String, String, Duration)}
+     */
     public static Worker newWorker(CoordinationClient client, String fullPath, String endpoint,
                                                       Duration maxAttemptTimeout) {
         return newWorkerAsync(client, fullPath, endpoint, maxAttemptTimeout).join();
     }
 
+    /**
+     * Stop showing the Worker
+     * @return Completable future with true if semaphore release was success otherwise false
+     */
     public CompletableFuture<Boolean> stopAsync() {
         CompletableFuture<Boolean> releaseFuture = semaphore.release();
         releaseFuture.thenRun(session::close);
         return releaseFuture;
     }
 
+    /**
+     *  {@link Worker#stopAsync()}
+     */
     public boolean stop() {
         return stopAsync().join();
     }
