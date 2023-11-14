@@ -14,31 +14,41 @@ import tech.ydb.coordination.settings.WatchSemaphoreMode;
 
 public class Subscriber implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(Subscriber.class);
+    private final CoordinationSession session;
     private final AtomicBoolean isWorking;
+    private Consumer<byte[]> observer;
 
-    private Subscriber(AtomicBoolean isWorking) {
-        this.isWorking = isWorking;
+    private Subscriber(CoordinationSession session, String semaphoreName, Consumer<byte[]> observer) {
+        this.session = session;
+        this.isWorking = new AtomicBoolean(true);
+        this.observer = observer;
+        session.createSemaphore(semaphoreName, 1)
+                .whenComplete((status, th1) ->
+                        recursiveDescribe(semaphoreName));
     }
 
-    public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String path,
+    /**
+     * Subscriber for the Configuration service which observe semaphore data changes from Publishers.
+     * @param client - Coordination client
+     * @param fullPath - full path to the coordination node
+     * @param semaphoreName - Configuration scenario semaphore
+     * @param observer - consumer which will be executed every time Subscriber receives info about data changes
+     * @return Completable future with Subscriber
+     */
+    public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath,
              String semaphoreName, Consumer<byte[]> observer) {
-        return client.createSession(path)
-                .thenApply(session -> {
-                    final AtomicBoolean isWorking = new AtomicBoolean(true);
-                    session.createSemaphore(semaphoreName, 1)
-                            .whenComplete((status, th1) ->
-                                    recursiveDescribe(session, semaphoreName, isWorking, observer));
-                    return new Subscriber(isWorking);
-                });
+        return client.createSession(fullPath).thenApply(session -> new Subscriber(session, semaphoreName, observer));
     }
 
+    /**
+     * {@link Subscriber#newSubscriberAsync(CoordinationClient, String, String, Consumer)}
+     */
     public static Subscriber newSubscriber(CoordinationClient client, String path,
                                                               String semaphoreName, Consumer<byte[]> observer) {
         return newSubscriberAsync(client, path, semaphoreName, observer).join();
     }
 
-    private static void recursiveDescribe(CoordinationSession session, String name, AtomicBoolean isWorking,
-                                          Consumer<byte[]> observer) {
+    private void recursiveDescribe(String name) {
         if (isWorking.get()) {
             session.describeAndWatchSemaphore(name,
                             DescribeSemaphoreMode.DATA_ONLY, WatchSemaphoreMode.WATCH_DATA)
@@ -47,7 +57,7 @@ public class Subscriber implements AutoCloseable {
                             observer.accept(result.getValue().getDescription().getData());
                             result.getValue().getChangedFuture().whenComplete((changedEvent, th) -> {
                                 if (th == null) {
-                                    recursiveDescribe(session, name, isWorking, observer);
+                                    recursiveDescribe(name);
                                 }
                             });
                             return;
@@ -59,8 +69,20 @@ public class Subscriber implements AutoCloseable {
         }
     }
 
+    /**
+     * Reset observer
+     * @param newObserver - new observer, which will process new data from Publishers
+     */
+    public void resetObserver(Consumer<byte[]> newObserver) {
+        this.observer = newObserver;
+    }
+
+    /**
+     * Close Subscriber with closing session
+     */
     @Override
     public void close() {
         isWorking.set(false);
+        session.close();
     }
 }

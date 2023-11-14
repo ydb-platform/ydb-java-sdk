@@ -31,7 +31,7 @@ public class Subscriber implements AutoCloseable {
     /**
      * Create a new subscriber for service discovery
      * @param client - Coordination client
-     * @param fullPath - full path to the coordination node path
+     * @param fullPath - full path to the coordination node
      * @return Completable future with Subscriber
      */
     public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath) {
