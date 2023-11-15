@@ -28,7 +28,7 @@ public class Worker {
      * @return Completable future with Worker
      */
     public static CompletableFuture<Worker> newWorkerAsync(CoordinationClient client, String fullPath, String endpoint,
-                                                      Duration maxAttemptTimeout) {
+                                                           Duration maxAttemptTimeout) {
         return client.createSession(fullPath).thenCompose(session -> {
             byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
             return session.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(lease -> {
@@ -46,7 +46,7 @@ public class Worker {
      *  {@link Worker#newWorkerAsync(CoordinationClient, String, String, Duration)}
      */
     public static Worker newWorker(CoordinationClient client, String fullPath, String endpoint,
-                                                      Duration maxAttemptTimeout) {
+                                   Duration maxAttemptTimeout) {
         return newWorkerAsync(client, fullPath, endpoint, maxAttemptTimeout).join();
     }
 

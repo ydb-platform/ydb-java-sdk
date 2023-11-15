@@ -58,7 +58,7 @@ public class Subscriber implements AutoCloseable {
             logger.warn("unexpected exception on watch {} in session {}", SEMAPHORE_NAME, session.getId(), th);
             session.describeAndWatchSemaphore(
                     SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
-            ).whenComplete(this::updateDescription).join();
+            ).whenComplete(this::updateDescription);
             return;
         }
         if (result != null) {
@@ -76,7 +76,7 @@ public class Subscriber implements AutoCloseable {
                         result.getStatus(), SEMAPHORE_NAME, session.getId());
                 session.describeAndWatchSemaphore(
                         SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
-                ).whenComplete(this::updateDescription).join();
+                ).whenComplete(this::updateDescription);
             }
         }
     }
@@ -96,7 +96,7 @@ public class Subscriber implements AutoCloseable {
 
         session.describeAndWatchSemaphore(
                 SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
-        ).whenCompleteAsync(this::updateDescription).join();
+        ).whenComplete(this::updateDescription);
     }
 
     /**

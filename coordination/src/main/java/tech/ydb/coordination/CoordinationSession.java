@@ -31,7 +31,9 @@ public interface CoordinationSession extends AutoCloseable {
      * @param name   Name of the semaphore to create
      * @param limit  Number of tokens that may be acquired by sessions
      * @param data   User-defined data that will be attached to the semaphore
-     * @return future with status of operation
+     * @return Future with status of operation.
+     * If there already was a semaphore with such a name, you get
+     * {@code ALREADY_EXISTS} status.
      */
     CompletableFuture<Status> createSemaphore(String name, long limit, byte[] data);
 
@@ -51,7 +53,7 @@ public interface CoordinationSession extends AutoCloseable {
      *
      * @param name  Name of the semaphore to remove
      * @param force Will delete semaphore even if it's currently acquired by sessions
-     * @return future with status of operation
+     * @return Future with status of operation.
      */
     CompletableFuture<Status> deleteSemaphore(String name, boolean force);
 
@@ -65,7 +67,9 @@ public interface CoordinationSession extends AutoCloseable {
      * @param count   Number of tokens to acquire on the semaphore
      * @param timeout Duration after which operation will fail if it's still waiting in the waiters queue
      * @param data    User-defined binary data that may be attached to the operation
-     * @return future with a semaphore lease object
+     * @return If there is a semaphore with {@code name}, future will return a semaphore lease object.
+     * If there is no such a semaphore, future will complete exceptionally
+     * with {@link tech.ydb.core.UnexpectedResultException}.
      */
     CompletableFuture<SemaphoreLease> acquireSemaphore(String name, long count, byte[] data, Duration timeout);
 

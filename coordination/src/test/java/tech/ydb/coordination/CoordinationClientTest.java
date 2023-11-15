@@ -5,31 +5,30 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.ClassRule;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.description.SemaphoreDescription;
-import tech.ydb.coordination.description.SemaphoreDescription.Session;
 import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.coordination.impl.CoordinationClientImpl;
 import tech.ydb.coordination.impl.CoordinationGrpc;
 import tech.ydb.coordination.rpc.CoordinationRpc;
-import tech.ydb.coordination.scenario.leader_election.LeaderElection;
-import tech.ydb.coordination.scenario.service_discovery.Subscriber;
-import tech.ydb.coordination.scenario.service_discovery.Worker;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
-import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.proto.coordination.AlterNodeRequest;
@@ -40,14 +39,6 @@ import tech.ydb.proto.coordination.SessionRequest;
 import tech.ydb.proto.coordination.SessionResponse;
 import tech.ydb.proto.coordination.SessionResponse.Failure;
 import tech.ydb.test.junit4.GrpcTransportRule;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CoordinationClientTest {
     @ClassRule
@@ -84,8 +75,8 @@ public class CoordinationClientTest {
     public void coordinationSessionFullCycleTest() {
         final String semaphoreName = "test-semaphore";
         try (CoordinationSession session = client.createSession(path).join()) {
-            session.createSemaphore(semaphoreName, 100).get(3, TimeUnit.SECONDS);
-            SemaphoreLease semaphore = session.acquireSemaphore(semaphoreName, 70, Duration.ofSeconds(3))
+            session.createSemaphore(semaphoreName, 100).get(20, TimeUnit.SECONDS);
+            SemaphoreLease semaphore = session.acquireSemaphore(semaphoreName, 70, timeout)
                     .join();
 
             SemaphoreWatcher watch = session.describeAndWatchSemaphore(semaphoreName,
@@ -111,9 +102,9 @@ public class CoordinationClientTest {
 
     @Test(timeout = 20_000)
     public void ephemeralSemaphoreBaseTest() {
-        final String semaphoreName = "ephemeral-semaphore-base-test";
+        final String semaphoreName = "coordination-client-ephemeral-semaphore-base-test";
         try (CoordinationSession session = client.createSession(path).join()) {
-            session.acquireEphemeralSemaphore(semaphoreName, Duration.ofSeconds(3))
+            session.acquireEphemeralSemaphore(semaphoreName, timeout)
                     .join();
             final SemaphoreDescription description =
                     session.describeSemaphore(semaphoreName, DescribeSemaphoreMode.DATA_ONLY)

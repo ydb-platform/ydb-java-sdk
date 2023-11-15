@@ -36,7 +36,7 @@ public class Subscriber implements AutoCloseable {
      * @return Completable future with Subscriber
      */
     public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath,
-             String semaphoreName, Consumer<byte[]> observer) {
+                                                                   String semaphoreName, Consumer<byte[]> observer) {
         return client.createSession(fullPath).thenApply(session -> new Subscriber(session, semaphoreName, observer));
     }
 
@@ -44,7 +44,7 @@ public class Subscriber implements AutoCloseable {
      * {@link Subscriber#newSubscriberAsync(CoordinationClient, String, String, Consumer)}
      */
     public static Subscriber newSubscriber(CoordinationClient client, String path,
-                                                              String semaphoreName, Consumer<byte[]> observer) {
+                                           String semaphoreName, Consumer<byte[]> observer) {
         return newSubscriberAsync(client, path, semaphoreName, observer).join();
     }
 
