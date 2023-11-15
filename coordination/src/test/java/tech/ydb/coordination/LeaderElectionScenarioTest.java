@@ -49,40 +49,47 @@ public class LeaderElectionScenarioTest {
     public void leaderElectionBaseTest() {
         final String semaphoreName = SEMAPHORE_PREFIX + 1_000_001;
 
+        final AtomicReference<String> leader = new AtomicReference<>();
+
         try (LeaderElection participant1 = LeaderElection
-                .joinElection(client, path, "endpoint-1", semaphoreName);
+                .joinElection(client, path, "endpoint-1", semaphoreName)
+                .withTakeLeadershipObserver(leaderElection -> leader.set("endpoint-1")).build();
              LeaderElection participant2 = LeaderElection
-                 .joinElection(client, path, "endpoint-2", semaphoreName)) {
-            final String leader = participant1.getLeader();
-            Assert.assertEquals(leader, participant2.getLeader());
-            logger.info("The first leader: " + leader);
+                 .joinElection(client, path, "endpoint-2", semaphoreName)
+                     .withTakeLeadershipObserver(leaderElection ->  leader.set("endpoint-2")).build()) {
+            String leaderFromParticipant1 = participant1.forceUpdateLeader();
+            String leaderFromParticipant2 = participant2.forceUpdateLeader();
+            Assert.assertEquals(leader.get(), leaderFromParticipant1);
+            Assert.assertEquals(leader.get(), leaderFromParticipant2);
 
+            logger.info("The first leader: " + leader.get());
+
+            /* Leader change observer will be call 3 times:
+                first - after asking election who is a leader now
+                second - after leader call interruptLeadership()
+                third - after call forceUpdateLeader() on participant3
+             */
+            CountDownLatch counter = new CountDownLatch(3);
             try (LeaderElection participant3 = LeaderElection
-                    .joinElection(client, path, "endpoint-3", semaphoreName)) {
-                Assert.assertEquals(leader, participant3.getLeader());
-
-                /* The leader is not a leader anymore */
-                final String newLeader;
-                if (participant1.isLeader()) {
-                    participant1.close();
-                    newLeader = participant2.forceUpdateLeader();
-                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader());
-                    Assert.assertNotEquals(newLeader, leader);
-                } else if (participant2.isLeader()) {
-                    participant2.close();
-                    newLeader = participant1.forceUpdateLeader();
-                    Assert.assertEquals(newLeader, participant3.forceUpdateLeader());
-                    Assert.assertNotEquals(newLeader, leader);
-                } else if (participant3.isLeader()) {
-                    participant3.close();
-                    newLeader = participant1.forceUpdateLeader();
-                    Assert.assertEquals(newLeader, participant2.forceUpdateLeader());
-                    Assert.assertNotEquals(newLeader, leader);
-                } else {
-                    newLeader = null;
-                    Assert.fail("None of participants is a leader.");
+                    .joinElection(client, path, "endpoint-3", semaphoreName)
+                    .withTakeLeadershipObserver(leaderElection -> leader.set("endpoint-3"))
+                    .withChangeLeaderObserver(leaderElection -> counter.countDown()).build()) {
+                final String previousLeader = leader.get();
+                switch (leader.get()) {
+                    case "endpoint-1":
+                        participant1.interruptLeadership();
+                        break;
+                    case "endpoint-2":
+                        participant2.interruptLeadership();
+                        break;
+                    default:
+                        participant3.interruptLeadership();
                 }
-                logger.info("The second leader: " +  newLeader);
+                Assert.assertNotEquals(previousLeader, leader.get());
+                Assert.assertEquals(leader.get(), participant1.forceUpdateLeader());
+                Assert.assertEquals(leader.get(), participant2.forceUpdateLeader());
+                Assert.assertEquals(leader.get(), participant3.forceUpdateLeader());
+                Assert.assertTrue(counter.await(20_000, TimeUnit.MILLISECONDS));
             } catch (Exception e) {
                 Assert.fail("Exception in leader election test.");
             }
@@ -94,8 +101,8 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest2() {
         final String name = "leader-election-base-test-2";
-        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name);
-             LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
+        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name).build();
+             LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name).build()
         ) {
             String firstLeader = participant1.getLeader();
             if (firstLeader.equals("endpoint-1")) {
@@ -113,18 +120,18 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest3() {
         final String name = "leader-election-base-test-3";
-        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name);
+        CountDownLatch counter = new CountDownLatch(2);
+        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name)
+                .withTakeLeadershipObserver(leaderElection -> {
+                    logger.info("Endpoint-1 is a leader now!");
+                    counter.countDown();
+                }).build();
              LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
+                     .withTakeLeadershipObserver(leaderElection -> {
+                         logger.info("Endpoint-2 is a leader now!");
+                         counter.countDown();
+                     }).build()
         ) {
-            CountDownLatch counter = new CountDownLatch(2);
-            participant1.whenTakeLead(() -> {
-                logger.info("Endpoint-1 is a leader now!");
-                counter.countDown();
-            });
-            participant2.whenTakeLead(() -> {
-                logger.info("Endpoint-2 is a leader now!");
-                counter.countDown();
-            });
             if (participant1.isLeader()) {
                 participant1.interruptLeadership();
             } else {
@@ -153,7 +160,7 @@ public class LeaderElectionScenarioTest {
         final String semaphoreName = SEMAPHORE_PREFIX + 1_000_000;
 
         List<LeaderElection> participants = IntStream.range(0, sessionCount).mapToObj(id -> LeaderElection
-                        .joinElection(client, path, "endpoint-" + id, semaphoreName))
+                        .joinElection(client, path, "endpoint-" + id, semaphoreName).build())
                 .collect(Collectors.toList());
 
         final AtomicReference<String> leader = new AtomicReference<>();

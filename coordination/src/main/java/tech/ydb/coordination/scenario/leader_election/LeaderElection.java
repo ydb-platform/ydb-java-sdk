@@ -2,10 +2,10 @@ package tech.ydb.coordination.scenario.leader_election;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayDeque;
-import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.annotation.Nonnull;
 
@@ -29,17 +29,21 @@ public class LeaderElection implements AutoCloseable {
     private final AtomicBoolean isElecting = new AtomicBoolean(true);
     private CompletableFuture<SemaphoreLease> acquireFuture;
     private CompletableFuture<Session> describeFuture;
-    private final Queue<Runnable> afterAcquireFuture;
+    private final Consumer<LeaderElection> takeLeadershipObserver;
+    private final Consumer<LeaderElection> changeLeaderObserver;
     private CompletableFuture<SemaphoreChangedEvent> changedEventFuture;
     private final CoordinationSession session;
     private final String name;
     private final byte[] data;
 
-    private LeaderElection(CoordinationSession session, String name, byte[] data) {
+    private LeaderElection(CoordinationSession session, String name, byte[] data,
+                           Consumer<LeaderElection> takeLeadershipObserver,
+                           Consumer<LeaderElection> changeLeaderObserver) {
         this.session = session;
         this.name = name;
         this.data = data;
-        afterAcquireFuture = new ArrayDeque<>();
+        this.takeLeadershipObserver = takeLeadershipObserver;
+        this.changeLeaderObserver = changeLeaderObserver;
         initializeAcquireFuture();
         recursiveAcquire();
         recursiveDescribe();
@@ -47,9 +51,7 @@ public class LeaderElection implements AutoCloseable {
 
     private void initializeAcquireFuture() {
         acquireFuture = new CompletableFuture<>();
-        for (final Runnable r : afterAcquireFuture) {
-            acquireFuture.thenRun(r);
-        }
+        acquireFuture.thenRun(() -> takeLeadershipObserver.accept(this));
     }
 
     @Nonnull
@@ -75,24 +77,14 @@ public class LeaderElection implements AutoCloseable {
      * @param endpoint - Leader's identifier. All participants see leader's endpoint
      * @param semaphoreName - All participants try to acquire the same semaphore. This semaphore will be deleted after
      *                      election, hence you shouldn't create semaphore with this name before election.
-     * @return Completable future with leader election participant class.
+     * @return LeaderElectionBuilder where you can add event's observer
      */
-    public static CompletableFuture<LeaderElection> joinElectionAsync(CoordinationClient client, String fullPath,
+    public static LeaderElectionBuilder joinElection(CoordinationClient client, String fullPath,
                                                                  String endpoint, String semaphoreName) {
-        return client.createSession(fullPath)
-                .thenApply(session ->
-                        new LeaderElection(session, semaphoreName, endpoint.getBytes(StandardCharsets.UTF_8)));
+        return new LeaderElectionBuilder(client, fullPath, endpoint, semaphoreName);
     }
 
-    /**
-     * {@link LeaderElection#joinElectionAsync(CoordinationClient, String, String, String)}
-     */
-    public static LeaderElection joinElection(CoordinationClient client, String fullPath, String endpoint,
-                                                                 String semaphoreName) {
-        return joinElectionAsync(client, fullPath, endpoint, semaphoreName).join();
-    }
-
-    private CompletableFuture<SemaphoreChangedEvent> recursiveDescribeDetail(CoordinationSession session, String name) {
+    private CompletableFuture<SemaphoreChangedEvent> recursiveDescribeDetail() {
         return session.describeAndWatchSemaphore(name,
                         DescribeSemaphoreMode.WITH_OWNERS,
                         WatchSemaphoreMode.WATCH_OWNERS)
@@ -124,7 +116,8 @@ public class LeaderElection implements AutoCloseable {
 
     private void recursiveDescribe() {
         describeFuture = new CompletableFuture<>();
-        changedEventFuture = recursiveDescribeDetail(session, name);
+        describeFuture.thenRun(() -> changeLeaderObserver.accept(this));
+        changedEventFuture = recursiveDescribeDetail();
         changedEventFuture.whenComplete((semaphoreChangedEvent, th) -> {
             if (semaphoreChangedEvent != null && th == null && isElecting.get()) {
                 recursiveDescribe();
@@ -200,18 +193,6 @@ public class LeaderElection implements AutoCloseable {
     }
 
     /**
-     * Attention: using this method multiple times save all previous runnable arguments,
-     * and all of them will be executed.
-     * @param runnable - after acquiring leadership, execute this functional interface
-     */
-    public synchronized void whenTakeLead(final Runnable runnable) {
-        afterAcquireFuture.add(runnable);
-        if (acquireFuture != null && !acquireFuture.isDone()) {
-            acquireFuture.thenRun(runnable);
-        }
-    }
-
-    /**
      * @return true, if you are a leader at this moment otherwise false
      */
     public boolean isLeader() {
@@ -229,5 +210,70 @@ public class LeaderElection implements AutoCloseable {
             }
             session.close();
         }
+    }
+
+    public static class LeaderElectionBuilder {
+        private final CoordinationClient client;
+        private final String fullPath;
+        private final String endpoint;
+        private final String semaphoreName;
+        private Consumer<LeaderElection> takeLeadershipObserver;
+        private Consumer<LeaderElection> leaderChangeObserver;
+
+        LeaderElectionBuilder(CoordinationClient client, String fullPath, String endpoint,
+                                     String semaphoreName) {
+            this.client = client;
+            this.fullPath = fullPath;
+            this.endpoint = endpoint;
+            this.semaphoreName = semaphoreName;
+        }
+
+        /**
+         * Add observer for taking leadership. It will be called when your participant becomes a leader
+         * @param takeLeadershipObserver - callback for taking leadership observing
+         * @return LeaderElectionBuilder
+         */
+        public LeaderElectionBuilder withTakeLeadershipObserver(Consumer<LeaderElection> takeLeadershipObserver) {
+            this.takeLeadershipObserver = takeLeadershipObserver;
+            return this;
+        }
+
+        /**
+         * Add observer for changing leader. It will be called when participant joins the election,
+         *                                                     when participant is notified about leader change
+         *                                                     when participant calls forceUpdateLeader
+         * @param leaderChangeObserver - callback for leader change observing
+         * @return LeaderElectionBuilder
+         */
+        public LeaderElectionBuilder withChangeLeaderObserver(Consumer<LeaderElection> leaderChangeObserver) {
+            this.leaderChangeObserver = leaderChangeObserver;
+            return this;
+        }
+
+        /**
+         * Build Leader Election participant in asynchronous way
+         * @return Completable future with Leader Election
+         */
+        public CompletableFuture<LeaderElection> buildAsync() {
+            return client.createSession(fullPath)
+                    .thenApply(session ->
+                            new LeaderElection(
+                                    session,
+                                    semaphoreName,
+                                    endpoint.getBytes(StandardCharsets.UTF_8),
+                                    takeLeadershipObserver == null ? Function.identity()::apply :
+                                            takeLeadershipObserver,
+                                    leaderChangeObserver == null ? Function.identity()::apply : leaderChangeObserver
+                            )
+                    );
+        }
+
+        /**
+         * {@link LeaderElectionBuilder#buildAsync()}
+         */
+        public LeaderElection build() {
+            return buildAsync().join();
+        }
+
     }
 }
