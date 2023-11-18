@@ -2,9 +2,12 @@ package tech.ydb.coordination;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -19,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.scenario.leader_election.LeaderElection;
+import tech.ydb.coordination.scenario.leader_election.LeaderElection.LeadershipPolicy;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
@@ -27,10 +31,10 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 public class LeaderElectionScenarioTest {
-    private static final Logger logger = LoggerFactory.getLogger(LeaderElectionScenarioTest.class);
-    private static final String SEMAPHORE_PREFIX = "leader-election-";
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
+    private static final Logger logger = LoggerFactory.getLogger(LeaderElectionScenarioTest.class);
+    private static final String SEMAPHORE_PREFIX = "leader-election-";
     private final String path = YDB_TRANSPORT.getDatabase() + "/coordination-node";
     private final CoordinationClient client = CoordinationClient.newClient(YDB_TRANSPORT);
 
@@ -47,22 +51,34 @@ public class LeaderElectionScenarioTest {
 
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest() {
-        final String semaphoreName = SEMAPHORE_PREFIX + 1_000_001;
+        final String semaphoreName = "leader-election-base-test";
 
         final AtomicReference<String> leader = new AtomicReference<>();
-
+        final CyclicBarrier barrier = new CyclicBarrier(2);
         try (LeaderElection participant1 = LeaderElection
                 .joinElection(client, path, "endpoint-1", semaphoreName)
-                .withTakeLeadershipObserver(leaderElection -> leader.set("endpoint-1")).build();
+                .withLeadershipPolicy(LeadershipPolicy.TAKE_LEADERSHIP)
+                .withTakeLeadershipObserver(leaderElection -> {
+                    leader.set("endpoint-1");
+                    awaitBarrier(barrier);
+                }).build();
+
              LeaderElection participant2 = LeaderElection
                  .joinElection(client, path, "endpoint-2", semaphoreName)
-                     .withTakeLeadershipObserver(leaderElection ->  leader.set("endpoint-2")).build()) {
-            String leaderFromParticipant1 = participant1.forceUpdateLeader();
-            String leaderFromParticipant2 = participant2.forceUpdateLeader();
+                 .withLeadershipPolicy(LeadershipPolicy.TAKE_LEADERSHIP)
+                 .withTakeLeadershipObserver(leaderElection -> {
+                     leader.set("endpoint-2");
+                     awaitBarrier(barrier);
+                 }).build()
+        ) {
+            awaitBarrier(barrier);
+            String leaderFromParticipant1 = participant1.forceUpdateLeader().orElse("none");
+            String leaderFromParticipant2 = participant2.forceUpdateLeader().orElse("none");
             Assert.assertEquals(leader.get(), leaderFromParticipant1);
             Assert.assertEquals(leader.get(), leaderFromParticipant2);
 
             logger.info("The first leader: " + leader.get());
+            barrier.reset();
 
             /* Leader change observer will be call 3 times:
                 first - after asking election who is a leader now
@@ -72,8 +88,13 @@ public class LeaderElectionScenarioTest {
             CountDownLatch counter = new CountDownLatch(3);
             try (LeaderElection participant3 = LeaderElection
                     .joinElection(client, path, "endpoint-3", semaphoreName)
-                    .withTakeLeadershipObserver(leaderElection -> leader.set("endpoint-3"))
-                    .withChangeLeaderObserver(leaderElection -> counter.countDown()).build()) {
+                    .withLeadershipPolicy(LeadershipPolicy.TAKE_LEADERSHIP)
+                    .withTakeLeadershipObserver(leaderElection -> {
+                        leader.set("endpoint-3");
+                        awaitBarrier(barrier);
+                    })
+                    .withChangeLeaderObserver(leaderElection -> counter.countDown()).build()
+            ) {
                 final String previousLeader = leader.get();
                 switch (leader.get()) {
                     case "endpoint-1":
@@ -82,16 +103,20 @@ public class LeaderElectionScenarioTest {
                     case "endpoint-2":
                         participant2.interruptLeadership();
                         break;
-                    default:
+                    case "endpoint3":
                         participant3.interruptLeadership();
+                    default:
+                        throw new RuntimeException("No leader was elected.");
                 }
+
+                awaitBarrier(barrier);
                 Assert.assertNotEquals(previousLeader, leader.get());
-                Assert.assertEquals(leader.get(), participant1.forceUpdateLeader());
-                Assert.assertEquals(leader.get(), participant2.forceUpdateLeader());
-                Assert.assertEquals(leader.get(), participant3.forceUpdateLeader());
+                Assert.assertEquals(leader.get(), participant1.forceUpdateLeader().orElse("none"));
+                Assert.assertEquals(leader.get(), participant2.forceUpdateLeader().orElse("none"));
+                Assert.assertEquals(leader.get(), participant3.forceUpdateLeader().orElse("none"));
                 Assert.assertTrue(counter.await(20_000, TimeUnit.MILLISECONDS));
             } catch (Exception e) {
-                Assert.fail("Exception in leader election test.");
+                    Assert.fail("Exception in leader election test.");
             }
         } catch (Exception e) {
             Assert.fail("Exception in leader election test.");
@@ -99,19 +124,60 @@ public class LeaderElectionScenarioTest {
     }
 
     @Test(timeout = 20_000)
+    public void leaderElectionOneLeaderSeveralFollowerTest() {
+        final String name = "leader-election-one-leader-several-followers";
+        final AtomicBoolean isFollowerALeader = new AtomicBoolean(false);
+        /* Check that after leader.interruptLeadership() this leader will be chosen again */
+        final CountDownLatch latch = new CountDownLatch(1);
+
+        try (LeaderElection follower1 = LeaderElection.joinElection(client, path, "endpoint-1", name)
+                .withTakeLeadershipObserver(leaderElection -> isFollowerALeader.set(true)).build();
+
+             LeaderElection follower2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
+                     .withTakeLeadershipObserver(leaderElection -> isFollowerALeader.set(true)).build();
+
+             LeaderElection leader = LeaderElection.joinElection(client, path, "endpoint-3", name)
+                     .withTakeLeadershipObserver(leaderElection -> {
+                         latch.countDown();
+                         leaderElection.interruptLeadership();
+                     }).build()
+        ) {
+
+            leader.proposeLeadershipAsync();
+
+            Assert.assertTrue(latch.await(20_000, TimeUnit.MILLISECONDS));
+
+            Assert.assertFalse(follower1.isLeader());
+            Assert.assertFalse(follower2.isLeader());
+            Assert.assertFalse(isFollowerALeader.get());
+        } catch (Exception e) {
+            Assert.fail("Exception in leader election test: " + e.getMessage());
+        }
+    }
+
+    @Test(timeout = 20_000)
     public void leaderElectionBaseTest2() {
         final String name = "leader-election-base-test-2";
-        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name).build();
+        CyclicBarrier barrier = new CyclicBarrier(2);
+
+        try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name)
+                .withLeadershipPolicy(LeadershipPolicy.TAKE_LEADERSHIP)
+                .withTakeLeadershipObserver(leaderElection -> awaitBarrier(barrier))
+                .build();
+
              LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name).build()
         ) {
-            String firstLeader = participant1.getLeader();
-            if (firstLeader.equals("endpoint-1")) {
-                participant1.interruptLeadership();
-            } else {
-                participant2.interruptLeadership();
-            }
-            Assert.assertNotEquals(firstLeader, participant1.forceUpdateLeader());
-            Assert.assertNotEquals(firstLeader, participant2.forceUpdateLeader());
+            awaitBarrier(barrier);
+            String firstLeader = participant1.forceUpdateLeader().orElse("none");
+            Assert.assertEquals("endpoint-1", firstLeader);
+
+            barrier.reset();
+
+            participant1.interruptLeadership();
+            awaitBarrier(barrier);
+
+            Assert.assertEquals(firstLeader, participant1.forceUpdateLeader().orElse("none"));
+            Assert.assertEquals(firstLeader, participant2.forceUpdateLeader().orElse("none"));
         } catch (Exception e) {
             Assert.fail("Exception while testing leader election scenario.");
         }
@@ -120,34 +186,35 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest3() {
         final String name = "leader-election-base-test-3";
-        CountDownLatch counter = new CountDownLatch(2);
+        CyclicBarrier barrier = new CyclicBarrier(2);
         try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name)
                 .withTakeLeadershipObserver(leaderElection -> {
                     logger.info("Endpoint-1 is a leader now!");
-                    counter.countDown();
+                    awaitBarrier(barrier);
                 }).build();
              LeaderElection participant2 = LeaderElection.joinElection(client, path, "endpoint-2", name)
                      .withTakeLeadershipObserver(leaderElection -> {
                          logger.info("Endpoint-2 is a leader now!");
-                         counter.countDown();
+                         awaitBarrier(barrier);
                      }).build()
         ) {
+            participant1.proposeLeadershipAsync();
+            participant2.proposeLeadershipAsync();
+            awaitBarrier(barrier);
+            barrier.reset();
             if (participant1.isLeader()) {
                 participant1.interruptLeadership();
             } else {
                 participant2.interruptLeadership();
             }
-
-            participant1.forceUpdateLeader();
-            participant2.forceUpdateLeader();
-
+            awaitBarrier(barrier);
+            barrier.reset();
             if (participant1.isLeader()) {
                 participant1.interruptLeadership();
             } else {
                 participant2.interruptLeadership();
             }
-
-            Assert.assertTrue(counter.await(20_000, TimeUnit.MILLISECONDS));
+            awaitBarrier(barrier);
         } catch (Exception e) {
             Assert.fail("Exception while testing leader election scenario.");
         }
@@ -156,19 +223,25 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 60_000)
     public void leaderElectionStressTest1() {
         final int sessionCount = 20;
-        /* ID for definition Leader Election. Every session has to point the same token. */
-        final String semaphoreName = SEMAPHORE_PREFIX + 1_000_000;
+        final String semaphoreName = "leader-election-stress-test-1";
+        CyclicBarrier barrier = new CyclicBarrier(2);
 
         List<LeaderElection> participants = IntStream.range(0, sessionCount).mapToObj(id -> LeaderElection
-                        .joinElection(client, path, "endpoint-" + id, semaphoreName).build())
+                        .joinElection(client, path, "endpoint-" + id, semaphoreName)
+                        .withTakeLeadershipObserver(leaderElection -> awaitBarrier(barrier))
+                        .withLeadershipPolicy(LeadershipPolicy.TAKE_LEADERSHIP)
+                        .build())
                 .collect(Collectors.toList());
 
+        awaitBarrier(barrier);
         final AtomicReference<String> leader = new AtomicReference<>();
         for (LeaderElection participant : participants) {
-            String localLeader = participant.getLeader();
+            String localLeader = participant.forceUpdateLeader().orElse("none");
             leader.updateAndGet(currLeader -> currLeader == null ? localLeader : currLeader);
             Assert.assertEquals(leader.get(), localLeader);
         }
+
+        barrier.reset();
 
         /* The leader is not a leader anymore */
         for (int i = 0; i < sessionCount; i++) {
@@ -178,10 +251,11 @@ public class LeaderElectionScenarioTest {
             }
         }
 
+        awaitBarrier(barrier);
         final AtomicReference<String> newLeader = new AtomicReference<>();
         for (LeaderElection participant : participants) {
             participant.forceUpdateLeader();
-            String localLeader = participant.getLeader();
+            String localLeader = participant.forceUpdateLeader().orElse("none");
             newLeader.updateAndGet(currLeader -> currLeader == null ? localLeader : currLeader);
             Assert.assertEquals(newLeader.get(), localLeader);
         }
@@ -253,5 +327,13 @@ public class LeaderElectionScenarioTest {
                         .build()
         );
         Assert.assertTrue(result.join().isSuccess());
+    }
+
+    private static void awaitBarrier(CyclicBarrier barrier) {
+        try {
+            barrier.await();
+        } catch (BrokenBarrierException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

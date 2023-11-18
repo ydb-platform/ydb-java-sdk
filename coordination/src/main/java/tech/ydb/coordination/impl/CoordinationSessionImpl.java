@@ -70,10 +70,10 @@ public class CoordinationSessionImpl implements CoordinationSession {
 
     @Override
     public CompletableFuture<SemaphoreLease> acquireSemaphore(String name, long count, byte[] data, Duration timeout) {
-        byte[] sepamhoreData = data != null ? data : BYTE_ARRAY_STUB;
+        byte[] semaphoreData = data != null ? data : BYTE_ARRAY_STUB;
         final int reqId = lastId.getAndIncrement();
         logger.trace("Send acquireSemaphore {} with count {}", name, count);
-        return stream.sendAcquireSemaphore(name, count, timeout, false, sepamhoreData, reqId)
+        return stream.sendAcquireSemaphore(name, count, timeout, false, semaphoreData, reqId)
                 .thenApply(result -> {
                     SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, name);
                     if (!result.getValue()) { // timeout expired
@@ -85,10 +85,10 @@ public class CoordinationSessionImpl implements CoordinationSession {
 
     @Override
     public CompletableFuture<SemaphoreLease> acquireEphemeralSemaphore(String name, byte[] data, Duration timeout) {
-        byte[] sepamhoreData = data != null ? data : BYTE_ARRAY_STUB;
+        byte[] semaphoreData = data != null ? data : BYTE_ARRAY_STUB;
         final int reqId = lastId.getAndIncrement();
         logger.trace("Send acquireEphemeralSemaphore {}", name);
-        return stream.sendAcquireSemaphore(name, -1L, timeout, true, sepamhoreData, reqId)
+        return stream.sendAcquireSemaphore(name, -1L, timeout, true, semaphoreData, reqId)
                 .thenApply(result -> {
                     SemaphoreLeaseImpl lease = new SemaphoreLeaseImpl(this, name);
                     if (!result.getValue()) { // timeout expired
@@ -130,7 +130,7 @@ public class CoordinationSessionImpl implements CoordinationSession {
         return stream.sendDescribeSemaphore(name,
                 describeMode.includeOwners(), describeMode.includeWaiters(),
                 watchMode.watchData(), watchMode.watchOwners(),
-                (ev) -> changeFuture.complete(ev)
+                changeFuture::complete
         ).thenApply(r -> r.map(desc -> new SemaphoreWatcher(desc, changeFuture)));
     }
 
