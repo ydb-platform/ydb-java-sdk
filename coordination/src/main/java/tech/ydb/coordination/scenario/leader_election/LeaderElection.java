@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -38,6 +39,7 @@ public class LeaderElection implements AutoCloseable {
     private CompletableFuture<SemaphoreLease> acquireFuture;
     private CompletableFuture<Optional<Session>> describeFuture;
     private CompletableFuture<SemaphoreChangedEvent> changedEventFuture;
+    private final AtomicInteger numberOfDescribeRequestsAtThisMoment = new AtomicInteger(0);
 
     private LeaderElection(CoordinationSession session, String name, byte[] data,
                            LeadershipPolicy policy,
@@ -92,37 +94,41 @@ public class LeaderElection implements AutoCloseable {
     }
 
     private CompletableFuture<SemaphoreChangedEvent> recursiveDescribeDetail() {
-        return session.describeAndWatchSemaphore(name,
-                        DescribeSemaphoreMode.WITH_OWNERS,
-                        WatchSemaphoreMode.WATCH_OWNERS)
-                .handle((semaphoreWatcherResult, th) -> {
-                    if (th != null) {
-                        CompletableFuture<Boolean> callback = new CompletableFuture<>();
-                        if (isSemaphoreExistenceException(th, () -> callback.complete(true))) {
-                            callback.join();
-                            return recursiveDescribeDetail();
-                        }
-                        logger.warn("Exception when trying to describe the semaphore:" +
-                                " (semaphoreWatcherResult = {}, throwable = {})", semaphoreWatcherResult, th);
-                        isElecting.set(false);
-                    }
-                    if (semaphoreWatcherResult != null && semaphoreWatcherResult.isSuccess()) {
-                        final List<Session> leader = semaphoreWatcherResult.getValue().getDescription().getOwnersList();
-                        describeFuture.complete(leader.isEmpty() ? Optional.empty() : Optional.of(leader.get(0)));
-                        return semaphoreWatcherResult.getValue().getChangedFuture();
-                    } else if (semaphoreWatcherResult != null &&
-                            semaphoreWatcherResult.getStatus().getCode() == StatusCode.NOT_FOUND) {
-                        return CompletableFuture.completedFuture(new SemaphoreChangedEvent(false, false,
-                                false));
-                    } else {
-                        logger.debug("session.describeAndWatchSemaphore.whenComplete() {}",
-                                semaphoreWatcherResult);
-                        final RuntimeException e = getSemaphoreWatcherException(semaphoreWatcherResult);
-                        close();
-                        describeFuture.completeExceptionally(e);
-                        throw e;
-                    }
-                }).thenCompose(Function.identity());
+        CompletableFuture<Result<SemaphoreWatcher>> descAndWatchFuture = session.describeAndWatchSemaphore(name,
+                DescribeSemaphoreMode.WITH_OWNERS,
+                WatchSemaphoreMode.WATCH_OWNERS);
+        numberOfDescribeRequestsAtThisMoment.incrementAndGet();
+        return descAndWatchFuture.handle((semaphoreWatcherResult, th) -> {
+            if (numberOfDescribeRequestsAtThisMoment.getAndDecrement() > 1) {
+                return new CompletableFuture<SemaphoreChangedEvent>();
+            }
+            if (th != null) {
+                CompletableFuture<Boolean> callback = new CompletableFuture<>();
+                if (isSemaphoreExistenceException(th, () -> callback.complete(true))) {
+                    callback.join();
+                    return recursiveDescribeDetail();
+                }
+                logger.warn("Exception when trying to describe the semaphore:" +
+                        " (semaphoreWatcherResult = {}, throwable = {})", semaphoreWatcherResult, th);
+                isElecting.set(false);
+            }
+            if (semaphoreWatcherResult != null && semaphoreWatcherResult.isSuccess()) {
+                final List<Session> leader = semaphoreWatcherResult.getValue().getDescription().getOwnersList();
+                describeFuture.complete(leader.isEmpty() ? Optional.empty() : Optional.of(leader.get(0)));
+                return semaphoreWatcherResult.getValue().getChangedFuture();
+            } else if (semaphoreWatcherResult != null &&
+                    semaphoreWatcherResult.getStatus().getCode() == StatusCode.NOT_FOUND) {
+                return CompletableFuture.completedFuture(new SemaphoreChangedEvent(false, false,
+                        false));
+            } else {
+                logger.debug("session.describeAndWatchSemaphore.whenComplete() {}",
+                        semaphoreWatcherResult);
+                final RuntimeException e = getSemaphoreWatcherException(semaphoreWatcherResult);
+                close();
+                describeFuture.completeExceptionally(e);
+                throw e;
+            }
+        }).thenCompose(Function.identity());
     }
 
     private void recursiveDescribe() {
@@ -138,7 +144,8 @@ public class LeaderElection implements AutoCloseable {
                 return;
             }
             logger.warn("Exception when trying to check changes at the semaphore:" +
-                    " (semaphore changed event: {}, throwable: {})", semaphoreChangedEvent, th);
+                            " (semaphore changed event: {}, throwable: {}, isElecting: {})", semaphoreChangedEvent, th,
+                    isElecting.get());
             isElecting.set(false);
         });
     }
