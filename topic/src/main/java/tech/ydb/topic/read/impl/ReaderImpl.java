@@ -187,7 +187,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .build());
         }
 
-        private void sendStartPartitionSessionResponse(PartitionSession partitionSession,
+        private void sendStartPartitionSessionResponse(PartitionSessionImpl partitionSession,
                                                          StartPartitionSessionSettings startSettings) {
             if (!isWorking.get()) {
                 logger.info("[{}] Need to send StartPartitionSessionResponse for partition session {} (partition {})," +
@@ -204,16 +204,23 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             YdbTopic.StreamReadMessage.StartPartitionSessionResponse.Builder responseBuilder =
                     YdbTopic.StreamReadMessage.StartPartitionSessionResponse.newBuilder()
                             .setPartitionSessionId(partitionSession.getId());
+            Long userDefinedReadOffset = null;
+            Long userDefinedCommitOffset = null;
             if (startSettings != null) {
-                if (startSettings.getReadOffset() != null) {
-                    responseBuilder.setReadOffset(startSettings.getReadOffset());
+                userDefinedReadOffset = startSettings.getReadOffset();
+                if (userDefinedReadOffset != null) {
+                    responseBuilder.setReadOffset(userDefinedReadOffset);
+                    partitionSession.setLastReadOffset(userDefinedReadOffset);
                 }
-                if (startSettings.getCommitOffset() != null) {
-                    responseBuilder.setCommitOffset(startSettings.getCommitOffset());
+                userDefinedCommitOffset = startSettings.getCommitOffset();
+                if (userDefinedCommitOffset != null) {
+                    responseBuilder.setCommitOffset(userDefinedCommitOffset);
+                    partitionSession.setLastCommittedOffset(userDefinedCommitOffset);
                 }
             }
-            logger.info("[{}] Sending StartPartitionSessionResponse for partition session {} (partition {})", fullId,
-                    partitionSession.getId(), partitionSession.getPartitionId());
+            logger.info("[{}] Sending StartPartitionSessionResponse for partition session {} (partition {})" +
+                            " with readOffset {} and commitOffset {}", fullId, partitionSession.getId(),
+                    partitionSession.getPartitionId(), userDefinedReadOffset, userDefinedCommitOffset);
             send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                     .setStartPartitionSessionResponse(responseBuilder.build())
                     .build());
@@ -302,8 +309,10 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         private void onStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
             long partitionSessionId = request.getPartitionSession().getPartitionSessionId();
             long partitionId = request.getPartitionSession().getPartitionId();
-            logger.info("[{}] Received StartPartitionSessionRequest: partition session {} (partition {})", fullId,
-                    partitionSessionId, partitionId);
+            logger.info("[{}] Received StartPartitionSessionRequest: partition session {} (partition {}) " +
+                            "with committedOffset {} and partitionOffsets [{}-{})", fullId,
+                    partitionSessionId, partitionId, request.getCommittedOffset(),
+                    request.getPartitionOffsets().getStart(), request.getPartitionOffsets().getEnd());
 
             PartitionSessionImpl partitionSession = PartitionSessionImpl.newBuilder()
                     .setId(partitionSessionId)
@@ -319,7 +328,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             partitionSessions.put(partitionSession.getId(), partitionSession);
 
             handleStartPartitionSessionRequest(request, partitionSession.getSessionInfo(),
-                    (settings) -> sendStartPartitionSessionResponse(partitionSession.getSessionInfo(), settings));
+                    (settings) -> sendStartPartitionSessionResponse(partitionSession, settings));
         }
 
         protected void onStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
