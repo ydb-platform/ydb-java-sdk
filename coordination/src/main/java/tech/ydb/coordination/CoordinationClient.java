@@ -1,6 +1,8 @@
 package tech.ydb.coordination;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ForkJoinPool;
 
 import javax.annotation.WillNotClose;
 
@@ -10,6 +12,8 @@ import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
+import tech.ydb.coordination.settings.NodeConsistenteMode;
+import tech.ydb.coordination.settings.NodeRateLimiterCountersMode;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
 
@@ -91,7 +95,11 @@ public interface CoordinationClient {
      * @return future with instance of coordination session
      */
     default CompletableFuture<CoordinationSession> createSession(String path) {
-        return createSession(path, CoordinationSessionSettings.newBuilder().build());
+        return createSession(path, CoordinationSessionSettings.newBuilder()
+                .withConnectTimeout(Duration.ofSeconds(5))
+                .withReconnectBackoffDelay(Duration.ofMillis(250))
+                .withExecutor(ForkJoinPool.commonPool())
+                .build());
     }
 
     /**
@@ -101,7 +109,14 @@ public interface CoordinationClient {
      * @return status of request
      */
     default CompletableFuture<Status> createNode(String path) {
-        return createNode(path, CoordinationNodeSettings.newBuilder().build());
+        return createNode(path, CoordinationNodeSettings.newBuilder()
+                .withSelfCheckPeriod(Duration.ofSeconds(1))
+                .withSessionGracePeriod(Duration.ofSeconds(10))
+                .withReadConsistencyMode(NodeConsistenteMode.RELAXED)
+                .withAttachConsistencyMode(NodeConsistenteMode.STRICT)
+                .withRateLimiterCountersMode(NodeRateLimiterCountersMode.UNSET)
+                .build()
+        );
     }
 
     /**

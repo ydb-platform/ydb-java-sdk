@@ -74,7 +74,7 @@ public class CoordinationClientImpl implements CoordinationClient {
     }
 
     @Override
-    public CompletableFuture<Status> describeNode(String path,DescribeCoordinationNodeSettings settings) {
+    public CompletableFuture<Status> describeNode(String path, DescribeCoordinationNodeSettings settings) {
         DescribeNodeRequest request = DescribeNodeRequest.newBuilder()
                 .setPath(path)
                 .setOperationParams(OperationUtils.createParams(settings))

@@ -27,16 +27,16 @@ public class SemaphoreLeaseImpl implements SemaphoreLease {
     }
 
     @Override
-    public CompletableFuture<Status> getStatusFuture() {
-        return statusFuture;
-    }
-
-    @Override
-    public CompletableFuture<Boolean> release() {
-        return session.releaseSemaphore(this);
+    public CompletableFuture<Void> release() {
+        return session.releaseSemaphore(name).thenApply(r -> null);
     }
 
     void completeLease(Status status) {
         statusFuture.complete(status);
+    }
+
+    @Override
+    public boolean isActive() {
+        return statusFuture.isDone();
     }
 }

@@ -49,6 +49,11 @@ public class CoordinationSessionSettings {
             return this;
         }
 
+        public Builder withReconnectBackoffDelay(Duration delay) {
+            this.reconnectBackoffDelay = delay;
+            return this;
+        }
+
         public CoordinationSessionSettings build() {
             return new CoordinationSessionSettings(this);
         }

@@ -80,8 +80,7 @@ public class ServiceDiscoveryScenarioTest {
                     final CountDownLatch stopFirstWorkerLatch = new CountDownLatch(1);
                     subscriber2.setUpdateWaiter(stopFirstWorkerLatch::countDown);
 
-                    final boolean stoppedWorker1 = worker1.stop();
-                    Assert.assertTrue(stoppedWorker1);
+                    worker1.stop();
 
                     Assert.assertTrue(stopFirstWorkerLatch.await(60, TimeUnit.SECONDS));
                     final SemaphoreDescription removeDescription = subscriber2.getDescription();
@@ -92,7 +91,7 @@ public class ServiceDiscoveryScenarioTest {
                                     .join()
                                     .getValue());
 
-                    Assert.assertTrue(worker2.stop());
+                    worker2.stop();
 
                     Status remove = checkSession.deleteSemaphore(Worker.SEMAPHORE_NAME, true).join();
                     Assert.assertTrue(remove.isSuccess());

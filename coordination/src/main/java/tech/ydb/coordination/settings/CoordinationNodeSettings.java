@@ -66,7 +66,7 @@ public class CoordinationNodeSettings extends OperationSettings {
 
         public Builder withSelfCheckPeriod(Duration period) {
             Preconditions.checkArgument(
-                    period.isNegative() || period.isZero(),
+                    !period.isNegative() && !period.isZero(),
                     "SelfCheckPeriod must be strictly greater than zero"
             );
             this.selfCheckPeriod = period;
@@ -75,7 +75,7 @@ public class CoordinationNodeSettings extends OperationSettings {
 
         public Builder withSessionGracePeriod(Duration period) {
             Preconditions.checkArgument(
-                    period.isNegative() || period.isZero(),
+                    !period.isNegative() && !period.isZero(),
                     "SessionGracePeriod must be strictly greater than zero"
             );
             this.sessionGracePeriod = period;

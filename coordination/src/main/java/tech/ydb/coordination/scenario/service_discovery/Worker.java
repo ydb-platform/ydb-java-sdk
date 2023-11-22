@@ -31,12 +31,12 @@ public class Worker {
                                                            Duration maxAttemptTimeout) {
         return client.createSession(fullPath).thenCompose(session -> {
             byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
-            return session.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(lease -> {
-                if (lease.isValid()) {
-                    return new Worker(session, lease);
+            return session.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(res -> {
+                if (res.isSuccess()) {
+                    return new Worker(session, res.getValue());
                 } else {
                     throw new UnexpectedResultException("The semaphore for Worker wasn't acquired.",
-                            lease.getStatusFuture().join());
+                            res.getStatus());
                 }
             });
         });
@@ -54,8 +54,8 @@ public class Worker {
      * Stop showing the Worker
      * @return Completable future with true if semaphore release was success otherwise false
      */
-    public CompletableFuture<Boolean> stopAsync() {
-        CompletableFuture<Boolean> releaseFuture = semaphore.release();
+    public CompletableFuture<Void> stopAsync() {
+        CompletableFuture<Void> releaseFuture = semaphore.release();
         releaseFuture.thenRun(session::close);
         return releaseFuture;
     }
@@ -63,7 +63,7 @@ public class Worker {
     /**
      *  {@link Worker#stopAsync()}
      */
-    public boolean stop() {
-        return stopAsync().join();
+    public void stop() {
+        stopAsync().join();
     }
 }

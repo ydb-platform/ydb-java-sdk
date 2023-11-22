@@ -58,12 +58,14 @@ public class ConfigurationScenarioTest {
                 if (Arrays.equals(data, dataNow.get().getBytes())) {
                     subscriberApproveCounter.get().countDown();
                 }
-            });
-             Subscriber subscriber2 = Subscriber.newSubscriber(client, path, semaphoreName, data -> {
-                 if (Arrays.equals(data, dataNow.get().getBytes())) {
-                     subscriberApproveCounter.get().countDown();
-                 }
-             })) {
+            }); Subscriber subscriber2 = Subscriber.newSubscriber(client, path, semaphoreName, data -> {
+                if (Arrays.equals(data, dataNow.get().getBytes())) {
+                    subscriberApproveCounter.get().countDown();
+                }
+            })) {
+                subscriber1.hashCode();
+                subscriber2.hashCode();
+
                 subscriberApproveCounter.get().await();
                 subscriberApproveCounter.set(new CountDownLatch(2));
 
