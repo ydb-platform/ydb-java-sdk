@@ -1,5 +1,7 @@
 package tech.ydb.coordination.settings;
 
+import java.time.Duration;
+
 import com.google.common.base.Preconditions;
 
 import tech.ydb.core.settings.OperationSettings;
@@ -8,140 +10,90 @@ import tech.ydb.core.settings.OperationSettings;
  * @author Kirill Kurdyukov
  */
 public class CoordinationNodeSettings extends OperationSettings {
+    private final Duration selfCheckPeriod;
+    private final Duration sessionGracePeriod;
+    private final NodeConsistenteMode readConsistencyMode;
+    private final NodeConsistenteMode attachConsistencyMode;
+    private final NodeRateLimiterCountersMode rateLimiterCountersMode;
 
-    /**
-     * Period in milliseconds for self-checks (default 1 second)
-     */
-    private final int selfCheckPeriodMillis;
-
-    /**
-     * Grace period for sessions on leader change (default 10 seconds)
-     */
-    private final int sessionGracePeriodMillis;
-
-    /**
-     * Consistency mode for read operations
-     */
-    private final ConsistencyMode readConsistencyMode;
-
-    /**
-     * Consistency mode for attach operations
-     */
-    private final ConsistencyMode attachConsistencyMode;
-
-    /**
-     * Rate limiter counters mode
-     */
-    private final RateLimiterCountersMode rateLimiterCountersMode;
-
-    private CoordinationNodeSettings(
-            Builder builder
-    ) {
+    private CoordinationNodeSettings(Builder builder) {
         super(builder);
         Preconditions.checkArgument(
-                builder.selfCheckPeriodMillis < builder.sessionGracePeriodMillis,
+                builder.selfCheckPeriod.compareTo(builder.sessionGracePeriod) < 0,
                 "SessionGracePeriod must be strictly more than SelfCheckPeriod"
         );
 
-        this.selfCheckPeriodMillis = builder.selfCheckPeriodMillis;
-        this.sessionGracePeriodMillis = builder.sessionGracePeriodMillis;
+        this.selfCheckPeriod = builder.selfCheckPeriod;
+        this.sessionGracePeriod = builder.sessionGracePeriod;
         this.readConsistencyMode = builder.readConsistencyMode;
         this.attachConsistencyMode = builder.attachConsistencyMode;
         this.rateLimiterCountersMode = builder.rateLimiterCountersMode;
     }
 
-    public int getSelfCheckPeriodMillis() {
-        return selfCheckPeriodMillis;
+    public Duration getSelfCheckPeriod() {
+        return selfCheckPeriod;
     }
 
-    public int getSessionGracePeriodMillis() {
-        return sessionGracePeriodMillis;
+    public Duration getSessionGracePeriod() {
+        return sessionGracePeriod;
     }
 
-    public ConsistencyMode getReadConsistencyMode() {
+    public NodeConsistenteMode getReadConsistencyMode() {
         return readConsistencyMode;
     }
 
-    public ConsistencyMode getAttachConsistencyMode() {
+    public NodeConsistenteMode getAttachConsistencyMode() {
         return attachConsistencyMode;
     }
 
-    public RateLimiterCountersMode getRateLimiterCountersMode() {
+    public NodeRateLimiterCountersMode getRateLimiterCountersMode() {
         return rateLimiterCountersMode;
     }
 
-    public enum ConsistencyMode {
-        /**
-         * Strict mode makes sure operations may only complete on current leader
-         */
-        CONSISTENCY_MODE_STRICT,
-
-        /**
-         * Relaxed mode allows operations to complete on stale masters
-         */
-        CONSISTENCY_MODE_RELAXED
-    }
-
-    public enum RateLimiterCountersMode {
-        /**
-         * Aggregated counters for resource tree
-         */
-        RATE_LIMITER_COUNTERS_MODE_AGGREGATED,
-
-        /**
-         * Counters on every resource
-         */
-        RATE_LIMITER_COUNTERS_MODE_DETAILED
-    }
 
     public static Builder newBuilder() {
         return new Builder();
     }
 
     public static class Builder extends OperationSettings.OperationBuilder<Builder> {
-        private int selfCheckPeriodMillis = 1_000;
-        private int sessionGracePeriodMillis = 10_000;
+        private Duration selfCheckPeriod = Duration.ofSeconds(1);
+        private Duration sessionGracePeriod = Duration.ofSeconds(10);
 
-        private ConsistencyMode readConsistencyMode = ConsistencyMode.CONSISTENCY_MODE_RELAXED;
-        private ConsistencyMode attachConsistencyMode = ConsistencyMode.CONSISTENCY_MODE_STRICT;
+        private NodeConsistenteMode readConsistencyMode = NodeConsistenteMode.UNSET;
+        private NodeConsistenteMode attachConsistencyMode = NodeConsistenteMode.UNSET;
 
-        private RateLimiterCountersMode rateLimiterCountersMode = null;
+        private NodeRateLimiterCountersMode rateLimiterCountersMode = NodeRateLimiterCountersMode.UNSET;
 
-        public Builder setSelfCheckPeriodMillis(int selfCheckPeriodMillis) {
+        public Builder withSelfCheckPeriod(Duration period) {
             Preconditions.checkArgument(
-                    selfCheckPeriodMillis > 0,
+                    period.isNegative() || period.isZero(),
                     "SelfCheckPeriod must be strictly greater than zero"
             );
-            this.selfCheckPeriodMillis = selfCheckPeriodMillis;
-
+            this.selfCheckPeriod = period;
             return this;
         }
 
-        public Builder setSessionGracePeriodMillis(int sessionGracePeriodMillis) {
+        public Builder withSessionGracePeriod(Duration period) {
             Preconditions.checkArgument(
-                    sessionGracePeriodMillis > 0,
+                    period.isNegative() || period.isZero(),
                     "SessionGracePeriod must be strictly greater than zero"
             );
-            this.sessionGracePeriodMillis = sessionGracePeriodMillis;
-
+            this.sessionGracePeriod = period;
             return this;
         }
 
-        public Builder setReadConsistencyMode(ConsistencyMode readConsistencyMode) {
-            this.readConsistencyMode = readConsistencyMode;
-
+        public Builder withReadConsistencyMode(NodeConsistenteMode mode) {
+            this.readConsistencyMode = mode;
             return this;
         }
 
-        public Builder setAttachConsistencyMode(ConsistencyMode attachConsistencyMode) {
-            this.attachConsistencyMode = attachConsistencyMode;
-
+        public Builder withAttachConsistencyMode(NodeConsistenteMode mode) {
+            this.attachConsistencyMode = mode;
             return this;
         }
 
-        public Builder setRateLimiterCountersMode(RateLimiterCountersMode rateLimiterCountersMode) {
-            this.rateLimiterCountersMode = rateLimiterCountersMode;
-
+        public Builder withRateLimiterCountersMode(NodeRateLimiterCountersMode mode) {
+            this.rateLimiterCountersMode = mode;
             return this;
         }
 
