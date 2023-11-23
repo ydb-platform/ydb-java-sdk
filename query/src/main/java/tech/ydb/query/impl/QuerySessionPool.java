@@ -48,7 +48,6 @@ public class QuerySessionPool implements AutoCloseable {
             .build();
 
     private static final AttachSessionSettings ATTACH_SETTINGS = AttachSessionSettings.newBuilder()
-            .withRequestTimeout(Duration.ofSeconds(5))
             .build();
 
     private final int minSize;
@@ -198,7 +197,14 @@ public class QuerySessionPool implements AutoCloseable {
 
         @Override
         public void close() {
-            queue.release(this);
+            if (attachStream.get() != null) {
+                queue.release(this);
+            }
+        }
+
+        @Override
+        public String toString() {
+            return "PooleadQueryStream[" + getId() + "]";
         }
     }
 
