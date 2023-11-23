@@ -108,6 +108,7 @@ public class LeaderElectionScenarioTest {
                         break;
                     case "endpoint3":
                         participant3.interruptLeadership();
+                        break;
                     default:
                         throw new RuntimeException("No leader was elected.");
                 }
