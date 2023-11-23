@@ -34,11 +34,6 @@ import tech.ydb.table.query.Params;
  * @author Aleksandr Gorshenin
  */
 public abstract class QuerySessionImpl implements QuerySession {
-    private static final Metadata SERVER_HINT_DATA = new Metadata();
-    static {
-        SERVER_HINT_DATA.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, "session-balancer");
-    }
-
     private static final StatusExtract<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtract.of(
             YdbQuery.CreateSessionResponse::getStatus, YdbQuery.CreateSessionResponse::getIssuesList
     );
@@ -175,9 +170,14 @@ public abstract class QuerySessionImpl implements QuerySession {
         YdbQuery.CreateSessionRequest request = YdbQuery.CreateSessionRequest.newBuilder()
                 .build();
 
+        Metadata metadata = new Metadata();
+        if (useServerBalancer) {
+            metadata.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, "session-balancer");
+        }
+
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
-                .withExtraHeaders(useServerBalancer ? SERVER_HINT_DATA : null)
+                .withExtraHeaders(metadata)
                 .build();
 
         return rpc.createSession(request, grpcSettings).thenApply(CREATE_SESSION);
