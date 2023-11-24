@@ -71,7 +71,7 @@ public interface CoordinationSession extends AutoCloseable {
      * If there is no such a semaphore, future will complete exceptionally
      * with {@link tech.ydb.core.UnexpectedResultException}.
      */
-    CompletableFuture<SemaphoreLease> acquireSemaphore(String name, long count, byte[] data, Duration timeout);
+    CompletableFuture<Result<SemaphoreLease>> acquireSemaphore(String name, long count, byte[] data, Duration timeout);
 
     /**
      * Acquire an ephemeral semaphore.
@@ -81,14 +81,14 @@ public interface CoordinationSession extends AutoCloseable {
      * Later requests override previous operations with the same semaphore,
      * e.g. to reduce acquired count, change timeout or attached data
      *
-     * @param name    Name of the semaphore to acquire
-     * @param timeout Duration after which operation will fail if it's still waiting in the waiters queue
-     * @param data    User-defined binary data that may be attached to the operation
+     * @param name      Name of the semaphore to acquire
+     * @param exclusive Flag of exclusive acquiring
+     * @param timeout   Duration after which operation will fail if it's still waiting in the waiters queue
+     * @param data      User-defined binary data that may be attached to the operation
      * @return future with a semaphore lease object
      */
-    CompletableFuture<SemaphoreLease> acquireEphemeralSemaphore(String name, byte[] data, Duration timeout);
-
-
+    CompletableFuture<Result<SemaphoreLease>> acquireEphemeralSemaphore(String name, boolean exclusive, byte[] data,
+            Duration timeout);
 
     CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode);
 
@@ -121,7 +121,7 @@ public interface CoordinationSession extends AutoCloseable {
      * @param timeout Duration after which operation will fail if it's still waiting in the waiters queue
      * @return future with a semaphore lease object
      */
-    default CompletableFuture<SemaphoreLease> acquireSemaphore(String name, long count, Duration timeout) {
+    default CompletableFuture<Result<SemaphoreLease>> acquireSemaphore(String name, long count, Duration timeout) {
         return acquireSemaphore(name, count, null, timeout);
     }
 
@@ -134,10 +134,12 @@ public interface CoordinationSession extends AutoCloseable {
      * e.g. to reduce acquired count, change timeout or attached data
      *
      * @param name    Name of the semaphore to acquire
+     * @param exclusive Flag of exclusive acquiring
      * @param timeout Duration after which operation will fail if it's still waiting in the waiters queue
      * @return future with a semaphore lease object
      */
-    default CompletableFuture<SemaphoreLease> acquireEphemeralSemaphore(String name, Duration timeout) {
-        return acquireEphemeralSemaphore(name, null, timeout);
+    default CompletableFuture<Result<SemaphoreLease>> acquireEphemeralSemaphore(String name, boolean exclusive,
+            Duration timeout) {
+        return acquireEphemeralSemaphore(name, exclusive, null, timeout);
     }
 }

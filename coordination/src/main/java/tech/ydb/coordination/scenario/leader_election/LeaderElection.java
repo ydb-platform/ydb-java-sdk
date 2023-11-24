@@ -178,19 +178,27 @@ public class LeaderElection implements AutoCloseable {
 
     private void recursiveAcquire() {
         session.acquireSemaphore(name, 1, data, Duration.ofHours(1)).whenComplete(
-                (lease, throwable) -> {
-                    if (isSemaphoreExistenceException(throwable, this::recursiveAcquire)) {
+                (res, throwable) -> {
+                    if (!isElecting.get()) {
+                        if (res != null && res.isSuccess()) {
+                            res.getValue().close();
+                        }
                         return;
                     }
-                    if ((lease == null || throwable != null) && isElecting.get()) {
+                    if (throwable != null) {
                         recursiveAcquire();
-                    } else if (lease != null) {
-                        if (!isElecting.get()) {
-                            lease.release();
-                        } else {
-                            acquireFuture.complete(lease);
-                        }
+                        return;
                     }
+                    if (res.getStatus().getCode() == StatusCode.NOT_FOUND) {
+                        createSemaphore(this::recursiveAcquire);
+                        return;
+                    }
+                    if (!res.isSuccess()) {
+                        recursiveAcquire();
+                        return;
+                    }
+
+                    acquireFuture.complete(res.getValue());
                 });
     }
 

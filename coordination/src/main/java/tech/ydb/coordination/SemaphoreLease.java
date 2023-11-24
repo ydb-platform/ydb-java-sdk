@@ -2,23 +2,23 @@ package tech.ydb.coordination;
 
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.core.Status;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public interface SemaphoreLease {
-
-    CoordinationSession getSession();
+public interface SemaphoreLease extends AutoCloseable {
 
     String getSemaphoreName();
 
-    CompletableFuture<Status> getStatusFuture();
+    CoordinationSession getSession();
 
-    CompletableFuture<Boolean> release();
+    boolean isActive();
 
-    default boolean isValid() {
-        return !getStatusFuture().isDone();
+    CompletableFuture<Void> release();
+
+    @Override
+    default void close() {
+        release().join();
     }
 }
