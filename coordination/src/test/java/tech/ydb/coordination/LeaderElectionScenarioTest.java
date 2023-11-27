@@ -52,6 +52,9 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 40_000)
     public void leaderElectionBaseTest() {
         final String semaphoreName = "leader-election-base-test";
+        try (CoordinationSession session = client.createSession(path).join()) {
+            session.createSemaphore(semaphoreName, 1L).join();
+        }
 
         final AtomicReference<String> leader = new AtomicReference<>();
         final CyclicBarrier barrier = new CyclicBarrier(2);
@@ -119,6 +122,10 @@ public class LeaderElectionScenarioTest {
                 Assert.assertEquals(leader.get(), participant2.forceUpdateLeader().orElse("none"));
                 Assert.assertEquals(leader.get(), participant3.forceUpdateLeader().orElse("none"));
                 Assert.assertTrue(counter.await(40, TimeUnit.SECONDS));
+
+                try (CoordinationSession session = client.createSession(path).join()) {
+                    session.deleteSemaphore(semaphoreName, true);
+                }
             } catch (Exception e) {
                 Assert.fail("Exception in leader election test.");
             }
@@ -130,6 +137,7 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 20_000)
     public void leaderElectionOneLeaderSeveralFollowerTest() {
         final String name = "leader-election-one-leader-several-followers";
+        createSemaphore(name);
         final AtomicBoolean isFollowerALeader = new AtomicBoolean(false);
         /* Check that after leader.interruptLeadership() this leader will be chosen again */
         final CountDownLatch latch = new CountDownLatch(1);
@@ -154,6 +162,7 @@ public class LeaderElectionScenarioTest {
             Assert.assertFalse(follower1.isLeader());
             Assert.assertFalse(follower2.isLeader());
             Assert.assertFalse(isFollowerALeader.get());
+            deleteSemaphore(name);
         } catch (Exception e) {
             Assert.fail("Exception in leader election test: " + e.getMessage());
         }
@@ -162,6 +171,8 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest2() {
         final String name = "leader-election-base-test-2";
+        createSemaphore(name);
+
         CyclicBarrier barrier = new CyclicBarrier(2);
 
         try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name)
@@ -182,6 +193,7 @@ public class LeaderElectionScenarioTest {
 
             Assert.assertEquals(firstLeader, participant1.forceUpdateLeader().orElse("none"));
             Assert.assertEquals(firstLeader, participant2.forceUpdateLeader().orElse("none"));
+            deleteSemaphore(name);
         } catch (Exception e) {
             Assert.fail("Exception while testing leader election scenario.");
         }
@@ -190,6 +202,8 @@ public class LeaderElectionScenarioTest {
     @Test(timeout = 20_000)
     public void leaderElectionBaseTest3() {
         final String name = "leader-election-base-test-3";
+        createSemaphore(name);
+
         CyclicBarrier barrier = new CyclicBarrier(2);
         try (LeaderElection participant1 = LeaderElection.joinElection(client, path, "endpoint-1", name)
                 .withTakeLeadershipObserver(leaderElection -> {
@@ -219,6 +233,7 @@ public class LeaderElectionScenarioTest {
                 participant2.interruptLeadership();
             }
             awaitBarrier(barrier);
+            deleteSemaphore(name);
         } catch (Exception e) {
             Assert.fail("Exception while testing leader election scenario.");
         }
@@ -228,6 +243,7 @@ public class LeaderElectionScenarioTest {
     public void leaderElectionStressTest1() {
         final int sessionCount = 20;
         final String semaphoreName = "leader-election-stress-test-1";
+        createSemaphore(semaphoreName);
         CyclicBarrier barrier = new CyclicBarrier(2);
 
         List<LeaderElection> participants = IntStream.range(0, sessionCount).mapToObj(id -> LeaderElection
@@ -267,6 +283,7 @@ public class LeaderElectionScenarioTest {
         Assert.assertNotEquals(leader.get(), newLeader.get());
 
         participants.forEach(LeaderElection::close);
+        deleteSemaphore(semaphoreName);
     }
 
     @Test(timeout = 60_000)
@@ -283,7 +300,7 @@ public class LeaderElectionScenarioTest {
         CompletableFuture<CoordinationSession> leader = new CompletableFuture<>();
 
         sessions.forEach(session ->
-                session.createSemaphore(semaphoreName, 1)
+                session.createSemaphore(semaphoreName, 1L)
                         .whenComplete((status, createSemaphoreTh) -> {
                                     latch1.countDown();
                                     threadWorkAssert(assertChecker, createSemaphoreTh == null);
@@ -297,7 +314,8 @@ public class LeaderElectionScenarioTest {
         final CountDownLatch latch2 = new CountDownLatch(sessionCount);
 
         sessions.forEach(session -> session
-                .acquireSemaphore(semaphoreName, 1, String.valueOf(session.getId()).getBytes(), Duration.ofSeconds(2))
+                /* We want to fast fail or succeed */
+                .acquireSemaphore(semaphoreName, 1L, String.valueOf(session.getId()).getBytes(), Duration.ofSeconds(2))
                 .whenComplete((res, acquireSemaphoreTh) -> {
                             threadWorkAssert(assertChecker, acquireSemaphoreTh == null);
                             if (res.isSuccess()) {
@@ -325,6 +343,25 @@ public class LeaderElectionScenarioTest {
         Assert.assertTrue(assertChecker.get());
     }
 
+    @Test(timeout = 20_000)
+    public void leaderElectionWithoutCreatingSemaphoreTest() {
+        final String name = "leader-election-without-creating-semaphore-test";
+        final CountDownLatch acquireLatch = new CountDownLatch(1);
+        try (LeaderElection p1 = LeaderElection.joinElection(client, path, "p-1", name)
+                .withLeadershipPolicy(LeadershipPolicy.TAKE_LEADERSHIP)
+                .withTakeLeadershipObserver(leaderElection -> acquireLatch.countDown()).build();
+            LeaderElection p2 = LeaderElection.joinElection(client, path, "p-2", name)
+                    .withLeadershipPolicy(LeadershipPolicy.TAKE_LEADERSHIP)
+                    .withTakeLeadershipObserver(leaderElection -> acquireLatch.countDown()).build()
+        ) {
+            Assert.assertThrows(Exception.class, p1::forceUpdateLeader);
+            Assert.assertThrows(Exception.class, p2::forceUpdateLeader);
+            Assert.assertFalse(acquireLatch.await(1, TimeUnit.SECONDS));
+        } catch (Exception e) {
+            Assert.fail("Exception in leader election test.");
+        }
+    }
+
     @After
     public void deleteNode() {
         CompletableFuture<Status> result = client.dropNode(
@@ -334,7 +371,6 @@ public class LeaderElectionScenarioTest {
         );
         Assert.assertTrue(result.join().isSuccess());
     }
-
 
     private static void awaitBarrier(CyclicBarrier barrier) {
         try {
@@ -351,6 +387,18 @@ public class LeaderElectionScenarioTest {
             Arrays.stream(Thread.currentThread().getStackTrace())
                     .map(StackTraceElement::toString)
                     .forEach(logger::warn);
+        }
+    }
+
+    private void createSemaphore(String name) {
+        try (CoordinationSession session = client.createSession(path).join()) {
+            session.createSemaphore(name, 1L).join();
+        }
+    }
+
+    private void deleteSemaphore(String name) {
+        try (CoordinationSession session = client.createSession(path).join()) {
+            session.deleteSemaphore(name, true).join();
         }
     }
 }

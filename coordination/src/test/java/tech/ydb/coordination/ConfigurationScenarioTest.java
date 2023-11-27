@@ -63,9 +63,6 @@ public class ConfigurationScenarioTest {
                     subscriberApproveCounter.get().countDown();
                 }
             })) {
-                subscriber1.hashCode();
-                subscriber2.hashCode();
-
                 subscriberApproveCounter.get().await();
                 subscriberApproveCounter.set(new CountDownLatch(2));
 

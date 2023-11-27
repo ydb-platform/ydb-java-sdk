@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -25,7 +24,6 @@ import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
-import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 
 public class LeaderElection implements AutoCloseable {
@@ -100,14 +98,10 @@ public class LeaderElection implements AutoCloseable {
         numberOfDescribeRequestsAtThisMoment.incrementAndGet();
         return descAndWatchFuture.handle((semaphoreWatcherResult, th) -> {
             if (numberOfDescribeRequestsAtThisMoment.getAndDecrement() > 1) {
+                /* This completable future will never be completed */
                 return new CompletableFuture<SemaphoreChangedEvent>();
             }
             if (th != null) {
-                CompletableFuture<Boolean> callback = new CompletableFuture<>();
-                if (isSemaphoreExistenceException(th, () -> callback.complete(true))) {
-                    callback.join();
-                    return recursiveDescribeDetail();
-                }
                 logger.warn("Exception when trying to describe the semaphore:" +
                         " (semaphoreWatcherResult = {}, throwable = {})", semaphoreWatcherResult, th);
                 isElecting.set(false);
@@ -116,17 +110,15 @@ public class LeaderElection implements AutoCloseable {
                 final List<Session> leader = semaphoreWatcherResult.getValue().getDescription().getOwnersList();
                 describeFuture.complete(leader.isEmpty() ? Optional.empty() : Optional.of(leader.get(0)));
                 return semaphoreWatcherResult.getValue().getChangedFuture();
-            } else if (semaphoreWatcherResult != null &&
-                    semaphoreWatcherResult.getStatus().getCode() == StatusCode.NOT_FOUND) {
-                return CompletableFuture.completedFuture(new SemaphoreChangedEvent(false, false,
-                        false));
             } else {
                 logger.debug("session.describeAndWatchSemaphore.whenComplete() {}",
                         semaphoreWatcherResult);
                 final RuntimeException e = getSemaphoreWatcherException(semaphoreWatcherResult);
                 close();
                 describeFuture.completeExceptionally(e);
-                throw e;
+                final CompletableFuture<SemaphoreChangedEvent> excFuture = new CompletableFuture<>();
+                excFuture.completeExceptionally(e);
+                return excFuture;
             }
         }).thenCompose(Function.identity());
     }
@@ -136,9 +128,6 @@ public class LeaderElection implements AutoCloseable {
         describeFuture.thenRun(() -> changeLeaderObserver.accept(this));
         changedEventFuture = recursiveDescribeDetail();
         changedEventFuture.whenComplete((semaphoreChangedEvent, th) -> {
-            if (isSemaphoreExistenceException(th, this::recursiveDescribe)) {
-                return;
-            }
             if (semaphoreChangedEvent != null && th == null && isElecting.get()) {
                 recursiveDescribe();
                 return;
@@ -150,34 +139,8 @@ public class LeaderElection implements AutoCloseable {
         });
     }
 
-    private void createSemaphore(Runnable callback) {
-        session.createSemaphore(name, 1).whenComplete(((status, throwable) -> {
-            if (status == null || throwable != null ||
-                    (status.getCode() != StatusCode.ALREADY_EXISTS && !status.isSuccess())) {
-                logger.warn("Exception when trying to create the semaphore: (status: {}, throwable: {})",
-                        status, throwable);
-                isElecting.set(false);
-            }
-            callback.run();
-        }));
-    }
-
-    private boolean isSemaphoreExistenceException(Throwable th, Runnable callback) {
-        if (th instanceof CompletionException) {
-            th = th.getCause();
-        }
-        if (th instanceof UnexpectedResultException) {
-            UnexpectedResultException e = (UnexpectedResultException) th;
-            if (e.getStatus().getCode() == StatusCode.NOT_FOUND) {
-                createSemaphore(callback);
-                return true;
-            }
-        }
-        return false;
-    }
-
     private void recursiveAcquire() {
-        session.acquireSemaphore(name, 1, data, Duration.ofHours(1)).whenComplete(
+        session.acquireSemaphore(name, 1L, data, Duration.ofHours(1)).whenComplete(
                 (res, throwable) -> {
                     if (!isElecting.get()) {
                         if (res != null && res.isSuccess()) {
@@ -187,10 +150,6 @@ public class LeaderElection implements AutoCloseable {
                     }
                     if (throwable != null) {
                         recursiveAcquire();
-                        return;
-                    }
-                    if (res.getStatus().getCode() == StatusCode.NOT_FOUND) {
-                        createSemaphore(this::recursiveAcquire);
                         return;
                     }
                     if (!res.isSuccess()) {
