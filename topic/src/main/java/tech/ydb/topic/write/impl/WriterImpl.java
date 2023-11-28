@@ -112,15 +112,19 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                 }
             } else if (availableSizeBytes <= message.getMessage().getData().length) {
                 if (instant) {
-                    logger.info("[{}] Rejecting a message due to reaching message queue size limit of {} bytes", id,
-                            settings.getMaxSendBufferMemorySize());
+                    String errorMessage = "[" + id +
+                            "] Rejecting a message due to reaching message queue size limit of " +
+                            settings.getMaxSendBufferMemorySize() + " bytes. Buffer currently has " +
+                            currentInFlightCount + " messages with " + availableSizeBytes +
+                            " bytes available";
+                    logger.info(errorMessage);
                     CompletableFuture<Void> result = new CompletableFuture<>();
-                    result.completeExceptionally(new QueueOverflowException("Message queue size limit of "
-                            + settings.getMaxSendBufferMemorySize() + " bytes reached"));
+                    result.completeExceptionally(new QueueOverflowException(errorMessage));
                     return result;
                 } else {
                     logger.info("[{}] Message queue size limit of {} bytes reached. Putting the message into incoming" +
-                            " waiting queue", id, settings.getMaxSendBufferMemorySize());
+                            " waiting queue. Buffer currently has {} messages with {} bytes available", id,
+                            settings.getMaxSendBufferMemorySize(), currentInFlightCount, availableSizeBytes);
                 }
             } else if (incomingQueue.isEmpty()) {
                 acceptMessageIntoSendingQueue(message);
@@ -139,7 +143,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         this.currentInFlightCount++;
         this.availableSizeBytes -= message.getUncompressedSizeBytes();
         if (logger.isTraceEnabled()) {
-            logger.trace("[{}] Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, " +
+            logger.debug("[{}] Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, " +
                             "AvailableSizeBytes: {} ({} / {} acquired)", id, message.getUncompressedSizeBytes(),
                     currentInFlightCount, availableSizeBytes, maxSendBufferMemorySize - availableSizeBytes,
                     maxSendBufferMemorySize);
@@ -408,8 +412,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             sendDataRequestIfNeeded();
         }
 
+        // Shouldn't be called more than once at a time due to grpc guarantees
         private void onWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse response) {
             List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks = response.getAcksList();
+            logger.debug("[{}] Received WriteResponse with {} WriteAcks", fullId, acks.size());
             int inFlightFreed = 0;
             long bytesFreed = 0;
             for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
@@ -419,10 +425,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                         break;
                     }
                     if (sentMessage.getSeqNo() == ack.getSeqNo()) {
-                        processWriteAck(sentMessage, ack);
                         inFlightFreed++;
                         bytesFreed += sentMessage.getSizeBytes();
                         sentMessages.remove();
+                        processWriteAck(sentMessage, ack);
                         break;
                     }
                     if (sentMessage.getSeqNo() < ack.getSeqNo()) {
@@ -436,7 +442,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                         sentMessages.remove();
                         // Checking next message waiting for ack
                     } else {
-                        logger.info("[{}] Received an ack with seqNo {} which is older than the oldest message with " +
+                        logger.warn("[{}] Received an ack with seqNo {} which is older than the oldest message with " +
                                 "seqNo {} waiting for ack", fullId, ack.getSeqNo(), sentMessage.getSeqNo());
                         break;
                     }
@@ -465,6 +471,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         private void processWriteAck(EnqueuedMessage message,
                                      YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
+            logger.debug("[{}] Received WriteAck with seqNo {} and status {}", fullId, ack.getSeqNo(),
+                    ack.getMessageWriteStatusCase());
             WriteAck resultAck;
             switch (ack.getMessageWriteStatusCase()) {
                 case WRITTEN:
