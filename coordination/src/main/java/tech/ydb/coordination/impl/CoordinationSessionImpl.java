@@ -44,7 +44,8 @@ public class CoordinationSessionImpl implements CoordinationSession {
             executor = ForkJoinPool.commonPool();
         }
 
-        final CoordinationRetryableStreamImpl stream = new CoordinationRetryableStreamImpl(rpc, executor, nodePath);
+        final CoordinationRetryableStreamImpl stream = new CoordinationRetryableStreamImpl(rpc, executor, nodePath,
+                settings.getConnectTimeout(), settings.getReconnectBackoffDelay());
         final CoordinationSessionImpl session = new CoordinationSessionImpl(stream);
         final CompletableFuture<CoordinationSession> sessionStartFuture = CompletableFuture.completedFuture(session);
         return session.start(settings.getConnectTimeout())

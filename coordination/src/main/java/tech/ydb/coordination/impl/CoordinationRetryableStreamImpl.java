@@ -55,9 +55,9 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private final AtomicLong sessionId = new AtomicLong();
     private final AtomicInteger innerRequestId = new AtomicInteger(ThreadLocalRandom.current().nextInt());
     private final String nodePath;
-    private final AtomicInteger attemptsToRetry;
-    private final Duration timeoutInRetryAttempt;
-    private final Duration timeoutBetweenAttempts;
+    private long retryStartTimeout;
+    private final Duration retryTimeout;
+    private final Duration startBackoffTimeout;
     private final Executor executorService;
     private final Map<Integer, Consumer<SemaphoreChangedEvent>> updateWatchers = new ConcurrentHashMap<>();
     private final Map<Long, BiConsumer<Optional<Object>, Status>> futuresMap = new ConcurrentHashMap<>();
@@ -69,26 +69,14 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
 
     protected CoordinationRetryableStreamImpl(CoordinationRpc coordinationRpc, Executor executorService,
                                               String nodePath,
-                                              Duration timeoutInRetryAttempt,
-                                              int attemptsToRetry,
-                                              Duration timeoutBetweenAttempts) {
+                                              Duration retryTimeout,
+                                              Duration startBackoffTimeout) {
         this.coordinationRpc = coordinationRpc;
         this.coordinationStream = coordinationRpc.session();
         this.executorService = executorService;
         this.nodePath = nodePath;
-        this.timeoutInRetryAttempt = timeoutInRetryAttempt;
-        this.attemptsToRetry = new AtomicInteger(attemptsToRetry);
-        this.timeoutBetweenAttempts = timeoutBetweenAttempts;
-    }
-
-    protected CoordinationRetryableStreamImpl(CoordinationRpc coordinationRpc, Executor executorService,
-                                              String nodePath) {
-        this(coordinationRpc,
-                executorService,
-                nodePath,
-                Duration.ofMillis(10_000),
-                10,
-                Duration.ofMillis(1_000));
+        this.retryTimeout = retryTimeout;
+        this.startBackoffTimeout = startBackoffTimeout;
     }
 
     private static Status getStatus(
@@ -240,34 +228,35 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private void retry() {
         logger.info("Start retry in session-{}", sessionId.get());
         isRetryState.set(true);
-        final int attemptsBefore = attemptsToRetry.get();
+        this.retryStartTimeout = retryTimeout.toMillis();
         coordinationRpc.getScheduler()
-                .schedule(this::retryInner, timeoutBetweenAttempts.toMillis(), TimeUnit.MILLISECONDS);
-        attemptsToRetry.set(attemptsBefore);
+                .schedule(() -> retryInner(this.startBackoffTimeout.toMillis()),
+                        this.startBackoffTimeout.toMillis(), TimeUnit.MILLISECONDS);
     }
 
-    private void retryInner() {
+    private void retryInner(long prevBackoff) {
+        final long currBackoff = prevBackoff * 2;
         if (isWorking.get()) {
-            attemptsToRetry.decrementAndGet();
-            logger.debug("Attempt to retry stream: left {} attempts.", attemptsToRetry.get());
+            logger.debug("Attempt to retry stream: left {} milliseconds.", retryStartTimeout);
             try {
                 this.coordinationStream.close();
                 this.coordinationStream = coordinationRpc.session();
-                start(timeoutInRetryAttempt).get(timeoutInRetryAttempt.toMillis(), TimeUnit.MILLISECONDS);
+                start(Duration.ofMillis(prevBackoff)).get(prevBackoff, TimeUnit.MILLISECONDS);
                 resendRequests();
                 isRetryState.set(false);
                 if (stoppedFuture.isDone() && isWorking.get()) {
-                coordinationRpc.getScheduler()
-                        .schedule(this::retryInner, timeoutBetweenAttempts.toMillis(), TimeUnit.MILLISECONDS);
+                    coordinationRpc.getScheduler()
+                        .schedule(() -> retryInner(currBackoff), prevBackoff, TimeUnit.MILLISECONDS);
                 }
             } catch (Exception e) {
                 logger.trace("Exception while retry stream: exception = {}", e.toString());
                 if (isWorking.get()) {
                     coordinationRpc.getScheduler()
-                            .schedule(this::retryInner, timeoutBetweenAttempts.toMillis(), TimeUnit.MILLISECONDS);
+                            .schedule(() -> retryInner(currBackoff), prevBackoff, TimeUnit.MILLISECONDS);
                 }
             } finally {
-                if (attemptsToRetry.get() < 0) {
+                this.retryStartTimeout -= currBackoff;
+                if (retryStartTimeout < 0) {
                     stop();
                 }
             }
