@@ -142,7 +142,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         this.lastAcceptedMessageFuture = message.getFuture();
         this.currentInFlightCount++;
         this.availableSizeBytes -= message.getUncompressedSizeBytes();
-        if (logger.isTraceEnabled()) {
+        if (logger.isDebugEnabled()) {
             logger.debug("[{}] Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, " +
                             "AvailableSizeBytes: {} ({} / {} acquired)", id, message.getUncompressedSizeBytes(),
                     currentInFlightCount, availableSizeBytes, maxSendBufferMemorySize - availableSizeBytes,
