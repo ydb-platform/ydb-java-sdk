@@ -43,7 +43,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     protected volatile boolean shutdown = false;
 
     abstract AuthCallOptions getAuthCallOptions();
-    abstract GrpcChannel getChannel(GrpcRequestSettings settings);
+    protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
     abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
 
     @Override
