@@ -154,7 +154,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     @Override
-    GrpcChannel getChannel(GrpcRequestSettings settings) {
+    protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         EndpointRecord endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
         return channelPool.getChannel(endpoint);
     }
