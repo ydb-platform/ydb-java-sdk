@@ -1,3 +1,8 @@
+## 2.1.9 ##
+
+* Topics: Fixed a bug where first commit was not getting commitResponse if a user had sent a custom StartPartitionSessionResponse
+* Topics: Enhanced writer logging
+
 ## 2.1.8 ##
 
 * Topics: Added DeferredCommitter class to group several read commits into one or just defer each commit without holding data reference
