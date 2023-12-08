@@ -88,6 +88,14 @@ public class PartitionSessionImpl {
         return sessionInfo;
     }
 
+    public void setLastReadOffset(long lastReadOffset) {
+        this.lastReadOffset = lastReadOffset;
+    }
+
+    public void setLastCommittedOffset(long lastCommittedOffset) {
+        this.lastCommittedOffset = lastCommittedOffset;
+    }
+
     public CompletableFuture<Void> addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batches) {
         if (!isWorking.get()) {
             return CompletableFuture.completedFuture(null);
@@ -202,7 +210,7 @@ public class PartitionSessionImpl {
     // Bulk commit without result future
     public void commitOffsetRanges(List<OffsetsRange> rangesToCommit) {
         if (isWorking.get()) {
-            if (logger.isDebugEnabled()) {
+            if (logger.isInfoEnabled()) {
                 StringBuilder message = new StringBuilder("[").append(path)
                         .append("] Sending CommitRequest for partition session ").append(id)
                         .append(" (partition ").append(partitionId).append(") with offset ranges ");

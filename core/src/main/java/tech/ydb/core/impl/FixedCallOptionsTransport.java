@@ -58,7 +58,7 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
     }
 
     @Override
-    GrpcChannel getChannel(GrpcRequestSettings settings) {
+    protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         return channel;
     }
 

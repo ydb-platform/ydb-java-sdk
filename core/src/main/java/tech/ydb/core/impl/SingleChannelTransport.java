@@ -70,7 +70,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    GrpcChannel getChannel(GrpcRequestSettings settings) {
+    protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         return channel;
     }
 
