@@ -245,10 +245,12 @@ public class PartitionSessionImpl {
             return;
         }
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
-        logger.info("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
-                        ". Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
-                path, id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
-                futuresToComplete.size());
+        if (logger.isDebugEnabled()) {
+            logger.debug("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
+                            ". Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
+                    path, id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
+                    futuresToComplete.size());
+        }
         lastCommittedOffset = committedOffset;
         futuresToComplete.values().forEach(future -> future.complete(null));
         futuresToComplete.clear();
