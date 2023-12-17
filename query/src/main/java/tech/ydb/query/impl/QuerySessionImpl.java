@@ -1,7 +1,5 @@
 package tech.ydb.query.impl;
 
-import java.time.Clock;
-import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
 import io.grpc.Metadata;
@@ -42,27 +40,21 @@ public abstract class QuerySessionImpl implements QuerySession {
             YdbQuery.DeleteSessionResponse::getStatus, YdbQuery.DeleteSessionResponse::getIssuesList
     );
 
-    private final Clock clock;
     private final QueryServiceRpc rpc;
     private final String id;
     private final long nodeID;
-    private volatile Instant lastActive;
 
-    QuerySessionImpl(Clock clock, QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
-        this.clock = clock;
+    QuerySessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
         this.rpc = rpc;
         this.id = response.getSessionId();
         this.nodeID = response.getNodeId();
-        this.lastActive = clock.instant();
     }
 
     public String getId() {
         return this.id;
     }
 
-    public Instant getLastActive() {
-        return this.lastActive;
-    }
+    public abstract void updateSessionState(Status status);
 
     GrpcReadStream<Status> attach(AttachSessionSettings settings) {
         YdbQuery.AttachSessionRequest request = YdbQuery.AttachSessionRequest.newBuilder()
@@ -70,12 +62,13 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
-            lastActive = clock.instant();
-            observer.onNext(Status.of(
+            Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,
                     Issue.fromPb(message.getIssuesList())
-            ));
+            );
+            updateSessionState(status);
+            observer.onNext(status);
         });
     }
 
@@ -104,13 +97,13 @@ public abstract class QuerySessionImpl implements QuerySession {
 
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return new ProxyReadStream<>(rpc.executeQuery(request, grpcSettings), (message, promise, observer) -> {
-            lastActive = clock.instant();
-
             Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,
                     Issue.fromPb(message.getIssuesList())
             );
+
+            updateSessionState(status);
 
             if (!status.isSuccess()) {
                 promise.complete(status);
@@ -128,8 +121,10 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .build();
 
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-        return rpc.beginTransaction(request, grpcSettings)
-                .thenApply(r -> r.map(TxId::id));
+        return rpc.beginTransaction(request, grpcSettings).thenApply(result -> {
+            updateSessionState(result.getStatus());
+            return result.map(TxId::id);
+        });
     }
 
     @Override
@@ -139,8 +134,10 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .setTxId(tx.txID())
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-        return rpc.commitTransaction(request, grpcSettings)
-                .thenApply(Result::getStatus);
+        return rpc.commitTransaction(request, grpcSettings).thenApply(result -> {
+            updateSessionState(result.getStatus());
+            return result.getStatus();
+        });
     }
 
     @Override
@@ -150,8 +147,10 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .setTxId(tx.txID())
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-        return rpc.rollbackTransaction(request, grpcSettings)
-                .thenApply(Result::getStatus);
+        return rpc.rollbackTransaction(request, grpcSettings).thenApply(result -> {
+            updateSessionState(result.getStatus());
+            return result.getStatus();
+        });
     }
 
     public CompletableFuture<Result<YdbQuery.DeleteSessionResponse>> delete(DeleteSessionSettings settings) {

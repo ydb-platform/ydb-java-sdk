@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
@@ -92,7 +93,7 @@ public class QuerySessionPool implements AutoCloseable {
     }
 
     public CompletableFuture<Result<QuerySession>> acquire(Duration timeout) {
-        logger.debug("acquire QuerySession with timeout {}", timeout);
+        logger.trace("acquire QuerySession with timeout {}", timeout);
 
         CompletableFuture<Result<QuerySession>> future = new CompletableFuture<>();
 
@@ -138,7 +139,7 @@ public class QuerySessionPool implements AutoCloseable {
     }
 
     private boolean tryComplete(CompletableFuture<Result<QuerySession>> future, PooledQuerySession session) {
-        logger.trace("QuerySession[{}] try to complete acquire future", session.getId());
+        logger.trace("QuerySession[{}] tries to complete acquire", session.getId());
         if (!future.complete(Result.success(session))) {
             logger.debug("QuerySession[{}] future already done, return session to the pool", session.getId());
             queue.release(session);
@@ -150,51 +151,96 @@ public class QuerySessionPool implements AutoCloseable {
 
     private class PooledQuerySession extends QuerySessionImpl {
         private final GrpcReadStream<Status> attachStream;
-        private volatile boolean isDestroyed = false;
+        private final AtomicBoolean isDeleted = new AtomicBoolean(false);
+
+        private volatile Instant lastActive;
+        private volatile boolean isStarted = false;
+        private volatile boolean isBroken = false;
 
         PooledQuerySession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
-            super(clock, rpc, response);
+            super(rpc, response);
+            this.lastActive = clock.instant();
             this.attachStream = attach(ATTACH_SETTINGS);
         }
 
-        public CompletableFuture<Result<PooledQuerySession>> init() {
-            final CompletableFuture<Result<PooledQuerySession>> future = new CompletableFuture<>();
-            this.attachStream.start(status -> {
-                // Attach stream must send only one message
-                Result<PooledQuerySession> result = status.isSuccess() ?
-                        Result.success(PooledQuerySession.this) : Result.fail(status);
+        @Override
+        public void updateSessionState(Status status) {
+            this.lastActive = clock.instant();
+            boolean isStatusBroken =
+                    status.getCode() == StatusCode.BAD_SESSION ||
+                    status.getCode() == StatusCode.SESSION_BUSY ||
+                    status.getCode() == StatusCode.INTERNAL_ERROR ||
+                    status.getCode() == StatusCode.CLIENT_DEADLINE_EXCEEDED ||
+                    status.getCode() == StatusCode.CLIENT_DEADLINE_EXPIRED ||
+                    status.getCode() == StatusCode.TRANSPORT_UNAVAILABLE;
+            if (isStatusBroken) {
+                logger.warn("QuerySession[{}] broken with status {}", getId(), status);
+            }
+            isBroken = isBroken || isStatusBroken;
+        }
 
-                if (!future.complete(result) && !isDestroyed) {
-                    logger.warn("QuerySession[{}] unexpected attach message {}", getId(), status);
+        public Instant getLastActive() {
+            return lastActive;
+        }
+
+        public CompletableFuture<Result<PooledQuerySession>> start() {
+            final CompletableFuture<Result<PooledQuerySession>> future = new CompletableFuture<>();
+            final Result<PooledQuerySession> ok = Result.success(this);
+
+            this.attachStream.start(status -> {
+                if (!status.isSuccess()) {
+                    logger.warn("QuerySession[{}] attach message {}", getId(), status);
+                    future.complete(Result.fail(status));
+                    clean();
+                    return;
                 }
 
-                if (!status.isSuccess()) {
-                    destroy();
+                if (future.complete(ok)) {
+                    logger.debug("QuerySession[{}] attach message {}", getId(), status);
+                    isStarted = true;
+                    return;
+                }
+
+                if (!isDeleted.get()) { // Don't log finish message after destroying
+                    logger.warn("QuerySession[{}] unexpected attach message {}", getId(), status);
+                    clean();
                 }
             }).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.debug("QuerySession[{}] finished with exception", getId(), th);
-                    if (!future.completeExceptionally(th)) {
-                        queue.delete(this);
-                    }
                 }
 
                 if (status != null) {
                     if (status.isSuccess()) {
-                        logger.trace("QuerySession[{}] finished with status {}", getId(), status);
+                        logger.debug("QuerySession[{}] finished with status {}", getId(), status);
                     } else {
-                        logger.info("QuerySession[{}] finished with status {}", getId(), status);
-                        if (!future.complete(Result.fail(status))) {
-                            queue.delete(this);
-                        }
+                        logger.warn("QuerySession[{}] finished with status {}", getId(), status);
                     }
                 }
-            });
+            }).thenRun(this::clean);
+
             return future;
         }
 
+        private void clean() {
+            if (isDeleted.get()) {
+                return;
+            }
+
+            logger.debug("QuerySession[{}] destroy", getId());
+            if (isStarted) {
+                queue.delete(this);
+            } else {
+                destroy();
+            }
+        }
+
         public void destroy() {
-            isDestroyed = true;
+            if (!isDeleted.compareAndSet(false, true)) {
+                return;
+            }
+
+            logger.debug("QuerySession[{}] delete", getId());
             delete(DELETE_SETTINGS).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.warn("QuerySession[{}] removed with exception {}", getId(), th.getMessage());
@@ -211,7 +257,11 @@ public class QuerySessionPool implements AutoCloseable {
 
         @Override
         public void close() {
-            queue.release(this);
+            if (isBroken) {
+                queue.delete(this);
+            } else {
+                queue.release(this);
+            }
         }
 
         @Override
@@ -231,13 +281,8 @@ public class QuerySessionPool implements AutoCloseable {
         public CompletableFuture<PooledQuerySession> create() {
             return QuerySessionImpl
                     .createSession(rpc, CREATE_SETTINGS, true)
-                    .thenCompose(this::createSession);
-        }
-
-        private CompletableFuture<PooledQuerySession> createSession(Result<YdbQuery.CreateSessionResponse> response) {
-            PooledQuerySession session = new PooledQuerySession(rpc, response.getValue());
-            return session
-                    .init()
+                    .thenApply(Result::getValue)
+                    .thenCompose(resp -> new PooledQuerySession(rpc, resp).start())
                     .thenApply(Result::getValue);
         }
 
@@ -266,7 +311,7 @@ public class QuerySessionPool implements AutoCloseable {
             Instant idleToRemove = now.minusMillis(maxIdleTimeMillis);
 
             while (coldIterator.hasNext()) {
-                QuerySessionImpl session = coldIterator.next();
+                PooledQuerySession session = coldIterator.next();
                 if (!session.getLastActive().isAfter(idleToRemove) && queue.getTotalCount() > minSize) {
                     coldIterator.remove();
                 }

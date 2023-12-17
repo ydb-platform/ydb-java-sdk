@@ -15,6 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.query.impl.QuerySessionImpl;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.tools.QueryDataReader;
 import tech.ydb.table.SessionRetryContext;
@@ -75,7 +77,7 @@ public class QueryIntegrationTest {
 
         SimpleTableClient client = SimpleTableClient.newClient(GrpcTableRpc.useTransport(ydbTransport)).build();
         SessionRetryContext retryCtx = SessionRetryContext.create(client).build();
-        retryCtx.supplyStatus(session -> session.createTable(tablePath, tableDescription));
+        retryCtx.supplyStatus(session -> session.createTable(tablePath, tableDescription)).join();
         logger.info("Prepare database OK");
 
         queryClient = QueryClient.newClient(ydbTransport).build();
@@ -114,6 +116,27 @@ public class QueryIntegrationTest {
 
             Assert.assertFalse(rs.next());
         }
+    }
+
+    @Test
+    public void testErrors() {
+        QuerySessionImpl s1 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        String id = s1.getId();
+        s1.close();
+
+        QuerySessionImpl s2 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        Assert.assertEquals(id, s2.getId());
+        s2.updateSessionState(Status.of(StatusCode.ABORTED));
+        s2.close();
+
+        QuerySessionImpl s3 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        Assert.assertEquals(id, s3.getId());
+        s3.updateSessionState(Status.of(StatusCode.BAD_SESSION));
+        s3.close();
+
+        QuerySessionImpl s4 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        Assert.assertNotEquals(id, s4.getId());
+        s4.close();
     }
 
     @Test

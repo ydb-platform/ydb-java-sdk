@@ -13,7 +13,7 @@
         <Logger name="tech.ydb" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="tech.ydb.query" level="trace" additivity="false">
+        <Logger name="tech.ydb.query" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
 
