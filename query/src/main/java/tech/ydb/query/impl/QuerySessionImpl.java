@@ -1,5 +1,9 @@
 package tech.ydb.query.impl;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import io.grpc.Metadata;
@@ -13,6 +17,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.TxId;
@@ -47,7 +52,20 @@ public abstract class QuerySessionImpl implements QuerySession {
     QuerySessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
         this.rpc = rpc;
         this.id = response.getSessionId();
-        this.nodeID = response.getNodeId();
+        this.nodeID = getNodeBySessionId(response.getSessionId(), response.getNodeId());
+    }
+
+    private static Long getNodeBySessionId(String sessionId, long defaultValue) {
+        try {
+            Map<String, List<String>> params = URITools.splitQuery(new URI(sessionId));
+            List<String> nodeParam = params.get("node_id");
+            if (nodeParam != null && !nodeParam.isEmpty()) {
+                return Long.parseUnsignedLong(nodeParam.get(0));
+            }
+        } catch (URISyntaxException | RuntimeException e) {
+//            logger.debug("Failed to parse session_id for node_id: {}", e.toString());
+        }
+        return defaultValue;
     }
 
     public String getId() {
