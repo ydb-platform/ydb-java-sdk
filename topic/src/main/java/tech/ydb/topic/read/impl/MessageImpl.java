@@ -2,9 +2,11 @@ package tech.ydb.topic.read.impl;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.OffsetsRange;
@@ -22,6 +24,7 @@ public class MessageImpl implements Message {
     private final String messageGroupId;
     private final BatchMeta batchMeta;
     private final PartitionSessionImpl partitionSession;
+    private List<MetadataItem> metadataItems;
     private final OffsetsRange offsetsToCommit;
     private final CommitterImpl committer;
     private boolean isDecompressed = false;
@@ -36,6 +39,7 @@ public class MessageImpl implements Message {
         this.messageGroupId = builder.messageGroupId;
         this.batchMeta = builder.batchMeta;
         this.partitionSession = builder.partitionSession;
+        this.metadataItems = builder.metadataItems;
         this.offsetsToCommit = new OffsetsRangeImpl(commitOffsetFrom, offset + 1);
         this.committer = new CommitterImpl(partitionSession, 1, offsetsToCommit);
     }
@@ -105,6 +109,11 @@ public class MessageImpl implements Message {
         return partitionSession;
     }
 
+    @Override
+    public List<MetadataItem> getMetadataItems() {
+        return metadataItems;
+    }
+
     public void setDecompressed(boolean decompressed) {
         isDecompressed = decompressed;
     }
@@ -130,6 +139,7 @@ public class MessageImpl implements Message {
         private String messageGroupId;
         private BatchMeta batchMeta;
         private PartitionSessionImpl partitionSession;
+        private List<MetadataItem> metadataItems;
 
         public Builder setData(byte[] data) {
             this.data = data;
@@ -168,6 +178,11 @@ public class MessageImpl implements Message {
 
         public Builder setPartitionSession(PartitionSessionImpl partitionSession) {
             this.partitionSession = partitionSession;
+            return this;
+        }
+
+        public Builder setMetadataItems(List<MetadataItem> metadataItems) {
+            this.metadataItems = metadataItems;
             return this;
         }
 
