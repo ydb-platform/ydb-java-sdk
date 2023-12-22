@@ -1,10 +1,13 @@
 package tech.ydb.topic.read;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import io.grpc.ExperimentalApi;
+
+import tech.ydb.topic.description.MetadataItem;
 
 /**
  * @author Nikolay Perfilov
@@ -51,6 +54,11 @@ public interface Message {
      * @return Time the message was written at
      */
     Instant getWrittenAt();
+
+    /**
+     * @return message metadata items
+     */
+    List<MetadataItem> getMetadataItems();
 
     /**
      * @return Partition session of this message
