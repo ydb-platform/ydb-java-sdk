@@ -766,7 +766,9 @@ public abstract class BaseSession implements Session {
                 .setSessionId(id)
                 .setPath(tablePath)
                 .setOrdered(settings.isOrdered())
-                .setRowLimit(settings.getRowLimit());
+                .setRowLimit(settings.getRowLimit())
+                .setBatchLimitBytes(settings.batchLimitBytes())
+                .setBatchLimitRows(settings.batchLimitRows());
 
         Value<?> fromKey = settings.getFromKey();
         if (fromKey != null) {
