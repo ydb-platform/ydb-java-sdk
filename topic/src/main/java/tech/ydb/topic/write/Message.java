@@ -1,6 +1,12 @@
 package tech.ydb.topic.write;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import tech.ydb.topic.description.MetadataItem;
 
 /**
  * @author Nikolay Perfilov
@@ -9,11 +15,13 @@ public class Message {
     private byte[] data;
     private final Long seqNo;
     private final Instant createTimestamp;
+    private List<MetadataItem> metadataItems;
 
     private Message(Builder builder) {
         this.data = builder.data;
         this.seqNo = builder.seqNo;
         this.createTimestamp = builder.createTimestamp != null ? builder.createTimestamp : Instant.now();
+        this.metadataItems = builder.metadataItems;
     }
 
     private Message(byte[] data) {
@@ -46,6 +54,10 @@ public class Message {
         return createTimestamp;
     }
 
+    public List<MetadataItem> getMetadataItems() {
+        return metadataItems;
+    }
+
     /**
      * BUILDER
      */
@@ -53,6 +65,7 @@ public class Message {
         private  byte[] data;
         private Long seqNo = null;
         private Instant createTimestamp = null;
+        private List<MetadataItem> metadataItems = null;
 
         public Builder setData(byte[] data) {
             this.data = data;
@@ -66,6 +79,19 @@ public class Message {
 
         public Builder setCreateTimestamp(Instant createTimestamp) {
             this.createTimestamp = createTimestamp;
+            return this;
+        }
+
+        public Builder addMetadataItem(@Nonnull MetadataItem metadataItem) {
+            if (metadataItems == null) {
+                metadataItems = new ArrayList<>();
+            }
+            metadataItems.add(metadataItem);
+            return this;
+        }
+
+        public Builder setMetadataItems(List<MetadataItem> metadataItems) {
+            this.metadataItems = metadataItems;
             return this;
         }
 
