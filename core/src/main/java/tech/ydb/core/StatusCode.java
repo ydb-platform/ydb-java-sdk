@@ -36,6 +36,7 @@ public enum StatusCode {
     UNDETERMINED(SERVER_STATUSES_FIRST + 170),
     UNSUPPORTED(SERVER_STATUSES_FIRST + 180),
     SESSION_BUSY(SERVER_STATUSES_FIRST + 190),
+    EXTERNAL_ERROR(SERVER_STATUSES_FIRST + 200),
 
     // Client statuses
     /** Cannot connect or unrecoverable network error. (map from gRPC UNAVAILABLE) */
@@ -124,6 +125,7 @@ public enum StatusCode {
             case UNDETERMINED: return UNDETERMINED;
             case UNSUPPORTED: return UNSUPPORTED;
             case SESSION_BUSY: return SESSION_BUSY;
+            case EXTERNAL_ERROR: return EXTERNAL_ERROR;
             default:
                 return UNUSED_STATUS;
         }
