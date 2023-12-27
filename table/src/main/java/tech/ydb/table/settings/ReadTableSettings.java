@@ -29,6 +29,8 @@ public class ReadTableSettings extends BaseRequestSettings {
     private final boolean toInclusive;
     private final int rowLimit;
     private final ImmutableList<String> columns;
+    private final int batchLimitBytes;
+    private final int batchLimitRows;
 
     private ReadTableSettings(Builder builder) {
         super(builder);
@@ -39,6 +41,8 @@ public class ReadTableSettings extends BaseRequestSettings {
         this.toInclusive = builder.toInclusive;
         this.rowLimit = builder.rowLimit;
         this.columns = ImmutableList.copyOf(builder.columns);
+        this.batchLimitBytes = builder.batchLimitBytes;
+        this.batchLimitRows = builder.batchLimitRows;
     }
 
     public static Builder newBuilder() {
@@ -75,6 +79,14 @@ public class ReadTableSettings extends BaseRequestSettings {
         return columns;
     }
 
+    public int batchLimitBytes() {
+        return batchLimitBytes;
+    }
+
+    public int batchLimitRows() {
+        return batchLimitRows;
+    }
+
     /**
      * BUILDER
      */
@@ -86,6 +98,8 @@ public class ReadTableSettings extends BaseRequestSettings {
         private boolean toInclusive = false;
         private int rowLimit = 0;
         private List<String> columns = Collections.emptyList();
+        private int batchLimitBytes = 0;
+        private int batchLimitRows = 0;
 
         public Builder orderedRead(boolean ordered) {
             this.ordered = ordered;
@@ -157,6 +171,16 @@ public class ReadTableSettings extends BaseRequestSettings {
                 this.columns = new ArrayList<>(this.columns);
             }
             this.columns.add(column);
+            return this;
+        }
+
+        public Builder batchLimitBytes(int batchLimitBytes) {
+            this.batchLimitBytes = batchLimitBytes;
+            return this;
+        }
+
+        public Builder batchLimitRows(int batchLimitRows) {
+            this.batchLimitRows = batchLimitRows;
             return this;
         }
 
