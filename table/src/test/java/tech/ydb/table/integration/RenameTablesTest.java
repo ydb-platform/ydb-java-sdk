@@ -12,9 +12,8 @@ import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
+import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateTableSettings;
-import tech.ydb.table.settings.DescribeTableSettings;
-import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.settings.RenameTablesSettings;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.test.junit4.GrpcTransportRule;
@@ -38,11 +37,17 @@ public class RenameTablesTest {
     private final String renamedTableName1 = "test1_table_renamed";
     private final String renamedTableName2 = "test2_table_renamed";
 
+    private final String copiedTableName1 = "test1_table_copied";
+    private final String copiedTableName2 = "test2_table_copied";
+
     private final String origTablePath1 = ydbTransport.getDatabase() + "/" + origTableName1;
     private final String origTablePath2 = ydbTransport.getDatabase() + "/" + origTableName2;
 
     private final String renamedTablePath1 = ydbTransport.getDatabase() + "/" + renamedTableName1;
     private final String renamedTablePath2 = ydbTransport.getDatabase() + "/" + renamedTableName2;
+
+    private final String copiedTablePath1 = ydbTransport.getDatabase() + "/" + copiedTableName1;
+    private final String copiedTablePath2 = ydbTransport.getDatabase() + "/" + copiedTableName2;
 
     @Test
     public void testRenameTables() {
@@ -56,6 +61,7 @@ public class RenameTablesTest {
                 .addGlobalIndex("ix1", Arrays.asList("code"))
                 .addGlobalAsyncIndex("ix2", Arrays.asList("created"))
                 .build();
+
         createTable(origTablePath1, tableDescription);
         createTable(origTablePath2, tableDescription);
 
@@ -64,8 +70,15 @@ public class RenameTablesTest {
         describeTable(renamedTablePath1, tableDescription);
         describeTable(renamedTablePath2, tableDescription);
 
+        copyTables();
+
+        describeTable(copiedTablePath1, tableDescription);
+        describeTable(copiedTablePath2, tableDescription);
+
         dropTable(renamedTablePath1);
         dropTable(renamedTablePath2);
+        dropTable(copiedTablePath1);
+        dropTable(copiedTablePath2);
     }
 
     private void createTable(String tablePath, TableDescription tableDescription) {
@@ -81,6 +94,14 @@ public class RenameTablesTest {
         settings.addTable(origTablePath2, renamedTablePath2);
         Status status = ctx.supplyStatus(session -> session.renameTables(settings)).join();
         Assert.assertTrue("Rename tables " + status, status.isSuccess());
+    }
+
+    private void copyTables() {
+        CopyTablesSettings settings = new CopyTablesSettings();
+        settings.addTable(renamedTablePath1, copiedTablePath1, true);
+        settings.addTable(renamedTablePath2, copiedTablePath2, true);
+        Status status = ctx.supplyStatus(session -> session.copyTables(settings)).join();
+        Assert.assertTrue("Copy tables " + status, status.isSuccess());
     }
 
     private void describeTable(String tablePath, TableDescription tableDescription) {
