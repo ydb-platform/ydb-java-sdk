@@ -53,6 +53,8 @@ import tech.ydb.proto.table.YdbTable.PrepareDataQueryResponse;
 import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
 import tech.ydb.proto.table.YdbTable.ReadRowsRequest;
 import tech.ydb.proto.table.YdbTable.ReadRowsResponse;
+import tech.ydb.proto.table.YdbTable.RenameTablesRequest;
+import tech.ydb.proto.table.YdbTable.RenameTablesResponse;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.proto.table.v1.TableServiceGrpc;
@@ -145,6 +147,14 @@ public final class GrpcTableRpc implements TableRpc {
         return transport
                 .unaryCall(TableServiceGrpc.getCopyTablesMethod(), settings, request)
                 .thenApply(OperationManager.syncStatusUnwrapper(CopyTablesResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> renameTables(RenameTablesRequest request,
+            GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getRenameTablesMethod(), settings, request)
+                .thenApply(OperationManager.syncStatusUnwrapper(RenameTablesResponse::getOperation));
     }
 
     @Override

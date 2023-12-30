@@ -32,6 +32,7 @@ import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.settings.RenameTablesSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
@@ -63,6 +64,8 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Status> copyTable(String src, String dst, CopyTableSettings settings);
 
     CompletableFuture<Status> copyTables(CopyTablesSettings settings);
+
+    CompletableFuture<Status> renameTables(RenameTablesSettings settings);
 
     CompletableFuture<Result<TableDescription>> describeTable(String path, DescribeTableSettings settings);
 
@@ -127,6 +130,14 @@ public interface Session extends AutoCloseable {
 
     default CompletableFuture<Status> copyTable(String src, String dst) {
         return copyTable(src, dst, new CopyTableSettings());
+    }
+
+    default CompletableFuture<Status> renameTable(String src, String dst) {
+        return renameTables(new RenameTablesSettings().addTable(src, dst));
+    }
+
+    default CompletableFuture<Status> renameTable(String src, String dst, boolean overwrite) {
+        return renameTables(new RenameTablesSettings().addTable(src, dst, overwrite));
     }
 
     default CompletableFuture<Result<TableDescription>> describeTable(String path) {
