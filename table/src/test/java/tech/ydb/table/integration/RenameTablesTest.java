@@ -98,8 +98,8 @@ public class RenameTablesTest {
 
     private void copyTables() {
         CopyTablesSettings settings = new CopyTablesSettings();
-        settings.addTable(renamedTablePath1, copiedTablePath1, true);
-        settings.addTable(renamedTablePath2, copiedTablePath2, true);
+        settings.addTable(renamedTablePath1, copiedTablePath1, false);
+        settings.addTable(renamedTablePath2, copiedTablePath2, false);
         Status status = ctx.supplyStatus(session -> session.copyTables(settings)).join();
         Assert.assertTrue("Copy tables " + status, status.isSuccess());
     }
