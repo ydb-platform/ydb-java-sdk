@@ -73,6 +73,7 @@ import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.settings.RenameTablesSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
@@ -441,6 +442,36 @@ public abstract class BaseSession implements Session {
                     .setSourcePath(sp)
                     .setDestinationPath(dp)
                     .setOmitIndexes(t.isOmitIndexes())
+                    .build();
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public CompletableFuture<Status> renameTables(RenameTablesSettings settings) {
+        YdbTable.RenameTablesRequest request = YdbTable.RenameTablesRequest.newBuilder()
+                .setSessionId(id)
+                .addAllTables(convertRenameTableItems(settings))
+                .build();
+
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        return tableRpc.renameTables(request, grpcRequestSettings);
+    }
+
+    private List<YdbTable.RenameTableItem> convertRenameTableItems(RenameTablesSettings cts) {
+        final String dbpath = tableRpc.getDatabase();
+        return cts.getItems().stream().map(t -> {
+            String sp = t.getSourcePath();
+            if (!sp.startsWith("/")) {
+                sp = dbpath + "/" + sp;
+            }
+            String dp = t.getDestinationPath();
+            if (!dp.startsWith("/")) {
+                dp = dbpath + "/" + dp;
+            }
+            return YdbTable.RenameTableItem.newBuilder()
+                    .setSourcePath(sp)
+                    .setDestinationPath(dp)
+                    .setReplaceDestination(t.isReplaceDestination())
                     .build();
         }).collect(Collectors.toList());
     }
