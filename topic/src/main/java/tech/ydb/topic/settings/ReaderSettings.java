@@ -92,6 +92,11 @@ public class ReaderSettings {
             return this;
         }
 
+        /**
+         * Experimental feature. Interface may change in future
+         * Explicitly require reading without a consumer. Reading progress will not be saved on server this way.
+         * @return settings builder
+         */
         public Builder withoutConsumer() {
             this.readWithoutConsumer = true;
             return this;
@@ -152,7 +157,8 @@ public class ReaderSettings {
         public ReaderSettings build() {
             if (consumerName == null) {
                 if (!readWithoutConsumer) {
-                    throw new IllegalArgumentException("Missing consumer name for read settings");
+                    throw new IllegalArgumentException("Missing consumer name for read settings. " +
+                            "Use withoutConsumer option explicitly if you want to read without a consumer");
                 }
             } else {
                 if (readWithoutConsumer) {
