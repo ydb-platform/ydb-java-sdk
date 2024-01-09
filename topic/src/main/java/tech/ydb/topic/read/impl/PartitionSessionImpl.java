@@ -145,7 +145,7 @@ public class PartitionSessionImpl {
                         .setMetadataItems(messageData.getMetadataItemsList()
                                 .stream()
                                 .map(metadataItem -> new MetadataItem(metadataItem.getKey(),
-                                        metadataItem.toByteArray()))
+                                        metadataItem.getValue().toByteArray()))
                                 .collect(Collectors.toList()))
                         .build()
                 );
