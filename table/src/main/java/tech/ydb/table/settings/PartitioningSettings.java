@@ -63,4 +63,29 @@ public class PartitioningSettings {
         this.maxPartitionsCount = partitionsCount;
         return this;
     }
+
+    public PartitioningSettings clearPartitioningBySize() {
+        this.partitioningBySize = null;
+        return this;
+    }
+
+    public PartitioningSettings clearPartitioningByLoad() {
+        this.partitioningByLoad = null;
+        return this;
+    }
+
+    public PartitioningSettings clearPartitionSize() {
+        this.partitionSizeMb = null;
+        return this;
+    }
+
+    public PartitioningSettings clearMinPartitionsCount() {
+        this.minPartitionsCount = null;
+        return this;
+    }
+
+    public PartitioningSettings clearMaxPartitionsCount() {
+        this.maxPartitionsCount = null;
+        return this;
+    }
 }
