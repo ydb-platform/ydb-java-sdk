@@ -39,53 +39,28 @@ public class PartitioningSettings {
         return maxPartitionsCount;
     }
 
-    public PartitioningSettings setPartitioningBySize(boolean partitioningBySize) {
+    public PartitioningSettings setPartitioningBySize(Boolean partitioningBySize) {
         this.partitioningBySize = partitioningBySize;
         return this;
     }
 
-    public PartitioningSettings setPartitioningByLoad(boolean partitioningByLoad) {
+    public PartitioningSettings setPartitioningByLoad(Boolean partitioningByLoad) {
         this.partitioningByLoad = partitioningByLoad;
         return this;
     }
 
-    public PartitioningSettings setPartitionSize(long partitionSizeMb) {
+    public PartitioningSettings setPartitionSize(Long partitionSizeMb) {
         this.partitionSizeMb = partitionSizeMb;
         return this;
     }
 
-    public PartitioningSettings setMinPartitionsCount(long partitionsCount) {
+    public PartitioningSettings setMinPartitionsCount(Long partitionsCount) {
         this.minPartitionsCount = partitionsCount;
         return this;
     }
 
-    public PartitioningSettings setMaxPartitionsCount(long partitionsCount) {
+    public PartitioningSettings setMaxPartitionsCount(Long partitionsCount) {
         this.maxPartitionsCount = partitionsCount;
-        return this;
-    }
-
-    public PartitioningSettings clearPartitioningBySize() {
-        this.partitioningBySize = null;
-        return this;
-    }
-
-    public PartitioningSettings clearPartitioningByLoad() {
-        this.partitioningByLoad = null;
-        return this;
-    }
-
-    public PartitioningSettings clearPartitionSize() {
-        this.partitionSizeMb = null;
-        return this;
-    }
-
-    public PartitioningSettings clearMinPartitionsCount() {
-        this.minPartitionsCount = null;
-        return this;
-    }
-
-    public PartitioningSettings clearMaxPartitionsCount() {
-        this.maxPartitionsCount = null;
         return this;
     }
 }
