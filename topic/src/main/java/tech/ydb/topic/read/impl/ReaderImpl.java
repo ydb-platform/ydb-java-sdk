@@ -74,7 +74,11 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
             message.append("\"").append(topic.getPath()).append("\"");
         }
-        message.append(" and Consumer: \"").append(settings.getConsumerName()).append("\"");
+        if (settings.getConsumerName() != null) {
+            message.append(" and Consumer: \"").append(settings.getConsumerName()).append("\"");
+        } else {
+            message.append(" without a Consumer");
+        }
         logger.info(message.toString());
     }
 
@@ -144,8 +148,10 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             start(this::processMessage).whenComplete(this::onSessionClosing);
 
             YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
-                    .newBuilder()
-                    .setConsumer(settings.getConsumerName());
+                    .newBuilder();
+            if (settings.getConsumerName() != null) {
+                initRequestBuilder.setConsumer(settings.getConsumerName());
+            }
             settings.getTopics().forEach(topicReadSettings -> {
                 YdbTopic.StreamReadMessage.InitRequest.TopicReadSettings.Builder settingsBuilder =
                         YdbTopic.StreamReadMessage.InitRequest.TopicReadSettings.newBuilder()
