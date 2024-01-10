@@ -119,21 +119,20 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
         });
     }
 
-    @Override
-    protected void handleCloseReader() {
+    protected void handleReaderClosed() {
         handlerExecutor.execute(() -> {
             eventHandler.onReaderClosed(new ReaderClosedEvent());
         });
     }
 
     @Override
-    protected CompletableFuture<Void> shutdownImpl() {
-        return super.shutdownImpl().whenComplete((res, th) -> {
-            if (defaultHandlerExecutorService != null) {
-                logger.debug("Shutting down default handler executor");
-                defaultHandlerExecutorService.shutdown();
-            }
-        });
+    protected void onShutdown(String reason) {
+        super.onShutdown(reason);
+        handleReaderClosed();
+        if (defaultHandlerExecutorService != null) {
+            logger.debug("Shutting down default handler executor");
+            defaultHandlerExecutorService.shutdown();
+        }
     }
 
     @Override
