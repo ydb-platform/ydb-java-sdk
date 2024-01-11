@@ -112,7 +112,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest request, @Nullable Long partitionId,
             Runnable confirmCallback);
     protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
-    protected abstract void handleCloseReader();
 
     @Override
     protected void onStreamReconnect() {

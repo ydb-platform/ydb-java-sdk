@@ -159,16 +159,6 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected void handleCloseReader() {
-        logger.debug("CloseReader event received. Ignoring.");
-    }
-
-    @Override
-    protected CompletableFuture<Void> shutdownImpl() {
-        return super.shutdownImpl();
-    }
-
-    @Override
     public void shutdown() {
         shutdownImpl().join();
     }
