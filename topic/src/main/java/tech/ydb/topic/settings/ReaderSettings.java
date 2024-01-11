@@ -78,6 +78,7 @@ public class ReaderSettings {
      */
     public static class Builder {
         private String consumerName = null;
+        private boolean readWithoutConsumer = false;
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
@@ -88,6 +89,16 @@ public class ReaderSettings {
 
         public Builder setConsumerName(String consumerName) {
             this.consumerName = consumerName;
+            return this;
+        }
+
+        /**
+         * Experimental feature. Interface may change in future
+         * Explicitly require reading without a consumer. Reading progress will not be saved on server this way.
+         * @return settings builder
+         */
+        public Builder withoutConsumer() {
+            this.readWithoutConsumer = true;
             return this;
         }
 
@@ -145,7 +156,15 @@ public class ReaderSettings {
 
         public ReaderSettings build() {
             if (consumerName == null) {
-                throw new IllegalArgumentException("Missing consumer name for read settings");
+                if (!readWithoutConsumer) {
+                    throw new IllegalArgumentException("Missing consumer name for read settings. " +
+                            "Use withoutConsumer option explicitly if you want to read without a consumer");
+                }
+            } else {
+                if (readWithoutConsumer) {
+                    throw new IllegalArgumentException("Both mutually exclusive options consumerName and " +
+                            "withoutConsumer are set for read settings");
+                }
             }
             if (topics.isEmpty()) {
                 throw new IllegalArgumentException("Missing topics for read settings. At least one should be set");

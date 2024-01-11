@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.ProtoUtils;
 
@@ -138,13 +140,28 @@ public class MessageSender {
             message.setSeqNo(messageSeqNo);
         }
 
-        YdbTopic.StreamWriteMessage.WriteRequest.MessageData messageData =
+
+
+        YdbTopic.StreamWriteMessage.WriteRequest.MessageData.Builder messageDataBuilder =
                 YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
                         .setSeqNo(messageSeqNo)
                         .setData(ByteString.copyFrom(message.getMessage().getData()))
                         .setCreatedAt(ProtobufUtils.instantToProto(message.getMessage().getCreateTimestamp()))
-                        .setUncompressedSize(message.getUncompressedSizeBytes())
-                        .build();
+                        .setUncompressedSize(message.getUncompressedSizeBytes());
+
+        List<MetadataItem> metadataItems = message.getMessage().getMetadataItems();
+        if (metadataItems != null && !metadataItems.isEmpty()) {
+            messageDataBuilder.addAllMetadataItems(metadataItems
+                    .stream()
+                    .map(metadataItem -> YdbTopic.MetadataItem.newBuilder()
+                            .setKey(metadataItem.getKey())
+                            .setValue(ByteString.copyFrom(metadataItem.getValue()))
+                            .build())
+                    .collect(Collectors.toList()));
+        }
+
+        YdbTopic.StreamWriteMessage.WriteRequest.MessageData messageData = messageDataBuilder.build();
+
         long sizeWithCurrentMessage = getCurrentRequestSize() + messageData.getSerializedSize() + messageOverheadBytes;
         if (sizeWithCurrentMessage <= MAX_GRPC_MESSAGE_SIZE) {
             addMessage(messageData);

@@ -14,6 +14,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
@@ -140,6 +142,11 @@ public class PartitionSessionImpl {
                         .setCommitOffsetFrom(commitOffsetFrom)
                         .setCreatedAt(ProtobufUtils.protoToInstant(messageData.getCreatedAt()))
                         .setMessageGroupId(messageData.getMessageGroupId())
+                        .setMetadataItems(messageData.getMetadataItemsList()
+                                .stream()
+                                .map(metadataItem -> new MetadataItem(metadataItem.getKey(),
+                                        metadataItem.getValue().toByteArray()))
+                                .collect(Collectors.toList()))
                         .build()
                 );
             });
@@ -245,10 +252,12 @@ public class PartitionSessionImpl {
             return;
         }
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
-        logger.info("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
-                        ". Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
-                path, id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
-                futuresToComplete.size());
+        if (logger.isDebugEnabled()) {
+            logger.debug("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
+                            ". Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
+                    path, id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
+                    futuresToComplete.size());
+        }
         lastCommittedOffset = committedOffset;
         futuresToComplete.values().forEach(future -> future.complete(null));
         futuresToComplete.clear();
