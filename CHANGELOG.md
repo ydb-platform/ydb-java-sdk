@@ -4,6 +4,14 @@
 * Core: Operation manager
 * Table: Added readRows operation in table service
 
+## 2.1.10 ##
+
+* Topics: Added message metadata support
+* Topics: Added support for reading without a consumer
+* Topics: Fixed a bug where onReaderClosed was not called on async reader shutdown
+* Topics: Small logging improvements
+* Added batch limit support for readTable
+
 ## 2.1.9 ##
 
 * Topics: Fixed a bug where first commit was not getting commitResponse if a user had sent a custom StartPartitionSessionResponse
