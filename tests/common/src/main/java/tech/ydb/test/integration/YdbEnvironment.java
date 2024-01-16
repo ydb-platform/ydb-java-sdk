@@ -69,18 +69,16 @@ public class YdbEnvironment {
         return disableIntegrationTests.get();
     }
 
-    @VisibleForTesting
-    Supplier<String> createParam(String key, String defaultValue) {
+    private Supplier<String> createParam(String key, String defaultValue) {
+        return Suppliers.memoize(() -> readParam(key, defaultValue));
+    }
+
+    private Supplier<Boolean> createParam(String key, boolean defaultValue) {
         return Suppliers.memoize(() -> readParam(key, defaultValue));
     }
 
     @VisibleForTesting
-    Supplier<Boolean> createParam(String key, boolean defaultValue) {
-        return Suppliers.memoize(() -> readParam(key, defaultValue));
-    }
-
-    @VisibleForTesting
-    String readParam(String key, String defaultValue) {
+    static String readParam(String key, String defaultValue) {
         String env = System.getenv(key);
         if (env != null && !env.isEmpty()) {
             return env;
@@ -89,7 +87,7 @@ public class YdbEnvironment {
     }
 
     @VisibleForTesting
-    Boolean readParam(String key, boolean defaultValue) {
+    static Boolean readParam(String key, boolean defaultValue) {
         String env = System.getenv(key);
         if (env != null && !env.isEmpty()) {
             return Boolean.valueOf(env);
