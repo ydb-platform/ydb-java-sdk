@@ -42,9 +42,9 @@ public class YdbHelperFactoryTest {
     public void externalNonTlsInstanceTest() {
         transportMock.setup("/database");
 
-        YdbEnvironmentMock env = YdbEnvironmentMock.create()
-                .with("YDB_ENDPOINT", "localhost:1234")
-                .with("YDB_DATABASE", "/database");
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withEndpoint("localhost:1234")
+                .withDatabase("/database");
 
         YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(env);
 
@@ -79,11 +79,11 @@ public class YdbHelperFactoryTest {
             os.flush();
         }
 
-        YdbEnvironmentMock env = YdbEnvironmentMock.create()
-                .with("YDB_ENDPOINT", "localhost:1234")
-                .with("YDB_DATABASE", "/tls")
-                .with("YDB_USE_TLS", "true")
-                .with("YDB_PEM_CERT", pem.getAbsolutePath());
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withEndpoint("localhost:1234")
+                .withDatabase("/tls")
+                .withUseTLS(true)
+                .withPemCert(pem.getAbsolutePath());
 
         YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(env);
 
@@ -110,12 +110,12 @@ public class YdbHelperFactoryTest {
     public void externalAuthInstanceTest() throws IOException {
         transportMock.setup("/token");
 
-        YdbEnvironmentMock env = YdbEnvironmentMock.create()
-                .with("YDB_ENDPOINT", "localhost:4321")
-                .with("YDB_DATABASE", "/token")
-                .with("YDB_USE_TLS", "true")
-                .with("YDB_TOKEN", "TOKEN1234")
-                .with("YDB_PEM_CERT", "/not_exists_file.pem");
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withEndpoint("localhost:4321")
+                .withDatabase("/token")
+                .withUseTLS(true)
+                .withToken("TOKEN1234")
+                .withPemCert("/not_exists_file.pem");
 
         YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(env);
 
@@ -143,7 +143,7 @@ public class YdbHelperFactoryTest {
         try (DockerMock docker = new DockerMock()) {
             docker.setup(Boolean.FALSE);
 
-            YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(YdbEnvironmentMock.create());
+            YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(new YdbEnvironmentMock());
 
             Assert.assertNotNull("check disabled factory instance", factory);
             Assert.assertFalse("check disabled factory instance", factory.isEnabled());
@@ -156,7 +156,7 @@ public class YdbHelperFactoryTest {
         try (DockerMock docker = new DockerMock()) {
             docker.setup(Boolean.TRUE);
 
-            YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(YdbEnvironmentMock.create());
+            YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(new YdbEnvironmentMock());
 
             Assert.assertNotNull("check docker factory instance", factory);
             Assert.assertTrue("check docker factory instance", factory.isEnabled());
@@ -168,26 +168,26 @@ public class YdbHelperFactoryTest {
         try (DockerMock docker = new DockerMock()) {
             docker.setup(Boolean.FALSE);
 
-            YdbHelperFactory factory1 = YdbHelperFactory.createYdbHelper(YdbEnvironmentMock.create()
-                    .with("YDB_ENDPOINT", "localhost:1234")
-                    .with("YDB_DATABASE", "")
+            YdbHelperFactory factory1 = YdbHelperFactory.createYdbHelper(new YdbEnvironmentMock()
+                    .withEndpoint("localhost:1234")
+                    .withDatabase("")
             );
 
             Assert.assertNotNull("check disabled factory instance", factory1);
             Assert.assertFalse("check disabled factory instance", factory1.isEnabled());
             Assert.assertNull("empty helper for disabled factory instance", factory1.createHelper());
 
-            YdbHelperFactory factory2 = YdbHelperFactory.createYdbHelper(YdbEnvironmentMock.create()
-                    .with("YDB_ENDPOINT", "")
-                    .with("YDB_DATABASE", "/local")
+            YdbHelperFactory factory2 = YdbHelperFactory.createYdbHelper(new YdbEnvironmentMock()
+                    .withEndpoint("")
+                    .withDatabase("/local")
             );
 
             Assert.assertNotNull("check disabled factory instance", factory2);
             Assert.assertFalse("check disabled factory instance", factory2.isEnabled());
             Assert.assertNull("empty helper for disabled factory instance", factory2.createHelper());
 
-            YdbHelperFactory factory3 = YdbHelperFactory.createYdbHelper(YdbEnvironmentMock.create()
-                    .with("YDB_ENDPOINT", "localhost:1234")
+            YdbHelperFactory factory3 = YdbHelperFactory.createYdbHelper(new YdbEnvironmentMock()
+                    .withEndpoint("localhost:1234")
             );
 
             Assert.assertNotNull("check disabled factory instance", factory3);
