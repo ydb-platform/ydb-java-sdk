@@ -1,7 +1,5 @@
 package tech.ydb.core.retry;
 
-import java.util.Random;
-
 /**
  *
  * @author Aleksandr Gorshenin
@@ -9,17 +7,17 @@ import java.util.Random;
 public class MaxElapsedRetry extends ExponentialBackoffRetry {
     private final long maxElapsedMs;
 
-    public MaxElapsedRetry(long maxElapsedMs, int backoffMs, int backoffCeiling) {
+    public MaxElapsedRetry(long maxElapsedMs, long backoffMs, int backoffCeiling) {
         super(backoffMs, backoffCeiling);
         this.maxElapsedMs = maxElapsedMs;
     }
 
     @Override
-    long nextRetryMs(int retryCount, long elapsedTimeMs, Random random) {
-        if (elapsedTimeMs > maxElapsedMs) {
+    public long nextRetryMs(int retryCount, long elapsedTimeMs) {
+        if (maxElapsedMs <= elapsedTimeMs) {
             return -1;
         }
-        long backoff = backoffTimeMillis(retryCount, random);
+        long backoff = backoffTimeMillis(retryCount);
         return (elapsedTimeMs + backoff < maxElapsedMs) ? backoff : maxElapsedMs - elapsedTimeMs;
     }
 }

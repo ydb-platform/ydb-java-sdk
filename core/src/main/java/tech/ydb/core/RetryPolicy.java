@@ -8,9 +8,11 @@ package tech.ydb.core;
 public interface RetryPolicy {
     /**
      * Called when an operation has failed for some reason. This method may return next values
-     * positive number N : operation must be retried in N milliseconds
-     * zero : operation must be retried immediately
-     * negative number : retry is not allowed, operation must be failed
+     * <ul>
+     * <li>Positive number N - operation must be retried in N milliseconds </li>
+     * <li>Zero : operation must be retried immediately </li>
+     * <li>Negative number : retry is not allowed, operation must be failed </li>
+     * </ul>
      *
      * @param retryCount the number of times retried so far (0 the first time)
      * @param elapsedTimeMs the elapsed time in ms since the operation was attempted
