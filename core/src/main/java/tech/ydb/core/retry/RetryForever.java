@@ -6,10 +6,10 @@ import tech.ydb.core.RetryPolicy;
  *
  * @author Aleksandr Gorshenin
  */
-public class ForeverRetry implements RetryPolicy {
+public class RetryForever implements RetryPolicy {
     private final long intervalMs;
 
-    public ForeverRetry(long intervalMs) {
+    public RetryForever(long intervalMs) {
         this.intervalMs = intervalMs;
     }
 

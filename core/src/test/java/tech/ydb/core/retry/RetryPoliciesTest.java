@@ -13,7 +13,7 @@ public class RetryPoliciesTest {
 
     @Test
     public void foreverRetryTest() {
-        RetryPolicy policy = new ForeverRetry(1234);
+        RetryPolicy policy = new RetryForever(1234);
 
         Assert.assertEquals(1234, policy.nextRetryMs(0, 0));
         Assert.assertEquals(1234, policy.nextRetryMs(Integer.MAX_VALUE, 0));
@@ -23,7 +23,7 @@ public class RetryPoliciesTest {
 
     @Test
     public void zeroRetriesTest() {
-        RetryPolicy policy = new MaxRetriesRetry(0, 100, 3);
+        RetryPolicy policy = new RetryNTimes(0, 100, 3);
 
         Assert.assertEquals(-1, policy.nextRetryMs(0, 0));
         Assert.assertEquals(-1, policy.nextRetryMs(Integer.MAX_VALUE, 0));
@@ -33,7 +33,7 @@ public class RetryPoliciesTest {
 
     @Test
     public void zeroTimeoutTest() {
-        RetryPolicy policy = new MaxElapsedRetry(0, 100, 3);
+        RetryPolicy policy = new RetryUntilElapsed(0, 100, 3);
 
         Assert.assertEquals(-1, policy.nextRetryMs(0, 0));
         Assert.assertEquals(-1, policy.nextRetryMs(Integer.MAX_VALUE, 0));
@@ -43,7 +43,7 @@ public class RetryPoliciesTest {
 
     @Test
     public void maxRetriesTest() {
-        RetryPolicy policy = new MaxRetriesRetry(5, 100, 3);
+        RetryPolicy policy = new RetryNTimes(5, 100, 3);
 
         assertDuration(100,  200, policy.nextRetryMs(0, 0));
         assertDuration(200,  400, policy.nextRetryMs(1, 150));
@@ -56,7 +56,7 @@ public class RetryPoliciesTest {
 
     @Test
     public void maxTimeoutTest() {
-        RetryPolicy policy = new MaxElapsedRetry(2500, 50, 3);
+        RetryPolicy policy = new RetryUntilElapsed(2500, 50, 3);
 
         assertDuration(50,  100, policy.nextRetryMs(0, 0));
         assertDuration(100, 200, policy.nextRetryMs(1, 75));

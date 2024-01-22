@@ -4,10 +4,10 @@ package tech.ydb.core.retry;
  *
  * @author Aleksandr Gorshenin
  */
-public class MaxRetriesRetry extends ExponentialBackoffRetry {
+public class RetryNTimes extends ExponentialBackoffRetryPolicy {
     private final int maxRetries;
 
-    public MaxRetriesRetry(int maxRetries, long backoffMs, int backoffCeiling) {
+    public RetryNTimes(int maxRetries, long backoffMs, int backoffCeiling) {
         super(backoffMs, backoffCeiling);
         this.maxRetries = maxRetries;
     }

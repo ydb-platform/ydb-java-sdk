@@ -8,11 +8,11 @@ import tech.ydb.core.RetryPolicy;
  *
  * @author Aleksandr Gorshenin
  */
-public abstract class ExponentialBackoffRetry implements RetryPolicy {
+public abstract class ExponentialBackoffRetryPolicy implements RetryPolicy {
     private final long backoffMs;
     private final int backoffCeiling;
 
-    protected ExponentialBackoffRetry(long backoffMs, int backoffCeiling) {
+    protected ExponentialBackoffRetryPolicy(long backoffMs, int backoffCeiling) {
         this.backoffMs = backoffMs;
         this.backoffCeiling = backoffCeiling;
     }
