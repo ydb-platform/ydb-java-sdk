@@ -22,6 +22,22 @@ public class RetryUntilElapsed extends ExponentialBackoffRetry {
     }
 
     /**
+     * Return maximal count of elapsed milliseconds
+     * @return maximal count of elapsed milliseconds
+     */
+    public long getMaxElapsedMillis() {
+        return maxElapsedMs;
+    }
+
+    /**
+     * Create new retry policy with specified count of elapsed milliseconds
+     * @param maxElapsedMs new value of max elapsed milliseconds
+     * @return updated retry policy */
+    public RetryUntilElapsed withMaxElapsedMs(long maxElapsedMs) {
+        return new RetryUntilElapsed(maxElapsedMs, getBackoffMillis(), getBackoffCeiling());
+    }
+
+    /**
      * Create new retry policy with specified backoff duration
      * @param ms new backoff duration
      * @return new retry policy */

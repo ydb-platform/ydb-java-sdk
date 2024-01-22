@@ -23,10 +23,18 @@ public abstract class ExponentialBackoffRetry implements RetryPolicy {
         return delay + ThreadLocalRandom.current().nextLong(delay);
     }
 
+    /**
+     * Return current base of backoff delays
+     * @return backoff base duration in milliseconds
+     */
     public long getBackoffMillis() {
         return backoffMs;
     }
 
+    /**
+     * Return current maximal level of backoff exponent
+     * @return maximal level of backoff exponent
+     */
     public int getBackoffCeiling() {
         return backoffCeiling;
     }

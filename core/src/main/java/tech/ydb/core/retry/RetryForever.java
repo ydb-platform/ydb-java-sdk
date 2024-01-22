@@ -19,6 +19,14 @@ public class RetryForever implements RetryPolicy {
     }
 
     /**
+     * Return current interval of retries
+     * @return retry interval in milliseconds
+     */
+    public long getIntervalMillis() {
+        return intervalMs;
+    }
+
+    /**
      * Create new retry policy with specified retry interval
      * @param ms new interval in milliseconds
      * @return updated retry policy */

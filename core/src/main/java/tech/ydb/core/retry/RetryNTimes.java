@@ -21,6 +21,22 @@ public class RetryNTimes extends ExponentialBackoffRetry {
     }
 
     /**
+     * Return maximal count of retries
+     * @return maximal count of retries
+     */
+    public int getMaxRetries() {
+        return maxRetries;
+    }
+
+    /**
+     * Create new retry policy with specified max retries count
+     * @param maxRetries new value of max count of retries
+     * @return updated retry policy */
+    public RetryNTimes withMaxRetries(int maxRetries) {
+        return new RetryNTimes(maxRetries, getBackoffMillis(), getBackoffCeiling());
+    }
+
+    /**
      * Create new retry policy with specified backoff duration
      * @param ms new backoff duration in milliseconds
      * @return updated retry policy */
