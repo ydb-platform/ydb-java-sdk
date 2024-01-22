@@ -8,11 +8,11 @@ import tech.ydb.core.RetryPolicy;
  *
  * @author Aleksandr Gorshenin
  */
-public abstract class ExponentialBackoffRetryPolicy implements RetryPolicy {
+public abstract class ExponentialBackoffRetry implements RetryPolicy {
     private final long backoffMs;
     private final int backoffCeiling;
 
-    protected ExponentialBackoffRetryPolicy(long backoffMs, int backoffCeiling) {
+    protected ExponentialBackoffRetry(long backoffMs, int backoffCeiling) {
         this.backoffMs = backoffMs;
         this.backoffCeiling = backoffCeiling;
     }
@@ -21,5 +21,13 @@ public abstract class ExponentialBackoffRetryPolicy implements RetryPolicy {
         int slots = 1 << Math.min(retryNumber, backoffCeiling);
         long delay = backoffMs * slots;
         return delay + ThreadLocalRandom.current().nextLong(delay);
+    }
+
+    public long getBackoffMillis() {
+        return backoffMs;
+    }
+
+    public int getBackoffCeiling() {
+        return backoffCeiling;
     }
 }

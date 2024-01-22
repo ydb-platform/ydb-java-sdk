@@ -17,4 +17,12 @@ public class RetryForever implements RetryPolicy {
     public long nextRetryMs(int retryCount, long elapsedTimeMs) {
         return intervalMs;
     }
+
+    /**
+     * Create new retry policy with specified retry interval
+     * @param ms new interval in milliseconds
+     * @return updated retry policy */
+    public RetryForever withIntervalMs(long ms) {
+        return new RetryForever(ms);
+    }
 }
