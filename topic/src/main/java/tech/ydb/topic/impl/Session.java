@@ -5,5 +5,5 @@ package tech.ydb.topic.impl;
  */
 public interface Session {
     void startAndInitialize();
-    void shutdown();
+    boolean shutdown();
 }

@@ -144,7 +144,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
         public void startAndInitialize() {
             logger.debug("[{}] Session {} startAndInitialize called", fullId, sessionId);
-            start(this::processMessage).whenComplete(this::onSessionClosing);
+            start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
                     .newBuilder();
@@ -437,7 +437,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 reconnectCounter.set(0);
             } else {
                 logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, message);
-                onSessionClosed(Status.of(StatusCode.fromProto(message.getStatus()))
+                closeDueToError(Status.of(StatusCode.fromProto(message.getStatus()))
                         .withIssues(Issue.of("Got a message with non-success status: " + message,
                                 Issue.Severity.ERROR)), null);
                 return;
@@ -462,10 +462,9 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
         }
 
-        private void onSessionClosing(Status status, Throwable th) {
-            logger.info("[{}] Session {} onSessionClosing called", fullId, sessionId);
-            if (isWorking.get()) {
-                shutdown();
+        private void closeDueToError(Status status, Throwable th) {
+            logger.info("[{}] Session {} closeDueToError called", fullId, sessionId);
+            if (shutdown()) {
                 // Signal reader to retry
                 onSessionClosed(status, th);
             }
