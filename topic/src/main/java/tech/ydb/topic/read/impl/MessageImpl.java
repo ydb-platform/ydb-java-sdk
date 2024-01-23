@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
-import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 
 /**
