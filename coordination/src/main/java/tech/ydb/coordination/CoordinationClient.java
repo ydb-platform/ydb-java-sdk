@@ -2,7 +2,6 @@ package tech.ydb.coordination;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ForkJoinPool;
 
 import javax.annotation.WillNotClose;
 
@@ -95,11 +94,7 @@ public interface CoordinationClient {
      * @return future with instance of coordination session
      */
     default CompletableFuture<CoordinationSession> createSession(String path) {
-        return createSession(path, CoordinationSessionSettings.newBuilder()
-                .withConnectTimeout(Duration.ofSeconds(5))
-                .withReconnectBackoffDelay(Duration.ofMillis(250))
-                .withExecutor(ForkJoinPool.commonPool())
-                .build());
+        return createSession(path, CoordinationSessionSettings.newBuilder().build());
     }
 
     /**

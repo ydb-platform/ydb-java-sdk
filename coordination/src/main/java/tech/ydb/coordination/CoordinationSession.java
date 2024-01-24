@@ -9,8 +9,11 @@ import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.retry.RetryUntilElapsed;
 
-public interface CoordinationSession extends AutoCloseable {
+public interface CoordinationSession {
+    static final Duration DEFAULT_SESSION_TIMEOUT = Duration.ofSeconds(5);
+    static final RetryUntilElapsed DEFAULT_RETRY_POLICY = new RetryUntilElapsed(5000, 250, 5);
 
     /**
      * Identifier of session. This value never changes even if the session restarts the grpc stream several times
@@ -19,10 +22,10 @@ public interface CoordinationSession extends AutoCloseable {
      */
     long getId();
 
-    @Override
-    void close();
 
-    boolean isClosed();
+    CompletableFuture<Long> start();
+
+    CompletableFuture<Status> stop();
 
     /**
      * Create a new semaphore. This operation doesn't change internal state of the coordination session

@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * @author Aleksandr Gorshenin
  */
-public interface SemaphoreLease extends AutoCloseable {
+public interface SemaphoreLease {
 
     String getSemaphoreName();
 
@@ -16,9 +16,4 @@ public interface SemaphoreLease extends AutoCloseable {
     boolean isActive();
 
     CompletableFuture<Void> release();
-
-    @Override
-    default void close() {
-        release().join();
-    }
 }

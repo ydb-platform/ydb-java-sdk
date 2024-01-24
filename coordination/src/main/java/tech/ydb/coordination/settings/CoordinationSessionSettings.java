@@ -3,6 +3,8 @@ package tech.ydb.coordination.settings;
 import java.time.Duration;
 import java.util.concurrent.Executor;
 
+import tech.ydb.core.RetryPolicy;
+
 /**
  *
  * @author Aleksandr Gorshenin
@@ -10,12 +12,12 @@ import java.util.concurrent.Executor;
 public class CoordinationSessionSettings {
     private final Executor executor;
     private final Duration connectTimeout;
-    private final Duration reconnectBackoffDelay;
+    private final RetryPolicy retryPolicy;
 
     private CoordinationSessionSettings(Builder builder) {
         this.connectTimeout = builder.connectTimeout;
         this.executor = builder.executor;
-        this.reconnectBackoffDelay = builder.reconnectBackoffDelay;
+        this.retryPolicy = builder.retryPolicy;
     }
 
     public Duration getConnectTimeout() {
@@ -26,8 +28,8 @@ public class CoordinationSessionSettings {
         return executor;
     }
 
-    public Duration getReconnectBackoffDelay() {
-        return reconnectBackoffDelay;
+    public RetryPolicy getRetryPolicy() {
+        return retryPolicy;
     }
 
     public static Builder newBuilder() {
@@ -37,7 +39,7 @@ public class CoordinationSessionSettings {
     public static class Builder {
         private Executor executor = null;
         private Duration connectTimeout = Duration.ofSeconds(5);
-        private Duration reconnectBackoffDelay = Duration.ofMillis(250);
+        private RetryPolicy retryPolicy = null;
 
         public Builder withExecutor(Executor executor) {
             this.executor = executor;
@@ -49,8 +51,8 @@ public class CoordinationSessionSettings {
             return this;
         }
 
-        public Builder withReconnectBackoffDelay(Duration delay) {
-            this.reconnectBackoffDelay = delay;
+        public Builder withRetryPolicy(RetryPolicy retryPolicy) {
+            this.retryPolicy = retryPolicy;
             return this;
         }
 
