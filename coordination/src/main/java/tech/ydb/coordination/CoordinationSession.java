@@ -2,6 +2,7 @@ package tech.ydb.coordination;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.description.SemaphoreWatcher;
@@ -11,21 +12,55 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.retry.RetryUntilElapsed;
 
-public interface CoordinationSession {
-    static final Duration DEFAULT_SESSION_TIMEOUT = Duration.ofSeconds(5);
-    static final RetryUntilElapsed DEFAULT_RETRY_POLICY = new RetryUntilElapsed(5000, 250, 5);
+public interface CoordinationSession extends AutoCloseable {
+    enum State {
+        UNSTARTED(false, false),
+
+        CONNECTING(false, false),
+
+        CONNECTED(true, true),
+
+        RECONNECTING(false, true),
+
+        RECONNECTED(true, true),
+
+        CLOSED(false, false),
+
+        LOST(false, false);
+
+        private final boolean isConnected;
+        private final boolean isActive;
+
+        State(boolean isConnected, boolean isActive) {
+            this.isConnected = isConnected;
+            this.isActive = isActive;
+        }
+
+        public boolean isConnected() {
+            return isConnected;
+        }
+
+        public boolean isActive() {
+            return isActive;
+        }
+    }
+
+    Duration DEFAULT_SESSION_TIMEOUT = Duration.ofSeconds(5);
+    RetryUntilElapsed DEFAULT_RETRY_POLICY = new RetryUntilElapsed(5000, 250, 5);
 
     /**
-     * Identifier of session. This value never changes even if the session restarts the grpc stream several times
-     *
-     * @return session id
+     * Establish new bidirectional grpc stream
+     * @return Future with session identifier
      */
-    long getId();
-
-
     CompletableFuture<Long> start();
 
-    CompletableFuture<Status> stop();
+    State getState();
+
+    void addStateListener(Consumer<State> listener);
+    void removeStateListener(Consumer<State> listener);
+
+    @Override
+    void close();
 
     /**
      * Create a new semaphore. This operation doesn't change internal state of the coordination session

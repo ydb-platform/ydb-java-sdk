@@ -41,9 +41,9 @@ public interface CoordinationClient {
      *
      * @param path full path to coordination node
      * @param settings coordination session settings
-     * @return future with instance of coordination session
+     * @return new instance of coordination session
      */
-    CompletableFuture<CoordinationSession> createSession(String path, CoordinationSessionSettings settings);
+    CoordinationSession createSession(String path, CoordinationSessionSettings settings);
 
     /**
      * Creates a new coordination node.
@@ -91,9 +91,9 @@ public interface CoordinationClient {
      * stream for exchanging messages with the coordination service.
      *
      * @param path full path to coordination node
-     * @return future with instance of coordination session
+     * @return new instance of coordination session
      */
-    default CompletableFuture<CoordinationSession> createSession(String path) {
+    default CoordinationSession createSession(String path) {
         return createSession(path, CoordinationSessionSettings.newBuilder().build());
     }
 
