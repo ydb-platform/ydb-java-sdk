@@ -9,9 +9,11 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
@@ -24,6 +26,7 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.rpc.CoordinationRpc;
@@ -67,6 +70,10 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
     private CompletableFuture<Status> stoppedFuture;
     private byte[] protectionKey;
 
+    private final ConcurrentHashMap<Consumer<CoordinationSession.State>, Consumer<CoordinationSession.State>>
+            listeners = new ConcurrentHashMap<>();
+    private volatile CoordinationSession.State state = CoordinationSession.State.UNSTARTED;
+
     protected CoordinationRetryableStreamImpl(CoordinationRpc coordinationRpc, Executor executorService,
                                               String nodePath,
                                               Duration timeoutInRetryAttempt,
@@ -91,6 +98,31 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                 Duration.ofMillis(1_000));
     }
 
+    public long getId() {
+        return sessionId.get();
+    }
+
+    public CoordinationSession.State getState() {
+        return state;
+    }
+
+    public void addStateListener(Consumer<CoordinationSession.State> listener) {
+        if (listener != null) {
+            listeners.put(listener, listener);
+        }
+    }
+
+    public void removeStateListener(Consumer<CoordinationSession.State> listener) {
+        listeners.remove(listener);
+    }
+
+    private void updateState(CoordinationSession.State state) {
+        this.state = state;
+        for (Consumer<CoordinationSession.State> listener: listeners.values()) {
+            listener.accept(state);
+        }
+    }
+
     private static Status getStatus(
             StatusCodesProtos.StatusIds.StatusCode statusCode,
             List<IssueMessage> issueMessages
@@ -101,6 +133,10 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
 
     protected CompletableFuture<Long> start(Duration timeout) {
         final CompletableFuture<Long> sessionStartFuture = new CompletableFuture<>();
+        updateState(state == CoordinationSession.State.UNSTARTED ?
+                CoordinationSession.State.CONNECTING :
+                CoordinationSession.State.RECONNECTING);
+
         this.stoppedFuture = coordinationStream.start(message -> {
             if (logger.isTraceEnabled()) {
                 logger.trace("Message received for session {}:\n{}", sessionId.get(), message);
@@ -117,6 +153,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                 long requestId;
                 switch (message.getResponseCase()) {
                     case SESSION_STARTED:
+                        updateState(CoordinationSession.State.CONNECTED);
                         sessionId.set(message.getSessionStarted().getSessionId());
                         sessionStartFuture.complete(message.getSessionStarted().getSessionId());
                         break;
@@ -144,6 +181,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                         break;
                     case FAILURE:
                         if (!isRetryState.get() && isWorking.get()) {
+                            updateState(CoordinationSession.State.RECONNECTING);
                             retry();
                         }
                         break;
@@ -215,6 +253,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
 
         stoppedFuture.thenRun(() -> {
             if (!isRetryState.get() && isWorking.get()) {
+                updateState(CoordinationSession.State.RECONNECTING);
                 isRetryState.set(true);
                 retry();
             }
@@ -224,6 +263,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
             protectionKey = new byte[16];
             ThreadLocalRandom.current().nextBytes(protectionKey);
         }
+
         coordinationStream.sendNext(
                 SessionRequest.newBuilder().setSessionStart(
                         SessionStart.newBuilder()
@@ -260,7 +300,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                 coordinationRpc.getScheduler()
                         .schedule(this::retryInner, timeoutBetweenAttempts.toMillis(), TimeUnit.MILLISECONDS);
                 }
-            } catch (Exception e) {
+            } catch (InterruptedException | ExecutionException | TimeoutException | RuntimeException e) {
                 logger.trace("Exception while retry stream: exception = {}", e.toString());
                 if (isWorking.get()) {
                     coordinationRpc.getScheduler()
@@ -287,11 +327,13 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         updateWatchers.clear();
     }
 
+    @Override
     public CompletableFuture<Result<Boolean>> sendAcquireSemaphore(String semaphoreName, long count, Duration timeout,
                                                                    boolean ephemeral, int requestId) {
         return sendAcquireSemaphore(semaphoreName, count, timeout, ephemeral, BYTE_ARRAY_STUB, requestId);
     }
 
+    @Override
     public CompletableFuture<Result<Boolean>> sendAcquireSemaphore(String semaphoreName, long count, Duration timeout,
                                                                    boolean ephemeral, byte[] data, int requestId) {
         final long fullRequestId = getFullRequestId(requestId);
@@ -308,6 +350,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         return getFutureAcquireRelease(fullRequestId, request);
     }
 
+    @Override
     public CompletableFuture<Result<Boolean>> sendReleaseSemaphore(String semaphoreName, int requestId) {
         final long fullRequestId = getFullRequestId(requestId);
         final SessionRequest request = SessionRequest.newBuilder().setReleaseSemaphore(
@@ -362,6 +405,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         return describeFuture;
     }
 
+    @Override
     public CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphore(
             String semaphoreName, boolean includeOwners, boolean includeWaiters,
             boolean watchData, boolean watchOwners, Consumer<SemaphoreChangedEvent> updateWatcher) {
@@ -383,10 +427,12 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         return future;
     }
 
+    @Override
     public CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, int requestId) {
         return sendCreateSemaphore(semaphoreName, limit, BYTE_ARRAY_STUB, requestId);
     }
 
+    @Override
     public CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, @Nonnull byte[] data,
                                                          int requestId) {
         final long fullRequestId = getFullRequestId(requestId);
@@ -405,10 +451,12 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         return createSemaphoreFuture;
     }
 
+    @Override
     public CompletableFuture<Status> sendUpdateSemaphore(String semaphoreName, int requestId) {
         return sendUpdateSemaphore(semaphoreName, BYTE_ARRAY_STUB, requestId);
     }
 
+    @Override
     public CompletableFuture<Status> sendUpdateSemaphore(String semaphoreName, byte[] data, int requestId) {
         final long fullRequestId = getFullRequestId(requestId);
         final SessionRequest request = SessionRequest.newBuilder().setUpdateSemaphore(
@@ -425,6 +473,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
         return updateFuture;
     }
 
+    @Override
     public CompletableFuture<Status> sendDeleteSemaphore(String semaphoreName, boolean force, int requestId) {
         final long fullRequestId = getFullRequestId(requestId);
         final SessionRequest request = SessionRequest.newBuilder().setDeleteSemaphore(

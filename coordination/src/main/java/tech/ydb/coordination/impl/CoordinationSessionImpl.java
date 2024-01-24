@@ -1,14 +1,13 @@
 package tech.ydb.coordination.impl;
 
 import java.time.Duration;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,32 +27,41 @@ import tech.ydb.core.Status;
 public class CoordinationSessionImpl implements CoordinationSession {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
     private static final byte[] BYTE_ARRAY_STUB = new byte[0];
+
+    private final Duration connectTimeout;
     private final CoordinationRetryableStreamImpl stream;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
-    private final AtomicLong sessionId = new AtomicLong();
     private final AtomicInteger lastId = new AtomicInteger(ThreadLocalRandom.current().nextInt());
 
-    protected CoordinationSessionImpl(CoordinationRetryableStreamImpl stream) {
-        this.stream = stream;
-    }
-
-    public static CompletableFuture<CoordinationSession> newSession(CoordinationRpc rpc, String nodePath,
+    protected CoordinationSessionImpl(CoordinationRpc rpc, String nodePath,
             CoordinationSessionSettings settings) {
         Executor executor = settings.getExecutor();
         if (executor == null) {
             executor = ForkJoinPool.commonPool();
         }
 
-        final CoordinationRetryableStreamImpl stream = new CoordinationRetryableStreamImpl(rpc, executor, nodePath);
-        final CoordinationSessionImpl session = new CoordinationSessionImpl(stream);
-        final CompletableFuture<CoordinationSession> sessionStartFuture = CompletableFuture.completedFuture(session);
-        return session.start(settings.getConnectTimeout())
-                .thenAccept(session.sessionId::set)
-                .thenCompose(ignored -> sessionStartFuture);
+        this.connectTimeout = settings.getConnectTimeout();
+        this.stream = new CoordinationRetryableStreamImpl(rpc, executor, nodePath);
     }
 
-    private CompletableFuture<Long> start(Duration timeout) {
-        return stream.start(timeout);
+    @Override
+    public CompletableFuture<Long> start() {
+        return this.stream.start(connectTimeout);
+    }
+
+    @Override
+    public State getState() {
+        return stream.getState();
+    }
+
+    @Override
+    public void addStateListener(Consumer<State> listener) {
+        stream.addStateListener(listener);
+    }
+
+    @Override
+    public void removeStateListener(Consumer<State> listener) {
+        stream.removeStateListener(listener);
     }
 
     @Override
@@ -124,35 +132,8 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public long getId() {
-        return sessionId.get();
-    }
-
-    @Override
-    public boolean isClosed() {
-        return !isWorking.get();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof CoordinationSessionImpl)) {
-            return false;
-        }
-        CoordinationSessionImpl that = (CoordinationSessionImpl) o;
-        return Objects.equals(sessionId, that.sessionId);
-    }
-
-    @Override
-    public int hashCode() {
-        return Math.toIntExact(sessionId.get());
-    }
-
-    @Override
     public void close() {
-        logger.trace("Close session with id={}", sessionId.get());
+        logger.trace("Close session with id={}", stream.getId());
         if (isWorking.compareAndSet(true, false)) {
             stream.stop();
         }

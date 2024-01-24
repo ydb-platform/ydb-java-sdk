@@ -34,8 +34,8 @@ public class CoordinationClientImpl implements CoordinationClient {
     }
 
     @Override
-    public CompletableFuture<CoordinationSession> createSession(String path, CoordinationSessionSettings settings) {
-        return CoordinationSessionImpl.newSession(coordinationRpc, path, settings);
+    public CoordinationSession createSession(String path, CoordinationSessionSettings settings) {
+        return new CoordinationSessionImpl(coordinationRpc, path, settings);
     }
 
     @Override

@@ -16,7 +16,7 @@ public interface CoordinationSession extends AutoCloseable {
     enum State {
         UNSTARTED(false, false),
 
-        CONNECTING(false, false),
+        CONNECTING(false, true),
 
         CONNECTED(true, true),
 
