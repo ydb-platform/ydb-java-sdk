@@ -76,7 +76,8 @@ public class CoordinationClientTest {
     @Test(timeout = 20_000)
     public void coordinationSessionFullCycleTest() {
         final String semaphoreName = "test-semaphore";
-        try (CoordinationSession session = client.createSession(path).join()) {
+        try (CoordinationSession session = client.createSession(path)) {
+            session.start().join();
             session.createSemaphore(semaphoreName, 100).get(20, TimeUnit.SECONDS);
             SemaphoreLease semaphore = session.acquireSemaphore(semaphoreName, 70, timeout)
                     .join().getValue();
@@ -95,7 +96,7 @@ public class CoordinationClientTest {
             final byte[] data = "Hello".getBytes(StandardCharsets.UTF_8);
             session.updateSemaphore(semaphoreName, data).join();
             Assert.assertTrue(watch.getChangedFuture().get(1, TimeUnit.MINUTES).isDataChanged());
-            semaphore.close();
+            semaphore.release().join();
         } catch (Exception e) {
             Assert.fail("There have to be no exceptions. [exception]: " + e);
             throw new RuntimeException(e);
@@ -105,7 +106,8 @@ public class CoordinationClientTest {
     @Test(timeout = 20_000)
     public void ephemeralSemaphoreBaseTest() {
         final String semaphoreName = "coordination-client-ephemeral-semaphore-base-test";
-        try (CoordinationSession session = client.createSession(path).join()) {
+        try (CoordinationSession session = client.createSession(path)) {
+            session.start().join();
             session.acquireEphemeralSemaphore(semaphoreName, true, timeout)
                     .join().getValue();
             final SemaphoreDescription description =
@@ -128,7 +130,8 @@ public class CoordinationClientTest {
         final int sessionNum = 10;
         CoordinationClient mockClient = new CoordinationClientImpl(rpc);
 
-        try (CoordinationSession session = mockClient.createSession(path).join()) {
+        try (CoordinationSession session = mockClient.createSession(path)) {
+            session.start().join();
             session.createSemaphore(semaphoreName, 90 + sessionNum + 1).join();
             SemaphoreLease lease = session.acquireSemaphore(semaphoreName, 90, timeout).join().getValue();
 
@@ -139,8 +142,9 @@ public class CoordinationClientTest {
                     .current()
                     .ints(sessionNum)
                     .mapToObj(n -> mockClient.createSession(path))
-                    .map(CompletableFuture::join)
                     .collect(Collectors.toList());
+
+            sessions.forEach(s -> s.start().join());
 
             ProxyStream.IS_STOPPED.set(true);
 //            ------------------------

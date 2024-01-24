@@ -40,7 +40,8 @@ public class ServiceDiscoveryScenarioTest {
 
     @Test(timeout = 60_000)
     public void serviceDiscoveryTest() {
-        try (CoordinationSession checkSession = client.createSession(path).join()) {
+        try (CoordinationSession checkSession = client.createSession(path)) {
+            checkSession.start().join();
             Status create = checkSession.createSemaphore(Worker.SEMAPHORE_NAME, 100).join();
             Assert.assertTrue(create.isSuccess());
 

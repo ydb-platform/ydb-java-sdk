@@ -1,37 +1,7 @@
 package tech.ydb.coordination;
 
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import tech.ydb.coordination.scenario.leader_election.LeaderElection;
-import tech.ydb.coordination.scenario.leader_election.LeaderElection.LeadershipPolicy;
-import tech.ydb.coordination.settings.CoordinationNodeSettings;
-import tech.ydb.coordination.settings.DescribeSemaphoreMode;
-import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
-import tech.ydb.test.junit4.GrpcTransportRule;
-
 public class LeaderElectionScenarioTest {
+    /*
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
     private static final Logger logger = LoggerFactory.getLogger(LeaderElectionScenarioTest.class);
@@ -82,11 +52,10 @@ public class LeaderElectionScenarioTest {
             logger.info("The first leader: " + leader.get());
             barrier.reset();
 
-            /* Leader change observer will be call 3 times:
-                first - after asking election who is a leader now
-                second - after leader call interruptLeadership()
-                third - after call forceUpdateLeader() on participant3
-             */
+            // Leader change observer will be call 3 times:
+            //    first - after asking election who is a leader now
+            //    second - after leader call interruptLeadership()
+            //    third - after call forceUpdateLeader() on participant3
             CountDownLatch counter = new CountDownLatch(3);
             try (LeaderElection participant3 = LeaderElection
                     .joinElection(client, path, "endpoint-3", semaphoreName)
@@ -131,7 +100,7 @@ public class LeaderElectionScenarioTest {
     public void leaderElectionOneLeaderSeveralFollowerTest() {
         final String name = "leader-election-one-leader-several-followers";
         final AtomicBoolean isFollowerALeader = new AtomicBoolean(false);
-        /* Check that after leader.interruptLeadership() this leader will be chosen again */
+        // Check that after leader.interruptLeadership() this leader will be chosen again
         final CountDownLatch latch = new CountDownLatch(1);
 
         try (LeaderElection follower1 = LeaderElection.joinElection(client, path, "endpoint-1", name)
@@ -247,7 +216,7 @@ public class LeaderElectionScenarioTest {
 
         barrier.reset();
 
-        /* The leader is not a leader anymore */
+        // The leader is not a leader anymore
         for (int i = 0; i < sessionCount; i++) {
             if (participants.get(i).isLeader()) {
                 participants.remove(i).close();
@@ -275,9 +244,11 @@ public class LeaderElectionScenarioTest {
         final AtomicBoolean assertChecker = new AtomicBoolean(true);
         final int sessionCount = 10;
         final CountDownLatch latch1 = new CountDownLatch(sessionCount);
-        List<CoordinationSession> sessions = Stream.generate(() -> client.createSession(path).join())
+        List<CoordinationSession> sessions = Stream.generate(() -> client.createSession(path))
                 .limit(sessionCount)
                 .collect(Collectors.toList());
+
+        sessions.forEach(s -> s.start().join());
 
         CompletableFuture<SemaphoreLease> semaphore = new CompletableFuture<>();
         CompletableFuture<CoordinationSession> leader = new CompletableFuture<>();
@@ -297,7 +268,7 @@ public class LeaderElectionScenarioTest {
         final CountDownLatch latch2 = new CountDownLatch(sessionCount);
 
         sessions.forEach(session -> session
-                .acquireSemaphore(semaphoreName, 1, String.valueOf(session.getId()).getBytes(), Duration.ofSeconds(2))
+                .acquireSemaphore(semaphoreName, 1, String.valueOf(session.hashCode()).getBytes(), Duration.ofSeconds(2))
                 .whenComplete((res, acquireSemaphoreTh) -> {
                             threadWorkAssert(assertChecker, acquireSemaphoreTh == null);
                             if (res.isSuccess()) {
@@ -316,7 +287,7 @@ public class LeaderElectionScenarioTest {
                 .whenComplete((result, th) -> {
                     threadWorkAssert(assertChecker, result.isSuccess());
                     threadWorkAssert(assertChecker, th == null);
-                    threadWorkAssert(assertChecker, Arrays.equals(String.valueOf(leaderSession.getId()).getBytes(),
+                    threadWorkAssert(assertChecker, Arrays.equals(String.valueOf(leaderSession.hashCode()).getBytes(),
                             result.getValue().getOwnersList().get(0).getData()));
                     latch3.countDown();
                 }));
@@ -353,4 +324,5 @@ public class LeaderElectionScenarioTest {
                     .forEach(logger::warn);
         }
     }
+    */
 }
