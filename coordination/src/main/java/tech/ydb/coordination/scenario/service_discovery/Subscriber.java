@@ -19,12 +19,14 @@ public class Subscriber implements AutoCloseable {
     public static final String SEMAPHORE_NAME = "service-discovery-semaphore";
     private static final Logger logger = LoggerFactory.getLogger(Subscriber.class);
     private final CoordinationSession session;
+    private final Long sessionID;
     private final AtomicReference<Runnable> updateWaiter = new AtomicReference<>();
     private SemaphoreDescription description;
     private volatile boolean isStopped = false;
 
-    private Subscriber(CoordinationSession session, Result<SemaphoreWatcher> watcherResult) {
+    private Subscriber(CoordinationSession session, Long id, Result<SemaphoreWatcher> watcherResult) {
         this.session = session;
+        this.sessionID = id;
         updateDescription(watcherResult, null);
     }
 
@@ -35,11 +37,11 @@ public class Subscriber implements AutoCloseable {
      * @return Completable future with Subscriber
      */
     public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath) {
-        return client.createSession(fullPath)
-                .thenCompose(session ->
-                        session.describeAndWatchSemaphore(SEMAPHORE_NAME,
+        CoordinationSession newSession = client.createSession(fullPath);
+        return newSession.start().thenCompose(id ->
+                        newSession.describeAndWatchSemaphore(SEMAPHORE_NAME,
                                         DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS)
-                                .thenApply(semaphoreWatcherResult -> new Subscriber(session, semaphoreWatcherResult))
+                                .thenApply(result -> new Subscriber(newSession, id, result))
                 );
     }
 
@@ -55,7 +57,7 @@ public class Subscriber implements AutoCloseable {
             return;
         }
         if (th != null) {
-            logger.warn("unexpected exception on watch {} in session {}", SEMAPHORE_NAME, session.getId(), th);
+            logger.warn("unexpected exception on watch {} in session {}", SEMAPHORE_NAME, sessionID, th);
             session.describeAndWatchSemaphore(
                     SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
             ).whenComplete(this::updateDescription);
@@ -73,7 +75,7 @@ public class Subscriber implements AutoCloseable {
                 watch.getChangedFuture().whenCompleteAsync(this::handleChangedEvent);
             } else {
                 logger.warn("unexpected result {} on watch {} in session {}",
-                        result.getStatus(), SEMAPHORE_NAME, session.getId());
+                        result.getStatus(), SEMAPHORE_NAME, sessionID);
                 session.describeAndWatchSemaphore(
                         SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
                 ).whenComplete(this::updateDescription);
@@ -87,7 +89,7 @@ public class Subscriber implements AutoCloseable {
         }
 
         if (th != null) {
-            logger.error("unexpected exception on changed {} in session {}", SEMAPHORE_NAME, session.getId(), th);
+            logger.error("unexpected exception on changed {} in session {}", SEMAPHORE_NAME, sessionID, th);
         }
         if (ev != null) {
             logger.info("got changed {} with data {}, owners {}, connection {}, redescrive",

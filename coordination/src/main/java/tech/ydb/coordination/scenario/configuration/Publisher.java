@@ -34,8 +34,8 @@ public class Publisher implements AutoCloseable {
      */
     public static CompletableFuture<Publisher> newPublisherAsync(CoordinationClient client, String fullPath,
                                                                  String semaphoreName) {
-        return client.createSession(fullPath)
-                .thenApply(session -> new Publisher(session, semaphoreName));
+        CoordinationSession session = client.createSession(fullPath);
+        return session.start().thenApply(id -> new Publisher(session, semaphoreName));
     }
 
     /**

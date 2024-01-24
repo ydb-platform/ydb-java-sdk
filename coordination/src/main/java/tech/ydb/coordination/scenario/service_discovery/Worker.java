@@ -29,11 +29,12 @@ public class Worker {
      */
     public static CompletableFuture<Worker> newWorkerAsync(CoordinationClient client, String fullPath, String endpoint,
                                                            Duration maxAttemptTimeout) {
-        return client.createSession(fullPath).thenCompose(session -> {
+        CoordinationSession newSession = client.createSession(fullPath);
+        return newSession.start().thenCompose(id -> {
             byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
-            return session.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(res -> {
+            return newSession.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(res -> {
                 if (res.isSuccess()) {
-                    return new Worker(session, res.getValue());
+                    return new Worker(newSession, res.getValue());
                 } else {
                     throw new UnexpectedResultException("The semaphore for Worker wasn't acquired.",
                             res.getStatus());
