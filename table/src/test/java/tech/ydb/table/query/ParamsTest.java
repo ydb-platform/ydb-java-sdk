@@ -3,16 +3,13 @@ package tech.ydb.table.query;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.truth.extensions.proto.ProtoTruth;
+import org.junit.Assert;
+import org.junit.Test;
+
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
-import org.junit.Test;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 
 /**
@@ -24,26 +21,23 @@ public class ParamsTest {
     public void empty() {
         Params params = Params.empty();
 
-        assertThat(params.isEmpty())
-            .isTrue();
+        Assert.assertTrue(params.isEmpty());
 
         assertImmutable(params);
 
-        assertThat(params.toPb())
-            .isEmpty();
+        Assert.assertTrue(params.toPb().isEmpty());
     }
 
     @Test
     public void single() {
         Params params = Params.of("one", PrimitiveValue.newUint32(1));
 
-        assertThat(params.isEmpty())
-            .isFalse();
+        Assert.assertFalse(params.isEmpty());
 
         assertImmutable(params);
 
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).hasSize(1);
+        Assert.assertEquals(1, pb.size());
 
         assertProtoUint32(pb.get("one"), 1);
     }
@@ -54,13 +48,12 @@ public class ParamsTest {
             "one", PrimitiveValue.newUint32(1),
             "two", PrimitiveValue.newUint32(2));
 
-        assertThat(params.isEmpty())
-            .isFalse();
+        Assert.assertFalse(params.isEmpty());
 
         assertImmutable(params);
 
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).hasSize(2);
+        Assert.assertEquals(2, pb.size());
 
         assertProtoUint32(pb.get("one"), 1);
         assertProtoUint32(pb.get("two"), 2);
@@ -73,13 +66,12 @@ public class ParamsTest {
             "two", PrimitiveValue.newUint32(2),
             "three", PrimitiveValue.newUint32(3));
 
-        assertThat(params.isEmpty())
-            .isFalse();
+        Assert.assertFalse(params.isEmpty());
 
         assertImmutable(params);
 
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).hasSize(3);
+        Assert.assertEquals(3, pb.size());
 
         assertProtoUint32(pb.get("one"), 1);
         assertProtoUint32(pb.get("two"), 2);
@@ -94,13 +86,12 @@ public class ParamsTest {
             "three", PrimitiveValue.newUint32(3),
             "four", PrimitiveValue.newUint32(4));
 
-        assertThat(params.isEmpty())
-            .isFalse();
+        Assert.assertFalse(params.isEmpty());
 
         assertImmutable(params);
 
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).hasSize(4);
+        Assert.assertEquals(4, pb.size());
 
         assertProtoUint32(pb.get("one"), 1);
         assertProtoUint32(pb.get("two"), 2);
@@ -117,13 +108,12 @@ public class ParamsTest {
             "four", PrimitiveValue.newUint32(4),
             "five", PrimitiveValue.newUint32(5));
 
-        assertThat(params.isEmpty())
-            .isFalse();
+        Assert.assertFalse(params.isEmpty());
 
         assertImmutable(params);
 
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).hasSize(5);
+        Assert.assertEquals(5, pb.size());
 
         assertProtoUint32(pb.get("one"), 1);
         assertProtoUint32(pb.get("two"), 2);
@@ -139,7 +129,7 @@ public class ParamsTest {
 
         {
             Map<String, ValueProtos.TypedValue> pb = params1.toPb();
-            assertThat(pb).hasSize(2);
+            Assert.assertEquals(2, pb.size());
             assertProtoUtf8(pb.get("name"), "Jamel");
             assertProtoUint32(pb.get("age"), 99);
         }
@@ -149,7 +139,7 @@ public class ParamsTest {
 
         {
             Map<String, ValueProtos.TypedValue> pb = params2.toPb();
-            assertThat(pb).hasSize(3);
+            Assert.assertEquals(3, pb.size());
             assertProtoUtf8(pb.get("name"), "Jamel");
             assertProtoUint32(pb.get("age"), 99);
             assertProtoUtf8(pb.get("phone"), "+7-916-012-34-56");
@@ -158,7 +148,7 @@ public class ParamsTest {
         // not changed
         {
             Map<String, ValueProtos.TypedValue> pb = params1.toPb();
-            assertThat(pb).hasSize(2);
+            Assert.assertEquals(2, pb.size());
             assertProtoUtf8(pb.get("name"), "Jamel");
             assertProtoUint32(pb.get("age"), 99);
         }
@@ -173,7 +163,7 @@ public class ParamsTest {
         }
 
         Map<String, ValueProtos.TypedValue> pb = params.toPb();
-        assertThat(pb).hasSize(100);
+        Assert.assertEquals(100, pb.size());
 
         for (int i = 0; i < 100; i++) {
             assertProtoUint32(pb.get("a" + i), i);
@@ -181,34 +171,32 @@ public class ParamsTest {
 
         try {
             params.put("a0", PrimitiveValue.newUint32(777));
-            fail("expected exception was not thrown");
+            Assert.fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
-            assertEquals("duplicate parameter: a0", e.getMessage());
+            Assert.assertEquals("duplicate parameter: a0", e.getMessage());
         }
     }
 
     private static void assertProtoUtf8(ValueProtos.TypedValue one, String value) {
-        ProtoTruth.assertThat(one)
-            .isEqualTo(ValueProtos.TypedValue.newBuilder()
+        Assert.assertEquals(ValueProtos.TypedValue.newBuilder()
                 .setType(ProtoType.getText())
                 .setValue(ProtoValue.fromText(value))
-                .build());
+                .build(), one);
     }
 
     private static void assertProtoUint32(ValueProtos.TypedValue one, int value) {
-        ProtoTruth.assertThat(one)
-            .isEqualTo(ValueProtos.TypedValue.newBuilder()
+        Assert.assertEquals(ValueProtos.TypedValue.newBuilder()
                 .setType(ProtoType.getUint32())
                 .setValue(ProtoValue.fromUint32(value))
-                .build());
+                .build(), one);
     }
 
     private static void assertImmutable(Params params) {
         try {
             params.put("some", PrimitiveValue.newBool(false));
-            fail("expected exception was not thrown");
+            Assert.fail("expected exception was not thrown");
         } catch (UnsupportedOperationException e) {
-            assertEquals("cannot put parameter into immutable params map", e.getMessage());
+            Assert.assertEquals("cannot put parameter into immutable params map", e.getMessage());
         }
     }
 }

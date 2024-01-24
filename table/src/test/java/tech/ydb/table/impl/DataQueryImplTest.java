@@ -3,7 +3,9 @@ package tech.ydb.table.impl;
 import java.util.Map;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.common.truth.extensions.proto.ProtoTruth;
+import org.junit.Assert;
+import org.junit.Test;
+
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.ValueProtos.TypedValue;
 import tech.ydb.table.query.Params;
@@ -12,11 +14,6 @@ import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
-import org.junit.Test;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 
 /**
@@ -38,40 +35,37 @@ public class DataQueryImplTest {
             .put("name", PrimitiveValue.newText("Jamel"))
             .put("age", PrimitiveValue.newUint8((byte) 99));
 
-        assertThat(params.isEmpty())
-            .isFalse();
+        Assert.assertFalse(params.isEmpty());
 
         Map<String, TypedValue> pb = params.toPb();
-        assertThat(pb).isNotEmpty();
+        Assert.assertFalse(pb.isEmpty());
 
-        ProtoTruth.assertThat(pb.get("name"))
-            .isEqualTo(TypedValue.newBuilder()
+        Assert.assertEquals(TypedValue.newBuilder()
                 .setType(ProtoType.getText())
                 .setValue(ProtoValue.fromText("Jamel"))
-                .build());
+                .build(), pb.get("name"));
 
-        ProtoTruth.assertThat(pb.get("age"))
-            .isEqualTo(TypedValue.newBuilder()
+        Assert.assertEquals(TypedValue.newBuilder()
                 .setType(ProtoType.getUint8())
                 .setValue(ProtoValue.fromUint8((byte) 99))
-                .build());
+                .build(), pb.get("age"));
 
         // duplicate parameter
         try {
             params.put("name", PrimitiveValue.newText("Another Name"));
-            fail("expected exception was not thrown");
+            Assert.fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
-            assertEquals("duplicate parameter: name", e.getMessage());
+            Assert.assertEquals("duplicate parameter: name", e.getMessage());
         }
 
         // wrong type
         try {
             params.put("name", PrimitiveValue.newUint32(1));
-            fail("expected exception was not thrown");
+            Assert.fail("expected exception was not thrown");
         } catch (IllegalArgumentException e) {
             // TODO: do not check types anymore
             // assertEquals("types mismatch: expected Utf8, got Uint32", e.getMessage());
-            assertEquals("duplicate parameter: name", e.getMessage());
+            Assert.assertEquals("duplicate parameter: name", e.getMessage());
         }
     }
 }

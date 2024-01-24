@@ -13,14 +13,13 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
+import com.google.protobuf.ByteString;
+import org.junit.Assert;
+import org.junit.Test;
+
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
 
-import com.google.common.truth.extensions.proto.ProtoTruth;
-import com.google.protobuf.ByteString;
-import org.junit.Test;
-
-import static com.google.common.truth.Truth.assertThat;
 
 
 /**
@@ -32,214 +31,213 @@ public class PrimitiveValueTest {
     public void bool() {
         PrimitiveValue v = PrimitiveValue.newBool(true);
 
-        assertThat(v).isSameInstanceAs(PrimitiveValue.newBool(true));
-        assertThat(v).isEqualTo(PrimitiveValue.newBool(true));
-        assertThat(v).isNotSameInstanceAs(PrimitiveValue.newBool(false));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newBool(false));
-        assertThat(v.toString()).isEqualTo("true");
-        assertThat(v.getBool()).isTrue();
+        Assert.assertSame(PrimitiveValue.newBool(true), v);
+        Assert.assertEquals(PrimitiveValue.newBool(true), v);
+        Assert.assertNotSame(PrimitiveValue.newBool(false), v);
+        Assert.assertNotEquals(PrimitiveValue.newBool(false), v);
+        Assert.assertEquals("true", v.toString());
+        Assert.assertTrue(v.getBool());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isSameInstanceAs(ProtoValue.fromBool(true));
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromBool(true));
-        assertThat(v).isSameInstanceAs(ProtoValue.fromPb(PrimitiveType.Bool, vPb));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Bool, vPb));
+        Assert.assertSame(ProtoValue.fromBool(true), vPb);
+        Assert.assertEquals(ProtoValue.fromBool(true), vPb);
+        Assert.assertSame(v, ProtoValue.fromPb(PrimitiveType.Bool, vPb));
     }
 
     @Test
     public void int8() {
         PrimitiveValue v = PrimitiveValue.newInt8((byte) 1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newInt8((byte) 1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newInt8((byte) 0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getInt8()).isEqualTo((byte) 1);
+        Assert.assertEquals(PrimitiveValue.newInt8((byte) 1), v);
+        Assert.assertNotEquals(PrimitiveValue.newInt8((byte) 0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals((byte) 1, v.getInt8());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromInt8((byte) 1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Int8, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromInt8((byte) 1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Int8, vPb).equals(v));
     }
 
     @Test
     public void uint8_positive() {
         PrimitiveValue v = PrimitiveValue.newUint8((byte) 1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint8((byte) 1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint8((byte) 0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getUint8()).isEqualTo(1);
+        Assert.assertEquals(PrimitiveValue.newUint8((byte) 1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint8((byte) 0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals(1, v.getUint8());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint8((byte) 1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint8, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint8((byte) 1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint8, vPb).equals(v));
     }
 
     @Test
     public void uint8_negative() {
         PrimitiveValue v = PrimitiveValue.newUint8((byte) -1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint8((byte) -1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint8((byte) 0));
-        assertThat(v.toString()).isEqualTo("255"); // 0xff
-        assertThat(v.getUint8()).isEqualTo(255); // 0xff
+        Assert.assertEquals(PrimitiveValue.newUint8((byte) -1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint8((byte) 0), v);
+        Assert.assertEquals("255", v.toString()); // 0xff
+        Assert.assertEquals(255, v.getUint8()); // 0xff
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint8((byte) -1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint8, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint8((byte) -1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint8, vPb).equals(v));
     }
 
     @Test
     public void int16() {
         PrimitiveValue v = PrimitiveValue.newInt16((short) 1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newInt16((short) 1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newInt16((short) 0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getInt16()).isEqualTo((short) 1);
+        Assert.assertEquals(PrimitiveValue.newInt16((short) 1), v);
+        Assert.assertNotEquals(PrimitiveValue.newInt16((short) 0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals((short) 1, v.getInt16());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromInt16((short) 1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Int16, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromInt16((short) 1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Int16, vPb).equals(v));
     }
 
     @Test
     public void uint16_positive() {
         PrimitiveValue v = PrimitiveValue.newUint16((short) 1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint16((short) 1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint16((short) 0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getUint16()).isEqualTo(1);
+        Assert.assertEquals(PrimitiveValue.newUint16((short) 1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint16((short) 0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals(1, v.getUint16());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint16((short) 1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint16, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint16((short) 1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint16, vPb).equals(v));
     }
 
     @Test
     public void uint16_negative() {
         PrimitiveValue v = PrimitiveValue.newUint16((short) -1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint16((short) -1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint16((short) 0));
-        assertThat(v.toString()).isEqualTo("65535"); // 0xffff
-        assertThat(v.getUint16()).isEqualTo(65535); // 0xffff
+        Assert.assertEquals(PrimitiveValue.newUint16((short) -1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint16((short) 0), v);
+        Assert.assertEquals("65535", v.toString()); // 0xffff
+        Assert.assertEquals(65535, v.getUint16()); // 0xffff
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint16((short) -1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint16, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint16((short) -1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint16, vPb).equals(v));
     }
 
     @Test
     public void int32() {
         PrimitiveValue v = PrimitiveValue.newInt32(1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newInt32(1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newInt32(0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getInt32()).isEqualTo(1);
+        Assert.assertEquals(PrimitiveValue.newInt32(1), v);
+        Assert.assertNotEquals(PrimitiveValue.newInt32(0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals(1, v.getInt32());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromInt32(1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Int32, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromInt32(1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Int32, vPb).equals(v));
     }
 
     @Test
     public void uint32_positive() {
         PrimitiveValue v = PrimitiveValue.newUint32(1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint32(1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint32(0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getUint32()).isEqualTo(1L);
+        Assert.assertEquals(PrimitiveValue.newUint32(1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint32(0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals(1L, v.getUint32());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint32(1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint32, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint32(1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint32, vPb).equals(v));
     }
 
     @Test
     public void uint32_negative() {
         PrimitiveValue v = PrimitiveValue.newUint32(-1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint32(-1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint32(0));
-        assertThat(v.toString()).isEqualTo("4294967295"); // 0xffffffff
-        assertThat(v.getUint32()).isEqualTo(4294967295L); // 0xffffffff
+        Assert.assertEquals(PrimitiveValue.newUint32(-1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint32(0), v);
+        Assert.assertEquals("4294967295", v.toString()); // 0xffffffff
+        Assert.assertEquals(4294967295L, v.getUint32()); // 0xffffffff
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint32(-1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint32, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint32(-1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint32, vPb).equals(v));
     }
 
     @Test
     public void int64() {
         PrimitiveValue v = PrimitiveValue.newInt64(1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newInt64(1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newInt64(0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getInt64()).isEqualTo(1L);
+        Assert.assertEquals(PrimitiveValue.newInt64(1), v);
+        Assert.assertNotEquals(PrimitiveValue.newInt64(0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals(1L, v.getInt64());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromInt64(1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Int64, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromInt64(1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Int64, vPb).equals(v));
     }
 
     @Test
     public void uint64_positive() {
         PrimitiveValue v = PrimitiveValue.newUint64(1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint64(1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint64(0));
-        assertThat(v.toString()).isEqualTo("1");
-        assertThat(v.getUint64()).isEqualTo(1L);
+        Assert.assertEquals(PrimitiveValue.newUint64(1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint64(0), v);
+        Assert.assertEquals("1", v.toString());
+        Assert.assertEquals(1L, v.getUint64());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint64(1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint64, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint64(1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint64, vPb).equals(v));
     }
 
     @Test
     public void uint64_negative() {
         PrimitiveValue v = PrimitiveValue.newUint64(-1);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newUint64(-1));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newUint64(0));
-        assertThat(v.toString()).isEqualTo("18446744073709551615"); // 0xffffffffffffffff
-        assertThat(v.getUint64()).isEqualTo(Long.parseUnsignedLong("18446744073709551615")); // 0xffffffffffffffff
+        Assert.assertEquals(PrimitiveValue.newUint64(-1), v);
+        Assert.assertNotEquals(PrimitiveValue.newUint64(0), v);
+        Assert.assertEquals("18446744073709551615", v.toString()); // 0xffffffffffffffff
+        Assert.assertEquals(v.getUint64(), Long.parseUnsignedLong("18446744073709551615")); // 0xffffffffffffffff
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUint64(-1));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uint64, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromUint64(-1));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uint64, vPb).equals(v));
     }
 
     @Test
     public void floatTest() {
         PrimitiveValue v = PrimitiveValue.newFloat(3.14159f);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newFloat(3.14159f));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newFloat(0f));
-        assertThat(v.toString()).isEqualTo("3.14159");
-        assertThat(v.getFloat()).isEqualTo(3.14159f);
+        Assert.assertEquals(PrimitiveValue.newFloat(3.14159f), v);
+        Assert.assertNotEquals(PrimitiveValue.newFloat(0f), v);
+        Assert.assertEquals("3.14159", v.toString());
+        Assert.assertEquals(3.14159f, v.getFloat(), 1e-6f);
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromFloat(3.14159f));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Float, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromFloat(3.14159f));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Float, vPb).equals(v));
     }
 
     @Test
     public void float_nan() {
         PrimitiveValue v = PrimitiveValue.newFloat(Float.NaN);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newFloat(Float.NaN));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newFloat(0f));
-        assertThat(v.toString()).isEqualTo("NaN");
-        assertThat(v.getFloat()).isNaN();
+        Assert.assertEquals(PrimitiveValue.newFloat(Float.NaN), v);
+        Assert.assertNotEquals(PrimitiveValue.newFloat(0f), v);
+        Assert.assertEquals("NaN", v.toString());
+        Assert.assertTrue(Float.isNaN(v.getFloat()));
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromFloat(Float.NaN));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Float, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromFloat(Float.NaN));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Float, vPb).equals(v));
     }
 
     @Test
@@ -247,26 +245,26 @@ public class PrimitiveValueTest {
         {
             PrimitiveValue v = PrimitiveValue.newFloat(Float.POSITIVE_INFINITY);
 
-            assertThat(v).isEqualTo(PrimitiveValue.newFloat(Float.POSITIVE_INFINITY));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newFloat(0f));
-            assertThat(v.toString()).isEqualTo("Infinity");
-            assertThat(v.getFloat()).isPositiveInfinity();
+            Assert.assertEquals(PrimitiveValue.newFloat(Float.POSITIVE_INFINITY), v);
+            Assert.assertNotEquals(PrimitiveValue.newFloat(0f), v);
+            Assert.assertEquals("Infinity", v.toString());
+            Assert.assertTrue(Float.POSITIVE_INFINITY == v.getFloat());
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromFloat(Float.POSITIVE_INFINITY));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Float, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromFloat(Float.POSITIVE_INFINITY));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Float, vPb).equals(v));
         }
         {
             PrimitiveValue v = PrimitiveValue.newFloat(Float.NEGATIVE_INFINITY);
 
-            assertThat(v).isEqualTo(PrimitiveValue.newFloat(Float.NEGATIVE_INFINITY));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newFloat(0f));
-            assertThat(v.toString()).isEqualTo("-Infinity");
-            assertThat(v.getFloat()).isNegativeInfinity();
+            Assert.assertEquals(PrimitiveValue.newFloat(Float.NEGATIVE_INFINITY), v);
+            Assert.assertNotEquals(PrimitiveValue.newFloat(0f), v);
+            Assert.assertEquals("-Infinity", v.toString());
+            Assert.assertTrue(Float.NEGATIVE_INFINITY == v.getFloat());
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromFloat(Float.NEGATIVE_INFINITY));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Float, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromFloat(Float.NEGATIVE_INFINITY));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Float, vPb).equals(v));
         }
     }
 
@@ -274,28 +272,28 @@ public class PrimitiveValueTest {
     public void doubleTest() {
         PrimitiveValue v = PrimitiveValue.newDouble(3.14159);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newDouble(3.14159));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newDouble(0.0));
-        assertThat(v.toString()).isEqualTo("3.14159");
-        assertThat(v.getDouble()).isEqualTo(3.14159);
+        Assert.assertEquals(PrimitiveValue.newDouble(3.14159), v);
+        Assert.assertNotEquals(PrimitiveValue.newDouble(0.0), v);
+        Assert.assertEquals("3.14159", v.toString());
+        Assert.assertEquals(3.14159, v.getDouble(), 1e-6);
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDouble(3.14159));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Double, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromDouble(3.14159));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Double, vPb).equals(v));
     }
 
     @Test
     public void double_nan() {
         PrimitiveValue v = PrimitiveValue.newDouble(Double.NaN);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newDouble(Double.NaN));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newDouble(0.0));
-        assertThat(v.toString()).isEqualTo("NaN");
-        assertThat(v.getDouble()).isNaN();
+        Assert.assertEquals(PrimitiveValue.newDouble(Double.NaN), v);
+        Assert.assertNotEquals(PrimitiveValue.newDouble(0.0), v);
+        Assert.assertEquals("NaN", v.toString());
+        Assert.assertTrue(Double.isNaN(v.getDouble()));
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDouble(Double.NaN));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Double, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromDouble(Double.NaN));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Double, vPb).equals(v));
     }
 
     @Test
@@ -303,26 +301,26 @@ public class PrimitiveValueTest {
         {
             PrimitiveValue v = PrimitiveValue.newDouble(Double.POSITIVE_INFINITY);
 
-            assertThat(v).isEqualTo(PrimitiveValue.newDouble(Double.POSITIVE_INFINITY));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newDouble(0.0));
-            assertThat(v.toString()).isEqualTo("Infinity");
-            assertThat(v.getDouble()).isPositiveInfinity();
+            Assert.assertEquals(PrimitiveValue.newDouble(Double.POSITIVE_INFINITY), v);
+            Assert.assertNotEquals(PrimitiveValue.newDouble(0.0), v);
+            Assert.assertEquals("Infinity", v.toString());
+            Assert.assertTrue(Double.POSITIVE_INFINITY == v.getDouble());
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDouble(Double.POSITIVE_INFINITY));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Double, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromDouble(Double.POSITIVE_INFINITY));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Double, vPb).equals(v));
         }
         {
             PrimitiveValue v = PrimitiveValue.newDouble(Double.NEGATIVE_INFINITY);
 
-            assertThat(v).isEqualTo(PrimitiveValue.newDouble(Double.NEGATIVE_INFINITY));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newDouble(0.0));
-            assertThat(v.toString()).isEqualTo("-Infinity");
-            assertThat(v.getDouble()).isNegativeInfinity();
+            Assert.assertEquals(PrimitiveValue.newDouble(Double.NEGATIVE_INFINITY), v);
+            Assert.assertNotEquals(PrimitiveValue.newDouble(0.0), v);
+            Assert.assertEquals("-Infinity", v.toString());
+            Assert.assertTrue(Double.NEGATIVE_INFINITY == v.getDouble());
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDouble(Double.NEGATIVE_INFINITY));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Double, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromDouble(Double.NEGATIVE_INFINITY));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Double, vPb).equals(v));
         }
     }
 
@@ -331,18 +329,18 @@ public class PrimitiveValueTest {
         byte[] data = { 0x0, 0x7, 0x3f, 0x7f, (byte) 0xff };
 
         Consumer<PrimitiveValue> doTest = (v) -> {
-            assertThat(v).isEqualTo(PrimitiveValue.newBytes(data));
-            assertThat(v).isEqualTo(PrimitiveValue.newBytes(ByteString.copyFrom(data)));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newBytes(ByteString.EMPTY));
+            Assert.assertEquals(PrimitiveValue.newBytes(data), v);
+            Assert.assertEquals(PrimitiveValue.newBytes(ByteString.copyFrom(data)), v);
+            Assert.assertNotEquals(PrimitiveValue.newBytes(ByteString.EMPTY), v);
 
-            assertThat(v.toString()).isEqualTo("\"\\000\\007\\077\\177\\377\"");
-            assertThat(v.getBytes()).isEqualTo(data);
-            assertThat(v.getBytesUnsafe()).isEqualTo(data);
-            assertThat(v.getBytesAsByteString()).isEqualTo(ByteString.copyFrom(data));
+            Assert.assertEquals("\"\\000\\007\\077\\177\\377\"", v.toString());
+            Assert.assertArrayEquals(data, v.getBytes());
+            Assert.assertArrayEquals(data, v.getBytesUnsafe());
+            Assert.assertEquals(ByteString.copyFrom(data), v.getBytesAsByteString());
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromBytes(data));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Bytes, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromBytes(data));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Bytes, vPb).equals(v));
         };
 
         doTest.accept(PrimitiveValue.newBytes(data));
@@ -350,8 +348,8 @@ public class PrimitiveValueTest {
         doTest.accept(PrimitiveValue.newBytes(ByteString.copyFrom(data)));
 
         // hashes must be the same
-        assertThat(PrimitiveValue.newBytes(data).hashCode())
-            .isEqualTo(PrimitiveValue.newBytes(ByteString.copyFrom(data)).hashCode());
+        Assert.assertEquals(PrimitiveValue.newBytes(data).hashCode(),
+                PrimitiveValue.newBytes(ByteString.copyFrom(data)).hashCode());
     }
 
     @Test
@@ -359,18 +357,18 @@ public class PrimitiveValueTest {
         byte[] data = { 0x0, 0x7, 0x3f, 0x7f, (byte) 0xff };
 
         Consumer<PrimitiveValue> doTest = (v) -> {
-            assertThat(v).isEqualTo(PrimitiveValue.newYson(data));
-            assertThat(v).isEqualTo(PrimitiveValue.newYson(ByteString.copyFrom(data)));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newYson(ByteString.EMPTY));
+            Assert.assertEquals(PrimitiveValue.newYson(data), v);
+            Assert.assertEquals(PrimitiveValue.newYson(ByteString.copyFrom(data)), v);
+            Assert.assertNotEquals(PrimitiveValue.newYson(ByteString.EMPTY), v);
 
-            assertThat(v.toString()).isEqualTo("\"\\000\\007\\077\\177\\377\"");
-            assertThat(v.getYson()).isEqualTo(data);
-            assertThat(v.getYsonUnsafe()).isEqualTo(data);
-            assertThat(v.getYsonBytes()).isEqualTo(ByteString.copyFrom(data));
+            Assert.assertEquals("\"\\000\\007\\077\\177\\377\"", v.toString());
+            Assert.assertArrayEquals(data, v.getYson());
+            Assert.assertArrayEquals(data, v.getYsonUnsafe());
+            Assert.assertEquals(ByteString.copyFrom(data), v.getYsonBytes());
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromYson(data));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Yson, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromYson(data));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Yson, vPb).equals(v));
         };
 
         doTest.accept(PrimitiveValue.newYson(data));
@@ -378,8 +376,8 @@ public class PrimitiveValueTest {
         doTest.accept(PrimitiveValue.newYson(ByteString.copyFrom(data)));
 
         // hashes must be the same
-        assertThat(PrimitiveValue.newYson(data).hashCode())
-            .isEqualTo(PrimitiveValue.newYson(ByteString.copyFrom(data)).hashCode());
+        Assert.assertEquals(PrimitiveValue.newYson(data).hashCode(),
+                PrimitiveValue.newYson(ByteString.copyFrom(data)).hashCode());
     }
 
     @Test
@@ -389,9 +387,9 @@ public class PrimitiveValueTest {
         PrimitiveValue string = PrimitiveValue.newBytes(data);
         PrimitiveValue yson = PrimitiveValue.newYson(data);
 
-        assertThat(string).isNotEqualTo(yson);
-        assertThat(yson).isNotEqualTo(string);
-        assertThat(string.hashCode()).isNotEqualTo(yson.hashCode());
+        Assert.assertNotEquals(string, yson);
+        Assert.assertNotEquals(yson, string);
+        Assert.assertNotEquals(string.hashCode(), yson.hashCode());
     }
 
     @Test
@@ -407,15 +405,15 @@ public class PrimitiveValueTest {
         for (String date : fixtures) {
             PrimitiveValue v = PrimitiveValue.newText(date);
 
-            assertThat(v).isEqualTo(PrimitiveValue.newText(date));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newText(""));
+            Assert.assertEquals(PrimitiveValue.newText(date), v);
+            Assert.assertNotEquals(PrimitiveValue.newText(""), v);
 
-            assertThat(v.toString()).isEqualTo(String.format("\"%s\"", date));
-            assertThat(v.getText()).isEqualTo(date);
+            Assert.assertEquals(v.toString(), String.format("\"%s\"", date));
+            Assert.assertEquals(v.getText(), date);
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromText(date));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Text, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromText(date));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Text, vPb).equals(v));
         }
     }
 
@@ -425,15 +423,15 @@ public class PrimitiveValueTest {
 
         PrimitiveValue v = PrimitiveValue.newJson(data);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newJson(data));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newJson(""));
+        Assert.assertEquals(PrimitiveValue.newJson(data), v);
+        Assert.assertNotEquals(PrimitiveValue.newJson(""), v);
 
-        assertThat(v.toString()).isEqualTo("\"{\\\"name\\\": \\\"jamel\\\", \\\"age\\\": 99}\"");
-        assertThat(v.getJson()).isEqualTo(data);
+        Assert.assertEquals("\"{\\\"name\\\": \\\"jamel\\\", \\\"age\\\": 99}\"", v.toString());
+        Assert.assertEquals(data, v.getJson());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromJson(data));
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Json, vPb));
+        Assert.assertEquals(vPb, ProtoValue.fromJson(data));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Json, vPb).equals(v));
     }
 
     @Test
@@ -443,21 +441,21 @@ public class PrimitiveValueTest {
         UUID uuid = UUID.fromString(uuidStr);
 
         Consumer<PrimitiveValue> doTest = (v) -> {
-            assertThat(v).isEqualTo(PrimitiveValue.newUuid(uuid));
-            assertThat(v).isEqualTo(PrimitiveValue.newUuid(uuidStr));
-            assertThat(v).isEqualTo(PrimitiveValue.newUuid(high, low));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newUuid(UUID.randomUUID()));
+            Assert.assertEquals(PrimitiveValue.newUuid(uuid), v);
+            Assert.assertEquals(PrimitiveValue.newUuid(uuidStr), v);
+            Assert.assertEquals(PrimitiveValue.newUuid(high, low), v);
+            Assert.assertNotEquals(PrimitiveValue.newUuid(UUID.randomUUID()), v);
 
-            assertThat(v.toString()).isEqualTo("\"00112233-4455-6677-8899-aabbccddeeff\"");
-            assertThat(v.getUuidString()).isEqualTo("00112233-4455-6677-8899-aabbccddeeff");
-            assertThat(v.getUuidHigh()).isEqualTo(high);
-            assertThat(v.getUuidLow()).isEqualTo(low);
-            assertThat(v.getUuidJdk()).isEqualTo(uuid);
+            Assert.assertEquals("\"00112233-4455-6677-8899-aabbccddeeff\"", v.toString());
+            Assert.assertEquals("00112233-4455-6677-8899-aabbccddeeff", v.getUuidString());
+            Assert.assertEquals(v.getUuidHigh(), high);
+            Assert.assertEquals(v.getUuidLow(), low);
+            Assert.assertEquals(v.getUuidJdk(), uuid);
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUuid(uuid));
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromUuid(high, low));
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Uuid, vPb));
+            Assert.assertEquals(vPb, ProtoValue.fromUuid(uuid));
+            Assert.assertEquals(vPb, ProtoValue.fromUuid(high, low));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Uuid, vPb).equals(v));
         };
 
         doTest.accept(PrimitiveValue.newUuid(uuid));
@@ -472,20 +470,20 @@ public class PrimitiveValueTest {
         Instant instant = Instant.parse("2018-08-20T01:23:45.678901Z");
 
         Consumer<PrimitiveValue> doTest = (v) -> {
-            assertThat(v).isEqualTo(PrimitiveValue.newDate(day));
-            assertThat(v).isEqualTo(PrimitiveValue.newDate(date));
-            assertThat(v).isEqualTo(PrimitiveValue.newDate(instant));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newDate(0));
+            Assert.assertEquals(PrimitiveValue.newDate(day), v);
+            Assert.assertEquals(PrimitiveValue.newDate(date), v);
+            Assert.assertEquals(PrimitiveValue.newDate(instant), v);
+            Assert.assertNotEquals(PrimitiveValue.newDate(0), v);
 
-            assertThat(v.toString()).isEqualTo("2018-08-20");
-            assertThat(v.getDate()).isEqualTo(date);
+            Assert.assertEquals("2018-08-20", v.toString());
+            Assert.assertEquals(v.getDate(), date);
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDate(day));
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDate(date));
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDate(instant));
+            Assert.assertEquals(vPb, ProtoValue.fromDate(day));
+            Assert.assertEquals(vPb, ProtoValue.fromDate(date));
+            Assert.assertEquals(vPb, ProtoValue.fromDate(instant));
 
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Date, vPb));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Date, vPb).equals(v));
         };
 
         doTest.accept(PrimitiveValue.newDate(day));
@@ -500,20 +498,20 @@ public class PrimitiveValueTest {
         LocalDateTime localDateTime = LocalDateTime.of(2018, 8, 20, 1, 23, 45);
 
         Consumer<PrimitiveValue> doTest = (v) -> {
-            assertThat(v).isEqualTo(PrimitiveValue.newDatetime(seconds));
-            assertThat(v).isEqualTo(PrimitiveValue.newDatetime(instant));
-            assertThat(v).isEqualTo(PrimitiveValue.newDatetime(localDateTime));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newDatetime(0));
+            Assert.assertEquals(PrimitiveValue.newDatetime(seconds), v);
+            Assert.assertEquals(PrimitiveValue.newDatetime(instant), v);
+            Assert.assertEquals(PrimitiveValue.newDatetime(localDateTime), v);
+            Assert.assertNotEquals(PrimitiveValue.newDatetime(0), v);
 
-            assertThat(v.toString()).isEqualTo("2018-08-20T01:23:45");
-            assertThat(v.getDatetime()).isEqualTo(LocalDateTime.ofEpochSecond(seconds, 0, ZoneOffset.UTC));
+            Assert.assertEquals("2018-08-20T01:23:45", v.toString());
+            Assert.assertEquals(v.getDatetime(), LocalDateTime.ofEpochSecond(seconds, 0, ZoneOffset.UTC));
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDatetime(seconds));
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDatetime(instant));
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromDatetime(localDateTime));
+            Assert.assertEquals(vPb, ProtoValue.fromDatetime(seconds));
+            Assert.assertEquals(vPb, ProtoValue.fromDatetime(instant));
+            Assert.assertEquals(vPb, ProtoValue.fromDatetime(localDateTime));
 
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Datetime, vPb));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Datetime, vPb).equals(v));
         };
 
         doTest.accept(PrimitiveValue.newDatetime(seconds));
@@ -527,18 +525,18 @@ public class PrimitiveValueTest {
         Instant instant = Instant.parse("2018-08-20T01:23:45.678901Z");
 
         Consumer<PrimitiveValue> doTest = (v) -> {
-            assertThat(v).isEqualTo(PrimitiveValue.newTimestamp(seconds));
-            assertThat(v).isEqualTo(PrimitiveValue.newTimestamp(instant));
-            assertThat(v).isNotEqualTo(PrimitiveValue.newTimestamp(0));
+            Assert.assertEquals(PrimitiveValue.newTimestamp(seconds), v);
+            Assert.assertEquals(PrimitiveValue.newTimestamp(instant), v);
+            Assert.assertNotEquals(PrimitiveValue.newTimestamp(0), v);
 
-            assertThat(v.toString()).isEqualTo("2018-08-20T01:23:45.678901Z");
-            assertThat(v.getTimestamp()).isEqualTo(instant);
+            Assert.assertEquals("2018-08-20T01:23:45.678901Z", v.toString());
+            Assert.assertEquals(v.getTimestamp(), instant);
 
             ValueProtos.Value vPb = v.toPb();
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromTimestamp(seconds));
-            ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromTimestamp(instant));
+            Assert.assertEquals(vPb, ProtoValue.fromTimestamp(seconds));
+            Assert.assertEquals(vPb, ProtoValue.fromTimestamp(instant));
 
-            assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Timestamp, vPb));
+            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Timestamp, vPb).equals(v));
         };
 
         doTest.accept(PrimitiveValue.newTimestamp(seconds));
@@ -550,16 +548,16 @@ public class PrimitiveValueTest {
         Duration oneSecond = Duration.ofSeconds(1);
         PrimitiveValue v = PrimitiveValue.newInterval(oneSecond);
 
-        assertThat(v).isEqualTo(PrimitiveValue.newInterval(oneSecond));
-        assertThat(v).isNotEqualTo(PrimitiveValue.newInterval(0));
+        Assert.assertEquals(PrimitiveValue.newInterval(oneSecond), v);
+        Assert.assertNotEquals(PrimitiveValue.newInterval(0), v);
 
-        assertThat(v.toString()).isEqualTo("PT1S");
-        assertThat(v.getInterval()).isEqualTo(oneSecond);
+        Assert.assertEquals("PT1S", v.toString());
+        Assert.assertEquals(oneSecond, v.getInterval());
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromInterval(oneSecond));
+        Assert.assertEquals(vPb, ProtoValue.fromInterval(oneSecond));
 
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.Interval, vPb));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Interval, vPb).equals(v));
     }
 
     @Test
@@ -570,9 +568,9 @@ public class PrimitiveValueTest {
             ZoneId.of("Europe/Moscow")));
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromTzDate("2018-08-20,Europe/Moscow"));
+        Assert.assertEquals(vPb, ProtoValue.fromTzDate("2018-08-20,Europe/Moscow"));
 
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.TzDate, vPb));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.TzDate, vPb).equals(v));
     }
 
     @Test
@@ -583,9 +581,9 @@ public class PrimitiveValueTest {
                 ZoneId.of("Asia/Novosibirsk")));
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromTzDatetime("2018-09-21T12:34:56,Asia/Novosibirsk"));
+        Assert.assertEquals(vPb, ProtoValue.fromTzDatetime("2018-09-21T12:34:56,Asia/Novosibirsk"));
 
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.TzDatetime, vPb));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.TzDatetime, vPb).equals(v));
     }
 
     @Test
@@ -596,8 +594,8 @@ public class PrimitiveValueTest {
                 ZoneId.of("America/Chicago")));
 
         ValueProtos.Value vPb = v.toPb();
-        ProtoTruth.assertThat(vPb).isEqualTo(ProtoValue.fromTzDatetime("2018-10-22T12:34:56.778899,America/Chicago"));
+        Assert.assertEquals(vPb, ProtoValue.fromTzDatetime("2018-10-22T12:34:56.778899,America/Chicago"));
 
-        assertThat(v).isEqualTo(ProtoValue.fromPb(PrimitiveType.TzTimestamp, vPb));
+        Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.TzTimestamp, vPb).equals(v));
     }
 }
