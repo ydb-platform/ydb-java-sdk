@@ -1,4 +1,4 @@
-package tech.ydb.coordination.scenario.leader_election;
+package tech.ydb.coordination.recipes.leader_election;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -67,7 +67,7 @@ public class LeaderWatcher implements AutoCloseable {
             }
         });
 
-        newSession.start();
+        newSession.connect();
     }
 
     private void watchLeader(CoordinationSession session, Listener listener) {

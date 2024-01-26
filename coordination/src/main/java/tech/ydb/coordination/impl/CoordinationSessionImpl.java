@@ -45,8 +45,13 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public CompletableFuture<Long> start() {
+    public CompletableFuture<Status> connect() {
         return this.stream.start(connectTimeout);
+    }
+
+    @Override
+    public Long getId() {
+        return this.stream.getId();
     }
 
     @Override

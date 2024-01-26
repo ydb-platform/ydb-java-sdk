@@ -1,4 +1,4 @@
-package tech.ydb.coordination.scenario.configuration;
+package tech.ydb.coordination.recipes.configuration;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,7 +38,7 @@ public class Subscriber implements AutoCloseable {
     public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath,
                                                                    String semaphoreName, Consumer<byte[]> observer) {
         CoordinationSession session = client.createSession(fullPath);
-        return session.start().thenApply(id -> new Subscriber(session, semaphoreName, observer));
+        return session.connect().thenApply(id -> new Subscriber(session, semaphoreName, observer));
     }
 
     /**

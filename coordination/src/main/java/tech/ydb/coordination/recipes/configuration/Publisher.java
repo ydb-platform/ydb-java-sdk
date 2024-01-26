@@ -1,4 +1,4 @@
-package tech.ydb.coordination.scenario.configuration;
+package tech.ydb.coordination.recipes.configuration;
 
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +35,7 @@ public class Publisher implements AutoCloseable {
     public static CompletableFuture<Publisher> newPublisherAsync(CoordinationClient client, String fullPath,
                                                                  String semaphoreName) {
         CoordinationSession session = client.createSession(fullPath);
-        return session.start().thenApply(id -> new Publisher(session, semaphoreName));
+        return session.connect().thenApply(status -> new Publisher(session, semaphoreName));
     }
 
     /**

@@ -131,8 +131,8 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                 .withIssues(Issue.fromPb(issueMessages));
     }
 
-    protected CompletableFuture<Long> start(Duration timeout) {
-        final CompletableFuture<Long> sessionStartFuture = new CompletableFuture<>();
+    protected CompletableFuture<Status> start(Duration timeout) {
+        final CompletableFuture<Status> sessionStartFuture = new CompletableFuture<>();
         updateState(state == CoordinationSession.State.UNSTARTED ?
                 CoordinationSession.State.CONNECTING :
                 CoordinationSession.State.RECONNECTING);
@@ -155,7 +155,7 @@ public class CoordinationRetryableStreamImpl implements CoordinationStream {
                     case SESSION_STARTED:
                         updateState(CoordinationSession.State.CONNECTED);
                         sessionId.set(message.getSessionStarted().getSessionId());
-                        sessionStartFuture.complete(message.getSessionStarted().getSessionId());
+                        sessionStartFuture.complete(Status.SUCCESS);
                         break;
                     case PING:
                         coordinationStream.sendNext(

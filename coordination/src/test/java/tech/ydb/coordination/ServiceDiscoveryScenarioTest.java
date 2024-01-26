@@ -12,8 +12,8 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import tech.ydb.coordination.description.SemaphoreDescription;
-import tech.ydb.coordination.scenario.service_discovery.Subscriber;
-import tech.ydb.coordination.scenario.service_discovery.Worker;
+import tech.ydb.coordination.recipes.service_discovery.Subscriber;
+import tech.ydb.coordination.recipes.service_discovery.Worker;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
@@ -41,7 +41,7 @@ public class ServiceDiscoveryScenarioTest {
     @Test(timeout = 60_000)
     public void serviceDiscoveryTest() {
         try (CoordinationSession checkSession = client.createSession(path)) {
-            checkSession.start().join();
+            checkSession.connect().join().expectSuccess();
             Status create = checkSession.createSemaphore(Worker.SEMAPHORE_NAME, 100).join();
             Assert.assertTrue(create.isSuccess());
 

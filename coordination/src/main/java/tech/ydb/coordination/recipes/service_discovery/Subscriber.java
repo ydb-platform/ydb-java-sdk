@@ -1,4 +1,4 @@
-package tech.ydb.coordination.scenario.service_discovery;
+package tech.ydb.coordination.recipes.service_discovery;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
@@ -38,10 +38,10 @@ public class Subscriber implements AutoCloseable {
      */
     public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath) {
         CoordinationSession newSession = client.createSession(fullPath);
-        return newSession.start().thenCompose(id ->
+        return newSession.connect().thenCompose(status ->
                         newSession.describeAndWatchSemaphore(SEMAPHORE_NAME,
                                         DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS)
-                                .thenApply(result -> new Subscriber(newSession, id, result))
+                                .thenApply(result -> new Subscriber(newSession, newSession.getId(), result))
                 );
     }
 

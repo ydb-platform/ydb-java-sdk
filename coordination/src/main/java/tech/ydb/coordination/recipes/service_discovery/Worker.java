@@ -1,4 +1,4 @@
-package tech.ydb.coordination.scenario.service_discovery;
+package tech.ydb.coordination.recipes.service_discovery;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -30,7 +30,7 @@ public class Worker {
     public static CompletableFuture<Worker> newWorkerAsync(CoordinationClient client, String fullPath, String endpoint,
                                                            Duration maxAttemptTimeout) {
         CoordinationSession newSession = client.createSession(fullPath);
-        return newSession.start().thenCompose(id -> {
+        return newSession.connect().thenCompose(id -> {
             byte[] data = endpoint.getBytes(StandardCharsets.UTF_8);
             return newSession.acquireSemaphore(SEMAPHORE_NAME, 1, data, maxAttemptTimeout).thenApply(res -> {
                 if (res.isSuccess()) {

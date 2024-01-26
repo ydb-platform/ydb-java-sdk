@@ -16,7 +16,7 @@ public interface CoordinationSession extends AutoCloseable {
     enum State {
         UNSTARTED(false, false),
 
-        CONNECTING(false, true),
+        CONNECTING(false, false),
 
         CONNECTED(true, true),
 
@@ -50,9 +50,15 @@ public interface CoordinationSession extends AutoCloseable {
 
     /**
      * Establish new bidirectional grpc stream
+     * @return Future with status of connection
+     */
+    CompletableFuture<Status> connect();
+
+    /**
+     * Current session identifier. If the connection wasn't established session will return null
      * @return Future with session identifier
      */
-    CompletableFuture<Long> start();
+    Long getId();
 
     State getState();
 

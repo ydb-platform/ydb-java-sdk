@@ -17,8 +17,8 @@ import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
-import tech.ydb.coordination.scenario.configuration.Publisher;
-import tech.ydb.coordination.scenario.configuration.Subscriber;
+import tech.ydb.coordination.recipes.configuration.Publisher;
+import tech.ydb.coordination.recipes.configuration.Subscriber;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Status;
