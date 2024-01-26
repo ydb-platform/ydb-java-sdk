@@ -9,15 +9,13 @@ import tech.ydb.table.settings.RollbackTxSettings;
 /**
  * @author Sergey Polovko
  */
-public interface Transaction {
+public interface Transaction extends BaseTransaction {
     enum Mode {
         SERIALIZABLE_READ_WRITE,
         ONLINE_READ_ONLY,
         STALE_READ_ONLY,
         SNAPSHOT_READ_ONLY;
     }
-
-    String getId();
 
     CompletableFuture<Status> commit(CommitTxSettings settings);
     CompletableFuture<Status> rollback(RollbackTxSettings settings);

@@ -12,28 +12,32 @@ import tech.ydb.table.transaction.Transaction;
 /**
  * @author Sergey Polovko
  */
-final class TransactionImpl implements Transaction {
-
+final class TransactionImpl extends BaseTransactionImpl implements Transaction {
     private final Session session;
-    private final String txId;
 
     TransactionImpl(Session session, String txId) {
+        super(txId);
         this.session = session;
-        this.txId = txId;
     }
 
     @Override
-    public String getId() {
-        return txId;
+    public String getSessionId() {
+        return session.getId();
     }
 
     @Override
     public CompletableFuture<Status> commit(CommitTxSettings settings) {
-        return session.commitTransaction(txId, settings);
+        if (futuresToWaitBeforeCommit.isEmpty()) {
+            return session.commitTransaction(txId, settings);
+        } else {
+            return CompletableFuture.allOf(futuresToWaitBeforeCommit.toArray(new CompletableFuture<?>[0]))
+                    .thenCompose((unused) -> session.commitTransaction(txId, settings));
+        }
     }
 
     @Override
     public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
-        return session.rollbackTransaction(txId, settings);
+        return session.rollbackTransaction(txId, settings)
+                .whenComplete((status, throwable) -> onRollbackActions.forEach(Runnable::run));
     }
 }
