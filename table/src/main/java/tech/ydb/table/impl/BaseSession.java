@@ -216,12 +216,15 @@ public abstract class BaseSession implements Session {
             YdbTable.TableIndex.Builder b = request.addIndexesBuilder();
             b.setName(index.getName());
             b.addAllIndexColumns(index.getColumns());
-            if (index.getType() == TableIndex.Type.GLOBAL) {
-                b.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
-            }
-
-            if (index.getType() == TableIndex.Type.GLOBAL_ASYNC) {
-                b.setGlobalAsyncIndex(YdbTable.GlobalAsyncIndex.getDefaultInstance());
+            b.addAllDataColumns(index.getDataColumns());
+            switch (index.getType()) {
+                case GLOBAL_ASYNC:
+                    b.setGlobalAsyncIndex(YdbTable.GlobalAsyncIndex.getDefaultInstance());
+                    break;
+                case GLOBAL:
+                default:
+                    b.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
+                    break;
             }
         }
 
