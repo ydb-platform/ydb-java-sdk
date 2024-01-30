@@ -20,17 +20,22 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.table.transaction.BaseTransaction;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.description.OffsetsRange;
+import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
+import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -130,7 +135,50 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         }
     }
 
-    private class ReadSessionImpl extends ReadSession {
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        return GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .build();
+    }
+
+    protected CompletableFuture<Status> sendUpdateOffsetsInTransaction(BaseTransaction transaction,
+                                                                       PartitionOffsets offsets,
+                                                                       UpdateOffsetsInTransactionSettings settings) {
+        if (offsets.getOffsets().isEmpty()) {
+            throw new IllegalArgumentException("Empty offsets range to update in transaction");
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Updating offsets {}-{} in transaction {}", offsets.getOffsets().get(0).getStart(),
+                    offsets.getOffsets().get(offsets.getOffsets().size() - 1).getEnd(), transaction.getId());
+        }
+        transaction.addOnRollbackAction(() -> session.closeDueToError(null,
+                new RuntimeException("Transaction {} with partition offsets from read session {} was rolled back. " +
+                        "Restarting read session")));
+        YdbTopic.UpdateOffsetsInTransactionRequest.Builder requestBuilder = YdbTopic.UpdateOffsetsInTransactionRequest
+                .newBuilder()
+                .setTx(YdbTopic.TransactionIdentity.newBuilder()
+                        .setId(transaction.getId())
+                        .setSession(transaction.getSessionId()))
+                .setConsumer(this.settings.getConsumerName());
+        YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.Builder offsetsBuilder = YdbTopic
+                .UpdateOffsetsInTransactionRequest.TopicOffsets.newBuilder()
+                .setPath(offsets.getPartitionSession().getPath());
+        YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.Builder partitionOffsetsBuilder =
+                YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.newBuilder()
+                        .setPartitionId(offsets.getPartitionSession().getPartitionId());
+        offsets.getOffsets().forEach(offsetsRange -> partitionOffsetsBuilder.addPartitionOffsets(
+                YdbTopic.OffsetsRange.newBuilder()
+                        .setStart(offsetsRange.getStart())
+                        .setEnd(offsetsRange.getEnd())
+                        .build()));
+        offsetsBuilder.addPartitions(partitionOffsetsBuilder);
+        requestBuilder.addTopics(offsetsBuilder);
+
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return topicRpc.updateOffsetsInTransaction(requestBuilder.build(), grpcRequestSettings);
+    }
+
+    protected class ReadSessionImpl extends ReadSession {
         protected String sessionId = "";
         private final String fullId;
         // Total size to request with next ReadRequest.
@@ -462,7 +510,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
         }
 
-        private void closeDueToError(Status status, Throwable th) {
+        protected void closeDueToError(Status status, Throwable th) {
             logger.info("[{}] Session {} closeDueToError called", fullId, sessionId);
             if (shutdown()) {
                 // Signal reader to retry

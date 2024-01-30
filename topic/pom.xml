@@ -25,6 +25,12 @@
             <artifactId>ydb-sdk-core</artifactId>
         </dependency>
 
+        <!-- Temporary -->
+        <dependency>
+            <groupId>tech.ydb</groupId>
+            <artifactId>ydb-sdk-table</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.anarres.lzo</groupId>
             <artifactId>lzo-core</artifactId>

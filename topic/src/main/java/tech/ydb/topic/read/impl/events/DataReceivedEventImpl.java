@@ -3,8 +3,8 @@ package tech.ydb.topic.read.impl.events;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.topic.read.Message;
 import tech.ydb.topic.description.OffsetsRange;
+import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.CommitterImpl;

@@ -66,6 +66,11 @@ public interface Message {
     PartitionSession getPartitionSession();
 
     /**
+     * @return Partition offsets of this message
+     */
+    PartitionOffsets getPartitionOffsets();
+
+    /**
      * Commits this message
      * If there was an error while committing, there is no point of retrying committing the same message:
      * the whole PartitionSession should be shut down by that time. And if commit hadn't reached the server,

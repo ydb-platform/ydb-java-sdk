@@ -2,14 +2,16 @@ package tech.ydb.topic.read.impl;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.description.MetadataItem;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
-import tech.ydb.topic.description.OffsetsRange;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 
 /**
@@ -112,6 +114,11 @@ public class MessageImpl implements Message {
     @Override
     public List<MetadataItem> getMetadataItems() {
         return metadataItems;
+    }
+
+    @Override
+    public PartitionOffsets getPartitionOffsets() {
+        return new PartitionOffsets(partitionSession.getSessionInfo(), Collections.singletonList(offsetsToCommit));
     }
 
     public void setDecompressed(boolean decompressed) {

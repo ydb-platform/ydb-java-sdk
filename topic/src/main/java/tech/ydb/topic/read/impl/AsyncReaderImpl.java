@@ -11,9 +11,12 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.table.transaction.BaseTransaction;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.read.AsyncReader;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
@@ -29,6 +32,7 @@ import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
+import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -59,6 +63,12 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     @Override
     public CompletableFuture<Void> init() {
         return initImpl();
+    }
+
+    @Override
+    public CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction, PartitionOffsets offsets,
+                                                         UpdateOffsetsInTransactionSettings settings) {
+        return sendUpdateOffsetsInTransaction(transaction, offsets, settings);
     }
 
     @Override
