@@ -4,13 +4,19 @@ public final class ColumnFamily {
     private final String name;
     private final StoragePool data;
     private final Compression compression;
-    private final boolean keepInMemory;
 
+    @Deprecated
     public ColumnFamily(String name, StoragePool data, Compression compression, boolean keepInMemory) {
         this.name = name;
         this.data = data;
         this.compression = compression;
-        this.keepInMemory = keepInMemory;
+//        this.keepInMemory = keepInMemory;
+    }
+
+    public ColumnFamily(String name, StoragePool data, Compression compression) {
+        this.name = name;
+        this.data = data;
+        this.compression = compression;
     }
 
     public String getName() {
@@ -25,8 +31,9 @@ public final class ColumnFamily {
         return compression;
     }
 
+    @Deprecated
     public boolean isKeepInMemory() {
-        return keepInMemory;
+        return false;
     }
 
     public enum Compression {
