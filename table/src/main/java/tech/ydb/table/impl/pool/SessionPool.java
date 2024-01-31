@@ -110,17 +110,16 @@ public class SessionPool implements AutoCloseable {
 
         nextSession.whenComplete((session, th) -> {
             if (th != null) {
-                if (future.isDone()) {
-                    logger.warn("can't get session, future is already canceled", th);
+                Throwable ex = Async.unwrapCompletionException(th);
+                Result<Session> fail = (ex instanceof UnexpectedResultException)
+                        ? Result.fail((UnexpectedResultException) ex)
+                        : Result.error("can't create session", ex);
+
+                if (!future.complete(fail)) {
+                    logger.warn("session acquisition failed with status {}", fail);
                     return;
                 }
 
-                Throwable ex = Async.unwrapCompletionException(th);
-                if (ex instanceof UnexpectedResultException) {
-                    future.complete(Result.fail((UnexpectedResultException) ex));
-                } else {
-                    future.complete(Result.error("can't create session", ex));
-                }
             }
             if (session != null) {
                 validateSession(session, future);
@@ -185,9 +184,9 @@ public class SessionPool implements AutoCloseable {
                     .thenApply(response -> {
                         if (!response.isSuccess()) {
                             stats.failed.increment();
+                            throw new UnexpectedResultException("create session problem", response.getStatus());
                         }
-                        String id = response.getValue();
-                        return new ClosableSession(id, tableRpc, keepQueryText);
+                        return new ClosableSession(response.getValue(), tableRpc, keepQueryText);
                     });
         }
 
@@ -196,13 +195,13 @@ public class SessionPool implements AutoCloseable {
             stats.deleted.increment();
             session.delete(new DeleteSessionSettings()).whenComplete((status, th) -> {
                 if (th != null) {
-                    logger.warn("session {} removed with exception {}", session.getId(), th.getMessage());
+                    logger.warn("session {} destoryed with exception {}", session.getId(), th.getMessage());
                 }
                 if (status != null) {
                     if (status.isSuccess()) {
-                        logger.debug("session {} successful removed", session.getId());
+                        logger.debug("session {} successful destoryed", session.getId());
                     } else {
-                        logger.warn("session {} removed with status {}", session.getId(), status.toString());
+                        logger.warn("session {} destoryed with status {}", session.getId(), status.toString());
                     }
                 }
             });

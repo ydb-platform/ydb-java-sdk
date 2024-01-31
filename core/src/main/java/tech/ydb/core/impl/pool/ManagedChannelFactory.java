@@ -1,6 +1,7 @@
 package tech.ydb.core.impl.pool;
 
 import java.io.ByteArrayInputStream;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import javax.net.ssl.SSLException;
@@ -39,6 +40,7 @@ public class ManagedChannelFactory {
     private final boolean retryEnabled;
     private final long connectTimeoutMs;
     private final boolean useDefaultGrpcResolver;
+    private final Long grpcKeepAliveTimeMillis;
 
     private ManagedChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
@@ -49,6 +51,7 @@ public class ManagedChannelFactory {
         this.retryEnabled = builder.isEnableRetry();
         this.connectTimeoutMs = builder.getConnectTimeoutMillis();
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
+        this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
     }
 
     public long getConnectTimeoutMs() {
@@ -78,6 +81,10 @@ public class ManagedChannelFactory {
             channelBuilder
                     .nameResolverFactory(new DnsNameResolverProvider())
                     .defaultLoadBalancingPolicy(DEFAULT_BALANCER_POLICY);
+        }
+
+        if (grpcKeepAliveTimeMillis != null) {
+            channelBuilder.keepAliveTime(grpcKeepAliveTimeMillis, TimeUnit.MILLISECONDS);
         }
 
         if (channelInitializer != null) {
