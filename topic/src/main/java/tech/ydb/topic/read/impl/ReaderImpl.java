@@ -142,14 +142,32 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     }
 
     protected CompletableFuture<Status> sendUpdateOffsetsInTransaction(BaseTransaction transaction,
-                                                                       PartitionOffsets offsets,
+                                                                       Map<String, List<PartitionOffsets>> offsets,
                                                                        UpdateOffsetsInTransactionSettings settings) {
-        if (offsets.getOffsets().isEmpty()) {
-            throw new IllegalArgumentException("Empty offsets range to update in transaction");
+        if (offsets.isEmpty()) {
+            throw new IllegalArgumentException("Empty topic list to update in transaction");
         }
         if (logger.isDebugEnabled()) {
-            logger.debug("Updating offsets {}-{} in transaction {}", offsets.getOffsets().get(0).getStart(),
-                    offsets.getOffsets().get(offsets.getOffsets().size() - 1).getEnd(), transaction.getId());
+            StringBuilder str = new StringBuilder("Updating ");
+            boolean first = true;
+            for (Map.Entry<String, List<PartitionOffsets>> topicOffsets : offsets.entrySet()) {
+                if (topicOffsets.getValue().isEmpty()) {
+                    throw new IllegalArgumentException("Empty offsets range to update in transaction");
+                }
+                for (PartitionOffsets partitionOffsets : topicOffsets.getValue()) {
+                    if (!first) {
+                        str.append(", ");
+                    } else {
+                        first = false;
+                    }
+                    str.append("offsets ").append(partitionOffsets.getOffsets().get(0).getStart()).append("..")
+                            .append(partitionOffsets.getOffsets().get(partitionOffsets.getOffsets().size() - 1)
+                                    .getEnd()).append(" for partition ")
+                            .append(partitionOffsets.getPartitionSession().getPartitionId())
+                            .append(" [topic ").append(topicOffsets.getKey()).append("]");
+                }
+            }
+            logger.debug(str.toString());
         }
         transaction.addOnRollbackAction(() -> session.closeDueToError(null,
                 new RuntimeException("Transaction {} with partition offsets from read session {} was rolled back. " +
@@ -160,19 +178,23 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                         .setId(transaction.getId())
                         .setSession(transaction.getSessionId()))
                 .setConsumer(this.settings.getConsumerName());
-        YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.Builder offsetsBuilder = YdbTopic
-                .UpdateOffsetsInTransactionRequest.TopicOffsets.newBuilder()
-                .setPath(offsets.getPartitionSession().getPath());
-        YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.Builder partitionOffsetsBuilder =
-                YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.newBuilder()
-                        .setPartitionId(offsets.getPartitionSession().getPartitionId());
-        offsets.getOffsets().forEach(offsetsRange -> partitionOffsetsBuilder.addPartitionOffsets(
-                YdbTopic.OffsetsRange.newBuilder()
-                        .setStart(offsetsRange.getStart())
-                        .setEnd(offsetsRange.getEnd())
-                        .build()));
-        offsetsBuilder.addPartitions(partitionOffsetsBuilder);
-        requestBuilder.addTopics(offsetsBuilder);
+        offsets.forEach((path, topicOffsets) -> {
+            YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.Builder topicOffsetsBuilder = YdbTopic
+                    .UpdateOffsetsInTransactionRequest.TopicOffsets.newBuilder()
+                    .setPath(path);
+            topicOffsets.forEach(partitionOffsets -> {
+                YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.Builder partitionOffsetsBuilder
+                        = YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.newBuilder()
+                                .setPartitionId(partitionOffsets.getPartitionSession().getPartitionId());
+                partitionOffsets.getOffsets().forEach(offsetsRange -> partitionOffsetsBuilder.addPartitionOffsets(
+                        YdbTopic.OffsetsRange.newBuilder()
+                                .setStart(offsetsRange.getStart())
+                                .setEnd(offsetsRange.getEnd())
+                                .build()));
+                topicOffsetsBuilder.addPartitions(partitionOffsetsBuilder);
+            });
+            requestBuilder.addTopics(topicOffsetsBuilder);
+        });
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.updateOffsetsInTransaction(requestBuilder.build(), grpcRequestSettings);

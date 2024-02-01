@@ -1,5 +1,8 @@
 package tech.ydb.topic.read;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import io.grpc.ExperimentalApi;
@@ -7,8 +10,6 @@ import io.grpc.ExperimentalApi;
 import tech.ydb.core.Status;
 import tech.ydb.table.transaction.BaseTransaction;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
-import tech.ydb.topic.settings.WriterSettings;
-import tech.ydb.topic.write.AsyncWriter;
 
 /**
  * @author Nikolay Perfilov
@@ -27,11 +28,35 @@ public interface AsyncReader {
     CompletableFuture<Void> shutdown();
 
     /**
-     * Add offsets to transaction request sent from client to server.
+     * Add offsets to transaction. Offsets could be from several topics.
+     * These offsets are "committed" only after said transaction is successfully committed.
+     * It is a separate request sent outside the reading stream.
      *
-     * @param settings  {@link WriterSettings}
-     * @return topic {@link AsyncWriter}
+     * @param transaction a {@link BaseTransaction} that offsets should be added to
+     * @param offsets Offsets that should be added to transaction.
+     *                Map key: topic Path
+     *                Map value: List of Partition ranges for every partition in this topic to add
+     * @param settings Operation settings.
+     * @return {@link CompletableFuture} to operation status
      */
-    CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction, PartitionOffsets offsets,
+    CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction,
+                                                         Map<String, List<PartitionOffsets>> offsets,
                                                          UpdateOffsetsInTransactionSettings settings);
+
+    /**
+     * Add offsets of a single partition session to transaction.Offsets could be from several topics.
+     * These offsets are "committed" only after said transaction is successfully committed.
+     * It is a separate request sent outside the reading stream.
+     *
+     * @param transaction a {@link BaseTransaction} that offsets should be added to
+     * @param offsets Offsets that should be added to transaction.
+     * @param settings Operation settings.
+     * @return {@link CompletableFuture} to operation status
+     */
+    default CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction, PartitionOffsets offsets,
+                                                         UpdateOffsetsInTransactionSettings settings) {
+        return updateOffsetsInTransaction(transaction,
+                Collections.singletonMap(offsets.getPartitionSession().getPath(), Collections.singletonList(offsets)),
+                settings);
+    }
 }

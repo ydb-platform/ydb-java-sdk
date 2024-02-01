@@ -1,5 +1,7 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
@@ -66,8 +68,9 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    public CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction, PartitionOffsets offsets,
-                                                         UpdateOffsetsInTransactionSettings settings) {
+    public CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction,
+                                                                Map<String, List<PartitionOffsets>> offsets,
+                                                                UpdateOffsetsInTransactionSettings settings) {
         return sendUpdateOffsetsInTransaction(transaction, offsets, settings);
     }
 
