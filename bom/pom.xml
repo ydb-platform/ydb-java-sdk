@@ -101,11 +101,25 @@
                 <groupId>tech.ydb.auth</groupId>
                 <artifactId>yc-auth-provider</artifactId>
                 <version>${yc-auth.version}</version>
+                <!-- Exclude grpc dependencies to avoid conflict with ydb-proto-api -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>tech.ydb.auth</groupId>
                 <artifactId>yc-auth-provider-shaded</artifactId>
                 <version>${yc-auth.version}</version>
+                <!-- Exclude grpc dependencies to avoid conflict with ydb-proto-api -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
