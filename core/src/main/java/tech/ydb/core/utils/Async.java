@@ -14,6 +14,7 @@ import io.grpc.netty.shaded.io.netty.util.TimerTask;
 import io.grpc.netty.shaded.io.netty.util.internal.SystemPropertyUtil;
 
 
+
 /**
  * @author Sergey Polovko
  */
@@ -38,6 +39,7 @@ public class Async {
         return f;
     }
 
+    @Deprecated
     public static <R> CompletableFuture<R> safeCall(Supplier<CompletableFuture<R>> fn) {
         try {
             return fn.get();
@@ -46,6 +48,7 @@ public class Async {
         }
     }
 
+    @Deprecated
     public static <T, R> CompletableFuture<R> safeCall(T t, Function<T, CompletableFuture<R>> fn) {
         try {
             return fn.apply(t);
@@ -54,6 +57,7 @@ public class Async {
         }
     }
 
+    @Deprecated
     public static <T, U, R> CompletableFuture<R> safeCall(T t, U u, BiFunction<T, U, CompletableFuture<R>> fn) {
         try {
             return fn.apply(t, u);

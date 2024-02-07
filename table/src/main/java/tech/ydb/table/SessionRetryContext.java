@@ -199,8 +199,8 @@ public class SessionRetryContext {
             }
 
             final Session session = sessionResult.getValue();
-            Async.safeCall(session, fn)
-                .whenComplete((fnResult, fnException) -> {
+            try {
+                fn.apply(session).whenComplete((fnResult, fnException) -> {
                     try {
                         session.close();
 
@@ -221,6 +221,10 @@ public class SessionRetryContext {
                         promise.completeExceptionally(unexpected);
                     }
                 });
+            } catch (RuntimeException ex) {
+                session.close();
+                handleException(ex);
+            }
         }
 
         private void scheduleNext(long delayMillis) {
