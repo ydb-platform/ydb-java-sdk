@@ -1,4 +1,4 @@
-package tech.ydb.table.transaction;
+package tech.ydb.common.transaction;
 
 import java.util.concurrent.CompletableFuture;
 

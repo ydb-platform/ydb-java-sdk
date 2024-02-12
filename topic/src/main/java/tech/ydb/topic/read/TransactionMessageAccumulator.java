@@ -2,8 +2,8 @@ package tech.ydb.topic.read;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Status;
-import tech.ydb.table.transaction.BaseTransaction;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**

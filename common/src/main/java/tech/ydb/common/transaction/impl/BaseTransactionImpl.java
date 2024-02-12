@@ -1,10 +1,10 @@
-package tech.ydb.table.impl;
+package tech.ydb.common.transaction.impl;
 
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import tech.ydb.table.transaction.BaseTransaction;
+import tech.ydb.common.transaction.BaseTransaction;
 
 /**
  * @author Nikolay Perfilov
@@ -14,7 +14,7 @@ public abstract class BaseTransactionImpl implements BaseTransaction {
     protected final Queue<Runnable> onRollbackActions = new ConcurrentLinkedQueue<>();
     protected final Queue<CompletableFuture<?>> futuresToWaitBeforeCommit = new ConcurrentLinkedQueue<>();
 
-    BaseTransactionImpl(String txId) {
+    protected BaseTransactionImpl(String txId) {
         this.txId = txId;
     }
 

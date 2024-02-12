@@ -2,6 +2,7 @@ package tech.ydb.table.impl;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.common.transaction.impl.BaseTransactionImpl;
 import tech.ydb.core.Status;
 import tech.ydb.table.Session;
 import tech.ydb.table.settings.CommitTxSettings;

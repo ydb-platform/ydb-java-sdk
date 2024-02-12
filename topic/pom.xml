@@ -25,10 +25,9 @@
             <artifactId>ydb-sdk-core</artifactId>
         </dependency>
 
-        <!-- Temporary -->
         <dependency>
             <groupId>tech.ydb</groupId>
-            <artifactId>ydb-sdk-table</artifactId>
+            <artifactId>ydb-sdk-common</artifactId>
         </dependency>
 
         <dependency>

@@ -7,8 +7,8 @@ import java.util.concurrent.CompletableFuture;
 
 import io.grpc.ExperimentalApi;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Status;
-import tech.ydb.table.transaction.BaseTransaction;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
@@ -54,7 +54,7 @@ public interface AsyncReader {
      * @return {@link CompletableFuture} to operation status
      */
     default CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction, PartitionOffsets offsets,
-                                                         UpdateOffsetsInTransactionSettings settings) {
+                                                                 UpdateOffsetsInTransactionSettings settings) {
         return updateOffsetsInTransaction(transaction,
                 Collections.singletonMap(offsets.getPartitionSession().getPath(), Collections.singletonList(offsets)),
                 settings);

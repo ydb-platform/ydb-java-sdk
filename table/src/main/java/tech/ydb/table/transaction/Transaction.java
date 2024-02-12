@@ -2,6 +2,7 @@ package tech.ydb.table.transaction;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.RollbackTxSettings;

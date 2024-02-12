@@ -13,9 +13,9 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.table.transaction.BaseTransaction;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
