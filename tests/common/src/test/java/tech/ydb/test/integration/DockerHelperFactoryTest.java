@@ -1,4 +1,4 @@
-package tech.ydb.test.integration.docker;
+package tech.ydb.test.integration;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
@@ -12,11 +12,8 @@ import org.mockito.Mockito;
 import org.testcontainers.utility.ThrowingFunction;
 
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.test.integration.DockerMock;
-import tech.ydb.test.integration.GrpcTransportMock;
-import tech.ydb.test.integration.YdbEnvironment;
-import tech.ydb.test.integration.YdbEnvironmentMock;
-import tech.ydb.test.integration.YdbHelper;
+import tech.ydb.test.integration.docker.DockerHelperFactory;
+import tech.ydb.test.integration.docker.YdbDockerContainer;
 import tech.ydb.test.integration.utils.PortsGenerator;
 
 /**
