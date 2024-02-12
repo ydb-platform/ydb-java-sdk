@@ -22,14 +22,15 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
     private final int grpcsPort; // Secure connection
     private final int grpcPort;  // Non secure connection
 
-    YdbDockerContainer(YdbEnvironment env, PortsGenerator portsGenerator) {
+    public YdbDockerContainer(YdbEnvironment env, PortsGenerator portsGenerator) {
         super(env.dockerImage());
 
         this.env = env;
+        this.grpcsPort = portsGenerator.findAvailablePort();
+        this.grpcPort = portsGenerator.findAvailablePort();
+    }
 
-        grpcsPort = portsGenerator.findAvailablePort();
-        grpcPort = portsGenerator.findAvailablePort();
-
+    public void init() {
         addExposedPort(grpcPort);
         addExposedPort(grpcsPort);
 

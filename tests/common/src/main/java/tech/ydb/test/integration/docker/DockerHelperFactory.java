@@ -1,6 +1,5 @@
 package tech.ydb.test.integration.docker;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.testcontainers.utility.TestcontainersConfiguration;
 
 import tech.ydb.core.grpc.GrpcTransport;
@@ -22,10 +21,10 @@ public class DockerHelperFactory extends YdbHelperFactory {
         this(env, new YdbDockerContainer(env, new PortsGenerator()));
     }
 
-    @VisibleForTesting
-    DockerHelperFactory(YdbEnvironment env, YdbDockerContainer container) {
+    public DockerHelperFactory(YdbEnvironment env, YdbDockerContainer container) {
         this.env = env;
         this.container = container;
+        this.container.init();
     }
 
     @Override
