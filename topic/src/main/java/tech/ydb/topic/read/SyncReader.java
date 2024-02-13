@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import javax.annotation.Nullable;
 
 import io.grpc.ExperimentalApi;
+import tech.ydb.common.transaction.BaseTransaction;
 
 /**
  * @author Nikolay Perfilov
@@ -39,6 +40,14 @@ public interface SyncReader {
      * @return {@link Message}
      */
     Message receive() throws InterruptedException;
+
+    /**
+     * Set a transaction. All further messages will be added to this transaction and will be committed
+     * when this transaction is committed. Manual commit of these messages will cause error.
+     *
+     * @param transaction  transaction to set for further messages
+     */
+    void setTransaction(BaseTransaction transaction);
 
     /**
      * Stops internal threads and makes cleanup in background. Blocking

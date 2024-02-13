@@ -2,6 +2,7 @@ package tech.ydb.topic.read.impl;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -14,6 +15,8 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.read.Message;
@@ -22,6 +25,7 @@ import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
+import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -31,6 +35,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private static final int POLL_INTERVAL_SECONDS = 5;
     private final Queue<MessageBatchWrapper> batchesInQueue = new LinkedList<>();
     private int currentMessageIndex = 0;
+    private BaseTransaction transaction;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         super(topicRpc, settings);
@@ -96,6 +101,17 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                 currentMessageIndex = 0;
                 currentBatch.future.complete(null);
             }
+            if (transaction != null) {
+                Status updateStatus = sendUpdateOffsetsInTransaction(transaction,
+                        Collections.singletonMap(result.getPartitionSession().getPath(),
+                                Collections.singletonList(result.getPartitionOffsets())),
+                        UpdateOffsetsInTransactionSettings.newBuilder().build())
+                        .join();
+                if (!updateStatus.isSuccess()) {
+                    throw new RuntimeException("Couldn't add message offset " + result.getOffset() + " to transaction "
+                            + transaction.getId() + ": " + updateStatus);
+                }
+            }
             return result;
         }
     }
@@ -108,6 +124,10 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             result = receive(POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
         } while (result == null);
         return result;
+    }
+    @Override
+    public void setTransaction(BaseTransaction transaction) {
+        this.transaction = transaction;
     }
 
     @Override
