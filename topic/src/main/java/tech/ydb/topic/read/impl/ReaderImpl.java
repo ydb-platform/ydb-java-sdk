@@ -160,9 +160,9 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     } else {
                         first = false;
                     }
-                    str.append("offsets ").append(partitionOffsets.getOffsets().get(0).getStart()).append("..")
+                    str.append("offsets [").append(partitionOffsets.getOffsets().get(0).getStart()).append("..")
                             .append(partitionOffsets.getOffsets().get(partitionOffsets.getOffsets().size() - 1)
-                                    .getEnd()).append(" for partition ")
+                                    .getEnd()).append(") for partition ")
                             .append(partitionOffsets.getPartitionSession().getPartitionId())
                             .append(" [topic ").append(topicOffsets.getKey()).append("]");
                 }
