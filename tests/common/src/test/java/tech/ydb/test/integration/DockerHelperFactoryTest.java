@@ -1,22 +1,19 @@
-package tech.ydb.test.integration.docker;
+package tech.ydb.test.integration;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.function.Consumer;
 
 import com.github.dockerjava.api.command.CreateContainerCmd;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.testcontainers.core.CreateContainerCmdModifier;
 import org.testcontainers.utility.ThrowingFunction;
 
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.test.integration.DockerMock;
-import tech.ydb.test.integration.GrpcTransportMock;
-import tech.ydb.test.integration.YdbEnvironment;
-import tech.ydb.test.integration.YdbEnvironmentMock;
-import tech.ydb.test.integration.YdbHelper;
+import tech.ydb.test.integration.docker.DockerHelperFactory;
+import tech.ydb.test.integration.docker.YdbDockerContainer;
 import tech.ydb.test.integration.utils.PortsGenerator;
 
 /**
@@ -82,8 +79,8 @@ public class DockerHelperFactoryTest {
         Mockito.when(cmd.withName(Mockito.any())).thenReturn(cmd);
         Mockito.when(cmd.withHostName(Mockito.any())).thenReturn(cmd);
 
-        for (Consumer<CreateContainerCmd> modifier: container.getCreateContainerCmdModifiers()) {
-            modifier.accept(cmd);
+        for (CreateContainerCmdModifier modifier: container.getCreateContainerCmdModifiers()) {
+            modifier.modify(cmd);
         }
 
         Mockito.verify(cmd, Mockito.times(1)).withName("ydb-" + DockerMock.UUID_MOCKED); // from random UUID
