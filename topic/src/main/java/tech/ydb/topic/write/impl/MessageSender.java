@@ -10,6 +10,7 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.MetadataItem;
@@ -34,6 +35,7 @@ public class MessageSender {
     private long totalMessageDataProtoSize;
     private YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder;
     private int messageCount;
+    private BaseTransaction currentTransaction;
 
     public MessageSender(WriterSettings settings) {
         this.settings = settings;
@@ -94,6 +96,11 @@ public class MessageSender {
     }
 
     public void sendWriteRequest() {
+        if (currentTransaction != null) {
+            writeRequestBuilder.setTx(YdbTopic.TransactionIdentity.newBuilder()
+                    .setId(currentTransaction.getId())
+                    .setSession(currentTransaction.getSessionId()));
+        }
         YdbTopic.StreamWriteMessage.FromClient fromClient = YdbTopic.StreamWriteMessage.FromClient.newBuilder()
                 .setWriteRequest(writeRequestBuilder)
                 .build();
@@ -133,14 +140,18 @@ public class MessageSender {
     }
 
     public void tryAddMessageToRequest(EnqueuedMessage message) {
+        if (message.getMessage().getTransaction() != currentTransaction) {
+            if (messageCount > 0) {
+                sendWriteRequest();
+            }
+            currentTransaction = message.getMessage().getTransaction();
+        }
         long messageSeqNo = message.getSeqNo() == null
                 ? (message.getMessage().getSeqNo() == null ? ++seqNo : message.getMessage().getSeqNo())
                 : message.getSeqNo();
         if (message.getSeqNo() == null) {
             message.setSeqNo(messageSeqNo);
         }
-
-
 
         YdbTopic.StreamWriteMessage.WriteRequest.MessageData.Builder messageDataBuilder =
                 YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()

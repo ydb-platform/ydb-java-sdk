@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.topic.description.MetadataItem;
 
 /**
@@ -16,12 +17,14 @@ public class Message {
     private final Long seqNo;
     private final Instant createTimestamp;
     private List<MetadataItem> metadataItems;
+    private BaseTransaction transaction;
 
     private Message(Builder builder) {
         this.data = builder.data;
         this.seqNo = builder.seqNo;
         this.createTimestamp = builder.createTimestamp != null ? builder.createTimestamp : Instant.now();
         this.metadataItems = builder.metadataItems;
+        this.transaction = builder.transaction;
     }
 
     private Message(byte[] data) {
@@ -58,6 +61,10 @@ public class Message {
         return metadataItems;
     }
 
+    public BaseTransaction getTransaction() {
+        return transaction;
+    }
+
     /**
      * BUILDER
      */
@@ -66,6 +73,7 @@ public class Message {
         private Long seqNo = null;
         private Instant createTimestamp = null;
         private List<MetadataItem> metadataItems = null;
+        private BaseTransaction transaction = null;
 
         public Builder setData(byte[] data) {
             this.data = data;
@@ -92,6 +100,11 @@ public class Message {
 
         public Builder setMetadataItems(List<MetadataItem> metadataItems) {
             this.metadataItems = metadataItems;
+            return this;
+        }
+
+        public Builder setTransaction(BaseTransaction transaction) {
+            this.transaction = transaction;
             return this;
         }
 
