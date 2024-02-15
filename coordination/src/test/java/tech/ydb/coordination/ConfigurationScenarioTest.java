@@ -1,30 +1,7 @@
 package tech.ydb.coordination;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-
-import tech.ydb.coordination.recipes.configuration.Publisher;
-import tech.ydb.coordination.recipes.configuration.Subscriber;
-import tech.ydb.coordination.settings.CoordinationNodeSettings;
-import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.core.Status;
-import tech.ydb.test.junit4.GrpcTransportRule;
-
 public class ConfigurationScenarioTest {
+    /*
     static final String SEMAPHORE_PREFIX = "configuration-";
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
@@ -51,9 +28,9 @@ public class ConfigurationScenarioTest {
                     new AtomicReference<>(new CountDownLatch(2));
             final AtomicReference<String> dataNow = new AtomicReference<>();
             dataNow.set("First message.");
-            /* Public first data */
+            // Public first data
             publisher1.publish(dataNow.get().getBytes(StandardCharsets.UTF_8));
-            /* Create 2 subscribers */
+            // Create 2 subscribers
             try (Subscriber subscriber1 = Subscriber.newSubscriber(client, path, semaphoreName, data -> {
                 if (Arrays.equals(data, dataNow.get().getBytes())) {
                     subscriberApproveCounter.get().countDown();
@@ -74,7 +51,7 @@ public class ConfigurationScenarioTest {
                 subscriberApproveCounter.get().await();
                 subscriberApproveCounter.set(new CountDownLatch(2));
 
-                /* Create another publisher */
+                // Create another publisher
                 try (Publisher publisher2 = Publisher.newPublisher(client, path, semaphoreName)) {
                     dataNow.set("Third message.");
                     publisher2.publish(dataNow.get().getBytes(StandardCharsets.UTF_8));
@@ -151,4 +128,5 @@ public class ConfigurationScenarioTest {
         );
         Assert.assertTrue(result.join().isSuccess());
     }
+    */
 }

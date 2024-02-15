@@ -2,38 +2,93 @@ package tech.ydb.coordination.impl;
 
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
-import javax.annotation.Nonnull;
+import com.google.protobuf.ByteString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import tech.ydb.coordination.description.SemaphoreChangedEvent;
-import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.proto.coordination.SessionRequest;
+import tech.ydb.proto.coordination.SessionResponse;
 
-public interface CoordinationStream {
-    CompletableFuture<Result<Boolean>> sendAcquireSemaphore(String semaphoreName, long count, Duration timeout,
-                                                            boolean ephemeral, int requestId);
+/**
+ *
+ * @author Aleksandr Gorshenin
+ */
+public class CoordinationStream implements AutoCloseable, GrpcReadWriteStream.Observer<SessionResponse> {
+    private static final Logger logger = LoggerFactory.getLogger(CoordinationStream.class);
 
-    CompletableFuture<Result<Boolean>> sendAcquireSemaphore(String semaphoreName, long count, Duration timeout,
-                                                            boolean ephemeral, byte[] data, int requestId);
+    private final GrpcReadWriteStream<SessionResponse, SessionRequest> stream;
+    private final CompletableFuture<Status> finishFuture = new CompletableFuture<>();
+    private final CompletableFuture<Result<Long>> initFuture = new CompletableFuture<>();
 
-    CompletableFuture<Result<Boolean>> sendReleaseSemaphore(String semaphoreName, int requestId);
+    public CoordinationStream(CoordinationRpc rpc, GrpcRequestSettings settings) {
+        this.stream = rpc.createSession(settings);
+    }
 
-    CompletableFuture<Result<SemaphoreDescription>> sendDescribeSemaphore(
-            String semaphoreName, boolean includeOwners, boolean includeWaiters,
-            boolean watchData, boolean watchOwners, Consumer<SemaphoreChangedEvent> updateWatcher);
+    public CompletableFuture<Status> connect() {
+        stream.start(this).whenComplete((status, th) -> {
+            if (th != null) {
+                finishFuture.completeExceptionally(th);
+                initFuture.completeExceptionally(th);
+            }
+            if (status != null) {
+                finishFuture.complete(status);
+                initFuture.complete(Result.fail(status));
+            }
+        });
+        return finishFuture;
+    }
 
-    CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, int requestId);
+    @Override
+    public void close() {
+        stream.close();
+    }
 
-    CompletableFuture<Status> sendCreateSemaphore(String semaphoreName, long limit, @Nonnull byte[] data,
-                                                  int requestId);
+    public CompletableFuture<Result<Long>> sendSessionStart(long id, String node, Duration timeout, ByteString key) {
+        stream.sendNext(
+                SessionRequest.newBuilder().setSessionStart(
+                        SessionRequest.SessionStart.newBuilder()
+                                .setSessionId(id)
+                                .setPath(node)
+                                .setTimeoutMillis(timeout.toMillis())
+                                .setProtectionKey(key)
+                                .build()
+                ).build()
+        );
+        return initFuture;
+    }
 
-    CompletableFuture<Status> sendUpdateSemaphore(String semaphoreName, int requestId);
+    @Override
+    public void onNext(SessionResponse resp) {
+        if (resp.hasFailure()) {
+            onFail(resp.getFailure());
+            return;
+        }
 
-    CompletableFuture<Status> sendUpdateSemaphore(String semaphoreName, byte[] data, int requestId);
+        if (resp.hasSessionStarted()) {
+            onSessionStarted(resp.getSessionStarted());
+            return;
+        }
+    }
 
-    CompletableFuture<Status> sendDeleteSemaphore(String semaphoreName, boolean force, int requestId);
+    private void onFail(SessionResponse.Failure msg) {
+        Status status = Status
+                .of(StatusCode.fromProto(msg.getStatus()))
+                .withIssues(Issue.fromPb(msg.getIssuesList()));
+        finishFuture.complete(status);
+        initFuture.complete(Result.fail(status));
+    }
 
-
+    private void onSessionStarted(SessionResponse.SessionStarted msg) {
+        long id = msg.getSessionId();
+        if (!initFuture.complete(Result.success(id))) {
+            logger.warn("lost session started message with id {}", id);
+        }
+    }
 }

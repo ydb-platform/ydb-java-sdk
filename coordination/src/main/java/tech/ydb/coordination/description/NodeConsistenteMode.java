@@ -1,4 +1,4 @@
-package tech.ydb.coordination.settings;
+package tech.ydb.coordination.description;
 
 /**
  *

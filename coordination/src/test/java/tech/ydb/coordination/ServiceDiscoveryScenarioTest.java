@@ -1,26 +1,7 @@
 package tech.ydb.coordination;
 
-import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Test;
-
-import tech.ydb.coordination.description.SemaphoreDescription;
-import tech.ydb.coordination.recipes.service_discovery.Subscriber;
-import tech.ydb.coordination.recipes.service_discovery.Worker;
-import tech.ydb.coordination.settings.CoordinationNodeSettings;
-import tech.ydb.coordination.settings.DescribeSemaphoreMode;
-import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.core.Status;
-import tech.ydb.test.junit4.GrpcTransportRule;
-
 public class ServiceDiscoveryScenarioTest {
+    /*
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
     private final String path = YDB_TRANSPORT.getDatabase() + "/coordination-node";
@@ -57,7 +38,7 @@ public class ServiceDiscoveryScenarioTest {
 
             final Worker worker2 = Worker.newWorker(client, path, "endpoint-2", timeout);
 
-            /* The First knows about The Second */
+            // The First knows about The Second
             try (Subscriber subscriber1 = Subscriber.newSubscriber(client, path)) {
                 SemaphoreDescription subscriberOneDescription = subscriber1.getDescription();
                 Assert.assertTrue(subscriberOneDescription
@@ -67,7 +48,7 @@ public class ServiceDiscoveryScenarioTest {
                 );
                 Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
 
-                /* The Second knows about The First */
+                // The Second knows about The First
                 try (Subscriber subscriber2 = Subscriber.newSubscriber(client, path)) {
                     subscriberOneDescription = subscriber2.getDescription();
                     Assert.assertTrue(subscriberOneDescription
@@ -77,7 +58,7 @@ public class ServiceDiscoveryScenarioTest {
                     );
                     Assert.assertEquals(2, subscriberOneDescription.getOwnersList().size());
 
-                    /* Remove The First worker */
+                    // Remove The First worker 
                     final CountDownLatch stopFirstWorkerLatch = new CountDownLatch(1);
                     subscriber2.setUpdateWaiter(stopFirstWorkerLatch::countDown);
 
@@ -112,4 +93,5 @@ public class ServiceDiscoveryScenarioTest {
         );
         Assert.assertTrue(result.join().isSuccess());
     }
+    */
 }

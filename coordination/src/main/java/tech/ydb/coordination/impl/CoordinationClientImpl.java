@@ -2,126 +2,104 @@ package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.rpc.CoordinationRpc;
+import tech.ydb.coordination.description.NodeConfig;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.coordination.settings.NodeConsistenteMode;
-import tech.ydb.coordination.settings.NodeRateLimiterCountersMode;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.OperationUtils;
 import tech.ydb.proto.coordination.AlterNodeRequest;
-import tech.ydb.proto.coordination.Config;
-import tech.ydb.proto.coordination.ConsistencyMode;
 import tech.ydb.proto.coordination.CreateNodeRequest;
 import tech.ydb.proto.coordination.DescribeNodeRequest;
 import tech.ydb.proto.coordination.DropNodeRequest;
-import tech.ydb.proto.coordination.RateLimiterCountersMode;
 
 /**
  * @author Kirill Kurdyukov
+ * @author Aleksandr Gorshenin
  */
 public class CoordinationClientImpl implements CoordinationClient {
 
-    private final CoordinationRpc coordinationRpc;
+    private final CoordinationRpc rpc;
 
-    public CoordinationClientImpl(CoordinationRpc grpcCoordinationRpc) {
-        this.coordinationRpc = grpcCoordinationRpc;
+    public CoordinationClientImpl(GrpcTransport transport) {
+        this(CoordinationRpcImpl.useTransport(transport));
+    }
+
+    @VisibleForTesting
+    CoordinationClientImpl(CoordinationRpc rpc) {
+        this.rpc = rpc;
+    }
+
+    private String validatePath(String path) {
+        if (path == null || path.isEmpty()) {
+            throw new IllegalArgumentException("Coordination node path cannot be empty");
+        }
+
+        return path.startsWith("/") ? path : rpc.getDatabase() + "/" + path;
     }
 
     @Override
     public CoordinationSession createSession(String path, CoordinationSessionSettings settings) {
-        return new CoordinationSessionImpl(coordinationRpc, path, settings);
+        return new CoordinationSessionImpl(rpc, validatePath(path), settings);
     }
 
     @Override
     public CompletableFuture<Status> createNode(String path, CoordinationNodeSettings settings) {
         CreateNodeRequest request = CreateNodeRequest.newBuilder()
-                .setPath(path)
+                .setPath(validatePath(path))
                 .setOperationParams(OperationUtils.createParams(settings))
-                .setConfig(createConfig(settings))
+                .setConfig(settings.getConfig().toProto())
                 .build();
 
         GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
-        return coordinationRpc.createNode(request, grpcSettings);
+        return rpc.createNode(request, grpcSettings);
     }
 
     @Override
     public CompletableFuture<Status> alterNode(String path, CoordinationNodeSettings settings) {
         AlterNodeRequest request = AlterNodeRequest.newBuilder()
-                .setPath(path)
+                .setPath(validatePath(path))
                 .setOperationParams(OperationUtils.createParams(settings))
-                .setConfig(createConfig(settings))
+                .setConfig(settings.getConfig().toProto())
                 .build();
 
         GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
-        return coordinationRpc.alterNode(request, grpcSettings);
+        return rpc.alterNode(request, grpcSettings);
     }
 
     @Override
     public CompletableFuture<Status> dropNode(String path, DropCoordinationNodeSettings settings) {
         DropNodeRequest request = DropNodeRequest.newBuilder()
-                .setPath(path)
+                .setPath(validatePath(path))
                 .setOperationParams(OperationUtils.createParams(settings))
                 .build();
 
         GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
-        return coordinationRpc.dropNode(request, grpcSettings);
+        return rpc.dropNode(request, grpcSettings);
     }
 
     @Override
-    public CompletableFuture<Status> describeNode(String path, DescribeCoordinationNodeSettings settings) {
+    public CompletableFuture<Result<NodeConfig>> describeNode(String path,
+            DescribeCoordinationNodeSettings settings) {
         DescribeNodeRequest request = DescribeNodeRequest.newBuilder()
-                .setPath(path)
+                .setPath(validatePath(path))
                 .setOperationParams(OperationUtils.createParams(settings))
                 .build();
 
         GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
-        return coordinationRpc.describeNode(request, grpcSettings);
+        return rpc.describeNode(request, grpcSettings);
     }
 
     @Override
     public String getDatabase() {
-        return coordinationRpc.getDatabase();
-    }
-
-    private static ConsistencyMode toProto(NodeConsistenteMode mode) {
-        switch (mode) {
-            case UNSET:
-                return ConsistencyMode.CONSISTENCY_MODE_UNSET;
-            case STRICT:
-                return ConsistencyMode.CONSISTENCY_MODE_STRICT;
-            case RELAXED:
-                return ConsistencyMode.CONSISTENCY_MODE_RELAXED;
-            default:
-                throw new RuntimeException("Unknown consistency mode: " + mode);
-        }
-    }
-
-    private static RateLimiterCountersMode toProto(NodeRateLimiterCountersMode mode) {
-        switch (mode) {
-            case UNSET:
-                return RateLimiterCountersMode.RATE_LIMITER_COUNTERS_MODE_UNSET;
-            case DETAILED:
-                return RateLimiterCountersMode.RATE_LIMITER_COUNTERS_MODE_DETAILED;
-            case AGGREGATED:
-                return RateLimiterCountersMode.RATE_LIMITER_COUNTERS_MODE_AGGREGATED;
-            default:
-                throw new RuntimeException("Unknown rate limiter counters mode: " + mode);
-        }
-    }
-
-    private static Config createConfig(CoordinationNodeSettings coordinationNodeSettings) {
-        return Config.newBuilder()
-                .setSelfCheckPeriodMillis((int) coordinationNodeSettings.getSelfCheckPeriod().toMillis())
-                .setSessionGracePeriodMillis((int) coordinationNodeSettings.getSessionGracePeriod().toMillis())
-                .setReadConsistencyMode(toProto(coordinationNodeSettings.getReadConsistencyMode()))
-                .setAttachConsistencyMode(toProto(coordinationNodeSettings.getAttachConsistencyMode()))
-                .setRateLimiterCountersMode(toProto(coordinationNodeSettings.getRateLimiterCountersMode()))
-                .build();
+        return rpc.getDatabase();
     }
 }

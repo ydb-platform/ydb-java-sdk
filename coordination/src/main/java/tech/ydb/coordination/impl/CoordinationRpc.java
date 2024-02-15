@@ -1,8 +1,10 @@
-package tech.ydb.coordination.rpc;
+package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
+import tech.ydb.coordination.description.NodeConfig;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -18,7 +20,7 @@ import tech.ydb.proto.coordination.SessionResponse;
  */
 public interface CoordinationRpc {
 
-    GrpcReadWriteStream<SessionResponse, SessionRequest> session();
+    GrpcReadWriteStream<SessionResponse, SessionRequest> createSession(GrpcRequestSettings settings);
 
     CompletableFuture<Status> createNode(CreateNodeRequest request, GrpcRequestSettings settings);
 
@@ -26,7 +28,7 @@ public interface CoordinationRpc {
 
     CompletableFuture<Status> dropNode(DropNodeRequest request, GrpcRequestSettings settings);
 
-    CompletableFuture<Status> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings);
+    CompletableFuture<Result<NodeConfig>> describeNode(DescribeNodeRequest request, GrpcRequestSettings settings);
 
     String getDatabase();
 

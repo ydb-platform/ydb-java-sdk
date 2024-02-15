@@ -1,18 +1,16 @@
 package tech.ydb.coordination;
 
-import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.WillNotClose;
 
+import tech.ydb.coordination.description.NodeConfig;
 import tech.ydb.coordination.impl.CoordinationClientImpl;
-import tech.ydb.coordination.impl.CoordinationGrpc;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
 import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeCoordinationNodeSettings;
 import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
-import tech.ydb.coordination.settings.NodeConsistenteMode;
-import tech.ydb.coordination.settings.NodeRateLimiterCountersMode;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
 
@@ -23,7 +21,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 public interface CoordinationClient {
 
     static CoordinationClient newClient(@WillNotClose GrpcTransport transport) {
-        return new CoordinationClientImpl(CoordinationGrpc.useTransport(transport));
+        return new CoordinationClientImpl(transport);
     }
 
     /**
@@ -49,37 +47,37 @@ public interface CoordinationClient {
      * Creates a new coordination node.
      *
      * @param path full path to coordination node
-     * @param coordinationNodeSettings coordination node settings
-     * @return status of request
+     * @param settings coordination node settings
+     * @return future with status of operation
      */
-    CompletableFuture<Status> createNode(String path, CoordinationNodeSettings coordinationNodeSettings);
+    CompletableFuture<Status> createNode(String path, CoordinationNodeSettings settings);
 
     /**
      * Modifies settings of a coordination node
      *
      * @param path full path to coordination node
-     * @param coordinationNodeSettings coordination node settings
-     * @return status of request
+     * @param settings coordination node settings
+     * @return future with status of operation
      */
-    CompletableFuture<Status> alterNode(String path, CoordinationNodeSettings coordinationNodeSettings);
+    CompletableFuture<Status> alterNode(String path, CoordinationNodeSettings settings);
 
     /**
      * Drops a coordination node
      *
      * @param path full path to coordination node
-     * @param dropNodeSettings drop coordination node settings
-     * @return request of status
+     * @param settings drop coordination node settings
+     * @return future with status of operation
      */
-    CompletableFuture<Status> dropNode(String path, DropCoordinationNodeSettings dropNodeSettings);
+    CompletableFuture<Status> dropNode(String path, DropCoordinationNodeSettings settings);
 
     /**
      * Describes a coordination node
      *
      * @param path full path to coordination node
-     * @param describeNodeSettings describe coordination node settings
-     * @return request of status
+     * @param settings describe coordination node settings
+     * @return future with node configuration
      */
-    CompletableFuture<Status> describeNode(String path, DescribeCoordinationNodeSettings describeNodeSettings);
+    CompletableFuture<Result<NodeConfig>> describeNode(String path, DescribeCoordinationNodeSettings settings);
 
 
 
@@ -101,24 +99,17 @@ public interface CoordinationClient {
      * Creates a new coordination node.
      *
      * @param path full path to coordination node
-     * @return status of request
+     * @return future with status of operation
      */
     default CompletableFuture<Status> createNode(String path) {
-        return createNode(path, CoordinationNodeSettings.newBuilder()
-                .withSelfCheckPeriod(Duration.ofSeconds(1))
-                .withSessionGracePeriod(Duration.ofSeconds(10))
-                .withReadConsistencyMode(NodeConsistenteMode.RELAXED)
-                .withAttachConsistencyMode(NodeConsistenteMode.STRICT)
-                .withRateLimiterCountersMode(NodeRateLimiterCountersMode.UNSET)
-                .build()
-        );
+        return createNode(path, CoordinationNodeSettings.newBuilder().build());
     }
 
     /**
      * Drops a coordination node
      *
      * @param path full path to coordination node
-     * @return request of status
+     * @return future with status of operation
      */
     default CompletableFuture<Status> dropNode(String path) {
         return dropNode(path, DropCoordinationNodeSettings.newBuilder().build());
@@ -128,9 +119,9 @@ public interface CoordinationClient {
      * Describes a coordination node
      *
      * @param path full path to coordination node
-     * @return request of status
+     * @return future with result of operation
      */
-    default CompletableFuture<Status> describeNode(String path) {
+    default CompletableFuture<Result<NodeConfig>> describeNode(String path) {
         return describeNode(path, DescribeCoordinationNodeSettings.newBuilder().build());
     }
 }
