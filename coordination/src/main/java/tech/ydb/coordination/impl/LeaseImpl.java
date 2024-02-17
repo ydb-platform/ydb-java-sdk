@@ -5,11 +5,11 @@ import java.util.concurrent.CompletableFuture;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
 
-public class SemaphoreLeaseImpl implements SemaphoreLease {
-    private final CoordinationSessionImpl session;
+class LeaseImpl implements SemaphoreLease {
+    private final SessionImpl session;
     private final String name;
 
-    public SemaphoreLeaseImpl(CoordinationSessionImpl session, String name) {
+    LeaseImpl(SessionImpl session, String name) {
         this.session = session;
         this.name = name;
     }

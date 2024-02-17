@@ -29,7 +29,7 @@ import tech.ydb.proto.coordination.v1.CoordinationServiceGrpc;
 /**
  * @author Kirill Kurdyukov
  */
-class CoordinationRpcImpl implements CoordinationRpc {
+class RpcImpl implements Rpc {
     private static final Function<Result<CreateNodeResponse>, Status> CREATE_NODE_STATUS = OperationManager
             .syncStatusUnwrapper(CreateNodeResponse::getOperation);
 
@@ -44,12 +44,12 @@ class CoordinationRpcImpl implements CoordinationRpc {
 
     private final GrpcTransport transport;
 
-    private CoordinationRpcImpl(GrpcTransport grpcTransport) {
+    private RpcImpl(GrpcTransport grpcTransport) {
         this.transport = grpcTransport;
     }
 
-    public static CoordinationRpc useTransport(@WillNotClose GrpcTransport transport) {
-        return new CoordinationRpcImpl(transport);
+    public static Rpc useTransport(@WillNotClose GrpcTransport transport) {
+        return new RpcImpl(transport);
     }
 
     @Override

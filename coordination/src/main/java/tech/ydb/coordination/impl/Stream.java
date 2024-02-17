@@ -34,11 +34,12 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     private final GrpcReadWriteStream<SessionResponse, SessionRequest> stream;
     private final CompletableFuture<Status> stopFuture = new CompletableFuture<>();
     private final CompletableFuture<Result<Long>> startFuture = new CompletableFuture<>();
+
     private final Map<Long, StreamMsg<?>> messages = new ConcurrentHashMap<>();
 
-    Stream(CoordinationRpc rpc, GrpcRequestSettings settings) {
+    Stream(Rpc rpc) {
         this.scheduler = rpc.getScheduler();
-        this.stream = rpc.createSession(settings);
+        this.stream = rpc.createSession(GrpcRequestSettings.newBuilder().build());
     }
 
     public CompletableFuture<Status> startStream() {
@@ -52,6 +53,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
                 startFuture.complete(Result.fail(status));
             }
         });
+
         return stopFuture;
     }
 
@@ -99,14 +101,14 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     }
 
     public void sendMsg(long requestId, StreamMsg<?> msg) {
-        StreamMsg<?> old = messages.put(requestId, msg);
-        SessionRequest request = msg.makeRequest(requestId);
+        StreamMsg<?> oldMsg = messages.put(requestId, msg);
 
+        SessionRequest request = msg.makeRequest(requestId);
         logger.trace("the stream {} send message {}", hashCode(), TextFormat.shortDebugString(request));
         stream.sendNext(request);
 
-        if (old != null) {
-            old.handleError(Status.of(StatusCode.CLIENT_CANCELLED));
+        if (oldMsg != null) {
+            oldMsg.handleError(Status.of(StatusCode.CLIENT_CANCELLED));
         }
     }
 
@@ -146,6 +148,10 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
             return;
         }
 
+        if (resp.hasDescribeSemaphoreChanged()) {
+            onNextMessage(resp.getDescribeSemaphoreChanged().getReqId(), resp);
+        }
+
         if (resp.hasCreateSemaphoreResult()) {
             onNextMessage(resp.getCreateSemaphoreResult().getReqId(), resp);
         }
@@ -154,16 +160,16 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
             onNextMessage(resp.getDeleteSemaphoreResult().getReqId(), resp);
         }
 
-        if (resp.hasAcquireSemaphoreResult()) {
-            onNextMessage(resp.getAcquireSemaphoreResult().getReqId(), resp);
+        if (resp.hasUpdateSemaphoreResult()) {
+            onNextMessage(resp.getUpdateSemaphoreResult().getReqId(), resp);
         }
 
         if (resp.hasDescribeSemaphoreResult()) {
             onNextMessage(resp.getDescribeSemaphoreResult().getReqId(), resp);
         }
 
-        if (resp.hasDescribeSemaphoreChanged()) {
-            onNextMessage(resp.getDescribeSemaphoreChanged().getReqId(), resp);
+        if (resp.hasAcquireSemaphoreResult()) {
+            onNextMessage(resp.getAcquireSemaphoreResult().getReqId(), resp);
         }
 
         if (resp.hasReleaseSemaphoreResult()) {
