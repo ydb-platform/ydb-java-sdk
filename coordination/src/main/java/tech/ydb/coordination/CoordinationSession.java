@@ -54,6 +54,8 @@ public interface CoordinationSession extends AutoCloseable {
      */
     CompletableFuture<Status> connect();
 
+    CompletableFuture<Status> stop();
+
     /**
      * Current session identifier. If the connection wasn't established session will return null
      * @return Future with session identifier
@@ -66,7 +68,9 @@ public interface CoordinationSession extends AutoCloseable {
     void removeStateListener(Consumer<State> listener);
 
     @Override
-    void close();
+    default void close() {
+        stop().join();
+    }
 
     /**
      * Create a new semaphore. This operation doesn't change internal state of the coordination session

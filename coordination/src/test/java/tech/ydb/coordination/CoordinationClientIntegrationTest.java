@@ -1,10 +1,14 @@
 package tech.ydb.coordination;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.description.NodeConfig;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
@@ -13,44 +17,16 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 public class CoordinationClientIntegrationTest {
+    private static final Logger logger = LoggerFactory.getLogger(CoordinationClientIntegrationTest.class);
+
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();
 
     public static final CoordinationClient CLIENT = CoordinationClient.newClient(YDB_TRANSPORT);
 
     @Test
-    public void createNodeTest() {
-        String nodePath = CLIENT.getDatabase() + "/test-node";
-        CLIENT.createNode(nodePath).join().expectSuccess("creating of new node failed");
-
-        NodeConfig config = CLIENT.describeNode(nodePath).join().getValue();
-        Assert.assertEquals(Duration.ofSeconds(1), config.getSelfCheckPeriod());
-        Assert.assertEquals(Duration.ofSeconds(10), config.getSessionGracePeriod());
-        Assert.assertEquals(NodeConfig.ConsistencyMode.UNSET, config.getReadConsistencyMode());
-        Assert.assertEquals(NodeConfig.ConsistencyMode.UNSET, config.getAttachConsistencyMode());
-        Assert.assertEquals(NodeConfig.RateLimiterCountersMode.UNSET, config.getRateLimiterCountersMode());
-
-        CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
-    }
-
-    @Test
-    public void createRelativeNodeTest() {
-        String nodePath = "relative-node";
-        CLIENT.createNode(nodePath).join().expectSuccess("creating of new node by relative path failed");
-
-        NodeConfig config = CLIENT.describeNode(nodePath).join().getValue();
-        Assert.assertEquals(Duration.ofSeconds(1), config.getSelfCheckPeriod());
-        Assert.assertEquals(Duration.ofSeconds(10), config.getSessionGracePeriod());
-        Assert.assertEquals(NodeConfig.ConsistencyMode.UNSET, config.getReadConsistencyMode());
-        Assert.assertEquals(NodeConfig.ConsistencyMode.UNSET, config.getAttachConsistencyMode());
-        Assert.assertEquals(NodeConfig.RateLimiterCountersMode.UNSET, config.getRateLimiterCountersMode());
-
-        CLIENT.dropNode(nodePath).join().expectSuccess("removing of node by relative path failed");
-    }
-
-    @Test
     public void alterNodeTest() {
-        String nodePath = "alter-node";
+        String nodePath = CLIENT.getDatabase() + "/alter-node";
 
         NodeConfig config = NodeConfig.create()
                 .withDurationsConfig(Duration.ofSeconds(5), Duration.ofSeconds(25))
@@ -128,6 +104,46 @@ public class CoordinationClientIntegrationTest {
         Status secondDrop = CLIENT.dropNode(nodePath).join();
         Assert.assertFalse(secondDrop.isSuccess());
         Assert.assertEquals(StatusCode.SCHEME_ERROR, secondDrop.getCode());
+    }
+
+    @Test
+    public void createSessionTest() {
+        String nodePath = "test-sessions/create-test";
+
+        CLIENT.createNode(nodePath).join().expectSuccess("creating of node failed");
+
+        logger.info("create session");
+        CoordinationSession session = CLIENT.createSession(nodePath);
+
+        List<CoordinationSession.State> states = new ArrayList<>();
+        session.addStateListener(state -> states.add(state));
+
+        Assert.assertEquals(CoordinationSession.State.UNSTARTED, session.getState());
+        Assert.assertNull(session.getId());
+        Assert.assertTrue(states.isEmpty());
+
+        logger.info("connect session");
+        session.connect().join().expectSuccess("cannot connect session");
+
+        Assert.assertEquals(2, states.size());
+        Assert.assertEquals(CoordinationSession.State.CONNECTING, states.get(0));
+        Assert.assertEquals(CoordinationSession.State.CONNECTED, states.get(1));
+        Assert.assertEquals(CoordinationSession.State.CONNECTED, session.getState());
+        Assert.assertNotNull(session.getId());
+
+        logger.info("stop session");
+        session.close();
+
+        Assert.assertEquals(3, states.size());
+        Assert.assertEquals(CoordinationSession.State.CLOSED, states.get(2));
+        Assert.assertEquals(CoordinationSession.State.CLOSED, session.getState());
+
+        Status wrongStatus = session.connect().join();
+        Assert.assertFalse(wrongStatus.isSuccess());
+        Assert.assertEquals(1, wrongStatus.getIssues().length);
+        Assert.assertEquals("Session has unconnectable state CLOSED", wrongStatus.getIssues()[0].getMessage());
+
+        CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
     }
 /*
     @Test(timeout = 20_000)

@@ -40,7 +40,7 @@ public class CoordinationSessionImpl implements CoordinationSession {
     private final Executor executor;
 
     private final Map<Consumer<State>, Consumer<State>> listeners = new ConcurrentHashMap<>();
-    private final AtomicReference<State> state = new AtomicReference<>();
+    private final AtomicReference<State> state = new AtomicReference<>(State.UNSTARTED);
     private final AtomicReference<StreamState> stream = new AtomicReference<>();
 
     public CoordinationSessionImpl(CoordinationRpc rpc, String nodePath, CoordinationSessionSettings settings) {
@@ -60,11 +60,25 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder()
+                .append("Session{state=")
+                .append(state.get());
+        StreamState ss = stream.get();
+        if (ss != null) {
+            sb.append(", id=").append(ss.id).append(", stream=").append(ss.stream.hashCode());
+        }
+
+        return sb.append("}").toString();
+    }
+
+    @Override
     public CompletableFuture<Status> connect() {
-        logger.info("{} connect", this);
+        logger.trace("{} try to connect", this);
         if (!switchToConnecting()) {
             Status error = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
                     .withIssues(Issue.of("Session has unconnectable state " + getState(), Issue.Severity.ERROR));
+            logger.warn("{} cannot be connected by {}", this, error);
             return CompletableFuture.completedFuture(error);
         }
 
@@ -74,15 +88,27 @@ public class CoordinationSessionImpl implements CoordinationSession {
                 .build()
         );
 
-        newStream.connect().whenCompleteAsync((status, th) -> {
-            boolean connectStatus = status != null && connectFuture.complete(status);
-            boolean connectException = th != null && connectFuture.completeExceptionally(th);
-
-            if (connectStatus || connectException) {
-                switchToDisconnected();
-            } else {
-                disconnect(th, status);
+        newStream.start().whenCompleteAsync((status, th) -> {
+            if (th != null) {
+                logger.warn("{} stream finished with exception", this, th);
+                if (connectFuture.completeExceptionally(th)) {
+                    switchToDisconnected();
+                    return;
+                }
             }
+            if (status != null) {
+                if (status.isSuccess()) {
+                    logger.debug("{} stream finished with status {}", this, status);
+                } else {
+                    logger.warn("{} stream finished with status {}", this, status);
+                }
+                if (connectFuture.complete(status)) {
+                    switchToDisconnected();
+                    return;
+                }
+            }
+
+            disconnect(th, status);
         }, executor);
 
         newStream.sendSessionStart(0, nodePath, connectTimeout, protectionKey).whenCompleteAsync((res, th) -> {
@@ -113,28 +139,18 @@ public class CoordinationSessionImpl implements CoordinationSession {
         return connectFuture;
     }
 
-    private void disconnect(Throwable th, Status status) {
-        if (!switchToDisconnected()) {
-            reconnect();
-        } else {
-            reconnect();
+    @Override
+    public CompletableFuture<Status> stop() {
+        if (switchToClose()) {
+            logger.debug("{} closed", this);
         }
-    }
 
-    private void reconnect() {
-
-    }
-
-    private boolean establishNewSession(long sessionID, CoordinationStream newStream) {
-        StreamState previous = stream.getAndSet(new StreamState(sessionID, newStream));
-        if (!switchToConnected()) {
-            stream.getAndSet(previous).stream.close();
-            return false;
+        StreamState s = stream.get();
+        if (s == null) { // session is unstarted
+            return CompletableFuture.completedFuture(Status.SUCCESS);
         }
-        if (previous != null) {
-            previous.stream.close();
-        }
-        return true;
+
+        return s.stream.sendSessionStop();
     }
 
     @Override
@@ -143,7 +159,7 @@ public class CoordinationSessionImpl implements CoordinationSession {
         if (current == null) {
             return null;
         }
-        return current.getId();
+        return current.id;
     }
 
     @Override
@@ -162,6 +178,33 @@ public class CoordinationSessionImpl implements CoordinationSession {
     public void removeStateListener(Consumer<State> listener) {
         listeners.remove(listener);
     }
+
+    private void disconnect(Throwable th, Status status) {
+        if (switchToLost()) {
+            StreamState s = stream.get();
+            if (s != null) {
+                // disconnect grpc stream
+                s.stream.cancel();
+            }
+        }
+    }
+
+    private void reconnect() {
+
+    }
+
+    private boolean establishNewSession(long sessionID, CoordinationStream newStream) {
+        StreamState previous = stream.getAndSet(new StreamState(sessionID, newStream));
+        if (!switchToConnected()) {
+            stream.getAndSet(previous).stream.cancel();
+            return false;
+        }
+        if (previous != null) {
+            previous.stream.cancel();
+        }
+        return true;
+    }
+
 
     private boolean updateState(State previous, State newState) {
         if (!state.compareAndSet(previous, newState)) {
@@ -191,6 +234,10 @@ public class CoordinationSessionImpl implements CoordinationSession {
         return updateState(State.CLOSED);
     }
 
+    private boolean switchToLost() {
+        return updateState(State.LOST);
+    }
+
     private boolean switchToConnecting() {
         return updateState(State.UNSTARTED, State.CONNECTING) || updateState(State.LOST, State.RECONNECTING);
     }
@@ -208,14 +255,25 @@ public class CoordinationSessionImpl implements CoordinationSession {
     }
 
     @Override
-    public void close() {
-        if (switchToClose()) {
-            StreamState s = stream.getAndSet(null);
-            if (s != null) {
-                s.stream.close();
-            }
-        }
+    public CompletableFuture<Status> createSemaphore(String name, long limit, byte[] data) {
+
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public CompletableFuture<Status> updateSemaphore(String name, byte[] data) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public CompletableFuture<Status> deleteSemaphore(String name, boolean force) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    CompletableFuture<Status> releaseSemaphore(String name) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
 
     private static ByteString createRandomKey() {
         byte[] protectionKey = new byte[16];
@@ -232,10 +290,6 @@ public class CoordinationSessionImpl implements CoordinationSession {
         StreamState(long id, CoordinationStream stream) {
             this.id = id;
             this.stream = stream;
-        }
-
-        public long getId() {
-            return id;
         }
     }
 
@@ -304,37 +358,6 @@ public class CoordinationSessionImpl implements CoordinationSession {
 //        ).thenApply(r -> r.map(desc -> new SemaphoreWatcher(desc, changeFuture)));
 //    }
 //
-//    @Override
-//    public CompletableFuture<Status> deleteSemaphore(String semaphoreName, boolean force) {
-//        return stream.sendDeleteSemaphore(semaphoreName, force, lastId.getAndIncrement());
-//    }
-//
-//    @Override
-//    public void close() {
-//        logger.trace("Close session with id={}", stream.getId());
-//        if (isWorking.compareAndSet(true, false)) {
-//            stream.stop();
-//        }
-//    }
-
-    CompletableFuture<Status> releaseSemaphore(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public CompletableFuture<Status> createSemaphore(String name, long limit, byte[] data) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public CompletableFuture<Status> updateSemaphore(String name, byte[] data) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public CompletableFuture<Status> deleteSemaphore(String name, boolean force) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
     @Override
     public CompletableFuture<Result<SemaphoreLease>> acquireSemaphore(String name, long count, byte[] data,
