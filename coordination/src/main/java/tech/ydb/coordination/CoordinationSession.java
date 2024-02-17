@@ -157,6 +157,16 @@ public interface CoordinationSession extends AutoCloseable {
         return createSemaphore(name, limit, null);
     }
 
+    /**
+     * Remove a semaphore. This operation doesn't change internal state of the coordination session
+     * so one session may be used for removing different semaphores
+     *
+     * @param name  Name of the semaphore to remove
+     * @return Future with status of operation.
+     */
+    default CompletableFuture<Status> deleteSemaphore(String name) {
+        return deleteSemaphore(name, false);
+    }
 
     /**
      * Acquire an semaphore.

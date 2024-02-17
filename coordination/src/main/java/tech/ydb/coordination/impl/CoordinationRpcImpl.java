@@ -29,7 +29,7 @@ import tech.ydb.proto.coordination.v1.CoordinationServiceGrpc;
 /**
  * @author Kirill Kurdyukov
  */
-public class CoordinationRpcImpl implements CoordinationRpc {
+class CoordinationRpcImpl implements CoordinationRpc {
     private static final Function<Result<CreateNodeResponse>, Status> CREATE_NODE_STATUS = OperationManager
             .syncStatusUnwrapper(CreateNodeResponse::getOperation);
 

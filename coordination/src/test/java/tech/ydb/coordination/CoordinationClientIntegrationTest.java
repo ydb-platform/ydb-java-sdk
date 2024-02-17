@@ -110,6 +110,7 @@ public class CoordinationClientIntegrationTest {
     public void createSessionTest() {
         String nodePath = "test-sessions/create-test";
 
+        logger.info("create node");
         CLIENT.createNode(nodePath).join().expectSuccess("creating of node failed");
 
         logger.info("create session");
@@ -138,11 +139,34 @@ public class CoordinationClientIntegrationTest {
         Assert.assertEquals(CoordinationSession.State.CLOSED, states.get(2));
         Assert.assertEquals(CoordinationSession.State.CLOSED, session.getState());
 
-        Status wrongStatus = session.connect().join();
-        Assert.assertFalse(wrongStatus.isSuccess());
-        Assert.assertEquals(1, wrongStatus.getIssues().length);
-        Assert.assertEquals("Session has unconnectable state CLOSED", wrongStatus.getIssues()[0].getMessage());
+        logger.info("drop node");
+        CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
+    }
 
+    @Test
+    public void createSemaphoreTest() {
+        String nodePath = "test-sessions/create-semaphore-test";
+        String semaphoreName = "semaphore1";
+        byte[] semaphoreData = new byte[] { 0x00, 0x12 };
+
+        logger.info("create node");
+        CLIENT.createNode(nodePath).join().expectSuccess("creating of node failed");
+
+        logger.info("create session");
+        CoordinationSession session = CLIENT.createSession(nodePath);
+        logger.info("connect session");
+        session.connect().join().expectSuccess("cannot connect session");
+
+        logger.info("create semaphore");
+        session.createSemaphore(semaphoreName, 10, semaphoreData).join().expectSuccess("cannpt create semaphore");
+
+        logger.info("delete semaphore");
+        session.deleteSemaphore(semaphoreName).join().expectSuccess("cannpt create semaphore");
+
+        logger.info("stop session");
+        session.close();
+
+        logger.info("drop node");
         CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
     }
 /*

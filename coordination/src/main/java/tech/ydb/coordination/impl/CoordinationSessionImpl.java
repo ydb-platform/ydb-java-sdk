@@ -7,9 +7,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.ByteString;
@@ -76,19 +77,18 @@ public class CoordinationSessionImpl implements CoordinationSession {
     public CompletableFuture<Status> connect() {
         logger.trace("{} try to connect", this);
         if (!switchToConnecting()) {
-            Status error = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
-                    .withIssues(Issue.of("Session has unconnectable state " + getState(), Issue.Severity.ERROR));
+            Status error = invalidStateStatus();
             logger.warn("{} cannot be connected by {}", this, error);
             return CompletableFuture.completedFuture(error);
         }
 
         final CompletableFuture<Status> connectFuture = new CompletableFuture<>();
-        final CoordinationStream newStream = new CoordinationStream(rpc, GrpcRequestSettings.newBuilder()
+        final Stream newStream = new Stream(rpc, GrpcRequestSettings.newBuilder()
                 .withDeadline(connectTimeout)
                 .build()
         );
 
-        newStream.start().whenCompleteAsync((status, th) -> {
+        newStream.startStream().whenCompleteAsync((status, th) -> {
             if (th != null) {
                 logger.warn("{} stream finished with exception", this, th);
                 if (connectFuture.completeExceptionally(th)) {
@@ -125,8 +125,8 @@ public class CoordinationSessionImpl implements CoordinationSession {
             }
 
             if (!establishNewSession(res.getValue(), newStream)) {
-                Status error = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
-                        .withIssues(Issue.of("Cannot establish new session", Issue.Severity.ERROR));
+                Issue issue = Issue.of("Cannot establish new session", Issue.Severity.ERROR);
+                Status error = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue);
                 connectFuture.complete(error);
                 return;
             }
@@ -184,7 +184,7 @@ public class CoordinationSessionImpl implements CoordinationSession {
             StreamState s = stream.get();
             if (s != null) {
                 // disconnect grpc stream
-                s.stream.cancel();
+                s.stream.cancelStream();
             }
         }
     }
@@ -193,14 +193,14 @@ public class CoordinationSessionImpl implements CoordinationSession {
 
     }
 
-    private boolean establishNewSession(long sessionID, CoordinationStream newStream) {
+    private boolean establishNewSession(long sessionID, Stream newStream) {
         StreamState previous = stream.getAndSet(new StreamState(sessionID, newStream));
         if (!switchToConnected()) {
-            stream.getAndSet(previous).stream.cancel();
+            stream.getAndSet(previous).stream.cancelStream();
             return false;
         }
         if (previous != null) {
-            previous.stream.cancel();
+            previous.stream.cancelStream();
         }
         return true;
     }
@@ -254,20 +254,45 @@ public class CoordinationSessionImpl implements CoordinationSession {
         return updateState(State.CONNECTING, State.UNSTARTED) || updateState(State.RECONNECTING, State.LOST);
     }
 
+    private Status invalidStateStatus() {
+        Issue issue = Issue.of("Session has invalid state " + getState(), Issue.Severity.ERROR);
+        return Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue);
+    }
+
     @Override
     public CompletableFuture<Status> createSemaphore(String name, long limit, byte[] data) {
+        StreamState ss = stream.get();
+        if (ss == null) {
+            return CompletableFuture.completedFuture(invalidStateStatus());
+        }
 
-        throw new UnsupportedOperationException("Not supported yet.");
+        StreamMsg<Status> msg = StreamMsg.createSemaphoreMsg(name, limit, data);
+        ss.sendMessagg(msg);
+        return msg.getResult().thenApplyAsync(Function.identity(), executor);
     }
 
     @Override
     public CompletableFuture<Status> updateSemaphore(String name, byte[] data) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StreamState ss = stream.get();
+        if (ss == null) {
+            return CompletableFuture.completedFuture(invalidStateStatus());
+        }
+
+        StreamMsg<Status> msg = StreamMsg.updateSemaphoreMsg(name, data);
+        ss.sendMessagg(msg);
+        return msg.getResult().thenApplyAsync(Function.identity(), executor);
     }
 
     @Override
     public CompletableFuture<Status> deleteSemaphore(String name, boolean force) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        StreamState ss = stream.get();
+        if (ss == null) {
+            return CompletableFuture.completedFuture(invalidStateStatus());
+        }
+
+        StreamMsg<Status> msg = StreamMsg.deleteSemaphoreMsg(name, force);
+        ss.sendMessagg(msg);
+        return msg.getResult().thenApplyAsync(Function.identity(), executor);
     }
 
     CompletableFuture<Status> releaseSemaphore(String name) {
@@ -284,27 +309,20 @@ public class CoordinationSessionImpl implements CoordinationSession {
 
     private class StreamState {
         private final long id;
-        private final CoordinationStream stream;
-        private final AtomicInteger reqIdx = new AtomicInteger(0);
+        private final Stream stream;
+        private final AtomicLong reqIdx = new AtomicLong(0);
 
-        StreamState(long id, CoordinationStream stream) {
+        StreamState(long id, Stream stream) {
             this.id = id;
             this.stream = stream;
+        }
+
+        void sendMessagg(StreamMsg<?> msg) {
+            this.stream.sendMsg(reqIdx.incrementAndGet(), msg);
         }
     }
 
 
-//
-//    @Override
-//    public CompletableFuture<Status> createSemaphore(String semaphoreName, long limit,
-//                                                     byte[] data) {
-//        if (data == null) {
-//            data = BYTE_ARRAY_STUB;
-//        }
-//        final int semaphoreId = lastId.getAndIncrement();
-//        logger.trace("Send createSemaphore {} with limit {}", semaphoreName, limit);
-//        return stream.sendCreateSemaphore(semaphoreName, limit, data, semaphoreId);
-//    }
 //
 //    @Override
 //    public CompletableFuture<Result<SemaphoreLease>> acquireSemaphore(String name, long count, byte[] data,
@@ -331,14 +349,6 @@ public class CoordinationSessionImpl implements CoordinationSession {
 //        final int semaphoreReleaseId = lastId.getAndIncrement();
 //        logger.trace("Send releaseSemaphore {}", name);
 //        return stream.sendReleaseSemaphore(name, semaphoreReleaseId).thenApply(Result::getValue);
-//    }
-//
-//    @Override
-//    public CompletableFuture<Status> updateSemaphore(String semaphoreName, byte[] data) {
-//        if (data == null) {
-//            data = BYTE_ARRAY_STUB;
-//        }
-//        return stream.sendUpdateSemaphore(semaphoreName, data, lastId.getAndIncrement());
 //    }
 //
 //    @Override
