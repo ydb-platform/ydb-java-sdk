@@ -76,7 +76,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         return startFuture;
     }
 
-    public CompletableFuture<Status> sendSessionStop() {
+    public CompletableFuture<Status> stop() {
         if (stopFuture.isDone()) {
             return stopFuture;
         }
