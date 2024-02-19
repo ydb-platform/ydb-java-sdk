@@ -29,7 +29,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
 
-class SessionImpl implements CoordinationSession {
+class Session implements CoordinationSession {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
 
     private final Rpc rpc;
@@ -45,7 +45,7 @@ class SessionImpl implements CoordinationSession {
     private final AtomicLong requestsCounter = new AtomicLong(0);
     private volatile long sessionID = -1;
 
-    SessionImpl(Rpc rpc, String nodePath, CoordinationSessionSettings settings) {
+    Session(Rpc rpc, String nodePath, CoordinationSessionSettings settings) {
         this.rpc = rpc;
         this.nodePath = nodePath;
         this.connectTimeout = settings.getConnectTimeout();
@@ -327,7 +327,7 @@ class SessionImpl implements CoordinationSession {
                 return Result.fail(Status.of(StatusCode.TIMEOUT));
             }
 
-            return Result.success(new LeaseImpl(SessionImpl.this, name));
+            return Result.success(new Lease(Session.this, name));
         }, executor);
     }
 

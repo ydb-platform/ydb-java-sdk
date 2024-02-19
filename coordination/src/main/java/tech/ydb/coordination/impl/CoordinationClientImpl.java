@@ -48,7 +48,7 @@ public class CoordinationClientImpl implements CoordinationClient {
 
     @Override
     public CoordinationSession createSession(String path, CoordinationSessionSettings settings) {
-        return new SessionImpl(rpc, validatePath(path), settings);
+        return new Session(rpc, validatePath(path), settings);
     }
 
     @Override
