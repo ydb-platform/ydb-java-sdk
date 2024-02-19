@@ -39,8 +39,11 @@ class SessionImpl implements CoordinationSession {
     private final Executor executor;
 
     private final Map<Consumer<State>, Consumer<State>> listeners = new ConcurrentHashMap<>();
+
     private final AtomicReference<State> state = new AtomicReference<>(State.UNSTARTED);
-    private final AtomicReference<StreamState> stream = new AtomicReference<>();
+    private final AtomicReference<Stream> stream = new AtomicReference<>();
+    private final AtomicLong requestsCounter = new AtomicLong(0);
+    private volatile long sessionID = -1;
 
     SessionImpl(Rpc rpc, String nodePath, CoordinationSessionSettings settings) {
         this.rpc = rpc;
@@ -52,12 +55,14 @@ class SessionImpl implements CoordinationSession {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder()
-                .append("Session{state=")
-                .append(state.get());
-        StreamState ss = stream.get();
-        if (ss != null) {
-            sb.append(", id=").append(ss.id).append(", stream=").append(ss.stream.hashCode());
+        State localState = state.get();
+        Long localID = sessionID;
+        Stream localStream = stream.get();
+
+        StringBuilder sb = new StringBuilder("Session{state=")
+                .append(localState).append(", id=").append(localID);
+        if (localStream != null) {
+            sb.append(", stream=").append(localStream.hashCode());
         }
 
         return sb.append("}").toString();
@@ -132,21 +137,17 @@ class SessionImpl implements CoordinationSession {
             logger.debug("{} closed", this);
         }
 
-        StreamState s = stream.get();
-        if (s == null) { // session is unstarted
+        Stream local = stream.get();
+        if (local == null) { // session is unstarted
             return CompletableFuture.completedFuture(Status.SUCCESS);
         }
 
-        return s.stream.sendSessionStop();
+        return local.sendSessionStop();
     }
 
     @Override
-    public Long getId() {
-        StreamState current = stream.get();
-        if (current == null) {
-            return null;
-        }
-        return current.id;
+    public long getId() {
+        return sessionID;
     }
 
     @Override
@@ -168,22 +169,31 @@ class SessionImpl implements CoordinationSession {
 
     private void disconnect(Throwable th, Status status) {
         if (switchToLost()) {
-            StreamState s = stream.get();
-            if (s != null) {
+            Stream local = stream.get();
+            if (local != null) {
                 // disconnect grpc stream
-                s.stream.cancelStream();
+                local.cancelStream();
             }
         }
     }
 
-    private boolean establishNewSession(long sessionID, Stream newStream) {
-        StreamState previous = stream.getAndSet(new StreamState(sessionID, newStream));
+    private boolean establishNewSession(long newSessionID, Stream newStream) {
+        Long previousID = sessionID;
+        Long previousIdx = requestsCounter.get();
+
+        Stream previous = stream.getAndSet(newStream);
+        sessionID = newSessionID;
+        requestsCounter.set(0);
+
         if (!switchToConnected()) {
-            stream.getAndSet(previous).stream.cancelStream();
+            sessionID = previousID;
+            requestsCounter.set(previousIdx);
+            stream.getAndSet(previous).cancelStream();
             return false;
         }
+
         if (previous != null) {
-            previous.stream.cancelStream();
+            previous.cancelStream();
         }
         return true;
     }
@@ -243,33 +253,54 @@ class SessionImpl implements CoordinationSession {
 
     @Override
     public CompletableFuture<Status> createSemaphore(String name, long limit, byte[] data) {
-        return sendStatusMsg(StreamMsg.newCreateSemaphoreMsg(name, limit, data));
+        return sendStatusMsg(StreamMsg.createSemaphore(name, limit, data));
     }
 
     @Override
     public CompletableFuture<Status> updateSemaphore(String name, byte[] data) {
-        return sendStatusMsg(StreamMsg.newUpdateSemaphoreMsg(name, data));
+        return sendStatusMsg(StreamMsg.updateSemaphore(name, data));
     }
 
     @Override
     public CompletableFuture<Status> deleteSemaphore(String name, boolean force) {
-        return sendStatusMsg(StreamMsg.newDeleteSemaphoreMsg(name, force));
+        return sendStatusMsg(StreamMsg.deleteSemaphore(name, force));
     }
 
     private CompletableFuture<Status> sendStatusMsg(StreamMsg<Status> msg) {
-        StreamState ss = stream.get();
-        if (ss == null) {
+        Stream localStream = stream.get();
+        if (localStream == null) {
             return CompletableFuture.completedFuture(invalidStateStatus());
         }
 
-        ss.sendMessage(msg);
+        localStream.sendMsg(requestsCounter.incrementAndGet(), msg);
+        return msg.getResult().thenApplyAsync(Function.identity(), executor);
+    }
+
+    @Override
+    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
+        return sendResultMsg(StreamMsg.describeSemaphore(name, mode));
+    }
+
+    @Override
+    public CompletableFuture<Result<SemaphoreWatcher>> watchSemaphore(String name,
+            DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode) {
+        return sendResultMsg(StreamMsg.watchSemaphore(name, describeMode, watchMode));
+    }
+
+    private <T> CompletableFuture<Result<T>> sendResultMsg(StreamMsg<Result<T>> msg) {
+        Stream localStream = stream.get();
+        if (localStream == null) {
+            return CompletableFuture.completedFuture(Result.fail(invalidStateStatus()));
+        }
+
+        localStream.sendMsg(requestsCounter.incrementAndGet(), msg);
         return msg.getResult().thenApplyAsync(Function.identity(), executor);
     }
 
     @Override
     public CompletableFuture<Result<SemaphoreLease>> acquireSemaphore(String name, long count, byte[] data,
             Duration timeout) {
-        StreamMsg<Result<Boolean>> msg = StreamMsg.newAcquireSemaphoreMsg(name, count, data, false, timeout.toMillis());
+        StreamMsg<Result<Boolean>> msg = StreamMsg.acquireSemaphore(name, count, data, false, timeout.toMillis());
         return sendAcquireMsg(name, msg);
     }
 
@@ -277,17 +308,17 @@ class SessionImpl implements CoordinationSession {
     public CompletableFuture<Result<SemaphoreLease>> acquireEphemeralSemaphore(String name, boolean exclusive,
             byte[] data, Duration timeout) {
         long count = exclusive ? -1L : 1L;
-        StreamMsg<Result<Boolean>> msg = StreamMsg.newAcquireSemaphoreMsg(name, count, data, true, timeout.toMillis());
+        StreamMsg<Result<Boolean>> msg = StreamMsg.acquireSemaphore(name, count, data, true, timeout.toMillis());
         return sendAcquireMsg(name, msg);
     }
 
     private CompletableFuture<Result<SemaphoreLease>> sendAcquireMsg(String name, StreamMsg<Result<Boolean>> msg) {
-        StreamState ss = stream.get();
-        if (ss == null) {
+        Stream localStream = stream.get();
+        if (localStream == null) {
             return CompletableFuture.completedFuture(Result.fail(invalidStateStatus()));
         }
 
-        ss.sendMessage(msg);
+        localStream.sendMsg(requestsCounter.incrementAndGet(), msg);
         return msg.getResult().thenApplyAsync(result -> {
             if (!result.isSuccess()) {
                 return result.map(null);
@@ -301,14 +332,14 @@ class SessionImpl implements CoordinationSession {
     }
 
     CompletableFuture<Boolean> releaseSemaphore(String name) {
-        StreamMsg<Result<Boolean>> msg = StreamMsg.newReleaseSemaphoreMsg(name);
+        StreamMsg<Result<Boolean>> msg = StreamMsg.releaseSemaphore(name);
 
-        StreamState ss = stream.get();
-        if (ss == null) {
+        Stream localStream = stream.get();
+        if (localStream == null) {
             return CompletableFuture.completedFuture(Boolean.FALSE);
         }
 
-        ss.sendMessage(msg);
+        localStream.sendMsg(requestsCounter.incrementAndGet(), msg);
         return msg.getResult().thenApplyAsync(result -> result.isSuccess() && result.getValue(), executor);
     }
 
@@ -316,50 +347,5 @@ class SessionImpl implements CoordinationSession {
         byte[] protectionKey = new byte[16];
         ThreadLocalRandom.current().nextBytes(protectionKey);
         return ByteString.copyFrom(protectionKey);
-    }
-
-    private class StreamState {
-        private final long id;
-        private final Stream stream;
-        private final AtomicLong reqIdx = new AtomicLong(0);
-
-        StreamState(long id, Stream stream) {
-            this.id = id;
-            this.stream = stream;
-        }
-
-        void sendMessage(StreamMsg<?> msg) {
-            this.stream.sendMsg(reqIdx.incrementAndGet(), msg);
-        }
-    }
-
-
-//    @Override
-//    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name,
-//    DescribeSemaphoreMode mode) {
-//        return stream.sendDescribeSemaphore(name, mode.includeOwners(), mode.includeWaiters());
-//    }
-//
-//    @Override
-//    public CompletableFuture<Result<SemaphoreWatcher>> describeAndWatchSemaphore(String name,
-//            DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode) {
-//        final CompletableFuture<SemaphoreChangedEvent> changeFuture = new CompletableFuture<>();
-//        return stream.sendDescribeSemaphore(name,
-//                describeMode.includeOwners(), describeMode.includeWaiters(),
-//                watchMode.watchData(), watchMode.watchOwners(),
-//                changeFuture::complete
-//        ).thenApply(r -> r.map(desc -> new SemaphoreWatcher(desc, changeFuture)));
-//    }
-//
-
-    @Override
-    public CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public CompletableFuture<Result<SemaphoreWatcher>> describeAndWatchSemaphore(String name,
-            DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -57,10 +57,10 @@ public interface CoordinationSession extends AutoCloseable {
     CompletableFuture<Status> stop();
 
     /**
-     * Current session identifier. If the connection wasn't established session will return null
+     * Current session identifier. If the connection wasn't established session will return -1
      * @return Future with session identifier
      */
-    Long getId();
+    long getId();
 
     State getState();
 
@@ -140,7 +140,7 @@ public interface CoordinationSession extends AutoCloseable {
 
     CompletableFuture<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode);
 
-    CompletableFuture<Result<SemaphoreWatcher>> describeAndWatchSemaphore(String name,
+    CompletableFuture<Result<SemaphoreWatcher>> watchSemaphore(String name,
             DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode);
 
     // ----------------------------- default methods -------------------------------

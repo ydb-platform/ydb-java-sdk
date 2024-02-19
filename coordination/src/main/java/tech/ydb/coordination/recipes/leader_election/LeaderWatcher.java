@@ -75,7 +75,7 @@ public class LeaderWatcher implements AutoCloseable {
             return;
         }
 
-        session.describeAndWatchSemaphore(semaphoreName,
+        session.watchSemaphore(semaphoreName,
                 DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS,
                 WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
         ).whenComplete((result, th) -> {

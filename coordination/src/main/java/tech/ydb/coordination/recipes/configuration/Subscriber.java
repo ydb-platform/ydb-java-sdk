@@ -51,7 +51,7 @@ public class Subscriber implements AutoCloseable {
 
     private void recursiveDescribe(String name) {
         if (isWorking.get()) {
-            session.describeAndWatchSemaphore(name,
+            session.watchSemaphore(name,
                             DescribeSemaphoreMode.DATA_ONLY, WatchSemaphoreMode.WATCH_DATA)
                     .whenComplete((result, thDescribe) -> {
                         if (thDescribe == null && result != null && result.isSuccess()) {

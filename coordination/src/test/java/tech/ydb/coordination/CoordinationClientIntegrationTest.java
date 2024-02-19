@@ -15,7 +15,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.coordination.description.NodeConfig;
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
+import tech.ydb.coordination.settings.DescribeSemaphoreMode;
+import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -128,7 +133,7 @@ public class CoordinationClientIntegrationTest {
         session.addStateListener(state -> states.add(state));
 
         Assert.assertEquals(CoordinationSession.State.UNSTARTED, session.getState());
-        Assert.assertNull(session.getId());
+        Assert.assertEquals(-1, session.getId());
         Assert.assertTrue(states.isEmpty());
 
         logger.info("connect session");
@@ -190,6 +195,7 @@ public class CoordinationClientIntegrationTest {
         logger.info("connect sessions");
         session1.connect().join().expectSuccess("cannot connect session");
         session2.connect().join().expectSuccess("cannot connect session");
+
         logger.info("create semaphore");
         session1.createSemaphore(semaphoreName, 20).join().expectSuccess("cannot create semaphore");
 
@@ -207,6 +213,171 @@ public class CoordinationClientIntegrationTest {
 
         logger.info("release second lease");
         lease1.join().getValue().release().join();
+
+        logger.info("delete semaphore");
+        session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannot create semaphore");
+
+        logger.info("take first ephemaral lease");
+        lease2 = session2.acquireEphemeralSemaphore(semaphoreName, true, timeout);
+        lease2.join().getStatus().expectSuccess("cannot acquire semaphore");
+
+        logger.info("request second ephemaral lease, waiting");
+        lease1 = session1.acquireEphemeralSemaphore(semaphoreName, true, timeout);
+        Assert.assertFalse(lease1.isDone());
+
+        logger.info("release first ephemaral lease, complete second ephemaral lease");
+        lease2.join().getValue().release().join();
+        lease1.join().getStatus().expectSuccess("cannot acquire semaphore");
+
+        logger.info("release second ephemaral lease");
+        lease1.join().getValue().release().join();
+
+        logger.info("stop sessions");
+        session1.close();
+        session2.close();
+        logger.info("drop node");
+        CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
+    }
+
+    @Test
+    public void describeAndUpdateSemaphoreTest() {
+        String nodePath = "test-sessions/describe-semaphore-test";
+        String semaphoreName = "semaphore3";
+        byte[] updateData = new byte[] { 0x01, 0x02, 0x03 };
+
+        logger.info("create node");
+        CLIENT.createNode(nodePath).join().expectSuccess("creating of node failed");
+        logger.info("create sessions");
+        CoordinationSession session1 = CLIENT.createSession(nodePath);
+        CoordinationSession session2 = CLIENT.createSession(nodePath);
+        logger.info("connect sessions");
+        session1.connect().join().expectSuccess("cannot connect session");
+        session2.connect().join().expectSuccess("cannot connect session");
+        logger.info("create semaphore");
+        session1.createSemaphore(semaphoreName, 20).join().expectSuccess("cannot create semaphore");
+
+        logger.info("describe semaphore");
+        SemaphoreDescription description = session2.describeSemaphore(semaphoreName,
+                DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS).join().getValue();
+
+        Assert.assertEquals(semaphoreName, description.getName());
+        Assert.assertEquals(0, description.getData().length);
+        Assert.assertEquals(20, description.getLimit());
+        Assert.assertTrue(description.getOwnersList().isEmpty());
+        Assert.assertTrue(description.getWaitersList().isEmpty());
+
+        logger.info("update semaphore");
+        session1.updateSemaphore(semaphoreName, updateData).join().expectSuccess("cannot update semaphore");
+
+        logger.info("describe updated semaphore");
+        description = session2.describeSemaphore(semaphoreName,
+                DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS).join().getValue();
+
+        Assert.assertEquals(semaphoreName, description.getName());
+        Assert.assertArrayEquals(updateData, description.getData());
+        Assert.assertEquals(20, description.getLimit());
+        Assert.assertTrue(description.getOwnersList().isEmpty());
+        Assert.assertTrue(description.getWaitersList().isEmpty());
+
+        logger.info("delete semaphore");
+        session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannpt create semaphore");
+        logger.info("stop sessions");
+        session1.close();
+        session2.close();
+        logger.info("drop node");
+        CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
+    }
+
+    @Test
+    public void watchSemaphoreTest() {
+        String nodePath = "test-sessions/watch-semaphore-test";
+        String semaphoreName = "semaphore4";
+        Duration timeout = Duration.ofSeconds(5);
+        byte[] updateData = new byte[] { 0x01, 0x02, 0x03 };
+
+        logger.info("create node");
+        CLIENT.createNode(nodePath).join().expectSuccess("creating of node failed");
+        logger.info("create sessions");
+        CoordinationSession session1 = CLIENT.createSession(nodePath);
+        CoordinationSession session2 = CLIENT.createSession(nodePath);
+        logger.info("connect sessions");
+        session1.connect().join().expectSuccess("cannot connect session");
+        session2.connect().join().expectSuccess("cannot connect session");
+
+        logger.info("create semaphore");
+        session1.createSemaphore(semaphoreName, 20).join().expectSuccess("cannot create semaphore");
+
+        logger.info("watch semaphore");
+        SemaphoreWatcher watcher = session2.watchSemaphore(semaphoreName,
+                DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_OWNERS
+        ).join().getValue();
+
+        Assert.assertEquals(semaphoreName, watcher.getDescription().getName());
+        Assert.assertEquals(0, watcher.getDescription().getData().length);
+        Assert.assertEquals(20, watcher.getDescription().getLimit());
+        Assert.assertTrue(watcher.getDescription().getOwnersList().isEmpty());
+        Assert.assertTrue(watcher.getDescription().getWaitersList().isEmpty());
+
+        Assert.assertFalse(watcher.getChangedFuture().isDone());
+
+        logger.info("take lease");
+        CompletableFuture<Result<SemaphoreLease>> lease1 = session1.acquireSemaphore(semaphoreName, 15, timeout);
+        lease1.join().getStatus().expectSuccess("cannot acquire semaphore");
+
+        logger.info("rewatch semaphore");
+        SemaphoreChangedEvent changed = watcher.getChangedFuture().join().getValue();
+        Assert.assertFalse(changed.isDataChanged());
+        Assert.assertTrue(changed.isOwnersChanged());
+
+        watcher = session2.watchSemaphore(semaphoreName,
+                DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS, WatchSemaphoreMode.WATCH_DATA
+        ).join().getValue();
+
+        Assert.assertEquals(semaphoreName, watcher.getDescription().getName());
+        Assert.assertEquals(0, watcher.getDescription().getData().length);
+        Assert.assertEquals(20, watcher.getDescription().getLimit());
+        Assert.assertEquals(1, watcher.getDescription().getOwnersList().size());
+        Assert.assertEquals(session1.getId(), watcher.getDescription().getOwnersList().get(0).getId());
+        Assert.assertTrue(watcher.getDescription().getWaitersList().isEmpty());
+
+        Assert.assertFalse(watcher.getChangedFuture().isDone());
+
+        logger.info("describe updated semaphore");
+        session1.updateSemaphore(semaphoreName, updateData).join().expectSuccess("cannot update semaphore");
+
+        logger.info("rewatch semaphore");
+        changed = watcher.getChangedFuture().join().getValue();
+        Assert.assertTrue(changed.isDataChanged());
+        Assert.assertFalse(changed.isOwnersChanged());
+
+        watcher = session2.watchSemaphore(semaphoreName,
+                DescribeSemaphoreMode.DATA_ONLY, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
+        ).join().getValue();
+
+        Assert.assertEquals(semaphoreName, watcher.getDescription().getName());
+        Assert.assertArrayEquals(updateData, watcher.getDescription().getData());
+        Assert.assertEquals(20, watcher.getDescription().getLimit());
+        Assert.assertTrue(watcher.getDescription().getOwnersList().isEmpty());
+        Assert.assertTrue(watcher.getDescription().getWaitersList().isEmpty());
+
+        Assert.assertFalse(watcher.getChangedFuture().isDone());
+
+        logger.info("release lease");
+        lease1.join().getValue().release().join();
+
+        logger.info("rewatch semaphore");
+        changed = watcher.getChangedFuture().join().getValue();
+        Assert.assertFalse(changed.isDataChanged());
+        Assert.assertTrue(changed.isOwnersChanged());
+
+        SemaphoreDescription description = session2.describeSemaphore(semaphoreName,
+                DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS).join().getValue();
+
+        Assert.assertEquals(semaphoreName, description.getName());
+        Assert.assertArrayEquals(updateData, description.getData());
+        Assert.assertEquals(20, description.getLimit());
+        Assert.assertTrue(description.getOwnersList().isEmpty());
+        Assert.assertTrue(description.getWaitersList().isEmpty());
 
         logger.info("delete semaphore");
         session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannpt create semaphore");

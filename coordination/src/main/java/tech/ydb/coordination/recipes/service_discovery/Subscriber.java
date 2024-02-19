@@ -39,7 +39,7 @@ public class Subscriber implements AutoCloseable {
     public static CompletableFuture<Subscriber> newSubscriberAsync(CoordinationClient client, String fullPath) {
         CoordinationSession newSession = client.createSession(fullPath);
         return newSession.connect().thenCompose(status ->
-                        newSession.describeAndWatchSemaphore(SEMAPHORE_NAME,
+                        newSession.watchSemaphore(SEMAPHORE_NAME,
                                         DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS)
                                 .thenApply(result -> new Subscriber(newSession, newSession.getId(), result))
                 );
@@ -58,7 +58,7 @@ public class Subscriber implements AutoCloseable {
         }
         if (th != null) {
             logger.warn("unexpected exception on watch {} in session {}", SEMAPHORE_NAME, sessionID, th);
-            session.describeAndWatchSemaphore(
+            session.watchSemaphore(
                     SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
             ).whenComplete(this::updateDescription);
             return;
@@ -76,14 +76,14 @@ public class Subscriber implements AutoCloseable {
             } else {
                 logger.warn("unexpected result {} on watch {} in session {}",
                         result.getStatus(), SEMAPHORE_NAME, sessionID);
-                session.describeAndWatchSemaphore(
+                session.watchSemaphore(
                         SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
                 ).whenComplete(this::updateDescription);
             }
         }
     }
 
-    private void handleChangedEvent(SemaphoreChangedEvent ev, Throwable th) {
+    private void handleChangedEvent(Result<SemaphoreChangedEvent> ev, Throwable th) {
         if (isStopped) {
             return;
         }
@@ -92,11 +92,15 @@ public class Subscriber implements AutoCloseable {
             logger.error("unexpected exception on changed {} in session {}", SEMAPHORE_NAME, sessionID, th);
         }
         if (ev != null) {
-            logger.info("got changed {} with data {}, owners {}, connection {}, redescrive",
-                    SEMAPHORE_NAME, ev.isDataChanged(), ev.isOwnersChanged(), ev.isConnectionWasFailed());
+            if (ev.isSuccess()) {
+                logger.info("got changed {} with data {}, owners {}, redescrive",
+                        SEMAPHORE_NAME, ev.getValue().isDataChanged(), ev.getValue().isOwnersChanged());
+            } else {
+                logger.info("got changed {} with statue {}", SEMAPHORE_NAME, ev.getStatus());
+            }
         }
 
-        session.describeAndWatchSemaphore(
+        session.watchSemaphore(
                 SEMAPHORE_NAME, DescribeSemaphoreMode.WITH_OWNERS, WatchSemaphoreMode.WATCH_DATA_AND_OWNERS
         ).whenComplete(this::updateDescription);
     }

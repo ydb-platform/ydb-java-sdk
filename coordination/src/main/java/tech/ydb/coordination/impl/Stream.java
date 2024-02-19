@@ -148,10 +148,6 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
             return;
         }
 
-        if (resp.hasDescribeSemaphoreChanged()) {
-            onNextMessage(resp.getDescribeSemaphoreChanged().getReqId(), resp);
-        }
-
         if (resp.hasCreateSemaphoreResult()) {
             onNextMessage(resp.getCreateSemaphoreResult().getReqId(), resp);
         }
@@ -175,12 +171,23 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         if (resp.hasReleaseSemaphoreResult()) {
             onNextMessage(resp.getReleaseSemaphoreResult().getReqId(), resp);
         }
+
+        if (resp.hasDescribeSemaphoreChanged()) {
+            onNextMessage(resp.getDescribeSemaphoreChanged().getReqId(), resp);
+        }
     }
 
     public void onNextMessage(long reqId, SessionResponse resp) {
         StreamMsg<?> msg = messages.remove(reqId);
         if (msg != null && msg.handleResponse(resp)) {
             logger.trace("the stream {} got response {}", hashCode(), TextFormat.shortDebugString(resp));
+            StreamMsg<?> nextMsg = msg.nextMsg();
+            if (nextMsg != null) {
+                StreamMsg<?> old = messages.put(reqId, nextMsg);
+                if (old != null) {
+                    old.handleError(Status.of(StatusCode.CLIENT_CANCELLED));
+                }
+            }
         } else {
             logger.warn("the stream {} lost response {}", hashCode(), TextFormat.shortDebugString(resp));
         }

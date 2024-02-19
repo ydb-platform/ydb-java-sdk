@@ -1,11 +1,17 @@
 package tech.ydb.coordination.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import com.google.protobuf.ByteString;
 import com.google.protobuf.TextFormat;
 
+import tech.ydb.coordination.description.SemaphoreChangedEvent;
+import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreWatcher;
+import tech.ydb.coordination.settings.DescribeSemaphoreMode;
+import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -27,6 +33,10 @@ abstract class StreamMsg<R> {
         return future;
     }
 
+    public StreamMsg<?> nextMsg() {
+        return null;
+    }
+
     public abstract SessionRequest makeRequest(long reqId);
 
     protected abstract boolean handleResponse(SessionResponse response);
@@ -37,26 +47,35 @@ abstract class StreamMsg<R> {
         return Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, Issue.of(msg, Issue.Severity.ERROR));
     }
 
-    public static StreamMsg<Status> newCreateSemaphoreMsg(String name, long limit, byte[] data) {
+    public static StreamMsg<Status> createSemaphore(String name, long limit, byte[] data) {
         return new CreateSemaphoreMsg(name, limit, data);
     }
 
-    public static StreamMsg<Status> newUpdateSemaphoreMsg(String name, byte[] data) {
+    public static StreamMsg<Status> updateSemaphore(String name, byte[] data) {
         return new UpdateSemaphoreMsg(name, data);
     }
 
-    public static StreamMsg<Status> newDeleteSemaphoreMsg(String name, boolean force) {
+    public static StreamMsg<Status> deleteSemaphore(String name, boolean force) {
         return new DeleteSemaphoreMsg(name, force);
     }
 
-    public static StreamMsg<Result<Boolean>> newAcquireSemaphoreMsg(
+    public static StreamMsg<Result<Boolean>> acquireSemaphore(
             String name, long count, byte[] data, boolean ephemeral, long timeoutMillis
     ) {
         return new AcquireSemaphoreMsg(name, count, timeoutMillis, ephemeral, data);
     }
 
-    public static StreamMsg<Result<Boolean>> newReleaseSemaphoreMsg(String name) {
+    public static StreamMsg<Result<Boolean>> releaseSemaphore(String name) {
         return new ReleaseSemaphoreMsg(name);
+    }
+
+    public static StreamMsg<Result<SemaphoreDescription>> describeSemaphore(String name, DescribeSemaphoreMode mode) {
+        return new DescribeSemaphoreMsg(name, mode);
+    }
+
+    public static StreamMsg<Result<SemaphoreWatcher>> watchSemaphore(
+            String name, DescribeSemaphoreMode decribeMode, WatchSemaphoreMode watchMode) {
+        return new WatchSemaphoreMsg(name, decribeMode, watchMode);
     }
 
     private abstract static class BaseStatusMsg extends StreamMsg<Status> {
@@ -242,6 +261,105 @@ abstract class StreamMsg<R> {
             }
             SessionResponse.ReleaseSemaphoreResult result = response.getReleaseSemaphoreResult();
             return handleResult(result.getReleased(), result.getStatus(), result.getIssuesList());
+        }
+    }
+
+    private static class DescribeSemaphoreMsg extends BaseResultMsg<SemaphoreDescription> {
+        private final String name;
+        private final DescribeSemaphoreMode describeMode;
+
+        DescribeSemaphoreMsg(String name, DescribeSemaphoreMode describeMode) {
+            this.name = name;
+            this.describeMode = describeMode;
+        }
+
+        @Override
+        public SessionRequest makeRequest(long reqId) {
+            return SessionRequest.newBuilder().setDescribeSemaphore(
+                    SessionRequest.DescribeSemaphore.newBuilder()
+                            .setName(name)
+                            .setIncludeOwners(describeMode.includeOwners())
+                            .setIncludeWaiters(describeMode.includeWaiters())
+                            .setWatchData(false)
+                            .setWatchOwners(false)
+                            .setReqId(reqId)
+                            .build()
+            ).build();
+        }
+
+        @Override
+        public boolean handleResponse(SessionResponse response) {
+            if (!response.hasDescribeSemaphoreResult()) {
+                return handleError(incorrectTypeStatus(response, "describe_semaphore_result"));
+            }
+            SemaphoreDescription desc = null;
+            SessionResponse.DescribeSemaphoreResult result = response.getDescribeSemaphoreResult();
+            if (result.getSemaphoreDescription() != null) {
+                desc = new SemaphoreDescription(result.getSemaphoreDescription());
+            }
+            return handleResult(desc, result.getStatus(), result.getIssuesList());
+        }
+    }
+
+    private static class WatchSemaphoreMsg extends BaseResultMsg<SemaphoreWatcher> {
+        private final String name;
+        private final DescribeSemaphoreMode describeMode;
+        private final WatchSemaphoreMode watchMode;
+        private final ChangedMsg changedMsg = new ChangedMsg();
+
+        WatchSemaphoreMsg(String name, DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode) {
+            this.name = name;
+            this.describeMode = describeMode;
+            this.watchMode = watchMode;
+        }
+
+        @Override
+        public SessionRequest makeRequest(long reqId) {
+            return SessionRequest.newBuilder().setDescribeSemaphore(
+                    SessionRequest.DescribeSemaphore.newBuilder()
+                            .setName(name)
+                            .setIncludeOwners(describeMode.includeOwners())
+                            .setIncludeWaiters(describeMode.includeWaiters())
+                            .setWatchData(watchMode.watchData())
+                            .setWatchOwners(watchMode.watchOwners())
+                            .setReqId(reqId)
+                            .build()
+            ).build();
+        }
+
+        @Override
+        public StreamMsg<?> nextMsg() {
+            return changedMsg;
+        }
+
+        @Override
+        public boolean handleResponse(SessionResponse response) {
+            if (!response.hasDescribeSemaphoreResult()) {
+                return handleError(incorrectTypeStatus(response, "describe_semaphore_result"));
+            }
+            SemaphoreWatcher watcher = null;
+            SessionResponse.DescribeSemaphoreResult result = response.getDescribeSemaphoreResult();
+            if (result.getSemaphoreDescription() != null) {
+                SemaphoreDescription desc = new SemaphoreDescription(result.getSemaphoreDescription());
+                watcher = new SemaphoreWatcher(desc, changedMsg.getResult());
+            }
+            return handleResult(watcher, result.getStatus(), result.getIssuesList());
+        }
+
+        private class ChangedMsg extends BaseResultMsg<SemaphoreChangedEvent> {
+            @Override
+            public SessionRequest makeRequest(long reqId) {
+                return WatchSemaphoreMsg.this.makeRequest(reqId);
+            }
+
+            @Override
+            public boolean handleResponse(SessionResponse response) {
+                if (!response.hasDescribeSemaphoreChanged()) {
+                    return handleError(incorrectTypeStatus(response, "describe_semaphore_changed"));
+                }
+                SemaphoreChangedEvent event = new SemaphoreChangedEvent(response.getDescribeSemaphoreChanged());
+                return handleResult(event, StatusCodesProtos.StatusIds.StatusCode.SUCCESS, Collections.emptyList());
+            }
         }
     }
 }
