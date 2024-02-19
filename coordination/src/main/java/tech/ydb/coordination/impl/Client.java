@@ -2,8 +2,6 @@ package tech.ydb.coordination.impl;
 
 import java.util.concurrent.CompletableFuture;
 
-import com.google.common.annotations.VisibleForTesting;
-
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.description.NodeConfig;
@@ -14,7 +12,6 @@ import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.OperationUtils;
 import tech.ydb.proto.coordination.AlterNodeRequest;
 import tech.ydb.proto.coordination.CreateNodeRequest;
@@ -25,16 +22,11 @@ import tech.ydb.proto.coordination.DropNodeRequest;
  * @author Kirill Kurdyukov
  * @author Aleksandr Gorshenin
  */
-public class CoordinationClientImpl implements CoordinationClient {
+class Client implements CoordinationClient {
 
     private final Rpc rpc;
 
-    public CoordinationClientImpl(GrpcTransport transport) {
-        this(RpcImpl.useTransport(transport));
-    }
-
-    @VisibleForTesting
-    CoordinationClientImpl(Rpc rpc) {
+    Client(Rpc rpc) {
         this.rpc = rpc;
     }
 

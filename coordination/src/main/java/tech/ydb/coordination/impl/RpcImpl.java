@@ -4,8 +4,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Function;
 
-import javax.annotation.WillNotClose;
-
 import tech.ydb.coordination.description.NodeConfig;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -44,12 +42,8 @@ class RpcImpl implements Rpc {
 
     private final GrpcTransport transport;
 
-    private RpcImpl(GrpcTransport grpcTransport) {
+    RpcImpl(GrpcTransport grpcTransport) {
         this.transport = grpcTransport;
-    }
-
-    public static Rpc useTransport(@WillNotClose GrpcTransport transport) {
-        return new RpcImpl(transport);
     }
 
     @Override

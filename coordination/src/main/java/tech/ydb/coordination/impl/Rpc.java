@@ -18,7 +18,7 @@ import tech.ydb.proto.coordination.SessionResponse;
 /**
  * @author Kirill Kurdyukov
  */
-interface Rpc {
+public interface Rpc {
 
     GrpcReadWriteStream<SessionResponse, SessionRequest> createSession(GrpcRequestSettings settings);
 
