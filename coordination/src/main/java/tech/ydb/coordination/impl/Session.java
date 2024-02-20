@@ -2,6 +2,9 @@ package tech.ydb.coordination.impl;
 
 import java.time.Clock;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -105,7 +108,7 @@ class Session implements CoordinationSession {
         }
 
         return connectToSession(stream, 0)
-                .thenApplyAsync(res -> establishNewSession(res, stream), executor);
+                .thenApplyAsync(res -> establishNewSession(res, stream, Collections.emptyList()), executor);
     }
 
     private CompletableFuture<Result<Long>> connectToSession(Stream stream, long sessionID) {
@@ -123,10 +126,24 @@ class Session implements CoordinationSession {
                 }
             }
 
+            List<StreamMsg<?>> messagesToRetry = new ArrayList<>();
+            for (StreamMsg<?> msg: stream.getMessages()) {
+                if (msg.isIdempotent()) {
+                    messagesToRetry.add(msg);
+                } else {
+                    msg.handleError(Status.of(StatusCode.BAD_SESSION));
+                }
+            }
+
             SessionState local = state.get();
             boolean restorable = local.getState() == State.CONNECTED || local.getState() == State.RECONNECTING;
             if (restorable && local.hasStream(stream)) {
-                restoreSession(clock.millis(), 0);
+                long disconnectedAt = clock.millis();
+                restoreSession(disconnectedAt, 0, messagesToRetry);
+            } else {
+                for (StreamMsg<?> msg: stream.getMessages()) {
+                    msg.handleError(Status.of(StatusCode.BAD_SESSION));
+                }
             }
         }, executor);
 
@@ -135,15 +152,18 @@ class Session implements CoordinationSession {
     }
 
 
-    private void reconnect(Stream stream, long disconnectedAt, int retryCount) {
+    private void reconnect(Stream stream, long disconnectedAt, int retryCount, List<StreamMsg<?>> messagesToRetry) {
         SessionState local = state.get();
         if (local.getState() != State.RECONNECTING || !local.hasStream(stream)) {
+            for (StreamMsg<?> msg: messagesToRetry) {
+                msg.handleError(Status.of(StatusCode.BAD_SESSION));
+            }
             return;
         }
 
         connectToSession(stream, local.getSessionId()).whenCompleteAsync((res, th) -> {
             if (res != null && res.isSuccess()) {
-                establishNewSession(res, stream);
+                establishNewSession(res, stream, messagesToRetry);
                 return;
             }
 
@@ -158,12 +178,16 @@ class Session implements CoordinationSession {
             SessionState localState = state.get();
             boolean restorable = localState.getState() == State.RECONNECTING;
             if (restorable && local.hasStream(stream)) {
-                restoreSession(disconnectedAt, retryCount + 1);
+                restoreSession(disconnectedAt, retryCount + 1, messagesToRetry);
+            } else {
+                for (StreamMsg<?> msg: messagesToRetry) {
+                    msg.handleError(Status.of(StatusCode.BAD_SESSION));
+                }
             }
         }, executor);
     }
 
-    private void restoreSession(long disconnectedAt, int retryCount) {
+    private void restoreSession(long disconnectedAt, int retryCount, List<StreamMsg<?>> messagesToRetry) {
         SessionState local = state.get();
         if (local.getState() != State.CONNECTED && local.getState() != State.RECONNECTING) {
             return;
@@ -174,39 +198,50 @@ class Session implements CoordinationSession {
         if (retryInMs < 0) {
             logger.debug("stream {} close connection by retry policy");
             switchToLost(local);
+            for (StreamMsg<?> msg: messagesToRetry) {
+                msg.handleError(Status.of(StatusCode.BAD_SESSION));
+            }
             return;
         }
 
         Stream stream = new Stream(rpc);
         if (!switchToConnectiong(local, stream)) {
             logger.warn("{} cannot be reconnected with state {}", this, state.get().getState());
+            for (StreamMsg<?> msg: messagesToRetry) {
+                msg.handleError(Status.of(StatusCode.BAD_SESSION));
+            }
             return;
         }
 
         if (retryInMs > 0) {
             logger.debug("stream {} shedule next retry {} in {} ms", this, retryCount, retryInMs);
             rpc.getScheduler().schedule(
-                    () -> reconnect(stream, disconnectedAt, retryCount),
+                    () -> reconnect(stream, disconnectedAt, retryCount, messagesToRetry),
                     retryInMs,
                     TimeUnit.MILLISECONDS
             );
         } else {
             logger.debug("stream {} immediatelly retry {}", this, retryCount);
-            reconnect(stream, disconnectedAt, retryCount);
+            reconnect(stream, disconnectedAt, retryCount, messagesToRetry);
         }
     }
 
-    private Status establishNewSession(Result<Long> result, Stream stream) {
+    private Status establishNewSession(Result<Long> result, Stream stream, List<StreamMsg<?>> messagesToRetry) {
         if (!result.isSuccess()) {
             return result.getStatus();
         }
 
         SessionState local = state.get();
-        if (!switchToConnected(local, result.getValue(), stream)) {
+        SessionState connected = switchToConnected(local, result.getValue(), stream);
+        if (connected == null || !updateState(local, connected)) {
             stream.stop();
             return Status.of(
                     StatusCode.CANCELLED, null, Issue.of("{} cannot handle successful session", Issue.Severity.ERROR)
             );
+        }
+
+        for (StreamMsg<?> msg: messagesToRetry) {
+            connected.sendMessage(msg);
         }
 
         return Status.SUCCESS;
@@ -225,15 +260,15 @@ class Session implements CoordinationSession {
         return false;
     }
 
-    private boolean switchToConnected(SessionState local, long id, Stream stream) {
+    private SessionState switchToConnected(SessionState local, long id, Stream stream) {
         if (local.getState() == State.CONNECTING && local.hasStream(stream)) {
-            return updateState(local, SessionState.connected(local, id));
+            return SessionState.connected(local, id);
         }
         if (local.getState() == State.RECONNECTING && local.hasStream(stream)) {
-            return updateState(local, SessionState.reconnected(local));
+            return SessionState.reconnected(local);
         }
 
-        return false;
+        return null;
     }
 
     private boolean switchToLost(SessionState local) {

@@ -37,6 +37,10 @@ abstract class StreamMsg<R> {
         return null;
     }
 
+    public boolean isIdempotent() {
+        return false;
+    }
+
     public abstract SessionRequest makeRequest(long reqId);
 
     protected abstract boolean handleResponse(SessionResponse response);
@@ -214,6 +218,11 @@ abstract class StreamMsg<R> {
         }
 
         @Override
+        public boolean isIdempotent() {
+            return true;
+        }
+
+        @Override
         public SessionRequest makeRequest(long reqId) {
             return SessionRequest.newBuilder().setAcquireSemaphore(
                 SessionRequest.AcquireSemaphore.newBuilder()
@@ -242,6 +251,11 @@ abstract class StreamMsg<R> {
 
         ReleaseSemaphoreMsg(String name) {
             this.name = name;
+        }
+
+        @Override
+        public boolean isIdempotent() {
+            return true;
         }
 
         @Override

@@ -26,8 +26,8 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
-public class CoordinationClientIntegrationTest {
-    private static final Logger logger = LoggerFactory.getLogger(CoordinationClientIntegrationTest.class);
+public class CoordinationServiceTest {
+    private static final Logger logger = LoggerFactory.getLogger(CoordinationServiceTest.class);
 
     @ClassRule
     public static final GrpcTransportRule YDB_TRANSPORT = new GrpcTransportRule();

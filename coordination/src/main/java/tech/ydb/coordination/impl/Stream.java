@@ -1,6 +1,7 @@
 package tech.ydb.coordination.impl;
 
 import java.time.Duration;
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,6 +56,10 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         });
 
         return stopFuture;
+    }
+
+    public Collection<StreamMsg<?>> getMessages() {
+        return messages.values();
     }
 
     public void cancelStream() {
