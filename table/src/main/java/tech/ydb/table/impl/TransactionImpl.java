@@ -13,10 +13,10 @@ import tech.ydb.table.transaction.Transaction;
 /**
  * @author Sergey Polovko
  */
-final class TransactionImpl extends BaseTransactionImpl implements Transaction {
+public final class TransactionImpl extends BaseTransactionImpl implements Transaction {
     private final Session session;
 
-    TransactionImpl(Session session, String txId) {
+    public TransactionImpl(Session session, String txId) {
         super(txId);
         this.session = session;
     }

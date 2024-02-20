@@ -667,7 +667,7 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
-                .thenApply(result -> result.map(DataQueryResult::new));
+                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)));
     }
 
     @Override
@@ -731,7 +731,7 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
-                .thenApply(result -> result.map(DataQueryResult::new));
+                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)));
     }
 
     @Override
