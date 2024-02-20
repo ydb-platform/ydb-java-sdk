@@ -45,12 +45,12 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     public CompletableFuture<Status> startStream() {
         stream.start(this).whenComplete((status, th) -> {
             if (th != null) {
-                stopFuture.completeExceptionally(th);
                 startFuture.completeExceptionally(th);
+                stopFuture.completeExceptionally(th);
             }
             if (status != null) {
+                startFuture.complete(Result.fail(status.isSuccess() ? Status.of(StatusCode.BAD_REQUEST) : status));
                 stopFuture.complete(status);
-                startFuture.complete(Result.fail(status));
             }
         });
 
@@ -89,7 +89,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         logger.trace("the stream {} send session stop msg", hashCode());
         stream.sendNext(stopMsg);
 
-        // schedule cancelation of grpc-stream, if service doesn't close strem by stop message
+        // schedule cancelation of grpc-stream, if service doesn't close stream by stop message
         final Future<?> timer = scheduler.schedule(this::cancelStream, SHUTDOWN_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         stopFuture.whenComplete((st, ex) -> {
             if (ex != null && timer != null && timer.isDone()) {

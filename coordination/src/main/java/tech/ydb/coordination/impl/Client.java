@@ -1,5 +1,6 @@
 package tech.ydb.coordination.impl;
 
+import java.time.Clock;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.coordination.CoordinationClient;
@@ -40,7 +41,7 @@ class Client implements CoordinationClient {
 
     @Override
     public CoordinationSession createSession(String path, CoordinationSessionSettings settings) {
-        return new Session(rpc, validatePath(path), settings);
+        return new Session(rpc, Clock.systemUTC(), validatePath(path), settings);
     }
 
     @Override

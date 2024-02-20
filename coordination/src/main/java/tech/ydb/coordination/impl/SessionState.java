@@ -12,101 +12,100 @@ import tech.ydb.core.StatusCode;
  *
  * @author Aleksandr Gorshenin
  */
-abstract class SessionState {
-    static final SessionState UNSTARTED = SessionState.newDisconnected(CoordinationSession.State.UNSTARTED);
-    static final SessionState LOST = SessionState.newDisconnected(CoordinationSession.State.LOST);
-    static final SessionState CLOSED = SessionState.newDisconnected(CoordinationSession.State.CLOSED);
+class SessionState {
+    private final CoordinationSession.State state;
+    private final Stream stream;
+    private final long sessionID;
+    private final AtomicLong reqIdx;
 
-    protected final long id;
-    protected final CoordinationSession.State state;
-
-    private SessionState(long id, CoordinationSession.State state) {
-        this.id = id;
-        this.state = state;
+    private SessionState(CoordinationSession.State state) {
+        this(state, null, -1, new AtomicLong(0));
     }
 
-    public long getId() {
-        return id;
+    private SessionState(CoordinationSession.State state, Stream stream) {
+        this(state, stream, -1, new AtomicLong(0));
+    }
+
+    private SessionState(CoordinationSession.State state, Stream stream, long sessionID, AtomicLong reqIdx) {
+        this.state = state;
+        this.stream = stream;
+        this.sessionID = sessionID;
+        this.reqIdx = reqIdx;
+    }
+
+    public long getSessionId() {
+        return sessionID;
+    }
+
+    public boolean hasStream(Stream stream) {
+        return this.stream == stream;
     }
 
     public CoordinationSession.State getState() {
         return state;
     }
 
-    abstract CompletableFuture<Status> stop();
-    abstract void cancel();
-
-    abstract void sendMessage(StreamMsg<?> msg);
-
-    static SessionState newDisconnected(CoordinationSession.State state) {
-        return new DisconnectedState(-1, state);
-    }
-
-    static SessionState newConnected(CoordinationSession.State state, long id, Stream stream) {
-        return new ConnectedState(stream, id, state);
-    }
-
-    private static class DisconnectedState extends SessionState {
-        private final Status error;
-
-        DisconnectedState(long id, CoordinationSession.State state) {
-            super(id, state);
+    public void sendMessage(StreamMsg<?> msg) {
+        if (stream != null) {
+            stream.sendMsg(reqIdx.incrementAndGet(), msg);
+        } else {
             Issue issue = Issue.of("Session has invalid state " + state, Issue.Severity.ERROR);
-            this.error = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue);
+            msg.handleError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
         }
+    }
 
-        @Override
-        public String toString() {
-           return new StringBuilder("Session{state=")
-                   .append(getState()).append(", id=").append(getId())
-                   .append("}").toString();
-       }
-
-        @Override
-        void sendMessage(StreamMsg<?> msg) {
-            msg.handleError(error);
-        }
-
-        @Override
-        CompletableFuture<Status> stop() {
+    public CompletableFuture<Status> stop() {
+        if (stream != null) {
+            return stream.stop();
+        } else {
             return CompletableFuture.completedFuture(Status.SUCCESS);
         }
+    }
 
-        @Override
-        void cancel() {
+    public void cancel() {
+        if (stream != null) {
+            stream.cancelStream();
         }
     }
 
-    private static class ConnectedState extends SessionState {
-        private final Stream stream;
-        private final AtomicLong reqIdx = new AtomicLong(0);
-
-        ConnectedState(Stream stream, Long id, CoordinationSession.State state) {
-            super(id, state);
-            this.stream = stream;
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Session{state=").append(getState()).append(", id=").append(sessionID);
+        if (stream != null) {
+            sb.append(", stream=").append(stream.hashCode());
         }
+        return sb.append("}").toString();
+    }
 
-        @Override
-        public String toString() {
-            return new StringBuilder("Session{state=")
-                    .append(getState()).append(", id=").append(getId())
-                    .append(", stream=").append(stream.hashCode())
-                    .append("}").toString();
-        }
+    static SessionState unstarted() {
+        return new SessionState(CoordinationSession.State.UNSTARTED);
+    }
 
-        @Override
-        void sendMessage(StreamMsg<?> msg) {
-            stream.sendMsg(reqIdx.incrementAndGet(), msg);
-        }
+    static SessionState lost() {
+        return new SessionState(CoordinationSession.State.LOST);
+    }
 
-        @Override
-        CompletableFuture<Status> stop() {
-            return stream.stop();
-        }
+    static SessionState closed() {
+        return new SessionState(CoordinationSession.State.CLOSED);
+    }
 
-        @Override
-        void cancel() {
-            stream.cancelStream();
-        }
+    static SessionState connecting(Stream stream) {
+        return new SessionState(CoordinationSession.State.CONNECTING, stream);
+    }
+
+    static SessionState reconnecting(Stream stream) {
+        return new SessionState(CoordinationSession.State.RECONNECTING, stream);
+    }
+
+    static SessionState connected(SessionState prev, long sessionID) {
+        return new SessionState(CoordinationSession.State.CONNECTED, prev.stream, sessionID, prev.reqIdx);
+    }
+
+    static SessionState reconnected(SessionState prev) {
+        return new SessionState(CoordinationSession.State.RECONNECTED, prev.stream, prev.sessionID, prev.reqIdx);
+    }
+
+    static SessionState disconnected(SessionState prev, Stream stream) {
+        return new SessionState(CoordinationSession.State.RECONNECTING, stream, prev.sessionID, prev.reqIdx);
     }
 }

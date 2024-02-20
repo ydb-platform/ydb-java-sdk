@@ -1,5 +1,6 @@
 package tech.ydb.coordination.impl;
 
+import java.time.Clock;
 import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -7,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -24,6 +26,7 @@ import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
+import tech.ydb.core.RetryPolicy;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
@@ -32,27 +35,31 @@ class Session implements CoordinationSession {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
 
     private final Rpc rpc;
+    private final Clock clock;
+    private final Executor executor;
+    private final RetryPolicy retryPolicy;
+
     private final String nodePath;
     private final Duration connectTimeout;
     private final ByteString protectionKey;
-    private final Executor executor;
 
     private final Map<Consumer<State>, Consumer<State>> listeners = new ConcurrentHashMap<>();
+    private final AtomicReference<SessionState> state = new AtomicReference<>(SessionState.unstarted());
 
-    private final AtomicReference<SessionState> state = new AtomicReference<>(SessionState.UNSTARTED);
-
-    Session(Rpc rpc, String nodePath, CoordinationSessionSettings settings) {
+    Session(Rpc rpc, Clock clock, String nodePath, CoordinationSessionSettings settings) {
         this.rpc = rpc;
+        this.clock = clock;
+        this.executor = settings.getExecutor() != null ? settings.getExecutor() : ForkJoinPool.commonPool();
+        this.retryPolicy = settings.getRetryPolicy();
+
         this.nodePath = nodePath;
         this.connectTimeout = settings.getConnectTimeout();
         this.protectionKey = createRandomKey();
-        this.executor = settings.getExecutor() != null ? settings.getExecutor() : ForkJoinPool.commonPool();
     }
-
 
     @Override
     public long getId() {
-        return state.get().getId();
+        return state.get().getSessionId();
     }
 
     @Override
@@ -80,7 +87,7 @@ class Session implements CoordinationSession {
     @Override
     public CompletableFuture<Status> stop() {
         SessionState local = state.get();
-        while (!updateState(local, SessionState.CLOSED)) {
+        while (!updateState(local, SessionState.closed())) {
             local = state.get();
         }
 
@@ -90,111 +97,154 @@ class Session implements CoordinationSession {
 
     @Override
     public CompletableFuture<Status> connect() {
-        logger.trace("{} try to connect", this);
         SessionState local = state.get();
-        if (!switchToConnectiong(local)) {
-            Status error = invalidStateStatus(local);
-            logger.warn("{} cannot be connected by {}", this, error);
-            return CompletableFuture.completedFuture(error);
+        final Stream stream = new Stream(rpc);
+        if (!switchToConnectiong(local, stream)) {
+            logger.warn("{} cannot be connected with state {}", this, local.getState());
+            return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_REQUEST));
         }
 
-        final CompletableFuture<Status> connectFuture = new CompletableFuture<>();
-        final Stream newStream = new Stream(rpc);
+        return connectToSession(stream, 0)
+                .thenApplyAsync(res -> establishNewSession(res, stream), executor);
+    }
 
-        newStream.startStream().whenCompleteAsync((status, th) -> {
+    private CompletableFuture<Result<Long>> connectToSession(Stream stream, long sessionID) {
+        // start new stream
+        stream.startStream().whenCompleteAsync((status, th) -> {
             if (th != null) {
-                logger.warn("{} stream finished with exception", this, th);
-                if (connectFuture.completeExceptionally(th)) {
-                    switchToDisconnected(local);
-                    return;
-                }
+                logger.warn("{} stream finished with exception", Session.this, th);
             }
+
             if (status != null) {
                 if (status.isSuccess()) {
-                    logger.debug("{} stream finished with status {}", this, status);
+                    logger.debug("{} stream finished with status {}", Session.this, status);
                 } else {
-                    logger.warn("{} stream finished with status {}", this, status);
-                }
-                if (connectFuture.complete(status)) {
-                    switchToDisconnected(local);
-                    return;
+                    logger.warn("{} stream finished with status {}", Session.this, status);
                 }
             }
 
-            disconnect(th, status);
+            SessionState local = state.get();
+            boolean restorable = local.getState() == State.CONNECTED || local.getState() == State.RECONNECTING;
+            if (restorable && local.hasStream(stream)) {
+                restoreSession(clock.millis(), 0);
+            }
         }, executor);
 
-        newStream.sendSessionStart(0, nodePath, connectTimeout, protectionKey).whenCompleteAsync((res, th) -> {
-            if (th != null || res == null) {
-                connectFuture.completeExceptionally(th);
-                switchToDisconnected(local);
+        // and send session start message with id of previos session
+        return stream.sendSessionStart(sessionID, nodePath, connectTimeout, protectionKey);
+    }
+
+
+    private void reconnect(Stream stream, long disconnectedAt, int retryCount) {
+        SessionState local = state.get();
+        if (local.getState() != State.RECONNECTING || !local.hasStream(stream)) {
+            return;
+        }
+
+        connectToSession(stream, local.getSessionId()).whenCompleteAsync((res, th) -> {
+            if (res != null && res.isSuccess()) {
+                establishNewSession(res, stream);
                 return;
             }
 
-            if (!res.isSuccess()) {
-                connectFuture.complete(res.getStatus());
-                switchToDisconnected(local);
-                return;
+            if (th != null) {
+                logger.warn("{} stream retry {} finished with exception", Session.this, retryCount, th);
             }
 
-            if (!establishNewSession(res.getValue(), newStream)) {
-                Issue issue = Issue.of("Cannot establish new session", Issue.Severity.ERROR);
-                Status error = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue);
-                connectFuture.complete(error);
-                return;
+            if (res != null) {
+                logger.debug("{} stream retry {} finished with status {}", Session.this, retryCount, res.getStatus());
             }
 
-            connectFuture.complete(Status.SUCCESS);
-
+            SessionState localState = state.get();
+            boolean restorable = localState.getState() == State.RECONNECTING;
+            if (restorable && local.hasStream(stream)) {
+                restoreSession(disconnectedAt, retryCount + 1);
+            }
         }, executor);
-
-
-        return connectFuture;
     }
 
-    private boolean establishNewSession(long id, Stream stream) {
+    private void restoreSession(long disconnectedAt, int retryCount) {
         SessionState local = state.get();
-        if (!switchToConnected(local, id, stream)) {
-            stream.cancelStream();
-            return false;
+        if (local.getState() != State.CONNECTED && local.getState() != State.RECONNECTING) {
+            return;
         }
 
-        local.cancel();
-        return true;
-    }
+        long elapsedTimeMs = clock.millis() - disconnectedAt;
+        long retryInMs = retryPolicy.nextRetryMs(retryCount, elapsedTimeMs);
+        if (retryInMs < 0) {
+            logger.debug("stream {} close connection by retry policy");
+            switchToLost(local);
+            return;
+        }
 
-    private void disconnect(Throwable th, Status status) {
-        SessionState local = state.get();
-        if (switchToDisconnected(local)) {
-            // disconnect grpc stream
-            local.cancel();
+        Stream stream = new Stream(rpc);
+        if (!switchToConnectiong(local, stream)) {
+            logger.warn("{} cannot be reconnected with state {}", this, state.get().getState());
+            return;
+        }
+
+        if (retryInMs > 0) {
+            logger.debug("stream {} shedule next retry {} in {} ms", this, retryCount, retryInMs);
+            rpc.getScheduler().schedule(
+                    () -> reconnect(stream, disconnectedAt, retryCount),
+                    retryInMs,
+                    TimeUnit.MILLISECONDS
+            );
+        } else {
+            logger.debug("stream {} immediatelly retry {}", this, retryCount);
+            reconnect(stream, disconnectedAt, retryCount);
         }
     }
 
-    private boolean switchToConnectiong(SessionState local) {
+    private Status establishNewSession(Result<Long> result, Stream stream) {
+        if (!result.isSuccess()) {
+            return result.getStatus();
+        }
+
+        SessionState local = state.get();
+        if (!switchToConnected(local, result.getValue(), stream)) {
+            stream.stop();
+            return Status.of(
+                    StatusCode.CANCELLED, null, Issue.of("{} cannot handle successful session", Issue.Severity.ERROR)
+            );
+        }
+
+        return Status.SUCCESS;
+    }
+
+    private boolean switchToConnectiong(SessionState local, Stream stream) {
         if (local.getState() == State.UNSTARTED) {
-            return updateState(local, SessionState.newDisconnected(State.CONNECTING));
+            return updateState(local, SessionState.connecting(stream));
         }
         if (local.getState() == State.LOST) {
-            return updateState(local, SessionState.newDisconnected(State.RECONNECTING));
+            return updateState(local, SessionState.reconnecting(stream));
         }
-
+        if (local.getState() == State.CONNECTED || local.getState() == State.RECONNECTING) {
+            return updateState(local, SessionState.disconnected(local, stream));
+        }
         return false;
     }
 
     private boolean switchToConnected(SessionState local, long id, Stream stream) {
-        if (local.getState() == State.CONNECTING) {
-            return updateState(local, SessionState.newConnected(State.CONNECTED, id, stream));
+        if (local.getState() == State.CONNECTING && local.hasStream(stream)) {
+            return updateState(local, SessionState.connected(local, id));
         }
-        if (local.getState() == State.RECONNECTING) {
-            return updateState(local, SessionState.newConnected(State.RECONNECTED, id, stream));
+        if (local.getState() == State.RECONNECTING && local.hasStream(stream)) {
+            return updateState(local, SessionState.reconnected(local));
         }
 
         return false;
     }
 
-    private boolean switchToDisconnected(SessionState local) {
-        return updateState(local, SessionState.LOST);
+    private boolean switchToLost(SessionState local) {
+        if (local.getState() == State.CONNECTING) {
+            return updateState(local, SessionState.unstarted());
+        }
+        if (local.getState() == State.RECONNECTING) {
+            return updateState(local, SessionState.lost());
+        }
+
+        return false;
     }
 
     private boolean updateState(SessionState previous, SessionState next) {
@@ -273,11 +323,6 @@ class Session implements CoordinationSession {
         byte[] protectionKey = new byte[16];
         ThreadLocalRandom.current().nextBytes(protectionKey);
         return ByteString.copyFrom(protectionKey);
-    }
-
-    private static Status invalidStateStatus(SessionState state) {
-        Issue issue = Issue.of("Session has invalid state " + state.getState(), Issue.Severity.ERROR);
-        return Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue);
     }
 
     private class LeaseCreator implements Function<Result<Boolean>, Result<SemaphoreLease>> {
