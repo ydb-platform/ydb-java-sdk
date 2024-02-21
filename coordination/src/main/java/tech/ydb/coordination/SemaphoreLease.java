@@ -4,7 +4,6 @@ import java.util.concurrent.CompletableFuture;
 
 
 /**
- *
  * @author Aleksandr Gorshenin
  */
 public interface SemaphoreLease {

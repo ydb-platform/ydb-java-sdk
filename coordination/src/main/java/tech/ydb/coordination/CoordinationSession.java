@@ -10,8 +10,10 @@ import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.retry.RetryUntilElapsed;
 
+/**
+ * @author Alexandr Gorshein
+ */
 public interface CoordinationSession extends AutoCloseable {
     enum State {
         UNSTARTED(false, false),
@@ -45,20 +47,21 @@ public interface CoordinationSession extends AutoCloseable {
         }
     }
 
-    Duration DEFAULT_SESSION_TIMEOUT = Duration.ofSeconds(5);
-    RetryUntilElapsed DEFAULT_RETRY_POLICY = new RetryUntilElapsed(5000, 250, 5);
-
     /**
      * Establish new bidirectional grpc stream
-     * @return Future with status of connection
+     * @return Future with status of operation
      */
     CompletableFuture<Status> connect();
 
+    /**
+     * Send message to grpc server to stop stream. If server doesn't close connection, client cancels it itself
+     * @return Future with status of operation
+     */
     CompletableFuture<Status> stop();
 
     /**
      * Current session identifier. If the connection wasn't established session will return -1
-     * @return Future with session identifier
+     * @return active session identifier
      */
     long getId();
 

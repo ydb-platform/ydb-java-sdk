@@ -4,12 +4,18 @@ import java.time.Duration;
 import java.util.concurrent.Executor;
 
 import tech.ydb.core.RetryPolicy;
+import tech.ydb.core.retry.RetryUntilElapsed;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public class CoordinationSessionSettings {
+    public static final Duration DEFAULT_CONNECT_TIMEOUT = Duration.ofSeconds(5);
+    public static final RetryUntilElapsed DEFAULT_RETRY_POLICY = new RetryUntilElapsed(
+            DEFAULT_CONNECT_TIMEOUT.toMillis(), 250, 5
+    );
+
     private final Executor executor;
     private final Duration connectTimeout;
     private final RetryPolicy retryPolicy;
@@ -38,8 +44,8 @@ public class CoordinationSessionSettings {
 
     public static class Builder {
         private Executor executor = null;
-        private Duration connectTimeout = Duration.ofSeconds(5);
-        private RetryPolicy retryPolicy = null;
+        private Duration connectTimeout = DEFAULT_CONNECT_TIMEOUT;
+        private RetryPolicy retryPolicy = DEFAULT_RETRY_POLICY;
 
         public Builder withExecutor(Executor executor) {
             this.executor = executor;

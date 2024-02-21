@@ -5,6 +5,10 @@ import java.util.concurrent.CompletableFuture;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
 
+/**
+ *
+ * @author Aleksandr Gorshenin
+ */
 class Lease implements SemaphoreLease {
     private final Session session;
     private final String name;
