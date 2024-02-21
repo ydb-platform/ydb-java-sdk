@@ -63,7 +63,8 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     }
 
     public void cancelStream() {
-        stream.close();
+        logger.trace("the stream {} cancel stream", hashCode());
+        stream.cancel();
     }
 
     public CompletableFuture<Result<Long>> sendSessionStart(long reqId, String node, Duration timeout, ByteString key) {
@@ -98,7 +99,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         // if server doesn't close stream by stop message - this timer cancels grpc stream
         final Future<?> timer = scheduler.schedule(this::cancelStream, SHUTDOWN_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         stopFuture.whenComplete((st, ex) -> {
-            if (ex != null && timer != null && timer.isDone()) {
+            if (!timer.isDone()) {
                 timer.cancel(true);
             }
         });
@@ -217,6 +218,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
 
     private void onSessionStopped(SessionResponse.SessionStopped msg) {
         logger.trace("the stream {} stopped with id {}", hashCode(), msg.getSessionId());
+        stream.close();
     }
 
     private void onPing(SessionResponse.PingPong msg) {

@@ -94,12 +94,13 @@ class Session implements CoordinationSession {
 
     @Override
     public CompletableFuture<Status> stop() {
+        logger.debug("{} stopped", this);
+
         SessionState local = state.get();
         while (!updateState(local, SessionState.closed())) {
             local = state.get();
         }
 
-        logger.debug("{} stopped", this);
         return local.stop();
     }
 
@@ -149,14 +150,14 @@ class Session implements CoordinationSession {
 
             // third: is current state is recoverable - try to restore session
             SessionState local = state.get();
-            boolean restorable = local.getState() == State.CONNECTED || local.getState() == State.RECONNECTING;
-            if (restorable && local.hasStream(stream)) {
+            boolean recoverableState = local.getState() == State.CONNECTED || local.getState() == State.RECONNECTING;
+            if (recoverableState && local.hasStream(stream)) {
+                logger.debug("stream {} starts to recover");
                 long disconnectedAt = clock.millis();
                 restoreSession(disconnectedAt, 0, messagesToRetry);
             } else {
                 // else complete idempotent messages too
                 completeMessagesWithBadSession(messagesToRetry);
-                logger.debug("stream {} lost connection by unrestorable status");
                 updateState(local, makeLostState(local));
             }
         }, executor);
@@ -187,8 +188,8 @@ class Session implements CoordinationSession {
             }
 
             SessionState localState = state.get();
-            boolean restorable = localState.getState() == State.RECONNECTING;
-            if (restorable && local.hasStream(stream)) {
+            boolean recoverable = localState.getState() == State.RECONNECTING;
+            if (recoverable && local.hasStream(stream)) {
                 restoreSession(disconnectedAt, retryCount + 1, messagesToRetry);
             } else {
                 completeMessagesWithBadSession(messagesToRetry);
@@ -239,7 +240,7 @@ class Session implements CoordinationSession {
 
         SessionState local = state.get();
         SessionState connected = makeConnectedState(local, result.getValue(), stream);
-        if (connected == null || !updateState(local, connected)) {
+        if (!updateState(local, connected)) {
             stream.stop();
             return Status.of(
                     StatusCode.CANCELLED, null, Issue.of("{} cannot handle successful session", Issue.Severity.ERROR)
