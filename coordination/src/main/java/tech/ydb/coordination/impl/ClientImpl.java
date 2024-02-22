@@ -23,11 +23,11 @@ import tech.ydb.proto.coordination.DropNodeRequest;
  * @author Kirill Kurdyukov
  * @author Aleksandr Gorshenin
  */
-class Client implements CoordinationClient {
+class ClientImpl implements CoordinationClient {
 
     private final Rpc rpc;
 
-    Client(Rpc rpc) {
+    ClientImpl(Rpc rpc) {
         this.rpc = rpc;
     }
 
@@ -41,7 +41,7 @@ class Client implements CoordinationClient {
 
     @Override
     public CoordinationSession createSession(String path, CoordinationSessionSettings settings) {
-        return new Session(rpc, Clock.systemUTC(), validatePath(path), settings);
+        return new SessionImpl(rpc, Clock.systemUTC(), validatePath(path), settings);
     }
 
     @Override

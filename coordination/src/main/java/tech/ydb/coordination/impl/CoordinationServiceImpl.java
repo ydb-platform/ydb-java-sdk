@@ -14,6 +14,6 @@ public class CoordinationServiceImpl {
 
     public static CoordinationClient newClient(@WillNotClose GrpcTransport transport) {
         Rpc rpc = new RpcImpl(transport);
-        return new Client(rpc);
+        return new ClientImpl(rpc);
     }
 }

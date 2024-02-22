@@ -39,7 +39,7 @@ import tech.ydb.core.StatusCode;
  *
  * @author Aleksandr Gorshenin
  */
-class Session implements CoordinationSession {
+class SessionImpl implements CoordinationSession {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSession.class);
 
     private final Rpc rpc;
@@ -54,7 +54,7 @@ class Session implements CoordinationSession {
     private final Map<Consumer<State>, Consumer<State>> listeners = new ConcurrentHashMap<>();
     private final AtomicReference<SessionState> state = new AtomicReference<>(SessionState.unstarted());
 
-    Session(Rpc rpc, Clock clock, String nodePath, CoordinationSessionSettings settings) {
+    SessionImpl(Rpc rpc, Clock clock, String nodePath, CoordinationSessionSettings settings) {
         this.rpc = rpc;
         this.clock = clock;
         this.executor = settings.getExecutor() != null ? settings.getExecutor() : ForkJoinPool.commonPool();
@@ -127,14 +127,14 @@ class Session implements CoordinationSession {
 
             // first: logging
             if (th != null) {
-                logger.warn("{} stream finished with exception", Session.this, th);
+                logger.warn("{} stream finished with exception", SessionImpl.this, th);
             }
 
             if (status != null) {
                 if (status.isSuccess()) {
-                    logger.debug("{} stream finished with status {}", Session.this, status);
+                    logger.debug("{} stream finished with status {}", SessionImpl.this, status);
                 } else {
-                    logger.warn("{} stream finished with status {}", Session.this, status);
+                    logger.warn("{} stream finished with status {}", SessionImpl.this, status);
                 }
             }
 
@@ -166,7 +166,7 @@ class Session implements CoordinationSession {
         return stream.sendSessionStart(sessionID, nodePath, connectTimeout, protectionKey);
     }
 
-    private void reconnect(Stream stream, long disconnectedAt, int retryCount, List<StreamMsg<?>> messagesToRetry) {
+    private void reconnect(Stream stream, long disconnectedAt, int retryNum, List<StreamMsg<?>> messagesToRetry) {
         SessionState local = state.get();
         if (local.getState() != State.RECONNECTING || !local.hasStream(stream)) {
             completeMessagesWithBadSession(messagesToRetry);
@@ -180,17 +180,17 @@ class Session implements CoordinationSession {
             }
 
             if (th != null) {
-                logger.warn("{} stream retry {} finished with exception", Session.this, retryCount, th);
+                logger.warn("{} stream retry {} finished with exception", SessionImpl.this, retryNum, th);
             }
 
             if (res != null) {
-                logger.debug("{} stream retry {} finished with status {}", Session.this, retryCount, res.getStatus());
+                logger.debug("{} stream retry {} finished with status {}", SessionImpl.this, retryNum, res.getStatus());
             }
 
             SessionState localState = state.get();
             boolean recoverable = localState.getState() == State.RECONNECTING;
             if (recoverable && local.hasStream(stream)) {
-                restoreSession(disconnectedAt, retryCount + 1, messagesToRetry);
+                restoreSession(disconnectedAt, retryNum + 1, messagesToRetry);
             } else {
                 completeMessagesWithBadSession(messagesToRetry);
             }
@@ -397,7 +397,7 @@ class Session implements CoordinationSession {
                 return Result.fail(Status.of(StatusCode.TIMEOUT));
             }
 
-            return Result.success(new Lease(Session.this, name));
+            return Result.success(new LeaseImpl(SessionImpl.this, name));
         }
     }
 }

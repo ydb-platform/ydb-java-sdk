@@ -9,11 +9,11 @@ import tech.ydb.coordination.SemaphoreLease;
  *
  * @author Aleksandr Gorshenin
  */
-class Lease implements SemaphoreLease {
-    private final Session session;
+class LeaseImpl implements SemaphoreLease {
+    private final SessionImpl session;
     private final String name;
 
-    Lease(Session session, String name) {
+    LeaseImpl(SessionImpl session, String name) {
         this.session = session;
         this.name = name;
     }

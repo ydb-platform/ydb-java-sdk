@@ -17,7 +17,7 @@ import tech.ydb.proto.coordination.CreateNodeRequest;
  */
 public class ClientTest {
     private final Rpc rpc = Mockito.mock(Rpc.class);
-    private final Client client = new Client(rpc);
+    private final ClientImpl client = new ClientImpl(rpc);
 
     @Before
     public void setUp() {
