@@ -255,7 +255,7 @@ class Session implements CoordinationSession {
     }
 
     private SessionState makeConnectionState(SessionState local, Stream stream) {
-        if (local.getState() == State.UNSTARTED) {
+        if (local.getState() == State.INITIAL) {
             return SessionState.connecting(stream);
         }
         if (local.getState() == State.LOST) {

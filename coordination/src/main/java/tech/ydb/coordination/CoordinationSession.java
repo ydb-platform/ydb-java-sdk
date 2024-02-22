@@ -16,7 +16,7 @@ import tech.ydb.core.Status;
  */
 public interface CoordinationSession extends AutoCloseable {
     enum State {
-        UNSTARTED(false, false),
+        INITIAL(false, false),
 
         CONNECTING(false, false),
 

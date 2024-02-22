@@ -132,7 +132,7 @@ public class CoordinationServiceTest {
         List<CoordinationSession.State> states = new ArrayList<>();
         session.addStateListener(state -> states.add(state));
 
-        Assert.assertEquals(CoordinationSession.State.UNSTARTED, session.getState());
+        Assert.assertEquals(CoordinationSession.State.INITIAL, session.getState());
         Assert.assertEquals(-1, session.getId());
         Assert.assertTrue(states.isEmpty());
 

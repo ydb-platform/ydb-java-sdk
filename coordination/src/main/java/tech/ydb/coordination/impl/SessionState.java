@@ -78,7 +78,7 @@ class SessionState {
     }
 
     static SessionState unstarted() {
-        return new SessionState(CoordinationSession.State.UNSTARTED);
+        return new SessionState(CoordinationSession.State.INITIAL);
     }
 
     static SessionState lost() {
