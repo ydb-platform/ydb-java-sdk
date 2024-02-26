@@ -26,7 +26,7 @@ public interface CoordinationClient {
 
     /**
      * Database path
-     * Using for creating coordination node path
+     * Used for creating coordination node path
      *
      * @return path to database
      */

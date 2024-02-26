@@ -63,7 +63,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     }
 
     public void cancelStream() {
-        logger.trace("the stream {} cancel stream", hashCode());
+        logger.trace("stream {} cancel stream", hashCode());
         stream.cancel();
     }
 
@@ -77,7 +77,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
                         .build()
         ).build();
 
-        logger.trace("the stream {} send session start msg {}", hashCode(), reqId);
+        logger.trace("stream {} send session start msg {}", hashCode(), reqId);
         stream.sendNext(startMsg);
         return startFuture;
     }
@@ -92,7 +92,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         ).build();
 
 
-        logger.trace("the stream {} send session stop msg", hashCode());
+        logger.trace("stream {} send session stop msg", hashCode());
         stream.sendNext(stopMsg);
 
         // schedule cancelation of grpc-stream
@@ -111,7 +111,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         StreamMsg<?> oldMsg = messages.put(requestId, msg);
 
         SessionRequest request = msg.makeRequest(requestId);
-        logger.trace("the stream {} send message {}", hashCode(), TextFormat.shortDebugString(request));
+        logger.trace("stream {} send message {}", hashCode(), TextFormat.shortDebugString(request));
         stream.sendNext(request);
 
         if (oldMsg != null) {
@@ -144,14 +144,14 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         if (resp.hasPong()) {
             // ignore, just logging
             long opaque = resp.getPong().getOpaque();
-            logger.trace("the stream {} got pong msg {}", hashCode(), Long.toUnsignedString(opaque));
+            logger.trace("stream {} got pong msg {}", hashCode(), Long.toUnsignedString(opaque));
             return;
         }
 
         if (resp.hasAcquireSemaphorePending()) {
             // ignore, just logging
             long reqId = resp.getAcquireSemaphorePending().getReqId();
-            logger.trace("the stream {} got acquire semaphore pending msg {}", hashCode(), reqId);
+            logger.trace("stream {} got acquire semaphore pending msg {}", hashCode(), reqId);
             return;
         }
 
@@ -187,7 +187,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     public void onNextMessage(long reqId, SessionResponse resp) {
         StreamMsg<?> msg = messages.remove(reqId);
         if (msg != null && msg.handleResponse(resp)) {
-            logger.trace("the stream {} got response {}", hashCode(), TextFormat.shortDebugString(resp));
+            logger.trace("stream {} got response {}", hashCode(), TextFormat.shortDebugString(resp));
             StreamMsg<?> nextMsg = msg.nextMsg();
             if (nextMsg != null) {
                 StreamMsg<?> old = messages.put(reqId, nextMsg);
@@ -196,13 +196,13 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
                 }
             }
         } else {
-            logger.warn("the stream {} lost response {}", hashCode(), TextFormat.shortDebugString(resp));
+            logger.warn("stream {} lost response {}", hashCode(), TextFormat.shortDebugString(resp));
         }
     }
 
     private void onFail(SessionResponse.Failure msg) {
         Status status = Status.of(StatusCode.fromProto(msg.getStatus()), null, Issue.fromPb(msg.getIssuesList()));
-        logger.trace("the stream {} got fail message {}", hashCode(), status);
+        logger.trace("stream {} got fail message {}", hashCode(), status);
         stopFuture.complete(status);
         startFuture.complete(Result.fail(status));
     }
@@ -210,14 +210,14 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     private void onSessionStarted(SessionResponse.SessionStarted msg) {
         long id = msg.getSessionId();
         if (startFuture.complete(Result.success(id))) {
-            logger.trace("the stream {} started with id {}", hashCode(), id);
+            logger.trace("stream {} started with id {}", hashCode(), id);
         } else {
-            logger.warn("the stream {} lost the start message with id {}", hashCode(), id);
+            logger.warn("stream {} lost the start message with id {}", hashCode(), id);
         }
     }
 
     private void onSessionStopped(SessionResponse.SessionStopped msg) {
-        logger.trace("the stream {} stopped with id {}", hashCode(), msg.getSessionId());
+        logger.trace("stream {} stopped with id {}", hashCode(), msg.getSessionId());
         stream.close();
     }
 
@@ -227,7 +227,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
                 SessionRequest.PingPong.newBuilder().setOpaque(opaque).build()
         ).build();
 
-        logger.trace("the stream {} got ping msg {}, sending pong msg", hashCode(), Long.toUnsignedString(opaque));
+        logger.trace("stream {} got ping msg {}, sending pong msg", hashCode(), Long.toUnsignedString(opaque));
         stream.sendNext(pong);
     }
 }

@@ -172,7 +172,7 @@ public interface CoordinationSession extends AutoCloseable {
     }
 
     /**
-     * Acquire an semaphore.
+     * Acquire a semaphore.
      * <p>WARNING: a single session can acquire only one semaphore in one moment<p>
      * Later requests override previous operations with the same semaphore,
      * e.g. to reduce acquired count, change timeout or attached data
