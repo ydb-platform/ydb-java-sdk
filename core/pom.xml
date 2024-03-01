@@ -15,10 +15,6 @@
     <name>Core module of Java SDK for YDB</name>
     <description>Core module of Java SDK for YDB</description>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>tech.ydb</groupId>
@@ -78,6 +74,13 @@
                     <include>**/*.properties</include>
                 </includes>
                 <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*.pkcs</include>
+                </includes>
+                <filtering>false</filtering>
             </resource>
         </resources>
     </build>
