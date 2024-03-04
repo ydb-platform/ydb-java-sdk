@@ -4,6 +4,11 @@
 * Core: Operation manager
 * Table: Added readRows operation in table service
 
+## 2.1.12 ##
+
+* Test common: Changed visibility of YdbDockerContainer
+* Core: Added async helpers to build the future chains
+
 ## 2.1.11 ##
 
 * Transports: Add option withGrpcKeepAliveTime to enable grpc keep-alives
