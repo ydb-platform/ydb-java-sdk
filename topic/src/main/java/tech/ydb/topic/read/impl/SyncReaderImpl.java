@@ -15,7 +15,6 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
@@ -24,6 +23,7 @@ import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.ReceiveSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
@@ -35,7 +35,6 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private static final int POLL_INTERVAL_SECONDS = 5;
     private final Queue<MessageBatchWrapper> batchesInQueue = new LinkedList<>();
     private int currentMessageIndex = 0;
-    private BaseTransaction transaction;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         super(topicRpc, settings);
@@ -63,7 +62,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     @Nullable
-    public Message receive(long timeout, TimeUnit unit) throws InterruptedException {
+    public Message receive(ReceiveSettings receiveSettings, long timeout, TimeUnit unit) throws InterruptedException {
         if (isStopped.get()) {
             throw new RuntimeException("Reader was stopped");
         }
@@ -101,15 +100,15 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                 currentMessageIndex = 0;
                 currentBatch.future.complete(null);
             }
-            if (transaction != null) {
-                Status updateStatus = sendUpdateOffsetsInTransaction(transaction,
+            if (receiveSettings.getTransaction() != null) {
+                Status updateStatus = sendUpdateOffsetsInTransaction(receiveSettings.getTransaction(),
                         Collections.singletonMap(result.getPartitionSession().getPath(),
                                 Collections.singletonList(result.getPartitionOffsets())),
                         UpdateOffsetsInTransactionSettings.newBuilder().build())
                         .join();
                 if (!updateStatus.isSuccess()) {
                     throw new RuntimeException("Couldn't add message offset " + result.getOffset() + " to transaction "
-                            + transaction.getId() + ": " + updateStatus);
+                            + receiveSettings.getTransaction().getId() + ": " + updateStatus);
                 }
             }
             return result;
@@ -117,17 +116,13 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    public Message receive() throws InterruptedException {
+    public Message receive(ReceiveSettings receiveSettings) throws InterruptedException {
         Message result;
         // Poll to prevent infinite wait in case if reader was stopped
         do {
-            result = receive(POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
+            result = receive(receiveSettings, POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
         } while (result == null);
         return result;
-    }
-    @Override
-    public void setTransaction(BaseTransaction transaction) {
-        this.transaction = transaction;
     }
 
     @Override
