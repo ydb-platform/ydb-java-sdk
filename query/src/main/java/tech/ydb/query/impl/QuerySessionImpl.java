@@ -20,8 +20,7 @@ import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
-import tech.ydb.query.TxId;
-import tech.ydb.query.TxMode;
+import tech.ydb.query.QueryTx;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.BeginTransactionSettings;
@@ -98,23 +97,25 @@ public abstract class QuerySessionImpl implements QuerySession {
     }
 
     @Override
-    public GrpcReadStream<QueryResultPart> executeQuery(
-            String query, Tx tx, Params params, ExecuteQuerySettings settings
-    ) {
-        YdbQuery.ExecuteQueryRequest request = YdbQuery.ExecuteQueryRequest.newBuilder()
+    public GrpcReadStream<QueryResultPart> executeQuery(String query, QueryTx tx, Params prms, ExecuteQuerySettings s) {
+        YdbQuery.ExecuteQueryRequest.Builder request = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(id)
                 .setExecMode(YdbQuery.ExecMode.EXEC_MODE_EXECUTE)
                 .setStatsMode(YdbQuery.StatsMode.STATS_MODE_NONE)
-                .setTxControl(tx.toTxControlPb())
                 .setQueryContent(YdbQuery.QueryContent.newBuilder()
-                        .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1).setText(query)
+                        .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)
+                        .setText(query)
                         .build()
                 )
-                .putAllParameters(params.toPb())
-                .build();
+                .putAllParameters(prms.toPb());
 
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-        return new ProxyReadStream<>(rpc.executeQuery(request, grpcSettings), (message, promise, observer) -> {
+        YdbQuery.TransactionControl tc = tx.toTxControlPb();
+        if (tc != null) {
+            request.setTxControl(tc);
+        }
+
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(s);
+        return new ProxyReadStream<>(rpc.executeQuery(request.build(), grpcSettings), (message, promise, observer) -> {
             Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,
@@ -132,24 +133,24 @@ public abstract class QuerySessionImpl implements QuerySession {
     }
 
     @Override
-    public CompletableFuture<Result<TxId>> beginTransaction(TxMode txMode, BeginTransactionSettings settings) {
+    public CompletableFuture<Result<QueryTx.Id>> beginTransaction(QueryTx.Mode tx, BeginTransactionSettings settings) {
         YdbQuery.BeginTransactionRequest request = YdbQuery.BeginTransactionRequest.newBuilder()
                 .setSessionId(id)
-                .setTxSettings(txMode.toTxSettingsPb())
+                .setTxSettings(tx.toTxSettingsPb())
                 .build();
 
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return rpc.beginTransaction(request, grpcSettings).thenApply(result -> {
             updateSessionState(result.getStatus());
-            return result.map(TxId::id);
+            return result.map(TxId::new);
         });
     }
 
     @Override
-    public CompletableFuture<Status> commitTransaction(TxId tx, CommitTransactionSettings settings) {
+    public CompletableFuture<Status> commitTransaction(QueryTx.Id tx, CommitTransactionSettings settings) {
         YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
                 .setSessionId(id)
-                .setTxId(tx.txID())
+                .setTxId(tx.txId())
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return rpc.commitTransaction(request, grpcSettings).thenApply(result -> {
@@ -159,10 +160,10 @@ public abstract class QuerySessionImpl implements QuerySession {
     }
 
     @Override
-    public CompletableFuture<Status> rollbackTransaction(TxId tx, RollbackTransactionSettings settings) {
+    public CompletableFuture<Status> rollbackTransaction(QueryTx.Id tx, RollbackTransactionSettings settings) {
         YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
                 .setSessionId(id)
-                .setTxId(tx.txID())
+                .setTxId(tx.txId())
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return rpc.rollbackTransaction(request, grpcSettings).thenApply(result -> {

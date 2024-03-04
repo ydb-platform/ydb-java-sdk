@@ -1,18 +1,27 @@
-package tech.ydb.query;
+package tech.ydb.query.impl;
 
 import tech.ydb.proto.query.YdbQuery;
+import tech.ydb.query.QueryTx;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class TxId implements QuerySession.Tx {
+class TxId implements QueryTx.Id {
     private final String id;
     private final boolean commitTx;
 
-    private TxId(String id, boolean commitTx) {
+    TxId(String id, boolean commitTx) {
         this.id = id;
         this.commitTx = commitTx;
+    }
+
+    TxId(YdbQuery.TransactionMeta meta) {
+        this(meta.getId(), false);
+    }
+
+    TxId(YdbQuery.BeginTransactionResponse resp) {
+        this(resp.getTxMeta());
     }
 
     @Override
@@ -23,23 +32,18 @@ public class TxId implements QuerySession.Tx {
                 .build();
     }
 
-    public String txID() {
+    @Override
+    public String txId() {
         return id;
     }
 
+    @Override
     public boolean isCommitTx() {
         return commitTx;
     }
 
-    public static TxId id(String id, boolean commitTx) {
-        return new TxId(id, commitTx);
-    }
-
-    public static TxId id(String id) {
-        return new TxId(id, false);
-    }
-
-    public static TxId id(YdbQuery.BeginTransactionResponse response) {
-        return new TxId(response.getTxMeta().getId(), false);
+    @Override
+    public Id withCommitTx() {
+        return new TxId(id, true);
     }
 }

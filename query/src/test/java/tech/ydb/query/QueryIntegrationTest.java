@@ -9,7 +9,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -102,7 +101,7 @@ public class QueryIntegrationTest {
     public void testSimpleSelect() {
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryDataReader reader = QueryDataReader.readFrom(
-                    session.executeQuery("SELECT 2 + 3;", TxMode.serializableRw())
+                    session.executeQuery("SELECT 2 + 3;", QueryTx.serializableRw())
             ).join().getValue();
 
 
@@ -160,7 +159,7 @@ public class QueryIntegrationTest {
             );
 
             try (QuerySession session = queryClient.createSession(SESSION_TIMEOUT).join().getValue()) {
-                session.executeQuery(query, TxMode.serializableRw(), params)
+                session.executeQuery(query, QueryTx.serializableRw(), params)
                         .start(this::printQuerySetPart)
                         .join().expectSuccess();
             }
@@ -168,13 +167,13 @@ public class QueryIntegrationTest {
 
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             String query = "SELECT id, name, payload, is_valid FROM " + TEST_TABLE + " ORDER BY id;";
-            session.executeQuery(query, TxMode.serializableRw())
+            session.executeQuery(query, QueryTx.serializableRw())
                     .start(this::printQuerySetPart)
                     .join().expectSuccess();
         }
 
         try (QuerySession session = queryClient.createSession(SESSION_TIMEOUT).join().getValue()) {
-            session.executeQuery("DELETE FROM " + TEST_TABLE, TxMode.serializableRw())
+            session.executeQuery("DELETE FROM " + TEST_TABLE, QueryTx.serializableRw())
                     .start(this::printQuerySetPart)
                     .join().expectSuccess();
         }
@@ -186,20 +185,17 @@ public class QueryIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void testSchemeQuery() {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                TxMode tx = TxMode.serializableRw();
-
                 CompletableFuture<Status> createTable = session
-                        .executeQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", tx)
+                        .executeQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", QueryTx.noTx())
                         .start(this::printQuerySetPart);
                 createTable.join().expectSuccess();
 
 
                 CompletableFuture<Status> dropTable = session
-                        .executeQuery("DROP TABLE demo_table;", tx)
+                        .executeQuery("DROP TABLE demo_table;", QueryTx.noTx())
                         .start(this::printQuerySetPart);
                 dropTable.join().expectSuccess();
             }
