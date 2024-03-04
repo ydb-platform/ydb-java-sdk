@@ -187,25 +187,30 @@ public class SessionRetryContext {
             }
 
             final QuerySession session = sessionResult.getValue();
-            Async.safeCall(session, fn).whenComplete((fnResult, fnException) -> {
-                try {
-                    session.close();
+            try {
+                fn.apply(session).whenComplete((fnResult, fnException) -> {
+                    try {
+                        session.close();
 
-                    if (fnException != null) {
-                        handleException(fnException);
-                        return;
-                    }
+                        if (fnException != null) {
+                            handleException(fnException);
+                            return;
+                        }
 
-                    StatusCode statusCode = toStatusCode(fnResult);
-                    if (statusCode == StatusCode.SUCCESS) {
-                        promise.complete(fnResult);
-                    } else {
-                        handleError(statusCode, fnResult);
+                        StatusCode statusCode = toStatusCode(fnResult);
+                        if (statusCode == StatusCode.SUCCESS) {
+                            promise.complete(fnResult);
+                        } else {
+                            handleError(statusCode, fnResult);
+                        }
+                    } catch (Throwable unexpected) {
+                        promise.completeExceptionally(unexpected);
                     }
-                } catch (Throwable unexpected) {
-                    promise.completeExceptionally(unexpected);
-                }
-            });
+                });
+            } catch (RuntimeException ex) {
+                session.close();
+                handleException(ex);
+            }
         }
 
         private void scheduleNext(long delayMillis) {
