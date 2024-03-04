@@ -28,6 +28,8 @@ import tech.ydb.query.settings.CommitTransactionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
+import tech.ydb.query.settings.QueryExecMode;
+import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.query.settings.RollbackTransactionSettings;
 import tech.ydb.table.query.Params;
 
@@ -96,12 +98,38 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .build();
     }
 
+    private static YdbQuery.ExecMode mapExecMode(QueryExecMode mode) {
+        switch (mode) {
+            case EXECUTE: return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
+            case EXPLAIN: return YdbQuery.ExecMode.EXEC_MODE_EXPLAIN;
+            case PARSE: return YdbQuery.ExecMode.EXEC_MODE_PARSE;
+            case VALIDATE: return YdbQuery.ExecMode.EXEC_MODE_VALIDATE;
+
+            case UNSPECIFIED:
+            default:
+                return YdbQuery.ExecMode.EXEC_MODE_UNSPECIFIED;
+        }
+    }
+
+    private static YdbQuery.StatsMode mapStatsMode(QueryStatsMode mode) {
+        switch (mode) {
+            case NONE: return YdbQuery.StatsMode.STATS_MODE_NONE;
+            case BASIC: return YdbQuery.StatsMode.STATS_MODE_BASIC;
+            case FULL: return YdbQuery.StatsMode.STATS_MODE_FULL;
+            case PROFILE: return YdbQuery.StatsMode.STATS_MODE_PROFILE;
+
+            case UNSPECIFIED:
+            default:
+                return YdbQuery.StatsMode.STATS_MODE_UNSPECIFIED;
+        }
+    }
+
     @Override
     public GrpcReadStream<QueryResultPart> executeQuery(String query, QueryTx tx, Params prms, ExecuteQuerySettings s) {
         YdbQuery.ExecuteQueryRequest.Builder request = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(id)
-                .setExecMode(YdbQuery.ExecMode.EXEC_MODE_EXECUTE)
-                .setStatsMode(YdbQuery.StatsMode.STATS_MODE_NONE)
+                .setExecMode(mapExecMode(s.getExecMode()))
+                .setStatsMode(mapStatsMode(s.getStatsMode()))
                 .setQueryContent(YdbQuery.QueryContent.newBuilder()
                         .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)
                         .setText(query)

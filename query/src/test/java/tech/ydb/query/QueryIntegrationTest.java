@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,8 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.query.impl.QuerySessionImpl;
 import tech.ydb.query.result.QueryResultPart;
+import tech.ydb.query.settings.ExecuteQuerySettings;
+import tech.ydb.query.settings.QueryExecMode;
 import tech.ydb.query.tools.QueryDataReader;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
@@ -102,6 +105,37 @@ public class QueryIntegrationTest {
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryDataReader reader = QueryDataReader.readFrom(
                     session.executeQuery("SELECT 2 + 3;", QueryTx.serializableRw())
+            ).join().getValue();
+
+
+            Assert.assertEquals(1, reader.getResultSetCount());
+            ResultSetReader rs = reader.getResultSet(0);
+
+            Assert.assertTrue(rs.next());
+            Assert.assertEquals(1, rs.getColumnCount());
+            Assert.assertEquals("column0", rs.getColumnName(0));
+            Assert.assertEquals(5, rs.getColumn(0).getInt32());
+
+            Assert.assertFalse(rs.next());
+        }
+    }
+
+    @Test
+    @Ignore
+    public void testSimplePrepare() {
+        String query = "DECLARE $id AS Int32?;\n"
+                + "DECLARE $name AS Text?;\n"
+                + "DECLARE $payload AS Bytes?\n"
+                + "DECLARE $is_valid AS Bool\n"
+                + "UPSERT INTO `" + TEST_TABLE + "` (id, name, payload, is_valid) "
+                + "VALUES ($id, $name, $payload, $is_valid)";
+        try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                    .withExecMode(QueryExecMode.PARSE)
+                    .build();
+
+            QueryDataReader reader = QueryDataReader.readFrom(
+                    session.executeQuery(query, QueryTx.noTx(), Params.empty(), settings)
             ).join().getValue();
 
 
