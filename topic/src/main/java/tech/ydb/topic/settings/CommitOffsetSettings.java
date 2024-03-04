@@ -2,6 +2,9 @@ package tech.ydb.topic.settings;
 
 import tech.ydb.core.settings.OperationSettings;
 
+/**
+ * @author Nikolay Perfilov
+ */
 public class CommitOffsetSettings extends OperationSettings {
     private final long partitionId;
     private final String consumer;

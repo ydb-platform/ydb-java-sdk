@@ -1,5 +1,8 @@
 package tech.ydb.topic.settings;
 
+/**
+ * @author Nikolay Perfilov
+ */
 public class StartPartitionSessionSettings {
     private final Long readOffset;
     private final Long commitOffset;
