@@ -123,7 +123,8 @@ public class QueryIntegrationTest {
     @Test
     @Ignore
     public void testSimplePrepare() {
-        String query = "DECLARE $id AS Int32?;\n"
+        String query = ""
+                + "DECLARE $id AS Int32?;\n"
                 + "DECLARE $name AS Text?;\n"
                 + "DECLARE $payload AS Bytes?\n"
                 + "DECLARE $is_valid AS Bool\n"

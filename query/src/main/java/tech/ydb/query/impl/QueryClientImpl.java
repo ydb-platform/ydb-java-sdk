@@ -42,6 +42,10 @@ public class QueryClientImpl implements  QueryClient {
         return scheduler;
     }
 
+    public void updatePoolMaxSize(int maxSize) {
+        pool.updateMaxSize(maxSize);
+    }
+
     @Override
     public void close() {
         pool.close();
