@@ -15,7 +15,7 @@
 
     <properties>
         <ydb-auth-api.version>1.0.0</ydb-auth-api.version>
-        <ydb-proto-api.version>1.6.0</ydb-proto-api.version>
+        <ydb-proto-api.version>1.6.2</ydb-proto-api.version>
         <yc-auth.version>2.1.1</yc-auth.version>
     </properties>
 
