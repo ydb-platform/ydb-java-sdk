@@ -44,7 +44,9 @@ public class QueryDataReader {
         }
 
         for (QueryResultPart part: parts) {
-            readers[(int) part.getResultSetIndex()].addResultSet(part.getResultSetReader());
+            if (part.getResultSetReader() != null) {
+                readers[(int) part.getResultSetIndex()].addResultSet(part.getResultSetReader());
+            }
         }
     }
 

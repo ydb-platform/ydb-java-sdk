@@ -16,9 +16,10 @@ public class QueryResultPart {
     private final QueryTx.Id txId;
 
     public QueryResultPart(YdbQuery.ExecuteQueryResponsePart response) {
-        this.rsIndex = response.getResultSetIndex();
-        this.rsReader = ProtoValueReaders.forResultSet(response.getResultSet());
-        this.txId = response.hasTxMeta() ? TxImpl.id(response.getTxMeta().getId()) : null;
+        this.rsIndex = response.hasResultSet() ? response.getResultSetIndex() : -1;
+        this.rsReader = response.hasResultSet() ? ProtoValueReaders.forResultSet(response.getResultSet()) : null;
+        String id = response.hasTxMeta() ? response.getTxMeta().getId() : null;
+        this.txId =  id != null && !id.isEmpty() ? TxImpl.id(id) : null;
     }
 
     public QueryTx.Id getTxId() {

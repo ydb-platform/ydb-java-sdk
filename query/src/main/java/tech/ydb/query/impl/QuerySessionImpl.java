@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import io.grpc.Metadata;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
@@ -38,6 +40,8 @@ import tech.ydb.table.query.Params;
  * @author Aleksandr Gorshenin
  */
 public abstract class QuerySessionImpl implements QuerySession {
+    private static final Logger logger = LoggerFactory.getLogger(QuerySession.class);
+
     private static final StatusExtract<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtract.of(
             YdbQuery.CreateSessionResponse::getStatus, YdbQuery.CreateSessionResponse::getIssuesList
     );
@@ -81,6 +85,7 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
+            logger.trace("session '{}' got attach stream message {}", id, message);
             Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,
@@ -144,6 +149,7 @@ public abstract class QuerySessionImpl implements QuerySession {
 
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(s);
         return new ProxyReadStream<>(rpc.executeQuery(request.build(), grpcSettings), (message, promise, observer) -> {
+            logger.trace("session '{}' got query stream message {}", id, message);
             Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,

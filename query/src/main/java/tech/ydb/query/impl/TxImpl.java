@@ -20,6 +20,6 @@ public class TxImpl {
     }
 
     public static QueryTx.Id id(String id) {
-        return new TxId(id, true);
+        return new TxId(id, false);
     }
 }
