@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.query.QueryTx;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
@@ -17,16 +18,22 @@ import tech.ydb.table.values.Type;
  * @author Aleksandr Gorshenin
  */
 public class QueryDataReader {
+    private final QueryTx.Id txId;
     private final CompositeResultSet[] readers;
 
     private QueryDataReader(List<QueryResultPart> parts) {
         int lastIdx = -1;
+        QueryTx.Id id = null;
         for (QueryResultPart part: parts) {
             if (part.getResultSetIndex() > lastIdx) {
                 lastIdx = (int) part.getResultSetIndex();
             }
+            if (id == null && part.getTxId() != null) {
+                id = part.getTxId();
+            }
         }
 
+        txId = id;
         readers = new CompositeResultSet[lastIdx + 1];
         if (readers.length == 0) {
             return;
@@ -39,6 +46,10 @@ public class QueryDataReader {
         for (QueryResultPart part: parts) {
             readers[(int) part.getResultSetIndex()].addResultSet(part.getResultSetReader());
         }
+    }
+
+    public QueryTx.Id txId() {
+        return txId;
     }
 
     public int getResultSetCount() {

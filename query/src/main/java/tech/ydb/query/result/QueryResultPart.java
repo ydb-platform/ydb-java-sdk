@@ -1,6 +1,8 @@
 package tech.ydb.query.result;
 
 import tech.ydb.proto.query.YdbQuery;
+import tech.ydb.query.QueryTx;
+import tech.ydb.query.impl.TxImpl;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.impl.ProtoValueReaders;
 
@@ -11,10 +13,16 @@ import tech.ydb.table.result.impl.ProtoValueReaders;
 public class QueryResultPart {
     private final long rsIndex;
     private final ResultSetReader rsReader;
+    private final QueryTx.Id txId;
 
     public QueryResultPart(YdbQuery.ExecuteQueryResponsePart response) {
         this.rsIndex = response.getResultSetIndex();
         this.rsReader = ProtoValueReaders.forResultSet(response.getResultSet());
+        this.txId = response.hasTxMeta() ? TxImpl.id(response.getTxMeta().getId()) : null;
+    }
+
+    public QueryTx.Id getTxId() {
+        return this.txId;
     }
 
     public long getResultSetIndex() {
