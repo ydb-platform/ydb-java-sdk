@@ -151,6 +151,19 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
         this.encodingMessages.add(message);
 
+        if (message.getMessage().getTransaction() != null) {
+            // Waiting for the message to be written before committing transaction
+            message.getMessage().getTransaction().addFutureToWaitBeforeCommit(message.getFuture());
+            // Shutting down writer in case if connected transaction will be rolled back to prevent infinite loop
+            // of trying to resend this message
+            message.getMessage().getTransaction().addOnRollbackAction(() -> {
+                if (!message.getFuture().isDone()) {
+                    shutdownImpl("Transaction that is connected with a message in writing queue is rolled back. " +
+                            "Shutting down writer...");
+                }
+            });
+        }
+
         CompletableFuture
                 .runAsync(() -> {
                     encode(message);
