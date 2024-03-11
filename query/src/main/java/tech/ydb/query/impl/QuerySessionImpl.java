@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.protobuf.TextFormat;
 import io.grpc.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,7 +86,7 @@ public abstract class QuerySessionImpl implements QuerySession {
                 .build();
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
-            logger.trace("session '{}' got attach stream message {}", id, message);
+            logger.trace("session '{}' got attach stream message {}", id, TextFormat.shortDebugString(message));
             Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,
@@ -131,7 +132,7 @@ public abstract class QuerySessionImpl implements QuerySession {
 
     @Override
     public GrpcReadStream<QueryResultPart> executeQuery(String query, QueryTx tx, Params prms, ExecuteQuerySettings s) {
-        YdbQuery.ExecuteQueryRequest.Builder request = YdbQuery.ExecuteQueryRequest.newBuilder()
+        YdbQuery.ExecuteQueryRequest.Builder requestBuilder = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(id)
                 .setExecMode(mapExecMode(s.getExecMode()))
                 .setStatsMode(mapStatsMode(s.getStatsMode()))
@@ -144,12 +145,14 @@ public abstract class QuerySessionImpl implements QuerySession {
 
         YdbQuery.TransactionControl tc = tx.toTxControlPb();
         if (tc != null) {
-            request.setTxControl(tc);
+            requestBuilder.setTxControl(tc);
         }
 
+        YdbQuery.ExecuteQueryRequest request = requestBuilder.build();
+        logger.trace("session '{}' send request {}", id, TextFormat.shortDebugString(request));
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(s);
-        return new ProxyReadStream<>(rpc.executeQuery(request.build(), grpcSettings), (message, promise, observer) -> {
-            logger.trace("session '{}' got query stream message {}", id, message);
+        return new ProxyReadStream<>(rpc.executeQuery(request, grpcSettings), (message, promise, observer) -> {
+            logger.trace("session '{}' got query stream message {}", id, TextFormat.shortDebugString(message));
             Status status = Status.of(
                     StatusCode.fromProto(message.getStatus()),
                     null,

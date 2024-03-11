@@ -125,11 +125,8 @@ public class QueryIntegrationTest {
     public void testSimplePrepare() {
         String query = ""
                 + "DECLARE $id AS Int32?;\n"
-                + "DECLARE $name AS Text?;\n"
-                + "DECLARE $payload AS Bytes?\n"
-                + "DECLARE $is_valid AS Bool\n"
-                + "UPSERT INTO `" + TEST_TABLE + "` (id, name, payload, is_valid) "
-                + "VALUES ($id, $name, $payload, $is_valid)";
+                + "UPSERT INTO `" + TEST_TABLE + "` (id) "
+                + "VALUES ($id)";
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
                     .withExecMode(QueryExecMode.PARSE)
@@ -216,7 +213,9 @@ public class QueryIntegrationTest {
 
     public void printQuerySetPart(QueryResultPart part) {
         ResultSetReader rs = part.getResultSetReader();
-        logger.info("got query result part with index {} and {} rows", part.getResultSetIndex(), rs.getRowCount());
+        if (rs != null) {
+            logger.info("got query result part with index {} and {} rows", part.getResultSetIndex(), rs.getRowCount());
+        }
     }
 
     @Test
