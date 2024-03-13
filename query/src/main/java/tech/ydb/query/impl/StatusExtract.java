@@ -38,7 +38,8 @@ public class StatusExtract<T> implements Function<Result<T>, Result<T>> {
                 result.getStatus().getConsumedRu(),
                 Issue.fromPb(issuesFunctor.apply(resp))
         );
-        return Result.success(resp, status);
+
+        return status.isSuccess() ? Result.success(resp, status) : Result.fail(status);
     }
 
     public static <T> StatusExtract<T> of(
