@@ -9,7 +9,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
@@ -151,11 +150,11 @@ public class QuerySessionPool implements AutoCloseable {
 
     private class PooledQuerySession extends QuerySessionImpl {
         private final GrpcReadStream<Status> attachStream;
-        private final AtomicBoolean isDeleted = new AtomicBoolean(false);
 
         private volatile Instant lastActive;
         private volatile boolean isStarted = false;
         private volatile boolean isBroken = false;
+        private volatile boolean isStopped = false;
 
         PooledQuerySession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
             super(rpc, response);
@@ -201,10 +200,7 @@ public class QuerySessionPool implements AutoCloseable {
                     return;
                 }
 
-                if (!isDeleted.get()) { // Don't log finish message after destroying
-                    logger.warn("QuerySession[{}] unexpected attach message {}", getId(), status);
-                    clean();
-                }
+                logger.trace("QuerySession[{}] attach message {}", getId(), status);
             }).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.debug("QuerySession[{}] finished with exception", getId(), th);
@@ -223,24 +219,16 @@ public class QuerySessionPool implements AutoCloseable {
         }
 
         private void clean() {
-            if (isDeleted.get()) {
-                return;
-            }
-
-            logger.debug("QuerySession[{}] destroy", getId());
-            if (isStarted) {
-                queue.delete(this);
-            } else {
+            logger.debug("QuerySession[{}] attach stream is stopped", getId());
+            isStopped = true;
+            if (!isStarted) {
                 destroy();
             }
         }
 
         public void destroy() {
-            if (!isDeleted.compareAndSet(false, true)) {
-                return;
-            }
+            logger.debug("QuerySession[{}] destroy", getId());
 
-            logger.debug("QuerySession[{}] delete", getId());
             delete(DELETE_SETTINGS).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.warn("QuerySession[{}] removed with exception {}", getId(), th.getMessage());
@@ -257,7 +245,7 @@ public class QuerySessionPool implements AutoCloseable {
 
         @Override
         public void close() {
-            if (isBroken) {
+            if (isBroken || isStopped) {
                 queue.delete(this);
             } else {
                 queue.release(this);
