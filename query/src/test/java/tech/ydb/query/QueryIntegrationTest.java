@@ -38,6 +38,7 @@ import tech.ydb.test.junit4.GrpcTransportRule;
 public class QueryIntegrationTest {
     private final static Logger logger = LoggerFactory.getLogger(QueryIntegrationTest.class);
     private final static String TEST_TABLE = "query_service_test";
+    private final static String TEST_DOUBLE_TABLE = "query_double_table";
 
     private final static byte[] BYTES_EMPTY = new byte[0];
     private final static byte[] BYTES_LEN2 = new byte[] { 0x00, 0x22 };
@@ -77,9 +78,18 @@ public class QueryIntegrationTest {
                 .setPrimaryKey("id")
                 .build();
 
+
+        String table2Path = ydbTransport.getDatabase() + "/" + TEST_DOUBLE_TABLE;
+        TableDescription table2Description = TableDescription.newBuilder()
+                .addNonnullColumn("id", PrimitiveType.Int32)
+                .addNullableColumn("amount", PrimitiveType.Double)
+                .setPrimaryKey("id")
+                .build();
+
         SimpleTableClient client = SimpleTableClient.newClient(GrpcTableRpc.useTransport(ydbTransport)).build();
         SessionRetryContext retryCtx = SessionRetryContext.create(client).build();
         retryCtx.supplyStatus(session -> session.createTable(tablePath, tableDescription)).join();
+        retryCtx.supplyStatus(session -> session.createTable(table2Path, table2Description)).join();
         logger.info("Prepare database OK");
 
         queryClient = QueryClient.newClient(ydbTransport).build();
@@ -90,10 +100,12 @@ public class QueryIntegrationTest {
         try {
             logger.info("Clean database...");
             String tablePath = ydbTransport.getDatabase() + "/" + TEST_TABLE;
+            String table2Path = ydbTransport.getDatabase() + "/" + TEST_DOUBLE_TABLE;
 
             SimpleTableClient client = SimpleTableClient.newClient(GrpcTableRpc.useTransport(ydbTransport)).build();
             SessionRetryContext retryCtx = SessionRetryContext.create(client).build();
             retryCtx.supplyStatus(session -> session.dropTable(tablePath)).join().isSuccess();
+            retryCtx.supplyStatus(session -> session.dropTable(table2Path)).join().isSuccess();
             logger.info("Clean database OK");
         } finally {
             queryClient.close();
@@ -215,6 +227,24 @@ public class QueryIntegrationTest {
         ResultSetReader rs = part.getResultSetReader();
         if (rs != null) {
             logger.info("got query result part with index {} and {} rows", part.getResultSetIndex(), rs.getRowCount());
+        }
+    }
+
+    @Test
+    public void updateMultipleTablesInOneTransaction() {
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                QueryTx.Mode txMode = QueryTx.serializableRw().withoutCommitTx();
+                QueryDataReader query1 = QueryDataReader.readFrom(
+                        session.executeQuery("UPDATE " + TEST_TABLE + " SET name='test' WHERE id=1", txMode)
+                ).join().getValue();
+
+                QueryTx.Id tx = query1.txId();
+
+                QueryDataReader.readFrom(
+                        session.executeQuery("UPDATE " + TEST_DOUBLE_TABLE + " SET amount=300 WHERE id=1", tx.withCommitTx())
+                ).join().getValue();
+            }
         }
     }
 
