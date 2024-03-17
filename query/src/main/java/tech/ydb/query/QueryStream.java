@@ -4,7 +4,7 @@ import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Result;
 import tech.ydb.query.result.QueryInfo;
-import tech.ydb.query.result.QueryResponsePart;
+import tech.ydb.query.result.QueryResultPart;
 
 /**
  *
@@ -12,7 +12,7 @@ import tech.ydb.query.result.QueryResponsePart;
  */
 public interface QueryStream {
     interface PartsHandler {
-        void onPart(QueryResponsePart part);
+        void onNextPart(QueryResultPart part);
     }
 
     CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler);

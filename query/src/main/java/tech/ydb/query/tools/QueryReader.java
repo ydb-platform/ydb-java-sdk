@@ -8,12 +8,11 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import tech.ydb.core.Result;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.result.QueryInfo;
-import tech.ydb.query.result.QueryResponsePart;
+import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.values.Type;
@@ -40,7 +39,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
     }
 
     public ResultSetReader getResultSet(int index) {
-        return new CompositeResultSet(results.get(index).getPartsStream());
+        return new CompositeResultSet(results.get(index).getParts());
     }
 
     public static CompletableFuture<Result<QueryReader>> readFrom(QueryStream stream) {
@@ -67,7 +66,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
 
         @Override
         public ResultSetReader next() {
-            return new CompositeResultSet(iter.next().getPartsStream());
+            return new CompositeResultSet(iter.next().getParts());
         }
     }
 
@@ -91,7 +90,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
         }
 
         @Override
-        public void onPart(QueryResponsePart part) {
+        public void onNextPart(QueryResultPart part) {
             Long index = part.getResultSetIndex();
             if (!results.containsKey(index)) {
                 results.put(index, new ResultSetParts(index));
@@ -102,13 +101,13 @@ public class QueryReader implements Iterable<ResultSetReader> {
 
     private static class ResultSetParts {
         private final long resultSetIndex;
-        private final List<QueryResponsePart> parts = new ArrayList<>();
+        private final List<QueryResultPart> parts = new ArrayList<>();
 
-        public ResultSetParts(long index) {
+        ResultSetParts(long index) {
             this.resultSetIndex = index;
         }
 
-        public void addPart(QueryResponsePart part) {
+        public void addPart(QueryResultPart part) {
             parts.add(part);
         }
 
@@ -116,8 +115,8 @@ public class QueryReader implements Iterable<ResultSetReader> {
             return resultSetIndex;
         }
 
-        public Stream<QueryResponsePart> getPartsStream() {
-            return parts.stream();
+        public List<QueryResultPart> getParts() {
+            return parts;
         }
     }
 
@@ -126,9 +125,9 @@ public class QueryReader implements Iterable<ResultSetReader> {
         private final int rowsCount;
         private int partIndex = -1;
 
-        public CompositeResultSet(Stream<QueryResponsePart> stream) {
-            this.parts = stream.map(QueryResponsePart::getResultSetReader).collect(Collectors.toList());
-            this.rowsCount = stream.mapToInt(QueryResponsePart::getResultSetRowsCount).sum();
+        CompositeResultSet(List<QueryResultPart> list) {
+            this.parts = list.stream().map(QueryResultPart::getResultSetReader).collect(Collectors.toList());
+            this.rowsCount = list.stream().mapToInt(QueryResultPart::getResultSetRowsCount).sum();
             this.partIndex = parts.isEmpty() ? -1 : 0;
         }
 

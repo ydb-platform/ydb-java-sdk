@@ -12,5 +12,5 @@ public enum QueryTx {
     STALE_RO,
 
     ONLINE_RO,
-    ONLINE_INCONSISNTENT_RO
+    ONLINE_INCONSISTENT_RO
 }

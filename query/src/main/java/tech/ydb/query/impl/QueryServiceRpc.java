@@ -14,7 +14,7 @@ import tech.ydb.proto.query.v1.QueryServiceGrpc;
  *
  * @author Aleksandr Gorshenin
  */
-public class QueryServiceRpc {
+class QueryServiceRpc {
     private static final StatusExtract<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtract.of(
             YdbQuery.CreateSessionResponse::getStatus,
             YdbQuery.CreateSessionResponse::getIssuesList
@@ -47,7 +47,7 @@ public class QueryServiceRpc {
 
     private final GrpcTransport transport;
 
-    public QueryServiceRpc(GrpcTransport transport) {
+    QueryServiceRpc(GrpcTransport transport) {
         this.transport = transport;
     }
 

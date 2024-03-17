@@ -61,13 +61,13 @@ public class QueryStats {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("QueryStats{");
-        sb.append("plan='").append(queryPlan).append("', ");
-        sb.append("ast='").append(queryAst).append("', ");
-        sb.append("totalDurationUs=").append(totalDurationUs).append(", ");
-        sb.append("totalCpuTimeUs=").append(totalCpuTimeUs).append(", ");
-        sb.append("processCpuTimeUs=").append(processCpuTimeUs).append(", ");
-        sb.append("compilation=").append(compilationStats).append(", ");
-        sb.append("phases=[");
+        sb.append("\n\tplan='").append(queryPlan).append("',");
+        sb.append("\n\tast='").append(queryAst).append("',");
+        sb.append("\n\ttotalDurationUs=").append(totalDurationUs).append(",");
+        sb.append("\n\ttotalCpuTimeUs=").append(totalCpuTimeUs).append(",");
+        sb.append("\n\tprocessCpuTimeUs=").append(processCpuTimeUs).append(",");
+        sb.append("\n\tcompilation=").append(compilationStats).append(",");
+        sb.append("\n\tphases=[");
         sb.append(queryPhases.stream().map(QueryPhase::toString).collect(Collectors.joining(", ")));
         sb.append("]}");
         return sb.toString();

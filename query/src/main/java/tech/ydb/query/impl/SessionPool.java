@@ -33,8 +33,8 @@ import tech.ydb.table.impl.pool.WaitingQueue;
  *
  * @author Aleksandr Gorshenin
  */
-public class QuerySessionPool implements AutoCloseable {
-    private static final Logger logger = LoggerFactory.getLogger(QuerySessionPool.class);
+class SessionPool implements AutoCloseable {
+    private static final Logger logger = LoggerFactory.getLogger(SessionPool.class);
 
     private static final CreateSessionSettings CREATE_SETTINGS = CreateSessionSettings.newBuilder()
             .withRequestTimeout(Duration.ofSeconds(300))
@@ -55,12 +55,7 @@ public class QuerySessionPool implements AutoCloseable {
     private final WaitingQueue<PooledQuerySession> queue;
     private final ScheduledFuture<?> cleanerFuture;
 
-    public QuerySessionPool(
-            Clock clock,
-            QueryServiceRpc rpc,
-            ScheduledExecutorService scheduler,
-            int minSize,
-            int maxSize,
+    SessionPool(Clock clock, QueryServiceRpc rpc, ScheduledExecutorService scheduler, int minSize, int maxSize,
             Duration idleDuration) {
         this.minSize = minSize;
 
@@ -148,7 +143,7 @@ public class QuerySessionPool implements AutoCloseable {
         return true;
     }
 
-    private class PooledQuerySession extends QuerySessionImpl {
+    private class PooledQuerySession extends SessionImpl {
         private final GrpcReadStream<Status> attachStream;
 
         private volatile Instant lastActive;
@@ -251,11 +246,6 @@ public class QuerySessionPool implements AutoCloseable {
                 queue.release(this);
             }
         }
-
-        @Override
-        public String toString() {
-            return "PooleadQueryStream[" + getId() + "]";
-        }
     }
 
     private class Handler implements WaitingQueue.Handler<PooledQuerySession> {
@@ -267,7 +257,7 @@ public class QuerySessionPool implements AutoCloseable {
 
         @Override
         public CompletableFuture<PooledQuerySession> create() {
-            return QuerySessionImpl
+            return SessionImpl
                     .createSession(rpc, CREATE_SETTINGS, true)
                     .thenApply(Result::getValue)
                     .thenCompose(resp -> new PooledQuerySession(rpc, resp).start())
@@ -286,7 +276,6 @@ public class QuerySessionPool implements AutoCloseable {
 
         CleanerTask(Duration idleDuration) {
             this.maxIdleTimeMillis = idleDuration.toMillis();
-
             // Cleaner task execution frequency limit - must be executed at least 3 times
             // for idle, but no more than once every 500 ms
             this.periodMillis = Math.max(500, maxIdleTimeMillis / 3);

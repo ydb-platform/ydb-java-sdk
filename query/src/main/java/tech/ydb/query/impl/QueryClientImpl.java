@@ -17,11 +17,11 @@ import tech.ydb.query.QuerySession;
  * @author Aleksandr Gorshenin
  */
 public class QueryClientImpl implements  QueryClient {
-    private final QuerySessionPool pool;
+    private final SessionPool pool;
     private final ScheduledExecutorService scheduler;
 
     public QueryClientImpl(Builder builder) {
-        this.pool = new QuerySessionPool(
+        this.pool = new SessionPool(
                 Clock.systemUTC(),
                 new QueryServiceRpc(builder.transport),
                 builder.transport.getScheduler(),

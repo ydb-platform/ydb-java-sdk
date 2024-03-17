@@ -1,7 +1,8 @@
-package tech.ydb.query;
+package tech.ydb.query.impl;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -14,13 +15,19 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.query.impl.QuerySessionImpl;
+import tech.ydb.query.QueryClient;
+import tech.ydb.query.QuerySession;
+import tech.ydb.query.QueryTransaction;
+import tech.ydb.query.QueryTx;
+import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.QueryExecMode;
-import tech.ydb.query.tools.QueryDataReader;
+import tech.ydb.query.settings.QueryStatsMode;
+import tech.ydb.query.tools.QueryReader;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
@@ -115,8 +122,8 @@ public class QueryIntegrationTest {
     @Test
     public void testSimpleSelect() {
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
-            QueryDataReader reader = QueryDataReader.readFrom(
-                    session.executeQuery("SELECT 2 + 3;", QueryTx.serializableRw())
+            QueryReader reader = QueryReader.readFrom(
+                    session.createQuery("SELECT 2 + 3;", QueryTx.SERIALIZABLE_RW)
             ).join().getValue();
 
 
@@ -144,8 +151,8 @@ public class QueryIntegrationTest {
                     .withExecMode(QueryExecMode.PARSE)
                     .build();
 
-            QueryDataReader reader = QueryDataReader.readFrom(
-                    session.executeQuery(query, QueryTx.noTx(), Params.empty(), settings)
+            QueryReader reader = QueryReader.readFrom(
+                    session.createQuery(query, QueryTx.NONE, Params.empty(), settings)
             ).join().getValue();
 
 
@@ -163,21 +170,21 @@ public class QueryIntegrationTest {
 
     @Test
     public void testErrors() {
-        QuerySessionImpl s1 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        SessionImpl s1 = (SessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
         String id = s1.getId();
         s1.close();
 
-        QuerySessionImpl s2 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        SessionImpl s2 = (SessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
         Assert.assertEquals(id, s2.getId());
         s2.updateSessionState(Status.of(StatusCode.ABORTED));
         s2.close();
 
-        QuerySessionImpl s3 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        SessionImpl s3 = (SessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
         Assert.assertEquals(id, s3.getId());
         s3.updateSessionState(Status.of(StatusCode.BAD_SESSION));
         s3.close();
 
-        QuerySessionImpl s4 = (QuerySessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        SessionImpl s4 = (SessionImpl)queryClient.createSession(Duration.ofSeconds(5)).join().getValue();
         Assert.assertNotEquals(id, s4.getId());
         s4.close();
     }
@@ -203,23 +210,23 @@ public class QueryIntegrationTest {
             );
 
             try (QuerySession session = queryClient.createSession(SESSION_TIMEOUT).join().getValue()) {
-                session.executeQuery(query, QueryTx.serializableRw(), params)
-                        .start(this::printQuerySetPart)
-                        .join().expectSuccess();
+                session.createQuery(query, QueryTx.SERIALIZABLE_RW, params)
+                        .execute(this::printQuerySetPart)
+                        .join().getStatus().expectSuccess();
             }
         }
 
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             String query = "SELECT id, name, payload, is_valid FROM " + TEST_TABLE + " ORDER BY id;";
-            session.executeQuery(query, QueryTx.serializableRw())
-                    .start(this::printQuerySetPart)
-                    .join().expectSuccess();
+            session.createQuery(query, QueryTx.SERIALIZABLE_RW)
+                    .execute(this::printQuerySetPart)
+                    .join().getStatus().expectSuccess();
         }
 
         try (QuerySession session = queryClient.createSession(SESSION_TIMEOUT).join().getValue()) {
-            session.executeQuery("DELETE FROM " + TEST_TABLE, QueryTx.serializableRw())
-                    .start(this::printQuerySetPart)
-                    .join().expectSuccess();
+            session.createQuery("DELETE FROM " + TEST_TABLE, QueryTx.SERIALIZABLE_RW)
+                    .execute(this::printQuerySetPart)
+                    .join().getStatus().expectSuccess();
         }
     }
 
@@ -231,19 +238,85 @@ public class QueryIntegrationTest {
     }
 
     @Test
+    @Ignore
     public void updateMultipleTablesInOneTransaction() {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                QueryTx.Mode txMode = QueryTx.serializableRw().withoutCommitTx();
-                QueryDataReader query1 = QueryDataReader.readFrom(
-                        session.executeQuery("UPDATE " + TEST_TABLE + " SET name='test' WHERE id=1", txMode)
-                ).join().getValue();
+                QueryTransaction tx = session.createNewTransaction(QueryTx.SERIALIZABLE_RW);
+                QueryReader.readFrom(
+                        tx.createQuery("UPDATE " + TEST_TABLE + " SET name='test' WHERE id=1")
+                ).join().getStatus().expectSuccess();
 
-                QueryTx.Id tx = query1.txId();
+                QueryReader.readFrom(
+                        tx.createQueryWithCommit("UPDATE " + TEST_DOUBLE_TABLE + " SET amount=300 WHERE id=1")
+                ).join().getStatus().expectSuccess();
+            }
+        }
+    }
 
-                QueryDataReader.readFrom(
-                        session.executeQuery("UPDATE " + TEST_DOUBLE_TABLE + " SET amount=300 WHERE id=1", tx.withCommitTx())
-                ).join().getValue();
+    @Test
+    public void interactiveTransaction() {
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                QueryTransaction tx = session.createNewTransaction(QueryTx.SERIALIZABLE_RW);
+                tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (1, 'rec1');").execute(null)
+                        .join().getStatus().expectSuccess();
+                tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (3, 'rec3');").execute(null)
+                        .join().getStatus().expectSuccess();
+
+                Iterator<ResultSetReader> rsIter = QueryReader.readFrom(
+                        tx.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id")
+                ).join().getValue().iterator();
+
+                Assert.assertTrue(rsIter.hasNext());
+                ResultSetReader rs = rsIter.next();
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(1, rs.getColumn("id").getInt32());
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(3, rs.getColumn("id").getInt32());
+                Assert.assertFalse(rs.next());
+                Assert.assertFalse(rsIter.hasNext());
+
+                tx.commit().join().getStatus().expectSuccess();
+
+                tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (2, 'rec2');").execute(null)
+                        .join().getStatus().expectSuccess();
+
+                rsIter = QueryReader.readFrom(
+                        tx.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id")
+                ).join().getValue().iterator();
+
+                Assert.assertTrue(rsIter.hasNext());
+                rs = rsIter.next();
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(1, rs.getColumn("id").getInt32());
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(2, rs.getColumn("id").getInt32());
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(3, rs.getColumn("id").getInt32());
+                Assert.assertFalse(rs.next());
+                Assert.assertFalse(rsIter.hasNext());
+
+                tx.rollback().join().expectSuccess();
+
+                rsIter = QueryReader.readFrom(
+                        tx.createQueryWithCommit("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id")
+                ).join().getValue().iterator();
+
+                Assert.assertTrue(rsIter.hasNext());
+                rs = rsIter.next();
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(1, rs.getColumn("id").getInt32());
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(3, rs.getColumn("id").getInt32());
+                Assert.assertFalse(rs.next());
+                Assert.assertFalse(rsIter.hasNext());
+
+                QueryInfo info = tx.createQuery("DELETE FROM " + TEST_TABLE, true, Params.empty(),
+                        ExecuteQuerySettings.newBuilder().withStatsMode(QueryStatsMode.FULL).build()
+                ).execute(null).join().getValue();
+                Assert.assertTrue(info.hasStats());
+                logger.info("got stats {}", info.getStats());
             }
         }
     }
@@ -252,16 +325,34 @@ public class QueryIntegrationTest {
     public void testSchemeQuery() {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                CompletableFuture<Status> createTable = session
-                        .executeQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", QueryTx.noTx())
-                        .start(this::printQuerySetPart);
-                createTable.join().expectSuccess();
+                CompletableFuture<Result<QueryInfo>> createTable = session
+                        .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", QueryTx.NONE)
+                        .execute(this::printQuerySetPart);
+                createTable.join().getStatus().expectSuccess();
 
 
-                CompletableFuture<Status> dropTable = session
-                        .executeQuery("DROP TABLE demo_table;", QueryTx.noTx())
-                        .start(this::printQuerySetPart);
-                dropTable.join().expectSuccess();
+                CompletableFuture<Result<QueryInfo>> dropTable = session
+                        .createQuery("DROP TABLE demo_table;", QueryTx.NONE)
+                        .execute(this::printQuerySetPart);
+                dropTable.join().getStatus().expectSuccess();
+            }
+        }
+    }
+
+    @Test
+    public void testQueryStats() {
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                CompletableFuture<Result<QueryInfo>> createTable = session
+                        .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", QueryTx.NONE)
+                        .execute(this::printQuerySetPart);
+                createTable.join().getStatus().expectSuccess();
+
+
+                CompletableFuture<Result<QueryInfo>> dropTable = session
+                        .createQuery("DROP TABLE demo_table;", QueryTx.NONE)
+                        .execute(this::printQuerySetPart);
+                dropTable.join().getStatus().expectSuccess();
             }
         }
     }

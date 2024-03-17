@@ -28,15 +28,22 @@ public interface QueryTransaction {
     CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings);
     CompletableFuture<Status> rollback(RollbackTransactionSettings settings);
 
-    QueryStream createQuery(String query, Params prms, ExecuteQuerySettings settings);
-    QueryStream createQueryWithCommit(String query, Params prms, ExecuteQuerySettings settings);
+    QueryStream createQuery(String query, boolean commitAtEnd, Params prms, ExecuteQuerySettings settings);
 
     default QueryStream createQuery(String query) {
-        return createQuery(query, Params.empty(), ExecuteQuerySettings.newBuilder().build());
+        return createQuery(query, false, Params.empty(), ExecuteQuerySettings.newBuilder().build());
     }
 
     default QueryStream createQuery(String query, Params prms) {
-        return createQuery(query, prms, ExecuteQuerySettings.newBuilder().build());
+        return createQuery(query, false, prms, ExecuteQuerySettings.newBuilder().build());
+    }
+
+    default QueryStream createQueryWithCommit(String query) {
+        return createQuery(query, true, Params.empty(), ExecuteQuerySettings.newBuilder().build());
+    }
+
+    default QueryStream createQueryWithCommit(String query, Params prms) {
+        return createQuery(query, true, prms, ExecuteQuerySettings.newBuilder().build());
     }
 
     default CompletableFuture<Result<QueryInfo>> commit() {
