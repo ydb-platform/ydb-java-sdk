@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
 
@@ -28,24 +27,17 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     private static final Logger logger = LoggerFactory.getLogger(ReadStreamCall.class);
 
     private final ClientCall<W, R> call;
-    private final GrpcStatusHandler statusConsumer;
+    private final GrpcStatusHandler statusHandler;
     private final Metadata headers;
     private final AuthCallOptions callOptions;
 
-    private final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
-    private final AtomicReference<Observer<R>> observerReference = new AtomicReference<>();
     private final Queue<W> messagesQueue = new ArrayDeque<>();
 
-    public ReadWriteStreamCall(
-            ClientCall<W, R> call,
-            Metadata headers,
-            AuthCallOptions callOptions,
-            GrpcStatusHandler statusConsumer
-    ) {
+    public ReadWriteStreamCall(ClientCall<W, R> call, Metadata meta, AuthCallOptions auth, GrpcStatusHandler handler) {
         this.call = call;
-        this.headers = headers != null ? headers : new Metadata();
-        this.statusConsumer = statusConsumer;
-        this.callOptions = callOptions;
+        this.headers = meta != null ? meta : new Metadata();
+        this.statusHandler = handler;
+        this.callOptions = auth;
     }
 
     @Override
@@ -55,13 +47,45 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
 
     @Override
     public CompletableFuture<Status> start(Observer<R> observer) {
-        if (!observerReference.compareAndSet(null, observer)) {
-            throw new IllegalStateException("Read stream call is already started");
-        }
+        final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
 
         synchronized (call) {
             try {
-                call.start(this, headers);
+                call.start(new ClientCall.Listener<R>() {
+                    @Override
+                    public void onMessage(R message) {
+                        try {
+                            if (observer != null) {
+                                observer.onNext(message);
+                            }
+                            // request delivery of the next inbound message.
+                            synchronized (call) {
+                                call.request(1);
+                            }
+                        } catch (Exception ex) {
+                            statusFuture.completeExceptionally(ex);
+
+                            try {
+                                synchronized (call) {
+                                    call.cancel("Canceled by exception from observer", ex);
+                                }
+                            } catch (Throwable th) {
+                                logger.error("Exception encountered while canceling the read write stream call", th);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
+                        statusHandler.accept(status, trailers);
+
+                        if (status.isOk()) {
+                            statusFuture.complete(Status.SUCCESS);
+                        } else {
+                            statusFuture.complete(GrpcStatuses.toStatus(status));
+                        }
+                    }
+                }, headers);
                 call.request(1);
             } catch (Throwable t) {
                 try {
@@ -109,27 +133,6 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     }
 
     @Override
-    public void onMessage(R message) {
-        try {
-            observerReference.get().onNext(message);
-            // request delivery of the next inbound message.
-            synchronized (call) {
-                call.request(1);
-            }
-        } catch (Exception ex) {
-            statusFuture.completeExceptionally(ex);
-
-            try {
-                synchronized (call) {
-                    call.cancel("Canceled by exception from observer", ex);
-                }
-            } catch (Throwable th) {
-                logger.error("Exception encountered while canceling the read write stream call", th);
-            }
-        }
-    }
-
-    @Override
     public void onReady() {
         synchronized (call) {
             flush();
@@ -140,17 +143,6 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     public void close() {
         synchronized (call) {
             call.halfClose();
-        }
-    }
-
-    @Override
-    public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
-        statusConsumer.accept(status, trailers);
-
-        if (status.isOk()) {
-            statusFuture.complete(Status.SUCCESS);
-        } else {
-            statusFuture.complete(GrpcStatuses.toStatus(status));
         }
     }
 }
