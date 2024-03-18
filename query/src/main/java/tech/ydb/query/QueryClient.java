@@ -20,9 +20,9 @@ public interface QueryClient extends AutoCloseable {
     }
 
     /**
-     * Create new session asynchronous
-     *
-     * @param duration - timeout of operation completion waiting
+     * Return a future with {@link QuerySession} for further work. The session will be taken from the session pool if
+     * it has any idle session or will be created on the fly
+     * @param duration timeout of operation completion waiting
      * @return Return a new CompletableFuture that is completed with successful
      * Result when session created, and fail Result otherwise
      */

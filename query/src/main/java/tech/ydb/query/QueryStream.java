@@ -19,4 +19,7 @@ public interface QueryStream {
 
     void cancel();
 
+    default CompletableFuture<Result<QueryInfo>> execute() {
+        return execute(null);
+    };
 }
