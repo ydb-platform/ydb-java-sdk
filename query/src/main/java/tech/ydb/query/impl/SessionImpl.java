@@ -206,7 +206,7 @@ abstract class SessionImpl implements QuerySession {
         return new StreamImpl(createGrpcStream(query, tc, prms, settings)) {
             @Override
             void handleTxMeta(YdbQuery.TransactionMeta meta) {
-                String txID = meta.getId();
+                String txID = meta == null ? null : meta.getId();
                 if (txID != null && !txID.isEmpty()) {
                     logger.warn("{} got unexpected transaction id {}", SessionImpl.this, txID);
                 }
@@ -269,6 +269,7 @@ abstract class SessionImpl implements QuerySession {
                 updateSessionState(status);
 
                 if (!status.isSuccess()) {
+                    handleTxMeta(null);
                     result.complete(Result.fail(status));
                     return;
                 }
@@ -345,7 +346,7 @@ abstract class SessionImpl implements QuerySession {
             return new StreamImpl(createGrpcStream(query, tc, prms, settings)) {
                 @Override
                 void handleTxMeta(YdbQuery.TransactionMeta meta) {
-                    String newId = meta.getId() == null || meta.getId().isEmpty() ? null : meta.getId();
+                    String newId = meta == null || meta.getId() == null || meta.getId().isEmpty() ? null : meta.getId();
                     if (!txId.compareAndSet(currentId, newId)) {
                         logger.warn("{} lost transaction meta id {}", SessionImpl.this, newId);
                     }
