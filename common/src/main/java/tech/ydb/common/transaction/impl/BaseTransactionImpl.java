@@ -5,13 +5,14 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.core.Status;
 
 /**
  * @author Nikolay Perfilov
  */
 public abstract class BaseTransactionImpl implements BaseTransaction {
     protected final String txId;
-    protected final Queue<Runnable> onRollbackActions = new ConcurrentLinkedQueue<>();
+    protected final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
     protected final Queue<CompletableFuture<?>> futuresToWaitBeforeCommit = new ConcurrentLinkedQueue<>();
 
     protected BaseTransactionImpl(String txId) {
@@ -24,8 +25,8 @@ public abstract class BaseTransactionImpl implements BaseTransaction {
     }
 
     @Override
-    public void addOnRollbackAction(Runnable action) {
-        onRollbackActions.add(action);
+    public CompletableFuture<Status> getStatusFuture() {
+        return statusFuture;
     }
 
     @Override

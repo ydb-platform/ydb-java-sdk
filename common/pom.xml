@@ -21,6 +21,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>tech.ydb</groupId>
+            <artifactId>ydb-sdk-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>

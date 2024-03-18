@@ -169,9 +169,20 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
             logger.debug(str.toString());
         }
-        transaction.addOnRollbackAction(() -> session.closeDueToError(null,
-                new RuntimeException("Transaction {} with partition offsets from read session {} was rolled back. " +
-                        "Restarting read session")));
+        final ReadSessionImpl currentSession = session;
+        transaction.getStatusFuture().whenComplete((status, error) -> {
+            if (error != null) {
+                currentSession.closeDueToError(null,
+                        new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
+                                " with partition offsets from read session " + currentSession.fullId +
+                                " was not committed with reason: " + error));
+            } else if (!status.isSuccess()) {
+                currentSession.closeDueToError(null,
+                        new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
+                                " with partition offsets from read session " + currentSession.fullId +
+                                " was not committed with status: " + status));
+            }
+        });
         YdbTopic.UpdateOffsetsInTransactionRequest.Builder requestBuilder = YdbTopic.UpdateOffsetsInTransactionRequest
                 .newBuilder()
                 .setTx(YdbTopic.TransactionIdentity.newBuilder()
