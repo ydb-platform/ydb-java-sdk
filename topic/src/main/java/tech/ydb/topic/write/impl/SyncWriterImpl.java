@@ -33,19 +33,8 @@ public class SyncWriterImpl extends WriterImpl implements SyncWriter {
     }
 
     @Override
-    public void send(Message message) {
-        sendImpl(message, null, false).join();
-    }
-
-    @Override
     public void send(Message message, SendSettings sendSettings) {
         sendImpl(message, sendSettings, false).join();
-    }
-
-    @Override
-    public void send(Message message, long timeout, TimeUnit unit)
-            throws InterruptedException, ExecutionException, TimeoutException {
-        sendImpl(message, null, false).get(timeout, unit);
     }
 
     @Override
