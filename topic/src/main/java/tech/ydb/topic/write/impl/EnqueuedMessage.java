@@ -3,21 +3,27 @@ package tech.ydb.topic.write.impl;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.WriteAck;
 
+/**
+ * @author Nikolay Perfilov
+ */
 public class EnqueuedMessage {
     private final Message message;
     private final CompletableFuture<WriteAck> future = new CompletableFuture<>();
     private final AtomicBoolean isCompressed = new AtomicBoolean();
     private final AtomicBoolean isProcessingFailed = new AtomicBoolean();
     private final long uncompressedSizeBytes;
+    private final BaseTransaction transaction;
     private long compressedSizeBytes;
     private Long seqNo;
 
-    public EnqueuedMessage(Message message) {
+    public EnqueuedMessage(Message message, BaseTransaction transaction) {
         this.message = message;
         this.uncompressedSizeBytes = message.getData().length;
+        this.transaction = transaction;
     }
 
     public Message getMessage() {
@@ -66,5 +72,9 @@ public class EnqueuedMessage {
 
     public void setSeqNo(long seqNo) {
         this.seqNo = seqNo;
+    }
+
+    public BaseTransaction getTransaction() {
+        return transaction;
     }
 }

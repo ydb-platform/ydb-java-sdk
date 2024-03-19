@@ -140,11 +140,11 @@ public class MessageSender {
     }
 
     public void tryAddMessageToRequest(EnqueuedMessage message) {
-        if (message.getMessage().getTransaction() != currentTransaction) {
+        if (message.getTransaction() != currentTransaction) {
             if (messageCount > 0) {
                 sendWriteRequest();
             }
-            currentTransaction = message.getMessage().getTransaction();
+            currentTransaction = message.getTransaction();
         }
         long messageSeqNo = message.getSeqNo() == null
                 ? (message.getMessage().getSeqNo() == null ? ++seqNo : message.getMessage().getSeqNo())

@@ -4,6 +4,8 @@ import java.util.concurrent.CompletableFuture;
 
 import io.grpc.ExperimentalApi;
 
+import tech.ydb.common.transaction.BaseTransaction;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -22,6 +24,16 @@ public interface AsyncWriter {
      * @return {@link CompletableFuture} with {@link WriteAck} for write acknowledgement
      */
     CompletableFuture<WriteAck> send(Message message) throws QueueOverflowException;
+
+    /**
+     * Get a virtual writer that writes all messages in provided transaction.
+     * Such messages will be written only in case of transaction commit
+     * @param transaction a transaction that all messages in new writer will be linked to
+     * @return  a virtual writer.
+     * All messages sent from this writer will be linked to transaction provided in this method.
+     * Such messages will be considered by server as written only if transaction will be committed.
+     */
+    AsyncWriter getTransactionWriter(BaseTransaction transaction);
 
     /**
      * Stops internal threads and makes cleanup in background. Non-blocking

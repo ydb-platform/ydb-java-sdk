@@ -6,6 +6,8 @@ import java.util.concurrent.TimeoutException;
 
 import io.grpc.ExperimentalApi;
 
+import tech.ydb.common.transaction.BaseTransaction;
+
 
 /**
  * @author Nikolay Perfilov
@@ -40,6 +42,16 @@ public interface SyncWriter {
      */
     void send(Message message, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException;
+
+    /**
+     * Get a virtual writer that writes all messages in provided transaction.
+     * Such messages will be written only in case of transaction commit
+     * @param transaction a transaction that all messages in new writer will be linked to
+     * @return  a virtual writer.
+     * All messages sent from this writer will be linked to transaction provided in this method.
+     * Such messages will be considered by server as written only if transaction will be committed.
+     */
+    SyncWriter getTransactionWriter(BaseTransaction transaction);
 
     /**
      * Waits until all current writes will be sent to server and response will be received. Blocking
