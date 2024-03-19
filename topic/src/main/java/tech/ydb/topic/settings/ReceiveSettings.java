@@ -1,15 +1,29 @@
 package tech.ydb.topic.settings;
 
+import java.util.concurrent.TimeUnit;
+
 import tech.ydb.common.transaction.BaseTransaction;
 
 /**
  * @author Nikolay Perfilov
  */
 public class ReceiveSettings {
+    private Long timeout;
+    private TimeUnit timeoutTimeUnit;
     private final BaseTransaction transaction;
 
     private ReceiveSettings(Builder builder) {
+        this.timeout = builder.timeout;
+        this.timeoutTimeUnit = builder.timeoutTimeUnit;
         this.transaction = builder.transaction;
+    }
+
+    public Long getTimeout() {
+        return timeout;
+    }
+
+    public TimeUnit getTimeoutTimeUnit() {
+        return timeoutTimeUnit;
     }
 
     public BaseTransaction getTransaction() {
@@ -24,7 +38,22 @@ public class ReceiveSettings {
      * BUILDER
      */
     public static class Builder {
+        private Long timeout;
+        private TimeUnit timeoutTimeUnit;
         private BaseTransaction transaction;
+
+        /**
+         * Set timeout for receiving a message.
+         *
+         * @param timeout timeout for receiving a message
+         * @param unit {@link TimeUnit} for timeout
+         * @return Builder
+         */
+        public Builder setTimeout(long timeout, TimeUnit unit) {
+            this.timeout = timeout;
+            this.timeoutTimeUnit = unit;
+            return this;
+        }
 
         /**
          * Set transaction for receiving message.

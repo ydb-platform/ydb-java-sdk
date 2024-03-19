@@ -60,9 +60,9 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         initImpl().join();
     }
 
-    @Override
     @Nullable
-    public Message receive(ReceiveSettings receiveSettings, long timeout, TimeUnit unit) throws InterruptedException {
+    public Message receiveInternal(ReceiveSettings receiveSettings, long timeout, TimeUnit unit)
+            throws InterruptedException {
         if (isStopped.get()) {
             throw new RuntimeException("Reader was stopped");
         }
@@ -117,10 +117,14 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     public Message receive(ReceiveSettings receiveSettings) throws InterruptedException {
+        if (receiveSettings.getTimeout() != null) {
+            return receiveInternal(receiveSettings, receiveSettings.getTimeout(), receiveSettings.getTimeoutTimeUnit());
+        }
+
         Message result;
         // Poll to prevent infinite wait in case if reader was stopped
         do {
-            result = receive(receiveSettings, POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
+            result = receiveInternal(receiveSettings, POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
         } while (result == null);
         return result;
     }

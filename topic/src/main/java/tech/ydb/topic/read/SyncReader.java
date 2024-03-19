@@ -29,18 +29,7 @@ public interface SyncReader {
      * Throws {@link java.util.concurrent.TimeoutException} if timeout runs off
      *
      * @param settings  settings for receiving a Message
-     * @param timeout  timeout to wait a Message with
-     * @param unit  TimeUnit for timeout
-     * @return returns a {@link Message}, or null if the specified waiting time elapses before a message is available
-     */
-    @Nullable
-    Message receive(ReceiveSettings settings, long timeout, TimeUnit unit) throws InterruptedException;
-
-    /**
-     * Receive a {@link Message}. Blocks until a Message is received.
-     *
-     * @param settings  settings for receiving a Message
-     * @return {@link Message}
+     * @return returns a {@link Message}, or null if the specified timeout time elapses before a message is available
      */
     Message receive(ReceiveSettings settings) throws InterruptedException;
 
@@ -54,7 +43,9 @@ public interface SyncReader {
      */
     @Nullable
     default Message receive(long timeout, TimeUnit unit) throws InterruptedException {
-        return receive(ReceiveSettings.newBuilder().build(), timeout, unit);
+        return receive(ReceiveSettings.newBuilder()
+                .setTimeout(timeout, unit)
+                .build());
     }
 
     /**
