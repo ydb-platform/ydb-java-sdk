@@ -24,6 +24,7 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
 import tech.ydb.topic.write.InitResult;
@@ -152,7 +153,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
         this.encodingMessages.add(message);
 
-        BaseTransaction transaction = message.getMessage().getTransaction();
+        BaseTransaction transaction = message.getTransaction();
 
         if (transaction != null) {
             // Waiting for the message to be written before committing transaction
@@ -251,7 +252,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     // Outer future completes when message is put (or declined) into send buffer
     // Inner future completes on receiving write ack from server
-    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message, boolean instant) {
+    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message, SendSettings sendSettings,
+                                                                      boolean instant) {
         if (isStopped.get()) {
             throw new RuntimeException("Writer is already stopped");
         }
@@ -270,7 +272,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             isSeqNoProvided = message.getSeqNo() != null;
         }
 
-        EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message);
+        EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message, sendSettings);
 
         return tryToEnqueue(enqueuedMessage, instant).thenApply(v -> enqueuedMessage.getFuture());
     }

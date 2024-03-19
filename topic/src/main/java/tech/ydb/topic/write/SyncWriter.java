@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import io.grpc.ExperimentalApi;
+import tech.ydb.topic.settings.SendSettings;
 
 
 /**
@@ -31,6 +32,13 @@ public interface SyncWriter {
     void send(Message message);
 
     /**
+     * Send message. Blocks infinitely until the message is put into sending buffer.
+     * @param message message data to write
+     * @param settings send settings
+     */
+    void send(Message message, SendSettings settings);
+
+    /**
      * Send message. Blocks until the message is put into sending buffer.
      * If in-flight or memory usage limits is reached, waits until timeout expires and then
      * throws {@link TimeoutException} if message was not put into queue
@@ -39,6 +47,18 @@ public interface SyncWriter {
      * @param unit {@link TimeUnit} for timeout
      */
     void send(Message message, long timeout, TimeUnit unit)
+            throws InterruptedException, ExecutionException, TimeoutException;
+
+    /**
+     * Send message. Blocks until the message is put into sending buffer.
+     * If in-flight or memory usage limits is reached, waits until timeout expires and then
+     * throws {@link TimeoutException} if message was not put into queue
+     * @param message message data to write
+     * @param settings send settings
+     * @param timeout timeout to wait until message is punt into sending buffer
+     * @param unit {@link TimeUnit} for timeout
+     */
+    void send(Message message, SendSettings settings, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException;
 
     /**
