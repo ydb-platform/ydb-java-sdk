@@ -105,7 +105,7 @@ public class PeriodicDiscoveryTask implements Runnable {
     }
 
     private void scheduleNextDiscovery() {
-        logger.debug("schedule next discovery in {} seconds", DISCOVERY_PERIOD_MIN_SECONDS);
+        logger.trace("schedule next discovery in {} seconds", DISCOVERY_PERIOD_MIN_SECONDS);
         currentSchedule = scheduler.schedule(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
     }
 
