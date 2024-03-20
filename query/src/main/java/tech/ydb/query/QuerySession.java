@@ -22,15 +22,34 @@ import tech.ydb.table.query.Params;
 public interface QuerySession extends AutoCloseable {
 
     /**
+     * Return the identifier of the session
      *
-     * @return identifier of session
+     * @return identifier of the session
      */
     String getId();
 
+    /**
+     *
+     * @return current {@link QueryTransaction} of the session
+     */
     QueryTransaction currentTransaction();
 
+    /**
+     * Create a new <i>not active</i> {@link QueryTransaction}. This QueryTransaction will have no identifier and
+     * starts a transaction on server by execution any query
+     * @param txMode transaction mode
+     * @return new implicit transaction
+     */
     QueryTransaction createNewTransaction(QueryTx txMode);
 
+    /**
+     * Create and start a new <i>active</i> {@link QueryTransaction}. This method creates a transaction on the server
+     * and returns QueryTransaction which is ready to execute queries on this server transaction
+     *
+     * @param txMode transaction mode
+     * @param settings additional settings for request
+     * @return future with result of the transaction starting
+     */
     CompletableFuture<Result<QueryTransaction>> beginTransaction(QueryTx txMode, BeginTransactionSettings settings);
 
     /**
@@ -39,11 +58,11 @@ public interface QuerySession extends AutoCloseable {
      *
      * @param query text of query
      * @param tx transaction mode
-     * @param prms query parameters
+     * @param params query parameters
      * @param settings additional settings of query execution
-     * @return ready to execute an instance of {@link QueryStream}
+     * @return a ready to execute instance of {@link QueryStream}
      */
-    QueryStream createQuery(String query, QueryTx tx, Params prms, ExecuteQuerySettings settings);
+    QueryStream createQuery(String query, QueryTx tx, Params params, ExecuteQuerySettings settings);
 
     @Override
     void close();
@@ -54,11 +73,11 @@ public interface QuerySession extends AutoCloseable {
      *
      * @param query text of query
      * @param tx transaction mode
-     * @param prms query parameters
-     * @return ready to execute an instance of {@link QueryStream}
+     * @param params query parameters
+     * @return a ready to execute instance of {@link QueryStream}
      */
-    default QueryStream createQuery(String query, QueryTx tx, Params prms) {
-        return createQuery(query, tx, prms, ExecuteQuerySettings.newBuilder().build());
+    default QueryStream createQuery(String query, QueryTx tx, Params params) {
+        return createQuery(query, tx, params, ExecuteQuerySettings.newBuilder().build());
     }
 
     /**
@@ -67,13 +86,20 @@ public interface QuerySession extends AutoCloseable {
      *
      * @param query text of query
      * @param tx transaction mode
-     * @return ready to execute an instance of {@link QueryStream}
+     * @return a ready to execute instance of {@link QueryStream}
      */
     default QueryStream createQuery(String query, QueryTx tx) {
         return createQuery(query, tx, Params.empty(), ExecuteQuerySettings.newBuilder().build());
     }
 
-    default CompletableFuture<Result<QueryTransaction>> beginTransaction(QueryTx tx) {
-        return beginTransaction(tx, BeginTransactionSettings.newBuilder().build());
+    /**
+     * Create and start a new <i>active</i> {@link QueryTransaction}. This method creates a transaction on the server
+     * and returns QueryTransaction which is ready to execute queries on this server transaction
+     *
+     * @param txMode transaction mode
+     * @return future with result of the transaction starting
+     */
+    default CompletableFuture<Result<QueryTransaction>> beginTransaction(QueryTx txMode) {
+        return beginTransaction(txMode, BeginTransactionSettings.newBuilder().build());
     }
 }

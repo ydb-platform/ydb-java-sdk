@@ -12,18 +12,28 @@ import tech.ydb.table.query.Params;
 
 /**
  * Short-living object allows transactional execution of several queries in one interactive transaction.
+ * QueryTransaction can be used in implicit mode - without calling commit()/rollback(). When QueryTransaction is not
+ * active - any execution of query with commitAtEnd=false starts a new transaction. And execution of query with
+ * commitAtEnd=true commits this transaction.
+ *
  * @author Aleksandr Gorshenin
  */
 public interface QueryTransaction {
 
     /**
-     * Returns identifier of the transaction or null if the transaction is not active (not started/committed/rollbacked)
+     * Returns identifier of the transaction or null if the transaction is not active = (not
+     * started/committed/rolled back). When {@link QueryTransaction} is not active - any execution of the query created
+     * by {@code createQuery} starts a new transaction. When QueryTransaction is active - any call of {@code commit},
+     * {@code rollback} or execution of the query created by {@code createQuery} with {@code commitAtEnd}=true finishes
+     * the transaction
+     *
      * @return identifier of the transaction or null if the transaction is not active
      */
     String getId();
 
     /**
      * Returns {@link QueryTx} with mode of the transaction
+     *
      * @return the transaction mode
      */
     QueryTx getQueryTx();
@@ -34,11 +44,13 @@ public interface QueryTransaction {
 
     /**
      * Returns {@link QuerySession} that was used for creating the transaction
+     *
      * @return session that was used for creating the transaction
      */
     QuerySession getSession();
 
     CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings);
+
     CompletableFuture<Status> rollback(RollbackTransactionSettings settings);
 
     /**
@@ -47,11 +59,11 @@ public interface QueryTransaction {
      *
      * @param query text of query
      * @param commitAtEnd true if transaction must be committed after query execution
-     * @param prms query parameters
+     * @param params query parameters
      * @param settings additional settings of query execution
-     * @return ready to execute an instance of {@link QueryStream}
+     * @return a ready to execute instance of {@link QueryStream}
      */
-    QueryStream createQuery(String query, boolean commitAtEnd, Params prms, ExecuteQuerySettings settings);
+    QueryStream createQuery(String query, boolean commitAtEnd, Params params, ExecuteQuerySettings settings);
 
     /**
      * Creates {@link QueryStream} for executing query in this transaction. Transaction <i>will not be committed</i>
@@ -59,7 +71,7 @@ public interface QueryTransaction {
      * statement types depends on the chosen transaction type.
      *
      * @param query text of query
-     * @return ready to execute an instance of {@link QueryStream}
+     * @return a ready to execute instance of {@link QueryStream}
      */
     default QueryStream createQuery(String query) {
         return createQuery(query, false, Params.empty(), ExecuteQuerySettings.newBuilder().build());
@@ -71,11 +83,11 @@ public interface QueryTransaction {
      * statement types depends on the chosen transaction type.
      *
      * @param query text of query
-     * @param prms query parameters
-     * @return ready to execute an instance of {@link QueryStream}
+     * @param params query parameters
+     * @return a ready to execute instance of {@link QueryStream}
      */
-    default QueryStream createQuery(String query, Params prms) {
-        return createQuery(query, false, prms, ExecuteQuerySettings.newBuilder().build());
+    default QueryStream createQuery(String query, Params params) {
+        return createQuery(query, false, params, ExecuteQuerySettings.newBuilder().build());
     }
 
     /**
@@ -84,7 +96,7 @@ public interface QueryTransaction {
      * types depends on the chosen transaction type.
      *
      * @param query text of query
-     * @return ready to execute an instance of {@link QueryStream}
+     * @return a ready to execute instance of {@link QueryStream}
      */
     default QueryStream createQueryWithCommit(String query) {
         return createQuery(query, true, Params.empty(), ExecuteQuerySettings.newBuilder().build());
@@ -96,11 +108,11 @@ public interface QueryTransaction {
      * types depends on the chosen transaction type.
      *
      * @param query text of query
-     * @param prms query parameters
-     * @return ready to execute an instance of {@link QueryStream}
+     * @param params query parameters
+     * @return a ready to execute instance of {@link QueryStream}
      */
-    default QueryStream createQueryWithCommit(String query, Params prms) {
-        return createQuery(query, true, prms, ExecuteQuerySettings.newBuilder().build());
+    default QueryStream createQueryWithCommit(String query, Params params) {
+        return createQuery(query, true, params, ExecuteQuerySettings.newBuilder().build());
     }
 
     default CompletableFuture<Result<QueryInfo>> commit() {
