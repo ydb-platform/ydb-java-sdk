@@ -4,6 +4,17 @@
 * Core: Operation manager
 * Table: Added readRows operation in table service
 
+## 2.1.12 ##
+
+* Test common: Changed visibility of YdbDockerContainer
+* Core: Added async helpers to build the future chains
+
+## 2.1.11 ##
+
+* Transports: Add option withGrpcKeepAliveTime to enable grpc keep-alives
+* Table: Fixed creation and altering of dataColumns indexes in createTable/alterTable
+* Upgraded version of yc-auth to avoid jackson-databind vulnerability
+
 ## 2.1.10 ##
 
 * Topics: Added message metadata support

@@ -40,7 +40,4 @@ class YdbCallCredentials extends CallCredentials {
             applier.fail(Status.INTERNAL.withDescription("get token exception").withCause(ex));
         }
     }
-
-    @Override
-    public void thisUsesUnstableApi() { }
 }

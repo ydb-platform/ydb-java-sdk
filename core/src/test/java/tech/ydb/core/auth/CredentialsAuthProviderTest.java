@@ -5,7 +5,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
 
-import com.google.common.truth.Truth;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.protobuf.Any;
 import org.junit.Assert;
@@ -68,8 +67,8 @@ public class CredentialsAuthProviderTest {
 
         // With correct credentitals
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass1")) {
-            Truth.assertThat(identity.getToken()).isEqualTo(token);
-            Truth.assertThat(identity.getToken()).isEqualTo(token);
+            Assert.assertEquals(token, identity.getToken());
+            Assert.assertEquals(token, identity.getToken());
         }
 
         // With incorrect password
@@ -78,13 +77,13 @@ public class CredentialsAuthProviderTest {
                     UnexpectedResultException.class,
                     () -> identity.getToken()
             );
-            Truth.assertThat(ex.getStatus()).isEqualTo(unauthorized);
+            Assert.assertEquals(unauthorized, ex.getStatus());
 
             UnexpectedResultException ex2 = Assert.assertThrows(
                     UnexpectedResultException.class,
                     () -> identity.getToken()
             );
-            Truth.assertThat(ex2).isEqualTo(ex);
+            Assert.assertEquals(ex, ex2);
         }
     }
 
@@ -112,8 +111,8 @@ public class CredentialsAuthProviderTest {
 
         // With any credentials
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", null)) {
-            Truth.assertThat(identity.getToken()).isEqualTo(token);
-            Truth.assertThat(identity.getToken()).isEqualTo(token);
+            Assert.assertEquals(token, identity.getToken());
+            Assert.assertEquals(token, identity.getToken());
         }
 
         Mockito.when(transport.unaryCall(
@@ -131,7 +130,7 @@ public class CredentialsAuthProviderTest {
                     UnexpectedResultException.class,
                     () -> identity.getToken()
             );
-            Truth.assertThat(ex.getStatus()).isEqualTo(overloaded);
+            Assert.assertEquals(overloaded, ex.getStatus());
         }
     }
 
@@ -159,24 +158,24 @@ public class CredentialsAuthProviderTest {
 
         tech.ydb.auth.AuthIdentity identity = createAuth("user", "password");
 
-        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+        Assert.assertEquals(token1, identity.getToken());
 
         // When now is firstHour - token1 doesn't need to update
         Mockito.when(clock.instant()).thenReturn(firstHour);
-        Truth.assertThat(identity.getToken()).isEqualTo(token1);
-        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+        Assert.assertEquals(token1, identity.getToken());
+        Assert.assertEquals(token1, identity.getToken());
 
         Mockito.when(clock.instant()).thenReturn(firstHour.plusMillis(5));
-        Truth.assertThat(identity.getToken()).isEqualTo(token1);
-        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+        Assert.assertEquals(token1, identity.getToken());
+        Assert.assertEquals(token2, identity.getToken());
 
         Mockito.when(clock.instant()).thenReturn(secondHour);
-        Truth.assertThat(identity.getToken()).isEqualTo(token2);
-        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+        Assert.assertEquals(token2, identity.getToken());
+        Assert.assertEquals(token2, identity.getToken());
 
         Mockito.when(clock.instant()).thenReturn(secondHour.plusMillis(10));
-        Truth.assertThat(identity.getToken()).isEqualTo(token2);
-        Truth.assertThat(identity.getToken()).isEqualTo(token3);
+        Assert.assertEquals(token2, identity.getToken());
+        Assert.assertEquals(token3, identity.getToken());
 
         identity.close();
     }
@@ -198,11 +197,11 @@ public class CredentialsAuthProviderTest {
 
         tech.ydb.auth.AuthIdentity identity = createAuth("user", "password");
 
-        Truth.assertThat(identity.getToken()).isEqualTo(token1);
+        Assert.assertEquals(token1, identity.getToken());
 
         Mockito.when(clock.instant()).thenReturn(secondHour.plusMillis(1));
         // token1 is already expired, use sync request to new token
-        Truth.assertThat(identity.getToken()).isEqualTo(token2);
+        Assert.assertEquals(token2, identity.getToken());
 
         identity.close();
     }

@@ -22,12 +22,12 @@ jobs:
         MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           path: sdk
 
       - name: Set up JDK 8
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
@@ -53,7 +53,7 @@ jobs:
         working-directory: ./sdk
         run: mvn $MAVEN_ARGS install
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: ydb-platform/ydb-java-yc
           ref: develop
@@ -67,7 +67,7 @@ jobs:
         working-directory: ./yc
         run: mvn $MAVEN_ARGS -Dydb.auth-api.version=$AUTH_API_VERSION install
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           repository: ydb-platform/ydb-java-examples
           ref: develop

@@ -22,7 +22,7 @@ public class Changefeed {
             this.proto = proto;
         }
 
-        YdbTable.ChangefeedMode.Mode toPb() {
+        public YdbTable.ChangefeedMode.Mode toPb() {
             return proto;
         }
     }
@@ -36,7 +36,7 @@ public class Changefeed {
             this.proto = proto;
         }
 
-        YdbTable.ChangefeedFormat.Format toProto() {
+        public YdbTable.ChangefeedFormat.Format toProto() {
             return proto;
         }
     }
@@ -81,6 +81,7 @@ public class Changefeed {
         return retentionPeriod;
     }
 
+    @Deprecated
     public YdbTable.Changefeed toProto() {
         YdbTable.Changefeed.Builder builder = YdbTable.Changefeed.newBuilder()
                 .setName(name)

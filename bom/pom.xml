@@ -85,6 +85,11 @@
                 <artifactId>ydb-sdk-coordination</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>tech.ydb</groupId>
+                <artifactId>ydb-sdk-query</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>tech.ydb.test</groupId>
@@ -106,11 +111,25 @@
                 <groupId>tech.ydb.auth</groupId>
                 <artifactId>yc-auth-provider</artifactId>
                 <version>${yc-auth.version}</version>
+                <!-- Exclude grpc dependencies to avoid conflict with ydb-proto-api -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>tech.ydb.auth</groupId>
                 <artifactId>yc-auth-provider-shaded</artifactId>
                 <version>${yc-auth.version}</version>
+                <!-- Exclude grpc dependencies to avoid conflict with ydb-proto-api -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -120,7 +139,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.12.1</version>
                 <configuration>
                     <target>1.8</target>
                     <source>1.8</source>

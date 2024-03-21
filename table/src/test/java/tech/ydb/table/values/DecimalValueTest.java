@@ -4,13 +4,12 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Collections;
 
+import org.junit.Assert;
+import org.junit.Test;
+
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
 
-import com.google.common.truth.extensions.proto.ProtoTruth;
-import org.junit.Test;
-
-import static com.google.common.truth.Truth.assertThat;
 
 
 /**
@@ -23,27 +22,27 @@ public class DecimalValueTest {
         DecimalType type = DecimalType.of(13, 2);
         DecimalValue value = DecimalValue.fromBits(type, 0x0001, 0x0002);
 
-        assertThat(value.getType()).isEqualTo(DecimalType.of(13, 2));
-        assertThat(value.getHigh()).isEqualTo(0x0001);
-        assertThat(value.getLow()).isEqualTo(0x0002);
+        Assert.assertEquals(DecimalType.of(13, 2), value.getType());
+        Assert.assertEquals(0x0001, value.getHigh());
+        Assert.assertEquals(0x0002, value.getLow());
 
         // equals
-        assertThat(value).isEqualTo(DecimalValue.fromBits(type, 0x0001, 0x0002));
-        assertThat(value).isEqualTo(DecimalValue.fromBits(DecimalType.of(13, 2), 0x0001, 0x0002));
+        Assert.assertEquals(value, DecimalValue.fromBits(type, 0x0001, 0x0002));
+        Assert.assertEquals(value, DecimalValue.fromBits(DecimalType.of(13, 2), 0x0001, 0x0002));
 
-        assertThat(value).isNotEqualTo(DecimalValue.fromBits(type, 0x0001, 0x0003));
-        assertThat(value).isNotEqualTo(DecimalValue.fromBits(type, 0x0002, 0x0002));
-        assertThat(value).isNotEqualTo(DecimalValue.fromBits(DecimalType.of(12, 2), 0x0001, 0x0002));
-        assertThat(value).isNotEqualTo(DecimalValue.fromBits(DecimalType.of(13, 1), 0x0001, 0x0002));
+        Assert.assertNotEquals(value, DecimalValue.fromBits(type, 0x0001, 0x0003));
+        Assert.assertNotEquals(value, DecimalValue.fromBits(type, 0x0002, 0x0002));
+        Assert.assertNotEquals(value, DecimalValue.fromBits(DecimalType.of(12, 2), 0x0001, 0x0002));
+        Assert.assertNotEquals(value, DecimalValue.fromBits(DecimalType.of(13, 1), 0x0001, 0x0002));
 
         // hashCode
-        assertThat(value.hashCode()).isEqualTo(DecimalValue.fromBits(type, 0x0001, 0x0002).hashCode());
-        assertThat(value.hashCode()).isEqualTo(DecimalValue.fromBits(DecimalType.of(13, 2), 0x0001, 0x0002).hashCode());
+        Assert.assertEquals(value.hashCode(), DecimalValue.fromBits(type, 0x0001, 0x0002).hashCode());
+        Assert.assertEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(13, 2), 0x0001, 0x0002).hashCode());
 
-        assertThat(value.hashCode()).isNotEqualTo(DecimalValue.fromBits(type, 0x0001, 0x0003).hashCode());
-        assertThat(value.hashCode()).isNotEqualTo(DecimalValue.fromBits(type, 0x0002, 0x0002).hashCode());
-        assertThat(value.hashCode()).isNotEqualTo(DecimalValue.fromBits(DecimalType.of(12, 2), 0x0001, 0x0002).hashCode());
-        assertThat(value.hashCode()).isNotEqualTo(DecimalValue.fromBits(DecimalType.of(13, 1), 0x0001, 0x0002).hashCode());
+        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(type, 0x0001, 0x0003).hashCode());
+        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(type, 0x0002, 0x0002).hashCode());
+        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(12, 2), 0x0001, 0x0002).hashCode());
+        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(13, 1), 0x0001, 0x0002).hashCode());
     }
 
     @Test
@@ -52,9 +51,9 @@ public class DecimalValueTest {
         DecimalValue value = DecimalValue.fromBits(type, 0x0001, 0x0002);
 
         ValueProtos.Value valuePb = value.toPb();
-        ProtoTruth.assertThat(valuePb).isEqualTo(ProtoValue.fromDecimal(0x0001, 0x0002));
+        Assert.assertEquals(ProtoValue.fromDecimal(0x0001, 0x0002), valuePb);
 
-        assertThat(value).isEqualTo(ProtoValue.fromPb(type, valuePb));
+        Assert.assertTrue(ProtoValue.fromPb(type, valuePb).equals(value));
     }
 
     @Test
@@ -62,13 +61,13 @@ public class DecimalValueTest {
         DecimalType type = DecimalType.of(30, 2);
         DecimalValue value1 = DecimalValue.fromBits(type, 0x0000, 0x0002);
 
-        assertThat(value1.toString()).isEqualTo("0.02");
-        assertThat(value1.toUnscaledString()).isEqualTo("2");
+        Assert.assertEquals("0.02", value1.toString());
+        Assert.assertEquals("2", value1.toUnscaledString());
 
         // 2^32 = 18446744073709551616
         DecimalValue value2 = DecimalValue.fromBits(type, 0x0001, 0x0002);
-        assertThat(value2.toString()).isEqualTo("184467440737095516.18");
-        assertThat(value2.toUnscaledString()).isEqualTo("18446744073709551618");
+        Assert.assertEquals("184467440737095516.18", value2.toString());
+        Assert.assertEquals("18446744073709551618", value2.toUnscaledString());
     }
 
     @Test
@@ -79,9 +78,9 @@ public class DecimalValueTest {
 
         for (int i = 0; i < 100; i++) {
             DecimalValue value = type.newValue(inf);
-            assertThat(value.isInf()).isTrue();
-            assertThat(value.isNegative()).isFalse();
-            assertThat(value).isSameInstanceAs(DecimalValue.INF);
+            Assert.assertTrue(value.isInf());
+            Assert.assertFalse(value.isNegative());
+            Assert.assertSame(DecimalValue.INF, value);
             inf = inf.add(k);
         }
     }
@@ -94,9 +93,9 @@ public class DecimalValueTest {
 
         for (int i = 0; i < 100; i++) {
             DecimalValue value = type.newValue(inf);
-            assertThat(value.isNegativeInf()).isTrue();
-            assertThat(value.isNegative()).isTrue();
-            assertThat(value).isSameInstanceAs(DecimalValue.NEG_INF);
+            Assert.assertTrue(value.isNegativeInf());
+            Assert.assertTrue(value.isNegative());
+            Assert.assertSame(DecimalValue.NEG_INF, value);
             inf = inf.subtract(k);
         }
     }
@@ -105,78 +104,78 @@ public class DecimalValueTest {
     public void zero() {
         DecimalType type = DecimalType.of(DecimalType.MAX_PRECISION);
 
-        assertThat(type.newValue(0).isZero()).isTrue();
-        assertThat(type.newValue(0).toBigDecimal()).isEqualTo(BigDecimal.ZERO);
-        assertThat(type.newValue(0).toBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(type.newValue(0).toString()).isEqualTo("0");
+        Assert.assertTrue(type.newValue(0).isZero());
+        Assert.assertEquals(BigDecimal.ZERO, type.newValue(0).toBigDecimal());
+        Assert.assertEquals(BigInteger.ZERO, type.newValue(0).toBigInteger());
+        Assert.assertEquals("0", type.newValue(0).toString());
 
-        assertThat(type.newValue(0, 0)).isEqualTo(type.newValue(0));
-        assertThat(type.newValue("0")).isEqualTo(type.newValue(0));
-        assertThat(type.newValueUnsigned(0)).isEqualTo(type.newValue(0));
-        assertThat(type.newValue(BigInteger.ZERO)).isEqualTo(type.newValue(0));
-        assertThat(type.newValue(BigDecimal.ZERO)).isEqualTo(type.newValue(0));
+        Assert.assertEquals(type.newValue(0, 0), type.newValue(0));
+        Assert.assertEquals(type.newValue("0"), type.newValue(0));
+        Assert.assertEquals(type.newValueUnsigned(0), type.newValue(0));
+        Assert.assertEquals(type.newValue(BigInteger.ZERO), type.newValue(0));
+        Assert.assertEquals(type.newValue(BigDecimal.ZERO), type.newValue(0));
 
         DecimalType ydb = DecimalType.getDefault();
-        assertThat(ydb.newValue(0).isZero()).isTrue();
-        assertThat(ydb.newValue(0).toBigDecimal()).isNotEqualTo(BigDecimal.ZERO);
-        assertThat(ydb.newValue(0).toBigDecimal()).isEqualTo(BigDecimal.ZERO.setScale(ydb.getScale()));
-        assertThat(ydb.newValue(0).toBigInteger()).isEqualTo(BigInteger.ZERO);
+        Assert.assertTrue(ydb.newValue(0).isZero());
+        Assert.assertNotEquals(BigDecimal.ZERO, ydb.newValue(0).toBigDecimal());
+        Assert.assertEquals(ydb.newValue(0).toBigDecimal(), BigDecimal.ZERO.setScale(ydb.getScale()));
+        Assert.assertEquals(ydb.newValue(0).toBigInteger(), BigInteger.ZERO);
     }
 
     @Test
     public void ofString() {
         DecimalType t = DecimalType.getDefault();
 
-        assertThat(t.newValue("inf")).isSameInstanceAs(DecimalValue.INF);
-        assertThat(t.newValue("Inf")).isSameInstanceAs(DecimalValue.INF);
-        assertThat(t.newValue("INF")).isSameInstanceAs(DecimalValue.INF);
-        assertThat(t.newValue("+inf")).isSameInstanceAs(DecimalValue.INF);
-        assertThat(t.newValue("+Inf")).isSameInstanceAs(DecimalValue.INF);
-        assertThat(t.newValue("+INF")).isSameInstanceAs(DecimalValue.INF);
-        assertThat(t.newValue("-inf")).isSameInstanceAs(DecimalValue.NEG_INF);
-        assertThat(t.newValue("-Inf")).isSameInstanceAs(DecimalValue.NEG_INF);
-        assertThat(t.newValue("-INF")).isSameInstanceAs(DecimalValue.NEG_INF);
-        assertThat(t.newValue("nan")).isSameInstanceAs(DecimalValue.NAN);
-        assertThat(t.newValue("Nan")).isSameInstanceAs(DecimalValue.NAN);
-        assertThat(t.newValue("NaN")).isSameInstanceAs(DecimalValue.NAN);
-        assertThat(t.newValue("NAN")).isSameInstanceAs(DecimalValue.NAN);
+        Assert.assertSame(DecimalValue.INF, t.newValue("inf"));
+        Assert.assertSame(DecimalValue.INF, t.newValue("Inf"));
+        Assert.assertSame(DecimalValue.INF, t.newValue("INF"));
+        Assert.assertSame(DecimalValue.INF, t.newValue("+inf"));
+        Assert.assertSame(DecimalValue.INF, t.newValue("+Inf"));
+        Assert.assertSame(DecimalValue.INF, t.newValue("+INF"));
+        Assert.assertSame(DecimalValue.NEG_INF, t.newValue("-inf"));
+        Assert.assertSame(DecimalValue.NEG_INF, t.newValue("-Inf"));
+        Assert.assertSame(DecimalValue.NEG_INF, t.newValue("-INF"));
+        Assert.assertSame(DecimalValue.NAN, t.newValue("nan"));
+        Assert.assertSame(DecimalValue.NAN, t.newValue("Nan"));
+        Assert.assertSame(DecimalValue.NAN, t.newValue("NaN"));
+        Assert.assertSame(DecimalValue.NAN, t.newValue("NAN"));
 
-        assertThat(t.newValue("0").isZero()).isTrue();
-        assertThat(t.newValue("00").isZero()).isTrue();
-        assertThat(t.newValue("0.0").isZero()).isTrue();
-        assertThat(t.newValue("00.00").isZero()).isTrue();
+        Assert.assertTrue(t.newValue("0").isZero());
+        Assert.assertTrue(t.newValue("00").isZero());
+        Assert.assertTrue(t.newValue("0.0").isZero());
+        Assert.assertTrue(t.newValue("00.00").isZero());
 
-        assertThat(t.newValue("1")).isEqualTo(t.newValue(1));
-        assertThat(t.newValue("12")).isEqualTo(t.newValue(12));
-        assertThat(t.newValue("123")).isEqualTo(t.newValue(123));
-        assertThat(t.newValue("1234")).isEqualTo(t.newValue(1234));
-        assertThat(t.newValue("12345")).isEqualTo(t.newValue(12345));
-        assertThat(t.newValue("123456")).isEqualTo(t.newValue(123456));
-        assertThat(t.newValue("1234567")).isEqualTo(t.newValue(1234567));
-        assertThat(t.newValue("12345678")).isEqualTo(t.newValue(12345678));
-        assertThat(t.newValue("123456789")).isEqualTo(t.newValue(123456789));
-        assertThat(t.newValue("1234567890")).isEqualTo(t.newValue(1234567890));
-        assertThat(t.newValue("12345678901")).isEqualTo(t.newValue(12345678901L));
-        assertThat(t.newValue("1234567890123456789")).isEqualTo(t.newValue(1234567890123456789L));
+        Assert.assertEquals(t.newValue("1"), t.newValue(1));
+        Assert.assertEquals(t.newValue("12"), t.newValue(12));
+        Assert.assertEquals(t.newValue("123"), t.newValue(123));
+        Assert.assertEquals(t.newValue("1234"), t.newValue(1234));
+        Assert.assertEquals(t.newValue("12345"), t.newValue(12345));
+        Assert.assertEquals(t.newValue("123456"), t.newValue(123456));
+        Assert.assertEquals(t.newValue("1234567"), t.newValue(1234567));
+        Assert.assertEquals(t.newValue("12345678"), t.newValue(12345678));
+        Assert.assertEquals(t.newValue("123456789"), t.newValue(123456789));
+        Assert.assertEquals(t.newValue("1234567890"), t.newValue(1234567890));
+        Assert.assertEquals(t.newValue("12345678901"), t.newValue(12345678901L));
+        Assert.assertEquals(t.newValue("1234567890123456789"), t.newValue(1234567890123456789L));
 
-        assertThat(t.newValue("-1")).isEqualTo(t.newValue(-1));
-        assertThat(t.newValue("-12")).isEqualTo(t.newValue(-12));
-        assertThat(t.newValue("-123")).isEqualTo(t.newValue(-123));
-        assertThat(t.newValue("-1234")).isEqualTo(t.newValue(-1234));
-        assertThat(t.newValue("-12345")).isEqualTo(t.newValue(-12345));
-        assertThat(t.newValue("-123456")).isEqualTo(t.newValue(-123456));
-        assertThat(t.newValue("-1234567")).isEqualTo(t.newValue(-1234567));
-        assertThat(t.newValue("-12345678")).isEqualTo(t.newValue(-12345678));
-        assertThat(t.newValue("-123456789")).isEqualTo(t.newValue(-123456789));
-        assertThat(t.newValue("-1234567890")).isEqualTo(t.newValue(-1234567890));
-        assertThat(t.newValue("-12345678901")).isEqualTo(t.newValue(-12345678901L));
-        assertThat(t.newValue("-1234567890123456789")).isEqualTo(t.newValue(-1234567890123456789L));
+        Assert.assertEquals(t.newValue("-1"), t.newValue(-1));
+        Assert.assertEquals(t.newValue("-12"), t.newValue(-12));
+        Assert.assertEquals(t.newValue("-123"), t.newValue(-123));
+        Assert.assertEquals(t.newValue("-1234"), t.newValue(-1234));
+        Assert.assertEquals(t.newValue("-12345"), t.newValue(-12345));
+        Assert.assertEquals(t.newValue("-123456"), t.newValue(-123456));
+        Assert.assertEquals(t.newValue("-1234567"), t.newValue(-1234567));
+        Assert.assertEquals(t.newValue("-12345678"), t.newValue(-12345678));
+        Assert.assertEquals(t.newValue("-123456789"), t.newValue(-123456789));
+        Assert.assertEquals(t.newValue("-1234567890"), t.newValue(-1234567890));
+        Assert.assertEquals(t.newValue("-12345678901"), t.newValue(-12345678901L));
+        Assert.assertEquals(t.newValue("-1234567890123456789"), t.newValue(-1234567890123456789L));
 
         DecimalType t2 = DecimalType.of(DecimalType.MAX_PRECISION, 3);
         // fraction part is smaller than scale
-        assertThat(t2.newValue("12345678.9")).isEqualTo(DecimalValue.fromUnscaledLong(t2, 12345678900L));
+        Assert.assertEquals(t2.newValue("12345678.9"), DecimalValue.fromUnscaledLong(t2, 12345678900L));
         // fraction part is bigger than scale
-        assertThat(t2.newValue("123456.789")).isEqualTo(DecimalValue.fromUnscaledLong(t2, 123456789L));
+        Assert.assertEquals(t2.newValue("123456.789"), DecimalValue.fromUnscaledLong(t2, 123456789L));
     }
 
     @Test
@@ -184,19 +183,19 @@ public class DecimalValueTest {
         DecimalType t = DecimalType.getDefault();
         String zeros = "." + String.join("", Collections.nCopies(t.getScale(), "0"));
 
-        assertThat(t.newValueUnsigned(0).isZero()).isTrue();
-        assertThat(t.newValueUnsigned(1).toString()).isEqualTo("1" + zeros);
-        assertThat(t.newValueUnsigned(Long.MAX_VALUE).toString()).isEqualTo(Long.toUnsignedString(Long.MAX_VALUE) + zeros);
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toString()).isEqualTo(Long.toUnsignedString(Long.MIN_VALUE) + zeros);
-        assertThat(t.newValueUnsigned(-1).toString()).isEqualTo(Long.toUnsignedString(-1) + zeros);
+        Assert.assertTrue(t.newValueUnsigned(0).isZero());
+        Assert.assertEquals(t.newValueUnsigned(1).toString(), "1" + zeros);
+        Assert.assertEquals(t.newValueUnsigned(Long.MAX_VALUE).toString(), Long.toUnsignedString(Long.MAX_VALUE) + zeros);
+        Assert.assertEquals(t.newValueUnsigned(Long.MIN_VALUE).toString(), Long.toUnsignedString(Long.MIN_VALUE) + zeros);
+        Assert.assertEquals(t.newValueUnsigned(-1).toString(), Long.toUnsignedString(-1) + zeros);
 
         BigInteger maxUint64 = BigInteger.valueOf(0xffffffffL).shiftLeft(32).or(BigInteger.valueOf(0xffffffffL));
 
         BigInteger unscaledMaxUint64 = maxUint64.multiply(BigInteger.TEN.pow(t.getScale()));
 
-        assertThat(t.newValueUnsigned(-1).toBigInteger()).isEqualTo(maxUint64);
-        assertThat(t.newValueUnsigned(-1).toUnscaledBigInteger()).isEqualTo(unscaledMaxUint64);
-        assertThat(t.newValueUnsigned(-1).toBigDecimal()).isEqualTo(new BigDecimal(unscaledMaxUint64, t.getScale()));
+        Assert.assertEquals(t.newValueUnsigned(-1).toBigInteger(), maxUint64);
+        Assert.assertEquals(t.newValueUnsigned(-1).toUnscaledBigInteger(), unscaledMaxUint64);
+        Assert.assertEquals(t.newValueUnsigned(-1).toBigDecimal(), new BigDecimal(unscaledMaxUint64, t.getScale()));
     }
 
     @Test
@@ -204,19 +203,19 @@ public class DecimalValueTest {
         DecimalType t = DecimalType.getDefault();
         String zeros = "." + String.join("", Collections.nCopies(t.getScale(), "0"));
 
-        assertThat(t.newValue(0).isZero()).isTrue();
-        assertThat(t.newValue(1).toString()).isEqualTo("1" + zeros);
-        assertThat(t.newValue(Long.MAX_VALUE).toString()).isEqualTo(Long.toString(Long.MAX_VALUE) + zeros);
-        assertThat(t.newValue(Long.MIN_VALUE).toString()).isEqualTo(Long.toString(Long.MIN_VALUE) + zeros);
-        assertThat(t.newValue(-1).toString()).isEqualTo(Long.toString(-1) + zeros);
+        Assert.assertTrue(t.newValue(0).isZero());
+        Assert.assertEquals(t.newValue(1).toString(), "1" + zeros);
+        Assert.assertEquals(t.newValue(Long.MAX_VALUE).toString(), Long.toString(Long.MAX_VALUE) + zeros);
+        Assert.assertEquals(t.newValue(Long.MIN_VALUE).toString(), Long.toString(Long.MIN_VALUE) + zeros);
+        Assert.assertEquals(t.newValue(-1).toString(), Long.toString(-1) + zeros);
 
         BigInteger rawMinusOne = BigInteger.valueOf(-1)
                 .multiply(BigInteger.TEN.pow(t.getScale()));
 
-        assertThat(t.newValue(-1).toBigInteger()).isEqualTo(BigInteger.valueOf(-1));
-        assertThat(t.newValue(-1).toUnscaledBigInteger()).isEqualTo(rawMinusOne);
-        assertThat(t.newValue(-1).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1).setScale(t.getScale()));
-        assertThat(t.newValue(-1).toBigDecimal()).isEqualTo(new BigDecimal(rawMinusOne, t.getScale()));
+        Assert.assertEquals(t.newValue(-1).toBigInteger(), BigInteger.valueOf(-1));
+        Assert.assertEquals(t.newValue(-1).toUnscaledBigInteger(), rawMinusOne);
+        Assert.assertEquals(t.newValue(-1).toBigDecimal(), BigDecimal.valueOf(-1).setScale(t.getScale()));
+        Assert.assertEquals(t.newValue(-1).toBigDecimal(), new BigDecimal(rawMinusOne, t.getScale()));
     }
 
     @Test
@@ -224,75 +223,75 @@ public class DecimalValueTest {
         DecimalType t = DecimalType.of(DecimalType.MAX_PRECISION);
 
         // zero
-        assertThat(t.newValue(0).isZero()).isTrue();
+        Assert.assertTrue(t.newValue(0).isZero());
 
         // one
-        assertThat(t.newValue(1)).isEqualTo(t.newValueUnscaled(1));
-        assertThat(t.newValue(1)).isEqualTo(t.newValueUnsigned(1));
+        Assert.assertEquals(t.newValue(1), t.newValueUnscaled(1));
+        Assert.assertEquals(t.newValue(1), t.newValueUnsigned(1));
 
-        assertThat(t.newValue(1).getHigh()).isEqualTo(0);
-        assertThat(t.newValue(1).getLow()).isEqualTo(1);
-        assertThat(t.newValue(1).toLong()).isEqualTo(1);
-        assertThat(t.newValue(1).toBigDecimal()).isEqualTo(BigDecimal.ONE);
-        assertThat(t.newValue(1).toBigInteger()).isEqualTo(BigInteger.ONE);
-        assertThat(t.newValue(1).toUnscaledBigInteger()).isEqualTo(BigInteger.ONE);
-        assertThat(t.newValue(1).toString()).isEqualTo("1");
-        assertThat(t.newValue(1).toUnscaledString()).isEqualTo("1");
+        Assert.assertEquals(0, t.newValue(1).getHigh());
+        Assert.assertEquals(1, t.newValue(1).getLow());
+        Assert.assertEquals(1, t.newValue(1).toLong());
+        Assert.assertEquals(t.newValue(1).toBigDecimal(), BigDecimal.ONE);
+        Assert.assertEquals(t.newValue(1).toBigInteger(), BigInteger.ONE);
+        Assert.assertEquals(t.newValue(1).toUnscaledBigInteger(), BigInteger.ONE);
+        Assert.assertEquals("1", t.newValue(1).toString());
+        Assert.assertEquals("1", t.newValue(1).toUnscaledString());
 
         // -1 equals 0xFFFFFFFFFFFFFFFF or 18446744073709551615
-        assertThat(t.newValue(-1)).isEqualTo(t.newValueUnscaled(-1));
-        assertThat(t.newValue(-1)).isNotEqualTo(t.newValueUnsigned(-1));
+        Assert.assertEquals(t.newValue(-1), t.newValueUnscaled(-1));
+        Assert.assertNotEquals(t.newValue(-1), t.newValueUnsigned(-1));
 
-        assertThat(t.newValue(-1).getHigh()).isEqualTo(-1);
-        assertThat(t.newValue(-1).getLow()).isEqualTo(-1);
-        assertThat(t.newValue(-1).toLong()).isEqualTo(-1);
-        assertThat(t.newValue(-1).toBigDecimal()).isEqualTo(BigDecimal.ONE.negate());
-        assertThat(t.newValue(-1).toBigInteger()).isEqualTo(BigInteger.ONE.negate());
-        assertThat(t.newValue(-1).toUnscaledBigInteger()).isEqualTo(BigInteger.ONE.negate());
-        assertThat(t.newValue(-1).toString()).isEqualTo("-1");
-        assertThat(t.newValue(-1).toUnscaledString()).isEqualTo("-1");
+        Assert.assertEquals(-1, t.newValue(-1).getHigh());
+        Assert.assertEquals(-1, t.newValue(-1).getLow());
+        Assert.assertEquals(-1, t.newValue(-1).toLong());
+        Assert.assertEquals(BigDecimal.ONE.negate(), t.newValue(-1).toBigDecimal());
+        Assert.assertEquals(BigInteger.ONE.negate(), t.newValue(-1).toBigInteger());
+        Assert.assertEquals(BigInteger.ONE.negate(), t.newValue(-1).toUnscaledBigInteger());
+        Assert.assertEquals("-1", t.newValue(-1).toString());
+        Assert.assertEquals("-1", t.newValue(-1).toUnscaledString());
 
-        assertThat(t.newValueUnsigned(-1).getHigh()).isEqualTo(0);
-        assertThat(t.newValueUnsigned(-1).getLow()).isEqualTo(-1);
-        assertThat(t.newValueUnsigned(-1).toBigDecimal()).isEqualTo(new BigDecimal("18446744073709551615"));
-        assertThat(t.newValueUnsigned(-1).toBigInteger()).isEqualTo(new BigInteger("18446744073709551615"));
-        assertThat(t.newValueUnsigned(-1).toUnscaledBigInteger()).isEqualTo(new BigInteger("18446744073709551615"));
-        assertThat(t.newValueUnsigned(-1).toString()).isEqualTo("18446744073709551615");
-        assertThat(t.newValueUnsigned(-1).toUnscaledString()).isEqualTo("18446744073709551615");
+        Assert.assertEquals(0, t.newValueUnsigned(-1).getHigh());
+        Assert.assertEquals(-1, t.newValueUnsigned(-1).getLow());
+        Assert.assertEquals(new BigDecimal("18446744073709551615"), t.newValueUnsigned(-1).toBigDecimal());
+        Assert.assertEquals(new BigInteger("18446744073709551615"), t.newValueUnsigned(-1).toBigInteger());
+        Assert.assertEquals(new BigInteger("18446744073709551615"), t.newValueUnsigned(-1).toUnscaledBigInteger());
+        Assert.assertEquals("18446744073709551615", t.newValueUnsigned(-1).toString());
+        Assert.assertEquals("18446744073709551615", t.newValueUnsigned(-1).toUnscaledString());
 
         // Long.MAX_VALUE equals 0x7fffffffffffffff or 9223372036854775807
-        assertThat(t.newValue(Long.MAX_VALUE)).isEqualTo(t.newValueUnscaled(Long.MAX_VALUE));
-        assertThat(t.newValue(Long.MAX_VALUE)).isEqualTo(t.newValueUnsigned(Long.MAX_VALUE));
+        Assert.assertEquals(t.newValue(Long.MAX_VALUE), t.newValueUnscaled(Long.MAX_VALUE));
+        Assert.assertEquals(t.newValue(Long.MAX_VALUE), t.newValueUnsigned(Long.MAX_VALUE));
 
-        assertThat(t.newValue(Long.MAX_VALUE).getHigh()).isEqualTo(0);
-        assertThat(t.newValue(Long.MAX_VALUE).getLow()).isEqualTo(Long.MAX_VALUE);
-        assertThat(t.newValue(Long.MAX_VALUE).toLong()).isEqualTo(Long.MAX_VALUE);
-        assertThat(t.newValue(Long.MAX_VALUE).toBigDecimal()).isEqualTo(new BigDecimal("9223372036854775807"));
-        assertThat(t.newValue(Long.MAX_VALUE).toBigInteger()).isEqualTo(new BigInteger("9223372036854775807"));
-        assertThat(t.newValue(Long.MAX_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("9223372036854775807"));
-        assertThat(t.newValue(Long.MAX_VALUE).toString()).isEqualTo("9223372036854775807");
-        assertThat(t.newValue(Long.MAX_VALUE).toUnscaledString()).isEqualTo("9223372036854775807");
+        Assert.assertEquals(0, t.newValue(Long.MAX_VALUE).getHigh());
+        Assert.assertEquals(Long.MAX_VALUE, t.newValue(Long.MAX_VALUE).getLow());
+        Assert.assertEquals(Long.MAX_VALUE, t.newValue(Long.MAX_VALUE).toLong());
+        Assert.assertEquals(new BigDecimal("9223372036854775807"), t.newValue(Long.MAX_VALUE).toBigDecimal());
+        Assert.assertEquals(new BigInteger("9223372036854775807"), t.newValue(Long.MAX_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("9223372036854775807"), t.newValue(Long.MAX_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("9223372036854775807", t.newValue(Long.MAX_VALUE).toString());
+        Assert.assertEquals("9223372036854775807", t.newValue(Long.MAX_VALUE).toUnscaledString());
 
         // Long.MIN_VALUE equals 0x8000000000000000 or -9223372036854775808 for signed or 9223372036854775808 for unsigned
-        assertThat(t.newValue(Long.MIN_VALUE)).isEqualTo(t.newValueUnscaled(Long.MIN_VALUE));
-        assertThat(t.newValue(Long.MIN_VALUE)).isNotEqualTo(t.newValueUnsigned(Long.MIN_VALUE));
+        Assert.assertEquals(t.newValue(Long.MIN_VALUE), t.newValueUnscaled(Long.MIN_VALUE));
+        Assert.assertNotEquals(t.newValue(Long.MIN_VALUE), t.newValueUnsigned(Long.MIN_VALUE));
 
-        assertThat(t.newValue(Long.MIN_VALUE).getHigh()).isEqualTo(-1);
-        assertThat(t.newValue(Long.MIN_VALUE).getLow()).isEqualTo(Long.MIN_VALUE);
-        assertThat(t.newValue(Long.MIN_VALUE).toLong()).isEqualTo(Long.MIN_VALUE);
-        assertThat(t.newValue(Long.MIN_VALUE).toBigDecimal()).isEqualTo(new BigDecimal("-9223372036854775808"));
-        assertThat(t.newValue(Long.MIN_VALUE).toBigInteger()).isEqualTo(new BigInteger("-9223372036854775808"));
-        assertThat(t.newValue(Long.MIN_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("-9223372036854775808"));
-        assertThat(t.newValue(Long.MIN_VALUE).toString()).isEqualTo("-9223372036854775808");
-        assertThat(t.newValue(Long.MIN_VALUE).toUnscaledString()).isEqualTo("-9223372036854775808");
+        Assert.assertEquals(-1, t.newValue(Long.MIN_VALUE).getHigh());
+        Assert.assertEquals(Long.MIN_VALUE, t.newValue(Long.MIN_VALUE).getLow());
+        Assert.assertEquals(Long.MIN_VALUE, t.newValue(Long.MIN_VALUE).toLong());
+        Assert.assertEquals(new BigDecimal("-9223372036854775808"), t.newValue(Long.MIN_VALUE).toBigDecimal());
+        Assert.assertEquals(new BigInteger("-9223372036854775808"), t.newValue(Long.MIN_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("-9223372036854775808"), t.newValue(Long.MIN_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("-9223372036854775808", t.newValue(Long.MIN_VALUE).toString());
+        Assert.assertEquals("-9223372036854775808", t.newValue(Long.MIN_VALUE).toUnscaledString());
 
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).getHigh()).isEqualTo(0);
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).getLow()).isEqualTo(Long.MIN_VALUE);
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toBigDecimal()).isEqualTo(new BigDecimal("9223372036854775808"));
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toBigInteger()).isEqualTo(new BigInteger("9223372036854775808"));
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("9223372036854775808"));
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toString()).isEqualTo("9223372036854775808");
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toUnscaledString()).isEqualTo("9223372036854775808");
+        Assert.assertEquals(0, t.newValueUnsigned(Long.MIN_VALUE).getHigh());
+        Assert.assertEquals(Long.MIN_VALUE, t.newValueUnsigned(Long.MIN_VALUE).getLow());
+        Assert.assertEquals(new BigDecimal("9223372036854775808"), t.newValueUnsigned(Long.MIN_VALUE).toBigDecimal());
+        Assert.assertEquals(new BigInteger("9223372036854775808"), t.newValueUnsigned(Long.MIN_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("9223372036854775808"), t.newValueUnsigned(Long.MIN_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("9223372036854775808", t.newValueUnsigned(Long.MIN_VALUE).toString());
+        Assert.assertEquals("9223372036854775808", t.newValueUnsigned(Long.MIN_VALUE).toUnscaledString());
     }
 
     @Test
@@ -300,115 +299,115 @@ public class DecimalValueTest {
         DecimalType t = DecimalType.of(DecimalType.MAX_PRECISION, 15);
 
         // zero
-        assertThat(t.newValue(0).isZero()).isTrue();
+        Assert.assertTrue(t.newValue(0).isZero());
 
         // one equals unscaled 10^15 = 0x00038D7EA4C68000
-        assertThat(t.newValue(1)).isNotEqualTo(t.newValueUnscaled(1));
-        assertThat(t.newValue(1)).isEqualTo(t.newValueUnsigned(1));
+        Assert.assertNotEquals(t.newValue(1), t.newValueUnscaled(1));
+        Assert.assertEquals(t.newValue(1), t.newValueUnsigned(1));
 
-        assertThat(t.newValue(1).getHigh()).isEqualTo(0);
-        assertThat(t.newValue(1).getLow()).isEqualTo(0x00038D7EA4C68000L);
-        assertThat(t.newValue(1).toLong()).isEqualTo(1);
-        assertThat(t.newValue(1).toBigDecimal()).isEqualTo(BigDecimal.ONE.setScale(15));
-        assertThat(t.newValue(1).toBigInteger()).isEqualTo(BigInteger.ONE);
-        assertThat(t.newValue(1).toUnscaledBigInteger()).isEqualTo(new BigInteger("1000000000000000"));
-        assertThat(t.newValue(1).toString()).isEqualTo("1.000000000000000");
-        assertThat(t.newValue(1).toUnscaledString()).isEqualTo("1000000000000000");
+        Assert.assertEquals(0, t.newValue(1).getHigh());
+        Assert.assertEquals(0x00038D7EA4C68000L, t.newValue(1).getLow());
+        Assert.assertEquals(1, t.newValue(1).toLong());
+        Assert.assertEquals(BigDecimal.ONE.setScale(15), t.newValue(1).toBigDecimal());
+        Assert.assertEquals(BigInteger.ONE, t.newValue(1).toBigInteger());
+        Assert.assertEquals(new BigInteger("1000000000000000"), t.newValue(1).toUnscaledBigInteger());
+        Assert.assertEquals("1.000000000000000", t.newValue(1).toString());
+        Assert.assertEquals("1000000000000000", t.newValue(1).toUnscaledString());
 
-        assertThat(t.newValueUnscaled(1).getHigh()).isEqualTo(0);
-        assertThat(t.newValueUnscaled(1).getLow()).isEqualTo(1);
-        assertThat(t.newValueUnscaled(1).toLong()).isEqualTo(0); // round 1^-15 to zero
-        assertThat(t.newValueUnscaled(1).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1, t.getScale()));
-        assertThat(t.newValueUnscaled(1).toBigInteger()).isEqualTo(BigInteger.ZERO); // round 1^-15 to zero
-        assertThat(t.newValueUnscaled(1).toUnscaledBigInteger()).isEqualTo(BigInteger.ONE);
-        assertThat(t.newValueUnscaled(1).toString()).isEqualTo("0.000000000000001");
-        assertThat(t.newValueUnscaled(1).toUnscaledString()).isEqualTo("1");
+        Assert.assertEquals(0, t.newValueUnscaled(1).getHigh());
+        Assert.assertEquals(1, t.newValueUnscaled(1).getLow());
+        Assert.assertEquals(0, t.newValueUnscaled(1).toLong()); // round 1^-15 to zero
+        Assert.assertEquals(BigDecimal.valueOf(1, t.getScale()), t.newValueUnscaled(1).toBigDecimal());
+        Assert.assertEquals(BigInteger.ZERO, t.newValueUnscaled(1).toBigInteger()); // round 1^-15 to zero
+        Assert.assertEquals(BigInteger.ONE, t.newValueUnscaled(1).toUnscaledBigInteger());
+        Assert.assertEquals("0.000000000000001", t.newValueUnscaled(1).toString());
+        Assert.assertEquals("1", t.newValueUnscaled(1).toUnscaledString());
 
         // -1 equals 0xFFFFFFFFFFFFFFFF or 18446744073709551615
         // scaled value equals 18446744073709551615 * 10^15 or 0x38D7EA4C67FFFFFFC72815B398000
-        assertThat(t.newValue(-1)).isNotEqualTo(t.newValueUnscaled(-1));
-        assertThat(t.newValue(-1)).isNotEqualTo(t.newValueUnsigned(-1));
+        Assert.assertNotEquals(t.newValue(-1), t.newValueUnscaled(-1));
+        Assert.assertNotEquals(t.newValue(-1), t.newValueUnsigned(-1));
 
-        assertThat(t.newValue(-1).getHigh()).isEqualTo(-1);
-        assertThat(t.newValue(-1).getLow()).isEqualTo(-0x00038D7EA4C68000L);
-        assertThat(t.newValue(-1).toLong()).isEqualTo(-1);
-        assertThat(t.newValue(-1).toBigDecimal()).isEqualTo(BigDecimal.ONE.negate().setScale(15));
-        assertThat(t.newValue(-1).toBigInteger()).isEqualTo(BigInteger.ONE.negate());
-        assertThat(t.newValue(-1).toUnscaledBigInteger()).isEqualTo(new BigInteger("-1000000000000000"));
-        assertThat(t.newValue(-1).toString()).isEqualTo("-1.000000000000000");
-        assertThat(t.newValue(-1).toUnscaledString()).isEqualTo("-1000000000000000");
+        Assert.assertEquals(-1, t.newValue(-1).getHigh());
+        Assert.assertEquals(-0x00038D7EA4C68000L, t.newValue(-1).getLow());
+        Assert.assertEquals(-1, t.newValue(-1).toLong());
+        Assert.assertEquals(BigDecimal.ONE.negate().setScale(15), t.newValue(-1).toBigDecimal());
+        Assert.assertEquals(BigInteger.ONE.negate(), t.newValue(-1).toBigInteger());
+        Assert.assertEquals(new BigInteger("-1000000000000000"), t.newValue(-1).toUnscaledBigInteger());
+        Assert.assertEquals("-1.000000000000000", t.newValue(-1).toString());
+        Assert.assertEquals("-1000000000000000", t.newValue(-1).toUnscaledString());
 
-        assertThat(t.newValueUnsigned(-1).getHigh()).isEqualTo(0x00038D7EA4C67FFFL);
-        assertThat(t.newValueUnsigned(-1).getLow()).isEqualTo(0xFFFC72815B398000L);
-        assertThat(t.newValueUnsigned(-1).toBigDecimal()).isEqualTo(new BigDecimal("18446744073709551615").setScale(15));
-        assertThat(t.newValueUnsigned(-1).toBigInteger()).isEqualTo(new BigInteger("18446744073709551615"));
-        assertThat(t.newValueUnsigned(-1).toUnscaledBigInteger()).isEqualTo(new BigInteger("18446744073709551615000000000000000"));
-        assertThat(t.newValueUnsigned(-1).toString()).isEqualTo("18446744073709551615.000000000000000");
-        assertThat(t.newValueUnsigned(-1).toUnscaledString()).isEqualTo("18446744073709551615000000000000000");
+        Assert.assertEquals(0x00038D7EA4C67FFFL, t.newValueUnsigned(-1).getHigh());
+        Assert.assertEquals(0xFFFC72815B398000L, t.newValueUnsigned(-1).getLow());
+        Assert.assertEquals(new BigDecimal("18446744073709551615").setScale(15), t.newValueUnsigned(-1).toBigDecimal());
+        Assert.assertEquals(new BigInteger("18446744073709551615"), t.newValueUnsigned(-1).toBigInteger());
+        Assert.assertEquals(new BigInteger("18446744073709551615000000000000000"), t.newValueUnsigned(-1).toUnscaledBigInteger());
+        Assert.assertEquals("18446744073709551615.000000000000000", t.newValueUnsigned(-1).toString());
+        Assert.assertEquals("18446744073709551615000000000000000", t.newValueUnsigned(-1).toUnscaledString());
 
-        assertThat(t.newValueUnscaled(-1).getHigh()).isEqualTo(-1);
-        assertThat(t.newValueUnscaled(-1).getLow()).isEqualTo(-1);
-        assertThat(t.newValueUnscaled(-1).toLong()).isEqualTo(0); // round -1^-15 to zero
-        assertThat(t.newValueUnscaled(-1).toBigDecimal()).isEqualTo(new BigDecimal("-0.000000000000001"));
-        assertThat(t.newValueUnscaled(-1).toBigInteger()).isEqualTo(BigInteger.ZERO); // round -1^-15 to zero
-        assertThat(t.newValueUnscaled(-1).toUnscaledBigInteger()).isEqualTo(BigInteger.ONE.negate());
-        assertThat(t.newValueUnscaled(-1).toString()).isEqualTo("-0.000000000000001");
-        assertThat(t.newValueUnscaled(-1).toUnscaledString()).isEqualTo("-1");
+        Assert.assertEquals(-1, t.newValueUnscaled(-1).getHigh());
+        Assert.assertEquals(-1, t.newValueUnscaled(-1).getLow());
+        Assert.assertEquals(0, t.newValueUnscaled(-1).toLong()); // round -1^-15 to zero
+        Assert.assertEquals(new BigDecimal("-0.000000000000001"), t.newValueUnscaled(-1).toBigDecimal());
+        Assert.assertEquals(BigInteger.ZERO, t.newValueUnscaled(-1).toBigInteger()); // round -1^-15 to zero
+        Assert.assertEquals(BigInteger.ONE.negate(), t.newValueUnscaled(-1).toUnscaledBigInteger());
+        Assert.assertEquals("-0.000000000000001", t.newValueUnscaled(-1).toString());
+        Assert.assertEquals("-1", t.newValueUnscaled(-1).toUnscaledString());
 
         // Long.MAX_VALUE equals 0x7fffffffffffffff or 9223372036854775807
         // scaled value equals 9223372036854775807 * 10^15 or 0x1C6BF52633FFFFFFC72815B398000
-        assertThat(t.newValue(Long.MAX_VALUE)).isNotEqualTo(t.newValueUnscaled(Long.MAX_VALUE));
-        assertThat(t.newValue(Long.MAX_VALUE)).isEqualTo(t.newValueUnsigned(Long.MAX_VALUE));
+        Assert.assertNotEquals(t.newValue(Long.MAX_VALUE), t.newValueUnscaled(Long.MAX_VALUE));
+        Assert.assertEquals(t.newValue(Long.MAX_VALUE), t.newValueUnsigned(Long.MAX_VALUE));
 
-        assertThat(t.newValue(Long.MAX_VALUE).getHigh()).isEqualTo(0x0001C6BF52633FFFL);
-        assertThat(t.newValue(Long.MAX_VALUE).getLow()).isEqualTo(0xFFFC72815B398000L);
-        assertThat(t.newValue(Long.MAX_VALUE).toLong()).isEqualTo(Long.MAX_VALUE);
-        assertThat(t.newValue(Long.MAX_VALUE).toBigDecimal()).isEqualTo(new BigDecimal("9223372036854775807").setScale(15));
-        assertThat(t.newValue(Long.MAX_VALUE).toBigInteger()).isEqualTo(new BigInteger("9223372036854775807"));
-        assertThat(t.newValue(Long.MAX_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("9223372036854775807000000000000000"));
-        assertThat(t.newValue(Long.MAX_VALUE).toString()).isEqualTo("9223372036854775807.000000000000000");
-        assertThat(t.newValue(Long.MAX_VALUE).toUnscaledString()).isEqualTo("9223372036854775807000000000000000");
+        Assert.assertEquals(0x0001C6BF52633FFFL, t.newValue(Long.MAX_VALUE).getHigh());
+        Assert.assertEquals(0xFFFC72815B398000L, t.newValue(Long.MAX_VALUE).getLow());
+        Assert.assertEquals(Long.MAX_VALUE, t.newValue(Long.MAX_VALUE).toLong());
+        Assert.assertEquals(new BigDecimal("9223372036854775807").setScale(15), t.newValue(Long.MAX_VALUE).toBigDecimal());
+        Assert.assertEquals(new BigInteger("9223372036854775807"), t.newValue(Long.MAX_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("9223372036854775807000000000000000"), t.newValue(Long.MAX_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("9223372036854775807.000000000000000", t.newValue(Long.MAX_VALUE).toString());
+        Assert.assertEquals("9223372036854775807000000000000000", t.newValue(Long.MAX_VALUE).toUnscaledString());
 
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).getHigh()).isEqualTo(0);
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).getLow()).isEqualTo(Long.MAX_VALUE);
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).toLong()).isEqualTo(9223); // round 9223.372036854775807
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).toBigDecimal()).isEqualTo(BigDecimal.valueOf(Long.MAX_VALUE, t.getScale()));
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).toBigInteger()).isEqualTo(BigInteger.valueOf(9223));
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("9223372036854775807"));
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).toString()).isEqualTo("9223.372036854775807");
-        assertThat(t.newValueUnscaled(Long.MAX_VALUE).toUnscaledString()).isEqualTo("9223372036854775807");
+        Assert.assertEquals(0, t.newValueUnscaled(Long.MAX_VALUE).getHigh());
+        Assert.assertEquals(Long.MAX_VALUE, t.newValueUnscaled(Long.MAX_VALUE).getLow());
+        Assert.assertEquals(9223, t.newValueUnscaled(Long.MAX_VALUE).toLong()); // round 9223.372036854775807
+        Assert.assertEquals(BigDecimal.valueOf(Long.MAX_VALUE, t.getScale()), t.newValueUnscaled(Long.MAX_VALUE).toBigDecimal());
+        Assert.assertEquals(BigInteger.valueOf(9223), t.newValueUnscaled(Long.MAX_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("9223372036854775807"), t.newValueUnscaled(Long.MAX_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("9223.372036854775807", t.newValueUnscaled(Long.MAX_VALUE).toString());
+        Assert.assertEquals("9223372036854775807", t.newValueUnscaled(Long.MAX_VALUE).toUnscaledString());
 
         // Long.MIN_VALUE equals 0x8000000000000000
         // scaled value equals  9223372036854775808 * 10^15 = 0x0001C6BF526340000000000000000000 for unsigned
         // scaled value equals -9223372036854775808 * 10^15 = 0xFFFE3940AD9CC0000000000000000000 for signed
-        assertThat(t.newValue(Long.MIN_VALUE)).isNotEqualTo(t.newValueUnscaled(Long.MIN_VALUE));
-        assertThat(t.newValue(Long.MIN_VALUE)).isNotEqualTo(t.newValueUnsigned(Long.MIN_VALUE));
+        Assert.assertNotEquals(t.newValue(Long.MIN_VALUE), t.newValueUnscaled(Long.MIN_VALUE));
+        Assert.assertNotEquals(t.newValue(Long.MIN_VALUE), t.newValueUnsigned(Long.MIN_VALUE));
 
-        assertThat(t.newValue(Long.MIN_VALUE).getHigh()).isEqualTo(0xFFFE3940AD9CC000L);
-        assertThat(t.newValue(Long.MIN_VALUE).getLow()).isEqualTo(0);
-        assertThat(t.newValue(Long.MIN_VALUE).toLong()).isEqualTo(Long.MIN_VALUE);
-        assertThat(t.newValue(Long.MIN_VALUE).toBigDecimal()).isEqualTo(new BigDecimal("-9223372036854775808").setScale(15));
-        assertThat(t.newValue(Long.MIN_VALUE).toBigInteger()).isEqualTo(new BigInteger("-9223372036854775808"));
-        assertThat(t.newValue(Long.MIN_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("-9223372036854775808000000000000000"));
-        assertThat(t.newValue(Long.MIN_VALUE).toString()).isEqualTo("-9223372036854775808.000000000000000");
-        assertThat(t.newValue(Long.MIN_VALUE).toUnscaledString()).isEqualTo("-9223372036854775808000000000000000");
+        Assert.assertEquals(0xFFFE3940AD9CC000L, t.newValue(Long.MIN_VALUE).getHigh());
+        Assert.assertEquals(0, t.newValue(Long.MIN_VALUE).getLow());
+        Assert.assertEquals(Long.MIN_VALUE, t.newValue(Long.MIN_VALUE).toLong());
+        Assert.assertEquals(new BigDecimal("-9223372036854775808").setScale(15), t.newValue(Long.MIN_VALUE).toBigDecimal());
+        Assert.assertEquals(new BigInteger("-9223372036854775808"), t.newValue(Long.MIN_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("-9223372036854775808000000000000000"), t.newValue(Long.MIN_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("-9223372036854775808.000000000000000", t.newValue(Long.MIN_VALUE).toString());
+        Assert.assertEquals("-9223372036854775808000000000000000", t.newValue(Long.MIN_VALUE).toUnscaledString());
 
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).getHigh()).isEqualTo(0x0001C6BF52634000L);
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).getLow()).isEqualTo(0);
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toBigDecimal()).isEqualTo(new BigDecimal("9223372036854775808").setScale(15));
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toBigInteger()).isEqualTo(new BigInteger("9223372036854775808"));
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("9223372036854775808000000000000000"));
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toString()).isEqualTo("9223372036854775808.000000000000000");
-        assertThat(t.newValueUnsigned(Long.MIN_VALUE).toUnscaledString()).isEqualTo("9223372036854775808000000000000000");
+        Assert.assertEquals(0x0001C6BF52634000L, t.newValueUnsigned(Long.MIN_VALUE).getHigh());
+        Assert.assertEquals(0, t.newValueUnsigned(Long.MIN_VALUE).getLow());
+        Assert.assertEquals(new BigDecimal("9223372036854775808").setScale(15), t.newValueUnsigned(Long.MIN_VALUE).toBigDecimal());
+        Assert.assertEquals(new BigInteger("9223372036854775808"), t.newValueUnsigned(Long.MIN_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("9223372036854775808000000000000000"), t.newValueUnsigned(Long.MIN_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("9223372036854775808.000000000000000", t.newValueUnsigned(Long.MIN_VALUE).toString());
+        Assert.assertEquals("9223372036854775808000000000000000", t.newValueUnsigned(Long.MIN_VALUE).toUnscaledString());
 
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).getHigh()).isEqualTo(-1);
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).getLow()).isEqualTo(Long.MIN_VALUE);
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).toLong()).isEqualTo(-9223); // round -9223.372036854775807
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).toBigDecimal()).isEqualTo(new BigDecimal("-9223.372036854775808").setScale(15));
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).toBigInteger()).isEqualTo(BigInteger.valueOf(-9223));
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).toUnscaledBigInteger()).isEqualTo(new BigInteger("-9223372036854775808"));
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).toString()).isEqualTo("-9223.372036854775808");
-        assertThat(t.newValueUnscaled(Long.MIN_VALUE).toUnscaledString()).isEqualTo("-9223372036854775808");
+        Assert.assertEquals(-1, t.newValueUnscaled(Long.MIN_VALUE).getHigh());
+        Assert.assertEquals(Long.MIN_VALUE, t.newValueUnscaled(Long.MIN_VALUE).getLow());
+        Assert.assertEquals(-9223, t.newValueUnscaled(Long.MIN_VALUE).toLong()); // round -9223.372036854775807
+        Assert.assertEquals(new BigDecimal("-9223.372036854775808").setScale(15), t.newValueUnscaled(Long.MIN_VALUE).toBigDecimal());
+        Assert.assertEquals(BigInteger.valueOf(-9223), t.newValueUnscaled(Long.MIN_VALUE).toBigInteger());
+        Assert.assertEquals(new BigInteger("-9223372036854775808"), t.newValueUnscaled(Long.MIN_VALUE).toUnscaledBigInteger());
+        Assert.assertEquals("-9223.372036854775808", t.newValueUnscaled(Long.MIN_VALUE).toString());
+        Assert.assertEquals("-9223372036854775808", t.newValueUnscaled(Long.MIN_VALUE).toUnscaledString());
     }
 
     @Test
@@ -419,43 +418,43 @@ public class DecimalValueTest {
         String minValue = "-" + maxValue;
 
         // zero
-        assertThat(t.newValue(0).isZero()).isTrue();
+        Assert.assertTrue(t.newValue(0).isZero());
 
-        assertThat(t.newValue(maxValue).isInf()).isFalse();
-        assertThat(t.newValue(maxValue).toString()).isEqualTo(maxValue);
+        Assert.assertFalse(t.newValue(maxValue).isInf());
+        Assert.assertEquals(t.newValue(maxValue).toString(), maxValue);
 
-        assertThat(t.newValue(minValue).isNegativeInf()).isFalse();
-        assertThat(t.newValue(minValue).toString()).isEqualTo(minValue);
+        Assert.assertFalse(t.newValue(minValue).isNegativeInf());
+        Assert.assertEquals(t.newValue(minValue).toString(), minValue);
 
-        assertThat(t.newValue(1).getHigh()).isEqualTo(0x0013426172C74D82L);
-        assertThat(t.newValue(1).getLow()).isEqualTo(0x2B878FE800000000L);
-        assertThat(t.newValue(1).isInf()).isTrue();
-        assertThat(t.newValue(1).toString()).isEqualTo("inf");
+        Assert.assertEquals(0x0013426172C74D82L, t.newValue(1).getHigh());
+        Assert.assertEquals(0x2B878FE800000000L, t.newValue(1).getLow());
+        Assert.assertTrue(t.newValue(1).isInf());
+        Assert.assertEquals("inf", t.newValue(1).toString());
 
-        assertThat(t.newValue(2).getHigh()).isEqualTo(0x0013426172C74D82L);
-        assertThat(t.newValue(2).getLow()).isEqualTo(0x2B878FE800000000L);
-        assertThat(t.newValue(2).isInf()).isTrue();
-        assertThat(t.newValue(2).toString()).isEqualTo("inf");
+        Assert.assertEquals(0x0013426172C74D82L, t.newValue(2).getHigh());
+        Assert.assertEquals(0x2B878FE800000000L, t.newValue(2).getLow());
+        Assert.assertTrue(t.newValue(2).isInf());
+        Assert.assertEquals("inf", t.newValue(2).toString());
 
-        assertThat(t.newValue(Long.MAX_VALUE).getHigh()).isEqualTo(0x0013426172C74D82L);
-        assertThat(t.newValue(Long.MAX_VALUE).getLow()).isEqualTo(0x2B878FE800000000L);
-        assertThat(t.newValue(Long.MAX_VALUE).isInf()).isTrue();
-        assertThat(t.newValue(Long.MAX_VALUE).toString()).isEqualTo("inf");
+        Assert.assertEquals(0x0013426172C74D82L, t.newValue(Long.MAX_VALUE).getHigh());
+        Assert.assertEquals(0x2B878FE800000000L, t.newValue(Long.MAX_VALUE).getLow());
+        Assert.assertTrue(t.newValue(Long.MAX_VALUE).isInf());
+        Assert.assertEquals("inf", t.newValue(Long.MAX_VALUE).toString());
 
-        assertThat(t.newValue(-1).getHigh()).isEqualTo(0xFFECBD9E8D38B27DL);
-        assertThat(t.newValue(-1).getLow()).isEqualTo(0xD478701800000000L);
-        assertThat(t.newValue(-1).isNegativeInf()).isTrue();
-        assertThat(t.newValue(-1).toString()).isEqualTo("-inf");
+        Assert.assertEquals(0xFFECBD9E8D38B27DL, t.newValue(-1).getHigh());
+        Assert.assertEquals(0xD478701800000000L, t.newValue(-1).getLow());
+        Assert.assertTrue(t.newValue(-1).isNegativeInf());
+        Assert.assertEquals("-inf", t.newValue(-1).toString());
 
-        assertThat(t.newValue(-2).getHigh()).isEqualTo(0xFFECBD9E8D38B27DL);
-        assertThat(t.newValue(-2).getLow()).isEqualTo(0xD478701800000000L);
-        assertThat(t.newValue(-2).isNegativeInf()).isTrue();
-        assertThat(t.newValue(-2).toString()).isEqualTo("-inf");
+        Assert.assertEquals(0xFFECBD9E8D38B27DL, t.newValue(-2).getHigh());
+        Assert.assertEquals(0xD478701800000000L, t.newValue(-2).getLow());
+        Assert.assertTrue(t.newValue(-2).isNegativeInf());
+        Assert.assertEquals("-inf", t.newValue(-2).toString());
 
-        assertThat(t.newValue(Long.MIN_VALUE).getHigh()).isEqualTo(0xFFECBD9E8D38B27DL);
-        assertThat(t.newValue(Long.MIN_VALUE).getLow()).isEqualTo(0xD478701800000000L);
-        assertThat(t.newValue(Long.MIN_VALUE).isNegativeInf()).isTrue();
-        assertThat(t.newValue(Long.MIN_VALUE).toString()).isEqualTo("-inf");
+        Assert.assertEquals(0xFFECBD9E8D38B27DL, t.newValue(Long.MIN_VALUE).getHigh());
+        Assert.assertEquals(0xD478701800000000L, t.newValue(Long.MIN_VALUE).getLow());
+        Assert.assertTrue(t.newValue(Long.MIN_VALUE).isNegativeInf());
+        Assert.assertEquals("-inf", t.newValue(Long.MIN_VALUE).toString());
 
     }
 
@@ -463,26 +462,26 @@ public class DecimalValueTest {
     public void scaledTypeRound() {
         DecimalType t = DecimalType.of(DecimalType.MAX_PRECISION, 3);
 
-        assertThat(t.newValueUnscaled(0).toLong()).isEqualTo(0);
-        assertThat(t.newValueUnscaled(0).toBigInteger()).isEqualTo(BigInteger.ZERO);
+        Assert.assertEquals(0, t.newValueUnscaled(0).toLong());
+        Assert.assertEquals(BigInteger.ZERO, t.newValueUnscaled(0).toBigInteger());
 
-        assertThat(t.newValueUnscaled(499).toLong()).isEqualTo(0);
-        assertThat(t.newValueUnscaled(499).toBigInteger()).isEqualTo(BigInteger.ZERO);
+        Assert.assertEquals(0, t.newValueUnscaled(499).toLong());
+        Assert.assertEquals(BigInteger.ZERO, t.newValueUnscaled(499).toBigInteger());
 
-        assertThat(t.newValueUnscaled(500).toLong()).isEqualTo(1);
-        assertThat(t.newValueUnscaled(500).toBigInteger()).isEqualTo(BigInteger.ONE);
+        Assert.assertEquals(1, t.newValueUnscaled(500).toLong());
+        Assert.assertEquals(BigInteger.ONE, t.newValueUnscaled(500).toBigInteger());
 
-        assertThat(t.newValueUnscaled(1000).toLong()).isEqualTo(1);
-        assertThat(t.newValueUnscaled(1000).toBigInteger()).isEqualTo(BigInteger.ONE);
+        Assert.assertEquals(1, t.newValueUnscaled(1000).toLong());
+        Assert.assertEquals(BigInteger.ONE, t.newValueUnscaled(1000).toBigInteger());
 
-        assertThat(t.newValueUnscaled(-499).toLong()).isEqualTo(0);
-        assertThat(t.newValueUnscaled(-499).toBigInteger()).isEqualTo(BigInteger.ZERO);
+        Assert.assertEquals(0, t.newValueUnscaled(-499).toLong());
+        Assert.assertEquals(BigInteger.ZERO, t.newValueUnscaled(-499).toBigInteger());
 
-        assertThat(t.newValueUnscaled(-500).toLong()).isEqualTo(-1);
-        assertThat(t.newValueUnscaled(-500).toBigInteger()).isEqualTo(BigInteger.ONE.negate());
+        Assert.assertEquals(-1, t.newValueUnscaled(-500).toLong());
+        Assert.assertEquals(BigInteger.ONE.negate(), t.newValueUnscaled(-500).toBigInteger());
 
-        assertThat(t.newValueUnscaled(-1000).toLong()).isEqualTo(-1);
-        assertThat(t.newValueUnscaled(-1000).toBigInteger()).isEqualTo(BigInteger.ONE.negate());
+        Assert.assertEquals(-1, t.newValueUnscaled(-1000).toLong());
+        Assert.assertEquals(BigInteger.ONE.negate(), t.newValueUnscaled(-1000).toBigInteger());
     }
 
     @Test
@@ -490,18 +489,18 @@ public class DecimalValueTest {
         DecimalType t = DecimalType.getDefault();
 
         // (1) zero
-        assertThat(t.newValue(0).toUnscaledBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValueUnsigned(0).toUnscaledBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValueUnscaled(BigInteger.ZERO).toUnscaledBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValue(BigInteger.ZERO).toUnscaledBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValue(BigDecimal.ZERO).toUnscaledBigInteger()).isEqualTo(BigInteger.ZERO);
+        Assert.assertEquals(t.newValue(0).toUnscaledBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValueUnsigned(0).toUnscaledBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValueUnscaled(BigInteger.ZERO).toUnscaledBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValue(BigInteger.ZERO).toUnscaledBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValue(BigDecimal.ZERO).toUnscaledBigInteger(), BigInteger.ZERO);
 
         // (2) positive numbers: 1, 12, 123, ...
         String s = "";
         for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
             s += Integer.toString(i % 10);
             BigInteger value = new BigInteger(s);
-            assertThat(t.newValueUnscaled(value).toUnscaledBigInteger()).isEqualTo(value);
+            Assert.assertEquals(value, t.newValueUnscaled(value).toUnscaledBigInteger());
         }
 
         // (3) negative numbers: -1, -12, -123, ...
@@ -509,14 +508,14 @@ public class DecimalValueTest {
         for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
             s += Integer.toString(i % 10);
             BigInteger value = new BigInteger(s);
-            assertThat(t.newValueUnscaled(value).toUnscaledBigInteger()).isEqualTo(value);
+            Assert.assertEquals(value, t.newValueUnscaled(value).toUnscaledBigInteger());
         }
 
         // (4) -inf, +inf, nan
         BigInteger inf = BigInteger.TEN.pow(DecimalType.MAX_PRECISION);
-        assertThat(DecimalValue.INF.toUnscaledBigInteger()).isEqualTo(inf);
-        assertThat(DecimalValue.NEG_INF.toUnscaledBigInteger()).isEqualTo(inf.negate());
-        assertThat(DecimalValue.NAN.toUnscaledBigInteger()).isEqualTo(inf.add(BigInteger.ONE));
+        Assert.assertEquals(DecimalValue.INF.toUnscaledBigInteger(), inf);
+        Assert.assertEquals(DecimalValue.NEG_INF.toUnscaledBigInteger(), inf.negate());
+        Assert.assertEquals(DecimalValue.NAN.toUnscaledBigInteger(), inf.add(BigInteger.ONE));
     }
 
     @Test
@@ -524,19 +523,19 @@ public class DecimalValueTest {
         DecimalType t = DecimalType.of(DecimalType.MAX_PRECISION);
 
         // (1) zero
-        assertThat(t.newValue(0).toBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValueUnsigned(0).toBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValueUnscaled(BigInteger.ZERO).toBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValue(BigInteger.ZERO).toBigInteger()).isEqualTo(BigInteger.ZERO);
-        assertThat(t.newValue(BigDecimal.ZERO).toBigInteger()).isEqualTo(BigInteger.ZERO);
+        Assert.assertEquals(t.newValue(0).toBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValueUnsigned(0).toBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValueUnscaled(BigInteger.ZERO).toBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValue(BigInteger.ZERO).toBigInteger(), BigInteger.ZERO);
+        Assert.assertEquals(t.newValue(BigDecimal.ZERO).toBigInteger(), BigInteger.ZERO);
 
         // (2) positive numbers: 1, 12, 123, ...
         String s = "";
         for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
             s += Integer.toString(i % 10);
             BigInteger value = new BigInteger(s);
-            assertThat(t.newValue(s).toBigInteger()).isEqualTo(value);
-            assertThat(t.newValue(value).toBigInteger()).isEqualTo(value);
+            Assert.assertEquals(t.newValue(s).toBigInteger(), value);
+            Assert.assertEquals(t.newValue(value).toBigInteger(), value);
         }
 
         // (3) negative numbers: -1, -12, -123, ...
@@ -544,54 +543,54 @@ public class DecimalValueTest {
         for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
             s += Integer.toString(i % 10);
             BigInteger value = new BigInteger(s);
-            assertThat(t.newValue(s).toBigInteger()).isEqualTo(value);
-            assertThat(t.newValue(value).toBigInteger()).isEqualTo(value);
+            Assert.assertEquals(t.newValue(s).toBigInteger(), value);
+            Assert.assertEquals(t.newValue(value).toBigInteger(), value);
         }
 
         // (4) -inf, +inf, nan
         BigInteger inf = BigInteger.TEN.pow(DecimalType.MAX_PRECISION);
-        assertThat(DecimalValue.INF.toBigInteger()).isEqualTo(inf);
-        assertThat(DecimalValue.NEG_INF.toBigInteger()).isEqualTo(inf.negate());
-        assertThat(DecimalValue.NAN.toBigInteger()).isEqualTo(inf.add(BigInteger.ONE));
+        Assert.assertEquals(DecimalValue.INF.toBigInteger(), inf);
+        Assert.assertEquals(DecimalValue.NEG_INF.toBigInteger(), inf.negate());
+        Assert.assertEquals(DecimalValue.NAN.toBigInteger(), inf.add(BigInteger.ONE));
     }
 
     @Test
     public void toBigDecimal() {
         // (1) special values
         BigDecimal inf = BigDecimal.TEN.pow(DecimalType.MAX_PRECISION);
-        assertThat(DecimalValue.INF.toBigDecimal()).isEqualTo(inf);
-        assertThat(DecimalValue.NEG_INF.toBigDecimal()).isEqualTo(inf.negate());
-        assertThat(DecimalValue.NAN.toBigDecimal()).isEqualTo(inf.add(BigDecimal.ONE));
+        Assert.assertEquals(DecimalValue.INF.toBigDecimal(), inf);
+        Assert.assertEquals(DecimalValue.NEG_INF.toBigDecimal(), inf.negate());
+        Assert.assertEquals(DecimalValue.NAN.toBigDecimal(), inf.add(BigDecimal.ONE));
 
         // (2) positive numbers
-        assertThat(newDecimal(1234567890L, 0).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 0));
-        assertThat(newDecimal(1234567890L, 1).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 1));
-        assertThat(newDecimal(1234567890L, 2).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 2));
-        assertThat(newDecimal(1234567890L, 3).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 3));
-        assertThat(newDecimal(1234567890L, 4).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 4));
-        assertThat(newDecimal(1234567890L, 5).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 5));
-        assertThat(newDecimal(1234567890L, 6).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 6));
-        assertThat(newDecimal(1234567890L, 7).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 7));
-        assertThat(newDecimal(1234567890L, 8).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 8));
-        assertThat(newDecimal(1234567890L, 9).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 9));
-        assertThat(newDecimal(1234567890L, 10).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 10));
-        assertThat(newDecimal(1234567890L, 11).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 11));
-        assertThat(newDecimal(1234567890L, 12).toBigDecimal()).isEqualTo(BigDecimal.valueOf(1234567890L, 12));
+        Assert.assertEquals(newDecimal(1234567890L, 0).toBigDecimal(), BigDecimal.valueOf(1234567890L, 0));
+        Assert.assertEquals(newDecimal(1234567890L, 1).toBigDecimal(), BigDecimal.valueOf(1234567890L, 1));
+        Assert.assertEquals(newDecimal(1234567890L, 2).toBigDecimal(), BigDecimal.valueOf(1234567890L, 2));
+        Assert.assertEquals(newDecimal(1234567890L, 3).toBigDecimal(), BigDecimal.valueOf(1234567890L, 3));
+        Assert.assertEquals(newDecimal(1234567890L, 4).toBigDecimal(), BigDecimal.valueOf(1234567890L, 4));
+        Assert.assertEquals(newDecimal(1234567890L, 5).toBigDecimal(), BigDecimal.valueOf(1234567890L, 5));
+        Assert.assertEquals(newDecimal(1234567890L, 6).toBigDecimal(), BigDecimal.valueOf(1234567890L, 6));
+        Assert.assertEquals(newDecimal(1234567890L, 7).toBigDecimal(), BigDecimal.valueOf(1234567890L, 7));
+        Assert.assertEquals(newDecimal(1234567890L, 8).toBigDecimal(), BigDecimal.valueOf(1234567890L, 8));
+        Assert.assertEquals(newDecimal(1234567890L, 9).toBigDecimal(), BigDecimal.valueOf(1234567890L, 9));
+        Assert.assertEquals(newDecimal(1234567890L, 10).toBigDecimal(), BigDecimal.valueOf(1234567890L, 10));
+        Assert.assertEquals(newDecimal(1234567890L, 11).toBigDecimal(), BigDecimal.valueOf(1234567890L, 11));
+        Assert.assertEquals(newDecimal(1234567890L, 12).toBigDecimal(), BigDecimal.valueOf(1234567890L, 12));
 
         // (3) negative numbers
-        assertThat(newDecimal(-1234567890L, 0).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 0));
-        assertThat(newDecimal(-1234567890L, 1).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 1));
-        assertThat(newDecimal(-1234567890L, 2).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 2));
-        assertThat(newDecimal(-1234567890L, 3).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 3));
-        assertThat(newDecimal(-1234567890L, 4).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 4));
-        assertThat(newDecimal(-1234567890L, 5).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 5));
-        assertThat(newDecimal(-1234567890L, 6).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 6));
-        assertThat(newDecimal(-1234567890L, 7).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 7));
-        assertThat(newDecimal(-1234567890L, 8).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 8));
-        assertThat(newDecimal(-1234567890L, 9).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 9));
-        assertThat(newDecimal(-1234567890L, 10).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 10));
-        assertThat(newDecimal(-1234567890L, 11).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 11));
-        assertThat(newDecimal(-1234567890L, 12).toBigDecimal()).isEqualTo(BigDecimal.valueOf(-1234567890L, 12));
+        Assert.assertEquals(newDecimal(-1234567890L, 0).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 0));
+        Assert.assertEquals(newDecimal(-1234567890L, 1).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 1));
+        Assert.assertEquals(newDecimal(-1234567890L, 2).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 2));
+        Assert.assertEquals(newDecimal(-1234567890L, 3).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 3));
+        Assert.assertEquals(newDecimal(-1234567890L, 4).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 4));
+        Assert.assertEquals(newDecimal(-1234567890L, 5).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 5));
+        Assert.assertEquals(newDecimal(-1234567890L, 6).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 6));
+        Assert.assertEquals(newDecimal(-1234567890L, 7).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 7));
+        Assert.assertEquals(newDecimal(-1234567890L, 8).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 8));
+        Assert.assertEquals(newDecimal(-1234567890L, 9).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 9));
+        Assert.assertEquals(newDecimal(-1234567890L, 10).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 10));
+        Assert.assertEquals(newDecimal(-1234567890L, 11).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 11));
+        Assert.assertEquals(newDecimal(-1234567890L, 12).toBigDecimal(), BigDecimal.valueOf(-1234567890L, 12));
     }
 
     @Test
@@ -599,66 +598,66 @@ public class DecimalValueTest {
         DecimalType t = DecimalType.getDefault();
 
         // (1) zero
-        assertThat(t.newValue(0, 0).toUnscaledString()).isEqualTo("0");
-        assertThat(t.newValue(BigInteger.ZERO).toUnscaledString()).isEqualTo("0");
-        assertThat(t.newValue(BigDecimal.ZERO).toUnscaledString()).isEqualTo("0");
+        Assert.assertEquals("0", t.newValue(0, 0).toUnscaledString());
+        Assert.assertEquals("0", t.newValue(BigInteger.ZERO).toUnscaledString());
+        Assert.assertEquals("0", t.newValue(BigDecimal.ZERO).toUnscaledString());
 
         // (2) positive numbers: 1, 12, 123, ...
         String s = "";
         for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
             s += Integer.toString(i % 10);
-            assertThat(t.newValueUnscaled(new BigInteger(s)).toUnscaledString()).isEqualTo(s);
+            Assert.assertEquals(s, t.newValueUnscaled(new BigInteger(s)).toUnscaledString());
         }
 
         // (3) negative numbers: -1, -12, -123, ...
         s = "-";
         for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
             s += Integer.toString(i % 10);
-            assertThat(t.newValueUnscaled(new BigInteger(s)).toUnscaledString()).isEqualTo(s);
+            Assert.assertEquals(s, t.newValueUnscaled(new BigInteger(s)).toUnscaledString());
         }
 
         // (4) -inf, +inf, nan
-        assertThat(DecimalValue.INF.toUnscaledString()).isEqualTo("100000000000000000000000000000000000"); // 10^35
-        assertThat(DecimalValue.NEG_INF.toUnscaledString()).isEqualTo("-100000000000000000000000000000000000"); // -10^35
-        assertThat(DecimalValue.NAN.toUnscaledString()).isEqualTo("100000000000000000000000000000000001"); // 10^35 + 1
+        Assert.assertEquals("100000000000000000000000000000000000", DecimalValue.INF.toUnscaledString()); // 10^35
+        Assert.assertEquals("-100000000000000000000000000000000000", DecimalValue.NEG_INF.toUnscaledString()); // -10^35
+        Assert.assertEquals("100000000000000000000000000000000001", DecimalValue.NAN.toUnscaledString()); // 10^35 + 1
     }
 
     @Test
     public void toStringTest() {
         // (1) special values
-        assertThat(DecimalValue.INF.toString()).isEqualTo("inf");
-        assertThat(DecimalValue.NEG_INF.toString()).isEqualTo("-inf");
-        assertThat(DecimalValue.NAN.toString()).isEqualTo("nan");
+        Assert.assertEquals("inf", DecimalValue.INF.toString());
+        Assert.assertEquals("-inf", DecimalValue.NEG_INF.toString());
+        Assert.assertEquals("nan", DecimalValue.NAN.toString());
 
         // (2) positive numbers
-        assertThat(newDecimal(1234567890L, 0).toString()).isEqualTo("1234567890");
-        assertThat(newDecimal(1234567890L, 1).toString()).isEqualTo("123456789.0");
-        assertThat(newDecimal(1234567890L, 2).toString()).isEqualTo("12345678.90");
-        assertThat(newDecimal(1234567890L, 3).toString()).isEqualTo("1234567.890");
-        assertThat(newDecimal(1234567890L, 4).toString()).isEqualTo("123456.7890");
-        assertThat(newDecimal(1234567890L, 5).toString()).isEqualTo("12345.67890");
-        assertThat(newDecimal(1234567890L, 6).toString()).isEqualTo("1234.567890");
-        assertThat(newDecimal(1234567890L, 7).toString()).isEqualTo("123.4567890");
-        assertThat(newDecimal(1234567890L, 8).toString()).isEqualTo("12.34567890");
-        assertThat(newDecimal(1234567890L, 9).toString()).isEqualTo("1.234567890");
-        assertThat(newDecimal(1234567890L, 10).toString()).isEqualTo("0.1234567890");
-        assertThat(newDecimal(1234567890L, 11).toString()).isEqualTo("0.01234567890");
-        assertThat(newDecimal(1234567890L, 12).toString()).isEqualTo("0.001234567890");
+        Assert.assertEquals("1234567890", newDecimal(1234567890L, 0).toString());
+        Assert.assertEquals("123456789.0", newDecimal(1234567890L, 1).toString());
+        Assert.assertEquals("12345678.90", newDecimal(1234567890L, 2).toString());
+        Assert.assertEquals("1234567.890", newDecimal(1234567890L, 3).toString());
+        Assert.assertEquals("123456.7890", newDecimal(1234567890L, 4).toString());
+        Assert.assertEquals("12345.67890", newDecimal(1234567890L, 5).toString());
+        Assert.assertEquals("1234.567890", newDecimal(1234567890L, 6).toString());
+        Assert.assertEquals("123.4567890", newDecimal(1234567890L, 7).toString());
+        Assert.assertEquals("12.34567890", newDecimal(1234567890L, 8).toString());
+        Assert.assertEquals("1.234567890", newDecimal(1234567890L, 9).toString());
+        Assert.assertEquals("0.1234567890", newDecimal(1234567890L, 10).toString());
+        Assert.assertEquals("0.01234567890", newDecimal(1234567890L, 11).toString());
+        Assert.assertEquals("0.001234567890", newDecimal(1234567890L, 12).toString());
 
         // (3) negative numbers
-        assertThat(newDecimal(-1234567890L, 0).toString()).isEqualTo("-1234567890");
-        assertThat(newDecimal(-1234567890L, 1).toString()).isEqualTo("-123456789.0");
-        assertThat(newDecimal(-1234567890L, 2).toString()).isEqualTo("-12345678.90");
-        assertThat(newDecimal(-1234567890L, 3).toString()).isEqualTo("-1234567.890");
-        assertThat(newDecimal(-1234567890L, 4).toString()).isEqualTo("-123456.7890");
-        assertThat(newDecimal(-1234567890L, 5).toString()).isEqualTo("-12345.67890");
-        assertThat(newDecimal(-1234567890L, 6).toString()).isEqualTo("-1234.567890");
-        assertThat(newDecimal(-1234567890L, 7).toString()).isEqualTo("-123.4567890");
-        assertThat(newDecimal(-1234567890L, 8).toString()).isEqualTo("-12.34567890");
-        assertThat(newDecimal(-1234567890L, 9).toString()).isEqualTo("-1.234567890");
-        assertThat(newDecimal(-1234567890L, 10).toString()).isEqualTo("-0.1234567890");
-        assertThat(newDecimal(-1234567890L, 11).toString()).isEqualTo("-0.01234567890");
-        assertThat(newDecimal(-1234567890L, 12).toString()).isEqualTo("-0.001234567890");
+        Assert.assertEquals("-1234567890", newDecimal(-1234567890L, 0).toString());
+        Assert.assertEquals("-123456789.0", newDecimal(-1234567890L, 1).toString());
+        Assert.assertEquals("-12345678.90", newDecimal(-1234567890L, 2).toString());
+        Assert.assertEquals("-1234567.890", newDecimal(-1234567890L, 3).toString());
+        Assert.assertEquals("-123456.7890", newDecimal(-1234567890L, 4).toString());
+        Assert.assertEquals("-12345.67890", newDecimal(-1234567890L, 5).toString());
+        Assert.assertEquals("-1234.567890", newDecimal(-1234567890L, 6).toString());
+        Assert.assertEquals("-123.4567890", newDecimal(-1234567890L, 7).toString());
+        Assert.assertEquals("-12.34567890", newDecimal(-1234567890L, 8).toString());
+        Assert.assertEquals("-1.234567890", newDecimal(-1234567890L, 9).toString());
+        Assert.assertEquals("-0.1234567890", newDecimal(-1234567890L, 10).toString());
+        Assert.assertEquals("-0.01234567890", newDecimal(-1234567890L, 11).toString());
+        Assert.assertEquals("-0.001234567890", newDecimal(-1234567890L, 12).toString());
     }
 
     private DecimalValue newDecimal(long value, int scale) {

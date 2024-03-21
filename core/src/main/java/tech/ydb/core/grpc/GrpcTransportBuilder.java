@@ -51,6 +51,7 @@ public class GrpcTransportBuilder {
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
      */
     private boolean grpcRetry = false;
+    private Long grpcKeepAliveTimeMillis = 10_000L;
 
     GrpcTransportBuilder(@Nullable String endpoint, @Nullable HostAndPort host, @Nonnull String database) {
         this.endpoint = endpoint;
@@ -130,6 +131,10 @@ public class GrpcTransportBuilder {
 
     public boolean isEnableRetry() {
         return grpcRetry;
+    }
+
+    public Long getGrpcKeepAliveTimeMillis() {
+        return grpcKeepAliveTimeMillis;
     }
 
     public boolean useDefaultGrpcResolver() {
@@ -233,6 +238,22 @@ public class GrpcTransportBuilder {
     public GrpcTransportBuilder withDiscoveryTimeout(long timeout, TimeUnit unit) {
         this.discoveryTimeoutMillis = unit.toMillis(timeout);
         Preconditions.checkArgument(discoveryTimeoutMillis > 0, "discoveryTimeoutMillis must be greater than 0");
+        return this;
+    }
+
+    public GrpcTransportBuilder withGrpcKeepAliveTime(Duration time) {
+        if (time == null) {
+            this.grpcKeepAliveTimeMillis = null;
+        } else {
+            this.grpcKeepAliveTimeMillis = time.toMillis();
+            Preconditions.checkArgument(grpcKeepAliveTimeMillis > 0, "grpcKeepAliveTime must be greater than 0");
+        }
+        return this;
+    }
+
+    public GrpcTransportBuilder withGrpcKeepAliveTime(long time, TimeUnit unit) {
+        this.grpcKeepAliveTimeMillis = unit.toMillis(time);
+        Preconditions.checkArgument(grpcKeepAliveTimeMillis > 0, "grpcKeepAliveTime must be greater than 0");
         return this;
     }
 

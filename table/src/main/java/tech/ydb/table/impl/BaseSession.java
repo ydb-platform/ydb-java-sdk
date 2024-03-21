@@ -55,6 +55,7 @@ import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.AutoPartitioningPolicy;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
+import tech.ydb.table.settings.Changefeed;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CopyTablesSettings;
@@ -160,13 +161,7 @@ public abstract class BaseSession implements Session {
                 .thenApply(result -> result.map(YdbTable.CreateSessionResult::getSessionId));
     }
 
-    private static void applyPartitioningSettings(
-            PartitioningSettings partitioningSettings,
-            Consumer<YdbTable.PartitioningSettings> consumer) {
-        if (partitioningSettings == null) {
-            return;
-        }
-
+    private static YdbTable.PartitioningSettings buildPartitioningSettings(PartitioningSettings partitioningSettings) {
         YdbTable.PartitioningSettings.Builder builder = YdbTable.PartitioningSettings.newBuilder();
         if (partitioningSettings.getPartitioningByLoad() != null) {
             builder.setPartitioningByLoad(
@@ -192,85 +187,126 @@ public abstract class BaseSession implements Session {
             builder.setMaxPartitionsCount(partitioningSettings.getMaxPartitionsCount());
         }
 
-        consumer.accept(builder.build());
+        return builder.build();
+    }
+
+    private static YdbTable.ColumnMeta buildColumnMeta(TableColumn column) {
+        YdbTable.ColumnMeta.Builder builder = YdbTable.ColumnMeta.newBuilder()
+                .setName(column.getName())
+                .setType(column.getType().toPb());
+        if (column.getFamily() != null) {
+            builder.setFamily(column.getFamily());
+        }
+        return builder.build();
+    }
+
+    private static YdbTable.Changefeed buildChangefeed(Changefeed changefeed) {
+        YdbTable.Changefeed.Builder builder = YdbTable.Changefeed.newBuilder()
+                .setName(changefeed.getName())
+                .setFormat(changefeed.getFormat().toProto())
+                .setVirtualTimestamps(changefeed.hasVirtualTimestamps())
+                .setInitialScan(changefeed.hasInitialScan())
+                .setMode(changefeed.getMode().toPb());
+
+        Duration retentionPeriod = changefeed.getRetentionPeriod();
+        if (retentionPeriod != null) {
+            builder.setRetentionPeriod(com.google.protobuf.Duration.newBuilder()
+                    .setSeconds(retentionPeriod.getSeconds())
+                    .setNanos(retentionPeriod.getNano())
+                    .build());
+        }
+
+        return builder.build();
+    }
+
+    private static YdbTable.TableIndex buildIndex(TableIndex index) {
+        YdbTable.TableIndex.Builder builder = YdbTable.TableIndex.newBuilder();
+        builder.setName(index.getName());
+        builder.addAllIndexColumns(index.getColumns());
+        builder.addAllDataColumns(index.getDataColumns());
+        switch (index.getType()) {
+            case GLOBAL_ASYNC:
+                builder.setGlobalAsyncIndex(YdbTable.GlobalAsyncIndex.getDefaultInstance());
+                break;
+            case GLOBAL:
+            default:
+                builder.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
+                break;
+        }
+        return builder.build();
+    }
+
+    private static YdbTable.ColumnFamily buildColumnFamity(ColumnFamily family) {
+        YdbTable.ColumnFamily.Compression compression;
+        switch (family.getCompression()) {
+            case COMPRESSION_NONE:
+                compression = YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
+                break;
+            case COMPRESSION_LZ4:
+                compression = YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
+                break;
+            default:
+                compression = YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;
+        }
+
+        return YdbTable.ColumnFamily.newBuilder()
+                .setCompression(compression)
+                .setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()))
+                .setName(family.getName())
+                .build();
+    }
+
+    private static YdbTable.TtlSettings buildTtlSettings(TtlSettings settings) {
+        return YdbTable.TtlSettings.newBuilder()
+                .setDateTypeColumn(YdbTable.DateTypeColumnModeSettings.newBuilder()
+                        .setColumnName(settings.getDateTimeColumn())
+                        .setExpireAfterSeconds(settings.getExpireAfterSeconds())
+                        .build())
+                .build();
     }
 
     @Override
     public CompletableFuture<Status> createTable(
             String path,
-            TableDescription tableDescription,
+            TableDescription description,
             CreateTableSettings settings
     ) {
         YdbTable.CreateTableRequest.Builder request = YdbTable.CreateTableRequest.newBuilder()
                 .setSessionId(id)
                 .setPath(path)
                 .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
-                .addAllPrimaryKey(tableDescription.getPrimaryKeys());
+                .addAllPrimaryKey(description.getPrimaryKeys());
 
-        applyPartitioningSettings(tableDescription.getPartitioningSettings(), request::setPartitioningSettings);
-
-        for (TableColumn column : tableDescription.getColumns()) {
-            YdbTable.ColumnMeta.Builder builder = YdbTable.ColumnMeta.newBuilder()
-                    .setName(column.getName())
-                    .setType(column.getType().toPb());
-            if (column.getFamily() != null) {
-                builder.setFamily(column.getFamily());
-            }
-            request.addColumns(builder.build());
+        for (ColumnFamily family: description.getColumnFamilies()) {
+            request.addColumnFamilies(buildColumnFamity(family));
         }
 
-        for (TableIndex index : tableDescription.getIndexes()) {
-            YdbTable.TableIndex.Builder b = request.addIndexesBuilder();
-            b.setName(index.getName());
-            b.addAllIndexColumns(index.getColumns());
-            if (index.getType() == TableIndex.Type.GLOBAL) {
-                b.setGlobalIndex(YdbTable.GlobalIndex.getDefaultInstance());
-            }
-
-            if (index.getType() == TableIndex.Type.GLOBAL_ASYNC) {
-                b.setGlobalAsyncIndex(YdbTable.GlobalAsyncIndex.getDefaultInstance());
-            }
+        for (TableColumn column : description.getColumns()) {
+            request.addColumns(buildColumnMeta(column));
         }
 
+        for (TableIndex index : description.getIndexes()) {
+            request.addIndexes(buildIndex(index));
+        }
 
-        for (ColumnFamily family : tableDescription.getColumnFamilies()) {
-            YdbTable.ColumnFamily.Compression compression;
-            switch (family.getCompression()) {
-                case COMPRESSION_NONE:
-                    compression = YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
-                    break;
-                case COMPRESSION_LZ4:
-                    compression = YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
-                    break;
-                default:
-                    compression = YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;
-            }
-            request.addColumnFamilies(
-                    YdbTable.ColumnFamily.newBuilder()
-                            .setKeepInMemoryValue(family.isKeepInMemory() ?
-                                    tech.ydb.proto.common.CommonProtos.FeatureFlag.Status.ENABLED.getNumber() :
-                                    tech.ydb.proto.common.CommonProtos.FeatureFlag.Status.DISABLED.getNumber())
-                            .setCompression(compression)
-                            .setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()))
-                            .setName(family.getName())
-                            .build());
+        if (settings.getTtlSettings() != null) {
+            request.setTtlSettings(buildTtlSettings(settings.getTtlSettings()));
+        }
+
+        if (description.getPartitioningSettings() != null) {
+            request.setPartitioningSettings(buildPartitioningSettings(description.getPartitioningSettings()));
         }
 
         if (settings.getPresetName() != null) {
-            request.getProfileBuilder()
-                    .setPresetName(settings.getPresetName());
+            request.getProfileBuilder().setPresetName(settings.getPresetName());
         }
 
         if (settings.getExecutionPolicy() != null) {
-            request.getProfileBuilder()
-                    .getExecutionPolicyBuilder()
-                    .setPresetName(settings.getExecutionPolicy());
+            request.getProfileBuilder().getExecutionPolicyBuilder().setPresetName(settings.getExecutionPolicy());
         }
 
         if (settings.getCompactionPolicy() != null) {
-            request.getProfileBuilder()
-                    .getCompactionPolicyBuilder()
-                    .setPresetName(settings.getCompactionPolicy());
+            request.getProfileBuilder().getCompactionPolicyBuilder().setPresetName(settings.getCompactionPolicy());
         }
 
         PartitioningPolicy partitioningPolicy = settings.getPartitioningPolicy();
@@ -332,14 +368,6 @@ public abstract class BaseSession implements Session {
                     CommonProtos.FeatureFlag.Status.ENABLED : CommonProtos.FeatureFlag.Status.DISABLED);
         }
 
-        TtlSettings ttlSettings = settings.getTtlSettings();
-        if (ttlSettings != null) {
-            YdbTable.DateTypeColumnModeSettings.Builder dateTypeColumnBuilder = request.getTtlSettingsBuilder()
-                    .getDateTypeColumnBuilder();
-            dateTypeColumnBuilder.setColumnName(ttlSettings.getDateTimeColumn());
-            dateTypeColumnBuilder.setExpireAfterSeconds(ttlSettings.getExpireAfterSeconds());
-        }
-
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.createTable(request.build(), grpcRequestSettings);
     }
@@ -376,28 +404,37 @@ public abstract class BaseSession implements Session {
                 .setPath(path)
                 .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()));
 
-        settings.forEachAddColumn((name, type) -> {
-            builder.addAddColumns(YdbTable.ColumnMeta.newBuilder()
-                    .setName(name)
-                    .setType(type.toPb())
-                    .build());
-        });
-
-        settings.forEachDropColumn(builder::addDropColumns);
-
-        settings.forEachAddChangefeed(changefeed -> builder.addAddChangefeeds(changefeed.toProto()));
-
-        settings.forEachDropChangefeed(builder::addDropChangefeeds);
-
-        TtlSettings ttlSettings = settings.getTtlSettings();
-        if (ttlSettings != null) {
-            YdbTable.DateTypeColumnModeSettings.Builder dateTypeColumnBuilder = builder.getSetTtlSettingsBuilder()
-                    .getDateTypeColumnBuilder();
-            dateTypeColumnBuilder.setColumnName(ttlSettings.getDateTimeColumn());
-            dateTypeColumnBuilder.setExpireAfterSeconds(ttlSettings.getExpireAfterSeconds());
+        for (TableColumn addColumn: settings.getAddColumns()) {
+            builder.addAddColumns(buildColumnMeta(addColumn));
         }
 
-        applyPartitioningSettings(settings.getPartitioningSettings(), builder::setAlterPartitioningSettings);
+        for (Changefeed addChangefeed: settings.getAddChangefeeds()) {
+            builder.addAddChangefeeds(buildChangefeed(addChangefeed));
+        }
+
+        for (TableIndex index : settings.getAddIndexes()) {
+            builder.addAddIndexes(buildIndex(index));
+        }
+
+        if (settings.getTtlSettings() != null) {
+            builder.setSetTtlSettings(buildTtlSettings(settings.getTtlSettings()));
+        }
+
+        if (settings.getPartitioningSettings() != null) {
+            builder.setAlterPartitioningSettings(buildPartitioningSettings(settings.getPartitioningSettings()));
+        }
+
+        for (String dropColumn: settings.getDropColumns()) {
+            builder.addDropColumns(dropColumn);
+        }
+
+        for (String dropChangefeed: settings.getDropChangefeeds()) {
+            builder.addDropChangefeeds(dropChangefeed);
+        }
+
+        for (String dropIndex: settings.getDropIndexes()) {
+            builder.addDropIndexes(dropIndex);
+        }
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return tableRpc.alterTable(builder.build(), grpcRequestSettings);
@@ -557,11 +594,7 @@ public abstract class BaseSession implements Session {
                         compression = ColumnFamily.Compression.COMPRESSION_NONE;
                 }
                 description.addColumnFamily(
-                        new ColumnFamily(family.getName(),
-                                new StoragePool(family.getData().getMedia()),
-                                compression,
-                                family.getKeepInMemory().equals(tech.ydb.proto.common.CommonProtos.
-                                        FeatureFlag.Status.ENABLED))
+                        new ColumnFamily(family.getName(), new StoragePool(family.getData().getMedia()), compression)
                 );
             }
         }
