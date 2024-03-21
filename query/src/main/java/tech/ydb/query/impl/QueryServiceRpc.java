@@ -6,6 +6,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.proto.OperationProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.query.v1.QueryServiceGrpc;
@@ -15,32 +16,32 @@ import tech.ydb.proto.query.v1.QueryServiceGrpc;
  * @author Aleksandr Gorshenin
  */
 class QueryServiceRpc {
-    private static final StatusExtract<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtractor.of(
             YdbQuery.CreateSessionResponse::getStatus,
             YdbQuery.CreateSessionResponse::getIssuesList
     );
 
-    private static final StatusExtract<YdbQuery.DeleteSessionResponse> DELETE_SESSION = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.DeleteSessionResponse> DELETE_SESSION = StatusExtractor.of(
             YdbQuery.DeleteSessionResponse::getStatus,
             YdbQuery.DeleteSessionResponse::getIssuesList
     );
 
-    private static final StatusExtract<YdbQuery.BeginTransactionResponse> BEGIN_TRANSACTION = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.BeginTransactionResponse> BEGIN_TX = StatusExtractor.of(
             YdbQuery.BeginTransactionResponse::getStatus,
             YdbQuery.BeginTransactionResponse::getIssuesList
     );
 
-    private static final StatusExtract<YdbQuery.CommitTransactionResponse> COMMIT_TRANSACTION = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.CommitTransactionResponse> COMMIT_TX = StatusExtractor.of(
             YdbQuery.CommitTransactionResponse::getStatus,
             YdbQuery.CommitTransactionResponse::getIssuesList
     );
 
-    private static final StatusExtract<YdbQuery.RollbackTransactionResponse> ROLLBACK_TRANSACTION = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.RollbackTransactionResponse> ROLLBACK_TX = StatusExtractor.of(
             YdbQuery.RollbackTransactionResponse::getStatus,
             YdbQuery.RollbackTransactionResponse::getIssuesList
     );
 
-    private static final StatusExtract<YdbQuery.FetchScriptResultsResponse> FETCH_SCRIPT = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.FetchScriptResultsResponse> FETCH_SCRIPT = StatusExtractor.of(
             YdbQuery.FetchScriptResultsResponse::getStatus,
             YdbQuery.FetchScriptResultsResponse::getIssuesList
     );
@@ -74,21 +75,21 @@ class QueryServiceRpc {
             YdbQuery.BeginTransactionRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(QueryServiceGrpc.getBeginTransactionMethod(), settings, request)
-                .thenApply(BEGIN_TRANSACTION);
+                .thenApply(BEGIN_TX);
     }
 
     public CompletableFuture<Result<YdbQuery.CommitTransactionResponse>> commitTransaction(
             YdbQuery.CommitTransactionRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(QueryServiceGrpc.getCommitTransactionMethod(), settings, request)
-                .thenApply(COMMIT_TRANSACTION);
+                .thenApply(COMMIT_TX);
     }
 
     public CompletableFuture<Result<YdbQuery.RollbackTransactionResponse>> rollbackTransaction(
             YdbQuery.RollbackTransactionRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(QueryServiceGrpc.getRollbackTransactionMethod(), settings, request)
-                .thenApply(ROLLBACK_TRANSACTION);
+                .thenApply(ROLLBACK_TX);
     }
 
     public GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> executeQuery(

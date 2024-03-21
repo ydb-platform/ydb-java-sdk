@@ -22,6 +22,7 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
+import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.query.YdbQuery;
@@ -49,11 +50,11 @@ import tech.ydb.table.query.Params;
 abstract class SessionImpl implements QuerySession {
     private static final Logger logger = LoggerFactory.getLogger(QuerySession.class);
 
-    private static final StatusExtract<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtractor.of(
             YdbQuery.CreateSessionResponse::getStatus, YdbQuery.CreateSessionResponse::getIssuesList
     );
 
-    private static final StatusExtract<YdbQuery.DeleteSessionResponse> DELETE_SESSION = StatusExtract.of(
+    private static final StatusExtractor<YdbQuery.DeleteSessionResponse> DELETE_SESSION = StatusExtractor.of(
             YdbQuery.DeleteSessionResponse::getStatus, YdbQuery.DeleteSessionResponse::getIssuesList
     );
 

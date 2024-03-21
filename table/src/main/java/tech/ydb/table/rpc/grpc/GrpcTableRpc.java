@@ -7,14 +7,13 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import javax.annotation.WillClose;
 import javax.annotation.WillNotClose;
 
-
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusExtractor;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.AlterTableRequest;
 import tech.ydb.proto.table.YdbTable.AlterTableResponse;
@@ -68,8 +67,8 @@ public final class GrpcTableRpc implements TableRpc {
     private final GrpcTransport transport;
     private final boolean transportOwned;
 
-    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = new StatusExtractor<>(
-        ReadRowsResponse::getStatus, ReadRowsResponse::getIssuesList);
+    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = StatusExtractor.of(
+            ReadRowsResponse::getStatus, ReadRowsResponse::getIssuesList);
 
     private GrpcTableRpc(GrpcTransport transport, boolean transportOwned) {
         this.transport = transport;
