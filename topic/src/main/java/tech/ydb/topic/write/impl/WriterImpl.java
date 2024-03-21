@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -152,27 +151,6 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     maxSendBufferMemorySize);
         }
         this.encodingMessages.add(message);
-
-        BaseTransaction transaction = message.getTransaction();
-
-        if (transaction != null) {
-            // Waiting for the message to be written before committing transaction
-            transaction.addFutureToWaitBeforeCommit(message.getFuture());
-            // Shutting down writer in case if connected transaction will not be committed to prevent infinite loop
-            // of trying to resend this message
-            final WriteSessionImpl currentSession = session;
-            transaction.getStatusFuture().whenComplete((status, error) -> {
-                if (error != null) {
-                    shutdownImpl("Shutting down writer " + id + " due to transaction " + transaction.getId() +
-                            " with messages in write session " + currentSession.fullId +
-                            " was not committed with reason: " + error);
-                } else if (!status.isSuccess()) {
-                    shutdownImpl("Shutting down writer " + id + " due to transaction " + transaction.getId() +
-                            " with messages in write session " + currentSession.fullId +
-                            " was not committed with status: " + status);
-                }
-            });
-        }
 
         CompletableFuture
                 .runAsync(() -> {

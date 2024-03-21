@@ -30,21 +30,13 @@ public final class TransactionImpl extends BaseTransactionImpl implements Transa
 
     @Override
     public CompletableFuture<Status> commit(CommitTxSettings settings) {
-        CompletableFuture<Status> result;
-        if (futuresToWaitBeforeCommit.isEmpty()) {
-            result = session.commitTransaction(txId, settings);
-        } else {
-            result = CompletableFuture.allOf(futuresToWaitBeforeCommit.toArray(new CompletableFuture<?>[0]))
-                    .thenCompose((unused) -> session.commitTransaction(txId, settings));
-        }
-        result.whenComplete(((status, throwable) -> {
+        return session.commitTransaction(txId, settings).whenComplete(((status, throwable) -> {
             if (throwable != null) {
                 statusFuture.completeExceptionally(throwable);
             } else {
                 statusFuture.complete(status);
             }
         }));
-        return result;
     }
 
     @Override

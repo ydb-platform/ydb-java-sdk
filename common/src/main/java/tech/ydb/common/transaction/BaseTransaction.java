@@ -14,6 +14,4 @@ public interface BaseTransaction {
     String getSessionId();
 
     CompletableFuture<Status> getStatusFuture();
-
-    void addFutureToWaitBeforeCommit(CompletableFuture<?> future);
 }
