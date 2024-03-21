@@ -39,6 +39,10 @@ public abstract class TxControl<Self extends TxControl<?>> {
         return new TxId(true, tx.getId());
     }
 
+    public static TxTransaction tx(Transaction transaction) {
+        return new TxTransaction(true, transaction);
+    }
+
     public static TxSerializableRw serializableRw() {
         return TxSerializableRw.WITH_COMMIT;
     }
@@ -61,6 +65,10 @@ public abstract class TxControl<Self extends TxControl<?>> {
 
     public abstract Self setCommitTx(boolean commitTx);
 
+    public Transaction getTransaction() {
+        return null;
+    }
+
     public TransactionControl toPb() {
         return pb;
     }
@@ -79,6 +87,27 @@ public abstract class TxControl<Self extends TxControl<?>> {
         @Override
         public TxId setCommitTx(boolean commitTx) {
             return commitTx == isCommitTx() ? this : new TxId(commitTx, id);
+        }
+    }
+
+    /**
+     * TX Transaction
+     */
+    public static final class TxTransaction extends TxControl<TxTransaction> {
+        private final Transaction transaction;
+
+        TxTransaction(boolean commitTx, Transaction transaction) {
+            super(commitTx, transaction.getId());
+            this.transaction = transaction;
+        }
+
+        @Override
+        public TxTransaction setCommitTx(boolean commitTx) {
+            return commitTx == isCommitTx() ? this : new TxTransaction(commitTx, transaction);
+        }
+
+        public Transaction getTransaction() {
+            return transaction;
         }
     }
 

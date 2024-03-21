@@ -667,7 +667,23 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
-                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)));
+                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)))
+                .whenComplete((result, throwable) -> {
+                    Transaction transaction = txControl.getTransaction();
+                    if (transaction != null && txControl.isCommitTx()) {
+                        if (throwable != null) {
+                            transaction.getStatusFuture().completeExceptionally(new RuntimeException(
+                                    "ExecuteDataQuery with commitTx flag failed with exception", throwable));
+                        } else if (result.isSuccess()) {
+                            transaction.getStatusFuture().complete(Status.SUCCESS);
+                        } else {
+                            transaction.getStatusFuture().complete(Status
+                                    .of(StatusCode.ABORTED)
+                                    .withIssues(Issue.of("ExecuteDataQuery with commitTx flag failed with status "
+                                            + result.getStatus(), Issue.Severity.ERROR)));
+                        }
+                    }
+                });
     }
 
     @Override
@@ -731,7 +747,23 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
-                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)));
+                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)))
+                .whenComplete((result, throwable) -> {
+                    Transaction transaction = txControl.getTransaction();
+                    if (transaction != null && txControl.isCommitTx()) {
+                        if (throwable != null) {
+                            transaction.getStatusFuture().completeExceptionally(new RuntimeException(
+                                    "ExecuteDataQuery with commitTx flag failed with exception", throwable));
+                        } else if (result.isSuccess()) {
+                            transaction.getStatusFuture().complete(Status.SUCCESS);
+                        } else {
+                            transaction.getStatusFuture().complete(Status
+                                    .of(StatusCode.ABORTED)
+                                    .withIssues(Issue.of("ExecuteDataQuery with commitTx flag failed with status "
+                                            + result.getStatus(), Issue.Severity.ERROR)));
+                        }
+                    }
+                });
     }
 
     @Override
