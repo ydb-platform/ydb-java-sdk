@@ -220,7 +220,7 @@ public class PartitionSessionImpl {
                         .append("] Sending CommitRequest for partition session ").append(id)
                         .append(" (partition ").append(partitionId).append(") with offset ranges ");
                 addRangesToString(message, rangesToCommit);
-                logger.info(message.toString());
+                logger.debug(message.toString());
             }
             commitFunction.accept(rangesToCommit);
         } else if (logger.isInfoEnabled()) {
