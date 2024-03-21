@@ -26,7 +26,6 @@ public interface SyncReader {
 
     /**
      * Receive a {@link Message}. Blocks until a Message is received.
-     * Throws {@link java.util.concurrent.TimeoutException} if timeout runs off
      *
      * @param settings  settings for receiving a Message
      * @return returns a {@link Message}, or null if the specified timeout time elapses before a message is available
@@ -35,7 +34,6 @@ public interface SyncReader {
 
     /**
      * Receive a {@link Message}. Blocks until a Message is received.
-     * Throws {@link java.util.concurrent.TimeoutException} if timeout runs off
      *
      * @param timeout  timeout to wait a Message with
      * @param unit  TimeUnit for timeout
