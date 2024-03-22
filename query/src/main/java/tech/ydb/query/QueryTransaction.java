@@ -2,6 +2,7 @@ package tech.ydb.query;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.query.result.QueryInfo;
@@ -18,29 +19,7 @@ import tech.ydb.table.query.Params;
  *
  * @author Aleksandr Gorshenin
  */
-public interface QueryTransaction {
-
-    /**
-     * Returns identifier of the transaction or null if the transaction is not active = (not
-     * started/committed/rolled back). When {@link QueryTransaction} is not active - any execution of the query created
-     * by {@code createQuery} starts a new transaction. When QueryTransaction is active - any call of {@code commit},
-     * {@code rollback} or execution of the query created by {@code createQuery} with {@code commitAtEnd}=true finishes
-     * the transaction
-     *
-     * @return identifier of the transaction or null if the transaction is not active
-     */
-    String getId();
-
-    /**
-     * Returns {@link QueryTx} with mode of the transaction
-     *
-     * @return the transaction mode
-     */
-    QueryTx getQueryTx();
-
-    default boolean isActive() {
-        return getId() != null;
-    }
+public interface QueryTransaction extends BaseTransaction {
 
     /**
      * Returns {@link QuerySession} that was used for creating the transaction

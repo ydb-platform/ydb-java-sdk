@@ -71,6 +71,10 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     public CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction,
                                                                 Map<String, List<PartitionOffsets>> offsets,
                                                                 UpdateOffsetsInTransactionSettings settings) {
+        if (!transaction.isActive()) {
+            throw new IllegalArgumentException("Transaction is not active. " +
+                    "Can only read topic messages in already running transactions from other services");
+        }
         return sendUpdateOffsetsInTransaction(transaction, offsets, settings);
     }
 

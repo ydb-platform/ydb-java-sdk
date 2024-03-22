@@ -2,21 +2,25 @@ package tech.ydb.table.transaction;
 
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.common.transaction.BaseTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 
 /**
  * @author Sergey Polovko
+ * @deprecated
+ * Use {@link TableTransaction} instead
  */
-public interface Transaction extends BaseTransaction {
+@Deprecated
+public interface Transaction {
     enum Mode {
         SERIALIZABLE_READ_WRITE,
         ONLINE_READ_ONLY,
         STALE_READ_ONLY,
         SNAPSHOT_READ_ONLY;
     }
+
+    String getId();
 
     CompletableFuture<Status> commit(CommitTxSettings settings);
     CompletableFuture<Status> rollback(RollbackTxSettings settings);

@@ -2,6 +2,7 @@ package tech.ydb.query;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.query.settings.BeginTransactionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
@@ -40,7 +41,7 @@ public interface QuerySession extends AutoCloseable {
      * @param txMode transaction mode
      * @return new implicit transaction
      */
-    QueryTransaction createNewTransaction(QueryTx txMode);
+    QueryTransaction createNewTransaction(TxMode txMode);
 
     /**
      * Create and start a new <i>active</i> {@link QueryTransaction}. This method creates a transaction on the server
@@ -50,10 +51,10 @@ public interface QuerySession extends AutoCloseable {
      * @param settings additional settings for request
      * @return future with result of the transaction starting
      */
-    CompletableFuture<Result<QueryTransaction>> beginTransaction(QueryTx txMode, BeginTransactionSettings settings);
+    CompletableFuture<Result<QueryTransaction>> beginTransaction(TxMode txMode, BeginTransactionSettings settings);
 
     /**
-     * Create {@link QueryStream} for executing query with specified {@link QueryTx}. The query can contain DML, DDL and
+     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
      * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
      *
      * @param query text of query
@@ -62,13 +63,13 @@ public interface QuerySession extends AutoCloseable {
      * @param settings additional settings of query execution
      * @return a ready to execute instance of {@link QueryStream}
      */
-    QueryStream createQuery(String query, QueryTx tx, Params params, ExecuteQuerySettings settings);
+    QueryStream createQuery(String query, TxMode tx, Params params, ExecuteQuerySettings settings);
 
     @Override
     void close();
 
     /**
-     * Create {@link QueryStream} for executing query with specified {@link QueryTx}. The query can contain DML, DDL and
+     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
      * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
      *
      * @param query text of query
@@ -76,19 +77,19 @@ public interface QuerySession extends AutoCloseable {
      * @param params query parameters
      * @return a ready to execute instance of {@link QueryStream}
      */
-    default QueryStream createQuery(String query, QueryTx tx, Params params) {
+    default QueryStream createQuery(String query, TxMode tx, Params params) {
         return createQuery(query, tx, params, ExecuteQuerySettings.newBuilder().build());
     }
 
     /**
-     * Create {@link QueryStream} for executing query with specified {@link QueryTx}. The query can contain DML, DDL and
+     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
      * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
      *
      * @param query text of query
      * @param tx transaction mode
      * @return a ready to execute instance of {@link QueryStream}
      */
-    default QueryStream createQuery(String query, QueryTx tx) {
+    default QueryStream createQuery(String query, TxMode tx) {
         return createQuery(query, tx, Params.empty(), ExecuteQuerySettings.newBuilder().build());
     }
 
@@ -99,7 +100,7 @@ public interface QuerySession extends AutoCloseable {
      * @param txMode transaction mode
      * @return future with result of the transaction starting
      */
-    default CompletableFuture<Result<QueryTransaction>> beginTransaction(QueryTx txMode) {
+    default CompletableFuture<Result<QueryTransaction>> beginTransaction(TxMode txMode) {
         return beginTransaction(txMode, BeginTransactionSettings.newBuilder().build());
     }
 }

@@ -12,6 +12,8 @@ import io.grpc.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.TxMode;
+import tech.ydb.common.transaction.impl.BaseTransactionImpl;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -26,7 +28,6 @@ import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
-import tech.ydb.query.QueryTx;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.result.QueryStats;
@@ -67,7 +68,7 @@ abstract class SessionImpl implements QuerySession {
         this.sessionId = response.getSessionId();
         this.nodeID = getNodeBySessionId(response.getSessionId(), response.getNodeId());
         this.isTraceEnabled = logger.isTraceEnabled();
-        this.transaction = new AtomicReference<>(new TransactionImpl(QueryTx.SERIALIZABLE_RW, null));
+        this.transaction = new AtomicReference<>(new TransactionImpl(TxMode.SERIALIZABLE_RW, null));
     }
 
     private static Long getNodeBySessionId(String sessionId, long defaultValue) {
@@ -99,14 +100,14 @@ abstract class SessionImpl implements QuerySession {
     }
 
     @Override
-    public QueryTransaction createNewTransaction(QueryTx txMode) {
+    public QueryTransaction createNewTransaction(TxMode txMode) {
         return updateTransaction(new TransactionImpl(txMode, null));
     }
 
     public abstract void updateSessionState(Status status);
 
     @Override
-    public CompletableFuture<Result<QueryTransaction>> beginTransaction(QueryTx tx, BeginTransactionSettings settings) {
+    public CompletableFuture<Result<QueryTransaction>> beginTransaction(TxMode tx, BeginTransactionSettings settings) {
         YdbQuery.BeginTransactionRequest request = YdbQuery.BeginTransactionRequest.newBuilder()
                 .setSessionId(sessionId)
                 .setTxSettings(TxControl.txSettings(tx))
@@ -201,7 +202,7 @@ abstract class SessionImpl implements QuerySession {
     }
 
     @Override
-    public QueryStream createQuery(String query, QueryTx tx, Params prms, ExecuteQuerySettings settings) {
+    public QueryStream createQuery(String query, TxMode tx, Params prms, ExecuteQuerySettings settings) {
         YdbQuery.TransactionControl tc = TxControl.txModeCtrl(tx, true);
         return new StreamImpl(createGrpcStream(query, tc, prms, settings)) {
             @Override
@@ -312,23 +313,15 @@ abstract class SessionImpl implements QuerySession {
         }
     }
 
-    class TransactionImpl implements QueryTransaction {
-        private final QueryTx txMode;
-        private final AtomicReference<String> txId;
+    class TransactionImpl extends BaseTransactionImpl implements QueryTransaction {
 
-        TransactionImpl(QueryTx tx, String txID) {
-            this.txMode = tx;
-            this.txId = new AtomicReference<>(txID);
+        TransactionImpl(TxMode txMode, String txId) {
+            super(txMode, txId);
         }
 
         @Override
-        public String getId() {
-            return txId.get();
-        }
-
-        @Override
-        public QueryTx getQueryTx() {
-            return txMode;
+        public String getSessionId() {
+            return sessionId;
         }
 
         @Override
@@ -356,8 +349,8 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings) {
-            final String trasactionId = txId.get();
-            if (trasactionId == null) {
+            final String transactionId = txId.get();
+            if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 Result<QueryInfo> res = Result.success(new QueryInfo(null), Status.of(StatusCode.SUCCESS, null, issue));
                 return CompletableFuture.completedFuture(res);
@@ -365,13 +358,13 @@ abstract class SessionImpl implements QuerySession {
 
             YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
                     .setSessionId(sessionId)
-                    .setTxId(trasactionId)
+                    .setTxId(transactionId)
                     .build();
             GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
             return rpc.commitTransaction(request, grpcSettings).thenApply(res -> {
                 updateSessionState(res.getStatus());
-                if (!txId.compareAndSet(trasactionId, null)) {
-                    logger.warn("{} lost commit response for transaction {}", SessionImpl.this, trasactionId);
+                if (!txId.compareAndSet(transactionId, null)) {
+                    logger.warn("{} lost commit response for transaction {}", SessionImpl.this, transactionId);
                 }
                 // TODO: CommitTrasactionResponse must contain exec_stats
                 return res.map(resp -> new QueryInfo(null));
@@ -380,22 +373,22 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Status> rollback(RollbackTransactionSettings settings) {
-            final String trasactionId = txId.get();
+            final String transactionId = txId.get();
 
-            if (trasactionId == null) {
+            if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
             }
 
             YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
                     .setSessionId(sessionId)
-                    .setTxId(trasactionId)
+                    .setTxId(transactionId)
                     .build();
             GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
             return rpc.rollbackTransaction(request, grpcSettings).thenApply(result -> {
                 updateSessionState(result.getStatus());
-                if (!txId.compareAndSet(trasactionId, null)) {
-                    logger.warn("{} lost rollback response for transaction {}", SessionImpl.this, trasactionId);
+                if (!txId.compareAndSet(transactionId, null)) {
+                    logger.warn("{} lost rollback response for transaction {}", SessionImpl.this, transactionId);
                 }
                 return result.getStatus();
             });

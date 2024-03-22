@@ -1,12 +1,14 @@
 package tech.ydb.table.transaction;
 
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.OnlineModeSettings;
 import tech.ydb.proto.table.YdbTable.SerializableModeSettings;
 import tech.ydb.proto.table.YdbTable.StaleModeSettings;
 import tech.ydb.proto.table.YdbTable.TransactionControl;
 import tech.ydb.proto.table.YdbTable.TransactionSettings;
+import tech.ydb.table.settings.BeginTxSettings;
 
 
 /**
@@ -31,16 +33,24 @@ public abstract class TxControl<Self extends TxControl<?>> {
             .build();
     }
 
+    /**
+     * @deprecated
+     * Use {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
+     * or {@link tech.ydb.table.Session#beginTransaction(TxMode, BeginTxSettings)} to execute queries in transaction
+     */
+    @Deprecated
     public static TxId id(String id) {
         return new TxId(true, id);
     }
 
+    /**
+     * @deprecated
+     * Use {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
+     * or {@link tech.ydb.table.Session#beginTransaction(TxMode, BeginTxSettings)} to execute queries in transaction
+     */
+    @Deprecated
     public static TxId id(Transaction tx) {
         return new TxId(true, tx.getId());
-    }
-
-    public static TxTransaction tx(Transaction transaction) {
-        return new TxTransaction(true, transaction);
     }
 
     public static TxSerializableRw serializableRw() {
@@ -64,11 +74,6 @@ public abstract class TxControl<Self extends TxControl<?>> {
     }
 
     public abstract Self setCommitTx(boolean commitTx);
-
-    public Transaction getTransaction() {
-        return null;
-    }
-
     public TransactionControl toPb() {
         return pb;
     }
@@ -87,27 +92,6 @@ public abstract class TxControl<Self extends TxControl<?>> {
         @Override
         public TxId setCommitTx(boolean commitTx) {
             return commitTx == isCommitTx() ? this : new TxId(commitTx, id);
-        }
-    }
-
-    /**
-     * TX Transaction
-     */
-    public static final class TxTransaction extends TxControl<TxTransaction> {
-        private final Transaction transaction;
-
-        TxTransaction(boolean commitTx, Transaction transaction) {
-            super(commitTx, transaction.getId());
-            this.transaction = transaction;
-        }
-
-        @Override
-        public TxTransaction setCommitTx(boolean commitTx) {
-            return commitTx == isCommitTx() ? this : new TxTransaction(commitTx, transaction);
-        }
-
-        public Transaction getTransaction() {
-            return transaction;
         }
     }
 

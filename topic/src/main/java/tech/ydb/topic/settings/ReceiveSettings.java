@@ -60,10 +60,15 @@ public class ReceiveSettings {
          * When this transaction is committed, the message will be considered by server as read (committed)
          * If this transaction is rolled back, the reader will restart reading stream internally
          *
-         * @param transaction Transaction to link a message with
+         * @param transaction Transaction to link a message with.
+         *                    Transaction has to be active
          * @return Builder
          */
         public Builder setTransaction(BaseTransaction transaction) {
+            if (!transaction.isActive()) {
+                throw new IllegalArgumentException("Transaction is not active. " +
+                        "Can only write topic messages in already running transactions from other services");
+            }
             this.transaction = transaction;
             return this;
         }

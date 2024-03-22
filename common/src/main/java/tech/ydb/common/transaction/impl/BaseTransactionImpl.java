@@ -1,24 +1,33 @@
 package tech.ydb.common.transaction.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Status;
 
 /**
  * @author Nikolay Perfilov
  */
 public abstract class BaseTransactionImpl implements BaseTransaction {
-    protected final String txId;
+    protected final TxMode txMode;
+    protected final AtomicReference<String> txId;
     protected final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
 
-    protected BaseTransactionImpl(String txId) {
-        this.txId = txId;
+    protected BaseTransactionImpl(TxMode txMode, String txId) {
+        this.txMode = txMode;
+        this.txId = new AtomicReference<>(txId);
     }
 
     @Override
     public String getId() {
-        return txId;
+        return txId.get();
+    }
+
+    @Override
+    public TxMode getTxMode() {
+        return txMode;
     }
 
     @Override

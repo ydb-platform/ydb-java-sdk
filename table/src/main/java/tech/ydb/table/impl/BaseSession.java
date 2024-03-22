@@ -19,6 +19,8 @@ import io.grpc.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.TxMode;
+import tech.ydb.common.transaction.impl.BaseTransactionImpl;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -79,6 +81,7 @@ import tech.ydb.table.settings.ReplicationPolicy;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.settings.TtlSettings;
+import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListType;
@@ -94,6 +97,7 @@ import tech.ydb.table.values.proto.ProtoValue;
 /**
  * @author Sergey Polovko
  * @author Alexandr Gorshenin
+ * @author Nikolay Perfilov
  */
 @ThreadSafe
 public abstract class BaseSession implements Session {
@@ -661,13 +665,12 @@ public abstract class BaseSession implements Session {
         return settings.build();
     }
 
-    @Override
-    public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
-            String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
+    private CompletableFuture<Result<DataQueryResult>> executeDataQueryInternal(
+            String query, YdbTable.TransactionControl txControl, Params params, ExecuteDataQuerySettings settings) {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
                 .setSessionId(id)
                 .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
-                .setTxControl(txControl.toPb())
+                .setTxControl(txControl)
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
                 .setCollectStats(settings.collectStats().toPb())
                 .putAllParameters(params.toPb());
@@ -700,23 +703,13 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
-                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)))
-                .whenComplete((result, throwable) -> {
-                    Transaction transaction = txControl.getTransaction();
-                    if (transaction != null && txControl.isCommitTx()) {
-                        if (throwable != null) {
-                            transaction.getStatusFuture().completeExceptionally(new RuntimeException(
-                                    "ExecuteDataQuery with commitTx flag failed with exception", throwable));
-                        } else if (result.isSuccess()) {
-                            transaction.getStatusFuture().complete(Status.SUCCESS);
-                        } else {
-                            transaction.getStatusFuture().complete(Status
-                                    .of(StatusCode.ABORTED)
-                                    .withIssues(Issue.of("ExecuteDataQuery with commitTx flag failed with status "
-                                            + result.getStatus(), Issue.Severity.ERROR)));
-                        }
-                    }
-                });
+                .thenApply(result -> result.map(DataQueryResult::new));
+    }
+
+    @Override
+    public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
+            String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
+        return executeDataQueryInternal(query, txControl.toPb(), params, settings);
     }
 
     @Override
@@ -780,23 +773,7 @@ public abstract class BaseSession implements Session {
 
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
-                .thenApply(result -> result.map(res -> new DataQueryResult(res, this)))
-                .whenComplete((result, throwable) -> {
-                    Transaction transaction = txControl.getTransaction();
-                    if (transaction != null && txControl.isCommitTx()) {
-                        if (throwable != null) {
-                            transaction.getStatusFuture().completeExceptionally(new RuntimeException(
-                                    "ExecuteDataQuery with commitTx flag failed with exception", throwable));
-                        } else if (result.isSuccess()) {
-                            transaction.getStatusFuture().complete(Status.SUCCESS);
-                        } else {
-                            transaction.getStatusFuture().complete(Status
-                                    .of(StatusCode.ABORTED)
-                                    .withIssues(Issue.of("ExecuteDataQuery with commitTx flag failed with status "
-                                            + result.getStatus(), Issue.Severity.ERROR)));
-                        }
-                    }
-                });
+                .thenApply(result -> result.map(DataQueryResult::new));
     }
 
     @Override
@@ -853,7 +830,26 @@ public abstract class BaseSession implements Session {
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptResultWithLog("begin transaction",
                 tableRpc.beginTransaction(request, grpcRequestSettings))
-                .thenApply(result -> result.map(tx -> new TransactionImpl(this, tx.getTxMeta().getId())));
+                .thenApply(result -> result.map(tx -> new DeprecatedTransactionImpl(tx.getTxMeta().getId())));
+    }
+
+    @Override
+    public TableTransaction createNewTransaction(TxMode txMode) {
+        return new TableTransactionImpl(txMode, null);
+    }
+
+    @Override
+    public CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode, BeginTxSettings settings) {
+        YdbTable.BeginTransactionRequest request = YdbTable.BeginTransactionRequest.newBuilder()
+                .setSessionId(id)
+                .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
+                .setTxSettings(TxControlToPb.txSettings(txMode))
+                .build();
+
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        return interceptResultWithLog("begin transaction",
+                tableRpc.beginTransaction(request, grpcRequestSettings))
+                .thenApply(result -> result.map(tx -> new TableTransactionImpl(txMode, tx.getTxMeta().getId())));
     }
 
     @Override
@@ -947,8 +943,7 @@ public abstract class BaseSession implements Session {
         });
     }
 
-    @Override
-    public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
+    private CompletableFuture<Status> commitTransactionInternal(String txId, CommitTxSettings settings) {
         YdbTable.CommitTransactionRequest request = YdbTable.CommitTransactionRequest.newBuilder()
                 .setSessionId(id)
                 .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
@@ -961,7 +956,11 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
+    public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
+        return commitTransactionInternal(txId, settings);
+    }
+
+    private CompletableFuture<Status> rollbackTransactionInternal(String txId, RollbackTxSettings settings) {
         YdbTable.RollbackTransactionRequest request = YdbTable.RollbackTransactionRequest.newBuilder()
                 .setSessionId(id)
                 .setOperationParams(OperationUtils.createParams(settings.toOperationSettings()))
@@ -971,6 +970,12 @@ public abstract class BaseSession implements Session {
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
         return interceptStatusWithLog("rollback transaction",
                 tableRpc.rollbackTransaction(request, grpcRequestSettings));
+    }
+
+    @Override
+    @Deprecated
+    public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
+        return rollbackTransactionInternal(txId, settings);
     }
 
     @Override
@@ -1062,6 +1067,108 @@ public abstract class BaseSession implements Session {
     @Override
     public String toString() {
         return "Session{" + id + "}";
+    }
+
+    class TableTransactionImpl extends BaseTransactionImpl implements TableTransaction {
+
+        TableTransactionImpl(TxMode txMode, String txId) {
+            super(txMode, txId);
+        }
+
+        @Override
+        public String getSessionId() {
+            return id;
+        }
+
+        @Override
+        public Session getSession() {
+            return BaseSession.this;
+        }
+
+        @Override
+        public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
+                String query, boolean commitAtEnd, Params params, ExecuteDataQuerySettings settings) {
+            final String currentId = txId.get();
+            YdbTable.TransactionControl transactionControl = currentId != null
+                    ? TxControlToPb.txIdCtrl(currentId, commitAtEnd)
+                    : TxControlToPb.txModeCtrl(txMode, commitAtEnd);
+            return executeDataQueryInternal(query, transactionControl, params, settings)
+                    .whenComplete((result, throwable) -> {
+                        if (throwable != null) {
+                            statusFuture.completeExceptionally(new RuntimeException(
+                                    "ExecuteDataQuery with commitAtEnd flag failed with exception", throwable));
+                        } else if (result.isSuccess()) {
+                            setNewId(currentId, result.getValue().getTxId());
+                            if (commitAtEnd) {
+                                statusFuture.complete(Status.SUCCESS);
+                            }
+                        } else {
+                            setNewId(currentId, null);
+                            statusFuture.complete(Status
+                                    .of(StatusCode.ABORTED)
+                                    .withIssues(Issue.of("ExecuteDataQuery with commitTx flag failed with status "
+                                            + result.getStatus(), Issue.Severity.ERROR)));
+                        }
+                    });
+        }
+
+        private void setNewId(String currentId, String newId) {
+            if (!txId.compareAndSet(currentId, newId)) {
+                logger.warn("{} Couldn't change transaction id from {} to {}", BaseSession.this, currentId, newId);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> commit(CommitTxSettings settings) {
+            final String transactionId = txId.get();
+            if (transactionId == null) {
+                Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
+                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
+            }
+            return commitTransactionInternal(transactionId, settings).whenComplete(((status, throwable) -> {
+                if (throwable != null) {
+                    statusFuture.completeExceptionally(throwable);
+                } else {
+                    statusFuture.complete(status);
+                }
+            }));
+        }
+
+        @Override
+        public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
+            final String transactionId = txId.get();
+            if (transactionId == null) {
+                Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
+                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
+            }
+            return rollbackTransactionInternal(transactionId, settings)
+                    .whenComplete((status, throwable) -> statusFuture.complete(Status
+                            .of(StatusCode.ABORTED)
+                            .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR))));
+        }
+    }
+
+    public final class DeprecatedTransactionImpl implements Transaction {
+        private final String txId;
+
+        DeprecatedTransactionImpl(String txId) {
+            this.txId = txId;
+        }
+
+        @Override
+        public String getId() {
+            return txId;
+        }
+
+        @Override
+        public CompletableFuture<Status> commit(CommitTxSettings settings) {
+            return commitTransactionInternal(txId, settings);
+        }
+
+        @Override
+        public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
+            return rollbackTransactionInternal(txId, settings);
+        }
     }
 
     private static class ShutdownHandler implements Consumer<Metadata> {
