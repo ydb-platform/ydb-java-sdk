@@ -1088,26 +1088,31 @@ public abstract class BaseSession implements Session {
         @Override
         public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
                 String query, boolean commitAtEnd, Params params, ExecuteDataQuerySettings settings) {
+            // If we intend to commit, statusFuture is reset to reflect only future actions in transaction
+            CompletableFuture<Status> currentStatusFuture = commitAtEnd
+                    ? statusFuture.getAndSet(new CompletableFuture<>())
+                    : statusFuture.get();
             final String currentId = txId.get();
             YdbTable.TransactionControl transactionControl = currentId != null
                     ? TxControlToPb.txIdCtrl(currentId, commitAtEnd)
                     : TxControlToPb.txModeCtrl(txMode, commitAtEnd);
             return executeDataQueryInternal(query, transactionControl, params, settings)
-                    .whenComplete((result, throwable) -> {
-                        if (throwable != null) {
-                            statusFuture.completeExceptionally(new RuntimeException(
-                                    "ExecuteDataQuery with commitAtEnd flag failed with exception", throwable));
+                    .whenComplete((result, th) -> {
+                        if (th != null) {
+                            currentStatusFuture.completeExceptionally(
+                                    new RuntimeException("ExecuteDataQuery on transaction failed with exception ", th));
+                            setNewId(currentId, null);
                         } else if (result.isSuccess()) {
                             setNewId(currentId, result.getValue().getTxId());
                             if (commitAtEnd) {
-                                statusFuture.complete(Status.SUCCESS);
+                                currentStatusFuture.complete(Status.SUCCESS);
                             }
                         } else {
                             setNewId(currentId, null);
-                            statusFuture.complete(Status
+                            currentStatusFuture.complete(Status
                                     .of(StatusCode.ABORTED)
-                                    .withIssues(Issue.of("ExecuteDataQuery with commitTx flag failed with status "
-                                            + result.getStatus(), Issue.Severity.ERROR)));
+                                    .withIssues(Issue.of("ExecuteDataQuery on transaction failed with status "
+                                                    + result.getStatus(), Issue.Severity.ERROR)));
                         }
                     });
         }
@@ -1120,29 +1125,31 @@ public abstract class BaseSession implements Session {
 
         @Override
         public CompletableFuture<Status> commit(CommitTxSettings settings) {
+            CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             final String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
             }
-            return commitTransactionInternal(transactionId, settings).whenComplete(((status, throwable) -> {
-                if (throwable != null) {
-                    statusFuture.completeExceptionally(throwable);
+            return commitTransactionInternal(transactionId, settings).whenComplete(((status, th) -> {
+                if (th != null) {
+                    currentStatusFuture.completeExceptionally(th);
                 } else {
-                    statusFuture.complete(status);
+                    currentStatusFuture.complete(status);
                 }
             }));
         }
 
         @Override
         public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
+            CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             final String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
             }
             return rollbackTransactionInternal(transactionId, settings)
-                    .whenComplete((status, throwable) -> statusFuture.complete(Status
+                    .whenComplete((status, th) -> currentStatusFuture.complete(Status
                             .of(StatusCode.ABORTED)
                             .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR))));
         }

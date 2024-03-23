@@ -13,7 +13,8 @@ import tech.ydb.core.Status;
 public abstract class BaseTransactionImpl implements BaseTransaction {
     protected final TxMode txMode;
     protected final AtomicReference<String> txId;
-    protected final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
+    protected final AtomicReference<CompletableFuture<Status>> statusFuture = new AtomicReference<>(
+            new CompletableFuture<>());
 
     protected BaseTransactionImpl(TxMode txMode, String txId) {
         this.txMode = txMode;
@@ -32,6 +33,6 @@ public abstract class BaseTransactionImpl implements BaseTransaction {
 
     @Override
     public CompletableFuture<Status> getStatusFuture() {
-        return statusFuture;
+        return statusFuture.get();
     }
 }

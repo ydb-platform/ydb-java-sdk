@@ -252,6 +252,8 @@ abstract class SessionImpl implements QuerySession {
         }
 
         abstract void handleTxMeta(YdbQuery.TransactionMeta meta);
+        void handleCompletion(Status status, Throwable th) {
+        }
 
         @Override
         public CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler) {
@@ -293,6 +295,7 @@ abstract class SessionImpl implements QuerySession {
                     }
                 }
             }).whenComplete((status, th) -> {
+                handleCompletion(status, th);
                 if (th != null) {
                     result.completeExceptionally(th);
                 }
@@ -331,6 +334,10 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public QueryStream createQuery(String query, boolean commitAtEnd, Params prms, ExecuteQuerySettings settings) {
+            // If we intend to commit, statusFuture is reset to reflect only future actions in transaction
+            CompletableFuture<Status> currentStatusFuture = commitAtEnd
+                    ? statusFuture.getAndSet(new CompletableFuture<>())
+                    : statusFuture.get();
             final String currentId = txId.get();
             YdbQuery.TransactionControl tc = currentId != null
                     ? TxControl.txIdCtrl(currentId, commitAtEnd)
@@ -344,11 +351,29 @@ abstract class SessionImpl implements QuerySession {
                         logger.warn("{} lost transaction meta id {}", SessionImpl.this, newId);
                     }
                 }
+                @Override
+                void handleCompletion(Status status, Throwable th) {
+                    if (th != null) {
+                        currentStatusFuture.completeExceptionally(
+                                new RuntimeException("Query on transaction failed with exception ", th));
+                    }
+                    if (status.isSuccess()) {
+                        if (commitAtEnd) {
+                            currentStatusFuture.complete(Status.SUCCESS);
+                        }
+                    } else {
+                        currentStatusFuture.complete(Status
+                                .of(StatusCode.ABORTED)
+                                .withIssues(Issue.of("Query on transaction failed with status "
+                                        + status, Issue.Severity.ERROR)));
+                    }
+                }
             };
         }
 
         @Override
         public CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings) {
+            CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             final String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
@@ -361,18 +386,27 @@ abstract class SessionImpl implements QuerySession {
                     .setTxId(transactionId)
                     .build();
             GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-            return rpc.commitTransaction(request, grpcSettings).thenApply(res -> {
-                updateSessionState(res.getStatus());
-                if (!txId.compareAndSet(transactionId, null)) {
-                    logger.warn("{} lost commit response for transaction {}", SessionImpl.this, transactionId);
-                }
-                // TODO: CommitTrasactionResponse must contain exec_stats
-                return res.map(resp -> new QueryInfo(null));
-            });
+            return rpc.commitTransaction(request, grpcSettings)
+                    .thenApply(res -> {
+                        Status status = res.getStatus();
+                        currentStatusFuture.complete(status);
+                        updateSessionState(status);
+                        if (!txId.compareAndSet(transactionId, null)) {
+                            logger.warn("{} lost commit response for transaction {}", SessionImpl.this, transactionId);
+                        }
+                        // TODO: CommitTransactionResponse must contain exec_stats
+                        return res.map(resp -> new QueryInfo(null));
+                    }).whenComplete(((status, th) -> {
+                        if (th != null) {
+                            currentStatusFuture.completeExceptionally(
+                                    new RuntimeException("Transaction commit failed with exception", th));
+                        }
+                    }));
         }
 
         @Override
         public CompletableFuture<Status> rollback(RollbackTransactionSettings settings) {
+            CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             final String transactionId = txId.get();
 
             if (transactionId == null) {
@@ -385,13 +419,18 @@ abstract class SessionImpl implements QuerySession {
                     .setTxId(transactionId)
                     .build();
             GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-            return rpc.rollbackTransaction(request, grpcSettings).thenApply(result -> {
-                updateSessionState(result.getStatus());
-                if (!txId.compareAndSet(transactionId, null)) {
-                    logger.warn("{} lost rollback response for transaction {}", SessionImpl.this, transactionId);
-                }
-                return result.getStatus();
-            });
+            return rpc.rollbackTransaction(request, grpcSettings)
+                    .thenApply(result -> {
+                        updateSessionState(result.getStatus());
+                        if (!txId.compareAndSet(transactionId, null)) {
+                            logger.warn("{} lost rollback response for transaction {}", SessionImpl.this,
+                                    transactionId);
+                        }
+                        return result.getStatus();
+                    })
+                    .whenComplete((status, th) -> currentStatusFuture.complete(Status
+                            .of(StatusCode.ABORTED)
+                            .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR))));
         }
     }
 }
