@@ -243,13 +243,16 @@ public class QueryIntegrationTest {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 QueryTransaction tx = session.createNewTransaction(TxMode.SERIALIZABLE_RW);
+                Assert.assertFalse(tx.isActive());
                 QueryReader.readFrom(
                         tx.createQuery("UPDATE " + TEST_TABLE + " SET name='test' WHERE id=1")
                 ).join().getStatus().expectSuccess();
+                Assert.assertTrue(tx.isActive());
 
                 QueryReader.readFrom(
                         tx.createQueryWithCommit("UPDATE " + TEST_DOUBLE_TABLE + " SET amount=300 WHERE id=1")
                 ).join().getStatus().expectSuccess();
+                Assert.assertFalse(tx.isActive());
             }
         }
     }
@@ -259,14 +262,18 @@ public class QueryIntegrationTest {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 QueryTransaction tx = session.createNewTransaction(TxMode.SERIALIZABLE_RW);
+                Assert.assertFalse(tx.isActive());
                 tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (1, 'rec1');").execute(null)
                         .join().getStatus().expectSuccess();
+                Assert.assertTrue(tx.isActive());
                 tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (3, 'rec3');").execute(null)
                         .join().getStatus().expectSuccess();
+                Assert.assertTrue(tx.isActive());
 
                 Iterator<ResultSetReader> rsIter = QueryReader.readFrom(
                         tx.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id")
                 ).join().getValue().iterator();
+                Assert.assertTrue(tx.isActive());
 
                 Assert.assertTrue(rsIter.hasNext());
                 ResultSetReader rs = rsIter.next();
@@ -278,6 +285,7 @@ public class QueryIntegrationTest {
                 Assert.assertFalse(rsIter.hasNext());
 
                 tx.commit().join().getStatus().expectSuccess();
+                Assert.assertFalse(tx.isActive());
 
                 tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (2, 'rec2');").execute(null)
                         .join().getStatus().expectSuccess();
