@@ -1,16 +1,7 @@
 package tech.ydb.core.operation;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.TimeUnit;
-
 import com.google.protobuf.Any;
-import org.apache.logging.log4j.core.config.CronScheduledFuture;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -18,340 +9,388 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.proto.OperationProtos;
 import tech.ydb.proto.StatusCodesProtos;
-import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.YdbIssueMessage.IssueMessage;
-import tech.ydb.proto.operation.v1.OperationServiceGrpc;
+import tech.ydb.proto.common.CommonProtos;
 import tech.ydb.proto.table.YdbTable;
-import tech.ydb.proto.table.v1.TableServiceGrpc;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
 
 /**
  * @author Kirill Kurdyukov
  */
-public class OperationManagerTest {
+public class OperationBinderTest {
+    private static final IssueMessage TEST_ISSUE_MESSAGE = IssueMessage.newBuilder()
+            .setIssueCode(12345)
+            .setSeverity(Issue.Severity.INFO.getCode())
+            .setMessage("some-issue")
+            .build();
 
-    private static final String OPERATION_ID = "123";
+    private static final Issue TEST_ISSUE = Issue.of(12345, "some-issue", Issue.Severity.INFO);
 
-    private final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
-    private final ScheduledExecutorServiceTest scheduledExecutorServiceTest = new ScheduledExecutorServiceTest();
+    private static final Status NOT_FOUND = Status.of(StatusCode.NOT_FOUND)
+            .withIssues(Issue.of("not-found", Issue.Severity.ERROR));
 
-    private OperationManager operationManager;
+    private final GrpcTransport mocked = Mockito.mock(GrpcTransport.class);
 
-    @Before
-    public void before() {
-        when(transport.getScheduler()).thenReturn(scheduledExecutorServiceTest);
+    @Test
+    public void syncStatusBinderTest() {
+        YdbTable.AlterTableResponse response = YdbTable.AlterTableResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                                .setId("ready-id")
+                                .setReady(true)
+                                .setCostInfo(CommonProtos.CostInfo.newBuilder().setConsumedUnits(15d).build())
+                                .build())
+                .build();
 
-        operationManager = new OperationManager(transport);
+        Status status = OperationBinder
+                .bindSync(YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.success(response));
+
+        Assert.assertEquals(StatusCode.SUCCESS, status.getCode());
+        Assert.assertTrue(status.hasConsumedRu());
+        Assert.assertEquals(Double.valueOf(15d), status.getConsumedRu());
+        Assert.assertEquals(0, status.getIssues().length);
     }
 
     @Test
-    public void successWithoutIssues() {
-        Status s = OperationManager.status(OperationProtos.Operation.newBuilder()
-                .setStatus(StatusIds.StatusCode.SUCCESS)
-                .setId("some-id")
-                .setReady(true)
-                .build());
+    public void syncStatusBinderFailTest() {
+        YdbTable.AlterTableResponse response = YdbTable.AlterTableResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setStatus(StatusCodesProtos.StatusIds.StatusCode.NOT_FOUND)
+                                .setId("errored-id")
+                                .setReady(true)
+                                .addIssues(TEST_ISSUE_MESSAGE)
+                                .build())
+                .build();
 
-        assertSame(Status.SUCCESS, s);
-        assertEquals(0, s.getIssues().length);
+        Status status = OperationBinder
+                .bindSync(YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.success(response));
+
+        Assert.assertEquals(StatusCode.NOT_FOUND, status.getCode());
+        Assert.assertFalse(status.hasConsumedRu());
+        Assert.assertArrayEquals(new Issue[] { TEST_ISSUE }, status.getIssues());
     }
 
     @Test
-    public void successWithIssues() {
-        Status s = OperationManager.status(OperationProtos.Operation.newBuilder()
-                .setStatus(StatusIds.StatusCode.SUCCESS)
-                .setId("some-id")
-                .setReady(true)
-                .addIssues(IssueMessage.newBuilder()
-                        .setIssueCode(12345)
-                        .setSeverity(Issue.Severity.INFO.getCode())
-                        .setMessage("some-issue")
-                        .build())
-                .build());
-
-        assertTrue(s.isSuccess());
-        assertArrayEquals(new Issue[]{
-                Issue.of(12345, "some-issue", Issue.Severity.INFO)
-        }, s.getIssues());
+    public void syncStatusBinderErrorTest() {
+        Status failed = OperationBinder
+                .bindSync(YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.fail(NOT_FOUND));
+        Assert.assertEquals(NOT_FOUND, failed);
     }
 
     @Test
-    public void completeSuccessOperation() {
-        mockExplainDataQueryMethodTransport(createResult(true, StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
+    public void syncStatusBinderNotReadyTest() {
+        YdbTable.AlterTableResponse response = YdbTable.AlterTableResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setId("not-ready-id")
+                                .setReady(false)
+                                .build()
+                ).build();
 
-        checkSuccessOperation(resultUnwrap());
+        Status status = OperationBinder
+                .bindSync(YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.success(response));
+
+        Assert.assertEquals(OperationBinder.UNEXPECTED_ASYNC, status);
     }
 
     @Test
-    public void completeFailOperation() {
-        mockExplainDataQueryMethodTransport(createResult(true,
-                StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION));
+    public void syncResultBinderTest() {
+        Any data = Any.pack(YdbTable.ExplainQueryResult.newBuilder().setQueryPlan("plan").build());
+        YdbTable.ExplainDataQueryResponse response = YdbTable.ExplainDataQueryResponse.newBuilder()
+                .setOperation(OperationProtos.Operation.newBuilder()
+                        .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                        .setId("ready-id")
+                        .setReady(true)
+                        .setCostInfo(CommonProtos.CostInfo.newBuilder().setConsumedUnits(15d).build())
+                        .setResult(data)
+                        .build()
+                ).build();
 
-        Result<TestTransform> result = resultUnwrap().join();
-
-        Assert.assertEquals(Status.of(StatusCode.BAD_SESSION), result.getStatus());
-    }
-
-    @Test
-    public void failUnwrapOperation() {
-        mockExplainDataQueryMethodTransport(Result.fail(Status.of(StatusCode.BAD_SESSION)));
-
-        Result<TestTransform> result = resultUnwrap().join();
-
-        Assert.assertEquals(Status.of(StatusCode.BAD_SESSION), result.getStatus());
-    }
-
-    @Test
-    public void completeSuccessPollingOperation() {
-        mockExplainDataQueryMethodTransport(createResult(false,
-                StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
-
-        CompletableFuture<Result<TestTransform>> resultCompletableFuture = resultUnwrap();
-
-        Assert.assertFalse(resultCompletableFuture.isDone());
-
-        mockGetOperationMethodTransport(StatusCodesProtos.StatusIds.StatusCode.SUCCESS);
-        scheduledExecutorServiceTest.execCommand();
-
-        checkSuccessOperation(resultCompletableFuture);
-    }
-
-    @Test
-    public void completeFailPollingOperation() {
-        mockExplainDataQueryMethodTransport(createResult(false,
-                StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
-
-        CompletableFuture<Result<TestTransform>> resultCompletableFuture = resultUnwrap();
-
-        Assert.assertFalse(resultCompletableFuture.isDone());
-
-        mockGetOperationMethodTransport(StatusCodesProtos.StatusIds.StatusCode.BAD_REQUEST);
-        scheduledExecutorServiceTest.execCommand();
-
-        Assert.assertEquals(Status.of(StatusCode.BAD_REQUEST), resultCompletableFuture.join().getStatus());
-    }
-
-    @Test
-    public void cancelPollingOperation() {
-        mockExplainDataQueryMethodTransport(createResult(false, StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
-
-        Operation<TestTransform> resultCompletableFuture = operationUnwrap();
-
-        mockCancelOperationMethodTransport(
-                Result.success(
-                        OperationProtos.CancelOperationResponse
-                                .getDefaultInstance()
-                )
-        );
-        resultCompletableFuture.cancel();
-
-        mockGetOperationMethodTransport(StatusCodesProtos.StatusIds.StatusCode.SUCCESS);
-        scheduledExecutorServiceTest.execCommand();
-
-        Result<TestTransform> result = resultCompletableFuture.getResultFuture().join();
-
-        Assert.assertEquals(Status.of(StatusCode.CANCELLED), result.getStatus());
-    }
-
-    @Test
-    public void failCancelThenSuccessPollingOperation() {
-        mockExplainDataQueryMethodTransport(createResult(false, StatusCodesProtos.StatusIds.StatusCode.SUCCESS));
-
-        Operation<TestTransform> resultCompletableFuture = operationUnwrap();
-
-        mockCancelOperationMethodTransport(Result.fail(Status.of(StatusCode.BAD_SESSION)));
-        resultCompletableFuture.cancel();
-
-        mockGetOperationMethodTransport(StatusCodesProtos.StatusIds.StatusCode.SUCCESS);
-        scheduledExecutorServiceTest.execCommand();
-
-        checkSuccessOperation(resultCompletableFuture.getResultFuture());
-    }
-
-    private Operation<TestTransform> operationUnwrap() {
-        return transport
-                .unaryCall(
-                        TableServiceGrpc.getExplainDataQueryMethod(),
-                        GrpcRequestSettings.newBuilder().build(),
-                        YdbTable.ExplainDataQueryRequest.getDefaultInstance()
-                )
-                .thenApply(operationManager
-                        .operationUnwrapper(
-                                YdbTable.ExplainDataQueryResponse::getOperation,
-                                YdbTable.ExplainQueryResult.class
-                        )
-                ).thenApply(
-                        t -> t.transform(explainQueryResult -> new TestTransform(explainQueryResult.getQueryPlan()))
-                ).join();
-    }
-
-    private static class TestTransform {
-
-        final String plan;
-
-        public TestTransform(String plan) {
-            this.plan = plan;
-        }
-    }
-
-    private static void checkSuccessOperation(
-            CompletableFuture<Result<TestTransform>> resultCompletableFuture
-    ) {
-        Result<TestTransform> result = resultCompletableFuture.join();
+        Result<YdbTable.ExplainQueryResult> result = OperationBinder
+                .bindSync(YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.success(response));
 
         Assert.assertTrue(result.isSuccess());
-        Assert.assertEquals("Hello", result.getValue().plan);
+        Assert.assertTrue(result.getStatus().hasConsumedRu());
+        Assert.assertEquals(Double.valueOf(15d), result.getStatus().getConsumedRu());
+        Assert.assertEquals(0, result.getStatus().getIssues().length);
     }
 
-    private void mockCancelOperationMethodTransport(Result<OperationProtos.CancelOperationResponse> responseResult) {
-        when(transport
-                .unaryCall(
-                        eq(OperationServiceGrpc.getCancelOperationMethod()),
-                        any(GrpcRequestSettings.class),
-                        eq(
-                                OperationProtos.CancelOperationRequest
-                                        .newBuilder()
-                                        .setId(OPERATION_ID)
-                                        .build()
-                        )
-                )
-        ).thenReturn(
-                CompletableFuture
-                        .completedFuture(responseResult)
-        );
-    }
-
-    private void mockGetOperationMethodTransport(StatusCodesProtos.StatusIds.StatusCode statusCode) {
-        when(transport
-                .unaryCall(
-                        eq(OperationServiceGrpc.getGetOperationMethod()),
-                        any(GrpcRequestSettings.class),
-                        eq(
-                                OperationProtos.GetOperationRequest
-                                        .newBuilder()
-                                        .setId(OPERATION_ID)
-                                        .build()
-                        )
-                )
-        ).thenReturn(CompletableFuture
-                .completedFuture(
-                        Result.success(
-                                OperationProtos.GetOperationResponse.newBuilder()
-                                        .setOperation(createOperation(true, statusCode))
-                                        .build()
-                        )
-                )
-        );
-    }
-
-    private CompletableFuture<Result<TestTransform>> resultUnwrap() {
-        return transport
-                .unaryCall(
-                        TableServiceGrpc.getExplainDataQueryMethod(),
-                        GrpcRequestSettings.newBuilder().build(),
-                        YdbTable.ExplainDataQueryRequest.getDefaultInstance()
-                )
-                .thenApply(
-                        operationManager
-                                .operationUnwrapper(
-                                        YdbTable.ExplainDataQueryResponse::getOperation,
-                                        YdbTable.ExplainQueryResult.class
-                                )
-                )
-                .thenApply(t -> t.transform(explainQueryResult -> new TestTransform(explainQueryResult.getQueryPlan())))
-                .thenCompose(Operation::getResultFuture);
-    }
-
-    private static Result<YdbTable.ExplainDataQueryResponse> createResult(
-            boolean ready,
-            StatusCodesProtos.StatusIds.StatusCode statusCode
-    ) {
-        return Result.success(YdbTable.ExplainDataQueryResponse
-                .newBuilder()
+    @Test
+    public void syncResultBinderFailTest() {
+        YdbTable.ExplainDataQueryResponse response = YdbTable.ExplainDataQueryResponse.newBuilder()
                 .setOperation(
-                        createOperation(
-                                ready,
-                                statusCode
-                        )
-                )
-                .build()
-        );
-    }
-
-    private static OperationProtos.Operation createOperation(
-            boolean ready,
-            StatusCodesProtos.StatusIds.StatusCode statusCode
-    ) {
-        return OperationProtos.Operation
-                .newBuilder()
-                .setReady(ready)
-                .setId(OPERATION_ID)
-                .setStatus(statusCode)
-                .setResult(
-                        Any.pack(YdbTable.ExplainQueryResult.newBuilder()
-                                .setQueryPlan("Hello")
+                        OperationProtos.Operation.newBuilder()
+                                .setStatus(StatusCodesProtos.StatusIds.StatusCode.NOT_FOUND)
+                                .setId("error-id")
+                                .setReady(true)
+                                .addIssues(TEST_ISSUE_MESSAGE)
                                 .build())
-                )
                 .build();
+
+        Result<YdbTable.ExplainQueryResult> result = OperationBinder
+                .bindSync(YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.success(response));
+
+        Assert.assertEquals(StatusCode.NOT_FOUND, result.getStatus().getCode());
+        Assert.assertFalse(result.getStatus().hasConsumedRu());
+        Assert.assertArrayEquals(new Issue[] { TEST_ISSUE }, result.getStatus().getIssues());
     }
 
-    private void mockExplainDataQueryMethodTransport(Result<YdbTable.ExplainDataQueryResponse> responseResult) {
-        when(transport
-                .unaryCall(
-                        eq(TableServiceGrpc.getExplainDataQueryMethod()),
-                        any(GrpcRequestSettings.class),
-                        any(YdbTable.ExplainDataQueryRequest.class)
-                )
-        ).thenReturn(CompletableFuture
-                .completedFuture(responseResult)
+    @Test
+    public void syncResultBinderNotReadyTest() {
+        YdbTable.ExplainDataQueryResponse response = YdbTable.ExplainDataQueryResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setId("not-ready-id")
+                                .setReady(false)
+                                .build()
+                ).build();
+
+        Result<YdbTable.ExplainQueryResult> result = OperationBinder
+                .bindSync(YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.success(response));
+
+        Assert.assertFalse(result.isSuccess());
+        Assert.assertEquals(OperationBinder.UNEXPECTED_ASYNC, result.getStatus());
+    }
+
+    @Test
+    public void syncResultBinderErrorTest() {
+        Result<YdbTable.ExplainQueryResult> result = OperationBinder
+                .bindSync(YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.fail(NOT_FOUND));
+
+        Assert.assertFalse(result.isSuccess());
+        Assert.assertEquals(NOT_FOUND, result.getStatus());
+    }
+
+    @Test
+    public void syncResultBinderMixClassesTest() {
+        Any data = Any.pack(YdbTable.ExplainQueryResult.newBuilder().setQueryPlan("plan").build());
+        YdbTable.ExplainDataQueryResponse response = YdbTable.ExplainDataQueryResponse.newBuilder()
+                .setOperation(OperationProtos.Operation.newBuilder()
+                        .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                        .setId("ready-id")
+                        .setReady(true)
+                        .setCostInfo(CommonProtos.CostInfo.newBuilder().setConsumedUnits(15d).build())
+                        .setResult(data)
+                        .build()
+                ).build();
+
+        final Result<YdbTable.ExecuteQueryResult> result = OperationBinder
+                .bindSync(YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExecuteQueryResult.class)
+                .apply(Result.success(response));
+
+        Assert.assertFalse(result.isSuccess());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getStatus().getCode());
+        UnexpectedResultException ex = Assert.assertThrows(UnexpectedResultException.class, () -> result.getValue());
+        Assert.assertEquals(
+                "Can't unpack message tech.ydb.proto.table.YdbTable$ExecuteQueryResult, code: CLIENT_INTERNAL_ERROR",
+                ex.getMessage()
         );
     }
 
-    private static class ScheduledExecutorServiceTest extends ScheduledThreadPoolExecutor {
-        private Runnable command;
+    @Test
+    public void asyncStatusBinderTest() {
+        YdbTable.AlterTableResponse response = YdbTable.AlterTableResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                                .setId("ready-id")
+                                .setReady(true)
+                                .setCostInfo(CommonProtos.CostInfo.newBuilder().setConsumedUnits(15d).build())
+                                .build())
+                .build();
 
-        public ScheduledExecutorServiceTest() {
-            super(0);
-        }
+        Operation<Status> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.success(response));
 
-        public ScheduledExecutorServiceTest(int corePoolSize) {
-            super(corePoolSize);
-        }
+        Assert.assertTrue(operation.isReady());
+        Assert.assertEquals("ready-id", operation.getId());
 
-        public ScheduledExecutorServiceTest(int corePoolSize, ThreadFactory threadFactory) {
-            super(corePoolSize, threadFactory);
-        }
+        Status status = operation.getValue();
+        Assert.assertNotNull(status);
+        Assert.assertEquals(StatusCode.SUCCESS, status.getCode());
+        Assert.assertTrue(status.hasConsumedRu());
+        Assert.assertEquals(Double.valueOf(15d), status.getConsumedRu());
+        Assert.assertEquals(0, status.getIssues().length);
 
-        public ScheduledExecutorServiceTest(int corePoolSize, RejectedExecutionHandler handler) {
-            super(corePoolSize, handler);
-        }
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
+        Assert.assertTrue(operation.fetch().join().getValue());
+    }
 
-        public ScheduledExecutorServiceTest(int corePoolSize, ThreadFactory threadFactory,
-                                            RejectedExecutionHandler handler) {
-            super(corePoolSize, threadFactory, handler);
-        }
+    @Test
+    public void asyncStatusBinderFailTest() {
+        YdbTable.AlterTableResponse response = YdbTable.AlterTableResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setStatus(StatusCodesProtos.StatusIds.StatusCode.NOT_FOUND)
+                                .setId("error-id")
+                                .setReady(true)
+                                .addIssues(TEST_ISSUE_MESSAGE)
+                                .build())
+                .build();
+        Status error = Status.of(StatusCode.NOT_FOUND, null, TEST_ISSUE);
 
-        @Override
-        public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
-            this.command = command;
+        Operation<Status> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.success(response));
 
-            // unused scheduled future
-            return new CronScheduledFuture<>(null, null);
-        }
+        Assert.assertTrue(operation.isReady());
+        Assert.assertEquals("error-id", operation.getId());
 
-        public void execCommand() {
-            command.run();
-        }
+        Status status = operation.getValue();
+        Assert.assertNotNull(status);
+        Assert.assertEquals(error, status);
+
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
+        Assert.assertTrue(operation.fetch().join().getValue());
+    }
+
+    @Test
+    public void asyncStatusBinderErrorTest() {
+        Status error = Status.of(StatusCode.NOT_FOUND, null, TEST_ISSUE);
+
+        Operation<Status> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.fail(error));
+
+        Assert.assertTrue(operation.isReady());
+        Assert.assertNull(operation.getId());
+
+        Assert.assertEquals(error, operation.getValue());
+
+        Assert.assertEquals(error, operation.cancel().join());
+        Assert.assertEquals(error, operation.forget().join());
+        Assert.assertEquals(error, operation.fetch().join().getStatus());
+    }
+
+    @Test
+    public void asyncStatusBinderNotReadyTest() {
+        YdbTable.AlterTableResponse response = YdbTable.AlterTableResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setId("not-ready-id")
+                                .setReady(false)
+                                .build()
+                ).build();
+
+        Operation<Status> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.AlterTableResponse::getOperation)
+                .apply(Result.success(response));
+
+        Assert.assertFalse(operation.isReady());
+        Assert.assertEquals("not-ready-id", operation.getId());
+    }
+
+    @Test
+    public void asyncResultBinderTest() {
+        Any data = Any.pack(YdbTable.ExplainQueryResult.newBuilder().setQueryPlan("plan").build());
+        YdbTable.ExplainDataQueryResponse response = YdbTable.ExplainDataQueryResponse.newBuilder()
+                .setOperation(OperationProtos.Operation.newBuilder()
+                        .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                        .setId("ready-id")
+                        .setReady(true)
+                        .setCostInfo(CommonProtos.CostInfo.newBuilder().setConsumedUnits(15d).build())
+                        .setResult(data)
+                        .build()
+                ).build();
+
+        Operation<Result<YdbTable.ExplainQueryResult>> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.success(response));
+
+        Assert.assertTrue(operation.isReady());
+        Assert.assertEquals("ready-id", operation.getId());
+
+        Result<YdbTable.ExplainQueryResult> result = operation.getValue();
+        Assert.assertNotNull(result);
+        Assert.assertEquals(StatusCode.SUCCESS, result.getStatus().getCode());
+        Assert.assertTrue(result.getStatus().hasConsumedRu());
+        Assert.assertEquals(Double.valueOf(15d), result.getStatus().getConsumedRu());
+        Assert.assertEquals(0, result.getStatus().getIssues().length);
+
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
+        Assert.assertTrue(operation.fetch().join().getValue());
+    }
+
+    @Test
+    public void asyncResultBinderFailTest() {
+        YdbTable.ExplainDataQueryResponse response = YdbTable.ExplainDataQueryResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setStatus(StatusCodesProtos.StatusIds.StatusCode.NOT_FOUND)
+                                .setId("error-id")
+                                .setReady(true)
+                                .addIssues(TEST_ISSUE_MESSAGE)
+                                .build())
+                .build();
+
+        Operation<Result<YdbTable.ExplainQueryResult>> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.success(response));
+        Status error = Status.of(StatusCode.NOT_FOUND, null, TEST_ISSUE);
+
+        Assert.assertTrue(operation.isReady());
+        Assert.assertEquals("error-id", operation.getId());
+
+        Result<YdbTable.ExplainQueryResult> result = operation.getValue();
+        Assert.assertNotNull(result);
+        Assert.assertEquals(error, result.getStatus());
+
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
+        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
+        Assert.assertTrue(operation.fetch().join().getValue());
+    }
+
+    @Test
+    public void asyncResultBinderErrorTest() {
+        Status error = Status.of(StatusCode.BAD_SESSION, null, TEST_ISSUE, TEST_ISSUE);
+        Operation<Result<YdbTable.ExplainQueryResult>> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.fail(error));
+
+        Assert.assertTrue(operation.isReady());
+        Assert.assertNull(operation.getId());
+
+        Result<YdbTable.ExplainQueryResult> result = operation.getValue();
+        Assert.assertNotNull(result);
+        Assert.assertEquals(error, result.getStatus());
+
+        Assert.assertEquals(error, operation.cancel().join());
+        Assert.assertEquals(error, operation.forget().join());
+        Assert.assertEquals(error, operation.fetch().join().getStatus());
+    }
+
+    @Test
+    public void asyncResultBinderNotReadyTest() {
+        YdbTable.ExplainDataQueryResponse response = YdbTable.ExplainDataQueryResponse.newBuilder()
+                .setOperation(
+                        OperationProtos.Operation.newBuilder()
+                                .setId("not-ready-id")
+                                .setReady(false)
+                                .build()
+                ).build();
+
+        Operation<Result<YdbTable.ExplainQueryResult>> operation = OperationBinder
+                .bindAsync(mocked, YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
+                .apply(Result.success(response));
+
+        Assert.assertFalse(operation.isReady());
+        Assert.assertEquals("not-ready-id", operation.getId());
     }
 }
