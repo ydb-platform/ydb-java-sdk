@@ -10,35 +10,33 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.YdbIssueMessage.IssueMessage;
 
-public class StatusExtractor<R> implements Function<Result<R>, Result<R>> {
+public class StatusMapper<R> implements Function<Result<R>, Status> {
     private final Function<R, StatusIds.StatusCode> statusMethod;
     private final Function<R, List<IssueMessage>> issuesMethod;
 
-    private StatusExtractor(Function<R, StatusIds.StatusCode> status, Function<R, List<IssueMessage>> issues) {
+    private StatusMapper(Function<R, StatusIds.StatusCode> status, Function<R, List<IssueMessage>> issues) {
         this.statusMethod = status;
         this.issuesMethod = issues;
     }
 
     @Override
-    public Result<R> apply(Result<R> result) {
+    public Status apply(Result<R> result) {
         if (!result.isSuccess()) {
-            return result;
+            return result.getStatus();
         }
 
         R resp = result.getValue();
-        Status status = Status.of(
+        return Status.of(
                 StatusCode.fromProto(statusMethod.apply(resp)),
                 result.getStatus().getConsumedRu(),
                 Issue.fromPb(issuesMethod.apply(resp))
         );
-
-        return status.isSuccess() ? Result.success(resp, status) : Result.fail(status);
     }
 
-    public static <T> StatusExtractor<T> of(
+    public static <T> StatusMapper<T> of(
             Function<T, StatusIds.StatusCode> statusMethod,
-            Function<T, List<IssueMessage>> issuerMethod
+            Function<T, List<IssueMessage>> issuesMethod
     ) {
-        return new StatusExtractor<>(statusMethod, issuerMethod);
+        return new StatusMapper<>(statusMethod, issuesMethod);
     }
 }

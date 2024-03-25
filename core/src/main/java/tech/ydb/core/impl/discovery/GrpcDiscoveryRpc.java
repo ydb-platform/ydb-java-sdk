@@ -15,7 +15,7 @@ import tech.ydb.core.impl.FixedCallOptionsTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
-import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
@@ -60,7 +60,7 @@ public class GrpcDiscoveryRpc {
 
         return transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
                 .whenComplete((res, ex) -> transport.close())
-                .thenApply(OperationManager.syncResultUnwrapper(
+                .thenApply(OperationBinder.bindSync(
                         DiscoveryProtos.ListEndpointsResponse::getOperation,
                         DiscoveryProtos.ListEndpointsResult.class
                 ));

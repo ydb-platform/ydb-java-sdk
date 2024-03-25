@@ -20,7 +20,7 @@ import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
-import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.auth.YdbAuth;
 import tech.ydb.proto.auth.v1.AuthServiceGrpc;
 
@@ -105,7 +105,7 @@ class StaticCredentialsRpc {
                         .build();
 
                 transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
-                        .thenApply(OperationManager.syncResultUnwrapper(
+                        .thenApply(OperationBinder.bindSync(
                                 YdbAuth.LoginResponse::getOperation,
                                 YdbAuth.LoginResult.class
                         ))
