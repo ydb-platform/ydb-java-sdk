@@ -12,50 +12,9 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.proto.table.YdbTable;
-import tech.ydb.proto.table.YdbTable.AlterTableRequest;
-import tech.ydb.proto.table.YdbTable.AlterTableResponse;
-import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
-import tech.ydb.proto.table.YdbTable.BeginTransactionResponse;
-import tech.ydb.proto.table.YdbTable.BeginTransactionResult;
-import tech.ydb.proto.table.YdbTable.BulkUpsertResponse;
-import tech.ydb.proto.table.YdbTable.CommitTransactionRequest;
-import tech.ydb.proto.table.YdbTable.CommitTransactionResponse;
-import tech.ydb.proto.table.YdbTable.CopyTableRequest;
-import tech.ydb.proto.table.YdbTable.CopyTableResponse;
-import tech.ydb.proto.table.YdbTable.CopyTablesRequest;
-import tech.ydb.proto.table.YdbTable.CopyTablesResponse;
-import tech.ydb.proto.table.YdbTable.CreateTableRequest;
-import tech.ydb.proto.table.YdbTable.CreateTableResponse;
-import tech.ydb.proto.table.YdbTable.DeleteSessionRequest;
-import tech.ydb.proto.table.YdbTable.DeleteSessionResponse;
-import tech.ydb.proto.table.YdbTable.DescribeTableRequest;
-import tech.ydb.proto.table.YdbTable.DescribeTableResponse;
-import tech.ydb.proto.table.YdbTable.DescribeTableResult;
-import tech.ydb.proto.table.YdbTable.DropTableRequest;
-import tech.ydb.proto.table.YdbTable.DropTableResponse;
-import tech.ydb.proto.table.YdbTable.ExecuteDataQueryRequest;
-import tech.ydb.proto.table.YdbTable.ExecuteDataQueryResponse;
-import tech.ydb.proto.table.YdbTable.ExecuteQueryResult;
-import tech.ydb.proto.table.YdbTable.ExecuteSchemeQueryRequest;
-import tech.ydb.proto.table.YdbTable.ExecuteSchemeQueryResponse;
-import tech.ydb.proto.table.YdbTable.ExplainDataQueryRequest;
-import tech.ydb.proto.table.YdbTable.ExplainDataQueryResponse;
-import tech.ydb.proto.table.YdbTable.ExplainQueryResult;
-import tech.ydb.proto.table.YdbTable.KeepAliveRequest;
-import tech.ydb.proto.table.YdbTable.KeepAliveResponse;
-import tech.ydb.proto.table.YdbTable.KeepAliveResult;
-import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
-import tech.ydb.proto.table.YdbTable.PrepareDataQueryResponse;
-import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
-import tech.ydb.proto.table.YdbTable.ReadRowsRequest;
-import tech.ydb.proto.table.YdbTable.ReadRowsResponse;
-import tech.ydb.proto.table.YdbTable.RenameTablesRequest;
-import tech.ydb.proto.table.YdbTable.RenameTablesResponse;
-import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
-import tech.ydb.proto.table.YdbTable.RollbackTransactionResponse;
 import tech.ydb.proto.table.v1.TableServiceGrpc;
 import tech.ydb.table.rpc.TableRpc;
 
@@ -67,8 +26,8 @@ public final class GrpcTableRpc implements TableRpc {
     private final GrpcTransport transport;
     private final boolean transportOwned;
 
-    private static final StatusExtractor<ReadRowsResponse> READ_ROWS = StatusExtractor.of(
-            ReadRowsResponse::getStatus, ReadRowsResponse::getIssuesList);
+    private static final StatusExtractor<YdbTable.ReadRowsResponse> READ_ROWS = StatusExtractor.of(
+            YdbTable.ReadRowsResponse::getStatus, YdbTable.ReadRowsResponse::getIssuesList);
 
     private GrpcTableRpc(GrpcTransport transport, boolean transportOwned) {
         this.transport = transport;
@@ -84,169 +43,179 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
-    public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(YdbTable.CreateSessionRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Result<YdbTable.CreateSessionResult>> createSession(
+            YdbTable.CreateSessionRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getCreateSessionMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        YdbTable.CreateSessionResponse::getOperation,
-                        YdbTable.CreateSessionResult.class));
+                .thenApply(OperationBinder.bindSync(
+                        YdbTable.CreateSessionResponse::getOperation, YdbTable.CreateSessionResult.class
+                ));
     }
 
     @Override
-    public CompletableFuture<Status> deleteSession(DeleteSessionRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Status> deleteSession(
+            YdbTable.DeleteSessionRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getDeleteSessionMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(DeleteSessionResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTable.DeleteSessionResponse::getOperation));
     }
 
     @Override
-    public CompletableFuture<Result<KeepAliveResult>> keepAlive(KeepAliveRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Result<YdbTable.KeepAliveResult>> keepAlive(
+            YdbTable.KeepAliveRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getKeepAliveMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        KeepAliveResponse::getOperation, KeepAliveResult.class));
-    }
-
-    @Override
-    public CompletableFuture<Status> createTable(CreateTableRequest request,
-            GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getCreateTableMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(CreateTableResponse::getOperation));
-    }
-
-    @Override
-    public CompletableFuture<Status> dropTable(DropTableRequest request, GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getDropTableMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(DropTableResponse::getOperation));
-    }
-
-    @Override
-    public CompletableFuture<Status> alterTable(AlterTableRequest request, GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getAlterTableMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(AlterTableResponse::getOperation));
-    }
-
-    @Override
-    public CompletableFuture<Status> copyTable(CopyTableRequest request,
-            GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getCopyTableMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(CopyTableResponse::getOperation));
-    }
-
-    @Override
-    public CompletableFuture<Status> copyTables(CopyTablesRequest request,
-            GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getCopyTablesMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(CopyTablesResponse::getOperation));
-    }
-
-    @Override
-    public CompletableFuture<Status> renameTables(RenameTablesRequest request,
-            GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getRenameTablesMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(RenameTablesResponse::getOperation));
-    }
-
-    @Override
-    public CompletableFuture<Result<DescribeTableResult>> describeTable(DescribeTableRequest request,
-            GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getDescribeTableMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        DescribeTableResponse::getOperation, DescribeTableResult.class));
-    }
-
-    @Override
-    public CompletableFuture<Result<ExplainQueryResult>> explainDataQuery(ExplainDataQueryRequest request,
-            GrpcRequestSettings settings) {
-        return transport
-                .unaryCall(TableServiceGrpc.getExplainDataQueryMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        ExplainDataQueryResponse::getOperation, ExplainQueryResult.class)
+                .thenApply(OperationBinder
+                        .bindSync(YdbTable.KeepAliveResponse::getOperation, YdbTable.KeepAliveResult.class)
                 );
     }
 
     @Override
-    public CompletableFuture<Result<PrepareQueryResult>> prepareDataQuery(
-            PrepareDataQueryRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Status> createTable(YdbTable.CreateTableRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getCreateTableMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(YdbTable.CreateTableResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> dropTable(YdbTable.DropTableRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getDropTableMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(YdbTable.DropTableResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> alterTable(YdbTable.AlterTableRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getAlterTableMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(YdbTable.AlterTableResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTable(YdbTable.CopyTableRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getCopyTableMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(YdbTable.CopyTableResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> copyTables(YdbTable.CopyTablesRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getCopyTablesMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(YdbTable.CopyTablesResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Status> renameTables(YdbTable.RenameTablesRequest request, GrpcRequestSettings settings) {
+        return transport
+                .unaryCall(TableServiceGrpc.getRenameTablesMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(YdbTable.RenameTablesResponse::getOperation));
+    }
+
+    @Override
+    public CompletableFuture<Result<YdbTable.DescribeTableResult>> describeTable(
+            YdbTable.DescribeTableRequest request, GrpcRequestSettings settings
+    ) {
+        return transport
+                .unaryCall(TableServiceGrpc.getDescribeTableMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(
+                        YdbTable.DescribeTableResponse::getOperation, YdbTable.DescribeTableResult.class
+                ));
+    }
+
+    @Override
+    public CompletableFuture<Result<YdbTable.ExplainQueryResult>> explainDataQuery(
+            YdbTable.ExplainDataQueryRequest request, GrpcRequestSettings settings
+    ) {
+        return transport
+                .unaryCall(TableServiceGrpc.getExplainDataQueryMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(
+                        YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class
+                ));
+    }
+
+    @Override
+    public CompletableFuture<Result<YdbTable.PrepareQueryResult>> prepareDataQuery(
+            YdbTable.PrepareDataQueryRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getPrepareDataQueryMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        PrepareDataQueryResponse::getOperation, PrepareQueryResult.class
+                .thenApply(OperationBinder.bindSync(
+                        YdbTable.PrepareDataQueryResponse::getOperation, YdbTable.PrepareQueryResult.class
                 ));
     }
 
     @Override
-    public CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Result<YdbTable.ExecuteQueryResult>> executeDataQuery(
+            YdbTable.ExecuteDataQueryRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getExecuteDataQueryMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        ExecuteDataQueryResponse::getOperation, ExecuteQueryResult.class
+                .thenApply(OperationBinder.bindSync(
+                        YdbTable.ExecuteDataQueryResponse::getOperation, YdbTable.ExecuteQueryResult.class
                 ));
     }
 
     @Override
-    public CompletableFuture<Result<ReadRowsResponse>> readRows(ReadRowsRequest request,
-                                                                     GrpcRequestSettings settings) {
+    public CompletableFuture<Result<YdbTable.ReadRowsResponse>> readRows(
+            YdbTable.ReadRowsRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getReadRowsMethod(), settings, request)
                 .thenApply(READ_ROWS);
     }
 
     @Override
-    public CompletableFuture<Status> executeSchemeQuery(ExecuteSchemeQueryRequest request,
+    public CompletableFuture<Status> executeSchemeQuery(YdbTable.ExecuteSchemeQueryRequest request,
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getExecuteSchemeQueryMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(ExecuteSchemeQueryResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTable.ExecuteSchemeQueryResponse::getOperation));
     }
 
     @Override
-    public CompletableFuture<Result<BeginTransactionResult>> beginTransaction(BeginTransactionRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Result<YdbTable.BeginTransactionResult>> beginTransaction(
+            YdbTable.BeginTransactionRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getBeginTransactionMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        BeginTransactionResponse::getOperation, BeginTransactionResult.class
+                .thenApply(OperationBinder.bindSync(
+                        YdbTable.BeginTransactionResponse::getOperation, YdbTable.BeginTransactionResult.class
                 ));
     }
 
     @Override
-    public CompletableFuture<Status> commitTransaction(CommitTransactionRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Status> commitTransaction(
+            YdbTable.CommitTransactionRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getCommitTransactionMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(CommitTransactionResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTable.CommitTransactionResponse::getOperation));
     }
 
     @Override
-    public CompletableFuture<Status> rollbackTransaction(RollbackTransactionRequest request,
-            GrpcRequestSettings settings) {
+    public CompletableFuture<Status> rollbackTransaction(
+            YdbTable.RollbackTransactionRequest request, GrpcRequestSettings settings
+    ) {
         return transport
                 .unaryCall(TableServiceGrpc.getRollbackTransactionMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(RollbackTransactionResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTable.RollbackTransactionResponse::getOperation));
     }
 
     @Override
     public GrpcReadStream<YdbTable.ReadTableResponse> streamReadTable(
-            YdbTable.ReadTableRequest request, GrpcRequestSettings settings) {
+            YdbTable.ReadTableRequest request, GrpcRequestSettings settings
+    ) {
         return transport.readStreamCall(TableServiceGrpc.getStreamReadTableMethod(), settings, request);
     }
 
     @Override
     public GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> streamExecuteScanQuery(
-            YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings) {
+            YdbTable.ExecuteScanQueryRequest request, GrpcRequestSettings settings
+    ) {
         return transport.readStreamCall(TableServiceGrpc.getStreamExecuteScanQueryMethod(), settings, request);
     }
 
@@ -254,7 +223,7 @@ public final class GrpcTableRpc implements TableRpc {
     public CompletableFuture<Status> bulkUpsert(YdbTable.BulkUpsertRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TableServiceGrpc.getBulkUpsertMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(BulkUpsertResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTable.BulkUpsertResponse::getOperation));
     }
 
     @Override
