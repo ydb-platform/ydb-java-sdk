@@ -1,10 +1,12 @@
 package tech.ydb.topic.read.impl.events;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
-import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.CommitterImpl;
@@ -30,6 +32,11 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
     @Override
     public List<Message> getMessages() {
         return messages;
+    }
+
+    @Override
+    public PartitionOffsets getPartitionOffsets() {
+        return new PartitionOffsets(partitionSession.getSessionInfo(), Collections.singletonList(offsetsToCommit));
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.InitResult;
@@ -27,9 +28,9 @@ public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
     }
 
     @Override
-    public CompletableFuture<WriteAck> send(Message message) throws QueueOverflowException {
+    public CompletableFuture<WriteAck> send(Message message, SendSettings settings) throws QueueOverflowException {
         try {
-            return sendImpl(message, true).join();
+            return sendImpl(message, settings, true).join();
         } catch (CompletionException e) {
             if (e.getCause() instanceof QueueOverflowException) {
                 throw (QueueOverflowException) e.getCause();
@@ -37,6 +38,11 @@ public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @Override
+    public CompletableFuture<WriteAck> send(Message message) throws QueueOverflowException {
+        return send(message, null);
     }
 
     @Override

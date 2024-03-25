@@ -1,11 +1,9 @@
 package tech.ydb.table;
 
-import java.sql.ResultSet;
-import java.time.Duration;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
@@ -37,10 +35,10 @@ import tech.ydb.table.settings.PrepareDataQuerySettings;
 import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
+import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
-import tech.ydb.table.values.StructValue;
 
 
 /**
@@ -130,10 +128,21 @@ public class SessionStub implements Session {
     }
 
     @Override
+    @Deprecated
     public CompletableFuture<Result<Transaction>> beginTransaction(
         Transaction.Mode transactionMode, BeginTxSettings settings)
     {
         return notImplemented("beginTransaction()");
+    }
+
+    @Override
+    public TableTransaction createNewTransaction(TxMode txMode) {
+        throw new UnsupportedOperationException("createNewTransaction is not implemented");
+    }
+
+    @Override
+    public CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode, BeginTxSettings settings) {
+        throw new UnsupportedOperationException("beginTransaction is not implemented");
     }
 
     @Override

@@ -17,20 +17,25 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
-import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
+import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -130,7 +135,83 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         }
     }
 
-    private class ReadSessionImpl extends ReadSession {
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        return GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .build();
+    }
+
+    protected CompletableFuture<Status> sendUpdateOffsetsInTransaction(YdbTransaction transaction,
+                                                                       Map<String, List<PartitionOffsets>> offsets,
+                                                                       UpdateOffsetsInTransactionSettings settings) {
+        if (offsets.isEmpty()) {
+            throw new IllegalArgumentException("Empty topic list to update in transaction");
+        }
+        if (logger.isDebugEnabled()) {
+            StringBuilder str = new StringBuilder("Updating ");
+            boolean first = true;
+            for (Map.Entry<String, List<PartitionOffsets>> topicOffsets : offsets.entrySet()) {
+                if (topicOffsets.getValue().isEmpty()) {
+                    throw new IllegalArgumentException("Empty offsets range to update in transaction");
+                }
+                for (PartitionOffsets partitionOffsets : topicOffsets.getValue()) {
+                    if (!first) {
+                        str.append(", ");
+                    } else {
+                        first = false;
+                    }
+                    str.append("offsets [").append(partitionOffsets.getOffsets().get(0).getStart()).append("..")
+                            .append(partitionOffsets.getOffsets().get(partitionOffsets.getOffsets().size() - 1)
+                                    .getEnd()).append(") for partition ")
+                            .append(partitionOffsets.getPartitionSession().getPartitionId())
+                            .append(" [topic ").append(topicOffsets.getKey()).append("]");
+                }
+            }
+            logger.debug(str.toString());
+        }
+        final ReadSessionImpl currentSession = session;
+        transaction.getStatusFuture().whenComplete((status, error) -> {
+            if (error != null) {
+                currentSession.closeDueToError(null,
+                        new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
+                                " with partition offsets from read session " + currentSession.fullId +
+                                " was not committed with reason: " + error));
+            } else if (!status.isSuccess()) {
+                currentSession.closeDueToError(null,
+                        new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
+                                " with partition offsets from read session " + currentSession.fullId +
+                                " was not committed with status: " + status));
+            }
+        });
+        YdbTopic.UpdateOffsetsInTransactionRequest.Builder requestBuilder = YdbTopic.UpdateOffsetsInTransactionRequest
+                .newBuilder()
+                .setTx(YdbTopic.TransactionIdentity.newBuilder()
+                        .setId(transaction.getId())
+                        .setSession(transaction.getSessionId()))
+                .setConsumer(this.settings.getConsumerName());
+        offsets.forEach((path, topicOffsets) -> {
+            YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.Builder topicOffsetsBuilder = YdbTopic
+                    .UpdateOffsetsInTransactionRequest.TopicOffsets.newBuilder()
+                    .setPath(path);
+            topicOffsets.forEach(partitionOffsets -> {
+                YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.Builder partitionOffsetsBuilder
+                        = YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.newBuilder()
+                                .setPartitionId(partitionOffsets.getPartitionSession().getPartitionId());
+                partitionOffsets.getOffsets().forEach(offsetsRange -> partitionOffsetsBuilder.addPartitionOffsets(
+                        YdbTopic.OffsetsRange.newBuilder()
+                                .setStart(offsetsRange.getStart())
+                                .setEnd(offsetsRange.getEnd())
+                                .build()));
+                topicOffsetsBuilder.addPartitions(partitionOffsetsBuilder);
+            });
+            requestBuilder.addTopics(topicOffsetsBuilder);
+        });
+
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return topicRpc.updateOffsetsInTransaction(requestBuilder.build(), grpcRequestSettings);
+    }
+
+    protected class ReadSessionImpl extends ReadSession {
         protected String sessionId = "";
         private final String fullId;
         // Total size to request with next ReadRequest.
@@ -144,7 +225,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
         public void startAndInitialize() {
             logger.debug("[{}] Session {} startAndInitialize called", fullId, sessionId);
-            start(this::processMessage).whenComplete(this::onSessionClosing);
+            start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
                     .newBuilder();
@@ -437,7 +518,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 reconnectCounter.set(0);
             } else {
                 logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, message);
-                onSessionClosed(Status.of(StatusCode.fromProto(message.getStatus()))
+                closeDueToError(Status.of(StatusCode.fromProto(message.getStatus()))
                         .withIssues(Issue.of("Got a message with non-success status: " + message,
                                 Issue.Severity.ERROR)), null);
                 return;
@@ -462,10 +543,9 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
         }
 
-        private void onSessionClosing(Status status, Throwable th) {
-            logger.info("[{}] Session {} onSessionClosing called", fullId, sessionId);
-            if (isWorking.get()) {
-                shutdown();
+        protected void closeDueToError(Status status, Throwable th) {
+            logger.info("[{}] Session {} closeDueToError called", fullId, sessionId);
+            if (shutdown()) {
                 // Signal reader to retry
                 onSessionClosed(status, th);
             }

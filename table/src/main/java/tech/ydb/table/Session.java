@@ -3,6 +3,7 @@ package tech.ydb.table;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
@@ -34,6 +35,7 @@ import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RenameTablesSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
+import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
@@ -41,6 +43,7 @@ import tech.ydb.table.values.ListValue;
 
 /**
  * @author Sergey Polovko
+ * @author Nikolay Perfilov
  */
 public interface Session extends AutoCloseable {
     enum State {
@@ -83,10 +86,54 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
+    /**
+     * @deprecated
+     * Use {@link Session#beginTransaction(TxMode, BeginTxSettings)} instead
+     */
+    @Deprecated
     CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode, BeginTxSettings settings);
 
+    /**
+     * Create a new <i>not active</i> {@link TableTransaction}. This TableDescription will have no identifier and
+     * starts a transaction on server by execution a query
+     * @param txMode transaction mode
+     * @return new implicit transaction
+     */
+    TableTransaction createNewTransaction(TxMode txMode);
+
+    /**
+     * Create and start a new <i>active</i> {@link TableTransaction}. This method creates a transaction on the server
+     * and returns TableDescription which is ready to execute queries on this server transaction
+     *
+     * @param txMode transaction mode
+     * @param settings additional settings for request
+     * @return future with result of the transaction starting
+     */
+    CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode, BeginTxSettings settings);
+
+    /**
+     * Create and start a new <i>active</i> {@link TableTransaction}. This method creates a transaction on the server
+     * and returns TableDescription which is ready to execute queries on this server transaction
+     *
+     * @param txMode transaction mode
+     * @return future with result of the transaction starting
+     */
+    default CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode) {
+        return beginTransaction(txMode, new BeginTxSettings());
+    }
+
+    /**
+     * @deprecated
+     * Use {@link TableTransaction#commit()} ()} instead
+     */
+    @Deprecated
     CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
 
+    /**
+     * @deprecated
+     * Use {@link TableTransaction#rollback()} instead
+     */
+    @Deprecated
     CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings);
 
     GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings);
@@ -165,6 +212,11 @@ public interface Session extends AutoCloseable {
         return explainDataQuery(query, new ExplainDataQuerySettings());
     }
 
+    /**
+     * @deprecated
+     * Use {@link Session#beginTransaction(TxMode)} instead
+     */
+    @Deprecated
     default CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode) {
         return beginTransaction(transactionMode, new BeginTxSettings());
     }

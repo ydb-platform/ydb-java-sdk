@@ -76,11 +76,13 @@ public abstract class SessionBase<R, W> implements Session {
 
 
     @Override
-    public synchronized void shutdown() {
+    public synchronized boolean shutdown() {
         getLogger().info("Session shutdown");
         if (stop()) {
             onStop();
             streamConnection.close();
+            return true;
         }
+        return false;
     }
 }

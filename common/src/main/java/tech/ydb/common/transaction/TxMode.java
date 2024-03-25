@@ -1,10 +1,10 @@
-package tech.ydb.query;
+package tech.ydb.common.transaction;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public enum QueryTx {
+public enum TxMode {
     NONE,
 
     SERIALIZABLE_RW,

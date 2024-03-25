@@ -23,6 +23,7 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
 import tech.ydb.topic.write.InitResult;
@@ -229,7 +230,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     // Outer future completes when message is put (or declined) into send buffer
     // Inner future completes on receiving write ack from server
-    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message, boolean instant) {
+    protected CompletableFuture<CompletableFuture<WriteAck>> sendImpl(Message message, SendSettings sendSettings,
+                                                                      boolean instant) {
         if (isStopped.get()) {
             throw new RuntimeException("Writer is already stopped");
         }
@@ -248,7 +250,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             isSeqNoProvided = message.getSeqNo() != null;
         }
 
-        EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message);
+        EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message, sendSettings);
 
         return tryToEnqueue(enqueuedMessage, instant).thenApply(v -> enqueuedMessage.getFuture());
     }
@@ -325,7 +327,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         public void startAndInitialize() {
             logger.debug("[{}] Session {} startAndInitialize called", fullId, sessionId);
-            start(this::processMessage).whenComplete(this::onSessionClosing);
+            start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
                     .newBuilder()
@@ -501,10 +503,9 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             message.getFuture().complete(resultAck);
         }
 
-        private void onSessionClosing(Status status, Throwable th) {
-            logger.info("[{}] Session {} onSessionClosing called", fullId, sessionId);
-            if (isWorking.get()) {
-                shutdown();
+        private void closeDueToError(Status status, Throwable th) {
+            logger.info("[{}] Session {} closeDueToError called", fullId, sessionId);
+            if (shutdown()) {
                 // Signal writer to retry
                 onSessionClosed(status, th);
             }

@@ -1,12 +1,14 @@
 package tech.ydb.table.transaction;
 
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.OnlineModeSettings;
 import tech.ydb.proto.table.YdbTable.SerializableModeSettings;
 import tech.ydb.proto.table.YdbTable.StaleModeSettings;
 import tech.ydb.proto.table.YdbTable.TransactionControl;
 import tech.ydb.proto.table.YdbTable.TransactionSettings;
+import tech.ydb.table.settings.BeginTxSettings;
 
 
 /**
@@ -31,10 +33,22 @@ public abstract class TxControl<Self extends TxControl<?>> {
             .build();
     }
 
+    /**
+     * @deprecated
+     * Use {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
+     * or {@link tech.ydb.table.Session#beginTransaction(TxMode, BeginTxSettings)} to execute queries in transaction
+     */
+    @Deprecated
     public static TxId id(String id) {
         return new TxId(true, id);
     }
 
+    /**
+     * @deprecated
+     * Use {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
+     * or {@link tech.ydb.table.Session#beginTransaction(TxMode, BeginTxSettings)} to execute queries in transaction
+     */
+    @Deprecated
     public static TxId id(Transaction tx) {
         return new TxId(true, tx.getId());
     }
@@ -60,7 +74,6 @@ public abstract class TxControl<Self extends TxControl<?>> {
     }
 
     public abstract Self setCommitTx(boolean commitTx);
-
     public TransactionControl toPb() {
         return pb;
     }

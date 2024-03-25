@@ -21,7 +21,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryTransaction;
-import tech.ydb.query.QueryTx;
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.ExecuteQuerySettings;
@@ -123,7 +123,7 @@ public class QueryIntegrationTest {
     public void testSimpleSelect() {
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryReader reader = QueryReader.readFrom(
-                    session.createQuery("SELECT 2 + 3;", QueryTx.SERIALIZABLE_RW)
+                    session.createQuery("SELECT 2 + 3;", TxMode.SERIALIZABLE_RW)
             ).join().getValue();
 
 
@@ -152,7 +152,7 @@ public class QueryIntegrationTest {
                     .build();
 
             QueryReader reader = QueryReader.readFrom(
-                    session.createQuery(query, QueryTx.NONE, Params.empty(), settings)
+                    session.createQuery(query, TxMode.NONE, Params.empty(), settings)
             ).join().getValue();
 
 
@@ -210,7 +210,7 @@ public class QueryIntegrationTest {
             );
 
             try (QuerySession session = queryClient.createSession(SESSION_TIMEOUT).join().getValue()) {
-                session.createQuery(query, QueryTx.SERIALIZABLE_RW, params)
+                session.createQuery(query, TxMode.SERIALIZABLE_RW, params)
                         .execute(this::printQuerySetPart)
                         .join().getStatus().expectSuccess();
             }
@@ -218,13 +218,13 @@ public class QueryIntegrationTest {
 
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             String query = "SELECT id, name, payload, is_valid FROM " + TEST_TABLE + " ORDER BY id;";
-            session.createQuery(query, QueryTx.SERIALIZABLE_RW)
+            session.createQuery(query, TxMode.SERIALIZABLE_RW)
                     .execute(this::printQuerySetPart)
                     .join().getStatus().expectSuccess();
         }
 
         try (QuerySession session = queryClient.createSession(SESSION_TIMEOUT).join().getValue()) {
-            session.createQuery("DELETE FROM " + TEST_TABLE, QueryTx.SERIALIZABLE_RW)
+            session.createQuery("DELETE FROM " + TEST_TABLE, TxMode.SERIALIZABLE_RW)
                     .execute(this::printQuerySetPart)
                     .join().getStatus().expectSuccess();
         }
@@ -242,14 +242,17 @@ public class QueryIntegrationTest {
     public void updateMultipleTablesInOneTransaction() {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                QueryTransaction tx = session.createNewTransaction(QueryTx.SERIALIZABLE_RW);
+                QueryTransaction tx = session.createNewTransaction(TxMode.SERIALIZABLE_RW);
+                Assert.assertFalse(tx.isActive());
                 QueryReader.readFrom(
                         tx.createQuery("UPDATE " + TEST_TABLE + " SET name='test' WHERE id=1")
                 ).join().getStatus().expectSuccess();
+                Assert.assertTrue(tx.isActive());
 
                 QueryReader.readFrom(
                         tx.createQueryWithCommit("UPDATE " + TEST_DOUBLE_TABLE + " SET amount=300 WHERE id=1")
                 ).join().getStatus().expectSuccess();
+                Assert.assertFalse(tx.isActive());
             }
         }
     }
@@ -258,15 +261,19 @@ public class QueryIntegrationTest {
     public void interactiveTransaction() {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                QueryTransaction tx = session.createNewTransaction(QueryTx.SERIALIZABLE_RW);
+                QueryTransaction tx = session.createNewTransaction(TxMode.SERIALIZABLE_RW);
+                Assert.assertFalse(tx.isActive());
                 tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (1, 'rec1');").execute(null)
                         .join().getStatus().expectSuccess();
+                Assert.assertTrue(tx.isActive());
                 tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (3, 'rec3');").execute(null)
                         .join().getStatus().expectSuccess();
+                Assert.assertTrue(tx.isActive());
 
                 Iterator<ResultSetReader> rsIter = QueryReader.readFrom(
                         tx.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id")
                 ).join().getValue().iterator();
+                Assert.assertTrue(tx.isActive());
 
                 Assert.assertTrue(rsIter.hasNext());
                 ResultSetReader rs = rsIter.next();
@@ -278,6 +285,7 @@ public class QueryIntegrationTest {
                 Assert.assertFalse(rsIter.hasNext());
 
                 tx.commit().join().getStatus().expectSuccess();
+                Assert.assertFalse(tx.isActive());
 
                 tx.createQuery("INSERT INTO " + TEST_TABLE + " (id, name) VALUES (2, 'rec2');").execute(null)
                         .join().getStatus().expectSuccess();
@@ -326,13 +334,13 @@ public class QueryIntegrationTest {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 CompletableFuture<Result<QueryInfo>> createTable = session
-                        .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", QueryTx.NONE)
+                        .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", TxMode.NONE)
                         .execute(this::printQuerySetPart);
                 createTable.join().getStatus().expectSuccess();
 
 
                 CompletableFuture<Result<QueryInfo>> dropTable = session
-                        .createQuery("DROP TABLE demo_table;", QueryTx.NONE)
+                        .createQuery("DROP TABLE demo_table;", TxMode.NONE)
                         .execute(this::printQuerySetPart);
                 dropTable.join().getStatus().expectSuccess();
             }
@@ -344,13 +352,13 @@ public class QueryIntegrationTest {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 CompletableFuture<Result<QueryInfo>> createTable = session
-                        .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", QueryTx.NONE)
+                        .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", TxMode.NONE)
                         .execute(this::printQuerySetPart);
                 createTable.join().getStatus().expectSuccess();
 
 
                 CompletableFuture<Result<QueryInfo>> dropTable = session
-                        .createQuery("DROP TABLE demo_table;", QueryTx.NONE)
+                        .createQuery("DROP TABLE demo_table;", TxMode.NONE)
                         .execute(this::printQuerySetPart);
                 dropTable.join().getStatus().expectSuccess();
             }

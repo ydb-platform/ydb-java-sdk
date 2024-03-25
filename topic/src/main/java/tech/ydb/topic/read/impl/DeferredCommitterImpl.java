@@ -7,9 +7,9 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.Message;
-import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 

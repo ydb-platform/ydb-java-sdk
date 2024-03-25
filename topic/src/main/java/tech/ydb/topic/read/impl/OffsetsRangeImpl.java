@@ -1,6 +1,6 @@
 package tech.ydb.topic.read.impl;
 
-import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.description.OffsetsRange;
 
 /**
  * @author Nikolay Perfilov

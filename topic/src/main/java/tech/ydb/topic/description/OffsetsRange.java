@@ -3,20 +3,8 @@ package tech.ydb.topic.description;
 /**
  * @author Nikolay Perfilov
  */
-public class OffsetsRange {
-    private final long start;
-    private final long end;
+public interface OffsetsRange {
+    long getStart();
 
-    public OffsetsRange(long start, long end) {
-        this.start = start;
-        this.end = end;
-    }
-
-    public long getStart() {
-        return start;
-    }
-
-    public long getEnd() {
-        return end;
-    }
+    long getEnd();
 }

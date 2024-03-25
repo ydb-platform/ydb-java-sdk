@@ -1,7 +1,7 @@
 package tech.ydb.query.impl;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.proto.query.YdbQuery;
-import tech.ydb.query.QueryTx;
 
 /**
  *
@@ -31,7 +31,7 @@ class TxControl {
 
     private TxControl() { }
 
-    public static YdbQuery.TransactionControl txModeCtrl(QueryTx tx, boolean commitTx) {
+    public static YdbQuery.TransactionControl txModeCtrl(TxMode tx, boolean commitTx) {
         YdbQuery.TransactionSettings ts = txSettings(tx);
         if (ts == null) {
             return null;
@@ -49,7 +49,7 @@ class TxControl {
                 .build();
     }
 
-    public static YdbQuery.TransactionSettings txSettings(QueryTx tx) {
+    public static YdbQuery.TransactionSettings txSettings(TxMode tx) {
         switch (tx) {
             case SERIALIZABLE_RW:
                 return TS_SERIALIZABLE;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 
 /**
@@ -25,6 +26,13 @@ public interface DataReceivedEvent {
      * @return a partition session this data was received on
      */
     PartitionSession getPartitionSession();
+
+    /**
+     * Returns partition offsets of this message
+     *
+     * @return Partition offsets of this message
+     */
+    PartitionOffsets getPartitionOffsets();
 
     /**
      * Commits all messages in this event at once.
