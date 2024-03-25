@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
@@ -68,7 +68,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    public CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction,
+    public CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction,
                                                                 Map<String, List<PartitionOffsets>> offsets,
                                                                 UpdateOffsetsInTransactionSettings settings) {
         if (!transaction.isActive()) {

@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.TxMode;
-import tech.ydb.common.transaction.impl.BaseTransactionImpl;
+import tech.ydb.common.transaction.impl.YdbTransactionImpl;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -316,7 +316,7 @@ abstract class SessionImpl implements QuerySession {
         }
     }
 
-    class TransactionImpl extends BaseTransactionImpl implements QueryTransaction {
+    class TransactionImpl extends YdbTransactionImpl implements QueryTransaction {
 
         TransactionImpl(TxMode txMode, String txId) {
             super(txMode, txId);

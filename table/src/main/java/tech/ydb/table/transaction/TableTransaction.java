@@ -2,7 +2,7 @@ package tech.ydb.table.transaction;
 
 import java.util.concurrent.CompletableFuture;
 
-import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.table.Session;
@@ -13,9 +13,14 @@ import tech.ydb.table.settings.ExecuteDataQuerySettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 
 /**
+ * Interface of transaction from table service
+ * Short-living object allows transactional execution of several queries in one interactive transaction.
+ * TableTransaction can be used in implicit mode - without calling commit()/rollback().
+ * When TableTransaction is not active, any execution of a query with commitAtEnd=false starts a new transaction.
+ * And execution of a query with commitAtEnd=true commits this transaction.
  * @author Nikolay Perfilov
  */
-public interface TableTransaction extends BaseTransaction {
+public interface TableTransaction extends YdbTransaction {
 
     /**
      * Returns {@link Session} that was used to create this transaction

@@ -2,7 +2,7 @@ package tech.ydb.topic.settings;
 
 import java.util.concurrent.TimeUnit;
 
-import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.YdbTransaction;
 
 /**
  * @author Nikolay Perfilov
@@ -10,7 +10,7 @@ import tech.ydb.common.transaction.BaseTransaction;
 public class ReceiveSettings {
     private Long timeout;
     private TimeUnit timeoutTimeUnit;
-    private final BaseTransaction transaction;
+    private final YdbTransaction transaction;
 
     private ReceiveSettings(Builder builder) {
         this.timeout = builder.timeout;
@@ -26,7 +26,7 @@ public class ReceiveSettings {
         return timeoutTimeUnit;
     }
 
-    public BaseTransaction getTransaction() {
+    public YdbTransaction getTransaction() {
         return transaction;
     }
 
@@ -40,7 +40,7 @@ public class ReceiveSettings {
     public static class Builder {
         private Long timeout;
         private TimeUnit timeoutTimeUnit;
-        private BaseTransaction transaction;
+        private YdbTransaction transaction;
 
         /**
          * Set timeout for receiving a message.
@@ -64,7 +64,7 @@ public class ReceiveSettings {
          *                    Transaction has to be active
          * @return Builder
          */
-        public Builder setTransaction(BaseTransaction transaction) {
+        public Builder setTransaction(YdbTransaction transaction) {
             if (!transaction.isActive()) {
                 throw new IllegalArgumentException("Transaction is not active. " +
                         "Can only write topic messages in already running transactions from other services");

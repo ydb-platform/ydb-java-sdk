@@ -1,18 +1,18 @@
 package tech.ydb.topic.settings;
 
-import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.YdbTransaction;
 
 /**
  * @author Nikolay Perfilov
  */
 public class SendSettings {
-    private final BaseTransaction transaction;
+    private final YdbTransaction transaction;
 
     private SendSettings(Builder builder) {
         this.transaction = builder.transaction;
     }
 
-    public BaseTransaction getTransaction() {
+    public YdbTransaction getTransaction() {
         return transaction;
     }
 
@@ -24,7 +24,7 @@ public class SendSettings {
      * BUILDER
      */
     public static class Builder {
-        private BaseTransaction transaction;
+        private YdbTransaction transaction;
 
         /**
          * Set transaction for sending message.
@@ -35,7 +35,7 @@ public class SendSettings {
          *                    Transaction has to be active
          * @return Builder
          */
-        public Builder setTransaction(BaseTransaction transaction) {
+        public Builder setTransaction(YdbTransaction transaction) {
             if (!transaction.isActive()) {
                 throw new IllegalArgumentException("Transaction is not active. " +
                         "Can only write topic messages in already running transactions from other services");

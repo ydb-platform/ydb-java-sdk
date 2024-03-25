@@ -20,7 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.TxMode;
-import tech.ydb.common.transaction.impl.BaseTransactionImpl;
+import tech.ydb.common.transaction.impl.YdbTransactionImpl;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -1069,7 +1069,7 @@ public abstract class BaseSession implements Session {
         return "Session{" + id + "}";
     }
 
-    class TableTransactionImpl extends BaseTransactionImpl implements TableTransaction {
+    class TableTransactionImpl extends YdbTransactionImpl implements TableTransaction {
 
         TableTransactionImpl(TxMode txMode, String txId) {
             super(txMode, txId);

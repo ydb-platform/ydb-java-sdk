@@ -10,7 +10,7 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.MetadataItem;
@@ -35,7 +35,7 @@ public class MessageSender {
     private long totalMessageDataProtoSize;
     private YdbTopic.StreamWriteMessage.WriteRequest.Builder writeRequestBuilder;
     private int messageCount;
-    private BaseTransaction currentTransaction;
+    private YdbTransaction currentTransaction;
 
     public MessageSender(WriterSettings settings) {
         this.settings = settings;

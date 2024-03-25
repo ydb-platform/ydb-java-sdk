@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
 
 import io.grpc.ExperimentalApi;
 
-import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
@@ -33,7 +33,7 @@ public interface AsyncReader {
      * These offsets are "committed" only after said transaction is successfully committed.
      * It is a separate request sent outside the reading stream.
      *
-     * @param transaction a {@link BaseTransaction} that offsets should be added to.
+     * @param transaction a {@link YdbTransaction} that offsets should be added to.
      *                    Transaction has to be active.
      * @param offsets Offsets that should be added to transaction.
      *                Map key: topic Path
@@ -41,7 +41,7 @@ public interface AsyncReader {
      * @param settings Operation settings.
      * @return {@link CompletableFuture} to operation status
      */
-    CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction,
+    CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction,
                                                          Map<String, List<PartitionOffsets>> offsets,
                                                          UpdateOffsetsInTransactionSettings settings);
 
@@ -50,7 +50,7 @@ public interface AsyncReader {
      * These offsets are "committed" only after said transaction is successfully committed.
      * It is a separate request sent outside the reading stream.
      *
-     * @param transaction a {@link BaseTransaction} that offsets should be added to.
+     * @param transaction a {@link YdbTransaction} that offsets should be added to.
      *                    Transaction has to be active.
      * @param offsets Offsets that should be added to transaction.
      *                Could be constructed with helper methods {@link Message#getPartitionOffsets()}
@@ -58,7 +58,7 @@ public interface AsyncReader {
      * @param settings Operation settings.
      * @return {@link CompletableFuture} to operation status
      */
-    default CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction, PartitionOffsets offsets,
+    default CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction, PartitionOffsets offsets,
                                                                  UpdateOffsetsInTransactionSettings settings) {
         return updateOffsetsInTransaction(transaction,
                 Collections.singletonMap(offsets.getPartitionSession().getPath(), Collections.singletonList(offsets)),

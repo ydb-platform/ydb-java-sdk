@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.common.transaction.BaseTransaction;
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.AsyncReader;
@@ -83,7 +83,7 @@ public class TransactionMessageAccumulatorImpl implements TransactionMessageAccu
     }
 
     @Override
-    public CompletableFuture<Status> updateOffsetsInTransaction(BaseTransaction transaction,
+    public CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction,
                                                                 UpdateOffsetsInTransactionSettings settings) {
         Map<String, List<PartitionOffsets>> offsets = new HashMap<>();
         rangesByTopic.forEach((path, topicRanges) -> {
