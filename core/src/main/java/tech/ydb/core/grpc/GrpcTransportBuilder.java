@@ -14,6 +14,7 @@ import javax.annotation.Nullable;
 import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.ManagedChannel;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 
 import tech.ydb.auth.AuthRpcProvider;
@@ -21,6 +22,8 @@ import tech.ydb.auth.NopAuthProvider;
 import tech.ydb.core.impl.YdbSchedulerFactory;
 import tech.ydb.core.impl.YdbTransportImpl;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
+import tech.ydb.core.impl.pool.DefaultChannelFactory;
+import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.core.utils.Version;
 
 
@@ -35,7 +38,7 @@ public class GrpcTransportBuilder {
 
     private byte[] cert = null;
     private boolean useTLS = false;
-    private Consumer<NettyChannelBuilder> channelInitializer = null;
+    private ManagedChannelFactory.Builder channelFactoryBuilder = DefaultChannelFactory::build;
     private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
     private String localDc;
     private BalancingSettings balancingSettings;
@@ -89,10 +92,6 @@ public class GrpcTransportBuilder {
                 .orElse("unknown-version");
     }
 
-    public Consumer<NettyChannelBuilder> getChannelInitializer() {
-        return channelInitializer;
-    }
-
     public Supplier<ScheduledExecutorService> getSchedulerFactory() {
         return schedulerFactory;
     }
@@ -141,8 +140,35 @@ public class GrpcTransportBuilder {
         return useDefaultGrpcResolver;
     }
 
+    public ManagedChannelFactory getManagedChannelFactory() {
+        return channelFactoryBuilder.buildFactory(this);
+    }
+
+    /**
+     * Set a custom factory of {@link ManagedChannel}. This option must be used only if you want to configure
+     * grpc channels in a special way.
+     *
+     * @param channelFactoryBuilder ManagerChannelFactory builder
+     * @return this
+     */
+    public GrpcTransportBuilder withChannelFactoryBuilder(ManagedChannelFactory.Builder channelFactoryBuilder) {
+        this.channelFactoryBuilder = Objects.requireNonNull(channelFactoryBuilder, "Channel factory must be not null");
+        return this;
+    }
+
+    /**
+     * Set a custom initialization of {@link NettyChannelBuilder} <br>
+     * This method is deprecated. Use
+     * {@link GrpcTransportBuilder#withChannelFactoryBuilder(tech.ydb.core.impl.pool.ManagedChannelFactory.Builder)}
+     * instead
+     *
+     * @param channelInitializer custom NettyChannelBuilder initializator
+     * @return this
+     * @deprecated
+     */
+    @Deprecated
     public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
-        this.channelInitializer = Objects.requireNonNull(channelInitializer, "channelInitializer is null");
+        this.channelFactoryBuilder = gtb -> DefaultChannelFactory.build(gtb, channelInitializer);
         return this;
     }
 

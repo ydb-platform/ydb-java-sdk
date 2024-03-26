@@ -8,12 +8,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
-import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.YdbSchedulerFactory;
 
 /**
@@ -21,16 +17,11 @@ import tech.ydb.core.impl.YdbSchedulerFactory;
  * @author Aleksandr Gorshenin
  */
 public class GrpcChannelPoolTest {
-    private static final GrpcTransportBuilder BUILDER = GrpcTransport.forHost("ydb.tech", 1245, "/Local");
-
-    private final AutoCloseable mocks = MockitoAnnotations.openMocks(this);
-    private final MockedStatic<ManagedChannelFactory> factoryStaticMock = Mockito.mockStatic(ManagedChannelFactory.class);
     private final ManagedChannelFactory factoryMock = Mockito.mock(ManagedChannelFactory.class);
     private final ScheduledExecutorService scheduler = YdbSchedulerFactory.createScheduler();
 
     @Before
     public void setUp() {
-        factoryStaticMock.when(() -> ManagedChannelFactory.fromBuilder(BUILDER)).thenReturn(factoryMock);
         Mockito.when(factoryMock.getConnectTimeoutMs()).thenReturn(500l); // timeout for ready watcher
         Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt()))
                 .then((args) -> ManagedChannelMock.good());
@@ -38,8 +29,6 @@ public class GrpcChannelPoolTest {
 
     @After
     public void tearDown() throws Exception {
-        factoryStaticMock.close();
-        mocks.close();
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 

@@ -44,7 +44,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         this.database = Strings.nullToEmpty(builder.getDatabase());
 
-        ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
+        ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
         BalancingSettings balancingSettings = getBalancingSettings(builder);
         EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
 

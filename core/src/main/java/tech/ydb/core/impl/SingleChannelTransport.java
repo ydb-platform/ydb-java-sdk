@@ -27,7 +27,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     private final ScheduledExecutorService scheduler;
 
     public SingleChannelTransport(GrpcTransportBuilder builder) {
-        ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
+        ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
         EndpointRecord endpoint = YdbTransportImpl.getDiscoveryEndpoint(builder);
 
         logger.info("creating signle channel transport with endpoint {}", endpoint);
