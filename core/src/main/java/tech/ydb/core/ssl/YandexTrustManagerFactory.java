@@ -12,8 +12,6 @@ import javax.net.ssl.TrustManagerFactorySpi;
 import javax.net.ssl.X509ExtendedTrustManager;
 import javax.net.ssl.X509TrustManager;
 
-import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
-
 public final class YandexTrustManagerFactory extends TrustManagerFactory {
 
     @SuppressWarnings("deprecation")
@@ -21,34 +19,14 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
         private static final long serialVersionUID = -2680540247105807895L;
     };
 
-    private static final ThreadLocal<YandexTrustManagerFactorySpi> CURRENT_SPI =
-            ThreadLocal.withInitial(YandexTrustManagerFactorySpi::new);
-
     public YandexTrustManagerFactory(String name) {
-        super(CURRENT_SPI.get(), PROVIDER, name);
-        TrustManager[] trustManagers = YandexTrustManagersProvider.getInstance().getTrustManagers();
-        CURRENT_SPI.get().init(trustManagers);
-        CURRENT_SPI.remove();
+        super(new YandexTrustManagerFactorySpi(), PROVIDER, name);
     }
 
     private static final class YandexTrustManagerFactorySpi extends TrustManagerFactorySpi {
-        private volatile TrustManager[] trustManagers;
+        private static final TrustManager[] TRUST_MANAGERS = initTrustManagers();
 
-        YandexTrustManagerFactorySpi() {
-        }
-
-        void init(TrustManager[] managers) {
-            if (PlatformDependent.javaVersion() >= 7) {
-                for (int i = 0; i < managers.length; ++i) {
-                    TrustManager tm = managers[i];
-                    if (tm instanceof X509TrustManager && !(tm instanceof X509ExtendedTrustManager)) {
-                        managers[i] = new X509TrustManagerWrapper((X509TrustManager) tm);
-                    }
-                }
-            }
-
-            this.trustManagers = managers;
-        }
+        YandexTrustManagerFactorySpi() { }
 
         @Override
         protected void engineInit(KeyStore keyStore) throws KeyStoreException {
@@ -61,8 +39,21 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
 
         @Override
         protected TrustManager[] engineGetTrustManagers() {
-            return trustManagers.clone();
+            return TRUST_MANAGERS.clone();
         }
+    }
+
+    private static TrustManager[] initTrustManagers() {
+        TrustManager[] managers = YandexTrustManagersProvider.getInstance().getTrustManagers();
+
+        for (int i = 0; i < managers.length; ++i) {
+            TrustManager tm = managers[i];
+            if (tm instanceof X509TrustManager && !(tm instanceof X509ExtendedTrustManager)) {
+                managers[i] = new X509TrustManagerWrapper((X509TrustManager) tm);
+            }
+        }
+
+        return managers;
     }
 
 }
