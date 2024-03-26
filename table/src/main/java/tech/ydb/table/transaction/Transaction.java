@@ -8,10 +8,8 @@ import tech.ydb.table.settings.RollbackTxSettings;
 
 /**
  * @author Sergey Polovko
- * @deprecated
- * Use {@link TableTransaction} instead
+ * Consider using {@link TableTransaction} instead
  */
-@Deprecated
 public interface Transaction {
     enum Mode {
         SERIALIZABLE_READ_WRITE,

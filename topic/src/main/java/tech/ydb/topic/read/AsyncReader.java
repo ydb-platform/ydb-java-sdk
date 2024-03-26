@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import io.grpc.ExperimentalApi;
-
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.topic.read.events.DataReceivedEvent;
@@ -15,7 +14,6 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 /**
  * @author Nikolay Perfilov
  */
-@ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface AsyncReader {
 
     /**
@@ -58,6 +56,7 @@ public interface AsyncReader {
      * @param settings Operation settings.
      * @return {@link CompletableFuture} to operation status
      */
+    @ExperimentalApi("New transaction interfaces are experimental and may change without notice")
     default CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction, PartitionOffsets offsets,
                                                                  UpdateOffsetsInTransactionSettings settings) {
         return updateOffsetsInTransaction(transaction,

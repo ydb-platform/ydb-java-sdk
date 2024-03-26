@@ -2,14 +2,11 @@ package tech.ydb.topic.write;
 
 import java.util.concurrent.CompletableFuture;
 
-import io.grpc.ExperimentalApi;
-
 import tech.ydb.topic.settings.SendSettings;
 
 /**
  * @author Nikolay Perfilov
  */
-@ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface AsyncWriter {
 
     /**

@@ -5,14 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
-import io.grpc.ExperimentalApi;
-
 import tech.ydb.topic.description.MetadataItem;
 
 /**
  * @author Nikolay Perfilov
  */
-@ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface Message {
     /**
      * @return Message byte data.

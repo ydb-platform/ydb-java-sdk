@@ -2,6 +2,7 @@ package tech.ydb.topic.settings;
 
 import java.util.concurrent.TimeUnit;
 
+import io.grpc.ExperimentalApi;
 import tech.ydb.common.transaction.YdbTransaction;
 
 /**
@@ -64,6 +65,7 @@ public class ReceiveSettings {
          *                    Transaction has to be active
          * @return Builder
          */
+        @ExperimentalApi("New transaction interfaces are experimental and may change without notice")
         public Builder setTransaction(YdbTransaction transaction) {
             if (!transaction.isActive()) {
                 throw new IllegalArgumentException("Transaction is not active. " +

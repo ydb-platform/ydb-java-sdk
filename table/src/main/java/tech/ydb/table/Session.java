@@ -3,6 +3,8 @@ package tech.ydb.table;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import io.grpc.ExperimentalApi;
+
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -87,10 +89,8 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
     /**
-     * @deprecated
-     * Use {@link Session#beginTransaction(TxMode, BeginTxSettings)} instead
+     * Consider using {@link Session#beginTransaction(TxMode, BeginTxSettings)} instead
      */
-    @Deprecated
     CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode, BeginTxSettings settings);
 
     /**
@@ -99,6 +99,7 @@ public interface Session extends AutoCloseable {
      * @param txMode transaction mode
      * @return new implicit transaction
      */
+    @ExperimentalApi("New table transaction interfaces are experimental and may change without notice")
     TableTransaction createNewTransaction(TxMode txMode);
 
     /**
@@ -109,6 +110,7 @@ public interface Session extends AutoCloseable {
      * @param settings additional settings for request
      * @return future with result of the transaction starting
      */
+    @ExperimentalApi("New table transaction interfaces are experimental and may change without notice")
     CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode, BeginTxSettings settings);
 
     /**
@@ -118,22 +120,19 @@ public interface Session extends AutoCloseable {
      * @param txMode transaction mode
      * @return future with result of the transaction starting
      */
+    @ExperimentalApi("New table transaction interfaces are experimental and may change without notice")
     default CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode) {
         return beginTransaction(txMode, new BeginTxSettings());
     }
 
     /**
-     * @deprecated
-     * Use {@link TableTransaction#commit()} ()} instead
+     * Consider using {@link TableTransaction#commit()} ()} instead
      */
-    @Deprecated
     CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
 
     /**
-     * @deprecated
-     * Use {@link TableTransaction#rollback()} instead
+     * Consider using {@link TableTransaction#rollback()} instead
      */
-    @Deprecated
     CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings);
 
     GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings);
@@ -213,10 +212,8 @@ public interface Session extends AutoCloseable {
     }
 
     /**
-     * @deprecated
-     * Use {@link Session#beginTransaction(TxMode)} instead
+     * Consider using {@link Session#beginTransaction(TxMode)} instead
      */
-    @Deprecated
     default CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode) {
         return beginTransaction(transactionMode, new BeginTxSettings());
     }
