@@ -10,7 +10,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathRequest;
 import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathResponse;
 import tech.ydb.proto.scheme.SchemeOperationProtos.DescribePathResult;
@@ -50,7 +50,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     public CompletableFuture<Status> makeDirectory(MakeDirectoryRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getMakeDirectoryMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(MakeDirectoryResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(MakeDirectoryResponse::getOperation));
 
     }
 
@@ -58,7 +58,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
     public CompletableFuture<Status> removeDirectory(RemoveDirectoryRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getRemoveDirectoryMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(RemoveDirectoryResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(RemoveDirectoryResponse::getOperation));
     }
 
     @Override
@@ -66,8 +66,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
                                                                               GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getListDirectoryMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        ListDirectoryResponse::getOperation, ListDirectoryResult.class));
+                .thenApply(OperationBinder.bindSync(ListDirectoryResponse::getOperation, ListDirectoryResult.class));
     }
 
     @Override
@@ -75,8 +74,7 @@ public final class GrpcSchemeRpc implements SchemeRpc {
                                                                         GrpcRequestSettings settings) {
         return transport
                 .unaryCall(SchemeServiceGrpc.getDescribePathMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(
-                        DescribePathResponse::getOperation, DescribePathResult.class));
+                .thenApply(OperationBinder.bindSync(DescribePathResponse::getOperation, DescribePathResult.class));
     }
 
     @Override

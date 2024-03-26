@@ -11,7 +11,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.v1.TopicServiceGrpc;
 import tech.ydb.topic.TopicRpc;
@@ -37,14 +37,14 @@ public final class GrpcTopicRpc implements TopicRpc {
     public CompletableFuture<Status> createTopic(YdbTopic.CreateTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getCreateTopicMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(YdbTopic.CreateTopicResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTopic.CreateTopicResponse::getOperation));
     }
 
     @Override
     public CompletableFuture<Status> alterTopic(YdbTopic.AlterTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getAlterTopicMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(YdbTopic.AlterTopicResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTopic.AlterTopicResponse::getOperation));
     }
 
     @Override
@@ -52,22 +52,23 @@ public final class GrpcTopicRpc implements TopicRpc {
                                                                                  GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDescribeTopicMethod(), settings, request)
-                .thenApply(OperationManager.syncResultUnwrapper(YdbTopic.DescribeTopicResponse::getOperation,
-                        YdbTopic.DescribeTopicResult.class));
+                .thenApply(OperationBinder.bindSync(
+                        YdbTopic.DescribeTopicResponse::getOperation, YdbTopic.DescribeTopicResult.class)
+                );
     }
 
     @Override
     public CompletableFuture<Status> dropTopic(YdbTopic.DropTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDropTopicMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(YdbTopic.DropTopicResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTopic.DropTopicResponse::getOperation));
     }
 
     @Override
     public CompletableFuture<Status> commitOffset(YdbTopic.CommitOffsetRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getCommitOffsetMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(YdbTopic.CommitOffsetResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTopic.CommitOffsetResponse::getOperation));
     }
 
     @Override
@@ -75,8 +76,7 @@ public final class GrpcTopicRpc implements TopicRpc {
                                                          GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getUpdateOffsetsInTransactionMethod(), settings, request)
-                .thenApply(OperationManager.syncStatusUnwrapper(
-                        YdbTopic.UpdateOffsetsInTransactionResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(YdbTopic.UpdateOffsetsInTransactionResponse::getOperation));
     }
 
     @Override

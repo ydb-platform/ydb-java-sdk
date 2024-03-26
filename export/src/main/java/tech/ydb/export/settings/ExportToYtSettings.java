@@ -5,12 +5,12 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-import tech.ydb.core.settings.LongOperationSettings;
+import tech.ydb.core.settings.OperationSettings;
 
 /**
  * @author Kirill Kurdyukov
  */
-public class ExportToYtSettings extends LongOperationSettings {
+public class ExportToYtSettings extends OperationSettings {
 
     private final Integer port;
     private final List<Item> itemList;
@@ -50,10 +50,10 @@ public class ExportToYtSettings extends LongOperationSettings {
     }
 
     public static Builder newBuilder() {
-        return new Builder();
+        return new Builder().withAsyncMode(true);
     }
 
-    public static class Builder extends LongOperationBuilder<Builder> {
+    public static class Builder extends OperationSettings.OperationBuilder<Builder> {
         private Integer port = null;
         private final List<Item> itemList = new ArrayList<>();
         private String description = null;

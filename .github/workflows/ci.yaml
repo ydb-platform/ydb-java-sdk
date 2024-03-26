@@ -7,7 +7,7 @@ on:
       - develop
       - release*
   pull_request:
-      type: [opened, reopened, edited]
+      type: [opened, reopened, edited, synchronize]
 
 jobs:
   build:

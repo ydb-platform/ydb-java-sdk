@@ -3,8 +3,6 @@ package tech.ydb.core.settings;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
-import tech.ydb.proto.OperationProtos;
-
 /**
  *
  * @author Aleksandr Gorshenin
@@ -13,12 +11,14 @@ public class OperationSettings extends BaseRequestSettings {
     private final Duration operationTimeout;
     private final Duration cancelTimeout;
     private final Boolean reportCostInfo;
+    private final boolean isAsyncMode;
 
     protected OperationSettings(OperationBuilder<?> builder) {
         super(builder);
         this.operationTimeout = builder.operationTimeout;
         this.cancelTimeout = builder.cancelTimeout;
         this.reportCostInfo = builder.reportCostInfo;
+        this.isAsyncMode = builder.isAsyncMode;
     }
 
     public Duration getOperationTimeout() {
@@ -33,14 +33,15 @@ public class OperationSettings extends BaseRequestSettings {
         return reportCostInfo;
     }
 
-    public Mode getMode() {
-        return Mode.SYNC;
+    public boolean isAsyncMode() {
+        return isAsyncMode;
     }
 
     public static class OperationBuilder<Self extends OperationBuilder<?>> extends BaseBuilder<Self> {
         private Duration operationTimeout = null;
         private Duration cancelTimeout = null;
         private Boolean reportCostInfo = null;
+        private boolean isAsyncMode = false;
 
         public Self withOperationTimeout(Duration duration) {
             this.operationTimeout = duration;
@@ -67,24 +68,14 @@ public class OperationSettings extends BaseRequestSettings {
             return self();
         }
 
+        public Self withAsyncMode(boolean isAsyncOperation) {
+            this.isAsyncMode = isAsyncOperation;
+            return self();
+        }
+
         @Override
         public OperationSettings build() {
             return new OperationSettings(this);
-        }
-    }
-
-    public enum Mode {
-        SYNC, ASYNC;
-
-        public OperationProtos.OperationParams.OperationMode toProto() {
-            switch (this) {
-                case SYNC:
-                    return OperationProtos.OperationParams.OperationMode.SYNC;
-                case ASYNC:
-                    return OperationProtos.OperationParams.OperationMode.ASYNC;
-                default:
-                    throw new RuntimeException("Unsupported operation mode");
-            }
         }
     }
 }

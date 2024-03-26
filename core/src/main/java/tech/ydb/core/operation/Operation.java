@@ -6,44 +6,57 @@ import java.util.function.Function;
 import javax.annotation.Nullable;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.Status;
+import tech.ydb.core.settings.OperationSettings;
+import tech.ydb.core.utils.ProtobufUtils;
+import tech.ydb.proto.OperationProtos;
+import tech.ydb.proto.common.CommonProtos;
 
 /**
  * @author Kirill Kurdyukov
+ * @author Aleksandr Gorshenin
+ * @param <T> type of the operation result
  */
-public class Operation<V> {
-    private final String operationId;
-    private final OperationManager operationManager;
-    private final CompletableFuture<Result<V>> resultFuture;
-
-    Operation(String operationId, OperationManager operationManager, CompletableFuture<Result<V>> resultFuture) {
-        this.operationId = operationId;
-        this.operationManager = operationManager;
-        this.resultFuture = resultFuture;
-    }
-
-    public <T> Operation<T> transform(Function<V, T> transform) {
-        return new Operation<>(
-                this.operationId,
-                this.operationManager,
-                this.resultFuture.thenApply(result -> result.map(transform))
-        );
-    }
+public interface Operation<T> {
 
     @Nullable
-    public String getOperationId() {
-        return operationId;
-    }
+    String getId();
 
-    public CompletableFuture<Result<V>> getResultFuture() {
-        return resultFuture;
-    }
+    boolean isReady();
 
-    public CompletableFuture<Result<V>> cancel() {
-        if (resultFuture.isDone()) {
-            return resultFuture;
+    @Nullable
+    T getValue();
+
+    CompletableFuture<Status> cancel();
+    CompletableFuture<Status> forget();
+
+    CompletableFuture<Result<Boolean>> fetch();
+
+    <R> Operation<R> transform(Function<T, R> mapper);
+
+    static OperationProtos.OperationParams buildParams(OperationSettings settings) {
+        OperationProtos.OperationParams.Builder builder = OperationProtos.OperationParams.newBuilder();
+
+        if (settings.getOperationTimeout() != null) {
+            builder.setOperationTimeout(ProtobufUtils.durationToProto(settings.getOperationTimeout()));
+        }
+        if (settings.getCancelTimeout() != null) {
+            builder.setCancelAfter(ProtobufUtils.durationToProto(settings.getCancelTimeout()));
+        }
+        if (settings.getReportCostInfo() != null) {
+            if (settings.getReportCostInfo()) {
+                builder.setReportCostInfo(CommonProtos.FeatureFlag.Status.ENABLED);
+            } else {
+                builder.setReportCostInfo(CommonProtos.FeatureFlag.Status.DISABLED);
+            }
         }
 
-        return operationManager.cancel(this)
-                .thenCompose(cancelOperationResponseResult -> getResultFuture());
+        if (settings.isAsyncMode()) {
+            builder.setOperationMode(OperationProtos.OperationParams.OperationMode.ASYNC);
+        } else {
+            builder.setOperationMode(OperationProtos.OperationParams.OperationMode.SYNC);
+        }
+
+        return builder.build();
     }
 }

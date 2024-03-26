@@ -2,8 +2,10 @@ package tech.ydb.export.impl;
 
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.core.Result;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.Operation;
-import tech.ydb.core.operation.OperationUtils;
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.export.ExportClient;
 import tech.ydb.export.ExportRpc;
 import tech.ydb.export.result.ExportToS3Result;
@@ -22,102 +24,103 @@ public class ExportClientImpl implements ExportClient {
     public ExportClientImpl(ExportRpc exportRpc) {
         this.exportRpc = exportRpc;
     }
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        return GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .build();
+    }
 
-    public CompletableFuture<Operation<ExportToS3Result>> exportS3(
-            String endpoint,
-            String bucket,
-            String accessKey,
-            String secretKey,
-            ExportToS3Settings exportToS3Settings
+    @Override
+    public CompletableFuture<Operation<Result<ExportToS3Result>>> startExportToS3(
+            String endpoint, String bucket, String accessKey, String secretKey, ExportToS3Settings settings
     ) {
-        YdbExport.ExportToS3Settings.Builder exportToYtSettingsBuilder = YdbExport.ExportToS3Settings.newBuilder()
+        YdbExport.ExportToS3Settings.Builder builder = YdbExport.ExportToS3Settings.newBuilder()
                 .setEndpoint(endpoint)
                 .setBucket(bucket)
                 .setAccessKey(accessKey)
                 .setSecretKey(secretKey);
 
-        if (exportToS3Settings.getSchema() != null) {
-            exportToYtSettingsBuilder.setScheme(exportToS3Settings.getSchema().toProto());
+        if (settings.getSchema() != null) {
+            builder.setScheme(settings.getSchema().toProto());
         }
 
-        if (exportToS3Settings.getNumberOfRetries() != null) {
-            exportToYtSettingsBuilder.setNumberOfRetries(exportToS3Settings.getNumberOfRetries());
+        if (settings.getNumberOfRetries() != null) {
+            builder.setNumberOfRetries(settings.getNumberOfRetries());
         }
 
-        if (exportToS3Settings.getStorageClass() != null) {
-            exportToYtSettingsBuilder.setStorageClass(exportToS3Settings.getStorageClass().toProto());
+        if (settings.getStorageClass() != null) {
+            builder.setStorageClass(settings.getStorageClass().toProto());
         }
 
-        if (exportToS3Settings.getCompression() != null) {
-            exportToYtSettingsBuilder.setCompression(exportToS3Settings.getCompression());
+        if (settings.getCompression() != null) {
+            builder.setCompression(settings.getCompression());
         }
 
-        if (exportToS3Settings.getRegion() != null) {
-            exportToYtSettingsBuilder.setRegion(exportToS3Settings.getRegion());
+        if (settings.getRegion() != null) {
+            builder.setRegion(settings.getRegion());
         }
 
-        if (exportToS3Settings.getDescription() != null) {
-            exportToYtSettingsBuilder.setDescription(exportToS3Settings.getDescription());
+        if (settings.getDescription() != null) {
+            builder.setDescription(settings.getDescription());
         }
 
-        exportToS3Settings.getItemList().forEach(item -> exportToYtSettingsBuilder.addItems(
-                        YdbExport.ExportToS3Settings.Item.newBuilder()
-                                .setSourcePath(item.getSourcePath())
-                                .setDestinationPrefix(item.getDestinationPrefix())
-                                .build()
-                )
-        );
+        for (ExportToS3Settings.Item item : settings.getItemList()) {
+            builder.addItems(
+                    YdbExport.ExportToS3Settings.Item.newBuilder()
+                            .setSourcePath(item.getSourcePath())
+                            .setDestinationPrefix(item.getDestinationPrefix())
+                            .build()
+            );
+        }
 
-        return exportRpc.exportS3(
-                YdbExport.ExportToS3Request.newBuilder()
-                        .setSettings(exportToYtSettingsBuilder.build())
-                        .setOperationParams(
-                                OperationUtils.createParams(exportToS3Settings)
-                        )
-                        .build(),
-                OperationUtils.createGrpcRequestSettings(exportToS3Settings)
-        ).thenApply(op -> op.transform(ExportToS3Result::new));
+        YdbExport.ExportToS3Request request = YdbExport.ExportToS3Request.newBuilder()
+                .setSettings(builder.build())
+                .setOperationParams(Operation.buildParams(settings))
+                .build();
+
+        return exportRpc.exportS3(request, makeGrpcRequestSettings(settings))
+                .thenApply(op -> op.transform(r -> r.map(ExportToS3Result::new)));
     }
 
-    public CompletableFuture<Operation<ExportToYtResult>> exportYt(
-            String host,
-            String token,
-            ExportToYtSettings exportToYtSettings
+    @Override
+    public CompletableFuture<Operation<Result<ExportToYtResult>>> startExportToYt(
+            String host, String token, ExportToYtSettings settings
     ) {
-        YdbExport.ExportToYtSettings.Builder exportToYtSettingBuilder = YdbExport.ExportToYtSettings.newBuilder()
+        YdbExport.ExportToYtSettings.Builder builder = YdbExport.ExportToYtSettings.newBuilder()
                 .setHost(host)
                 .setToken(token);
 
-        if (exportToYtSettings.getPort() != null) {
-            exportToYtSettingBuilder.setPort(exportToYtSettings.getPort());
+        if (settings.getPort() != null) {
+            builder.setPort(settings.getPort());
         }
 
-        if (exportToYtSettings.getNumberOfRetries() != null) {
-            exportToYtSettingBuilder.setNumberOfRetries(exportToYtSettings.getNumberOfRetries());
+        if (settings.getNumberOfRetries() != null) {
+            builder.setNumberOfRetries(settings.getNumberOfRetries());
         }
 
-        if (exportToYtSettings.getUseTypeV3() != null) {
-            exportToYtSettingBuilder.setUseTypeV3(exportToYtSettings.getUseTypeV3());
+        if (settings.getUseTypeV3() != null) {
+            builder.setUseTypeV3(settings.getUseTypeV3());
         }
 
-        if (exportToYtSettings.getDescription() != null) {
-            exportToYtSettingBuilder.setDescription(exportToYtSettings.getDescription());
+        if (settings.getDescription() != null) {
+            builder.setDescription(settings.getDescription());
         }
 
-        exportToYtSettings.getItemList().forEach(item -> exportToYtSettingBuilder.addItems(
-                        YdbExport.ExportToYtSettings.Item.newBuilder()
-                                .setSourcePath(item.getSourcePath())
-                                .setDestinationPath(item.getDestinationPath())
-                                .build()
-                )
-        );
+        for (ExportToYtSettings.Item item : settings.getItemList()) {
+            builder.addItems(
+                    YdbExport.ExportToYtSettings.Item.newBuilder()
+                            .setSourcePath(item.getSourcePath())
+                            .setDestinationPath(item.getDestinationPath())
+                            .build()
+            );
+        }
 
-        return exportRpc.exportYt(
-                YdbExport.ExportToYtRequest.newBuilder()
-                        .setSettings(exportToYtSettingBuilder.build())
-                        .setOperationParams(OperationUtils.createParams(exportToYtSettings))
-                        .build(),
-                OperationUtils.createGrpcRequestSettings(exportToYtSettings)
-        ).thenApply(op -> op.transform(ExportToYtResult::new));
+        YdbExport.ExportToYtRequest request = YdbExport.ExportToYtRequest.newBuilder()
+                .setSettings(builder.build())
+                .setOperationParams(Operation.buildParams(settings))
+                .build();
+
+        return exportRpc.exportYt(request, makeGrpcRequestSettings(settings))
+                .thenApply(op -> op.transform(r -> r.map(ExportToYtResult::new)));
     }
 }

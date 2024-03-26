@@ -13,7 +13,8 @@ import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.operation.OperationUtils;
+import tech.ydb.core.operation.Operation;
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.coordination.AlterNodeRequest;
 import tech.ydb.proto.coordination.CreateNodeRequest;
 import tech.ydb.proto.coordination.DescribeNodeRequest;
@@ -39,6 +40,12 @@ class ClientImpl implements CoordinationClient {
         return path.startsWith("/") ? path : rpc.getDatabase() + "/" + path;
     }
 
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        return GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .build();
+    }
+
     @Override
     public CoordinationSession createSession(String path, CoordinationSessionSettings settings) {
         return new SessionImpl(rpc, Clock.systemUTC(), validatePath(path), settings);
@@ -48,11 +55,11 @@ class ClientImpl implements CoordinationClient {
     public CompletableFuture<Status> createNode(String path, CoordinationNodeSettings settings) {
         CreateNodeRequest request = CreateNodeRequest.newBuilder()
                 .setPath(validatePath(path))
-                .setOperationParams(OperationUtils.createParams(settings))
+                .setOperationParams(Operation.buildParams(settings))
                 .setConfig(settings.getConfig().toProto())
                 .build();
 
-        GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return rpc.createNode(request, grpcSettings);
     }
 
@@ -60,11 +67,11 @@ class ClientImpl implements CoordinationClient {
     public CompletableFuture<Status> alterNode(String path, CoordinationNodeSettings settings) {
         AlterNodeRequest request = AlterNodeRequest.newBuilder()
                 .setPath(validatePath(path))
-                .setOperationParams(OperationUtils.createParams(settings))
+                .setOperationParams(Operation.buildParams(settings))
                 .setConfig(settings.getConfig().toProto())
                 .build();
 
-        GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return rpc.alterNode(request, grpcSettings);
     }
 
@@ -72,10 +79,10 @@ class ClientImpl implements CoordinationClient {
     public CompletableFuture<Status> dropNode(String path, DropCoordinationNodeSettings settings) {
         DropNodeRequest request = DropNodeRequest.newBuilder()
                 .setPath(validatePath(path))
-                .setOperationParams(OperationUtils.createParams(settings))
+                .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return rpc.dropNode(request, grpcSettings);
     }
 
@@ -84,10 +91,10 @@ class ClientImpl implements CoordinationClient {
             DescribeCoordinationNodeSettings settings) {
         DescribeNodeRequest request = DescribeNodeRequest.newBuilder()
                 .setPath(validatePath(path))
-                .setOperationParams(OperationUtils.createParams(settings))
+                .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        GrpcRequestSettings grpcSettings = OperationUtils.createGrpcRequestSettings(settings);
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return rpc.describeNode(request, grpcSettings);
     }
 

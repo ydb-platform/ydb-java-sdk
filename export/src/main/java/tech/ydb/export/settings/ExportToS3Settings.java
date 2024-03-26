@@ -5,13 +5,13 @@ import java.util.List;
 
 import com.google.common.base.Preconditions;
 
-import tech.ydb.core.settings.LongOperationSettings;
+import tech.ydb.core.settings.OperationSettings;
 import tech.ydb.proto.export.YdbExport;
 
 /**
  * @author Kirill Kurdyukov
  */
-public class ExportToS3Settings extends LongOperationSettings {
+public class ExportToS3Settings extends OperationSettings {
 
     private final Schema schema;
     private final Integer numberOfRetries;
@@ -63,10 +63,10 @@ public class ExportToS3Settings extends LongOperationSettings {
     }
 
     public static Builder newBuilder() {
-        return new Builder();
+        return new Builder().withAsyncMode(true);
     }
 
-    public static class Builder extends LongOperationBuilder<Builder> {
+    public static class Builder extends OperationSettings.OperationBuilder<Builder> {
         private Schema schema = null;
         private Integer numberOfRetries = null;
         private StorageClass storageClass = null;

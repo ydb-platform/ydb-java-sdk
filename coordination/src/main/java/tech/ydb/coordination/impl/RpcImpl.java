@@ -10,7 +10,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.operation.OperationManager;
+import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.coordination.AlterNodeRequest;
 import tech.ydb.proto.coordination.AlterNodeResponse;
 import tech.ydb.proto.coordination.CreateNodeRequest;
@@ -28,17 +28,17 @@ import tech.ydb.proto.coordination.v1.CoordinationServiceGrpc;
  * @author Kirill Kurdyukov
  */
 class RpcImpl implements Rpc {
-    private static final Function<Result<CreateNodeResponse>, Status> CREATE_NODE_STATUS = OperationManager
-            .syncStatusUnwrapper(CreateNodeResponse::getOperation);
+    private static final Function<Result<CreateNodeResponse>, Status> CREATE_NODE_STATUS = OperationBinder
+            .bindSync(CreateNodeResponse::getOperation);
 
-    private static final Function<Result<AlterNodeResponse>, Status> ALTER_NODE_STATUS = OperationManager
-            .syncStatusUnwrapper(AlterNodeResponse::getOperation);
+    private static final Function<Result<AlterNodeResponse>, Status> ALTER_NODE_STATUS = OperationBinder
+            .bindSync(AlterNodeResponse::getOperation);
 
-    private static final Function<Result<DropNodeResponse>, Status> DROP_NODE_STATUS = OperationManager
-            .syncStatusUnwrapper(DropNodeResponse::getOperation);
+    private static final Function<Result<DropNodeResponse>, Status> DROP_NODE_STATUS = OperationBinder
+            .bindSync(DropNodeResponse::getOperation);
 
     private static final Function<Result<DescribeNodeResponse>, Result<DescribeNodeResult>> DESCRIBE_NODE_RESULT =
-            OperationManager.syncResultUnwrapper(DescribeNodeResponse::getOperation, DescribeNodeResult.class);
+            OperationBinder.bindSync(DescribeNodeResponse::getOperation, DescribeNodeResult.class);
 
     private final GrpcTransport transport;
 
