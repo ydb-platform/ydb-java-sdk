@@ -168,7 +168,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                              @Nullable Long partitionId, Runnable confirmCallback) {
+                                              PartitionSession partitionSession, Runnable confirmCallback) {
         confirmCallback.run();
     }
 

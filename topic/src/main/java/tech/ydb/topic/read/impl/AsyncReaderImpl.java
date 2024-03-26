@@ -8,8 +8,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -118,11 +116,10 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                              @Nullable Long partitionId, Runnable confirmCallback) {
-        final long partitionSessionId = request.getPartitionSessionId();
+                                              PartitionSession partitionSession, Runnable confirmCallback) {
         final long committedOffset = request.getCommittedOffset();
-        final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(partitionSessionId, partitionId,
-                committedOffset, confirmCallback);
+        final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(partitionSession, committedOffset,
+                confirmCallback);
         handlerExecutor.execute(() -> {
             eventHandler.onStopPartitionSession(event);
         });

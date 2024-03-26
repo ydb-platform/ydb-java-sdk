@@ -12,8 +12,6 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -114,7 +112,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             PartitionSession partitionSession,
             Consumer<StartPartitionSessionSettings> confirmCallback);
     protected abstract void handleStopPartitionSession(
-            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request, @Nullable Long partitionId,
+            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
+            PartitionSession partitionSession,
             Runnable confirmCallback);
     protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
 
@@ -423,12 +422,16 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 if (partitionSession != null) {
                     logger.info("[{}] Received graceful StopPartitionSessionRequest for partition session {} " +
                             "(partition {})", fullId, partitionSession.getId(), partitionSession.getPartitionId());
+                    handleStopPartitionSession(request, partitionSession.getSessionInfo(),
+                            () -> sendStopPartitionSessionResponse(request.getPartitionSessionId()));
                 } else {
-                    logger.warn("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
+                    logger.error("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
                             "but have no such partition session active", fullId, request.getPartitionSessionId());
+                    closeDueToError(null,
+                            new RuntimeException("Restarting read session due to receiving " +
+                                    "StopPartitionSessionRequest with PartitionSessionId " +
+                                    request.getPartitionSessionId() + " that SDK knows nothing about"));
                 }
-                handleStopPartitionSession(request, partitionSession == null ? null : partitionSession.getPartitionId(),
-                        () -> sendStopPartitionSessionResponse(request.getPartitionSessionId()));
             } else {
                 PartitionSessionImpl partitionSession = partitionSessions.remove(request.getPartitionSessionId());
                 if (partitionSession != null) {
@@ -436,7 +439,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                                     "{})", fullId, partitionSession.getId(), partitionSession.getPartitionId());
                     closePartitionSession(partitionSession);
                 } else {
-                    logger.warn("[{}] Received force StopPartitionSessionRequest for partition session {}, " +
+                    logger.info("[{}] Received force StopPartitionSessionRequest for partition session {}, " +
                             "but have no such partition session running", fullId, request.getPartitionSessionId());
                 }
             }
