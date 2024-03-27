@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
@@ -32,14 +33,14 @@ public class SyncWriterImpl extends WriterImpl implements SyncWriter {
     }
 
     @Override
-    public void send(Message message) {
-        sendImpl(message, false).join();
+    public void send(Message message, SendSettings sendSettings) {
+        sendImpl(message, sendSettings, false).join();
     }
 
     @Override
-    public void send(Message message, long timeout, TimeUnit unit)
+    public void send(Message message, SendSettings sendSettings, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
-        sendImpl(message, false).get(timeout, unit);
+        sendImpl(message, sendSettings, false).get(timeout, unit);
     }
 
     @Override

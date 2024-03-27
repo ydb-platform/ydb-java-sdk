@@ -1,6 +1,8 @@
 package tech.ydb.core.grpc;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Consumer;
 
 import io.grpc.Metadata;
@@ -11,14 +13,16 @@ import io.grpc.Metadata;
 public class GrpcRequestSettings {
     private final long deadlineAfter;
     private final Integer preferredNodeID;
-    private final Metadata extraHeaders;
+    private final String traceId;
+    private final List<String> clientCapabilities;
     private final Consumer<Metadata> trailersHandler;
 
     private GrpcRequestSettings(Builder builder) {
-        this.deadlineAfter = builder.getDeadlineAfter();
-        this.preferredNodeID = builder.getPreferredNodeID();
-        this.extraHeaders = builder.getExtraHeaders();
-        this.trailersHandler = builder.getTrailersHandler();
+        this.deadlineAfter = builder.deadlineAfter;
+        this.preferredNodeID = builder.preferredNodeID;
+        this.traceId = builder.traceId;
+        this.clientCapabilities = builder.clientCapabilities;
+        this.trailersHandler = builder.trailersHandler;
     }
 
     public static Builder newBuilder() {
@@ -33,8 +37,12 @@ public class GrpcRequestSettings {
         return preferredNodeID;
     }
 
-    public Metadata getExtraHeaders() {
-        return extraHeaders;
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public List<String> getClientCapabilities() {
+        return clientCapabilities;
     }
 
     public Consumer<Metadata> getTrailersHandler() {
@@ -44,7 +52,8 @@ public class GrpcRequestSettings {
     public static final class Builder {
         private long deadlineAfter = 0L;
         private Integer preferredNodeID = null;
-        private Metadata extraHeaders = null;
+        private String traceId = null;
+        private List<String> clientCapabilities = null;
         private Consumer<Metadata> trailersHandler = null;
 
         /**
@@ -81,30 +90,27 @@ public class GrpcRequestSettings {
             return this;
         }
 
-        public Builder withExtraHeaders(Metadata headers) {
-            this.extraHeaders = headers;
+        public Builder withTraceId(String traceId) {
+            this.traceId = traceId;
+            return this;
+        }
+
+        public Builder withClientCapabilities(List<String> clientCapabilities) {
+            this.clientCapabilities = clientCapabilities;
+            return this;
+        }
+
+        public Builder addClientCapability(String clientCapability) {
+            if (this.clientCapabilities == null) {
+                this.clientCapabilities = new ArrayList<>();
+            }
+            this.clientCapabilities.add(clientCapability);
             return this;
         }
 
         public Builder withTrailersHandler(Consumer<Metadata> handler) {
             this.trailersHandler = handler;
             return this;
-        }
-
-        public long getDeadlineAfter() {
-            return deadlineAfter;
-        }
-
-        public Integer getPreferredNodeID() {
-            return preferredNodeID;
-        }
-
-        public Metadata getExtraHeaders() {
-            return extraHeaders;
-        }
-
-        public Consumer<Metadata> getTrailersHandler() {
-            return trailersHandler;
         }
 
         public GrpcRequestSettings build() {

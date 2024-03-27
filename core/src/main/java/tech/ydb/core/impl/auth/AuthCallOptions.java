@@ -33,7 +33,6 @@ public class AuthCallOptions implements AutoCloseable {
             List<EndpointRecord> endpoints,
             ManagedChannelFactory channelFactory,
             GrpcTransportBuilder transportBuilder) {
-
         CallOptions options = CallOptions.DEFAULT;
 
         if (transportBuilder.getAuthProvider() != null) {
@@ -51,6 +50,7 @@ public class AuthCallOptions implements AutoCloseable {
                 && transportBuilder.getCallExecutor() != MoreExecutors.directExecutor()) {
             options = options.withExecutor(transportBuilder.getCallExecutor());
         }
+
         if (transportBuilder.getGrpcCompression() != GrpcCompression.NO_COMPRESSION) {
             options = options.withCompression(transportBuilder.getGrpcCompression().compressor());
         }

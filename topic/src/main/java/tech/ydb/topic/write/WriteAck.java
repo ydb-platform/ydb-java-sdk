@@ -1,7 +1,5 @@
 package tech.ydb.topic.write;
 
-import javax.annotation.Nullable;
-
 /**
  * @author Nikolay Perfilov
  */
@@ -41,7 +39,10 @@ public class WriteAck {
         return state;
     }
 
-    @Nullable
+    /**
+     * Get details about written offsets
+     * @return {@link Details} with written offsets if state is {@link State#WRITTEN} or null otherwise
+     */
     public Details getDetails() {
         return details;
     }

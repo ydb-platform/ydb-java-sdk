@@ -43,7 +43,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
             GrpcStatusHandler statusConsumer
     ) {
         this.call = call;
-        this.headers = headers != null ? headers : new Metadata();
+        this.headers = headers;
         this.statusConsumer = statusConsumer;
         this.callOptions = callOptions;
     }

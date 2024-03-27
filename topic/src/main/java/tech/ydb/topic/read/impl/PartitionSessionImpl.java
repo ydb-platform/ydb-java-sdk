@@ -23,8 +23,8 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.MetadataItem;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
-import tech.ydb.topic.read.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
@@ -40,7 +40,6 @@ public class PartitionSessionImpl {
     private final String path;
     private final long partitionId;
     private final PartitionSession sessionInfo;
-    private final OffsetsRange partitionOffsets;
     private final Executor decompressionExecutor;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
 
@@ -61,13 +60,12 @@ public class PartitionSessionImpl {
         this.sessionInfo = new PartitionSession(id, partitionId, path);
         this.lastReadOffset = builder.committedOffset;
         this.lastCommittedOffset = builder.committedOffset;
-        this.partitionOffsets = builder.partitionOffsets;
         this.decompressionExecutor = builder.decompressionExecutor;
         this.dataEventCallback = builder.dataEventCallback;
         this.commitFunction = builder.commitFunction;
         logger.info("[{}] Partition session {} (partition {}) is started. CommittedOffset: {}. " +
-                "Partition offsets: {}-{}", path, id, partitionId, lastReadOffset, partitionOffsets.getStart(),
-                partitionOffsets.getEnd());
+                "Partition offsets: {}-{}", path, id, partitionId, lastReadOffset, builder.partitionOffsets.getStart(),
+                builder.partitionOffsets.getEnd());
     }
 
     public static Builder newBuilder() {
@@ -222,7 +220,7 @@ public class PartitionSessionImpl {
                         .append("] Sending CommitRequest for partition session ").append(id)
                         .append(" (partition ").append(partitionId).append(") with offset ranges ");
                 addRangesToString(message, rangesToCommit);
-                logger.info(message.toString());
+                logger.debug(message.toString());
             }
             commitFunction.accept(rangesToCommit);
         } else if (logger.isInfoEnabled()) {

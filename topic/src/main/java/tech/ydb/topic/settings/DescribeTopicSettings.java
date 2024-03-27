@@ -2,6 +2,9 @@ package tech.ydb.topic.settings;
 
 import tech.ydb.core.settings.OperationSettings;
 
+/**
+ * @author Nikolay Perfilov
+ */
 public class DescribeTopicSettings extends OperationSettings {
     /* TODO: renew api and add stats
     private boolean includeStats = false;

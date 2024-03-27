@@ -3,6 +3,7 @@ package tech.ydb.test.integration.utils;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
+import java.security.SecureRandom;
 import java.util.Random;
 
 import javax.net.ServerSocketFactory;
@@ -14,7 +15,7 @@ import javax.net.ServerSocketFactory;
 public class PortsGenerator {
     private static final int PORT_RANGE_MIN = 51000;
     private static final int PORT_RANGE_MAX = 59000;
-    private static final Random RANDOM = new Random(System.nanoTime());
+    private static final Random RANDOM = new SecureRandom();
 
     private int nextPort;
 

@@ -12,7 +12,7 @@ import tech.ydb.topic.read.impl.DeferredCommitterImpl;
  *
  * @author Nikolay Perfilov
  */
-public interface DeferredCommitter {
+public interface DeferredCommitter extends MessageAccumulator {
     /**
      * Creates a new instance of {@link DeferredCommitter}
      *
@@ -21,20 +21,6 @@ public interface DeferredCommitter {
     static DeferredCommitter newInstance() {
         return new DeferredCommitterImpl();
     }
-
-    /**
-     * Adds a {@link Message} to commit it later with a commit method
-     *
-     * @param message a {@link Message} to commit later
-     */
-    void add(Message message);
-
-    /**
-     * Adds a {@link DataReceivedEvent} to commit all its messages later with a commit method
-     *
-     * @param event a {@link DataReceivedEvent} to commit later
-     */
-    void add(DataReceivedEvent event);
 
     /**
      * Commits offset ranges from all {@link Message}s and {@link DataReceivedEvent}s

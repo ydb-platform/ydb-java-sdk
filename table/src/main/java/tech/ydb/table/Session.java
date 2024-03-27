@@ -3,6 +3,9 @@ package tech.ydb.table;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+import io.grpc.ExperimentalApi;
+
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
@@ -12,6 +15,7 @@ import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
@@ -29,8 +33,11 @@ import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.settings.ExplainDataQuerySettings;
 import tech.ydb.table.settings.KeepAliveSessionSettings;
 import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.settings.RenameTablesSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
+import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
@@ -38,6 +45,7 @@ import tech.ydb.table.values.ListValue;
 
 /**
  * @author Sergey Polovko
+ * @author Nikolay Perfilov
  */
 public interface Session extends AutoCloseable {
     enum State {
@@ -52,7 +60,7 @@ public interface Session extends AutoCloseable {
     void close();
 
     CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions,
-            CreateTableSettings settings);
+                                          CreateTableSettings settings);
 
     CompletableFuture<Status> dropTable(String path, DropTableSettings settings);
 
@@ -61,6 +69,8 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Status> copyTable(String src, String dst, CopyTableSettings settings);
 
     CompletableFuture<Status> copyTables(CopyTablesSettings settings);
+
+    CompletableFuture<Status> renameTables(RenameTablesSettings settings);
 
     CompletableFuture<Result<TableDescription>> describeTable(String path, DescribeTableSettings settings);
 
@@ -72,14 +82,57 @@ public interface Session extends AutoCloseable {
         Params params,
         ExecuteDataQuerySettings settings);
 
+    CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings);
+
     CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings);
 
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
+    /**
+     * Consider using {@link Session#beginTransaction(TxMode, BeginTxSettings)} instead
+     */
     CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode, BeginTxSettings settings);
 
+    /**
+     * Create a new <i>not active</i> {@link TableTransaction}. This TableDescription will have no identifier and
+     * starts a transaction on server by execution a query
+     * @param txMode transaction mode
+     * @return new implicit transaction
+     */
+    @ExperimentalApi("New table transaction interfaces are experimental and may change without notice")
+    TableTransaction createNewTransaction(TxMode txMode);
+
+    /**
+     * Create and start a new <i>active</i> {@link TableTransaction}. This method creates a transaction on the server
+     * and returns TableDescription which is ready to execute queries on this server transaction
+     *
+     * @param txMode transaction mode
+     * @param settings additional settings for request
+     * @return future with result of the transaction starting
+     */
+    @ExperimentalApi("New table transaction interfaces are experimental and may change without notice")
+    CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode, BeginTxSettings settings);
+
+    /**
+     * Create and start a new <i>active</i> {@link TableTransaction}. This method creates a transaction on the server
+     * and returns TableDescription which is ready to execute queries on this server transaction
+     *
+     * @param txMode transaction mode
+     * @return future with result of the transaction starting
+     */
+    @ExperimentalApi("New table transaction interfaces are experimental and may change without notice")
+    default CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode) {
+        return beginTransaction(txMode, new BeginTxSettings());
+    }
+
+    /**
+     * Consider using {@link TableTransaction#commit()} ()} instead
+     */
     CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
 
+    /**
+     * Consider using {@link TableTransaction#rollback()} instead
+     */
     CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings);
 
     GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings);
@@ -125,6 +178,14 @@ public interface Session extends AutoCloseable {
         return copyTable(src, dst, new CopyTableSettings());
     }
 
+    default CompletableFuture<Status> renameTable(String src, String dst) {
+        return renameTables(new RenameTablesSettings().addTable(src, dst));
+    }
+
+    default CompletableFuture<Status> renameTable(String src, String dst, boolean overwrite) {
+        return renameTables(new RenameTablesSettings().addTable(src, dst, overwrite));
+    }
+
     default CompletableFuture<Result<TableDescription>> describeTable(String path) {
         return describeTable(path, new DescribeTableSettings());
     }
@@ -150,6 +211,9 @@ public interface Session extends AutoCloseable {
         return explainDataQuery(query, new ExplainDataQuerySettings());
     }
 
+    /**
+     * Consider using {@link Session#beginTransaction(TxMode)} instead
+     */
     default CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode) {
         return beginTransaction(transactionMode, new BeginTxSettings());
     }

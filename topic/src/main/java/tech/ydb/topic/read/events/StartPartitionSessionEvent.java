@@ -1,6 +1,6 @@
 package tech.ydb.topic.read.events;
 
-import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 

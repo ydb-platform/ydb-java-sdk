@@ -1,14 +1,14 @@
 package tech.ydb.topic.read.events;
 
-import javax.annotation.Nullable;
+import tech.ydb.topic.read.PartitionSession;
 
 /**
  * @author Nikolay Perfilov
  */
 public interface StopPartitionSessionEvent {
+    PartitionSession getPartitionSession();
     long getPartitionSessionId();
 
-    @Nullable
     Long getPartitionId();
 
     long getCommittedOffset();

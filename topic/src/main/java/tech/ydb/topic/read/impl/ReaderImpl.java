@@ -3,6 +3,7 @@ package tech.ydb.topic.read.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
@@ -12,25 +13,27 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
-import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
+import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -109,7 +112,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             PartitionSession partitionSession,
             Consumer<StartPartitionSessionSettings> confirmCallback);
     protected abstract void handleStopPartitionSession(
-            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request, @Nullable Long partitionId,
+            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
+            PartitionSession partitionSession,
             Runnable confirmCallback);
     protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
 
@@ -130,7 +134,81 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         }
     }
 
-    private class ReadSessionImpl extends ReadSession {
+    protected CompletableFuture<Status> sendUpdateOffsetsInTransaction(YdbTransaction transaction,
+                                                                       Map<String, List<PartitionOffsets>> offsets,
+                                                                       UpdateOffsetsInTransactionSettings settings) {
+        if (offsets.isEmpty()) {
+            throw new IllegalArgumentException("Empty topic list to update in transaction");
+        }
+        if (logger.isDebugEnabled()) {
+            StringBuilder str = new StringBuilder("Updating ");
+            boolean first = true;
+            for (Map.Entry<String, List<PartitionOffsets>> topicOffsets : offsets.entrySet()) {
+                if (topicOffsets.getValue().isEmpty()) {
+                    throw new IllegalArgumentException("Empty offsets range to update in transaction");
+                }
+                for (PartitionOffsets partitionOffsets : topicOffsets.getValue()) {
+                    if (!first) {
+                        str.append(", ");
+                    } else {
+                        first = false;
+                    }
+                    str.append("offsets [").append(partitionOffsets.getOffsets().get(0).getStart()).append("..")
+                            .append(partitionOffsets.getOffsets().get(partitionOffsets.getOffsets().size() - 1)
+                                    .getEnd()).append(") for partition ")
+                            .append(partitionOffsets.getPartitionSession().getPartitionId())
+                            .append(" [topic ").append(topicOffsets.getKey()).append("]");
+                }
+            }
+            logger.debug(str.toString());
+        }
+        final ReadSessionImpl currentSession = session;
+        transaction.getStatusFuture().whenComplete((status, error) -> {
+            if (error != null) {
+                currentSession.closeDueToError(null,
+                        new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
+                                " with partition offsets from read session " + currentSession.fullId +
+                                " was not committed with reason: " + error));
+            } else if (!status.isSuccess()) {
+                currentSession.closeDueToError(null,
+                        new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
+                                " with partition offsets from read session " + currentSession.fullId +
+                                " was not committed with status: " + status));
+            }
+        });
+        YdbTopic.UpdateOffsetsInTransactionRequest.Builder requestBuilder = YdbTopic.UpdateOffsetsInTransactionRequest
+                .newBuilder()
+                .setTx(YdbTopic.TransactionIdentity.newBuilder()
+                        .setId(transaction.getId())
+                        .setSession(transaction.getSessionId()))
+                .setConsumer(this.settings.getConsumerName());
+        offsets.forEach((path, topicOffsets) -> {
+            YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.Builder topicOffsetsBuilder = YdbTopic
+                    .UpdateOffsetsInTransactionRequest.TopicOffsets.newBuilder()
+                    .setPath(path);
+            topicOffsets.forEach(partitionOffsets -> {
+                YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.Builder partitionOffsetsBuilder
+                        = YdbTopic.UpdateOffsetsInTransactionRequest.TopicOffsets.PartitionOffsets.newBuilder()
+                                .setPartitionId(partitionOffsets.getPartitionSession().getPartitionId());
+                partitionOffsets.getOffsets().forEach(offsetsRange -> partitionOffsetsBuilder.addPartitionOffsets(
+                        YdbTopic.OffsetsRange.newBuilder()
+                                .setStart(offsetsRange.getStart())
+                                .setEnd(offsetsRange.getEnd())
+                                .build()));
+                topicOffsetsBuilder.addPartitions(partitionOffsetsBuilder);
+            });
+            requestBuilder.addTopics(topicOffsetsBuilder);
+        });
+
+        String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .withTraceId(traceId)
+                .build();
+        return topicRpc.updateOffsetsInTransaction(requestBuilder.build(), grpcRequestSettings);
+    }
+
+    protected class ReadSessionImpl extends ReadSession {
         protected String sessionId = "";
         private final String fullId;
         // Total size to request with next ReadRequest.
@@ -144,7 +222,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
         public void startAndInitialize() {
             logger.debug("[{}] Session {} startAndInitialize called", fullId, sessionId);
-            start(this::processMessage).whenComplete(this::onSessionClosing);
+            start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
                     .newBuilder();
@@ -342,12 +420,16 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 if (partitionSession != null) {
                     logger.info("[{}] Received graceful StopPartitionSessionRequest for partition session {} " +
                             "(partition {})", fullId, partitionSession.getId(), partitionSession.getPartitionId());
+                    handleStopPartitionSession(request, partitionSession.getSessionInfo(),
+                            () -> sendStopPartitionSessionResponse(request.getPartitionSessionId()));
                 } else {
-                    logger.warn("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
+                    logger.error("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
                             "but have no such partition session active", fullId, request.getPartitionSessionId());
+                    closeDueToError(null,
+                            new RuntimeException("Restarting read session due to receiving " +
+                                    "StopPartitionSessionRequest with PartitionSessionId " +
+                                    request.getPartitionSessionId() + " that SDK knows nothing about"));
                 }
-                handleStopPartitionSession(request, partitionSession == null ? null : partitionSession.getPartitionId(),
-                        () -> sendStopPartitionSessionResponse(request.getPartitionSessionId()));
             } else {
                 PartitionSessionImpl partitionSession = partitionSessions.remove(request.getPartitionSessionId());
                 if (partitionSession != null) {
@@ -355,7 +437,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                                     "{})", fullId, partitionSession.getId(), partitionSession.getPartitionId());
                     closePartitionSession(partitionSession);
                 } else {
-                    logger.warn("[{}] Received force StopPartitionSessionRequest for partition session {}, " +
+                    logger.info("[{}] Received force StopPartitionSessionRequest for partition session {}, " +
                             "but have no such partition session running", fullId, request.getPartitionSessionId());
                 }
             }
@@ -437,7 +519,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 reconnectCounter.set(0);
             } else {
                 logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, message);
-                onSessionClosed(Status.of(StatusCode.fromProto(message.getStatus()))
+                closeDueToError(Status.of(StatusCode.fromProto(message.getStatus()))
                         .withIssues(Issue.of("Got a message with non-success status: " + message,
                                 Issue.Severity.ERROR)), null);
                 return;
@@ -462,10 +544,9 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
         }
 
-        private void onSessionClosing(Status status, Throwable th) {
-            logger.info("[{}] Session {} onSessionClosing called", fullId, sessionId);
-            if (isWorking.get()) {
-                shutdown();
+        protected void closeDueToError(Status status, Throwable th) {
+            logger.info("[{}] Session {} closeDueToError called", fullId, sessionId);
+            if (shutdown()) {
                 // Signal reader to retry
                 onSessionClosed(status, th);
             }

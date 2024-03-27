@@ -25,7 +25,7 @@ import org.junit.Assert;
 public class MockedScheduler implements ScheduledExecutorService {
     private final MockedClock clock;
     private final PriorityBlockingQueue<MockedTask<?>> tasks = new PriorityBlockingQueue<>();
-    private volatile boolean stopped = false;
+    private volatile boolean stopped;
 
     public MockedScheduler(MockedClock clock) {
         this.clock = clock;

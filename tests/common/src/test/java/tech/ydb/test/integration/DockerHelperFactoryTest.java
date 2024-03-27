@@ -95,7 +95,7 @@ public class DockerHelperFactoryTest {
         PortsGenerator ports = Mockito.mock(PortsGenerator.class);
         Mockito.when(ports.findAvailablePort()).thenReturn(/* Secure */ 10, /* Insecure */ 11);
 
-        YdbEnvironmentMock env = YdbEnvironmentMock.create();
+        YdbEnvironmentMock env = new YdbEnvironmentMock();
         YdbMockContainer container = new YdbMockContainer(env, ports);
         DockerHelperFactory factory = new DockerHelperFactory(env, container);
 
@@ -153,10 +153,10 @@ public class DockerHelperFactoryTest {
         PortsGenerator ports = Mockito.mock(PortsGenerator.class);
         Mockito.when(ports.findAvailablePort()).thenReturn(/* Secure */ 22, /* Insecure */ 33);
 
-        YdbEnvironmentMock env = YdbEnvironmentMock.create()
-                .with("YDB_USE_TLS", "True")
-                .with("YDB_TOKEN", "SIMPLE_TOKEN")
-                .with("YDB_DOCKER_REUSE", "false");
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withUseTLS(true)
+                .withToken("SIMPLE_TOKEN")
+                .withDockerReuse(false);
 
         YdbMockContainer container = new YdbMockContainer(env, ports);
         DockerHelperFactory factory = new DockerHelperFactory(env, container);
@@ -215,9 +215,9 @@ public class DockerHelperFactoryTest {
         PortsGenerator ports = Mockito.mock(PortsGenerator.class);
         Mockito.when(ports.findAvailablePort()).thenReturn(/* Secure */ 41, /* Insecure */ 44);
 
-        YdbEnvironmentMock env = YdbEnvironmentMock.create()
-                .with("YDB_USE_TLS", "True")
-                .with("YDB_DOCKER_REUSE", "true");
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withUseTLS(true)
+                .withDockerReuse(true);
 
         YdbMockContainer container = new YdbMockContainer(env, ports);
         DockerHelperFactory factory = new DockerHelperFactory(env, container);

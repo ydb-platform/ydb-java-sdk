@@ -18,6 +18,7 @@ import tech.ydb.proto.table.YdbTable.BeginTransactionResult;
 import tech.ydb.proto.table.YdbTable.CommitTransactionRequest;
 import tech.ydb.proto.table.YdbTable.CopyTableRequest;
 import tech.ydb.proto.table.YdbTable.CopyTablesRequest;
+import tech.ydb.proto.table.YdbTable.RenameTablesRequest;
 import tech.ydb.proto.table.YdbTable.CreateSessionRequest;
 import tech.ydb.proto.table.YdbTable.CreateSessionResult;
 import tech.ydb.proto.table.YdbTable.CreateTableRequest;
@@ -34,14 +35,15 @@ import tech.ydb.proto.table.YdbTable.KeepAliveRequest;
 import tech.ydb.proto.table.YdbTable.KeepAliveResult;
 import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
 import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
+import tech.ydb.proto.table.YdbTable.ReadRowsResponse;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.rpc.TableRpc;
-
 
 /**
  * @author Sergey Polovko
  */
 public class TableRpcStub implements TableRpc {
+
     private final ScheduledExecutorService scheduler;
 
     public TableRpcStub(ScheduledExecutorService scheduler) {
@@ -50,91 +52,102 @@ public class TableRpcStub implements TableRpc {
 
     @Override
     public CompletableFuture<Result<CreateSessionResult>> createSession(CreateSessionRequest request,
-                                                                          GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("createSession()");
     }
 
     @Override
     public CompletableFuture<Status> deleteSession(DeleteSessionRequest request,
-                                                                          GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("deleteSession()");
     }
 
     @Override
     public CompletableFuture<Result<KeepAliveResult>> keepAlive(KeepAliveRequest request,
-                                                                  GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("keepAlive()");
     }
 
     @Override
     public CompletableFuture<Status> createTable(CreateTableRequest request,
-                                                                      GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("createTable()");
     }
 
     @Override
     public CompletableFuture<Status> dropTable(DropTableRequest request,
-                                                                  GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("dropTable()");
     }
 
     @Override
     public CompletableFuture<Status> alterTable(AlterTableRequest request,
-                                                                    GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("alterTable()");
     }
 
     @Override
     public CompletableFuture<Status> copyTable(CopyTableRequest request,
-                                                                  GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("copyTable()");
     }
 
     @Override
     public CompletableFuture<Status> copyTables(CopyTablesRequest request,
-                                                                  GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("copyTables()");
     }
 
     @Override
+    public CompletableFuture<Status> renameTables(RenameTablesRequest request,
+            GrpcRequestSettings settings) {
+        return notImplemented("renameTables()");
+    }
+
+    @Override
     public CompletableFuture<Result<DescribeTableResult>> describeTable(DescribeTableRequest request,
-                                                                          GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("describeTable()");
     }
 
     @Override
     public CompletableFuture<Result<ExplainQueryResult>> explainDataQuery(ExplainDataQueryRequest request,
-                                                                                GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("explainDataQuery()");
     }
 
     @Override
     public CompletableFuture<Result<PrepareQueryResult>> prepareDataQuery(PrepareDataQueryRequest request,
-                                                                                GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("prepareDataQuery()");
     }
 
     @Override
     public CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request,
-                                                                                GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("executeDataQuery()");
     }
 
     @Override
+    public CompletableFuture<Result<ReadRowsResponse>> readRows(YdbTable.ReadRowsRequest request, GrpcRequestSettings settings) {
+        return notImplemented("readRows()");
+    }
+
+    @Override
     public CompletableFuture<Status> executeSchemeQuery(ExecuteSchemeQueryRequest request,
-                                                                                    GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("executeSchemeQuery()");
     }
 
     @Override
     public CompletableFuture<Result<BeginTransactionResult>> beginTransaction(BeginTransactionRequest request,
-                                                                                GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("beginTransaction()");
     }
 
     @Override
     public CompletableFuture<Status> commitTransaction(CommitTransactionRequest request,
-                                                                                  GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return notImplemented("commitTransaction()");
     }
 

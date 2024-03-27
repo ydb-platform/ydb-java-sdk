@@ -11,12 +11,14 @@ public class OperationSettings extends BaseRequestSettings {
     private final Duration operationTimeout;
     private final Duration cancelTimeout;
     private final Boolean reportCostInfo;
+    private final boolean isAsyncMode;
 
     protected OperationSettings(OperationBuilder<?> builder) {
         super(builder);
         this.operationTimeout = builder.operationTimeout;
         this.cancelTimeout = builder.cancelTimeout;
         this.reportCostInfo = builder.reportCostInfo;
+        this.isAsyncMode = builder.isAsyncMode;
     }
 
     public Duration getOperationTimeout() {
@@ -31,10 +33,15 @@ public class OperationSettings extends BaseRequestSettings {
         return reportCostInfo;
     }
 
+    public boolean isAsyncMode() {
+        return isAsyncMode;
+    }
+
     public static class OperationBuilder<Self extends OperationBuilder<?>> extends BaseBuilder<Self> {
         private Duration operationTimeout = null;
         private Duration cancelTimeout = null;
         private Boolean reportCostInfo = null;
+        private boolean isAsyncMode = false;
 
         public Self withOperationTimeout(Duration duration) {
             this.operationTimeout = duration;
@@ -58,6 +65,11 @@ public class OperationSettings extends BaseRequestSettings {
 
         public Self withReportCostInfo(Boolean report) {
             this.reportCostInfo = report;
+            return self();
+        }
+
+        public Self withAsyncMode(boolean isAsyncOperation) {
+            this.isAsyncMode = isAsyncOperation;
             return self();
         }
 

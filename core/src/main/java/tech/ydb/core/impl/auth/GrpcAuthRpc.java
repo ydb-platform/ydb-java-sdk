@@ -19,7 +19,7 @@ public class GrpcAuthRpc {
     private final ScheduledExecutorService scheduler;
     private final String database;
     private final ManagedChannelFactory channelFactory;
-    private final AtomicInteger endpointIdx = new AtomicInteger(0);
+    private final AtomicInteger endpointIdx = new AtomicInteger();
 
     public GrpcAuthRpc(
             List<EndpointRecord> endpoints,

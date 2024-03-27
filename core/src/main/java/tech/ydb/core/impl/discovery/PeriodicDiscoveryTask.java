@@ -44,7 +44,7 @@ public class PeriodicDiscoveryTask implements Runnable {
 
     private final AtomicBoolean updateInProgress = new AtomicBoolean();
     private final State state = new State();
-    private volatile ScheduledFuture<?> currentSchedule = null;
+    private volatile ScheduledFuture<?> currentSchedule;
 
     public PeriodicDiscoveryTask(
             ScheduledExecutorService scheduler,
@@ -105,7 +105,7 @@ public class PeriodicDiscoveryTask implements Runnable {
     }
 
     private void scheduleNextDiscovery() {
-        logger.debug("schedule next discovery in {} seconds", DISCOVERY_PERIOD_MIN_SECONDS);
+        logger.trace("schedule next discovery in {} seconds", DISCOVERY_PERIOD_MIN_SECONDS);
         currentSchedule = scheduler.schedule(this, DISCOVERY_PERIOD_MIN_SECONDS, TimeUnit.SECONDS);
     }
 
@@ -161,9 +161,9 @@ public class PeriodicDiscoveryTask implements Runnable {
 
     private static class State {
         private volatile Instant lastUpdateTime = Instant.now();
-        private volatile boolean isReady = false;
-        private volatile boolean stopped = false;
-        private volatile RuntimeException lastProblem = null;
+        private volatile boolean isReady;
+        private volatile boolean stopped;
+        private volatile RuntimeException lastProblem;
         private final Object readyLock = new Object();
 
         public void handleOK() {

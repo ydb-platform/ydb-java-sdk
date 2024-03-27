@@ -44,7 +44,7 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
 
     public CompletableFuture<Result<RespT>> startCall(ReqT request, Metadata headers) {
         try {
-            call.start(this, headers != null ? headers : new Metadata());
+            call.start(this, headers);
             call.request(1);
             call.sendMessage(request);
             call.halfClose();

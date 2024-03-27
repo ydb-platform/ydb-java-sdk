@@ -8,6 +8,7 @@ import tech.ydb.table.settings.RollbackTxSettings;
 
 /**
  * @author Sergey Polovko
+ * Consider using {@link TableTransaction} instead
  */
 public interface Transaction {
     enum Mode {

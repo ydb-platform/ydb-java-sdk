@@ -38,7 +38,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     private final ScheduledExecutorService scheduler;
 
     public MultiChannelTransport(GrpcTransportBuilder builder, List<HostAndPort> hosts) {
-        ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
+        ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
 
         logger.info("creating multi channel transport with hosts {}", Objects.requireNonNull(hosts));
 

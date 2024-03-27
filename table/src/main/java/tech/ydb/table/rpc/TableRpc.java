@@ -32,8 +32,11 @@ import tech.ydb.proto.table.YdbTable.KeepAliveRequest;
 import tech.ydb.proto.table.YdbTable.KeepAliveResult;
 import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
 import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
+import tech.ydb.proto.table.YdbTable.ReadRowsRequest;
+import tech.ydb.proto.table.YdbTable.ReadRowsResponse;
 import tech.ydb.proto.table.YdbTable.ReadTableRequest;
 import tech.ydb.proto.table.YdbTable.ReadTableResponse;
+import tech.ydb.proto.table.YdbTable.RenameTablesRequest;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 
 
@@ -120,6 +123,14 @@ public interface TableRpc extends AutoCloseable {
     CompletableFuture<Status> copyTables(CopyTablesRequest request, GrpcRequestSettings settings);
 
     /**
+     * Renames the given tables, possibly replacing the existing destination tables.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with status of operation
+     */
+    CompletableFuture<Status> renameTables(RenameTablesRequest request, GrpcRequestSettings settings);
+
+    /**
      * Returns information about given table (metadata).
      * @param request request proto
      * @param settings rpc call settings
@@ -156,6 +167,16 @@ public interface TableRpc extends AutoCloseable {
      * @return completable future with result of operation
      */
     CompletableFuture<Result<ExecuteQueryResult>> executeDataQuery(ExecuteDataQueryRequest request,
+            GrpcRequestSettings settings);
+
+    /**
+     * Read rows in the key-value form.
+     * SessionId of previously created session must be provided.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with result set
+     */
+    CompletableFuture<Result<ReadRowsResponse>> readRows(ReadRowsRequest request,
             GrpcRequestSettings settings);
 
     /**

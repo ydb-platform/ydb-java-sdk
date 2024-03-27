@@ -215,7 +215,7 @@ public class SessionPool implements AutoCloseable {
         private final int maxKeepAliveCount;
         private final long periodMillis;
 
-        private final AtomicInteger keepAliveCount = new AtomicInteger(0);
+        private final AtomicInteger keepAliveCount = new AtomicInteger();
 
         KeepAliveTask(SessionPoolOptions options) {
             this.maxIdleTimeMillis = options.getMaxIdleTimeMillis();

@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-import tech.ydb.topic.read.OffsetsRange;
+import tech.ydb.topic.description.OffsetsRange;
 
 /**
  * @author Nikolay Perfilov

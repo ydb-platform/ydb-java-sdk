@@ -2,6 +2,7 @@ package tech.ydb.table.settings;
 
 import java.time.Duration;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import tech.ydb.core.settings.OperationSettings;
@@ -23,6 +24,17 @@ public class RequestSettings<Self extends RequestSettings<?>> {
         return traceId;
     }
 
+    public String getTraceIdOrGenerateNew() {
+        return traceId == null ? UUID.randomUUID().toString() : traceId;
+    }
+
+    /**
+     * Set request trace id. Used for debug purposes.
+     * If not set explicitly, random UUID will be generated
+     *
+     * @param traceId request trace id
+     * @return this
+     */
     public Self setTraceId(String traceId) {
         this.traceId = traceId;
         return self();

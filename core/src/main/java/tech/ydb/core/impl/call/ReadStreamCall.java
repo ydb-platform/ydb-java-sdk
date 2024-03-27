@@ -40,7 +40,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
     ) {
         this.call = call;
         this.request = request;
-        this.headers = headers != null ? headers : new Metadata();
+        this.headers = headers;
         this.statusConsumer = statusConsumer;
     }
 

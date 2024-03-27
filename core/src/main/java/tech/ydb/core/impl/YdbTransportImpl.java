@@ -44,7 +44,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         this.database = Strings.nullToEmpty(builder.getDatabase());
 
-        ManagedChannelFactory channelFactory = ManagedChannelFactory.fromBuilder(builder);
+        ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
         BalancingSettings balancingSettings = getBalancingSettings(builder);
         EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
 
@@ -161,7 +161,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     void updateChannelStatus(GrpcChannel channel, Status status) {
-        if (!status.isOk()) {
+        // Usally CANCELLED is received when ClientCall is canceled on client side
+        if (!status.isOk() && status.getCode() != Status.Code.CANCELLED) {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());
         }
     }
