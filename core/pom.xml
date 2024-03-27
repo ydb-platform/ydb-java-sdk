@@ -25,6 +25,14 @@
             <artifactId>ydb-auth-api</artifactId>
         </dependency>
 
+        <!-- Netty is used only for special helper NettyChannelFactory -->
+        <dependency>
+            <groupId>io.grpc</groupId>
+            <artifactId>grpc-netty</artifactId>
+            <version>1.59.1</version>
+            <scope>compile</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
