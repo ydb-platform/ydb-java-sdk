@@ -34,21 +34,17 @@ public abstract class TxControl<Self extends TxControl<?>> {
     }
 
     /**
-     * @deprecated
-     * Use {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
+     * Consider using {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
      * or {@link tech.ydb.table.Session#beginTransaction(TxMode, BeginTxSettings)} to execute queries in transaction
      */
-    @Deprecated
     public static TxId id(String id) {
         return new TxId(true, id);
     }
 
     /**
-     * @deprecated
-     * Use {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
+     * Consider using {@link TableTransaction} created by {@link tech.ydb.table.Session#createNewTransaction(TxMode)}
      * or {@link tech.ydb.table.Session#beginTransaction(TxMode, BeginTxSettings)} to execute queries in transaction
      */
-    @Deprecated
     public static TxId id(Transaction tx) {
         return new TxId(true, tx.getId());
     }

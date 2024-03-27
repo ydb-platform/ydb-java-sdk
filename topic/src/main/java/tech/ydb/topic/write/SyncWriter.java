@@ -4,15 +4,12 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import io.grpc.ExperimentalApi;
-
 import tech.ydb.topic.settings.SendSettings;
 
 
 /**
  * @author Nikolay Perfilov
  */
-@ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface SyncWriter {
 
     /**

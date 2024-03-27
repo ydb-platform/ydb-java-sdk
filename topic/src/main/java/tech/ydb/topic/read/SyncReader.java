@@ -4,14 +4,11 @@ import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
 
-import io.grpc.ExperimentalApi;
-
 import tech.ydb.topic.settings.ReceiveSettings;
 
 /**
  * @author Nikolay Perfilov
  */
-@ExperimentalApi("Topic service interfaces are experimental and may change without notice")
 public interface SyncReader {
 
     /**
