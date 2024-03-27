@@ -66,7 +66,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                return CompletableFuture.completedFuture(deadlineExpiredResult(method));
+                return CompletableFuture.completedFuture(deadlineExpiredResult(method, settings));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
@@ -77,7 +77,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
-                logger.trace("Sending request to {}, method `{}', request: `{}'",
+                logger.trace("Sending request with traceId {} to {}, method `{}', request: `{}'",
+                        settings.getTraceId(),
                         channel.getEndpoint(),
                         method,
                         request);
@@ -85,7 +86,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             return new UnaryCall<>(call, handler).startCall(request, makeMetadataFromSettings(settings));
         } catch (RuntimeException ex) {
-            logger.error("unary call problem {}", ex.getMessage());
+            logger.error("unary call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
             return Async.failedFuture(ex);
         }
     }
@@ -104,7 +105,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
+                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method, settings)));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
@@ -115,7 +116,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
-                logger.trace("Creating stream call to {}, method `{}', request: `{}'",
+                logger.trace("Creating stream call with traceId {} to {}, method `{}', request: `{}'",
+                        settings.getTraceId(),
                         channel.getEndpoint(),
                         method,
                         request);
@@ -123,7 +125,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             return new ReadStreamCall<>(call, request, makeMetadataFromSettings(settings), handler);
         } catch (RuntimeException ex) {
-            logger.error("server stream call problem {}", ex.getMessage());
+            logger.error("server stream call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
             return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
         }
@@ -143,7 +145,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method)));
+                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method, settings)));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
@@ -154,28 +156,32 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
-                logger.trace("Creating bidirectional stream call to {}, method `{}'",
+                logger.trace("Creating bidirectional stream call with traceId {} to {}, method `{}'",
+                        settings.getTraceId(),
                         channel.getEndpoint(),
                         method);
             }
 
             return new ReadWriteStreamCall<>(call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler);
         } catch (RuntimeException ex) {
-            logger.error("server bidirectional stream call problem {}", ex.getMessage());
+            logger.error("server bidirectional stream call with traceId {} problem {}", settings.getTraceId(),
+                    ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
             return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
         }
     }
 
-    private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method) {
-        String message = "deadline expired before calling method " + method.getFullMethodName();
+    private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method, GrpcRequestSettings settings) {
+        String message = "deadline expired before calling method " + method.getFullMethodName() + " with traceId " +
+                settings.getTraceId();
         return Result.fail(Status.of(
                 StatusCode.CLIENT_DEADLINE_EXPIRED, null, Issue.of(message, Issue.Severity.ERROR)
         ));
     }
 
-    private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
-        String message = "deadline expired before calling method " + method.getFullMethodName();
+    private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method, GrpcRequestSettings settings) {
+        String message = "deadline expired before calling method " + method.getFullMethodName() + " with traceId " +
+                settings.getTraceId();
         return io.grpc.Status.DEADLINE_EXCEEDED.withDescription(message);
     }
 
