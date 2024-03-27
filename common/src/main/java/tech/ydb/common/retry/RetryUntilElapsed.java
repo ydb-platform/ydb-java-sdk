@@ -1,4 +1,4 @@
-package tech.ydb.core.retry;
+package tech.ydb.common.retry;
 
 /**
  *

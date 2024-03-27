@@ -21,6 +21,7 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.SemaphoreLease;
 import tech.ydb.coordination.description.SemaphoreDescription;
@@ -30,7 +31,6 @@ import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
-import tech.ydb.core.RetryPolicy;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 

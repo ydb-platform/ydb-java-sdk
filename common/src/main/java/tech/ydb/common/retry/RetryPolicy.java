@@ -1,4 +1,4 @@
-package tech.ydb.core;
+package tech.ydb.common.retry;
 
 /**
  * Abstracts the policy to use when retrying some actions

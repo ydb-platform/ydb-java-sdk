@@ -1,6 +1,4 @@
-package tech.ydb.core.retry;
-
-import tech.ydb.core.RetryPolicy;
+package tech.ydb.common.retry;
 
 /**
  *

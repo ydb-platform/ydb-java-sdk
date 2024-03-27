@@ -3,8 +3,8 @@ package tech.ydb.coordination.settings;
 import java.time.Duration;
 import java.util.concurrent.Executor;
 
-import tech.ydb.core.RetryPolicy;
-import tech.ydb.core.retry.RetryUntilElapsed;
+import tech.ydb.common.retry.RetryPolicy;
+import tech.ydb.common.retry.RetryUntilElapsed;
 
 /**
  *

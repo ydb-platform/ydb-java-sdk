@@ -1,4 +1,4 @@
-package tech.ydb.core;
+package tech.ydb.common.retry;
 
 /**
  * Recipes should use the configured error policy to decide how to retry
