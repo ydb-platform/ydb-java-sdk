@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -105,7 +106,7 @@ public abstract class BaseSession implements Session {
     private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
     private final String id;
-    private final Integer prefferedNodeID;
+    private final Integer preferredNodeID;
     private final TableRpc tableRpc;
     private final ShutdownHandler shutdownHandler;
     private final boolean keepQueryText;
@@ -114,7 +115,7 @@ public abstract class BaseSession implements Session {
         this.id = id;
         this.tableRpc = tableRpc;
         this.keepQueryText = keepQueryText;
-        this.prefferedNodeID = getNodeBySessionId(id);
+        this.preferredNodeID = getNodeBySessionId(id);
         this.shutdownHandler = new ShutdownHandler();
     }
 
@@ -131,10 +132,15 @@ public abstract class BaseSession implements Session {
         return null;
     }
 
-    private GrpcRequestSettings makeGrpcRequestSettings(Duration timeout) {
+    private static String getTraceIdOrGenerateNew(String traceId) {
+        return traceId == null ? UUID.randomUUID().toString() : traceId;
+    }
+
+    private GrpcRequestSettings makeGrpcRequestSettings(Duration timeout, String traceId) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(timeout)
-                .withPreferredNodeID(prefferedNodeID)
+                .withTraceId(traceId)
+                .withPreferredNodeID(preferredNodeID)
                 .withTrailersHandler(shutdownHandler)
                 .build();
     }
@@ -151,18 +157,16 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        Metadata headers = null;
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        GrpcRequestSettings.Builder grpcSettingsBuilder = GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getTimeoutDuration())
+                .withTraceId(traceId);
+
         if (useServerBalancer) {
-            headers = new Metadata();
-            headers.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, SERVER_BALANCER_HINT);
+            grpcSettingsBuilder.addClientCapability(SERVER_BALANCER_HINT);
         }
 
-        GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getTimeoutDuration())
-                .withExtraHeaders(headers)
-                .build();
-
-        return tableRpc.createSession(request, grpcSettings)
+        return tableRpc.createSession(request, grpcSettingsBuilder.build())
                 .thenApply(result -> result.map(YdbTable.CreateSessionResult::getSessionId));
     }
 
@@ -373,7 +377,8 @@ public abstract class BaseSession implements Session {
                     CommonProtos.FeatureFlag.Status.ENABLED : CommonProtos.FeatureFlag.Status.DISABLED);
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.createTable(request.build(), grpcRequestSettings);
     }
 
@@ -398,7 +403,8 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.dropTable(request, grpcRequestSettings);
     }
 
@@ -441,7 +447,8 @@ public abstract class BaseSession implements Session {
             builder.addDropIndexes(dropIndex);
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.alterTable(builder.build(), grpcRequestSettings);
     }
 
@@ -454,7 +461,8 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.copyTable(request, grpcRequestSettings);
     }
 
@@ -465,7 +473,8 @@ public abstract class BaseSession implements Session {
                 .addAllTables(convertCopyTableItems(settings))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.copyTables(request, grpcRequestSettings);
     }
 
@@ -495,7 +504,8 @@ public abstract class BaseSession implements Session {
                 .addAllTables(convertRenameTableItems(settings))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.renameTables(request, grpcRequestSettings);
     }
 
@@ -529,7 +539,8 @@ public abstract class BaseSession implements Session {
                 .setIncludePartitionStats(settings.isIncludePartitionStats())
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.describeTable(request, grpcRequestSettings)
                 .thenApply(result -> result.map(desc -> mapDescribeTable(desc, settings)));
     }
@@ -702,7 +713,8 @@ public abstract class BaseSession implements Session {
             msg = sb.toString();
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map(DataQueryResult::new));
     }
@@ -726,8 +738,10 @@ public abstract class BaseSession implements Session {
                                     .addAllItems(settings.getKeys().stream().map(StructValue::toPb)
                                             .collect(Collectors.toList())))
                             .build());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
         return interceptResult(
-                tableRpc.readRows(requestBuilder.build(), makeGrpcRequestSettings(settings.getRequestTimeout())))
+                tableRpc.readRows(requestBuilder.build(),
+                        makeGrpcRequestSettings(settings.getRequestTimeout(), traceId)))
                 .thenApply(result -> result.map(ReadRowsResult::new));
     }
 
@@ -772,7 +786,8 @@ public abstract class BaseSession implements Session {
             msg = sb.toString();
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map(DataQueryResult::new));
     }
@@ -784,7 +799,8 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .setYqlText(query);
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResult(tableRpc.prepareDataQuery(request.build(), grpcRequestSettings))
                 .thenApply(result -> result.map((value) -> {
                     String queryId = value.getQueryId();
@@ -801,7 +817,8 @@ public abstract class BaseSession implements Session {
                 .setYqlText(query)
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptStatus(tableRpc.executeSchemeQuery(request, grpcRequestSettings));
     }
 
@@ -814,7 +831,8 @@ public abstract class BaseSession implements Session {
                 .setYqlText(query)
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResult(tableRpc.explainDataQuery(request, grpcRequestSettings))
                 .thenApply(result -> result.map(ExplainDataQueryResult::new));
     }
@@ -828,7 +846,8 @@ public abstract class BaseSession implements Session {
                 .setTxSettings(txSettings(transactionMode))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResultWithLog("begin transaction",
                 tableRpc.beginTransaction(request, grpcRequestSettings))
                 .thenApply(result -> result.map(tx -> new DeprecatedTransactionImpl(tx.getTxMeta().getId())));
@@ -847,7 +866,8 @@ public abstract class BaseSession implements Session {
                 .setTxSettings(TxControlToPb.txSettings(txMode))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResultWithLog("begin transaction",
                 tableRpc.beginTransaction(request, grpcRequestSettings))
                 .thenApply(result -> result.map(tx -> new TableTransactionImpl(txMode, tx.getTxMeta().getId())));
@@ -887,7 +907,8 @@ public abstract class BaseSession implements Session {
             request.addAllColumns(settings.getColumns());
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout(), traceId);
         final GrpcReadStream<YdbTable.ReadTableResponse> origin = tableRpc.streamReadTable(
                 request.build(), grpcRequestSettings
         );
@@ -921,7 +942,8 @@ public abstract class BaseSession implements Session {
                 .setCollectStats(settings.getCollectStats().toPb())
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout(), traceId);
         final GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = tableRpc.streamExecuteScanQuery(
                 request, grpcRequestSettings
         );
@@ -951,7 +973,8 @@ public abstract class BaseSession implements Session {
                 .setTxId(txId)
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptStatusWithLog("commit transaction",
                 tableRpc.commitTransaction(request, grpcRequestSettings));
     }
@@ -968,7 +991,8 @@ public abstract class BaseSession implements Session {
                 .setTxId(txId)
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptStatusWithLog("rollback transaction",
                 tableRpc.rollbackTransaction(request, grpcRequestSettings));
     }
@@ -986,7 +1010,8 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResult(tableRpc.keepAlive(request, grpcRequestSettings))
                 .thenApply(result -> result.map(BaseSession::mapSessionStatus));
     }
@@ -1004,7 +1029,8 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
 
         return interceptStatus(tableRpc.bulkUpsert(request, grpcRequestSettings));
     }
@@ -1029,7 +1055,8 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration());
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptStatus(tableRpc.deleteSession(request, grpcRequestSettings));
     }
 

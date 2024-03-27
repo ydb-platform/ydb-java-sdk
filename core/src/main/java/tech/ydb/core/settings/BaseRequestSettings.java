@@ -43,6 +43,18 @@ public class BaseRequestSettings {
             return self();
         }
 
+        /**
+         * Set request trace id. Used for debug purposes.
+         * If not set explicitly, random UUID will be generated
+         *
+         * @param traceId request trace id
+         * @return Builder
+         */
+        public Self withTraceId(String traceId) {
+            this.traceId = traceId;
+            return self();
+        }
+
         public BaseRequestSettings build() {
             return new BaseRequestSettings(this);
         }

@@ -3,6 +3,7 @@ package tech.ydb.topic.read.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Executor;
@@ -20,7 +21,6 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
@@ -134,12 +134,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         }
     }
 
-    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
-        return GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getRequestTimeout())
-                .build();
-    }
-
     protected CompletableFuture<Status> sendUpdateOffsetsInTransaction(YdbTransaction transaction,
                                                                        Map<String, List<PartitionOffsets>> offsets,
                                                                        UpdateOffsetsInTransactionSettings settings) {
@@ -206,7 +200,11 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             requestBuilder.addTopics(topicOffsetsBuilder);
         });
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
+        final GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .withTraceId(traceId)
+                .build();
         return topicRpc.updateOffsetsInTransaction(requestBuilder.build(), grpcRequestSettings);
     }
 

@@ -1,5 +1,6 @@
 package tech.ydb.export.impl;
 
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.core.Result;
@@ -24,9 +25,15 @@ public class ExportClientImpl implements ExportClient {
     public ExportClientImpl(ExportRpc exportRpc) {
         this.exportRpc = exportRpc;
     }
-    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+
+    private String getTraceIdOrGenerateNew(String traceId) {
+        return traceId == null ? UUID.randomUUID().toString() : traceId;
+    }
+
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings, String traceId) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withTraceId(traceId)
                 .build();
     }
 
@@ -78,7 +85,8 @@ public class ExportClientImpl implements ExportClient {
                 .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        return exportRpc.exportS3(request, makeGrpcRequestSettings(settings))
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        return exportRpc.exportS3(request, makeGrpcRequestSettings(settings, traceId))
                 .thenApply(op -> op.transform(r -> r.map(ExportToS3Result::new)));
     }
 
@@ -120,7 +128,8 @@ public class ExportClientImpl implements ExportClient {
                 .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        return exportRpc.exportYt(request, makeGrpcRequestSettings(settings))
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        return exportRpc.exportYt(request, makeGrpcRequestSettings(settings, traceId))
                 .thenApply(op -> op.transform(r -> r.map(ExportToYtResult::new)));
     }
 }
