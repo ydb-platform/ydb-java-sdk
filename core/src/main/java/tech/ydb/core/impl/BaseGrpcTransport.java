@@ -19,6 +19,7 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.call.EmptyStream;
 import tech.ydb.core.impl.call.GrpcStatusHandler;
@@ -82,7 +83,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         request);
             }
 
-            return new UnaryCall<>(call, handler).startCall(request, settings.getExtraHeaders());
+            return new UnaryCall<>(call, handler).startCall(request, makeMetadataFromSettings(settings));
         } catch (RuntimeException ex) {
             logger.error("unary call problem {}", ex.getMessage());
             return Async.failedFuture(ex);
@@ -120,7 +121,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         request);
             }
 
-            return new ReadStreamCall<>(call, request, settings.getExtraHeaders(), handler);
+            return new ReadStreamCall<>(call, request, makeMetadataFromSettings(settings), handler);
         } catch (RuntimeException ex) {
             logger.error("server stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
@@ -158,7 +159,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         method);
             }
 
-            return new ReadWriteStreamCall<>(call, settings.getExtraHeaders(), getAuthCallOptions(), handler);
+            return new ReadWriteStreamCall<>(call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler);
         } catch (RuntimeException ex) {
             logger.error("server bidirectional stream call problem {}", ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
@@ -176,6 +177,17 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method) {
         String message = "deadline expired before calling method " + method.getFullMethodName();
         return io.grpc.Status.DEADLINE_EXCEEDED.withDescription(message);
+    }
+
+    private Metadata makeMetadataFromSettings(GrpcRequestSettings settings) {
+        Metadata metadata = new Metadata();
+        if (settings.getTraceId() != null) {
+            metadata.put(YdbHeaders.TRACE_ID, settings.getTraceId());
+        }
+        if (settings.getClientCapabilities() != null) {
+            settings.getClientCapabilities().forEach(name -> metadata.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, name));
+        }
+        return metadata;
     }
 
     private class ChannelStatusHandler implements GrpcStatusHandler {

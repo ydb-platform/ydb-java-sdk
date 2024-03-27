@@ -1,9 +1,8 @@
 package tech.ydb.coordination.impl;
 
 import java.time.Clock;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-
-import io.grpc.Metadata;
 
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
@@ -15,7 +14,6 @@ import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.coordination.AlterNodeRequest;
@@ -43,12 +41,14 @@ class ClientImpl implements CoordinationClient {
         return path.startsWith("/") ? path : rpc.getDatabase() + "/" + path;
     }
 
-    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
-        Metadata headers = new Metadata();
-        headers.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
+    private static String getTraceIdOrGenerateNew(String traceId) {
+        return traceId == null ? UUID.randomUUID().toString() : traceId;
+    }
+
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings, String traceId) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
-                .withExtraHeaders(headers)
+                .withTraceId(traceId)
                 .build();
     }
 
@@ -65,7 +65,8 @@ class ClientImpl implements CoordinationClient {
                 .setConfig(settings.getConfig().toProto())
                 .build();
 
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings, traceId);
         return rpc.createNode(request, grpcSettings);
     }
 
@@ -77,7 +78,8 @@ class ClientImpl implements CoordinationClient {
                 .setConfig(settings.getConfig().toProto())
                 .build();
 
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings, traceId);
         return rpc.alterNode(request, grpcSettings);
     }
 
@@ -88,7 +90,8 @@ class ClientImpl implements CoordinationClient {
                 .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings, traceId);
         return rpc.dropNode(request, grpcSettings);
     }
 
@@ -100,7 +103,8 @@ class ClientImpl implements CoordinationClient {
                 .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings, traceId);
         return rpc.describeNode(request, grpcSettings);
     }
 

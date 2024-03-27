@@ -1,7 +1,6 @@
 package tech.ydb.core.settings;
 
 import java.time.Duration;
-import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -19,10 +18,6 @@ public class BaseRequestSettings {
 
     public String getTraceId() {
         return traceId;
-    }
-
-    public String getTraceIdOrGenerateNew() {
-        return traceId == null ? UUID.randomUUID().toString() : traceId;
     }
 
     public Duration getRequestTimeout() {

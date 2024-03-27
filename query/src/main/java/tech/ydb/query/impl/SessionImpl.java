@@ -4,11 +4,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.protobuf.TextFormat;
-import io.grpc.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,7 +20,6 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
@@ -48,6 +47,7 @@ import tech.ydb.table.query.Params;
  * @author Aleksandr Gorshenin
  */
 abstract class SessionImpl implements QuerySession {
+    private static final String SERVER_BALANCER_HINT = "session-balancer";
     private static final Logger logger = LoggerFactory.getLogger(QuerySession.class);
 
     private static final StatusExtractor<YdbQuery.CreateSessionResponse> CREATE_SESSION = StatusExtractor.of(
@@ -147,12 +147,11 @@ abstract class SessionImpl implements QuerySession {
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
-        Metadata headers = new Metadata();
-        headers.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
+        String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withPreferredNodeID((int) nodeID)
-                .withExtraHeaders(headers)
+                .withTraceId(traceId)
                 .build();
     }
 
@@ -235,18 +234,15 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.CreateSessionRequest request = YdbQuery.CreateSessionRequest.newBuilder()
                 .build();
 
-        Metadata metadata = new Metadata();
+        String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
+        GrpcRequestSettings.Builder grpcSettingsBuilder = GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .withTraceId(traceId);
         if (useServerBalancer) {
-            metadata.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, "session-balancer");
-            metadata.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
+            grpcSettingsBuilder.addClientCapability(SERVER_BALANCER_HINT);
         }
 
-        GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getRequestTimeout())
-                .withExtraHeaders(metadata)
-                .build();
-
-        return rpc.createSession(request, grpcSettings).thenApply(CREATE_SESSION);
+        return rpc.createSession(request, grpcSettingsBuilder.build()).thenApply(CREATE_SESSION);
     }
 
     abstract class StreamImpl implements QueryStream {
