@@ -107,7 +107,7 @@ public abstract class BaseSession implements Session {
     private static final Logger logger = LoggerFactory.getLogger(Session.class);
 
     private final String id;
-    private final Integer prefferedNodeID;
+    private final Integer preferredNodeID;
     private final TableRpc tableRpc;
     private final ShutdownHandler shutdownHandler;
     private final boolean keepQueryText;
@@ -116,7 +116,7 @@ public abstract class BaseSession implements Session {
         this.id = id;
         this.tableRpc = tableRpc;
         this.keepQueryText = keepQueryText;
-        this.prefferedNodeID = getNodeBySessionId(id);
+        this.preferredNodeID = getNodeBySessionId(id);
         this.shutdownHandler = new ShutdownHandler();
     }
 
@@ -139,7 +139,7 @@ public abstract class BaseSession implements Session {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getTimeoutDuration())
                 .withExtraHeaders(headers)
-                .withPreferredNodeID(prefferedNodeID)
+                .withPreferredNodeID(preferredNodeID)
                 .withTrailersHandler(shutdownHandler)
                 .build();
     }
@@ -150,7 +150,7 @@ public abstract class BaseSession implements Session {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withExtraHeaders(headers)
-                .withPreferredNodeID(prefferedNodeID)
+                .withPreferredNodeID(preferredNodeID)
                 .withTrailersHandler(shutdownHandler)
                 .build();
     }
