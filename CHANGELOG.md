@@ -1,8 +1,13 @@
 ## 2.2.0 ##
 
-* Added export module
-* Core: Operation manager
+* Updated implementation of CoordinationService
+* Added module for QueryService
+* Added module for ExportService
+* Added common module with basic interfaces for transactions and retries
+* Core: Added basic support of long operations
+* Core: Added support for tracing requests with id
 * Table: Added readRows operation in table service
+* Topics: Added support of transaction between tables and topics
 
 ## 2.1.12 ##
 

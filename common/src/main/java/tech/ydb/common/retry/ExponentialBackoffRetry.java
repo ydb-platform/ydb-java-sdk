@@ -1,8 +1,7 @@
-package tech.ydb.core.retry;
+package tech.ydb.common.retry;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import tech.ydb.core.RetryPolicy;
 
 /**
  *
