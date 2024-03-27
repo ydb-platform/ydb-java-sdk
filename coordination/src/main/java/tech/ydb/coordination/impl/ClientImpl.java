@@ -3,6 +3,8 @@ package tech.ydb.coordination.impl;
 import java.time.Clock;
 import java.util.concurrent.CompletableFuture;
 
+import io.grpc.Metadata;
+
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.description.NodeConfig;
@@ -13,6 +15,7 @@ import tech.ydb.coordination.settings.DropCoordinationNodeSettings;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.coordination.AlterNodeRequest;
@@ -41,8 +44,11 @@ class ClientImpl implements CoordinationClient {
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        Metadata headers = new Metadata();
+        headers.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withExtraHeaders(headers)
                 .build();
     }
 

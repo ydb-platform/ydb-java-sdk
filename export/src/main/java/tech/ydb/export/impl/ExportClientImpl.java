@@ -2,8 +2,11 @@ package tech.ydb.export.impl;
 
 import java.util.concurrent.CompletableFuture;
 
+import io.grpc.Metadata;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.export.ExportClient;
@@ -25,8 +28,11 @@ public class ExportClientImpl implements ExportClient {
         this.exportRpc = exportRpc;
     }
     private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        Metadata headers = new Metadata();
+        headers.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withExtraHeaders(headers)
                 .build();
     }
 

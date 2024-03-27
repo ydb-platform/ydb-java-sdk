@@ -1,6 +1,7 @@
 package tech.ydb.core.settings;
 
 import java.time.Duration;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -18,6 +19,10 @@ public class BaseRequestSettings {
 
     public String getTraceId() {
         return traceId;
+    }
+
+    public String getTraceIdOrGenerateNew() {
+        return traceId == null ? UUID.randomUUID().toString() : traceId;
     }
 
     public Duration getRequestTimeout() {
@@ -40,6 +45,18 @@ public class BaseRequestSettings {
 
         public Self withRequestTimeout(long duration, TimeUnit unit) {
             this.requestTimeout = Duration.ofNanos(unit.toNanos(duration));
+            return self();
+        }
+
+        /**
+         * Set request trace id. Used for debug purposes.
+         * If not set explicitly, random UUID will be generated
+         *
+         * @param traceId request trace id
+         * @return Builder
+         */
+        public Self withTraceId(String traceId) {
+            this.traceId = traceId;
             return self();
         }
 

@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
+import io.grpc.Metadata;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,7 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
@@ -135,8 +137,11 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        Metadata headers = new Metadata();
+        headers.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withExtraHeaders(headers)
                 .build();
     }
 

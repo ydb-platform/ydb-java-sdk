@@ -147,9 +147,12 @@ abstract class SessionImpl implements QuerySession {
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        Metadata headers = new Metadata();
+        headers.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withPreferredNodeID((int) nodeID)
+                .withExtraHeaders(headers)
                 .build();
     }
 
@@ -235,6 +238,7 @@ abstract class SessionImpl implements QuerySession {
         Metadata metadata = new Metadata();
         if (useServerBalancer) {
             metadata.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, "session-balancer");
+            metadata.put(YdbHeaders.TRACE_ID, settings.getTraceIdOrGenerateNew());
         }
 
         GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
