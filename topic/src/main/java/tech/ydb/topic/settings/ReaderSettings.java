@@ -102,7 +102,10 @@ public class ReaderSettings {
             return this;
         }
 
-        // Not supported in API yet
+        /**
+         * Set reader name for debug purposes
+         * @return settings builder
+         */
         public Builder setReaderName(String readerName) {
             this.readerName = readerName;
             return this;
