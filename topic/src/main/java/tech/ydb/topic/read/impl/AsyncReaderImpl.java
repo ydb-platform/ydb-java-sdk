@@ -84,7 +84,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
             } catch (Exception exception) {
                 String errorMessage = "Error in user DataReceivedEvent callback: " + exception;
                 logger.error(errorMessage);
-                shutdownImpl(errorMessage);
+                shutdownImpl(errorMessage).join();
+                throw exception;
             }
         }, handlerExecutor);
     }
