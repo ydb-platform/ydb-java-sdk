@@ -1,3 +1,8 @@
+## 2.2.1 ##
+
+* Topics: fix unordered reading in case of user errors
+* Core: fixed non optional dependency of grpc-netty
+
 ## 2.2.0 ##
 
 * Updated implementation of CoordinationService
