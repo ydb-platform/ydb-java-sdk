@@ -8,6 +8,7 @@ import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.CallOptions;
 
 import tech.ydb.auth.AuthIdentity;
+import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.core.grpc.GrpcCompression;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.pool.EndpointRecord;
@@ -27,17 +28,19 @@ public class AuthCallOptions implements AutoCloseable {
         this.callOptions = CallOptions.DEFAULT;
         this.readTimeoutMillis = 0;
     }
+
     public AuthCallOptions(
             ScheduledExecutorService scheduler,
             String database,
             List<EndpointRecord> endpoints,
             ManagedChannelFactory channelFactory,
-            GrpcTransportBuilder transportBuilder) {
+            GrpcTransportBuilder builder) {
         CallOptions options = CallOptions.DEFAULT;
 
-        if (transportBuilder.getAuthProvider() != null) {
+        AuthRpcProvider<? super GrpcAuthRpc> authProvider = builder.getAuthProvider();
+        if (authProvider != null) {
             GrpcAuthRpc rpc = new GrpcAuthRpc(endpoints, scheduler, database, channelFactory);
-            authIdentity = transportBuilder.getAuthProvider().createAuthIdentity(rpc);
+            authIdentity = builder.getAuthProvider().createAuthIdentity(rpc);
         } else {
             authIdentity = null;
         }
@@ -46,17 +49,16 @@ public class AuthCallOptions implements AutoCloseable {
             options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
         }
 
-        if (transportBuilder.getCallExecutor() != null
-                && transportBuilder.getCallExecutor() != MoreExecutors.directExecutor()) {
-            options = options.withExecutor(transportBuilder.getCallExecutor());
+        if (builder.getCallExecutor() != null && builder.getCallExecutor() != MoreExecutors.directExecutor()) {
+            options = options.withExecutor(builder.getCallExecutor());
         }
 
-        if (transportBuilder.getGrpcCompression() != GrpcCompression.NO_COMPRESSION) {
-            options = options.withCompression(transportBuilder.getGrpcCompression().compressor());
+        if (builder.getGrpcCompression() != GrpcCompression.NO_COMPRESSION) {
+            options = options.withCompression(builder.getGrpcCompression().compressor());
         }
 
         this.callOptions = options;
-        this.readTimeoutMillis = transportBuilder.getReadTimeoutMillis();
+        this.readTimeoutMillis = builder.getReadTimeoutMillis();
     }
 
     @Override
