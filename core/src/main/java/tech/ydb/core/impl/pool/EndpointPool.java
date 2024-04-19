@@ -11,6 +11,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -71,9 +72,12 @@ public final class EndpointPool {
 
     // Sets new endpoints, returns removed
     public List<EndpointRecord> setNewState(DiscoveryProtos.ListEndpointsResult result) {
-        EndpointPriorityFactory priorityFactory = new EndpointPriorityFactory(
-                balancingSettings,
-                result
+        PriorityPicker priorityPicker = PriorityPicker.from(balancingSettings,
+                result.getSelfLocation(),
+                result.getEndpointsList()
+                        .stream()
+                        .map(e -> new EndpointRecord(e.getAddress(), e.getPort(), e.getNodeId(), e.getLocation()))
+                        .collect(Collectors.toList())
         );
 
         Set<String> newKnownEndpoints = new HashSet<>();
@@ -82,7 +86,8 @@ public final class EndpointPool {
 
         logger.debug("init new state with {} endpoints", result.getEndpointsCount());
         for (DiscoveryProtos.EndpointInfo info : result.getEndpointsList()) {
-            PriorityEndpoint entry = priorityFactory.createEndpoint(info);
+            int priority = priorityPicker.getEndpointPriority(info.getLocation());
+            PriorityEndpoint entry = new PriorityEndpoint(info, priority);
             String endpoint = entry.getHostAndPort();
 
             if (!newKnownEndpoints.contains(endpoint)) {
