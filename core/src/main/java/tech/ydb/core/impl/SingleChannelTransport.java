@@ -55,12 +55,9 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    public void close() {
-        super.close();
-
+    protected void shutdown() {
         channel.shutdown();
         callOptions.close();
-
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
@@ -75,7 +72,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    void updateChannelStatus(GrpcChannel channel, Status status) {
+    protected void updateChannelStatus(GrpcChannel channel, Status status) {
         if (!status.isOk()) {
             logger.warn("grpc error {}[{}] on single channel {}",
                     status.getCode(),

@@ -83,6 +83,15 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         periodicDiscoveryTask.startAsync(readyWatcher);
     }
 
+    @Override
+    protected void shutdown() {
+        periodicDiscoveryTask.stop();
+        channelPool.shutdown();
+        callOptions.close();
+
+        YdbSchedulerFactory.shutdownScheduler(scheduler);
+    }
+
     static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {
         URI endpointURI = null;
         try {
@@ -135,20 +144,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     @Override
-    public void close() {
-        if (shutdown) {
-            return;
-        }
-        super.close();
-
-        periodicDiscoveryTask.stop();
-        channelPool.shutdown();
-        callOptions.close();
-
-        YdbSchedulerFactory.shutdownScheduler(scheduler);
-    }
-
-    @Override
     public AuthCallOptions getAuthCallOptions() {
         return callOptions;
     }
@@ -160,7 +155,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     @Override
-    void updateChannelStatus(GrpcChannel channel, Status status) {
+    protected void updateChannelStatus(GrpcChannel channel, io.grpc.Status status) {
         // Usally CANCELLED is received when ClientCall is canceled on client side
         if (!status.isOk() && status.getCode() != Status.Code.CANCELLED) {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());

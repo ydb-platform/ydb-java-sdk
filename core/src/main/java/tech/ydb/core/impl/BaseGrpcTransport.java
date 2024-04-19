@@ -2,6 +2,7 @@ package tech.ydb.core.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
@@ -41,15 +42,21 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
     ));
 
-    protected volatile boolean shutdown;
+    private final AtomicBoolean isClosed = new AtomicBoolean(false);
 
-    abstract AuthCallOptions getAuthCallOptions();
+    protected abstract AuthCallOptions getAuthCallOptions();
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
-    abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+    protected abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+
+    protected void shutdown() {
+        // nothing to shutdown
+    }
 
     @Override
     public void close() {
-        this.shutdown = true;
+        if (isClosed.compareAndSet(false, true)) {
+            shutdown();
+        }
     }
 
     @Override
@@ -58,7 +65,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             GrpcRequestSettings settings,
             ReqT request
     ) {
-        if (shutdown) {
+        if (isClosed.get()) {
             return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
 
@@ -97,7 +104,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             GrpcRequestSettings settings,
             ReqT request
         ) {
-        if (shutdown) {
+        if (isClosed.get()) {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
@@ -137,7 +144,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings
         ) {
-        if (shutdown) {
+        if (isClosed.get()) {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 

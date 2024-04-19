@@ -47,8 +47,7 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
     }
 
     @Override
-    public void close() {
-        super.close();
+    protected void shutdown() {
         channel.shutdown();
     }
 
@@ -63,7 +62,7 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
     }
 
     @Override
-    void updateChannelStatus(GrpcChannel channel, Status status) {
+    protected void updateChannelStatus(GrpcChannel channel, Status status) {
         if (!status.isOk()) {
             logger.warn("grpc error {}[{}] on fixed channel {}",
                     status.getCode(),

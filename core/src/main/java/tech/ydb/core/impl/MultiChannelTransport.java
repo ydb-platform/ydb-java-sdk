@@ -80,12 +80,9 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    public void close() {
-        super.close();
-
+    protected void shutdown() {
         channelPool.shutdown();
         callOptions.close();
-
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
@@ -101,7 +98,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    void updateChannelStatus(GrpcChannel channel, Status status) {
+    protected void updateChannelStatus(GrpcChannel channel, Status status) {
         if (!status.isOk()) {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());
 
