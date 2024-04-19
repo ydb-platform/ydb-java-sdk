@@ -1,9 +1,9 @@
 package tech.ydb.core.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
@@ -20,7 +20,6 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
-import tech.ydb.proto.discovery.DiscoveryProtos;
 
 /**
  *
@@ -32,7 +31,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
 
     private final String database;
     private final AuthCallOptions callOptions;
-    private final DiscoveryProtos.ListEndpointsResult discoveryResult;
+    private final List<EndpointRecord> endpoints;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
     private final ScheduledExecutorService scheduler;
@@ -45,17 +44,10 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.scheduler = builder.getSchedulerFactory().get();
 
-        List<EndpointRecord> endpoints = new ArrayList<>();
-        DiscoveryProtos.ListEndpointsResult.Builder discoveryBuilder = DiscoveryProtos.ListEndpointsResult.newBuilder();
-        hosts.forEach(host -> {
-            endpoints.add(new EndpointRecord(host.getHost(), host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT)));
-            discoveryBuilder.addEndpointsBuilder()
-                    .setAddress(host.getHost())
-                    .setPort(host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT))
-                    .build();
-        });
+        this.endpoints = hosts.stream()
+                .map(host -> new EndpointRecord(host.getHost(), host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT)))
+                .collect(Collectors.toList());
 
-        this.discoveryResult = discoveryBuilder.build();
         this.callOptions = new AuthCallOptions(scheduler,
                 database,
                 endpoints,
@@ -64,9 +56,8 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         );
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
-        this.endpointPool = new EndpointPool(null, BalancingSettings.defaultInstance());
-
-        this.endpointPool.setNewState(discoveryResult);
+        this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());
+        this.endpointPool.setNewState(null, endpoints);
     }
 
     @Override
@@ -103,7 +94,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());
 
             if (endpointPool.needToRunDiscovery()) {
-                endpointPool.setNewState(discoveryResult);
+                endpointPool.setNewState(null, endpoints);
             }
         }
     }

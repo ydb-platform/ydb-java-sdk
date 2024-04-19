@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
@@ -65,7 +66,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                 Duration.ofMillis(builder.getDiscoveryTimeoutMillis()));
 
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
-        this.endpointPool = new EndpointPool(discoveryEndpoint, balancingSettings);
+        this.endpointPool = new EndpointPool(balancingSettings);
 
         this.periodicDiscoveryTask = new PeriodicDiscoveryTask(
                 scheduler,
@@ -170,7 +171,10 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         @Override
         public void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result) {
-            List<EndpointRecord> removed = endpointPool.setNewState(result);
+            List<EndpointRecord> records = result.getEndpointsList().stream()
+                    .map(e -> new EndpointRecord(e.getAddress(), e.getPort(), e.getNodeId(), e.getLocation()))
+                    .collect(Collectors.toList());
+            List<EndpointRecord> removed = endpointPool.setNewState(result.getSelfLocation(), records);
             channelPool.removeChannels(removed);
         }
     }
