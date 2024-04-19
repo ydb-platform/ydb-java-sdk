@@ -34,8 +34,8 @@ public class GrpcChannelPoolTest {
 
     @Test
     public void simpleTest() {
-        EndpointRecord e1 = new EndpointRecord("host1", 1234, 10);
-        EndpointRecord e2 = new EndpointRecord("host1", 1235, 11);
+        EndpointRecord e1 = new EndpointRecord("host1", 1234, 10, null);
+        EndpointRecord e2 = new EndpointRecord("host1", 1235, 11, null);
 
         GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler);
         Assert.assertEquals(0, pool.getChannels().size());
@@ -66,9 +66,9 @@ public class GrpcChannelPoolTest {
 
     @Test
     public void removeChannels() {
-        EndpointRecord e1 = new EndpointRecord("host1", 1234, 10);
-        EndpointRecord e2 = new EndpointRecord("host1", 1235, 11);
-        EndpointRecord e3 = new EndpointRecord("host1", 1236, 12);
+        EndpointRecord e1 = new EndpointRecord("host1", 1234, 10, null);
+        EndpointRecord e2 = new EndpointRecord("host1", 1235, 11, null);
+        EndpointRecord e3 = new EndpointRecord("host1", 1236, 12, null);
 
         GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler);
         Assert.assertEquals(0, pool.getChannels().size());
@@ -125,9 +125,9 @@ public class GrpcChannelPoolTest {
                 ManagedChannelMock.good(), ManagedChannelMock.good(),
                 ManagedChannelMock.wrongShutdown(), ManagedChannelMock.wrongShutdown());
 
-        EndpointRecord e1 = new EndpointRecord("host1", 1234, 10);
-        EndpointRecord e2 = new EndpointRecord("host1", 1235, 11);
-        EndpointRecord e3 = new EndpointRecord("host1", 1236, 12);
+        EndpointRecord e1 = new EndpointRecord("host1", 1234, 10, null);
+        EndpointRecord e2 = new EndpointRecord("host1", 1235, 11, null);
+        EndpointRecord e3 = new EndpointRecord("host1", 1236, 12, null);
 
         GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler);
         Assert.assertEquals(0, pool.getChannels().size());

@@ -29,7 +29,7 @@ public class GrpcChannelTest {
         Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt()))
                 .thenReturn(ManagedChannelMock.good(), ManagedChannelMock.good());
 
-        EndpointRecord endpoint = new EndpointRecord("host1", 1234, 0);
+        EndpointRecord endpoint = new EndpointRecord("host1", 1234);
 
         GrpcChannel lazy = new GrpcChannel(endpoint, factoryMock, false);
         Assert.assertEquals(endpoint, lazy.getEndpoint());
@@ -61,7 +61,7 @@ public class GrpcChannelTest {
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states))
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states));
 
-        EndpointRecord endpoint = new EndpointRecord("host1", 1234, 0);
+        EndpointRecord endpoint = new EndpointRecord("host1", 1234);
 
         GrpcChannel lazy = new GrpcChannel(endpoint, factoryMock, false);
         Assert.assertEquals(endpoint, lazy.getEndpoint());
@@ -88,13 +88,14 @@ public class GrpcChannelTest {
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states))
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states));
 
-        EndpointRecord endpoint = new EndpointRecord("host1", 1234, 0);
+        EndpointRecord endpoint = new EndpointRecord("host1", 1234);
 
         GrpcChannel lazy = new GrpcChannel(endpoint, factoryMock, false);
         Assert.assertEquals(endpoint, lazy.getEndpoint());
 
         RuntimeException ex1 = Assert.assertThrows(RuntimeException.class, lazy::getReadyChannel);
-        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0} connecting problem", ex1.getMessage());
+        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null} connecting problem",
+                ex1.getMessage());
 
         lazy.shutdown();
 
@@ -102,7 +103,8 @@ public class GrpcChannelTest {
         Assert.assertEquals(endpoint, eager.getEndpoint());
 
         RuntimeException ex2 = Assert.assertThrows(RuntimeException.class, eager::getReadyChannel);
-        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0} connecting problem", ex2.getMessage());
+        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null} connecting problem",
+                ex2.getMessage());
 
         eager.shutdown();
     }

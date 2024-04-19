@@ -48,7 +48,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         List<EndpointRecord> endpoints = new ArrayList<>();
         DiscoveryProtos.ListEndpointsResult.Builder discoveryBuilder = DiscoveryProtos.ListEndpointsResult.newBuilder();
         hosts.forEach(host -> {
-            endpoints.add(new EndpointRecord(host.getHost(), host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT), 0));
+            endpoints.add(new EndpointRecord(host.getHost(), host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT)));
             discoveryBuilder.addEndpointsBuilder()
                     .setAddress(host.getHost())
                     .setPort(host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT))

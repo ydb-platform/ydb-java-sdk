@@ -32,7 +32,7 @@ import static org.mockito.Mockito.when;
  * @author Kirill Kurdyukov
  */
 public class EndpointPoolTest {
-    private final EndpointRecord discovery = new EndpointRecord("discovery", 2136, -1);
+    private final EndpointRecord discovery = new EndpointRecord("discovery", 2136, -1, null);
 
     private final AutoCloseable mocks = MockitoAnnotations.openMocks(this);
     private final MockedStatic<ThreadLocalRandom> threadLocalStaticMock = mockStatic(ThreadLocalRandom.class);
@@ -209,8 +209,8 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(2)).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         // Pessimize unknown nodes - nothing is changed
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2));
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2));
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null));
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2, null));
         pool.pessimizeEndpoint(null);
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 

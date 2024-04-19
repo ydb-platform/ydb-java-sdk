@@ -182,7 +182,7 @@ public final class EndpointPool {
         private long priority;
 
         PriorityEndpoint(DiscoveryProtos.EndpointInfo endpoint, long priority) {
-            super(endpoint.getAddress(), endpoint.getPort(), endpoint.getNodeId());
+            super(endpoint.getAddress(), endpoint.getPort(), endpoint.getNodeId(), endpoint.getLocation());
             this.priority = priority;
         }
 

@@ -107,7 +107,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                     + "endpoint " + builder.getEndpoint() + " and empty host " + builder.getHost());
         }
 
-        return new EndpointRecord(endpointURI.getHost(), endpointURI.getPort(), 0);
+        return new EndpointRecord(endpointURI.getHost(), endpointURI.getPort());
     }
 
     private static BalancingSettings getBalancingSettings(GrpcTransportBuilder builder) {
