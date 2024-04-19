@@ -21,7 +21,6 @@ import tech.ydb.core.utils.URITools;
  * @author Nikolay Perfilov
  */
 public interface GrpcTransport extends AutoCloseable {
-
     <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings,

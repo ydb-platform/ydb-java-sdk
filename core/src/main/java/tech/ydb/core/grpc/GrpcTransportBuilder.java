@@ -32,6 +32,37 @@ import tech.ydb.core.utils.Version;
  * @author Aleksandr Gorshenin
  */
 public class GrpcTransportBuilder {
+    /**
+     * The initialization mode defines the behavior of {@link tech.ydb.core.grpc.GrpcTransportBuilder#build() }
+     * method.
+     */
+    public enum InitMode {
+        /**
+         * In synchronous mode, transport creation will wait for successful discovery of current the database nodes. Any
+         * of discovery execution like an authentication error or a network issue will be thrown as RuntimeException.
+         * It allows to catch configuration problems and stops the transport creating.
+         */
+        SYNC,
+
+        /**
+         * In asynchronous mode, transport creation will not block by the discovery waiting and will not throw any
+         * exceptions in the case of configuration problems. But any request with the transport will wait for the
+         * discovery and may throw an exception if it will not be completed. This mode allows to application not to be
+         * blocked during the transport initialization but guarantees that requests will be created only after
+         * complete initialization
+         */
+        ASYNC,
+
+        /**
+         * In fallback asynchronous mode, neither initialization the transport nor making the requests will block by
+         * the discovery waiting. In this case if the discovery is not completed - all requests will be sent to
+         * the discovery endpoint. Any discovery problems will be ignored. This mode allows to start working with
+         * the database without waiting for discovery to complete, but after its completion, existing connections (like
+         * grpc streams) can be interrupted to switch to new endpoint.
+         */
+        ASYNC_FALLBACK
+    }
+
     private final String endpoint;
     private final HostAndPort host;
     private final String database;
@@ -49,6 +80,7 @@ public class GrpcTransportBuilder {
     private long discoveryTimeoutMillis = 60_000;
     private boolean useDefaultGrpcResolver = false;
     private GrpcCompression compression = GrpcCompression.NO_COMPRESSION;
+    private InitMode initMode = InitMode.SYNC;
 
     /**
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
@@ -200,6 +232,18 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    /**
+     * Set GrpcTransport's init mode.
+     * See {@link tech.ydb.core.grpc.GrpcTransport.InitMode } for details
+     *
+     * @param initMode mode of tranport initialization
+     * @return GrpcTransportBuilder with the given initMode
+     */
+    public GrpcTransportBuilder withInitMode(InitMode initMode) {
+        this.initMode = initMode;
+        return this;
+    }
+
     public GrpcTransportBuilder withAuthProvider(AuthRpcProvider<? super GrpcAuthRpc> authProvider) {
         this.authProvider = Objects.requireNonNull(authProvider);
         return this;
@@ -209,7 +253,7 @@ public class GrpcTransportBuilder {
      * Sets the compression to use for the calls. See {@link io.grpc.CallOptions#withCompression(java.lang.String) }
      * for details
      * @param compression the compression value
-     * @return return GrpcTransportBuilder with the given compression
+     * @return GrpcTransportBuilder with the given compression
      */
     public GrpcTransportBuilder withGrpcCompression(@Nonnull GrpcCompression compression) {
         this.compression = Objects.requireNonNull(compression, "compression is null");
@@ -328,7 +372,7 @@ public class GrpcTransportBuilder {
     public GrpcTransport build() {
         YdbTransportImpl impl = new YdbTransportImpl(this);
         try {
-            impl.init();
+            impl.start(initMode);
             return impl;
         } catch (RuntimeException ex) {
             impl.close();
@@ -336,9 +380,15 @@ public class GrpcTransportBuilder {
         }
     }
 
+    @Deprecated
     public GrpcTransport buildAsync(Runnable ready) {
         YdbTransportImpl impl = new YdbTransportImpl(this);
-        impl.initAsync(ready);
-        return impl;
+        try {
+            impl.startAsync(ready);
+            return impl;
+        } catch (RuntimeException ex) {
+            impl.close();
+            throw ex;
+        }
     }
 }
