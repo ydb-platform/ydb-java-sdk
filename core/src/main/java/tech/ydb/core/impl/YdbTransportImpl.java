@@ -2,8 +2,9 @@ package tech.ydb.core.impl;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
@@ -33,38 +34,34 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final String database;
+    private final EndpointRecord discoveryEndpoint;
     private final ScheduledExecutorService scheduler;
+    private final ManagedChannelFactory channelFactory;
     private final AuthCallOptions callOptions;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
-    private final YdbDiscoveryImpl discovery;
+    private final YdbDiscovery discovery;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
-        this.database = Strings.nullToEmpty(builder.getDatabase());
-
-        ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
         BalancingSettings balancingSettings = getBalancingSettings(builder);
-        EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
         Duration discoveryTimeout = Duration.ofMillis(builder.getDiscoveryTimeoutMillis());
+
+        this.database = Strings.nullToEmpty(builder.getDatabase());
+        this.discoveryEndpoint = getDiscoveryEndpoint(builder);
 
         logger.info("Create YDB transport with endpoint {} and {}", discoveryEndpoint, balancingSettings);
 
+        this.channelFactory = builder.getManagedChannelFactory();
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(scheduler,
-                database,
-                Collections.singletonList(discoveryEndpoint),
-                channelFactory,
-                builder
-        );
-
+        this.callOptions = new AuthCallOptions(scheduler, Arrays.asList(discoveryEndpoint), channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
-        this.discovery = new YdbDiscoveryImpl(channelFactory, discoveryEndpoint, discoveryTimeout);
+        this.discovery = new YdbDiscovery(new DiscoveryHandler(), scheduler, database, discoveryTimeout);
     }
 
     public void start(GrpcTransportBuilder.InitMode mode) {
         if (mode == GrpcTransportBuilder.InitMode.ASYNC_FALLBACK) {
-            endpointPool.setNewState(null, Collections.singletonList(discovery.discoveryEndpoint));
+            endpointPool.setNewState(null, Collections.singletonList(discoveryEndpoint));
         }
 
         discovery.start();
@@ -72,6 +69,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         if (mode == GrpcTransportBuilder.InitMode.SYNC) {
             discovery.waitReady();
         }
+    }
+
+    @Override
+    public String toString() {
+        return "YdbTransport{endpoint=" + discoveryEndpoint + ", database=" + database + "}";
     }
 
     @Deprecated
@@ -153,7 +155,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     @Override
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         EndpointRecord endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
-        while (endpoint == null) {
+        if (endpoint == null) {
             discovery.waitReady();
             endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
         }
@@ -168,29 +170,25 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         }
     }
 
-    private class YdbDiscoveryImpl extends YdbDiscovery {
-        private final ManagedChannelFactory channelFactory;
-        private final EndpointRecord discoveryEndpoint;
-
-        YdbDiscoveryImpl(ManagedChannelFactory channelFactory, EndpointRecord endpoint, Duration timeout) {
-            super(Clock.systemUTC(), scheduler, database, timeout);
-            this.channelFactory = channelFactory;
-            this.discoveryEndpoint = endpoint;
+    private class DiscoveryHandler implements YdbDiscovery.Handler {
+        @Override
+        public Instant instant() {
+            return Instant.now();
         }
 
         @Override
-        protected boolean forceDiscovery() {
+        public boolean forceDiscovery() {
             return endpointPool.needToRunDiscovery();
         }
 
         @Override
-        protected void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+        public void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
             List<EndpointRecord> removed = endpointPool.setNewState(selfLocation, endpoints);
             channelPool.removeChannels(removed);
         }
 
         @Override
-        protected GrpcTransport createDiscoveryTransport() {
+        public GrpcTransport createDiscoveryTransport() {
             return new FixedCallOptionsTransport(scheduler, callOptions, database, discoveryEndpoint, channelFactory);
         }
     }

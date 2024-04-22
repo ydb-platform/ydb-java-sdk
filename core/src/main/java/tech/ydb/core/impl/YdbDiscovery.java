@@ -1,6 +1,5 @@
 package tech.ydb.core.impl;
 
-import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -29,7 +28,7 @@ import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
  * @author Nikolay Perfilov
  * @author Aleksandr Gorshenin
  */
-public abstract class YdbDiscovery {
+public class YdbDiscovery {
     private static final Status EMPTY_DISCOVERY = Status.of(StatusCode.CLIENT_DISCOVERY_FAILED)
             .withIssues(Issue.of("Discovery return empty list of endpoints", Issue.Severity.ERROR));
 
@@ -40,21 +39,29 @@ public abstract class YdbDiscovery {
 
     private static final Logger logger = LoggerFactory.getLogger(YdbDiscovery.class);
 
-    private final Clock clock;
+    public interface Handler {
+        Instant instant();
+        GrpcTransport createDiscoveryTransport();
+        boolean forceDiscovery();
+        void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation);
+    }
+
+    private final Handler handler;
     private final ScheduledExecutorService scheduler;
     private final String discoveryDatabase;
     private final Duration discoveryTimeout;
     private final Object readyObj = new Object();
 
-    private volatile boolean isStopped = false;
     private volatile Instant lastUpdateTime;
     private volatile Future<?> currentSchedule = null;
-    private RuntimeException lastException = null;
+    private volatile boolean isStarted = false;
+    private volatile boolean isStopped = false;
+    private volatile Throwable lastException = null;
 
-    public YdbDiscovery(Clock clock, ScheduledExecutorService scheduler, String database, Duration timeout) {
-        this.clock = clock;
+    public YdbDiscovery(Handler handler, ScheduledExecutorService scheduler, String database, Duration timeout) {
+        this.handler = handler;
         this.scheduler = scheduler;
-        this.lastUpdateTime = clock.instant();
+        this.lastUpdateTime = handler.instant();
         this.discoveryDatabase = database;
         this.discoveryTimeout = timeout;
     }
@@ -77,19 +84,30 @@ public abstract class YdbDiscovery {
         }
     }
 
-    public void waitReady() {
+    public void waitReady() throws IllegalStateException {
+        if (isStarted) {
+            return;
+        }
+
         synchronized (readyObj) {
             try {
-                long waitMillis = 2 * discoveryTimeout.toMillis();
-                readyObj.wait(waitMillis);
+                if (isStarted) {
+                    return;
+                }
+
+                readyObj.wait(discoveryTimeout.toMillis());
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
-                handleThrowable(ex);
+                lastException = new IllegalStateException("Discovery waiting interrupted", ex);
             }
         }
 
-        if (lastException != null) {
-            throw lastException;
+        if (!isStarted) {
+            if (lastException != null) {
+                throw new IllegalStateException("Discovery failed", lastException);
+            } else {
+                throw new IllegalStateException("Discovery is not ready");
+            }
         }
     }
 
@@ -105,11 +123,11 @@ public abstract class YdbDiscovery {
             return;
         }
 
-        if (forceDiscovery()) {
+        if (handler.forceDiscovery()) {
             logger.debug("launching discovery by endpoint pessimization");
             runDiscovery();
         } else {
-            if (Instant.now().isAfter(lastUpdateTime.plusSeconds(DISCOVERY_PERIOD_NORMAL_SECONDS))) {
+            if (handler.instant().isAfter(lastUpdateTime.plusSeconds(DISCOVERY_PERIOD_NORMAL_SECONDS))) {
                 logger.debug("launching discovery in normal mode");
                 runDiscovery();
             } else {
@@ -119,18 +137,10 @@ public abstract class YdbDiscovery {
         }
     }
 
-    protected abstract GrpcTransport createDiscoveryTransport();
-    protected abstract boolean forceDiscovery();
-    protected abstract void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation);
-
     private void runDiscovery() {
-        if (isStopped) {
-            return;
-        }
+        lastUpdateTime = handler.instant();
 
-        lastUpdateTime = clock.instant();
-
-        final GrpcTransport transport = createDiscoveryTransport();
+        final GrpcTransport transport = handler.createDiscoveryTransport();
         logger.debug("execute list endpoints on {} with timeout {}", transport, discoveryTimeout);
         DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
                 .setDatabase(discoveryDatabase)
@@ -151,13 +161,20 @@ public abstract class YdbDiscovery {
 
     private void handleThrowable(Throwable th) {
         synchronized (readyObj) {
-            if (th instanceof RuntimeException) {
-                lastException = (RuntimeException) th;
-            } else {
-                lastException = new RuntimeException("Discovery failed", th);
-            }
+            lastException = th;
             readyObj.notifyAll();
         }
+        scheduleNextTick();
+    }
+
+    private void handleOk(String selfLocation, List<EndpointRecord> endpoints) {
+        synchronized (readyObj) {
+            isStarted = true;
+            lastException = null;
+            handler.handleEndpoints(endpoints, selfLocation);
+            readyObj.notifyAll();
+        }
+        scheduleNextTick();
     }
 
     private void handleDiscoveryResult(Result<DiscoveryProtos.ListEndpointsResult> response, Throwable th) {
@@ -165,7 +182,6 @@ public abstract class YdbDiscovery {
             Throwable cause = Async.unwrapCompletionException(th);
             logger.warn("couldn't perform discovery with exception", cause);
             handleThrowable(cause);
-            scheduleNextTick();
             return;
         }
 
@@ -173,8 +189,7 @@ public abstract class YdbDiscovery {
             DiscoveryProtos.ListEndpointsResult result = response.getValue();
             if (result.getEndpointsList().isEmpty()) {
                 logger.error("discovery return empty list of endpoints");
-                handleThrowable(new UnexpectedResultException("Discovery failed", EMPTY_DISCOVERY));
-                scheduleNextTick();
+                handleThrowable(new UnexpectedResultException("Discovery list is empty", EMPTY_DISCOVERY));
                 return;
             }
 
@@ -183,17 +198,10 @@ public abstract class YdbDiscovery {
                     .collect(Collectors.toList());
 
             logger.debug("successfully received ListEndpoints result with {} endpoints", records.size());
-            synchronized (readyObj) {
-                lastException = null;
-                handleEndpoints(records, result.getSelfLocation());
-                readyObj.notifyAll();
-            }
-
-            scheduleNextTick();
+            handleOk(result.getSelfLocation(), records);
         } catch (UnexpectedResultException ex) {
             logger.error("discovery fail {}", response);
-            handleThrowable(th);
-            scheduleNextTick();
+            handleThrowable(ex);
         }
     }
 }

@@ -31,7 +31,6 @@ public class AuthCallOptions implements AutoCloseable {
 
     public AuthCallOptions(
             ScheduledExecutorService scheduler,
-            String database,
             List<EndpointRecord> endpoints,
             ManagedChannelFactory channelFactory,
             GrpcTransportBuilder builder) {
@@ -39,7 +38,7 @@ public class AuthCallOptions implements AutoCloseable {
 
         AuthRpcProvider<? super GrpcAuthRpc> authProvider = builder.getAuthProvider();
         if (authProvider != null) {
-            GrpcAuthRpc rpc = new GrpcAuthRpc(endpoints, scheduler, database, channelFactory);
+            GrpcAuthRpc rpc = new GrpcAuthRpc(endpoints, scheduler, builder.getDatabase(), channelFactory);
             authIdentity = builder.getAuthProvider().createAuthIdentity(rpc);
         } else {
             authIdentity = null;

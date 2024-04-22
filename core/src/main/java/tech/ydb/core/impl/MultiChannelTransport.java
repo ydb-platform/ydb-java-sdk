@@ -48,13 +48,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
                 .map(host -> new EndpointRecord(host.getHost(), host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT)))
                 .collect(Collectors.toList());
 
-        this.callOptions = new AuthCallOptions(scheduler,
-                database,
-                endpoints,
-                channelFactory,
-                builder
-        );
-
+        this.callOptions = new AuthCallOptions(scheduler, endpoints, channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());
         this.endpointPool.setNewState(null, endpoints);
