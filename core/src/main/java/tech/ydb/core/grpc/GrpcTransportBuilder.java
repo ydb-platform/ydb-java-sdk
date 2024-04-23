@@ -234,9 +234,9 @@ public class GrpcTransportBuilder {
 
     /**
      * Set GrpcTransport's init mode.
-     * See {@link tech.ydb.core.grpc.GrpcTransport.InitMode } for details
+     * See {@link tech.ydb.core.grpc.GrpcTransportBuilder.InitMode } for details
      *
-     * @param initMode mode of tranport initialization
+     * @param initMode mode of transport initialization
      * @return GrpcTransportBuilder with the given initMode
      */
     public GrpcTransportBuilder withInitMode(InitMode initMode) {
