@@ -78,6 +78,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Deprecated
     public void startAsync(Runnable readyWatcher) {
+        endpointPool.setNewState(null, Collections.singletonList(discoveryEndpoint));
         discovery.start();
         if (readyWatcher != null) {
             scheduler.execute(() -> {

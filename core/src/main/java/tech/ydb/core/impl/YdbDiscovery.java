@@ -71,7 +71,6 @@ public class YdbDiscovery {
         currentSchedule = scheduler.submit(() -> {
             logger.info("Waiting for init discovery...");
             runDiscovery();
-            logger.info("Discovery is finished");
         });
     }
 
@@ -162,9 +161,9 @@ public class YdbDiscovery {
     private void handleThrowable(Throwable th) {
         synchronized (readyObj) {
             lastException = th;
+            scheduleNextTick();
             readyObj.notifyAll();
         }
-        scheduleNextTick();
     }
 
     private void handleOk(String selfLocation, List<EndpointRecord> endpoints) {
@@ -172,9 +171,9 @@ public class YdbDiscovery {
             isStarted = true;
             lastException = null;
             handler.handleEndpoints(endpoints, selfLocation);
+            scheduleNextTick();
             readyObj.notifyAll();
         }
-        scheduleNextTick();
     }
 
     private void handleDiscoveryResult(Result<DiscoveryProtos.ListEndpointsResult> response, Throwable th) {

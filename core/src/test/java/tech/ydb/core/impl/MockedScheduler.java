@@ -33,11 +33,17 @@ public class MockedScheduler implements ScheduledExecutorService {
         this.clock = clock;
     }
 
-    public Checker check() {
-        return new Checker();
+    public MockedScheduler hasNoTasks() {
+        Assert.assertTrue("Scheduler hasn't tasks", tasks.isEmpty());
+        return this;
     }
 
-    public void runNextTask() {
+    public MockedScheduler hasTasksCount(int count) {
+        Assert.assertEquals("Scheduler has invalid count of tasks", count, tasks.size());
+        return this;
+    }
+
+    public MockedScheduler runNextTask() {
         MockedTask<?> next = tasks.poll();
         Assert.assertNotNull("Scheduler's queue is empty", next);
         clock.goToFuture(next.time);
@@ -45,6 +51,8 @@ public class MockedScheduler implements ScheduledExecutorService {
         if (next.time != null) {
             tasks.add(next);
         }
+
+        return this;
     }
 
     @Override
@@ -142,7 +150,7 @@ public class MockedScheduler implements ScheduledExecutorService {
 
     @Override
     public void execute(Runnable command) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        schedule(command, 0, TimeUnit.MILLISECONDS);
     }
 
     private class MockedTask<V> extends FutureTask<V> implements RunnableScheduledFuture<V> {
@@ -223,24 +231,6 @@ public class MockedScheduler implements ScheduledExecutorService {
                 super.run();
                 time = null;
             }
-        }
-    }
-
-    public class Checker {
-        public Checker isClosed() {
-            Assert.assertTrue("Scheduler is shutdown", isShutdown());
-            Assert.assertTrue("Scheduler is terminated", isTerminated());
-            return this;
-        }
-
-        public Checker hasNoTasks() {
-            Assert.assertTrue("Scheduler hasn't tasks", tasks.isEmpty());
-            return this;
-        }
-
-        public Checker taskCount(int count) {
-            Assert.assertEquals("Scheduler has invalid count of tasks", count, tasks.size());
-            return this;
         }
     }
 }

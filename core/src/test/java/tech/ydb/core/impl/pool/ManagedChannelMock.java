@@ -15,6 +15,8 @@ import io.grpc.MethodDescriptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.grpc.GrpcTransportBuilder;
+
 /**
  *
  * @author Aleksandr Gorshenin
@@ -140,4 +142,16 @@ public class ManagedChannelMock extends ManagedChannel {
             }
         };
     }
+
+    public static ManagedChannelFactory.Builder MOCKED = (GrpcTransportBuilder builder) -> new ManagedChannelFactory() {
+        @Override
+        public ManagedChannel newManagedChannel(String host, int port) {
+            return good();
+        }
+
+        @Override
+        public long getConnectTimeoutMs() {
+            return builder.getConnectTimeoutMillis();
+        }
+    };
 }
