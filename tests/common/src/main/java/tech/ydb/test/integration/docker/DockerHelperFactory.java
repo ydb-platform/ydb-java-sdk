@@ -4,6 +4,7 @@ import org.testcontainers.utility.TestcontainersConfiguration;
 
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.test.integration.YdbEnvironment;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
@@ -38,12 +39,19 @@ public class DockerHelperFactory extends YdbHelperFactory {
                 if (env.ydbUseTls()) {
                     builder.withSecureConnection(container.pemCert());
                 }
+
+                if (env.useDockerIsolation()) {
+                    return new DiscoveryProxyTransport(
+                            builder.build(), container.secureEndpoint(), container.nonSecureEndpoint()
+                    );
+                }
                 return builder.build();
             }
 
             @Override
             public String endpoint() {
-                return env.ydbUseTls() ? container.secureEndpoint() : container.nonSecureEndpoint();
+                EndpointRecord endpoint = env.ydbUseTls() ? container.secureEndpoint() : container.nonSecureEndpoint();
+                return endpoint.getHostAndPort();
             }
 
             @Override

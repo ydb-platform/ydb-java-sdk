@@ -11,6 +11,7 @@ public class YdbEnvironmentMock extends YdbEnvironment {
     private String token = null;
     private boolean useTLS = false;
     private boolean dockerReuse = false;
+    private boolean dockerIsolation = false;
 
     public YdbEnvironmentMock withDatabase(String value) {
         this.database = value;
@@ -42,6 +43,11 @@ public class YdbEnvironmentMock extends YdbEnvironment {
         return this;
     }
 
+    public YdbEnvironmentMock withDockerIsolation(boolean value) {
+        this.dockerIsolation = value;
+        return this;
+    }
+
     @Override
     public String ydbDatabase() {
         return database;
@@ -70,6 +76,11 @@ public class YdbEnvironmentMock extends YdbEnvironment {
     @Override
     public boolean dockerReuse() {
         return dockerReuse;
+    }
+
+    @Override
+    public boolean useDockerIsolation() {
+        return dockerIsolation;
     }
 
     @Override
