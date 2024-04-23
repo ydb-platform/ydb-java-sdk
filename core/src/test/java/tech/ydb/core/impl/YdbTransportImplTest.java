@@ -167,6 +167,7 @@ public class YdbTransportImplTest {
         Assert.assertTrue(f2.isDone());
         Assert.assertEquals("i am node", f2.join().getValue().getUser());
 
+        transport.close();
         Assert.assertTrue(isReady.isDone());
     }
 
