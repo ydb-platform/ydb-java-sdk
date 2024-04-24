@@ -178,7 +178,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         }
 
         @Override
-        public boolean forceDiscovery() {
+        public boolean needToForceDiscovery() {
             return endpointPool.needToRunDiscovery();
         }
 

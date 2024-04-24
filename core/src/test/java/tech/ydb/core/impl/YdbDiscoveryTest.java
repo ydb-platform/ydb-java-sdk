@@ -258,7 +258,7 @@ public class YdbDiscoveryTest {
         }
 
         @Override
-        public boolean forceDiscovery() {
+        public boolean needToForceDiscovery() {
             return force;
         }
 

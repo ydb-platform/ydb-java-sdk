@@ -38,27 +38,28 @@ public class GrpcTransportBuilder {
      */
     public enum InitMode {
         /**
-         * In synchronous mode, transport creation will wait for successful discovery of current the database nodes. Any
+         * In synchronous mode, transport creation will wait for successful discovery of current database nodes. Any
          * of discovery execution like an authentication error or a network issue will be thrown as RuntimeException.
          * It allows to catch configuration problems and stops the transport creating.
          */
         SYNC,
 
         /**
-         * In asynchronous mode, transport creation will not block by the discovery waiting and will not throw any
-         * exceptions in the case of configuration problems. But any request with the transport will wait for the
-         * discovery and may throw an exception if it will not be completed. This mode allows to application not to be
-         * blocked during the transport initialization but guarantees that requests will be created only after
-         * complete initialization
+         * In asynchronous mode, transport creation will not be blocked while waiting for discovery response and will
+         * not throw any exceptions in case of configuration problems. But any request with the transport will wait for
+         * the discovery and may throw an exception if it will not be completed. This mode allows the application not
+         * to be blocked during the transport initialization any user request on this transport will wait for
+         * initialization completion before being sent to the server
          */
         ASYNC,
 
         /**
-         * In fallback asynchronous mode, neither initialization the transport nor making the requests will block by
-         * the discovery waiting. In this case if the discovery is not completed - all requests will be sent to
-         * the discovery endpoint. Any discovery problems will be ignored. This mode allows to start working with
-         * the database without waiting for discovery to complete, but after its completion, existing connections (like
-         * grpc streams) can be interrupted to switch to new endpoint.
+         * In fallback asynchronous mode, neither transport creation nor user request execution will be blocked while
+         * initial discovery is in progress. In this case if the discovery is not completed, all requests will be sent
+         * to the discovery endpoint. Any discovery problems will be ignored. This mode allows to start working with the
+         * database without waiting for discovery to complete, but after its completion, existing long-running
+         * operations (like grpc streams) will be interrupted.
+         * Thus this mode is not recommended for long-running streams such as topic reading/writing.
          */
         ASYNC_FALLBACK
     }

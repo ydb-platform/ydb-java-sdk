@@ -42,7 +42,7 @@ public class YdbDiscovery {
     public interface Handler {
         Instant instant();
         GrpcTransport createDiscoveryTransport();
-        boolean forceDiscovery();
+        boolean needToForceDiscovery();
         void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation);
     }
 
@@ -122,7 +122,7 @@ public class YdbDiscovery {
             return;
         }
 
-        if (handler.forceDiscovery()) {
+        if (handler.needToForceDiscovery()) {
             logger.debug("launching discovery by endpoint pessimization");
             runDiscovery();
         } else {
