@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +28,9 @@ import org.junit.Assert;
 public class MockedScheduler implements ScheduledExecutorService {
     private final MockedClock clock;
     private final Queue<MockedTask<?>> tasks = new ConcurrentLinkedQueue<>();
-    private volatile boolean stopped;
+
+    private volatile boolean queueIsBlocked = false;
+    private volatile boolean stopped = false;
 
     public MockedScheduler(MockedClock clock) {
         this.clock = clock;
@@ -43,7 +46,8 @@ public class MockedScheduler implements ScheduledExecutorService {
         return this;
     }
 
-    public MockedScheduler runNextTask() {
+    public synchronized MockedScheduler runNextTask() {
+        queueIsBlocked = true;
         MockedTask<?> next = tasks.poll();
         Assert.assertNotNull("Scheduler's queue is empty", next);
         clock.goToFuture(next.time);
@@ -52,6 +56,7 @@ public class MockedScheduler implements ScheduledExecutorService {
             tasks.add(next);
         }
 
+        queueIsBlocked = false;
         return this;
     }
 
@@ -115,16 +120,33 @@ public class MockedScheduler implements ScheduledExecutorService {
 
     @Override
     public Future<?> submit(Runnable task) {
+        if (queueIsBlocked) {
+            task.run();
+            return CompletableFuture.completedFuture(null);
+        }
         return schedule(task, 0, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public <T> Future<T> submit(Runnable task, T result) {
+        if (queueIsBlocked) {
+            task.run();
+            return CompletableFuture.completedFuture(result);
+        }
         return schedule(Executors.callable(task, result), 0, TimeUnit.MILLISECONDS);
     }
 
     @Override
     public <T> Future<T> submit(Callable<T> task) {
+        if (queueIsBlocked) {
+            CompletableFuture<T> future = new CompletableFuture<>();
+            try {
+                future.complete(task.call());
+            } catch (Exception ex) {
+                future.completeExceptionally(ex);
+            }
+            return future;
+        }
         return schedule(task, 0, TimeUnit.MILLISECONDS);
     }
 
@@ -150,6 +172,10 @@ public class MockedScheduler implements ScheduledExecutorService {
 
     @Override
     public void execute(Runnable command) {
+        if (queueIsBlocked) {
+            command.run();
+            return;
+        }
         schedule(command, 0, TimeUnit.MILLISECONDS);
     }
 

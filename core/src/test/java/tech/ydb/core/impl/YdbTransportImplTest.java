@@ -2,6 +2,7 @@ package tech.ydb.core.impl;
 
 
 import java.time.Duration;
+import java.time.ZoneId;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -127,11 +128,11 @@ public class YdbTransportImplTest {
 
     @Test
     public void asyncBuildGoodTest() {
-        Ticker tickerDiscovery = new Ticker();
         Ticker tickerRequests = new Ticker();
+        MockedScheduler scheduler = new MockedScheduler(MockedClock.create(ZoneId.of("UTC")));
 
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
-                .thenReturn(MockedCall.discovery(tickerDiscovery, "self", new EndpointRecord("node", 2136)));
+                .thenReturn(MockedCall.discovery("self", new EndpointRecord("node", 2136)));
 
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
                 .thenReturn(MockedCall.whoAmICall(tickerRequests, "i am discovery"));
@@ -142,6 +143,7 @@ public class YdbTransportImplTest {
 
         @SuppressWarnings("deprecation")
         GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withSchedulerFactory(() -> scheduler)
                 .withChannelFactoryBuilder(builder -> channelFactory)
                 .buildAsync(() -> isReady.complete(null));
 
@@ -159,7 +161,7 @@ public class YdbTransportImplTest {
 
         // Complete discovery
         Assert.assertFalse(isReady.isDone());
-        tickerDiscovery.runNextTask().noTasks();
+        scheduler.hasTasksCount(2).runNextTask().runNextTask();
 
         CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> f2 = whoAmI(transport);
         Assert.assertFalse(f2.isDone());
@@ -167,7 +169,6 @@ public class YdbTransportImplTest {
         Assert.assertTrue(f2.isDone());
         Assert.assertEquals("i am node", f2.join().getValue().getUser());
 
-        transport.close();
         Assert.assertTrue(isReady.isDone());
     }
 
