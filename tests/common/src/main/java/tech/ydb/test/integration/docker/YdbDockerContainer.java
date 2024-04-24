@@ -72,11 +72,11 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
     }
 
     public EndpointRecord nonSecureEndpoint() {
-        return new EndpointRecord(getHost(), getMappedPort(grpcPort), 0);
+        return new EndpointRecord(getHost(), getMappedPort(grpcPort));
     }
 
     public EndpointRecord secureEndpoint() {
-        return new EndpointRecord(getHost(), getMappedPort(grpcsPort), 0);
+        return new EndpointRecord(getHost(), getMappedPort(grpcsPort));
     }
 
     public byte[] pemCert() {

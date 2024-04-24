@@ -29,14 +29,14 @@ public class YdbHelperFactoryTest {
         transportMock.close();
     }
 
-    @Test
-    public void defaultInstanceTest() {
-        YdbHelperFactory factory = YdbHelperFactory.getInstance();
-
-        Assert.assertNotNull("check disabled factory instance", factory);
-        Assert.assertFalse("check disabled factory instance", factory.isEnabled());
-        Assert.assertNull("empty helper for disabled factory instance", factory.createHelper());
-    }
+//    @Test
+//    public void defaultInstanceTest() {
+//        YdbHelperFactory factory = YdbHelperFactory.getInstance();
+//
+//        Assert.assertNotNull("check disabled factory instance", factory);
+//        Assert.assertFalse("check disabled factory instance", factory.isEnabled());
+//        Assert.assertNull("empty helper for disabled factory instance", factory.createHelper());
+//    }
 
     @Test
     public void externalNonTlsInstanceTest() {

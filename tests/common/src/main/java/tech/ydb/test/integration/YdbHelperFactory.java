@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.testcontainers.DockerClientFactory;
 
 import tech.ydb.test.integration.docker.DockerHelperFactory;
+import tech.ydb.test.integration.docker.ProxedDockerHelperFactory;
 import tech.ydb.test.integration.external.ExternalHelperFactory;
 
 /**
@@ -37,7 +38,11 @@ public abstract class YdbHelperFactory {
         // check if docker is availabled
         if (DockerClientFactory.instance().isDockerAvailable()) {
             logger.info("setup docker-based ydb helper");
-            return new DockerHelperFactory(env);
+            if (env.useDockerIsolation()) {
+                return new ProxedDockerHelperFactory(env);
+            } else {
+                return new DockerHelperFactory(env);
+            }
         }
 
         logger.info("ydb helper is disabled");

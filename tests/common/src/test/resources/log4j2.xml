@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <PatternLayout pattern="[%level] %d{HH:mm:ss.SSS} [%t] %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
 
@@ -10,9 +10,13 @@
         <Logger name="io.grpc" level="warn" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="tech.ydb.test" level="error" additivity="false">
+        <Logger name="tech.ydb.test" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="tech.ydb.core.impl.pool.EndpointPool" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
 
         <!-- https://www.testcontainers.org/supported_docker_environment/logging_config/ -->
         <Logger name="org.testcontainers" level="warn" />

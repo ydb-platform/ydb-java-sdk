@@ -61,12 +61,12 @@
                     <!-- Test env variables for unit tests -->
                     <environmentVariables>
                         <TEST_VAR1>var1</TEST_VAR1>
-                        <!-- TEST_VAR2 isnot set -->
+                        <!-- TEST_VAR2 is not set -->
                         <TEST_VAR3></TEST_VAR3>
                         <TEST_VAR4>true</TEST_VAR4>
                         <TEST_VAR5>true1</TEST_VAR5>
 
-                        <YDB_DISABLE_INTEGRATION_TESTS>true</YDB_DISABLE_INTEGRATION_TESTS>
+                        <YDB_DOCKER_ISOLATION>true</YDB_DOCKER_ISOLATION>
                     </environmentVariables>
                 </configuration>
             </plugin>
