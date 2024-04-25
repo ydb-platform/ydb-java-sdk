@@ -61,7 +61,7 @@ public class YdbDiscoveryTest {
 
     private CompletableFuture<Boolean> createWaitingFuture(YdbDiscovery discovery) {
         return CompletableFuture.supplyAsync(() -> {
-            discovery.waitReady();
+            discovery.waitReady(100);
             return Boolean.TRUE;
         });
     }
@@ -87,7 +87,7 @@ public class YdbDiscoveryTest {
         scheduler.hasTasksCount(1).runNextTask();
         verifyDiscoveryCount(1);
 
-        discovery.waitReady();
+        discovery.waitReady(-1);
         discovery.stop();
 
         // stop is imdepotent operation
@@ -237,8 +237,9 @@ public class YdbDiscoveryTest {
         scheduler.hasTasksCount(1).runNextTask();
         verifyDiscoveryCount(4);
 
-        RuntimeException ex5 = checkFutureException(req5, "Discovery failed", RuntimeException.class);
-        Assert.assertEquals("Test io problem", ex5.getMessage());
+        UnexpectedResultException ex5 = checkFutureException(req5, "Discovery failed", UnexpectedResultException.class);
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, ex5.getStatus().getCode());
+        Assert.assertEquals("Test io problem, code: CLIENT_INTERNAL_ERROR", ex5.getMessage());
 
         discovery.stop();
     }

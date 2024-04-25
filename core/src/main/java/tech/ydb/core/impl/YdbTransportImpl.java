@@ -67,7 +67,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         discovery.start();
 
         if (mode == GrpcTransportBuilder.InitMode.SYNC) {
-            discovery.waitReady();
+            discovery.waitReady(-1);
         }
     }
 
@@ -82,7 +82,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         discovery.start();
         if (readyWatcher != null) {
             scheduler.execute(() -> {
-                discovery.waitReady();
+                discovery.waitReady(-1);
                 readyWatcher.run();
             });
         }
@@ -157,7 +157,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         EndpointRecord endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
         if (endpoint == null) {
-            discovery.waitReady();
+            long timeout = -1;
+            if (settings.getDeadlineAfter() != 0) {
+                timeout = settings.getDeadlineAfter() - System.nanoTime();
+            }
+            discovery.waitReady(timeout);
             endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
         }
         return channelPool.getChannel(endpoint);

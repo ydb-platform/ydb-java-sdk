@@ -83,7 +83,7 @@ public class YdbDiscovery {
         }
     }
 
-    public void waitReady() throws IllegalStateException {
+    public void waitReady(long millis) throws IllegalStateException {
         if (isStarted) {
             return;
         }
@@ -94,7 +94,8 @@ public class YdbDiscovery {
                     return;
                 }
 
-                readyObj.wait(discoveryTimeout.toMillis());
+                long timeout = millis > 0 ? millis : discoveryTimeout.toMillis();
+                readyObj.wait(timeout);
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
                 lastException = new IllegalStateException("Discovery waiting interrupted", ex);

@@ -15,6 +15,7 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -28,7 +29,6 @@ import tech.ydb.core.impl.call.ReadStreamCall;
 import tech.ydb.core.impl.call.ReadWriteStreamCall;
 import tech.ydb.core.impl.call.UnaryCall;
 import tech.ydb.core.impl.pool.GrpcChannel;
-import tech.ydb.core.utils.Async;
 
 /**
  *
@@ -92,9 +92,12 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
 
             return new UnaryCall<>(call, handler).startCall(request, makeMetadataFromSettings(settings));
+        } catch (UnexpectedResultException ex) {
+            logger.error("unary call with traceId {} unexprected status {}", settings.getTraceId(), ex.getStatus());
+            return CompletableFuture.completedFuture(Result.fail(ex));
         } catch (RuntimeException ex) {
             logger.error("unary call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
-            return Async.failedFuture(ex);
+            return CompletableFuture.completedFuture(Result.error(ex.getMessage(), ex));
         }
     }
 
@@ -131,6 +134,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
 
             return new ReadStreamCall<>(call, request, makeMetadataFromSettings(settings), handler);
+        } catch (UnexpectedResultException ex) {
+            logger.error("server stream call with traceId {} unexpected status {}",
+                    settings.getTraceId(), ex.getStatus());
+            return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
             logger.error("server stream call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
@@ -170,6 +177,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
 
             return new ReadWriteStreamCall<>(call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler);
+        } catch (UnexpectedResultException ex) {
+            logger.error("server bidirectional stream call with traceId {} unexpected status {}",
+                    settings.getTraceId(), ex.getStatus());
+            return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
             logger.error("server bidirectional stream call with traceId {} problem {}", settings.getTraceId(),
                     ex.getMessage());
