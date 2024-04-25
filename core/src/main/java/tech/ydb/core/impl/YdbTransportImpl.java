@@ -3,28 +3,27 @@ package tech.ydb.core.impl;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
-import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.auth.AuthCallOptions;
-import tech.ydb.core.impl.discovery.GrpcDiscoveryRpc;
-import tech.ydb.core.impl.discovery.PeriodicDiscoveryTask;
 import tech.ydb.core.impl.pool.EndpointPool;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
-import tech.ydb.proto.discovery.DiscoveryProtos;
 
 /**
  * @author Nikolay Perfilov
@@ -34,53 +33,68 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
-    private final AuthCallOptions callOptions;
     private final String database;
+    private final EndpointRecord discoveryEndpoint;
+    private final ScheduledExecutorService scheduler;
+    private final ManagedChannelFactory channelFactory;
+    private final AuthCallOptions callOptions;
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
-    private final PeriodicDiscoveryTask periodicDiscoveryTask;
-    private final ScheduledExecutorService scheduler;
+    private final YdbDiscovery discovery;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
-        this.database = Strings.nullToEmpty(builder.getDatabase());
-
-        ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
         BalancingSettings balancingSettings = getBalancingSettings(builder);
-        EndpointRecord discoveryEndpoint = getDiscoveryEndpoint(builder);
+        Duration discoveryTimeout = Duration.ofMillis(builder.getDiscoveryTimeoutMillis());
+
+        this.database = Strings.nullToEmpty(builder.getDatabase());
+        this.discoveryEndpoint = getDiscoveryEndpoint(builder);
 
         logger.info("Create YDB transport with endpoint {} and {}", discoveryEndpoint, balancingSettings);
 
+        this.channelFactory = builder.getManagedChannelFactory();
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(scheduler,
-                database,
-                Collections.singletonList(discoveryEndpoint),
-                channelFactory,
-                builder
-        );
-
-        GrpcDiscoveryRpc discoveryRpc = new GrpcDiscoveryRpc(this,
-                discoveryEndpoint,
-                channelFactory,
-                callOptions,
-                Duration.ofMillis(builder.getDiscoveryTimeoutMillis()));
-
+        this.callOptions = new AuthCallOptions(scheduler, Arrays.asList(discoveryEndpoint), channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
-        this.endpointPool = new EndpointPool(discoveryEndpoint, balancingSettings);
-
-        this.periodicDiscoveryTask = new PeriodicDiscoveryTask(
-                scheduler,
-                discoveryRpc,
-                new YdbDiscoveryHandler(),
-                builder.getConnectTimeoutMillis() + builder.getDiscoveryTimeoutMillis()
-        );
+        this.endpointPool = new EndpointPool(balancingSettings);
+        this.discovery = new YdbDiscovery(new DiscoveryHandler(), scheduler, database, discoveryTimeout);
     }
 
-    public void init() {
-        periodicDiscoveryTask.start();
+    public void start(GrpcTransportBuilder.InitMode mode) {
+        if (mode == GrpcTransportBuilder.InitMode.ASYNC_FALLBACK) {
+            endpointPool.setNewState(null, Collections.singletonList(discoveryEndpoint));
+        }
+
+        discovery.start();
+
+        if (mode == GrpcTransportBuilder.InitMode.SYNC) {
+            discovery.waitReady(-1);
+        }
     }
 
-    public void initAsync(Runnable readyWatcher) {
-        periodicDiscoveryTask.startAsync(readyWatcher);
+    @Override
+    public String toString() {
+        return "YdbTransport{endpoint=" + discoveryEndpoint + ", database=" + database + "}";
+    }
+
+    @Deprecated
+    public void startAsync(Runnable readyWatcher) {
+        endpointPool.setNewState(null, Collections.singletonList(discoveryEndpoint));
+        discovery.start();
+        if (readyWatcher != null) {
+            scheduler.execute(() -> {
+                discovery.waitReady(-1);
+                readyWatcher.run();
+            });
+        }
+    }
+
+    @Override
+    protected void shutdown() {
+        discovery.stop();
+        channelPool.shutdown();
+        callOptions.close();
+
+        YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
     static EndpointRecord getDiscoveryEndpoint(GrpcTransportBuilder builder) {
@@ -107,7 +121,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                     + "endpoint " + builder.getEndpoint() + " and empty host " + builder.getHost());
         }
 
-        return new EndpointRecord(endpointURI.getHost(), endpointURI.getPort(), 0);
+        return new EndpointRecord(endpointURI.getHost(), endpointURI.getPort());
     }
 
     private static BalancingSettings getBalancingSettings(GrpcTransportBuilder builder) {
@@ -135,20 +149,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     @Override
-    public void close() {
-        if (shutdown) {
-            return;
-        }
-        super.close();
-
-        periodicDiscoveryTask.stop();
-        channelPool.shutdown();
-        callOptions.close();
-
-        YdbSchedulerFactory.shutdownScheduler(scheduler);
-    }
-
-    @Override
     public AuthCallOptions getAuthCallOptions() {
         return callOptions;
     }
@@ -156,27 +156,45 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     @Override
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         EndpointRecord endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
+        if (endpoint == null) {
+            long timeout = -1;
+            if (settings.getDeadlineAfter() != 0) {
+                timeout = settings.getDeadlineAfter() - System.nanoTime();
+            }
+            discovery.waitReady(timeout);
+            endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
+        }
         return channelPool.getChannel(endpoint);
     }
 
     @Override
-    void updateChannelStatus(GrpcChannel channel, Status status) {
+    protected void updateChannelStatus(GrpcChannel channel, io.grpc.Status status) {
         // Usally CANCELLED is received when ClientCall is canceled on client side
-        if (!status.isOk() && status.getCode() != Status.Code.CANCELLED) {
+        if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());
         }
     }
 
-    private class YdbDiscoveryHandler implements PeriodicDiscoveryTask.DiscoveryHandler {
+    private class DiscoveryHandler implements YdbDiscovery.Handler {
         @Override
-        public boolean useMinDiscoveryPeriod() {
+        public Instant instant() {
+            return Instant.now();
+        }
+
+        @Override
+        public boolean needToForceDiscovery() {
             return endpointPool.needToRunDiscovery();
         }
 
         @Override
-        public void handleDiscoveryResult(DiscoveryProtos.ListEndpointsResult result) {
-            List<EndpointRecord> removed = endpointPool.setNewState(result);
+        public void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+            List<EndpointRecord> removed = endpointPool.setNewState(selfLocation, endpoints);
             channelPool.removeChannels(removed);
+        }
+
+        @Override
+        public GrpcTransport createDiscoveryTransport() {
+            return new FixedCallOptionsTransport(scheduler, callOptions, database, discoveryEndpoint, channelFactory);
         }
     }
 }

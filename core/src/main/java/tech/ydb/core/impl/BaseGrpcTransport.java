@@ -2,6 +2,7 @@ package tech.ydb.core.impl;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
@@ -14,6 +15,7 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -27,7 +29,6 @@ import tech.ydb.core.impl.call.ReadStreamCall;
 import tech.ydb.core.impl.call.ReadWriteStreamCall;
 import tech.ydb.core.impl.call.UnaryCall;
 import tech.ydb.core.impl.pool.GrpcChannel;
-import tech.ydb.core.utils.Async;
 
 /**
  *
@@ -41,15 +42,21 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             .withIssues(Issue.of("Request was not sent: transport is shutting down", Issue.Severity.ERROR)
     ));
 
-    protected volatile boolean shutdown;
+    private final AtomicBoolean isClosed = new AtomicBoolean(false);
 
-    abstract AuthCallOptions getAuthCallOptions();
+    protected abstract AuthCallOptions getAuthCallOptions();
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
-    abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+    protected abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+
+    protected void shutdown() {
+        // nothing to shutdown
+    }
 
     @Override
     public void close() {
-        this.shutdown = true;
+        if (isClosed.compareAndSet(false, true)) {
+            shutdown();
+        }
     }
 
     @Override
@@ -58,7 +65,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             GrpcRequestSettings settings,
             ReqT request
     ) {
-        if (shutdown) {
+        if (isClosed.get()) {
             return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
 
@@ -85,9 +92,12 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
 
             return new UnaryCall<>(call, handler).startCall(request, makeMetadataFromSettings(settings));
+        } catch (UnexpectedResultException ex) {
+            logger.error("unary call with traceId {} unexprected status {}", settings.getTraceId(), ex.getStatus());
+            return CompletableFuture.completedFuture(Result.fail(ex));
         } catch (RuntimeException ex) {
             logger.error("unary call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
-            return Async.failedFuture(ex);
+            return CompletableFuture.completedFuture(Result.error(ex.getMessage(), ex));
         }
     }
 
@@ -97,7 +107,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             GrpcRequestSettings settings,
             ReqT request
         ) {
-        if (shutdown) {
+        if (isClosed.get()) {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
@@ -124,6 +134,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
 
             return new ReadStreamCall<>(call, request, makeMetadataFromSettings(settings), handler);
+        } catch (UnexpectedResultException ex) {
+            logger.error("server stream call with traceId {} unexpected status {}",
+                    settings.getTraceId(), ex.getStatus());
+            return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
             logger.error("server stream call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
@@ -137,7 +151,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             MethodDescriptor<ReqT, RespT> method,
             GrpcRequestSettings settings
         ) {
-        if (shutdown) {
+        if (isClosed.get()) {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
@@ -163,6 +177,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
 
             return new ReadWriteStreamCall<>(call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler);
+        } catch (UnexpectedResultException ex) {
+            logger.error("server bidirectional stream call with traceId {} unexpected status {}",
+                    settings.getTraceId(), ex.getStatus());
+            return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
             logger.error("server bidirectional stream call with traceId {} problem {}", settings.getTraceId(),
                     ex.getMessage());

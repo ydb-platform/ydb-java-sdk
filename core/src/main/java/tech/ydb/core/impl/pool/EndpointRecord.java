@@ -7,15 +7,21 @@ import java.util.Objects;
  */
 public class EndpointRecord {
     private final String host;
-    private final int port;
     private final String hostAndPort;
+    private final String locationDC;
+    private final int port;
     private final int nodeId;
 
-    public EndpointRecord(String host, int port, int nodeId) {
+    public EndpointRecord(String host, int port, int nodeId, String locationDC) {
         this.host = Objects.requireNonNull(host);
         this.port = port;
         this.hostAndPort = host + ":" + port;
         this.nodeId = nodeId;
+        this.locationDC = locationDC;
+    }
+
+    public EndpointRecord(String host, int port) {
+        this(host, port, 0, null);
     }
 
     public String getHost() {
@@ -34,8 +40,12 @@ public class EndpointRecord {
         return nodeId;
     }
 
+    public String getLocation() {
+        return locationDC;
+    }
+
     @Override
     public String toString() {
-        return "Endpoint{host=" + host + ", port=" + port + ", node=" + nodeId + "}";
+        return "Endpoint{host=" + host + ", port=" + port + ", node=" + nodeId + ", location=" + locationDC + "}";
     }
 }

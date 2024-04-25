@@ -1,6 +1,6 @@
 package tech.ydb.core.impl;
 
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
@@ -36,12 +36,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
         this.channel = new GrpcChannel(endpoint, channelFactory, true);
 
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(scheduler,
-                database,
-                Collections.singletonList(endpoint),
-                channelFactory,
-                builder
-        );
+        this.callOptions = new AuthCallOptions(scheduler, Arrays.asList(endpoint), channelFactory, builder);
     }
 
     @Override
@@ -55,12 +50,9 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    public void close() {
-        super.close();
-
+    protected void shutdown() {
         channel.shutdown();
         callOptions.close();
-
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
@@ -75,7 +67,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    void updateChannelStatus(GrpcChannel channel, Status status) {
+    protected void updateChannelStatus(GrpcChannel channel, Status status) {
         if (!status.isOk()) {
             logger.warn("grpc error {}[{}] on single channel {}",
                     status.getCode(),

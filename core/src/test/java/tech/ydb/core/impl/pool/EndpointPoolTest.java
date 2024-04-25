@@ -5,7 +5,6 @@ import java.net.ServerSocket;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.stream.Collectors;
 
 import javax.net.ServerSocketFactory;
 
@@ -20,7 +19,6 @@ import org.mockito.MockitoAnnotations;
 
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.timer.TestTicker;
-import tech.ydb.proto.discovery.DiscoveryProtos;
 
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.times;
@@ -32,45 +30,46 @@ import static org.mockito.Mockito.when;
  * @author Kirill Kurdyukov
  */
 public class EndpointPoolTest {
-    private final EndpointRecord discovery = new EndpointRecord("discovery", 2136, -1);
-
-    private final AutoCloseable mocks = MockitoAnnotations.openMocks(this);
+    private AutoCloseable mocks;
     private final MockedStatic<ThreadLocalRandom> threadLocalStaticMock = mockStatic(ThreadLocalRandom.class);
+    private final MockedStatic<Ticker> tickerStaticMock = mockStatic(Ticker.class);
     private final ThreadLocalRandom random = Mockito.mock(ThreadLocalRandom.class);
 
     @Before
     public void setUp() {
+        mocks = MockitoAnnotations.openMocks(this);
         threadLocalStaticMock.when(ThreadLocalRandom::current).thenReturn(random);
     }
 
     @After
     public void tearDown() throws Exception {
+        tickerStaticMock.close();
         threadLocalStaticMock.close();
         mocks.close();
     }
 
     @Test
     public void uninitializedTest() {
-        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        check(pool.getEndpoint(null)).hostname("discovery").nodeID(-1).port(2136);
-        check(pool.getEndpoint(0)).hostname("discovery").nodeID(-1).port(2136);
-        check(pool.getEndpoint(1)).hostname("discovery").nodeID(-1).port(2136);
+        check(pool.getEndpoint(null)).isNull();
+        check(pool.getEndpoint(0)).isNull();
+        check(pool.getEndpoint(1)).isNull();
 
-        pool.setNewState(list("DC1"));
+        pool.setNewState("DC1", list());
 
-        check(pool.getEndpoint(null)).hostname("discovery").nodeID(-1).port(2136);
-        check(pool.getEndpoint(0)).hostname("discovery").nodeID(-1).port(2136);
-        check(pool.getEndpoint(1)).hostname("discovery").nodeID(-1).port(2136);
+        check(pool.getEndpoint(null)).isNull();
+        check(pool.getEndpoint(0)).isNull();
+        check(pool.getEndpoint(1)).isNull();
     }
 
     @Test
     public void useAllNodesTest() {
-        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState(list("DC1",
+        pool.setNewState("DC1", list(
                 endpoint(1, "n1.ydb.tech", 12345, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12345, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12345, "DC3")
@@ -93,10 +92,10 @@ public class EndpointPoolTest {
 
     @Test
     public void localDcTest() {
-        EndpointPool pool = new EndpointPool(discovery, preferredNode(null));
+        EndpointPool pool = new EndpointPool(preferredNode(null));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState(list("DC2",
+        pool.setNewState("DC2", list(
                 endpoint(1, "n1.ydb.tech", 12345, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12345, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12345, "DC3")
@@ -118,10 +117,10 @@ public class EndpointPoolTest {
 
     @Test
     public void preferredDcTest() {
-        EndpointPool pool = new EndpointPool(discovery, preferredNode("DC1"));
+        EndpointPool pool = new EndpointPool(preferredNode("DC1"));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState(list("DC3",
+        pool.setNewState("DC3", list(
                 endpoint(1, "n1.ydb.tech", 12345, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12345, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12345, "DC3")
@@ -143,10 +142,10 @@ public class EndpointPoolTest {
 
     @Test
     public void preferredEndpointsTest() {
-        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState(list("DC3",
+        pool.setNewState("DC3", list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC3")
@@ -173,10 +172,10 @@ public class EndpointPoolTest {
 
     @Test
     public void nodePessimizationTest() {
-        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
+        EndpointPool pool = new EndpointPool( useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState(list("DC3",
+        pool.setNewState("DC3", list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC3"),
@@ -209,8 +208,8 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(2)).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         // Pessimize unknown nodes - nothing is changed
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2));
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2));
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null));
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2, null));
         pool.pessimizeEndpoint(null);
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
@@ -241,10 +240,10 @@ public class EndpointPoolTest {
 
     @Test
     public void nodePessimizationFallbackTest() {
-        EndpointPool pool = new EndpointPool(discovery, preferredNode("DC1"));
+        EndpointPool pool = new EndpointPool(preferredNode("DC1"));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState(list("DC3",
+        pool.setNewState("DC3", list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC1"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC2"),
@@ -289,7 +288,7 @@ public class EndpointPoolTest {
         verify(random, times(4)).nextInt(4);
 
         // setNewState reset all
-        pool.setNewState(list("DC3",
+        pool.setNewState("DC3", list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC1"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC2"),
@@ -300,10 +299,10 @@ public class EndpointPoolTest {
 
     @Test
     public void duplicateEndpointsTest() {
-        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState(list("DC",
+        pool.setNewState("DC", list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC"),
@@ -335,10 +334,10 @@ public class EndpointPoolTest {
 
     @Test
     public void duplicateNodesTest() {
-        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState(list("DC",
+        pool.setNewState("DC", list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(2, "n3.ydb.tech", 12343, "DC")
@@ -363,10 +362,10 @@ public class EndpointPoolTest {
 
     @Test
     public void removeEndpointsTest() {
-        EndpointPool pool = new EndpointPool(discovery, useAllNodes());
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState(list("DC",
+        pool.setNewState("DC", list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC")
@@ -389,7 +388,7 @@ public class EndpointPoolTest {
 
         verify(random, times(3)).nextInt(3);
 
-        pool.setNewState(list("DC",
+        pool.setNewState("DC", list(
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(4, "n4.ydb.tech", 12344, "DC"),
                 endpoint(5, "n5.ydb.tech", 12345, "DC"),
@@ -419,62 +418,50 @@ public class EndpointPoolTest {
 
 
     @Test
-    public void detectLocalDCTest() {
-        try (MockedStatic<Ticker> systemMocked = mockStatic(Ticker.class)) {
-            TestTicker testTicker = new TestTicker(
-                    1, 4,
-                    5, 26,
-                    83, 125
-            );
+    public void detectLocalDCTest() throws IOException {
+        final TestTicker testTicker = new TestTicker(
+                1, 4,
+                5, 26,
+                83, 125
+        );
 
-            systemMocked.when(Ticker::systemTicker).thenReturn(testTicker);
+        tickerStaticMock.when(Ticker::systemTicker).thenReturn(testTicker);
 
-            List<ServerSocket> servers = Arrays.stream(new int[]{8081, 8082, 8083})
-                    .mapToObj(
-                            port -> {
-                                try {
-                                    return ServerSocketFactory.getDefault()
-                                            .createServerSocket(port);
-                                } catch (IOException e) {
-                                    throw new RuntimeException(e);
-                                }
-                            }
-                    )
-                    .collect(Collectors.toList());
+        try (
+                ServerSocket s1 = ServerSocketFactory.getDefault().createServerSocket(0);
+                ServerSocket s2 = ServerSocketFactory.getDefault().createServerSocket(0);
+                ServerSocket s3 = ServerSocketFactory.getDefault().createServerSocket(0);
+                ) {
 
-            EndpointPool pool = new EndpointPool(discovery, detectLocalDC());
+            EndpointPool pool = new EndpointPool(detectLocalDC());
             check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-            pool.setNewState(list("DC",
-                    endpoint(1, "localhost", 8081, "DC1"),
-                    endpoint(2, "localhost", 8082, "DC2"),
-                    endpoint(3, "localhost", 8083, "DC3")
+            int p1 = s1.getLocalPort();
+            int p2 = s2.getLocalPort();
+            int p3 = s3.getLocalPort();
+
+            pool.setNewState("DC", list(
+                    endpoint(1, "127.0.0.1", p1, "DC1"),
+                    endpoint(2, "127.0.0.2", p2, "DC2"),
+                    endpoint(3, "127.0.0.3", p3, "DC3")
             ));
 
             check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
 
-            check(pool.getEndpoint(null)).hostname("localhost").nodeID(2).port(8082); // detect local dc
-            check(pool.getEndpoint(0)).hostname("localhost").nodeID(2).port(8082); // random from local dc
-            check(pool.getEndpoint(1)).hostname("localhost").nodeID(1).port(8081);
-            check(pool.getEndpoint(2)).hostname("localhost").nodeID(2).port(8082); // local dc
-            check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083);
-            check(pool.getEndpoint(4)).hostname("localhost").nodeID(2).port(8082); // random from local dc
+            check(pool.getEndpoint(null)).hostname("127.0.0.2").nodeID(2).port(p2); // detect local dc
+            check(pool.getEndpoint(0)).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
+            check(pool.getEndpoint(1)).hostname("127.0.0.1").nodeID(1).port(p1);
+            check(pool.getEndpoint(2)).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
+            check(pool.getEndpoint(3)).hostname("127.0.0.3").nodeID(3).port(p3);
+            check(pool.getEndpoint(4)).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
 
             pool.pessimizeEndpoint(pool.getEndpoint(2));
-            check(pool.getEndpoint(null)).hostname("localhost").nodeID(1).port(8081); // new local dc
-            check(pool.getEndpoint(0)).hostname("localhost").nodeID(1).port(8081); // random from local dc
-            check(pool.getEndpoint(1)).hostname("localhost").nodeID(1).port(8081);
-            check(pool.getEndpoint(2)).hostname("localhost").nodeID(2).port(8082); // local dc
-            check(pool.getEndpoint(3)).hostname("localhost").nodeID(3).port(8083);
-            check(pool.getEndpoint(4)).hostname("localhost").nodeID(1).port(8081); // random from local dc
-
-            servers.forEach(serverSocket -> {
-                try {
-                    serverSocket.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
+            check(pool.getEndpoint(null)).hostname("127.0.0.1").nodeID(1).port(p1); // new local dc
+            check(pool.getEndpoint(0)).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
+            check(pool.getEndpoint(1)).hostname("127.0.0.1").nodeID(1).port(p1);
+            check(pool.getEndpoint(2)).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
+            check(pool.getEndpoint(3)).hostname("127.0.0.3").nodeID(3).port(p3);
+            check(pool.getEndpoint(4)).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
         }
     }
 
@@ -491,7 +478,7 @@ public class EndpointPoolTest {
         }
 
         public EndpointRecordChecker record(int idx) {
-            return new EndpointRecordChecker(pool.getRecords().get(idx));
+            return new EndpointRecordChecker(pool.getRecords().get(idx).getEndpoint());
         }
 
         public PoolChecker knownNodes(int size) {
@@ -515,6 +502,11 @@ public class EndpointPoolTest {
 
         public EndpointRecordChecker(EndpointRecord record) {
             this.record = record;
+        }
+
+        public EndpointRecordChecker isNull() {
+            Assert.assertNull("Check endpoint is null", record);
+            return this;
         }
 
         public EndpointRecordChecker hostname(String hostname) {
@@ -556,28 +548,11 @@ public class EndpointPoolTest {
         return BalancingSettings.detectLocalDs();
     }
 
-    private static DiscoveryProtos.ListEndpointsResult list(String selfLocation,
-                                                            DiscoveryProtos.EndpointInfo... endpoints) {
-        return DiscoveryProtos.ListEndpointsResult.newBuilder()
-                .setSelfLocation(selfLocation)
-                .addAllEndpoints(Arrays.asList(endpoints))
-                .build();
+    private static List<EndpointRecord> list(EndpointRecord... records) {
+        return Arrays.asList(records);
     }
 
-    private static DiscoveryProtos.EndpointInfo endpoint(int nodeID, String hostname, int port, String location) {
-        return DiscoveryProtos.EndpointInfo.newBuilder()
-                .setAddress(hostname)
-                .setPort(port)
-                .setNodeId(nodeID)
-                .setLocation(location)
-                .build();
-    }
-
-    private static DiscoveryProtos.EndpointInfo endpoint(int nodeID, String hostname, int port) {
-        return DiscoveryProtos.EndpointInfo.newBuilder()
-                .setAddress(hostname)
-                .setPort(port)
-                .setNodeId(nodeID)
-                .build();
+    private static EndpointRecord endpoint(int nodeID, String hostname, int port, String location) {
+        return new EndpointRecord(hostname, port, nodeID, location);
     }
 }
