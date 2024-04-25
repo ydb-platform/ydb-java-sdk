@@ -8,6 +8,7 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 
+
 /**
  * @author Sergey Polovko
  */
@@ -65,6 +66,12 @@ public final class GrpcStatuses {
             case UNIMPLEMENTED: return StatusCode.CLIENT_CALL_UNIMPLEMENTED;
             case DEADLINE_EXCEEDED: return StatusCode.CLIENT_DEADLINE_EXCEEDED;
             case RESOURCE_EXHAUSTED: return StatusCode.CLIENT_RESOURCE_EXHAUSTED;
+            case NOT_FOUND: return StatusCode.NOT_FOUND;
+            case ALREADY_EXISTS: return StatusCode.ALREADY_EXISTS;
+            case FAILED_PRECONDITION: return StatusCode.PRECONDITION_FAILED;
+            case ABORTED: return StatusCode.ABORTED;
+            case INTERNAL: return StatusCode.INTERNAL_ERROR;
+
             default:
                 return StatusCode.CLIENT_INTERNAL_ERROR;
         }
