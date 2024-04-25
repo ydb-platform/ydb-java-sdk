@@ -39,16 +39,15 @@ public class GrpcTransportBuilder {
     public enum InitMode {
         /**
          * In synchronous mode, transport creation will wait for successful discovery of current database nodes. Any
-         * of discovery execution like an authentication error or a network issue will be thrown as RuntimeException.
-         * It allows to catch configuration problems and stops the transport creating.
+         * errors on discovery execution like an authentication error or a network issue will be thrown as
+         * RuntimeException. It allows to catch configuration problems and stops the transport creating.
          */
         SYNC,
-
         /**
          * In asynchronous mode, transport creation will not be blocked while waiting for discovery response and will
          * not throw any exceptions in case of configuration problems. But any request with the transport will wait for
          * the discovery and may throw an exception if it will not be completed. This mode allows the application not
-         * to be blocked during the transport initialization any user request on this transport will wait for
+         * to be blocked during the transport initialization. Any user request on this transport will wait for
          * initialization completion before being sent to the server
          */
         ASYNC,
