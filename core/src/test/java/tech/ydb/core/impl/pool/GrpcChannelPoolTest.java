@@ -55,12 +55,12 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel1.isShutdown());
         Assert.assertFalse(channel2.isShutdown());
 
-        pool.shutdown(); // shutdown doesn't remove channels from pool
+        pool.shutdown().join(); // shutdown doesn't remove channels from pool
         Assert.assertEquals(2, pool.getChannels().size());
         Assert.assertTrue(channel1.isShutdown());
         Assert.assertTrue(channel2.isShutdown());
 
-        pool.shutdown(); // double shutdown is ok
+        pool.shutdown().join(); // double shutdown is ok
         Assert.assertEquals(2, pool.getChannels().size());
     }
 
@@ -85,7 +85,7 @@ public class GrpcChannelPoolTest {
         Assert.assertEquals(3, pool.getChannels().size());
 
         // null arguments - nothing happens
-        Assert.assertTrue(pool.removeChannels(null));
+        Assert.assertTrue(pool.removeChannels(null).join());
         Assert.assertEquals(3, pool.getChannels().size());
 
         // empty arguments - nothing happens
@@ -93,7 +93,7 @@ public class GrpcChannelPoolTest {
         Assert.assertEquals(3, pool.getChannels().size());
 
         // remove channel1
-        Assert.assertTrue(pool.removeChannels(Arrays.asList(e1)));
+        Assert.assertTrue(pool.removeChannels(Arrays.asList(e1)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
         Assert.assertTrue(channel1.isShutdown());
@@ -101,7 +101,7 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel3.isShutdown());
 
         // second remove channel1 - nothing happens
-        Assert.assertTrue(pool.removeChannels(Arrays.asList(e1)));
+        Assert.assertTrue(pool.removeChannels(Arrays.asList(e1)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
         Assert.assertTrue(channel1.isShutdown());
@@ -109,14 +109,14 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel3.isShutdown());
 
         // second remove channel2 - nothing happens
-        Assert.assertTrue(pool.removeChannels(Arrays.asList(e2, e2, e2)));
+        Assert.assertTrue(pool.removeChannels(Arrays.asList(e2, e2, e2)).join());
         Assert.assertEquals(1, pool.getChannels().size());
 
         Assert.assertTrue(channel1.isShutdown());
         Assert.assertTrue(channel2.isShutdown());
         Assert.assertFalse(channel3.isShutdown());
 
-        pool.shutdown();
+        pool.shutdown().join();
     }
 
     @Test
@@ -141,16 +141,16 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel2.isShutdown());
         Assert.assertFalse(channel3.isShutdown());
 
-        Assert.assertFalse(pool.removeChannels(Arrays.asList(e3)));
+        Assert.assertFalse(pool.removeChannels(Arrays.asList(e3)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
-        Assert.assertTrue(pool.removeChannels(Arrays.asList(e3)));
+        Assert.assertTrue(pool.removeChannels(Arrays.asList(e3)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
         GrpcChannel channel4 = pool.getChannel(e3);
         Assert.assertNotEquals(channel3, channel4);
 
-        pool.shutdown();
+        pool.shutdown().join();
 
         Assert.assertTrue(channel1.isShutdown());
         Assert.assertTrue(channel2.isShutdown());

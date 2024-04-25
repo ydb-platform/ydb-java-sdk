@@ -264,8 +264,8 @@ public class YdbDiscoveryTest {
         }
 
         @Override
-        public void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
-            // nothing
+        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+            return CompletableFuture.completedFuture(Boolean.TRUE);
         }
     }
 }

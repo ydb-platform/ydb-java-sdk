@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
@@ -187,9 +188,9 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         }
 
         @Override
-        public void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
             List<EndpointRecord> removed = endpointPool.setNewState(selfLocation, endpoints);
-            channelPool.removeChannels(removed);
+            return channelPool.removeChannels(removed);
         }
 
         @Override

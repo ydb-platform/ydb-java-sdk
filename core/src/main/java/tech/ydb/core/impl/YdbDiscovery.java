@@ -3,6 +3,7 @@ package tech.ydb.core.impl;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -43,7 +44,7 @@ public class YdbDiscovery {
         Instant instant();
         GrpcTransport createDiscoveryTransport();
         boolean needToForceDiscovery();
-        void handleEndpoints(List<EndpointRecord> endpoints, String selfLocation);
+        CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation);
     }
 
     private final Handler handler;
@@ -171,8 +172,7 @@ public class YdbDiscovery {
         synchronized (readyObj) {
             isStarted = true;
             lastException = null;
-            handler.handleEndpoints(endpoints, selfLocation);
-            scheduleNextTick();
+            handler.handleEndpoints(endpoints, selfLocation).whenComplete((res, th) -> scheduleNextTick());
             readyObj.notifyAll();
         }
     }
