@@ -46,21 +46,23 @@ public class GrpcChannelPool {
         }
 
         logger.debug("shutdown {} channels", channelsToShutdown.size());
-        List<CompletableFuture<Boolean>> removed = channelsToShutdown.stream()
-                .map(channel -> CompletableFuture.supplyAsync(channel::shutdown, executor))
-                .collect(Collectors.toList());
-
-        return CompletableFuture
-                .allOf(removed.toArray(new CompletableFuture<?>[0]))
-                .thenApply((res) -> {
-                    // all shutdown futures are completed here, we can just count failed
-                    return removed.stream().allMatch(CompletableFuture::join);
-                });
+        return CompletableFuture.supplyAsync(() -> {
+            int closed = 0;
+            for (GrpcChannel channel : channelsToShutdown) {
+                if (Thread.currentThread().isInterrupted()) {
+                    return false;
+                }
+                if (channel.shutdown()) {
+                    closed++;
+                }
+            }
+            return closed == channelsToShutdown.size();
+        }, executor);
     }
 
-    public boolean removeChannels(Collection<EndpointRecord> endpointsToRemove) {
+    public CompletableFuture<Boolean> removeChannels(Collection<EndpointRecord> endpointsToRemove) {
         if (endpointsToRemove == null || endpointsToRemove.isEmpty()) {
-            return true;
+            return CompletableFuture.completedFuture(Boolean.TRUE);
         }
 
         logger.debug("removing {} endpoints from pool: {}", endpointsToRemove.size(), endpointsToRemove);
@@ -70,18 +72,18 @@ public class GrpcChannelPool {
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
 
-        return shutdownChannels(channelsToShutdown).join();
+        return shutdownChannels(channelsToShutdown);
     }
 
-    public void shutdown() {
+    public CompletableFuture<Boolean> shutdown() {
         logger.debug("initiating grpc pool shutdown with {} channels...", channels.size());
-        boolean shutDownResult = shutdownChannels(channels.values()).join();
-
-        if (shutDownResult) {
-            logger.debug("grpc pool was shutdown successfully");
-        } else {
-            logger.warn("grpc pool was not shutdown properly");
-        }
+        return shutdownChannels(channels.values()).whenComplete((res, th) -> {
+            if (res != null && res) {
+                logger.debug("grpc pool was shutdown successfully");
+            } else {
+                logger.warn("grpc pool was not shutdown properly");
+            }
+        });
     }
 
     @VisibleForTesting
