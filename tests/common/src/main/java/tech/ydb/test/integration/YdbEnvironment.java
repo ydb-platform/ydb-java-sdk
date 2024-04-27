@@ -24,6 +24,7 @@ public class YdbEnvironment {
 
     private final Supplier<Boolean> cleanUpTests = createParam("YDB_CLEAN_UP", true);
     private final Supplier<Boolean> disableIntegrationTests = createParam("YDB_DISABLE_INTEGRATION_TESTS", false);
+    private final Supplier<Boolean> useDockerIsolation = createParam("YDB_DOCKER_ISOLATION", false);
 
     public String ydbEndpoint() {
         return ydbEndpoint.get();
@@ -67,6 +68,10 @@ public class YdbEnvironment {
 
     public boolean disableIntegrationTests() {
         return disableIntegrationTests.get();
+    }
+
+    public boolean useDockerIsolation() {
+        return useDockerIsolation.get();
     }
 
     private Supplier<String> createParam(String key, String defaultValue) {

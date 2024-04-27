@@ -49,6 +49,11 @@ public class DockerHelperFactoryTest {
         }
 
         @Override
+        public Integer getMappedPort(int port) {
+            return 100 + port;
+        }
+
+        @Override
         public String getHost() {
             return "mocked";
         }
@@ -109,7 +114,7 @@ public class DockerHelperFactoryTest {
             assertCreateContainerCmdModifiers(container);
 
             Assert.assertFalse("check helper use tls", helper.useTls());
-            Assert.assertEquals("check helper endpoint", "mocked:11", helper.endpoint());
+            Assert.assertEquals("check helper endpoint", "mocked:111", helper.endpoint());
             Assert.assertEquals("check helper database", "/local", helper.database());
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
@@ -130,7 +135,7 @@ public class DockerHelperFactoryTest {
             assertCreateContainerCmdModifiers(container);
 
             Assert.assertFalse("check helper use tls", helper.useTls());
-            Assert.assertEquals("check helper endpoint", "mocked:11", helper.endpoint());
+            Assert.assertEquals("check helper endpoint", "mocked:111", helper.endpoint());
             Assert.assertEquals("check helper database", "/local", helper.database());
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
@@ -171,7 +176,7 @@ public class DockerHelperFactoryTest {
             assertCreateContainerCmdModifiers(container);
 
             Assert.assertTrue("check helper use tls", helper.useTls());
-            Assert.assertEquals("check helper endpoint", "mocked:22", helper.endpoint());
+            Assert.assertEquals("check helper endpoint", "mocked:122", helper.endpoint());
             Assert.assertEquals("check helper database", "/local", helper.database());
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
@@ -192,7 +197,7 @@ public class DockerHelperFactoryTest {
             assertCreateContainerCmdModifiers(container);
 
             Assert.assertTrue("check helper use tls", helper.useTls());
-            Assert.assertEquals("check helper endpoint", "mocked:22", helper.endpoint());
+            Assert.assertEquals("check helper endpoint", "mocked:122", helper.endpoint());
             Assert.assertEquals("check helper database", "/local", helper.database());
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
@@ -232,7 +237,7 @@ public class DockerHelperFactoryTest {
             assertCreateContainerCmdModifiers(container);
 
             Assert.assertTrue("check helper use tls", helper.useTls());
-            Assert.assertEquals("check helper endpoint", "mocked:41", helper.endpoint());
+            Assert.assertEquals("check helper endpoint", "mocked:141", helper.endpoint());
             Assert.assertEquals("check helper database", "/local", helper.database());
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
@@ -253,7 +258,68 @@ public class DockerHelperFactoryTest {
             assertCreateContainerCmdModifiers(container);
 
             Assert.assertTrue("check helper use tls", helper.useTls());
-            Assert.assertEquals("check helper endpoint", "mocked:41", helper.endpoint());
+            Assert.assertEquals("check helper endpoint", "mocked:141", helper.endpoint());
+            Assert.assertEquals("check helper database", "/local", helper.database());
+            Assert.assertNull("check helper auth token", helper.authToken());
+            Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
+
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
+                Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
+            }
+        }
+
+        Assert.assertEquals("check container is started", 2, container.starts);
+        Assert.assertEquals("check container is stopped", 0, container.stops);
+    }
+
+    @Test
+    public void dockerIsolationContainerTests() {
+        dockerMock.setup(Boolean.TRUE, Boolean.TRUE);
+        transportMock.setup("/local");
+
+        PortsGenerator ports = Mockito.mock(PortsGenerator.class);
+
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withUseTLS(true)
+                .withDockerReuse(true)
+                .withDockerIsolation(true);
+
+        YdbMockContainer container = new YdbMockContainer(env, ports);
+        DockerHelperFactory factory = new DockerHelperFactory(env, container);
+
+        Assert.assertEquals("check container is started", 0, container.starts);
+        Assert.assertEquals("check container is stopped", 0, container.stops);
+
+        try (YdbHelper helper = factory.createHelper()) {
+            Assert.assertEquals("check container is started", 1, container.starts);
+            Assert.assertEquals("check container is stopped", 0, container.stops);
+
+            assertCreateContainerCmdModifiers(container);
+
+            Assert.assertTrue("check helper use tls", helper.useTls());
+            Assert.assertEquals("check helper endpoint", "mocked:2235", helper.endpoint());
+            Assert.assertEquals("check helper database", "/local", helper.database());
+            Assert.assertNull("check helper auth token", helper.authToken());
+            Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
+
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
+                Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
+            }
+        }
+
+        Assert.assertEquals("check container is started", 1, container.starts);
+        Assert.assertEquals("check container is stopped", 0, container.stops);
+
+        try (YdbHelper helper = factory.createHelper()) {
+            Assert.assertEquals("check container is started", 2, container.starts);
+            Assert.assertEquals("check container is stopped", 0, container.stops);
+
+            assertCreateContainerCmdModifiers(container);
+
+            Assert.assertTrue("check helper use tls", helper.useTls());
+            Assert.assertEquals("check helper endpoint", "mocked:2235", helper.endpoint());
             Assert.assertEquals("check helper database", "/local", helper.database());
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());

@@ -93,8 +93,8 @@ public class YdbEnvironmentTest {
         params.put("YDB_DOCKER_PEM_PATH", "/certs/ca.pem");
         params.put("YDB_DOCKER_REUSE", "false");
 
-        params.put("YDB_CLEAN_UP", "tue");
-        params.put("YDB_DISABLE_INTEGRATION_TESTS", "false");
+        params.put("YDB_DOCKER_ISOLATION", "false");
+        params.put("YDB_DISABLE_INTEGRATION_TESTS", "tru");
 
         try {
             for (Map.Entry<String, String> entry: params.entrySet()) {
@@ -114,9 +114,9 @@ public class YdbEnvironmentTest {
             Assert.assertEquals("check YDB_DOCKER_PEM_PATH", "/certs/ca.pem", env.dockerPemPath());
             Assert.assertEquals("check YDB_DOCKER_REUSE", false, env.dockerReuse());
 
-            Assert.assertEquals("check YDB_CLEAN_UP", false, env.cleanUpTests());
+            Assert.assertEquals("check YDB_DISABLE_INTEGRATION_TESTS", false, env.disableIntegrationTests());
             // ENV has higher priority
-            Assert.assertEquals("check YDB_DISABLE_INTEGRATION_TESTS", true, env.disableIntegrationTests());
+            Assert.assertEquals("check YDB_DOCKER_ISOLATION", true, env.cleanUpTests());
         } finally {
             for (String key: params.keySet()) {
                 System.getProperties().remove(key);

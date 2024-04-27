@@ -83,7 +83,7 @@ public final class EndpointPool {
             String hostAndPort = endpoint.getHostAndPort();
 
             if (!newRecordsByEndpoint.containsKey(hostAndPort)) {
-                logger.debug("added endpoint {}", entry);
+                logger.debug("added endpoint {}", endpoint);
                 newRecordsByEndpoint.put(hostAndPort, entry);
                 if (endpoint.getNodeId() != 0) {
                     newRecordsByNodeId.put(endpoint.getNodeId(), entry);

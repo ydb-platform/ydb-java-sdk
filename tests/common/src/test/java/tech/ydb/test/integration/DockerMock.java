@@ -7,6 +7,7 @@ import org.mockito.Answers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.testcontainers.DockerClientFactory;
+import org.testcontainers.utility.ImageNameSubstitutor;
 import org.testcontainers.utility.ResourceReaper;
 import org.testcontainers.utility.TestcontainersConfiguration;
 
@@ -21,11 +22,13 @@ public class DockerMock implements AutoCloseable {
     private final MockedStatic<TestcontainersConfiguration> staticConfiguration;
     private final MockedStatic<DockerClientFactory> staticDockerFactory;
     private final MockedStatic<ResourceReaper> staticResourceReaper;
+    private final MockedStatic<ImageNameSubstitutor> staticImageNameSubstitutor;
 
     private final TestcontainersConfiguration configration = Mockito.mock(TestcontainersConfiguration.class);
     private final DockerClientFactory dockerClientFactory = Mockito.mock(DockerClientFactory.class);
     private final ResourceReaper resourceReaper = Mockito.mock(ResourceReaper.class);
     private final DockerClient dockerClient = Mockito.mock(DockerClient.class);
+    private final ImageNameSubstitutor nameSubtitutor = Mockito.mock(ImageNameSubstitutor.class, Answers.CALLS_REAL_METHODS);
 
     public DockerMock() {
         UUID mocked = UUID.fromString(UUID_MOCKED);
@@ -35,6 +38,7 @@ public class DockerMock implements AutoCloseable {
         staticConfiguration = Mockito.mockStatic(TestcontainersConfiguration.class);
         staticDockerFactory = Mockito.mockStatic(DockerClientFactory.class);
         staticResourceReaper = Mockito.mockStatic(ResourceReaper.class);
+        staticImageNameSubstitutor = Mockito.mockStatic(ImageNameSubstitutor.class);
     }
 
     public void setup(Boolean enabled) {
@@ -47,6 +51,7 @@ public class DockerMock implements AutoCloseable {
 
         staticResourceReaper.when(ResourceReaper::instance).thenReturn(resourceReaper);
         staticConfiguration.when(TestcontainersConfiguration::getInstance).thenReturn(configration);
+        staticImageNameSubstitutor.when(ImageNameSubstitutor::instance).thenReturn(nameSubtitutor);
 
         Mockito.when(dockerClientFactory.client()).thenReturn(dockerClient);
         Mockito.when(dockerClientFactory.isDockerAvailable()).thenReturn(enabled);
@@ -58,6 +63,7 @@ public class DockerMock implements AutoCloseable {
 
     @Override
     public void close() {
+        staticImageNameSubstitutor.close();
         staticResourceReaper.close();
         staticDockerFactory.close();
         staticConfiguration.close();

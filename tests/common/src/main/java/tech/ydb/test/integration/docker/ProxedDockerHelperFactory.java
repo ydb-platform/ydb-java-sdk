@@ -1,28 +1,29 @@
 package tech.ydb.test.integration.docker;
 
+
+import io.grpc.Grpc;
+import io.grpc.InsecureChannelCredentials;
+import io.grpc.ManagedChannel;
 import org.testcontainers.utility.TestcontainersConfiguration;
 
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.grpc.GrpcTransportBuilder;
-import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.test.integration.YdbEnvironment;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
-import tech.ydb.test.integration.utils.PortsGenerator;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class DockerHelperFactory extends YdbHelperFactory {
+public class ProxedDockerHelperFactory extends YdbHelperFactory {
     private final YdbEnvironment env;
     private final YdbDockerContainer container;
 
-    public DockerHelperFactory(YdbEnvironment env) {
-        this(env, new YdbDockerContainer(env, new PortsGenerator()));
+    public ProxedDockerHelperFactory(YdbEnvironment env) {
+        this(env, new YdbDockerContainer(env, null));
     }
 
-    public DockerHelperFactory(YdbEnvironment env, YdbDockerContainer container) {
+    public ProxedDockerHelperFactory(YdbEnvironment env, YdbDockerContainer container) {
         this.env = env;
         this.container = container;
         this.container.init();
@@ -32,20 +33,20 @@ public class DockerHelperFactory extends YdbHelperFactory {
     public YdbHelper createHelper() {
         container.start();
 
+        final ManagedChannel channel = Grpc
+                .newChannelBuilder(container.nonSecureEndpoint().getHostAndPort(), InsecureChannelCredentials.create())
+                .build();
+        final GrpcProxyServer server = new GrpcProxyServer(channel, 0);
+
         return new YdbHelper() {
             @Override
             public GrpcTransport createTransport() {
-                GrpcTransportBuilder builder = GrpcTransport.forEndpoint(endpoint(), container.database());
-                if (env.ydbUseTls()) {
-                    builder.withSecureConnection(container.pemCert());
-                }
-                return builder.build();
+                return GrpcTransport.forEndpoint(endpoint(), container.database()).build();
             }
 
             @Override
             public String endpoint() {
-                EndpointRecord endpoint = env.ydbUseTls() ? container.secureEndpoint() : container.nonSecureEndpoint();
-                return endpoint.getHostAndPort();
+                return server.endpoint().getHostAndPort();
             }
 
             @Override
@@ -55,22 +56,26 @@ public class DockerHelperFactory extends YdbHelperFactory {
 
             @Override
             public boolean useTls() {
-                return env.ydbUseTls();
+                // connection to grpc proxy is always insecure
+                return false;
             }
 
             @Override
             public String authToken() {
-                // connection to docker container is always anonymous
+                // connection to grpc proxy is always anonymous
                 return null;
             }
 
             @Override
             public byte[] pemCert() {
-                return container.pemCert();
+                // connection to grpc proxy is always insecure
+                return null;
             }
 
             @Override
             public void close() {
+                server.close();
+
                 if (env.dockerReuse() && TestcontainersConfiguration.getInstance().environmentSupportsReuse()) {
                     return;
                 }
@@ -81,3 +86,4 @@ public class DockerHelperFactory extends YdbHelperFactory {
         };
     }
 }
+
