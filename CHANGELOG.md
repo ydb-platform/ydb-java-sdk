@@ -14,6 +14,10 @@
 * Table: Added readRows operation in table service
 * Topics: Added support of transaction between tables and topics
 
+## 2.1.13 ##
+
+* Coordination: fixed timeout for coordination session
+
 ## 2.1.12 ##
 
 * Test common: Changed visibility of YdbDockerContainer
