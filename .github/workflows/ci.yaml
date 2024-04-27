@@ -70,7 +70,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: ydb-platform/ydb-java-examples
-          ref: develop
+          ref: master
           path: examples
 
       - name: Download dependencies
