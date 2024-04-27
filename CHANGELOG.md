@@ -1,3 +1,7 @@
+## 2.1.13 ##
+
+* Coordination: fixed timeout for coordination session
+
 ## 2.1.12 ##
 
 * Test common: Changed visibility of YdbDockerContainer
