@@ -119,7 +119,7 @@ public abstract class WorkingScenario {
 
     protected static class Settings {
         public static final int START_SESSION_ID = 0;
-        public static final int SESSION_KEEP_ALIVE_TIMEOUT_MS = 0;
+        public static final int SESSION_KEEP_ALIVE_TIMEOUT_MS = 5000;
 
         private final String coordinationNodePath;
 
