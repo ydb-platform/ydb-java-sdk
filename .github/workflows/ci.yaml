@@ -19,7 +19,7 @@ jobs:
         java: [ '8', '11', '17']
 
     env:
-        MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always
+        MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always -DYDB_DOCKER_ISOLATION=true
 
     steps:
       - uses: actions/checkout@v4

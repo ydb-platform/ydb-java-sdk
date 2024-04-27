@@ -183,8 +183,8 @@ public class GrpcProxyServer implements AutoCloseable {
 
         @Override
         public ServerMethodDefinition<?, ?> lookupMethod(String methodName, String authority) {
-            logger.info("lookup method {}", methodName);
             if (DiscoveryServiceGrpc.getListEndpointsMethod().getFullMethodName().equals(methodName)) {
+                logger.info("use custom proxy for method {}", methodName);
                 return new DiscoveryServiceProxy(endpoint).toMethodDefinition();
             }
 

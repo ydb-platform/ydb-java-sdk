@@ -50,7 +50,6 @@
                 <configuration>
                     <environmentVariables>
                         <YDB_DOCKER_IMAGE>cr.yandex/yc/yandex-docker-local-ydb:trunk</YDB_DOCKER_IMAGE>
-                        <YDB_DOCKER_ISOLATION>true</YDB_DOCKER_ISOLATION>
                         <TESTCONTAINERS_REUSE_ENABLE>true</TESTCONTAINERS_REUSE_ENABLE>
                     </environmentVariables>
                 </configuration>
