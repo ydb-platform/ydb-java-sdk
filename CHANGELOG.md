@@ -1,3 +1,8 @@
+## 2.2.2 ##
+
+* Core: added option to configure transport initialization mode
+* Tests: added option to use isolate docker environment
+
 ## 2.2.1 ##
 
 * Topics: fix unordered reading in case of user errors
@@ -13,6 +18,10 @@
 * Core: Added support for tracing requests with id
 * Table: Added readRows operation in table service
 * Topics: Added support of transaction between tables and topics
+
+## 2.1.13 ##
+
+* Coordination: fixed timeout for coordination session
 
 ## 2.1.12 ##
 
