@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 
+import com.google.common.io.ByteStreams;
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
 import io.grpc.Grpc;
@@ -20,7 +21,9 @@ import io.grpc.ServerMethodDefinition;
 import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.testcontainers.shaded.com.google.common.io.ByteStreams;
+
+import tech.ydb.core.impl.pool.EndpointRecord;
+import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
 /**
  *
@@ -30,6 +33,7 @@ public class GrpcProxyServer implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(GrpcProxyServer.class);
     private final ManagedChannel target;
     private final Server server;
+    private final EndpointRecord endpoint;
 
     public GrpcProxyServer(ManagedChannel target, int port) {
         this.target = target;
@@ -42,10 +46,12 @@ public class GrpcProxyServer implements AutoCloseable {
         } catch (IOException ex) {
             logger.error("cannot start proxy server", ex);
         }
+
+        endpoint = new EndpointRecord(InetAddress.getLoopbackAddress().getHostName(), server.getPort());
     }
 
-    public String endpoint() {
-        return InetAddress.getLoopbackAddress().getHostName() + ":" + server.getPort();
+    public EndpointRecord endpoint() {
+        return endpoint;
     }
 
     @Override
@@ -178,6 +184,10 @@ public class GrpcProxyServer implements AutoCloseable {
         @Override
         public ServerMethodDefinition<?, ?> lookupMethod(String methodName, String authority) {
             logger.info("lookup method {}", methodName);
+            if (DiscoveryServiceGrpc.getListEndpointsMethod().getFullMethodName().equals(methodName)) {
+                return new DiscoveryServiceProxy(endpoint).toMethodDefinition();
+            }
+
             MethodDescriptor<byte[], byte[]> descriptor = MethodDescriptor.newBuilder(marshaller, marshaller)
                     .setFullMethodName(methodName)
                     .setType(MethodDescriptor.MethodType.UNKNOWN)
@@ -201,49 +211,4 @@ public class GrpcProxyServer implements AutoCloseable {
             return new ByteArrayInputStream(value);
         }
     };
-
-//    private DiscoveryProtos.ListEndpointsResponse mapDiscoveryResponse(DiscoveryProtos.ListEndpointsResponse origin) {
-//        if (!origin.getOperation().getReady()) {
-//            return origin;
-//        }
-//
-//        try {
-//            DiscoveryProtos.ListEndpointsResult actual = origin.getOperation().getResult()
-//                    .unpack(DiscoveryProtos.ListEndpointsResult.class);
-//
-//            DiscoveryProtos.ListEndpointsResult.Builder updated = DiscoveryProtos.ListEndpointsResult.newBuilder();
-//            if (actual.getSelfLocation() != null) {
-//                updated.setSelfLocation(actual.getSelfLocation());
-//            }
-//            for (DiscoveryProtos.EndpointInfo e: actual.getEndpointsList()) {
-//                DiscoveryProtos.EndpointInfo.Builder u = DiscoveryProtos.EndpointInfo.newBuilder();
-//                u.setAddress(e.getAddress());
-//                u.setNodeId(e.getNodeId());
-//
-//                switch (e.getPort()) {
-//                    case YdbDockerContainer.DEFAULT_SECURE_PORT:
-//                        u.setPort(secured.getPort());
-//                        break;
-//                    case YdbDockerContainer.DEFAULT_INSECURE_PORT:
-//                        u.setPort(insecured.getPort());
-//                        break;
-//                    default:
-//                        u.setPort(e.getPort());
-//                        break;
-//                }
-//
-//                if (e.getLocation() != null) {
-//                    u.setLocation(e.getLocation());
-//                }
-//
-//                updated.addEndpoints(u.build());
-//            }
-//
-//            return DiscoveryProtos.ListEndpointsResponse.newBuilder()
-//                    .setOperation(origin.getOperation().toBuilder().setResult(Any.pack(updated.build())).build())
-//                    .build();
-//        } catch (InvalidProtocolBufferException ex) {
-//            return origin;
-//        }
-//    }
 }

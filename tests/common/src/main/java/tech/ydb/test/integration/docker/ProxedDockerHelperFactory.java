@@ -46,7 +46,7 @@ public class ProxedDockerHelperFactory extends YdbHelperFactory {
 
             @Override
             public String endpoint() {
-                return server.endpoint();
+                return server.endpoint().getHostAndPort();
             }
 
             @Override

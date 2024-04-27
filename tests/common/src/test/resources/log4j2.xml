@@ -10,7 +10,7 @@
         <Logger name="io.grpc" level="warn" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="tech.ydb.test" level="info" additivity="false">
+        <Logger name="tech.ydb.test" level="error" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Logger name="tech.ydb.core.impl.pool.EndpointPool" level="debug" additivity="false">
