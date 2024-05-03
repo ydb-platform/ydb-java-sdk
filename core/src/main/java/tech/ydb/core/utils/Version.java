@@ -12,14 +12,14 @@ public class Version {
         //
     }
 
-    public static Optional<String> getVersion() {
+    public static String getVersion() {
         try {
             Properties prop = new Properties();
             InputStream in = Version.class.getResourceAsStream("/ydb_sdk_version.properties");
             prop.load(in);
-            return Optional.ofNullable(prop.getProperty("version"));
+            return Optional.ofNullable(prop.getProperty("version")).orElse(UNKNOWN_VERSION);
         } catch (Exception ex) {
-            return Optional.empty();
+            return UNKNOWN_VERSION;
         }
     }
 }

@@ -119,9 +119,7 @@ public class GrpcTransportBuilder {
     }
 
     public String getVersionString() {
-        return Version.getVersion()
-                .map(version -> "ydb-java-sdk/" + version)
-                .orElse("unknown-version");
+        return Version.getVersion();
     }
 
     public Supplier<ScheduledExecutorService> getSchedulerFactory() {
