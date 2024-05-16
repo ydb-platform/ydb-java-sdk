@@ -104,14 +104,15 @@ public final class EndpointPool {
 
         newRecords.sort(PriorityEndpoint.COMPARATOR);
         List<EndpointRecord> removed = new ArrayList<>();
-        for (PriorityEndpoint entry : records) {
-            if (!newRecordsByEndpoint.containsKey(entry.record.getHostAndPort())) {
-                removed.add(entry.record);
-            }
-        }
 
         recordsLock.writeLock().lock();
         try {
+            for (PriorityEndpoint entry : records) {
+                if (!newRecordsByEndpoint.containsKey(entry.record.getHostAndPort())) {
+                    removed.add(entry.record);
+                }
+            }
+
             records = newRecords;
             recordsByNodeId = newRecordsByNodeId;
             recordsByEndpoint = newRecordsByEndpoint;
