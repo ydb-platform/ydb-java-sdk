@@ -107,9 +107,9 @@ public class EndpointPoolTest {
 
         check(pool.getEndpoint(null)).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
         check(pool.getEndpoint(0)).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
-        check(pool.getEndpoint(1)).hostname("n1.ydb.tech").nodeID(1).port(12345); // preffered
-        check(pool.getEndpoint(2)).hostname("n2.ydb.tech").nodeID(2).port(12345); // preffered
-        check(pool.getEndpoint(3)).hostname("n3.ydb.tech").nodeID(3).port(12345); // preffered
+        check(pool.getEndpoint(1)).hostname("n1.ydb.tech").nodeID(1).port(12345); // preferred
+        check(pool.getEndpoint(2)).hostname("n2.ydb.tech").nodeID(2).port(12345); // preferred
+        check(pool.getEndpoint(3)).hostname("n3.ydb.tech").nodeID(3).port(12345); // preferred
         check(pool.getEndpoint(4)).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
 
         verify(random, times(3)).nextInt(1);
@@ -172,7 +172,7 @@ public class EndpointPoolTest {
 
     @Test
     public void nodePessimizationTest() {
-        EndpointPool pool = new EndpointPool( useAllNodes());
+        EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
         pool.setNewState("DC3", list(
@@ -204,7 +204,7 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(null)).hostname("n5.ydb.tech").nodeID(5).port(12345);
         verify(random, times(4)).nextInt(4);
 
-        // but we can use pessimized node if specify it as preffered
+        // but we can use pessimized node if specify it as preferred
         check(pool.getEndpoint(2)).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         // Pessimize unknown nodes - nothing is changed
@@ -431,7 +431,7 @@ public class EndpointPoolTest {
                 ServerSocket s1 = ServerSocketFactory.getDefault().createServerSocket(0);
                 ServerSocket s2 = ServerSocketFactory.getDefault().createServerSocket(0);
                 ServerSocket s3 = ServerSocketFactory.getDefault().createServerSocket(0);
-                ) {
+        ) {
 
             EndpointPool pool = new EndpointPool(detectLocalDC());
             check(pool).records(0).knownNodes(0).needToReDiscovery(false);
