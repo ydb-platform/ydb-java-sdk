@@ -66,7 +66,7 @@ public final class GrpcStatuses {
             case DEADLINE_EXCEEDED: return StatusCode.CLIENT_DEADLINE_EXCEEDED;
             case RESOURCE_EXHAUSTED: return StatusCode.CLIENT_RESOURCE_EXHAUSTED;
             default:
-                return StatusCode.CLIENT_INTERNAL_ERROR;
+                return StatusCode.CLIENT_GRPC_ERROR;
         }
     }
 }

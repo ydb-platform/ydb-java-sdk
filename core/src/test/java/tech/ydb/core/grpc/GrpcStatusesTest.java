@@ -33,7 +33,7 @@ public class GrpcStatusesTest {
         Result<?> result = GrpcStatuses.toResult(io.grpc.Status.INTERNAL.withDescription("error description"));
 
         assertFalse(result.isSuccess());
-        assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getStatus().getCode());
+        assertEquals(StatusCode.CLIENT_GRPC_ERROR, result.getStatus().getCode());
         assertArrayEquals(new Issue[] {
             Issue.of("gRPC error: (INTERNAL) error description", Issue.Severity.ERROR)
         }, result.getStatus().getIssues());
