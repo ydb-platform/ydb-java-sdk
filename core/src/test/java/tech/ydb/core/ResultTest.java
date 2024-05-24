@@ -116,13 +116,15 @@ public class ResultTest {
 
     @Test
     public void error() {
-        Result<Void> r1 = Result.error("error message", new RuntimeException("some exception"));
-        Result<Void> r2 = Result.error("error message", new RuntimeException("some exception"));
+        Throwable ex1 = new RuntimeException("some exception");
+        Throwable ex2 = new RuntimeException("other exception");
+        Result<Void> r1 = Result.error("error message", ex1);
+        Result<Void> r2 = Result.error("error message", ex2);
         Result<Void> r3 = r1.map(null);
 
-        assertFail(r1, StatusCode.CLIENT_INTERNAL_ERROR);
-        assertFail(r2, StatusCode.CLIENT_INTERNAL_ERROR);
-        assertFail(r3, StatusCode.CLIENT_INTERNAL_ERROR);
+        assertFail(r1, StatusCode.CLIENT_INTERNAL_ERROR, ex1);
+        assertFail(r2, StatusCode.CLIENT_INTERNAL_ERROR, ex2);
+        assertFail(r3, StatusCode.CLIENT_INTERNAL_ERROR, ex1);
 
         Assert.assertEquals(r1, r3);
         Assert.assertNotEquals(r1, r2); // different instance of exceptions
@@ -150,8 +152,9 @@ public class ResultTest {
         UnexpectedResultException ex1 = new UnexpectedResultException("unexpected 1", Status
                 .of(StatusCode.CLIENT_CANCELLED).withIssues(i1)
         );
+        Throwable inner = new RuntimeException("inner cause");
         UnexpectedResultException ex2 = new UnexpectedResultException("unexpected 2", Status
-                .of(StatusCode.INTERNAL_ERROR).withConsumedRu(5d), new RuntimeException("inner cause")
+                .of(StatusCode.INTERNAL_ERROR).withConsumedRu(5d).withCause(inner)
         );
 
         Result<Void> r1 = Result.error(null, ex1);
@@ -185,7 +188,7 @@ public class ResultTest {
         Assert.assertEquals(r2.getStatus(), ex2.getStatus());
         Assert.assertNotEquals(res2, ex2);
         Assert.assertEquals("some message: unexpected 2, code: INTERNAL_ERROR, consumed 5.0 RU", res2.getMessage());
-        Assert.assertEquals(res2.getStatus(), Status.of(StatusCode.INTERNAL_ERROR).withConsumedRu(5d));
+        Assert.assertEquals(res2.getStatus(), Status.of(StatusCode.INTERNAL_ERROR).withConsumedRu(5d).withCause(inner));
         Assert.assertNotNull(res2.getCause());
         Assert.assertEquals("inner cause", res2.getCause().getMessage());
     }
@@ -214,11 +217,11 @@ public class ResultTest {
         Assert.assertEquals(expectedValue, r.getValue());
     }
 
-    private static <T> void assertFail(Result<?> r, StatusCode code) {
+    private static <T> void assertFail(Result<?> r, StatusCode code, Throwable cause) {
         Assert.assertFalse(r.isSuccess());
         Assert.assertEquals(code, r.getStatus().getCode());
         Assert.assertFalse(r.getStatus().hasConsumedRu());
-        Assert.assertEquals(Status.of(code), r.getStatus());
+        Assert.assertEquals(cause, r.getStatus().getCause());
         Assert.assertSame(Issue.EMPTY_ARRAY, r.getStatus().getIssues());
     }
 
@@ -226,7 +229,7 @@ public class ResultTest {
         Assert.assertFalse(r.isSuccess());
         Assert.assertEquals(code, r.getStatus().getCode());
         Assert.assertFalse(r.getStatus().hasConsumedRu());
-        Assert.assertEquals(Status.of(code, null, issues), r.getStatus());
+        Assert.assertEquals(Status.of(code, issues), r.getStatus());
         Assert.assertArrayEquals(issues, r.getStatus().getIssues());
     }
 

@@ -59,7 +59,10 @@ public enum StatusCode {
     CLIENT_LIMITS_REACHED(INTERNAL_CLIENT_FIRST + 20),
 
     /** Deadline expired before request was sent to server */
-    CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30);
+    CLIENT_DEADLINE_EXPIRED(INTERNAL_CLIENT_FIRST + 30),
+
+    /** Unknown GRPC side client error */
+    CLIENT_GRPC_ERROR(INTERNAL_CLIENT_FIRST + 40);
 
     private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
             ABORTED,

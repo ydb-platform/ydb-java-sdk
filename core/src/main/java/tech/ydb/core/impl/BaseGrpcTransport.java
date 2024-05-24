@@ -141,7 +141,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         } catch (RuntimeException ex) {
             logger.error("server stream call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
-            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
+            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         }
     }
 
@@ -185,16 +185,14 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             logger.error("server bidirectional stream call with traceId {} problem {}", settings.getTraceId(),
                     ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
-            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
+            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         }
     }
 
     private static <T> Result<T> deadlineExpiredResult(MethodDescriptor<?, T> method, GrpcRequestSettings settings) {
         String message = "deadline expired before calling method " + method.getFullMethodName() + " with traceId " +
                 settings.getTraceId();
-        return Result.fail(Status.of(
-                StatusCode.CLIENT_DEADLINE_EXPIRED, null, Issue.of(message, Issue.Severity.ERROR)
-        ));
+        return Result.fail(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR)));
     }
 
     private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method, GrpcRequestSettings settings) {

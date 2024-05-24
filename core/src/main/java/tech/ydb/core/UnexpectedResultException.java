@@ -3,7 +3,6 @@ package tech.ydb.core;
 import java.util.Objects;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 
@@ -17,11 +16,7 @@ public class UnexpectedResultException extends RuntimeException {
     private final Status status;
 
     public UnexpectedResultException(String message, Status status) {
-        this(message, status, null);
-    }
-
-    public UnexpectedResultException(String message, Status status, @Nullable Throwable cause) {
-        super(formatMessage(message, status), cause);
+        super(formatMessage(message, status), status.getCause());
         this.status = Objects.requireNonNull(status);
     }
 

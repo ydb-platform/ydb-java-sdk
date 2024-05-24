@@ -242,7 +242,7 @@ public class OperationBinderTest {
                                 .addIssues(TEST_ISSUE_MESSAGE)
                                 .build())
                 .build();
-        Status error = Status.of(StatusCode.NOT_FOUND, null, TEST_ISSUE);
+        Status error = Status.of(StatusCode.NOT_FOUND, TEST_ISSUE);
 
         Operation<Status> operation = OperationBinder
                 .bindAsync(mocked, YdbTable.AlterTableResponse::getOperation)
@@ -262,7 +262,7 @@ public class OperationBinderTest {
 
     @Test
     public void asyncStatusBinderErrorTest() {
-        Status error = Status.of(StatusCode.NOT_FOUND, null, TEST_ISSUE);
+        Status error = Status.of(StatusCode.NOT_FOUND, TEST_ISSUE);
 
         Operation<Status> operation = OperationBinder
                 .bindAsync(mocked, YdbTable.AlterTableResponse::getOperation)
@@ -343,7 +343,7 @@ public class OperationBinderTest {
         Operation<Result<YdbTable.ExplainQueryResult>> operation = OperationBinder
                 .bindAsync(mocked, YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
                 .apply(Result.success(response));
-        Status error = Status.of(StatusCode.NOT_FOUND, null, TEST_ISSUE);
+        Status error = Status.of(StatusCode.NOT_FOUND, TEST_ISSUE);
 
         Assert.assertTrue(operation.isReady());
         Assert.assertEquals("error-id", operation.getId());
@@ -359,7 +359,7 @@ public class OperationBinderTest {
 
     @Test
     public void asyncResultBinderErrorTest() {
-        Status error = Status.of(StatusCode.BAD_SESSION, null, TEST_ISSUE, TEST_ISSUE);
+        Status error = Status.of(StatusCode.BAD_SESSION, TEST_ISSUE, TEST_ISSUE);
         Operation<Result<YdbTable.ExplainQueryResult>> operation = OperationBinder
                 .bindAsync(mocked, YdbTable.ExplainDataQueryResponse::getOperation, YdbTable.ExplainQueryResult.class)
                 .apply(Result.fail(error));

@@ -136,11 +136,7 @@ abstract class SessionImpl implements QuerySession {
         GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
         return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
             logger.trace("session '{}' got attach stream message {}", sessionId, TextFormat.shortDebugString(message));
-            Status status = Status.of(
-                    StatusCode.fromProto(message.getStatus()),
-                    null,
-                    Issue.fromPb(message.getIssuesList())
-            );
+            Status status = Status.of(StatusCode.fromProto(message.getStatus()), Issue.fromPb(message.getIssuesList()));
             updateSessionState(status);
             observer.onNext(status);
         });
@@ -264,11 +260,7 @@ abstract class SessionImpl implements QuerySession {
                 if (isTraceEnabled) {
                     logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
                 }
-                Status status = Status.of(
-                        StatusCode.fromProto(msg.getStatus()),
-                        null,
-                        Issue.fromPb(msg.getIssuesList())
-                );
+                Status status = Status.of(StatusCode.fromProto(msg.getStatus()), Issue.fromPb(msg.getIssuesList()));
 
                 updateSessionState(status);
 
@@ -378,7 +370,7 @@ abstract class SessionImpl implements QuerySession {
             final String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
-                Result<QueryInfo> res = Result.success(new QueryInfo(null), Status.of(StatusCode.SUCCESS, null, issue));
+                Result<QueryInfo> res = Result.success(new QueryInfo(null), Status.of(StatusCode.SUCCESS, issue));
                 return CompletableFuture.completedFuture(res);
             }
 
@@ -412,7 +404,7 @@ abstract class SessionImpl implements QuerySession {
 
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
-                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
+                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
             }
 
             YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()

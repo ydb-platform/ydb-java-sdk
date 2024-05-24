@@ -15,16 +15,18 @@ import java.util.function.Supplier;
 public final class Status implements Serializable {
     private static final long serialVersionUID = -2966026377652094862L;
 
-    public static final Status SUCCESS = new Status(StatusCode.SUCCESS, null, Issue.EMPTY_ARRAY);
+    public static final Status SUCCESS = new Status(StatusCode.SUCCESS, null, Issue.EMPTY_ARRAY, null);
 
     private final StatusCode code;
     private final Double consumedRu;
     private final Issue[] issues;
+    private final Throwable cause;
 
-    private Status(StatusCode code, Double consumedRu, Issue[] issues) {
+    private Status(StatusCode code, Double consumedRu, Issue[] issues, Throwable cause) {
         this.code = code;
         this.consumedRu = consumedRu;
         this.issues = issues;
+        this.cause = cause;
     }
 
     /**
@@ -108,28 +110,51 @@ public final class Status implements Serializable {
         if (code == StatusCode.SUCCESS && consumedRu == null && !hasIssues) {
             return SUCCESS;
         }
-        return new Status(code, consumedRu, hasIssues ? issues : Issue.EMPTY_ARRAY);
+        return new Status(code, consumedRu, hasIssues ? issues : Issue.EMPTY_ARRAY, null);
+    }
+
+    public static Status of(StatusCode code, Issue... issues) {
+        boolean hasIssues = issues != null && issues.length > 0;
+        if (code == StatusCode.SUCCESS && !hasIssues) {
+            return SUCCESS;
+        }
+        return new Status(code, null, issues, null);
+    }
+
+    public static Status of(StatusCode code, Throwable cause, Issue... issues) {
+        boolean hasIssues = issues != null && issues.length > 0;
+        if (code == StatusCode.SUCCESS && cause == null && !hasIssues) {
+            return SUCCESS;
+        }
+        return new Status(code, null, hasIssues ? issues : Issue.EMPTY_ARRAY, cause);
     }
 
     public static Status of(StatusCode code) {
         if (code == StatusCode.SUCCESS) {
             return SUCCESS;
         }
-        return new Status(code, null, Issue.EMPTY_ARRAY);
+        return new Status(code, null, Issue.EMPTY_ARRAY, null);
     }
 
     public Status withIssues(Issue... newIssues) {
         if (Arrays.equals(this.issues, newIssues)) {
             return this;
         }
-        return new Status(this.code, this.consumedRu, newIssues);
+        return new Status(this.code, this.consumedRu, newIssues, null);
     }
 
     public Status withConsumedRu(Double newConsumedRu) {
         if (Objects.equals(this.consumedRu, newConsumedRu)) {
             return this;
         }
-        return new Status(this.code, newConsumedRu, this.issues);
+        return new Status(this.code, newConsumedRu, this.issues, null);
+    }
+
+    public Status withCause(Throwable cause) {
+        if (Objects.equals(this.cause, cause)) {
+            return this;
+        }
+        return new Status(this.code, this.consumedRu, this.issues, cause);
     }
 
     public boolean hasConsumedRu() {
@@ -142,6 +167,10 @@ public final class Status implements Serializable {
 
     public StatusCode getCode() {
         return code;
+    }
+
+    public Throwable getCause() {
+        return cause;
     }
 
     public Issue[] getIssues() {
@@ -174,12 +203,13 @@ public final class Status implements Serializable {
         Status status = (Status) o;
         return code == status.code
                 && Objects.equals(consumedRu, status.consumedRu)
-                && Arrays.equals(issues, status.issues);
+                && Arrays.equals(issues, status.issues)
+                && Objects.equals(cause, status.cause);
     }
 
     @Override
     public int hashCode() {
-        int h1 = Objects.hash(code, consumedRu);
+        int h1 = Objects.hash(code, consumedRu, cause);
         int h2 = Objects.hash((Object[]) issues);
         return 31 * h1 + h2;
     }
@@ -192,6 +222,9 @@ public final class Status implements Serializable {
         }
         if (issues != null && issues.length > 0) {
             sb.append(", issues = ").append(Arrays.toString(issues));
+        }
+        if (cause != null) {
+            sb.append(", cause = ").append(cause.getMessage());
         }
         return sb.append("}").toString();
     }

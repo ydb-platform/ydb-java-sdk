@@ -48,7 +48,7 @@ abstract class StreamMsg<R> {
 
     protected Status incorrectTypeStatus(SessionResponse response, String exptected) {
         String msg = "Incorrect type of response " + TextFormat.shortDebugString(response) + ", expected " + exptected;
-        return Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, Issue.of(msg, Issue.Severity.ERROR));
+        return Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR));
     }
 
     public static StreamMsg<Status> createSemaphore(String name, long limit, byte[] data) {
@@ -91,7 +91,7 @@ abstract class StreamMsg<R> {
         protected boolean handleResult(
                 StatusCodesProtos.StatusIds.StatusCode code, List<YdbIssueMessage.IssueMessage> issues
         ) {
-            return future.complete(Status.of(StatusCode.fromProto(code), null, Issue.fromPb(issues)));
+            return future.complete(Status.of(StatusCode.fromProto(code), Issue.fromPb(issues)));
         }
     }
 
@@ -104,7 +104,7 @@ abstract class StreamMsg<R> {
         protected boolean handleResult(
                 V value, StatusCodesProtos.StatusIds.StatusCode code, List<YdbIssueMessage.IssueMessage> issues
         ) {
-            Status status = Status.of(StatusCode.fromProto(code), null, Issue.fromPb(issues));
+            Status status = Status.of(StatusCode.fromProto(code), Issue.fromPb(issues));
             return future.complete(status.isSuccess() ? Result.success(value, status) : Result.fail(status));
         }
     }
