@@ -53,8 +53,11 @@ public class GrpcStatusesTest {
             .withCause(new MyException("exception message")));
 
         assertFalse(result.isSuccess());
-        assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getStatus().getCode());
-        assertArrayEquals(Issue.EMPTY_ARRAY, result.getStatus().getIssues());
+        assertEquals(StatusCode.CLIENT_GRPC_ERROR, result.getStatus().getCode());
+        assertArrayEquals(new Issue[] {
+            Issue.of("gRPC error: (INTERNAL) error description", Issue.Severity.ERROR),
+            Issue.of(MyException.class.getName() + ": exception message", Issue.Severity.ERROR)
+        }, result.getStatus().getIssues());
 
         try {
             result.getValue();
@@ -116,9 +119,10 @@ public class GrpcStatusesTest {
 
     @Test
     public void statusThrowable() {
-        Status status = GrpcStatuses.toStatus(io.grpc.Status.RESOURCE_EXHAUSTED.withCause(new RuntimeException("Hello")));
+        Throwable th = new RuntimeException("Hello");
+        Status status = GrpcStatuses.toStatus(io.grpc.Status.RESOURCE_EXHAUSTED.withCause(th));
         Issue issue1 = Issue.of("gRPC error: (RESOURCE_EXHAUSTED)", Issue.Severity.ERROR);
         Issue issue2 = Issue.of("java.lang.RuntimeException: Hello", Issue.Severity.ERROR);
-        assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED).withIssues(issue1, issue2), status);
+        assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED).withIssues(issue1, issue2).withCause(th), status);
     }
 }

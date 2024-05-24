@@ -320,8 +320,10 @@ class SessionPool implements AutoCloseable {
 
     /** Action to completeExceptionally on timeout */
     static final class Timeout implements Runnable {
-        private static final Status EXPIRE = Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, null,
-                Issue.of("query session acquire deadline was expired", Issue.Severity.WARNING));
+        private static final Status EXPIRE = Status.of(
+                StatusCode.CLIENT_DEADLINE_EXPIRED,
+                Issue.of("query session acquire deadline was expired", Issue.Severity.WARNING)
+        );
 
         private final CompletableFuture<Result<QuerySession>> f;
 

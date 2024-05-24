@@ -50,7 +50,7 @@ class SessionState {
             stream.sendMsg(reqIdx.incrementAndGet(), msg);
         } else {
             Issue issue = Issue.of("Session has invalid state " + state, Issue.Severity.ERROR);
-            msg.handleError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, null, issue));
+            msg.handleError(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         }
     }
 

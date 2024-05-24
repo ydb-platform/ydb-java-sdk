@@ -331,13 +331,11 @@ public interface Result<T> {
     final class Error<V> implements Result<V> {
         private static final Status ERROR = Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
         private final String message;
-        private final Throwable cause;
         private final Status status;
 
         private Error(String message, Throwable cause) {
             this.message = message;
-            this.status = ERROR;
-            this.cause = cause;
+            this.status = ERROR.withCause(cause);
         }
 
         @Override
@@ -347,7 +345,7 @@ public interface Result<T> {
 
         @Override
         public V getValue() {
-            throw new UnexpectedResultException(message, status, cause);
+            throw new UnexpectedResultException(message, status);
         }
 
         @Override
@@ -360,7 +358,7 @@ public interface Result<T> {
         @SuppressWarnings("unchecked")
         public <U> CompletableFuture<Result<U>> mapResultFuture(Function<V, CompletableFuture<Result<U>>> mapper) {
             CompletableFuture<Result<U>> future = new CompletableFuture<>();
-            future.completeExceptionally(cause);
+            future.completeExceptionally(status.getCause());
             return future;
         }
 
@@ -380,18 +378,17 @@ public interface Result<T> {
 
             Error<?> error = (Error<?>) o;
             return Objects.equals(message, error.message)
-                    && Objects.equals(status, error.status)
-                    && Objects.equals(cause, error.cause);
+                    && Objects.equals(status, error.status);
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(message, status, cause);
+            return Objects.hash(message, status);
         }
 
         @Override
         public String toString() {
-            return "Error{message='" + message + "', cause=" + cause + '}';
+            return "Error{message='" + message + "', cause=" + status.getCause() + '}';
         }
     }
 }

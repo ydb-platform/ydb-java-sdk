@@ -201,7 +201,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
     }
 
     private void onFail(SessionResponse.Failure msg) {
-        Status status = Status.of(StatusCode.fromProto(msg.getStatus()), null, Issue.fromPb(msg.getIssuesList()));
+        Status status = Status.of(StatusCode.fromProto(msg.getStatus()), Issue.fromPb(msg.getIssuesList()));
         logger.trace("stream {} got fail message {}", hashCode(), status);
         stopFuture.complete(status);
         startFuture.complete(Result.fail(status));

@@ -925,7 +925,7 @@ public abstract class BaseSession implements Session {
             } else {
                 Issue[] issues = Issue.fromPb(response.getIssuesList());
                 StatusCode code = StatusCode.fromProto(statusCode);
-                future.complete(Status.of(code, null, issues));
+                future.complete(Status.of(code, issues));
                 origin.cancel();
             }
         });
@@ -960,7 +960,7 @@ public abstract class BaseSession implements Session {
             } else {
                 Issue[] issues = Issue.fromPb(response.getIssuesList());
                 StatusCode code = StatusCode.fromProto(statusCode);
-                future.complete(Status.of(code, null, issues));
+                future.complete(Status.of(code, issues));
                 origin.cancel();
             }
         });
@@ -1157,7 +1157,7 @@ public abstract class BaseSession implements Session {
             final String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
-                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
+                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
             }
             return commitTransactionInternal(transactionId, settings).whenComplete(((status, th) -> {
                 if (th != null) {
@@ -1174,7 +1174,7 @@ public abstract class BaseSession implements Session {
             final String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
-                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, null, issue));
+                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
             }
             return rollbackTransactionInternal(transactionId, settings)
                     .whenComplete((status, th) -> currentStatusFuture.complete(Status

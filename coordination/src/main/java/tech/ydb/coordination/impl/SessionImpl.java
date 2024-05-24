@@ -243,7 +243,7 @@ class SessionImpl implements CoordinationSession {
         if (!updateState(local, connected)) {
             stream.stop();
             return Status.of(
-                    StatusCode.CANCELLED, null, Issue.of("{} cannot handle successful session", Issue.Severity.ERROR)
+                    StatusCode.CANCELLED, Issue.of("{} cannot handle successful session", Issue.Severity.ERROR)
             );
         }
 
