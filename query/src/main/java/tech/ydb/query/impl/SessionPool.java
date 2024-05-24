@@ -232,7 +232,7 @@ class SessionPool implements AutoCloseable {
                     if (status.isSuccess()) {
                         logger.debug("QuerySession[{}] successful removed", getId());
                     } else {
-                        logger.warn("QuerySession[{}] removed with status {}", getId(), status.toString());
+                        logger.warn("QuerySession[{}] removed with status {}", getId(), status);
                     }
                 }
             });

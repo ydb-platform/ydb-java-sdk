@@ -12,7 +12,7 @@ import io.grpc.Metadata;
  */
 public class GrpcRequestSettings {
     private final long deadlineAfter;
-    private final Integer preferredNodeID;
+    private final int preferredNodeID;
     private final String traceId;
     private final List<String> clientCapabilities;
     private final Consumer<Metadata> trailersHandler;
@@ -33,7 +33,7 @@ public class GrpcRequestSettings {
         return deadlineAfter;
     }
 
-    public Integer getPreferredNodeID() {
+    public int getPreferredNodeID() {
         return preferredNodeID;
     }
 
@@ -51,7 +51,7 @@ public class GrpcRequestSettings {
 
     public static final class Builder {
         private long deadlineAfter = 0L;
-        private Integer preferredNodeID = null;
+        private int preferredNodeID = 0;
         private String traceId = null;
         private List<String> clientCapabilities = null;
         private Consumer<Metadata> trailersHandler = null;
@@ -73,6 +73,7 @@ public class GrpcRequestSettings {
         /**
          * Returns a new {@code Builder} with a deadline. Specified duration will be converted to the value of JVM
          * high-resolution time source
+         *
          * @param duration the deadline duration
          * @return {@code Builder} with a deadline
          */

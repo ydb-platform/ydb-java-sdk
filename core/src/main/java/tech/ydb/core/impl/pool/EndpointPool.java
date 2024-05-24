@@ -44,10 +44,10 @@ public final class EndpointPool {
     }
 
     @Nullable
-    public EndpointRecord getEndpoint(@Nullable Integer preferredNodeID) {
+    public EndpointRecord getEndpoint(int preferredNodeID) {
         recordsLock.readLock().lock();
         try {
-            if (preferredNodeID != null) {
+            if (preferredNodeID > 0) {
                 PriorityEndpoint knownEndpoint = recordsByNodeId.get(preferredNodeID);
                 if (knownEndpoint != null) {
                     return knownEndpoint.record;
