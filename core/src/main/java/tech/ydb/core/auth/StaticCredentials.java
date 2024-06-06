@@ -1,17 +1,27 @@
 package tech.ydb.core.auth;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.EnumSet;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.auth.AuthRpcProvider;
+import tech.ydb.core.Result;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
+import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.auth.YdbAuth;
+import tech.ydb.proto.auth.v1.AuthServiceGrpc;
 
 /**
  *
@@ -19,6 +29,20 @@ import tech.ydb.proto.auth.YdbAuth;
  */
 public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
     private static final Logger logger = LoggerFactory.getLogger(StaticCredentials.class);
+
+    private static final int LOGIN_TIMEOUT_SECONDS = 10;
+    private static final int MAX_RETRIES_COUNT = 5;
+
+    private static final EnumSet<StatusCode> RETRYABLE_STATUSES = EnumSet.of(
+        StatusCode.ABORTED,
+        StatusCode.UNAVAILABLE,
+        StatusCode.OVERLOADED,
+        StatusCode.CLIENT_RESOURCE_EXHAUSTED,
+        StatusCode.BAD_SESSION,
+        StatusCode.SESSION_BUSY,
+        StatusCode.UNDETERMINED,
+        StatusCode.TRANSPORT_UNAVAILABLE
+    );
 
     private final Clock clock;
     private final YdbAuth.LoginRequest request;
@@ -41,169 +65,97 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
     @Override
     public tech.ydb.auth.AuthIdentity createAuthIdentity(GrpcAuthRpc rpc) {
         logger.info("create static identity for database {}", rpc.getDatabase());
-        return new IdentityImpl(rpc);
+        return new BackgroundIdentity(clock, new LoginRpc(rpc));
     }
 
-    private interface State {
-        void init();
-        State validate(Instant now);
-        String token();
-    }
+    private class LoginRpc implements BackgroundIdentity.Rpc {
+        private final GrpcAuthRpc rpc;
+        private final AtomicInteger retries = new AtomicInteger(MAX_RETRIES_COUNT);
 
-    private class IdentityImpl implements tech.ydb.auth.AuthIdentity {
-        private final AtomicReference<State> state = new AtomicReference<>(new NullState());
-        private final StaticCredentialsRpc rpc;
-
-        IdentityImpl(GrpcAuthRpc authRpc) {
-            this.rpc = new StaticCredentialsRpc(authRpc, request, clock);
+        LoginRpc(GrpcAuthRpc rpc) {
+            this.rpc = rpc;
         }
 
-        private State updateState(State current, State next) {
-            if (state.compareAndSet(current, next)) {
-                next.init();
+        private void handleResult(CompletableFuture<Token> future, Result<YdbAuth.LoginResult> resp) {
+            if (resp.isSuccess()) {
+                try {
+                    Instant now = clock.instant();
+                    String token = resp.getValue().getToken();
+                    Instant expiredAt = JwtUtils.extractExpireAt(token, now);
+
+                    long expiresIn = expiredAt.getEpochSecond() - now.getEpochSecond();
+                    Instant updateAt = now.plus(expiresIn / 2, ChronoUnit.SECONDS);
+                    updateAt = updateAt.isBefore(now) ? now : updateAt;
+
+                    logger.debug("logged in with expired at {} and updating at {}", expiredAt, updateAt);
+                    future.complete(new Token(token, expiredAt, updateAt));
+                } catch (RuntimeException ex) {
+                    future.completeExceptionally(ex);
+                }
+            } else {
+                logger.error("Login request get wrong status {}", resp.getStatus());
+                if (RETRYABLE_STATUSES.contains(resp.getStatus().getCode()) && retries.decrementAndGet() > 0) {
+                    tryLogin(future);
+                } else {
+                    future.completeExceptionally(new UnexpectedResultException("Can't login", resp.getStatus()));
+                }
             }
-            return state.get();
+        }
+
+        private void handleException(CompletableFuture<Token> future, Throwable th) {
+            logger.error("Login request get exception {}", th.getMessage());
+            if (retries.decrementAndGet() > 0) {
+                tryLogin(future);
+            } else {
+                future.completeExceptionally(th);
+            }
+        }
+
+        private void tryLogin(CompletableFuture<Token> future) {
+            if (future.isCancelled() || future.isDone()) {
+                return;
+            }
+
+            rpc.getExecutor().submit(() -> {
+                try (GrpcTransport transport = rpc.createTransport()) {
+                    GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
+                            .withDeadline(Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS))
+                            .build();
+
+                    transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
+                            .thenApply(OperationBinder.bindSync(
+                                    YdbAuth.LoginResponse::getOperation,
+                                    YdbAuth.LoginResult.class
+                            ))
+                            .whenComplete((resp, th) -> {
+                                if (resp != null) {
+                                    handleResult(future, resp);
+                                }
+                                if (th != null) {
+                                    handleException(future, th);
+                                }
+                            })
+                            .join();
+                }
+            });
         }
 
         @Override
-        public String getToken() {
-            return state.get().validate(clock.instant()).token();
-        }
-
-        private class NullState implements State {
-            @Override
-            public void init() {
-                // Nothing
-            }
-
-            @Override
-            public String token() {
-                throw new IllegalStateException("Get token for null state");
-            }
-
-            @Override
-            public State validate(Instant now) {
-                return updateState(this, new SyncLogin()).validate(now);
-            }
-        }
-
-        private class SyncLogin implements State {
-            private final CompletableFuture<State> future = new CompletableFuture<>();
-
-            @Override
-            public void init() {
-                rpc.loginAsync().whenComplete((token, th) -> {
-                    if (token != null) {
-                        future.complete(new LoggedInState(token));
-                    } else {
-                        future.complete(new ErrorState(th));
-                    }
-                });
-            }
-
-            @Override
-            public String token() {
-                throw new IllegalStateException("Get token for unfinished sync state");
-            }
-
-            @Override
-            public State validate(Instant now) {
-                return updateState(this, rpc.unwrap(future));
-            }
-        }
-
-        private class BackgroundLogin implements State {
-            private final StaticCredentialsRpc.Token token;
-            private final CompletableFuture<State> future = new CompletableFuture<>();
-
-            BackgroundLogin(StaticCredentialsRpc.Token token) {
-                this.token = token;
-            }
-
-            @Override
-            public void init() {
-                rpc.loginAsync().whenComplete((nextToken, th) -> {
-                    if (nextToken != null) {
-                        future.complete(new LoggedInState(nextToken));
-                    } else {
-                        future.completeExceptionally(th);
-                    }
-                });
-            }
-
-            @Override
-            public String token() {
-                return token.token();
-            }
-
-            @Override
-            public State validate(Instant now) {
-                if (future.isCompletedExceptionally()) {
-                    if (now.isAfter(token.expiredAt())) {
-                        // If token had already expired, switch to sync mode and wait for finishing
-                        return updateState(this, new SyncLogin()).validate(now);
-                    }
-                    // else retry background login
-                    return updateState(this, new BackgroundLogin(token));
+        public CompletableFuture<Token> getTokenAsync() {
+            CompletableFuture<Token> tokenFuture = new CompletableFuture<>();
+            tokenFuture.whenComplete((token, th) -> {
+                if (token == null || th != null) {
+                    rpc.changeEndpoint();
                 }
+            });
 
-                if (future.isDone()) {
-                    return updateState(this, future.join());
-                }
-
-                return this;
-            }
+            tryLogin(tokenFuture);
+            return tokenFuture;
         }
 
-        private class LoggedInState implements State {
-            private final StaticCredentialsRpc.Token token;
-
-            LoggedInState(StaticCredentialsRpc.Token token) {
-                this.token = token;
-                logger.debug("logged in with expired at {} and updating at {}", token.expiredAt(), token.updateAt());
-            }
-
-            @Override
-            public void init() { }
-
-            @Override
-            public String token() {
-                return token.token();
-            }
-
-            @Override
-            public State validate(Instant now) {
-                if (now.isAfter(token.expiredAt())) {
-                    // If token had already expired, switch to sync mode and wait for finishing
-                    return updateState(this, new SyncLogin()).validate(now);
-                }
-                if (now.isAfter(token.updateAt())) {
-                    return updateState(this, new BackgroundLogin(token));
-                }
-                return this;
-            }
-        }
-
-        private class ErrorState implements State {
-            private final RuntimeException ex;
-
-            ErrorState(Throwable ex) {
-                this.ex = ex instanceof RuntimeException ?
-                        (RuntimeException) ex : new RuntimeException("can't login", ex);
-            }
-
-            @Override
-            public void init() { }
-
-            @Override
-            public String token() {
-                throw ex;
-            }
-
-            @Override
-            public State validate(Instant instant) {
-                return this;
-            }
+        @Override
+        public int getTimeoutSeconds() {
+            return LOGIN_TIMEOUT_SECONDS;
         }
     }
 }
