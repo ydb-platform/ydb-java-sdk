@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
     private static final Logger logger = LoggerFactory.getLogger(BackgroundIdentity.class);
 
-    public interface Rpc {
+    public interface Rpc extends AutoCloseable {
         class Token {
             private final String token;
             private final Instant expiredAt;
@@ -45,6 +45,10 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
 
         CompletableFuture<Token> getTokenAsync();
         int getTimeoutSeconds();
+
+        @Override
+        default void close() {
+        }
     }
 
     private interface State {
@@ -60,6 +64,11 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
     public BackgroundIdentity(Clock clock, Rpc rpc) {
         this.clock = clock;
         this.rpc = rpc;
+    }
+
+    @Override
+    public void close() {
+        rpc.close();
     }
 
     private State updateState(State current, State next) {
@@ -216,8 +225,8 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
         }
 
         @Override
-        public State validate(Instant instant) {
-            return this;
+        public State validate(Instant now) {
+            return updateState(this, new SyncLogin()).validate(now);
         }
     }
 }
