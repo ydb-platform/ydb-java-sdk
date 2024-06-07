@@ -114,6 +114,11 @@
 
             <dependency>
                 <groupId>tech.ydb.auth</groupId>
+                <artifactId>oauth2-provider</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>tech.ydb.auth</groupId>
                 <artifactId>yc-auth-provider</artifactId>
                 <version>${yc-auth.version}</version>
                 <!-- Exclude grpc dependencies to avoid conflict with ydb-proto-api -->
