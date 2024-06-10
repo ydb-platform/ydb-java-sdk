@@ -13,6 +13,7 @@ import tech.ydb.export.result.ExportToS3Result;
 import tech.ydb.export.result.ExportToYtResult;
 import tech.ydb.export.settings.ExportToS3Settings;
 import tech.ydb.export.settings.ExportToYtSettings;
+import tech.ydb.export.settings.FindExportSettings;
 import tech.ydb.proto.export.YdbExport;
 
 /**
@@ -26,11 +27,8 @@ public class ExportClientImpl implements ExportClient {
         this.exportRpc = exportRpc;
     }
 
-    private String getTraceIdOrGenerateNew(String traceId) {
-        return traceId == null ? UUID.randomUUID().toString() : traceId;
-    }
-
-    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings, String traceId) {
+    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+        String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withTraceId(traceId)
@@ -85,8 +83,7 @@ public class ExportClientImpl implements ExportClient {
                 .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        return exportRpc.exportS3(request, makeGrpcRequestSettings(settings, traceId))
+        return exportRpc.exportS3(request, makeGrpcRequestSettings(settings))
                 .thenApply(op -> op.transform(r -> r.map(ExportToS3Result::new)));
     }
 
@@ -128,8 +125,23 @@ public class ExportClientImpl implements ExportClient {
                 .setOperationParams(Operation.buildParams(settings))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        return exportRpc.exportYt(request, makeGrpcRequestSettings(settings, traceId))
+        return exportRpc.exportYt(request, makeGrpcRequestSettings(settings))
+                .thenApply(op -> op.transform(r -> r.map(ExportToYtResult::new)));
+    }
+
+    @Override
+    public CompletableFuture<Operation<Result<ExportToS3Result>>> findExportToS3(
+            String operationId, FindExportSettings settings
+    ) {
+        return exportRpc.findExportToS3(operationId, makeGrpcRequestSettings(settings))
+                .thenApply(op -> op.transform(r -> r.map(ExportToS3Result::new)));
+    }
+
+    @Override
+    public CompletableFuture<Operation<Result<ExportToYtResult>>> findExportToYT(
+            String operationId, FindExportSettings settings
+    ) {
+        return exportRpc.findExportToYT(operationId, makeGrpcRequestSettings(settings))
                 .thenApply(op -> op.transform(r -> r.map(ExportToYtResult::new)));
     }
 }

@@ -12,6 +12,14 @@ import tech.ydb.proto.export.YdbExport;
  */
 public interface ExportRpc {
 
+    CompletableFuture<Operation<Result<YdbExport.ExportToS3Result>>> findExportToS3(
+            String operationId, GrpcRequestSettings settings
+    );
+
+    CompletableFuture<Operation<Result<YdbExport.ExportToYtResult>>> findExportToYT(
+            String operationId, GrpcRequestSettings settings
+    );
+
     CompletableFuture<Operation<Result<YdbExport.ExportToS3Result>>> exportS3(
             YdbExport.ExportToS3Request request, GrpcRequestSettings settings
     );
