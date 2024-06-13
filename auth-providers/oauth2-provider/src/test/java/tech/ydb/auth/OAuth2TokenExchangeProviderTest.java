@@ -1,5 +1,9 @@
 package tech.ydb.auth;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -35,7 +39,6 @@ import tech.ydb.core.grpc.GrpcTransport;
 public class OAuth2TokenExchangeProviderTest {
     private static final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
     private static final ScheduledExecutorService scheduler = Mockito.mock(ScheduledExecutorService.class);
-    private static final Clock clock = Mockito.mock(Clock.class);
     private static final ClientAndServer mockClient = ClientAndServer.startClientAndServer(PortFactory.findFreePort());
 
     // Wednesday, June 1, 2022 00:00:00 UTC
@@ -95,9 +98,9 @@ public class OAuth2TokenExchangeProviderTest {
     private String requestForm(String token) {
         return Stream.of(
                 "grand_type=" + OAuth2TokenExchangeProvider.GRANT_TYPE,
-                "requested_token_type=" + OAuth2TokenExchangeProvider.ACCESS_TOKEN,
+                "requested_token_type=" + OAuth2Token.ACCESS_TOKEN,
                 "subject_token=" + token,
-                "subject_token_type=" + OAuth2TokenExchangeProvider.JWT_TOKEN
+                "subject_token_type=" + OAuth2Token.JWT_TOKEN
         ).collect(Collectors.joining("&")).replace(":", "%3A");
     }
 
@@ -105,7 +108,8 @@ public class OAuth2TokenExchangeProviderTest {
     public void simpleTest() {
         mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token"));
 
-        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), "Token1").build();
+        OAuth2Token token = OAuth2Token.fromValue("Token1");
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
             // token is cached
             Assert.assertEquals("Bearer test_token", identity.getToken());
@@ -119,12 +123,46 @@ public class OAuth2TokenExchangeProviderTest {
     }
 
     @Test
-    public void updateTest() throws InterruptedException {
+    public void readFromFile() throws IOException {
+        File file = File.createTempFile("test-oauth2", "token");
+        try (Writer writer = new FileWriter(file)) {
+            writer.write("token_from_file");
+        }
+
+        mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token"));
+
+        OAuth2Token token = OAuth2Token.fromFile(file);
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
+        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
+            // token is cached
+            Assert.assertEquals("Bearer test_token", identity.getToken());
+            Assert.assertEquals("Bearer test_token", identity.getToken());
+
+            mockClient.verify(HttpRequest.request().withMethod("POST")
+                    .withHeader("Content-Type", "application/x-www-form-urlencoded")
+                    .withBody(requestForm("token_from_file")),
+                    VerificationTimes.exactly(1));
+        }
+
+        file.delete();
+    }
+
+    @Test
+    public void refreshTokensTest() {
+        Clock clock = Mockito.mock(Clock.class);
+        OAuth2Token token = Mockito.mock(OAuth2Token.class);
+
+        Mockito.when(token.getType()).thenReturn(OAuth2Token.JWT_TOKEN);
+        Mockito.when(token.getExpireInSeconds()).thenReturn(40);
+        Mockito.when(token.getToken()).thenReturn("jwt1", "jwt2");
+
         Mockito.when(clock.instant()).thenReturn(now);
+
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once()).respond(createResponse("token1"));
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once()).respond(createResponse("token2"));
+        mockClient.when(HttpRequest.request().withMethod("POST"), Times.once()).respond(createResponse("token3"));
 
-        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), "refresh")
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token)
                 .withClock(clock)
                 .withTimeoutSeconds(40)
                 .build();
@@ -134,13 +172,18 @@ public class OAuth2TokenExchangeProviderTest {
             Assert.assertEquals(1, jobs.size());
 
             // token is cached
-            mockClient.verify(HttpRequest.request().withMethod("POST"), VerificationTimes.exactly(1));
+            mockClient.verify(HttpRequest.request().withMethod("POST").withBody(requestForm("jwt1")),
+                    VerificationTimes.exactly(1));
+            Mockito.verify(token, Mockito.times(1)).getToken();
+
             Assert.assertEquals("Bearer token1", identity.getToken());
+            Mockito.verify(token, Mockito.times(1)).getToken();
 
             // move time close to half of token's life time, token is already cached
             Mockito.when(clock.instant()).thenReturn(now.plusSeconds(30));
             Assert.assertEquals("Bearer token1", identity.getToken());
             Assert.assertEquals(1, jobs.size());
+            Mockito.verify(token, Mockito.times(1)).getToken();
 
             // move time to half of token's life time, token is already cached but update is started
             Mockito.when(clock.instant()).thenReturn(now.plusSeconds(31));
@@ -149,9 +192,24 @@ public class OAuth2TokenExchangeProviderTest {
 
             // wait for updating finish
             jobs.get(1).join();
-            mockClient.verify(HttpRequest.request().withMethod("POST"), VerificationTimes.exactly(2));
+            Mockito.verify(token, Mockito.times(1)).getToken();
+            mockClient.verify(HttpRequest.request().withMethod("POST").withBody(requestForm("jwt1")),
+                    VerificationTimes.exactly(2));
             // Now we get a new token
             Assert.assertEquals("Bearer token2", identity.getToken());
+
+            // move time to half of token's life time, token is already cached but update is started
+            Mockito.when(clock.instant()).thenReturn(now.plusSeconds(62));
+            Assert.assertEquals("Bearer token2", identity.getToken());
+            Assert.assertEquals(3, jobs.size());
+
+            // wait for updating finish
+            jobs.get(2).join();
+            Mockito.verify(token, Mockito.times(2)).getToken();
+            mockClient.verify(HttpRequest.request().withMethod("POST").withBody(requestForm("jwt2")),
+                    VerificationTimes.exactly(1));
+            // Now we get a new token
+            Assert.assertEquals("Bearer token3", identity.getToken());
         }
     }
 
@@ -159,13 +217,14 @@ public class OAuth2TokenExchangeProviderTest {
     public void customRequestTest() {
         mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("custom_token"));
 
-        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), "Token1", "Test")
+        OAuth2Token token = OAuth2Token.fromValue("Token1", "Test");
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token)
                 .withActor("actorToken", "actorType")
                 .withAudience("testAudience")
                 .withResource("Resource")
                 .withScope("TestedScope")
-                .withCustomGrantType(OAuth2TokenExchangeProvider.ACCESS_TOKEN)
-                .withCustomRequestedTokenType(OAuth2TokenExchangeProvider.REFRESH_TOKEN)
+                .withCustomGrantType(OAuth2Token.ACCESS_TOKEN)
+                .withCustomRequestedTokenType(OAuth2Token.REFRESH_TOKEN)
                 .build();
 
         try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
@@ -174,15 +233,15 @@ public class OAuth2TokenExchangeProviderTest {
             Assert.assertEquals("Bearer custom_token", identity.getToken());
 
             String form = Stream.of(
-                "grand_type=" + OAuth2TokenExchangeProvider.ACCESS_TOKEN,
-                "requested_token_type=" + OAuth2TokenExchangeProvider.REFRESH_TOKEN,
-                "subject_token=Token1",
-                "subject_token_type=Test",
+                "grand_type=" + OAuth2Token.ACCESS_TOKEN,
+                "requested_token_type=" + OAuth2Token.REFRESH_TOKEN,
                 "resource=Resource",
                 "audience=testAudience",
                 "scope=TestedScope",
                 "actor_token=actorToken",
-                "actor_token_type=actorType"
+                "actor_token_type=actorType",
+                "subject_token=Token1",
+                "subject_token_type=Test"
             ).collect(Collectors.joining("&")).replace(":", "%3A");
 
             mockClient.verify(HttpRequest.request().withMethod("POST")
@@ -196,7 +255,8 @@ public class OAuth2TokenExchangeProviderTest {
     public void wrongTokenTypeTest() {
         mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token", "Basic", 60));
 
-        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), "non").build();
+        OAuth2Token token = OAuth2Token.fromValue("non");
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
             UnexpectedResultException ex1 = Assert.assertThrows(UnexpectedResultException.class, identity::getToken);
             Assert.assertEquals(
@@ -227,7 +287,8 @@ public class OAuth2TokenExchangeProviderTest {
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
                 .respond(createResponse("test_token", "Bearer", -1));
 
-        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), "non").build();
+        OAuth2Token token = OAuth2Token.fromValue("non");
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
             Assert.assertEquals(
                     "OAuth2 token exchange: incorrect expiration time: null, code: INTERNAL_ERROR",
@@ -264,7 +325,8 @@ public class OAuth2TokenExchangeProviderTest {
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
                 .respond(HttpResponse.response().withStatusCode(504));
 
-        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), "non").build();
+        OAuth2Token token = OAuth2Token.fromValue("non");
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
             Supplier<String> next = () -> Assert.assertThrows(
                     UnexpectedResultException.class, identity::getToken

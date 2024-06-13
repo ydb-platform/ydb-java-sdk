@@ -38,26 +38,22 @@ import tech.ydb.core.grpc.GrpcTransport;
 public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTransport> {
     public static final String GRANT_TYPE = "urn:ietf:params:oauth:grant-type:token-exchange";
 
-    public static final String ACCESS_TOKEN = "urn:ietf:params:oauth:token-type:access_token";
-    public static final String JWT_TOKEN = "urn:ietf:params:oauth:token-type:jwt";
-
-    public static final String REFRESH_TOKEN = "urn:ietf:params:oauth:token-type:refresh_token";
-    public static final String ID_TOKEN = "urn:ietf:params:oauth:token-type:id_token";
-    public static final String SAML1_TOKEN = "urn:ietf:params:oauth:token-type:saml1";
-    public static final String SAML2_TOKEN = "urn:ietf:params:oauth:token-type:saml2";
-
     private static final Logger logger = LoggerFactory.getLogger(OAuth2TokenExchangeProvider.class);
     private static final Gson GSON = new Gson();
 
     private final Clock clock;
     private final String endpoint;
-    private final HttpEntity updateTokenForm;
+    private final OAuth2Token oauthToken;
+    private final List<NameValuePair> httpForm;
     private final int timeoutSeconds;
 
-    private OAuth2TokenExchangeProvider(Clock clock, String endpoint, HttpEntity entity, int timeoutSeconds) {
+    private OAuth2TokenExchangeProvider(
+            Clock clock, String endpoint, OAuth2Token token, List<NameValuePair> form, int timeoutSeconds
+    ) {
         this.clock = clock;
         this.endpoint = endpoint;
-        this.updateTokenForm = entity;
+        this.oauthToken = token;
+        this.httpForm = form;
         this.timeoutSeconds = timeoutSeconds;
     }
 
@@ -69,6 +65,9 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTranspor
     private class OAuth2Rpc implements BackgroundIdentity.Rpc {
         private final ExecutorService executor;
         private final CloseableHttpClient client;
+
+        private volatile Instant expiredAt;
+        private volatile String tokenValue;
 
         OAuth2Rpc(ExecutorService executor) {
             this.executor = executor;
@@ -85,8 +84,12 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTranspor
         }
 
         private Token updateToken() throws IOException {
+            if (expiredAt == null || clock.instant().isAfter(expiredAt)) {
+                tokenValue = oauthToken.getToken();
+                expiredAt = clock.instant().plusSeconds(oauthToken.getExpireInSeconds());
+            }
             HttpPost post = new HttpPost(endpoint);
-            post.setEntity(updateTokenForm);
+            post.setEntity(buildHttpForm());
             CloseableHttpResponse response = client.execute(post);
 
             int httpCode = response.getStatusLine().getStatusCode();
@@ -161,20 +164,28 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTranspor
         public int getTimeoutSeconds() {
             return timeoutSeconds;
         }
+
+        private HttpEntity buildHttpForm() {
+            List<NameValuePair> params = new ArrayList<>();
+            params.addAll(httpForm);
+            params.add(new BasicNameValuePair("subject_token", tokenValue));
+            params.add(new BasicNameValuePair("subject_token_type", oauthToken.getType()));
+
+            try {
+                return new UrlEncodedFormEntity(params);
+            } catch (UnsupportedEncodingException ex) {
+                throw new RuntimeException("Cannot build OAuth2 http form", ex);
+            }
+        }
     }
 
-    public static Builder newBuilder(String endpoint, String jwtToken) {
-        return new Builder(endpoint, jwtToken, JWT_TOKEN);
-    }
-
-    public static Builder newBuilder(String endpoint, String token, String type) {
-        return new Builder(endpoint, token, type);
+    public static Builder newBuilder(String endpoint, OAuth2Token token) {
+        return new Builder(endpoint, token);
     }
 
     public static class Builder {
         private final String endpoint;
-        private final String subjectToken;
-        private final String subjectType;
+        private final OAuth2Token token;
 
         private Clock clock = Clock.systemUTC();
         private int timeoutSeconds = 60;
@@ -187,12 +198,11 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTranspor
         private String audience = null;
 
         private String grantType = GRANT_TYPE;
-        private String requestedTokenType = ACCESS_TOKEN;
+        private String requestedTokenType = OAuth2Token.ACCESS_TOKEN;
 
-        private Builder(String endpoint, String subjectToken, String subjectType) {
+        private Builder(String endpoint, OAuth2Token token) {
             this.endpoint = endpoint;
-            this.subjectToken = subjectToken;
-            this.subjectType = subjectType;
+            this.token = token;
         }
 
         @VisibleForTesting
@@ -238,18 +248,15 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTranspor
         }
 
         public OAuth2TokenExchangeProvider build() {
-            return new OAuth2TokenExchangeProvider(clock, endpoint, buildUpdateHttpForm(), timeoutSeconds);
+            return new OAuth2TokenExchangeProvider(clock, endpoint, token, fixedFormArgs(), timeoutSeconds);
         }
 
-        private HttpEntity buildUpdateHttpForm() {
+        private List<NameValuePair> fixedFormArgs() {
             List<NameValuePair> params = new ArrayList<>();
 
             // Required parameters
             params.add(new BasicNameValuePair("grand_type", grantType));
             params.add(new BasicNameValuePair("requested_token_type", requestedTokenType));
-
-            params.add(new BasicNameValuePair("subject_token", subjectToken));
-            params.add(new BasicNameValuePair("subject_token_type", subjectType));
 
             // Optional parameters
             if (resource != null) {
@@ -268,11 +275,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTranspor
                 params.add(new BasicNameValuePair("actor_token_type", actorType));
             }
 
-            try {
-                return new UrlEncodedFormEntity(params);
-            } catch (UnsupportedEncodingException ex) {
-                throw new RuntimeException("Cannot build OAuth2 http form", ex);
-            }
+            return params;
         }
     }
 
