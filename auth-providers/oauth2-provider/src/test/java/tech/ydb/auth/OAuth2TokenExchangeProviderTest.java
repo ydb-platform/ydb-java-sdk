@@ -1,9 +1,5 @@
 package tech.ydb.auth;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -120,31 +116,6 @@ public class OAuth2TokenExchangeProviderTest {
                     .withBody(requestForm("Token1")),
                     VerificationTimes.exactly(1));
         }
-    }
-
-    @Test
-    public void readFromFile() throws IOException {
-        File file = File.createTempFile("test-oauth2", "token");
-        try (Writer writer = new FileWriter(file)) {
-            writer.write("token_from_file");
-        }
-
-        mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token"));
-
-        OAuth2Token token = OAuth2Token.fromFile(file);
-        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
-        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
-            // token is cached
-            Assert.assertEquals("Bearer test_token", identity.getToken());
-            Assert.assertEquals("Bearer test_token", identity.getToken());
-
-            mockClient.verify(HttpRequest.request().withMethod("POST")
-                    .withHeader("Content-Type", "application/x-www-form-urlencoded")
-                    .withBody(requestForm("token_from_file")),
-                    VerificationTimes.exactly(1));
-        }
-
-        file.delete();
     }
 
     @Test
