@@ -26,14 +26,14 @@ import org.mockserver.verify.VerificationTimes;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public class OAuth2TokenExchangeProviderTest {
-    private static final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
+    private static final GrpcAuthRpc authRpc = Mockito.mock(GrpcAuthRpc.class);
     private static final ScheduledExecutorService scheduler = Mockito.mock(ScheduledExecutorService.class);
     private static final ClientAndServer mockClient = ClientAndServer.startClientAndServer(PortFactory.findFreePort());
 
@@ -46,7 +46,7 @@ public class OAuth2TokenExchangeProviderTest {
         Assert.assertTrue(mockClient.hasStarted());
         Assert.assertTrue(mockClient.isRunning());
 
-        Mockito.when(transport.getScheduler()).thenReturn(scheduler);
+        Mockito.when(authRpc.getExecutor()).thenReturn(scheduler);
         Mockito.when(scheduler.submit(Mockito.any(Runnable.class))).thenAnswer(iom -> {
             Runnable run = iom.getArgument(0, Runnable.class);
             CompletableFuture<?> future = CompletableFuture.runAsync(run);
@@ -106,7 +106,7 @@ public class OAuth2TokenExchangeProviderTest {
 
         OAuth2Token token = OAuth2Token.fromValue("Token1");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
-        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
+        try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             // token is cached
             Assert.assertEquals("Bearer test_token", identity.getToken());
             Assert.assertEquals("Bearer test_token", identity.getToken());
@@ -137,7 +137,7 @@ public class OAuth2TokenExchangeProviderTest {
                 .withClock(clock)
                 .withTimeoutSeconds(40)
                 .build();
-        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
+        try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             Assert.assertTrue(jobs.isEmpty());
             Assert.assertEquals("Bearer token1", identity.getToken());
             Assert.assertEquals(1, jobs.size());
@@ -198,7 +198,7 @@ public class OAuth2TokenExchangeProviderTest {
                 .withCustomRequestedTokenType(OAuth2Token.REFRESH_TOKEN)
                 .build();
 
-        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
+        try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             // token is cached
             Assert.assertEquals("Bearer custom_token", identity.getToken());
             Assert.assertEquals("Bearer custom_token", identity.getToken());
@@ -228,7 +228,7 @@ public class OAuth2TokenExchangeProviderTest {
 
         OAuth2Token token = OAuth2Token.fromValue("non");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
-        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
+        try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             UnexpectedResultException ex1 = Assert.assertThrows(UnexpectedResultException.class, identity::getToken);
             Assert.assertEquals(
                     "OAuth2 token exchange: unsupported token type: Basic, code: INTERNAL_ERROR",
@@ -260,7 +260,7 @@ public class OAuth2TokenExchangeProviderTest {
 
         OAuth2Token token = OAuth2Token.fromValue("non");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
-        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
+        try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             Assert.assertEquals(
                     "OAuth2 token exchange: incorrect expiration time: null, code: INTERNAL_ERROR",
                     Assert.assertThrows(UnexpectedResultException.class, identity::getToken).getMessage()
@@ -298,7 +298,7 @@ public class OAuth2TokenExchangeProviderTest {
 
         OAuth2Token token = OAuth2Token.fromValue("non");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
-        try (AuthIdentity identity = provider.createAuthIdentity(transport)) {
+        try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             Supplier<String> next = () -> Assert.assertThrows(
                     UnexpectedResultException.class, identity::getToken
             ).getMessage();

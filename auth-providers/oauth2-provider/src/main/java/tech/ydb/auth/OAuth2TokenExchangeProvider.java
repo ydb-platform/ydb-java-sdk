@@ -29,13 +29,13 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.auth.BackgroundIdentity;
-import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.auth.GrpcAuthRpc;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTransport> {
+public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc> {
     public static final String GRANT_TYPE = "urn:ietf:params:oauth:grant-type:token-exchange";
 
     private static final Logger logger = LoggerFactory.getLogger(OAuth2TokenExchangeProvider.class);
@@ -58,8 +58,8 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcTranspor
     }
 
     @Override
-    public AuthIdentity createAuthIdentity(GrpcTransport rpc) {
-        return new BackgroundIdentity(clock, new OAuth2Rpc(rpc.getScheduler()));
+    public AuthIdentity createAuthIdentity(GrpcAuthRpc rpc) {
+        return new BackgroundIdentity(clock, new OAuth2Rpc(rpc.getExecutor()));
     }
 
     private class OAuth2Rpc implements BackgroundIdentity.Rpc {
