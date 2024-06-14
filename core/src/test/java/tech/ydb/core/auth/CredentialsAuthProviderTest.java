@@ -73,17 +73,13 @@ public class CredentialsAuthProviderTest {
 
         // With incorrect password
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass2")) {
-            UnexpectedResultException ex = Assert.assertThrows(
-                    UnexpectedResultException.class,
-                    () -> identity.getToken()
-            );
+            UnexpectedResultException ex = Assert.assertThrows(UnexpectedResultException.class, identity::getToken);
             Assert.assertEquals(unauthorized, ex.getStatus());
+            UnexpectedResultException ex2 = Assert.assertThrows(UnexpectedResultException.class, identity::getToken);
 
-            UnexpectedResultException ex2 = Assert.assertThrows(
-                    UnexpectedResultException.class,
-                    () -> identity.getToken()
-            );
-            Assert.assertEquals(ex, ex2);
+            Assert.assertNotSame(ex, ex2);
+            Assert.assertEquals(ex.getMessage(), ex2.getMessage());
+            Assert.assertEquals(ex.getStatus(), ex2.getStatus());
         }
     }
 
