@@ -84,7 +84,7 @@ public abstract class OAuth2TokenSource {
         };
     }
 
-    public static JWTTokenBuilder fromPrivateKeyPemFile(File privateKeyPemFile) {
+    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile) {
         try {
             StringBuilder base64 = new StringBuilder();
             try (BufferedReader br = new BufferedReader(new FileReader(privateKeyPemFile))) {
@@ -119,8 +119,9 @@ public abstract class OAuth2TokenSource {
         private String subject = null;
         private String audience = null;
         private String id = null;
+        private String keyId = null;
 
-        private Map<String, Object> claims = new HashMap<>();
+        private final Map<String, Object> claims = new HashMap<>();
 
         private JWTTokenBuilder(Key key) {
             this.signingKey = key;
@@ -135,6 +136,11 @@ public abstract class OAuth2TokenSource {
 
         public JWTTokenBuilder withId(String id) {
             this.id = id;
+            return this;
+        }
+
+        public JWTTokenBuilder withKeyId(String keyId) {
+            this.keyId = keyId;
             return this;
         }
 
@@ -183,6 +189,10 @@ public abstract class OAuth2TokenSource {
                     }
                     if (id != null) {
                         jwt = jwt.setId(id);
+                    }
+
+                    if (keyId != null) {
+                        jwt = jwt.setHeaderParam("kid", keyId);
                     }
 
                     return jwt

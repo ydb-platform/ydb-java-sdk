@@ -112,7 +112,7 @@ public class OAuth2TokenTest {
             writer.write(TEST_PRIVATE_KEY);
         }
 
-        OAuth2TokenSource token = OAuth2TokenSource.fromPrivateKeyPemFile(file).build();
+        OAuth2TokenSource token = OAuth2TokenSource.withPrivateKeyPemFile(file).build();
         String jwt = token.getToken();
 
         Jwt<?, Claims> parsed = Jwts.parser()
@@ -133,6 +133,7 @@ public class OAuth2TokenTest {
                 .withAudience("testAudience")
                 .withIssuer("junitIssuer")
                 .withId("test")
+                .withKeyId("keyID")
                 .withSubject("subj")
                 .withClaim("c1", "value1")
                 .withClaim("c2", "value2")
@@ -149,6 +150,7 @@ public class OAuth2TokenTest {
 
         Assert.assertEquals("JWT", parsed.getHeader().getType());
         Assert.assertEquals("RS256", parsed.getHeader().get("alg"));
+        Assert.assertEquals("keyID", parsed.getHeader().get("kid"));
 
         Assert.assertEquals("testAudience", parsed.getBody().getAudience());
         Assert.assertEquals("junitIssuer", parsed.getBody().getIssuer());
