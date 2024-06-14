@@ -14,6 +14,8 @@ import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
@@ -118,6 +120,8 @@ public abstract class OAuth2TokenSource {
         private String audience = null;
         private String id = null;
 
+        private Map<String, Object> claims = new HashMap<>();
+
         private JWTTokenBuilder(Key key) {
             this.signingKey = key;
             this.alg = SignatureAlgorithm.forSigningKey(key);
@@ -154,6 +158,11 @@ public abstract class OAuth2TokenSource {
             return this;
         }
 
+        public JWTTokenBuilder withClaim(String key, String value) {
+            this.claims.put(key, value);
+            return this;
+        }
+
         public OAuth2TokenSource build() {
             return new OAuth2TokenSource(JWT_TOKEN, ttlSeconds) {
                 @Override
@@ -161,7 +170,8 @@ public abstract class OAuth2TokenSource {
                     Instant issuedAt = clock.instant();
                     Instant expiration = issuedAt.plusSeconds(ttlSeconds);
 
-                    JwtBuilder jwt = Jwts.builder();
+                    JwtBuilder jwt = Jwts.builder().addClaims(claims);
+
                     if (issuer != null) {
                         jwt = jwt.setIssuer(issuer);
                     }

@@ -134,6 +134,8 @@ public class OAuth2TokenTest {
                 .withIssuer("junitIssuer")
                 .withId("test")
                 .withSubject("subj")
+                .withClaim("c1", "value1")
+                .withClaim("c2", "value2")
                 .withTtlSeconds(20)
                 .withClock(clock)
                 .build();
@@ -152,6 +154,8 @@ public class OAuth2TokenTest {
         Assert.assertEquals("junitIssuer", parsed.getBody().getIssuer());
         Assert.assertEquals("test", parsed.getBody().getId());
         Assert.assertEquals("subj", parsed.getBody().getSubject());
+        Assert.assertEquals("value1", parsed.getBody().get("c1", String.class));
+        Assert.assertEquals("value2", parsed.getBody().get("c2", String.class));
 
         Assert.assertEquals(Date.from(now), parsed.getBody().getIssuedAt());
         Assert.assertEquals(Date.from(now.plusSeconds(20)), parsed.getBody().getExpiration());
