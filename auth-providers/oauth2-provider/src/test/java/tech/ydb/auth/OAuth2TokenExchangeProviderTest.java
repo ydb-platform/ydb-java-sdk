@@ -193,6 +193,7 @@ public class OAuth2TokenExchangeProviderTest {
                 .withActorTokenSource(OAuth2TokenSource.fromValue("actorToken", "actorType"))
                 .withAudience("testAudience")
                 .withResource("Resource")
+                .withResource("OtherResource")
                 .withScope("TestedScope")
                 .withCustomGrantType(OAuth2TokenSource.ACCESS_TOKEN)
                 .withCustomRequestedTokenType(OAuth2TokenSource.REFRESH_TOKEN)
@@ -207,6 +208,7 @@ public class OAuth2TokenExchangeProviderTest {
                 "grand_type=" + OAuth2TokenSource.ACCESS_TOKEN,
                 "requested_token_type=" + OAuth2TokenSource.REFRESH_TOKEN,
                 "resource=Resource",
+                "resource=OtherResource",
                 "audience=testAudience",
                 "scope=TestedScope",
                 "subject_token=Token1",

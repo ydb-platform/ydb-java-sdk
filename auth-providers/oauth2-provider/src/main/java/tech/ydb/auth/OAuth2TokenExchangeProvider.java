@@ -134,7 +134,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             try (Reader reader = new InputStreamReader(response.getEntity().getContent())) {
                 OAuth2Response json = GSON.fromJson(reader, OAuth2Response.class);
 
-                if (!"Bearer".equals(json.getTokenType())) {
+                if (!"Bearer".equalsIgnoreCase(json.getTokenType())) {
                     throw new UnexpectedResultException(
                             "OAuth2 token exchange: unsupported token type: " + json.getTokenType(),
                             Status.of(StatusCode.INTERNAL_ERROR)
@@ -147,7 +147,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
                     );
                 }
 
-                String token = json.getTokenType() + " " + json.getAccessToken();
+                String token = "Bearer " + json.getAccessToken();
                 Instant expireAt = clock.instant().plusSeconds(json.getExpiredIn());
                 Instant updateAt = clock.instant().plusSeconds(json.getExpiredIn() / 2);
                 return new Token(token, expireAt, updateAt);
@@ -207,8 +207,8 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         private OAuth2TokenSource actor = null;
 
         private String scope = null;
-        private String resource = null;
-        private String audience = null;
+        private final List<String> resourceList = new ArrayList<>();
+        private final List<String> audienceList = new ArrayList<>();
 
         private String grantType = GRANT_TYPE;
         private String requestedTokenType = OAuth2TokenSource.ACCESS_TOKEN;
@@ -235,12 +235,12 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
 
         public Builder withResource(String resource) {
-            this.resource = resource;
+            this.resourceList.add(resource);
             return this;
         }
 
         public Builder withAudience(String audience) {
-            this.audience = audience;
+            this.audienceList.add(audience);
             return this;
         }
 
@@ -271,10 +271,10 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             params.add(new BasicNameValuePair("requested_token_type", requestedTokenType));
 
             // Optional parameters
-            if (resource != null) {
+            for (String resource: resourceList) {
                 params.add(new BasicNameValuePair("resource", resource));
             }
-            if (audience != null) {
+            for (String audience: audienceList) {
                 params.add(new BasicNameValuePair("audience", audience));
             }
             if (scope != null) {
