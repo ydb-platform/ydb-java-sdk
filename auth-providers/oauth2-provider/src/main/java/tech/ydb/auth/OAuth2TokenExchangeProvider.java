@@ -43,15 +43,17 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
     private final Clock clock;
     private final String endpoint;
+    private final String scope;
     private final OAuth2TokenSource subjectTokenSource;
     private final OAuth2TokenSource actorTokenSource;
     private final List<NameValuePair> httpForm;
     private final int timeoutSeconds;
 
-    private OAuth2TokenExchangeProvider(Clock clock, String endpoint, OAuth2TokenSource subject,
+    private OAuth2TokenExchangeProvider(Clock clock, String endpoint, String scope, OAuth2TokenSource subject,
             OAuth2TokenSource actor, List<NameValuePair> form, int timeoutSeconds) {
         this.clock = clock;
         this.endpoint = endpoint;
+        this.scope = scope;
         this.subjectTokenSource = subject;
         this.actorTokenSource = actor;
         this.httpForm = form;
@@ -143,6 +145,13 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
                 if (json.getExpiredIn() == null || json.getExpiredIn() <= 0) {
                     throw new UnexpectedResultException(
                             "OAuth2 token exchange: incorrect expiration time: " + json.getExpiredIn(),
+                            Status.of(StatusCode.INTERNAL_ERROR)
+                    );
+                }
+                String jsonScope = json.getScope();
+                if (scope != null && jsonScope != null && !scope.equals(jsonScope)) {
+                    throw new UnexpectedResultException(
+                            "OAuth2 token exchange: different scope. Expected: " + scope + ", but got: " + jsonScope,
                             Status.of(StatusCode.INTERNAL_ERROR)
                     );
                 }
@@ -260,10 +269,10 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
 
         public OAuth2TokenExchangeProvider build() {
-            return new OAuth2TokenExchangeProvider(clock, endpoint, subject, actor, fixedFormArgs(), timeoutSeconds);
+            return new OAuth2TokenExchangeProvider(clock, endpoint, scope, subject, actor, fixedArgs(), timeoutSeconds);
         }
 
-        private List<NameValuePair> fixedFormArgs() {
+        private List<NameValuePair> fixedArgs() {
             List<NameValuePair> params = new ArrayList<>();
 
             // Required parameters

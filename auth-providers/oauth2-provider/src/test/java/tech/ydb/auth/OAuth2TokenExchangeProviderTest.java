@@ -72,10 +72,18 @@ public class OAuth2TokenExchangeProviderTest {
     }
 
     private HttpResponse createResponse(String token) {
-        return createResponse(token, "Bearer", 60);
+        return createResponse(token, "Bearer", null, 60);
     }
 
-    private HttpResponse createResponse(String token, String tokenType, Integer expiresIn) {
+    private HttpResponse createResponse(String token, String type) {
+        return createResponse(token, type, null, 60);
+    }
+
+    private HttpResponse createResponse(String token, String type, Integer expiresIn) {
+        return createResponse(token, type, null, expiresIn);
+    }
+
+    private HttpResponse createResponse(String token, String tokenType, String scope, Integer expiresIn) {
         StringBuilder sb = new StringBuilder("{");
         sb.append("\"issued_token_type\": \"urn:ietf:params:oauth:token-type:access_token\"");
         if (token != null) {
@@ -86,6 +94,9 @@ public class OAuth2TokenExchangeProviderTest {
         }
         if (expiresIn != null) {
             sb.append(",\"expires_in\": ").append(expiresIn);
+        }
+        if (scope != null) {
+            sb.append(",\"scope\": ").append('"').append(scope).append('"');
         }
         sb.append("}");
         return HttpResponse.response(sb.toString());
@@ -186,7 +197,8 @@ public class OAuth2TokenExchangeProviderTest {
 
     @Test
     public void customRequestTest() {
-        mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("custom_token"));
+        mockClient.when(HttpRequest.request().withMethod("POST"))
+                .respond(createResponse("custom_token", "bearer", "TestedScope", 10));
 
         OAuth2TokenSource token = OAuth2TokenSource.fromValue("Token1", "Test");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token)
@@ -226,7 +238,7 @@ public class OAuth2TokenExchangeProviderTest {
 
     @Test
     public void wrongTokenTypeTest() {
-        mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token", "Basic", 60));
+        mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token", "Basic"));
 
         OAuth2TokenSource token = OAuth2TokenSource.fromValue("non");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
@@ -254,9 +266,9 @@ public class OAuth2TokenExchangeProviderTest {
     @Test
     public void wrongExpireIn() {
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
-                .respond(createResponse("test_token", "Bearer", null));
+                .respond(createResponse("test_token", "beAreR", null));
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
-                .respond(createResponse("test_token", "Bearer", 0));
+                .respond(createResponse("test_token", "BEARER", 0));
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
                 .respond(createResponse("test_token", "Bearer", -1));
 
@@ -276,6 +288,24 @@ public class OAuth2TokenExchangeProviderTest {
                     Assert.assertThrows(UnexpectedResultException.class, identity::getToken).getMessage()
             );
             mockClient.verify(HttpRequest.request().withMethod("POST"), VerificationTimes.exactly(3));
+        }
+    }
+
+    @Test
+    public void wrongScope() {
+        mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
+                .respond(createResponse("token2", "bearer", "other", 10));
+
+        OAuth2TokenSource token = OAuth2TokenSource.fromValue("non");
+        OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token)
+                .withScope("scope")
+                .build();
+        try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
+            Assert.assertEquals(
+                    "OAuth2 token exchange: different scope. Expected: scope, but got: other, code: INTERNAL_ERROR",
+                    Assert.assertThrows(UnexpectedResultException.class, identity::getToken).getMessage()
+            );
+            mockClient.verify(HttpRequest.request().withMethod("POST"), VerificationTimes.exactly(1));
         }
     }
 
