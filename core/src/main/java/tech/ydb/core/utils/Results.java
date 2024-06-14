@@ -45,7 +45,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, Object... args)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, args));
+            result.getStatus().expectSuccess(
+                    String.format(template, args)
+            );
         }
         return result.getValue();
     }
@@ -65,7 +67,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, int a1)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1)
+            );
         }
         return result.getValue();
     }
@@ -85,7 +89,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, long a1)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1)
+            );
         }
         return result.getValue();
     }
@@ -105,7 +111,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, boolean a1)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1)
+            );
         }
         return result.getValue();
     }
@@ -125,7 +133,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, Object a1)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1)
+            );
         }
         return result.getValue();
     }
@@ -146,7 +156,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, int a1, int a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -167,7 +179,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, long a1, int a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -188,7 +202,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, boolean a1, int a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -209,7 +225,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, Object a1, int a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -230,7 +248,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, int a1, long a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -251,7 +271,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, long a1, long a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -272,7 +294,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, boolean a1, long a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -293,7 +317,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, Object a1, long a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -314,7 +340,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, int a1, boolean a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -335,7 +363,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, long a1, boolean a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -356,7 +386,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, boolean a1, boolean a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -377,7 +409,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, Object a1, boolean a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -398,7 +432,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, int a1, Object a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -419,7 +455,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, long a1, Object a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
@@ -440,14 +478,15 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, boolean a1, Object a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
 
     /**
      * Extract a value of the result or throws an exception if the result is unsuccessful.
-     *
      * @param <T> type of the value
      * @param result a result
      * @param template a template for the exception message to use if the result is unsuccessful;
@@ -461,7 +500,9 @@ public class Results {
     public static <T> T getValueOrThrow(Result<T> result, String template, Object a1, Object a2)
             throws UnexpectedResultException {
         if (!result.isSuccess()) {
-            result.getStatus().expectSuccess(String.format(template, a1, a2));
+            result.getStatus().expectSuccess(
+                    String.format(template, a1, a2)
+            );
         }
         return result.getValue();
     }
