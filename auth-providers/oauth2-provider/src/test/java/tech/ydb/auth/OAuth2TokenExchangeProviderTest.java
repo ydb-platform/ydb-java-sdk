@@ -190,7 +190,7 @@ public class OAuth2TokenExchangeProviderTest {
 
         OAuth2TokenSource token = OAuth2TokenSource.fromValue("Token1", "Test");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token)
-                .withActor("actorToken", "actorType")
+                .withActorTokenSource(OAuth2TokenSource.fromValue("actorToken", "actorType"))
                 .withAudience("testAudience")
                 .withResource("Resource")
                 .withScope("TestedScope")
@@ -209,10 +209,10 @@ public class OAuth2TokenExchangeProviderTest {
                 "resource=Resource",
                 "audience=testAudience",
                 "scope=TestedScope",
-                "actor_token=actorToken",
-                "actor_token_type=actorType",
                 "subject_token=Token1",
-                "subject_token_type=Test"
+                "subject_token_type=Test",
+                "actor_token=actorToken",
+                "actor_token_type=actorType"
             ).collect(Collectors.joining("&")).replace(":", "%3A");
 
             mockClient.verify(HttpRequest.request().withMethod("POST")

@@ -43,16 +43,17 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
     private final Clock clock;
     private final String endpoint;
-    private final OAuth2TokenSource tokenSource;
+    private final OAuth2TokenSource subjectTokenSource;
+    private final OAuth2TokenSource actorTokenSource;
     private final List<NameValuePair> httpForm;
     private final int timeoutSeconds;
 
-    private OAuth2TokenExchangeProvider(
-            Clock clock, String endpoint, OAuth2TokenSource tokenSource, List<NameValuePair> form, int timeoutSeconds
-    ) {
+    private OAuth2TokenExchangeProvider(Clock clock, String endpoint, OAuth2TokenSource subject,
+            OAuth2TokenSource actor, List<NameValuePair> form, int timeoutSeconds) {
         this.clock = clock;
         this.endpoint = endpoint;
-        this.tokenSource = tokenSource;
+        this.subjectTokenSource = subject;
+        this.actorTokenSource = actor;
         this.httpForm = form;
         this.timeoutSeconds = timeoutSeconds;
     }
@@ -66,8 +67,10 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         private final ExecutorService executor;
         private final CloseableHttpClient client;
 
-        private volatile Instant expiredAt;
-        private volatile String tokenValue;
+        private volatile Instant subjectExpiredAt;
+        private volatile String subjectToken;
+        private volatile Instant actorExpiredAt;
+        private volatile String actorToken;
 
         OAuth2Rpc(ExecutorService executor) {
             this.executor = executor;
@@ -84,9 +87,15 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
 
         private Token updateToken() throws IOException {
-            if (expiredAt == null || clock.instant().isAfter(expiredAt)) {
-                tokenValue = tokenSource.getToken();
-                expiredAt = clock.instant().plusSeconds(tokenSource.getExpireInSeconds());
+            if (subjectExpiredAt == null || clock.instant().isAfter(subjectExpiredAt)) {
+                subjectToken = subjectTokenSource.getToken();
+                subjectExpiredAt = clock.instant().plusSeconds(subjectTokenSource.getExpireInSeconds());
+            }
+            if (actorTokenSource != null) {
+                if (actorExpiredAt == null || clock.instant().isAfter(actorExpiredAt)) {
+                    actorToken = actorTokenSource.getToken();
+                    actorExpiredAt = clock.instant().plusSeconds(actorTokenSource.getExpireInSeconds());
+                }
             }
             HttpPost post = new HttpPost(endpoint);
             post.setEntity(buildHttpForm());
@@ -168,8 +177,13 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         private HttpEntity buildHttpForm() {
             List<NameValuePair> params = new ArrayList<>();
             params.addAll(httpForm);
-            params.add(new BasicNameValuePair("subject_token", tokenValue));
-            params.add(new BasicNameValuePair("subject_token_type", tokenSource.getType()));
+            params.add(new BasicNameValuePair("subject_token", subjectToken));
+            params.add(new BasicNameValuePair("subject_token_type", subjectTokenSource.getType()));
+
+            if (actorToken != null) {
+                params.add(new BasicNameValuePair("actor_token", actorToken));
+                params.add(new BasicNameValuePair("actor_token_type", actorTokenSource.getType()));
+            }
 
             try {
                 return new UrlEncodedFormEntity(params);
@@ -185,13 +199,12 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
     public static class Builder {
         private final String endpoint;
-        private final OAuth2TokenSource tokenSource;
+        private final OAuth2TokenSource subject;
 
         private Clock clock = Clock.systemUTC();
         private int timeoutSeconds = 60;
 
-        private String actorToken = null;
-        private String actorType = null;
+        private OAuth2TokenSource actor = null;
 
         private String scope = null;
         private String resource = null;
@@ -202,7 +215,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
         private Builder(String endpoint, OAuth2TokenSource tokenSource) {
             this.endpoint = endpoint;
-            this.tokenSource = tokenSource;
+            this.subject = tokenSource;
         }
 
         @VisibleForTesting
@@ -211,9 +224,8 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             return this;
         }
 
-        public Builder withActor(String token, String type) {
-            this.actorToken = token;
-            this.actorType = type;
+        public Builder withActorTokenSource(OAuth2TokenSource actorTokenSouce) {
+            this.actor = actorTokenSouce;
             return this;
         }
 
@@ -248,7 +260,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
 
         public OAuth2TokenExchangeProvider build() {
-            return new OAuth2TokenExchangeProvider(clock, endpoint, tokenSource, fixedFormArgs(), timeoutSeconds);
+            return new OAuth2TokenExchangeProvider(clock, endpoint, subject, actor, fixedFormArgs(), timeoutSeconds);
         }
 
         private List<NameValuePair> fixedFormArgs() {
@@ -267,12 +279,6 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             }
             if (scope != null) {
                 params.add(new BasicNameValuePair("scope", scope));
-            }
-            if (actorToken != null) {
-                params.add(new BasicNameValuePair("actor_token", actorToken));
-            }
-            if (actorType != null) {
-                params.add(new BasicNameValuePair("actor_token_type", actorType));
             }
 
             return params;
