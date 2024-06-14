@@ -94,9 +94,9 @@ public class OAuth2TokenExchangeProviderTest {
     private String requestForm(String token) {
         return Stream.of(
                 "grand_type=" + OAuth2TokenExchangeProvider.GRANT_TYPE,
-                "requested_token_type=" + OAuth2Token.ACCESS_TOKEN,
+                "requested_token_type=" + OAuth2TokenSource.ACCESS_TOKEN,
                 "subject_token=" + token,
-                "subject_token_type=" + OAuth2Token.JWT_TOKEN
+                "subject_token_type=" + OAuth2TokenSource.JWT_TOKEN
         ).collect(Collectors.joining("&")).replace(":", "%3A");
     }
 
@@ -104,7 +104,7 @@ public class OAuth2TokenExchangeProviderTest {
     public void simpleTest() {
         mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token"));
 
-        OAuth2Token token = OAuth2Token.fromValue("Token1");
+        OAuth2TokenSource token = OAuth2TokenSource.fromValue("Token1");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             // token is cached
@@ -121,9 +121,9 @@ public class OAuth2TokenExchangeProviderTest {
     @Test
     public void refreshTokensTest() {
         Clock clock = Mockito.mock(Clock.class);
-        OAuth2Token token = Mockito.mock(OAuth2Token.class);
+        OAuth2TokenSource token = Mockito.mock(OAuth2TokenSource.class);
 
-        Mockito.when(token.getType()).thenReturn(OAuth2Token.JWT_TOKEN);
+        Mockito.when(token.getType()).thenReturn(OAuth2TokenSource.JWT_TOKEN);
         Mockito.when(token.getExpireInSeconds()).thenReturn(40);
         Mockito.when(token.getToken()).thenReturn("jwt1", "jwt2");
 
@@ -188,14 +188,14 @@ public class OAuth2TokenExchangeProviderTest {
     public void customRequestTest() {
         mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("custom_token"));
 
-        OAuth2Token token = OAuth2Token.fromValue("Token1", "Test");
+        OAuth2TokenSource token = OAuth2TokenSource.fromValue("Token1", "Test");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token)
                 .withActor("actorToken", "actorType")
                 .withAudience("testAudience")
                 .withResource("Resource")
                 .withScope("TestedScope")
-                .withCustomGrantType(OAuth2Token.ACCESS_TOKEN)
-                .withCustomRequestedTokenType(OAuth2Token.REFRESH_TOKEN)
+                .withCustomGrantType(OAuth2TokenSource.ACCESS_TOKEN)
+                .withCustomRequestedTokenType(OAuth2TokenSource.REFRESH_TOKEN)
                 .build();
 
         try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
@@ -204,8 +204,8 @@ public class OAuth2TokenExchangeProviderTest {
             Assert.assertEquals("Bearer custom_token", identity.getToken());
 
             String form = Stream.of(
-                "grand_type=" + OAuth2Token.ACCESS_TOKEN,
-                "requested_token_type=" + OAuth2Token.REFRESH_TOKEN,
+                "grand_type=" + OAuth2TokenSource.ACCESS_TOKEN,
+                "requested_token_type=" + OAuth2TokenSource.REFRESH_TOKEN,
                 "resource=Resource",
                 "audience=testAudience",
                 "scope=TestedScope",
@@ -226,7 +226,7 @@ public class OAuth2TokenExchangeProviderTest {
     public void wrongTokenTypeTest() {
         mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token", "Basic", 60));
 
-        OAuth2Token token = OAuth2Token.fromValue("non");
+        OAuth2TokenSource token = OAuth2TokenSource.fromValue("non");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             UnexpectedResultException ex1 = Assert.assertThrows(UnexpectedResultException.class, identity::getToken);
@@ -258,7 +258,7 @@ public class OAuth2TokenExchangeProviderTest {
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
                 .respond(createResponse("test_token", "Bearer", -1));
 
-        OAuth2Token token = OAuth2Token.fromValue("non");
+        OAuth2TokenSource token = OAuth2TokenSource.fromValue("non");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             Assert.assertEquals(
@@ -296,7 +296,7 @@ public class OAuth2TokenExchangeProviderTest {
         mockClient.when(HttpRequest.request().withMethod("POST"), Times.once())
                 .respond(HttpResponse.response().withStatusCode(504));
 
-        OAuth2Token token = OAuth2Token.fromValue("non");
+        OAuth2TokenSource token = OAuth2TokenSource.fromValue("non");
         OAuth2TokenExchangeProvider provider = OAuth2TokenExchangeProvider.newBuilder(testEndpoint(), token).build();
         try (AuthIdentity identity = provider.createAuthIdentity(authRpc)) {
             Supplier<String> next = () -> Assert.assertThrows(

@@ -97,10 +97,10 @@ public class OAuth2TokenTest {
             writer.write("token_from_file");
         }
 
-        OAuth2Token token = OAuth2Token.fromFile(file);
+        OAuth2TokenSource token = OAuth2TokenSource.fromFile(file);
 
         Assert.assertEquals("token_from_file", token.getToken());
-        Assert.assertEquals(OAuth2Token.JWT_TOKEN, token.getType());
+        Assert.assertEquals(OAuth2TokenSource.JWT_TOKEN, token.getType());
 
         file.delete();
     }
@@ -112,7 +112,7 @@ public class OAuth2TokenTest {
             writer.write(TEST_PRIVATE_KEY);
         }
 
-        OAuth2Token token = OAuth2Token.fromPrivateKeyPemFile(file).build();
+        OAuth2TokenSource token = OAuth2TokenSource.fromPrivateKeyPemFile(file).build();
         String jwt = token.getToken();
 
         Jwt<?, Claims> parsed = Jwts.parser()
@@ -129,7 +129,7 @@ public class OAuth2TokenTest {
         Clock clock = Mockito.mock(Clock.class);
         Mockito.when(clock.instant()).thenReturn(now);
 
-        OAuth2Token token = OAuth2Token.fromKey(getRsaPrivateKey())
+        OAuth2TokenSource token = OAuth2TokenSource.fromKey(getRsaPrivateKey())
                 .withAudience("testAudience")
                 .withIssuer("junitIssuer")
                 .withId("test")

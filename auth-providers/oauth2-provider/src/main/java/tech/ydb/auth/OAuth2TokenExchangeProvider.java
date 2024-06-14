@@ -43,16 +43,16 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
     private final Clock clock;
     private final String endpoint;
-    private final OAuth2Token oauthToken;
+    private final OAuth2TokenSource tokenSource;
     private final List<NameValuePair> httpForm;
     private final int timeoutSeconds;
 
     private OAuth2TokenExchangeProvider(
-            Clock clock, String endpoint, OAuth2Token token, List<NameValuePair> form, int timeoutSeconds
+            Clock clock, String endpoint, OAuth2TokenSource tokenSource, List<NameValuePair> form, int timeoutSeconds
     ) {
         this.clock = clock;
         this.endpoint = endpoint;
-        this.oauthToken = token;
+        this.tokenSource = tokenSource;
         this.httpForm = form;
         this.timeoutSeconds = timeoutSeconds;
     }
@@ -85,8 +85,8 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
         private Token updateToken() throws IOException {
             if (expiredAt == null || clock.instant().isAfter(expiredAt)) {
-                tokenValue = oauthToken.getToken();
-                expiredAt = clock.instant().plusSeconds(oauthToken.getExpireInSeconds());
+                tokenValue = tokenSource.getToken();
+                expiredAt = clock.instant().plusSeconds(tokenSource.getExpireInSeconds());
             }
             HttpPost post = new HttpPost(endpoint);
             post.setEntity(buildHttpForm());
@@ -169,7 +169,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             List<NameValuePair> params = new ArrayList<>();
             params.addAll(httpForm);
             params.add(new BasicNameValuePair("subject_token", tokenValue));
-            params.add(new BasicNameValuePair("subject_token_type", oauthToken.getType()));
+            params.add(new BasicNameValuePair("subject_token_type", tokenSource.getType()));
 
             try {
                 return new UrlEncodedFormEntity(params);
@@ -179,13 +179,13 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
     }
 
-    public static Builder newBuilder(String endpoint, OAuth2Token token) {
+    public static Builder newBuilder(String endpoint, OAuth2TokenSource token) {
         return new Builder(endpoint, token);
     }
 
     public static class Builder {
         private final String endpoint;
-        private final OAuth2Token token;
+        private final OAuth2TokenSource tokenSource;
 
         private Clock clock = Clock.systemUTC();
         private int timeoutSeconds = 60;
@@ -198,11 +198,11 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         private String audience = null;
 
         private String grantType = GRANT_TYPE;
-        private String requestedTokenType = OAuth2Token.ACCESS_TOKEN;
+        private String requestedTokenType = OAuth2TokenSource.ACCESS_TOKEN;
 
-        private Builder(String endpoint, OAuth2Token token) {
+        private Builder(String endpoint, OAuth2TokenSource tokenSource) {
             this.endpoint = endpoint;
-            this.token = token;
+            this.tokenSource = tokenSource;
         }
 
         @VisibleForTesting
@@ -248,7 +248,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
 
         public OAuth2TokenExchangeProvider build() {
-            return new OAuth2TokenExchangeProvider(clock, endpoint, token, fixedFormArgs(), timeoutSeconds);
+            return new OAuth2TokenExchangeProvider(clock, endpoint, tokenSource, fixedFormArgs(), timeoutSeconds);
         }
 
         private List<NameValuePair> fixedFormArgs() {

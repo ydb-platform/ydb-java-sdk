@@ -25,7 +25,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
  *
  * @author Aleksandr Gorshenin
  */
-public abstract class OAuth2Token {
+public abstract class OAuth2TokenSource {
     public static final String ACCESS_TOKEN = "urn:ietf:params:oauth:token-type:access_token";
     public static final String JWT_TOKEN = "urn:ietf:params:oauth:token-type:jwt";
 
@@ -37,7 +37,7 @@ public abstract class OAuth2Token {
     private final String type;
     private final int expireInSeconds;
 
-    protected OAuth2Token(String type, int expireInSeconds) {
+    protected OAuth2TokenSource(String type, int expireInSeconds) {
         this.type = type;
         this.expireInSeconds = expireInSeconds;
     }
@@ -52,12 +52,12 @@ public abstract class OAuth2Token {
 
     public abstract String getToken();
 
-    public static OAuth2Token fromValue(String token) {
+    public static OAuth2TokenSource fromValue(String token) {
         return fromValue(token, JWT_TOKEN);
     }
 
-    public static OAuth2Token fromValue(String token, String tokenType) {
-        return new OAuth2Token(tokenType, 100 * 365 * 24 * 60 * 60) { // Expire in 100 year ~ never expired
+    public static OAuth2TokenSource fromValue(String token, String tokenType) {
+        return new OAuth2TokenSource(tokenType, 100 * 365 * 24 * 60 * 60) { // Expire in 100 year ~ never expired
             @Override
             public String getToken() {
                 return token;
@@ -65,12 +65,12 @@ public abstract class OAuth2Token {
         };
     }
 
-    public static OAuth2Token fromFile(File tokenFile) {
+    public static OAuth2TokenSource fromFile(File tokenFile) {
         return fromFile(tokenFile, JWT_TOKEN);
     }
 
-    public static OAuth2Token fromFile(File tokenFile, String tokenType) {
-        return new OAuth2Token(tokenType, 24 * 60 * 60) { // Expire in 1 day
+    public static OAuth2TokenSource fromFile(File tokenFile, String tokenType) {
+        return new OAuth2TokenSource(tokenType, 24 * 60 * 60) { // Expire in 1 day
             @Override
             public String getToken() {
                 try (FileReader reader = new FileReader(tokenFile)) {
@@ -154,8 +154,8 @@ public abstract class OAuth2Token {
             return this;
         }
 
-        public OAuth2Token build() {
-            return new OAuth2Token(JWT_TOKEN, ttlSeconds) {
+        public OAuth2TokenSource build() {
+            return new OAuth2TokenSource(JWT_TOKEN, ttlSeconds) {
                 @Override
                 public String getToken() {
                     Instant issuedAt = clock.instant();
