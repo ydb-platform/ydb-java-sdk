@@ -104,7 +104,7 @@ public class OAuth2TokenExchangeProviderTest {
 
     private String requestForm(String token) {
         return Stream.of(
-                "grand_type=" + OAuth2TokenExchangeProvider.GRANT_TYPE,
+                "grant_type=" + OAuth2TokenExchangeProvider.GRANT_TYPE,
                 "requested_token_type=" + OAuth2TokenSource.ACCESS_TOKEN,
                 "subject_token=" + token,
                 "subject_token_type=" + OAuth2TokenSource.JWT_TOKEN
@@ -217,7 +217,7 @@ public class OAuth2TokenExchangeProviderTest {
             Assert.assertEquals("Bearer custom_token", identity.getToken());
 
             String form = Stream.of(
-                "grand_type=" + OAuth2TokenSource.ACCESS_TOKEN,
+                "grant_type=" + OAuth2TokenSource.ACCESS_TOKEN,
                 "requested_token_type=" + OAuth2TokenSource.REFRESH_TOKEN,
                 "resource=Resource",
                 "resource=OtherResource",

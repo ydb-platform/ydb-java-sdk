@@ -276,7 +276,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             List<NameValuePair> params = new ArrayList<>();
 
             // Required parameters
-            params.add(new BasicNameValuePair("grand_type", grantType));
+            params.add(new BasicNameValuePair("grant_type", grantType));
             params.add(new BasicNameValuePair("requested_token_type", requestedTokenType));
 
             // Optional parameters
