@@ -1,3 +1,9 @@
+## 2.2.3 ##
+
+* Added modele with OAuth2 token exchange auth provider
+* Core: added allocation-free helper for Result extraction
+* Exports: add methods to find existing operations
+
 ## 2.2.2 ##
 
 * Core: added option to configure transport initialization mode
