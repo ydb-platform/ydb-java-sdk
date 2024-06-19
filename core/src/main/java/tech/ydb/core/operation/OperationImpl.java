@@ -64,10 +64,6 @@ class OperationImpl<T> implements AsyncOperation<T> {
 
     @Override
     public CompletableFuture<Status> cancel() {
-        if (value != null) {
-            return CompletableFuture.completedFuture(ReadyOperation.ALREADY_DONE_STATUS);
-        }
-
         GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().build();
         OperationProtos.CancelOperationRequest request = OperationProtos.CancelOperationRequest.newBuilder()
                         .setId(id)
@@ -80,10 +76,6 @@ class OperationImpl<T> implements AsyncOperation<T> {
 
     @Override
     public CompletableFuture<Status> forget() {
-        if (value != null) {
-            return CompletableFuture.completedFuture(ReadyOperation.ALREADY_DONE_STATUS);
-        }
-
         GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().build();
         OperationProtos.ForgetOperationRequest request = OperationProtos.ForgetOperationRequest.newBuilder()
                         .setId(id)
