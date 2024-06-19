@@ -1,3 +1,7 @@
+## 2.2.4 ##
+
+* Core: fixed operations canceling and forgeting
+
 ## 2.2.3 ##
 
 * Added modele with OAuth2 token exchange auth provider
