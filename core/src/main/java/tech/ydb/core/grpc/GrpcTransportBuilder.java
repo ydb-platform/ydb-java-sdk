@@ -160,6 +160,10 @@ public class GrpcTransportBuilder {
         return compression;
     }
 
+    public InitMode getInitMode() {
+        return initMode;
+    }
+
     public boolean isEnableRetry() {
         return grpcRetry;
     }
