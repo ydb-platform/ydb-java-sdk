@@ -86,11 +86,7 @@ public class OperationBinder {
             }
 
             OperationProtos.Operation operation = method.apply(result.getValue());
-            if (operation.getReady()) {
-                return new ReadyOperation<>(operation.getId(), status(operation));
-            }
-
-            return new OperationImpl<>(transport, operation.getId(), OperationBinder::status);
+            return new OperationImpl<>(transport, operation, OperationBinder::status);
         };
     }
 
@@ -104,11 +100,7 @@ public class OperationBinder {
             }
 
             OperationProtos.Operation operation = method.apply(result.getValue());
-            if (operation.getReady()) {
-                return new ReadyOperation<>(operation.getId(), result(operation, resultClass));
-            }
-
-            return new OperationImpl<>(transport, operation.getId(), o -> result(o, resultClass));
+            return new OperationImpl<>(transport, operation, o -> result(o, resultClass));
         };
     }
 }

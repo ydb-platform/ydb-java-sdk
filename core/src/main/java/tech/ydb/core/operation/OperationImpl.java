@@ -31,10 +31,13 @@ class OperationImpl<T> implements AsyncOperation<T> {
     private final Function<OperationProtos.Operation, T> valueExtractor;
     private volatile T value = null;
 
-    OperationImpl(GrpcTransport transport, String id, Function<OperationProtos.Operation, T> extractor) {
-        this.transport = transport;
-        this.id = id;
-        this.valueExtractor = extractor;
+    OperationImpl(GrpcTransport tr, OperationProtos.Operation op, Function<OperationProtos.Operation, T> ve) {
+        this.transport = tr;
+        this.id = op.getId();
+        this.valueExtractor = ve;
+        if (op.getReady()) {
+            this.value = ve.apply(op);
+        }
     }
 
     @Override
@@ -59,7 +62,7 @@ class OperationImpl<T> implements AsyncOperation<T> {
 
     @Override
     public String toString() {
-        return "AsyncOperation{id=" + id + ", ready=" + (value != null) + "}";
+        return "Operation{id=" + id + ", ready=" + (value != null) + "}";
     }
 
     @Override
@@ -88,10 +91,6 @@ class OperationImpl<T> implements AsyncOperation<T> {
 
     @Override
     public CompletableFuture<Result<Boolean>> fetch() {
-        if (value != null) {
-            return CompletableFuture.completedFuture(Result.success(Boolean.TRUE));
-        }
-
         GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().build();
         OperationProtos.GetOperationRequest request = OperationProtos.GetOperationRequest.newBuilder()
                         .setId(id)
@@ -169,7 +168,7 @@ class OperationImpl<T> implements AsyncOperation<T> {
 
         @Override
         public String toString() {
-            return "ProxyAsyncOperation{id=" + id + ", ready=" + (value != null) + "}";
+            return "OperationProxy{id=" + id + ", ready=" + (value != null) + "}";
         }
     }
 }

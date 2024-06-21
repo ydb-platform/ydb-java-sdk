@@ -1,5 +1,6 @@
 package tech.ydb.core.operation;
 
+
 import com.google.protobuf.Any;
 import org.junit.Assert;
 import org.junit.Test;
@@ -203,14 +204,13 @@ public class OperationBinderTest {
     @Test
     public void asyncStatusBinderTest() {
         YdbTable.AlterTableResponse response = YdbTable.AlterTableResponse.newBuilder()
-                .setOperation(
-                        OperationProtos.Operation.newBuilder()
-                                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-                                .setId("ready-id")
-                                .setReady(true)
-                                .setCostInfo(CommonProtos.CostInfo.newBuilder().setConsumedUnits(15d).build())
-                                .build())
-                .build();
+                .setOperation(OperationProtos.Operation.newBuilder()
+                        .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                        .setId("ready-id")
+                        .setReady(true)
+                        .setCostInfo(CommonProtos.CostInfo.newBuilder().setConsumedUnits(15d).build())
+                        .build()
+                ).build();
 
         Operation<Status> operation = OperationBinder
                 .bindAsync(mocked, YdbTable.AlterTableResponse::getOperation)
@@ -225,10 +225,6 @@ public class OperationBinderTest {
         Assert.assertTrue(status.hasConsumedRu());
         Assert.assertEquals(Double.valueOf(15d), status.getConsumedRu());
         Assert.assertEquals(0, status.getIssues().length);
-
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
-        Assert.assertTrue(operation.fetch().join().getValue());
     }
 
     @Test
@@ -254,10 +250,6 @@ public class OperationBinderTest {
         Status status = operation.getValue();
         Assert.assertNotNull(status);
         Assert.assertEquals(error, status);
-
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
-        Assert.assertTrue(operation.fetch().join().getValue());
     }
 
     @Test
@@ -322,10 +314,6 @@ public class OperationBinderTest {
         Assert.assertTrue(result.getStatus().hasConsumedRu());
         Assert.assertEquals(Double.valueOf(15d), result.getStatus().getConsumedRu());
         Assert.assertEquals(0, result.getStatus().getIssues().length);
-
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
-        Assert.assertTrue(operation.fetch().join().getValue());
     }
 
     @Test
@@ -351,10 +339,6 @@ public class OperationBinderTest {
         Result<YdbTable.ExplainQueryResult> result = operation.getValue();
         Assert.assertNotNull(result);
         Assert.assertEquals(error, result.getStatus());
-
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.cancel().join());
-        Assert.assertEquals(ReadyOperation.ALREADY_DONE_STATUS, operation.forget().join());
-        Assert.assertTrue(operation.fetch().join().getValue());
     }
 
     @Test
