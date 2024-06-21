@@ -42,11 +42,6 @@ public class OperationTrayTest {
     @Before
     public void prepare() {
         Mockito.when(transport.getScheduler()).thenReturn(scheduler);
-//        Mockito.when(scheduler.schedule(Mockito.any(Runnable.class), Mockito.anyInt(), Mockito.any())).thenAnswer(
-//                (InvocationOnMock iom) -> {
-//                    scheduledActions.offer(iom.getArgument(0, Runnable.class));
-//                    return null;
-//                });
     }
 
     @Test
