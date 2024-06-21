@@ -1,3 +1,7 @@
+## 2.2.5 ##
+
+* Core: fixed work with ready operations
+
 ## 2.2.4 ##
 
 * Core: fixed operations canceling and forgeting
