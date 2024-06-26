@@ -140,24 +140,28 @@ public class YdbDiscovery {
 
     private void runDiscovery() {
         lastUpdateTime = handler.instant();
-
         final GrpcTransport transport = handler.createDiscoveryTransport();
-        logger.debug("execute list endpoints on {} with timeout {}", transport, discoveryTimeout);
-        DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
-                .setDatabase(discoveryDatabase)
-                .build();
+        try {
+            logger.debug("execute list endpoints on {} with timeout {}", transport, discoveryTimeout);
+            DiscoveryProtos.ListEndpointsRequest request = DiscoveryProtos.ListEndpointsRequest.newBuilder()
+                    .setDatabase(discoveryDatabase)
+                    .build();
 
-        GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                .withDeadline(discoveryTimeout)
-                .build();
+            GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
+                    .withDeadline(discoveryTimeout)
+                    .build();
 
-        transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
-                .whenComplete((res, ex) -> transport.close()) // close transport for any result
-                .thenApply(OperationBinder.bindSync(
-                        DiscoveryProtos.ListEndpointsResponse::getOperation,
-                        DiscoveryProtos.ListEndpointsResult.class
-                ))
-                .whenComplete(this::handleDiscoveryResult);
+            transport.unaryCall(DiscoveryServiceGrpc.getListEndpointsMethod(), grpcSettings, request)
+                    .whenComplete((res, ex) -> transport.close()) // close transport for any result
+                    .thenApply(OperationBinder.bindSync(
+                            DiscoveryProtos.ListEndpointsResponse::getOperation,
+                            DiscoveryProtos.ListEndpointsResult.class
+                    ))
+                    .whenComplete(this::handleDiscoveryResult);
+        } catch (Throwable th) {
+            transport.close();
+            handleDiscoveryResult(null, th);
+        }
     }
 
     private void handleThrowable(Throwable th) {

@@ -127,6 +127,10 @@
                         <groupId>io.grpc</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.google.protobuf</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -137,6 +141,10 @@
                 <exclusions>
                     <exclusion>
                         <groupId>io.grpc</groupId>
+                        <artifactId>*</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>com.google.protobuf</groupId>
                         <artifactId>*</artifactId>
                     </exclusion>
                 </exclusions>
