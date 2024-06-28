@@ -46,6 +46,7 @@ public interface Type {
         STRUCT,
         DICT,
         VARIANT,
-        VOID;
+        VOID,
+        PG_TYPE;
     }
 }

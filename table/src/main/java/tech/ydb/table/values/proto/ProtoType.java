@@ -11,13 +11,13 @@ import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DictType;
 import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.OptionalType;
+import tech.ydb.table.values.PgType;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.StructType;
 import tech.ydb.table.values.TupleType;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.VariantType;
 import tech.ydb.table.values.VoidType;
-
 
 /**
  * @author Sergey Polovko
@@ -334,6 +334,16 @@ public class ProtoType {
         return VOID;
     }
 
+    public static ValueProtos.Type getPgType(int oid, int typlen, int typmod) {
+        return ValueProtos.Type.newBuilder()
+                .setPgType(ValueProtos.PgType.newBuilder()
+                        .setOid(typlen)
+                        .setTyplen(typlen)
+                        .setTypmod(typlen)
+                        .build()
+                ).build();
+    }
+
     public static Type fromPb(ValueProtos.Type type) {
         switch (type.getTypeCase()) {
             case TYPE_ID:
@@ -406,6 +416,10 @@ public class ProtoType {
 
             case VOID_TYPE:
                 return VoidType.of();
+
+            case PG_TYPE:
+                ValueProtos.PgType pgType = type.getPgType();
+                return PgType.of(pgType.getOid(), pgType.getTyplen(), pgType.getTypmod());
 
             default:
                 throw new IllegalStateException("unknown type: " + type.getTypeCase());
