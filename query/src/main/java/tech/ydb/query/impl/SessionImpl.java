@@ -260,7 +260,8 @@ abstract class SessionImpl implements QuerySession {
                 if (isTraceEnabled) {
                     logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
                 }
-                Status status = Status.of(StatusCode.fromProto(msg.getStatus()), Issue.fromPb(msg.getIssuesList()));
+                Issue[] issues = Issue.fromPb(msg.getIssuesList());
+                Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
 
                 updateSessionState(status);
 
@@ -273,12 +274,16 @@ abstract class SessionImpl implements QuerySession {
                 if (msg.hasTxMeta()) {
                     handleTxMeta(msg.getTxMeta());
                 }
+                if (issues.length > 0) {
+                    handler.onIssues(issues);
+                }
                 if (msg.hasExecStats()) {
                     QueryStats old = stats.getAndSet(new QueryStats(msg.getExecStats()));
                     if (old != null) {
                         logger.warn("{} got lost previous exec stats {}", SessionImpl.this, old);
                     }
                 }
+
                 if (msg.hasResultSet()) {
                     long index = msg.getResultSetIndex();
                     if (handler != null) {

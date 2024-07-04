@@ -15,13 +15,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryTransaction;
-import tech.ydb.common.transaction.TxMode;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.ExecuteQuerySettings;
@@ -361,6 +361,42 @@ public class QueryIntegrationTest {
                         .createQuery("DROP TABLE demo_table;", TxMode.NONE)
                         .execute(this::printQuerySetPart);
                 dropTable.join().getStatus().expectSuccess();
+            }
+        }
+    }
+
+    @Test
+    public void testQueryWarngins() {
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                CompletableFuture<Result<QueryInfo>> createTable = session
+                        .createQuery("CREATE TABLE demo_idx("
+                                + "id Int32, value Int32, "
+                                + "PRIMARY KEY(id), INDEX idx_value GLOBAL ON(value)"
+                                + ");", TxMode.NONE)
+                        .execute(this::printQuerySetPart);
+                createTable.join().getStatus().expectSuccess();
+
+                try {
+                    Result<QueryReader> result = QueryReader.readFrom(session.createQuery(
+                            "SELECT * FROM demo_idx VIEW idx_value WHERE id = 1", TxMode.SERIALIZABLE_RW
+                    )).join();
+
+                    Assert.assertTrue(result.isSuccess());
+                    Assert.assertTrue(result.getStatus().getIssues().length == 0);
+
+                    QueryReader reader = result.getValue();
+                    Assert.assertEquals(1, reader.getIssueList().size());
+                    Assert.assertEquals("#1060 Execution (S_WARNING)\n  1:1 - 1:1: "
+                            + "#2503 Given predicate is not suitable for used index: idx_value (S_WARNING)",
+                            reader.getIssueList().get(0).toString()
+                    );
+                } finally {
+                    CompletableFuture<Result<QueryInfo>> dropTable = session
+                            .createQuery("DROP TABLE demo_idx;", TxMode.NONE)
+                            .execute(this::printQuerySetPart);
+                    dropTable.join().getStatus().expectSuccess();
+                }
             }
         }
     }
