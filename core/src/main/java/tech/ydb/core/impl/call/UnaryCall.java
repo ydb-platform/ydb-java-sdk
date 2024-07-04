@@ -5,6 +5,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
 
+import com.google.protobuf.Message;
+import com.google.protobuf.TextFormat;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import org.slf4j.Logger;
@@ -15,6 +17,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcStatuses;
+import tech.ydb.core.grpc.GrpcTransport;
 
 /**
  *
@@ -23,7 +26,7 @@ import tech.ydb.core.grpc.GrpcStatuses;
  * @param <RespT> type of call return
  */
 public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
-    private static final Logger logger = LoggerFactory.getLogger(UnaryCall.class);
+    private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
     private static final Status NO_VALUE = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
             .withIssues(Issue.of("No value received for gRPC unary call", Issue.Severity.ERROR));
@@ -31,13 +34,15 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
     private static final Status MULTIPLY_VALUES = Status.of(StatusCode.CLIENT_INTERNAL_ERROR)
             .withIssues(Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR));
 
+    private final String traceId;
     private final ClientCall<ReqT, RespT> call;
     private final GrpcStatusHandler statusConsumer;
 
     private final CompletableFuture<Result<RespT>> future = new CompletableFuture<>();
     private final AtomicReference<RespT> value = new AtomicReference<>();
 
-    public UnaryCall(ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
+    public UnaryCall(String traceId, ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
+        this.traceId = traceId;
         this.call = call;
         this.statusConsumer = statusConsumer;
     }
@@ -46,6 +51,9 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
         try {
             call.start(this, headers);
             call.request(1);
+            if (logger.isTraceEnabled()) {
+                logger.trace("UnaryCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
+            }
             call.sendMessage(request);
             call.halfClose();
         } catch (Exception ex) {
@@ -53,7 +61,7 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
             try {
                 call.cancel(ex.getMessage(), ex);
             } catch (Exception ex2) {
-                logger.error("Exception encountered while closing the unary call", ex2);
+                logger.error("UnaryCall[{}] got exception while canceling", traceId, ex2);
             }
         }
 
@@ -62,6 +70,9 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
 
     @Override
     public void onMessage(RespT value) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("UnaryCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) value));
+        }
         if (!this.value.compareAndSet(null, value)) {
             future.complete(Result.fail(MULTIPLY_VALUES));
         }
@@ -70,6 +81,9 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
     @Override
     public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
         statusConsumer.accept(status, trailers);
+        if (logger.isTraceEnabled()) {
+            logger.trace("UnaryCall[{}] closed with status {}", traceId, status);
+        }
 
         if (status.isOk()) {
             RespT snapshotValue = value.get();

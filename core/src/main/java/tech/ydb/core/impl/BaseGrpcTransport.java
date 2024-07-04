@@ -69,6 +69,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
         }
 
+        String traceId = settings.getTraceId();
         CallOptions options = getAuthCallOptions().getGrpcCallOptions();
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
@@ -84,19 +85,17 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
-                logger.trace("Sending request with traceId {} to {}, method `{}', request: `{}'",
-                        settings.getTraceId(),
-                        channel.getEndpoint(),
-                        method,
-                        request);
+                logger.trace("UnaryCall[{}] with method {} and endpoint {} created",
+                        traceId, method.getFullMethodName(), channel.getEndpoint().getHostAndPort()
+                );
             }
 
-            return new UnaryCall<>(call, handler).startCall(request, makeMetadataFromSettings(settings));
+            return new UnaryCall<>(traceId, call, handler).startCall(request, makeMetadataFromSettings(settings));
         } catch (UnexpectedResultException ex) {
-            logger.error("unary call with traceId {} unexprected status {}", settings.getTraceId(), ex.getStatus());
+            logger.error("UnaryCall[{}] got unexprected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
         } catch (RuntimeException ex) {
-            logger.error("unary call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
+            logger.error("UnaryCall[{}] got problem {}", traceId, ex.getMessage());
             return CompletableFuture.completedFuture(Result.error(ex.getMessage(), ex));
         }
     }
@@ -111,6 +110,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
+        String traceId = settings.getTraceId();
         CallOptions options = getAuthCallOptions().getGrpcCallOptions();
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
@@ -126,20 +126,17 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
-                logger.trace("Creating stream call with traceId {} to {}, method `{}', request: `{}'",
-                        settings.getTraceId(),
-                        channel.getEndpoint(),
-                        method,
-                        request);
+                logger.trace("ReadStreamCall[{}] with method {} and endpoint {} created",
+                        traceId, method.getFullMethodName(), channel.getEndpoint().getHostAndPort()
+                );
             }
 
-            return new ReadStreamCall<>(call, request, makeMetadataFromSettings(settings), handler);
+            return new ReadStreamCall<>(traceId, call, request, makeMetadataFromSettings(settings), handler);
         } catch (UnexpectedResultException ex) {
-            logger.error("server stream call with traceId {} unexpected status {}",
-                    settings.getTraceId(), ex.getStatus());
+            logger.error("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
-            logger.error("server stream call with traceId {} problem {}", settings.getTraceId(), ex.getMessage());
+            logger.error("ReadStreamCall[{}] got problem {}", traceId, ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
             return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         }
@@ -155,6 +152,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             return new EmptyStream<>(SHUTDOWN_RESULT.getStatus());
         }
 
+        String traceId = settings.getTraceId();
         CallOptions options = getAuthCallOptions().getGrpcCallOptions();
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
@@ -170,20 +168,19 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
-                logger.trace("Creating bidirectional stream call with traceId {} to {}, method `{}'",
-                        settings.getTraceId(),
-                        channel.getEndpoint(),
-                        method);
+                logger.trace("ReadWriteStreamCall[{}] with method {} and endpoint {} created",
+                        traceId, method.getFullMethodName(), channel.getEndpoint().getHostAndPort()
+                );
             }
 
-            return new ReadWriteStreamCall<>(call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler);
+            return new ReadWriteStreamCall<>(
+                    traceId, call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler
+            );
         } catch (UnexpectedResultException ex) {
-            logger.error("server bidirectional stream call with traceId {} unexpected status {}",
-                    settings.getTraceId(), ex.getStatus());
+            logger.error("ReadWriteStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
-            logger.error("server bidirectional stream call with traceId {} problem {}", settings.getTraceId(),
-                    ex.getMessage());
+            logger.error("ReadWriteStreamCall[{}] got problem {}", traceId, ex.getMessage());
             Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
             return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
         }

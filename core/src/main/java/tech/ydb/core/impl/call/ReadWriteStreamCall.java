@@ -8,6 +8,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nullable;
 
+import com.google.protobuf.Message;
+import com.google.protobuf.TextFormat;
 import io.grpc.ClientCall;
 import io.grpc.Metadata;
 import org.slf4j.Logger;
@@ -16,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcStatuses;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 
 /**
@@ -25,8 +28,9 @@ import tech.ydb.core.impl.auth.AuthCallOptions;
  * @param <W> type of message to be sent to the server
  */
 public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements GrpcReadWriteStream<R, W> {
-    private static final Logger logger = LoggerFactory.getLogger(ReadStreamCall.class);
+    private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
+    private final String traceId;
     private final ClientCall<W, R> call;
     private final GrpcStatusHandler statusConsumer;
     private final Metadata headers;
@@ -37,11 +41,13 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     private final Queue<W> messagesQueue = new ArrayDeque<>();
 
     public ReadWriteStreamCall(
+            String traceId,
             ClientCall<W, R> call,
             Metadata headers,
             AuthCallOptions callOptions,
             GrpcStatusHandler statusConsumer
     ) {
+        this.traceId = traceId;
         this.call = call;
         this.headers = headers;
         this.statusConsumer = statusConsumer;
@@ -95,6 +101,9 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
                 return true;
             }
 
+            if (logger.isTraceEnabled()) {
+                logger.trace("ReadWriteStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) next));
+            }
             call.sendMessage(next);
         }
         // call is not ready
@@ -111,6 +120,10 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     @Override
     public void onMessage(R message) {
         try {
+            if (logger.isTraceEnabled()) {
+                logger.trace("ReadWriteStreamCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) message));
+            }
+
             observerReference.get().onNext(message);
             // request delivery of the next inbound message.
             synchronized (call) {
@@ -145,6 +158,9 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
 
     @Override
     public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
+        if (logger.isTraceEnabled()) {
+            logger.trace("ReadWriteStreamCall[{}] closed with status {}", status);
+        }
         statusConsumer.accept(status, trailers);
 
         if (status.isOk()) {
