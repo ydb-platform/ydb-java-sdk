@@ -415,6 +415,7 @@ public class ProtoType {
             }
 
             case VOID_TYPE:
+            case NULL_TYPE:
                 return VoidType.of();
 
             case PG_TYPE:

@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Maps;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.NullValue;
 import com.google.protobuf.UnsafeByteOperations;
 
 import tech.ydb.proto.ValueProtos;
@@ -50,11 +49,11 @@ public class ProtoValue {
     private static final ValueProtos.Value EMPTY = ValueProtos.Value.newBuilder().build();
 
     private static final ValueProtos.Value EMPTY_OPTIONAL = ValueProtos.Value.newBuilder()
-        .setNullFlagValue(NullValue.NULL_VALUE)
+        .setNullFlagValue(com.google.protobuf.NullValue.NULL_VALUE)
         .build();
 
     private static final ValueProtos.Value VOID = ValueProtos.Value.newBuilder()
-        .setNullFlagValue(NullValue.NULL_VALUE)
+        .setNullFlagValue(com.google.protobuf.NullValue.NULL_VALUE)
         .build();
 
     private ProtoValue() { }
