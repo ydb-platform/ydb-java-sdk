@@ -47,6 +47,7 @@ public interface Type {
         DICT,
         VARIANT,
         VOID,
+        NULL,
         PG_TYPE;
     }
 }

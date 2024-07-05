@@ -63,6 +63,8 @@ public class ProtoValueReaders {
                 return variantReader(type);
             case VOID_TYPE:
                 return ProtoVoidValueReader.INSTANCE;
+            case NULL_TYPE:
+                return ProtoNullValueReader.INSTANCE;
             default:
                 throw new IllegalStateException("unsupported type: " + type);
         }

@@ -6,8 +6,12 @@ import java.util.List;
 
 import javax.annotation.Nonnull;
 
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.ClassRule;
+import org.junit.Test;
+
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
@@ -20,11 +24,6 @@ import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.test.junit4.GrpcTransportRule;
-
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
 
 
 public class TableQueryTest {
@@ -172,11 +171,11 @@ public class TableQueryTest {
         ).join().getValue().getResultSetReader();
 
         Assert.assertTrue(rsr.next());
-        Assert.assertEquals(rsr.getColumn("series_id").getUint64(), 1);
+        Assert.assertEquals(1, rsr.getColumn("series_id").getUint64());
         Assert.assertEquals("Once I rose above the noise and confusion", rsr.getColumn("title").getText());
         Assert.assertEquals("Carry on my wayward son", rsr.getColumn("series_info").getText());
         Assert.assertTrue(rsr.next());
-        Assert.assertEquals(rsr.getColumn("series_id").getUint64(), 2);
+        Assert.assertEquals(2, rsr.getColumn("series_id").getUint64());
         Assert.assertEquals("There'll be peace when you are done", rsr.getColumn("title").getText());
         Assert.assertEquals("Lay your weary head to rest", rsr.getColumn("series_info").getText());
         Assert.assertFalse(rsr.next());

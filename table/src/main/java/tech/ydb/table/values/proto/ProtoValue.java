@@ -16,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.common.collect.Maps;
 import com.google.protobuf.ByteString;
-import com.google.protobuf.NullValue;
 import com.google.protobuf.UnsafeByteOperations;
 
 import tech.ydb.proto.ValueProtos;
@@ -25,6 +24,7 @@ import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DecimalValue;
 import tech.ydb.table.values.DictType;
 import tech.ydb.table.values.ListType;
+import tech.ydb.table.values.NullValue;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
@@ -35,6 +35,8 @@ import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.VariantType;
 import tech.ydb.table.values.VoidValue;
+
+import static tech.ydb.table.values.Type.Kind.VOID;
 
 
 /**
@@ -50,11 +52,15 @@ public class ProtoValue {
     private static final ValueProtos.Value EMPTY = ValueProtos.Value.newBuilder().build();
 
     private static final ValueProtos.Value EMPTY_OPTIONAL = ValueProtos.Value.newBuilder()
-        .setNullFlagValue(NullValue.NULL_VALUE)
+        .setNullFlagValue(com.google.protobuf.NullValue.NULL_VALUE)
         .build();
 
     private static final ValueProtos.Value VOID = ValueProtos.Value.newBuilder()
-        .setNullFlagValue(NullValue.NULL_VALUE)
+        .setNullFlagValue(com.google.protobuf.NullValue.NULL_VALUE)
+        .build();
+
+    private static final ValueProtos.Value NULL = ValueProtos.Value.newBuilder()
+        .setNullFlagValue(com.google.protobuf.NullValue.NULL_VALUE)
         .build();
 
     private ProtoValue() { }
@@ -650,6 +656,12 @@ public class ProtoValue {
         return VOID;
     }
 
+    // -- null value --
+
+    public static ValueProtos.Value nullValue() {
+        return NULL;
+    }
+
     // -- from proto --
 
     public static Value<?> fromPb(Type type, ValueProtos.Value value) {
@@ -748,6 +760,9 @@ public class ProtoValue {
 
             case VOID:
                 return VoidValue.of();
+
+            case NULL:
+                return NullValue.of();
 
             default:
                 throw new IllegalStateException("unknown type kind: " + type.getKind());
