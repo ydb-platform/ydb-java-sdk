@@ -1,6 +1,7 @@
 package tech.ydb.query.tools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.result.QueryInfo;
@@ -23,10 +25,12 @@ import tech.ydb.table.values.Type;
  */
 public class QueryReader implements Iterable<ResultSetReader> {
     private final QueryInfo info;
+    private final List<Issue> isssues;
     private final List<ResultSetParts> results;
 
-    private QueryReader(QueryInfo info, List<ResultSetParts> results) {
+    private QueryReader(QueryInfo info, List<Issue> issues, List<ResultSetParts> results) {
         this.info = info;
+        this.isssues = issues;
         this.results = results;
     }
 
@@ -40,6 +44,10 @@ public class QueryReader implements Iterable<ResultSetReader> {
 
     public ResultSetReader getResultSet(int index) {
         return new CompositeResultSet(results.get(index).getParts());
+    }
+
+    public List<Issue> getIssueList() {
+        return this.isssues;
     }
 
     public static CompletableFuture<Result<QueryReader>> readFrom(QueryStream stream) {
@@ -71,6 +79,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
     }
 
     private static class PartsCollector implements QueryStream.PartsHandler {
+        private final List<Issue> issueList = new ArrayList<>();
         private final SortedMap<Long, ResultSetParts> results = new TreeMap<>();
 
         QueryReader toReader(QueryInfo info) {
@@ -86,7 +95,12 @@ public class QueryReader implements Iterable<ResultSetReader> {
                 lastInserted = key;
             }
 
-            return new QueryReader(info, ordered);
+            return new QueryReader(info, issueList, ordered);
+        }
+
+        @Override
+        public void onIssues(Issue[] issues) {
+            this.issueList.addAll(Arrays.asList(issues));
         }
 
         @Override
