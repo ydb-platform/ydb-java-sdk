@@ -1,6 +1,5 @@
 package tech.ydb.test.integration;
 
-import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testcontainers.DockerClientFactory;
@@ -20,8 +19,7 @@ public abstract class YdbHelperFactory {
         return SingletonHelper.INSTANCE;
     }
 
-    @VisibleForTesting
-    static YdbHelperFactory createYdbHelper(YdbEnvironment env) {
+    public static YdbHelperFactory createYdbHelper(YdbEnvironment env) {
         if (env.disableIntegrationTests()) {
             logger.info("ydb helper is disabled");
             return new DisabledFactory();
