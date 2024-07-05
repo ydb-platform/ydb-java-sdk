@@ -11,9 +11,9 @@ import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.transaction.TxControl;
+import tech.ydb.table.values.NullType;
+import tech.ydb.table.values.NullValue;
 import tech.ydb.table.values.PrimitiveType;
-import tech.ydb.table.values.VoidType;
-import tech.ydb.table.values.VoidValue;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -46,12 +46,12 @@ public class NullReadTest {
         Assert.assertNotNull(p2);
         Assert.assertNotNull(p3);
 
-        Assert.assertEquals(PrimitiveType.Bytes, p1.getType());
-        Assert.assertEquals(PrimitiveType.Int32, p2.getType());
-        Assert.assertEquals(VoidType.of(), p3.getType());
+        Assert.assertSame(PrimitiveType.Bytes, p1.getType());
+        Assert.assertSame(PrimitiveType.Int32, p2.getType());
+        Assert.assertSame(NullType.of(), p3.getType());
 
         Assert.assertArrayEquals(new byte[] { '1' }, p1.getBytes());
         Assert.assertEquals(123, p2.getInt32());
-        Assert.assertEquals(VoidValue.of(), p3.getValue());
+        Assert.assertSame(NullValue.of(), p3.getValue());
     }
 }

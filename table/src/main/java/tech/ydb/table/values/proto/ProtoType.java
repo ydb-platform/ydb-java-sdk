@@ -10,6 +10,7 @@ import tech.ydb.proto.ValueProtos.Type.PrimitiveTypeId;
 import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DictType;
 import tech.ydb.table.values.ListType;
+import tech.ydb.table.values.NullType;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.PgType;
 import tech.ydb.table.values.PrimitiveType;
@@ -30,6 +31,10 @@ public class ProtoType {
 
     private static final ValueProtos.Type VOID = ValueProtos.Type.newBuilder()
         .setVoidType(NullValue.NULL_VALUE)
+        .build();
+
+    private static final ValueProtos.Type NULL = ValueProtos.Type.newBuilder()
+        .setNullType(NullValue.NULL_VALUE)
         .build();
 
     private static final ValueProtos.Type BOOL = primitiveType(PrimitiveTypeId.BOOL);
@@ -334,6 +339,10 @@ public class ProtoType {
         return VOID;
     }
 
+    public static ValueProtos.Type getNull() {
+        return NULL;
+    }
+
     public static ValueProtos.Type getPgType(int oid, int typlen, int typmod) {
         return ValueProtos.Type.newBuilder()
                 .setPgType(ValueProtos.PgType.newBuilder()
@@ -415,8 +424,10 @@ public class ProtoType {
             }
 
             case VOID_TYPE:
-            case NULL_TYPE:
                 return VoidType.of();
+
+            case NULL_TYPE:
+                return NullType.of();
 
             case PG_TYPE:
                 ValueProtos.PgType pgType = type.getPgType();
