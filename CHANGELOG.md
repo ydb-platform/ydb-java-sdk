@@ -1,3 +1,9 @@
+## 2.2.6 ##
+
+* Table: added support of NullType & PgType
+* Core: improved grpc calls logging
+* Query: added support of warning issues
+
 ## 2.2.5 ##
 
 * Core: fixed work with ready operations
