@@ -1,18 +1,32 @@
 package tech.ydb.auth;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -40,6 +54,12 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
     private static final Logger logger = LoggerFactory.getLogger(OAuth2TokenExchangeProvider.class);
     private static final Gson GSON = new Gson();
+    private static final Set<String> SUPPORTED_JWT_ALGS = new HashSet<String>(Arrays.asList(new String[]{
+        "HS256", "HS384", "HS512",
+        "RS256", "RS384", "RS512",
+        "PS256", "PS384", "PS512",
+        "ES256", "ES384", "ES512",
+    }));
 
     private final Clock clock;
     private final String endpoint;
@@ -58,6 +78,161 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         this.actorTokenSource = actor;
         this.httpForm = form;
         this.timeoutSeconds = timeoutSeconds;
+    }
+
+    public static String[] getSupportedJwtAlgorithms() {
+        String[] result = new String[SUPPORTED_JWT_ALGS.size()];
+        int i = 0;
+        Iterator<String> it = SUPPORTED_JWT_ALGS.iterator();
+        while (it.hasNext()) {
+            result[i++] = it.next();
+        }
+        Arrays.sort(result);
+        return result;
+    }
+
+    private static OAuth2TokenSource buildFixedTokenSourceFromConfig(TokenSourceJsonConfig cfg) {
+        if (cfg.getToken() == null || cfg.getToken().length() == 0
+            || cfg.getTokenType() == null || cfg.getTokenType().length() == 0) {
+            throw new RuntimeException("Both token and token-type are required");
+        }
+        return OAuth2TokenSource.fromValue(cfg.getToken(), cfg.getTokenType());
+    }
+
+    private static OAuth2TokenSource buildJwtTokenSourceFromConfig(TokenSourceJsonConfig cfg) {
+        if (cfg.getAlg() == null || cfg.getAlg().length() == 0) {
+            throw new RuntimeException("Algorithm is required");
+        }
+        if (cfg.getPrivateKey() == null || cfg.getPrivateKey().length() == 0) {
+            throw new RuntimeException("Key is required");
+        }
+
+        String alg = cfg.getAlg().toUpperCase();
+        if (!SUPPORTED_JWT_ALGS.contains(alg)) {
+            String[] supportedAlgs = getSupportedJwtAlgorithms();
+            String lstMsg = "";
+            for (int i = 0; i < supportedAlgs.length; i++) {
+                if (lstMsg.length() > 0) {
+                    lstMsg += ", ";
+                }
+                lstMsg += "\"";
+                lstMsg += supportedAlgs[i];
+                lstMsg += "\"";
+            }
+            throw new RuntimeException(
+                String.format("Algorithm \"%s\" is not supported. Supported algorithms: %s",
+                cfg.getAlg(),
+                lstMsg
+            ));
+        }
+
+        boolean isHmac = "HS256".equals(alg)
+            || "HS384".equals(alg)
+            || "HS512".equals(alg);
+        OAuth2TokenSource.JWTTokenBuilder builder = null;
+        if (isHmac) {
+            builder = OAuth2TokenSource.withHmacPrivateKeyBase64(cfg.getPrivateKey(), alg);
+        } else {
+            builder = OAuth2TokenSource.withPrivateKeyPem(new StringReader(cfg.getPrivateKey()), alg);
+        }
+
+        if (cfg.getKeyId() != null) {
+            builder.withKeyId(cfg.getKeyId());
+        }
+
+        if (cfg.getIssuer() != null) {
+            builder.withIssuer(cfg.getIssuer());
+        }
+
+        if (cfg.getSubject() != null) {
+            builder.withSubject(cfg.getSubject());
+        }
+
+        if (cfg.getAudience() != null && cfg.getAudience().length != 0) {
+            if (cfg.getAudience().length > 1) {
+                throw new RuntimeException("Multiple audience is not supported by current JWT library");
+            }
+            builder.withAudience(cfg.getAudience()[0]);
+        }
+
+        if (cfg.getId() != null) {
+            builder.withId(cfg.getId());
+        }
+
+        if (cfg.getTtlSeconds() != null) {
+            builder.withTtlSeconds(cfg.getTtlSeconds());
+        }
+
+        return builder.build();
+    }
+
+    private static OAuth2TokenSource buildTokenSourceFromConfig(TokenSourceJsonConfig cfg) {
+        if (cfg.getType() == null) {
+            throw new RuntimeException("No token source type");
+        }
+        if ("FIXED".equalsIgnoreCase(cfg.getType())) {
+            return buildFixedTokenSourceFromConfig(cfg);
+        }
+        if ("JWT".equalsIgnoreCase(cfg.getType())) {
+            return buildJwtTokenSourceFromConfig(cfg);
+        }
+        throw new RuntimeException("Unsupported token source type: " + cfg.getType());
+    }
+
+    public static Builder fromFile(File configFile) {
+        Builder builder = new Builder();
+        configFile = expandUserHomeDir(configFile);
+        try (BufferedReader br = new BufferedReader(new FileReader(configFile))) {
+            JsonConfig cfg = GSON.fromJson(br, JsonConfig.class);
+
+            if (cfg.getTokenEndpoint() != null) {
+                builder.withTokenEndpoint(cfg.getTokenEndpoint());
+            }
+
+            if (cfg.getGrantType() != null) {
+                builder.withCustomGrantType(cfg.getGrantType());
+            }
+
+            if (cfg.getResource() != null && cfg.getResource().length != 0) {
+                for (String res: cfg.getResource()) {
+                    builder.withResource(res);
+                }
+            }
+
+            if (cfg.getAudience() != null && cfg.getAudience().length != 0) {
+                for (String audience: cfg.getAudience()) {
+                    builder.withAudience(audience);
+                }
+            }
+
+            if (cfg.getScope() != null && cfg.getScope().length != 0) {
+                builder.withScope(cfg.buildScope());
+            }
+
+            if (cfg.getRequestedTokenType() != null) {
+                builder.withCustomRequestedTokenType(cfg.getRequestedTokenType());
+            }
+
+            if (cfg.getSubject() != null) {
+                builder.withSubjectTokenSource(buildTokenSourceFromConfig(cfg.getSubject()));
+            }
+
+            if (cfg.getActor() != null) {
+                builder.withActorTokenSource(buildTokenSourceFromConfig(cfg.getActor()));
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to read config from " + configFile, e);
+        }
+        return builder;
+    }
+
+    private static File expandUserHomeDir(File file) {
+        String path = file.getPath();
+        if (path.startsWith("~" + File.separator)) { // "~/"
+            path = System.getProperty("user.home") + path.substring(1);
+            return new File(path);
+        }
+        return file;
     }
 
     @Override
@@ -89,9 +264,11 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
 
         private Token updateToken() throws IOException {
-            if (subjectExpiredAt == null || clock.instant().isAfter(subjectExpiredAt)) {
-                subjectToken = subjectTokenSource.getToken();
-                subjectExpiredAt = clock.instant().plusSeconds(subjectTokenSource.getExpireInSeconds());
+            if (subjectTokenSource != null) {
+                if (subjectExpiredAt == null || clock.instant().isAfter(subjectExpiredAt)) {
+                    subjectToken = subjectTokenSource.getToken();
+                    subjectExpiredAt = clock.instant().plusSeconds(subjectTokenSource.getExpireInSeconds());
+                }
             }
             if (actorTokenSource != null) {
                 if (actorExpiredAt == null || clock.instant().isAfter(actorExpiredAt)) {
@@ -186,8 +363,10 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         private HttpEntity buildHttpForm() {
             List<NameValuePair> params = new ArrayList<>();
             params.addAll(httpForm);
-            params.add(new BasicNameValuePair("subject_token", subjectToken));
-            params.add(new BasicNameValuePair("subject_token_type", subjectTokenSource.getType()));
+            if (subjectToken != null) {
+                params.add(new BasicNameValuePair("subject_token", subjectToken));
+                params.add(new BasicNameValuePair("subject_token_type", subjectTokenSource.getType()));
+            }
 
             if (actorToken != null) {
                 params.add(new BasicNameValuePair("actor_token", actorToken));
@@ -207,8 +386,8 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
     }
 
     public static class Builder {
-        private final String endpoint;
-        private final OAuth2TokenSource subject;
+        private String endpoint = null;
+        private OAuth2TokenSource subject = null;
 
         private Clock clock = Clock.systemUTC();
         private int timeoutSeconds = 60;
@@ -222,6 +401,9 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         private String grantType = GRANT_TYPE;
         private String requestedTokenType = OAuth2TokenSource.ACCESS_TOKEN;
 
+        private Builder() {
+        }
+
         private Builder(String endpoint, OAuth2TokenSource tokenSource) {
             this.endpoint = endpoint;
             this.subject = tokenSource;
@@ -230,6 +412,16 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         @VisibleForTesting
         Builder withClock(Clock clock) {
             this.clock = clock;
+            return this;
+        }
+
+        public Builder withTokenEndpoint(String endpoint) {
+            this.endpoint = endpoint;
+            return this;
+        }
+
+        public Builder withSubjectTokenSource(OAuth2TokenSource subjectTokenSouce) {
+            this.subject = subjectTokenSouce;
             return this;
         }
 
@@ -330,6 +522,213 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
         public String getRefreshToken() {
             return this.refreshToken;
+        }
+    }
+
+    private static class SingleStringOrArrayOfStringsJsonConfigDeserializer implements JsonDeserializer<String[]> {
+        public String[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            if (json.isJsonArray()) {
+                JsonArray arr = json.getAsJsonArray();
+                if (arr.size() == 0) {
+                    return null;
+                }
+                String[] result = new String[arr.size()];
+                for (int i = 0; i < arr.size(); i++) {
+                    result[i] = arr.get(i).getAsJsonPrimitive().getAsString();
+                    if (result[i].length() == 0) {
+                        throw new RuntimeException("Cannot parse config from json: empty string");
+                    }
+                }
+                return result;
+            }
+            if (json.isJsonPrimitive()) {
+                String[] result = new String[1];
+                result[0] = json.getAsJsonPrimitive().getAsString();
+                if (result[0].length() == 0) {
+                    throw new RuntimeException("Cannot parse config from json: empty string");
+                }
+                return result;
+            }
+            throw new RuntimeException(
+                "Cannot parse config from json: field is expected to be string or array of nonempty strings");
+        }
+    }
+
+    private static class DurationJsonConfigDeserializer implements JsonDeserializer<Integer> {
+        private Integer deserializeWithMultiplier(String value, double multiplier) {
+            double parsed = Double.parseDouble(value);
+            if (parsed < 0.0) {
+                throw new RuntimeException(
+                    String.format("Cannot parse ttl from json, negative duration is not allowed: \"%s\"", value));
+            }
+            return (int) (parsed * multiplier);
+        }
+
+        public Integer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
+            String value = json.getAsJsonPrimitive().getAsString();
+            if (value.endsWith("s")) {
+                return deserializeWithMultiplier(value.substring(0, value.length() - 1), 1.0);
+            }
+            if (value.endsWith("m")) {
+                return deserializeWithMultiplier(value.substring(0, value.length() - 1), 60.0);
+            }
+            if (value.endsWith("h")) {
+                return deserializeWithMultiplier(value.substring(0, value.length() - 1), 3600.0);
+            }
+            if (value.endsWith("d")) {
+                return deserializeWithMultiplier(value.substring(0, value.length() - 1), 3600.0 * 24.0);
+            }
+            if (value.endsWith("ms")) {
+                return deserializeWithMultiplier(value.substring(0, value.length() - 2), 1.0 / 1000.0);
+            }
+            if (value.endsWith("us")) {
+                return deserializeWithMultiplier(value.substring(0, value.length() - 2), 1.0 / 1000000.0);
+            }
+            if (value.endsWith("ns")) {
+                return deserializeWithMultiplier(value.substring(0, value.length() - 2), 1.0 / 1000000000.0);
+            }
+            throw new RuntimeException(
+                String.format("Cannot parse ttl from json: \"%s\"", value));
+        }
+    }
+
+    private static class TokenSourceJsonConfig {
+        @SerializedName("type")
+        private String type = null;
+
+        // Fixed
+        @SerializedName("token")
+        private String token = null;
+        @SerializedName("token-type")
+        private String tokenType = null;
+
+        // Jwt
+        @SerializedName("alg")
+        private String alg = null;
+        @SerializedName("private-key")
+        private String privateKey = null;
+        @SerializedName("kid")
+        private String keyId = null;
+        @SerializedName("iss")
+        private String issuer = null;
+        @SerializedName("sub")
+        private String subject = null;
+        @SerializedName("aud")
+        @JsonAdapter(SingleStringOrArrayOfStringsJsonConfigDeserializer.class)
+        private String[] audience = null;
+        @SerializedName("jti")
+        private String id = null;
+        @SerializedName("ttl")
+        @JsonAdapter(DurationJsonConfigDeserializer.class)
+        private Integer ttlSeconds = null;
+
+        public String getType() {
+            return type;
+        }
+
+        public String getToken() {
+            return token;
+        }
+
+        public String getTokenType() {
+            return tokenType;
+        }
+
+        public String getAlg() {
+            return alg;
+        }
+
+        public String getPrivateKey() {
+            return privateKey;
+        }
+
+        public String getKeyId() {
+            return keyId;
+        }
+
+        public String getIssuer() {
+            return issuer;
+        }
+
+        public String getSubject() {
+            return subject;
+        }
+
+        public String[] getAudience() {
+            return audience;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public Integer getTtlSeconds() {
+            return ttlSeconds;
+        }
+    }
+
+    private static class JsonConfig {
+        @SerializedName("token-endpoint")
+        private String tokenEndpoint = null;
+        @SerializedName("grant-type")
+        private String grantType = null;
+        @SerializedName("res")
+        @JsonAdapter(SingleStringOrArrayOfStringsJsonConfigDeserializer.class)
+        private String[] resource = null;
+        @SerializedName("aud")
+        @JsonAdapter(SingleStringOrArrayOfStringsJsonConfigDeserializer.class)
+        private String[] audience = null;
+        @SerializedName("scope")
+        @JsonAdapter(SingleStringOrArrayOfStringsJsonConfigDeserializer.class)
+        private String[] scope = null;
+        @SerializedName("requested-token-type")
+        private String requestedTokenType = null;
+        @SerializedName("subject-credentials")
+        private TokenSourceJsonConfig subject = null;
+        @SerializedName("actor-credentials")
+        private TokenSourceJsonConfig actor = null;
+
+        public String getTokenEndpoint() {
+            return this.tokenEndpoint;
+        }
+
+        public String getGrantType() {
+            return this.grantType;
+        }
+
+        public String[] getResource() {
+            return this.resource;
+        }
+
+        public String[] getAudience() {
+            return this.audience;
+        }
+
+        public String[] getScope() {
+            return this.scope;
+        }
+
+        public String buildScope() {
+            String result = new String();
+            for (String s: this.scope) {
+                if (result.length() != 0) {
+                    result += " ";
+                }
+                result += s;
+            }
+            return result;
+        }
+
+        public String getRequestedTokenType() {
+            return this.requestedTokenType;
+        }
+
+        public TokenSourceJsonConfig getSubject() {
+            return subject;
+        }
+
+        public TokenSourceJsonConfig getActor() {
+            return actor;
         }
     }
 }
