@@ -4,12 +4,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.security.Key;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
@@ -17,11 +14,17 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.crypto.spec.SecretKeySpec;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.openssl.PEMKeyPair;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 
 /**
  *
@@ -84,24 +87,59 @@ public abstract class OAuth2TokenSource {
         };
     }
 
-    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile) {
+    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile, String alg) {
         try {
-            StringBuilder base64 = new StringBuilder();
-            try (BufferedReader br = new BufferedReader(new FileReader(privateKeyPemFile))) {
-                for (String line = br.readLine(); line != null; line = br.readLine()) {
-                    if (line.startsWith("-----")) {
-                        continue;
-                    }
-                    base64.append(line);
-                }
-            }
-            byte[] bytes = Base64.getDecoder().decode(base64.toString());
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            PrivateKey key = kf.generatePrivate(new PKCS8EncodedKeySpec(bytes));
-            return new JWTTokenBuilder(key);
-        } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
+            return withPrivateKeyPem(new FileReader(privateKeyPemFile), alg);
+        } catch (IOException e) {
             throw new RuntimeException("Unable to read key from " + privateKeyPemFile, e);
         }
+    }
+
+    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile) {
+        return withPrivateKeyPemFile(privateKeyPemFile, null);
+    }
+
+    public static JWTTokenBuilder withPrivateKeyPem(Reader data, String alg) {
+        try (PEMParser parser = new PEMParser(new BufferedReader(data))) {
+            Object parsed = parser.readObject();
+            if (parsed == null) {
+                throw new RuntimeException("Failed to parse PEM key");
+            }
+
+            PrivateKeyInfo info = null;
+            if (parsed instanceof PrivateKeyInfo) {
+                info = (PrivateKeyInfo) parsed;
+            } else if (parsed instanceof PEMKeyPair) {
+                PEMKeyPair keyPair = (PEMKeyPair) parsed;
+                info = keyPair.getPrivateKeyInfo();
+            } else {
+                throw new RuntimeException("Unknown key PEM format");
+            }
+
+            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+            PrivateKey privateKey = converter.getPrivateKey(info);
+            return new JWTTokenBuilder(privateKey, alg != null ? alg.toUpperCase() : alg);
+        } catch (IOException e) {
+            throw new RuntimeException(String.format("Unable to read key: %s", e.getMessage()), e);
+        }
+    }
+
+    public static JWTTokenBuilder withPrivateKeyPem(Reader data) {
+        return withPrivateKeyPem(data, null);
+    }
+
+    public static JWTTokenBuilder withHmacPrivateKeyBase64(String data, String algorithm) {
+        algorithm = algorithm.toUpperCase();
+        String secretKeyAlg = algorithm;
+        if (algorithm.equals("HS256")) {
+            secretKeyAlg = "HmacSHA256";
+        } else if (algorithm.equals("HS384")) {
+            secretKeyAlg = "HmacSHA384";
+        } else if (algorithm.equals("HS512")) {
+            secretKeyAlg = "HmacSHA512";
+        }
+        byte[] bytes = Base64.getDecoder().decode(data);
+        return new JWTTokenBuilder(new SecretKeySpec(bytes, secretKeyAlg), algorithm);
     }
 
     public static JWTTokenBuilder fromKey(Key key) {
@@ -123,9 +161,17 @@ public abstract class OAuth2TokenSource {
 
         private final Map<String, Object> claims = new HashMap<>();
 
-        private JWTTokenBuilder(Key key) {
+        private JWTTokenBuilder(Key key, String alg) {
             this.signingKey = key;
-            this.alg = SignatureAlgorithm.forSigningKey(key);
+            if (alg == null) {
+                this.alg = SignatureAlgorithm.forSigningKey(key);
+            } else {
+                this.alg = SignatureAlgorithm.forName(alg);
+            }
+        }
+
+        private JWTTokenBuilder(Key key) {
+            this(key, null);
         }
 
         @VisibleForTesting
