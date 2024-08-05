@@ -114,7 +114,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
     @Override
     public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
         if (logger.isTraceEnabled()) {
-            logger.trace("ReadStreamCall[{}] closed with status {}", status);
+            logger.trace("ReadStreamCall[{}] closed with status {}", traceId, status);
         }
 
         statusConsumer.accept(status, trailers);
