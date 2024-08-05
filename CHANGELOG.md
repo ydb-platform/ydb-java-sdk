@@ -1,3 +1,8 @@
+## 2.2.7 ##
+
+* Query: fixed NPE in QueryStream implementation
+* OAuth2 provider: added support of mode with config file
+
 ## 2.2.6 ##
 
 * Table: added support of NullType & PgType
