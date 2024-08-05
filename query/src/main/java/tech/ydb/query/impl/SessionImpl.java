@@ -275,12 +275,16 @@ abstract class SessionImpl implements QuerySession {
                     handleTxMeta(msg.getTxMeta());
                 }
                 if (issues.length > 0) {
-                    handler.onIssues(issues);
+                    if (handler != null) {
+                        handler.onIssues(issues);
+                    } else {
+                        logger.trace("{} lost issues message", SessionImpl.this);
+                    }
                 }
                 if (msg.hasExecStats()) {
                     QueryStats old = stats.getAndSet(new QueryStats(msg.getExecStats()));
                     if (old != null) {
-                        logger.warn("{} got lost previous exec stats {}", SessionImpl.this, old);
+                        logger.warn("{} lost previous exec stats {}", SessionImpl.this, old);
                     }
                 }
 
@@ -289,7 +293,7 @@ abstract class SessionImpl implements QuerySession {
                     if (handler != null) {
                         handler.onNextPart(new QueryResultPart(index, msg.getResultSet()));
                     } else {
-                        logger.warn("{} got lost result set part with index {}", SessionImpl.this, index);
+                        logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
                     }
                 }
             }).whenComplete((status, th) -> {
