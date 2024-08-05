@@ -460,14 +460,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
                 reconnectCounter.set(0);
             } else {
-                Status status = Status.of(StatusCode.fromProto(message.getStatus()));
-                if (message.getIssuesCount() > 0) {
-                    status = status.withIssues(
-                            message.getIssuesList()
-                                    .stream()
-                                    .map(Issue::fromPb)
-                                    .toArray(Issue[]::new));
-                }
+                Status status = Status.of(StatusCode.fromProto(message.getStatus()),
+                        Issue.fromPb(message.getIssuesList()));
                 logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, status);
                 closeDueToError(status, null);
                 return;
