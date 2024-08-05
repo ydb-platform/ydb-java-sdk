@@ -11,6 +11,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -459,10 +460,16 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
                 reconnectCounter.set(0);
             } else {
-                logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, message);
-                onSessionClosed(Status.of(StatusCode.fromProto(message.getStatus()))
-                        .withIssues(Issue.of("Got a message with non-success status: " + message,
-                                Issue.Severity.ERROR)), null);
+                Status status = Status.of(StatusCode.fromProto(message.getStatus()));
+                if (message.getIssuesCount() > 0) {
+                    status = status.withIssues(
+                            message.getIssuesList()
+                                    .stream()
+                                    .map(Issue::fromPb)
+                                    .toArray(Issue[]::new));
+                }
+                logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, status);
+                closeDueToError(status, null);
                 return;
             }
             if (message.hasInitResponse()) {

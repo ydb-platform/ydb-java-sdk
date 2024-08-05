@@ -518,10 +518,16 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
                 reconnectCounter.set(0);
             } else {
-                logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, message);
-                closeDueToError(Status.of(StatusCode.fromProto(message.getStatus()))
-                        .withIssues(Issue.of("Got a message with non-success status: " + message,
-                                Issue.Severity.ERROR)), null);
+                Status status = Status.of(StatusCode.fromProto(message.getStatus()));
+                if (message.getIssuesCount() > 0) {
+                    status = status.withIssues(
+                            message.getIssuesList()
+                                    .stream()
+                                    .map(Issue::fromPb)
+                                    .toArray(Issue[]::new));
+                }
+                logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, status);
+                closeDueToError(status, null);
                 return;
             }
 
