@@ -108,7 +108,8 @@ public abstract class GrpcStreamRetrier {
                     getLogger().info("[{}] {} stream session closed successfully", id, getStreamName());
                     return;
                 } else {
-                    getLogger().warn("[{}] {} stream session was closed unexpectedly", id, getStreamName());
+                    getLogger().warn("[{}] {} stream session was closed on working {}", id, getStreamName(),
+                            getStreamName());
                 }
             } else {
                 getLogger().warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
