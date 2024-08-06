@@ -179,7 +179,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     private void logUserExceptionAndStopWorking(Exception exception, String callbackName) {
-        String errorMessage = "Error in user " + callbackName + " callback: " + exception;
+        String errorMessage = "Unhandled exception in " + callbackName + " user callback: " + exception;
         logger.error(errorMessage);
         shutdownImpl(errorMessage).join();
     }
