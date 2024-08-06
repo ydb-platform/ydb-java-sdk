@@ -81,9 +81,9 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
         return CompletableFuture.runAsync(() -> {
             try {
                 eventHandler.onMessages(event);
-            } catch (Exception exception) {
-                logUserExceptionAndStopWorking(exception, "onMessages");
-                throw exception;
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onMessages");
+                throw th;
             }
         }, handlerExecutor);
     }
@@ -95,9 +95,9 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
                     committedOffset);
             try {
                 eventHandler.onCommitResponse(event);
-            } catch (Exception exception) {
-                logUserExceptionAndStopWorking(exception, "onCommitResponse");
-                throw exception;
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onCommitResponse");
+                throw th;
             }
         });
     }
@@ -116,9 +116,9 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
             );
             try {
                 eventHandler.onStartPartitionSession(event);
-            } catch (Exception exception) {
-                logUserExceptionAndStopWorking(exception, "onStartPartitionSession");
-                throw exception;
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onStartPartitionSession");
+                throw th;
             }
         });
     }
@@ -132,9 +132,9 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
         handlerExecutor.execute(() -> {
             try {
                 eventHandler.onStopPartitionSession(event);
-            } catch (Exception exception) {
-                logUserExceptionAndStopWorking(exception, "onStopPartitionSession");
-                throw exception;
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onStopPartitionSession");
+                throw th;
             }
         });
     }
@@ -145,9 +145,9 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
         handlerExecutor.execute(() -> {
             try {
                 eventHandler.onPartitionSessionClosed(event);
-            } catch (Exception exception) {
-                logUserExceptionAndStopWorking(exception, "onPartitionSessionClosed");
-                throw exception;
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onPartitionSessionClosed");
+                throw th;
             }
         });
     }
@@ -156,9 +156,9 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
         handlerExecutor.execute(() -> {
             try {
                 eventHandler.onReaderClosed(new ReaderClosedEvent());
-            } catch (Exception exception) {
-                logUserExceptionAndStopWorking(exception, "onReaderClosed");
-                throw exception;
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onReaderClosed");
+                throw th;
             }
         });
     }
@@ -178,8 +178,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
         return shutdownImpl();
     }
 
-    private void logUserExceptionAndStopWorking(Exception exception, String callbackName) {
-        String errorMessage = "Unhandled exception in " + callbackName + " user callback: " + exception;
+    private void logUserThrowableAndStopWorking(Throwable th, String callbackName) {
+        String errorMessage = "Unhandled throwable in " + callbackName + " user callback: " + th;
         logger.error(errorMessage);
         shutdownImpl(errorMessage).join();
     }
