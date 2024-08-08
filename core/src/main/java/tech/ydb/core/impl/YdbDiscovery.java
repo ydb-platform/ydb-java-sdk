@@ -204,7 +204,7 @@ public class YdbDiscovery {
             logger.debug("successfully received ListEndpoints result with {} endpoints", records.size());
             handleOk(result.getSelfLocation(), records);
         } catch (UnexpectedResultException ex) {
-            logger.error("discovery fail {}", response);
+            logger.warn("discovery fail {}", response);
             handleThrowable(ex);
         }
     }
