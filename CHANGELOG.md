@@ -1,3 +1,8 @@
+## 2.2.8 ##
+
+* Core: discovery errors log level changed to WARN instead of ERROR
+* Topics: added handling of the unexpected exceptions in the client callbacks
+
 ## 2.2.7 ##
 
 * Query: fixed NPE in QueryStream implementation
