@@ -31,7 +31,7 @@ import tech.ydb.table.settings.ExecuteDataQuerySettings;
 
 /**
  *
- * @author Alexandr Gorshenin <alexandr268@ydb.tech>
+ * @author Aleksandr Gorshenin
  */
 public class TableClientImpl implements TableClient {
     private final TableRpc rpc;
