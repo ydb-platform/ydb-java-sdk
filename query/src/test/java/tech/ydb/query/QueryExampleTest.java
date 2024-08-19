@@ -16,9 +16,6 @@ import org.junit.runners.MethodSorters;
 
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Status;
-import tech.ydb.query.QueryClient;
-import tech.ydb.query.QueryStream;
-import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.tools.QueryReader;
 import tech.ydb.query.tools.SessionRetryContext;
 import tech.ydb.table.query.Params;
@@ -48,6 +45,8 @@ public class QueryExampleTest {
                 .sessionPoolMaxSize(5)
                 .build();
         retryCtx = SessionRetryContext.create(client).build();
+
+        Assert.assertNotNull(client.getScheduler());
     }
 
     @AfterClass

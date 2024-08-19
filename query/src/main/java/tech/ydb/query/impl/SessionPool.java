@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
@@ -26,6 +27,7 @@ import tech.ydb.query.QuerySession;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
+import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.impl.pool.WaitingQueue;
 
 
@@ -54,6 +56,7 @@ class SessionPool implements AutoCloseable {
     private final ScheduledExecutorService scheduler;
     private final WaitingQueue<PooledQuerySession> queue;
     private final ScheduledFuture<?> cleanerFuture;
+    private final StatsImpl stats = new StatsImpl();
 
     SessionPool(Clock clock, QueryServiceRpc rpc, ScheduledExecutorService scheduler, int minSize, int maxSize,
             Duration idleDuration) {
@@ -77,6 +80,10 @@ class SessionPool implements AutoCloseable {
 
     public void updateMaxSize(int maxSize) {
         this.queue.updateLimits(maxSize);
+    }
+
+    SessionPoolStats getStats() {
+        return stats;
     }
 
     @Override
@@ -140,6 +147,7 @@ class SessionPool implements AutoCloseable {
             return false;
         }
 
+        stats.acquired.increment();
         return true;
     }
 
@@ -155,6 +163,7 @@ class SessionPool implements AutoCloseable {
             super(rpc, response);
             this.lastActive = clock.instant();
             this.attachStream = attach(ATTACH_SETTINGS);
+            stats.created.increment();
         }
 
         @Override
@@ -240,6 +249,7 @@ class SessionPool implements AutoCloseable {
 
         @Override
         public void close() {
+            stats.released.increment();
             if (isBroken || isStopped) {
                 queue.delete(this);
             } else {
@@ -257,15 +267,22 @@ class SessionPool implements AutoCloseable {
 
         @Override
         public CompletableFuture<PooledQuerySession> create() {
+            stats.requested.increment();
             return SessionImpl
                     .createSession(rpc, CREATE_SETTINGS, true)
-                    .thenApply(Result::getValue)
-                    .thenCompose(resp -> new PooledQuerySession(rpc, resp).start())
+                    .thenCompose(r -> {
+                        if (!r.isSuccess()) {
+                            stats.failed.increment();
+                            throw new UnexpectedResultException("create session problem", r.getStatus());
+                        }
+                        return new PooledQuerySession(rpc, r.getValue()).start();
+                    })
                     .thenApply(Result::getValue);
         }
 
         @Override
         public void destroy(PooledQuerySession session) {
+            stats.deleted.increment();
             session.destroy();
         }
     }
@@ -293,6 +310,87 @@ class SessionPool implements AutoCloseable {
                     coldIterator.remove();
                 }
             }
+        }
+    }
+
+    private class StatsImpl implements SessionPoolStats {
+        private final LongAdder acquired = new LongAdder();
+        private final LongAdder released = new LongAdder();
+
+        private final LongAdder requested = new LongAdder();
+        private final LongAdder failed = new LongAdder();
+        private final LongAdder created = new LongAdder();
+        private final LongAdder deleted = new LongAdder();
+
+        @Override
+        public int getMinSize() {
+            return minSize;
+        }
+
+        @Override
+        public int getMaxSize() {
+            return queue.getTotalLimit();
+        }
+
+        @Override
+        public int getIdleCount() {
+            return queue.getIdleCount();
+        }
+
+        @Override
+        public int getAcquiredCount() {
+            return queue.getUsedCount();
+        }
+
+        @Override
+        public int getPendingAcquireCount() {
+            return queue.getWaitingCount() + queue.getPendingCount();
+        }
+
+        @Override
+        public long getAcquiredTotal() {
+            return acquired.sum();
+        }
+
+        @Override
+        public long getReleasedTotal() {
+            return released.sum();
+        }
+
+        @Override
+        public long getRequestedTotal() {
+            return requested.sum();
+        }
+
+        @Override
+        public long getCreatedTotal() {
+            return created.sum();
+        }
+
+        @Override
+        public long getFailedTotal() {
+            return failed.sum();
+        }
+
+        @Override
+        public long getDeletedTotal() {
+            return deleted.sum();
+        }
+
+        @Override
+        public String toString() {
+            return "SessionPoolStats{minSize=" + getMinSize()
+                    + ", maxSize=" + getMaxSize()
+                    + ", idleCount=" + getIdleCount()
+                    + ", acquiredCount=" + getAcquiredCount()
+                    + ", pendingAcquireCount=" + getPendingAcquireCount()
+                    + ", acquiredTotal=" + getAcquiredTotal()
+                    + ", releasedTotal=" + getReleasedTotal()
+                    + ", requestsTotal=" + getRequestedTotal()
+                    + ", createdTotal=" + getCreatedTotal()
+                    + ", failedTotal=" + getFailedTotal()
+                    + ", deletedTotal=" + getDeletedTotal()
+                    + "}";
         }
     }
 

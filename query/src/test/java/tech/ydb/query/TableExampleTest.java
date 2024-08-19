@@ -18,6 +18,7 @@ import org.junit.runners.MethodSorters;
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.description.TableDescription;
@@ -53,6 +54,8 @@ public class TableExampleTest {
                 .sessionPoolSize(0, 5)
                 .build();
         retryCtx = SessionRetryContext.create(client).build();
+
+        Assert.assertNotNull(client.getScheduler());
     }
 
     @AfterClass
@@ -65,6 +68,19 @@ public class TableExampleTest {
                 .join();
 
         client.close();
+
+        SessionPoolStats stats = client.sessionPoolStats();
+
+        Assert.assertEquals(0, stats.getAcquiredCount());
+        Assert.assertEquals(0, stats.getIdleCount());
+        Assert.assertEquals(0, stats.getPendingAcquireCount());
+        Assert.assertEquals(0, stats.getMinSize());
+        Assert.assertEquals(5, stats.getMaxSize());
+
+        Assert.assertTrue(stats.getAcquiredTotal() > 0);
+        Assert.assertTrue(stats.getCreatedTotal() > 0);
+        Assert.assertEquals(stats.getCreatedTotal(), stats.getDeletedTotal());
+        Assert.assertEquals(stats.getAcquiredTotal(), stats.getReleasedTotal());
     }
 
     @Test
