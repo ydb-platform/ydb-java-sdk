@@ -249,8 +249,7 @@ abstract class SessionImpl implements QuerySession {
         }
 
         abstract void handleTxMeta(YdbQuery.TransactionMeta meta);
-        void handleCompletion(Status status, Throwable th) {
-        }
+        void handleCompletion(Status status, Throwable th) { }
 
         @Override
         public CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler) {

@@ -46,6 +46,10 @@ public class QueryClientImpl implements  QueryClient {
         pool.updateMaxSize(maxSize);
     }
 
+    SessionPool getSessionPool() {
+        return pool;
+    }
+
     @Override
     public void close() {
         pool.close();

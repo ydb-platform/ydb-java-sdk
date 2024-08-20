@@ -22,7 +22,7 @@ public class PooledTableClient implements TableClient {
     private final TableRpc tableRpc;
     private final SessionPool pool;
 
-    PooledTableClient(Builder builder) {
+    protected PooledTableClient(Builder builder) {
         this.tableRpc = builder.tableRpc;
         this.pool = new SessionPool(
                 Clock.systemUTC(),
@@ -70,7 +70,7 @@ public class PooledTableClient implements TableClient {
         private boolean keepQueryText = true;
         private SessionPoolOptions sessionPoolOptions = SessionPoolOptions.DEFAULT;
 
-        Builder(TableRpc tableRpc) {
+        protected Builder(TableRpc tableRpc) {
             Preconditions.checkArgument(tableRpc != null, "table rpc is null");
             this.tableRpc = tableRpc;
         }
