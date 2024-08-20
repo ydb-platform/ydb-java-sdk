@@ -1,3 +1,8 @@
+## 2.2.9 ##
+
+* Query: added TableClient implementation
+* Topics: fixed race condition on AsyncReaderImpl.shutdown()
+
 ## 2.2.8 ##
 
 * Core: discovery errors log level changed to WARN instead of ERROR
