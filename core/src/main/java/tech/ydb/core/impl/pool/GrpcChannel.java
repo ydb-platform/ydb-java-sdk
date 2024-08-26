@@ -79,7 +79,7 @@ public class GrpcChannel {
                 logger.error("Grpc channel {} connecting problem", endpoint, ex);
                 throw new RuntimeException("Channel " + endpoint + " connecting problem", ex);
             } catch (TimeoutException ex) {
-                logger.error("Grpc channel {} connect timeout excided", endpoint);
+                logger.error("Grpc channel {} connect timeout exceeded", endpoint);
                 throw new RuntimeException("Channel " + endpoint + " connecting timeout");
             }
             return null;
