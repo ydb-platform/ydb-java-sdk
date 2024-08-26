@@ -101,9 +101,6 @@ public class GrpcChannel {
                 case CONNECTING:
                 case IDLE:
                 default:
-                    if (future.isDone()) {
-                        future = new CompletableFuture<>();
-                    }
                     // keep tracking channel state
                     channel.notifyWhenStateChanged(state, this);
                     break;
