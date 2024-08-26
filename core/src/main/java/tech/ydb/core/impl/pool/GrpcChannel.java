@@ -58,7 +58,7 @@ public class GrpcChannel {
             }
             return closed;
         } catch (InterruptedException e) {
-            logger.warn("transport shutdown interrupted for channel {}: {}", endpoint, e);
+            logger.warn("transport shutdown interrupted for channel {}: ", endpoint, e);
             Thread.currentThread().interrupt();
             return false;
         } finally {
@@ -73,10 +73,10 @@ public class GrpcChannel {
             try {
                 return future.get(connectTimeoutMs, TimeUnit.MILLISECONDS);
             } catch (InterruptedException ex) {
-                logger.error("Grpc channel {} ready waiting is interrupted", endpoint, ex);
+                logger.error("Grpc channel {} ready waiting is interrupted: ", endpoint, ex);
                 Thread.currentThread().interrupt();
             } catch (ExecutionException ex) {
-                logger.error("Grpc channel {} connecting problem", endpoint, ex);
+                logger.error("Grpc channel {} connecting problem: ", endpoint, ex);
                 throw new RuntimeException("Channel " + endpoint + " connecting problem", ex);
             } catch (TimeoutException ex) {
                 logger.error("Grpc channel {} connect timeout exceeded", endpoint);
