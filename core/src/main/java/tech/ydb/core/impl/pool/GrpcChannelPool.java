@@ -36,7 +36,7 @@ public class GrpcChannelPool {
 
         return result != null ? result : channels.computeIfAbsent(endpoint.getHostAndPort(), (key) -> {
             logger.debug("channel " + endpoint.getHostAndPort() + " was not found in pool, creating one...");
-            return new GrpcChannel(endpoint, channelFactory, true);
+            return new GrpcChannel(endpoint, channelFactory);
         });
     }
 

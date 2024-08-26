@@ -33,7 +33,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
         logger.info("creating signle channel transport with endpoint {}", endpoint);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.channel = new GrpcChannel(endpoint, channelFactory, true);
+        this.channel = new GrpcChannel(endpoint, channelFactory);
 
         this.scheduler = builder.getSchedulerFactory().get();
         this.callOptions = new AuthCallOptions(scheduler, Arrays.asList(endpoint), channelFactory, builder);

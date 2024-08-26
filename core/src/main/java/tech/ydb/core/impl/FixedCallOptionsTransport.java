@@ -33,7 +33,7 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
         this.scheduler = scheduler;
         this.callOptions = callOptions;
         this.database = database;
-        this.channel = new GrpcChannel(endpoint, channelFactory, true);
+        this.channel = new GrpcChannel(endpoint, channelFactory);
     }
 
     @Override
