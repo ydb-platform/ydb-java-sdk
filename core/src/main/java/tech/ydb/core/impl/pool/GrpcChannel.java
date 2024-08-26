@@ -67,7 +67,7 @@ public class GrpcChannel {
     }
 
     private class ReadyWatcher implements Runnable {
-        private CompletableFuture<ManagedChannel> future = new CompletableFuture<>();
+        private final CompletableFuture<ManagedChannel> future = new CompletableFuture<>();
 
         public Channel getReadyChannel() {
             try {
