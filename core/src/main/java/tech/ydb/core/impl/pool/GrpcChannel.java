@@ -23,13 +23,13 @@ public class GrpcChannel {
     private final long connectTimeoutMs;
     private final ReadyWatcher readyWatcher;
 
-    public GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory, boolean tryToConnect) {
+    public GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory) {
         logger.debug("Creating grpc channel with {}", endpoint);
         this.endpoint = endpoint;
         this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort());
         this.connectTimeoutMs = factory.getConnectTimeoutMs();
         this.readyWatcher = new ReadyWatcher();
-        this.readyWatcher.check(tryToConnect);
+        this.readyWatcher.checkState();
     }
 
     public EndpointRecord getEndpoint() {
@@ -67,7 +67,7 @@ public class GrpcChannel {
     }
 
     private class ReadyWatcher implements Runnable {
-        private final CompletableFuture<ManagedChannel> future = new CompletableFuture<>();
+        private CompletableFuture<ManagedChannel> future = new CompletableFuture<>();
 
         public Channel getReadyChannel() {
             try {
@@ -85,12 +85,14 @@ public class GrpcChannel {
             return null;
         }
 
-        public void check(boolean tryToConnect) {
-            ConnectivityState state = channel.getState(tryToConnect);
+        public void checkState() {
+            ConnectivityState state = channel.getState(true);
             logger.debug("Grpc channel {} new state: {}", endpoint, state);
             switch (state) {
                 case READY:
                     future.complete(channel);
+                    // keep tracking channel state
+                    channel.notifyWhenStateChanged(state, this);
                     break;
                 case SHUTDOWN:
                     future.completeExceptionally(new IllegalStateException("Grpc channel already closed"));
@@ -99,7 +101,10 @@ public class GrpcChannel {
                 case CONNECTING:
                 case IDLE:
                 default:
-                    // repeat watch
+                    if (future.isDone()) {
+                        future = new CompletableFuture<>();
+                    }
+                    // keep tracking channel state
                     channel.notifyWhenStateChanged(state, this);
                     break;
             }
@@ -107,7 +112,7 @@ public class GrpcChannel {
 
         @Override
         public void run() {
-            check(false);
+            checkState();
         }
     }
 }

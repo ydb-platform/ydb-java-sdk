@@ -31,16 +31,11 @@ public class GrpcChannelTest {
 
         EndpointRecord endpoint = new EndpointRecord("host1", 1234);
 
-        GrpcChannel lazy = new GrpcChannel(endpoint, factoryMock, false);
-        Assert.assertEquals(endpoint, lazy.getEndpoint());
-        Assert.assertNotNull(lazy.getReadyChannel());
-        lazy.shutdown();
-        lazy.shutdown(); // double shutdown is ok
-
-        GrpcChannel eager = new GrpcChannel(endpoint, factoryMock, true);
-        Assert.assertEquals(endpoint, eager.getEndpoint());
-        Assert.assertNotNull(eager.getReadyChannel());
-        eager.shutdown();
+        GrpcChannel channel = new GrpcChannel(endpoint, factoryMock);
+        Assert.assertEquals(endpoint, channel.getEndpoint());
+        Assert.assertNotNull(channel.getReadyChannel());
+        channel.shutdown();
+        channel.shutdown(); // double shutdown is ok
     }
 
     @Test
@@ -63,15 +58,10 @@ public class GrpcChannelTest {
 
         EndpointRecord endpoint = new EndpointRecord("host1", 1234);
 
-        GrpcChannel lazy = new GrpcChannel(endpoint, factoryMock, false);
-        Assert.assertEquals(endpoint, lazy.getEndpoint());
-        Assert.assertNotNull(lazy.getReadyChannel());
-        lazy.shutdown();
-
-        GrpcChannel eager = new GrpcChannel(endpoint, factoryMock, true);
-        Assert.assertEquals(endpoint, eager.getEndpoint());
-        Assert.assertNotNull(eager.getReadyChannel());
-        eager.shutdown();
+        GrpcChannel channel = new GrpcChannel(endpoint, factoryMock);
+        Assert.assertEquals(endpoint, channel.getEndpoint());
+        Assert.assertNotNull(channel.getReadyChannel());
+        channel.shutdown();
     }
 
     @Test
@@ -90,22 +80,13 @@ public class GrpcChannelTest {
 
         EndpointRecord endpoint = new EndpointRecord("host1", 1234);
 
-        GrpcChannel lazy = new GrpcChannel(endpoint, factoryMock, false);
-        Assert.assertEquals(endpoint, lazy.getEndpoint());
+        GrpcChannel channel = new GrpcChannel(endpoint, factoryMock);
+        Assert.assertEquals(endpoint, channel.getEndpoint());
 
-        RuntimeException ex1 = Assert.assertThrows(RuntimeException.class, lazy::getReadyChannel);
+        RuntimeException ex1 = Assert.assertThrows(RuntimeException.class, channel::getReadyChannel);
         Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null} connecting problem",
                 ex1.getMessage());
 
-        lazy.shutdown();
-
-        GrpcChannel eager = new GrpcChannel(endpoint, factoryMock, true);
-        Assert.assertEquals(endpoint, eager.getEndpoint());
-
-        RuntimeException ex2 = Assert.assertThrows(RuntimeException.class, eager::getReadyChannel);
-        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null} connecting problem",
-                ex2.getMessage());
-
-        eager.shutdown();
+        channel.shutdown();
     }
 }
