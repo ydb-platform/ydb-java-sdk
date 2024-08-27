@@ -1,3 +1,7 @@
+## 2.2.10 ##
+
+* Core: fixed infinite wainting for grpc channel ready state after reconnect
+
 ## 2.2.9 ##
 
 * Query: added TableClient implementation
