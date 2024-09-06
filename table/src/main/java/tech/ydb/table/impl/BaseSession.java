@@ -234,6 +234,9 @@ public abstract class BaseSession implements Session {
         builder.addAllIndexColumns(index.getColumns());
         builder.addAllDataColumns(index.getDataColumns());
         switch (index.getType()) {
+            case GLOBAL_UNIQUE:
+                builder.setGlobalUniqueIndex(YdbTable.GlobalUniqueIndex.getDefaultInstance());
+                break;
             case GLOBAL_ASYNC:
                 builder.setGlobalAsyncIndex(YdbTable.GlobalAsyncIndex.getDefaultInstance());
                 break;
@@ -564,6 +567,10 @@ public abstract class BaseSession implements Session {
 
             if (idx.hasGlobalAsyncIndex()) {
                 description.addGlobalAsyncIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
+            }
+
+            if (idx.hasGlobalUniqueIndex()) {
+                description.addGlobalUniqueIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
             }
         }
         YdbTable.TableStats tableStats = result.getTableStats();

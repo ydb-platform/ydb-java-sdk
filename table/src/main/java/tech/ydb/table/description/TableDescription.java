@@ -182,6 +182,16 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addGlobalUniqueIndex(String name, List<String> columns) {
+            indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL_UNIQUE));
+            return this;
+        }
+
+        public Builder addGlobalUniqueIndex(String name, List<String> columns, List<String> dataColumns) {
+            indexes.add(new TableIndex(name, columns, dataColumns, TableIndex.Type.GLOBAL_UNIQUE));
+            return this;
+        }
+
         public Builder addGlobalAsyncIndex(String name, List<String> columns) {
             indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL_ASYNC));
             return this;
