@@ -90,6 +90,16 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
         return this;
     }
 
+    public AlterTableSettings addGlobalUiniqueIndex(String name, List<String> columns) {
+        addIndexes.put(name, new TableIndex(name, columns, TableIndex.Type.GLOBAL_UNIQUE));
+        return this;
+    }
+
+    public AlterTableSettings addGlobalUniqueIndex(String name, List<String> columns, List<String> dataColumns) {
+        addIndexes.put(name, new TableIndex(name, columns, dataColumns, TableIndex.Type.GLOBAL_UNIQUE));
+        return this;
+    }
+
     public AlterTableSettings addGlobalAsyncIndex(String name, List<String> columns) {
         addIndexes.put(name, new TableIndex(name, columns, TableIndex.Type.GLOBAL_ASYNC));
         return this;
