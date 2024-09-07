@@ -107,7 +107,7 @@ public class TableDescription {
         private TableStats tableStats = null;
         private PartitioningSettings partitioningSettings = null;
         private final List<PartitionStats> partitionStats = new ArrayList<>();
-        private TableTtl ttlSettings = new TableTtl();
+        private TableTtl ttlSettings = TableTtl.notSet();
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
@@ -212,8 +212,14 @@ public class TableDescription {
             return this;
         }
 
+        @Deprecated
         public Builder setTtlSettings(int ttlModeCase, String columnName, int expireAfterSeconds) {
             this.ttlSettings = new TableTtl(TtlMode.forCase(ttlModeCase), columnName, expireAfterSeconds);
+            return this;
+        }
+
+        public Builder setTtlSettings(TableTtl ttl) {
+            this.ttlSettings = ttl;
             return this;
         }
 

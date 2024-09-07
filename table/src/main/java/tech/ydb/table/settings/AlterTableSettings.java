@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableIndex;
+import tech.ydb.table.description.TableTtl;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
 
@@ -31,7 +32,7 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
     private final Set<String> dropIndexes = new HashSet<>();
 
     @Nullable
-    private TtlSettings ttlSettings;
+    private TableTtl ttl;
     @Nullable
     private PartitioningSettings partitioningSettings;
 
@@ -105,8 +106,18 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
         return this;
     }
 
+    @Deprecated
     public AlterTableSettings setTtlSettings(@Nullable TtlSettings ttlSettings) {
-        this.ttlSettings = ttlSettings;
+        if (ttlSettings == null) {
+            this.ttl = TableTtl.notSet();
+        } else {
+            this.ttl = TableTtl.dateTimeColumn(ttlSettings.getDateTimeColumn(), ttlSettings.getExpireAfterSeconds());
+        }
+        return this;
+    }
+
+    public AlterTableSettings setTableTtl(@Nullable TableTtl ttl) {
+        this.ttl = ttl;
         return this;
     }
 
@@ -140,8 +151,17 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
     }
 
     @Nullable
+    public TableTtl getTableTTL() {
+        return ttl;
+    }
+
+    @Nullable
+    @Deprecated
     public TtlSettings getTtlSettings() {
-        return ttlSettings;
+        if (ttl.getTtlMode() == TableTtl.TtlMode.NOT_SET) {
+            return null;
+        }
+        return new TtlSettings(ttl.getDateTimeColumn(), ttl.getExpireAfterSeconds());
     }
 
     @Nullable
