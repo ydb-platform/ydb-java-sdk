@@ -3,7 +3,9 @@ package tech.ydb.query;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -316,13 +318,29 @@ public class TableExampleTest {
                 "$seasonId", PrimitiveValue.newUint64(1)
         );
 
+        final List<String> episodeTitle = new ArrayList<>();
+        final List<String> seasonTitle = new ArrayList<>();
+        final List<String> seriesTitle = new ArrayList<>();
+
         retryCtx.supplyStatus(session -> {
+            episodeTitle.clear();
+            seasonTitle.clear();
+            seriesTitle.clear();
+
             ExecuteScanQuerySettings settings = ExecuteScanQuerySettings.newBuilder().build();
             GrpcReadStream<ResultSetReader> scan = session.executeScanQuery(query, params, settings);
             return scan.start(rs -> {
-                Assert.assertTrue(rs.next());
+                while (rs.next()) {
+                    episodeTitle.add(rs.getColumn("episode_title").getText());
+                    seasonTitle.add(rs.getColumn("season_title").getText());
+                    seriesTitle.add(rs.getColumn("series_title").getText());
+                }
             });
         }).join().expectSuccess("scan query problem");
+
+        Assert.assertEquals(14, episodeTitle.size());
+        Assert.assertEquals(14, seasonTitle.size());
+        Assert.assertEquals(14, seriesTitle.size());
     }
 
     @Test

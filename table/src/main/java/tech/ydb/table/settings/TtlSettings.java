@@ -2,6 +2,7 @@ package tech.ydb.table.settings;
 
 import javax.annotation.Nonnull;
 
+@Deprecated
 public final class TtlSettings {
     private final String dateTimeColumn;
     private final int expireAfterSeconds;

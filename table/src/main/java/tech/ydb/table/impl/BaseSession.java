@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import javax.annotation.concurrent.ThreadSafe;
 
+import com.google.protobuf.Empty;
 import com.google.protobuf.Timestamp;
 import io.grpc.Metadata;
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableIndex;
+import tech.ydb.table.description.TableTtl;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
@@ -81,7 +83,6 @@ import tech.ydb.table.settings.RenameTablesSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
-import tech.ydb.table.settings.TtlSettings;
 import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
@@ -268,16 +269,57 @@ public abstract class BaseSession implements Session {
                 .build();
     }
 
-    private static YdbTable.TtlSettings buildTtlSettings(TtlSettings settings) {
-        return YdbTable.TtlSettings.newBuilder()
-                .setDateTypeColumn(YdbTable.DateTypeColumnModeSettings.newBuilder()
-                        .setColumnName(settings.getDateTimeColumn())
-                        .setExpireAfterSeconds(settings.getExpireAfterSeconds())
-                        .build())
-                .build();
+    private static YdbTable.TtlSettings buildTtlSettings(TableTtl ttl) {
+        if (ttl == null || ttl.getTtlMode() == TableTtl.TtlMode.NOT_SET) {
+            return null;
+        }
+
+        YdbTable.TtlSettings.Builder tb = YdbTable.TtlSettings.newBuilder();
+
+        if (ttl.getTtlMode() == TableTtl.TtlMode.DATE_TYPE_COLUMN) {
+            tb.setDateTypeColumn(YdbTable.DateTypeColumnModeSettings.newBuilder()
+                    .setColumnName(ttl.getDateTimeColumn())
+                    .setExpireAfterSeconds(ttl.getExpireAfterSeconds())
+                    .build());
+        }
+
+        if (ttl.getTtlMode() == TableTtl.TtlMode.VALUE_SINCE_UNIX_EPOCH) {
+            YdbTable.ValueSinceUnixEpochModeSettings.Unit unit;
+            switch (ttl.getTtlUnit()) {
+                case SECONDS:
+                    unit = YdbTable.ValueSinceUnixEpochModeSettings.Unit.UNIT_SECONDS;
+                    break;
+                case MILLISECONDS:
+                    unit = YdbTable.ValueSinceUnixEpochModeSettings.Unit.UNIT_MILLISECONDS;
+                    break;
+                case MICROSECONDS:
+                    unit = YdbTable.ValueSinceUnixEpochModeSettings.Unit.UNIT_MICROSECONDS;
+                    break;
+                case NANOSECONDS:
+                    unit = YdbTable.ValueSinceUnixEpochModeSettings.Unit.UNIT_NANOSECONDS;
+                    break;
+                case UNSPECIFIED:
+                default:
+                    unit = YdbTable.ValueSinceUnixEpochModeSettings.Unit.UNIT_UNSPECIFIED;
+                    break;
+            }
+
+            tb.setValueSinceUnixEpoch(YdbTable.ValueSinceUnixEpochModeSettings.newBuilder()
+                    .setColumnName(ttl.getDateTimeColumn())
+                    .setColumnUnit(unit)
+                    .setExpireAfterSeconds(ttl.getExpireAfterSeconds())
+                    .build());
+        }
+
+        if (ttl.getRunIntervaelSeconds() != null) {
+            tb.setRunIntervalSeconds(ttl.getRunIntervaelSeconds());
+        }
+
+        return tb.build();
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public CompletableFuture<Status> createTable(
             String path,
             TableDescription description,
@@ -301,8 +343,22 @@ public abstract class BaseSession implements Session {
             request.addIndexes(buildIndex(index));
         }
 
-        if (settings.getTtlSettings() != null) {
-            request.setTtlSettings(buildTtlSettings(settings.getTtlSettings()));
+        if (description.getTableTtl() != null) {
+            YdbTable.TtlSettings ttl = buildTtlSettings(description.getTableTtl());
+            if (ttl != null) {
+                request.setTtlSettings(ttl);
+            }
+        }
+        // deprecated variant has high pripority
+        tech.ydb.table.settings.TtlSettings deprecatedTTL = settings.getTtlSettings();
+        if (deprecatedTTL != null) {
+            YdbTable.TtlSettings ttl = YdbTable.TtlSettings.newBuilder()
+                    .setDateTypeColumn(YdbTable.DateTypeColumnModeSettings.newBuilder()
+                            .setColumnName(deprecatedTTL.getDateTimeColumn())
+                            .setExpireAfterSeconds(deprecatedTTL.getExpireAfterSeconds())
+                            .build())
+                    .build();
+            request.setTtlSettings(ttl);
         }
 
         if (description.getPartitioningSettings() != null) {
@@ -430,8 +486,13 @@ public abstract class BaseSession implements Session {
             builder.addAddIndexes(buildIndex(index));
         }
 
-        if (settings.getTtlSettings() != null) {
-            builder.setSetTtlSettings(buildTtlSettings(settings.getTtlSettings()));
+        if (settings.getTableTTL() != null) {
+            YdbTable.TtlSettings ttl = buildTtlSettings(settings.getTableTTL());
+            if (ttl != null) {
+                builder.setSetTtlSettings(ttl);
+            } else {
+                builder.setDropTtlSettings(Empty.getDefaultInstance());
+            }
         }
 
         if (settings.getPartitioningSettings() != null) {
@@ -641,22 +702,47 @@ public abstract class BaseSession implements Session {
             }
         }
 
-        YdbTable.TtlSettings ttlSettings = result.getTtlSettings();
-        int ttlModeCase = ttlSettings.getModeCase().getNumber();
-        switch (ttlSettings.getModeCase()) {
+        YdbTable.TtlSettings ttl = result.getTtlSettings();
+        TableTtl tableTtl;
+        switch (ttl.getModeCase()) {
             case DATE_TYPE_COLUMN:
-                YdbTable.DateTypeColumnModeSettings dateTypeColumn = ttlSettings.getDateTypeColumn();
-                description.setTtlSettings(ttlModeCase, dateTypeColumn.getColumnName(),
-                        dateTypeColumn.getExpireAfterSeconds());
+                YdbTable.DateTypeColumnModeSettings dc = ttl.getDateTypeColumn();
+                tableTtl = TableTtl
+                        .dateTimeColumn(dc.getColumnName(), dc.getExpireAfterSeconds())
+                        .withRunIntervalSeconds(ttl.getRunIntervalSeconds());
                 break;
             case VALUE_SINCE_UNIX_EPOCH:
-                YdbTable.ValueSinceUnixEpochModeSettings valueSinceUnixEpoch = ttlSettings.getValueSinceUnixEpoch();
-                description.setTtlSettings(ttlModeCase, valueSinceUnixEpoch.getColumnName(),
-                        valueSinceUnixEpoch.getExpireAfterSeconds());
+                YdbTable.ValueSinceUnixEpochModeSettings vs = ttl.getValueSinceUnixEpoch();
+                TableTtl.TtlUnit unit;
+                switch (vs.getColumnUnit()) {
+                    case UNIT_SECONDS:
+                        unit = TableTtl.TtlUnit.SECONDS;
+                        break;
+                    case UNIT_MILLISECONDS:
+                        unit = TableTtl.TtlUnit.MILLISECONDS;
+                        break;
+                    case UNIT_MICROSECONDS:
+                        unit = TableTtl.TtlUnit.MICROSECONDS;
+                        break;
+                    case UNIT_NANOSECONDS:
+                        unit = TableTtl.TtlUnit.NANOSECONDS;
+                        break;
+                    case UNIT_UNSPECIFIED:
+                    case UNRECOGNIZED:
+                    default:
+                        unit = TableTtl.TtlUnit.UNSPECIFIED;
+                        break;
+                }
+                tableTtl = TableTtl
+                        .valueSinceUnixEpoch(vs.getColumnName(), unit, vs.getExpireAfterSeconds())
+                        .withRunIntervalSeconds(ttl.getRunIntervalSeconds());
                 break;
+            case MODE_NOT_SET:
             default:
+                tableTtl = TableTtl.notSet();
                 break;
         }
+        description.setTtlSettings(tableTtl);
 
         return description.build();
     }

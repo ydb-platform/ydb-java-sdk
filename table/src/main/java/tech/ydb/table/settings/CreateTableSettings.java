@@ -3,6 +3,8 @@ package tech.ydb.table.settings;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import tech.ydb.table.description.TableDescription;
+
 
 /**
  * @author Sergey Polovko
@@ -22,6 +24,7 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
     @Nullable
     private ReplicationPolicy replicationPolicy;
     @Nullable
+    @SuppressWarnings("deprecation")
     private TtlSettings ttlSettings;
 
     @Nullable
@@ -84,11 +87,21 @@ public class CreateTableSettings extends RequestSettings<CreateTableSettings> {
         return this;
     }
 
+    /**
+     * @return TTL configuration
+     * @deprecated use {@link TableDescription#getTableTtl() } instead
+     */
     @Nullable
+    @Deprecated
     public TtlSettings getTtlSettings() {
         return ttlSettings;
     }
 
+    /**
+     * @param ttlSettings TTL configuration
+     * @deprecated use {@link TableDescription.Builder#setTtlSettings(tech.ydb.table.description.TableTtl)} instead
+     */
+    @Deprecated
     public void setTtlSettings(@Nullable TtlSettings ttlSettings) {
         this.ttlSettings = ttlSettings;
     }
