@@ -62,8 +62,7 @@ public class TableClientImpl implements TableClient {
         proxy.close();
     }
 
-    private YdbQuery.TransactionControl mapTxControl(tech.ydb.table.transaction.TxControl<?> tx) {
-        YdbTable.TransactionControl tc = tx.toPb();
+    private YdbQuery.TransactionControl mapTxControl(YdbTable.TransactionControl tc) {
         if (tc.hasTxId()) {
             return TxControl.txIdCtrl(tc.getTxId(), tc.getCommitTx());
         }
@@ -149,13 +148,9 @@ public class TableClientImpl implements TableClient {
         }
 
         @Override
-        public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
-                String query,
-                tech.ydb.table.transaction.TxControl<?> txControl,
-                Params prms,
-                ExecuteDataQuerySettings settings
-        ) {
-            YdbQuery.TransactionControl tc = mapTxControl(txControl);
+        public CompletableFuture<Result<DataQueryResult>> executeDataQueryInternal(
+                String query, YdbTable.TransactionControl tx, Params prms, ExecuteDataQuerySettings settings) {
+            YdbQuery.TransactionControl tc = mapTxControl(tx);
             ExecuteQuerySettings qs = ExecuteQuerySettings.newBuilder()
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
