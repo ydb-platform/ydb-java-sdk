@@ -1,3 +1,8 @@
+## 2.3.0 ##
+
+* Core: fixed JWT token parser
+* Query: updated TableClientimplementation
+
 ## 2.2.11 ##
 
 * Table: Add unique index support
