@@ -23,47 +23,11 @@ public class JwtUtils {
     private JwtUtils() { }
 
     private static class JwtClaims {
-        @SerializedName("iss")
-        private String issuer;
-        @SerializedName("sub")
-        private String subject;
-        @SerializedName("aud")
-        private String audience;
         @SerializedName("exp")
         private Long expiredAt;
-        @SerializedName("nbf")
-        private Long notBeforeAt;
-        @SerializedName("iat")
-        private Long issuedAt;
-        @SerializedName("jti")
-        private String jwtID;
-
-        public String getIssuer() {
-            return this.issuer;
-        }
-
-        public String getSubject() {
-            return this.subject;
-        }
-
-        public String getAudience() {
-            return this.audience;
-        }
 
         public Long getExpiredAt() {
             return this.expiredAt;
-        }
-
-        public Long getNotBeforeAt() {
-            return this.notBeforeAt;
-        }
-
-        public Long getIssuedAt() {
-            return this.issuedAt;
-        }
-
-        public String getJwtID() {
-            return this.jwtID;
         }
     }
 
