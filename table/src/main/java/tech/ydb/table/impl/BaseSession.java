@@ -770,7 +770,7 @@ public abstract class BaseSession implements Session {
         return settings.build();
     }
 
-    private CompletableFuture<Result<DataQueryResult>> executeDataQueryInternal(
+    protected CompletableFuture<Result<DataQueryResult>> executeDataQueryInternal(
             String query, YdbTable.TransactionControl txControl, Params params, ExecuteDataQuerySettings settings) {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
                 .setSessionId(id)
