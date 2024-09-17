@@ -58,6 +58,11 @@ abstract class SessionImpl implements QuerySession {
             YdbQuery.DeleteSessionResponse::getStatus, YdbQuery.DeleteSessionResponse::getIssuesList
     );
 
+    private static final Status CANCELLED = Status.of(
+            StatusCode.CLIENT_CANCELLED,
+            Issue.of("Stream was cancelled by client, session will be removed", Issue.Severity.WARNING)
+    );
+
     private final QueryServiceRpc rpc;
     private final String sessionId;
     private final long nodeID;
@@ -313,6 +318,7 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public void cancel() {
+            updateSessionState(CANCELLED);
             grpcStream.cancel();
         }
     }

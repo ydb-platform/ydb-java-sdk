@@ -175,6 +175,7 @@ class SessionPool implements AutoCloseable {
                     status.getCode() == StatusCode.INTERNAL_ERROR ||
                     status.getCode() == StatusCode.CLIENT_DEADLINE_EXCEEDED ||
                     status.getCode() == StatusCode.CLIENT_DEADLINE_EXPIRED ||
+                    status.getCode() == StatusCode.CLIENT_CANCELLED ||
                     status.getCode() == StatusCode.TRANSPORT_UNAVAILABLE;
             if (isStatusBroken) {
                 logger.warn("QuerySession[{}] broken with status {}", getId(), status);
