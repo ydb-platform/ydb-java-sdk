@@ -346,9 +346,9 @@ public class ProtoType {
     public static ValueProtos.Type getPgType(int oid, int typlen, int typmod) {
         return ValueProtos.Type.newBuilder()
                 .setPgType(ValueProtos.PgType.newBuilder()
-                        .setOid(typlen)
+                        .setOid(oid)
                         .setTyplen(typlen)
-                        .setTypmod(typlen)
+                        .setTypmod(typmod)
                         .build()
                 ).build();
     }
