@@ -95,5 +95,9 @@ public class PartitionStats {
             this.partitionNodeId = partitionNodeId;
             return this;
         }
+
+        public PartitionStats build() {
+            return new PartitionStats(this);
+        }
     }
 }
