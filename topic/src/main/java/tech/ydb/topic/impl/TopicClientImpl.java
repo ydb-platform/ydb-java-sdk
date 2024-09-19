@@ -24,13 +24,17 @@ import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.Consumer;
+import tech.ydb.topic.description.ConsumerStats;
 import tech.ydb.topic.description.MeteringMode;
+import tech.ydb.topic.description.MultipleWindowsStat;
 import tech.ydb.topic.description.PartitionInfo;
+import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
+import tech.ydb.topic.read.impl.OffsetsRangeImpl;
 import tech.ydb.topic.read.impl.SyncReaderImpl;
 import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
@@ -260,8 +264,9 @@ public class TopicClientImpl implements TopicClient {
                     .setPartitionId(partition.getPartitionId())
                     .setActive(partition.getActive())
                     .setChildPartitionIds(partition.getChildPartitionIdsList())
-                    .setParentPartitionIds(partition.getParentPartitionIdsList());
-            // TODO: read partition stats
+                    .setParentPartitionIds(partition.getParentPartitionIdsList())
+                    .setPartitionStats(fromProto(partition.getPartitionStats()));
+
             partitions.add(partitionBuilder.build());
         }
         description.setPartitions(partitions);
@@ -285,8 +290,7 @@ public class TopicClientImpl implements TopicClient {
                 consumerSupportedCodecsBuilder.addCodec(codecFromProto(codec));
             }
             consumerBuilder.setSupportedCodecs(consumerSupportedCodecsBuilder.build());
-
-            // TODO: set consumer stats
+            consumerBuilder.setStats(fromProto(consumer.getConsumerStats()));
 
             consumers.add(consumerBuilder.build());
         }
@@ -397,6 +401,47 @@ public class TopicClientImpl implements TopicClient {
             codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
         }
         return codecsBuilder.build();
+    }
+
+    private static PartitionStats fromProto(YdbTopic.PartitionStats partitionStats) {
+        return PartitionStats.newBuilder()
+            .setPartitionOffsets(
+                new OffsetsRangeImpl(
+                    partitionStats.getPartitionOffsets().getStart(),
+                    partitionStats.getPartitionOffsets().getEnd()
+                )
+            ).setStoreSizeBytes(
+                partitionStats.getStoreSizeBytes()
+            ).setLastWriteTime(
+                ProtobufUtils.protoToInstant(partitionStats.getLastWriteTime())
+            ).setMaxWriteTimeLag(
+                ProtobufUtils.protoToDuration(partitionStats.getMaxWriteTimeLag())
+            ).setBytesWritten(
+                new MultipleWindowsStat(
+                    partitionStats.getBytesWritten().getPerMinute(),
+                    partitionStats.getBytesWritten().getPerHour(),
+                    partitionStats.getBytesWritten().getPerDay()
+                )
+            ).setPartitionNodeId(
+                partitionStats.getPartitionNodeId()
+            ).build();
+    }
+
+    private static ConsumerStats fromProto(YdbTopic.Consumer.ConsumerStats consumerStats) {
+        return ConsumerStats.newBuilder()
+            .setMinPartitionsLastReadTime(
+                ProtobufUtils.protoToInstant(consumerStats.getMinPartitionsLastReadTime())
+            ).setMaxReadTimeLag(
+                ProtobufUtils.protoToDuration(consumerStats.getMaxReadTimeLag())
+            ).setMaxWriteTimeLag(
+                ProtobufUtils.protoToDuration(consumerStats.getMaxWriteTimeLag())
+            ).setBytesRead(
+                new MultipleWindowsStat(
+                    consumerStats.getBytesRead().getPerMinute(),
+                    consumerStats.getBytesRead().getPerHour(),
+                    consumerStats.getBytesRead().getPerDay()
+                )
+            ).build();
     }
 
     @Override

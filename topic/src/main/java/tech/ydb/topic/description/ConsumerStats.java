@@ -73,5 +73,9 @@ public class ConsumerStats {
             this.bytesRead = bytesRead;
             return this;
         }
+
+        public ConsumerStats build() {
+            return new ConsumerStats(this);
+        }
     }
 }
