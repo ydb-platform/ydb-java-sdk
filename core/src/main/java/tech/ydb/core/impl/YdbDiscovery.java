@@ -21,7 +21,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.operation.OperationBinder;
-import tech.ydb.core.utils.Async;
+import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
@@ -183,7 +183,7 @@ public class YdbDiscovery {
 
     private void handleDiscoveryResult(Result<DiscoveryProtos.ListEndpointsResult> response, Throwable th) {
         if (th != null) {
-            Throwable cause = Async.unwrapCompletionException(th);
+            Throwable cause = FutureTools.unwrapCompletionException(th);
             logger.warn("couldn't perform discovery with exception", cause);
             handleThrowable(cause);
             return;

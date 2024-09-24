@@ -21,7 +21,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
-import tech.ydb.core.utils.Async;
+import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.settings.AttachSessionSettings;
@@ -125,7 +125,7 @@ class SessionPool implements AutoCloseable {
                     return;
                 }
 
-                Throwable ex = Async.unwrapCompletionException(th);
+                Throwable ex = FutureTools.unwrapCompletionException(th);
                 if (ex instanceof UnexpectedResultException) {
                     future.complete(Result.fail((UnexpectedResultException) ex));
                 } else {

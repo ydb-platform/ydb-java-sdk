@@ -10,7 +10,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.impl.call.EmptyStream;
-import tech.ydb.core.utils.Async;
+import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.AlterTableRequest;
 import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
@@ -18,7 +18,6 @@ import tech.ydb.proto.table.YdbTable.BeginTransactionResult;
 import tech.ydb.proto.table.YdbTable.CommitTransactionRequest;
 import tech.ydb.proto.table.YdbTable.CopyTableRequest;
 import tech.ydb.proto.table.YdbTable.CopyTablesRequest;
-import tech.ydb.proto.table.YdbTable.RenameTablesRequest;
 import tech.ydb.proto.table.YdbTable.CreateSessionRequest;
 import tech.ydb.proto.table.YdbTable.CreateSessionResult;
 import tech.ydb.proto.table.YdbTable.CreateTableRequest;
@@ -36,6 +35,7 @@ import tech.ydb.proto.table.YdbTable.KeepAliveResult;
 import tech.ydb.proto.table.YdbTable.PrepareDataQueryRequest;
 import tech.ydb.proto.table.YdbTable.PrepareQueryResult;
 import tech.ydb.proto.table.YdbTable.ReadRowsResponse;
+import tech.ydb.proto.table.YdbTable.RenameTablesRequest;
 import tech.ydb.proto.table.YdbTable.RollbackTransactionRequest;
 import tech.ydb.table.rpc.TableRpc;
 
@@ -195,6 +195,6 @@ public class TableRpcStub implements TableRpc {
     }
 
     private static <U> CompletableFuture<U> notImplemented(String method) {
-        return Async.failedFuture(new UnsupportedOperationException(method + " not implemented"));
+        return FutureTools.failedFuture(new UnsupportedOperationException(method + " not implemented"));
     }
 }
