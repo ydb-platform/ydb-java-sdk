@@ -25,12 +25,17 @@ public class GrpcChannel {
     private final ReadyWatcher readyWatcher;
 
     public GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory) {
-        logger.debug("Creating grpc channel with {}", endpoint);
-        this.endpoint = endpoint;
-        this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort());
-        this.connectTimeoutMs = factory.getConnectTimeoutMs();
-        this.readyWatcher = new ReadyWatcher();
-        this.readyWatcher.checkState();
+        try {
+            logger.debug("Creating grpc channel with {}", endpoint);
+            this.endpoint = endpoint;
+            this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort());
+            this.connectTimeoutMs = factory.getConnectTimeoutMs();
+            this.readyWatcher = new ReadyWatcher();
+            this.readyWatcher.checkState();
+        } catch (Throwable th) {
+            logger.error("cannot create channel", th);
+            throw new RuntimeException("cannot create channel", th);
+        }
     }
 
     public EndpointRecord getEndpoint() {
