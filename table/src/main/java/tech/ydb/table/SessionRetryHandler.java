@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.utils.Async;
+import tech.ydb.core.utils.FutureTools;
 
 /**
  * Session retry helper interface to support the application-level monitoring of session operation
@@ -124,7 +124,7 @@ public interface SessionRetryHandler {
         if (!LOGGER.isDebugEnabled()) {
             return "unknown";
         }
-        Throwable cause = Async.unwrapCompletionException(t);
+        Throwable cause = FutureTools.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return statusCode.name();

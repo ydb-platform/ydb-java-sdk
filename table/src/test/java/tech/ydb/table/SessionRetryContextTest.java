@@ -19,14 +19,12 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.utils.Async;
+import tech.ydb.core.utils.FutureTools;
 import tech.ydb.table.impl.PooledTableClient;
 import tech.ydb.table.impl.pool.FutureHelper;
 import tech.ydb.table.impl.pool.MockedTableRpc;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.transaction.TxControl;
-
-import static java.util.concurrent.CompletableFuture.completedFuture;
 
 
 /**
@@ -46,6 +44,10 @@ public class SessionRetryContextTest extends FutureHelper  {
     private static final Duration TEN_SECONDS = Duration.ofSeconds(10);
 
     private static final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+
+    private static <T> CompletableFuture<T> completedFuture(T value) {
+        return CompletableFuture.completedFuture(value);
+    }
 
     @AfterClass
     public static void cleanUp() {
@@ -78,7 +80,7 @@ public class SessionRetryContextTest extends FutureHelper  {
         // not retryable status code
         {
             AtomicInteger cnt = new AtomicInteger();
-            Result<?> result = ctx.supplyResult(session -> {
+            Result<Object> result = ctx.supplyResult(session -> {
                 cnt.incrementAndGet();
                 return completedFuture(Result.fail(CANCELLED));
             }).join();
@@ -90,7 +92,7 @@ public class SessionRetryContextTest extends FutureHelper  {
         // retryable status code
         {
             AtomicInteger cnt = new AtomicInteger();
-            Result<?> result = ctx.supplyResult(session -> {
+            Result<Object> result = ctx.supplyResult(session -> {
                 cnt.incrementAndGet();
                 return completedFuture(Result.fail(OVERLOADED));
             }).join();
@@ -118,7 +120,7 @@ public class SessionRetryContextTest extends FutureHelper  {
                 }).join();
                 Assert.fail("expected exception not thrown");
             } catch (Throwable t) {
-                Throwable cause = Async.unwrapCompletionException(t);
+                Throwable cause = FutureTools.unwrapCompletionException(t);
                 Assert.assertTrue(cause instanceof RuntimeException);
                 Assert.assertEquals(1, cnt.get());
                 Assert.assertEquals("some error message", cause.getMessage());
@@ -136,7 +138,7 @@ public class SessionRetryContextTest extends FutureHelper  {
                 }).join();
                 Assert.fail("expected exception not thrown");
             } catch (Throwable t) {
-                Throwable cause = Async.unwrapCompletionException(t);
+                Throwable cause = FutureTools.unwrapCompletionException(t);
                 Assert.assertTrue(cause instanceof UnexpectedResultException);
                 Assert.assertEquals(3, cnt.get());
                 Assert.assertEquals("Cannot get value, code: NOT_FOUND", cause.getMessage());
@@ -375,7 +377,7 @@ public class SessionRetryContextTest extends FutureHelper  {
             }).join();
             Assert.fail("expected exception not thrown");
         } catch (Throwable t) {
-            Throwable cause = Async.unwrapCompletionException(t);
+            Throwable cause = FutureTools.unwrapCompletionException(t);
             Assert.assertTrue(cause instanceof RuntimeException);
             Assert.assertEquals("something goes wrong here", cause.getMessage());
         }
@@ -550,7 +552,7 @@ public class SessionRetryContextTest extends FutureHelper  {
         @Override
         public CompletableFuture<Result<Session>> createSession(Duration timeout) {
             retriesCount.incrementAndGet();
-            return Async.failedFuture(new RuntimeException("something goes wrong here"));
+            return FutureTools.failedFuture(new RuntimeException("something goes wrong here"));
         }
     }
 

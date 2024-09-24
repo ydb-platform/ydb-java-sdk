@@ -21,7 +21,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.utils.Async;
+import tech.ydb.core.utils.FutureTools;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.impl.BaseSession;
@@ -110,7 +110,7 @@ public class SessionPool implements AutoCloseable {
 
         nextSession.whenComplete((session, th) -> {
             if (th != null) {
-                Throwable ex = Async.unwrapCompletionException(th);
+                Throwable ex = FutureTools.unwrapCompletionException(th);
                 Result<Session> fail = (ex instanceof UnexpectedResultException)
                         ? Result.fail((UnexpectedResultException) ex)
                         : Result.error("can't create session", ex);

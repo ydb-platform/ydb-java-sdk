@@ -13,15 +13,14 @@ import java.util.function.Function;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 
+import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.MoreExecutors;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.utils.Async;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import tech.ydb.core.utils.FutureTools;
 
 
 /**
@@ -85,7 +84,7 @@ public class SessionRetryContext {
     }
 
     private boolean canRetry(Throwable t) {
-        Throwable cause = Async.unwrapCompletionException(t);
+        Throwable cause = FutureTools.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return canRetry(statusCode);
@@ -131,7 +130,7 @@ public class SessionRetryContext {
     }
 
     private long backoffTimeMillis(Throwable t, int retryNumber) {
-        Throwable cause = Async.unwrapCompletionException(t);
+        Throwable cause = FutureTools.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return backoffTimeMillis(statusCode, retryNumber);
@@ -347,7 +346,7 @@ public class SessionRetryContext {
         }
 
         public Builder backoffSlot(Duration duration) {
-            checkArgument(!duration.isNegative(), "backoffSlot(%s) is negative", duration);
+            Preconditions.checkArgument(!duration.isNegative(), "backoffSlot(%s) is negative", duration);
             this.backoffSlotMillis = duration.toMillis();
             return this;
         }
@@ -358,7 +357,7 @@ public class SessionRetryContext {
         }
 
         public Builder fastBackoffSlot(Duration duration) {
-            checkArgument(!duration.isNegative(), "backoffSlot(%s) is negative", duration);
+            Preconditions.checkArgument(!duration.isNegative(), "backoffSlot(%s) is negative", duration);
             this.fastBackoffSlotMillis = duration.toMillis();
             return this;
         }

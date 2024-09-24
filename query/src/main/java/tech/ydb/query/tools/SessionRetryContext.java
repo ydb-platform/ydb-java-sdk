@@ -1,7 +1,6 @@
 package tech.ydb.query.tools;
 
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -20,7 +19,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.utils.Async;
+import tech.ydb.core.utils.FutureTools;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 
@@ -76,7 +75,7 @@ public class SessionRetryContext {
     }
 
     private boolean canRetry(Throwable t) {
-        Throwable cause = Async.unwrapCompletionException(t);
+        Throwable cause = FutureTools.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return canRetry(statusCode);
@@ -122,7 +121,7 @@ public class SessionRetryContext {
     }
 
     private long backoffTimeMillis(Throwable t, int retryNumber) {
-        Throwable cause = Async.unwrapCompletionException(t);
+        Throwable cause = FutureTools.unwrapCompletionException(t);
         if (cause instanceof UnexpectedResultException) {
             StatusCode statusCode = ((UnexpectedResultException) cause).getStatus().getCode();
             return backoffTimeMillis(statusCode, retryNumber);
@@ -137,7 +136,6 @@ public class SessionRetryContext {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
         private final AtomicInteger retryNumber = new AtomicInteger();
         private final Function<QuerySession, CompletableFuture<R>> fn;
-        private final long createTimestamp = Instant.now().toEpochMilli();
 
         BaseRetryableTask(Function<QuerySession, CompletableFuture<R>> fn) {
             this.fn = fn;
@@ -149,10 +147,6 @@ public class SessionRetryContext {
 
         abstract StatusCode toStatusCode(R result);
         abstract R toFailedResult(Result<QuerySession> sessionResult);
-
-        private long ms() {
-            return Instant.now().toEpochMilli() - createTimestamp;
-        }
 
         // called on timer expiration
         @Override
