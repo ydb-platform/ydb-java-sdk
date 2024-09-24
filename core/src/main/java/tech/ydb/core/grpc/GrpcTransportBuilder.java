@@ -15,14 +15,13 @@ import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.ManagedChannel;
-import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 
 import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.auth.NopAuthProvider;
 import tech.ydb.core.impl.YdbSchedulerFactory;
 import tech.ydb.core.impl.YdbTransportImpl;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
-import tech.ydb.core.impl.pool.DefaultChannelFactory;
+import tech.ydb.core.impl.pool.ChannelFactoryLoader;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.core.utils.Version;
 
@@ -69,7 +68,7 @@ public class GrpcTransportBuilder {
 
     private byte[] cert = null;
     private boolean useTLS = false;
-    private ManagedChannelFactory.Builder channelFactoryBuilder = DefaultChannelFactory::build;
+    private ManagedChannelFactory.Builder channelFactoryBuilder = null;
     private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
     private String localDc;
     private BalancingSettings balancingSettings;
@@ -177,6 +176,10 @@ public class GrpcTransportBuilder {
     }
 
     public ManagedChannelFactory getManagedChannelFactory() {
+        if (channelFactoryBuilder == null) {
+            channelFactoryBuilder = ChannelFactoryLoader.load();
+        }
+
         return channelFactoryBuilder.buildFactory(this);
     }
 
@@ -193,18 +196,20 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * Set a custom initialization of {@link NettyChannelBuilder} <br>
+     * Set a custom initialization of {@link io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder} <br>
      * This method is deprecated. Use
      * {@link GrpcTransportBuilder#withChannelFactoryBuilder(tech.ydb.core.impl.pool.ManagedChannelFactory.Builder)}
      * instead
      *
-     * @param channelInitializer custom NettyChannelBuilder initializator
+     * @param ci custom NettyChannelBuilder initializator
      * @return this
      * @deprecated
      */
     @Deprecated
-    public GrpcTransportBuilder withChannelInitializer(Consumer<NettyChannelBuilder> channelInitializer) {
-        this.channelFactoryBuilder = gtb -> DefaultChannelFactory.build(gtb, channelInitializer);
+    public GrpcTransportBuilder withChannelInitializer(
+            Consumer<io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder> ci
+    ) {
+        this.channelFactoryBuilder = tech.ydb.core.impl.pool.ShadedNettyChannelFactory.withInterceptor(ci);
         return this;
     }
 

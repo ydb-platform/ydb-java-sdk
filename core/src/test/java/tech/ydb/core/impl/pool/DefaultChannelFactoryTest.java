@@ -20,18 +20,17 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  *
@@ -73,7 +72,7 @@ public class DefaultChannelFactoryTest {
     @Test
     public void defaultParams() {
         GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root");
-        ManagedChannelFactory factory = DefaultChannelFactory.build(builder);
+        ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
         channelStaticMock.verify(FOR_ADDRESS, times(0));
 
         Assert.assertEquals(30_000l, factory.getConnectTimeoutMs());
@@ -83,8 +82,8 @@ public class DefaultChannelFactoryTest {
 
         verify(channelBuilderMock, times(0)).negotiationType(NegotiationType.TLS);
         verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(DefaultChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(DefaultChannelFactory.DEFAULT_BALANCER_POLICY);
+        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
         verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         verify(channelBuilderMock, times(0)).enableRetry();
         verify(channelBuilderMock, times(1)).disableRetry();
@@ -97,7 +96,7 @@ public class DefaultChannelFactoryTest {
                 .withGrpcRetry(true)
                 .withConnectTimeout(Duration.ofMinutes(1));
 
-        ManagedChannelFactory factory = DefaultChannelFactory.build(builder);
+        ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
         channelStaticMock.verify(FOR_ADDRESS, times(0));
 
         Assert.assertEquals(60000l, factory.getConnectTimeoutMs());
@@ -107,8 +106,8 @@ public class DefaultChannelFactoryTest {
 
         verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.TLS);
         verify(channelBuilderMock, times(0)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(DefaultChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(DefaultChannelFactory.DEFAULT_BALANCER_POLICY);
+        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
         verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         verify(channelBuilderMock, times(1)).enableRetry();
         verify(channelBuilderMock, times(0)).disableRetry();
@@ -119,9 +118,10 @@ public class DefaultChannelFactoryTest {
         GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
                 .withUseDefaultGrpcResolver(true);
 
-        ManagedChannelFactory factory = DefaultChannelFactory.build(
-                builder, cb -> cb.withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE)
-        );
+        ManagedChannelFactory factory = ShadedNettyChannelFactory
+                .withInterceptor(cb -> cb.withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE))
+                .buildFactory(builder);
+
         channelStaticMock.verify(FOR_ADDRESS, times(0));
 
         Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
@@ -129,8 +129,8 @@ public class DefaultChannelFactoryTest {
         channelStaticMock.verify(FOR_ADDRESS, times(1));
 
         verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(DefaultChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(0)).defaultLoadBalancingPolicy(DefaultChannelFactory.DEFAULT_BALANCER_POLICY);
+        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        verify(channelBuilderMock, times(0)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
         verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         verify(channelBuilderMock, times(1)).withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
     }
@@ -147,7 +147,7 @@ public class DefaultChannelFactoryTest {
                     .withGrpcRetry(false)
                     .withConnectTimeout(4, TimeUnit.SECONDS);
 
-            ManagedChannelFactory factory = DefaultChannelFactory.build(builder);
+            ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
 
             Assert.assertEquals(4000l, factory.getConnectTimeoutMs());
             Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
@@ -160,8 +160,8 @@ public class DefaultChannelFactoryTest {
 
         verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.TLS);
         verify(channelBuilderMock, times(0)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(DefaultChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(DefaultChannelFactory.DEFAULT_BALANCER_POLICY);
+        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
         verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         verify(channelBuilderMock, times(0)).enableRetry();
         verify(channelBuilderMock, times(1)).disableRetry();
@@ -173,7 +173,7 @@ public class DefaultChannelFactoryTest {
         GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
                 .withSecureConnection(cert);
 
-        ManagedChannelFactory factory = DefaultChannelFactory.build(builder);
+        ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
 
         RuntimeException ex = Assert.assertThrows(RuntimeException.class,
                 () -> factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));

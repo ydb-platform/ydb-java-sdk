@@ -2,6 +2,7 @@ package tech.ydb.core.impl.pool;
 
 import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 
 import javax.net.ssl.SSLException;
 
@@ -39,7 +40,7 @@ public class NettyChannelFactory implements ManagedChannelFactory {
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
 
-    public NettyChannelFactory(GrpcTransportBuilder builder) {
+    private NettyChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
         this.version = builder.getVersionString();
         this.useTLS = builder.getUseTls();
@@ -119,5 +120,30 @@ public class NettyChannelFactory implements ManagedChannelFactory {
         } catch (SSLException | RuntimeException e) {
             throw new RuntimeException("cannot create ssl context", e);
         }
+    }
+
+    public static ManagedChannelFactory.Builder build() {
+        return new Builder() {
+            @Override
+            public ManagedChannelFactory buildFactory(GrpcTransportBuilder builder) {
+                return new NettyChannelFactory(builder);
+            }
+
+            @Override
+            public String toString() {
+                return "NettyChannelFactory";
+            }
+        };
+    }
+
+    public static ManagedChannelFactory.Builder withInterceptor(Consumer<NettyChannelBuilder> ci) {
+        return builder -> new NettyChannelFactory(builder) {
+            @Override
+            protected void configure(NettyChannelBuilder channelBuilder) {
+                if (ci != null) {
+                    ci.accept(channelBuilder);
+                }
+            }
+        };
     }
 }

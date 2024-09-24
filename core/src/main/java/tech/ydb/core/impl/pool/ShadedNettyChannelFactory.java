@@ -27,7 +27,7 @@ import tech.ydb.core.ssl.YandexTrustManagerFactory;
  * @author Nikolay Perfilov
  * @author Aleksandr Gorshenin
  */
-public class DefaultChannelFactory implements ManagedChannelFactory {
+public class ShadedNettyChannelFactory implements ManagedChannelFactory {
     static final int INBOUND_MESSAGE_SIZE = 64 << 20; // 64 MiB
     static final String DEFAULT_BALANCER_POLICY = "round_robin";
 
@@ -40,7 +40,7 @@ public class DefaultChannelFactory implements ManagedChannelFactory {
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
 
-    private DefaultChannelFactory(GrpcTransportBuilder builder) {
+    public ShadedNettyChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
         this.version = builder.getVersionString();
         this.useTLS = builder.getUseTls();
@@ -122,12 +122,22 @@ public class DefaultChannelFactory implements ManagedChannelFactory {
         }
     }
 
-    public static ManagedChannelFactory build(GrpcTransportBuilder builder) {
-        return new DefaultChannelFactory(builder);
+    public static ManagedChannelFactory.Builder build() {
+        return new Builder() {
+            @Override
+            public ManagedChannelFactory buildFactory(GrpcTransportBuilder builder) {
+                return new ShadedNettyChannelFactory(builder);
+            }
+
+            @Override
+            public String toString() {
+                return "ShadedNettyChannelFactory";
+            }
+        };
     }
 
-    public static ManagedChannelFactory build(GrpcTransportBuilder builder, Consumer<NettyChannelBuilder> ci) {
-        return new DefaultChannelFactory(builder) {
+    public static ManagedChannelFactory.Builder withInterceptor(Consumer<NettyChannelBuilder> ci) {
+        return builder -> new ShadedNettyChannelFactory(builder) {
             @Override
             protected void configure(NettyChannelBuilder channelBuilder) {
                 if (ci != null) {
