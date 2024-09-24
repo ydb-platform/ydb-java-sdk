@@ -15,7 +15,8 @@ import org.slf4j.LoggerFactory;
  * @author Nikolay Perfilov
  */
 public class GrpcChannel {
-    private static final long WAIT_FOR_CLOSING_MS = 1000;
+    /* Channel shutdown waits for finish of active grpc calls, so there must be enough time to complete them all */
+    private static final long WAIT_FOR_CLOSING_MS = 5000;
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannel.class);
 
     private final EndpointRecord endpoint;

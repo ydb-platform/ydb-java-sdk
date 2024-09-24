@@ -9,12 +9,14 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public class YdbSchedulerFactory {
-    private static final long WAIT_FOR_SHUTDOWN_MS = 1000;
+    /** Scheduler waits for closing of channels so this timeout must be greater that GrpcChannel.WAIT_FOR_CLOSING_MS */
+    private static final long WAIT_FOR_SHUTDOWN_MS = 2 * 5000;
 
     private static final Logger logger = LoggerFactory.getLogger(YdbSchedulerFactory.class);
 
