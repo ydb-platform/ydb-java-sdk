@@ -1,7 +1,13 @@
+## 2.3.1 ##
+
+* Query: added removing of query session if client cancelled query
+* Core: increased default timeouts of shutdown
+* Core: fixed work with grpc-netty instead of grpc-netty-shaded
+
 ## 2.3.0 ##
 
 * Core: fixed JWT token parser
-* Query: updated TableClientimplementation
+* Query: updated TableClient implementation
 
 ## 2.2.11 ##
 
