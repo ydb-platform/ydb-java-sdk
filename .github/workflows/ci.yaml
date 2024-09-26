@@ -4,36 +4,113 @@ on:
   push:
     branches:
       - master
-      - develop
       - release*
   pull_request:
       type: [opened, reopened, edited, synchronize]
 
 jobs:
-  build:
-    name: YDB Java SDK CI with Maven
+  prepare:
+    name: Prepare Maven cache
     runs-on: ubuntu-latest
+
+    env:
+        MAVEN_ARGS: --batch-mode -Dstyle.color=always
+
+    steps:
+      - name: Checkout YDB Java SDK
+        uses: actions/checkout@v4
+        with:
+          path: sdk
+
+      - name: Checkout YDB YC Auth provider
+        uses: actions/checkout@v4
+        with:
+          repository: ydb-platform/ydb-java-yc
+          path: yc
+
+      - name: Checkout YDB JDBC Driver
+        uses: actions/checkout@v4
+        with:
+          repository: ydb-platform/ydb-jdbc-driver
+          path: jdbc
+
+      - name: Checkout YDB Java Examples
+        uses: actions/checkout@v4
+        with:
+          repository: ydb-platform/ydb-java-examples
+          path: examples
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          cache: 'maven'
+          cache-dependency-path: |
+              sdk/pom.xml
+              sdk/bom/pom.xml
+              yc/pom.xml
+              jdbc/pom.xml
+
+      - name: Download YDB Java SDK dependencies
+        working-directory: ./sdk
+        run: mvn $MAVEN_ARGS dependency:go-offline
+
+      - name: Download YDB YC Auth provider dependencies
+        working-directory: ./yc
+        run: mvn $MAVEN_ARGS dependency:go-offline
+
+      - name: Download YDB JDBC Driver dependencies
+        working-directory: ./jdbc
+        run: mvn $MAVEN_ARGS dependency:go-offline
+
+      - name: Download YDB Java Examples dependencies
+        working-directory: ./examples
+        run: mvn $MAVEN_ARGS dependency:go-offline
+
+  build:
+    name: YDB Java SDK CI on JDK
+    runs-on: ubuntu-latest
+    needs: prepare
 
     strategy:
       matrix:
         java: [ '8', '11', '17']
 
     env:
-        MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always -DYDB_DOCKER_ISOLATION=true
+        MAVEN_ARGS: --batch-mode -Dstyle.color=always -DYDB_DOCKER_ISOLATION=true
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout YDB Java SDK
+        uses: actions/checkout@v4
         with:
           path: sdk
 
-      - name: Set up JDK 8
+      - name: Checkout YDB YC Auth provider
+        uses: actions/checkout@v4
+        with:
+          repository: ydb-platform/ydb-java-yc
+          path: yc
+
+      - name: Checkout YDB JDBC Driver
+        uses: actions/checkout@v4
+        with:
+          repository: ydb-platform/ydb-jdbc-driver
+          path: jdbc
+
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
           cache: 'maven'
+          cache-dependency-path: |
+              sdk/pom.xml
+              sdk/bom/pom.xml
+              yc/pom.xml
+              jdbc/pom.xml
 
-      - name: Extract SDK version
+      - name: Extract YDB Java SDK version
         working-directory: ./sdk
         run: |
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
@@ -45,38 +122,30 @@ jobs:
           VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
           echo "AUTH_API_VERSION=$VERSION" >> "$GITHUB_ENV"
 
-      - name: Download YDK SDK dependencies
-        working-directory: ./sdk
-        run: mvn $MAVEN_ARGS dependency:go-offline
-
-      - name: Build YDB SDK
+      - name: Build YDB Java SDK
         working-directory: ./sdk
         run: mvn $MAVEN_ARGS install
-
-      - uses: actions/checkout@v4
-        with:
-          repository: ydb-platform/ydb-java-yc
-          ref: develop
-          path: yc
-
-      - name: Download YDB YC Auth provider dependencies
-        working-directory: ./yc
-        run: mvn $MAVEN_ARGS -Dydb.auth-api.version=$AUTH_API_VERSION dependency:go-offline
 
       - name: Build YDB YC Auth provider
         working-directory: ./yc
         run: mvn $MAVEN_ARGS -Dydb.auth-api.version=$AUTH_API_VERSION install
 
-      - uses: actions/checkout@v4
+      - name: Extract YDB JDBC Driver version
+        working-directory: ./jdbc
+        run: |
+          VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+          echo "JDBC_VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Build YDB JDBC Driver with tests
+        working-directory: ./jdbc
+        run: mvn $MAVEN_ARGS -Dydb.sdk.version=$SDK_VERSION install
+
+      - name: Checkout YDB Java Examples
+        uses: actions/checkout@v4
         with:
           repository: ydb-platform/ydb-java-examples
-          ref: master
           path: examples
-
-      - name: Download dependencies
-        working-directory: ./examples
-        run: mvn $MAVEN_ARGS -Dydb.sdk.version=$SDK_VERSION dependency:go-offline
 
       - name: Test examples with Maven
         working-directory: ./examples
-        run: mvn $MAVEN_ARGS -Dydb.sdk.version=$SDK_VERSION test
+        run: mvn $MAVEN_ARGS -Dydb.sdk.version=$SDK_VERSION -Dydb.jdbc.version=$JDBC_VERSION test

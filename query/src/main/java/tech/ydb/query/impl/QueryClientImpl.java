@@ -11,6 +11,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
+import tech.ydb.table.SessionPoolStats;
 
 /**
  *
@@ -46,8 +47,8 @@ public class QueryClientImpl implements  QueryClient {
         pool.updateMaxSize(maxSize);
     }
 
-    SessionPool getSessionPool() {
-        return pool;
+    public SessionPoolStats getSessionPoolStats() {
+        return pool.getStats();
     }
 
     @Override

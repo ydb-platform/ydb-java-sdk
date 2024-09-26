@@ -250,6 +250,8 @@ class SessionPool implements AutoCloseable {
 
         @Override
         public void close() {
+            logger.trace("QuerySession[{}] closed with broke status {}", getId(), isBroken);
+
             stats.released.increment();
             if (isBroken || isStopped) {
                 queue.delete(this);

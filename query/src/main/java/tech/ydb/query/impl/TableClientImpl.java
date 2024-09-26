@@ -49,7 +49,7 @@ public class TableClientImpl implements TableClient {
 
     @Override
     public SessionPoolStats sessionPoolStats() {
-        return proxy.getSessionPool().getStats();
+        return proxy.getSessionPoolStats();
     }
 
     @Override
