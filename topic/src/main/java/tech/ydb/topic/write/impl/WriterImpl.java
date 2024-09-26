@@ -291,8 +291,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     logger.trace("[{}] Putting a message into send buffer after freeing some space", id);
                     if (incomingMessage.future.complete(null)) {
                         acceptMessageIntoSendingQueue(incomingMessage.message);
+                        incomingQueue.remove();
                     }
-                    incomingQueue.remove();
                 }
                 logger.trace("[{}] All messages from incomingQueue are accepted into send buffer", id);
             }
