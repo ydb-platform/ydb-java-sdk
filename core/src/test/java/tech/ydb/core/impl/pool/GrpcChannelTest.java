@@ -84,7 +84,7 @@ public class GrpcChannelTest {
         Assert.assertEquals(endpoint, channel.getEndpoint());
 
         RuntimeException ex1 = Assert.assertThrows(RuntimeException.class, channel::getReadyChannel);
-        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null, sslNameOverride=null} connecting problem",
+        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null, overrideAuthority=null} connecting problem",
                 ex1.getMessage());
 
         channel.shutdown();
