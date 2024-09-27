@@ -76,7 +76,7 @@ public class DefaultChannelFactoryTest {
         channelStaticMock.verify(FOR_ADDRESS, times(0));
 
         Assert.assertEquals(30_000l, factory.getConnectTimeoutMs());
-        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
+        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         channelStaticMock.verify(FOR_ADDRESS, times(1));
 
@@ -100,7 +100,7 @@ public class DefaultChannelFactoryTest {
         channelStaticMock.verify(FOR_ADDRESS, times(0));
 
         Assert.assertEquals(60000l, factory.getConnectTimeoutMs());
-        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
+        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         channelStaticMock.verify(FOR_ADDRESS, times(1));
 
@@ -124,7 +124,7 @@ public class DefaultChannelFactoryTest {
 
         channelStaticMock.verify(FOR_ADDRESS, times(0));
 
-        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
+        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         channelStaticMock.verify(FOR_ADDRESS, times(1));
 
@@ -150,7 +150,7 @@ public class DefaultChannelFactoryTest {
             ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
 
             Assert.assertEquals(4000l, factory.getConnectTimeoutMs());
-            Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
+            Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         } finally {
             selfSignedCert.delete();
@@ -176,7 +176,7 @@ public class DefaultChannelFactoryTest {
         ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
 
         RuntimeException ex = Assert.assertThrows(RuntimeException.class,
-                () -> factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT));
+                () -> factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         Assert.assertEquals("cannot create ssl context", ex.getMessage());
         Assert.assertNotNull(ex.getCause());

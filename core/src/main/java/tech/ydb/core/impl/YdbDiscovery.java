@@ -23,6 +23,7 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.discovery.DiscoveryProtos;
+import tech.ydb.proto.discovery.DiscoveryProtos.EndpointInfo;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
 /**
@@ -185,6 +186,21 @@ public class YdbDiscovery {
         }
     }
 
+    private static String createAddress(EndpointInfo e) {
+        String addr;
+        if (e.getIpV6Count() > 0 && e.getIpV6(0) != null && !e.getIpV6(0).isEmpty()) {
+            addr = e.getIpV6(0);
+        } else if (e.getIpV4Count() > 0 && e.getIpV4(0) != null && !e.getIpV4(0).isEmpty()) {
+            addr = e.getIpV4(0);
+        } else {
+            addr = e.getAddress();
+        }
+
+        logger.debug("address {} will be used to connect to node {}", addr, e.getAddress());
+
+        return addr;
+    }
+
     private void handleDiscoveryResult(Result<DiscoveryProtos.ListEndpointsResult> response, Throwable th) {
         if (th != null) {
             Throwable cause = FutureTools.unwrapCompletionException(th);
@@ -202,7 +218,8 @@ public class YdbDiscovery {
             }
 
             List<EndpointRecord> records = result.getEndpointsList().stream()
-                    .map(e -> new EndpointRecord(e.getAddress(), e.getPort(), e.getNodeId(), e.getLocation()))
+                    .map(e -> new EndpointRecord(createAddress(e), e.getPort(), e.getNodeId(), e.getLocation(),
+                        e.getSslTargetNameOverride()))
                     .collect(Collectors.toList());
 
             logger.debug("successfully received ListEndpoints result with {} endpoints", records.size());

@@ -145,7 +145,7 @@ public class ManagedChannelMock extends ManagedChannel {
 
     public static ManagedChannelFactory.Builder MOCKED = (GrpcTransportBuilder builder) -> new ManagedChannelFactory() {
         @Override
-        public ManagedChannel newManagedChannel(String host, int port) {
+        public ManagedChannel newManagedChannel(String host, int port, String authority) {
             return good();
         }
 

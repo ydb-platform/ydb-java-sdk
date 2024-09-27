@@ -49,7 +49,7 @@ public class PriorityPickerTest {
 
     @Test
     public void detectLocalDCfallbackTest() {
-        List<EndpointRecord> single = Collections.singletonList(new EndpointRecord("localhost", 8080, 0, "DC1"));
+        List<EndpointRecord> single = Collections.singletonList(new EndpointRecord("localhost", 8080, 0, "DC1", null));
         PriorityPicker ignoreSelftLocation = PriorityPicker.from(BalancingSettings.detectLocalDs(), "DC1", single);
 
         Assert.assertEquals(0, ignoreSelftLocation.getEndpointPriority("DC1"));
@@ -73,7 +73,7 @@ public class PriorityPickerTest {
             final int port = serverSocket.getLocalPort();
 
             List<EndpointRecord> records = Arrays.asList("DC1", "DC1", "DC2", "DC2", "DC2", "DC3")
-                    .stream().map(location -> new EndpointRecord("localhost", port, 1, location))
+                    .stream().map(location -> new EndpointRecord("localhost", port, 1, location, null))
                     .collect(Collectors.toList());
 
             String localDC = PriorityPicker.detectLocalDC(records, testTicker);

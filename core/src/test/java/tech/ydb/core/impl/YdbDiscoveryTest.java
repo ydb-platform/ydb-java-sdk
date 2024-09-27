@@ -40,7 +40,7 @@ public class YdbDiscoveryTest {
         Mockito.when(channel.shutdownNow()).thenReturn(channel);
         Mockito.when(channel.awaitTermination(Mockito.anyLong(), Mockito.any())).thenReturn(true);
 
-        Mockito.when(channelFactory.newManagedChannel(Mockito.any(), Mockito.anyInt())).thenReturn(channel);
+        Mockito.when(channelFactory.newManagedChannel(Mockito.any(), Mockito.anyInt(), Mockito.isNull())).thenReturn(channel);
     }
 
     private <T extends Throwable> T checkFutureException(CompletableFuture<Boolean> f, String message, Class<T> clazz) {

@@ -13,7 +13,7 @@ public interface ManagedChannelFactory {
         ManagedChannelFactory buildFactory(GrpcTransportBuilder builder);
     }
 
-    ManagedChannel newManagedChannel(String host, int port);
+    ManagedChannel newManagedChannel(String host, int port, String authority);
 
     long getConnectTimeoutMs();
 }
