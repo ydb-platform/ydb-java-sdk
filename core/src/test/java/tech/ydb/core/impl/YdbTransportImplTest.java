@@ -51,9 +51,9 @@ public class YdbTransportImplTest {
         Mockito.when(transportChannel.shutdownNow()).thenReturn(transportChannel);
         Mockito.when(transportChannel.awaitTermination(Mockito.anyLong(), Mockito.any())).thenReturn(true);
 
-        Mockito.when(channelFactory.newManagedChannel(Mockito.eq("mocked"), Mockito.eq(2136)))
+        Mockito.when(channelFactory.newManagedChannel(Mockito.eq("mocked"), Mockito.eq(2136), Mockito.isNull()))
                 .thenReturn(discoveryChannel);
-        Mockito.when(channelFactory.newManagedChannel(Mockito.eq("node"), Mockito.eq(2136)))
+        Mockito.when(channelFactory.newManagedChannel(Mockito.eq("node"), Mockito.eq(2136), Mockito.isNull()))
                 .thenReturn(transportChannel);
     }
 

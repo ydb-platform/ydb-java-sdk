@@ -26,7 +26,7 @@ public class GrpcChannelTest {
 
     @Test
     public void goodChannels() {
-        Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt()))
+        Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt(), Mockito.isNull()))
                 .thenReturn(ManagedChannelMock.good(), ManagedChannelMock.good());
 
         EndpointRecord endpoint = new EndpointRecord("host1", 1234);
@@ -52,7 +52,7 @@ public class GrpcChannelTest {
                 ConnectivityState.READY,
         };
 
-        Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt()))
+        Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt(), Mockito.isNull()))
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states))
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states));
 
@@ -74,7 +74,7 @@ public class GrpcChannelTest {
                 ConnectivityState.SHUTDOWN,
         };
 
-        Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt()))
+        Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt(), Mockito.isNull()))
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states))
                 .thenReturn(new ManagedChannelMock(ConnectivityState.IDLE).nextStates(states));
 
@@ -84,7 +84,7 @@ public class GrpcChannelTest {
         Assert.assertEquals(endpoint, channel.getEndpoint());
 
         RuntimeException ex1 = Assert.assertThrows(RuntimeException.class, channel::getReadyChannel);
-        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null} connecting problem",
+        Assert.assertEquals("Channel Endpoint{host=host1, port=1234, node=0, location=null, sslNameOverride=null} connecting problem",
                 ex1.getMessage());
 
         channel.shutdown();

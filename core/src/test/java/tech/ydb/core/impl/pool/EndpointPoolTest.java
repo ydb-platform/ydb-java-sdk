@@ -208,8 +208,8 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(2)).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         // Pessimize unknown nodes - nothing is changed
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null));
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2, null));
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null, null));
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2, null, null));
         pool.pessimizeEndpoint(null);
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
@@ -553,6 +553,6 @@ public class EndpointPoolTest {
     }
 
     private static EndpointRecord endpoint(int nodeID, String hostname, int port, String location) {
-        return new EndpointRecord(hostname, port, nodeID, location);
+        return new EndpointRecord(hostname, port, nodeID, location, null);
     }
 }

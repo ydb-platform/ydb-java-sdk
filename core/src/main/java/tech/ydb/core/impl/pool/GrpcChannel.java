@@ -28,7 +28,8 @@ public class GrpcChannel {
         try {
             logger.debug("Creating grpc channel with {}", endpoint);
             this.endpoint = endpoint;
-            this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort());
+            this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort(),
+                endpoint.getSslNameOverride());
             this.connectTimeoutMs = factory.getConnectTimeoutMs();
             this.readyWatcher = new ReadyWatcher();
             this.readyWatcher.checkState();

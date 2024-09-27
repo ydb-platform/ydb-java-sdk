@@ -58,7 +58,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
 
     @SuppressWarnings("deprecation")
     @Override
-    public ManagedChannel newManagedChannel(String host, int port) {
+    public ManagedChannel newManagedChannel(String host, int port, String sslHostOverride) {
         NettyChannelBuilder channelBuilder = NettyChannelBuilder
                 .forAddress(host, port);
 
@@ -66,6 +66,9 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
             channelBuilder
                     .negotiationType(NegotiationType.TLS)
                     .sslContext(createSslContext());
+            if (sslHostOverride != null) {
+                channelBuilder.overrideAuthority(sslHostOverride);
+            }
         } else {
             channelBuilder.negotiationType(NegotiationType.PLAINTEXT);
         }
