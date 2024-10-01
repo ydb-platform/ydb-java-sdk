@@ -80,7 +80,22 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             Assert.assertTrue(value.isInf());
             Assert.assertFalse(value.isNegative());
-            Assert.assertSame(DecimalValue.INF, value);
+            Assert.assertEquals(DecimalValue.INF, value);
+            inf = inf.add(k);
+        }
+    }
+
+    @Test
+    public void infDefaulttype() {
+        DecimalType type = DecimalType.getDefault();
+        BigInteger inf = BigInteger.TEN.pow(DecimalType.MAX_PRECISION);
+        BigInteger k = BigInteger.valueOf(0x10000000_00000000L);
+
+        for (int i = 0; i < 100; i++) {
+            DecimalValue value = type.newValue(inf);
+            Assert.assertTrue(value.isInf());
+            Assert.assertFalse(value.isNegative());
+            Assert.assertNotEquals(DecimalValue.INF, value);
             inf = inf.add(k);
         }
     }
@@ -95,7 +110,22 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             Assert.assertTrue(value.isNegativeInf());
             Assert.assertTrue(value.isNegative());
-            Assert.assertSame(DecimalValue.NEG_INF, value);
+            Assert.assertEquals(DecimalValue.NEG_INF, value);
+            inf = inf.subtract(k);
+        }
+    }
+
+    @Test
+    public void negativeInfDefaultType() {
+        DecimalType type = DecimalType.getDefault();
+        BigInteger inf = BigInteger.TEN.negate().pow(DecimalType.MAX_PRECISION);
+        BigInteger k = BigInteger.valueOf(0x10000000_00000000L);
+
+        for (int i = 0; i < 100; i++) {
+            DecimalValue value = type.newValue(inf);
+            Assert.assertTrue(value.isNegativeInf());
+            Assert.assertTrue(value.isNegative());
+            Assert.assertNotEquals(DecimalValue.NEG_INF, value);
             inf = inf.subtract(k);
         }
     }
@@ -126,19 +156,19 @@ public class DecimalValueTest {
     public void ofString() {
         DecimalType t = DecimalType.getDefault();
 
-        Assert.assertSame(DecimalValue.INF, t.newValue("inf"));
-        Assert.assertSame(DecimalValue.INF, t.newValue("Inf"));
-        Assert.assertSame(DecimalValue.INF, t.newValue("INF"));
-        Assert.assertSame(DecimalValue.INF, t.newValue("+inf"));
-        Assert.assertSame(DecimalValue.INF, t.newValue("+Inf"));
-        Assert.assertSame(DecimalValue.INF, t.newValue("+INF"));
-        Assert.assertSame(DecimalValue.NEG_INF, t.newValue("-inf"));
-        Assert.assertSame(DecimalValue.NEG_INF, t.newValue("-Inf"));
-        Assert.assertSame(DecimalValue.NEG_INF, t.newValue("-INF"));
-        Assert.assertSame(DecimalValue.NAN, t.newValue("nan"));
-        Assert.assertSame(DecimalValue.NAN, t.newValue("Nan"));
-        Assert.assertSame(DecimalValue.NAN, t.newValue("NaN"));
-        Assert.assertSame(DecimalValue.NAN, t.newValue("NAN"));
+        Assert.assertTrue(t.newValue("inf").isInf());
+        Assert.assertTrue(t.newValue("Inf").isInf());
+        Assert.assertTrue(t.newValue("INF").isInf());
+        Assert.assertTrue(t.newValue("+inf").isInf());
+        Assert.assertTrue(t.newValue("+Inf").isInf());
+        Assert.assertTrue(t.newValue("+INF").isInf());
+        Assert.assertTrue(t.newValue("-inf").isNegativeInf());
+        Assert.assertTrue(t.newValue("-Inf").isNegativeInf());
+        Assert.assertTrue(t.newValue("-INF").isNegativeInf());
+        Assert.assertTrue(t.newValue("nan").isNan());
+        Assert.assertTrue(t.newValue("Nan").isNan());
+        Assert.assertTrue(t.newValue("NaN").isNan());
+        Assert.assertTrue(t.newValue("NAN").isNan());
 
         Assert.assertTrue(t.newValue("0").isZero());
         Assert.assertTrue(t.newValue("00").isZero());
