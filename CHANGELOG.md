@@ -1,3 +1,8 @@
+## 2.3.2 ##
+
+* Topic: fixed NoSuchElementException when using the DirectExecutorService as compressionExecutor
+* Core: added support for using ip address in discovery response
+
 ## 2.3.1 ##
 
 * Query: added removing of query session if client cancelled query
