@@ -19,7 +19,6 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 
 import tech.ydb.proto.ValueProtos;
-import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -123,10 +122,12 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         throw new IllegalStateException("expected Uuid, but was " + getClass().getSimpleName());
     }
 
+    @Deprecated
     public long getUuidHigh() {
         throw new IllegalStateException("expected Uuid, but was " + getClass().getSimpleName());
     }
 
+    @Deprecated
     public long getUuidLow() {
         throw new IllegalStateException("expected Uuid, but was " + getClass().getSimpleName());
     }
@@ -245,16 +246,17 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         return value.isEmpty() ? Text.EMPTY_JSON_DOCUMENT : new Text(PrimitiveType.JsonDocument, value);
     }
 
+    @Deprecated
     public static PrimitiveValue newUuid(long high, long low) {
-        return new Uuid(high, low);
+        return ProtoValue.newUuid(high, low);
     }
 
     public static PrimitiveValue newUuid(UUID uuid) {
-        return new Uuid(uuid);
+        return ProtoValue.newUuid(uuid);
     }
 
     public static PrimitiveValue newUuid(String uuid) {
-        return new Uuid(uuid);
+        return ProtoValue.newUuid(uuid);
     }
 
     public static PrimitiveValue newDate(long daysSinceEpoch) {
@@ -1088,112 +1090,6 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public ValueProtos.Value toPb() {
             return ProtoValue.fromText(value);
-        }
-    }
-
-    private static final class Uuid extends PrimitiveValue {
-        private final long high;
-        private final long low;
-
-        Uuid(long high, long low) {
-            this.high = high;
-            this.low = low;
-        }
-
-        Uuid(String value) {
-            String[] components = value.split("-");
-            if (components.length != 5) {
-                throw new IllegalArgumentException("invalid UUID string: " + value);
-            }
-
-            long timeLow = Long.parseLong(components[0], 16);
-            long timeMid = Long.parseLong(components[1], 16) << 32;
-            long timeHighAndVersion = Long.parseLong(components[2], 16) << 48;
-            this.low = timeLow | timeMid | timeHighAndVersion;
-
-            long lsb = Long.parseLong(components[3], 16) << 48;
-            lsb |= Long.parseLong(components[4], 16);
-            this.high = LittleEndian.bswap(lsb);
-        }
-
-        Uuid(UUID uuid) {
-            long msb = uuid.getMostSignificantBits();
-            long timeLow  = (msb & 0xffffffff00000000L) >>> 32;
-            long timeMid = (msb & 0x00000000ffff0000L) << 16;
-            long timeHighAndVersion = (msb & 0x000000000000ffffL) << 48;
-
-            this.low = timeLow | timeMid | timeHighAndVersion;
-            this.high = LittleEndian.bswap(uuid.getLeastSignificantBits());
-        }
-
-        @Override
-        public PrimitiveType getType() {
-            return PrimitiveType.Uuid;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) {
-                return true;
-            }
-
-            if (o == null || getClass() != o.getClass()) {
-                return false;
-            }
-
-            Uuid uuid = (Uuid) o;
-            return high == uuid.high && low == uuid.low;
-        }
-
-        @Override
-        public int hashCode() {
-            int result = (int) (high ^ (high >>> 32));
-            result = 31 * result + (int) (low ^ (low >>> 32));
-            return result;
-        }
-
-        @Override
-        public String toString() {
-            return '\"' + getUuidString() + '\"';
-        }
-
-        @Override
-        public String getUuidString() {
-            long hiBe = LittleEndian.bswap(high);
-            return
-                digits(low, 8) + "-" + digits(low >>> 32, 4) + "-" + digits(low >>> 48, 4) + "-" +
-                digits(hiBe >> 48, 4) + "-" + digits(hiBe, 12);
-        }
-
-        @Override
-        public long getUuidHigh() {
-            return high;
-        }
-
-        @Override
-        public long getUuidLow() {
-            return low;
-        }
-
-        @Override
-        public UUID getUuidJdk() {
-            long timeLow = (low & 0x00000000ffffffffL) << 32;
-            long timeMid = (low & 0x0000ffff00000000L) >>> 16;
-            long timeHighAndVersion = (low & 0xffff000000000000L) >>> 48;
-
-            long hiBe = LittleEndian.bswap(high);
-            return new UUID(timeLow | timeMid | timeHighAndVersion, hiBe);
-        }
-
-        @Override
-        public ValueProtos.Value toPb() {
-            return ProtoValue.fromUuid(high, low);
-        }
-
-        /** Returns val represented by the specified number of hex digits. */
-        private static String digits(long val, int digits) {
-            long high = 1L << (digits * 4);
-            return Long.toHexString(high | (val & (high - 1))).substring(1);
         }
     }
 

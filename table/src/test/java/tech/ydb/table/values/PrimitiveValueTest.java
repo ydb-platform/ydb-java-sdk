@@ -435,6 +435,7 @@ public class PrimitiveValueTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void uuid() {
         long low = 0x6677445500112233L, high = 0xffeeddccbbaa9988L;
         String uuidStr = "00112233-4455-6677-8899-aabbccddeeff";
