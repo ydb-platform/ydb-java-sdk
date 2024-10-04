@@ -443,13 +443,10 @@ public class PrimitiveValueTest {
         Consumer<PrimitiveValue> doTest = (v) -> {
             Assert.assertEquals(PrimitiveValue.newUuid(uuid), v);
             Assert.assertEquals(PrimitiveValue.newUuid(uuidStr), v);
-            Assert.assertEquals(PrimitiveValue.newUuid(high, low), v);
             Assert.assertNotEquals(PrimitiveValue.newUuid(UUID.randomUUID()), v);
 
             Assert.assertEquals("\"00112233-4455-6677-8899-aabbccddeeff\"", v.toString());
             Assert.assertEquals("00112233-4455-6677-8899-aabbccddeeff", v.getUuidString());
-            Assert.assertEquals(v.getUuidHigh(), high);
-            Assert.assertEquals(v.getUuidLow(), low);
             Assert.assertEquals(v.getUuidJdk(), uuid);
 
             ValueProtos.Value vPb = v.toPb();
@@ -460,7 +457,6 @@ public class PrimitiveValueTest {
 
         doTest.accept(PrimitiveValue.newUuid(uuid));
         doTest.accept(PrimitiveValue.newUuid(uuidStr));
-        doTest.accept(PrimitiveValue.newUuid(high, low));
     }
 
     @Test
