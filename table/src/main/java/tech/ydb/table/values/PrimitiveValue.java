@@ -132,6 +132,10 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         throw new IllegalStateException("expected Uuid, but was " + getClass().getSimpleName());
     }
 
+    public byte[] getUuidAsBytes() {
+        throw new IllegalStateException("expected Uuid, but was " + getClass().getSimpleName());
+    }
+
     public UUID getUuidJdk() {
         throw new IllegalStateException("expected Uuid, but was " + getClass().getSimpleName());
     }
