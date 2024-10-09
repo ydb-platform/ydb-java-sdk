@@ -92,6 +92,7 @@ public class YdbEnvironmentTest {
         params.put("YDB_DOCKER_DATABASE", "/remote");
         params.put("YDB_DOCKER_PEM_PATH", "/certs/ca.pem");
         params.put("YDB_DOCKER_REUSE", "false");
+        params.put("YDB_DOCKER_FEATURE_FLAGS", "enable_views");
 
         params.put("YDB_DOCKER_ISOLATION", "false");
         params.put("YDB_DISABLE_INTEGRATION_TESTS", "tru");
@@ -113,6 +114,7 @@ public class YdbEnvironmentTest {
             Assert.assertEquals("check YDB_DOCKER_DATABASE", "/remote", env.dockerDatabase());
             Assert.assertEquals("check YDB_DOCKER_PEM_PATH", "/certs/ca.pem", env.dockerPemPath());
             Assert.assertEquals("check YDB_DOCKER_REUSE", false, env.dockerReuse());
+            Assert.assertEquals("check YDB_DOCKER_FEATURE_FLAGS", "enable_views", env.dockerFeatures());
 
             Assert.assertEquals("check YDB_DISABLE_INTEGRATION_TESTS", false, env.disableIntegrationTests());
             // ENV has higher priority
