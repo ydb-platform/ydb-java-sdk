@@ -20,6 +20,7 @@ public class YdbEnvironment {
     private final Supplier<String> dockerImage = createParam("YDB_DOCKER_IMAGE", YDB_DEFAULT_IMAGE);
     private final Supplier<String> dockerDatabase = createParam("YDB_DOCKER_DATABASE", "/local");
     private final Supplier<String> dockerPemPath = createParam("YDB_DOCKER_PEM_PATH", "/ydb_certs/ca.pem");
+    private final Supplier<String> dockerFeatures = createParam("YDB_DOCKER_FEATURE_FLAGS", "");
     private final Supplier<Boolean> dockerReuse = createParam("YDB_DOCKER_REUSE", true);
 
     private final Supplier<Boolean> cleanUpTests = createParam("YDB_CLEAN_UP", true);
@@ -60,6 +61,10 @@ public class YdbEnvironment {
 
     public boolean dockerReuse() {
         return dockerReuse.get();
+    }
+
+    public String dockerFeatures() {
+        return dockerFeatures.get();
     }
 
     public boolean cleanUpTests() {

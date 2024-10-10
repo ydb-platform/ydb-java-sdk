@@ -53,6 +53,11 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
         }
 
         withEnv("YDB_USE_IN_MEMORY_PDISKS", "true");
+
+        if (env.dockerFeatures() != null && !env.dockerFeatures().isEmpty()) {
+            withEnv("YDB_FEATURE_FLAGS", env.dockerFeatures());
+        }
+
         withReuse(env.dockerReuse());
 
         String id = "ydb-" + UUID.randomUUID();

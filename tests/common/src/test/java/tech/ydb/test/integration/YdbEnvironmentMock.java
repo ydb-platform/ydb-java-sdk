@@ -9,9 +9,11 @@ public class YdbEnvironmentMock extends YdbEnvironment {
     private String endpoint = null;
     private String pemCert = null;
     private String token = null;
+    private String features = null;
     private boolean useTLS = false;
     private boolean dockerReuse = false;
     private boolean dockerIsolation = false;
+    private boolean disabledTests = false;
 
     public YdbEnvironmentMock withDatabase(String value) {
         this.database = value;
@@ -43,8 +45,18 @@ public class YdbEnvironmentMock extends YdbEnvironment {
         return this;
     }
 
+    public YdbEnvironmentMock withFeatures(String features) {
+        this.features = features;
+        return this;
+    }
+
     public YdbEnvironmentMock withDockerIsolation(boolean value) {
         this.dockerIsolation = value;
+        return this;
+    }
+
+    public YdbEnvironmentMock withTestDisabled(boolean value) {
+        this.disabledTests = value;
         return this;
     }
 
@@ -79,12 +91,17 @@ public class YdbEnvironmentMock extends YdbEnvironment {
     }
 
     @Override
+    public String dockerFeatures() {
+        return features;
+    }
+
+    @Override
     public boolean useDockerIsolation() {
         return dockerIsolation;
     }
 
     @Override
     public boolean disableIntegrationTests() {
-        return false;
+        return disabledTests;
     }
 }

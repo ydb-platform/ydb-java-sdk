@@ -30,6 +30,18 @@ public class YdbHelperFactoryTest {
     }
 
     @Test
+    public void disabledDockerTest() {
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withTestDisabled(true);
+
+        YdbHelperFactory factory = YdbHelperFactory.createYdbHelper(env);
+
+        Assert.assertNotNull("check disabled factory instance", factory);
+        Assert.assertFalse("check disabled factory instance", factory.isEnabled());
+        Assert.assertNull("check disabled factory instance", factory.createHelper());
+    }
+
+    @Test
     public void externalNonTlsInstanceTest() {
         transportMock.setup("/database");
 

@@ -161,6 +161,7 @@ public class DockerHelperFactoryTest {
         YdbEnvironmentMock env = new YdbEnvironmentMock()
                 .withUseTLS(true)
                 .withToken("SIMPLE_TOKEN")
+                .withFeatures("enable_views")
                 .withDockerReuse(false);
 
         YdbMockContainer container = new YdbMockContainer(env, ports);
