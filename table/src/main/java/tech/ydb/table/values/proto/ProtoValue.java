@@ -1,6 +1,7 @@
 package tech.ydb.table.values.proto;
 
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
@@ -832,7 +833,7 @@ public class ProtoValue {
         }
 
         Uuid(byte[] value) {
-            ByteBuffer buf = ByteBuffer.wrap(value);
+            ByteBuffer buf = ByteBuffer.wrap(value).order(ByteOrder.BIG_ENDIAN);
             this.high = buf.getLong();
             this.low = buf.getLong();
         }
@@ -916,7 +917,7 @@ public class ProtoValue {
 
         @Override
         public byte[] getUuidAsBytes() {
-            ByteBuffer buf = ByteBuffer.allocate(16);
+            ByteBuffer buf = ByteBuffer.allocate(16).order(ByteOrder.BIG_ENDIAN);
             buf.putLong(high);
             buf.putLong(low);
             return buf.array();
