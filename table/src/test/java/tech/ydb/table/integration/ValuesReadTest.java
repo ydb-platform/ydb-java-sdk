@@ -2,7 +2,6 @@ package tech.ydb.table.integration;
 
 import java.util.UUID;
 
-import com.google.common.io.BaseEncoding;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -88,7 +87,6 @@ public class ValuesReadTest {
         Assert.assertEquals("123e4567-e89b-12d3-a456-426614174000", v1.getUuidString());
         Assert.assertEquals(0x12d3e89b123e4567L, v1.getUuidLow());
         Assert.assertEquals(0x00401714664256a4L, v1.getUuidHigh());
-        Assert.assertArrayEquals(BaseEncoding.base16().decode("00401714664256A412D3E89B123E4567"), v1.getUuidAsBytes());
 
         ValueReader p2 = rs.getColumn("p2");
         Assert.assertNotNull(p2);
@@ -102,6 +100,5 @@ public class ValuesReadTest {
         Assert.assertEquals("2d9e498b-b746-9cfb-084d-de4e1cb4736e", v2.getUuidString());
         Assert.assertEquals(0x9cfbb7462d9e498bL, v2.getUuidLow());
         Assert.assertEquals(0x6e73b41c4ede4d08L, v2.getUuidHigh());
-        Assert.assertArrayEquals(BaseEncoding.base16().decode("6E73B41C4EDE4D089CFBB7462D9E498B"), v2.getUuidAsBytes());
     }
 }

@@ -6,7 +6,6 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.io.BaseEncoding;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -69,22 +68,17 @@ public class ProtoValueTest {
     public void uuid() {
         String uuid = "123e4567-e89b-12d3-a456-426614174000";
         long low = 0x12d3e89b123e4567L, high = 0x00401714664256a4L;
-        byte[] bytes = BaseEncoding.base16().decode("00401714664256A412D3E89B123E4567");
 
         PrimitiveValue u1 = ProtoValue.newUuid(uuid);
         PrimitiveValue u2 = ProtoValue.newUuid(UUID.fromString(uuid));
-        PrimitiveValue u3 = ProtoValue.newUuid(bytes);
-        PrimitiveValue u4 = ProtoValue.newUuid(high, low);
+        PrimitiveValue u3 = ProtoValue.newUuid(high, low);
 
         Assert.assertEquals(u1, u2);
         Assert.assertEquals(u1, u3);
-        Assert.assertEquals(u1, u4);
 
         Assert.assertEquals(uuid, u1.getUuidString());
         Assert.assertEquals(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"), u1.getUuidJdk());
         Assert.assertEquals(low, u1.getUuidLow());
         Assert.assertEquals(high, u1.getUuidHigh());
-
-        Assert.assertArrayEquals(bytes, u1.getUuidAsBytes());
     }
 }

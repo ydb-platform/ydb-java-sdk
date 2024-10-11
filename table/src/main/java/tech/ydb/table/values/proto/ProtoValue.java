@@ -1,7 +1,5 @@
 package tech.ydb.table.values.proto;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
@@ -819,10 +817,6 @@ public class ProtoValue {
         return new Uuid(uuid);
     }
 
-    public static PrimitiveValue newUuid(byte[] uuid) {
-        return new Uuid(uuid);
-    }
-
     private static final class Uuid extends PrimitiveValue {
         private final long high;
         private final long low;
@@ -830,12 +824,6 @@ public class ProtoValue {
         Uuid(long high, long low) {
             this.high = high;
             this.low = low;
-        }
-
-        Uuid(byte[] value) {
-            ByteBuffer buf = ByteBuffer.wrap(value).order(ByteOrder.BIG_ENDIAN);
-            this.high = buf.getLong();
-            this.low = buf.getLong();
         }
 
         Uuid(String value) {
@@ -913,14 +901,6 @@ public class ProtoValue {
         @SuppressWarnings("deprecation")
         public long getUuidLow() {
             return low;
-        }
-
-        @Override
-        public byte[] getUuidAsBytes() {
-            ByteBuffer buf = ByteBuffer.allocate(16).order(ByteOrder.BIG_ENDIAN);
-            buf.putLong(high);
-            buf.putLong(low);
-            return buf.array();
         }
 
         @Override
