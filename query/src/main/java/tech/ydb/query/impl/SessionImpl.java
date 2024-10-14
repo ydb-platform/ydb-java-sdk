@@ -375,6 +375,14 @@ abstract class SessionImpl implements QuerySession {
                                         + status, Issue.Severity.ERROR)));
                     }
                 }
+
+                @Override
+                public void cancel() {
+                    super.cancel();
+                    if (txId.compareAndSet(currentId, null)) {
+                        logger.warn("{} transaction with id {} was cancelled", SessionImpl.this, currentId);
+                    }
+                }
             };
         }
 
