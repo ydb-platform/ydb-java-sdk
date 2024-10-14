@@ -87,7 +87,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
             long lastInserted = 0;
             for (Map.Entry<Long, ResultSetParts> entry: results.entrySet()) {
                 long key = entry.getKey();
-                while (lastInserted < key) {
+                while (lastInserted + 1 < key) {
                     ordered.add(new ResultSetParts(lastInserted));
                     lastInserted++;
                 }

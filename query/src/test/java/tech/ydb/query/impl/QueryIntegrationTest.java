@@ -399,7 +399,7 @@ public class QueryIntegrationTest {
     }
 
     @Test
-    public void testQueryWarngins() {
+    public void testQueryWarnings() {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 CompletableFuture<Result<QueryInfo>> createTable = session
@@ -429,6 +429,62 @@ public class QueryIntegrationTest {
                             .createQuery("DROP TABLE demo_idx;", TxMode.NONE)
                             .execute(this::printQuerySetPart);
                     dropTable.join().getStatus().expectSuccess();
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testMultiStatement() {
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                String query = ""
+                        + "SELECT * FROM `" + TEST_TABLE + "` WHERE id = $s1;"
+                        + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id1, $name1);"
+                        + "SELECT * FROM `" + TEST_TABLE + "` WHERE id = $s2;"
+                        + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id2, $name2);"
+                        + "SELECT * FROM `" + TEST_TABLE + "` ORDER BY id";
+
+                Params params = Params.of(
+                        "$s1", PrimitiveValue.newInt32(100),
+                        "$s2", PrimitiveValue.newInt32(100),
+                        "$id1", PrimitiveValue.newInt32(100),
+                        "$name1", PrimitiveValue.newText("TEST1"),
+                        "$id2", PrimitiveValue.newInt32(200),
+                        "$name2", PrimitiveValue.newText("TEST2")
+                );
+
+                Result<QueryReader> result = QueryReader.readFrom(
+                        session.createQuery(query, TxMode.SERIALIZABLE_RW, params)
+                ).join();
+
+                Assert.assertTrue(result.isSuccess());
+                Assert.assertTrue(result.getStatus().getIssues().length == 0);
+
+                QueryReader reader = result.getValue();
+                Assert.assertEquals(3, reader.getResultSetCount());
+
+                ResultSetReader rs1 = reader.getResultSet(0);
+                Assert.assertFalse(rs1.next());
+
+                ResultSetReader rs2 = reader.getResultSet(1);
+                Assert.assertTrue(rs2.next());
+                Assert.assertEquals(100, rs2.getColumn("id").getInt32());
+                Assert.assertEquals("TEST1", rs2.getColumn("name").getText());
+                Assert.assertFalse(rs2.next());
+
+                ResultSetReader rs3 = reader.getResultSet(2);
+                Assert.assertTrue(rs3.next());
+                Assert.assertEquals(100, rs3.getColumn("id").getInt32());
+                Assert.assertEquals("TEST1", rs3.getColumn("name").getText());
+                Assert.assertTrue(rs3.next());
+                Assert.assertEquals(200, rs3.getColumn("id").getInt32());
+                Assert.assertEquals("TEST2", rs3.getColumn("name").getText());
+                Assert.assertFalse(rs3.next());
+            } finally {
+                try (QuerySession session = client.createSession(SESSION_TIMEOUT).join().getValue()) {
+                    session.createQuery("DELETE FROM " + TEST_TABLE, TxMode.SERIALIZABLE_RW).execute()
+                            .join().getStatus().expectSuccess();
                 }
             }
         }
