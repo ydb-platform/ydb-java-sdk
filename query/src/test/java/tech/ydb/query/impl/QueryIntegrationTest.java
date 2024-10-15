@@ -217,6 +217,26 @@ public class QueryIntegrationTest {
 
             try (QuerySession s4 = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 Assert.assertNotEquals(id, s4.getId());
+                id = s4.getId();
+
+                QueryTransaction tx = s4.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+                Assert.assertTrue(tx.isActive());
+
+                final QueryStream query = tx.createQuery("SELECT 2 + 2;");
+                final CompletableFuture<Void> stop = new CompletableFuture<>();
+                CompletableFuture<Result<QueryInfo>> future = query.execute(part -> {
+                    stop.join();
+                    printQuerySetPart(part);
+                });
+                query.cancel();
+                stop.complete(null);
+                Result<QueryInfo> result = future.join();
+                Assert.assertEquals(StatusCode.CLIENT_CANCELLED, result.getStatus().getCode());
+                Assert.assertFalse(tx.isActive());
+            }
+
+            try (QuerySession s5 = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                Assert.assertNotEquals(id, s5.getId());
             }
         }
     }
