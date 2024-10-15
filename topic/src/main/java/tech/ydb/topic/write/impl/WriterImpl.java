@@ -37,7 +37,7 @@ import tech.ydb.topic.write.WriteAck;
 public abstract class WriterImpl extends GrpcStreamRetrier {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
-    private WriteSessionImpl session;
+    private volatile WriteSessionImpl session;
     private final WriterSettings settings;
     private final TopicRpc topicRpc;
     private final AtomicReference<CompletableFuture<InitResult>> initResultFutureRef = new AtomicReference<>(null);
