@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +25,8 @@ import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.Consumer;
-import tech.ydb.topic.description.ConsumerStats;
+import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.MeteringMode;
-import tech.ydb.topic.description.MultipleWindowsStat;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
@@ -34,19 +34,20 @@ import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
-import tech.ydb.topic.read.impl.OffsetsRangeImpl;
 import tech.ydb.topic.read.impl.SyncReaderImpl;
 import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.CommitOffsetSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.DescribeConsumerSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.utils.ProtoUtils;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.SyncWriter;
 import tech.ydb.topic.write.impl.AsyncWriterImpl;
@@ -265,7 +266,7 @@ public class TopicClientImpl implements TopicClient {
                     .setActive(partition.getActive())
                     .setChildPartitionIds(partition.getChildPartitionIdsList())
                     .setParentPartitionIds(partition.getParentPartitionIdsList())
-                    .setPartitionStats(fromProto(partition.getPartitionStats()));
+                    .setPartitionStats(new PartitionStats(partition.getPartitionStats()));
 
             partitions.add(partitionBuilder.build());
         }
@@ -273,28 +274,12 @@ public class TopicClientImpl implements TopicClient {
 
         SupportedCodecs.Builder supportedCodecsBuilder = SupportedCodecs.newBuilder();
         for (int codec : result.getSupportedCodecs().getCodecsList()) {
-            supportedCodecsBuilder.addCodec(codecFromProto(codec));
+            supportedCodecsBuilder.addCodec(ProtoUtils.codecFromProto(codec));
         }
         description.setSupportedCodecs(supportedCodecsBuilder.build());
 
-        List<Consumer> consumers = new ArrayList<>();
-        for (YdbTopic.Consumer consumer : result.getConsumersList()) {
-            Consumer.Builder consumerBuilder = Consumer.newBuilder()
-                    .setName(consumer.getName())
-                    .setImportant(consumer.getImportant())
-                    .setReadFrom(ProtobufUtils.protoToInstant(consumer.getReadFrom()))
-                    .setAttributes(consumer.getAttributesMap());
-
-            SupportedCodecs.Builder consumerSupportedCodecsBuilder = SupportedCodecs.newBuilder();
-            for (int codec : consumer.getSupportedCodecs().getCodecsList()) {
-                consumerSupportedCodecsBuilder.addCodec(codecFromProto(codec));
-            }
-            consumerBuilder.setSupportedCodecs(consumerSupportedCodecsBuilder.build());
-            consumerBuilder.setStats(fromProto(consumer.getConsumerStats()));
-
-            consumers.add(consumerBuilder.build());
-        }
-        description.setConsumers(consumers);
+        description.setConsumers(result.getConsumersList().stream()
+                .map(Consumer::new).collect(Collectors.toList()));
 
         return description.build();
     }
@@ -332,23 +317,6 @@ public class TopicClientImpl implements TopicClient {
         return new AsyncWriterImpl(topicRpc, settings, compressionExecutor);
     }
 
-    private static Codec codecFromProto(int codec) {
-        switch (codec) {
-            case YdbTopic.Codec.CODEC_RAW_VALUE:
-                return Codec.RAW;
-            case YdbTopic.Codec.CODEC_GZIP_VALUE:
-                return Codec.GZIP;
-            case YdbTopic.Codec.CODEC_LZOP_VALUE:
-                return Codec.LZOP;
-            case YdbTopic.Codec.CODEC_ZSTD_VALUE:
-                return Codec.ZSTD;
-            case YdbTopic.Codec.CODEC_CUSTOM_VALUE:
-                return Codec.CUSTOM;
-            default:
-                throw new RuntimeException("Unknown codec value from proto: " + codec);
-        }
-    }
-
     private static YdbTopic.MeteringMode toProto(MeteringMode meteringMode) {
         switch (meteringMode) {
             case UNSPECIFIED:
@@ -378,19 +346,20 @@ public class TopicClientImpl implements TopicClient {
     private static YdbTopic.Consumer toProto(Consumer consumer) {
         YdbTopic.Consumer.Builder consumerBuilder = YdbTopic.Consumer.newBuilder()
                 .setName(consumer.getName())
+                .setImportant(consumer.isImportant())
                 .putAllAttributes(consumer.getAttributes());
-        Boolean important = consumer.isImportant();
-        if (important != null) {
-            consumerBuilder.setImportant(important);
+
+        if (consumer.getReadFrom() != null) {
+            consumerBuilder.setReadFrom(ProtobufUtils.instantToProto(consumer.getReadFrom()));
         }
-        SupportedCodecs consumerCodecs = consumer.getSupportedCodecs();
-        if (consumerCodecs != null) {
-            consumerBuilder.setSupportedCodecs(toProto(consumerCodecs));
+
+        List<Codec> supportedCodecs = consumer.getSupportedCodecsList();
+        if (!supportedCodecs.isEmpty()) {
+            YdbTopic.SupportedCodecs.Builder codecBuilder = YdbTopic.SupportedCodecs.newBuilder();
+            supportedCodecs.forEach(codec -> codecBuilder.addCodecs(ProtoUtils.toProto(codec)));
+            consumerBuilder.setSupportedCodecs(codecBuilder.build());
         }
-        Instant readFrom = consumer.getReadFrom();
-        if (readFrom != null) {
-            consumerBuilder.setReadFrom(ProtobufUtils.instantToProto(readFrom));
-        }
+
         return consumerBuilder.build();
     }
 
@@ -401,47 +370,6 @@ public class TopicClientImpl implements TopicClient {
             codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
         }
         return codecsBuilder.build();
-    }
-
-    private static PartitionStats fromProto(YdbTopic.PartitionStats partitionStats) {
-        return PartitionStats.newBuilder()
-            .setPartitionOffsets(
-                new OffsetsRangeImpl(
-                    partitionStats.getPartitionOffsets().getStart(),
-                    partitionStats.getPartitionOffsets().getEnd()
-                )
-            ).setStoreSizeBytes(
-                partitionStats.getStoreSizeBytes()
-            ).setLastWriteTime(
-                ProtobufUtils.protoToInstant(partitionStats.getLastWriteTime())
-            ).setMaxWriteTimeLag(
-                ProtobufUtils.protoToDuration(partitionStats.getMaxWriteTimeLag())
-            ).setBytesWritten(
-                new MultipleWindowsStat(
-                    partitionStats.getBytesWritten().getPerMinute(),
-                    partitionStats.getBytesWritten().getPerHour(),
-                    partitionStats.getBytesWritten().getPerDay()
-                )
-            ).setPartitionNodeId(
-                partitionStats.getPartitionNodeId()
-            ).build();
-    }
-
-    private static ConsumerStats fromProto(YdbTopic.Consumer.ConsumerStats consumerStats) {
-        return ConsumerStats.newBuilder()
-            .setMinPartitionsLastReadTime(
-                ProtobufUtils.protoToInstant(consumerStats.getMinPartitionsLastReadTime())
-            ).setMaxReadTimeLag(
-                ProtobufUtils.protoToDuration(consumerStats.getMaxReadTimeLag())
-            ).setMaxWriteTimeLag(
-                ProtobufUtils.protoToDuration(consumerStats.getMaxWriteTimeLag())
-            ).setBytesRead(
-                new MultipleWindowsStat(
-                    consumerStats.getBytesRead().getPerMinute(),
-                    consumerStats.getBytesRead().getPerHour(),
-                    consumerStats.getBytesRead().getPerDay()
-                )
-            ).build();
     }
 
     @Override
