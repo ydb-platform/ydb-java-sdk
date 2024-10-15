@@ -241,6 +241,22 @@ public class TopicClientImpl implements TopicClient {
                 .thenApply(result -> result.map(this::mapDescribeTopic));
     }
 
+    @Override
+    public CompletableFuture<Result<ConsumerDescription>> describeConsumer(
+            String path, String name, DescribeConsumerSettings settings
+    ) {
+        YdbTopic.DescribeConsumerRequest request = YdbTopic.DescribeConsumerRequest.newBuilder()
+                .setOperationParams(Operation.buildParams(settings))
+                .setPath(path)
+                .setConsumer(name)
+                .setIncludeStats(settings.isIncludeStats())
+                .setIncludeLocation(settings.isIncludeLocation())
+                .build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        return topicRpc.describeConsumer(request, grpcRequestSettings)
+                .thenApply(result -> result.map(ConsumerDescription::new));
+    }
+
     private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
         if (logger.isTraceEnabled()) {
             logger.trace("Received topic describe response:\n{}", result);

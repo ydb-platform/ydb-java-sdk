@@ -58,6 +58,17 @@ public final class GrpcTopicRpc implements TopicRpc {
     }
 
     @Override
+    public CompletableFuture<Result<YdbTopic.DescribeConsumerResult>> describeConsumer(
+            YdbTopic.DescribeConsumerRequest request, GrpcRequestSettings settings
+    ) {
+        return transport
+                .unaryCall(TopicServiceGrpc.getDescribeConsumerMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(
+                        YdbTopic.DescribeConsumerResponse::getOperation, YdbTopic.DescribeConsumerResult.class)
+                );
+    }
+
+    @Override
     public CompletableFuture<Status> dropTopic(YdbTopic.DropTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDropTopicMethod(), settings, request)
