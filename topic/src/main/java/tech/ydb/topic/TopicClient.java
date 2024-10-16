@@ -99,12 +99,12 @@ public interface TopicClient extends AutoCloseable {
      * Describe consumer.
      *
      * Receives consumer description.
-     * @param path path to topic
-     * @param name consumer name
+     * @param topicPath path to topic
+     * @param consumerName consumer name
      * @param settings  additional options of request
      * @return {@link CompletableFuture} to a result with {@link ConsumerDescription}
      */
-    CompletableFuture<Result<ConsumerDescription>> describeConsumer(String path, String name,
+    CompletableFuture<Result<ConsumerDescription>> describeConsumer(String topicPath, String consumerName,
             DescribeConsumerSettings settings);
 
     /**

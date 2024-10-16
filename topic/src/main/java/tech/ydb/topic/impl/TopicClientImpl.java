@@ -243,12 +243,12 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public CompletableFuture<Result<ConsumerDescription>> describeConsumer(
-            String path, String name, DescribeConsumerSettings settings
+            String topicPath, String consumerName, DescribeConsumerSettings settings
     ) {
         YdbTopic.DescribeConsumerRequest request = YdbTopic.DescribeConsumerRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings))
-                .setPath(path)
-                .setConsumer(name)
+                .setPath(topicPath)
+                .setConsumer(consumerName)
                 .setIncludeStats(settings.isIncludeStats())
                 .setIncludeLocation(settings.isIncludeLocation())
                 .build();
