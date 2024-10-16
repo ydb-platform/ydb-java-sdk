@@ -49,6 +49,16 @@ public interface TopicRpc {
                                                                           GrpcRequestSettings settings);
 
     /**
+     * Describe consumer.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return completable future with result of operation
+     */
+    CompletableFuture<Result<YdbTopic.DescribeConsumerResult>> describeConsumer(
+            YdbTopic.DescribeConsumerRequest request, GrpcRequestSettings settings
+    );
+
+    /**
      * Commit offset.
      * @param request request proto
      * @param settings rpc call settings

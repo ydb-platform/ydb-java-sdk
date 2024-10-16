@@ -8,5 +8,5 @@ public enum Codec {
     GZIP,
     LZOP,
     ZSTD,
-    CUSTOM
+    CUSTOM;
 }

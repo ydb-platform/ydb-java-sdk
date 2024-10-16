@@ -1,27 +1,30 @@
 package tech.ydb.topic.description;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableMap;
 
+import tech.ydb.core.utils.ProtobufUtils;
+import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.topic.utils.ProtoUtils;
+
 /**
  * @author Nikolay Perfilov
  */
 public class Consumer {
     private final String name;
-    @Nullable
-    private final Boolean important;
-    @Nullable
+    private final boolean important;
     private final Instant readFrom;
-    @Nullable
-    private final SupportedCodecs supportedCodecs;
+    private final List<Codec> supportedCodecs;
     private final Map<String, String> attributes;
-    @Nullable
     private final ConsumerStats stats;
 
     private Consumer(Builder builder) {
@@ -33,6 +36,16 @@ public class Consumer {
         this.stats = builder.stats;
     }
 
+    public Consumer(YdbTopic.Consumer consumer) {
+        this.name = consumer.getName();
+        this.important = consumer.getImportant();
+        this.readFrom = ProtobufUtils.protoToInstant(consumer.getReadFrom());
+        this.supportedCodecs = consumer.getSupportedCodecs().getCodecsList()
+                .stream().map(ProtoUtils::codecFromProto).collect(Collectors.toList());
+        this.attributes = consumer.getAttributesMap();
+        this.stats = new ConsumerStats(consumer.getConsumerStats());
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -41,8 +54,7 @@ public class Consumer {
         return name;
     }
 
-    @Nullable
-    public Boolean isImportant() {
+    public boolean isImportant() {
         return important;
     }
 
@@ -53,6 +65,10 @@ public class Consumer {
 
     @Nullable
     public SupportedCodecs getSupportedCodecs() {
+        return new SupportedCodecs(supportedCodecs);
+    }
+
+    public List<Codec> getSupportedCodecsList() {
         return supportedCodecs;
     }
 
@@ -60,6 +76,7 @@ public class Consumer {
         return attributes;
     }
 
+    @Nullable
     public ConsumerStats getStats() {
         return stats;
     }
@@ -69,9 +86,9 @@ public class Consumer {
      */
     public static class Builder {
         private String name;
-        private Boolean important = null;
+        private boolean important = false;
         private Instant readFrom = null;
-        private SupportedCodecs supportedCodecs = null;
+        private List<Codec> supportedCodecs = new ArrayList<>();
         private Map<String, String> attributes = new HashMap<>();
         private ConsumerStats stats = null;
 
@@ -90,8 +107,14 @@ public class Consumer {
             return this;
         }
 
+        public Builder addSupportedCodec(Codec codec) {
+            this.supportedCodecs.add(codec);
+            return this;
+        }
+
         public Builder setSupportedCodecs(SupportedCodecs supportedCodecs) {
-            this.supportedCodecs = supportedCodecs;
+            this.supportedCodecs.clear();
+            this.supportedCodecs.addAll(supportedCodecs.getCodecs());
             return this;
         }
 

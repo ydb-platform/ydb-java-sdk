@@ -5,6 +5,9 @@ import java.time.Instant;
 
 import javax.annotation.Nullable;
 
+import tech.ydb.core.utils.ProtobufUtils;
+import tech.ydb.proto.topic.YdbTopic;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -16,6 +19,7 @@ public class ConsumerStats {
     private final Duration maxWriteTimeLag;
     private final MultipleWindowsStat bytesRead;
 
+    @Deprecated
     private ConsumerStats(Builder builder) {
         this.minPartitionsLastReadTime = builder.minPartitionsLastReadTime;
         this.maxReadTimeLag = builder.maxReadTimeLag;
@@ -23,6 +27,18 @@ public class ConsumerStats {
         this.bytesRead = builder.bytesRead;
     }
 
+    public ConsumerStats(YdbTopic.Consumer.ConsumerStats stats) {
+        this.minPartitionsLastReadTime = ProtobufUtils.protoToInstant(stats.getMinPartitionsLastReadTime());
+        this.maxReadTimeLag = ProtobufUtils.protoToDuration(stats.getMaxReadTimeLag());
+        this.maxWriteTimeLag = ProtobufUtils.protoToDuration(stats.getMaxWriteTimeLag());
+        this.bytesRead = new MultipleWindowsStat(
+                stats.getBytesRead().getPerMinute(),
+                stats.getBytesRead().getPerHour(),
+                stats.getBytesRead().getPerDay()
+        );
+    }
+
+    @Deprecated
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -48,6 +64,7 @@ public class ConsumerStats {
     /**
      * BUILDER
      */
+    @Deprecated
     public static class Builder {
         private Instant minPartitionsLastReadTime = Instant.EPOCH;
         private Duration maxReadTimeLag = null;

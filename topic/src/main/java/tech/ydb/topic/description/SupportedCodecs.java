@@ -15,6 +15,10 @@ public class SupportedCodecs {
         this.codecs = ImmutableList.copyOf(builder.codecs);
     }
 
+    public SupportedCodecs(List<Codec> codecs) {
+        this.codecs = codecs;
+    }
+
     public List<Codec> getCodecs() {
         return codecs;
     }

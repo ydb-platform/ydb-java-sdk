@@ -8,6 +8,7 @@ import javax.annotation.WillNotClose;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
 import tech.ydb.topic.impl.TopicClientImpl;
@@ -16,6 +17,7 @@ import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.CommitOffsetSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.DescribeConsumerSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
@@ -91,6 +93,30 @@ public interface TopicClient extends AutoCloseable {
      */
     default CompletableFuture<Result<TopicDescription>> describeTopic(String path) {
         return describeTopic(path, DescribeTopicSettings.newBuilder().build());
+    }
+
+    /**
+     * Describe consumer.
+     *
+     * Receives consumer description.
+     * @param topicPath path to topic
+     * @param consumerName consumer name
+     * @param settings  additional options of request
+     * @return {@link CompletableFuture} to a result with {@link ConsumerDescription}
+     */
+    CompletableFuture<Result<ConsumerDescription>> describeConsumer(String topicPath, String consumerName,
+            DescribeConsumerSettings settings);
+
+    /**
+     * Describe consumer.
+     *
+     * Receives consumer description.
+     * @param path path to topic
+     * @param name consumer name
+     * @return {@link CompletableFuture} to a result with {@link ConsumerDescription}
+     */
+    default CompletableFuture<Result<ConsumerDescription>> describeConsumer(String path, String name) {
+        return describeConsumer(path, name, DescribeConsumerSettings.newBuilder().build());
     }
 
     /**

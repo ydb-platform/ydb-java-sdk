@@ -5,6 +5,10 @@ import java.time.Instant;
 
 import javax.annotation.Nullable;
 
+import tech.ydb.core.utils.ProtobufUtils;
+import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.topic.read.impl.OffsetsRangeImpl;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -17,6 +21,25 @@ public class PartitionStats {
     private final MultipleWindowsStat bytesWritten;
     private final int partitionNodeId;
 
+    @SuppressWarnings("deprecation")
+    public PartitionStats(YdbTopic.PartitionStats stats) {
+        this.partitionOffsets = new OffsetsRangeImpl(
+                stats.getPartitionOffsets().getStart(),
+                stats.getPartitionOffsets().getEnd()
+        );
+        this.storeSizeBytes = stats.getStoreSizeBytes();
+        this.lastWriteTime = ProtobufUtils.protoToInstant(stats.getLastWriteTime());
+        this.maxWriteTimeLag = ProtobufUtils.protoToDuration(stats.getMaxWriteTimeLag());
+        this.bytesWritten = new MultipleWindowsStat(
+                stats.getBytesWritten().getPerMinute(),
+                stats.getBytesWritten().getPerHour(),
+                stats.getBytesWritten().getPerDay()
+        );
+
+        this.partitionNodeId = stats.getPartitionNodeId();
+    }
+
+    @Deprecated
     private PartitionStats(Builder builder) {
         this.partitionOffsets = builder.partitionOffsets;
         this.storeSizeBytes = builder.storeSizeBytes;
@@ -47,10 +70,12 @@ public class PartitionStats {
         return bytesWritten;
     }
 
+    @Deprecated
     public int getPartitionNodeId() {
         return partitionNodeId;
     }
 
+    @Deprecated
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -58,6 +83,7 @@ public class PartitionStats {
     /**
      * BUILDER
      */
+    @Deprecated
     public static class Builder {
         private OffsetsRange partitionOffsets;
         private long storeSizeBytes;
