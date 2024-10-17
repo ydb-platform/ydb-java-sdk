@@ -1,3 +1,12 @@
+## 2.3.3 ##
+
+* Topic: added method describeConsumer
+* Query: fixed transaction closing after stream canceling
+* Query: fixed multistatement reading in QueryReader
+* Tests: added support of YDB_FEATURE_FLAGS option
+* Table: depractred getUuidHigh/getUuidLow methods for UUID type
+* Table: fixed Inf/-Inf/NaN values in DecimalType
+
 ## 2.3.2 ##
 
 * Topic: fixed NoSuchElementException when using the DirectExecutorService as compressionExecutor
