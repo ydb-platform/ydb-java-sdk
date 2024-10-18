@@ -1,3 +1,7 @@
+## 2.3.4 ##
+
+* Topic: fixed typo in CommitOffsetSettings
+
 ## 2.3.3 ##
 
 * Topic: added method describeConsumer
