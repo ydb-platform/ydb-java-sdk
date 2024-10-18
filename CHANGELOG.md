@@ -1,3 +1,8 @@
+## 2.3.4 ##
+
+* Tests: enabled column tables in default YDB docker config
+* Topic: fixed typo in CommitOffsetSettings
+
 ## 2.3.3 ##
 
 * Topic: added method describeConsumer
