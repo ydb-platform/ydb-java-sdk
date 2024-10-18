@@ -36,7 +36,7 @@ public class CommitOffsetSettings extends OperationSettings {
     /**
      * BUILDER
      */
-    public static class Builder extends OperationBuilder<DescribeTopicSettings.Builder> {
+    public static class Builder extends OperationBuilder<Builder> {
         private long partitionId = -1;
         private String consumer = null;
         private long offset = 0;
