@@ -53,6 +53,7 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
         }
 
         withEnv("YDB_USE_IN_MEMORY_PDISKS", "true");
+        withEnv("YDB_ENABLE_COLUMN_TABLES", "true");
 
         if (env.dockerFeatures() != null && !env.dockerFeatures().isEmpty()) {
             withEnv("YDB_FEATURE_FLAGS", env.dockerFeatures());
