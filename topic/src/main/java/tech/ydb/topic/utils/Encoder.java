@@ -8,8 +8,8 @@ import java.io.OutputStream;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.github.luben.zstd.ZstdInputStream;
-import com.github.luben.zstd.ZstdOutputStream;
+import com.github.luben.zstd.ZstdInputStreamNoFinalizer;
+import com.github.luben.zstd.ZstdOutputStreamNoFinalizer;
 import org.anarres.lzo.LzoAlgorithm;
 import org.anarres.lzo.LzoCompressor;
 import org.anarres.lzo.LzoLibrary;
@@ -61,7 +61,7 @@ public class Encoder {
             case GZIP:
                 return new GZIPOutputStream(byteArrayOutputStream);
             case ZSTD:
-                return new ZstdOutputStream(byteArrayOutputStream);
+                return new ZstdOutputStreamNoFinalizer(byteArrayOutputStream);
             case LZOP:
                 LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
                 return new LzoOutputStream(byteArrayOutputStream, lzoCompressor);
@@ -77,7 +77,7 @@ public class Encoder {
             case GZIP:
                 return new GZIPInputStream(byteArrayInputStream);
             case ZSTD:
-                return new ZstdInputStream(byteArrayInputStream);
+                return new ZstdInputStreamNoFinalizer(byteArrayInputStream);
             case LZOP:
                 return new LzopInputStream(byteArrayInputStream);
             case CUSTOM:
