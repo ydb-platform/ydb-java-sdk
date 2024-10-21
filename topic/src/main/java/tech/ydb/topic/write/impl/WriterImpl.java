@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 
+import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -172,7 +173,11 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         if (settings.getCodec() == Codec.RAW) {
             return;
         }
-        message.getMessage().setData(Encoder.encode(settings.getCodec(), message.getMessage().getData()));
+        try {
+            message.getMessage().setData(Encoder.encode(settings.getCodec(), message.getMessage().getData()));
+        } catch (IOException exception) {
+            throw new RuntimeException("Couldn't encode a message", exception);
+        }
         message.setCompressedSizeBytes(message.getMessage().getData().length);
         message.setCompressed(true);
         logger.trace("[{}] Successfully finished encoding message", id);
