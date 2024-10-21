@@ -43,7 +43,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     private static final int DEFAULT_DECOMPRESSION_THREAD_COUNT = 4;
 
-    private ReadSessionImpl session;
+    private volatile ReadSessionImpl session;
     private final ReaderSettings settings;
     private final TopicRpc topicRpc;
     private final Executor decompressionExecutor;
