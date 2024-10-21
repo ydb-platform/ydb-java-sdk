@@ -25,32 +25,13 @@ public class Encoder {
 
     private Encoder() { }
 
-    public static byte[] encode(Codec codec, byte[] input) {
+    public static byte[] encode(Codec codec, byte[] input) throws IOException {
         if (codec == Codec.RAW) {
             return input;
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        OutputStream os;
-        try {
-            switch (codec) {
-                case GZIP:
-                    os = new GZIPOutputStream(byteArrayOutputStream);
-                    break;
-                case ZSTD:
-                    os = new ZstdOutputStream(byteArrayOutputStream);
-                    break;
-                case LZOP:
-                    LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
-                    os = new LzoOutputStream(byteArrayOutputStream, lzoCompressor);
-                    break;
-                case CUSTOM:
-                default:
-                    throw new RuntimeException("Unsupported codec: " + codec);
-            }
+        try (OutputStream os = makeOutputStream(codec, byteArrayOutputStream)) {
             os.write(input);
-            os.close();
-        } catch (IOException exception) {
-            throw new RuntimeException(exception);
         }
         return byteArrayOutputStream.toByteArray();
     }
@@ -60,30 +41,49 @@ public class Encoder {
             return input;
         }
 
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
-        InputStream is;
+        try (
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
+            InputStream is = makeInputStream(codec, byteArrayInputStream)
+        ) {
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = is.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, length);
+            }
+            return byteArrayOutputStream.toByteArray();
+        }
+    }
+
+    private static OutputStream makeOutputStream(Codec codec,
+                                                 ByteArrayOutputStream byteArrayOutputStream) throws IOException {
         switch (codec) {
             case GZIP:
-                is = new GZIPInputStream(byteArrayInputStream);
-                break;
+                return new GZIPOutputStream(byteArrayOutputStream);
             case ZSTD:
-                is = new ZstdInputStream(byteArrayInputStream);
-                break;
+                return new ZstdOutputStream(byteArrayOutputStream);
             case LZOP:
-                is = new LzopInputStream(byteArrayInputStream);
-                break;
+                LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
+                return new LzoOutputStream(byteArrayOutputStream, lzoCompressor);
             case CUSTOM:
             default:
                 throw new RuntimeException("Unsupported codec: " + codec);
         }
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = is.read(buffer)) != -1) {
-            byteArrayOutputStream.write(buffer, 0, length);
+    }
+
+    private static InputStream makeInputStream(Codec codec,
+                                                 ByteArrayInputStream byteArrayInputStream) throws IOException {
+        switch (codec) {
+            case GZIP:
+                return new GZIPInputStream(byteArrayInputStream);
+            case ZSTD:
+                return new ZstdInputStream(byteArrayInputStream);
+            case LZOP:
+                return new LzopInputStream(byteArrayInputStream);
+            case CUSTOM:
+            default:
+                throw new RuntimeException("Unsupported codec: " + codec);
         }
-        is.close();
-        return byteArrayOutputStream.toByteArray();
     }
 
 }
