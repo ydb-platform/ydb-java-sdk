@@ -1,7 +1,5 @@
 package tech.ydb.topic.settings;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -20,9 +18,6 @@ public class ReaderSettings {
     private final String readerName;
     private final List<TopicReadSettings> topics;
     private final long maxMemoryUsageBytes;
-    private final Duration maxLag;
-    private final Instant readFrom;
-    private final boolean decompress;
     private final Executor decompressionExecutor;
 
     private ReaderSettings(Builder builder) {
@@ -30,9 +25,6 @@ public class ReaderSettings {
         this.readerName = builder.readerName;
         this.topics = ImmutableList.copyOf(builder.topics);
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
-        this.maxLag = builder.maxLag;
-        this.readFrom = builder.readFrom;
-        this.decompress = builder.decompress;
         this.decompressionExecutor = builder.decompressionExecutor;
     }
 
@@ -53,18 +45,6 @@ public class ReaderSettings {
         return maxMemoryUsageBytes;
     }
 
-    public Duration getMaxLag() {
-        return maxLag;
-    }
-
-    public Instant getReadFrom() {
-        return readFrom;
-    }
-
-    public boolean isDecompress() {
-        return decompress;
-    }
-
     public Executor getDecompressionExecutor() {
         return decompressionExecutor;
     }
@@ -82,9 +62,6 @@ public class ReaderSettings {
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
-        private Duration maxLag = null;
-        private Instant readFrom = null;
-        private boolean decompress = true;
         private Executor decompressionExecutor = null;
 
         public Builder setConsumerName(String consumerName) {
@@ -123,26 +100,6 @@ public class ReaderSettings {
 
         public Builder setMaxMemoryUsageBytes(long maxMemoryUsageBytes) {
             this.maxMemoryUsageBytes = maxMemoryUsageBytes;
-            return this;
-        }
-
-        public Builder setMaxLag(Duration maxLag) {
-            this.maxLag = maxLag;
-            return this;
-        }
-
-        public Builder setReadFrom(Instant readFrom) {
-            this.readFrom = readFrom;
-            return this;
-        }
-
-        /**
-         * Set whether messages should be decompressed.
-         * @param decompress  whether messages should be decompressed. true by default
-         * @return settings builder
-         */
-        public Builder setDecompress(boolean decompress) {
-            this.decompress = decompress;
             return this;
         }
 
