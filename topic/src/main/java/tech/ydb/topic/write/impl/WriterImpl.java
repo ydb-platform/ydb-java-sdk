@@ -396,7 +396,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         private void onInitResponse(YdbTopic.StreamWriteMessage.InitResponse response) {
             sessionId = response.getSessionId();
-            logger.info("[{}] Session {} initialized", fullId, sessionId);
+            logger.info("[{}] Session {} initialized (partition {})", fullId, sessionId, response.getPartitionId());
             long lastSeqNo = response.getLastSeqNo();
             long actualLastSeqNo = lastSeqNo;
             // If there are messages that were already sent before reconnect but haven't received acks,
