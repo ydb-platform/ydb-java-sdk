@@ -1,6 +1,6 @@
 package tech.ydb.topic.impl;
 
-import java.util.UUID;
+import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
@@ -22,6 +22,9 @@ public abstract class GrpcStreamRetrier {
     private static final int EXP_BACKOFF_BASE_MS = 256;
     private static final int EXP_BACKOFF_CEILING_MS = 40000; // 40 sec (max delays would be 40-80 sec)
     private static final int EXP_BACKOFF_MAX_POWER = 7;
+    private static final int ID_LENGTH = 50;
+    private static final char[] ID_ALPHABET = "abcdefghijklmnopqrstuvwxyzABSDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            .toCharArray();
 
     protected final String id;
     protected final AtomicBoolean isReconnecting = new AtomicBoolean(false);
@@ -31,7 +34,11 @@ public abstract class GrpcStreamRetrier {
 
     protected GrpcStreamRetrier(ScheduledExecutorService scheduler) {
         this.scheduler = scheduler;
-        this.id = UUID.randomUUID().toString();
+        this.id = new Random().ints(0, ID_ALPHABET.length)
+                .limit(ID_LENGTH)
+                .map(charId -> ID_ALPHABET[charId])
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     protected abstract Logger getLogger();
