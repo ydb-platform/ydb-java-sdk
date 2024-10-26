@@ -12,6 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -44,11 +45,13 @@ public class PartitionSessionImpl {
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
 
     private final Queue<Batch> decodingBatches = new LinkedList<>();
+    private final ReentrantLock decodingBatchesLock = new ReentrantLock();
     private final Queue<Batch> readingQueue = new ConcurrentLinkedQueue<>();
     private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
     private final AtomicBoolean isReadingNow = new AtomicBoolean();
     private final Consumer<List<OffsetsRange>> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
+    private final ReentrantLock commitFuturesLock = new ReentrantLock();
     // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
@@ -149,14 +152,21 @@ public class PartitionSessionImpl {
                 );
             });
             batchFutures.add(newBatch.getReadFuture());
-            synchronized (decodingBatches) {
+
+            decodingBatchesLock.lock();
+
+            try {
                 decodingBatches.add(newBatch);
+            } finally {
+                decodingBatchesLock.unlock();
             }
 
             CompletableFuture.runAsync(() -> decode(newBatch), decompressionExecutor)
                     .thenRun(() -> {
                         boolean haveNewBatchesReady = false;
-                        synchronized (decodingBatches) {
+                        decodingBatchesLock.lock();
+
+                        try {
                             // Taking all encoded messages to sending queue
                             while (true) {
                                 Batch decodingBatch = decodingBatches.peek();
@@ -176,7 +186,10 @@ public class PartitionSessionImpl {
                                     break;
                                 }
                             }
+                        } finally {
+                            decodingBatchesLock.unlock();
                         }
+
                         if (haveNewBatchesReady) {
                             sendDataToReadersIfNeeded();
                         }
@@ -185,10 +198,12 @@ public class PartitionSessionImpl {
         return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 
-    // Сommit single offset range with result future
+    // Commit single offset range with result future
     public CompletableFuture<Void> commitOffsetRange(OffsetsRange rangeToCommit) {
         CompletableFuture<Void> resultFuture = new CompletableFuture<>();
-        synchronized (commitFutures) {
+        commitFuturesLock.lock();
+
+        try {
             if (isWorking.get()) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("[{}] Offset range [{}, {}) is requested to be committed for partition session {} " +
@@ -205,6 +220,8 @@ public class PartitionSessionImpl {
                         partitionId + ") for " + path + " is already closed"));
                 return resultFuture;
             }
+        } finally {
+            commitFuturesLock.unlock();
         }
         List<OffsetsRange> rangeWrapper = new ArrayList<>(1);
         rangeWrapper.add(rangeToCommit);
@@ -334,16 +351,25 @@ public class PartitionSessionImpl {
     }
 
     public void shutdown() {
-        synchronized (commitFutures) {
+        commitFuturesLock.lock();
+
+        try {
             isWorking.set(false);
             logger.info("[{}] Partition session {} (partition {}) is shutting down. Failing {} commit futures...", path,
                     id, partitionId, commitFutures.size());
             commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session " + id +
                     " (partition " + partitionId + ") for " + path + " is closed")));
+        } finally {
+            commitFuturesLock.unlock();
         }
-        synchronized (decodingBatches) {
+
+        decodingBatchesLock.lock();
+
+        try {
             decodingBatches.forEach(Batch::complete);
             readingQueue.forEach(Batch::complete);
+        } finally {
+            decodingBatchesLock.unlock();
         }
     }
 
