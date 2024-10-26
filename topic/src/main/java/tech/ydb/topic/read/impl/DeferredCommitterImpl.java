@@ -3,6 +3,7 @@ package tech.ydb.topic.read.impl;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ public class DeferredCommitterImpl implements DeferredCommitter {
     private static class PartitionRanges {
         private final PartitionSessionImpl partitionSession;
         private final DisjointOffsetRangeSet ranges = new DisjointOffsetRangeSet();
+        private final ReentrantLock rangesLock = new ReentrantLock();
 
         private PartitionRanges(PartitionSessionImpl partitionSession) {
             this.partitionSession = partitionSession;
@@ -31,8 +33,12 @@ public class DeferredCommitterImpl implements DeferredCommitter {
 
         private void add(OffsetsRange offsetRange) {
             try {
-                synchronized (ranges) {
+                rangesLock.lock();
+
+                try {
                     ranges.add(offsetRange);
+                } finally {
+                    rangesLock.unlock();
                 }
             } catch (RuntimeException exception) {
                 String errorMessage = "Error adding new offset range to DeferredCommitter for partition session " +
@@ -45,8 +51,11 @@ public class DeferredCommitterImpl implements DeferredCommitter {
 
         private void commit() {
             List<OffsetsRange> rangesToCommit;
-            synchronized (ranges) {
+            rangesLock.lock();
+            try {
                 rangesToCommit = ranges.getRangesAndClear();
+            } finally {
+                rangesLock.unlock();
             }
             partitionSession.commitOffsetRanges(rangesToCommit);
         }
