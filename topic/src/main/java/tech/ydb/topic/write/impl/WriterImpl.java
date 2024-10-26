@@ -191,8 +191,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     private void moveEncodedMessagesToSendingQueue() {
         boolean haveNewMessagesToSend = false;
-        // Working with encodingMessages under synchronized incomingQueue to prevent deadlocks
-        // while working with free method
+        // Working with encodingMessages under incomingQueueLock to prevent deadlocks while working with free method
         incomingQueueLock.lock();
         
         try {
