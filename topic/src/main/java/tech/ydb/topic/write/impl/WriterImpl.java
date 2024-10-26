@@ -12,6 +12,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +45,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private final AtomicReference<CompletableFuture<InitResult>> initResultFutureRef = new AtomicReference<>(null);
     // Messages that are waiting for being put into sending queue due to queue overflow
     private final Queue<IncomingMessage> incomingQueue = new LinkedList<>();
+    private final ReentrantLock incomingQueueLock = new ReentrantLock();
     // Messages that are currently encoding
     private final Queue<EnqueuedMessage> encodingMessages = new LinkedList<>();
     // Messages that are taken into send buffer, are already compressed and are waiting for being sent
@@ -99,7 +101,9 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     }
 
     public CompletableFuture<Void> tryToEnqueue(EnqueuedMessage message, boolean instant) {
-        synchronized (incomingQueue) {
+        incomingQueueLock.lock();
+        
+        try {
             if (currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
                 if (instant) {
                     logger.info("[{}] Rejecting a message due to reaching message queue in-flight limit of {}", id,
@@ -137,10 +141,12 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             IncomingMessage incomingMessage = new IncomingMessage(message);
             incomingQueue.add(incomingMessage);
             return incomingMessage.future;
+        } finally {
+            incomingQueueLock.unlock();
         }
     }
 
-    // should be done under synchronized incomingQueue
+    // should be done under incomingQueueLock
     private void acceptMessageIntoSendingQueue(EnqueuedMessage message) {
         this.lastAcceptedMessageFuture = message.getFuture();
         this.currentInFlightCount++;
@@ -187,7 +193,9 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         boolean haveNewMessagesToSend = false;
         // Working with encodingMessages under synchronized incomingQueue to prevent deadlocks
         // while working with free method
-        synchronized (incomingQueue) {
+        incomingQueueLock.lock();
+        
+        try {
             // Taking all encoded messages to sending queue
             while (true) {
                 EnqueuedMessage encodedMessage = encodingMessages.peek();
@@ -217,6 +225,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     break;
                 }
             }
+        } finally {
+            incomingQueueLock.unlock();
         }
         if (haveNewMessagesToSend) {
             session.sendDataRequestIfNeeded();
@@ -264,15 +274,21 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         if (this.lastAcceptedMessageFuture == null) {
             return CompletableFuture.completedFuture(null);
         }
-        synchronized (incomingQueue) {
+        incomingQueueLock.lock();
+        
+        try {
             return this.lastAcceptedMessageFuture.isDone()
                     ? CompletableFuture.completedFuture(null)
                     : this.lastAcceptedMessageFuture.thenApply(v -> null);
+        } finally {
+            incomingQueueLock.unlock();
         }
     }
 
     private void free(int messageCount, long sizeBytes) {
-        synchronized (incomingQueue) {
+        incomingQueueLock.lock();
+        
+        try {
             currentInFlightCount -= messageCount;
             availableSizeBytes += sizeBytes;
             if (logger.isTraceEnabled()) {
@@ -301,6 +317,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                 }
                 logger.trace("[{}] All messages from incomingQueue are accepted into send buffer", id);
             }
+        } finally {
+            incomingQueueLock.unlock();
         }
     }
 
