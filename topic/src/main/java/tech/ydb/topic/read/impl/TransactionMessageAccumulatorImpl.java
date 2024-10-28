@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
  * @author Nikolay Perfilov
  */
 public class TransactionMessageAccumulatorImpl implements TransactionMessageAccumulator {
-    private static final Logger logger = LoggerFactory.getLogger(DeferredCommitterImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(TransactionMessageAccumulatorImpl.class);
 
     private final AsyncReader reader;
     private final Map<String, Map<PartitionSession, PartitionRanges>> rangesByTopic = new ConcurrentHashMap<>();
@@ -34,6 +35,7 @@ public class TransactionMessageAccumulatorImpl implements TransactionMessageAccu
     private static class PartitionRanges {
         private final PartitionSession partitionSession;
         private final DisjointOffsetRangeSet ranges = new DisjointOffsetRangeSet();
+        private final ReentrantLock rangesLock = new ReentrantLock();
 
         private PartitionRanges(PartitionSession partitionSession) {
             this.partitionSession = partitionSession;
@@ -41,8 +43,12 @@ public class TransactionMessageAccumulatorImpl implements TransactionMessageAccu
 
         private void add(OffsetsRange offsetRange) {
             try {
-                synchronized (ranges) {
+                rangesLock.lock();
+
+                try {
                     ranges.add(offsetRange);
+                } finally {
+                    rangesLock.unlock();
                 }
             } catch (RuntimeException exception) {
                 String errorMessage = "Error adding new offset range to DeferredCommitter for partition session " +
@@ -54,8 +60,12 @@ public class TransactionMessageAccumulatorImpl implements TransactionMessageAccu
         }
 
         private List<OffsetsRange> getOffsetsRanges() {
-            synchronized (ranges) {
+            rangesLock.lock();
+
+            try {
                 return ranges.getRangesAndClear();
+            } finally {
+                rangesLock.unlock();
             }
         }
     }

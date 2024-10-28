@@ -3,6 +3,7 @@ package tech.ydb.topic.impl;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 
@@ -19,6 +20,7 @@ public abstract class SessionBase<R, W> implements Session {
 
     protected final GrpcReadWriteStream<R, W> streamConnection;
     protected final AtomicBoolean isWorking = new AtomicBoolean(true);
+    private final ReentrantLock lock = new ReentrantLock();
     private String token;
 
     public SessionBase(GrpcReadWriteStream<R, W> streamConnection) {
@@ -32,41 +34,53 @@ public abstract class SessionBase<R, W> implements Session {
 
     protected abstract void onStop();
 
-    protected synchronized CompletableFuture<Status> start(GrpcReadStream.Observer<R> streamObserver) {
-        getLogger().info("Session start");
-        return streamConnection.start(message -> {
-            if (getLogger().isTraceEnabled()) {
-                getLogger().trace("Message received:\n{}", message);
-            } else {
-                getLogger().debug("Message received");
-            }
+    protected CompletableFuture<Status> start(GrpcReadStream.Observer<R> streamObserver) {
+        lock.lock();
 
-            if (isWorking.get()) {
-                streamObserver.onNext(message);
-            }
-        });
+        try {
+            getLogger().info("Session start");
+            return streamConnection.start(message -> {
+                if (getLogger().isTraceEnabled()) {
+                    getLogger().trace("Message received:\n{}", message);
+                } else {
+                    getLogger().debug("Message received");
+                }
+
+                if (isWorking.get()) {
+                    streamObserver.onNext(message);
+                }
+            });
+        } finally {
+            lock.unlock();
+        }
     }
 
-    public synchronized void send(W request) {
-        if (!isWorking.get()) {
-            if (getLogger().isTraceEnabled()) {
-                getLogger().trace("Session is already closed. This message is NOT sent:\n{}", request);
-            }
-            return;
-        }
-        String currentToken = streamConnection.authToken();
-        if (!Objects.equals(token, currentToken)) {
-            token = currentToken;
-            getLogger().info("Sending new token");
-            sendUpdateTokenRequest(token);
-        }
+    public void send(W request) {
+        lock.lock();
 
-        if (getLogger().isTraceEnabled()) {
-            getLogger().trace("Sending request:\n{}", request);
-        } else {
-            getLogger().debug("Sending request");
+        try {
+            if (!isWorking.get()) {
+                if (getLogger().isTraceEnabled()) {
+                    getLogger().trace("Session is already closed. This message is NOT sent:\n{}", request);
+                }
+                return;
+            }
+            String currentToken = streamConnection.authToken();
+            if (!Objects.equals(token, currentToken)) {
+                token = currentToken;
+                getLogger().info("Sending new token");
+                sendUpdateTokenRequest(token);
+            }
+
+            if (getLogger().isTraceEnabled()) {
+                getLogger().trace("Sending request:\n{}", request);
+            } else {
+                getLogger().debug("Sending request");
+            }
+            streamConnection.sendNext(request);
+        } finally {
+            lock.unlock();
         }
-        streamConnection.sendNext(request);
     }
 
     private boolean stop() {
@@ -74,15 +88,20 @@ public abstract class SessionBase<R, W> implements Session {
         return isWorking.compareAndSet(true, false);
     }
 
-
     @Override
-    public synchronized boolean shutdown() {
-        getLogger().info("Session shutdown");
-        if (stop()) {
-            onStop();
-            streamConnection.close();
-            return true;
+    public boolean shutdown() {
+        lock.lock();
+
+        try {
+            getLogger().info("Session shutdown");
+            if (stop()) {
+                onStop();
+                streamConnection.close();
+                return true;
+            }
+            return false;
+        } finally {
+            lock.unlock();
         }
-        return false;
     }
 }

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
@@ -34,6 +36,8 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
     private static final int POLL_INTERVAL_SECONDS = 5;
     private final Queue<MessageBatchWrapper> batchesInQueue = new LinkedList<>();
+    private final ReentrantLock queueLock = new ReentrantLock();
+    private final Condition queueIsNotEmptyCondition = queueLock.newCondition();
     private int currentMessageIndex = 0;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
@@ -66,22 +70,21 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         if (isStopped.get()) {
             throw new RuntimeException("Reader was stopped");
         }
-        synchronized (batchesInQueue) {
+
+        queueLock.lock();
+
+        try {
             if (batchesInQueue.isEmpty()) {
                 long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
                 Instant deadline = Instant.now().plusMillis(millisToWait);
-                while (true) {
-                    if (!batchesInQueue.isEmpty()) {
+                while (batchesInQueue.isEmpty()) {
+                    millisToWait = Duration.between(Instant.now(), deadline).toMillis();
+                    if (millisToWait <= 0) {
                         break;
                     }
-                    Instant now = Instant.now();
-                    if (now.isAfter(deadline)) {
-                        break;
-                    }
-                    // Using Math.max to prevent rounding duration to 0 which would lead to infinite wait
-                    millisToWait = Math.max(1, Duration.between(now, deadline).toMillis());
+
                     logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
-                    batchesInQueue.wait(millisToWait);
+                    queueIsNotEmptyCondition.await(millisToWait, TimeUnit.MILLISECONDS);
                 }
 
                 if (batchesInQueue.isEmpty()) {
@@ -112,6 +115,8 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                 }
             }
             return result;
+        } finally {
+            queueLock.unlock();
         }
     }
 
@@ -143,10 +148,14 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             return resultFuture;
         }
 
-        synchronized (batchesInQueue) {
+        queueLock.lock();
+
+        try {
             logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
             batchesInQueue.add(new MessageBatchWrapper(event.getMessages(), resultFuture));
-            batchesInQueue.notify();
+            queueIsNotEmptyCondition.signal();
+        } finally {
+            queueLock.unlock();
         }
         return resultFuture;
     }
