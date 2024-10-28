@@ -102,7 +102,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     public CompletableFuture<Void> tryToEnqueue(EnqueuedMessage message, boolean instant) {
         incomingQueueLock.lock();
-        
+
         try {
             if (currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
                 if (instant) {
@@ -193,7 +193,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         boolean haveNewMessagesToSend = false;
         // Working with encodingMessages under incomingQueueLock to prevent deadlocks while working with free method
         incomingQueueLock.lock();
-        
+
         try {
             // Taking all encoded messages to sending queue
             while (true) {
@@ -274,7 +274,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             return CompletableFuture.completedFuture(null);
         }
         incomingQueueLock.lock();
-        
+
         try {
             return this.lastAcceptedMessageFuture.isDone()
                     ? CompletableFuture.completedFuture(null)
@@ -286,7 +286,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     private void free(int messageCount, long sizeBytes) {
         incomingQueueLock.lock();
-        
+
         try {
             currentInFlightCount -= messageCount;
             availableSizeBytes += sizeBytes;
