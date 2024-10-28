@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Aleksandr Gorshenin
  */
-public class JwtUtils {
+class JwtUtils {
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
     private static final char SEPARATOR_CHAR = '.';
