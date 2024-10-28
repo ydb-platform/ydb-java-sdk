@@ -1,0 +1,20 @@
+[*]
+indent_style = space
+insert_final_newline = true
+max_line_length = 120
+
+[*.java]
+ij_java_block_brace_style = end_of_line
+ij_java_class_brace_style = end_of_line
+ij_java_class_count_to_use_import_on_demand = 9000
+ij_java_do_while_brace_force = always
+ij_java_doc_enable_formatting = false
+ij_java_for_brace_force = always
+ij_java_if_brace_force = always
+ij_java_imports_layout = java.**, |, javax.**, |, *, |, yandex.**, |, ru.yandex.**, |, tech.ydb.**, |, $*
+ij_java_insert_override_annotation = true
+ij_java_lambda_brace_style = end_of_line
+ij_java_method_brace_style = end_of_line
+ij_java_names_count_to_use_import_on_demand = 9000
+ij_java_use_single_class_imports = true
+ij_java_while_brace_force = always
