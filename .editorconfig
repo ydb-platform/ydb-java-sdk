@@ -2,6 +2,7 @@
 indent_style = space
 insert_final_newline = true
 max_line_length = 120
+trim_trailing_whitespace = true
 
 [*.java]
 ij_java_block_brace_style = end_of_line
