@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.Nullable;
 
@@ -18,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcStatuses;
-import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 
 /**
@@ -28,10 +28,11 @@ import tech.ydb.core.impl.auth.AuthCallOptions;
  * @param <W> type of message to be sent to the server
  */
 public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements GrpcReadWriteStream<R, W> {
-    private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
+    private static final Logger logger = LoggerFactory.getLogger(ReadWriteStreamCall.class);
 
     private final String traceId;
     private final ClientCall<W, R> call;
+    private final ReentrantLock callLock = new ReentrantLock();
     private final GrpcStatusHandler statusConsumer;
     private final Metadata headers;
     private final AuthCallOptions callOptions;
@@ -65,19 +66,21 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
             throw new IllegalStateException("Read stream call is already started");
         }
 
-        synchronized (call) {
-            try {
-                call.start(this, headers);
-                call.request(1);
-            } catch (Throwable t) {
-                try {
-                    call.cancel(null, t);
-                } catch (Throwable ex) {
-                    logger.error("Exception encountered while closing the unary call", ex);
-                }
+        callLock.lock();
 
-                statusFuture.completeExceptionally(t);
+        try {
+            call.start(this, headers);
+            call.request(1);
+        } catch (Throwable t) {
+            try {
+                call.cancel(null, t);
+            } catch (Throwable ex) {
+                logger.error("Exception encountered while closing the unary call", ex);
             }
+
+            statusFuture.completeExceptionally(t);
+        } finally {
+            callLock.unlock();
         }
 
         return statusFuture;
@@ -85,12 +88,16 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
 
     @Override
     public void sendNext(W message) {
-        synchronized (call) {
+        callLock.lock();
+
+        try {
             if (flush()) {
                 call.sendMessage(message);
             } else {
                 messagesQueue.add(message);
             }
+        } finally {
+            callLock.unlock();
         }
     }
 
@@ -112,8 +119,12 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
 
     @Override
     public void cancel() {
-        synchronized (call) {
+        callLock.lock();
+
+        try {
             call.cancel("Cancelled on user request", new CancellationException());
+        } finally {
+            callLock.unlock();
         }
     }
 
@@ -126,40 +137,53 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
 
             observerReference.get().onNext(message);
             // request delivery of the next inbound message.
-            synchronized (call) {
+            callLock.lock();
+
+            try {
                 call.request(1);
+            } finally {
+                callLock.unlock();
             }
         } catch (Exception ex) {
             statusFuture.completeExceptionally(ex);
+            callLock.lock();
 
             try {
-                synchronized (call) {
-                    call.cancel("Canceled by exception from observer", ex);
-                }
+                call.cancel("Canceled by exception from observer", ex);
             } catch (Throwable th) {
                 logger.error("Exception encountered while canceling the read write stream call", th);
+            } finally {
+                callLock.unlock();
             }
         }
     }
 
     @Override
     public void onReady() {
-        synchronized (call) {
+        callLock.lock();
+
+        try {
             flush();
+        } finally {
+            callLock.unlock();
         }
     }
 
     @Override
     public void close() {
-        synchronized (call) {
+        callLock.lock();
+
+        try {
             call.halfClose();
+        } finally {
+            callLock.unlock();
         }
     }
 
     @Override
     public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
         if (logger.isTraceEnabled()) {
-            logger.trace("ReadWriteStreamCall[{}] closed with status {}", status);
+            logger.trace("ReadWriteStreamCall[{}] closed with status {}", traceId, status);
         }
         statusConsumer.accept(status, trailers);
 
@@ -170,4 +194,3 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         }
     }
 }
-
