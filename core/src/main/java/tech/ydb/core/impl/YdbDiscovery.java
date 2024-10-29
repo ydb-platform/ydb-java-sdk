@@ -7,6 +7,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -52,7 +54,8 @@ public class YdbDiscovery {
     private final ScheduledExecutorService scheduler;
     private final String discoveryDatabase;
     private final Duration discoveryTimeout;
-    private final Object readyObj = new Object();
+    private final ReentrantLock readyLock = new ReentrantLock();
+    private final Condition readyCondition = readyLock.newCondition();
 
     private volatile Instant lastUpdateTime;
     private volatile Future<?> currentSchedule = null;
@@ -90,18 +93,20 @@ public class YdbDiscovery {
             return;
         }
 
-        synchronized (readyObj) {
-            try {
-                if (isStarted) {
-                    return;
-                }
+        readyLock.lock();
 
-                long timeout = millis > 0 ? millis : discoveryTimeout.toMillis();
-                readyObj.wait(timeout);
-            } catch (InterruptedException ex) {
-                Thread.currentThread().interrupt();
-                lastException = new IllegalStateException("Discovery waiting interrupted", ex);
+        try {
+            if (isStarted) {
+                return;
             }
+
+            long timeout = millis > 0 ? millis : discoveryTimeout.toMillis();
+            readyCondition.await(timeout, TimeUnit.MILLISECONDS);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            lastException = new IllegalStateException("Discovery waiting interrupted", ex);
+        } finally {
+            readyLock.unlock();
         }
 
         if (!isStarted) {
@@ -170,19 +175,27 @@ public class YdbDiscovery {
     }
 
     private void handleThrowable(Throwable th) {
-        synchronized (readyObj) {
+        readyLock.lock();
+
+        try {
             lastException = th;
             scheduleNextTick();
-            readyObj.notifyAll();
+            readyCondition.signalAll();
+        } finally {
+            readyLock.unlock();
         }
     }
 
     private void handleOk(String selfLocation, List<EndpointRecord> endpoints) {
-        synchronized (readyObj) {
+        readyLock.lock();
+
+        try {
             isStarted = true;
             lastException = null;
             handler.handleEndpoints(endpoints, selfLocation).whenComplete((res, th) -> scheduleNextTick());
-            readyObj.notifyAll();
+            readyCondition.signalAll();
+        } finally {
+            readyLock.unlock();
         }
     }
 
