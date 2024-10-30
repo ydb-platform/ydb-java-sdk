@@ -28,6 +28,7 @@ import tech.ydb.core.impl.auth.AuthCallOptions;
  * @param <W> type of message to be sent to the server
  */
 public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements GrpcReadWriteStream<R, W> {
+    // GrpcTransport's logger is used intentionally
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
     private final String traceId;
@@ -159,7 +160,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     @Override
     public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
         if (logger.isTraceEnabled()) {
-            logger.trace("ReadWriteStreamCall[{}] closed with status {}", status);
+            logger.trace("ReadWriteStreamCall[{}] closed with status {}", traceId, status);
         }
         statusConsumer.accept(status, trailers);
 
