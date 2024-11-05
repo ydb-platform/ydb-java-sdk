@@ -156,17 +156,17 @@ public class TableClientImpl implements TableClient {
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
 
-            final AtomicReference<String> txID = new AtomicReference<>("");
+            final AtomicReference<String> txRef = new AtomicReference<>("");
             QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs)) {
                 @Override
-                void handleTxMeta(YdbQuery.TransactionMeta meta) {
-                    txID.set(meta.getId());
+                void handleTxMeta(String txID) {
+                    txRef.set(txID);
                 }
             };
 
             return QueryReader.readFrom(stream)
                     .thenApply(r -> r.map(
-                            reader -> new ProxedDataQueryResult(txID.get(), reader)
+                            reader -> new ProxedDataQueryResult(txRef.get(), reader)
                     ));
         }
 
