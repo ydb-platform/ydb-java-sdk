@@ -76,6 +76,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
         channelBuilder
                 .maxInboundMessageSize(INBOUND_MESSAGE_SIZE)
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
+                .withOption(ChannelOption.TCP_NODELAY, true)
                 .intercept(metadataInterceptor());
 
         if (!useDefaultGrpcResolver) {
