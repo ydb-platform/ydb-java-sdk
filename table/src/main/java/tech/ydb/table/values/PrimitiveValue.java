@@ -1396,17 +1396,4 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             return ProtoValue.fromText(toString());
         }
     }
-
-    public class Date32 extends PrimitiveValue {
-
-        @Override
-        public PrimitiveType getType() {
-            return null;
-        }
-
-        @Override
-        public ValueProtos.Value toPb() {
-            return null;
-        }
-    }
 }
