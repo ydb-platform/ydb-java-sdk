@@ -87,7 +87,8 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
         }
 
         if (grpcKeepAliveTimeMillis != null) {
-            channelBuilder.keepAliveTime(grpcKeepAliveTimeMillis, TimeUnit.MILLISECONDS);
+            channelBuilder.keepAliveTime(grpcKeepAliveTimeMillis, TimeUnit.MILLISECONDS)
+                .keepAliveWithoutCalls(true);
         }
 
         if (retryEnabled) {
