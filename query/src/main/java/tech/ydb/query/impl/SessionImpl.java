@@ -210,8 +210,7 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.TransactionControl tc = TxControl.txModeCtrl(tx, true);
         return new StreamImpl(createGrpcStream(query, tc, prms, settings)) {
             @Override
-            void handleTxMeta(YdbQuery.TransactionMeta meta) {
-                String txID = meta == null ? null : meta.getId();
+            void handleTxMeta(String txID) {
                 if (txID != null && !txID.isEmpty()) {
                     logger.warn("{} got unexpected transaction id {}", SessionImpl.this, txID);
                 }
@@ -253,7 +252,7 @@ abstract class SessionImpl implements QuerySession {
             this.grpcStream = grpcStream;
         }
 
-        abstract void handleTxMeta(YdbQuery.TransactionMeta meta);
+        abstract void handleTxMeta(String txId);
         void handleCompletion(Status status, Throwable th) { }
 
         @Override
@@ -276,7 +275,7 @@ abstract class SessionImpl implements QuerySession {
                 }
 
                 if (msg.hasTxMeta()) {
-                    handleTxMeta(msg.getTxMeta());
+                    handleTxMeta(msg.getTxMeta().getId());
                 }
                 if (issues.length > 0) {
                     if (handler != null) {
@@ -352,8 +351,8 @@ abstract class SessionImpl implements QuerySession {
 
             return new StreamImpl(createGrpcStream(query, tc, prms, settings)) {
                 @Override
-                void handleTxMeta(YdbQuery.TransactionMeta meta) {
-                    String newId = meta == null || meta.getId() == null || meta.getId().isEmpty() ? null : meta.getId();
+                void handleTxMeta(String txID) {
+                    String newId = txID == null || txID.isEmpty() ? null : txID;
                     if (!txId.compareAndSet(currentId, newId)) {
                         logger.warn("{} lost transaction meta id {}", SessionImpl.this, newId);
                     }
