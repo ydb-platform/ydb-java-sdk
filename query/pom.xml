@@ -46,6 +46,8 @@
                     <environmentVariables>
                         <YDB_DOCKER_IMAGE>cr.yandex/yc/yandex-docker-local-ydb:trunk</YDB_DOCKER_IMAGE>
                         <TESTCONTAINERS_REUSE_ENABLE>true</TESTCONTAINERS_REUSE_ENABLE>
+                        <YDB_ENDPOINT>grpc://localhost:2136</YDB_ENDPOINT>
+                        <YDB_DATABASE>/local</YDB_DATABASE>
                     </environmentVariables>
                 </configuration>
             </plugin>
