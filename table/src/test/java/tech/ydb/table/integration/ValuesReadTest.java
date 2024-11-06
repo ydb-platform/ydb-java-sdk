@@ -60,7 +60,7 @@ public class ValuesReadTest {
         Assert.assertSame(PrimitiveType.Int32, p2.getType());
         Assert.assertSame(NullType.of(), p3.getType());
 
-        Assert.assertArrayEquals(new byte[] { '1' }, p1.getBytes());
+        Assert.assertArrayEquals(new byte[]{'1'}, p1.getBytes());
         Assert.assertEquals(123, p2.getInt32());
         Assert.assertSame(NullValue.of(), p3.getValue());
     }
@@ -70,8 +70,8 @@ public class ValuesReadTest {
     public void uuidReadTest() {
         DataQueryResult result = CTX.supplyResult(
                 s -> s.executeDataQuery("SELECT "
-                        + "CAST('123e4567-e89b-12d3-a456-426614174000' AS UUID) AS p1,"
-                        + "CAST('2d9e498b-b746-9cfb-084d-de4e1cb4736e' AS UUID) AS p2;",
+                                + "CAST('123e4567-e89b-12d3-a456-426614174000' AS UUID) AS p1,"
+                                + "CAST('2d9e498b-b746-9cfb-084d-de4e1cb4736e' AS UUID) AS p2;",
                         TxControl.serializableRw()
                 )
         ).join().getValue();

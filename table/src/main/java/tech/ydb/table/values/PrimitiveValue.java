@@ -22,7 +22,6 @@ import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
-
 /**
  * @author Sergey Polovko
  */
@@ -63,8 +62,8 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     /** JVM does not support unsigned long, be careful when using this method
-      for numbers greater than Long.MAX_VALUE.For correct work you can use wrappers
-      like {@link com.google.common.primitives.UnsignedLong#fromLongBits(long) UnsignedLong }
+     for numbers greater than Long.MAX_VALUE.For correct work you can use wrappers
+     like {@link com.google.common.primitives.UnsignedLong#fromLongBits(long) UnsignedLong }
      * @return signed long value corresponding to a bit representation of unsigned.*/
     public long getUint64() {
         throw new IllegalStateException("expected Uint64, but was " + getClass().getSimpleName());
@@ -162,6 +161,22 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     public ZonedDateTime getTzTimestamp() {
         throw new IllegalStateException("expected TzTimestamp, but was " + getClass().getSimpleName());
+    }
+
+    public LocalDate getDate32() {
+        throw new IllegalStateException("expected Date32, but was " + getClass().getSimpleName());
+    }
+
+    public LocalDateTime getDatetime64() {
+        throw new IllegalStateException("expected Datetime64, but was " + getClass().getSimpleName());
+    }
+
+    public Instant getTimestamp64() {
+        throw new IllegalStateException("expected Timestamp64, but was " + getClass().getSimpleName());
+    }
+
+    public Duration getInterval64() {
+        throw new IllegalStateException("expected Interval64, but was " + getClass().getSimpleName());
     }
 
     // -- constructors --
@@ -274,6 +289,19 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         return newDate(TimeUnit.SECONDS.toDays(value.getEpochSecond()));
     }
 
+    public static PrimitiveValue newDate32(long daysSinceEpoch) {
+        return new InstantValue(PrimitiveType.Date32, TimeUnit.DAYS.toMicros(daysSinceEpoch));
+    }
+
+    public static PrimitiveValue newDate32(LocalDate value) {
+        return newDate32(value.toEpochDay());
+    }
+
+    public static PrimitiveValue newDate32(Instant value) {
+        return newDate32(TimeUnit.SECONDS.toDays(value.getEpochSecond()));
+    }
+
+
     public static PrimitiveValue newDatetime(long secondsSinceEpoch) {
         if (secondsSinceEpoch < 0) {
             throw new IllegalArgumentException("negative secondsSinceEpoch: " + secondsSinceEpoch);
@@ -287,6 +315,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     public static PrimitiveValue newDatetime(LocalDateTime value) {
         return newDatetime(value.toEpochSecond(ZoneOffset.UTC));
+    }
+
+    public static PrimitiveValue newDatetime64(long secondsSinceEpoch) {
+        return new InstantValue(PrimitiveType.Datetime64, TimeUnit.SECONDS.toMicros(secondsSinceEpoch));
+    }
+
+    public static PrimitiveValue newDatetime64(Instant value) {
+        return newDatetime64(value.getEpochSecond());
+    }
+
+    public static PrimitiveValue newDatetime64(LocalDateTime value) {
+        return newDatetime64(value.toEpochSecond(ZoneOffset.UTC));
     }
 
     public static PrimitiveValue newTimestamp(long microsSinceEpoch) {
@@ -317,11 +357,29 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         return new InstantValue(PrimitiveType.Timestamp, micros);
     }
 
+    public static PrimitiveValue newTimestamp64(long microsSinceEpoch) {
+        return new InstantValue(PrimitiveType.Timestamp, microsSinceEpoch);
+    }
+
+    public static PrimitiveValue newTimestamp64(Instant value) {
+        long micros = TimeUnit.SECONDS.toMicros(value.getEpochSecond()) +
+                TimeUnit.NANOSECONDS.toMicros(value.getNano());
+        return new InstantValue(PrimitiveType.Timestamp, micros);
+    }
+
     public static PrimitiveValue newInterval(long micros) {
-        return new IntervalValue(micros);
+        return new IntervalValue(PrimitiveType.Interval, micros);
     }
 
     public static PrimitiveValue newInterval(Duration value) {
+        return newInterval(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
+    }
+
+    public static PrimitiveValue newInterval64(long micros) {
+        return new IntervalValue(PrimitiveType.Interval64, micros);
+    }
+
+    public static PrimitiveValue newInterval64(Duration value) {
         return newInterval(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
     }
 
