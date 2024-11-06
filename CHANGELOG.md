@@ -1,3 +1,11 @@
+## 2.3.5 ##
+
+* Query: fix NPE for transaction id handling
+* Core: added environment auth provider with runtime class loading
+* Core: replaced synchronized blocks with ReentrantLocks in YdbDiscovery
+* Topic: use NoFinalizer Zstd IO streams for topic encoder
+* Topic: replaced synchronized blocks with ReentrantLocks
+
 ## 2.3.4 ##
 
 * Tests: enabled column tables in default YDB docker config
