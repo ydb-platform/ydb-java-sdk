@@ -20,13 +20,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
 
 import tech.ydb.core.grpc.GrpcTransport;
@@ -54,13 +50,20 @@ public class DefaultChannelFactoryTest {
         channelStaticMock = Mockito.mockStatic(NettyChannelBuilder.class);
         channelStaticMock.when(FOR_ADDRESS).thenReturn(channelBuilderMock);
 
-        when(channelBuilderMock.negotiationType(any())).thenReturn(channelBuilderMock);
-        when(channelBuilderMock.maxInboundMessageSize(anyInt())).thenReturn(channelBuilderMock);
-        when(channelBuilderMock.withOption(any(), any())).thenReturn(channelBuilderMock);
-        when(channelBuilderMock.intercept((ClientInterceptor)any())).thenReturn(channelBuilderMock);
-        when(channelBuilderMock.nameResolverFactory(any())).thenReturn(channelBuilderMock);
+        Mockito.when(channelBuilderMock.negotiationType(ArgumentMatchers.any()))
+                .thenReturn(channelBuilderMock);
+        Mockito.when(channelBuilderMock.maxInboundMessageSize(ArgumentMatchers.anyInt()))
+                .thenReturn(channelBuilderMock);
+        Mockito.when(channelBuilderMock.withOption(ArgumentMatchers.any(), ArgumentMatchers.any()))
+                .thenReturn(channelBuilderMock);
+        Mockito.when(channelBuilderMock.intercept(ArgumentMatchers.any(ClientInterceptor.class)))
+                .thenReturn(channelBuilderMock);
+        Mockito.when(channelBuilderMock.nameResolverFactory(ArgumentMatchers.any()))
+                .thenReturn(channelBuilderMock);
+        Mockito.when(channelBuilderMock.keepAliveTime(ArgumentMatchers.anyLong(), ArgumentMatchers.any()))
+                .thenReturn(channelBuilderMock);
 
-        when(channelBuilderMock.build()).thenReturn(channelMock);
+        Mockito.when(channelBuilderMock.build()).thenReturn(channelMock);
     }
 
     @After
@@ -73,20 +76,23 @@ public class DefaultChannelFactoryTest {
     public void defaultParams() {
         GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root");
         ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
-        channelStaticMock.verify(FOR_ADDRESS, times(0));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
 
         Assert.assertEquals(30_000l, factory.getConnectTimeoutMs());
         Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
-        channelStaticMock.verify(FOR_ADDRESS, times(1));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
 
-        verify(channelBuilderMock, times(0)).negotiationType(NegotiationType.TLS);
-        verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
-        verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-        verify(channelBuilderMock, times(0)).enableRetry();
-        verify(channelBuilderMock, times(1)).disableRetry();
+        Mockito.verify(channelBuilderMock, Mockito.times(0)).negotiationType(NegotiationType.TLS);
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).negotiationType(NegotiationType.PLAINTEXT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+        Mockito.verify(channelBuilderMock, Mockito.times(0)).enableRetry();
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).disableRetry();
     }
 
     @Test
@@ -97,20 +103,23 @@ public class DefaultChannelFactoryTest {
                 .withConnectTimeout(Duration.ofMinutes(1));
 
         ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
-        channelStaticMock.verify(FOR_ADDRESS, times(0));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
 
         Assert.assertEquals(60000l, factory.getConnectTimeoutMs());
         Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
-        channelStaticMock.verify(FOR_ADDRESS, times(1));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
 
-        verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.TLS);
-        verify(channelBuilderMock, times(0)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
-        verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-        verify(channelBuilderMock, times(1)).enableRetry();
-        verify(channelBuilderMock, times(0)).disableRetry();
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).negotiationType(NegotiationType.TLS);
+        Mockito.verify(channelBuilderMock, Mockito.times(0)).negotiationType(NegotiationType.PLAINTEXT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).enableRetry();
+        Mockito.verify(channelBuilderMock, Mockito.times(0)).disableRetry();
     }
 
     @Test
@@ -119,20 +128,24 @@ public class DefaultChannelFactoryTest {
                 .withUseDefaultGrpcResolver(true);
 
         ManagedChannelFactory factory = ShadedNettyChannelFactory
-                .withInterceptor(cb -> cb.withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE))
+                .withInterceptor(cb -> cb.enableFullStreamDecompression())
                 .buildFactory(builder);
 
-        channelStaticMock.verify(FOR_ADDRESS, times(0));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
 
         Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
-        channelStaticMock.verify(FOR_ADDRESS, times(1));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
 
-        verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(0)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
-        verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-        verify(channelBuilderMock, times(1)).withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).negotiationType(NegotiationType.PLAINTEXT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        Mockito.verify(channelBuilderMock, Mockito.times(0))
+                .defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).enableFullStreamDecompression();
     }
 
     @Test
@@ -156,15 +169,18 @@ public class DefaultChannelFactoryTest {
             selfSignedCert.delete();
         }
 
-        channelStaticMock.verify(FOR_ADDRESS, times(1));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
 
-        verify(channelBuilderMock, times(1)).negotiationType(NegotiationType.TLS);
-        verify(channelBuilderMock, times(0)).negotiationType(NegotiationType.PLAINTEXT);
-        verify(channelBuilderMock, times(1)).maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
-        verify(channelBuilderMock, times(1)).defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
-        verify(channelBuilderMock, times(1)).withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
-        verify(channelBuilderMock, times(0)).enableRetry();
-        verify(channelBuilderMock, times(1)).disableRetry();
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).negotiationType(NegotiationType.TLS);
+        Mockito.verify(channelBuilderMock, Mockito.times(0)).negotiationType(NegotiationType.PLAINTEXT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+        Mockito.verify(channelBuilderMock, Mockito.times(0)).enableRetry();
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).disableRetry();
     }
 
     @Test
