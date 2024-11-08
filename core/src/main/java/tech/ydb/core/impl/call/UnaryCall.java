@@ -50,12 +50,12 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
     public CompletableFuture<Result<RespT>> startCall(ReqT request, Metadata headers) {
         try {
             call.start(this, headers);
-            call.request(1);
             if (logger.isTraceEnabled()) {
                 logger.trace("UnaryCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
             }
             call.sendMessage(request);
             call.halfClose();
+            call.request(1);
         } catch (Exception ex) {
             future.completeExceptionally(ex);
             try {

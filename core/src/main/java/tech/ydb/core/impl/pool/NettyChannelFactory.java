@@ -76,6 +76,7 @@ public class NettyChannelFactory implements ManagedChannelFactory {
         channelBuilder
                 .maxInboundMessageSize(INBOUND_MESSAGE_SIZE)
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
+                .withOption(ChannelOption.TCP_NODELAY, true)
                 .intercept(metadataInterceptor());
 
         if (!useDefaultGrpcResolver) {
@@ -86,7 +87,8 @@ public class NettyChannelFactory implements ManagedChannelFactory {
         }
 
         if (grpcKeepAliveTimeMillis != null) {
-            channelBuilder.keepAliveTime(grpcKeepAliveTimeMillis, TimeUnit.MILLISECONDS);
+            channelBuilder.keepAliveTime(grpcKeepAliveTimeMillis, TimeUnit.MILLISECONDS)
+                .keepAliveWithoutCalls(true);
         }
 
         if (retryEnabled) {

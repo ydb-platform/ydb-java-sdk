@@ -59,13 +59,13 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
         synchronized (call) {
             try {
                 call.start(this, headers);
-                call.request(1);
                 if (logger.isTraceEnabled()) {
                     logger.trace("ReadStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
                 }
                 call.sendMessage(request);
                 // close stream by client side
                 call.halfClose();
+                call.request(1);
             } catch (Throwable t) {
                 try {
                     call.cancel(null, t);
