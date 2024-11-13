@@ -1,3 +1,7 @@
+## 2.3.6 ##
+
+* Core: add TCP_NODELAY and keepAliveWithoutCalls by default
+
 ## 2.3.5 ##
 
 * Query: fix NPE for transaction id handling
