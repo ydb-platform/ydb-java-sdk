@@ -46,6 +46,14 @@ public interface PrimitiveReader {
 
     Duration getInterval();
 
+    LocalDate getDate32();
+
+    LocalDateTime getDatetime64();
+
+    Instant getTimestamp64();
+
+    Duration getInterval64();
+
     ZonedDateTime getTzDate();
 
     ZonedDateTime getTzDatetime();

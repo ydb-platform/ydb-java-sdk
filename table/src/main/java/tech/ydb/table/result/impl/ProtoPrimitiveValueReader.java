@@ -140,6 +140,30 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
     }
 
     @Override
+    public LocalDate getDate32() {
+        checkPrimitive(PrimitiveTypeId.DATE32);
+        return ProtoValue.toDate32(value);
+    }
+
+    @Override
+    public LocalDateTime getDatetime64() {
+        checkPrimitive(PrimitiveTypeId.DATETIME64);
+        return ProtoValue.toDatetime64(value);
+    }
+
+    @Override
+    public Instant getTimestamp64() {
+        checkPrimitive(PrimitiveTypeId.TIMESTAMP64);
+        return ProtoValue.toTimestamp64(value);
+    }
+
+    @Override
+    public Duration getInterval64() {
+        checkPrimitive(PrimitiveTypeId.INTERVAL64);
+        return ProtoValue.toInterval64(value);
+    }
+
+    @Override
     public ZonedDateTime getTzDate() {
         checkPrimitive(PrimitiveTypeId.TZ_DATE);
         return ProtoValue.toTzDate(value);

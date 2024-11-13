@@ -117,6 +117,24 @@ abstract class AbstractValueReader implements ValueReader {
     }
 
     @Override
+    public LocalDate getDate32() {
+        throw error("getDate32");
+    }
+
+    public LocalDateTime getDatetime64() {
+        throw error("getDatetime64");
+    }
+
+    @Override
+    public Instant getTimestamp64() {
+        throw error("getTimestamp64");
+    }
+
+    public Duration getInterval64() {
+        throw error("getInterval64");
+    }
+
+    @Override
     public ZonedDateTime getTzDate() {
         throw error("getTzDate");
     }
