@@ -259,6 +259,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             if (currentSizeBytesToRequest <= 0) {
                 logger.debug("[{}] Nothing to request in DataRequest. sizeBytesToRequest == {}", fullId,
                         currentSizeBytesToRequest);
+                sizeBytesToRequest.addAndGet(currentSizeBytesToRequest);
                 return;
             }
             logger.debug("[{}] Sending DataRequest with {} bytes", fullId, currentSizeBytesToRequest);
