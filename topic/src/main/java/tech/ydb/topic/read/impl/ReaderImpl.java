@@ -456,9 +456,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                             CompletableFuture<Void> readFuture = partitionSession.addBatches(data.getBatchesList());
                             batchReadFutures.add(readFuture);
                         } else {
-                            logger.error("[{}] Received PartitionData for unknown(closed?) PartitionSessionId={}. " +
-                                            "This shouldn't happen",
-                                    fullId, partitionId);
+                            logger.info("[{}] Received PartitionData for unknown(most likely already closed) " +
+                                            "PartitionSessionId={}", fullId, partitionId);
                         }
                     });
             CompletableFuture.allOf(batchReadFutures.toArray(new CompletableFuture<?>[0]))
@@ -491,8 +490,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     handleCommitResponse(partitionCommittedOffset.getCommittedOffset(),
                             partitionSession.getSessionInfo());
                 } else {
-                    logger.error("[{}] Received CommitOffsetResponse for unknown (closed?) partition session with " +
-                                    "id={}. This shouldn't happen", fullId,
+                    logger.info("[{}] Received CommitOffsetResponse for unknown (most likely already closed) " +
+                                    "partition session with id={}", fullId,
                             partitionCommittedOffset.getPartitionSessionId());
                 }
             }
