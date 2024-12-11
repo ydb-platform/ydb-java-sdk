@@ -34,7 +34,6 @@ public class GrpcChannel {
             this.readyWatcher = new ReadyWatcher();
             this.readyWatcher.checkState();
         } catch (Throwable th) {
-            logger.error("cannot create channel", th);
             throw new RuntimeException("cannot create channel", th);
         }
     }
@@ -80,13 +79,13 @@ public class GrpcChannel {
             try {
                 return future.get(connectTimeoutMs, TimeUnit.MILLISECONDS);
             } catch (InterruptedException ex) {
-                logger.error("Grpc channel {} ready waiting is interrupted: ", endpoint, ex);
+                logger.warn("Grpc channel {} ready waiting is interrupted: ", endpoint, ex);
                 Thread.currentThread().interrupt();
             } catch (ExecutionException ex) {
-                logger.error("Grpc channel {} connecting problem: ", endpoint, ex);
+                logger.warn("Grpc channel {} connecting problem: ", endpoint, ex);
                 throw new RuntimeException("Channel " + endpoint + " connecting problem", ex);
             } catch (TimeoutException ex) {
-                logger.error("Grpc channel {} connect timeout exceeded", endpoint);
+                logger.warn("Grpc channel {} connect timeout exceeded", endpoint);
                 throw new RuntimeException("Channel " + endpoint + " connecting timeout");
             }
             return null;
