@@ -1,3 +1,8 @@
+## 2.3.7 ##
+
+* Core: improved logging in BaseGrpcTrasnport and GrpcChannel
+* Topic: improved logging level in ReaderImpl
+
 ## 2.3.6 ##
 
 * Core: add TCP_NODELAY and keepAliveWithoutCalls by default
