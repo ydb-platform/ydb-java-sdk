@@ -291,14 +291,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     public static PrimitiveValue newTimestamp(long microsSinceEpoch) {
         if (microsSinceEpoch < 0) {
-            throw new IllegalArgumentException("negative microsSinceEpoch: " + microsSinceEpoch);
+            throw new IllegalArgumentException("Negative microsSinceEpoch: " + microsSinceEpoch);
         }
         return new InstantValue(PrimitiveType.Timestamp, microsSinceEpoch);
     }
 
     public static PrimitiveValue newTimestamp(Instant value) {
-        long micros = TimeUnit.SECONDS.toMicros(value.getEpochSecond()) +
-            TimeUnit.NANOSECONDS.toMicros(value.getNano());
+        long seconds = value.getEpochSecond();
+        if (seconds < 0) {
+            throw new IllegalArgumentException("Instant before epoch: " + value);
+        }
+        int nanos = value.getNano();
+        long micros = seconds * 1000000L + nanos / 1000;
         return new InstantValue(PrimitiveType.Timestamp, micros);
     }
 
