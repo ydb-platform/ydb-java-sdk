@@ -1,5 +1,6 @@
 package tech.ydb.table.integration;
 
+import java.time.Instant;
 import java.util.UUID;
 
 import org.junit.Assert;
@@ -100,5 +101,42 @@ public class ValuesReadTest {
         Assert.assertEquals("2d9e498b-b746-9cfb-084d-de4e1cb4736e", v2.getUuidString());
         Assert.assertEquals(0x9cfbb7462d9e498bL, v2.getUuidLow());
         Assert.assertEquals(0x6e73b41c4ede4d08L, v2.getUuidHigh());
+    }
+
+    private void assertTimestamp(ValueReader vr, boolean optional, Instant expected) {
+        Assert.assertNotNull(vr);
+        if (optional) {
+            Assert.assertSame(Type.Kind.OPTIONAL, vr.getType().getKind());
+            Assert.assertSame(PrimitiveType.Timestamp, vr.getType().unwrapOptional());
+        } else {
+            Assert.assertSame(PrimitiveType.Timestamp, vr.getType());
+        }
+
+        Assert.assertEquals(expected, vr.getTimestamp());
+    }
+
+    @Test
+    public void timestampReadTest() {
+        DataQueryResult result = CTX.supplyResult(
+                s -> s.executeDataQuery("SELECT "
+                        + "DateTime::MakeTimestamp(DateTime::FromMilliseconds(0ul)) as t1,"
+                        + "DateTime::MakeTimestamp(DateTime::FromMicroseconds(1000ul)) as t2,"
+                        + "DateTime::MakeTimestamp(DateTime::FromMicroseconds(4291747199999999ul)) as t3,"
+                        + "Timestamp('1970-01-01T00:00:00.000000Z') as t4,"
+                        + "Timestamp('2105-12-31T23:59:59.999999Z') as t5;",
+                        TxControl.serializableRw()
+                )
+        ).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        assertTimestamp(rs.getColumn("t1"), true, Instant.EPOCH);
+        assertTimestamp(rs.getColumn("t2"), true, Instant.EPOCH.plusMillis(1));
+        assertTimestamp(rs.getColumn("t3"), true, Instant.parse("2105-12-31T23:59:59.999999Z"));
+        assertTimestamp(rs.getColumn("t4"), false, Instant.ofEpochSecond(0, 0));
+        assertTimestamp(rs.getColumn("t5"), false, Instant.ofEpochSecond(4291747199l, 999999000l));
     }
 }
