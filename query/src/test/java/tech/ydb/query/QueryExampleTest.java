@@ -116,8 +116,14 @@ public class QueryExampleTest {
         );
 
         // Upsert list of series to table
-        retryCtx.supplyResult(session -> session.createQuery(
-                "UPSERT INTO series SELECT * FROM AS_TABLE($values)",
+        retryCtx.supplyResult(session -> session.createQuery(""
+                + "DECLARE $values AS List<Struct<"
+                + "  series_id: Uint64,"
+                + "  title: Text,"
+                + "  release_date: Date,"
+                + "  series_info: Text"
+                + ">>;"
+                + "UPSERT INTO series SELECT * FROM AS_TABLE($values)",
                 TxMode.SERIALIZABLE_RW,
                 Params.of("$values", seriesData)
         ).execute()).join().getStatus().expectSuccess("upsert problem");
@@ -143,8 +149,15 @@ public class QueryExampleTest {
         );
 
         // Upsert list of seasons to table
-        retryCtx.supplyResult(session -> session.createQuery(
-                "UPSERT INTO seasons SELECT * FROM AS_TABLE($values)",
+        retryCtx.supplyResult(session -> session.createQuery(""
+                + "DECLARE $values AS List<Struct<"
+                + "  series_id: Uint64,"
+                + "  season_id: Uint64,"
+                + "  title: Text,"
+                + "  first_aired: Date,"
+                + "  last_aired: Date"
+                + ">>;"
+                + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values)",
                 TxMode.SERIALIZABLE_RW,
                 Params.of("$values", seasonsData)
         ).execute()).join().getStatus().expectSuccess("upsert problem");
@@ -170,8 +183,15 @@ public class QueryExampleTest {
         );
 
         // Upsert list of series to episodes
-        retryCtx.supplyResult(session -> session.createQuery(
-                "UPSERT INTO episodes SELECT * FROM AS_TABLE($values)",
+        retryCtx.supplyResult(session -> session.createQuery(""
+                + "DECLARE $values AS List<Struct<"
+                + "  series_id: Uint64,"
+                + "  season_id: Uint64,"
+                + "  episode_id: Uint64,"
+                + "  title: Text,"
+                + "  air_date: Date"
+                + ">>;"
+                + "UPSERT INTO episodes SELECT * FROM AS_TABLE($values)",
                 TxMode.SERIALIZABLE_RW,
                 Params.of("$values", episodesData)
         ).execute()).join().getStatus().expectSuccess("upsert problem");

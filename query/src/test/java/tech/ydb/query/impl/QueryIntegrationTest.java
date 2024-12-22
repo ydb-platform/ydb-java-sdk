@@ -252,7 +252,11 @@ public class QueryIntegrationTest {
 
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             for (Entity entity: entities) {
-                String query = "UPSERT INTO `" + TEST_TABLE + "` (id, name, payload, is_valid) "
+                String query = "DECLARE $id AS Int32;"
+                        + "DECLARE $name AS Text;"
+                        + "DECLARE $payload AS Bytes;"
+                        + "DECLARE $is_valid AS Bool;"
+                        + "UPSERT INTO `" + TEST_TABLE + "` (id, name, payload, is_valid) "
                         + "VALUES ($id, $name, $payload, $is_valid)";
 
                 Params params = Params.of(
@@ -459,6 +463,12 @@ public class QueryIntegrationTest {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 String query = ""
+                        + "DECLARE $s1 AS Int32;"
+                        + "DECLARE $s2 AS Int32;"
+                        + "DECLARE $id1 AS Int32;"
+                        + "DECLARE $id2 AS Int32;"
+                        + "DECLARE $name1 AS Text;"
+                        + "DECLARE $name2 AS Text;"
                         + "SELECT * FROM `" + TEST_TABLE + "` WHERE id = $s1;"
                         + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id1, $name1);"
                         + "SELECT * FROM `" + TEST_TABLE + "` WHERE id = $s2;"
