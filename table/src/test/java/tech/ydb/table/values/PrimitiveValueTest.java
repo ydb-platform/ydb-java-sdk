@@ -517,26 +517,37 @@ public class PrimitiveValueTest {
 
     @Test
     public void timestamp() {
-        long seconds = 1534728225678901L;
-        Instant instant = Instant.parse("2018-08-20T01:23:45.678901Z");
+        PrimitiveValue min = PrimitiveValue.newTimestamp(Instant.EPOCH);
+        Assert.assertEquals(min, PrimitiveValue.newTimestamp(0));
+        ValueProtos.Value minValue = min.toPb();
 
-        Consumer<PrimitiveValue> doTest = (v) -> {
-            Assert.assertEquals(PrimitiveValue.newTimestamp(seconds), v);
-            Assert.assertEquals(PrimitiveValue.newTimestamp(instant), v);
-            Assert.assertNotEquals(PrimitiveValue.newTimestamp(0), v);
+        Assert.assertEquals(0, minValue.getUint32Value());
+        Assert.assertEquals(0, minValue.getUint64Value());
+        Assert.assertEquals(0, minValue.getInt32Value());
+        Assert.assertEquals(0, minValue.getInt64Value());
+        Assert.assertEquals(0, minValue.getLow128());
+        Assert.assertEquals(0, minValue.getHigh128());
 
-            Assert.assertEquals("2018-08-20T01:23:45.678901Z", v.toString());
-            Assert.assertEquals(v.getTimestamp(), instant);
+        PrimitiveValue max = PrimitiveValue.newTimestamp(Instant.parse("2105-12-31T23:59:59.999999Z"));
+        Assert.assertEquals(max, PrimitiveValue.newTimestamp(4291747199999999l));
+        ValueProtos.Value maxValue = max.toPb();
 
-            ValueProtos.Value vPb = v.toPb();
-            Assert.assertEquals(vPb, ProtoValue.fromTimestamp(seconds));
-            Assert.assertEquals(vPb, ProtoValue.fromTimestamp(instant));
+        Assert.assertEquals(0, maxValue.getUint32Value());
+        Assert.assertEquals(4291747199999999l, maxValue.getUint64Value());
+        Assert.assertEquals(0, maxValue.getInt32Value());
+        Assert.assertEquals(0, maxValue.getInt64Value());
+        Assert.assertEquals(0, maxValue.getLow128());
+        Assert.assertEquals(0, maxValue.getHigh128());
 
-            Assert.assertTrue(ProtoValue.fromPb(PrimitiveType.Timestamp, vPb).equals(v));
-        };
+        IllegalArgumentException err1 = Assert.assertThrows(
+                IllegalArgumentException.class, () -> PrimitiveValue.newTimestamp(-1)
+        );
+        Assert.assertEquals("Negative microsSinceEpoch: -1", err1.getMessage());
 
-        doTest.accept(PrimitiveValue.newTimestamp(seconds));
-        doTest.accept(PrimitiveValue.newTimestamp(instant));
+        IllegalArgumentException err2 = Assert.assertThrows(
+                IllegalArgumentException.class, () -> PrimitiveValue.newTimestamp(Instant.EPOCH.minusNanos(1))
+        );
+        Assert.assertEquals("Instant before epoch: 1969-12-31T23:59:59.999999999Z", err2.getMessage());
     }
 
     @Test
