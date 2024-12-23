@@ -7,6 +7,9 @@ import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
 
+import tech.ydb.core.Issue;
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.query.DataQueryResult;
@@ -138,5 +141,20 @@ public class ValuesReadTest {
         assertTimestamp(rs.getColumn("t3"), true, Instant.parse("2105-12-31T23:59:59.999999Z"));
         assertTimestamp(rs.getColumn("t4"), false, Instant.ofEpochSecond(0, 0));
         assertTimestamp(rs.getColumn("t5"), false, Instant.ofEpochSecond(4291747199l, 999999000l));
+
+        Status invalid = CTX.supplyResult(
+                s -> s.executeDataQuery("SELECT "
+                        + "Timestamp('1969-12-31T23:59:59.999999Z') as t6,"
+                        + "Timestamp('2106-01-01T00:00:00.000000Z') as t7;",
+                        TxControl.serializableRw()
+                )
+        ).join().getStatus();
+
+        Assert.assertEquals(StatusCode.GENERIC_ERROR, invalid.getCode());
+        Issue[] issues = invalid.getIssues();
+        Assert.assertEquals(2, issues.length);
+        Assert.assertEquals("Invalid value \"1969-12-31T23:59:59.999999Z\" for type Timestamp", issues[0].getMessage());
+        Assert.assertEquals("Invalid value \"2106-01-01T00:00:00.000000Z\" for type Timestamp", issues[1].getMessage());
+
     }
 }
