@@ -112,4 +112,33 @@ public class TtlTableTest {
         Assert.assertEquals(TableTtl.TtlUnit.UNSPECIFIED, ttl.getTtlUnit());
         Assert.assertNull(ttl.getRunIntervaelSeconds());
     }
+
+    @Test
+    public void noTtlTableTest() {
+        // --------------------- create table -----------------------------
+        TableDescription createTableDesc = TableDescription.newBuilder()
+                .addNonnullColumn("id", PrimitiveType.Uint64)
+                .addNullableColumn("date", PrimitiveType.Datetime)
+                .addNullableColumn("value", PrimitiveType.Uint64)
+                .setPrimaryKey("id")
+                .build();
+
+        Status createStatus = ctx.supplyStatus(
+                session -> session.createTable(tablePath, createTableDesc, new CreateTableSettings())
+        ).join();
+        Assert.assertTrue("Create table ttl " + createStatus, createStatus.isSuccess());
+
+        // --------------------- describe table after creating -----------------------------
+        Result<TableDescription> describeResult = ctx.supplyResult(session ->session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe table with ttl " + describeResult.getStatus(), describeResult.isSuccess());
+
+        TableTtl ttl = describeResult.getValue().getTableTtl();
+
+        Assert.assertNotNull(ttl);
+        Assert.assertEquals(TableTtl.TtlMode.NOT_SET, ttl.getTtlMode());
+        Assert.assertEquals("", ttl.getDateTimeColumn());
+        Assert.assertEquals(Integer.valueOf(0), ttl.getExpireAfterSeconds());
+        Assert.assertEquals(TableTtl.TtlUnit.UNSPECIFIED, ttl.getTtlUnit());
+        Assert.assertNull(ttl.getRunIntervaelSeconds());
+    }
 }
