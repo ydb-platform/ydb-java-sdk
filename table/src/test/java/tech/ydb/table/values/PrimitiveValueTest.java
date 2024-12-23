@@ -539,15 +539,30 @@ public class PrimitiveValueTest {
         Assert.assertEquals(0, maxValue.getLow128());
         Assert.assertEquals(0, maxValue.getHigh128());
 
-        IllegalArgumentException err1 = Assert.assertThrows(
-                IllegalArgumentException.class, () -> PrimitiveValue.newTimestamp(-1)
+        Assert.assertEquals(
+                "microsSinceEpoch value is before minimum timestamp(1970-01-01 00:00:00.000000): -1",
+                Assert.assertThrows(IllegalArgumentException.class,
+                        () -> PrimitiveValue.newTimestamp(-1)
+                ).getMessage()
         );
-        Assert.assertEquals("Negative microsSinceEpoch: -1", err1.getMessage());
-
-        IllegalArgumentException err2 = Assert.assertThrows(
-                IllegalArgumentException.class, () -> PrimitiveValue.newTimestamp(Instant.EPOCH.minusNanos(1))
+        Assert.assertEquals(
+                "Instant value is before minimum timestamp(1970-01-01 00:00:00.000000): 1969-12-31T23:59:59.999999999Z",
+                Assert.assertThrows(IllegalArgumentException.class,
+                        () -> PrimitiveValue.newTimestamp(Instant.EPOCH.minusNanos(1))
+                ).getMessage()
         );
-        Assert.assertEquals("Instant before epoch: 1969-12-31T23:59:59.999999999Z", err2.getMessage());
+        Assert.assertEquals(
+                "microsSinceEpoch value is after maximum timestamp(2105-12-31 23:59:59.999999): 4291747200000000",
+                Assert.assertThrows(IllegalArgumentException.class,
+                        () -> PrimitiveValue.newTimestamp(4291747200000000l)
+                ).getMessage()
+        );
+        Assert.assertEquals(
+                "Instant value is after maximum timestamp(2105-12-31 23:59:59.999999): 2106-01-01T00:00:00Z",
+                Assert.assertThrows(IllegalArgumentException.class,
+                        () -> PrimitiveValue.newTimestamp(Instant.parse("2106-01-01T00:00:00.000000Z"))
+                ).getMessage()
+        );
     }
 
     @Test
