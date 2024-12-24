@@ -18,21 +18,35 @@ public class DecimalValue implements Value<DecimalType> {
 
     private static final BigInteger BIGINT_TWO = BigInteger.valueOf(2);
 
+    static final long INF_HIGH = 0x0013426172C74D82L;
+    static final long INF_LOW = 0x2B878FE800000000L;
+    static final long NEG_INF_HIGH = 0xFFECBD9E8D38B27DL;
+    static final long NEG_INF_LOW = 0xD478701800000000L;
+    static final long NAN_HIGH = 0x0013426172C74D82L;
+    static final long NAN_LOW = 0x2B878FE800000001L;
+
+
     /**
+     * @deprecated
      * Positive infinity 10^{@value DecimalType#MAX_PRECISION}.
      */
+    @Deprecated
     public static final DecimalValue INF = new DecimalValue(
         MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000000L);
 
     /**
-     * Negative infinity -10^{@value DecimalType#MAX_PRECISION}.
+     * @deprecated
+     * Negative infinity -10^{@value DecimalType#MAX_PRECISI0ON}.
      */
+    @Deprecated
     public static final DecimalValue NEG_INF = new DecimalValue(
         MAX_DECIMAL, 0xFFECBD9E8D38B27DL, 0xD478701800000000L);
 
     /**
+     * @deprecated
      * Not a number 10^{@value DecimalType#MAX_PRECISION} + 1.
      */
+    @Deprecated
     public static final DecimalValue NAN = new DecimalValue(
         MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000001L);
 
@@ -60,15 +74,15 @@ public class DecimalValue implements Value<DecimalType> {
     }
 
     public boolean isInf() {
-        return this.high == INF.high && this.low == INF.low;
+        return this.high == INF_HIGH && this.low == INF_LOW;
     }
 
     public boolean isNegativeInf() {
-        return this.high == NEG_INF.high && this.low == NEG_INF.low;
+        return this.high == NEG_INF_HIGH && this.low == NEG_INF_LOW;
     }
 
     public boolean isNan() {
-        return this.high == NAN.high && this.low == NAN.low;
+        return this.high == NAN_HIGH && this.low == NAN_LOW;
     }
 
     public boolean isZero() {
@@ -122,6 +136,9 @@ public class DecimalValue implements Value<DecimalType> {
     public BigDecimal toBigDecimal() {
         if (isZero()) {
             return BigDecimal.ZERO.setScale(type.getScale());
+        }
+        if (isInf() || isNegativeInf() || isNan()) {
+            return new BigDecimal(toUnscaledBigInteger()).setScale(type.getScale());
         }
 
         return new BigDecimal(toUnscaledBigInteger(), type.getScale());
@@ -272,18 +289,6 @@ public class DecimalValue implements Value<DecimalType> {
         return r;
     }
 
-    private static DecimalValue newNan(DecimalType type) {
-        return new DecimalValue(type, NAN.high, NAN.low);
-    }
-
-    private static DecimalValue newInf(DecimalType type) {
-        return new DecimalValue(type, INF.high, INF.low);
-    }
-
-    private static DecimalValue newNegInf(DecimalType type) {
-        return new DecimalValue(type, NEG_INF.high, NEG_INF.low);
-    }
-
     private static boolean isNan(long high, long low) {
         return NAN.high == high && NAN.low == low;
     }
@@ -296,11 +301,11 @@ public class DecimalValue implements Value<DecimalType> {
         long high = low > 0 ? 0 : -1;
 
         if (type.isInf(high, low)) {
-            return newInf(type);
+            return type.getInf();
         }
 
         if (type.isNegInf(high, low)) {
-            return newNegInf(type);
+            return type.getNegInf();
         }
 
         return new DecimalValue(type, high, low);
@@ -312,15 +317,15 @@ public class DecimalValue implements Value<DecimalType> {
         }
 
         if (isNan(high, low)) {
-            return newNan(type);
+            return type.getNaN();
         }
 
         if (type.isInf(high, low)) {
-            return newInf(type);
+            return type.getInf();
         }
 
         if (type.isNegInf(high, low)) {
-            return newNegInf(type);
+            return type.getNegInf();
         }
 
         return new DecimalValue(type, high, low);
@@ -334,7 +339,7 @@ public class DecimalValue implements Value<DecimalType> {
 
         boolean negative = value.signum() < 0;
         if (bitLength > 128) {
-            return negative ? newNegInf(type) : newInf(type);
+            return negative ? type.getNegInf() : type.getInf();
         }
 
         byte[] buf = value.abs().toByteArray();
@@ -370,7 +375,7 @@ public class DecimalValue implements Value<DecimalType> {
             lowHi = lowHi & HALF_LONG_MASK;
             if ((high & LONG_SIGN_BIT) != 0) {
                 // number is too big, return infinite
-                return positive ? newInf(type) : newNegInf(type);
+                return positive ? type.getInf() : type.getNegInf();
             }
         }
 
@@ -420,11 +425,11 @@ public class DecimalValue implements Value<DecimalType> {
             char c3 = value.charAt(cursor + 2);
 
             if ((c1 == 'i' || c1 == 'I') && (c2 == 'n' || c2 == 'N') || (c3 == 'f' || c3 == 'F')) {
-                return negative ? newNegInf(type) : newInf(type);
+                return negative ? type.getNegInf() : type.getInf();
             }
 
             if ((c1 == 'n' || c1 == 'N') && (c2 == 'a' || c2 == 'A') || (c3 == 'n' || c3 == 'N')) {
-                return new DecimalValue(type, NAN.high, NAN.low);
+                return type.getNaN();
             }
         }
 

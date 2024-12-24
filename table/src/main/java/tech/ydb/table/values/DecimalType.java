@@ -17,19 +17,17 @@ public class DecimalType implements Type {
     public static final int MAX_PRECISION = 35;
 
     private static final InfValues[] INF_VALUES;
-
     private static final DecimalType YDB_DEFAULT;
 
     static {
+        // Precalculate +inf/-inf values for all precisions
         INF_VALUES = new InfValues[DecimalType.MAX_PRECISION];
 
         long mask32 = 0xFFFFFFFFL;
         long infHigh = 0;
-        long infLow = 10;
+        long infLow = 1;
 
         for (int precision = 1; precision <= DecimalType.MAX_PRECISION; precision++) {
-            INF_VALUES[precision - 1] = new InfValues(infHigh, infLow);
-
             // multiply by 10
             long ll = 10 * (infLow & mask32);
             long lh = 10 * (infLow >>> 32) + (ll >>> 32);
@@ -38,6 +36,8 @@ public class DecimalType implements Type {
 
             infLow = (lh << 32) + (ll & mask32);
             infHigh = (hh << 32) + (hl & mask32);
+
+            INF_VALUES[precision - 1] = new InfValues(infHigh, infLow);
         }
 
         YDB_DEFAULT = DecimalType.of(22, 9);
@@ -47,10 +47,18 @@ public class DecimalType implements Type {
     private final int scale;
     private final InfValues inf;
 
+    private final DecimalValue infValue;
+    private final DecimalValue negInfValue;
+    private final DecimalValue nanValue;
+
     private DecimalType(int precision, int scale) {
         this.precision = precision;
         this.scale = scale;
         this.inf = INF_VALUES[precision - 1];
+
+        this.infValue = new DecimalValue(this, DecimalValue.INF_HIGH, DecimalValue.INF_LOW);
+        this.negInfValue = new DecimalValue(this, DecimalValue.NEG_INF_HIGH, DecimalValue.NEG_INF_LOW);
+        this.nanValue = new DecimalValue(this, DecimalValue.NAN_HIGH, DecimalValue.NAN_LOW);
     }
 
     public static DecimalType getDefault() {
@@ -80,6 +88,18 @@ public class DecimalType implements Type {
 
     public int getScale() {
         return scale;
+    }
+
+    public DecimalValue getInf() {
+        return infValue;
+    }
+
+    public DecimalValue getNegInf() {
+        return negInfValue;
+    }
+
+    public DecimalValue getNaN() {
+        return nanValue;
     }
 
     @Override
