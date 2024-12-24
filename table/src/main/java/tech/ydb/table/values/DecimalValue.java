@@ -272,18 +272,6 @@ public class DecimalValue implements Value<DecimalType> {
         return r;
     }
 
-    private static boolean isNan(long high, long low) {
-        return NAN.high == high && NAN.low == low;
-    }
-
-    private static boolean isInf(long high, long low) {
-        return high > INF.high || (high == INF.high && Long.compareUnsigned(low, INF.low) >= 0);
-    }
-
-    private static boolean isNegInf(long high, long low) {
-        return high < NEG_INF.high || (high == NEG_INF.high && Long.compareUnsigned(low, NEG_INF.low) <= 0);
-    }
-
     private static DecimalValue newNan(DecimalType type) {
         return new DecimalValue(type, NAN.high, NAN.low);
     }
@@ -295,12 +283,27 @@ public class DecimalValue implements Value<DecimalType> {
     private static DecimalValue newNegInf(DecimalType type) {
         return new DecimalValue(type, NEG_INF.high, NEG_INF.low);
     }
-    static DecimalValue fromUnscaledLong(DecimalType type, long value) {
-        if (value == 0) {
+
+    private static boolean isNan(long high, long low) {
+        return NAN.high == high && NAN.low == low;
+    }
+
+    static DecimalValue fromUnscaledLong(DecimalType type, long low) {
+        if (low == 0) {
             return new DecimalValue(type, 0, 0);
         }
-        long high = value > 0 ? 0 : -1;
-        return new DecimalValue(type, high, value);
+
+        long high = low > 0 ? 0 : -1;
+
+        if (type.isInf(high, low)) {
+            return newInf(type);
+        }
+
+        if (type.isNegInf(high, low)) {
+            return newNegInf(type);
+        }
+
+        return new DecimalValue(type, high, low);
     }
 
     static DecimalValue fromBits(DecimalType type, long high, long low) {
@@ -312,11 +315,11 @@ public class DecimalValue implements Value<DecimalType> {
             return newNan(type);
         }
 
-        if (isInf(high, low)) {
+        if (type.isInf(high, low)) {
             return newInf(type);
         }
 
-        if (isNegInf(high, low)) {
+        if (type.isNegInf(high, low)) {
             return newNegInf(type);
         }
 
@@ -515,5 +518,4 @@ public class DecimalValue implements Value<DecimalType> {
 
         return DecimalValue.fromUnscaledBigInteger(type, rawValue);
     }
-
 }

@@ -16,14 +16,41 @@ public class DecimalType implements Type {
 
     public static final int MAX_PRECISION = 35;
 
-    private static final DecimalType YDB_DEFAULT = DecimalType.of(22, 9);
+    private static final InfValues[] INF_VALUES;
+
+    private static final DecimalType YDB_DEFAULT;
+
+    static {
+        INF_VALUES = new InfValues[DecimalType.MAX_PRECISION];
+
+        long mask32 = 0xFFFFFFFFL;
+        long infHigh = 0;
+        long infLow = 10;
+
+        for (int precision = 1; precision <= DecimalType.MAX_PRECISION; precision++) {
+            INF_VALUES[precision - 1] = new InfValues(infHigh, infLow);
+
+            // multiply by 10
+            long ll = 10 * (infLow & mask32);
+            long lh = 10 * (infLow >>> 32) + (ll >>> 32);
+            long hl = 10 * (infHigh & mask32) + (lh >>> 32);
+            long hh = 10 * (infHigh >>> 32) + (hl >>> 32);
+
+            infLow = (lh << 32) + (ll & mask32);
+            infHigh = (hh << 32) + (hl & mask32);
+        }
+
+        YDB_DEFAULT = DecimalType.of(22, 9);
+    }
 
     private final int precision;
     private final int scale;
+    private final InfValues inf;
 
     private DecimalType(int precision, int scale) {
         this.precision = precision;
         this.scale = scale;
+        this.inf = INF_VALUES[precision - 1];
     }
 
     public static DecimalType getDefault() {
@@ -114,5 +141,27 @@ public class DecimalType implements Type {
 
     public DecimalValue newValue(String value) {
         return DecimalValue.fromString(this, value);
+    }
+
+    boolean isInf(long high, long low) {
+        return high > inf.posHigh || (high == inf.posHigh && Long.compareUnsigned(low, inf.posLow) >= 0);
+    }
+
+    boolean isNegInf(long high, long low) {
+        return high < inf.negHigh || (high == inf.negHigh && Long.compareUnsigned(low, inf.negLow) <= 0);
+    }
+
+    private static class InfValues {
+        private final long posHigh;
+        private final long posLow;
+        private final long negHigh;
+        private final long negLow;
+
+        InfValues(long infHigh, long infLow) {
+            this.posHigh = infHigh;
+            this.posLow = infLow;
+            this.negHigh = 0xFFFFFFFFFFFFFFFFL - infHigh;
+            this.negLow = 0xFFFFFFFFFFFFFFFFL - infLow + 1;
+        }
     }
 }
