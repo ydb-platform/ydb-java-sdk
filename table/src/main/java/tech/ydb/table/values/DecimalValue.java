@@ -28,7 +28,8 @@ public class DecimalValue implements Value<DecimalType> {
 
     /**
      * @deprecated
-     * Positive infinity 10^{@value DecimalType#MAX_PRECISION}.
+     * Positive infinity 10^MAX_PRECISION.
+     * Use {@link DecimalType#getInf() } instead
      */
     @Deprecated
     public static final DecimalValue INF = new DecimalValue(
@@ -36,7 +37,8 @@ public class DecimalValue implements Value<DecimalType> {
 
     /**
      * @deprecated
-     * Negative infinity -10^{@value DecimalType#MAX_PRECISI0ON}.
+     * Negative infinity -10^MAX_PRECISI0ON.
+     * Use {@link DecimalType#getNegInf() } instead
      */
     @Deprecated
     public static final DecimalValue NEG_INF = new DecimalValue(
@@ -44,7 +46,8 @@ public class DecimalValue implements Value<DecimalType> {
 
     /**
      * @deprecated
-     * Not a number 10^{@value DecimalType#MAX_PRECISION} + 1.
+     * Not a number 10^MAX_PRECISION + 1.
+     * Use {@link DecimalType#getNaN() } instead
      */
     @Deprecated
     public static final DecimalValue NAN = new DecimalValue(
