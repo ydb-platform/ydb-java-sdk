@@ -67,35 +67,35 @@ public class DecimalValueTest {
 
     @Test
     public void contract() {
-        DecimalType type = DecimalType.of(13, 2);
+        DecimalType type = DecimalType.of(20, 2);
         DecimalValue value = DecimalValue.fromBits(type, 0x0001, 0x0002);
 
-        Assert.assertEquals(DecimalType.of(13, 2), value.getType());
+        Assert.assertEquals(DecimalType.of(20, 2), value.getType());
         Assert.assertEquals(0x0001, value.getHigh());
         Assert.assertEquals(0x0002, value.getLow());
 
         // equals
         Assert.assertEquals(value, DecimalValue.fromBits(type, 0x0001, 0x0002));
-        Assert.assertEquals(value, DecimalValue.fromBits(DecimalType.of(13, 2), 0x0001, 0x0002));
+        Assert.assertEquals(value, DecimalValue.fromBits(DecimalType.of(20, 2), 0x0001, 0x0002));
 
         Assert.assertNotEquals(value, DecimalValue.fromBits(type, 0x0001, 0x0003));
         Assert.assertNotEquals(value, DecimalValue.fromBits(type, 0x0002, 0x0002));
-        Assert.assertNotEquals(value, DecimalValue.fromBits(DecimalType.of(12, 2), 0x0001, 0x0002));
-        Assert.assertNotEquals(value, DecimalValue.fromBits(DecimalType.of(13, 1), 0x0001, 0x0002));
+        Assert.assertNotEquals(value, DecimalValue.fromBits(DecimalType.of(21, 2), 0x0001, 0x0002));
+        Assert.assertNotEquals(value, DecimalValue.fromBits(DecimalType.of(20, 1), 0x0001, 0x0002));
 
         // hashCode
         Assert.assertEquals(value.hashCode(), DecimalValue.fromBits(type, 0x0001, 0x0002).hashCode());
-        Assert.assertEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(13, 2), 0x0001, 0x0002).hashCode());
+        Assert.assertEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(20, 2), 0x0001, 0x0002).hashCode());
 
         Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(type, 0x0001, 0x0003).hashCode());
         Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(type, 0x0002, 0x0002).hashCode());
-        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(12, 2), 0x0001, 0x0002).hashCode());
-        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(13, 1), 0x0001, 0x0002).hashCode());
+        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(21, 2), 0x0001, 0x0002).hashCode());
+        Assert.assertNotEquals(value.hashCode(), DecimalValue.fromBits(DecimalType.of(20, 1), 0x0001, 0x0002).hashCode());
     }
 
     @Test
     public void protobuf() {
-        DecimalType type = DecimalType.of(13, 2);
+        DecimalType type = DecimalType.of(20, 2);
         DecimalValue value = DecimalValue.fromBits(type, 0x0001, 0x0002);
 
         ValueProtos.Value valuePb = value.toPb();
@@ -128,8 +128,80 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             Assert.assertTrue(value.isInf());
             Assert.assertFalse(value.isNegative());
-            Assert.assertEquals(DecimalValue.INF, value);
+            Assert.assertEquals(type.getInf(), value);
             inf = inf.add(k);
+        }
+    }
+
+    private void assertIsValid(DecimalValue v) {
+        Assert.assertFalse("Non expected Nan for " + v, v.isNan());
+        Assert.assertFalse("Non expected Inf for " + v, v.isInf());
+        Assert.assertFalse("Non expected -Inf for " + v, v.isNegativeInf());
+    }
+
+    private void assertIsNan(DecimalValue v) {
+        Assert.assertTrue("Expected Nan for " + v, v.isNan());
+        Assert.assertFalse("Non expected Inf for " + v, v.isInf());
+        Assert.assertFalse("Non expected -Inf for " + v, v.isNegativeInf());
+
+        Assert.assertEquals(DecimalValue.NAN_LOW, v.getLow());
+        Assert.assertEquals(DecimalValue.NAN_HIGH, v.getHigh());
+    }
+
+    private void assertIsInf(DecimalValue v) {
+        Assert.assertFalse("Non expected Nan for " + v, v.isNan());
+        Assert.assertTrue("Expected Inf for " + v, v.isInf());
+        Assert.assertFalse("Non expected -Inf for " + v, v.isNegativeInf());
+
+        Assert.assertEquals(DecimalValue.INF_LOW, v.getLow());
+        Assert.assertEquals(DecimalValue.INF_HIGH, v.getHigh());
+    }
+
+    private void assertIsNegInf(DecimalValue v) {
+        Assert.assertFalse("Non expected Nan for " + v, v.isNan());
+        Assert.assertFalse("Non expected Inf for " + v, v.isInf());
+        Assert.assertTrue("Expected -Inf for " + v, v.isNegativeInf());
+
+        Assert.assertEquals(DecimalValue.NEG_INF_LOW, v.getLow());
+        Assert.assertEquals(DecimalValue.NEG_INF_HIGH, v.getHigh());
+    }
+
+    @Test
+    public void allTypeInfiniteAndNan() {
+        BigInteger inf = BigInteger.ONE;
+        BigInteger nan = new BigInteger("100000000000000000000000000000000001");
+        int[] scales = new int[] { 1, 9, 35 };
+        for (int precision = 1; precision <= DecimalType.MAX_PRECISION; precision++) {
+            inf = inf.multiply(BigInteger.TEN);
+
+            DecimalType type = DecimalType.of(precision);
+
+            assertIsInf(type.newValue(inf));
+            assertIsNegInf(type.newValue(inf.negate()));
+            assertIsNan(type.newValue(nan));
+
+            assertIsValid(type.newValue(inf.subtract(BigInteger.ONE)));
+            assertIsValid(type.newValue(inf.negate().add(BigInteger.ONE)));
+
+            for (int scale : scales) {
+                if (scale > precision) {
+                    continue;
+                }
+
+                DecimalType scaled = DecimalType.of(precision, scale);
+                BigDecimal scaledInf = new BigDecimal(inf, scale);
+                BigDecimal scaledNan = new BigDecimal(nan, scale);
+
+                System.out.println("Nan for " + scaled + " -> " + scaledNan);
+
+                assertIsInf(scaled.newValue(scaledInf));
+                assertIsNegInf(scaled.newValue(scaledInf.negate()));
+
+                assertIsValid(scaled.newValue(scaledInf.subtract(BigDecimal.valueOf(1, scale))));
+                assertIsValid(scaled.newValue(scaledInf.negate().add(BigDecimal.valueOf(1, scale))));
+
+                assertIsNan(scaled.newValue(scaledNan));
+            }
         }
     }
 
@@ -143,7 +215,7 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             Assert.assertTrue(value.isInf());
             Assert.assertFalse(value.isNegative());
-            Assert.assertNotEquals(DecimalValue.INF, value);
+            Assert.assertEquals(type.getInf(), value);
             inf = inf.add(k);
         }
     }
@@ -158,7 +230,7 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             Assert.assertTrue(value.isNegativeInf());
             Assert.assertTrue(value.isNegative());
-            Assert.assertEquals(DecimalValue.NEG_INF, value);
+            Assert.assertEquals(type.getNegInf(), value);
             inf = inf.subtract(k);
         }
     }
@@ -173,7 +245,7 @@ public class DecimalValueTest {
             DecimalValue value = type.newValue(inf);
             Assert.assertTrue(value.isNegativeInf());
             Assert.assertTrue(value.isNegative());
-            Assert.assertNotEquals(DecimalValue.NEG_INF, value);
+            Assert.assertEquals(type.getNegInf(), value);
             inf = inf.subtract(k);
         }
     }
@@ -258,7 +330,7 @@ public class DecimalValueTest {
 
     @Test
     public void ofUnsigned() {
-        DecimalType t = DecimalType.getDefault();
+        DecimalType t = DecimalType.of(31, 9);
         String zeros = "." + String.join("", Collections.nCopies(t.getScale(), "0"));
 
         Assert.assertTrue(t.newValueUnsigned(0).isZero());
@@ -278,7 +350,7 @@ public class DecimalValueTest {
 
     @Test
     public void ofLong() {
-        DecimalType t = DecimalType.getDefault();
+        DecimalType t = DecimalType.of(31, 9);
         String zeros = "." + String.join("", Collections.nCopies(t.getScale(), "0"));
 
         Assert.assertTrue(t.newValue(0).isZero());
@@ -575,7 +647,7 @@ public class DecimalValueTest {
 
         // (2) positive numbers: 1, 12, 123, ...
         String s = "";
-        for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
+        for (int i = 1; i < t.getPrecision(); i++) {
             s += Integer.toString(i % 10);
             BigInteger value = new BigInteger(s);
             Assert.assertEquals(value, t.newValueUnscaled(value).toUnscaledBigInteger());
@@ -583,7 +655,7 @@ public class DecimalValueTest {
 
         // (3) negative numbers: -1, -12, -123, ...
         s = "-";
-        for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
+        for (int i = 1; i < t.getPrecision(); i++) {
             s += Integer.toString(i % 10);
             BigInteger value = new BigInteger(s);
             Assert.assertEquals(value, t.newValueUnscaled(value).toUnscaledBigInteger());
@@ -591,9 +663,9 @@ public class DecimalValueTest {
 
         // (4) -inf, +inf, nan
         BigInteger inf = BigInteger.TEN.pow(DecimalType.MAX_PRECISION);
-        Assert.assertEquals(DecimalValue.INF.toUnscaledBigInteger(), inf);
-        Assert.assertEquals(DecimalValue.NEG_INF.toUnscaledBigInteger(), inf.negate());
-        Assert.assertEquals(DecimalValue.NAN.toUnscaledBigInteger(), inf.add(BigInteger.ONE));
+        Assert.assertEquals(t.getInf().toUnscaledBigInteger(), inf);
+        Assert.assertEquals(t.getNegInf().toUnscaledBigInteger(), inf.negate());
+        Assert.assertEquals(t.getNaN().toUnscaledBigInteger(), inf.add(BigInteger.ONE));
     }
 
     @Test
@@ -627,18 +699,19 @@ public class DecimalValueTest {
 
         // (4) -inf, +inf, nan
         BigInteger inf = BigInteger.TEN.pow(DecimalType.MAX_PRECISION);
-        Assert.assertEquals(DecimalValue.INF.toBigInteger(), inf);
-        Assert.assertEquals(DecimalValue.NEG_INF.toBigInteger(), inf.negate());
-        Assert.assertEquals(DecimalValue.NAN.toBigInteger(), inf.add(BigInteger.ONE));
+        Assert.assertEquals(t.getInf().toBigInteger(), inf);
+        Assert.assertEquals(t.getNegInf().toBigInteger(), inf.negate());
+        Assert.assertEquals(t.getNaN().toBigInteger(), inf.add(BigInteger.ONE));
     }
 
     @Test
     public void toBigDecimal() {
         // (1) special values
-        BigDecimal inf = BigDecimal.TEN.pow(DecimalType.MAX_PRECISION);
-        Assert.assertEquals(DecimalValue.INF.toBigDecimal(), inf);
-        Assert.assertEquals(DecimalValue.NEG_INF.toBigDecimal(), inf.negate());
-        Assert.assertEquals(DecimalValue.NAN.toBigDecimal(), inf.add(BigDecimal.ONE));
+        BigDecimal inf = BigDecimal.ONE.scaleByPowerOfTen(DecimalType.MAX_PRECISION);
+        DecimalType type = DecimalType.getDefault();
+        Assert.assertEquals(type.getInf().toBigDecimal(), inf.setScale(type.getScale()));
+        Assert.assertEquals(type.getNegInf().toBigDecimal(), inf.negate().setScale(type.getScale()));
+        Assert.assertEquals(type.getNaN().toBigDecimal(), inf.add(BigDecimal.ONE).setScale(type.getScale()));
 
         // (2) positive numbers
         Assert.assertEquals(newDecimal(1234567890L, 0).toBigDecimal(), BigDecimal.valueOf(1234567890L, 0));
@@ -682,30 +755,30 @@ public class DecimalValueTest {
 
         // (2) positive numbers: 1, 12, 123, ...
         String s = "";
-        for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
+        for (int i = 1; i < t.getPrecision(); i++) {
             s += Integer.toString(i % 10);
             Assert.assertEquals(s, t.newValueUnscaled(new BigInteger(s)).toUnscaledString());
         }
 
         // (3) negative numbers: -1, -12, -123, ...
         s = "-";
-        for (int i = 1; i < DecimalType.MAX_PRECISION; i++) {
+        for (int i = 1; i < t.getPrecision(); i++) {
             s += Integer.toString(i % 10);
             Assert.assertEquals(s, t.newValueUnscaled(new BigInteger(s)).toUnscaledString());
         }
 
         // (4) -inf, +inf, nan
-        Assert.assertEquals("100000000000000000000000000000000000", DecimalValue.INF.toUnscaledString()); // 10^35
-        Assert.assertEquals("-100000000000000000000000000000000000", DecimalValue.NEG_INF.toUnscaledString()); // -10^35
-        Assert.assertEquals("100000000000000000000000000000000001", DecimalValue.NAN.toUnscaledString()); // 10^35 + 1
+        Assert.assertEquals("100000000000000000000000000000000000", t.getInf().toUnscaledString()); // 10^35
+        Assert.assertEquals("-100000000000000000000000000000000000", t.getNegInf().toUnscaledString()); // -10^35
+        Assert.assertEquals("100000000000000000000000000000000001", t.getNaN().toUnscaledString()); // 10^35 + 1
     }
 
     @Test
     public void toStringTest() {
         // (1) special values
-        Assert.assertEquals("inf", DecimalValue.INF.toString());
-        Assert.assertEquals("-inf", DecimalValue.NEG_INF.toString());
-        Assert.assertEquals("nan", DecimalValue.NAN.toString());
+        Assert.assertEquals("inf", DecimalType.getDefault().getInf().toString());
+        Assert.assertEquals("-inf", DecimalType.getDefault().getNegInf().toString());
+        Assert.assertEquals("nan", DecimalType.getDefault().getNaN().toString());
 
         // (2) positive numbers
         Assert.assertEquals("1234567890", newDecimal(1234567890L, 0).toString());

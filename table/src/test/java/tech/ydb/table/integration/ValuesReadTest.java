@@ -17,6 +17,8 @@ import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.transaction.TxControl;
+import tech.ydb.table.values.DecimalType;
+import tech.ydb.table.values.DecimalValue;
 import tech.ydb.table.values.NullType;
 import tech.ydb.table.values.NullValue;
 import tech.ydb.table.values.PrimitiveType;
@@ -156,5 +158,69 @@ public class ValuesReadTest {
         Assert.assertEquals("Invalid value \"1969-12-31T23:59:59.999999Z\" for type Timestamp", issues[0].getMessage());
         Assert.assertEquals("Invalid value \"2106-01-01T00:00:00.000000Z\" for type Timestamp", issues[1].getMessage());
 
+    }
+
+    @Test
+    public void decimalReadTest() {
+        DataQueryResult result = CTX.supplyResult(
+                s -> s.executeDataQuery("SELECT "
+                        + "Decimal('9', 1, 0) AS d1, "
+                        + "Decimal('-9', 1, 0) AS d2, "
+                        + "Decimal('99999999999999999999999999999999999', 35, 0) AS d3, "
+                        + "Decimal('-99999999999999999999999999999999999', 35, 0) AS d4, "
+                        + "Decimal('9999999999999999999999999.9999999999', 35, 10) AS d5, "
+                        + "Decimal('-9999999999999999999999999.9999999999', 35, 10) AS d6, "
+                        + "Decimal('9.6', 1, 0) AS d7, "
+                        + "Decimal('-9.6', 1, 0) AS d8, "
+                        + "Decimal('99999999999999999999999999999999999.6', 35, 0) AS d9, "
+                        + "Decimal('-99999999999999999999999999999999999.6', 35, 0) AS d10, "
+                        + "Decimal('9999999999999999999999999.99999999996', 35, 10) AS d11, "
+                        + "Decimal('-9999999999999999999999999.99999999996', 35, 10) AS d12;",
+                        TxControl.serializableRw()
+                )
+        ).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        DecimalValue d1 = rs.getColumn("d1").getDecimal();
+        DecimalValue d2 = rs.getColumn("d2").getDecimal();
+        DecimalValue d3 = rs.getColumn("d3").getDecimal();
+        DecimalValue d4 = rs.getColumn("d4").getDecimal();
+        DecimalValue d5 = rs.getColumn("d5").getDecimal();
+        DecimalValue d6 = rs.getColumn("d6").getDecimal();
+        DecimalValue d7 = rs.getColumn("d7").getDecimal();
+        DecimalValue d8 = rs.getColumn("d8").getDecimal();
+        DecimalValue d9 = rs.getColumn("d9").getDecimal();
+        DecimalValue d10 = rs.getColumn("d10").getDecimal();
+        DecimalValue d11 = rs.getColumn("d11").getDecimal();
+        DecimalValue d12 = rs.getColumn("d12").getDecimal();
+
+        Assert.assertEquals(DecimalType.of(1).newValue(9), d1);
+        Assert.assertEquals(DecimalType.of(1).newValue(-9), d2);
+        Assert.assertEquals(DecimalType.of(35).newValue("99999999999999999999999999999999999"), d3);
+        Assert.assertEquals(DecimalType.of(35).newValue("-99999999999999999999999999999999999"), d4);
+        Assert.assertEquals(DecimalType.of(35, 10).newValue("9999999999999999999999999.9999999999"), d5);
+        Assert.assertEquals(DecimalType.of(35, 10).newValue("-9999999999999999999999999.9999999999"), d6);
+
+        Assert.assertEquals(DecimalType.of(1).getInf(), d7);
+        Assert.assertEquals(DecimalType.of(1).getNegInf(), d8);
+        Assert.assertEquals(DecimalType.of(35).getInf(), d9);
+        Assert.assertEquals(DecimalType.of(35).getNegInf(), d10);
+        Assert.assertEquals(DecimalType.of(35, 10).getInf(), d11);
+        Assert.assertEquals(DecimalType.of(35, 10).getNegInf(), d12);
+
+        // All infinity values have the same high & low parts
+        Assert.assertEquals(d7.getHigh(), d9.getHigh());
+        Assert.assertEquals(d7.getHigh(), d11.getHigh());
+        Assert.assertEquals(d7.getLow(), d9.getLow());
+        Assert.assertEquals(d7.getLow(), d11.getLow());
+
+        Assert.assertEquals(d8.getHigh(), d10.getHigh());
+        Assert.assertEquals(d8.getHigh(), d12.getHigh());
+        Assert.assertEquals(d8.getLow(), d10.getLow());
+        Assert.assertEquals(d8.getLow(), d12.getLow());
     }
 }
