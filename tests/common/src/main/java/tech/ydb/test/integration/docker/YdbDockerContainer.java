@@ -46,6 +46,7 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
     public void init() {
         addExposedPort(grpcPort);
         addExposedPort(grpcsPort);
+        addExposedPort(kafkaPort);
 
         withEnv("YDB_KAFKA_PROXY_PORT", String.valueOf(kafkaPort));
         if (!env.useDockerIsolation()) {
@@ -91,7 +92,7 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
         return new EndpointRecord(getHost(), getMappedPort(grpcsPort));
     }
 
-    public String nonSecureKafkaEndpoint(){
+    public String nonSecureKafkaEndpoint() {
         return getHost() + ":" + getMappedPort(kafkaPort);
     }
 
