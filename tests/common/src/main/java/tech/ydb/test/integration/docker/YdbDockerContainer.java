@@ -21,10 +21,12 @@ import tech.ydb.test.integration.utils.PortsGenerator;
 public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
     public static final int DEFAULT_SECURE_PORT = 2135;
     public static final int DEFAULT_INSECURE_PORT = 2136;
+    public static final int DEFAULT_KAFKA_PORT = 9092;
 
     private final YdbEnvironment env;
     private final int grpcsPort; // Secure connection
     private final int grpcPort;  // Non secure connection
+    private final int kafkaPort; // Non secure kafka port
 
     public YdbDockerContainer(YdbEnvironment env, PortsGenerator portGenerator) {
         super(env.dockerImage());
@@ -33,9 +35,11 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
         if (env.useDockerIsolation()) {
             this.grpcsPort = DEFAULT_SECURE_PORT;
             this.grpcPort = DEFAULT_INSECURE_PORT;
+            this.kafkaPort = DEFAULT_KAFKA_PORT;
         } else {
             this.grpcsPort = portGenerator.findAvailablePort();
             this.grpcPort = portGenerator.findAvailablePort();
+            this.kafkaPort = portGenerator.findAvailablePort();
         }
     }
 
@@ -43,10 +47,12 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
         addExposedPort(grpcPort);
         addExposedPort(grpcsPort);
 
+        withEnv("YDB_KAFKA_PROXY_PORT", String.valueOf(kafkaPort));
         if (!env.useDockerIsolation()) {
             // Host ports and container ports MUST BE equal - ydb implementation limitation
             addFixedExposedPort(grpcsPort, grpcsPort);
             addFixedExposedPort(grpcPort, grpcPort);
+            addFixedExposedPort(kafkaPort, kafkaPort);
 
             withEnv("GRPC_PORT", String.valueOf(grpcPort));
             withEnv("GRPC_TLS_PORT", String.valueOf(grpcsPort));
@@ -83,6 +89,10 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
 
     public EndpointRecord secureEndpoint() {
         return new EndpointRecord(getHost(), getMappedPort(grpcsPort));
+    }
+
+    public String nonSecureKafkaEndpoint(){
+        return getHost() + ":" + getMappedPort(kafkaPort);
     }
 
     public byte[] pemCert() {
