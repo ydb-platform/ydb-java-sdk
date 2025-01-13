@@ -91,21 +91,21 @@ public final class GrpcTopicRpc implements TopicRpc {
     }
 
     @Override
-    public GrpcReadWriteStream<
-        YdbTopic.StreamWriteMessage.FromServer,
-        YdbTopic.StreamWriteMessage.FromClient
-        > writeSession() {
-        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamWriteMethod(),
-                GrpcRequestSettings.newBuilder().build());
+    public GrpcReadWriteStream<YdbTopic.StreamWriteMessage.FromServer, YdbTopic.StreamWriteMessage.FromClient>
+            writeSession(String streamId) {
+        return transport.readWriteStreamCall(
+                TopicServiceGrpc.getStreamWriteMethod(),
+                GrpcRequestSettings.newBuilder().withTraceId(streamId).build()
+        );
     }
 
     @Override
-    public GrpcReadWriteStream<
-            YdbTopic.StreamReadMessage.FromServer,
-            YdbTopic.StreamReadMessage.FromClient
-            > readSession() {
-        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamReadMethod(),
-                GrpcRequestSettings.newBuilder().build());
+    public GrpcReadWriteStream<YdbTopic.StreamReadMessage.FromServer, YdbTopic.StreamReadMessage.FromClient>
+            readSession(String streamId) {
+        return transport.readWriteStreamCall(
+                TopicServiceGrpc.getStreamReadMethod(),
+                GrpcRequestSettings.newBuilder().withTraceId(streamId).build()
+        );
     }
 
     @Override

@@ -337,18 +337,17 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     private class WriteSessionImpl extends WriteSession {
         protected String sessionId = "";
-        private final String fullId;
         private final MessageSender messageSender;
         private final AtomicBoolean isInitialized = new AtomicBoolean(false);
 
         private WriteSessionImpl() {
-            super(topicRpc);
-            this.fullId = id + '.' + sessionSeqNumberCounter.incrementAndGet();
+            super(topicRpc, id + '.' + sessionSeqNumberCounter.incrementAndGet());
             this.messageSender = new MessageSender(settings);
         }
 
+        @Override
         public void startAndInitialize() {
-            logger.debug("[{}] Session {} startAndInitialize called", fullId, sessionId);
+            logger.debug("[{}] Session {} startAndInitialize called", streamId, sessionId);
             start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
@@ -377,43 +376,43 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             while (true) {
                 if (!isInitialized.get()) {
                     logger.debug("[{}] Can't send data: current session is not yet initialized",
-                            fullId);
+                            streamId);
                     return;
                 }
                 if (!isWorking.get()) {
                     logger.debug("[{}] Can't send data: current session has been already stopped",
-                            fullId);
+                            streamId);
                     return;
                 }
                 Queue<EnqueuedMessage> messages;
                 if (sendingQueue.isEmpty()) {
-                    logger.trace("[{}] Nothing to send -- sendingQueue is empty", fullId);
+                    logger.trace("[{}] Nothing to send -- sendingQueue is empty", streamId);
                     return;
                 }
                 if (!writeRequestInProgress.compareAndSet(false, true)) {
-                    logger.debug("[{}] Send request is already in progress", fullId);
+                    logger.debug("[{}] Send request is already in progress", streamId);
                     return;
                 }
                 // This code can be run in one thread at a time due to acquiring writeRequestInProgress
                 messages = new LinkedList<>(sendingQueue);
                 // Checking second time under writeRequestInProgress "lock"
                 if (messages.isEmpty()) {
-                    logger.debug("[{}] Nothing to send -- sendingQueue is empty #2", fullId);
+                    logger.debug("[{}] Nothing to send -- sendingQueue is empty #2", streamId);
                 } else {
                     sendingQueue.removeAll(messages);
                     sentMessages.addAll(messages);
                     messageSender.sendMessages(messages);
-                    logger.debug("[{}] Sent {} messages to server", fullId, messages.size());
+                    logger.debug("[{}] Sent {} messages to server", streamId, messages.size());
                 }
                 if (!writeRequestInProgress.compareAndSet(true, false)) {
-                    logger.error("[{}] Couldn't turn off writeRequestInProgress. Should not happen", fullId);
+                    logger.error("[{}] Couldn't turn off writeRequestInProgress. Should not happen", streamId);
                 }
             }
         }
 
         private void onInitResponse(YdbTopic.StreamWriteMessage.InitResponse response) {
             sessionId = response.getSessionId();
-            logger.info("[{}] Session {} initialized", fullId, sessionId);
+            logger.info("[{}] Session {} initialized", streamId, sessionId);
             long lastSeqNo = response.getLastSeqNo();
             long actualLastSeqNo = lastSeqNo;
             // If there are messages that were already sent before reconnect but haven't received acks,
@@ -440,7 +439,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         // Shouldn't be called more than once at a time due to grpc guarantees
         private void onWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse response) {
             List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks = response.getAcksList();
-            logger.debug("[{}] Received WriteResponse with {} WriteAcks", fullId, acks.size());
+            logger.debug("[{}] Received WriteResponse with {} WriteAcks", streamId, acks.size());
             int inFlightFreed = 0;
             long bytesFreed = 0;
             for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
@@ -459,7 +458,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     if (sentMessage.getSeqNo() < ack.getSeqNo()) {
                         // An older message hasn't received an Ack while a newer message has
                         logger.warn("[{}] Received an ack for seqNo {}, but the oldest seqNo waiting for ack is {}",
-                                fullId, ack.getSeqNo(), sentMessage.getSeqNo());
+                                streamId, ack.getSeqNo(), sentMessage.getSeqNo());
                         sentMessage.getFuture().completeExceptionally(
                                 new RuntimeException("Didn't get ack from server for this message"));
                         inFlightFreed++;
@@ -468,7 +467,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                         // Checking next message waiting for ack
                     } else {
                         logger.warn("[{}] Received an ack with seqNo {} which is older than the oldest message with " +
-                                "seqNo {} waiting for ack", fullId, ack.getSeqNo(), sentMessage.getSeqNo());
+                                "seqNo {} waiting for ack", streamId, ack.getSeqNo(), sentMessage.getSeqNo());
                         break;
                     }
                 }
@@ -477,13 +476,13 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
 
         private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
-            logger.debug("[{}] processMessage called", fullId);
+            logger.debug("[{}] processMessage called", streamId);
             if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
                 reconnectCounter.set(0);
             } else {
                 Status status = Status.of(StatusCode.fromProto(message.getStatus()),
                         Issue.fromPb(message.getIssuesList()));
-                logger.warn("[{}] Got non-success status in processMessage method: {}", fullId, status);
+                logger.warn("[{}] Got non-success status in processMessage method: {}", streamId, status);
                 closeDueToError(status, null);
                 return;
             }
@@ -496,7 +495,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         private void processWriteAck(EnqueuedMessage message,
                                      YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
-            logger.debug("[{}] Received WriteAck with seqNo {} and status {}", fullId, ack.getSeqNo(),
+            logger.debug("[{}] Received WriteAck with seqNo {} and status {}", streamId, ack.getSeqNo(),
                     ack.getMessageWriteStatusCase());
             WriteAck resultAck;
             switch (ack.getMessageWriteStatusCase()) {
@@ -526,7 +525,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
 
         private void closeDueToError(Status status, Throwable th) {
-            logger.info("[{}] Session {} closeDueToError called", fullId, sessionId);
+            logger.info("[{}] Session {} closeDueToError called", streamId, sessionId);
             if (shutdown()) {
                 // Signal writer to retry
                 onSessionClosed(status, th);
@@ -535,7 +534,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         @Override
         protected void onStop() {
-            logger.debug("[{}] Session {} onStop called", fullId, sessionId);
+            logger.debug("[{}] Session {} onStop called", streamId, sessionId);
         }
     }
 }
