@@ -88,6 +88,10 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     public void sendNext(W message) {
         synchronized (call) {
             if (flush()) {
+                if (logger.isTraceEnabled()) {
+                    String msg = TextFormat.shortDebugString((Message) message);
+                    logger.trace("ReadWriteStreamCall[{}] --> {}", traceId, msg);
+                }
                 call.sendMessage(message);
             } else {
                 messagesQueue.add(message);
@@ -103,7 +107,8 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
             }
 
             if (logger.isTraceEnabled()) {
-                logger.trace("ReadWriteStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) next));
+                String msg = TextFormat.shortDebugString((Message) next);
+                logger.trace("ReadWriteStreamCall[{}] --> {}", traceId, msg);
             }
             call.sendMessage(next);
         }
