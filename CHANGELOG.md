@@ -1,3 +1,10 @@
+## 2.3.8 ##
+
+* Topics: Added traceId for topic strems
+* Tests: Added kafka port to ydb test container
+* Table: Added support of special +Inf/-Inf values in non default decimal types
+* Table: Fixed PrimitiveValue.newTimestamp method
+
 ## 2.3.7 ##
 
 * Core: improved logging in BaseGrpcTrasnport and GrpcChannel
