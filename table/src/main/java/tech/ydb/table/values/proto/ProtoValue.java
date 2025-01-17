@@ -264,9 +264,7 @@ public class ProtoValue {
     }
 
     public static ValueProtos.Value fromDate32(long daysSinceEpoch) {
-        int daysInt = (int) (daysSinceEpoch & 0xffffffffL);
-
-        return ValueProtos.Value.newBuilder().setInt32Value(daysInt).build();
+        return ValueProtos.Value.newBuilder().setInt32Value((int)daysSinceEpoch).build();
     }
 
     public static LocalDate toDate32(long daysSinceEpoch) {
@@ -274,7 +272,7 @@ public class ProtoValue {
     }
 
     public static LocalDate toDate32(ValueProtos.Value value) {
-        return toDate(value.getInt32Value());
+        return toDate32(value.getInt32Value());
     }
 
     // - datetime -

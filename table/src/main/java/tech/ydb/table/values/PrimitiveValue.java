@@ -358,13 +358,13 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newTimestamp64(long microsSinceEpoch) {
-        return new InstantValue(PrimitiveType.Timestamp, microsSinceEpoch);
+        return new InstantValue(PrimitiveType.Timestamp64, microsSinceEpoch);
     }
 
     public static PrimitiveValue newTimestamp64(Instant value) {
         long micros = TimeUnit.SECONDS.toMicros(value.getEpochSecond()) +
                 TimeUnit.NANOSECONDS.toMicros(value.getNano());
-        return new InstantValue(PrimitiveType.Timestamp, micros);
+        return new InstantValue(PrimitiveType.Timestamp64, micros);
     }
 
     public static PrimitiveValue newInterval(long micros) {
@@ -380,7 +380,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newInterval64(Duration value) {
-        return newInterval(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
+        return newInterval64(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
     }
 
     public static PrimitiveValue newTzDate(ZonedDateTime dateTime) {
@@ -1018,8 +1018,8 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public String toString() {
             final int length = (value instanceof byte[])
-                ? ((byte[]) value).length
-                : ((ByteString) value).size();
+                    ? ((byte[]) value).length
+                    : ((ByteString) value).size();
 
             if (length == 0) {
                 return "\"\"";
@@ -1094,9 +1094,9 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         private static final Text EMPTY_JSON_DOCUMENT = new Text(PrimitiveType.JsonDocument, "");
 
         private static final Escaper ESCAPER = Escapers.builder()
-            .addEscape('\\', "\\\\")
-            .addEscape('\"', "\\\"")
-            .build();
+                .addEscape('\\', "\\\\")
+                .addEscape('\"', "\\\"")
+                .build();
 
         private final PrimitiveType type;
         private final String value;
@@ -1199,6 +1199,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
+        public LocalDate getDate32() {
+            checkType(PrimitiveType.Date32, type);
+            return ProtoValue.toDate32(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
+        }
+
+        @Override
+        public LocalDateTime getDatetime64() {
+            checkType(PrimitiveType.Datetime64, type);
+            return ProtoValue.toDatetime64(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
+        }
+
+        @Override
+        public Instant getTimestamp64() {
+            checkType(PrimitiveType.Timestamp64, type);
+            return ProtoValue.toTimestamp64(microsSinceEpoch);
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) {
                 return true;
@@ -1220,9 +1238,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public String toString() {
             switch (type) {
-                case Date: return DateTimeFormatter.ISO_DATE.format(getDate());
-                case Datetime: return DateTimeFormatter.ISO_DATE_TIME.format(getDatetime());
-                case Timestamp: return DateTimeFormatter.ISO_INSTANT.format(getTimestamp());
+                case Date:
+                    return DateTimeFormatter.ISO_DATE.format(getDate());
+                case Datetime:
+                    return DateTimeFormatter.ISO_DATE_TIME.format(getDatetime());
+                case Timestamp:
+                    return DateTimeFormatter.ISO_INSTANT.format(getTimestamp());
+                case Date32:
+                    return DateTimeFormatter.ISO_DATE.format(getDate32());
+                case Datetime64:
+                    return DateTimeFormatter.ISO_DATE_TIME.format(getDatetime64());
+                case Timestamp64:
+                    return DateTimeFormatter.ISO_INSTANT.format(getTimestamp64());
                 default:
                     throw new IllegalStateException("unsupported type: " + type);
             }
@@ -1231,9 +1258,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public ValueProtos.Value toPb() {
             switch (type) {
-                case Date: return ProtoValue.fromDate(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
-                case Datetime: return ProtoValue.fromDatetime(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
-                case Timestamp: return ProtoValue.fromTimestamp(microsSinceEpoch);
+                case Date:
+                    return ProtoValue.fromDate(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
+                case Datetime:
+                    return ProtoValue.fromDatetime(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
+                case Timestamp:
+                    return ProtoValue.fromTimestamp(microsSinceEpoch);
+                case Date32:
+                    return ProtoValue.fromDate32(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
+                case Datetime64:
+                    return ProtoValue.fromDatetime64(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
+                case Timestamp64:
+                    return ProtoValue.fromTimestamp64(microsSinceEpoch);
                 default:
                     throw new IllegalStateException("unsupported type: " + type);
             }
@@ -1241,19 +1277,26 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class IntervalValue extends PrimitiveValue {
+        private final PrimitiveType type;
         private final long micros;
 
-        IntervalValue(long micros) {
+        IntervalValue(PrimitiveType type, long micros) {
+            this.type = type;
             this.micros = micros;
         }
 
         @Override
         public PrimitiveType getType() {
-            return PrimitiveType.Interval;
+            return type;
         }
 
         @Override
         public Duration getInterval() {
+            return Duration.of(micros, ChronoUnit.MICROS);
+        }
+
+        @Override
+        public Duration getInterval64() {
             return Duration.of(micros, ChronoUnit.MICROS);
         }
 
@@ -1278,12 +1321,26 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public String toString() {
-            return getInterval().toString();
+            switch (type) {
+                case Interval:
+                    return getInterval().toString();
+                case Interval64:
+                    return getInterval64().toString();
+                default:
+                    throw new IllegalStateException("unsupported type: " + type);
+            }
         }
 
         @Override
         public ValueProtos.Value toPb() {
-            return ProtoValue.fromInterval(micros);
+            switch (type) {
+                case Interval:
+                    return ProtoValue.fromInterval(micros);
+                case Interval64:
+                    return ProtoValue.fromInterval64(micros);
+                default:
+                    throw new IllegalStateException("unsupported type: " + type);
+            }
         }
     }
 
@@ -1343,8 +1400,8 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public String toString() {
             String timeStr = (type == PrimitiveType.TzDate)
-                ? dateTime.toLocalDate().toString()
-                : dateTime.toLocalDateTime().toString();
+                    ? dateTime.toLocalDate().toString()
+                    : dateTime.toLocalDateTime().toString();
 
             return timeStr + ',' + dateTime.getZone().getId();
         }
