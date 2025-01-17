@@ -27,7 +27,7 @@ public class ValueReadTest {
 
     private final SessionRetryContext CTX = SessionRetryContext.create(QueryClient.newClient(ydbTransport).build()).build();
 
-//    @Test TODO
+    @Test
     public void date32datetime64timestamp64interval64() {
         date32datetime64timestamp64interval64Assert(
                 LocalDate.of(988, 2, 6),
@@ -45,11 +45,17 @@ public class ValueReadTest {
 
 
         QueryReader reader = CTX.supplyResult(
-                s -> QueryReader.readFrom(s.createQuery("SELECT " +
-                        "        Date32('998-06-02') AS c1,\n" +
-                        "        Datetime64('0998-06-02T12:30:00Z') AS c2,\n" +
-                        "        Timestamp64('0998-06-02T12:30:00.678901Z') AS c3,\n" +
-                        "        Interval64('-PT2S') AS c4;", TxMode.NONE))
+                s -> QueryReader.readFrom(s.createQuery("DECLARE $date32 AS Date32;\n" +
+                        "DECLARE $datetime64 AS Datetime64;\n" +
+                        "DECLARE $timestamp64 AS Timestamp64;\n" +
+                        "DECLARE $interval64 AS Interval64;\n" +
+                        "\n" +
+                        "$date32=Date32('998-06-02'); \n" +
+                        "$datetime64=Datetime64('0998-06-02T12:30:00Z');\n" +
+                        "$timestamp64=Timestamp64('0998-06-02T12:30:00.678901Z');\n" +
+                        "$interval64=Interval64('-PT2S');\n" +
+                        "\n" +
+                        "SELECT $date32, $datetime64, $timestamp64, $interval64;", TxMode.NONE))
         ).join().getValue();
 
         ResultSetReader resultSetReader = reader.getResultSet(0);
@@ -68,7 +74,7 @@ public class ValueReadTest {
                                 "DECLARE $date32 AS Date32;\n" +
                                 "DECLARE $datetime64 AS Datetime64;\n" +
                                 "DECLARE $timestamp64 AS Timestamp64;\n" +
-                                "DECLARE $interval64 AS Instant64;\n" +
+                                "DECLARE $interval64 AS Interval64;" +
                                 "SELECT $date32, $datetime64, $timestamp64, $interval64;",
                         TxMode.SERIALIZABLE_RW,
                         Params.of(
