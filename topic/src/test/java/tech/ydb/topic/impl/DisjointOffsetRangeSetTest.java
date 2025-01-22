@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.impl.DisjointOffsetRangeSet;
@@ -28,6 +29,13 @@ public class DisjointOffsetRangeSetTest {
         Assert.assertEquals(4, rangesResult.get(1).getEnd());
     }
 
+    private void assertException(ThrowingRunnable runnable, String addedRange, String existingRange) {
+        RuntimeException ex = Assert.assertThrows(RuntimeException.class, runnable);
+        String message = "Error adding new offset range. Added range " + addedRange +
+                " clashes with existing range " + existingRange;
+        Assert.assertEquals(message, ex.getMessage());
+    }
+
     @Test
     public void testReuseRangeSet() {
         DisjointOffsetRangeSet ranges = new DisjointOffsetRangeSet();
@@ -35,12 +43,12 @@ public class DisjointOffsetRangeSetTest {
         ranges.add(new OffsetsRangeImpl(30, 40));
         ranges.add(new OffsetsRangeImpl(10, 20));
         ranges.add(new OffsetsRangeImpl(0, 9));
-        Assert.assertThrows(RuntimeException.class, () -> ranges.add(new OffsetsRangeImpl(8, 11)));
-        Assert.assertThrows(RuntimeException.class, () -> ranges.add(new OffsetsRangeImpl(8, 10)));
-        Assert.assertThrows(RuntimeException.class, () -> ranges.add(new OffsetsRangeImpl(9, 11)));
-        Assert.assertThrows(RuntimeException.class, () -> ranges.add(new OffsetsRangeImpl(25, 31)));
-        Assert.assertThrows(RuntimeException.class, () -> ranges.add(new OffsetsRangeImpl(31, 100)));
-        Assert.assertThrows(RuntimeException.class, () -> ranges.add(new OffsetsRangeImpl(25, 100)));
+        assertException(() -> ranges.add(new OffsetsRangeImpl(8, 11)), "[8,11)", "[0,9)");
+        assertException(() -> ranges.add(new OffsetsRangeImpl(8, 10)), "[8,10)", "[0,9)");
+        assertException(() -> ranges.add(new OffsetsRangeImpl(9, 11)), "[9,11)", "[10,20)");
+        assertException(() -> ranges.add(new OffsetsRangeImpl(25, 31)), "[25,31)", "[30,40)");
+        assertException(() -> ranges.add(new OffsetsRangeImpl(31, 100)), "[31,100)", "[30,40)");
+        assertException(() -> ranges.add(new OffsetsRangeImpl(25, 100)), "[25,100)", "[30,40)");
         ranges.add(new OffsetsRangeImpl(9, 10));
         List<OffsetsRange> firstResult = ranges.getRangesAndClear();
         Assert.assertEquals(2, firstResult.size());
