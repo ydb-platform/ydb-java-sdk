@@ -426,7 +426,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             // TODO: remember supported codecs for further validation
             if (!sentMessages.isEmpty()) {
                 // resending messages that haven't received acks yet
-                logger.info("[{}] Resending {} messages that haven't received ack's yet into new session...", fullId,
+                logger.info("[{}] Resending {} messages that haven't received ack's yet into new session...", streamId,
                         sentMessages.size());
                 messageSender.sendMessages(sentMessages);
             }
