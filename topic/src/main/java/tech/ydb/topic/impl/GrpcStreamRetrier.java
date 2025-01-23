@@ -25,18 +25,19 @@ public abstract class GrpcStreamRetrier {
     protected final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
 
+    private final Logger logger;
     private final ScheduledExecutorService scheduler;
     private final RetryConfig retryConfig;
     private volatile int retryCount;
     private volatile long retryStartedAt;
 
-    protected GrpcStreamRetrier(RetryConfig retryConfig, ScheduledExecutorService scheduler) {
+    protected GrpcStreamRetrier(Logger logger, RetryConfig retryConfig, ScheduledExecutorService scheduler) {
+        this.logger = logger;
         this.retryConfig = retryConfig;
         this.scheduler = scheduler;
         this.id = generateRandomId(ID_LENGTH);
     }
 
-    protected abstract Logger getLogger();
     protected abstract String getStreamName();
     protected abstract void onStreamReconnect();
     protected abstract void onShutdown(String reason);
@@ -49,20 +50,20 @@ public abstract class GrpcStreamRetrier {
                 .toString();
     }
 
-    private void tryReconnect(long delay) {
+    private void tryScheduleReconnect(long delay) {
         if (!isReconnecting.compareAndSet(false, true)) {
-            getLogger().info("[{}] should reconnect {} stream, but reconnect is already in progress", id,
+            logger.info("[{}] should reconnect {} stream, but reconnect is already in progress", id,
                     getStreamName());
             return;
         }
 
-        getLogger().warn("[{}] Retry #{}. Scheduling {} reconnect in {}ms...", id, retryCount, getStreamName(), delay);
+        logger.warn("[{}] Retry #{}. Scheduling {} reconnect in {}ms...", id, retryCount, getStreamName(), delay);
         try {
             scheduler.schedule(this::reconnect, delay, TimeUnit.MILLISECONDS);
         } catch (RejectedExecutionException exception) {
             String errorMessage = "[" + id + "] Couldn't schedule reconnect: scheduler is already shut down. " +
                     "Shutting down " + getStreamName();
-            getLogger().error(errorMessage);
+            logger.error(errorMessage);
             shutdownImpl(errorMessage);
         }
     }
@@ -73,9 +74,9 @@ public abstract class GrpcStreamRetrier {
     }
 
     void reconnect() {
-        getLogger().info("[{}] {} reconnect #{} started", id, getStreamName(), retryCount);
+        logger.info("[{}] {} reconnect #{} started", id, getStreamName(), retryCount);
         if (!isReconnecting.compareAndSet(true, false)) {
-            getLogger().warn("Couldn't reset reconnect flag. Shouldn't happen");
+            logger.warn("Couldn't reset reconnect flag. Shouldn't happen");
         }
         onStreamReconnect();
     }
@@ -85,7 +86,7 @@ public abstract class GrpcStreamRetrier {
     }
 
     protected CompletableFuture<Void> shutdownImpl(String reason) {
-        getLogger().info("[{}] Shutting down {}"
+        logger.info("[{}] Shutting down {}"
                         + (reason == null || reason.isEmpty() ? "" : " with reason: " + reason), id, getStreamName());
         isStopped.set(true);
         return CompletableFuture.runAsync(() -> {
@@ -94,28 +95,28 @@ public abstract class GrpcStreamRetrier {
     }
 
     protected void onSessionClosed(Status status, Throwable th) {
-        getLogger().info("[{}] onSessionClosed called", id);
+        logger.info("[{}] onSessionClosed called", id);
 
         RetryPolicy retryPolicy = null;
         if (th != null) {
-            getLogger().error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
+            logger.error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
             retryPolicy = retryConfig.isThrowableRetryable(th);
         } else {
             if (status.isSuccess()) {
                 if (isStopped.get()) {
-                    getLogger().info("[{}] {} stream session closed successfully", id, getStreamName());
+                    logger.info("[{}] {} stream session closed successfully", id, getStreamName());
                     return;
                 } else {
-                    getLogger().warn("[{}] {} stream session was closed on working {}", id, getStreamName());
+                    logger.warn("[{}] {} stream session was closed on working {}", id, getStreamName());
                 }
             } else {
-                getLogger().warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
+                logger.warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
                 retryPolicy = retryConfig.isStatusRetryable(status.getCode());
             }
         }
 
         if (isStopped.get()) {
-            getLogger().info("[{}] {} is already stopped, no need to schedule reconnect", id, getStreamName());
+            logger.info("[{}] {} is already stopped, no need to schedule reconnect", id, getStreamName());
             return;
         }
 
@@ -126,23 +127,21 @@ public abstract class GrpcStreamRetrier {
             long delay = retryPolicy.nextRetryMs(retryCount + 1, System.currentTimeMillis() - retryStartedAt);
             if (delay >= 0) {
                 retryCount++;
-                tryReconnect(delay);
+                tryScheduleReconnect(delay);
                 return;
             }
         }
 
         long elapsedMs = retryStartedAt > 0 ? System.currentTimeMillis() - retryStartedAt : 0;
         if (!isStopped.compareAndSet(false, true)) {
-            getLogger().warn("[{}] Stopped after {} retries and {} ms elapsed. But {} is already shut down.",
+            logger.warn("[{}] Stopped after {} retries and {} ms elapsed. But {} is already shut down.",
                     id, retryCount, elapsedMs, getStreamName());
             return;
         }
 
         String errorMessage = "[" + id + "] Stopped after " + retryCount + " retries and " + elapsedMs +
                 " ms elapsed. Shutting down " + getStreamName();
-        getLogger().error(errorMessage);
+        logger.error(errorMessage);
         shutdownImpl(errorMessage);
     }
-
-
 }

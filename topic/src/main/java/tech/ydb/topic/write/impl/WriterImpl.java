@@ -66,7 +66,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
 
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
-        super(settings.getRetryConfig(), topicRpc.getScheduler());
+        super(logger, settings.getRetryConfig(), topicRpc.getScheduler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new WriteSessionImpl();
@@ -79,11 +79,6 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                 " with producerId \"" + settings.getProducerId() + "\"" +
                 " and messageGroupId \"" + settings.getMessageGroupId() + "\"";
         logger.info(message);
-    }
-
-    @Override
-    protected Logger getLogger() {
-        return logger;
     }
 
     @Override
