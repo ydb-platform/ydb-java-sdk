@@ -6,7 +6,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import org.slf4j.Logger;
 
@@ -27,18 +26,21 @@ public abstract class GrpcStreamRetrier {
     protected final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
 
+    private final Logger logger;
     private final ScheduledExecutorService scheduler;
     private final RetryMode retryMode;
     private final RetryPolicy retryPolicy = new DefaultRetryPolicy();
-    private final AtomicInteger retry = new AtomicInteger(-1);
 
-    protected GrpcStreamRetrier(RetryMode retryMode, ScheduledExecutorService scheduler) {
+    private volatile boolean connected = false;
+    private volatile int retryNumber = 0;
+
+    protected GrpcStreamRetrier(Logger logger, RetryMode retryMode, ScheduledExecutorService scheduler) {
+        this.logger = logger;
         this.retryMode = retryMode;
         this.scheduler = scheduler;
         this.id = generateRandomId(ID_LENGTH);
     }
 
-    protected abstract Logger getLogger();
     protected abstract String getStreamName();
     protected abstract void onStreamReconnect();
     protected abstract void onShutdown(String reason);
@@ -51,34 +53,34 @@ public abstract class GrpcStreamRetrier {
                 .toString();
     }
 
-    private void tryScheduleReconnect(int retryNumber) {
+    private void tryScheduleReconnect() {
         if (!isReconnecting.compareAndSet(false, true)) {
-            getLogger().info("[{}] should reconnect {} stream, but reconnect is already in progress", id,
+            logger.info("[{}] should reconnect {} stream, but reconnect is already in progress", id,
                     getStreamName());
             return;
         }
 
-        retry.set(retryNumber);
         long delay = retryPolicy.nextRetryMs(retryNumber, 0);
-        getLogger().warn("[{}] Retry #{}. Scheduling {} reconnect in {}ms...", id, retryNumber, getStreamName(), delay);
+        logger.warn("[{}] Retry #{}. Scheduling {} reconnect in {}ms...", id, retryNumber, getStreamName(), delay);
         try {
             scheduler.schedule(this::reconnect, delay, TimeUnit.MILLISECONDS);
         } catch (RejectedExecutionException exception) {
             String errorMessage = "[" + id + "] Couldn't schedule reconnect: scheduler is already shut down. " +
                     "Shutting down " + getStreamName();
-            getLogger().error(errorMessage);
+            logger.error(errorMessage);
             shutdownImpl(errorMessage);
         }
     }
 
     protected void resetRetries() {
-        retry.set(0);
+        retryNumber = 0;
+        connected = true;
     }
 
     void reconnect() {
-        getLogger().info("[{}] {} reconnect #{} started", id, getStreamName(), retry.get());
+        logger.info("[{}] {} reconnect #{} started", id, getStreamName(), retryNumber);
         if (!isReconnecting.compareAndSet(true, false)) {
-            getLogger().warn("Couldn't reset reconnect flag. Shouldn't happen");
+            logger.warn("Couldn't reset reconnect flag. Shouldn't happen");
         }
         onStreamReconnect();
     }
@@ -88,7 +90,7 @@ public abstract class GrpcStreamRetrier {
     }
 
     protected CompletableFuture<Void> shutdownImpl(String reason) {
-        getLogger().info("[{}] Shutting down {}"
+        logger.info("[{}] Shutting down {}"
                         + (reason == null || reason.isEmpty() ? "" : " with reason: " + reason), id, getStreamName());
         isStopped.set(true);
         return CompletableFuture.runAsync(() -> {
@@ -97,56 +99,45 @@ public abstract class GrpcStreamRetrier {
     }
 
     protected void onSessionClosed(Status status, Throwable th) {
-        getLogger().info("[{}] onSessionClosed called", id);
+        logger.info("[{}] onSessionClosed called", id);
 
         if (th != null) {
-            getLogger().error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
+            logger.warn("[{}] Exception in {} stream session: ", id, getStreamName(), th);
         } else {
             if (status.isSuccess()) {
                 if (isStopped.get()) {
-                    getLogger().info("[{}] {} stream session closed successfully", id, getStreamName());
+                    logger.info("[{}] {} stream session closed successfully", id, getStreamName());
                     return;
                 } else {
-                    getLogger().warn("[{}] {} stream session was closed on working {}", id, getStreamName(),
+                    logger.warn("[{}] {} stream session was closed on working {}", id, getStreamName(),
                             getStreamName());
                 }
             } else {
-                getLogger().warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
+                logger.warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
             }
         }
 
         if (isStopped.get()) {
-            getLogger().info("[{}] {} is already stopped, no need to schedule reconnect", id, getStreamName());
+            logger.info("[{}] {} is already stopped, no need to schedule reconnect", id, getStreamName());
             return;
         }
 
-        int currentRetry = nextRetryNumber();
-        if (currentRetry > 0) {
-            tryScheduleReconnect(currentRetry);
+        if (retryMode == RetryMode.ALWAYS || (retryMode == RetryMode.RECOVER && connected)) {
+            retryNumber++;
+            tryScheduleReconnect();
             return;
         }
 
         if (!isStopped.compareAndSet(false, true)) {
-            getLogger().warn("[{}] Stopped by retry mode {} after {} retries. But {} is already shut down.", id,
-                    retryMode, currentRetry, getStreamName());
+            logger.warn("[{}] Stopped by retry mode {} after {} retries. But {} is already shut down.", id,
+                    retryMode, retryNumber, getStreamName());
             return;
         }
 
-        String errorMessage = "[" + id + "] Stopped by retry mode " + retryMode + " after " + currentRetry +
+        String errorMessage = "[" + id + "] Stopped by retry mode " + retryMode + " after " + retryNumber +
                 " retries. Shutting down " + getStreamName();
-        getLogger().error(errorMessage);
+        logger.warn(errorMessage);
         shutdownImpl(errorMessage);
-    }
-
-    private int nextRetryNumber() {
-        int next = retry.get() + 1;
-        switch (retryMode) {
-            case RECOVER: return next;
-            case ALWAYS: return Math.max(1, next);
-            case NONE:
-            default:
-                return 0;
-        }
     }
 
     private static class DefaultRetryPolicy extends ExponentialBackoffRetry {

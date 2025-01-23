@@ -55,7 +55,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     private final String consumerName;
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
-        super(settings.getRetryMode(), topicRpc.getScheduler());
+        super(logger, settings.getRetryMode(), topicRpc.getScheduler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new ReadSessionImpl();
@@ -86,11 +86,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             consumerName = "NoConsumer";
         }
         logger.info(message.toString());
-    }
-
-    @Override
-    protected Logger getLogger() {
-        return logger;
     }
 
     @Override
