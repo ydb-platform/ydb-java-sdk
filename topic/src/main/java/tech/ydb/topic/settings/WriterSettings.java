@@ -2,7 +2,10 @@ package tech.ydb.topic.settings;
 
 import java.util.function.BiConsumer;
 
+import tech.ydb.common.retry.RetryConfig;
+import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.topic.description.Codec;
 
 /**
@@ -17,9 +20,9 @@ public class WriterSettings {
     private final String messageGroupId;
     private final Long partitionId;
     private final Codec codec;
+    private final RetryConfig retryConfig;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
-    private final BiConsumer<Status, Throwable> errorsHandler;
 
     private WriterSettings(Builder builder) {
         this.topicPath = builder.topicPath;
@@ -27,9 +30,9 @@ public class WriterSettings {
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
         this.codec = builder.codec;
+        this.retryConfig = builder.retryConfig;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
-        this.errorsHandler = builder.errorsHandler;
     }
 
     public static Builder newBuilder() {
@@ -48,8 +51,9 @@ public class WriterSettings {
         return messageGroupId;
     }
 
+    @Deprecated
     public BiConsumer<Status, Throwable> getErrorsHandler() {
-        return errorsHandler;
+        return null;
     }
 
     public Long getPartitionId() {
@@ -58,6 +62,10 @@ public class WriterSettings {
 
     public Codec getCodec() {
         return codec;
+    }
+
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
     }
 
     public long getMaxSendBufferMemorySize() {
@@ -77,9 +85,9 @@ public class WriterSettings {
         private String messageGroupId = null;
         private Long partitionId = null;
         private Codec codec = Codec.GZIP;
+        private RetryConfig retryConfig = RetryConfig.idempotentRetryForever();
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
-        private BiConsumer<Status, Throwable> errorsHandler = null;
 
         /**
          * Set path to a topic to write to
@@ -136,6 +144,16 @@ public class WriterSettings {
         }
 
         /**
+         * Set {@link RetryConfig} to define behavior of the stream internal retries
+         * @param config retry mode
+         * @return settings builder
+         */
+        public Builder setRetryConfig(RetryConfig config) {
+            this.retryConfig = config;
+            return this;
+        }
+
+        /**
          * Set memory usage limit for send buffer.
          * Writer will not accept new messages if memory usage exceeds this limit.
          * Memory usage consists of raw data pending compression and compressed messages being sent.
@@ -158,8 +176,27 @@ public class WriterSettings {
             return this;
         }
 
+        /**
+         * @param handler
+         * @return builder
+         * @deprecated use {@link Builder#setRetryConfig(tech.ydb.common.retry.RetryConfig)} instead
+         */
+        @Deprecated
         public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
-            this.errorsHandler = handler;
+            final RetryConfig currentConfig = retryConfig;
+            retryConfig = new RetryConfig() {
+                @Override
+                public RetryPolicy isStatusRetryable(StatusCode code) {
+                    handler.accept(Status.of(code), null);
+                    return currentConfig.isStatusRetryable(code);
+                }
+
+                @Override
+                public RetryPolicy isThrowableRetryable(Throwable th) {
+                    handler.accept(null, th);
+                    return currentConfig.isThrowableRetryable(th);
+                }
+            };
             return this;
         }
 
