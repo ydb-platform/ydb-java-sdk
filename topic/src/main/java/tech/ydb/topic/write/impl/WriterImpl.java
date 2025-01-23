@@ -413,8 +413,9 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             sessionId = response.getSessionId();
             long lastSeqNo = response.getLastSeqNo();
             long actualLastSeqNo = lastSeqNo;
-            logger.info("[{}] Session initialized with id {} (partition {}), lastSeqNo {}, actualLastSeqNo {}",
-                    streamId, sessionId, response.getPartitionId(), lastSeqNo, actualLastSeqNo);
+            logger.info("[{}] Session with id {} (partition {}) initialized for topic \"{}\", lastSeqNo {}," +
+                            " actualLastSeqNo {}", streamId, sessionId, response.getPartitionId(),
+                    settings.getTopicPath(), lastSeqNo, actualLastSeqNo);
             // If there are messages that were already sent before reconnect but haven't received acks,
             // their highest seqNo should also be taken in consideration when calculating next seqNo automatically
             if (!sentMessages.isEmpty()) {

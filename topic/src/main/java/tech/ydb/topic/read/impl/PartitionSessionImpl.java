@@ -39,7 +39,8 @@ public class PartitionSessionImpl {
 
     private final long id;
     private final String fullId;
-    private final String path;
+    private final String topicPath;
+    private final String consumerName;
     private final long partitionId;
     private final PartitionSession sessionInfo;
     private final Executor decompressionExecutor;
@@ -60,17 +61,18 @@ public class PartitionSessionImpl {
     private PartitionSessionImpl(Builder builder) {
         this.id = builder.id;
         this.fullId = builder.fullId;
-        this.path = builder.path;
+        this.topicPath = builder.topicPath;
+        this.consumerName = builder.consumerName;
         this.partitionId = builder.partitionId;
-        this.sessionInfo = new PartitionSession(id, partitionId, path);
+        this.sessionInfo = new PartitionSession(id, partitionId, topicPath);
         this.lastReadOffset = builder.committedOffset;
         this.lastCommittedOffset = builder.committedOffset;
         this.decompressionExecutor = builder.decompressionExecutor;
         this.dataEventCallback = builder.dataEventCallback;
         this.commitFunction = builder.commitFunction;
-        logger.info("[{}] Partition session for {} is started. CommittedOffset: {}. " +
-                "Partition offsets: {}-{}", fullId, path, lastReadOffset, builder.partitionOffsets.getStart(),
-                builder.partitionOffsets.getEnd());
+        logger.info("[{}] Partition session is started for Topic \"{}\" and Consumer \"{}\". CommittedOffset: {}. " +
+                "Partition offsets: {}-{}", fullId, topicPath, consumerName, lastReadOffset,
+                builder.partitionOffsets.getStart(), builder.partitionOffsets.getEnd());
     }
 
     public static Builder newBuilder() {
@@ -89,8 +91,8 @@ public class PartitionSessionImpl {
         return partitionId;
     }
 
-    public String getPath() {
-        return path;
+    public String getTopicPath() {
+        return topicPath;
     }
 
     public PartitionSession getSessionInfo() {
@@ -216,7 +218,7 @@ public class PartitionSessionImpl {
                 logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session " +
                         "is already closed", fullId, rangeToCommit.getStart(), rangeToCommit.getEnd());
                 resultFuture.completeExceptionally(new RuntimeException("Partition session " + id + " (partition " +
-                        partitionId + ") for " + path + " is already closed"));
+                        partitionId + ") for " + topicPath + " is already closed"));
                 return resultFuture;
             }
         } finally {
@@ -315,7 +317,7 @@ public class PartitionSessionImpl {
             DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead, offsetsToCommit);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
-                                "to be called...", fullId, messagesToRead.size(),messagesToRead.get(0).getOffset(),
+                                "to be called...", fullId, messagesToRead.size(), messagesToRead.get(0).getOffset(),
                         messagesToRead.get(messagesToRead.size() - 1).getOffset());
             }
             dataEventCallback.apply(event)
@@ -348,9 +350,9 @@ public class PartitionSessionImpl {
         try {
             isWorking.set(false);
             logger.info("[{}] Partition session for {} is shutting down. Failing {} commit futures...", fullId,
-                    path, commitFutures.size());
+                    topicPath, commitFutures.size());
             commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session " + id +
-                    " (partition " + partitionId + ") for " + path + " is closed")));
+                    " (partition " + partitionId + ") for " + topicPath + " is closed")));
         } finally {
             commitFuturesLock.unlock();
         }
@@ -371,7 +373,8 @@ public class PartitionSessionImpl {
     public static class Builder {
         private long id;
         private String fullId;
-        private String path;
+        private String topicPath;
+        private String consumerName;
         private long partitionId;
         private long committedOffset;
         private OffsetsRange partitionOffsets;
@@ -389,8 +392,13 @@ public class PartitionSessionImpl {
             return this;
         }
 
-        public Builder setPath(String path) {
-            this.path = path;
+        public Builder setTopicPath(String topicPath) {
+            this.topicPath = topicPath;
+            return this;
+        }
+
+        public Builder setConsumerName(String consumerName) {
+            this.consumerName = consumerName;
             return this;
         }
 

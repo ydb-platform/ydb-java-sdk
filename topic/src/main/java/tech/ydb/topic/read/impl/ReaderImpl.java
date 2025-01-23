@@ -71,7 +71,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             message.append(" \"").append(settings.getReaderName()).append("\"");
         }
         message.append(" (generated id ").append(id).append(")");
-        message.append(" created for topic(s): ");
+        message.append(" created for Topic(s) ");
         for (TopicReadSettings topic : settings.getTopics()) {
             if (topic != settings.getTopics().get(0)) {
                 message.append(", ");
@@ -79,7 +79,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             message.append("\"").append(topic.getPath()).append("\"");
         }
         if (settings.getConsumerName() != null) {
-            message.append(" and Consumer: \"").append(settings.getConsumerName()).append("\"");
+            message.append(" and Consumer \"").append(settings.getConsumerName());
             consumerName = settings.getConsumerName();
         } else {
             message.append(" without a Consumer");
@@ -392,7 +392,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             long partitionSessionId = request.getPartitionSession().getPartitionSessionId();
             long partitionId = request.getPartitionSession().getPartitionId();
             String partitionSessionFullId = streamId + '/' + partitionSessionId + "-p" + partitionId;
-            logger.info("[{}] Received StartPartitionSessionRequest for Topic {} and Consumer {}. " +
+            logger.info("[{}] Received StartPartitionSessionRequest for Topic \"{}\" and Consumer \"{}\". " +
                             "Partition session {} (partition {}) with committedOffset {} and partitionOffsets [{}-{})",
                     partitionSessionFullId, request.getPartitionSession().getPath(), consumerName,
                     partitionSessionId, partitionId, request.getCommittedOffset(),
@@ -401,7 +401,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             PartitionSessionImpl partitionSession = PartitionSessionImpl.newBuilder()
                     .setId(partitionSessionId)
                     .setFullId(partitionSessionFullId)
-                    .setPath(request.getPartitionSession().getPath())
+                    .setTopicPath(request.getPartitionSession().getPath())
                     .setPartitionId(partitionId)
                     .setCommittedOffset(request.getCommittedOffset())
                     .setPartitionOffsets(new OffsetsRangeImpl(request.getPartitionOffsets().getStart(),
