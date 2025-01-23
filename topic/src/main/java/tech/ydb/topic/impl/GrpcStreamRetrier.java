@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.slf4j.Logger;
 
 import tech.ydb.core.Status;
+import tech.ydb.topic.settings.RetryMode;
 
 /**
  * @author Nikolay Perfilov
@@ -26,13 +27,15 @@ public abstract class GrpcStreamRetrier {
     private static final char[] ID_ALPHABET = "abcdefghijklmnopqrstuvwxyzABSDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
             .toCharArray();
 
+    private final RetryMode retryMode;
     protected final String id;
     protected final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
     private final ScheduledExecutorService scheduler;
     protected final AtomicInteger reconnectCounter = new AtomicInteger(0);
 
-    protected GrpcStreamRetrier(ScheduledExecutorService scheduler) {
+    protected GrpcStreamRetrier(RetryMode retryMode, ScheduledExecutorService scheduler) {
+        this.retryMode = retryMode;
         this.scheduler = scheduler;
         this.id = generateRandomId(ID_LENGTH);
     }
