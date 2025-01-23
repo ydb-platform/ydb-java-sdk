@@ -515,7 +515,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
             logger.debug("[{}] processMessage called", streamId);
             if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
-                reconnectCounter.set(0);
+                resetRetries();
             } else {
                 Status status = Status.of(StatusCode.fromProto(message.getStatus()),
                         Issue.fromPb(message.getIssuesList()));
