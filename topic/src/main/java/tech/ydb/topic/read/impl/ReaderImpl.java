@@ -52,6 +52,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     // Every reading stream has a sequential number (for debug purposes)
     private final AtomicLong seqNumberCounter = new AtomicLong(0);
+    private final String consumerName;
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         super(topicRpc.getScheduler());
@@ -70,7 +71,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             message.append(" \"").append(settings.getReaderName()).append("\"");
         }
         message.append(" (generated id ").append(id).append(")");
-        message.append(" created for topic(s): ");
+        message.append(" created for Topic(s) ");
         for (TopicReadSettings topic : settings.getTopics()) {
             if (topic != settings.getTopics().get(0)) {
                 message.append(", ");
@@ -78,9 +79,11 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             message.append("\"").append(topic.getPath()).append("\"");
         }
         if (settings.getConsumerName() != null) {
-            message.append(" and Consumer: \"").append(settings.getConsumerName()).append("\"");
+            message.append(" and Consumer \"").append(settings.getConsumerName());
+            consumerName = settings.getConsumerName();
         } else {
             message.append(" without a Consumer");
+            consumerName = "NoConsumer";
         }
         logger.info(message.toString());
     }
@@ -209,7 +212,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     }
 
     protected class ReadSessionImpl extends ReadSession {
-        protected String sessionId = "";
+        protected String sessionId;
         // Total size to request with next ReadRequest.
         // Used to group several ReadResponses in one on high rps
         private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
@@ -220,7 +223,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
         @Override
         public void startAndInitialize() {
-            logger.debug("[{}] Session {} startAndInitialize called", streamId, sessionId);
+            logger.debug("[{}] Session startAndInitialize called", streamId);
             start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
@@ -273,15 +276,13 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         private void sendStartPartitionSessionResponse(PartitionSessionImpl partitionSession,
                                                          StartPartitionSessionSettings startSettings) {
             if (!isWorking.get()) {
-                logger.info("[{}] Need to send StartPartitionSessionResponse for partition session {} (partition {})," +
-                        " but reading session is already closed", streamId, partitionSession.getId(),
-                        partitionSession.getPartitionId());
+                logger.info("[{}] Need to send StartPartitionSessionResponse, but reading session is already closed",
+                        partitionSession.getFullId());
                 return;
             }
             if (!partitionSessions.containsKey(partitionSession.getId())) {
-                logger.info("[{}] Need to send StartPartitionSessionResponse for partition session {} (partition {})," +
-                                " but have no such partition session active", streamId, partitionSession.getId(),
-                        partitionSession.getPartitionId());
+                logger.info("[{}] Need to send StartPartitionSessionResponse, but have no such active partition " +
+                        "session anymore", partitionSession.getFullId());
                 return;
             }
             YdbTopic.StreamReadMessage.StartPartitionSessionResponse.Builder responseBuilder =
@@ -301,9 +302,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     partitionSession.setLastCommittedOffset(userDefinedCommitOffset);
                 }
             }
-            logger.info("[{}] Sending StartPartitionSessionResponse for partition session {} (partition {})" +
-                            " with readOffset {} and commitOffset {}", streamId, partitionSession.getId(),
-                    partitionSession.getPartitionId(), userDefinedReadOffset, userDefinedCommitOffset);
+            logger.info("[{}] Sending StartPartitionSessionResponse with readOffset {} and commitOffset {}",
+                    partitionSession.getFullId(), userDefinedReadOffset, userDefinedCommitOffset);
             send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                     .setStartPartitionSessionResponse(responseBuilder.build())
                     .build());
@@ -318,8 +318,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             PartitionSessionImpl partitionSession = partitionSessions.remove(partitionSessionId);
             if (partitionSession != null) {
                 partitionSession.shutdown();
-                logger.info("[{}] Sending StopPartitionSessionResponse for partition session {} (partition {})",
-                        streamId, partitionSessionId, partitionSession.getPartitionId());
+                logger.info("[{}] Sending StopPartitionSessionResponse", partitionSession.getFullId());
             } else {
                 logger.warn("[{}] Sending StopPartitionSessionResponse for partition session {}, " +
                         "but have no such partition session active", streamId, partitionSessionId);
@@ -392,14 +391,17 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         private void onStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
             long partitionSessionId = request.getPartitionSession().getPartitionSessionId();
             long partitionId = request.getPartitionSession().getPartitionId();
-            logger.info("[{}] Received StartPartitionSessionRequest: partition session {} (partition {}) " +
-                            "with committedOffset {} and partitionOffsets [{}-{})", streamId,
+            String partitionSessionFullId = streamId + '/' + partitionSessionId + "-p" + partitionId;
+            logger.info("[{}] Received StartPartitionSessionRequest for Topic \"{}\" and Consumer \"{}\". " +
+                            "Partition session {} (partition {}) with committedOffset {} and partitionOffsets [{}-{})",
+                    partitionSessionFullId, request.getPartitionSession().getPath(), consumerName,
                     partitionSessionId, partitionId, request.getCommittedOffset(),
                     request.getPartitionOffsets().getStart(), request.getPartitionOffsets().getEnd());
 
             PartitionSessionImpl partitionSession = PartitionSessionImpl.newBuilder()
                     .setId(partitionSessionId)
-                    .setPath(request.getPartitionSession().getPath())
+                    .setFullId(partitionSessionFullId)
+                    .setTopicPath(request.getPartitionSession().getPath())
                     .setPartitionId(partitionId)
                     .setCommittedOffset(request.getCommittedOffset())
                     .setPartitionOffsets(new OffsetsRangeImpl(request.getPartitionOffsets().getStart(),
@@ -418,8 +420,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             if (request.getGraceful()) {
                 PartitionSessionImpl partitionSession = partitionSessions.get(request.getPartitionSessionId());
                 if (partitionSession != null) {
-                    logger.info("[{}] Received graceful StopPartitionSessionRequest for partition session {} " +
-                            "(partition {})", streamId, partitionSession.getId(), partitionSession.getPartitionId());
+                    logger.info("[{}] Received graceful StopPartitionSessionRequest", partitionSession.getFullId());
                     handleStopPartitionSession(request, partitionSession.getSessionInfo(),
                             () -> sendStopPartitionSessionResponse(request.getPartitionSessionId()));
                 } else {
@@ -433,8 +434,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             } else {
                 PartitionSessionImpl partitionSession = partitionSessions.remove(request.getPartitionSessionId());
                 if (partitionSession != null) {
-                    logger.info("[{}] Received force StopPartitionSessionRequest for partition session {} (partition " +
-                                    "{})", streamId, partitionSession.getId(), partitionSession.getPartitionId());
+                    logger.info("[{}] Received force StopPartitionSessionRequest", partitionSession.getFullId());
                     closePartitionSession(partitionSession);
                 } else {
                     logger.info("[{}] Received force StopPartitionSessionRequest for partition session {}, " +

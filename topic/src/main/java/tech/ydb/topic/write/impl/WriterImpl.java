@@ -336,7 +336,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     }
 
     private class WriteSessionImpl extends WriteSession {
-        protected String sessionId = "";
+        protected String sessionId;
         private final MessageSender messageSender;
         private final AtomicBoolean isInitialized = new AtomicBoolean(false);
 
@@ -347,7 +347,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         @Override
         public void startAndInitialize() {
-            logger.debug("[{}] Session {} startAndInitialize called", streamId, sessionId);
+            logger.debug("[{}] Session startAndInitialize called", streamId);
             start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamWriteMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamWriteMessage.InitRequest
@@ -375,8 +375,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         private void sendDataRequestIfNeeded() {
             while (true) {
                 if (!isInitialized.get()) {
-                    logger.debug("[{}] Can't send data: current session is not yet initialized",
-                            streamId);
+                    logger.debug("[{}] Can't send data: current session is not yet initialized", streamId);
                     return;
                 }
                 if (!isWorking.get()) {
@@ -412,9 +411,11 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
         private void onInitResponse(YdbTopic.StreamWriteMessage.InitResponse response) {
             sessionId = response.getSessionId();
-            logger.info("[{}] Session {} initialized", streamId, sessionId);
             long lastSeqNo = response.getLastSeqNo();
             long actualLastSeqNo = lastSeqNo;
+            logger.info("[{}] Session with id {} (partition {}) initialized for topic \"{}\", lastSeqNo {}," +
+                            " actualLastSeqNo {}", streamId, sessionId, response.getPartitionId(),
+                    settings.getTopicPath(), lastSeqNo, actualLastSeqNo);
             // If there are messages that were already sent before reconnect but haven't received acks,
             // their highest seqNo should also be taken in consideration when calculating next seqNo automatically
             if (!sentMessages.isEmpty()) {
@@ -425,7 +426,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             // TODO: remember supported codecs for further validation
             if (!sentMessages.isEmpty()) {
                 // resending messages that haven't received acks yet
-                logger.info("Resending {} messages that haven't received ack's yet into new session...",
+                logger.info("[{}] Resending {} messages that haven't received ack's yet into new session...", streamId,
                         sentMessages.size());
                 messageSender.sendMessages(sentMessages);
             }

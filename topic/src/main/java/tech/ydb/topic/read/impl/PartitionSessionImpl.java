@@ -38,7 +38,9 @@ public class PartitionSessionImpl {
     private static final Logger logger = LoggerFactory.getLogger(PartitionSessionImpl.class);
 
     private final long id;
-    private final String path;
+    private final String fullId;
+    private final String topicPath;
+    private final String consumerName;
     private final long partitionId;
     private final PartitionSession sessionInfo;
     private final Executor decompressionExecutor;
@@ -58,17 +60,19 @@ public class PartitionSessionImpl {
 
     private PartitionSessionImpl(Builder builder) {
         this.id = builder.id;
-        this.path = builder.path;
+        this.fullId = builder.fullId;
+        this.topicPath = builder.topicPath;
+        this.consumerName = builder.consumerName;
         this.partitionId = builder.partitionId;
-        this.sessionInfo = new PartitionSession(id, partitionId, path);
+        this.sessionInfo = new PartitionSession(id, partitionId, topicPath);
         this.lastReadOffset = builder.committedOffset;
         this.lastCommittedOffset = builder.committedOffset;
         this.decompressionExecutor = builder.decompressionExecutor;
         this.dataEventCallback = builder.dataEventCallback;
         this.commitFunction = builder.commitFunction;
-        logger.info("[{}] Partition session {} (partition {}) is started. CommittedOffset: {}. " +
-                "Partition offsets: {}-{}", path, id, partitionId, lastReadOffset, builder.partitionOffsets.getStart(),
-                builder.partitionOffsets.getEnd());
+        logger.info("[{}] Partition session is started for Topic \"{}\" and Consumer \"{}\". CommittedOffset: {}. " +
+                "Partition offsets: {}-{}", fullId, topicPath, consumerName, lastReadOffset,
+                builder.partitionOffsets.getStart(), builder.partitionOffsets.getEnd());
     }
 
     public static Builder newBuilder() {
@@ -79,12 +83,16 @@ public class PartitionSessionImpl {
         return id;
     }
 
+    public long getFullId() {
+        return id;
+    }
+
     public long getPartitionId() {
         return partitionId;
     }
 
-    public String getPath() {
-        return path;
+    public String getTopicPath() {
+        return topicPath;
     }
 
     public PartitionSession getSessionInfo() {
@@ -110,13 +118,11 @@ public class PartitionSessionImpl {
             List<YdbTopic.StreamReadMessage.ReadResponse.MessageData> batchMessages = batch.getMessageDataList();
             if (!batchMessages.isEmpty()) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("[{}] Received a batch of {} messages (offsets {} - {}) for partition session {} " +
-                                    "(partition {})", path, batchMessages.size(), batchMessages.get(0).getOffset(),
-                            batchMessages.get(batchMessages.size() - 1).getOffset(), id, partitionId);
+                    logger.debug("[{}] Received a batch of {} messages (offsets {} - {})", fullId, batchMessages.size(),
+                            batchMessages.get(0).getOffset(), batchMessages.get(batchMessages.size() - 1).getOffset());
                 }
             } else {
-                logger.error("[{}] Received empty batch for partition session {} (partition {}). This shouldn't happen",
-                        path, id, partitionId);
+                logger.error("[{}] Received empty batch. This shouldn't happen", fullId);
             }
             batchMessages.forEach(messageData -> {
                 long commitOffsetFrom = lastReadOffset;
@@ -125,14 +131,12 @@ public class PartitionSessionImpl {
                 if (newReadOffset > lastReadOffset) {
                     lastReadOffset = newReadOffset;
                     if (logger.isTraceEnabled()) {
-                        logger.trace("[{}] Received a message with offset {} for partition session {} " +
-                                        "(partition {}). lastReadOffset is now {}", path, messageOffset, id,
-                                partitionId, lastReadOffset);
+                        logger.trace("[{}] Received a message with offset {}. lastReadOffset is now {}", fullId,
+                                messageOffset, lastReadOffset);
                     }
                 } else {
-                    logger.error("[{}] Received a message with offset {} which is less than last read offset {} " +
-                                    "for partition session {} (partition {})", path, messageOffset, lastReadOffset, id,
-                            partitionId);
+                    logger.error("[{}] Received a message with offset {} which is less than last read offset {} ",
+                            fullId, messageOffset, lastReadOffset);
                 }
                 newBatch.addMessage(new MessageImpl.Builder()
                         .setBatchMeta(batchMeta)
@@ -175,10 +179,9 @@ public class PartitionSessionImpl {
                                     decodingBatches.remove();
                                     if (logger.isTraceEnabled()) {
                                         List<MessageImpl> messages = decodingBatch.getMessages();
-                                        logger.trace("[{}] Adding batch with offsets {}-{} to reading queue of " +
-                                                        "partition session {} (partition {})", path,
+                                        logger.trace("[{}] Adding batch with offsets {}-{} to reading queue", fullId,
                                                 messages.get(0).getOffset(),
-                                                messages.get(messages.size() - 1).getOffset(), id, partitionId);
+                                                messages.get(messages.size() - 1).getOffset());
                                     }
                                     readingQueue.add(decodingBatch);
                                     haveNewBatchesReady = true;
@@ -206,18 +209,16 @@ public class PartitionSessionImpl {
         try {
             if (isWorking.get()) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("[{}] Offset range [{}, {}) is requested to be committed for partition session {} " +
-                                    "(partition {}). Last committed offset is {} (commit lag is {})", path,
-                            rangeToCommit.getStart(), rangeToCommit.getEnd(), id, partitionId, lastCommittedOffset,
-                            rangeToCommit.getStart() - lastCommittedOffset);
+                    logger.debug("[{}] Offset range [{}, {}) is requested to be committed. Last committed offset is" +
+                                    " {} (commit lag is {})", fullId, rangeToCommit.getStart(), rangeToCommit.getEnd(),
+                            lastCommittedOffset, rangeToCommit.getStart() - lastCommittedOffset);
                 }
                 commitFutures.put(rangeToCommit.getEnd(), resultFuture);
             } else {
-                logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session {} " +
-                        "(partition {}) is already closed", path, rangeToCommit.getStart(), rangeToCommit.getEnd(), id,
-                        partitionId);
+                logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session " +
+                        "is already closed", fullId, rangeToCommit.getStart(), rangeToCommit.getEnd());
                 resultFuture.completeExceptionally(new RuntimeException("Partition session " + id + " (partition " +
-                        partitionId + ") for " + path + " is already closed"));
+                        partitionId + ") for " + topicPath + " is already closed"));
                 return resultFuture;
             }
         } finally {
@@ -233,18 +234,16 @@ public class PartitionSessionImpl {
     public void commitOffsetRanges(List<OffsetsRange> rangesToCommit) {
         if (isWorking.get()) {
             if (logger.isInfoEnabled()) {
-                StringBuilder message = new StringBuilder("[").append(path)
-                        .append("] Sending CommitRequest for partition session ").append(id)
-                        .append(" (partition ").append(partitionId).append(") with offset ranges ");
+                StringBuilder message = new StringBuilder("[").append(fullId)
+                        .append("] Sending CommitRequest with offset ranges ");
                 addRangesToString(message, rangesToCommit);
                 logger.debug(message.toString());
             }
             commitFunction.accept(rangesToCommit);
         } else if (logger.isInfoEnabled()) {
-            StringBuilder message = new StringBuilder("[").append(path).append("] Offset ranges ");
+            StringBuilder message = new StringBuilder("[").append(fullId).append("] Offset ranges ");
             addRangesToString(message, rangesToCommit);
-            message.append(" are requested to be committed, but partition session ").append(id)
-                    .append(" (partition ").append(partitionId).append(") is already closed");
+            message.append(" are requested to be committed, but partition session is already closed");
             logger.info(message.toString());
         }
     }
@@ -261,17 +260,15 @@ public class PartitionSessionImpl {
 
     public void handleCommitResponse(long committedOffset) {
         if (committedOffset <= lastCommittedOffset) {
-            logger.error("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
-                            " which is not greater than previous committed offset: {}.", path, id, partitionId,
-                    committedOffset, lastCommittedOffset);
+            logger.error("[{}] Commit response received. Committed offset: {} which is less than previous " +
+                    "committed offset: {}.", fullId, committedOffset, lastCommittedOffset);
             return;
         }
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
         if (logger.isDebugEnabled()) {
-            logger.debug("[{}] Commit response received for partition session {} (partition {}). Committed offset: {}" +
-                            ". Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures",
-                    path, id, partitionId, committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset,
-                    futuresToComplete.size());
+            logger.debug("[{}] Commit response received. Committed offset: {}. Previous committed offset: {} " +
+                            "(diff is {} message(s)). Completing {} commit futures", fullId, committedOffset,
+                    lastCommittedOffset, committedOffset - lastCommittedOffset, futuresToComplete.size());
         }
         lastCommittedOffset = committedOffset;
         futuresToComplete.values().forEach(future -> future.complete(null));
@@ -280,7 +277,7 @@ public class PartitionSessionImpl {
 
     private void decode(Batch batch) {
         if (logger.isTraceEnabled()) {
-            logger.trace("[{}] Started decoding batch for partition session {} (partition {})", path, id, partitionId);
+            logger.trace("[{}] Started decoding batch", fullId);
         }
         if (batch.getCodec() == Codec.RAW) {
             return;
@@ -292,14 +289,13 @@ public class PartitionSessionImpl {
                 message.setDecompressed(true);
             } catch (IOException exception) {
                 message.setException(exception);
-                logger.info("[{}] Exception was thrown while decoding a message in partition session {} " +
-                        "(partition {})", path, id, partitionId);
+                logger.warn("[{}] Exception was thrown while decoding a message: ", fullId, exception);
             }
         });
         batch.setDecompressed(true);
 
         if (logger.isTraceEnabled()) {
-            logger.trace("[{}] Finished decoding batch for partition session {} (partition {})", path, id, partitionId);
+            logger.trace("[{}] Finished decoding batch", fullId);
         }
     }
 
@@ -320,23 +316,22 @@ public class PartitionSessionImpl {
                     messageImplList.get(messageImplList.size() - 1).getOffset() + 1);
             DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead, offsetsToCommit);
             if (logger.isDebugEnabled()) {
-                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) for partition " +
-                                "session {} " + "(partition {}) is about to be called...", path, messagesToRead.size(),
-                        messagesToRead.get(0).getOffset(), messagesToRead.get(messagesToRead.size() - 1).getOffset(),
-                        id, partitionId);
+                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
+                                "to be called...", fullId, messagesToRead.size(), messagesToRead.get(0).getOffset(),
+                        messagesToRead.get(messagesToRead.size() - 1).getOffset());
             }
             dataEventCallback.apply(event)
                     .whenComplete((res, th) -> {
                         if (th != null) {
-                            logger.error("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) for " +
-                                    "partition session {} (partition {}) finished with error: ", path,
-                                    messagesToRead.size(), messagesToRead.get(0).getOffset(),
-                                    messagesToRead.get(messagesToRead.size() - 1).getOffset(), id, partitionId, th);
+                            logger.error("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) finished" +
+                                            " with error: ", fullId, messagesToRead.size(),
+                                    messagesToRead.get(0).getOffset(),
+                                    messagesToRead.get(messagesToRead.size() - 1).getOffset(), th);
                         } else if (logger.isDebugEnabled()) {
-                            logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) for " +
-                                    "partition session {} (partition {}) successfully finished", path,
-                                    messagesToRead.size(), messagesToRead.get(0).getOffset(),
-                                    messagesToRead.get(messagesToRead.size() - 1).getOffset(), id, partitionId);
+                            logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) " +
+                                            "successfully finished", fullId, messagesToRead.size(),
+                                    messagesToRead.get(0).getOffset(),
+                                    messagesToRead.get(messagesToRead.size() - 1).getOffset());
                         }
                         isReadingNow.set(false);
                         batchToRead.complete();
@@ -344,8 +339,7 @@ public class PartitionSessionImpl {
                     });
         } else {
             if (logger.isTraceEnabled()) {
-                logger.trace("[{}] Partition session {} (partition {}) - no need to send data to readers: " +
-                        "reading is already being performed", path, id, partitionId);
+                logger.trace("[{}] No need to send data to readers: reading is already being performed", fullId);
             }
         }
     }
@@ -355,10 +349,10 @@ public class PartitionSessionImpl {
 
         try {
             isWorking.set(false);
-            logger.info("[{}] Partition session {} (partition {}) is shutting down. Failing {} commit futures...", path,
-                    id, partitionId, commitFutures.size());
+            logger.info("[{}] Partition session for {} is shutting down. Failing {} commit futures...", fullId,
+                    topicPath, commitFutures.size());
             commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session " + id +
-                    " (partition " + partitionId + ") for " + path + " is closed")));
+                    " (partition " + partitionId + ") for " + topicPath + " is closed")));
         } finally {
             commitFuturesLock.unlock();
         }
@@ -378,7 +372,9 @@ public class PartitionSessionImpl {
      */
     public static class Builder {
         private long id;
-        private String path;
+        private String fullId;
+        private String topicPath;
+        private String consumerName;
         private long partitionId;
         private long committedOffset;
         private OffsetsRange partitionOffsets;
@@ -391,8 +387,18 @@ public class PartitionSessionImpl {
             return this;
         }
 
-        public Builder setPath(String path) {
-            this.path = path;
+        public Builder setFullId(String fullId) {
+            this.fullId = fullId;
+            return this;
+        }
+
+        public Builder setTopicPath(String topicPath) {
+            this.topicPath = topicPath;
+            return this;
+        }
+
+        public Builder setConsumerName(String consumerName) {
+            this.consumerName = consumerName;
             return this;
         }
 
