@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.net.SocketFactory;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Ticker;
 import org.slf4j.Logger;
@@ -105,7 +107,7 @@ public class PriorityPicker {
     }
 
     private static long tcpPing(InetSocketAddress socketAddress, Ticker ticker) {
-        try (Socket socket = new Socket()) {
+        try (Socket socket = SocketFactory.getDefault().createSocket()) {
             final long startConnection = ticker.read();
             socket.connect(socketAddress, DETECT_DC_TCP_PING_TIMEOUT_MS);
             final long stopConnection = ticker.read();
