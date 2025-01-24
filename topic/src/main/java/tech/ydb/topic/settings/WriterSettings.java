@@ -14,6 +14,7 @@ public class WriterSettings {
     private final String messageGroupId;
     private final Long partitionId;
     private final Codec codec;
+    private final RetryMode retryMode;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
 
@@ -23,6 +24,7 @@ public class WriterSettings {
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
         this.codec = builder.codec;
+        this.retryMode = builder.retryMode;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
     }
@@ -51,6 +53,10 @@ public class WriterSettings {
         return codec;
     }
 
+    public RetryMode getRetryMode() {
+        return retryMode;
+    }
+
     public long getMaxSendBufferMemorySize() {
         return maxSendBufferMemorySize;
     }
@@ -68,6 +74,7 @@ public class WriterSettings {
         private String messageGroupId = null;
         private Long partitionId = null;
         private Codec codec = Codec.GZIP;
+        private RetryMode retryMode = RetryMode.ALWAYS;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
 
@@ -122,6 +129,16 @@ public class WriterSettings {
          */
         public Builder setCodec(Codec codec) {
             this.codec = codec;
+            return this;
+        }
+
+        /**
+         * Set {@link RetryMode} to define behavior of the stream internal retries
+         * @param mode retry mode
+         * @return settings builder
+         */
+        public Builder setRetryMode(RetryMode mode) {
+            this.retryMode = mode;
             return this;
         }
 

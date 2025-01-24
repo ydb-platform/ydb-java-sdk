@@ -17,6 +17,7 @@ public class ReaderSettings {
     private final String consumerName;
     private final String readerName;
     private final List<TopicReadSettings> topics;
+    private final RetryMode retryMode;
     private final long maxMemoryUsageBytes;
     private final Executor decompressionExecutor;
 
@@ -24,6 +25,7 @@ public class ReaderSettings {
         this.consumerName = builder.consumerName;
         this.readerName = builder.readerName;
         this.topics = ImmutableList.copyOf(builder.topics);
+        this.retryMode = builder.retryMode;
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
         this.decompressionExecutor = builder.decompressionExecutor;
     }
@@ -35,6 +37,10 @@ public class ReaderSettings {
     @Nullable
     public String getReaderName() {
         return readerName;
+    }
+
+    public RetryMode getRetryMode() {
+        return retryMode;
     }
 
     public List<TopicReadSettings> getTopics() {
@@ -61,6 +67,7 @@ public class ReaderSettings {
         private boolean readWithoutConsumer = false;
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
+        private RetryMode retryMode = RetryMode.ALWAYS;
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Executor decompressionExecutor = null;
 
@@ -81,6 +88,7 @@ public class ReaderSettings {
 
         /**
          * Set reader name for debug purposes
+         * @param readerName name of reader
          * @return settings builder
          */
         public Builder setReaderName(String readerName) {
@@ -95,6 +103,16 @@ public class ReaderSettings {
 
         public Builder setTopics(List<TopicReadSettings> topics) {
             this.topics = topics;
+            return this;
+        }
+
+        /**
+         * Set {@link RetryMode} to define behavior of the stream internal retries
+         * @param mode retry mode
+         * @return settings builder
+         */
+        public Builder setRetryMode(RetryMode mode) {
+            this.retryMode = mode;
             return this;
         }
 
