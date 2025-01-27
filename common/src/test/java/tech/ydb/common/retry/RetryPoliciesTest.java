@@ -1,9 +1,5 @@
 package tech.ydb.common.retry;
 
-import tech.ydb.common.retry.RetryNTimes;
-import tech.ydb.common.retry.RetryUntilElapsed;
-import tech.ydb.common.retry.RetryForever;
-
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -98,6 +94,22 @@ public class RetryPoliciesTest {
         Assert.assertEquals(175, policy.nextRetryMs(6, 2325));
         Assert.assertEquals(-1, policy.nextRetryMs(7, 2500));
     }
+
+    @Test
+    public void foreverElapsedTest() {
+        ExponentialBackoffRetry policy = new ExponentialBackoffRetry(50, 3);
+
+        assertDuration(50,  100, policy.nextRetryMs(0, 0));
+        assertDuration(50,  100, policy.nextRetryMs(0, Integer.MAX_VALUE));
+        assertDuration(100, 200, policy.nextRetryMs(1, 75));
+        assertDuration(200, 400, policy.nextRetryMs(2, 225));
+        assertDuration(400, 800, policy.nextRetryMs(3, 525));
+        assertDuration(400, 800, policy.nextRetryMs(4, 1125));
+        assertDuration(400, 800, policy.nextRetryMs(5, 1725));
+        assertDuration(400, 800, policy.nextRetryMs(Integer.MAX_VALUE, 0));
+        assertDuration(400, 800, policy.nextRetryMs(Integer.MAX_VALUE, Integer.MAX_VALUE));
+    }
+
 
     @Test
     public void updateElapsedTest() {
