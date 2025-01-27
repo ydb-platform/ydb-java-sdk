@@ -9,14 +9,30 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.slf4j.Logger;
 
+import tech.ydb.common.retry.ExponentialBackoffRetry;
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 
 /**
  * @author Nikolay Perfilov
  */
 public abstract class GrpcStreamRetrier {
+    public static final RetryConfig RETRY_ALL = new RetryConfig() {
+        @Override
+        public RetryPolicy isStatusRetryable(StatusCode code) {
+            return RETRY_ALL_POLICY;
+        }
+
+        @Override
+        public RetryPolicy isThrowableRetryable(Throwable th) {
+            return RETRY_ALL_POLICY;
+        }
+    };
+
+    private static final RetryPolicy RETRY_ALL_POLICY = new ExponentialBackoffRetry(256, 7);
+
     private static final int ID_LENGTH = 6;
     private static final char[] ID_ALPHABET = "abcdefghijklmnopqrstuvwxyzABSDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
             .toCharArray();
@@ -97,7 +113,7 @@ public abstract class GrpcStreamRetrier {
     protected void onSessionClosed(Status status, Throwable th) {
         logger.info("[{}] onSessionClosed called", id);
 
-        RetryPolicy retryPolicy = null;
+        RetryPolicy retryPolicy;
         if (th != null) {
             logger.error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
             retryPolicy = retryConfig.isThrowableRetryable(th);
@@ -111,8 +127,8 @@ public abstract class GrpcStreamRetrier {
                 }
             } else {
                 logger.warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
-                retryPolicy = retryConfig.isStatusRetryable(status.getCode());
             }
+            retryPolicy = retryConfig.isStatusRetryable(status.getCode());
         }
 
         if (isStopped.get()) {

@@ -7,9 +7,10 @@ import java.util.concurrent.TimeoutException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.topic.settings.RetryMode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.SyncWriter;
@@ -18,10 +19,10 @@ import tech.ydb.topic.write.SyncWriter;
  *
  * @author Aleksandr Gorshenin
  */
-public class RetryModeTest extends BaseMockedTest {
+public class TopicRetriesTest extends BaseMockedTest {
 
     @Test
-    public void alwaysRetryWriterTest() throws InterruptedException, ExecutionException, TimeoutException {
+    public void defaultRetryWriterTest() throws InterruptedException, ExecutionException, TimeoutException {
         mockStreams()
                 .then(errorStreamMockAnswer(StatusCode.TRANSPORT_UNAVAILABLE))
                 .then(defaultStreamMockAnswer())
@@ -30,7 +31,6 @@ public class RetryModeTest extends BaseMockedTest {
 
         SyncWriter writer = client.createSyncWriter(WriterSettings.newBuilder()
                 .setTopicPath("/mocked_topic")
-                .setRetryMode(RetryMode.ALWAYS)
                 .build());
         writer.init();
 
@@ -47,7 +47,7 @@ public class RetryModeTest extends BaseMockedTest {
         stream1.nextMsg().isWrite().hasWrite(2, 1);
         stream1.responseWriteWritten(1, 1);
 
-        stream1.complete(Status.SUCCESS);
+        stream1.complete(Status.of(StatusCode.SUCCESS));
 
         // Retry #2 - Stream is closed by server
         getScheduler().hasTasks(1).executeNextTasks(1);
@@ -88,7 +88,7 @@ public class RetryModeTest extends BaseMockedTest {
 
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/mocked_topic")
-                .setRetryMode(RetryMode.NONE)
+                .setRetryConfig(RetryConfig.noRetries())
                 .build();
 
         SyncWriter writer = client.createSyncWriter(settings);
@@ -109,7 +109,7 @@ public class RetryModeTest extends BaseMockedTest {
     public void disabledRetryStreamCloseTest() throws InterruptedException, ExecutionException, TimeoutException {
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/mocked_topic")
-                .setRetryMode(RetryMode.NONE)
+                .setRetryConfig(RetryConfig.noRetries())
                 .build();
 
         SyncWriter writer = client.createSyncWriter(settings);
@@ -134,7 +134,7 @@ public class RetryModeTest extends BaseMockedTest {
     public void disabledRetryStreamErrorTest() throws InterruptedException, ExecutionException, TimeoutException {
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/mocked_topic")
-                .setRetryMode(RetryMode.NONE)
+                .setRetryConfig(RetryConfig.noRetries())
                 .build();
 
         SyncWriter writer = client.createSyncWriter(settings);
@@ -162,7 +162,7 @@ public class RetryModeTest extends BaseMockedTest {
 
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/mocked_topic")
-                .setRetryMode(RetryMode.RECOVER)
+                .setRetryConfig(RetryConfig.noRetries())
                 .build();
 
         SyncWriter writer = client.createSyncWriter(settings);
@@ -180,7 +180,7 @@ public class RetryModeTest extends BaseMockedTest {
     }
 
     @Test
-    public void recoverRetryWriterTest() throws InterruptedException, ExecutionException, TimeoutException {
+    public void idempotentRetryWriterTest() throws InterruptedException, ExecutionException, TimeoutException {
         mockStreams()
                 .then(defaultStreamMockAnswer())
                 .then(errorStreamMockAnswer(StatusCode.OVERLOADED))
@@ -190,7 +190,7 @@ public class RetryModeTest extends BaseMockedTest {
 
         SyncWriter writer = client.createSyncWriter(WriterSettings.newBuilder()
                 .setTopicPath("/mocked_topic")
-                .setRetryMode(RetryMode.RECOVER)
+                .setRetryConfig(RetryConfig.idempotentRetryForever())
                 .build());
         writer.init();
 
@@ -203,7 +203,9 @@ public class RetryModeTest extends BaseMockedTest {
         stream1.nextMsg().isWrite().hasWrite(2, 1);
         stream1.responseWriteWritten(1, 1);
 
-        stream1.complete(new RuntimeException("io exception"));
+        stream1.complete(new RuntimeException("io exception",
+                new UnexpectedResultException("inner", Status.of(StatusCode.CLIENT_INTERNAL_ERROR)))
+        );
 
         // Retry #1 - Stream is by runtime exception
         getScheduler().hasTasks(1).executeNextTasks(1);
