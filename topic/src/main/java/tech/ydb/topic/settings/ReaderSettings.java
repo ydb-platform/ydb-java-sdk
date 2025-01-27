@@ -13,6 +13,7 @@ import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.topic.impl.GrpcStreamRetrier;
 
 /**
  * @author Nikolay Perfilov
@@ -78,7 +79,7 @@ public class ReaderSettings {
         private boolean readWithoutConsumer = false;
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
-        private RetryConfig retryConfig = RetryConfig.idempotentRetryForever();
+        private RetryConfig retryConfig = GrpcStreamRetrier.RETRY_ALL;
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Executor decompressionExecutor = null;
 

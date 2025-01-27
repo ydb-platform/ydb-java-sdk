@@ -7,6 +7,7 @@ import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.impl.GrpcStreamRetrier;
 
 /**
  * @author Nikolay Perfilov
@@ -85,7 +86,7 @@ public class WriterSettings {
         private String messageGroupId = null;
         private Long partitionId = null;
         private Codec codec = Codec.GZIP;
-        private RetryConfig retryConfig = RetryConfig.idempotentRetryForever();
+        private RetryConfig retryConfig = GrpcStreamRetrier.RETRY_ALL;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
 
