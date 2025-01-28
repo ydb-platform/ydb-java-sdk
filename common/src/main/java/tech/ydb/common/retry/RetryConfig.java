@@ -18,7 +18,7 @@ public interface RetryConfig {
      * @param code status code to check
      * @return policy of retries or {@code null} if the status code is not retryable
      */
-    RetryPolicy isStatusRetryable(StatusCode code);
+    RetryPolicy getStatusCodeRetryPolicy(StatusCode code);
 
     /**
      * Returns retry policy for the given exception and {@code null} if that exception is not retryable
@@ -26,17 +26,19 @@ public interface RetryConfig {
      * @param th exception to check
      * @return policy of retries or {@code null} if the exception is not retryable
      */
-    default RetryPolicy isThrowableRetryable(Throwable th) {
+    default RetryPolicy getThrowableRetryPolicy(Throwable th) {
         for (Throwable ex = th; ex != null; ex = ex.getCause()) {
             if (ex instanceof UnexpectedResultException) {
-                return isStatusRetryable(((UnexpectedResultException) ex).getStatus().getCode());
+                return getStatusCodeRetryPolicy(((UnexpectedResultException) ex).getStatus().getCode());
             }
         }
         return null;
     }
 
     /**
-     * Retries a non idempotent operation forever with default exponential delay
+     * Infinity retries with default exponential delay.<br>That policy <b>does not</b> retries <i>conditionally</i>
+     * retryable errors so it can be used for both as idempotent and non idempotent operations
+     *
      * @return retry configuration object
      */
     static RetryConfig retryForever() {
@@ -44,7 +46,8 @@ public interface RetryConfig {
     }
 
     /**
-     * Retries a non idempotent operation with default exponential until the specified elapsed milliseconds expire
+     * Retries until the specified elapsed milliseconds expire.<br>That policy <b>does not</b> retries
+     * <i>conditionally</i> retryable errors so it can be used for both as idempotent and non idempotent operations
      * @param maxElapsedMs maximum timeout for retries
      * @return retry configuration object
      */
@@ -53,20 +56,22 @@ public interface RetryConfig {
     }
 
     /**
-     * Retries an idempotent operation forever with default exponential delay
+     * Infinity retries with default exponential delay.<br>That policy <b>does</b> retries <i>conditionally</i>
+     * retryable errors so it can be used <b>ONLY</b> for idempotent operations
      * @return retry configuration object
      */
     static RetryConfig idempotentRetryForever() {
-        return newConfig().retryIdempotent(true).retryForever();
+        return newConfig().retryConditionallyRetryableErrors(true).retryForever();
     }
 
     /**
-     * Retries an idempotent operation with default exponential until the specified elapsed milliseconds expire
+     * Retries until the specified elapsed milliseconds expire.<br>That policy <b>does</b> retries
+     * <i>conditionally</i> retryable errors so it can be used <b>ONLY</b> for idempotent operations
      * @param maxElapsedMs maximum timeout for retries
      * @return retry configuration object
      */
     static RetryConfig idempotentRetryUntilElapsed(long maxElapsedMs) {
-        return newConfig().retryIdempotent(true).retryUntilElapsed(maxElapsedMs);
+        return newConfig().retryConditionallyRetryableErrors(true).retryUntilElapsed(maxElapsedMs);
     }
 
     /**
@@ -86,7 +91,7 @@ public interface RetryConfig {
     }
 
     interface Builder {
-        Builder retryIdempotent(boolean retry);
+        Builder retryConditionallyRetryableErrors(boolean retry);
         Builder retryNotFound(boolean retry);
         Builder withSlowBackoff(long backoff, int ceiling);
         Builder withFastBackoff(long backoff, int ceiling);
