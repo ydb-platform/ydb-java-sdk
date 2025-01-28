@@ -21,12 +21,12 @@ import tech.ydb.core.StatusCode;
 public abstract class GrpcStreamRetrier {
     public static final RetryConfig RETRY_ALL = new RetryConfig() {
         @Override
-        public RetryPolicy isStatusRetryable(StatusCode code) {
+        public RetryPolicy getStatusCodeRetryPolicy(StatusCode code) {
             return RETRY_ALL_POLICY;
         }
 
         @Override
-        public RetryPolicy isThrowableRetryable(Throwable th) {
+        public RetryPolicy getThrowableRetryPolicy(Throwable th) {
             return RETRY_ALL_POLICY;
         }
     };
@@ -116,7 +116,7 @@ public abstract class GrpcStreamRetrier {
         RetryPolicy retryPolicy;
         if (th != null) {
             logger.error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
-            retryPolicy = retryConfig.isThrowableRetryable(th);
+            retryPolicy = retryConfig.getThrowableRetryPolicy(th);
         } else {
             if (status.isSuccess()) {
                 if (isStopped.get()) {
@@ -128,7 +128,7 @@ public abstract class GrpcStreamRetrier {
             } else {
                 logger.warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
             }
-            retryPolicy = retryConfig.isStatusRetryable(status.getCode());
+            retryPolicy = retryConfig.getStatusCodeRetryPolicy(status.getCode());
         }
 
         if (isStopped.get()) {

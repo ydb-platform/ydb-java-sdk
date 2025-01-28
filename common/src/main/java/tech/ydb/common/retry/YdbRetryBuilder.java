@@ -15,7 +15,7 @@ class YdbRetryBuilder implements RetryConfig.Builder {
     private int slowCeiling = 6;
 
     @Override
-    public YdbRetryBuilder retryIdempotent(boolean retry) {
+    public YdbRetryBuilder retryConditionallyRetryableErrors(boolean retry) {
         this.idempotent = retry;
         return this;
     }

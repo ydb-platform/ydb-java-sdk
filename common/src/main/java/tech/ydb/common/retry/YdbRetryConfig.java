@@ -7,22 +7,22 @@ import tech.ydb.core.StatusCode;
  * @author Aleksandr Gorshenin
  */
 class YdbRetryConfig implements RetryConfig {
-    private final boolean idempotent;
+    private final boolean retryConditionally;
     private final boolean retryNotFound;
     private final RetryPolicy immediatelly;
     private final RetryPolicy fast;
     private final RetryPolicy slow;
 
-    YdbRetryConfig(boolean idempotent, boolean notFound, RetryPolicy immediatelly, RetryPolicy fast, RetryPolicy slow) {
-        this.idempotent = idempotent;
+    YdbRetryConfig(boolean conditionally, boolean notFound, RetryPolicy instant, RetryPolicy fast, RetryPolicy slow) {
+        this.retryConditionally = conditionally;
         this.retryNotFound = notFound;
-        this.immediatelly = immediatelly;
+        this.immediatelly = instant;
         this.fast = fast;
         this.slow = slow;
     }
 
     @Override
-    public RetryPolicy isStatusRetryable(StatusCode code) {
+    public RetryPolicy getStatusCodeRetryPolicy(StatusCode code) {
         if (code == null) {
             return null;
         }
@@ -43,14 +43,14 @@ class YdbRetryConfig implements RetryConfig {
             case CLIENT_RESOURCE_EXHAUSTED:
                 return slow;
 
-            // Conditionally retry
+            // Conditionally retryable statuses
             case CLIENT_CANCELLED:
             case CLIENT_INTERNAL_ERROR:
             case TRANSPORT_UNAVAILABLE:
             case UNAVAILABLE:
-                return idempotent ? fast : null;
+                return retryConditionally ? fast : null;
 
-            // Not found retry
+            // Not found has special flag for retries
             case NOT_FOUND:
                 return retryNotFound ? fast : null;
 
