@@ -1,11 +1,11 @@
 package tech.ydb.common.retry;
 
-import tech.ydb.core.StatusCode;
+import tech.ydb.core.Status;
 import tech.ydb.core.UnexpectedResultException;
 
 /**
  * Recipes should use the retry configuration to decide how to retry
- * errors like unsuccessful {@link tech.ydb.core.StatusCode}.
+ * errors like unsuccessful {@link tech.ydb.core.Status}.
  *
  * @author Aleksandr Gorshenin
  */
@@ -13,12 +13,12 @@ import tech.ydb.core.UnexpectedResultException;
 public interface RetryConfig {
 
     /**
-     * Returns retry policy for the given status code and {@code null} if that status code is not retryable
+     * Returns retry policy for the given {@link Status} and {@code null} if that status is not retryable
      *
-     * @param code status code to check
-     * @return policy of retries or {@code null} if the status code is not retryable
+     * @param code status to check
+     * @return policy of retries or {@code null} if the status is not retryable
      */
-    RetryPolicy getStatusCodeRetryPolicy(StatusCode code);
+    RetryPolicy getStatusRetryPolicy(Status code);
 
     /**
      * Returns retry policy for the given exception and {@code null} if that exception is not retryable
@@ -29,7 +29,7 @@ public interface RetryConfig {
     default RetryPolicy getThrowableRetryPolicy(Throwable th) {
         for (Throwable ex = th; ex != null; ex = ex.getCause()) {
             if (ex instanceof UnexpectedResultException) {
-                return getStatusCodeRetryPolicy(((UnexpectedResultException) ex).getStatus().getCode());
+                return getStatusRetryPolicy(((UnexpectedResultException) ex).getStatus());
             }
         }
         return null;
@@ -79,7 +79,7 @@ public interface RetryConfig {
      * @return retry configuration object
      */
     static RetryConfig noRetries() {
-        return (StatusCode code) -> null;
+        return (Status status) -> null;
     }
 
     /**

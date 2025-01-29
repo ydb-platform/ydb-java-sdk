@@ -13,7 +13,6 @@ import tech.ydb.common.retry.ExponentialBackoffRetry;
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
 
 /**
  * @author Nikolay Perfilov
@@ -21,7 +20,7 @@ import tech.ydb.core.StatusCode;
 public abstract class GrpcStreamRetrier {
     public static final RetryConfig RETRY_ALL = new RetryConfig() {
         @Override
-        public RetryPolicy getStatusCodeRetryPolicy(StatusCode code) {
+        public RetryPolicy getStatusRetryPolicy(Status status) {
             return RETRY_ALL_POLICY;
         }
 
@@ -128,7 +127,7 @@ public abstract class GrpcStreamRetrier {
             } else {
                 logger.warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
             }
-            retryPolicy = retryConfig.getStatusCodeRetryPolicy(status.getCode());
+            retryPolicy = retryConfig.getStatusRetryPolicy(status);
         }
 
         if (isStopped.get()) {
