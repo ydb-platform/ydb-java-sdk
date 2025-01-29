@@ -1,6 +1,6 @@
 package tech.ydb.common.retry;
 
-import tech.ydb.core.StatusCode;
+import tech.ydb.core.Status;
 
 /**
  *
@@ -22,12 +22,12 @@ class YdbRetryConfig implements RetryConfig {
     }
 
     @Override
-    public RetryPolicy getStatusCodeRetryPolicy(StatusCode code) {
-        if (code == null) {
+    public RetryPolicy getStatusRetryPolicy(Status status) {
+        if (status == null) {
             return null;
         }
 
-        switch (code) {
+        switch (status.getCode()) {
             // Instant retry
             case BAD_SESSION:
             case SESSION_BUSY:
