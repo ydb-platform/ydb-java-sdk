@@ -30,7 +30,7 @@ public class SingleChannelTransport extends BaseGrpcTransport {
         ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
         EndpointRecord endpoint = YdbTransportImpl.getDiscoveryEndpoint(builder);
 
-        logger.info("creating signle channel transport with endpoint {}", endpoint);
+        logger.info("creating single channel transport with endpoint {}", endpoint);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.channel = new GrpcChannel(endpoint, channelFactory);
