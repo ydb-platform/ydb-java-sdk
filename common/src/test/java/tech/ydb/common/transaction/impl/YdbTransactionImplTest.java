@@ -32,4 +32,15 @@ public class YdbTransactionImplTest {
         Assert.assertTrue(tx.isActive());
         Assert.assertFalse(tx.getStatusFuture().isDone());
     }
+
+    @Test
+    public void nullTest() {
+        MockTx tx = new MockTx(TxMode.NONE, null);
+
+        Assert.assertNull(tx.getId());
+        Assert.assertEquals("MOCK", tx.getSessionId());
+        Assert.assertEquals(TxMode.NONE, tx.getTxMode());
+        Assert.assertFalse(tx.isActive());
+        Assert.assertFalse(tx.getStatusFuture().isDone());
+    }
 }
