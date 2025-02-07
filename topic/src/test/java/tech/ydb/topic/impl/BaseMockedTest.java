@@ -164,6 +164,13 @@ public class BaseMockedTest {
             observer.onNext(msg);
         }
 
+        public void responseErrorSchemeError() {
+            YdbTopic.StreamWriteMessage.FromServer msg = YdbTopic.StreamWriteMessage.FromServer.newBuilder()
+                    .setStatus(StatusCodesProtos.StatusIds.StatusCode.SCHEME_ERROR)
+                    .build();
+            observer.onNext(msg);
+        }
+
         public void responseInit(long lastSeqNo) {
             responseInit(lastSeqNo, 123, "mocked", new int[] { 0, 1, 2});
         }
@@ -205,23 +212,27 @@ public class BaseMockedTest {
             }
 
             public Checker isInit() {
-                Assert.assertTrue(msg.hasInitRequest());
+                Assert.assertTrue("next msg must be init request", msg.hasInitRequest());
                 return this;
             }
 
             public Checker hasInitPath(String path) {
-                Assert.assertEquals(path, msg.getInitRequest().getPath());
+                Assert.assertEquals("invalid init request path", path, msg.getInitRequest().getPath());
                 return this;
             }
 
             public Checker isWrite() {
-                Assert.assertTrue(msg.hasWriteRequest());
+                Assert.assertTrue("next msg must be write request", msg.hasWriteRequest());
                 return this;
             }
 
-            public Checker hasWrite(int codec, int messagesCount) {
-                Assert.assertEquals(codec, msg.getWriteRequest().getCodec());
-                Assert.assertEquals(messagesCount, msg.getWriteRequest().getMessagesCount());
+            public Checker hasWrite(int codec, long... seqnums) {
+                Assert.assertEquals("invalid write codec", codec, msg.getWriteRequest().getCodec());
+                Assert.assertEquals("invalid messages count", seqnums.length, msg.getWriteRequest().getMessagesCount());
+                for (int idx = 0; idx < seqnums.length; idx++) {
+                    Assert.assertEquals("invalid msg seqNo " + idx, seqnums[idx],
+                            msg.getWriteRequest().getMessages(idx).getSeqNo());
+                }
                 return this;
             }
         }

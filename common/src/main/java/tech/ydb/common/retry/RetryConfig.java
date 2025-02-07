@@ -1,5 +1,6 @@
 package tech.ydb.common.retry;
 
+
 import tech.ydb.core.Status;
 import tech.ydb.core.UnexpectedResultException;
 
@@ -15,10 +16,10 @@ public interface RetryConfig {
     /**
      * Returns retry policy for the given {@link Status} and {@code null} if that status is not retryable
      *
-     * @param code status to check
+     * @param status status to check
      * @return policy of retries or {@code null} if the status is not retryable
      */
-    RetryPolicy getStatusRetryPolicy(Status code);
+    RetryPolicy getStatusRetryPolicy(Status status);
 
     /**
      * Returns retry policy for the given exception and {@code null} if that exception is not retryable
@@ -36,7 +37,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Infinity retries with default exponential delay.<br>That policy <b>does not</b> retries <i>conditionally</i>
+     * Infinity retries with default exponential delay.<br>This policy <b>does not</b> retries <i>conditionally</i>
      * retryable errors so it can be used for both as idempotent and non idempotent operations
      *
      * @return retry configuration object
@@ -46,7 +47,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Retries until the specified elapsed milliseconds expire.<br>That policy <b>does not</b> retries
+     * Retries until the specified elapsed milliseconds expire.<br>This policy <b>does not</b> retries
      * <i>conditionally</i> retryable errors so it can be used for both as idempotent and non idempotent operations
      * @param maxElapsedMs maximum timeout for retries
      * @return retry configuration object
@@ -56,7 +57,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Infinity retries with default exponential delay.<br>That policy <b>does</b> retries <i>conditionally</i>
+     * Infinity retries with default exponential delay.<br>This policy <b>does</b> retries <i>conditionally</i>
      * retryable errors so it can be used <b>ONLY</b> for idempotent operations
      * @return retry configuration object
      */
@@ -65,7 +66,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Retries until the specified elapsed milliseconds expire.<br>That policy <b>does</b> retries
+     * Retries until the specified elapsed milliseconds expire.<br>This policy <b>does</b> retries
      * <i>conditionally</i> retryable errors so it can be used <b>ONLY</b> for idempotent operations
      * @param maxElapsedMs maximum timeout for retries
      * @return retry configuration object
