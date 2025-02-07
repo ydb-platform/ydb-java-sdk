@@ -84,7 +84,7 @@ public interface TableTransaction extends YdbTransaction {
      * @return a future to query result
      */
     default CompletableFuture<Result<DataQueryResult>> executeDataQueryAndCommit(String query, Params params) {
-        return executeDataQuery(query, false, params, new ExecuteDataQuerySettings());
+        return executeDataQuery(query, true, params, new ExecuteDataQuerySettings());
     }
 
     CompletableFuture<Status> commit(CommitTxSettings settings);
