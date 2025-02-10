@@ -13,7 +13,9 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 
+import tech.ydb.table.Session;
 import tech.ydb.table.description.TableTtl.TtlMode;
+import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.PartitioningSettings;
 import tech.ydb.table.values.OptionalType;
 import tech.ydb.table.values.Type;
@@ -28,6 +30,7 @@ public class TableDescription {
     private final List<TableIndex> indexes;
     private final List<ColumnFamily> columnFamilies;
     private final List<KeyRange> keyRanges;
+    private final List<ChangefeedDescription> changefeeds;
 
     @Nullable
     private final TableStats tableStats;
@@ -49,6 +52,7 @@ public class TableDescription {
         this.partitioningSettings = builder.partitioningSettings;
         this.partitionStats = ImmutableList.copyOf(builder.partitionStats);
         this.tableTtl = builder.ttlSettings;
+        this.changefeeds = builder.changefeeds;
     }
 
     public static Builder newBuilder() {
@@ -93,6 +97,10 @@ public class TableDescription {
         return tableTtl;
     }
 
+    public List<ChangefeedDescription> getChangefeeds() {
+        return changefeeds;
+    }
+
     /**
      * BUILDER
      */
@@ -108,6 +116,7 @@ public class TableDescription {
         private PartitioningSettings partitioningSettings = null;
         private final List<PartitionStats> partitionStats = new ArrayList<>();
         private TableTtl ttlSettings = TableTtl.notSet();
+        private final List<ChangefeedDescription> changefeeds = new ArrayList<>();
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
@@ -219,6 +228,21 @@ public class TableDescription {
 
         public Builder addPartitionStat(long rows, long size) {
             this.partitionStats.add(new PartitionStats(rows, size));
+            return this;
+        }
+
+        /**
+         * Adds changefeed information to table description<br>
+         * <b>NOTICE:</b> Changefeed description cannot be used for changefeed creating.<br>
+         * It is impossible to create changefeed in one time with table creating. For adding a new changefeed use method
+         * {@link Session#alterTable(java.lang.String, tech.ydb.table.settings.AlterTableSettings)} and
+         * {@link AlterTableSettings#addChangefeed(tech.ydb.table.settings.Changefeed)}
+         *
+         * @param changefeed changefeed description
+         * @return table description builder
+         */
+        public Builder addChangefeed(ChangefeedDescription changefeed) {
+            this.changefeeds.add(changefeed);
             return this;
         }
 
