@@ -39,6 +39,7 @@ import tech.ydb.proto.ValueProtos.TypedValue;
 import tech.ydb.proto.common.CommonProtos;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.Session;
+import tech.ydb.table.description.ChangefeedDescription;
 import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.KeyBound;
 import tech.ydb.table.description.KeyRange;
@@ -210,13 +211,43 @@ public abstract class BaseSession implements Session {
         return builder.build();
     }
 
-    private static YdbTable.Changefeed buildChangefeed(Changefeed changefeed) {
+    public static YdbTable.ChangefeedFormat.Format buildChangefeedFormat(Changefeed.Format format) {
+        switch (format) {
+            case JSON:
+                return YdbTable.ChangefeedFormat.Format.FORMAT_JSON;
+            case DYNAMODB_STREAMS_JSON:
+                return YdbTable.ChangefeedFormat.Format.FORMAT_DYNAMODB_STREAMS_JSON;
+            case DEBEZIUM_JSON:
+                return YdbTable.ChangefeedFormat.Format.FORMAT_DEBEZIUM_JSON;
+            default:
+                return YdbTable.ChangefeedFormat.Format.FORMAT_UNSPECIFIED;
+        }
+    }
+
+    public static YdbTable.ChangefeedMode.Mode buildChangefeedMode(Changefeed.Mode mode) {
+        switch (mode) {
+            case KEYS_ONLY:
+                return YdbTable.ChangefeedMode.Mode.MODE_KEYS_ONLY;
+            case UPDATES:
+                return YdbTable.ChangefeedMode.Mode.MODE_UPDATES;
+            case NEW_IMAGE:
+                return YdbTable.ChangefeedMode.Mode.MODE_NEW_IMAGE;
+            case OLD_IMAGE:
+                return YdbTable.ChangefeedMode.Mode.MODE_OLD_IMAGE;
+            case NEW_AND_OLD_IMAGES:
+                return YdbTable.ChangefeedMode.Mode.MODE_NEW_AND_OLD_IMAGES;
+            default:
+                return YdbTable.ChangefeedMode.Mode.MODE_UNSPECIFIED;
+        }
+    }
+
+    public static YdbTable.Changefeed buildChangefeed(Changefeed changefeed) {
         YdbTable.Changefeed.Builder builder = YdbTable.Changefeed.newBuilder()
                 .setName(changefeed.getName())
-                .setFormat(changefeed.getFormat().toProto())
+                .setFormat(buildChangefeedFormat(changefeed.getFormat()))
+                .setMode(buildChangefeedMode(changefeed.getMode()))
                 .setVirtualTimestamps(changefeed.hasVirtualTimestamps())
-                .setInitialScan(changefeed.hasInitialScan())
-                .setMode(changefeed.getMode().toPb());
+                .setInitialScan(changefeed.hasInitialScan());
 
         Duration retentionPeriod = changefeed.getRetentionPeriod();
         if (retentionPeriod != null) {
@@ -609,6 +640,87 @@ public abstract class BaseSession implements Session {
                 .thenApply(result -> result.map(desc -> mapDescribeTable(desc, settings)));
     }
 
+    private static TableTtl mapTtlSettings(YdbTable.TtlSettings ttl) {
+        switch (ttl.getModeCase()) {
+            case DATE_TYPE_COLUMN:
+                YdbTable.DateTypeColumnModeSettings dc = ttl.getDateTypeColumn();
+                return TableTtl
+                        .dateTimeColumn(dc.getColumnName(), dc.getExpireAfterSeconds())
+                        .withRunIntervalSeconds(ttl.getRunIntervalSeconds());
+            case VALUE_SINCE_UNIX_EPOCH:
+                YdbTable.ValueSinceUnixEpochModeSettings vs = ttl.getValueSinceUnixEpoch();
+                TableTtl.TtlUnit unit;
+                switch (vs.getColumnUnit()) {
+                    case UNIT_SECONDS:
+                        unit = TableTtl.TtlUnit.SECONDS;
+                        break;
+                    case UNIT_MILLISECONDS:
+                        unit = TableTtl.TtlUnit.MILLISECONDS;
+                        break;
+                    case UNIT_MICROSECONDS:
+                        unit = TableTtl.TtlUnit.MICROSECONDS;
+                        break;
+                    case UNIT_NANOSECONDS:
+                        unit = TableTtl.TtlUnit.NANOSECONDS;
+                        break;
+                    case UNIT_UNSPECIFIED:
+                    case UNRECOGNIZED:
+                    default:
+                        unit = TableTtl.TtlUnit.UNSPECIFIED;
+                        break;
+                }
+                return TableTtl
+                        .valueSinceUnixEpoch(vs.getColumnName(), unit, vs.getExpireAfterSeconds())
+                        .withRunIntervalSeconds(ttl.getRunIntervalSeconds());
+            case MODE_NOT_SET:
+            default:
+                return TableTtl.notSet();
+        }
+    }
+
+    private static Changefeed.Format mapChangefeedFormat(YdbTable.ChangefeedFormat.Format pb) {
+        switch (pb) {
+            case FORMAT_JSON:
+                return Changefeed.Format.JSON;
+            case FORMAT_DYNAMODB_STREAMS_JSON:
+                return Changefeed.Format.DYNAMODB_STREAMS_JSON;
+            case FORMAT_DEBEZIUM_JSON:
+                return Changefeed.Format.DEBEZIUM_JSON;
+            default:
+                return null;
+        }
+    }
+
+    private static Changefeed.Mode mapChangefeedMode(YdbTable.ChangefeedMode.Mode pb) {
+        switch (pb) {
+            case MODE_KEYS_ONLY:
+                return Changefeed.Mode.KEYS_ONLY;
+            case MODE_NEW_IMAGE:
+                return Changefeed.Mode.NEW_IMAGE;
+            case MODE_OLD_IMAGE:
+                return Changefeed.Mode.OLD_IMAGE;
+            case MODE_NEW_AND_OLD_IMAGES:
+                return Changefeed.Mode.NEW_AND_OLD_IMAGES;
+            case MODE_UPDATES:
+                return Changefeed.Mode.UPDATES;
+            default:
+                return null;
+        }
+    }
+
+    private static ChangefeedDescription.State mapChangefeedState(YdbTable.ChangefeedDescription.State pb) {
+        switch (pb) {
+            case STATE_ENABLED:
+                return ChangefeedDescription.State.ENABLED;
+            case STATE_DISABLED:
+                return ChangefeedDescription.State.DISABLED;
+            case STATE_INITIAL_SCAN:
+                return ChangefeedDescription.State.INITIAL_SCAN;
+            default:
+                return null;
+        }
+    }
+
     private static TableDescription mapDescribeTable(
             YdbTable.DescribeTableResult result,
             DescribeTableSettings describeTableSettings
@@ -702,47 +814,16 @@ public abstract class BaseSession implements Session {
             }
         }
 
-        YdbTable.TtlSettings ttl = result.getTtlSettings();
-        TableTtl tableTtl;
-        switch (ttl.getModeCase()) {
-            case DATE_TYPE_COLUMN:
-                YdbTable.DateTypeColumnModeSettings dc = ttl.getDateTypeColumn();
-                tableTtl = TableTtl
-                        .dateTimeColumn(dc.getColumnName(), dc.getExpireAfterSeconds())
-                        .withRunIntervalSeconds(ttl.getRunIntervalSeconds());
-                break;
-            case VALUE_SINCE_UNIX_EPOCH:
-                YdbTable.ValueSinceUnixEpochModeSettings vs = ttl.getValueSinceUnixEpoch();
-                TableTtl.TtlUnit unit;
-                switch (vs.getColumnUnit()) {
-                    case UNIT_SECONDS:
-                        unit = TableTtl.TtlUnit.SECONDS;
-                        break;
-                    case UNIT_MILLISECONDS:
-                        unit = TableTtl.TtlUnit.MILLISECONDS;
-                        break;
-                    case UNIT_MICROSECONDS:
-                        unit = TableTtl.TtlUnit.MICROSECONDS;
-                        break;
-                    case UNIT_NANOSECONDS:
-                        unit = TableTtl.TtlUnit.NANOSECONDS;
-                        break;
-                    case UNIT_UNSPECIFIED:
-                    case UNRECOGNIZED:
-                    default:
-                        unit = TableTtl.TtlUnit.UNSPECIFIED;
-                        break;
-                }
-                tableTtl = TableTtl
-                        .valueSinceUnixEpoch(vs.getColumnName(), unit, vs.getExpireAfterSeconds())
-                        .withRunIntervalSeconds(ttl.getRunIntervalSeconds());
-                break;
-            case MODE_NOT_SET:
-            default:
-                tableTtl = TableTtl.notSet();
-                break;
+        description.setTtlSettings(mapTtlSettings(result.getTtlSettings()));
+        for (YdbTable.ChangefeedDescription pb: result.getChangefeedsList()) {
+            description.addChangefeed(new ChangefeedDescription(
+                pb.getName(),
+                mapChangefeedMode(pb.getMode()),
+                mapChangefeedFormat(pb.getFormat()),
+                mapChangefeedState(pb.getState()),
+                pb.getVirtualTimestamps()
+            ));
         }
-        description.setTtlSettings(tableTtl);
 
         return description.build();
     }

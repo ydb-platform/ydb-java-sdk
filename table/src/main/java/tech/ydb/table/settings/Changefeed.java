@@ -3,41 +3,38 @@ package tech.ydb.table.settings;
 import java.time.Duration;
 import java.util.Objects;
 
-import tech.ydb.proto.table.YdbTable;
+import tech.ydb.table.description.ChangefeedDescription;
+import tech.ydb.table.impl.BaseSession;
+
 
 /**
  * @author Egor Litvinenko
  */
 public class Changefeed {
     public enum Mode {
-        KEYS_ONLY(YdbTable.ChangefeedMode.Mode.MODE_KEYS_ONLY),
-        UPDATES(YdbTable.ChangefeedMode.Mode.MODE_UPDATES),
-        NEW_IMAGE(YdbTable.ChangefeedMode.Mode.MODE_NEW_IMAGE),
-        OLD_IMAGE(YdbTable.ChangefeedMode.Mode.MODE_OLD_IMAGE),
-        NEW_AND_OLD_IMAGES(YdbTable.ChangefeedMode.Mode.MODE_NEW_AND_OLD_IMAGES);
+        KEYS_ONLY,
+        UPDATES,
+        NEW_IMAGE,
+        OLD_IMAGE,
+        NEW_AND_OLD_IMAGES;
 
-        private final YdbTable.ChangefeedMode.Mode proto;
-
-        Mode(YdbTable.ChangefeedMode.Mode proto) {
-            this.proto = proto;
-        }
-
-        public YdbTable.ChangefeedMode.Mode toPb() {
-            return proto;
+        @Deprecated
+        public tech.ydb.proto.table.YdbTable.ChangefeedMode.Mode toPb() {
+            return BaseSession.buildChangefeedMode(this);
         }
     }
 
     public enum Format {
-        JSON(YdbTable.ChangefeedFormat.Format.FORMAT_JSON);
+        /** Change record in JSON format for common (row oriented) tables */
+        JSON,
+        /** Change record in JSON format for document (DynamoDB-compatible) tables */
+        DYNAMODB_STREAMS_JSON,
+        /** Debezium-like change record JSON format for common (row oriented) tables */
+        DEBEZIUM_JSON;
 
-        private final YdbTable.ChangefeedFormat.Format proto;
-
-        Format(YdbTable.ChangefeedFormat.Format proto) {
-            this.proto = proto;
-        }
-
-        public YdbTable.ChangefeedFormat.Format toProto() {
-            return proto;
+        @Deprecated
+        public tech.ydb.proto.table.YdbTable.ChangefeedFormat.Format toProto() {
+            return BaseSession.buildChangefeedFormat(this);
         }
     }
 
@@ -82,22 +79,12 @@ public class Changefeed {
     }
 
     @Deprecated
-    public YdbTable.Changefeed toProto() {
-        YdbTable.Changefeed.Builder builder = YdbTable.Changefeed.newBuilder()
-                .setName(name)
-                .setFormat(format.toProto())
-                .setVirtualTimestamps(virtualTimestamps)
-                .setInitialScan(initialScan)
-                .setMode(mode.toPb());
+    public tech.ydb.proto.table.YdbTable.Changefeed toProto() {
+        return BaseSession.buildChangefeed(this);
+    }
 
-        if (retentionPeriod != null) {
-            builder.setRetentionPeriod(com.google.protobuf.Duration.newBuilder()
-                    .setSeconds(retentionPeriod.getSeconds())
-                    .setNanos(retentionPeriod.getNano())
-                    .build());
-        }
-
-        return builder.build();
+    public static Builder fromDescription(ChangefeedDescription description) {
+        return new Builder(description);
     }
 
     public static Builder newBuilder(String changefeedName) {
@@ -111,6 +98,13 @@ public class Changefeed {
         private boolean virtualTimestamps = false;
         private Duration retentionPeriod = null;
         private boolean initialScan = false;
+
+        private Builder(ChangefeedDescription description) {
+            this.name = description.getName();
+            this.mode = description.getMode();
+            this.format = description.getFormat();
+            this.virtualTimestamps = description.hasVirtualTimestamps();
+        }
 
         private Builder(String name) {
             this.name = Objects.requireNonNull(name);
