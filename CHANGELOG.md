@@ -1,3 +1,11 @@
+## 2.3.9 ##
+
+* Core: fixed unit tests on MacOS
+* Table: added changefeeds to result of describeTable method
+* Query: fixed commit flag for executeDataQueryAndCommit
+* Topics: improved logging for topic reader & writer
+* Topics: added simple handler for topic's internal retryable streams
+
 ## 2.3.8 ##
 
 * Topics: Added traceId for topic strems
