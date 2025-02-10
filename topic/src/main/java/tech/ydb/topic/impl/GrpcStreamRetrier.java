@@ -8,6 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
 
@@ -29,12 +30,15 @@ public abstract class GrpcStreamRetrier {
     protected final String id;
     protected final AtomicBoolean isReconnecting = new AtomicBoolean(false);
     protected final AtomicBoolean isStopped = new AtomicBoolean(false);
-    private final ScheduledExecutorService scheduler;
     protected final AtomicInteger reconnectCounter = new AtomicInteger(0);
 
-    protected GrpcStreamRetrier(ScheduledExecutorService scheduler) {
+    private final ScheduledExecutorService scheduler;
+    private final BiConsumer<Status, Throwable> errorsHandler;
+
+    protected GrpcStreamRetrier(ScheduledExecutorService scheduler, BiConsumer<Status, Throwable> errorsHandler) {
         this.scheduler = scheduler;
         this.id = generateRandomId(ID_LENGTH);
+        this.errorsHandler = errorsHandler;
     }
 
     protected abstract Logger getLogger();
@@ -125,6 +129,10 @@ public abstract class GrpcStreamRetrier {
             } else {
                 getLogger().warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
             }
+        }
+
+        if (errorsHandler != null) {
+            errorsHandler.accept(status, th);
         }
 
         if (!isStopped.get()) {

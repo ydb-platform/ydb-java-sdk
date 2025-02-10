@@ -1,5 +1,8 @@
 package tech.ydb.topic.settings;
 
+import java.util.function.BiConsumer;
+
+import tech.ydb.core.Status;
 import tech.ydb.topic.description.Codec;
 
 /**
@@ -16,6 +19,7 @@ public class WriterSettings {
     private final Codec codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
+    private final BiConsumer<Status, Throwable> errorsHandler;
 
     private WriterSettings(Builder builder) {
         this.topicPath = builder.topicPath;
@@ -25,6 +29,7 @@ public class WriterSettings {
         this.codec = builder.codec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
+        this.errorsHandler = builder.errorsHandler;
     }
 
     public static Builder newBuilder() {
@@ -41,6 +46,10 @@ public class WriterSettings {
 
     public String getMessageGroupId() {
         return messageGroupId;
+    }
+
+    public BiConsumer<Status, Throwable> getErrorsHandler() {
+        return errorsHandler;
     }
 
     public Long getPartitionId() {
@@ -70,6 +79,7 @@ public class WriterSettings {
         private Codec codec = Codec.GZIP;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
+        private BiConsumer<Status, Throwable> errorsHandler = null;
 
         /**
          * Set path to a topic to write to
@@ -148,9 +158,13 @@ public class WriterSettings {
             return this;
         }
 
+        public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
+            this.errorsHandler = handler;
+            return this;
+        }
+
         public WriterSettings build() {
             return new WriterSettings(this);
         }
-
     }
 }

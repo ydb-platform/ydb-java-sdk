@@ -192,8 +192,6 @@ public class DecimalValueTest {
                 BigDecimal scaledInf = new BigDecimal(inf, scale);
                 BigDecimal scaledNan = new BigDecimal(nan, scale);
 
-                System.out.println("Nan for " + scaled + " -> " + scaledNan);
-
                 assertIsInf(scaled.newValue(scaledInf));
                 assertIsNegInf(scaled.newValue(scaledInf.negate()));
 
