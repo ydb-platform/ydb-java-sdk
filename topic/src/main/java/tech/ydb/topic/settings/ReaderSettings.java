@@ -8,6 +8,9 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
 
+import tech.ydb.common.retry.RetryConfig;
+import tech.ydb.topic.impl.GrpcStreamRetrier;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -17,6 +20,7 @@ public class ReaderSettings {
     private final String consumerName;
     private final String readerName;
     private final List<TopicReadSettings> topics;
+    private final RetryConfig retryConfig;
     private final long maxMemoryUsageBytes;
     private final Executor decompressionExecutor;
 
@@ -24,6 +28,7 @@ public class ReaderSettings {
         this.consumerName = builder.consumerName;
         this.readerName = builder.readerName;
         this.topics = ImmutableList.copyOf(builder.topics);
+        this.retryConfig = builder.retryConfig;
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
         this.decompressionExecutor = builder.decompressionExecutor;
     }
@@ -35,6 +40,10 @@ public class ReaderSettings {
     @Nullable
     public String getReaderName() {
         return readerName;
+    }
+
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
     }
 
     public List<TopicReadSettings> getTopics() {
@@ -61,6 +70,7 @@ public class ReaderSettings {
         private boolean readWithoutConsumer = false;
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
+        private RetryConfig retryConfig = GrpcStreamRetrier.RETRY_ALL;
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Executor decompressionExecutor = null;
 
@@ -81,6 +91,7 @@ public class ReaderSettings {
 
         /**
          * Set reader name for debug purposes
+         * @param readerName name of reader
          * @return settings builder
          */
         public Builder setReaderName(String readerName) {
@@ -95,6 +106,16 @@ public class ReaderSettings {
 
         public Builder setTopics(List<TopicReadSettings> topics) {
             this.topics = topics;
+            return this;
+        }
+
+        /**
+         * Set {@link RetryConfig} to define behavior of the stream internal retries
+         * @param config retry mode
+         * @return settings builder
+         */
+        public Builder setRetryConfig(RetryConfig config) {
+            this.retryConfig = config;
             return this;
         }
 

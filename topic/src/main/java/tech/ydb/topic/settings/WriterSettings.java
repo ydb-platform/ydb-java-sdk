@@ -1,6 +1,8 @@
 package tech.ydb.topic.settings;
 
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.impl.GrpcStreamRetrier;
 
 /**
  * @author Nikolay Perfilov
@@ -14,6 +16,7 @@ public class WriterSettings {
     private final String messageGroupId;
     private final Long partitionId;
     private final Codec codec;
+    private final RetryConfig retryConfig;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
 
@@ -23,6 +26,7 @@ public class WriterSettings {
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
         this.codec = builder.codec;
+        this.retryConfig = builder.retryConfig;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
     }
@@ -51,6 +55,10 @@ public class WriterSettings {
         return codec;
     }
 
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
+    }
+
     public long getMaxSendBufferMemorySize() {
         return maxSendBufferMemorySize;
     }
@@ -68,6 +76,7 @@ public class WriterSettings {
         private String messageGroupId = null;
         private Long partitionId = null;
         private Codec codec = Codec.GZIP;
+        private RetryConfig retryConfig = GrpcStreamRetrier.RETRY_ALL;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
 
@@ -122,6 +131,16 @@ public class WriterSettings {
          */
         public Builder setCodec(Codec codec) {
             this.codec = codec;
+            return this;
+        }
+
+        /**
+         * Set {@link RetryConfig} to define behavior of the stream internal retries
+         * @param config retry mode
+         * @return settings builder
+         */
+        public Builder setRetryConfig(RetryConfig config) {
+            this.retryConfig = config;
             return this;
         }
 
