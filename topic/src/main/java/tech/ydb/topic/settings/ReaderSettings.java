@@ -3,10 +3,13 @@ package tech.ydb.topic.settings;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
+import java.util.function.BiConsumer;
 
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
+
+import tech.ydb.core.Status;
 
 /**
  * @author Nikolay Perfilov
@@ -19,6 +22,7 @@ public class ReaderSettings {
     private final List<TopicReadSettings> topics;
     private final long maxMemoryUsageBytes;
     private final Executor decompressionExecutor;
+    private final BiConsumer<Status, Throwable> errorsHandler;
 
     private ReaderSettings(Builder builder) {
         this.consumerName = builder.consumerName;
@@ -26,6 +30,7 @@ public class ReaderSettings {
         this.topics = ImmutableList.copyOf(builder.topics);
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
         this.decompressionExecutor = builder.decompressionExecutor;
+        this.errorsHandler = builder.errorsHandler;
     }
 
     public String getConsumerName() {
@@ -39,6 +44,10 @@ public class ReaderSettings {
 
     public List<TopicReadSettings> getTopics() {
         return topics;
+    }
+
+    public BiConsumer<Status, Throwable> getErrorsHandler() {
+        return errorsHandler;
     }
 
     public long getMaxMemoryUsageBytes() {
@@ -63,6 +72,7 @@ public class ReaderSettings {
         private List<TopicReadSettings> topics = new ArrayList<>();
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Executor decompressionExecutor = null;
+        private BiConsumer<Status, Throwable> errorsHandler = null;
 
         public Builder setConsumerName(String consumerName) {
             this.consumerName = consumerName;
@@ -100,6 +110,11 @@ public class ReaderSettings {
 
         public Builder setMaxMemoryUsageBytes(long maxMemoryUsageBytes) {
             this.maxMemoryUsageBytes = maxMemoryUsageBytes;
+            return this;
+        }
+
+        public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
+            this.errorsHandler = handler;
             return this;
         }
 
