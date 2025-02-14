@@ -16,7 +16,8 @@ public class WriteAck {
 
     public enum State {
         WRITTEN,
-        ALREADY_WRITTEN
+        ALREADY_WRITTEN,
+        WRITTEN_IN_TX
     }
 
     public static class Details {
