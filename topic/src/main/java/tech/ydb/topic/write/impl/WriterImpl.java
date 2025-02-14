@@ -516,7 +516,9 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                             return;
                     }
                     break;
-
+                case WRITTEN_IN_TX:
+                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN_IN_TX, null);
+                    break;
                 default:
                     message.getFuture().completeExceptionally(
                             new RuntimeException("Unknown WriteAck state"));
