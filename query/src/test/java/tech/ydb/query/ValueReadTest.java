@@ -5,6 +5,8 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import java.time.temporal.ChronoUnit;
+
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -36,13 +38,12 @@ public class ValueReadTest {
                 Duration.parse("-PT2S")
         );
 
-//        date32datetime64timestamp64interval64Assert(
-//                LocalDate.MIN,
-//                LocalDateTime.MIN,
-//                Instant.MIN,
-//                Duration.ZERO
-//        );
-
+        date32datetime64timestamp64interval64Assert(
+                LocalDate.now(),
+                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
+                Instant.now(),
+                Duration.ZERO
+        );
 
         QueryReader reader = CTX.supplyResult(
                 s -> QueryReader.readFrom(s.createQuery("DECLARE $date32 AS Date32;\n" +
@@ -71,11 +72,11 @@ public class ValueReadTest {
                                                              Instant timestamp64, Duration interval64) {
         QueryReader reader = CTX.supplyResult(
                 s -> QueryReader.readFrom(s.createQuery("" +
-                                "DECLARE $date32 AS Date32;\n" +
+                                "DECLARE $date32 AS date32;\n" +
                                 "DECLARE $datetime64 AS Datetime64;\n" +
                                 "DECLARE $timestamp64 AS Timestamp64;\n" +
                                 "DECLARE $interval64 AS Interval64;" +
-                                "SELECT $date32, $datetime64, $timestamp64, $interval64;",
+                                "SELECT  $date32, $datetime64, $timestamp64, $interval64;",
                         TxMode.SERIALIZABLE_RW,
                         Params.of(
                                 "$date32", PrimitiveValue.newDate32(date32),
