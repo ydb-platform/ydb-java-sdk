@@ -41,7 +41,7 @@ public class ValueReadTest {
         date32datetime64timestamp64interval64Assert(
                 LocalDate.now(),
                 LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
-                Instant.now(),
+                Instant.now().truncatedTo(ChronoUnit.MICROS),
                 Duration.ZERO
         );
 
