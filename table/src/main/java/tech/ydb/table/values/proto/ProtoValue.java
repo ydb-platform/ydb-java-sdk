@@ -264,7 +264,7 @@ public class ProtoValue {
     }
 
     public static ValueProtos.Value fromDate32(long daysSinceEpoch) {
-        return ValueProtos.Value.newBuilder().setInt32Value((int)daysSinceEpoch).build();
+        return ValueProtos.Value.newBuilder().setInt32Value((int) daysSinceEpoch).build();
     }
 
     public static LocalDate toDate32(long daysSinceEpoch) {
