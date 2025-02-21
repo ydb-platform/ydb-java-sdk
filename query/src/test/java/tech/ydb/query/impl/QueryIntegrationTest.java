@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.TxMode;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -516,6 +517,54 @@ public class QueryIntegrationTest {
                     session.createQuery("DELETE FROM " + TEST_TABLE, TxMode.SERIALIZABLE_RW).execute()
                             .join().getStatus().expectSuccess();
                 }
+            }
+        }
+    }
+
+    @Test
+    public void testNoTxStatement() {
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                String query = ""
+                        + "DECLARE $s1 AS Int32;"
+                        + "DECLARE $s2 AS Int32;"
+                        + "DECLARE $id1 AS Int32;"
+                        + "DECLARE $id2 AS Int32;"
+                        + "DECLARE $name1 AS Text;"
+                        + "DECLARE $name2 AS Text;"
+                        + "SELECT * FROM `" + TEST_TABLE + "` WHERE id = $s1;"
+                        + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id1, $name1);"
+                        + "SELECT * FROM `" + TEST_TABLE + "` WHERE id = $s2;"
+                        + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id2, $name2);"
+                        + "SELECT * FROM `" + TEST_TABLE + "` ORDER BY id";
+
+                Params params = Params.of(
+                        "$s1", PrimitiveValue.newInt32(100),
+                        "$s2", PrimitiveValue.newInt32(100),
+                        "$id1", PrimitiveValue.newInt32(100),
+                        "$name1", PrimitiveValue.newText("TEST1"),
+                        "$id2", PrimitiveValue.newInt32(100),
+                        "$name2", PrimitiveValue.newText("TEST2")
+                );
+
+                Result<QueryReader> result = QueryReader.readFrom(
+                        session.createQuery(query, TxMode.NONE, params)
+                ).join();
+
+                Assert.assertFalse(result.isSuccess());
+                Assert.assertEquals(StatusCode.PRECONDITION_FAILED, result.getStatus().getCode());
+                Assert.assertArrayEquals(
+                        new Issue[] { Issue.of(2012, "Conflict with existing key.", Issue.Severity.ERROR)},
+                        result.getStatus().getIssues()
+                );
+
+                Iterator<ResultSetReader> rsIter = QueryReader.readFrom(
+                        session.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id", TxMode.NONE)
+                ).join().getValue().iterator();
+
+                Assert.assertTrue(rsIter.hasNext());
+                ResultSetReader rs = rsIter.next();
+                Assert.assertFalse(rs.next());
             }
         }
     }
