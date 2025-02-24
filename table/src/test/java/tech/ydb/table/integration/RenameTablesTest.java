@@ -1,12 +1,13 @@
 package tech.ydb.table.integration;
 
 import java.util.Arrays;
+
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
@@ -53,8 +54,8 @@ public class RenameTablesTest {
     public void testRenameTables() {
         TableDescription tableDescription = TableDescription.newBuilder()
                 .addNullableColumn("id", PrimitiveType.Uint64)
-                .addNullableColumn("code", PrimitiveType.Text)
-                .addNullableColumn("size", PrimitiveType.Float)
+                .addNonnullColumn("code", PrimitiveType.Text)
+                .addNonnullColumn("size", PrimitiveType.Float)
                 .addNullableColumn("created", PrimitiveType.Timestamp)
                 .addNullableColumn("data", PrimitiveType.Json)
                 .setPrimaryKey("id")

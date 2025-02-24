@@ -128,7 +128,7 @@ public class TableDescription {
         private TableTtl ttlSettings = TableTtl.notSet();
         private final List<ChangefeedDescription> changefeeds = new ArrayList<>();
 
-        public Builder withStoreType(StoreType storeType) {
+        public Builder setStoreType(StoreType storeType) {
             this.storeType = storeType;
             return this;
         }

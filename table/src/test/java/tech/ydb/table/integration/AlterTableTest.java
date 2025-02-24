@@ -74,6 +74,7 @@ public class AlterTableTest {
 
         TableDescription description = describeResult.getValue();
 
+        Assert.assertEquals(TableDescription.StoreType.ROWS, description.getStoreType());
         Assert.assertEquals(1, description.getColumnFamilies().size());
         Assert.assertEquals(DEFAULT_FAMILY, description.getColumnFamilies().get(0).getName());
 

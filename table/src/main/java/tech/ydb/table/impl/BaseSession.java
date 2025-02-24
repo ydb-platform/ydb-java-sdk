@@ -91,6 +91,7 @@ import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
+import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
@@ -207,6 +208,9 @@ public abstract class BaseSession implements Session {
                 .setType(column.getType().toPb());
         if (column.getFamily() != null) {
             builder.setFamily(column.getFamily());
+        }
+        if (column.getType().getKind() != Type.Kind.OPTIONAL) {
+            builder.setNotNull(true);
         }
         return builder.build();
     }
@@ -739,10 +743,10 @@ public abstract class BaseSession implements Session {
         TableDescription.Builder description = TableDescription.newBuilder();
         switch (result.getStoreType()) {
             case STORE_TYPE_ROW:
-                description = description.withStoreType(TableDescription.StoreType.ROWS);
+                description = description.setStoreType(TableDescription.StoreType.ROWS);
                 break;
             case STORE_TYPE_COLUMN:
-                description = description.withStoreType(TableDescription.StoreType.COLUMNS);
+                description = description.setStoreType(TableDescription.StoreType.COLUMNS);
                 break;
             case UNRECOGNIZED:
             case STORE_TYPE_UNSPECIFIED:
