@@ -362,6 +362,17 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .addAllPrimaryKey(description.getPrimaryKeys());
 
+        switch (description.getStoreType()) {
+            case ROWS:
+                request.setStoreType(YdbTable.StoreType.STORE_TYPE_ROW);
+                break;
+            case COLUMNS:
+                request.setStoreType(YdbTable.StoreType.STORE_TYPE_COLUMN);
+                break;
+            default:
+                break;
+        }
+
         for (ColumnFamily family: description.getColumnFamilies()) {
             request.addColumnFamilies(buildColumnFamity(family));
         }
@@ -726,6 +737,19 @@ public abstract class BaseSession implements Session {
             DescribeTableSettings describeTableSettings
     ) {
         TableDescription.Builder description = TableDescription.newBuilder();
+        switch (result.getStoreType()) {
+            case STORE_TYPE_ROW:
+                description = description.withStoreType(TableDescription.StoreType.ROWS);
+                break;
+            case STORE_TYPE_COLUMN:
+                description = description.withStoreType(TableDescription.StoreType.COLUMNS);
+                break;
+            case UNRECOGNIZED:
+            case STORE_TYPE_UNSPECIFIED:
+            default:
+                break;
+        }
+
         for (int i = 0; i < result.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = result.getColumns(i);
             description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());
