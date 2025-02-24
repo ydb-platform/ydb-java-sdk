@@ -1,6 +1,10 @@
 package tech.ydb.table.integration;
 
+import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 import org.junit.Assert;
@@ -13,6 +17,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.query.DataQueryResult;
+import tech.ydb.table.query.Params;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
@@ -124,11 +129,11 @@ public class ValuesReadTest {
     public void timestampReadTest() {
         DataQueryResult result = CTX.supplyResult(
                 s -> s.executeDataQuery("SELECT "
-                        + "DateTime::MakeTimestamp(DateTime::FromMilliseconds(0ul)) as t1,"
-                        + "DateTime::MakeTimestamp(DateTime::FromMicroseconds(1000ul)) as t2,"
-                        + "DateTime::MakeTimestamp(DateTime::FromMicroseconds(4291747199999999ul)) as t3,"
-                        + "Timestamp('1970-01-01T00:00:00.000000Z') as t4,"
-                        + "Timestamp('2105-12-31T23:59:59.999999Z') as t5;",
+                                + "DateTime::MakeTimestamp(DateTime::FromMilliseconds(0ul)) as t1,"
+                                + "DateTime::MakeTimestamp(DateTime::FromMicroseconds(1000ul)) as t2,"
+                                + "DateTime::MakeTimestamp(DateTime::FromMicroseconds(4291747199999999ul)) as t3,"
+                                + "Timestamp('1970-01-01T00:00:00.000000Z') as t4,"
+                                + "Timestamp('2105-12-31T23:59:59.999999Z') as t5;",
                         TxControl.serializableRw()
                 )
         ).join().getValue();
@@ -146,8 +151,8 @@ public class ValuesReadTest {
 
         Status invalid = CTX.supplyResult(
                 s -> s.executeDataQuery("SELECT "
-                        + "Timestamp('1969-12-31T23:59:59.999999Z') as t6,"
-                        + "Timestamp('2106-01-01T00:00:00.000000Z') as t7;",
+                                + "Timestamp('1969-12-31T23:59:59.999999Z') as t6,"
+                                + "Timestamp('2106-01-01T00:00:00.000000Z') as t7;",
                         TxControl.serializableRw()
                 )
         ).join().getStatus();
@@ -164,18 +169,18 @@ public class ValuesReadTest {
     public void decimalReadTest() {
         DataQueryResult result = CTX.supplyResult(
                 s -> s.executeDataQuery("SELECT "
-                        + "Decimal('9', 1, 0) AS d1, "
-                        + "Decimal('-9', 1, 0) AS d2, "
-                        + "Decimal('99999999999999999999999999999999999', 35, 0) AS d3, "
-                        + "Decimal('-99999999999999999999999999999999999', 35, 0) AS d4, "
-                        + "Decimal('9999999999999999999999999.9999999999', 35, 10) AS d5, "
-                        + "Decimal('-9999999999999999999999999.9999999999', 35, 10) AS d6, "
-                        + "Decimal('9.6', 1, 0) AS d7, "
-                        + "Decimal('-9.6', 1, 0) AS d8, "
-                        + "Decimal('99999999999999999999999999999999999.6', 35, 0) AS d9, "
-                        + "Decimal('-99999999999999999999999999999999999.6', 35, 0) AS d10, "
-                        + "Decimal('9999999999999999999999999.99999999996', 35, 10) AS d11, "
-                        + "Decimal('-9999999999999999999999999.99999999996', 35, 10) AS d12;",
+                                + "Decimal('9', 1, 0) AS d1, "
+                                + "Decimal('-9', 1, 0) AS d2, "
+                                + "Decimal('99999999999999999999999999999999999', 35, 0) AS d3, "
+                                + "Decimal('-99999999999999999999999999999999999', 35, 0) AS d4, "
+                                + "Decimal('9999999999999999999999999.9999999999', 35, 10) AS d5, "
+                                + "Decimal('-9999999999999999999999999.9999999999', 35, 10) AS d6, "
+                                + "Decimal('9.6', 1, 0) AS d7, "
+                                + "Decimal('-9.6', 1, 0) AS d8, "
+                                + "Decimal('99999999999999999999999999999999999.6', 35, 0) AS d9, "
+                                + "Decimal('-99999999999999999999999999999999999.6', 35, 0) AS d10, "
+                                + "Decimal('9999999999999999999999999.99999999996', 35, 10) AS d11, "
+                                + "Decimal('-9999999999999999999999999.99999999996', 35, 10) AS d12;",
                         TxControl.serializableRw()
                 )
         ).join().getValue();
@@ -222,5 +227,110 @@ public class ValuesReadTest {
         Assert.assertEquals(d8.getHigh(), d12.getHigh());
         Assert.assertEquals(d8.getLow(), d10.getLow());
         Assert.assertEquals(d8.getLow(), d12.getLow());
+    }
+
+    @Test
+    public void date32datetime64timestamp64interval64() {
+        date32datetime64timestamp64interval64Assert(
+                LocalDate.of(988, 2, 6),
+                LocalDateTime.of(988, 2, 7, 12, 30, 0),
+                Instant.parse("0998-06-02T12:30:00.678901Z"),
+                Duration.parse("-PT2S")
+        );
+
+        date32datetime64timestamp64interval64Assert(
+                LocalDate.now(),
+                LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS),
+                Instant.now().truncatedTo(ChronoUnit.MICROS),
+                Duration.ZERO
+        );
+
+        DataQueryResult reader = CTX.supplyResult(
+                s -> s.executeDataQuery("DECLARE $date32 AS Date32;\n" +
+                        "DECLARE $datetime64 AS Datetime64;\n" +
+                        "DECLARE $timestamp64 AS Timestamp64;\n" +
+                        "DECLARE $interval64 AS Interval64;\n" +
+                        "\n" +
+                        "$date32=Date32('998-06-02'); \n" +
+                        "$datetime64=Datetime64('0998-06-02T12:30:00Z');\n" +
+                        "$timestamp64=Timestamp64('0998-06-02T12:30:00.678901Z');\n" +
+                        "$interval64=Interval64('-PT2S');\n" +
+                        "\n" +
+                        "SELECT $date32, $datetime64, $timestamp64, $interval64;", TxControl.serializableRw())
+        ).join().getValue();
+
+        ResultSetReader resultSetReader = reader.getResultSet(0);
+
+        Assert.assertTrue(resultSetReader.next());
+        Assert.assertEquals(LocalDate.parse("0998-06-02"), resultSetReader.getColumn(0).getDate32());
+        Assert.assertEquals(LocalDateTime.parse("0998-06-02T12:30:00"), resultSetReader.getColumn(1).getDatetime64());
+        Assert.assertEquals(Instant.parse("0998-06-02T12:30:00.678901Z"), resultSetReader.getColumn(2).getTimestamp64());
+        Assert.assertEquals(Duration.parse("-PT2S"), resultSetReader.getColumn(3).getInterval64());
+    }
+
+    @Test
+    public void timestamp64ReadTest() {
+        System.out.println(Instant.ofEpochSecond(-4611669897600L));
+        DataQueryResult result = CTX.supplyResult(
+                s -> s.executeDataQuery("SELECT "
+                                + "Timestamp64('-144169-01-01T00:00:00Z') as t1,"
+                                + "Timestamp64('148107-12-31T23:59:59.999999Z') as t2;",
+                        TxControl.serializableRw()
+                )).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        assertTimestamp64(rs.getColumn("t1"), Instant.ofEpochSecond(-4611669897600L));
+        assertTimestamp64(rs.getColumn("t2"), Instant.ofEpochSecond(4611669811199L, 999999000));
+
+        Status invalid = CTX.supplyResult(
+                s -> s.executeDataQuery("SELECT "
+                                + "Timestamp64('-144170-01-01T00:00:00Z') as t1,"
+                                + "Timestamp64('148108-01-01T00:00:00.000000Z') as t2;",
+                        TxControl.serializableRw()
+                )
+        ).join().getStatus();
+
+        Assert.assertEquals(StatusCode.GENERIC_ERROR, invalid.getCode());
+        Issue[] issues = invalid.getIssues();
+        Assert.assertEquals(2, issues.length);
+        Assert.assertEquals("Invalid value \"-144170-01-01T00:00:00Z\" for type Timestamp64", issues[0].getMessage());
+        Assert.assertEquals("Invalid value \"148108-01-01T00:00:00.000000Z\" for type Timestamp64", issues[1].getMessage());
+    }
+
+    private void date32datetime64timestamp64interval64Assert(LocalDate date32, LocalDateTime datetime64,
+                                                             Instant timestamp64, Duration interval64) {
+        DataQueryResult reader = CTX.supplyResult(
+                s -> s.executeDataQuery("" +
+                                "DECLARE $date32 AS date32;\n" +
+                                "DECLARE $datetime64 AS Datetime64;\n" +
+                                "DECLARE $timestamp64 AS Timestamp64;\n" +
+                                "DECLARE $interval64 AS Interval64;" +
+                                "SELECT  $date32, $datetime64, $timestamp64, $interval64;",
+                        TxControl.serializableRw(),
+                        Params.of(
+                                "$date32", PrimitiveValue.newDate32(date32),
+                                "$datetime64", PrimitiveValue.newDatetime64(datetime64),
+                                "$timestamp64", PrimitiveValue.newTimestamp64(timestamp64),
+                                "$interval64", PrimitiveValue.newInterval64(interval64)
+                        )
+                )).join().getValue();
+
+        ResultSetReader resultSetReader = reader.getResultSet(0);
+
+        Assert.assertTrue(resultSetReader.next());
+        Assert.assertEquals(date32, resultSetReader.getColumn(0).getDate32());
+        Assert.assertEquals(datetime64, resultSetReader.getColumn(1).getDatetime64());
+        Assert.assertEquals(timestamp64, resultSetReader.getColumn(2).getTimestamp64());
+        Assert.assertEquals(interval64, resultSetReader.getColumn(3).getInterval64());
+    }
+
+    private void assertTimestamp64(ValueReader vr, Instant expected) {
+        Assert.assertNotNull(vr);
+        Assert.assertSame(PrimitiveType.Timestamp64, vr.getType());
+        Assert.assertEquals(expected, vr.getTimestamp64());
     }
 }
