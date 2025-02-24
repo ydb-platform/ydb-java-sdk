@@ -62,6 +62,10 @@ public class ProtoType {
     private static final ValueProtos.Type TZ_TIMESTAMP = primitiveType(PrimitiveTypeId.TZ_TIMESTAMP);
     private static final ValueProtos.Type JSON_DOCUMENT = primitiveType(PrimitiveTypeId.JSON_DOCUMENT);
     private static final ValueProtos.Type DYNUMBER = primitiveType(PrimitiveTypeId.DYNUMBER);
+    private static final ValueProtos.Type DATE32 = primitiveType(PrimitiveTypeId.DATE32);
+    private static final ValueProtos.Type DATETIME64 = primitiveType(PrimitiveTypeId.DATETIME64);
+    private static final ValueProtos.Type TIMESTAMP64 = primitiveType(PrimitiveTypeId.TIMESTAMP64);
+    private static final ValueProtos.Type INTERVAL64 = primitiveType(PrimitiveTypeId.INTERVAL64);
 
     private ProtoType() { }
 
@@ -169,6 +173,22 @@ public class ProtoType {
 
     public static ValueProtos.Type getDyNumber() {
         return DYNUMBER;
+    }
+
+    public static ValueProtos.Type getDate32() {
+        return DATE32;
+    }
+
+    public static ValueProtos.Type getDatetime64() {
+        return DATETIME64;
+    }
+
+    public static ValueProtos.Type getTimestamp64() {
+        return TIMESTAMP64;
+    }
+
+    public static ValueProtos.Type getInterval64() {
+        return INTERVAL64;
     }
 
     public static ValueProtos.Type getDecimal(int precision, int scale) {
@@ -461,6 +481,10 @@ public class ProtoType {
             case DATETIME: return PrimitiveType.Datetime;
             case TIMESTAMP: return PrimitiveType.Timestamp;
             case INTERVAL: return PrimitiveType.Interval;
+            case DATE32: return PrimitiveType.Date32;
+            case DATETIME64: return PrimitiveType.Datetime64;
+            case TIMESTAMP64: return PrimitiveType.Timestamp64;
+            case INTERVAL64: return PrimitiveType.Interval64;
             case TZ_DATE: return PrimitiveType.TzDate;
             case TZ_DATETIME: return PrimitiveType.TzDatetime;
             case TZ_TIMESTAMP: return PrimitiveType.TzTimestamp;

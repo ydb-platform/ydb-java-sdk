@@ -148,7 +148,7 @@ public final class EndpointPool {
             long bestPriority = records.get(0).priority;
             int newBestCount = 0;
             int newPessimizedCount = 0;
-            for (PriorityEndpoint record: records) {
+            for (PriorityEndpoint record : records) {
                 if (record.getPriority() == bestPriority) {
                     newBestCount++;
                 }

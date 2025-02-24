@@ -58,12 +58,20 @@ public enum PrimitiveType implements Type {
     /** JSON in an indexed binary representation. Doesn't support matching, can't be used in the primary key */
     JsonDocument(ProtoType.getJsonDocument()),
     /** A binary representation of a real number with an accuracy of up to 38 digits.
-      * Acceptable values: positive numbers from 1×10-130 up to 1×10126–1,
-      * negative numbers from -1×10126–1 to -1×10-130, and 0.
-      * Compatible with the Number type in AWS DynamoDB.
-      * It's not recommended for ydb-native applications.
-      */
-    DyNumber(ProtoType.getDyNumber());
+     * Acceptable values: positive numbers from 1×10-130 up to 1×10126–1,
+     * negative numbers from -1×10126–1 to -1×10-130, and 0.
+     * Compatible with the Number type in AWS DynamoDB.
+     * It's not recommended for ydb-native applications.
+     */
+    DyNumber(ProtoType.getDyNumber()),
+
+    Date32(ProtoType.getDate32()),
+
+    Datetime64(ProtoType.getDatetime64()),
+
+    Timestamp64(ProtoType.getTimestamp64()),
+
+    Interval64(ProtoType.getInterval64());
 
     private final ValueProtos.Type pbType;
 

@@ -22,7 +22,6 @@ import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
-
 /**
  * @author Sergey Polovko
  */
@@ -63,8 +62,8 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     /** JVM does not support unsigned long, be careful when using this method
-      for numbers greater than Long.MAX_VALUE.For correct work you can use wrappers
-      like {@link com.google.common.primitives.UnsignedLong#fromLongBits(long) UnsignedLong }
+     for numbers greater than Long.MAX_VALUE.For correct work you can use wrappers
+     like {@link com.google.common.primitives.UnsignedLong#fromLongBits(long) UnsignedLong }
      * @return signed long value corresponding to a bit representation of unsigned.*/
     public long getUint64() {
         throw new IllegalStateException("expected Uint64, but was " + getClass().getSimpleName());
@@ -162,6 +161,22 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     public ZonedDateTime getTzTimestamp() {
         throw new IllegalStateException("expected TzTimestamp, but was " + getClass().getSimpleName());
+    }
+
+    public LocalDate getDate32() {
+        throw new IllegalStateException("expected Date32, but was " + getClass().getSimpleName());
+    }
+
+    public LocalDateTime getDatetime64() {
+        throw new IllegalStateException("expected Datetime64, but was " + getClass().getSimpleName());
+    }
+
+    public Instant getTimestamp64() {
+        throw new IllegalStateException("expected Timestamp64, but was " + getClass().getSimpleName());
+    }
+
+    public Duration getInterval64() {
+        throw new IllegalStateException("expected Interval64, but was " + getClass().getSimpleName());
     }
 
     // -- constructors --
@@ -274,6 +289,19 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         return newDate(TimeUnit.SECONDS.toDays(value.getEpochSecond()));
     }
 
+    public static PrimitiveValue newDate32(long daysSinceEpoch) {
+        return new InstantValue(PrimitiveType.Date32, TimeUnit.DAYS.toMicros(daysSinceEpoch));
+    }
+
+    public static PrimitiveValue newDate32(LocalDate value) {
+        return newDate32(value.toEpochDay());
+    }
+
+    public static PrimitiveValue newDate32(Instant value) {
+        return newDate32(TimeUnit.SECONDS.toDays(value.getEpochSecond()));
+    }
+
+
     public static PrimitiveValue newDatetime(long secondsSinceEpoch) {
         if (secondsSinceEpoch < 0) {
             throw new IllegalArgumentException("negative secondsSinceEpoch: " + secondsSinceEpoch);
@@ -287,6 +315,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     public static PrimitiveValue newDatetime(LocalDateTime value) {
         return newDatetime(value.toEpochSecond(ZoneOffset.UTC));
+    }
+
+    public static PrimitiveValue newDatetime64(long secondsSinceEpoch) {
+        return new InstantValue(PrimitiveType.Datetime64, TimeUnit.SECONDS.toMicros(secondsSinceEpoch));
+    }
+
+    public static PrimitiveValue newDatetime64(Instant value) {
+        return newDatetime64(value.getEpochSecond());
+    }
+
+    public static PrimitiveValue newDatetime64(LocalDateTime value) {
+        return newDatetime64(value.toEpochSecond(ZoneOffset.UTC));
     }
 
     public static PrimitiveValue newTimestamp(long microsSinceEpoch) {
@@ -317,12 +357,48 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         return new InstantValue(PrimitiveType.Timestamp, micros);
     }
 
+    public static PrimitiveValue newTimestamp64(long microsSinceEpoch) {
+        if (microsSinceEpoch < -4611669897600000000L) {
+            throw new IllegalArgumentException("microsSinceEpoch value is before "
+                    + "minimum timestamp64(-144168-01-01T00:00:00Z): " + microsSinceEpoch);
+        }
+        if (microsSinceEpoch >= 4611669811199999999L) {
+            throw new IllegalArgumentException("microsSinceEpoch value is after "
+                    + "maximum timestamp64(148107-12-31T23:59:59.999999Z): " + microsSinceEpoch);
+        }
+
+        return new InstantValue(PrimitiveType.Timestamp64, microsSinceEpoch);
+    }
+
+    public static PrimitiveValue newTimestamp64(Instant value) {
+        long seconds = value.getEpochSecond();
+        if (seconds < -4611669897600000000L) {
+            throw new IllegalArgumentException("Instant value is before "
+                    + "minimum timestamp64(-144168-01-01T00:00:00Z): " + value);
+        }
+        int nanos = value.getNano();
+        long micros = seconds * 1000000L + nanos / 1000;
+        if (micros >= 4611669811199999999L) {
+            throw new IllegalArgumentException("microsSinceEpoch value is after "
+                    + "maximum timestamp64(148107-12-31T23:59:59.999999Z): " + value);
+        }
+        return new InstantValue(PrimitiveType.Timestamp64, micros);
+    }
+
     public static PrimitiveValue newInterval(long micros) {
-        return new IntervalValue(micros);
+        return new IntervalValue(PrimitiveType.Interval, micros);
     }
 
     public static PrimitiveValue newInterval(Duration value) {
         return newInterval(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
+    }
+
+    public static PrimitiveValue newInterval64(long micros) {
+        return new IntervalValue(PrimitiveType.Interval64, micros);
+    }
+
+    public static PrimitiveValue newInterval64(Duration value) {
+        return newInterval64(TimeUnit.NANOSECONDS.toMicros(value.toNanos()));
     }
 
     public static PrimitiveValue newTzDate(ZonedDateTime dateTime) {
@@ -960,8 +1036,8 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public String toString() {
             final int length = (value instanceof byte[])
-                ? ((byte[]) value).length
-                : ((ByteString) value).size();
+                    ? ((byte[]) value).length
+                    : ((ByteString) value).size();
 
             if (length == 0) {
                 return "\"\"";
@@ -1036,9 +1112,9 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         private static final Text EMPTY_JSON_DOCUMENT = new Text(PrimitiveType.JsonDocument, "");
 
         private static final Escaper ESCAPER = Escapers.builder()
-            .addEscape('\\', "\\\\")
-            .addEscape('\"', "\\\"")
-            .build();
+                .addEscape('\\', "\\\\")
+                .addEscape('\"', "\\\"")
+                .build();
 
         private final PrimitiveType type;
         private final String value;
@@ -1141,6 +1217,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
 
         @Override
+        public LocalDate getDate32() {
+            checkType(PrimitiveType.Date32, type);
+            return ProtoValue.toDate32(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
+        }
+
+        @Override
+        public LocalDateTime getDatetime64() {
+            checkType(PrimitiveType.Datetime64, type);
+            return ProtoValue.toDatetime64(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
+        }
+
+        @Override
+        public Instant getTimestamp64() {
+            checkType(PrimitiveType.Timestamp64, type);
+            return ProtoValue.toTimestamp64(microsSinceEpoch);
+        }
+
+        @Override
         public boolean equals(Object o) {
             if (this == o) {
                 return true;
@@ -1162,9 +1256,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public String toString() {
             switch (type) {
-                case Date: return DateTimeFormatter.ISO_DATE.format(getDate());
-                case Datetime: return DateTimeFormatter.ISO_DATE_TIME.format(getDatetime());
-                case Timestamp: return DateTimeFormatter.ISO_INSTANT.format(getTimestamp());
+                case Date:
+                    return DateTimeFormatter.ISO_DATE.format(getDate());
+                case Datetime:
+                    return DateTimeFormatter.ISO_DATE_TIME.format(getDatetime());
+                case Timestamp:
+                    return DateTimeFormatter.ISO_INSTANT.format(getTimestamp());
+                case Date32:
+                    return DateTimeFormatter.ISO_DATE.format(getDate32());
+                case Datetime64:
+                    return DateTimeFormatter.ISO_DATE_TIME.format(getDatetime64());
+                case Timestamp64:
+                    return DateTimeFormatter.ISO_INSTANT.format(getTimestamp64());
                 default:
                     throw new IllegalStateException("unsupported type: " + type);
             }
@@ -1173,9 +1276,18 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public ValueProtos.Value toPb() {
             switch (type) {
-                case Date: return ProtoValue.fromDate(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
-                case Datetime: return ProtoValue.fromDatetime(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
-                case Timestamp: return ProtoValue.fromTimestamp(microsSinceEpoch);
+                case Date:
+                    return ProtoValue.fromDate(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
+                case Datetime:
+                    return ProtoValue.fromDatetime(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
+                case Timestamp:
+                    return ProtoValue.fromTimestamp(microsSinceEpoch);
+                case Date32:
+                    return ProtoValue.fromDate32(TimeUnit.MICROSECONDS.toDays(microsSinceEpoch));
+                case Datetime64:
+                    return ProtoValue.fromDatetime64(TimeUnit.MICROSECONDS.toSeconds(microsSinceEpoch));
+                case Timestamp64:
+                    return ProtoValue.fromTimestamp64(microsSinceEpoch);
                 default:
                     throw new IllegalStateException("unsupported type: " + type);
             }
@@ -1183,19 +1295,26 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class IntervalValue extends PrimitiveValue {
+        private final PrimitiveType type;
         private final long micros;
 
-        IntervalValue(long micros) {
+        IntervalValue(PrimitiveType type, long micros) {
+            this.type = type;
             this.micros = micros;
         }
 
         @Override
         public PrimitiveType getType() {
-            return PrimitiveType.Interval;
+            return type;
         }
 
         @Override
         public Duration getInterval() {
+            return Duration.of(micros, ChronoUnit.MICROS);
+        }
+
+        @Override
+        public Duration getInterval64() {
             return Duration.of(micros, ChronoUnit.MICROS);
         }
 
@@ -1220,12 +1339,26 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public String toString() {
-            return getInterval().toString();
+            switch (type) {
+                case Interval:
+                    return getInterval().toString();
+                case Interval64:
+                    return getInterval64().toString();
+                default:
+                    throw new IllegalStateException("unsupported type: " + type);
+            }
         }
 
         @Override
         public ValueProtos.Value toPb() {
-            return ProtoValue.fromInterval(micros);
+            switch (type) {
+                case Interval:
+                    return ProtoValue.fromInterval(micros);
+                case Interval64:
+                    return ProtoValue.fromInterval64(micros);
+                default:
+                    throw new IllegalStateException("unsupported type: " + type);
+            }
         }
     }
 
@@ -1285,8 +1418,8 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         @Override
         public String toString() {
             String timeStr = (type == PrimitiveType.TzDate)
-                ? dateTime.toLocalDate().toString()
-                : dateTime.toLocalDateTime().toString();
+                    ? dateTime.toLocalDate().toString()
+                    : dateTime.toLocalDateTime().toString();
 
             return timeStr + ',' + dateTime.getZone().getId();
         }
