@@ -5,6 +5,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import java.time.chrono.IsoChronology;
 import java.time.temporal.ChronoUnit;
 
 import org.junit.Assert;
@@ -12,11 +13,17 @@ import org.junit.ClassRule;
 import org.junit.Test;
 
 import tech.ydb.common.transaction.TxMode;
+import tech.ydb.core.Issue;
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.query.tools.QueryReader;
 import tech.ydb.query.tools.SessionRetryContext;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.result.ResultSetReader;
+import tech.ydb.table.result.ValueReader;
+import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
+import tech.ydb.table.values.Type;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -68,6 +75,40 @@ public class ValueReadTest {
         Assert.assertEquals(Duration.parse("-PT2S"), resultSetReader.getColumn(3).getInterval64());
     }
 
+    @Test
+    public void timestamp64ReadTest() {
+        System.out.println(Instant.ofEpochSecond(-4611669897600L));
+        QueryReader result = CTX.supplyResult(
+                s -> QueryReader.readFrom(s.createQuery("SELECT "
+                                + "Timestamp64('-144169-01-01T00:00:00Z') as t1,"
+                                + "Timestamp64('148107-12-31T23:59:59.999999Z') as t2;",
+                        TxMode.NONE
+                ))
+        ).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        assertTimestamp64(rs.getColumn("t1"), false, Instant.ofEpochSecond(-4611669897600L));
+        assertTimestamp64(rs.getColumn("t2"), false, Instant.ofEpochSecond(4611669811199L, 999999000));
+
+        Status invalid = CTX.supplyResult(
+                s -> s.createQuery("SELECT "
+                                + "Timestamp64('-144170-01-01T00:00:00Z') as t1,"
+                                + "Timestamp64('148108-01-01T00:00:00.000000Z') as t2;",
+                        TxMode.NONE
+                ).execute()
+        ).join().getStatus();
+
+        Assert.assertEquals(StatusCode.GENERIC_ERROR, invalid.getCode());
+        Issue[] issues = invalid.getIssues();
+        Assert.assertEquals(2, issues.length);
+        Assert.assertEquals("Invalid value \"-144170-01-01T00:00:00Z\" for type Timestamp64", issues[0].getMessage());
+        Assert.assertEquals("Invalid value \"148108-01-01T00:00:00.000000Z\" for type Timestamp64", issues[1].getMessage());
+    }
+
     private void date32datetime64timestamp64interval64Assert(LocalDate date32, LocalDateTime datetime64,
                                                              Instant timestamp64, Duration interval64) {
         QueryReader reader = CTX.supplyResult(
@@ -94,5 +135,17 @@ public class ValueReadTest {
         Assert.assertEquals(datetime64, resultSetReader.getColumn(1).getDatetime64());
         Assert.assertEquals(timestamp64, resultSetReader.getColumn(2).getTimestamp64());
         Assert.assertEquals(interval64, resultSetReader.getColumn(3).getInterval64());
+    }
+
+    private void assertTimestamp64(ValueReader vr, boolean optional, Instant expected) {
+        Assert.assertNotNull(vr);
+        if (optional) {
+            Assert.assertSame(Type.Kind.OPTIONAL, vr.getType().getKind());
+            Assert.assertSame(PrimitiveType.Timestamp64, vr.getType().unwrapOptional());
+        } else {
+            Assert.assertSame(PrimitiveType.Timestamp64, vr.getType());
+        }
+
+        Assert.assertEquals(expected, vr.getTimestamp64());
     }
 }

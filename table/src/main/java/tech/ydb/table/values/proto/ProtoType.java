@@ -481,6 +481,10 @@ public class ProtoType {
             case DATETIME: return PrimitiveType.Datetime;
             case TIMESTAMP: return PrimitiveType.Timestamp;
             case INTERVAL: return PrimitiveType.Interval;
+            case DATE32: return PrimitiveType.Date32;
+            case DATETIME64: return PrimitiveType.Datetime64;
+            case TIMESTAMP64: return PrimitiveType.Timestamp64;
+            case INTERVAL64: return PrimitiveType.Interval64;
             case TZ_DATE: return PrimitiveType.TzDate;
             case TZ_DATETIME: return PrimitiveType.TzDatetime;
             case TZ_TIMESTAMP: return PrimitiveType.TzTimestamp;

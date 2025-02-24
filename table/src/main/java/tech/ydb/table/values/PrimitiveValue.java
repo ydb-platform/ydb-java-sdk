@@ -358,12 +358,30 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newTimestamp64(long microsSinceEpoch) {
+        if (microsSinceEpoch < -4611669897600000000L) {
+            throw new IllegalArgumentException("microsSinceEpoch value is before "
+                    + "minimum timestamp64(-144168-01-01T00:00:00Z): " + microsSinceEpoch);
+        }
+        if (microsSinceEpoch >= 4611669811199999999L) {
+            throw new IllegalArgumentException("microsSinceEpoch value is after "
+                    + "maximum timestamp64(148107-12-31T23:59:59.999999Z): " + microsSinceEpoch);
+        }
+
         return new InstantValue(PrimitiveType.Timestamp64, microsSinceEpoch);
     }
 
     public static PrimitiveValue newTimestamp64(Instant value) {
-        long micros = TimeUnit.SECONDS.toMicros(value.getEpochSecond()) +
-                TimeUnit.NANOSECONDS.toMicros(value.getNano());
+        long seconds = value.getEpochSecond();
+        if (seconds < -4611669897600000000L) {
+            throw new IllegalArgumentException("Instant value is before "
+                    + "minimum timestamp64(-144168-01-01T00:00:00Z): " + value);
+        }
+        int nanos = value.getNano();
+        long micros = seconds * 1000000L + nanos / 1000;
+        if (micros >= 4611669811199999999L) {
+            throw new IllegalArgumentException("microsSinceEpoch value is after "
+                    + "maximum timestamp64(148107-12-31T23:59:59.999999Z): " + value);
+        }
         return new InstantValue(PrimitiveType.Timestamp64, micros);
     }
 
