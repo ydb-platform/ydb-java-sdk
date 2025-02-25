@@ -367,10 +367,10 @@ public abstract class BaseSession implements Session {
                 .addAllPrimaryKey(description.getPrimaryKeys());
 
         switch (description.getStoreType()) {
-            case ROWS:
+            case ROW:
                 request.setStoreType(YdbTable.StoreType.STORE_TYPE_ROW);
                 break;
-            case COLUMNS:
+            case COLUMN:
                 request.setStoreType(YdbTable.StoreType.STORE_TYPE_COLUMN);
                 break;
             default:
@@ -743,10 +743,10 @@ public abstract class BaseSession implements Session {
         TableDescription.Builder description = TableDescription.newBuilder();
         switch (result.getStoreType()) {
             case STORE_TYPE_ROW:
-                description = description.setStoreType(TableDescription.StoreType.ROWS);
+                description = description.setStoreType(TableDescription.StoreType.ROW);
                 break;
             case STORE_TYPE_COLUMN:
-                description = description.setStoreType(TableDescription.StoreType.COLUMNS);
+                description = description.setStoreType(TableDescription.StoreType.COLUMN);
                 break;
             case UNRECOGNIZED:
             case STORE_TYPE_UNSPECIFIED:

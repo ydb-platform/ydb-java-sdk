@@ -25,8 +25,8 @@ import tech.ydb.table.values.Type;
  */
 public class TableDescription {
     public enum StoreType {
-        ROWS,
-        COLUMNS
+        ROW,
+        COLUMN
     }
 
     private final StoreType storeType;
@@ -115,7 +115,7 @@ public class TableDescription {
      * BUILDER
      */
     public static class Builder {
-        private StoreType storeType = StoreType.ROWS;
+        private StoreType storeType = StoreType.ROW;
         private List<String> primaryKeys = Collections.emptyList();
         private final LinkedHashMap<String, TypeAndFamily> columns = new LinkedHashMap<>();
         private final List<TableIndex> indexes = new ArrayList<>();
