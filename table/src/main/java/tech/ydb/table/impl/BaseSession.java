@@ -91,6 +91,7 @@ import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
+import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
@@ -207,6 +208,9 @@ public abstract class BaseSession implements Session {
                 .setType(column.getType().toPb());
         if (column.getFamily() != null) {
             builder.setFamily(column.getFamily());
+        }
+        if (column.getType().getKind() != Type.Kind.OPTIONAL) {
+            builder.setNotNull(true);
         }
         return builder.build();
     }
@@ -361,6 +365,17 @@ public abstract class BaseSession implements Session {
                 .setPath(path)
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .addAllPrimaryKey(description.getPrimaryKeys());
+
+        switch (description.getStoreType()) {
+            case ROW:
+                request.setStoreType(YdbTable.StoreType.STORE_TYPE_ROW);
+                break;
+            case COLUMN:
+                request.setStoreType(YdbTable.StoreType.STORE_TYPE_COLUMN);
+                break;
+            default:
+                break;
+        }
 
         for (ColumnFamily family: description.getColumnFamilies()) {
             request.addColumnFamilies(buildColumnFamity(family));
@@ -726,6 +741,19 @@ public abstract class BaseSession implements Session {
             DescribeTableSettings describeTableSettings
     ) {
         TableDescription.Builder description = TableDescription.newBuilder();
+        switch (result.getStoreType()) {
+            case STORE_TYPE_ROW:
+                description = description.setStoreType(TableDescription.StoreType.ROW);
+                break;
+            case STORE_TYPE_COLUMN:
+                description = description.setStoreType(TableDescription.StoreType.COLUMN);
+                break;
+            case UNRECOGNIZED:
+            case STORE_TYPE_UNSPECIFIED:
+            default:
+                break;
+        }
+
         for (int i = 0; i < result.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = result.getColumns(i);
             description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());

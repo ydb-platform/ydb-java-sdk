@@ -24,7 +24,12 @@ import tech.ydb.table.values.Type;
  * @author Sergey Polovko
  */
 public class TableDescription {
+    public enum StoreType {
+        ROW,
+        COLUMN
+    }
 
+    private final StoreType storeType;
     private final List<String> primaryKeys;
     private final List<TableColumn> columns;
     private final List<TableIndex> indexes;
@@ -42,6 +47,7 @@ public class TableDescription {
     private final TableTtl tableTtl;
 
     private TableDescription(Builder builder) {
+        this.storeType = builder.storeType;
         this.primaryKeys = ImmutableList.copyOf(builder.primaryKeys);
         this.columns = builder.buildColumns();
         this.indexes = ImmutableList.copyOf(builder.indexes);
@@ -57,6 +63,10 @@ public class TableDescription {
 
     public static Builder newBuilder() {
         return new Builder();
+    }
+
+    public StoreType getStoreType() {
+        return storeType;
     }
 
     public List<String> getPrimaryKeys() {
@@ -105,7 +115,7 @@ public class TableDescription {
      * BUILDER
      */
     public static class Builder {
-
+        private StoreType storeType = StoreType.ROW;
         private List<String> primaryKeys = Collections.emptyList();
         private final LinkedHashMap<String, TypeAndFamily> columns = new LinkedHashMap<>();
         private final List<TableIndex> indexes = new ArrayList<>();
@@ -117,6 +127,11 @@ public class TableDescription {
         private final List<PartitionStats> partitionStats = new ArrayList<>();
         private TableTtl ttlSettings = TableTtl.notSet();
         private final List<ChangefeedDescription> changefeeds = new ArrayList<>();
+
+        public Builder setStoreType(StoreType storeType) {
+            this.storeType = storeType;
+            return this;
+        }
 
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
