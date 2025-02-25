@@ -1,3 +1,10 @@
+## 2.3.10 ##
+
+* Table: supported Date32, Datetime64, Timestamp64, Interval64 types
+* Table: added support of StoreType and not null columns in column tables
+* Tests: fixed JDK 21 build & tests
+* Topics: added support of write acks during transactions
+
 ## 2.3.9 ##
 
 * Core: fixed unit tests on MacOS
