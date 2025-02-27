@@ -136,7 +136,7 @@ public class ChangefeedDescription {
                 .append(", mode=").append(mode)
                 .append(", virtual timestamps=").append(virtualTimestamps)
                 .append(", resolved timestamps=").append(
-                    resolvedTimestampsInterval != null? resolvedTimestampsInterval : "null")
+                    resolvedTimestampsInterval != null ? resolvedTimestampsInterval : "null")
                 .append("}").toString();
     }
 }
