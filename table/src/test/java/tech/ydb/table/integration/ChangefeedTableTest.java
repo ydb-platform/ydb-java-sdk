@@ -124,6 +124,7 @@ public class ChangefeedTableTest {
                         .withMode(Changefeed.Mode.NEW_AND_OLD_IMAGES)
                         .withVirtualTimestamps(true)
                         .withRetentionPeriod(Duration.ofDays(5))
+                        .withResolvedTimestampsInterval(Duration.ofSeconds(3))
                         .build())
         )).join();
         Assert.assertTrue("Alter table changefeed 2 " + alterStatus, alterStatus.isSuccess());
@@ -142,8 +143,9 @@ public class ChangefeedTableTest {
         Assert.assertEquals(Changefeed.Format.JSON, ch1.getFormat());
         Assert.assertEquals(ChangefeedDescription.State.ENABLED, ch1.getState());
         Assert.assertFalse(ch1.hasVirtualTimestamps());
+        Assert.assertEquals(ch1.getResolvedTimestampsInterval(), Duration.ZERO);  // zero is default when not specified
         Assert.assertEquals(
-                "Changefeed['change1']{state=ENABLED, format=JSON, mode=KEYS_ONLY, virtual timestamps=false}",
+                "Changefeed['change1']{state=ENABLED, format=JSON, mode=KEYS_ONLY, virtual timestamps=false, resolved timestamps=PT0S}",
                 ch1.toString()
         );
 
@@ -152,6 +154,7 @@ public class ChangefeedTableTest {
         Assert.assertEquals(Changefeed.Mode.NEW_AND_OLD_IMAGES, ch2.getMode());
         Assert.assertEquals(Changefeed.Format.JSON, ch2.getFormat());
         Assert.assertTrue(ch2.hasVirtualTimestamps());
+        Assert.assertEquals(ch2.getResolvedTimestampsInterval(), Duration.ofSeconds(3));
 
         // State may be flaky
         Assert.assertTrue(ch2.getState() == ChangefeedDescription.State.INITIAL_SCAN ||

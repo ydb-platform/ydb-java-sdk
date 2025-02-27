@@ -1,5 +1,6 @@
 package tech.ydb.table.description;
 
+import java.time.Duration;
 import java.util.Objects;
 
 import tech.ydb.table.settings.Changefeed;
@@ -30,14 +31,36 @@ public class ChangefeedDescription {
     private final Changefeed.Format format;
     private final State state;
     private final boolean virtualTimestamps;
+    private final Duration resolvedTimestampsInterval;
 
-    public ChangefeedDescription(String name, Changefeed.Mode mode, Changefeed.Format format, State state,
-            boolean virtualTimestamps) {
+    public ChangefeedDescription(
+        String name,
+        Changefeed.Mode mode,
+        Changefeed.Format format,
+        State state,
+        boolean virtualTimestamps,
+        Duration resolvedTimestampsInterval
+    ) {
         this.name = name;
         this.mode = mode;
         this.format = format;
         this.state = state;
         this.virtualTimestamps = virtualTimestamps;
+        this.resolvedTimestampsInterval = resolvedTimestampsInterval;
+    }
+
+    /**
+     * @deprecated use constructor with resolvedTimestampsInterval instead
+     */
+    @Deprecated
+    public ChangefeedDescription(
+        String name,
+        Changefeed.Mode mode,
+        Changefeed.Format format,
+        State state,
+        boolean virtualTimestamps
+    ) {
+        this(name, mode, format, state, virtualTimestamps, null);
     }
 
     /**
@@ -75,9 +98,16 @@ public class ChangefeedDescription {
         return virtualTimestamps;
     }
 
+    /**
+     * @return Heartbeat interval
+     */
+    public Duration getResolvedTimestampsInterval() {
+        return resolvedTimestampsInterval;
+    }
+
     @Override
     public int hashCode() {
-        return Objects.hash(name, mode, format, state, virtualTimestamps);
+        return Objects.hash(name, mode, format, state, virtualTimestamps, resolvedTimestampsInterval);
     }
 
     @Override
@@ -94,7 +124,8 @@ public class ChangefeedDescription {
                 && mode == cd.mode
                 && format == cd.format
                 && state == cd.state
-                && virtualTimestamps == cd.virtualTimestamps;
+                && virtualTimestamps == cd.virtualTimestamps
+                && Objects.equals(resolvedTimestampsInterval, cd.resolvedTimestampsInterval);
     }
 
     @Override
@@ -104,6 +135,8 @@ public class ChangefeedDescription {
                 .append(", format=").append(format)
                 .append(", mode=").append(mode)
                 .append(", virtual timestamps=").append(virtualTimestamps)
+                .append(", resolved timestamps=").append(
+                    resolvedTimestampsInterval != null ? resolvedTimestampsInterval : "null")
                 .append("}").toString();
     }
 }
