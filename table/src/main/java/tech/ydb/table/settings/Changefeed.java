@@ -44,6 +44,7 @@ public class Changefeed {
     private final boolean virtualTimestamps;
     private final Duration retentionPeriod;
     private final boolean initialScan;
+    private final Duration resolvedTimestampsInterval;
 
     private Changefeed(Builder builder) {
         this.name = builder.name;
@@ -52,6 +53,7 @@ public class Changefeed {
         this.virtualTimestamps = builder.virtualTimestamps;
         this.retentionPeriod = builder.retentionPeriod;
         this.initialScan = builder.initialScan;
+        this.resolvedTimestampsInterval = builder.resolvedTimestampsInterval;
     }
 
     public String getName() {
@@ -78,6 +80,10 @@ public class Changefeed {
         return retentionPeriod;
     }
 
+    public Duration getResolvedTimestampsInterval() {
+        return resolvedTimestampsInterval;
+    }
+
     @Deprecated
     public tech.ydb.proto.table.YdbTable.Changefeed toProto() {
         return BaseSession.buildChangefeed(this);
@@ -98,12 +104,14 @@ public class Changefeed {
         private boolean virtualTimestamps = false;
         private Duration retentionPeriod = null;
         private boolean initialScan = false;
+        private Duration resolvedTimestampsInterval = null;
 
         private Builder(ChangefeedDescription description) {
             this.name = description.getName();
             this.mode = description.getMode();
             this.format = description.getFormat();
             this.virtualTimestamps = description.hasVirtualTimestamps();
+            this.resolvedTimestampsInterval = description.getResolvedTimestampsInterval();
         }
 
         private Builder(String name) {
@@ -132,6 +140,11 @@ public class Changefeed {
 
         public Builder withRetentionPeriod(Duration retentionPeriod) {
             this.retentionPeriod = retentionPeriod;
+            return this;
+        }
+
+        public Builder withResolvedTimestampsInterval(Duration resolvedTimestampsInterval) {
+            this.resolvedTimestampsInterval = resolvedTimestampsInterval;
             return this;
         }
 

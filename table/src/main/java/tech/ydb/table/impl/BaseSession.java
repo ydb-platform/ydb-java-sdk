@@ -32,6 +32,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.Operation;
+import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.ValueProtos;
@@ -258,6 +259,14 @@ public abstract class BaseSession implements Session {
             builder.setRetentionPeriod(com.google.protobuf.Duration.newBuilder()
                     .setSeconds(retentionPeriod.getSeconds())
                     .setNanos(retentionPeriod.getNano())
+                    .build());
+        }
+
+        Duration resolvedTimestampsInterval = changefeed.getResolvedTimestampsInterval();
+        if (resolvedTimestampsInterval != null) {
+            builder.setResolvedTimestampsInterval(com.google.protobuf.Duration.newBuilder()
+                    .setSeconds(resolvedTimestampsInterval.getSeconds())
+                    .setNanos(resolvedTimestampsInterval.getNano())
                     .build());
         }
 
@@ -849,7 +858,8 @@ public abstract class BaseSession implements Session {
                 mapChangefeedMode(pb.getMode()),
                 mapChangefeedFormat(pb.getFormat()),
                 mapChangefeedState(pb.getState()),
-                pb.getVirtualTimestamps()
+                pb.getVirtualTimestamps(),
+                ProtobufUtils.protoToDuration(pb.getResolvedTimestampsInterval())
             ));
         }
 
