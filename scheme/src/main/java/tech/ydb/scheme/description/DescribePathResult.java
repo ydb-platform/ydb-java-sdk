@@ -25,6 +25,6 @@ public class DescribePathResult {
     }
 
     public Entry getEntry() {
-        return this.entry;
+        return entry;
     }
 }

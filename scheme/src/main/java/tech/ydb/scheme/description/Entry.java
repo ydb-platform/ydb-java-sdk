@@ -36,7 +36,7 @@ public class Entry {
     }
 
     /**
-     * Size of entry in bytes. Currently filled for:
+     * Approximate size of entry in bytes. Currently filled for:
      * <ul>
      * <li> TABLE </li>
      * <li> DATABASE </li>
