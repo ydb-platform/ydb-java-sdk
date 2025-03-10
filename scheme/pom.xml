@@ -35,5 +35,10 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>tech.ydb.test</groupId>
+            <artifactId>ydb-junit4-support</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 </project>
