@@ -5,7 +5,6 @@ import java.util.function.BiConsumer;
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
 
@@ -187,15 +186,15 @@ public class WriterSettings {
             final RetryConfig currentConfig = retryConfig;
             retryConfig = new RetryConfig() {
                 @Override
-                public RetryPolicy isStatusRetryable(StatusCode code) {
-                    handler.accept(Status.of(code), null);
-                    return currentConfig.isStatusRetryable(code);
+                public RetryPolicy getStatusRetryPolicy(Status status) {
+                    handler.accept(status, null);
+                    return currentConfig.getStatusRetryPolicy(status);
                 }
 
                 @Override
-                public RetryPolicy isThrowableRetryable(Throwable th) {
+                public RetryPolicy getThrowableRetryPolicy(Throwable th) {
                     handler.accept(null, th);
-                    return currentConfig.isThrowableRetryable(th);
+                    return currentConfig.getThrowableRetryPolicy(th);
                 }
             };
             return this;
