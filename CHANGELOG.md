@@ -1,3 +1,8 @@
+## 2.3.11 ##
+
+* Scheme: added more simple api for describeDirectory and listDirectory
+* Table: added resolvedTimestampsInterval to changefeed description
+
 ## 2.3.10 ##
 
 * Table: supported Date32, Datetime64, Timestamp64, Interval64 types
