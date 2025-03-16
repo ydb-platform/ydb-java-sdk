@@ -194,6 +194,7 @@ abstract class SessionImpl implements QuerySession {
                         .setText(query)
                         .build()
                 )
+                .setPoolId(settings.getResourcePool())
                 .putAllParameters(prms.toPb());
 
         if (tx != null) {
