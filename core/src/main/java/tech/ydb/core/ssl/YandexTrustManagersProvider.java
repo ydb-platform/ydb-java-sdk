@@ -1,6 +1,7 @@
 package tech.ydb.core.ssl;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -16,7 +17,7 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 final class YandexTrustManagersProvider {
-    private static final String JSK_YANDEX_CA_STORE = "certificates/YandexAllCAs.pkcs";
+    private static final String YANDEX_CA_STORE = "certificates/YandexAllCAs.pkcs";
     private static final String STORE_PASSWORD = "yandex";
 
     private final TrustManager[] trustManagers;
@@ -51,8 +52,9 @@ final class YandexTrustManagersProvider {
     private List<TrustManager> getCustomTrustManagers()
             throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        keyStore.load(YandexTrustManagersProvider.class.getClassLoader().getResourceAsStream(JSK_YANDEX_CA_STORE),
-                STORE_PASSWORD.toCharArray());
+        try (InputStream is = YandexTrustManagersProvider.class.getClassLoader().getResourceAsStream(YANDEX_CA_STORE)) {
+            keyStore.load(is, STORE_PASSWORD.toCharArray());
+        }
         return getTrustManagersFromKeyStore(keyStore);
     }
 
