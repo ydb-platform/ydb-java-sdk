@@ -1,5 +1,6 @@
 package tech.ydb.table.result.impl;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 import com.google.protobuf.NullValue;
@@ -65,7 +66,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.OPTIONAL, OPTIONAL_TYPE)
                 .hasValuePb(pbValue);
         checkCastException("optional is not primitive", () -> { optional.asData(); })
-                .hasInMessage("OptionalValue cannot be cast");
+                .hasOneOfMessage("OptionalValue cannot be cast", "OptionalValue incompatible with");
 
         ValueReader valueReader = optionalReader.getOptionalItem();
         check("value reader", valueReader).isNotNull()
@@ -81,7 +82,7 @@ public class OptionalReaderTest {
                 .hasValuePb(pbValue)
                 .hasTextValue(NOT_NULL);
         checkCastException("value is not optinal", () -> { value.asOptional(); })
-                .hasInMessage("PrimitiveValue$Text cannot be cast ");
+                .hasOneOfMessage("PrimitiveValue$Text cannot be cast ", "PrimitiveValue$Text incompatible with");
 
         Assert.assertEquals("optional item equals value", value, optional.asOptional().get());
     }
@@ -113,7 +114,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.OPTIONAL, OPTIONAL_TYPE)
                 .hasValuePb(pbValue);
         checkCastException("optional is not primitive", () -> { optional.asData(); })
-                .hasInMessage("OptionalValue cannot be cast");
+                .hasOneOfMessage("OptionalValue cannot be cast", "OptionalValue incompatible with");
         checkNoSuchElementException("optional has not value", () -> { optional.asOptional().get(); })
                 .hasInMessage("No value present");
 
@@ -149,7 +150,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE)
                 .hasValuePb(pbValue);
         checkCastException("optional is not primitive", () -> { optional.asData(); })
-                .hasInMessage("OptionalValue cannot be cast");
+                .hasOneOfMessage("OptionalValue cannot be cast", "OptionalValue incompatible with");
         checkNoSuchElementException("optional has not value", () -> { optional.asOptional().get(); })
                 .hasInMessage("No value present");
 
@@ -189,7 +190,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE)
                 .hasValuePb(pbValue);
         checkCastException("optional is not primitive", () -> { optional.asData(); })
-                .hasInMessage("OptionalValue cannot be cast");
+                .hasOneOfMessage("OptionalValue cannot be cast", "OptionalValue incompatible with");
 
         ValueReader innerOptionalReader = optionalReader.getOptionalItem();
         check("inner optinal reader", innerOptionalReader).isNotNull()
@@ -204,7 +205,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.OPTIONAL, OPTIONAL_TYPE)
                 .hasValuePb(innerPbValue);
         checkCastException("inner optional is not primitive", () -> { innerOptional.asData(); })
-                .hasInMessage("OptionalValue cannot be cast");
+                .hasOneOfMessage("OptionalValue cannot be cast", "OptionalValue incompatible with");
         checkNoSuchElementException("inner optional has not value", () -> { innerOptional.asOptional().get(); })
                 .hasInMessage("No value present");
 
@@ -244,7 +245,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE)
                 .hasValuePb(pbValue);
         checkCastException("optional is not primitive", () -> { optional.asData(); })
-                .hasInMessage("OptionalValue cannot be cast");
+                .hasOneOfMessage("OptionalValue cannot be cast", "OptionalValue incompatible with");
 
         ValueReader innerOptionalReader = optionalReader.getOptionalItem();
         check("inner optinal reader", innerOptionalReader).isNotNull()
@@ -259,7 +260,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.OPTIONAL, OPTIONAL_TYPE)
                 .hasValuePb(innerPbValue);
         checkCastException("optional is not primitive", () -> { optional.asData(); })
-                .hasInMessage("OptionalValue cannot be cast");
+                .hasOneOfMessage("OptionalValue cannot be cast", "OptionalValue incompatible with");
 
         ValueReader valueReader = innerOptionalReader.getOptionalItem();
         check("inner value reader", valueReader).isNotNull()
@@ -275,7 +276,7 @@ public class OptionalReaderTest {
                 .hasValuePb(innerPbValue)
                 .hasTextValue(NOT_NULL);
         checkCastException("inner value is not optinal", () -> { value.asOptional(); })
-                .hasInMessage("PrimitiveValue$Text cannot be cast ");
+                .hasOneOfMessage("PrimitiveValue$Text cannot be cast ", "PrimitiveValue$Text incompatible with");
 
         Assert.assertEquals("inner optional item equals inner value", value, innerOptional.asOptional().get());
     }
@@ -414,6 +415,19 @@ public class OptionalReaderTest {
             String message = exception.getMessage();
             String info = "cast exception message '" + message + "' hasn't '" + part + "'";
             Assert.assertTrue(info, message.contains(part));
+        }
+
+        private void hasOneOfMessage(String... parts) {
+            String message = exception.getMessage();
+
+            for (String part : parts) {
+                if (message.contains(part)) {
+                    return;
+                }
+            }
+
+            String info = "cast exception message '" + message + "' hasn't any of'" + Arrays.toString(parts) + "'";
+            Assert.fail(info);
         }
     }
 }
