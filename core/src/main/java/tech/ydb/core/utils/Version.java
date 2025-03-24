@@ -13,9 +13,8 @@ public class Version {
     }
 
     public static Optional<String> getVersion() {
-        try {
+        try (InputStream in = Version.class.getResourceAsStream("/ydb_sdk_version.properties")) {
             Properties prop = new Properties();
-            InputStream in = Version.class.getResourceAsStream("/ydb_sdk_version.properties");
             prop.load(in);
             return Optional.ofNullable(prop.getProperty("version"));
         } catch (Exception ex) {
