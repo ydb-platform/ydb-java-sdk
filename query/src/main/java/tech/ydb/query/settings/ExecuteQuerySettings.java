@@ -37,7 +37,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
     public static class Builder extends BaseBuilder<Builder> {
         private QueryExecMode execMode = QueryExecMode.EXECUTE;
         private QueryStatsMode statsMode = QueryStatsMode.NONE;
-        private String resourcePool = "default";
+        private String resourcePool = null;
 
         public Builder withExecMode(QueryExecMode mode) {
             this.execMode = mode;
