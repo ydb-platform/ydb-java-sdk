@@ -65,7 +65,7 @@ public class GrpcTransportExtension extends ProxyGrpcTransport implements Execut
         holder.after(ec);
     }
 
-    private class Holder {
+    private static class Holder {
         private final Lock holderLock = new ReentrantLock();
 
         private YdbHelper helper = null;

@@ -63,7 +63,7 @@ public class YdbHelperExtension extends ProxyYdbHelper implements ExecutionCondi
         holder.after(ec);
     }
 
-    private class Holder {
+    private static class Holder {
         private final Lock holderLock = new ReentrantLock();
 
         private YdbHelper helper = null;
