@@ -1,5 +1,8 @@
 package tech.ydb.test.junit5;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.junit.jupiter.api.extension.AfterAllCallback;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
@@ -13,9 +16,6 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
 import tech.ydb.test.integration.utils.ProxyYdbHelper;
-
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author Aleksandr Gorshenin
