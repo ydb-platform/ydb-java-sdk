@@ -60,28 +60,26 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
         }
 
         callLock.lock();
-
+        try {
+            call.start(this, headers);
+            if (logger.isTraceEnabled()) {
+                logger.trace("ReadStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
+            }
+            call.sendMessage(request);
+            // close stream by client side
+            call.halfClose();
+            call.request(1);
+        } catch (Throwable t) {
             try {
-                call.start(this, headers);
-                if (logger.isTraceEnabled()) {
-                    logger.trace("ReadStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
-                }
-                call.sendMessage(request);
-                // close stream by client side
-                call.halfClose();
-                call.request(1);
-            } catch (Throwable t) {
-                try {
-                    call.cancel(null, t);
-                } catch (Throwable ex) {
-                    logger.error("ReadStreamCall[{}] got exception while canceling", traceId, ex);
-                }
-
-                statusFuture.completeExceptionally(t);
-            } finally {
-                callLock.unlock();
+                call.cancel(null, t);
+            } catch (Throwable ex) {
+                logger.error("ReadStreamCall[{}] got exception while canceling", traceId, ex);
             }
 
+            statusFuture.completeExceptionally(t);
+        } finally {
+            callLock.unlock();
+        }
 
         return statusFuture;
     }

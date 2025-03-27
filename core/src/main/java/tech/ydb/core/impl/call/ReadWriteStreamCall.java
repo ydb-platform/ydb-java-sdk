@@ -70,22 +70,20 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         }
 
         callLock.lock();
-
+        try {
+            call.start(this, headers);
+            call.request(1);
+        } catch (Throwable t) {
             try {
-                call.start(this, headers);
-                call.request(1);
-            } catch (Throwable t) {
-                try {
-                    call.cancel(null, t);
-                } catch (Throwable ex) {
-                    logger.error("Exception encountered while closing the unary call", ex);
-                }
-
-                statusFuture.completeExceptionally(t);
-            } finally {
-
-                callLock.unlock();
+                call.cancel(null, t);
+            } catch (Throwable ex) {
+                logger.error("Exception encountered while closing the unary call", ex);
             }
+
+            statusFuture.completeExceptionally(t);
+        } finally {
+            callLock.unlock();
+        }
 
         return statusFuture;
     }
