@@ -14,6 +14,9 @@ import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
 import tech.ydb.test.integration.utils.ProxyYdbHelper;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * @author Aleksandr Gorshenin
  */
@@ -61,38 +64,55 @@ public class YdbHelperExtension extends ProxyYdbHelper implements ExecutionCondi
     }
 
     private class Holder {
+        private final Lock holderLock = new ReentrantLock();
+
         private YdbHelper helper = null;
         private ExtensionContext context = null;
 
-        public synchronized void before(ExtensionContext ec) {
-            if (helper != null) {
-                return;
-            }
+        public void before(ExtensionContext ec) {
+            holderLock.lock();
+            try {
+                if (helper != null) {
+                    return;
+                }
 
-            YdbHelperFactory factory = YdbHelperFactory.getInstance();
-            logger.debug("create ydb helper for test {}", ec.getDisplayName());
-            helper = factory.createHelper();
+                YdbHelperFactory factory = YdbHelperFactory.getInstance();
+                logger.debug("create ydb helper for test {}", ec.getDisplayName());
+                helper = factory.createHelper();
 
-            if (helper != null) {
-                context = ec;
+                if (helper != null) {
+                    context = ec;
+                }
+            } finally {
+                holderLock.unlock();
             }
         }
 
-        public synchronized void after(ExtensionContext ec) {
-            if (context != ec) {
-                return;
-            }
+        public void after(ExtensionContext ec) {
+            holderLock.lock();
+            try {
+                if (context != ec) {
+                    return;
+                }
 
-            if (helper != null) {
-                helper.close();
-                helper = null;
-            }
+                if (helper != null) {
+                    helper.close();
+                    helper = null;
+                }
 
-            context = null;
+                context = null;
+            } finally {
+                holderLock.unlock();
+            }
         }
 
-        public synchronized YdbHelper helper() {
-            return helper;
+        public YdbHelper helper() {
+            holderLock.lock();
+            try {
+                return helper;
+            } finally {
+                holderLock.unlock();
+            }
         }
     }
 }

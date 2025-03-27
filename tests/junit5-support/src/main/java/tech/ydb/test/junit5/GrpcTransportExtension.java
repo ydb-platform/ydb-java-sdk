@@ -15,6 +15,9 @@ import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
 import tech.ydb.test.integration.utils.ProxyGrpcTransport;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  *
  * @author Aleksandr Gorshenin
@@ -63,53 +66,70 @@ public class GrpcTransportExtension extends ProxyGrpcTransport implements Execut
     }
 
     private class Holder {
+        private final Lock holderLock = new ReentrantLock();
+
         private YdbHelper helper = null;
         private GrpcTransport transport = null;
         private ExtensionContext context = null;
 
-        public synchronized void before(ExtensionContext ec) {
-            if (helper != null) {
-                return;
-            }
-
-            YdbHelperFactory factory = YdbHelperFactory.getInstance();
-            helper = factory.createHelper();
-            if (helper != null) {
-                context = ec;
-
-                String path = "";
-                if (ec.getTestClass().isPresent()) {
-                    path += "/" + ec.getTestClass().get().getName();
+        public void before(ExtensionContext ec) {
+            holderLock.lock();
+            try {
+                if (helper != null) {
+                    return;
                 }
-                if (ec.getTestMethod().isPresent()) {
-                    path += "/" + ec.getTestMethod().get().getName();
-                }
+                YdbHelperFactory factory = YdbHelperFactory.getInstance();
+                helper = factory.createHelper();
+                if (helper != null) {
+                    context = ec;
 
-                logger.debug("create ydb helper for path {}", path);
-                transport = helper.createTransport();
+                    String path = "";
+                    if (ec.getTestClass().isPresent()) {
+                        path += "/" + ec.getTestClass().get().getName();
+                    }
+                    if (ec.getTestMethod().isPresent()) {
+                        path += "/" + ec.getTestMethod().get().getName();
+                    }
+
+                    logger.debug("create ydb helper for path {}", path);
+                    transport = helper.createTransport();
+                }
+            } finally {
+                holderLock.unlock();
             }
         }
 
-        public synchronized void after(ExtensionContext ec) {
-            if (context != ec) {
-                return;
-            }
+        public void after(ExtensionContext ec) {
+            holderLock.lock();
 
-            if (transport != null) {
-                transport.close();
-                transport = null;
-            }
+            try {
+                if (context != ec) {
+                    return;
+                }
 
-            if (helper != null) {
-                helper.close();
-                helper = null;
-            }
+                if (transport != null) {
+                    transport.close();
+                    transport = null;
+                }
 
-            context = null;
+                if (helper != null) {
+                    helper.close();
+                    helper = null;
+                }
+
+                context = null;
+            } finally {
+                holderLock.unlock();
+            }
         }
 
-        public synchronized GrpcTransport transport() {
-            return transport;
+        public GrpcTransport transport() {
+            holderLock.lock();
+            try {
+                return transport;
+            } finally {
+                holderLock.unlock();
+            }
         }
     }
 }
