@@ -6,6 +6,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
@@ -26,7 +28,7 @@ public class ManagedChannelMock extends ManagedChannel {
 
     private final ExecutorService executor = Executors.newFixedThreadPool(1);
     private final BlockingQueue<ConnectivityState> nextStates = new LinkedBlockingDeque<>();
-    private final Object sync = new Object();
+    private final Lock sync = new ReentrantLock();
 
     private volatile ConnectivityState state;
     private Runnable listener = null;
@@ -49,7 +51,8 @@ public class ManagedChannelMock extends ManagedChannel {
 
             logger.trace("next mock state {}", next);
 
-            synchronized (sync) {
+            sync.lock();
+            try {
                 this.state = next;
                 if (this.listener != null) {
                     Runnable callback = this.listener;
@@ -57,6 +60,8 @@ public class ManagedChannelMock extends ManagedChannel {
                     this.listener = null;
                     callback.run();
                 }
+            } finally {
+                sync.unlock();
             }
         });
     }
@@ -90,18 +95,22 @@ public class ManagedChannelMock extends ManagedChannel {
 
     @Override
     public ConnectivityState getState(boolean requestConnection) {
-        synchronized (sync) {
+        sync.lock();
+        try {
             logger.trace("get state {} with request {}", state, requestConnection);
             if (requestConnection) {
                 requestUpdate();
             }
             return state;
+        } finally {
+            sync.unlock();
         }
     }
 
     @Override
     public void notifyWhenStateChanged(ConnectivityState source, Runnable callback) {
-        synchronized (sync) {
+        sync.lock();
+        try {
             logger.trace("notify of changes for state {} with current {} and callback {}",
                     source, state, callback.hashCode());
             if (source != state) {
@@ -109,6 +118,8 @@ public class ManagedChannelMock extends ManagedChannel {
             } else {
                 this.listener = callback;
             }
+        } finally {
+            sync.unlock();
         }
         requestUpdate();
     }

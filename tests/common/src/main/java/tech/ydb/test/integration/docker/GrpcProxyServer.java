@@ -4,6 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.google.common.io.ByteStreams;
 import io.grpc.CallOptions;
@@ -69,6 +71,7 @@ public class GrpcProxyServer implements AutoCloseable {
         }
 
         private class RequestProxy extends ServerCall.Listener<ReqT> {
+            private final Lock clientCallLock = new ReentrantLock();
             private final ClientCall<ReqT, ?> clientCall;
             // Hold 'this' lock when accessing
             private boolean needToRequest;
@@ -90,7 +93,8 @@ public class GrpcProxyServer implements AutoCloseable {
             @Override
             public void onMessage(ReqT message) {
                 clientCall.sendMessage(message);
-                synchronized (this) {
+                clientCallLock.lock();
+                try {
                     if (clientCall.isReady()) {
                         clientCallListener.serverCall.request(1);
                     } else {
@@ -98,6 +102,8 @@ public class GrpcProxyServer implements AutoCloseable {
                         // wait for it to catch up.
                         needToRequest = true;
                     }
+                } finally {
+                    clientCallLock.unlock();
                 }
             }
 
@@ -108,15 +114,21 @@ public class GrpcProxyServer implements AutoCloseable {
 
             // Called from ResponseProxy, which is a different thread than the ServerCall.Listener
             // callbacks.
-            synchronized void onClientReady() {
-                if (needToRequest) {
-                    clientCallListener.serverCall.request(1);
-                    needToRequest = false;
+            void onClientReady() {
+                clientCallLock.lock();
+                try {
+                    if (needToRequest) {
+                        clientCallListener.serverCall.request(1);
+                        needToRequest = false;
+                    }
+                } finally {
+                    clientCallLock.unlock();
                 }
             }
         }
 
         private class ResponseProxy extends ClientCall.Listener<RespT> {
+            private final Lock serverCallLock = new ReentrantLock();
             private final ServerCall<?, RespT> serverCall;
             // Hold 'this' lock when accessing
             private boolean needToRequest;
@@ -138,7 +150,8 @@ public class GrpcProxyServer implements AutoCloseable {
             @Override
             public void onMessage(RespT message) {
                 serverCall.sendMessage(message);
-                synchronized (this) {
+                serverCallLock.lock();
+                try {
                     if (serverCall.isReady()) {
                         serverCallListener.clientCall.request(1);
                     } else {
@@ -146,6 +159,8 @@ public class GrpcProxyServer implements AutoCloseable {
                         // and wait for it to catch up.
                         needToRequest = true;
                     }
+                } finally {
+                    serverCallLock.unlock();
                 }
             }
 
@@ -156,10 +171,15 @@ public class GrpcProxyServer implements AutoCloseable {
 
             // Called from RequestProxy, which is a different thread than the ClientCall.Listener
             // callbacks.
-            synchronized void onServerReady() {
-                if (needToRequest) {
-                    serverCallListener.clientCall.request(1);
-                    needToRequest = false;
+            void onServerReady() {
+                serverCallLock.lock();
+                try {
+                    if (needToRequest) {
+                        serverCallListener.clientCall.request(1);
+                        needToRequest = false;
+                    }
+                } finally {
+                    serverCallLock.unlock();
                 }
             }
         }
@@ -210,5 +230,5 @@ public class GrpcProxyServer implements AutoCloseable {
         public InputStream stream(byte[] value) {
             return new ByteArrayInputStream(value);
         }
-    };
+    }
 }

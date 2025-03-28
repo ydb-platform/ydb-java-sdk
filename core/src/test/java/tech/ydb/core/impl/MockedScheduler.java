@@ -18,6 +18,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.junit.Assert;
 
@@ -27,6 +29,7 @@ import org.junit.Assert;
  */
 public class MockedScheduler implements ScheduledExecutorService {
     private final MockedClock clock;
+    private final Lock nextTaskLock = new ReentrantLock();
     private final Queue<MockedTask<?>> tasks = new ConcurrentLinkedQueue<>();
 
     private volatile boolean queueIsBlocked = false;
@@ -46,18 +49,23 @@ public class MockedScheduler implements ScheduledExecutorService {
         return this;
     }
 
-    public synchronized MockedScheduler runNextTask() {
-        queueIsBlocked = true;
-        MockedTask<?> next = tasks.poll();
-        Assert.assertNotNull("Scheduler's queue is empty", next);
-        clock.goToFuture(next.time);
-        next.run();
-        if (next.time != null) {
-            tasks.add(next);
-        }
+    public MockedScheduler runNextTask() {
+        nextTaskLock.lock();
+        try {
+            queueIsBlocked = true;
+            MockedTask<?> next = tasks.poll();
+            Assert.assertNotNull("Scheduler's queue is empty", next);
+            clock.goToFuture(next.time);
+            next.run();
+            if (next.time != null) {
+                tasks.add(next);
+            }
 
-        queueIsBlocked = false;
-        return this;
+            queueIsBlocked = false;
+            return this;
+        } finally {
+            nextTaskLock.unlock();
+        }
     }
 
     @Override

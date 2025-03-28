@@ -3,6 +3,8 @@ package tech.ydb.core.impl.call;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.Nullable;
 
@@ -29,6 +31,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
 
     private final String traceId;
     private final ClientCall<ReqT, RespT> call;
+    private final Lock callLock = new ReentrantLock();
     private final GrpcStatusHandler statusConsumer;
     private final ReqT request;
     private final Metadata headers;
@@ -56,25 +59,26 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
             throw new IllegalStateException("Read stream call is already started");
         }
 
-        synchronized (call) {
-            try {
-                call.start(this, headers);
-                if (logger.isTraceEnabled()) {
-                    logger.trace("ReadStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
-                }
-                call.sendMessage(request);
-                // close stream by client side
-                call.halfClose();
-                call.request(1);
-            } catch (Throwable t) {
-                try {
-                    call.cancel(null, t);
-                } catch (Throwable ex) {
-                    logger.error("ReadStreamCall[{}] got exception while canceling", traceId, ex);
-                }
-
-                statusFuture.completeExceptionally(t);
+        callLock.lock();
+        try {
+            call.start(this, headers);
+            if (logger.isTraceEnabled()) {
+                logger.trace("ReadStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
             }
+            call.sendMessage(request);
+            // close stream by client side
+            call.halfClose();
+            call.request(1);
+        } catch (Throwable t) {
+            try {
+                call.cancel(null, t);
+            } catch (Throwable ex) {
+                logger.error("ReadStreamCall[{}] got exception while canceling", traceId, ex);
+            }
+
+            statusFuture.completeExceptionally(t);
+        } finally {
+            callLock.unlock();
         }
 
         return statusFuture;
@@ -82,8 +86,11 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
 
     @Override
     public void cancel() {
-        synchronized (call) {
+        callLock.lock();
+        try {
             call.cancel("Cancelled on user request", new CancellationException());
+        } finally {
+            callLock.unlock();
         }
     }
 
@@ -95,15 +102,21 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
             }
             observerReference.get().onNext(message);
             // request delivery of the next inbound message.
-            synchronized (call) {
+            callLock.lock();
+            try {
                 call.request(1);
+            } finally {
+                callLock.unlock();
             }
         } catch (Exception ex) {
             statusFuture.completeExceptionally(ex);
 
             try {
-                synchronized (call) {
+                callLock.lock();
+                try {
                     call.cancel("Canceled by exception from observer", ex);
+                } finally {
+                    callLock.unlock();
                 }
             } catch (Throwable th) {
                 logger.error("ReadStreamCall[{}] got exception while canceling", traceId, th);
