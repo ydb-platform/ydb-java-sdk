@@ -9,6 +9,10 @@ import tech.ydb.core.settings.BaseRequestSettings;
 public class ExecuteQuerySettings extends BaseRequestSettings {
     private final QueryExecMode execMode;
     private final QueryStatsMode statsMode;
+
+    /**
+     * Resource pool
+     */
     private final String resourcePool;
 
     private ExecuteQuerySettings(Builder builder) {
@@ -49,6 +53,15 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
             return this;
         }
 
+        /**
+         * Set resource pool which query try to use.
+         * If no pool specify or poolId is empty or poolId equals "default"
+         * the undeleted resource pool "default" wll be used
+         *
+         * @param poolId poolId in ydb
+         *
+         * @return builder
+         */
         public Builder withResourcePool(String poolId) {
             this.resourcePool = poolId;
             return this;

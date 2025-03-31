@@ -86,11 +86,32 @@ public class QueryIntegrationResourcePoolTest {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
                         .withExecMode(QueryExecMode.EXECUTE)
-                        .withResourcePool("test_pool")
+                        .withResourcePool(TEST_RESOURCE_POOL)
                         .withStatsMode(QueryStatsMode.FULL)
                         .build();
 
                 Assert.assertTrue("Query shouldn't fail",
+                        session.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id;", TxMode.SERIALIZABLE_RW, Params.empty(), settings).execute()
+                                .join().isSuccess());
+            }
+        } finally {
+            deleteResourcePool(TEST_RESOURCE_POOL, true);
+        }
+    }
+
+    @Ignore
+    @Test
+    public void selectWithResourcePoolShouldBeCaseSensitiveTest() {
+        createResourcePool(TEST_RESOURCE_POOL);
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                        .withExecMode(QueryExecMode.EXECUTE)
+                        .withResourcePool(TEST_RESOURCE_POOL.toUpperCase())
+                        .withStatsMode(QueryStatsMode.FULL)
+                        .build();
+
+                Assert.assertFalse("Query should fail",
                         session.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id;", TxMode.SERIALIZABLE_RW, Params.empty(), settings).execute()
                                 .join().isSuccess());
             }
