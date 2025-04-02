@@ -1,9 +1,9 @@
 package tech.ydb.topic.read;
 
-import tech.ydb.topic.description.Codec;
-
 import java.io.IOException;
 import java.io.UncheckedIOException;
+
+import tech.ydb.topic.description.Codec;
 
 /**
  * @author Nikolay Perfilov
@@ -13,6 +13,7 @@ public class DecompressionException extends UncheckedIOException {
 
     private final byte[] rawData;
     private final Codec codec;
+
     public DecompressionException(String message, IOException cause, byte[] rawData, Codec codec) {
         super(message, cause);
         this.rawData = rawData;
