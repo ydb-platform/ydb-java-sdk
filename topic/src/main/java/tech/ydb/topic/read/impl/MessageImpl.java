@@ -50,7 +50,7 @@ public class MessageImpl implements Message {
     public byte[] getData() {
         if (exception != null) {
             throw new DecompressionException("Error occurred while decoding a message",
-                    exception, data);
+                    exception, data, batchMeta.getCodec());
         }
         return data;
     }
