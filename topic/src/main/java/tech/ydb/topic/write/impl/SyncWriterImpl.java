@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -11,6 +12,7 @@ import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.write.WriteAck;
 
 /**
  * @author Nikolay Perfilov
@@ -33,14 +35,14 @@ public class SyncWriterImpl extends WriterImpl implements SyncWriter {
     }
 
     @Override
-    public void send(Message message, SendSettings sendSettings) {
-        sendImpl(message, sendSettings, false).join();
+    public CompletableFuture<WriteAck> send(Message message, SendSettings sendSettings) {
+        return sendImpl(message, sendSettings, false).join();
     }
 
     @Override
-    public void send(Message message, SendSettings sendSettings, long timeout, TimeUnit unit)
+    public CompletableFuture<WriteAck> send(Message message, SendSettings sendSettings, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
-        sendImpl(message, sendSettings, false).get(timeout, unit);
+        return sendImpl(message, sendSettings, false).get(timeout, unit);
     }
 
     @Override
