@@ -17,6 +17,8 @@ import org.anarres.lzo.LzoOutputStream;
 import org.anarres.lzo.LzopInputStream;
 
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CustomCodecDecoder;
+import tech.ydb.topic.description.CustomCodecEncoder;
 
 /**
  * @author Nikolay Perfilov
@@ -66,6 +68,7 @@ public class Encoder {
                 LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
                 return new LzoOutputStream(byteArrayOutputStream, lzoCompressor);
             case CUSTOM:
+                return CustomCodecDecoder.getInstance().getStream(byteArrayOutputStream);
             default:
                 throw new RuntimeException("Unsupported codec: " + codec);
         }
@@ -81,6 +84,7 @@ public class Encoder {
             case LZOP:
                 return new LzopInputStream(byteArrayInputStream);
             case CUSTOM:
+                return CustomCodecEncoder.getInstance().getStream(byteArrayInputStream);
             default:
                 throw new RuntimeException("Unsupported codec: " + codec);
         }
