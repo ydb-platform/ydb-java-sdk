@@ -62,6 +62,12 @@ public class GrpcProxyServer implements AutoCloseable {
     @Override
     public void close() {
         server.shutdown();
+        try {
+            server.awaitTermination(60, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            logger.error("cannot await proxy server closing", ex);
+            Thread.currentThread().interrupt();
+        }
     }
 
     private static class CallProxy<ReqT, RespT> {
