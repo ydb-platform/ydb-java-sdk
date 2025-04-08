@@ -13,8 +13,8 @@ import com.github.luben.zstd.ZstdOutputStreamNoFinalizer;
 import org.anarres.lzo.LzoAlgorithm;
 import org.anarres.lzo.LzoCompressor;
 import org.anarres.lzo.LzoLibrary;
-import org.anarres.lzo.LzoOutputStream;
 import org.anarres.lzo.LzopInputStream;
+import org.anarres.lzo.LzopOutputStream;
 
 import tech.ydb.topic.description.Codec;
 
@@ -64,7 +64,7 @@ public class Encoder {
                 return new ZstdOutputStreamNoFinalizer(byteArrayOutputStream);
             case LZOP:
                 LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
-                return new LzoOutputStream(byteArrayOutputStream, lzoCompressor);
+                return new LzopOutputStream(byteArrayOutputStream, lzoCompressor);
             case CUSTOM:
             default:
                 throw new RuntimeException("Unsupported codec: " + codec);
