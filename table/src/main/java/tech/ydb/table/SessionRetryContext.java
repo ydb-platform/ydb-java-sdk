@@ -266,7 +266,7 @@ public class SessionRetryContext {
                 handler.onRetry(SessionRetryContext.this, ex, retry, next, ms());
                 scheduleNext(next);
             } else {
-                handler.onError(SessionRetryContext.this, ex, maxRetries, ms());
+                handler.onLimit(SessionRetryContext.this, ex, maxRetries, ms());
                 promise.completeExceptionally(ex);
             }
         }
