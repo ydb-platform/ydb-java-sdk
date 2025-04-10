@@ -38,7 +38,7 @@
         <dependency>
             <groupId>com.github.luben</groupId>
             <artifactId>zstd-jni</artifactId>
-            <version>1.5.2-5</version>
+            <version>1.5.7-2</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -48,6 +48,7 @@
         <dependency>
             <groupId>tech.ydb.test</groupId>
             <artifactId>ydb-junit4-support</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
