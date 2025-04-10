@@ -1,5 +1,6 @@
 package tech.ydb.query.impl;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import org.junit.AfterClass;
@@ -79,6 +80,7 @@ public class ResourcePoolTest {
 
     private Status selectWithPool(String poolName) {
         ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                .withRequestTimeout(Duration.ofSeconds(5))
                 .withExecMode(QueryExecMode.EXECUTE)
                 .withResourcePool(poolName)
                 .withStatsMode(QueryStatsMode.FULL)
@@ -156,9 +158,11 @@ public class ResourcePoolTest {
         Assert.assertTrue("Cannot create resource pool " + create4, create4.isSuccess());
 
         ExecuteQuerySettings pool3 = ExecuteQuerySettings.newBuilder()
+                .withRequestTimeout(Duration.ofSeconds(5))
                 .withResourcePool("test_pool3")
                 .build();
         ExecuteQuerySettings pool4 = ExecuteQuerySettings.newBuilder()
+                .withRequestTimeout(Duration.ofSeconds(5))
                 .withResourcePool("test_pool4")
                 .build();
 
