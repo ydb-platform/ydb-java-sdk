@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.TopicCodec;
 
 /**
  * @author Nikolay Perfilov
@@ -36,7 +37,7 @@ public class Batch {
         return readFuture;
     }
 
-    public Codec getCodec() {
+    public TopicCodec getCodec() {
         return meta.getCodec();
     }
 

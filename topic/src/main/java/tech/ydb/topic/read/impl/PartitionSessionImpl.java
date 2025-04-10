@@ -25,6 +25,7 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.description.OffsetsRange;
+import tech.ydb.topic.description.RawCodec;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
@@ -175,7 +176,7 @@ public class PartitionSessionImpl {
                             while (true) {
                                 Batch decodingBatch = decodingBatches.peek();
                                 if (decodingBatch != null
-                                        && (decodingBatch.isDecompressed() || decodingBatch.getCodec() == Codec.RAW)) {
+                                        && (decodingBatch.isDecompressed() || decodingBatch.getCodec() instanceof RawCodec)) {
                                     decodingBatches.remove();
                                     if (logger.isTraceEnabled()) {
                                         List<MessageImpl> messages = decodingBatch.getMessages();
@@ -279,7 +280,7 @@ public class PartitionSessionImpl {
         if (logger.isTraceEnabled()) {
             logger.trace("[{}] Started decoding batch", fullId);
         }
-        if (batch.getCodec() == Codec.RAW) {
+        if (batch.getCodec() instanceof RawCodec) {
             return;
         }
 

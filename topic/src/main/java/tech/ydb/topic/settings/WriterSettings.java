@@ -4,6 +4,8 @@ import java.util.function.BiConsumer;
 
 import tech.ydb.core.Status;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegister;
+import tech.ydb.topic.description.TopicCodec;
 
 /**
  * @author Nikolay Perfilov
@@ -16,7 +18,7 @@ public class WriterSettings {
     private final String producerId;
     private final String messageGroupId;
     private final Long partitionId;
-    private final Codec codec;
+    private final TopicCodec codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
     private final BiConsumer<Status, Throwable> errorsHandler;
@@ -56,7 +58,7 @@ public class WriterSettings {
         return partitionId;
     }
 
-    public Codec getCodec() {
+    public TopicCodec getCodec() {
         return codec;
     }
 
@@ -76,7 +78,7 @@ public class WriterSettings {
         private String producerId = null;
         private String messageGroupId = null;
         private Long partitionId = null;
-        private Codec codec = Codec.GZIP;
+        private TopicCodec codec = CodecRegister.getInstance().get(Codec.GZIP);        ;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
         private BiConsumer<Status, Throwable> errorsHandler = null;
@@ -130,7 +132,7 @@ public class WriterSettings {
          * @param codec  compression codec
          * @return settings builder
          */
-        public Builder setCodec(Codec codec) {
+        public Builder setCodec(TopicCodec codec) {
             this.codec = codec;
             return this;
         }

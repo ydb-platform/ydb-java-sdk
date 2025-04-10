@@ -24,6 +24,7 @@ import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.RawCodec;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
@@ -176,7 +177,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     private void encode(EnqueuedMessage message) {
         logger.trace("[{}] Started encoding message", id);
-        if (settings.getCodec() == Codec.RAW) {
+        if (settings.getCodec() instanceof RawCodec) {
             return;
         }
         try {
@@ -203,7 +204,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                 }
                 if (encodedMessage.isProcessingFailed()) {
                     encodingMessages.remove();
-                } else if (encodedMessage.isCompressed() || settings.getCodec() == Codec.RAW) {
+                } else if (encodedMessage.isCompressed() || settings.getCodec() instanceof RawCodec) {
                     encodingMessages.remove();
                     if (encodedMessage.isCompressed()) {
                         if (logger.isTraceEnabled()) {

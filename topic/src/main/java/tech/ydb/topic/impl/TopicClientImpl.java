@@ -24,12 +24,14 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegister;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
+import tech.ydb.topic.description.TopicCodec;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
@@ -369,7 +371,7 @@ public class TopicClientImpl implements TopicClient {
             consumerBuilder.setReadFrom(ProtobufUtils.instantToProto(consumer.getReadFrom()));
         }
 
-        List<Codec> supportedCodecs = consumer.getSupportedCodecsList();
+        List<TopicCodec> supportedCodecs = consumer.getSupportedCodecsList();
         if (!supportedCodecs.isEmpty()) {
             YdbTopic.SupportedCodecs.Builder codecBuilder = YdbTopic.SupportedCodecs.newBuilder();
             supportedCodecs.forEach(codec -> codecBuilder.addCodecs(ProtoUtils.toProto(codec)));
@@ -380,9 +382,9 @@ public class TopicClientImpl implements TopicClient {
     }
 
     private static YdbTopic.SupportedCodecs toProto(SupportedCodecs supportedCodecs) {
-        List<Codec> supportedCodecsList = supportedCodecs.getCodecs();
+        List<TopicCodec> supportedCodecsList = supportedCodecs.getCodecs();
         YdbTopic.SupportedCodecs.Builder codecsBuilder = YdbTopic.SupportedCodecs.newBuilder();
-        for (Codec codec : supportedCodecsList) {
+        for (TopicCodec codec : supportedCodecsList) {
             codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
         }
         return codecsBuilder.build();
@@ -394,5 +396,10 @@ public class TopicClientImpl implements TopicClient {
         if (defaultCompressionExecutorService != null) {
             defaultCompressionExecutorService.shutdown();
         }
+    }
+
+    @Override
+    public void registerCodec(int i, TopicCodec codec) {
+        CodecRegister.getInstance().registerCodec(i,codec);
     }
 }

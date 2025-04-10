@@ -17,36 +17,41 @@ import org.anarres.lzo.LzoOutputStream;
 import org.anarres.lzo.LzopInputStream;
 
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.CustomCodecDecoder;
-import tech.ydb.topic.description.CustomCodecEncoder;
+import tech.ydb.topic.description.CodecRegister;
+import tech.ydb.topic.description.GzipCode;
+import tech.ydb.topic.description.RawCodec;
+import tech.ydb.topic.description.TopicCodec;
+import tech.ydb.topic.description.ZctdCodec;
 
 /**
  * @author Nikolay Perfilov
  */
 public class Encoder {
 
-    private Encoder() { }
+    private Encoder() {
+    }
 
-    public static byte[] encode(Codec codec, byte[] input) throws IOException {
-        if (codec == Codec.RAW) {
+    public static byte[] encode(TopicCodec codec, byte[] input) throws IOException {
+        if (codec instanceof RawCodec) {
             return input;
         }
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try (OutputStream os = makeOutputStream(codec, byteArrayOutputStream)) {
+
+        try (OutputStream os = codec.decode(byteArrayOutputStream)) {
             os.write(input);
         }
         return byteArrayOutputStream.toByteArray();
     }
 
-    public static byte[] decode(Codec codec, byte[] input) throws IOException {
-        if (codec == Codec.RAW) {
+    public static byte[] decode(TopicCodec codec, byte[] input) throws IOException {
+        if (codec instanceof RawCodec) {
             return input;
         }
 
         try (
-            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-            ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
-            InputStream is = makeInputStream(codec, byteArrayInputStream)
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
+                InputStream is = codec.encode(byteArrayInputStream)
         ) {
             byte[] buffer = new byte[1024];
             int length;
@@ -54,39 +59,6 @@ public class Encoder {
                 byteArrayOutputStream.write(buffer, 0, length);
             }
             return byteArrayOutputStream.toByteArray();
-        }
-    }
-
-    private static OutputStream makeOutputStream(Codec codec,
-                                                 ByteArrayOutputStream byteArrayOutputStream) throws IOException {
-        switch (codec) {
-            case GZIP:
-                return new GZIPOutputStream(byteArrayOutputStream);
-            case ZSTD:
-                return new ZstdOutputStreamNoFinalizer(byteArrayOutputStream);
-            case LZOP:
-                LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
-                return new LzoOutputStream(byteArrayOutputStream, lzoCompressor);
-            case CUSTOM:
-                return CustomCodecDecoder.getInstance().getStream(byteArrayOutputStream);
-            default:
-                throw new RuntimeException("Unsupported codec: " + codec);
-        }
-    }
-
-    private static InputStream makeInputStream(Codec codec,
-                                                 ByteArrayInputStream byteArrayInputStream) throws IOException {
-        switch (codec) {
-            case GZIP:
-                return new GZIPInputStream(byteArrayInputStream);
-            case ZSTD:
-                return new ZstdInputStreamNoFinalizer(byteArrayInputStream);
-            case LZOP:
-                return new LzopInputStream(byteArrayInputStream);
-            case CUSTOM:
-                return CustomCodecEncoder.getInstance().getStream(byteArrayInputStream);
-            default:
-                throw new RuntimeException("Unsupported codec: " + codec);
         }
     }
 
