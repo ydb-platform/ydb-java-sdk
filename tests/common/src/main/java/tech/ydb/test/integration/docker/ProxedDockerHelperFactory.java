@@ -1,6 +1,7 @@
 package tech.ydb.test.integration.docker;
 
 
+
 import io.grpc.Grpc;
 import io.grpc.InsecureChannelCredentials;
 import io.grpc.ManagedChannel;
@@ -75,6 +76,7 @@ public class ProxedDockerHelperFactory extends YdbHelperFactory {
             @Override
             public void close() {
                 server.close();
+                channel.shutdownNow();
 
                 if (env.dockerReuse() && TestcontainersConfiguration.getInstance().environmentSupportsReuse()) {
                     return;

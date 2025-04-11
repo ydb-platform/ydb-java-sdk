@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -40,6 +41,8 @@ public class GrpcProxyServer implements AutoCloseable {
     public GrpcProxyServer(ManagedChannel target, int port) {
         this.target = target;
         this.server = Grpc.newServerBuilderForPort(port, InsecureServerCredentials.create())
+                .permitKeepAliveTime(10, TimeUnit.SECONDS)
+                .permitKeepAliveWithoutCalls(true)
                 .fallbackHandlerRegistry(new ProxyRegistry())
                 .build();
         try {
@@ -59,6 +62,12 @@ public class GrpcProxyServer implements AutoCloseable {
     @Override
     public void close() {
         server.shutdown();
+        try {
+            server.awaitTermination(60, TimeUnit.SECONDS);
+        } catch (InterruptedException ex) {
+            logger.error("cannot await proxy server closing", ex);
+            Thread.currentThread().interrupt();
+        }
     }
 
     private static class CallProxy<ReqT, RespT> {
