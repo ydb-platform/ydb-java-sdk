@@ -1,3 +1,13 @@
+## 2.3.12 ##
+
+* Table: added validation of entry type in describeTable method
+* Table: added onLimit method for retryable exceptions
+* Topic: removed test dependency
+* Topic: improved support of LZO compression
+* Query: added support of pool_id
+* Core: prevent virtual thread deadlocks by replacing synchronized blocks
+* Tests: fixed test connecting with IBM jdk
+
 ## 2.3.11 ##
 
 * Scheme: added more simple api for describeDirectory and listDirectory
