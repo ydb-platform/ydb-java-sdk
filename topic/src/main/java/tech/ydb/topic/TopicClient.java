@@ -9,7 +9,6 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.topic.description.ConsumerDescription;
-import tech.ydb.topic.description.TopicCodec;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
 import tech.ydb.topic.impl.TopicClientImpl;
@@ -164,8 +163,6 @@ public interface TopicClient extends AutoCloseable {
 
     @Override
     void close();
-
-    void registerCodec(int i, TopicCodec codec);
 
     /**
      * BUILDER

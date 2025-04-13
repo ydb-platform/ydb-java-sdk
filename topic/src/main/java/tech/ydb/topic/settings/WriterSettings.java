@@ -4,7 +4,6 @@ import java.util.function.BiConsumer;
 
 import tech.ydb.core.Status;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.CodecRegister;
 import tech.ydb.topic.description.TopicCodec;
 
 /**
@@ -18,7 +17,8 @@ public class WriterSettings {
     private final String producerId;
     private final String messageGroupId;
     private final Long partitionId;
-    private final TopicCodec codec;
+    private final int codec;
+    private final TopicCodec topicCodec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
     private final BiConsumer<Status, Throwable> errorsHandler;
@@ -29,6 +29,7 @@ public class WriterSettings {
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
         this.codec = builder.codec;
+        this.topicCodec =  builder.topicCodec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
         this.errorsHandler = builder.errorsHandler;
@@ -58,9 +59,15 @@ public class WriterSettings {
         return partitionId;
     }
 
-    public TopicCodec getCodec() {
+    public int getCodec() {
         return codec;
     }
+
+    public TopicCodec getTopicCodec() {
+        return topicCodec;
+    }
+
+
 
     public long getMaxSendBufferMemorySize() {
         return maxSendBufferMemorySize;
@@ -78,7 +85,8 @@ public class WriterSettings {
         private String producerId = null;
         private String messageGroupId = null;
         private Long partitionId = null;
-        private TopicCodec codec = CodecRegister.getInstance().get(Codec.GZIP);        ;
+        private int codec = Codec.GZIP;
+        private TopicCodec topicCodec;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
         private BiConsumer<Status, Throwable> errorsHandler = null;
@@ -132,8 +140,19 @@ public class WriterSettings {
          * @param codec  compression codec
          * @return settings builder
          */
-        public Builder setCodec(TopicCodec codec) {
+        public Builder setCodec(int codec) {
             this.codec = codec;
+            return this;
+        }
+
+        /**
+         * Set codec to use for data compression prior to write
+         * @param codec  compression codec
+         * @return settings builder
+         */
+        public Builder setCodec(int codec, TopicCodec topicCodec) {
+            this.codec = codec;
+            this.topicCodec = topicCodec;
             return this;
         }
 

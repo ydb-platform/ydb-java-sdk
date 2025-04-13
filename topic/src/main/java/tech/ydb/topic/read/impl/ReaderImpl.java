@@ -409,6 +409,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .setDecompressionExecutor(decompressionExecutor)
                     .setDataEventCallback(ReaderImpl.this::handleDataReceivedEvent)
                     .setCommitFunction((offsets) -> sendCommitOffsetRequest(partitionSessionId, partitionId, offsets))
+                    .setReaderSettings(settings)
                     .build();
             partitionSessions.put(partitionSession.getId(), partitionSession);
 

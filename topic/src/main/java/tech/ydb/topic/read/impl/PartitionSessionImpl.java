@@ -25,11 +25,11 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.description.OffsetsRange;
-import tech.ydb.topic.description.RawCodec;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.utils.Encoder;
 
 /**
@@ -55,6 +55,7 @@ public class PartitionSessionImpl {
     private final Consumer<List<OffsetsRange>> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
+    private final ReaderSettings readerSettings;
     // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
@@ -71,6 +72,7 @@ public class PartitionSessionImpl {
         this.decompressionExecutor = builder.decompressionExecutor;
         this.dataEventCallback = builder.dataEventCallback;
         this.commitFunction = builder.commitFunction;
+        this.readerSettings = builder.readerSettings;
         logger.info("[{}] Partition session is started for Topic \"{}\" and Consumer \"{}\". CommittedOffset: {}. " +
                 "Partition offsets: {}-{}", fullId, topicPath, consumerName, lastReadOffset,
                 builder.partitionOffsets.getStart(), builder.partitionOffsets.getEnd());
@@ -176,7 +178,7 @@ public class PartitionSessionImpl {
                             while (true) {
                                 Batch decodingBatch = decodingBatches.peek();
                                 if (decodingBatch != null
-                                        && (decodingBatch.isDecompressed() || decodingBatch.getCodec() instanceof RawCodec)) {
+                                        && (decodingBatch.isDecompressed() || decodingBatch.getCodec() == Codec.RAW)) {
                                     decodingBatches.remove();
                                     if (logger.isTraceEnabled()) {
                                         List<MessageImpl> messages = decodingBatch.getMessages();
@@ -280,13 +282,14 @@ public class PartitionSessionImpl {
         if (logger.isTraceEnabled()) {
             logger.trace("[{}] Started decoding batch", fullId);
         }
-        if (batch.getCodec() instanceof RawCodec) {
+        if (batch.getCodec() == Codec.RAW) {
             return;
         }
 
         batch.getMessages().forEach(message -> {
             try {
-                message.setData(Encoder.decode(batch.getCodec(), message.getData()));
+                int codec = this.readerSettings.getCodec() == 0 ? batch.getCodec() : this.readerSettings.getCodec();
+                message.setData(Encoder.decode(codec, this.readerSettings.getTopicCodec(), message.getData()));
                 message.setDecompressed(true);
             } catch (IOException exception) {
                 message.setException(exception);
@@ -382,6 +385,7 @@ public class PartitionSessionImpl {
         private Executor decompressionExecutor;
         private Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
         private Consumer<List<OffsetsRange>> commitFunction;
+        private ReaderSettings readerSettings;
 
         public Builder setId(long id) {
             this.id = id;
@@ -435,6 +439,11 @@ public class PartitionSessionImpl {
 
         public PartitionSessionImpl build() {
             return new PartitionSessionImpl(this);
+        }
+
+        public Builder setReaderSettings(ReaderSettings settings) {
+            this.readerSettings = settings;
+            return this;
         }
     }
 }

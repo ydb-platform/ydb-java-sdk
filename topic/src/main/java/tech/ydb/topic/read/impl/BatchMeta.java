@@ -5,7 +5,6 @@ import java.util.Map;
 
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.topic.description.TopicCodec;
 
 /**
  * @author Nikolay Perfilov
@@ -13,7 +12,7 @@ import tech.ydb.topic.description.TopicCodec;
 public class BatchMeta {
     private final String producerId;
     private final Map<String, String> writeSessionMeta;
-    private final TopicCodec codec;
+    private final int codec;
     private final Instant writtenAt;
 
     public BatchMeta(YdbTopic.StreamReadMessage.ReadResponse.Batch batch) {
@@ -31,7 +30,7 @@ public class BatchMeta {
         return writeSessionMeta;
     }
 
-    public TopicCodec getCodec() {
+    public int getCodec() {
         return codec;
     }
 

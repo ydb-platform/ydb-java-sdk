@@ -23,7 +23,7 @@ public class Consumer {
     private final String name;
     private final boolean important;
     private final Instant readFrom;
-    private final List<TopicCodec> supportedCodecs;
+    private final List<Integer> supportedCodecs;
     private final Map<String, String> attributes;
     private final ConsumerStats stats;
 
@@ -68,7 +68,7 @@ public class Consumer {
         return new SupportedCodecs(supportedCodecs);
     }
 
-    public List<TopicCodec> getSupportedCodecsList() {
+    public List<Integer> getSupportedCodecsList() {
         return supportedCodecs;
     }
 
@@ -88,7 +88,7 @@ public class Consumer {
         private String name;
         private boolean important = false;
         private Instant readFrom = null;
-        private List<TopicCodec> supportedCodecs = new ArrayList<>();
+        private List<Integer> supportedCodecs = new ArrayList<>();
         private Map<String, String> attributes = new HashMap<>();
         private ConsumerStats stats = null;
 
@@ -107,7 +107,7 @@ public class Consumer {
             return this;
         }
 
-        public Builder addSupportedCodec(TopicCodec codec) {
+        public Builder addSupportedCodec(int codec) {
             this.supportedCodecs.add(codec);
             return this;
         }

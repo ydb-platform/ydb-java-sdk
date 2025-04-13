@@ -8,10 +8,8 @@ import java.io.OutputStream;
 
 public interface TopicCodec {
 
-    OutputStream decode(ByteArrayOutputStream byteArrayOutputStream) throws IOException;
+    InputStream decode(ByteArrayInputStream byteArrayOutputStream) throws IOException;
 
-    InputStream encode(ByteArrayInputStream byteArrayInputStream) throws IOException;
-
-    int getId();
+    OutputStream encode(ByteArrayOutputStream byteArrayInputStream) throws IOException;
 
 }
