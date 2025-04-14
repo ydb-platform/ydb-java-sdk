@@ -1,30 +1,20 @@
 package tech.ydb.topic.impl;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import tech.ydb.core.Status;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.TopicCodec;
-import tech.ydb.topic.description.TopicDescription;
-import tech.ydb.topic.read.AsyncReader;
-import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.SyncReader;
-import tech.ydb.topic.read.events.AbstractReadEventHandler;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.CreateTopicSettings;
-import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.WriterSettings;
@@ -36,29 +26,23 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * @author Aleksandr Gorshenin
- */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
 public class YdbTopicsCustomCodecIntegrationTest {
     private final static Logger logger = LoggerFactory.getLogger(YdbTopicsCustomCodecIntegrationTest.class);
 
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
-    private final static String TEST_TOPIC = "integration_test_custom_codec_topic";
+    private final static String TEST_TOPIC1 = "integration_test_custom_codec_topic1";
+    private final static String TEST_TOPIC2 = "integration_test_custom_codec_topic2";
     private final static String TEST_CONSUMER1 = "consumer";
     private final static String TEST_CONSUMER2 = "other_consumer";
 
     private static TopicClient client;
-    private static TopicCodec codec;
 
     private final static byte[][] TEST_MESSAGES = new byte[][]{
             "Test message".getBytes(),
@@ -68,31 +52,75 @@ public class YdbTopicsCustomCodecIntegrationTest {
             "Last message".getBytes(),
     };
 
-    @Before
-    public void initTopic() {
-        logger.info("Create test topic {} ...", TEST_TOPIC);
+    @Test
+    public void writeDataAndReadDataWithCustomCodec() throws InterruptedException, ExecutionException, TimeoutException {
+        try {
+            createTopic(TEST_TOPIC1);
+            TopicCodec codec = new CustomTopicCode(1);
+            writeData(codec, TEST_TOPIC1);
+            readData(codec, TEST_TOPIC1);
+        } finally {
+            deleteTopic(TEST_TOPIC1);
+        }
+    }
 
-        codec = new CustomTopicCode();
+    @Test
+    public void writeInTwoTopicsInOneClientWithDifferentCustomCodec() throws ExecutionException, InterruptedException, TimeoutException {
+        try {
+            createTopic(TEST_TOPIC1);
+            createTopic(TEST_TOPIC2);
+
+            TopicCodec codec1 = new CustomTopicCode(1);
+            TopicCodec codec2 = new CustomTopicCode(7);
+
+            writeData(codec1, TEST_TOPIC1);
+            writeData(codec2, TEST_TOPIC2);
+
+            readData(codec1, TEST_TOPIC1);
+            readData(codec2, TEST_TOPIC2);
+        } finally {
+            deleteTopic(TEST_TOPIC1);
+            deleteTopic(TEST_TOPIC2);
+        }
+    }
+
+    @Test
+    public void writeInWrongCode() throws ExecutionException, InterruptedException, TimeoutException {
+        try {
+            createTopic(TEST_TOPIC1);
+
+            TopicCodec codec1 = new CustomTopicCode(1);
+            TopicCodec codec2 = new CustomTopicCode(7);
+
+            writeData(codec1, TEST_TOPIC1);
+
+            readData(codec2, TEST_TOPIC2);
+        } finally {
+            deleteTopic(TEST_TOPIC1);
+        }
+    }
+
+    private void createTopic(String topicName) {
+        logger.info("Create test topic {} ...", topicName);
+
         client = TopicClient.newClient(ydbTransport).build();
-        client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
+        client.createTopic(topicName, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER2).build())
                 .build()
         ).join().expectSuccess("can't create a new topic");
     }
 
-    @After
-    public void dropTopic() {
-        logger.info("Drop test topic {} ...", TEST_TOPIC);
-        Status dropStatus = client.dropTopic(TEST_TOPIC).join();
+    private void deleteTopic(String topicName) {
+        logger.info("Drop test topic {} ...", topicName);
+        Status dropStatus = client.dropTopic(topicName).join();
         client.close();
         dropStatus.expectSuccess("can't drop test topic");
     }
 
-    @Test
-    public void writeDataWithCustomCodec() throws InterruptedException, ExecutionException, TimeoutException {
+    private void writeData(TopicCodec codec, String topicName) throws ExecutionException, InterruptedException, TimeoutException {
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
+                .setTopicPath(topicName)
                 .setCodec(10113, codec)
                 .build();
         SyncWriter writer = client.createSyncWriter(settings);
@@ -106,25 +134,9 @@ public class YdbTopicsCustomCodecIntegrationTest {
         writer.shutdown(1, TimeUnit.MINUTES);
     }
 
-    @Ignore
-    @Test
-    public void writeDataAndReadDataWithCustomCodec() throws InterruptedException, ExecutionException, TimeoutException {
-        WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setCodec(10113, codec)
-                .build();
-        SyncWriter writer = client.createSyncWriter(settings);
-        writer.init();
-
-        for (byte[] testMessage : TEST_MESSAGES) {
-            writer.send(Message.newBuilder().setData(testMessage).build());
-        }
-
-        writer.flush();
-        writer.shutdown(1, TimeUnit.MINUTES);
-
+    private void readData(TopicCodec codec, String topicName) throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(topicName).build())
                 .setConsumerName(TEST_CONSUMER1)
                 .setCodec(10013, codec)
                 .build();
@@ -142,15 +154,40 @@ public class YdbTopicsCustomCodecIntegrationTest {
 
     static class CustomTopicCode implements TopicCodec {
 
+        final int stub;
+
+        public CustomTopicCode(int stub) {
+            this.stub = stub;
+        }
+
+
         @Override
         public InputStream decode(ByteArrayInputStream byteArrayOutputStream) throws IOException {
-            return byteArrayOutputStream;
+            final ByteArrayInputStream outputStream = byteArrayOutputStream;
+            return new InputStream() {
+                @Override
+                public int read() throws IOException {
+                    for (int i = 0; i < stub; i++) {
+                        int stub = outputStream.read();
+                    }
+
+                    return outputStream.read();
+                }
+            };
         }
 
         @Override
         public OutputStream encode(ByteArrayOutputStream byteArrayOutputStream) throws IOException {
-            return byteArrayOutputStream;
-        }
+            return new OutputStream() {
+                @Override
+                public void write(int b) throws IOException {
+                    for (int i = 0; i < stub; i++) {
+                        byteArrayOutputStream.write(stub);
+                    }
 
+                    byteArrayOutputStream.write(b);
+                }
+            };
+        }
     }
 }
