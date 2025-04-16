@@ -55,7 +55,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     private final String consumerName;
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
-        super(topicRpc.getScheduler(), settings.getErrorsHandler());
+        super(logger, settings.getRetryConfig(), topicRpc.getScheduler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new ReadSessionImpl();
@@ -86,11 +86,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             consumerName = "NoConsumer";
         }
         logger.info(message.toString());
-    }
-
-    @Override
-    protected Logger getLogger() {
-        return logger;
     }
 
     @Override
@@ -515,7 +510,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             }
             logger.debug("[{}] processMessage called", streamId);
             if (message.getStatus() == StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
-                reconnectCounter.set(0);
+                resetRetries();
             } else {
                 Status status = Status.of(StatusCode.fromProto(message.getStatus()),
                         Issue.fromPb(message.getIssuesList()));

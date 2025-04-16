@@ -9,7 +9,10 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
 
+import tech.ydb.common.retry.RetryConfig;
+import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
+import tech.ydb.topic.impl.GrpcStreamRetrier;
 
 /**
  * @author Nikolay Perfilov
@@ -20,17 +23,17 @@ public class ReaderSettings {
     private final String consumerName;
     private final String readerName;
     private final List<TopicReadSettings> topics;
+    private final RetryConfig retryConfig;
     private final long maxMemoryUsageBytes;
     private final Executor decompressionExecutor;
-    private final BiConsumer<Status, Throwable> errorsHandler;
 
     private ReaderSettings(Builder builder) {
         this.consumerName = builder.consumerName;
         this.readerName = builder.readerName;
         this.topics = ImmutableList.copyOf(builder.topics);
+        this.retryConfig = builder.retryConfig;
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
         this.decompressionExecutor = builder.decompressionExecutor;
-        this.errorsHandler = builder.errorsHandler;
     }
 
     public String getConsumerName() {
@@ -42,12 +45,17 @@ public class ReaderSettings {
         return readerName;
     }
 
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
+    }
+
     public List<TopicReadSettings> getTopics() {
         return topics;
     }
 
+    @Deprecated
     public BiConsumer<Status, Throwable> getErrorsHandler() {
-        return errorsHandler;
+        return null;
     }
 
     public long getMaxMemoryUsageBytes() {
@@ -70,9 +78,9 @@ public class ReaderSettings {
         private boolean readWithoutConsumer = false;
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
+        private RetryConfig retryConfig = GrpcStreamRetrier.RETRY_ALL;
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Executor decompressionExecutor = null;
-        private BiConsumer<Status, Throwable> errorsHandler = null;
 
         public Builder setConsumerName(String consumerName) {
             this.consumerName = consumerName;
@@ -91,6 +99,7 @@ public class ReaderSettings {
 
         /**
          * Set reader name for debug purposes
+         * @param readerName name of reader
          * @return settings builder
          */
         public Builder setReaderName(String readerName) {
@@ -108,13 +117,42 @@ public class ReaderSettings {
             return this;
         }
 
+        /**
+         * Set {@link RetryConfig} to define behavior of the stream internal retries
+         * @param config retry mode
+         * @return settings builder
+         */
+        public Builder setRetryConfig(RetryConfig config) {
+            this.retryConfig = config;
+            return this;
+        }
+
         public Builder setMaxMemoryUsageBytes(long maxMemoryUsageBytes) {
             this.maxMemoryUsageBytes = maxMemoryUsageBytes;
             return this;
         }
 
+        /**
+         * @param handler
+         * @return builder
+         * @deprecated use {@link Builder#setRetryConfig(tech.ydb.common.retry.RetryConfig)} instead
+         */
+        @Deprecated
         public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
-            this.errorsHandler = handler;
+            final RetryConfig currentConfig = retryConfig;
+            retryConfig = new RetryConfig() {
+                @Override
+                public RetryPolicy getStatusRetryPolicy(Status status) {
+                    handler.accept(status, null);
+                    return currentConfig.getStatusRetryPolicy(status);
+                }
+
+                @Override
+                public RetryPolicy getThrowableRetryPolicy(Throwable th) {
+                    handler.accept(null, th);
+                    return currentConfig.getThrowableRetryPolicy(th);
+                }
+            };
             return this;
         }
 
