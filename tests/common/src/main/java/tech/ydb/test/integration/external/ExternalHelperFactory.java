@@ -77,6 +77,11 @@ public class ExternalHelperFactory extends YdbHelperFactory {
             public void close() {
                 // Nothing
             }
+
+            @Override
+            public String getStdErr() {
+                return "EXTERNAL";
+            }
         };
     }
 }

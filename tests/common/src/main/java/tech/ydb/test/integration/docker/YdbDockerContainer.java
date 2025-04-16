@@ -61,6 +61,7 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
 
         withEnv("YDB_USE_IN_MEMORY_PDISKS", "true");
         withEnv("YDB_ENABLE_COLUMN_TABLES", "true");
+        withEnv("YDB_DEFAULT_LOG_LEVEL", "DEBUG");
 
         if (env.dockerFeatures() != null && !env.dockerFeatures().isEmpty()) {
             withEnv("YDB_FEATURE_FLAGS", env.dockerFeatures());
@@ -102,6 +103,12 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
             IOUtils.copy(is, baos);
             return baos.toByteArray();
         });
+    }
+
+    public void logStdErr() {
+        String logs = getLogs();
+        System.out.println(logs);
+        System.out.println("LOG SIZE = " + logs.length());
     }
 
     public String database() {

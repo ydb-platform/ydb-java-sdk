@@ -17,6 +17,8 @@ public interface YdbHelper extends AutoCloseable {
 
     String authToken();
 
+    String getStdErr();
+
     @Override
     void close();
 }

@@ -45,6 +45,7 @@
                 <configuration>
                     <environmentVariables>
                         <YDB_DOCKER_FEATURE_FLAGS>enable_resource_pools</YDB_DOCKER_FEATURE_FLAGS>
+                        <YDB_DOCKER_IMAGE>ydbplatform/local-ydb:trunk</YDB_DOCKER_IMAGE>
                     </environmentVariables>
                 </configuration>
             </plugin>

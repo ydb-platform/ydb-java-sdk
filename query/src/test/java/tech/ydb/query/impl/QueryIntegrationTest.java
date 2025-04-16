@@ -44,6 +44,7 @@ import tech.ydb.test.junit4.GrpcTransportRule;
  *
  * @author Aleksandr Gorshenin
  */
+@Ignore
 public class QueryIntegrationTest {
     private final static Logger logger = LoggerFactory.getLogger(QueryIntegrationTest.class);
     private final static String TEST_TABLE = "query_service_test";

@@ -22,6 +22,7 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransportRule.class);
 
     private final AtomicReference<GrpcTransport> proxy = new AtomicReference<>();
+    private final AtomicReference<YdbHelper> proxy2 = new AtomicReference<>();
 
     @Override
     public Statement apply(Statement base, Description description) {
@@ -41,14 +42,24 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
                     path += "/" + description.getMethodName();
                 }
 
-                logger.debug("create ydb helper for test {}", path);
+                logger.warn("create ydb helper for test {}", path);
                 try (YdbHelper helper = factory.createHelper()) {
+                    logger.warn("create ydb transport for test {}", path);
+                    proxy2.set(helper);
                     try (GrpcTransport transport = helper.createTransport()) {
                         proxy.set(transport);
-                        base.evaluate();
-                        proxy.set(null);
+                        logger.warn("evaluate test {}", path);
+                        try {
+                            base.evaluate();
+                        } finally {
+                            logger.warn("finish evaluate test {}", path);
+                            proxy.set(null);
+                        }
+                        logger.warn("close ydb transport for test {}", path);
                     }
+                    logger.warn("close ydb helper for test {}", path);
                 }
+                proxy2.set(null);
             }
         };
     }
@@ -56,5 +67,14 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
     @Override
     protected GrpcTransport origin() {
         return proxy.get();
+    }
+
+    public void printStdErr() {
+        try {
+            String output = proxy2.get().getStdErr();
+            logger.warn("DOCKER OUTPUT: \n{}", output);
+        } catch (Exception ex) {
+            logger.error("DOCKER ERROR", ex);
+        }
     }
 }

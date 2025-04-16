@@ -50,4 +50,9 @@ public class YdbHelperRule extends ProxyYdbHelper implements TestRule {
     protected YdbHelper origin() {
         return proxy.get();
     }
+
+    @Override
+    public String getStdErr() {
+        return proxy.get().getStdErr();
+    }
 }
