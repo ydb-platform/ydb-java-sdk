@@ -1,8 +1,6 @@
 package tech.ydb.topic.impl;
 
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -52,18 +50,24 @@ public class YdbTopicsCustomCodecIntegrationTest {
             "Last message".getBytes(),
     };
 
+    /**
+     * Ability to use custom codec with write and read
+     */
     @Test
     public void writeDataAndReadDataWithCustomCodec() throws InterruptedException, ExecutionException, TimeoutException {
         try {
             createTopic(TEST_TOPIC1);
             TopicCodec codec = new CustomTopicCode(1);
-            writeData(codec, TEST_TOPIC1);
-            readData(codec, TEST_TOPIC1);
+            writeData(10113, codec, TEST_TOPIC1);
+            readData(10113, codec, TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
     }
 
+    /**
+     * Ability to use different custom codecs with write and read in one client
+     */
     @Test
     public void writeInTwoTopicsInOneClientWithDifferentCustomCodec() throws ExecutionException, InterruptedException, TimeoutException {
         try {
@@ -73,32 +77,54 @@ public class YdbTopicsCustomCodecIntegrationTest {
             TopicCodec codec1 = new CustomTopicCode(1);
             TopicCodec codec2 = new CustomTopicCode(7);
 
-            writeData(codec1, TEST_TOPIC1);
-            writeData(codec2, TEST_TOPIC2);
+            writeData(10113, codec1, TEST_TOPIC1);
+            writeData(10113, codec2, TEST_TOPIC2);
 
-            readData(codec1, TEST_TOPIC1);
-            readData(codec2, TEST_TOPIC2);
+            readData(10113, codec1, TEST_TOPIC1);
+            readData(10113, codec2, TEST_TOPIC2);
         } finally {
             deleteTopic(TEST_TOPIC1);
             deleteTopic(TEST_TOPIC2);
         }
     }
 
+    /**
+     * Fail when we try to use codec which can't decode
+     */
     @Test
-    public void writeInWrongCode() throws ExecutionException, InterruptedException, TimeoutException {
+    public void readUsingWrongCodec() throws ExecutionException, InterruptedException, TimeoutException {
         try {
             createTopic(TEST_TOPIC1);
 
             TopicCodec codec1 = new CustomTopicCode(1);
             TopicCodec codec2 = new CustomTopicCode(7);
 
-            writeData(codec1, TEST_TOPIC1);
+            writeData(10113, codec1, TEST_TOPIC1);
 
-            readData(codec2, TEST_TOPIC2);
+            readDataFail(10113, codec2, TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
     }
+
+    /**
+     * Read successes even we specify wrong codec id
+     */
+    @Test
+    public void readUsingWrongCodecIdentifierShouldPass() throws ExecutionException, InterruptedException, TimeoutException {
+        try {
+            createTopic(TEST_TOPIC1);
+
+            TopicCodec codec1 = new CustomTopicCode(1);
+
+            writeData(10113, codec1, TEST_TOPIC1);
+
+            readData(10114, codec1, TEST_TOPIC1);
+        } finally {
+            deleteTopic(TEST_TOPIC1);
+        }
+    }
+
 
     private void createTopic(String topicName) {
         logger.info("Create test topic {} ...", topicName);
@@ -118,10 +144,10 @@ public class YdbTopicsCustomCodecIntegrationTest {
         dropStatus.expectSuccess("can't drop test topic");
     }
 
-    private void writeData(TopicCodec codec, String topicName) throws ExecutionException, InterruptedException, TimeoutException {
+    private void writeData(int codecId, TopicCodec codec, String topicName) throws ExecutionException, InterruptedException, TimeoutException {
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath(topicName)
-                .setCodec(10113, codec)
+                .setCodec(codecId, codec)
                 .build();
         SyncWriter writer = client.createSyncWriter(settings);
         writer.init();
@@ -134,19 +160,39 @@ public class YdbTopicsCustomCodecIntegrationTest {
         writer.shutdown(1, TimeUnit.MINUTES);
     }
 
-    private void readData(TopicCodec codec, String topicName) throws InterruptedException {
+    private void readData(int codecId, TopicCodec codec, String topicName) throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(topicName).build())
                 .setConsumerName(TEST_CONSUMER1)
-                .setCodec(10013, codec)
+                .setCodec(codecId, codec)
                 .build();
 
         SyncReader reader = client.createSyncReader(readerSettings);
         reader.initAndWait();
 
         for (byte[] bytes : TEST_MESSAGES) {
-            tech.ydb.topic.read.Message msg = reader.receive();
+            tech.ydb.topic.read.Message msg = reader.receive(1, TimeUnit.SECONDS);
             Assert.assertArrayEquals(bytes, msg.getData());
+        }
+
+        reader.shutdown();
+    }
+
+    private void readDataFail(int codecId, TopicCodec codec, String topicName) throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(topicName).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setCodec(codecId, codec)
+                .build();
+
+        SyncReader reader = client.createSyncReader(readerSettings);
+        reader.initAndWait();
+
+        for (byte[] bytes : TEST_MESSAGES) {
+            tech.ydb.topic.read.Message msg = reader.receive(1, TimeUnit.SECONDS);
+            if (bytes.length != 0) {
+                Assert.assertFalse(java.util.Arrays.equals(bytes, msg.getData()));
+            }
         }
 
         reader.shutdown();

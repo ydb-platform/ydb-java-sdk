@@ -49,7 +49,7 @@ public class Encoder {
         try (
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
-                InputStream is = makeInputStream(codec, topic, byteArrayInputStream);
+                InputStream is = makeInputStream(codec, topic, byteArrayInputStream)
         ) {
             byte[] buffer = new byte[1024];
             int length;
@@ -62,7 +62,7 @@ public class Encoder {
 
     private static OutputStream makeOutputStream(int codec, TopicCodec topic,
                                                  ByteArrayOutputStream byteArrayOutputStream) throws IOException {
-       if(codec > 10000 && topic != null) {
+       if (codec > 10000 && topic != null) {
            return topic.encode(byteArrayOutputStream);
        }
 
@@ -82,7 +82,7 @@ public class Encoder {
 
     private static InputStream makeInputStream(int codec, TopicCodec topic,
                                                ByteArrayInputStream byteArrayInputStream) throws IOException {
-        if(codec > 10000 && topic != null) {
+        if (codec > 10000 && topic != null) {
             return topic.decode(byteArrayInputStream);
         }
 

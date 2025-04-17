@@ -288,6 +288,7 @@ public class PartitionSessionImpl {
 
         batch.getMessages().forEach(message -> {
             try {
+                // May be throw exception? That codec in batch not equal with codec which use specify
                 int codec = this.readerSettings.getCodec() == 0 ? batch.getCodec() : this.readerSettings.getCodec();
                 message.setData(Encoder.decode(codec, this.readerSettings.getTopicCodec(), message.getData()));
                 message.setDecompressed(true);
