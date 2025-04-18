@@ -89,6 +89,7 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public CompletableFuture<Status> createTopic(String path, CreateTopicSettings settings) {
         YdbTopic.CreateTopicRequest.Builder requestBuilder = YdbTopic.CreateTopicRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings))
@@ -125,6 +126,7 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public CompletableFuture<Status> alterTopic(String path, AlterTopicSettings settings) {
         YdbTopic.AlterTopicRequest.Builder requestBuilder = YdbTopic.AlterTopicRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings))
@@ -257,6 +259,7 @@ public class TopicClientImpl implements TopicClient {
                 .thenApply(result -> result.map(ConsumerDescription::new));
     }
 
+    @SuppressWarnings("deprecation")
     private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
         if (logger.isTraceEnabled()) {
             logger.trace("Received topic describe response:\n{}", result);
