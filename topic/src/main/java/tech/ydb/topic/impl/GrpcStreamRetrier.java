@@ -55,6 +55,11 @@ public abstract class GrpcStreamRetrier {
     }
 
     private void tryScheduleReconnect() {
+        if (isStopped.get()) {
+            getLogger().info("[{}] {} is already stopped, no need to reconnect", id, getStreamName());
+            return;
+        }
+
         int currentReconnectCounter = reconnectCounter.get() + 1;
         if (MAX_RECONNECT_COUNT > 0 && currentReconnectCounter > MAX_RECONNECT_COUNT) {
             if (isStopped.compareAndSet(false, true)) {
