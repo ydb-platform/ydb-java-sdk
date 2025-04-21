@@ -1,3 +1,8 @@
+## 2.3.13 ##
+
+* Topic: fixed reconnect after shutdown
+* OAuth2 provider: fixed NPE
+
 ## 2.3.12 ##
 
 * Table: added validation of entry type in describeTable method
