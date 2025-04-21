@@ -17,12 +17,14 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import com.google.rpc.Code;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
@@ -55,10 +57,11 @@ public class PartitionSessionImpl {
     private final Consumer<List<OffsetsRange>> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
-    private final ReaderSettings readerSettings;
+    private final CodecRegistry codecRegistry;
     // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
+ 
 
     private PartitionSessionImpl(Builder builder) {
         this.id = builder.id;
@@ -72,7 +75,7 @@ public class PartitionSessionImpl {
         this.decompressionExecutor = builder.decompressionExecutor;
         this.dataEventCallback = builder.dataEventCallback;
         this.commitFunction = builder.commitFunction;
-        this.readerSettings = builder.readerSettings;
+        this.codecRegistry = builder.codecRegistry;
         logger.info("[{}] Partition session is started for Topic \"{}\" and Consumer \"{}\". CommittedOffset: {}. " +
                 "Partition offsets: {}-{}", fullId, topicPath, consumerName, lastReadOffset,
                 builder.partitionOffsets.getStart(), builder.partitionOffsets.getEnd());
@@ -288,9 +291,7 @@ public class PartitionSessionImpl {
 
         batch.getMessages().forEach(message -> {
             try {
-                // May be throw exception? That codec in batch not equal with codec which use specify
-                int codec = this.readerSettings.getCodec() == 0 ? batch.getCodec() : this.readerSettings.getCodec();
-                message.setData(Encoder.decode(codec, this.readerSettings.getTopicCodec(), message.getData()));
+                message.setData(Encoder.decode(batch.getCodec(), this.codecRegistry, message.getData()));
                 message.setDecompressed(true);
             } catch (IOException exception) {
                 message.setException(exception);
@@ -387,6 +388,7 @@ public class PartitionSessionImpl {
         private Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
         private Consumer<List<OffsetsRange>> commitFunction;
         private ReaderSettings readerSettings;
+        private CodecRegistry codecRegistry;
 
         public Builder setId(long id) {
             this.id = id;
@@ -442,8 +444,8 @@ public class PartitionSessionImpl {
             return new PartitionSessionImpl(this);
         }
 
-        public Builder setReaderSettings(ReaderSettings settings) {
-            this.readerSettings = settings;
+        public Builder setCodecRegistry(CodecRegistry codecRegistry) {
+            this.codecRegistry = codecRegistry;
             return this;
         }
     }

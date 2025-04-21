@@ -2,6 +2,8 @@ package tech.ydb.topic.description;
 
 /**
  * @author Nikolay Perfilov
+ *
+ * List of reserved codec
  */
 public class Codec {
     public static final int RAW = 1;

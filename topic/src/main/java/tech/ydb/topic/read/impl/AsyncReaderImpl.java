@@ -15,6 +15,7 @@ import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
@@ -45,8 +46,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private final ExecutorService defaultHandlerExecutorService;
     private final ReadEventHandler eventHandler;
 
-    public AsyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        super(topicRpc, settings);
+    public AsyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, ReadEventHandlersSettings handlersSettings, CodecRegistry codecRegistry) {
+        super(topicRpc, settings, codecRegistry);
         this.eventHandler = handlersSettings.getEventHandler();
 
         if (handlersSettings.getExecutor() != null) {

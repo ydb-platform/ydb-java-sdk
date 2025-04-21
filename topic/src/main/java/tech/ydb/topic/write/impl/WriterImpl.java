@@ -24,6 +24,7 @@ import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
@@ -59,13 +60,23 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     // Every writing stream has a sequential number (for debug purposes)
     private final AtomicLong sessionSeqNumberCounter = new AtomicLong(0);
 
+    /**
+     * Register for custom codec. User can specify custom codec which is local to TopicClient
+     */
+    private final CodecRegistry codecRegistry;
+
     private Boolean isSeqNoProvided = null;
     private int currentInFlightCount = 0;
     private long availableSizeBytes;
     // Future for flush method
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
 
+    @Deprecated
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
+        this(topicRpc, settings, compressionExecutor, null);
+    }
+
+    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor, CodecRegistry codecRegistry) {
         super(topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
@@ -73,6 +84,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.maxSendBufferMemorySize = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
+        this.codecRegistry = codecRegistry;
         String message = "Writer" +
                 " (generated id " + id + ")" +
                 " created for topic \"" + settings.getTopicPath() + "\"" +
@@ -181,7 +193,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
         try {
             message.getMessage().setData(Encoder.encode(settings.getCodec(),
-                    settings.getTopicCodec(), message.getMessage().getData()));
+                    codecRegistry, message.getMessage().getData()));
         } catch (IOException exception) {
             throw new RuntimeException("Couldn't encode a message", exception);
         }

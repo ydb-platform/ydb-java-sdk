@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 
 import tech.ydb.core.Status;
-import tech.ydb.topic.description.TopicCodec;
+import tech.ydb.topic.description.CustomTopicCodec;
 
 /**
  * @author Nikolay Perfilov
@@ -24,8 +24,6 @@ public class ReaderSettings {
     private final long maxMemoryUsageBytes;
     private final Executor decompressionExecutor;
     private final BiConsumer<Status, Throwable> errorsHandler;
-    private final int codec;
-    private final TopicCodec topicCodec;
 
     private ReaderSettings(Builder builder) {
         this.consumerName = builder.consumerName;
@@ -34,8 +32,6 @@ public class ReaderSettings {
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
         this.decompressionExecutor = builder.decompressionExecutor;
         this.errorsHandler = builder.errorsHandler;
-        this.codec = builder.codec;
-        this.topicCodec = builder.topicCodec;
     }
 
     public String getConsumerName() {
@@ -63,14 +59,6 @@ public class ReaderSettings {
         return decompressionExecutor;
     }
 
-    public int getCodec() {
-        return codec;
-    }
-
-    public TopicCodec getTopicCodec() {
-        return topicCodec;
-    }
-
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -86,7 +74,7 @@ public class ReaderSettings {
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Executor decompressionExecutor = null;
         private int codec;
-        private TopicCodec topicCodec;
+        private CustomTopicCodec customTopicCodec;
         private BiConsumer<Status, Throwable> errorsHandler = null;
 
         public Builder setConsumerName(String consumerName) {
@@ -160,12 +148,6 @@ public class ReaderSettings {
                 throw new IllegalArgumentException("Missing topics for read settings. At least one should be set");
             }
             return new ReaderSettings(this);
-        }
-
-        public Builder setCodec(int codec, TopicCodec topicCodec) {
-            this.codec = codec;
-            this.topicCodec = topicCodec;
-            return this;
         }
     }
 }

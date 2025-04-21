@@ -23,12 +23,14 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
+import tech.ydb.topic.description.CustomTopicCodec;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
@@ -62,9 +64,11 @@ public class TopicClientImpl implements TopicClient {
     private final TopicRpc topicRpc;
     private final Executor compressionExecutor;
     private final ExecutorService defaultCompressionExecutorService;
+    private final CodecRegistry codecRegistry;
 
     TopicClientImpl(TopicClientBuilderImpl builder) {
         this.topicRpc = builder.topicRpc;
+        this.codecRegistry = new CodecRegistry();
         if (builder.compressionExecutor != null) {
             this.defaultCompressionExecutorService = null;
             this.compressionExecutor = builder.compressionExecutor;
@@ -301,12 +305,12 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public SyncReader createSyncReader(ReaderSettings settings) {
-        return new SyncReaderImpl(topicRpc, settings);
+        return new SyncReaderImpl(this.topicRpc, settings, this.codecRegistry);
     }
 
     @Override
     public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        return new AsyncReaderImpl(topicRpc, settings, handlersSettings);
+        return new AsyncReaderImpl(this.topicRpc, settings, handlersSettings, this.codecRegistry);
     }
 
     @Override
@@ -330,6 +334,11 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public AsyncWriter createAsyncWriter(WriterSettings settings) {
         return new AsyncWriterImpl(topicRpc, settings, compressionExecutor);
+    }
+
+    @Override
+    public void registerCodec(int codec, CustomTopicCodec customTopicCodec) {
+        codecRegistry.registerCustomCodec(codec, customTopicCodec);
     }
 
     private static YdbTopic.MeteringMode toProto(MeteringMode meteringMode) {

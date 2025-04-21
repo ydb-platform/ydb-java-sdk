@@ -17,7 +17,7 @@ import org.anarres.lzo.LzoOutputStream;
 import org.anarres.lzo.LzopInputStream;
 
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.TopicCodec;
+import tech.ydb.topic.description.CodecRegistry;
 
 /**
  * @author Nikolay Perfilov
@@ -32,9 +32,9 @@ public class Encoder {
         return encode(codec, null, input);
     }
 
-    public static byte[] encode(int codec, TopicCodec topic, byte[] input) throws IOException {
+    public static byte[] encode(int codec, CodecRegistry codecRegistry, byte[] input) throws IOException {
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        try (OutputStream os = makeOutputStream(codec, topic, byteArrayOutputStream)) {
+        try (OutputStream os = makeOutputStream(codec, codecRegistry, byteArrayOutputStream)) {
             os.write(input);
         }
         return byteArrayOutputStream.toByteArray();
@@ -45,11 +45,11 @@ public class Encoder {
         return decode(codec, null, input);
     }
 
-    public static byte[] decode(int codec, TopicCodec topic, byte[] input) throws IOException {
+    public static byte[] decode(int codec, CodecRegistry codecRegistry, byte[] input) throws IOException {
         try (
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(input);
-                InputStream is = makeInputStream(codec, topic, byteArrayInputStream)
+                InputStream is = makeInputStream(codec, codecRegistry, byteArrayInputStream)
         ) {
             byte[] buffer = new byte[1024];
             int length;
@@ -60,10 +60,10 @@ public class Encoder {
         }
     }
 
-    private static OutputStream makeOutputStream(int codec, TopicCodec topic,
+    private static OutputStream makeOutputStream(int codec, CodecRegistry codecRegistry,
                                                  ByteArrayOutputStream byteArrayOutputStream) throws IOException {
-       if (codec > 10000 && topic != null) {
-           return topic.encode(byteArrayOutputStream);
+       if (codec > 10000) {
+           return codecRegistry.getCustomCodec(codec).encode(byteArrayOutputStream);
        }
 
         switch (codec) {
@@ -80,10 +80,10 @@ public class Encoder {
         }
     }
 
-    private static InputStream makeInputStream(int codec, TopicCodec topic,
+    private static InputStream makeInputStream(int codec, CodecRegistry codecRegistry,
                                                ByteArrayInputStream byteArrayInputStream) throws IOException {
-        if (codec > 10000 && topic != null) {
-            return topic.decode(byteArrayInputStream);
+        if (codec > 10000) {
+            return codecRegistry.getCustomCodec(codec).decode(byteArrayInputStream);
         }
 
         switch (codec) {

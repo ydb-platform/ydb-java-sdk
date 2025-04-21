@@ -10,7 +10,7 @@ import tech.ydb.core.Status;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
-import tech.ydb.topic.description.TopicCodec;
+import tech.ydb.topic.description.CustomTopicCodec;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -57,9 +57,10 @@ public class YdbTopicsCustomCodecIntegrationTest {
     public void writeDataAndReadDataWithCustomCodec() throws InterruptedException, ExecutionException, TimeoutException {
         try {
             createTopic(TEST_TOPIC1);
-            TopicCodec codec = new CustomTopicCode(1);
-            writeData(10113, codec, TEST_TOPIC1);
-            readData(10113, codec, TEST_TOPIC1);
+            CustomTopicCodec codec = new CustomCustomTopicCode(1);
+            client.registerCodec(10113, codec);
+            writeData(10113, TEST_TOPIC1);
+            readData( TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
@@ -74,14 +75,17 @@ public class YdbTopicsCustomCodecIntegrationTest {
             createTopic(TEST_TOPIC1);
             createTopic(TEST_TOPIC2);
 
-            TopicCodec codec1 = new CustomTopicCode(1);
-            TopicCodec codec2 = new CustomTopicCode(7);
+            CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
+            CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
 
-            writeData(10113, codec1, TEST_TOPIC1);
-            writeData(10113, codec2, TEST_TOPIC2);
+            client.registerCodec(10113, codec1);
+            client.registerCodec(10113, codec2);
 
-            readData(10113, codec1, TEST_TOPIC1);
-            readData(10113, codec2, TEST_TOPIC2);
+            writeData(10113, TEST_TOPIC1);
+            writeData(10113, TEST_TOPIC2);
+
+            readData( TEST_TOPIC1);
+            readData( TEST_TOPIC2);
         } finally {
             deleteTopic(TEST_TOPIC1);
             deleteTopic(TEST_TOPIC2);
@@ -96,12 +100,16 @@ public class YdbTopicsCustomCodecIntegrationTest {
         try {
             createTopic(TEST_TOPIC1);
 
-            TopicCodec codec1 = new CustomTopicCode(1);
-            TopicCodec codec2 = new CustomTopicCode(7);
+            CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
+            CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
 
-            writeData(10113, codec1, TEST_TOPIC1);
+            client.registerCodec(10113, codec1);
 
-            readDataFail(10113, codec2, TEST_TOPIC1);
+            writeData(10113, TEST_TOPIC1);
+
+            client.registerCodec(10113, codec2);
+
+            readDataFail(  TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
@@ -115,11 +123,14 @@ public class YdbTopicsCustomCodecIntegrationTest {
         try {
             createTopic(TEST_TOPIC1);
 
-            TopicCodec codec1 = new CustomTopicCode(1);
+            CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
+            client.registerCodec(10113, codec1);
 
-            writeData(10113, codec1, TEST_TOPIC1);
+            writeData(10113,TEST_TOPIC1);
 
-            readData(10114, codec1, TEST_TOPIC1);
+            client.registerCodec(10114, codec1);
+
+            readData( TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
@@ -144,10 +155,10 @@ public class YdbTopicsCustomCodecIntegrationTest {
         dropStatus.expectSuccess("can't drop test topic");
     }
 
-    private void writeData(int codecId, TopicCodec codec, String topicName) throws ExecutionException, InterruptedException, TimeoutException {
+    private void writeData(int codecId, String topicName) throws ExecutionException, InterruptedException, TimeoutException {
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath(topicName)
-                .setCodec(codecId, codec)
+                .setCodec(codecId)
                 .build();
         SyncWriter writer = client.createSyncWriter(settings);
         writer.init();
@@ -160,11 +171,10 @@ public class YdbTopicsCustomCodecIntegrationTest {
         writer.shutdown(1, TimeUnit.MINUTES);
     }
 
-    private void readData(int codecId, TopicCodec codec, String topicName) throws InterruptedException {
+    private void readData(String topicName) throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(topicName).build())
                 .setConsumerName(TEST_CONSUMER1)
-                .setCodec(codecId, codec)
                 .build();
 
         SyncReader reader = client.createSyncReader(readerSettings);
@@ -178,11 +188,10 @@ public class YdbTopicsCustomCodecIntegrationTest {
         reader.shutdown();
     }
 
-    private void readDataFail(int codecId, TopicCodec codec, String topicName) throws InterruptedException {
+    private void readDataFail(String topicName) throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(topicName).build())
                 .setConsumerName(TEST_CONSUMER1)
-                .setCodec(codecId, codec)
                 .build();
 
         SyncReader reader = client.createSyncReader(readerSettings);
@@ -198,11 +207,11 @@ public class YdbTopicsCustomCodecIntegrationTest {
         reader.shutdown();
     }
 
-    static class CustomTopicCode implements TopicCodec {
+    static class CustomCustomTopicCode implements CustomTopicCodec {
 
         final int stub;
 
-        public CustomTopicCode(int stub) {
+        public CustomCustomTopicCode(int stub) {
             this.stub = stub;
         }
 
