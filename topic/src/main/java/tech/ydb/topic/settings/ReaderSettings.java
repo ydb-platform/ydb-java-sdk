@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 
 import tech.ydb.core.Status;
-import tech.ydb.topic.description.CustomTopicCodec;
 
 /**
  * @author Nikolay Perfilov
@@ -73,8 +72,6 @@ public class ReaderSettings {
         private List<TopicReadSettings> topics = new ArrayList<>();
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private Executor decompressionExecutor = null;
-        private int codec;
-        private CustomTopicCodec customTopicCodec;
         private BiConsumer<Status, Throwable> errorsHandler = null;
 
         public Builder setConsumerName(String consumerName) {

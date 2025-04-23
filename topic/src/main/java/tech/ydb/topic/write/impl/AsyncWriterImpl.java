@@ -5,6 +5,7 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.AsyncWriter;
@@ -18,8 +19,8 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
 
-    public AsyncWriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
-        super(topicRpc, settings, compressionExecutor);
+    public AsyncWriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor, CodecRegistry codecRegistry) {
+        super(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override

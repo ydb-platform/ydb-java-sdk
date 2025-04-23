@@ -166,10 +166,22 @@ public interface TopicClient extends AutoCloseable {
     void close();
 
     /**
-     * @param i
-     * @param codec
+     * Register custom codec implementation to TopicClient
+     * Note register is local to TopicClient
+     *
+     * @param codec - codec identifier (must be > 10000)
+     * @param customTopicCodec - custom implementation
      */
-    void registerCodec(int i, CustomTopicCodec codec);
+    void registerCodec(int codec, CustomTopicCodec customTopicCodec);
+
+
+    /**
+     * Unregister custom codec implementation
+     *
+     * @param codec - codec identifier (must be > 10000)
+     * @return implementation was before
+     */
+    CustomTopicCodec unregisterCodec(int codec);
 
     /**
      * BUILDER

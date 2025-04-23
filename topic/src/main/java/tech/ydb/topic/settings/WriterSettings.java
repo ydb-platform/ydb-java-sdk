@@ -4,7 +4,6 @@ import java.util.function.BiConsumer;
 
 import tech.ydb.core.Status;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.CustomTopicCodec;
 
 /**
  * @author Nikolay Perfilov
@@ -78,7 +77,6 @@ public class WriterSettings {
         private String messageGroupId = null;
         private Long partitionId = null;
         private int codec = Codec.GZIP;
-        private CustomTopicCodec customTopicCodec;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
         private BiConsumer<Status, Throwable> errorsHandler = null;

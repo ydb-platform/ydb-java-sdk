@@ -305,12 +305,12 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public SyncReader createSyncReader(ReaderSettings settings) {
-        return new SyncReaderImpl(this.topicRpc, settings, this.codecRegistry);
+        return new SyncReaderImpl(topicRpc, settings, codecRegistry);
     }
 
     @Override
     public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        return new AsyncReaderImpl(this.topicRpc, settings, handlersSettings, this.codecRegistry);
+        return new AsyncReaderImpl(topicRpc, settings, handlersSettings, codecRegistry);
     }
 
     @Override
@@ -328,17 +328,22 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public SyncWriter createSyncWriter(WriterSettings settings) {
-        return new SyncWriterImpl(topicRpc, settings, compressionExecutor);
+        return new SyncWriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override
     public AsyncWriter createAsyncWriter(WriterSettings settings) {
-        return new AsyncWriterImpl(topicRpc, settings, compressionExecutor);
+        return new AsyncWriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override
     public void registerCodec(int codec, CustomTopicCodec customTopicCodec) {
         codecRegistry.registerCustomCodec(codec, customTopicCodec);
+    }
+
+    @Override
+    public CustomTopicCodec unregisterCodec(int codec) {
+        return codecRegistry.unregisterCustomCodec(codec);
     }
 
     private static YdbTopic.MeteringMode toProto(MeteringMode meteringMode) {

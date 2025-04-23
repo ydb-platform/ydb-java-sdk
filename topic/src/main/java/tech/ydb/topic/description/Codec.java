@@ -3,7 +3,7 @@ package tech.ydb.topic.description;
 /**
  * @author Nikolay Perfilov
  *
- * List of reserved codec
+ * List of reserved codecs
  */
 public class Codec {
     public static final int RAW = 1;
@@ -12,7 +12,17 @@ public class Codec {
     public static final int ZSTD = 4;
     public static final int CUSTOM = 10000;
 
+    private final static Codec instance = new Codec();
+
     private Codec() {
+    }
+
+    public static Codec getInstance() {
+        return instance;
+    }
+
+    public boolean isReserved(int codec) {
+        return codec <= CUSTOM;
     }
 
 }

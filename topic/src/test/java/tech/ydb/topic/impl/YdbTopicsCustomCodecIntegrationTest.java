@@ -1,5 +1,6 @@
 package tech.ydb.topic.impl;
 
+import com.sun.security.ntlm.Client;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -29,6 +30,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 
+/**
+ * Test connecting to custom codec
+ */
 public class YdbTopicsCustomCodecIntegrationTest {
     private final static Logger logger = LoggerFactory.getLogger(YdbTopicsCustomCodecIntegrationTest.class);
 
@@ -40,7 +44,8 @@ public class YdbTopicsCustomCodecIntegrationTest {
     private final static String TEST_CONSUMER1 = "consumer";
     private final static String TEST_CONSUMER2 = "other_consumer";
 
-    private static TopicClient client;
+    private static TopicClient client1;
+    private static TopicClient client2;
 
     private final static byte[][] TEST_MESSAGES = new byte[][]{
             "Test message".getBytes(),
@@ -52,95 +57,198 @@ public class YdbTopicsCustomCodecIntegrationTest {
 
     /**
      * Ability to use custom codec with write and read
+     * This positive test checks that we can read and write in one topic
+     * <p>
+     * STEPS
+     * 1. Create client
+     * 2. Create topic TEST_TOPIC1
+     * 3. Create custom codec
+     * 4. Register codec with id = 10113 and CustomTopicCodec
+     * 5. Write data to topic with codec = 10113
+     * 6. Read data from topic without errors
+     *
      */
     @Test
     public void writeDataAndReadDataWithCustomCodec() throws InterruptedException, ExecutionException, TimeoutException {
         try {
-            createTopic(TEST_TOPIC1);
+            client1 = createClient();
+            createTopic(client1, TEST_TOPIC1);
+
             CustomTopicCodec codec = new CustomCustomTopicCode(1);
-            client.registerCodec(10113, codec);
+
+            client1.registerCodec(10113, codec);
+
             writeData(10113, TEST_TOPIC1);
-            readData( TEST_TOPIC1);
+
+            readData(TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
     }
 
     /**
-     * Ability to use different custom codecs with write and read in one client
+     * Ability to write to different topic in different codecs.
+     * This test checks that in one client we can make arbitrary codecs which don't disturb each other
+     * <p>
+     * STEPS
+     * 1. Create client
+     * 2.1. Create topic TEST_TOPIC1
+     * 2.2. Create topic TEST_TOPIC2
+     * 3.1. Create custom codec1
+     * 3.2. Create custom codec2
+     * 4.1. Register codec with id = 10113 and codec1
+     * 4.2. Register codec with id = 10114 and codec2
+     * 5.1. Write data to TEST_TOPIC1 with codec = 10113
+     * 5.1. Write data to TEST_TOPIC2 with codec = 10114
+     * 6.1. Read data from TEST_TOPIC1 without errors
+     * 6.1. Read data from TEST_TOPIC2 without errors
+     *
      */
     @Test
     public void writeInTwoTopicsInOneClientWithDifferentCustomCodec() throws ExecutionException, InterruptedException, TimeoutException {
         try {
-            createTopic(TEST_TOPIC1);
-            createTopic(TEST_TOPIC2);
+            client1 = createClient();
+
+            createTopic(client1, TEST_TOPIC1);
+            createTopic(client1, TEST_TOPIC2);
 
             CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
             CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
 
-            client.registerCodec(10113, codec1);
-            client.registerCodec(10113, codec2);
+            client1.registerCodec(10113, codec1);
+            client1.registerCodec(10114, codec2);
+
+            writeData(10113, TEST_TOPIC1);
+            writeData(10114, TEST_TOPIC2);
+
+
+            readData(TEST_TOPIC1);
+            readData(TEST_TOPIC2);
+        } finally {
+            deleteTopic(TEST_TOPIC1);
+        }
+    }
+
+    /**
+     * Ability to write to different topic in different clients with same id
+     * This test checks that different client don't exchange codecs CodecRegistry with each other
+     * <p>
+     * STEPS
+     * 1.1. Create client1
+     * 1.2. Create client2
+     * 2.1. Create topic TEST_TOPIC1 in client1
+     * 2.2. Create topic TEST_TOPIC2 in client1
+     * 3.1. Create custom codec1
+     * 3.2. Create custom codec2
+     * 4.1. Register codec with id = 10113 and codec1
+     * 4.2. Register codec with id = 10113 and codec2
+     * 5.1. Write data to TEST_TOPIC1 with codec = 10113
+     * 5.1. Write data to TEST_TOPIC2 with codec = 10113
+     * 6.1. Read data from TEST_TOPIC1 without errors
+     * 6.1. Read data from TEST_TOPIC2 without errors
+     *
+     */
+    @Test
+    public void writeInTwoTopicWithDifferentCodecWithOneIdShouldNotFailed() throws ExecutionException, InterruptedException, TimeoutException {
+        try {
+            createTopic(client1, TEST_TOPIC1);
+            createTopic(client1, TEST_TOPIC2);
+
+            CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
+            CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
+
+            client1.registerCodec(10113, codec1);
+            client2.registerCodec(10113, codec2);
 
             writeData(10113, TEST_TOPIC1);
             writeData(10113, TEST_TOPIC2);
 
-            readData( TEST_TOPIC1);
-            readData( TEST_TOPIC2);
+            readData(TEST_TOPIC1);
+            readData(TEST_TOPIC2);
         } finally {
             deleteTopic(TEST_TOPIC1);
-            deleteTopic(TEST_TOPIC2);
         }
     }
 
     /**
-     * Fail when we try to use codec which can't decode
+     * Ability to write to different topic in different clients with same id
+     * This test checks that different client don't exchange codecs CodecRegistry with each other
+     * <p>
+     * STEPS
+     * 1.1. Create client1
+     * 1.2. Create client2
+     * 2.1. Create topic TEST_TOPIC1 in client1
+     * 2.2. Create topic TEST_TOPIC2 in client1
+     * 3.1. Create custom codec1
+     * 3.2. Create custom codec2
+     * 4.1. Register codec with id = 10113 and codec1
+     * 4.2. Register codec with id = 10113 and codec2
+     * 5.1. Write data to TEST_TOPIC1 with codec = 10113
+     * 5.1. Write data to TEST_TOPIC2 with codec = 10113
+     * 6.1. Read data from TEST_TOPIC1 without errors
+     * 6.1. Read data from TEST_TOPIC2 without errors
+     *
      */
     @Test
     public void readUsingWrongCodec() throws ExecutionException, InterruptedException, TimeoutException {
         try {
-            createTopic(TEST_TOPIC1);
+            createTopic(client1, TEST_TOPIC1);
 
             CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
             CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
 
-            client.registerCodec(10113, codec1);
+            client1.registerCodec(10113, codec1);
 
             writeData(10113, TEST_TOPIC1);
 
-            client.registerCodec(10113, codec2);
+            client1.registerCodec(10113, codec2);
 
-            readDataFail(  TEST_TOPIC1);
+            readDataFail(TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
     }
 
     /**
-     * Read successes even we specify wrong codec id
+     * This test checks that read with codec changed with write failed
+     * <p>
+     * STEPS
+     * 1 Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Create custom codec1
+     * 4. Register codec with id = 10113 and codec1
+     * 5. Write data to TEST_TOPIC1 with codec = 10113
+     * 6. Register codec with id = 10113 and codec2
+     * 7. Read data from TEST_TOPIC1 with errors
+     *
      */
     @Test
-    public void readUsingWrongCodecIdentifierShouldPass() throws ExecutionException, InterruptedException, TimeoutException {
+    public void readUsingWrongCodecIdentifierShouldNotPass() throws ExecutionException, InterruptedException, TimeoutException {
         try {
-            createTopic(TEST_TOPIC1);
+            createTopic(client1, TEST_TOPIC1);
 
             CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
-            client.registerCodec(10113, codec1);
+            CustomTopicCodec codec2 = new CustomCustomTopicCode(2);
+            client1.registerCodec(10113, codec1);
 
-            writeData(10113,TEST_TOPIC1);
+            writeData(10113, TEST_TOPIC1);
 
-            client.registerCodec(10114, codec1);
+            client1.registerCodec(10113, codec2);
 
-            readData( TEST_TOPIC1);
+            readData(TEST_TOPIC1);
         } finally {
             deleteTopic(TEST_TOPIC1);
         }
     }
 
 
-    private void createTopic(String topicName) {
+    private TopicClient createClient() {
+        return TopicClient.newClient(ydbTransport).build();
+    }
+
+    private void createTopic(TopicClient client, String topicName) {
         logger.info("Create test topic {} ...", topicName);
 
-        client = TopicClient.newClient(ydbTransport).build();
         client.createTopic(topicName, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER2).build())
@@ -150,8 +258,8 @@ public class YdbTopicsCustomCodecIntegrationTest {
 
     private void deleteTopic(String topicName) {
         logger.info("Drop test topic {} ...", topicName);
-        Status dropStatus = client.dropTopic(topicName).join();
-        client.close();
+        Status dropStatus = client1.dropTopic(topicName).join();
+        client1.close();
         dropStatus.expectSuccess("can't drop test topic");
     }
 
@@ -160,7 +268,7 @@ public class YdbTopicsCustomCodecIntegrationTest {
                 .setTopicPath(topicName)
                 .setCodec(codecId)
                 .build();
-        SyncWriter writer = client.createSyncWriter(settings);
+        SyncWriter writer = client1.createSyncWriter(settings);
         writer.init();
 
         for (byte[] testMessage : TEST_MESSAGES) {
@@ -177,7 +285,7 @@ public class YdbTopicsCustomCodecIntegrationTest {
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
-        SyncReader reader = client.createSyncReader(readerSettings);
+        SyncReader reader = client1.createSyncReader(readerSettings);
         reader.initAndWait();
 
         for (byte[] bytes : TEST_MESSAGES) {
@@ -194,7 +302,7 @@ public class YdbTopicsCustomCodecIntegrationTest {
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
-        SyncReader reader = client.createSyncReader(readerSettings);
+        SyncReader reader = client1.createSyncReader(readerSettings);
         reader.initAndWait();
 
         for (byte[] bytes : TEST_MESSAGES) {
