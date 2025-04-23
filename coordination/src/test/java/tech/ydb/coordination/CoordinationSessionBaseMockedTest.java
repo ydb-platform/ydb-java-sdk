@@ -1,11 +1,11 @@
 package tech.ydb.coordination;
 
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Before;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.mockito.stubbing.OngoingStubbing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +21,7 @@ import tech.ydb.proto.coordination.v1.CoordinationServiceGrpc;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.*;
 
 public class CoordinationSessionBaseMockedTest {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionBaseMockedTest.class);
@@ -32,29 +29,13 @@ public class CoordinationSessionBaseMockedTest {
     private final ScheduledExecutorService scheduler = Mockito.mock(ScheduledExecutorService.class);
     private final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
     private final ScheduledFuture<?> emptyFuture = Mockito.mock(ScheduledFuture.class);
-    private final GrpcReadWriteStream<SessionResponse, SessionRequest> writeStream =
-            Mockito.mock(GrpcReadWriteStream.class);
     private final SchedulerAssert schedulerHelper = new SchedulerAssert();
 
     protected final CoordinationClient client = CoordinationClient.newClient(transport);
 
-    private volatile MockedWriteStream streamMock = null;
-
     @Before
     public void beforeEach() {
         Mockito.when(transport.getScheduler()).thenReturn(scheduler);
-        Mockito.when(transport.readWriteStreamCall(Mockito.eq(CoordinationServiceGrpc.getSessionMethod()), Mockito.any()))
-                .thenReturn(writeStream); // create mocked stream
-
-        // Every writeStream.start updates mockedWriteStream
-        Mockito.when(writeStream.start(Mockito.any()))
-                .thenAnswer(defaultStreamMockAnswer());
-
-        // Every writeStream.sendNext add message from client to mockedWriteStream.sent list
-        Mockito.doAnswer((Answer<Void>) (InvocationOnMock iom) -> {
-            streamMock.sent.add(iom.getArgument(0, SessionRequest.class));
-            return null;
-        }).when(writeStream).sendNext(Mockito.any());
 
         Mockito.when(scheduler.schedule(Mockito.any(Runnable.class), Mockito.anyLong(), Mockito.any()))
                 .thenAnswer((InvocationOnMock iom) -> {
@@ -64,34 +45,40 @@ public class CoordinationSessionBaseMockedTest {
                 });
     }
 
-    protected MockedWriteStream currentStream() {
-        return streamMock;
-    }
-
     protected SchedulerAssert getScheduler() {
         return schedulerHelper;
     }
 
-    protected OngoingStubbing<CompletableFuture<Status>> mockStreams() {
-        return Mockito.when(writeStream.start(Mockito.any()));
+    protected StreamMock mockStream() {
+        StreamMock streamMock = new StreamMock();
+
+        GrpcReadWriteStream<SessionResponse, SessionRequest> readWriteStream = Mockito.mock(GrpcReadWriteStream.class);
+
+        Mockito.when(readWriteStream.start(Mockito.any())).thenAnswer(
+                (InvocationOnMock iom) -> {
+                    streamMock.setObserver(iom.getArgument(0));
+                    return streamMock.streamFuture;
+                }
+        ).thenThrow(new RuntimeException("Unexpected second start call"));
+
+        Mockito.doAnswer((Answer<Void>) (InvocationOnMock iom) -> {
+            streamMock.sent.add(iom.getArgument(0, SessionRequest.class));
+            return null;
+        }).when(readWriteStream).sendNext(Mockito.any());
+
+        Mockito.when(transport.readWriteStreamCall(Mockito.eq(CoordinationServiceGrpc.getSessionMethod()), Mockito.any()))
+                .thenReturn(readWriteStream);
+        return streamMock;
     }
 
-    protected Answer<CompletableFuture<Status>> errorStreamMockAnswer(StatusCode code) {
-        return (iom) -> {
-            streamMock = null;
-            return CompletableFuture.completedFuture(Status.of(code));
-        };
-    }
-
-    protected Answer<CompletableFuture<Status>> defaultStreamMockAnswer() {
-        return (InvocationOnMock iom) -> {
-            streamMock = new MockedWriteStream(iom.getArgument(0));
-            return streamMock.streamFuture;
-        };
-    }
-
-    protected static class SchedulerAssert {
+    protected static class SchedulerAssert implements Executor {
         private final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
+
+        @Override
+        public void execute(@NotNull Runnable command) {
+            logger.debug("scheduling command: " + command);
+            tasks.add(command);
+        }
 
         public SchedulerAssert hasNoTasks() {
             Assert.assertTrue(tasks.isEmpty());
@@ -116,14 +103,23 @@ public class CoordinationSessionBaseMockedTest {
         }
     }
 
-    protected class MockedWriteStream {
-        private final GrpcReadWriteStream.Observer<SessionResponse> observer;
-        private final CompletableFuture<Status> streamFuture = new CompletableFuture<>();
+    protected class StreamMock {
+        private final CompletableFuture<Status> streamFuture;
         private final List<SessionRequest> sent = new ArrayList<>();
         private volatile int sentIdx = 0;
 
-        public MockedWriteStream(GrpcReadWriteStream.Observer<SessionResponse> observer) {
+        private volatile GrpcReadWriteStream.Observer<SessionResponse> observer = null;
+
+        public StreamMock() {
+            streamFuture = new CompletableFuture<>();
+        }
+
+        public void setObserver(GrpcReadWriteStream.Observer<SessionResponse> observer) {
             this.observer = observer;
+        }
+
+        public void complete(StatusCode statusCode) {
+            streamFuture.complete(Status.of(statusCode));
         }
 
         public void complete(Status status) {
@@ -151,6 +147,34 @@ public class CoordinationSessionBaseMockedTest {
                             )
                     )
                     .build();
+            response(msg);
+        }
+
+        public void responseSessionStarted(long sessionId) {
+            SessionResponse msg = SessionResponse.newBuilder()
+                    .setSessionStarted(
+                            SessionResponse.SessionStarted.newBuilder()
+                                    .setSessionId(sessionId)
+                                    .build()
+                    )
+                    .build();
+            response(msg);
+        }
+
+        public void responseAcquiredSuccessfully(long requestId) {
+            SessionResponse msg = SessionResponse.newBuilder()
+                    .setAcquireSemaphoreResult(
+                            SessionResponse.AcquireSemaphoreResult.newBuilder()
+                                    .setReqId(requestId)
+                                    .setAcquired(true)
+                                    .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                    )
+                    .build();
+            response(msg);
+        }
+
+        private void response(SessionResponse msg) {
+            Assert.assertNotNull(observer);
             observer.onNext(msg);
         }
 
@@ -163,8 +187,32 @@ public class CoordinationSessionBaseMockedTest {
             this.msg = msg;
         }
 
+        public SessionRequest get() {
+            return msg;
+        }
+
         public Checker isAcquireSemaphore() {
             Assert.assertTrue("next msg must be acquire semaphore", msg.hasAcquireSemaphore());
+            return this;
+        }
+
+        public Checker isEphemeralSemaphore() {
+            Assert.assertTrue("next msg must be acquire ephemeral semaphore", msg.getAcquireSemaphore().getEphemeral());
+            return this;
+        }
+
+        public Checker hasSemaphoreName(String semaphoreName) {
+            Assert.assertEquals("invalid semaphore name", semaphoreName, msg.getAcquireSemaphore().getName());
+            return this;
+        }
+
+        public Checker isSessionStart() {
+            Assert.assertTrue("next msg must be session start", msg.hasSessionStart());
+            return this;
+        }
+
+        public Checker hasPath(String coordinationNodePath) {
+            Assert.assertEquals("invalid coordination node path", coordinationNodePath, msg.getSessionStart().getPath());
             return this;
         }
     }
