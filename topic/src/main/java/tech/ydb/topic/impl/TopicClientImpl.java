@@ -24,6 +24,7 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.description.CodecRegistryImpl;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.CustomTopicCodec;
