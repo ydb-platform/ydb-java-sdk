@@ -12,13 +12,13 @@ public class Codec {
     public static final int ZSTD = 4;
     public static final int CUSTOM = 10000;
 
-    private final static Codec instance = new Codec();
+    private static final Codec INSTANCE = new Codec();
 
     private Codec() {
     }
 
     public static Codec getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public boolean isReserved(int codec) {

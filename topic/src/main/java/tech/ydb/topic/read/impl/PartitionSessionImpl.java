@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.google.rpc.Code;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,6 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
-import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.utils.Encoder;
 
 /**
@@ -61,7 +59,7 @@ public class PartitionSessionImpl {
     // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
- 
+
 
     private PartitionSessionImpl(Builder builder) {
         this.id = builder.id;
@@ -291,7 +289,7 @@ public class PartitionSessionImpl {
 
         batch.getMessages().forEach(message -> {
             try {
-                message.setData(Encoder.decode(batch.getCodec(), this.codecRegistry, message.getData()));
+                message.setData(Encoder.decode(batch.getCodec(), message.getData(), this.codecRegistry));
                 message.setDecompressed(true);
             } catch (IOException exception) {
                 message.setException(exception);
@@ -387,7 +385,6 @@ public class PartitionSessionImpl {
         private Executor decompressionExecutor;
         private Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
         private Consumer<List<OffsetsRange>> commitFunction;
-        private ReaderSettings readerSettings;
         private CodecRegistry codecRegistry;
 
         public Builder setId(long id) {

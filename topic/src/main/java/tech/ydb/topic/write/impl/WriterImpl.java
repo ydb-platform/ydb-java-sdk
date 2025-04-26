@@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +28,7 @@ import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.impl.UnModifiableRegistry;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
@@ -73,10 +76,13 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
 
     @Deprecated
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
-        this(topicRpc, settings, compressionExecutor, null);
+        this(topicRpc, settings, compressionExecutor, UnModifiableRegistry.getInstance());
     }
 
-    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor, CodecRegistry codecRegistry) {
+    public WriterImpl(TopicRpc topicRpc,
+                      WriterSettings settings,
+                      Executor compressionExecutor,
+                      @Nonnull CodecRegistry codecRegistry) {
         super(topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
@@ -193,7 +199,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
         try {
             message.getMessage().setData(Encoder.encode(settings.getCodec(),
-                    codecRegistry, message.getMessage().getData()));
+                    message.getMessage().getData(), codecRegistry));
         } catch (IOException exception) {
             throw new RuntimeException("Couldn't encode a message", exception);
         }

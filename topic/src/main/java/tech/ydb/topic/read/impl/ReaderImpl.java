@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,6 +30,7 @@ import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.impl.UnModifiableRegistry;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
@@ -58,10 +61,10 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     @Deprecated
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
-        this(topicRpc, settings, null);
+        this(topicRpc, settings, UnModifiableRegistry.getInstance());
     }
 
-    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings, CodecRegistry codecRegistry) {
+    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
         super(topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;

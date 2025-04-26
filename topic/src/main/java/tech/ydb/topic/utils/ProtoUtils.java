@@ -4,12 +4,20 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 
 /**
+ * Class for convert codec from ydb proto to vice versa
+ *
  * @author Nikolay Perfilov
  */
 public class ProtoUtils {
 
     private ProtoUtils() { }
 
+    /**
+     * Convert codec id from SDK to YDB proto data
+     *
+     * @param codec codec identifier
+     * @return ydb proto id
+     */
     public static int toProto(int codec) {
         switch (codec) {
             case Codec.RAW:
@@ -31,6 +39,12 @@ public class ProtoUtils {
         }
     }
 
+    /**
+     * Convert proto codec to SDK id
+     *
+     * @param codec codec identifier form proto
+     * @return SDK id
+     */
     public static int codecFromProto(int codec) {
         switch (codec) {
             case YdbTopic.Codec.CODEC_RAW_VALUE:
