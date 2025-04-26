@@ -553,10 +553,12 @@ public class QueryIntegrationTest {
 
                 Assert.assertFalse(result.isSuccess());
                 Assert.assertEquals(StatusCode.PRECONDITION_FAILED, result.getStatus().getCode());
-                Assert.assertArrayEquals(
-                        new Issue[] { Issue.of(2012, "Conflict with existing key.", Issue.Severity.ERROR)},
-                        result.getStatus().getIssues()
+                Issue issue =  Issue.of(2012,
+//                        "Constraint violated. Table: `" + ydbTransport.getDatabase() + "/" + TEST_TABLE + "`.",
+                        "Conflict with existing key.",
+                        Issue.Severity.ERROR
                 );
+                Assert.assertArrayEquals(new Issue[] { issue }, result.getStatus().getIssues());
 
                 Iterator<ResultSetReader> rsIter = QueryReader.readFrom(
                         session.createQuery("SELECT id, name FROM " + TEST_TABLE + " ORDER BY id", TxMode.NONE)

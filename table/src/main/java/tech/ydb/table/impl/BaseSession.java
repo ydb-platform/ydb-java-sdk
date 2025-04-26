@@ -38,6 +38,7 @@ import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.ValueProtos.TypedValue;
 import tech.ydb.proto.common.CommonProtos;
+import tech.ydb.proto.scheme.SchemeOperationProtos;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.Session;
 import tech.ydb.table.description.ChangefeedDescription;
@@ -661,7 +662,7 @@ public abstract class BaseSession implements Session {
         String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return tableRpc.describeTable(request, grpcRequestSettings)
-                .thenApply(result -> result.map(desc -> mapDescribeTable(desc, settings)));
+                .thenApply(res -> mapDescribeTable(res, settings));
     }
 
     private static TableTtl mapTtlSettings(YdbTable.TtlSettings ttl) {
@@ -745,12 +746,22 @@ public abstract class BaseSession implements Session {
         }
     }
 
-    private static TableDescription mapDescribeTable(
-            YdbTable.DescribeTableResult result,
-            DescribeTableSettings describeTableSettings
-    ) {
+    private static Result<TableDescription> mapDescribeTable(Result<YdbTable.DescribeTableResult> describeResult,
+            DescribeTableSettings settings) {
+        if (!describeResult.isSuccess()) {
+            return describeResult.map(null);
+        }
+        YdbTable.DescribeTableResult desc = describeResult.getValue();
+        SchemeOperationProtos.Entry.Type entryType = desc.getSelf().getType();
+
+        if (entryType != SchemeOperationProtos.Entry.Type.TABLE &&
+                entryType != SchemeOperationProtos.Entry.Type.COLUMN_TABLE) {
+            String errorMsg = "Entry " + desc.getSelf().getName() + " with type " + entryType + " is not a table";
+            return Result.fail(Status.of(StatusCode.SCHEME_ERROR).withIssues(Issue.of(errorMsg, Issue.Severity.ERROR)));
+        }
+
         TableDescription.Builder description = TableDescription.newBuilder();
-        switch (result.getStoreType()) {
+        switch (desc.getStoreType()) {
             case STORE_TYPE_ROW:
                 description = description.setStoreType(TableDescription.StoreType.ROW);
                 break;
@@ -763,13 +774,13 @@ public abstract class BaseSession implements Session {
                 break;
         }
 
-        for (int i = 0; i < result.getColumnsCount(); i++) {
-            YdbTable.ColumnMeta column = result.getColumns(i);
+        for (int i = 0; i < desc.getColumnsCount(); i++) {
+            YdbTable.ColumnMeta column = desc.getColumns(i);
             description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());
         }
-        description.setPrimaryKeys(result.getPrimaryKeyList());
-        for (int i = 0; i < result.getIndexesCount(); i++) {
-            YdbTable.TableIndexDescription idx = result.getIndexes(i);
+        description.setPrimaryKeys(desc.getPrimaryKeyList());
+        for (int i = 0; i < desc.getIndexesCount(); i++) {
+            YdbTable.TableIndexDescription idx = desc.getIndexes(i);
 
             if (idx.hasGlobalIndex()) {
                 description.addGlobalIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
@@ -783,8 +794,8 @@ public abstract class BaseSession implements Session {
                 description.addGlobalUniqueIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
             }
         }
-        YdbTable.TableStats tableStats = result.getTableStats();
-        if (describeTableSettings.isIncludeTableStats() && tableStats != null) {
+        YdbTable.TableStats tableStats = desc.getTableStats();
+        if (settings.isIncludeTableStats() && tableStats != null) {
             Timestamp creationTime = tableStats.getCreationTime();
             Instant createdAt = creationTime == null ? null : Instant.ofEpochSecond(creationTime.getSeconds(),
                     creationTime.getNanos());
@@ -796,26 +807,24 @@ public abstract class BaseSession implements Session {
             description.setTableStats(stats);
 
             List<YdbTable.PartitionStats> partitionStats = tableStats.getPartitionStatsList();
-            if (describeTableSettings.isIncludePartitionStats() && partitionStats != null) {
+            if (settings.isIncludePartitionStats() && partitionStats != null) {
                 for (YdbTable.PartitionStats stat : partitionStats) {
                     description.addPartitionStat(stat.getRowsEstimate(), stat.getStoreSize());
                 }
             }
         }
-        YdbTable.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
-        if (partitioningSettings != null) {
-            PartitioningSettings settings = new PartitioningSettings();
-            settings.setPartitionSize(partitioningSettings.getPartitionSizeMb());
-            settings.setMinPartitionsCount(partitioningSettings.getMinPartitionsCount());
-            settings.setMaxPartitionsCount(partitioningSettings.getMaxPartitionsCount());
-            settings.setPartitioningByLoad(partitioningSettings.getPartitioningByLoad() == CommonProtos.
-                    FeatureFlag.Status.ENABLED);
-            settings.setPartitioningBySize(partitioningSettings.getPartitioningBySize() == CommonProtos.
-                    FeatureFlag.Status.ENABLED);
-            description.setPartitioningSettings(settings);
+        YdbTable.PartitioningSettings protoPs = desc.getPartitioningSettings();
+        if (protoPs != null) {
+            PartitioningSettings ps = new PartitioningSettings();
+            ps.setPartitionSize(protoPs.getPartitionSizeMb());
+            ps.setMinPartitionsCount(protoPs.getMinPartitionsCount());
+            ps.setMaxPartitionsCount(protoPs.getMaxPartitionsCount());
+            ps.setPartitioningByLoad(protoPs.getPartitioningByLoad() == CommonProtos.FeatureFlag.Status.ENABLED);
+            ps.setPartitioningBySize(protoPs.getPartitioningBySize() == CommonProtos.FeatureFlag.Status.ENABLED);
+            description.setPartitioningSettings(ps);
         }
 
-        List<YdbTable.ColumnFamily> columnFamiliesList = result.getColumnFamiliesList();
+        List<YdbTable.ColumnFamily> columnFamiliesList = desc.getColumnFamiliesList();
         if (columnFamiliesList != null) {
             for (YdbTable.ColumnFamily family : columnFamiliesList) {
                 ColumnFamily.Compression compression;
@@ -831,8 +840,8 @@ public abstract class BaseSession implements Session {
                 );
             }
         }
-        if (describeTableSettings.isIncludeShardKeyBounds()) {
-            List<ValueProtos.TypedValue> shardKeyBoundsList = result.getShardKeyBoundsList();
+        if (settings.isIncludeShardKeyBounds()) {
+            List<ValueProtos.TypedValue> shardKeyBoundsList = desc.getShardKeyBoundsList();
             if (shardKeyBoundsList != null) {
                 Optional<Value<?>> leftValue = Optional.empty();
                 for (ValueProtos.TypedValue typedValue : shardKeyBoundsList) {
@@ -851,8 +860,8 @@ public abstract class BaseSession implements Session {
             }
         }
 
-        description.setTtlSettings(mapTtlSettings(result.getTtlSettings()));
-        for (YdbTable.ChangefeedDescription pb: result.getChangefeedsList()) {
+        description.setTtlSettings(mapTtlSettings(desc.getTtlSettings()));
+        for (YdbTable.ChangefeedDescription pb: desc.getChangefeedsList()) {
             description.addChangefeed(new ChangefeedDescription(
                 pb.getName(),
                 mapChangefeedMode(pb.getMode()),
@@ -863,7 +872,7 @@ public abstract class BaseSession implements Session {
             ));
         }
 
-        return description.build();
+        return Result.success(description.build());
     }
 
     private static YdbTable.TransactionSettings txSettings(Transaction.Mode transactionMode) {

@@ -88,6 +88,20 @@ public interface SessionRetryHandler {
     }
 
     /**
+     * Called on retryable exception when the limit is reached.
+     *
+     * @param context Session retry object
+     * @param issue Retryable exception
+     * @param retryLimit Maximum number of retries
+     * @param millis Elapsed time
+     */
+    default void onLimit(SessionRetryContext context, Throwable issue,
+            int retryLimit, long millis) {
+        LOGGER.debug("RetryCtx[{}] RETRYABLE ERROR[{}], finished by retries limit ({}), {} ms total",
+                context.hashCode(), errorMsg(issue), retryLimit, millis);
+    }
+
+    /**
      * Called on non-retryable error.
      *
      * @param context Session retry object

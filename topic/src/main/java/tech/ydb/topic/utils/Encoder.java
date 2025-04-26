@@ -15,8 +15,8 @@ import com.github.luben.zstd.ZstdOutputStreamNoFinalizer;
 import org.anarres.lzo.LzoAlgorithm;
 import org.anarres.lzo.LzoCompressor;
 import org.anarres.lzo.LzoLibrary;
-import org.anarres.lzo.LzoOutputStream;
 import org.anarres.lzo.LzopInputStream;
+import org.anarres.lzo.LzopOutputStream;
 
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
@@ -98,7 +98,7 @@ public class Encoder {
                 return new GZIPOutputStream(byteArrayOutputStream);
             case Codec.LZOP:
                 LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
-                return new LzoOutputStream(byteArrayOutputStream, lzoCompressor);
+                return new LzopOutputStream(byteArrayOutputStream, lzoCompressor);
             case Codec.ZSTD:
                 return new ZstdOutputStreamNoFinalizer(byteArrayOutputStream);
             case Codec.CUSTOM:

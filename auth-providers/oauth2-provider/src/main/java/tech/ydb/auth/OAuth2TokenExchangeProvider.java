@@ -184,6 +184,9 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         configFile = expandUserHomeDir(configFile);
         try (BufferedReader br = new BufferedReader(new FileReader(configFile))) {
             JsonConfig cfg = GSON.fromJson(br, JsonConfig.class);
+            if (cfg == null) {
+                throw new RuntimeException("Empty config");
+            }
 
             if (cfg.getTokenEndpoint() != null) {
                 builder.withTokenEndpoint(cfg.getTokenEndpoint());
@@ -312,6 +315,9 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
             try (Reader reader = new InputStreamReader(response.getEntity().getContent())) {
                 OAuth2Response json = GSON.fromJson(reader, OAuth2Response.class);
+                if (json == null) {
+                    throw new UnexpectedResultException("Empty OAuth2 response", Status.of(StatusCode.INTERNAL_ERROR));
+                }
 
                 if (!"Bearer".equalsIgnoreCase(json.getTokenType())) {
                     throw new UnexpectedResultException(
