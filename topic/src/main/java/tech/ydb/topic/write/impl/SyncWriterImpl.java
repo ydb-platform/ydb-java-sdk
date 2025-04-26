@@ -19,7 +19,10 @@ import tech.ydb.topic.write.SyncWriter;
 public class SyncWriterImpl extends WriterImpl implements SyncWriter {
     //private static final Logger logger = LoggerFactory.getLogger(SyncWriterImpl.class);
 
-    public SyncWriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor, CodecRegistry codecRegistry) {
+    public SyncWriterImpl(TopicRpc topicRpc,
+                          WriterSettings settings,
+                          Executor compressionExecutor,
+                          CodecRegistry codecRegistry) {
         super(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 

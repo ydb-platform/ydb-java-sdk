@@ -76,7 +76,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         this(topicRpc, settings, compressionExecutor, null);
     }
 
-    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor, CodecRegistry codecRegistry) {
+    public WriterImpl(TopicRpc topicRpc,
+                      WriterSettings settings,
+                      Executor compressionExecutor,
+                      CodecRegistry codecRegistry) {
         super(topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
@@ -193,7 +196,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
         try {
             message.getMessage().setData(Encoder.encode(settings.getCodec(),
-                    codecRegistry, message.getMessage().getData()));
+                    message.getMessage().getData(), codecRegistry));
         } catch (IOException exception) {
             throw new RuntimeException("Couldn't encode a message", exception);
         }

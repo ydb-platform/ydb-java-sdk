@@ -24,13 +24,14 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.description.CodecRegistryImpl;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
+import tech.ydb.topic.description.CustomTopicCodec;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
-import tech.ydb.topic.description.CustomTopicCodec;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
@@ -68,7 +69,7 @@ public class TopicClientImpl implements TopicClient {
 
     TopicClientImpl(TopicClientBuilderImpl builder) {
         this.topicRpc = builder.topicRpc;
-        this.codecRegistry = new CodecRegistry();
+        this.codecRegistry = new CodecRegistryImpl();
         if (builder.compressionExecutor != null) {
             this.defaultCompressionExecutorService = null;
             this.compressionExecutor = builder.compressionExecutor;

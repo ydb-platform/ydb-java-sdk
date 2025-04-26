@@ -46,7 +46,10 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private final ExecutorService defaultHandlerExecutorService;
     private final ReadEventHandler eventHandler;
 
-    public AsyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, ReadEventHandlersSettings handlersSettings, CodecRegistry codecRegistry) {
+    public AsyncReaderImpl(TopicRpc topicRpc,
+                           ReaderSettings settings,
+                           ReadEventHandlersSettings handlersSettings,
+                           CodecRegistry codecRegistry) {
         super(topicRpc, settings, codecRegistry);
         this.eventHandler = handlersSettings.getEventHandler();
 

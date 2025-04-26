@@ -19,7 +19,10 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
 
-    public AsyncWriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor, CodecRegistry codecRegistry) {
+    public AsyncWriterImpl(TopicRpc topicRpc,
+                           WriterSettings settings,
+                           Executor compressionExecutor,
+                           CodecRegistry codecRegistry) {
         super(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
