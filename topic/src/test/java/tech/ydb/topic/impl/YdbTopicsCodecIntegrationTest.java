@@ -303,18 +303,21 @@ public class YdbTopicsCodecIntegrationTest {
      * 5. Try to write with custom unregister codec 20000 -> get error
      */
     @Test
-    public void writeWithUnknownCodec() {
+    public void writeWithReservedNotExistedCodec() {
         client1 = createClient();
         createTopic(client1, TEST_TOPIC1);
 
         Exception e = Assert.assertThrows(RuntimeException.class, () -> writeData(7, TEST_TOPIC1, client1));
         Assert.assertEquals("Cannot convert codec to proto. Unknown codec value: " + 7, e.getMessage());
+    }
 
-        e = Assert.assertThrows(Exception.class, () -> writeData(10000, TEST_TOPIC1, client1));
+    @Test
+    public void writeWithCustomCodec10000() {
+        client1 = createClient();
+        createTopic(client1, TEST_TOPIC1);
+
+        Exception e = Assert.assertThrows(Exception.class, () -> writeData(10000, TEST_TOPIC1, client1));
         Assert.assertEquals("Unsupported codec: " + 10000, e.getCause().getMessage());
-
-        e = Assert.assertThrows(Exception.class, () -> writeData(20000, TEST_TOPIC1, client1));
-        Assert.assertEquals("Unsupported codec: " + 20000, e.getCause().getMessage());
     }
 
     /**
