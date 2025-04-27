@@ -51,8 +51,8 @@ public class YdbTopicsCodecIntegrationTest {
 
     private final static String TEST_TOPIC1 = "integration_test_custom_codec_topic1";
     private final static String TEST_TOPIC2 = "integration_test_custom_codec_topic2";
-    private final static String TEST_CONSUMER1 = "consumer";
-    private final static String TEST_CONSUMER2 = "other_consumer";
+    private final static String TEST_CONSUMER1 = "consumer_codec";
+    private final static String TEST_CONSUMER2 = "other_consumer_codec";
 
     private final List<String> topicToDelete = new ArrayList<>();
     private final List<TopicClient> clientToClose = new ArrayList<>();

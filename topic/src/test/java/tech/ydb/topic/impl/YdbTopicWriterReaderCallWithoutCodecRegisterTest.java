@@ -57,8 +57,8 @@ public class YdbTopicWriterReaderCallWithoutCodecRegisterTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final static String TEST_TOPIC1 = "integration_test_custom_codec_without_topic1";
-    private final static String TEST_CONSUMER1 = "consumer";
-    private final static String TEST_CONSUMER2 = "other_consumer";
+    private final static String TEST_CONSUMER1 = "consumer_old_rw";
+    private final static String TEST_CONSUMER2 = "other_consumer_old_rw";
 
     private final List<String> topicToDelete = new ArrayList<>();
     private final List<TopicClient> clientToClose = new ArrayList<>();
