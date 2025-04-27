@@ -59,12 +59,12 @@ public class YdbTopicsCodecIntegrationTest {
 
     TopicClient client1;
 
-    private final static byte[][] TEST_MESSAGES = new byte[][]{
-            "Test message".getBytes(),
-            "".getBytes(),
-            " ".getBytes(),
-            "Other message".getBytes(),
-            "Last message".getBytes(),
+    private final static String[] TEST_MESSAGES = new String[]{
+            "Test message",
+            "",
+            " ",
+            "Other message",
+            "Last message",
     };
 
     Map<String, Deque<byte[][]>> queueOfMessages = new HashMap<>();
@@ -317,6 +317,14 @@ public class YdbTopicsCodecIntegrationTest {
         Assert.assertEquals("Unsupported codec: " + 20000, e.getCause().getMessage());
     }
 
+    /**
+     * Test checks that we can write and read using RAW Codec
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Try to write
+     * 4. Read data
+     */
     @Test
     public void readWriteRawCodec() throws ExecutionException, InterruptedException, TimeoutException {
         client1 = createClient();
@@ -327,6 +335,14 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
+    /**
+     * Test checks that we can write and read using GZIP Codec
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Try to write
+     * 4. Read data
+     */
     @Test
     public void readWriteGzipCodec() throws ExecutionException, InterruptedException, TimeoutException {
         client1 = createClient();
@@ -337,6 +353,14 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
+    /**
+     * Test checks that we can write and read using Lzop Codec
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Try to write
+     * 4. Read data
+     */
     @Test
     public void readWriteLzopCodec() throws ExecutionException, InterruptedException, TimeoutException {
         client1 = createClient();
@@ -347,6 +371,14 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
+    /**
+     * Test checks that we can write and read using Zstd Codec
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Try to write
+     * 4. Read data
+     */
     @Test
     public void readWriteZstdCodec() throws ExecutionException, InterruptedException, TimeoutException {
         client1 = createClient();
@@ -356,7 +388,6 @@ public class YdbTopicsCodecIntegrationTest {
 
         readData(TEST_TOPIC1, client1);
     }
-
 
     private TopicClient createClient() {
         TopicClient topicClient = TopicClient.newClient(ydbTransport).build();
@@ -384,17 +415,12 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
     private void writeData(int codecId, String topicName, TopicClient client) throws ExecutionException, InterruptedException, TimeoutException {
-        writeData(codecId, topicName, client, TEST_MESSAGES);
-    }
-
-    private void writeDataGenerateNew(int codecId, String topicName, TopicClient client) throws ExecutionException, InterruptedException, TimeoutException {
-        int size = queueOfMessages.size();
         byte[][] testMessages = new byte[][]{
-                ("Test message" + size).getBytes(),
-                "".getBytes(),
-                " ".getBytes(),
-                ("Other message" + size).getBytes(),
-                ("Last message" + size).getBytes(),
+                (TEST_MESSAGES[0] + codecId).getBytes(),
+                TEST_MESSAGES[1].getBytes(),
+                TEST_MESSAGES[2].getBytes(),
+                (TEST_MESSAGES[3] + codecId).getBytes(),
+                (TEST_MESSAGES[4] + codecId).getBytes(),
         };
 
         writeData(codecId, topicName, client, testMessages);
@@ -406,6 +432,10 @@ public class YdbTopicsCodecIntegrationTest {
                 .setCodec(codecId)
                 .build();
         SyncWriter writer = client.createSyncWriter(settings);
+        writeData(writer, topicName, testMessages);
+    }
+
+    private void writeData(SyncWriter writer, String topicName, byte[][] testMessages) throws ExecutionException, InterruptedException, TimeoutException {
         writer.init();
 
         Deque<byte[][]> deque = queueOfMessages.computeIfAbsent(topicName, k -> new ArrayDeque<>());
@@ -431,6 +461,7 @@ public class YdbTopicsCodecIntegrationTest {
         while (!queueOfMessages.get(topicName).isEmpty()) {
             byte[][] testMessages = queueOfMessages.get(topicName).poll();
 
+            Assert.assertNotNull(testMessages);
             for (byte[] bytes : testMessages) {
                 tech.ydb.topic.read.Message msg = reader.receive(1, TimeUnit.SECONDS);
                 Assert.assertNotNull(msg);
@@ -451,6 +482,7 @@ public class YdbTopicsCodecIntegrationTest {
 
         while (!queueOfMessages.get(topicName).isEmpty()) {
             byte[][] testMessages = queueOfMessages.get(topicName).poll();
+            Assert.assertNotNull(testMessages);
             for (byte[] bytes : testMessages) {
                 tech.ydb.topic.read.Message msg = reader.receive(1, TimeUnit.SECONDS);
                 if (bytes.length != 0 && // nothing to decode
@@ -475,6 +507,7 @@ public class YdbTopicsCodecIntegrationTest {
 
         while (!queueOfMessages.get(topicName).isEmpty()) {
             byte[][] testMessages = queueOfMessages.get(topicName).poll();
+            Assert.assertNotNull(testMessages);
             for (byte[] bytes : testMessages) {
                 tech.ydb.topic.read.Message msg = reader.receive(1, TimeUnit.SECONDS);
                 if (bytes.length != 0 && // nothing to decode

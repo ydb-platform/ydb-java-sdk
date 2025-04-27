@@ -16,7 +16,7 @@ import java.io.OutputStream;
  *
  * @author Evgeny Kuvardin
  */
-public class YdbTopicsCustomCodecTest {
+public class YdbTopicsCustomCodecImplTest {
     CodecRegistryImpl registry;
 
     @Before

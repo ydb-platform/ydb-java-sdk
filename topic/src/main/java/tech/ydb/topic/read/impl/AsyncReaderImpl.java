@@ -8,6 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,6 +18,7 @@ import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.impl.UnModifiableRegistry;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
@@ -46,10 +49,17 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private final ExecutorService defaultHandlerExecutorService;
     private final ReadEventHandler eventHandler;
 
+    @Deprecated
+    public AsyncReaderImpl(TopicRpc topicRpc,
+                           ReaderSettings settings,
+                           ReadEventHandlersSettings handlersSettings) {
+        this(topicRpc, settings, handlersSettings, UnModifiableRegistry.getInstance());
+
+    }
     public AsyncReaderImpl(TopicRpc topicRpc,
                            ReaderSettings settings,
                            ReadEventHandlersSettings handlersSettings,
-                           CodecRegistry codecRegistry) {
+                           @Nonnull CodecRegistry codecRegistry) {
         super(topicRpc, settings, codecRegistry);
         this.eventHandler = handlersSettings.getEventHandler();
 
