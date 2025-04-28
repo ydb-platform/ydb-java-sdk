@@ -2,6 +2,7 @@ package tech.ydb.topic.impl;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -51,6 +52,12 @@ public class YdbTopicsIntegrationTest {
     private final static String TEST_CONSUMER2 = "other_consumer";
 
     private static TopicClient client;
+    final static CountDownLatch latch1 = new CountDownLatch(1);
+    final static CountDownLatch latch2 = new CountDownLatch(1);
+    final static CountDownLatch latch3WithCommit = new CountDownLatch(1);
+    final static CountDownLatch latch3WithoutCommit = new CountDownLatch(1);
+    final static CountDownLatch latch4 = new CountDownLatch(1);
+    final static CountDownLatch latch5 = new CountDownLatch(1);
 
     private final static byte[][] TEST_MESSAGES = new byte[][] {
         "Test message".getBytes(),
@@ -98,10 +105,12 @@ public class YdbTopicsIntegrationTest {
 
         writer.flush();
         writer.shutdown(1, TimeUnit.MINUTES);
+        latch1.countDown();
     }
 
     @Test
     public void step02_readHalfWithoutCommit() throws InterruptedException {
+        latch1.await(5, TimeUnit.SECONDS);
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -116,10 +125,12 @@ public class YdbTopicsIntegrationTest {
         }
 
         reader.shutdown();
+        latch2.countDown();
     }
 
     @Test
     public void step03_readHalfWithCommit() throws InterruptedException {
+        latch2.await(5, TimeUnit.SECONDS);
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -135,10 +146,12 @@ public class YdbTopicsIntegrationTest {
         }
 
         reader.shutdown();
+        latch3WithCommit.countDown();
     }
 
     @Test
     public void step03_readNextHalfWithoutCommit() throws InterruptedException {
+        latch3WithCommit.await(5, TimeUnit.SECONDS);
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -153,10 +166,12 @@ public class YdbTopicsIntegrationTest {
         }
 
         reader.shutdown();
+        latch3WithoutCommit.countDown();
     }
 
     @Test
     public void step04_readNextHalfWithCommit() throws InterruptedException {
+        latch3WithoutCommit.await(5, TimeUnit.SECONDS);
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -174,10 +189,12 @@ public class YdbTopicsIntegrationTest {
 
         committer.commit();
         reader.shutdown();
+        latch4.countDown();
     }
 
     @Test
     public void step05_describeTopic() throws InterruptedException {
+        latch4.await(5, TimeUnit.SECONDS);
         TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
 
         Assert.assertNull(description.getTopicStats());
@@ -186,10 +203,12 @@ public class YdbTopicsIntegrationTest {
 
         Assert.assertEquals(TEST_CONSUMER1, consumers.get(0).getName());
         Assert.assertEquals(TEST_CONSUMER2, consumers.get(1).getName());
+        latch5.countDown();
     }
 
     @Test
     public void step06_readAllByAsyncReader() throws InterruptedException {
+        latch5.await(5, TimeUnit.SECONDS);
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER2)
