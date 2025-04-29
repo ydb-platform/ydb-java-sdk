@@ -83,8 +83,8 @@ public class PartitionSessionImpl {
         return id;
     }
 
-    public long getFullId() {
-        return id;
+    public String getFullId() {
+        return fullId;
     }
 
     public long getPartitionId() {
