@@ -402,6 +402,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .setId(partitionSessionId)
                     .setFullId(partitionSessionFullId)
                     .setTopicPath(request.getPartitionSession().getPath())
+                    .setConsumerName(consumerName)
                     .setPartitionId(partitionId)
                     .setCommittedOffset(request.getCommittedOffset())
                     .setPartitionOffsets(new OffsetsRangeImpl(request.getPartitionOffsets().getStart(),

@@ -83,8 +83,8 @@ public class PartitionSessionImpl {
         return id;
     }
 
-    public long getFullId() {
-        return id;
+    public String getFullId() {
+        return fullId;
     }
 
     public long getPartitionId() {
@@ -166,7 +166,11 @@ public class PartitionSessionImpl {
             }
 
             CompletableFuture.runAsync(() -> decode(newBatch), decompressionExecutor)
-                    .thenRun(() -> {
+                    .whenComplete((res, th) -> {
+                        if (th != null) {
+                            logger.error("[{}] Message decoding failed with error: ", fullId, th);
+                            return;
+                        }
                         boolean haveNewBatchesReady = false;
                         decodingBatchesLock.lock();
 
