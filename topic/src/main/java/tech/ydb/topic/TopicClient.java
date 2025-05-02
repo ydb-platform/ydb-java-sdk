@@ -8,8 +8,8 @@ import javax.annotation.WillNotClose;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.ConsumerDescription;
-import tech.ydb.topic.description.CustomTopicCodec;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
 import tech.ydb.topic.impl.TopicClientImpl;
@@ -168,19 +168,10 @@ public interface TopicClient extends AutoCloseable {
     /**
      * Register custom codec implementation to TopicClient     *
      *
-     * @param codec - codec identifier (must be more than 10000)
-     * @param customTopicCodec - custom implementation
+     * @param codec - custom implementation
      */
-    void registerCodec(int codec, CustomTopicCodec customTopicCodec);
+    void registerCodec(Codec codec);
 
-
-    /**
-     * Unregister custom codec implementation
-     *
-     * @param codec - codec identifier (must be more than 10000)
-     * @return implementation was before
-     */
-    CustomTopicCodec unregisterCodec(int codec);
 
     /**
      * BUILDER

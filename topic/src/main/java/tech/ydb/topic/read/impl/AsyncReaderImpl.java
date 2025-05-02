@@ -18,7 +18,6 @@ import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.impl.UnModifiableRegistry;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
@@ -49,13 +48,6 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private final ExecutorService defaultHandlerExecutorService;
     private final ReadEventHandler eventHandler;
 
-    @Deprecated
-    public AsyncReaderImpl(TopicRpc topicRpc,
-                           ReaderSettings settings,
-                           ReadEventHandlersSettings handlersSettings) {
-        this(topicRpc, settings, handlersSettings, UnModifiableRegistry.getInstance());
-
-    }
     public AsyncReaderImpl(TopicRpc topicRpc,
                            ReaderSettings settings,
                            ReadEventHandlersSettings handlersSettings,

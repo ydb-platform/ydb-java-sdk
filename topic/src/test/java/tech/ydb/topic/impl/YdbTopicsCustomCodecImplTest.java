@@ -4,10 +4,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import tech.ydb.topic.description.CustomTopicCodec;
+import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -17,43 +17,37 @@ import java.io.OutputStream;
  * @author Evgeny Kuvardin
  */
 public class YdbTopicsCustomCodecImplTest {
-    CodecRegistryImpl registry;
+    CodecRegistry registry;
+
+    private static final int codecId = 10113;
 
     @Before
     public void beforeTest() {
-        registry = new CodecRegistryImpl();
-    }
-
-    @Test
-    public void registerCustomCodecShouldUnRegisterCodec() {
-        registry.registerCustomCodec(10224, new CustomCustomTopicCode());
-        registry.unregisterCustomCodec(10224);
-
-        Assert.assertNull(registry.getCustomCodec(10224));
+        registry = new CodecRegistry();
     }
 
     @Test
     public void registerCustomCodecShouldDoubleRegisterCodecAndReturnLastCodec() {
-        CustomTopicCodec codec1 = new CustomCustomTopicCode();
-        CustomTopicCodec codec2 = new CustomCustomTopicCode();
+        Codec codec1 = new CodecTopic();
+        Codec codec2 = new CodecTopic();
 
-        registry.registerCustomCodec(10224, codec1);
-        Assert.assertEquals(codec1, registry.registerCustomCodec(10224, codec2));
+        registry.registerCodec(codec1);
+        Assert.assertEquals(codec1, registry.registerCodec(codec2));
 
-        Assert.assertEquals(codec2, registry.getCustomCodec(10224));
-        Assert.assertNotEquals(codec1, registry.getCustomCodec(10224));
+        Assert.assertEquals(codec2, registry.getCodec(codecId));
+        Assert.assertNotEquals(codec1, registry.getCodec(codecId));
     }
 
     @Test
     public void registerCustomCodecShouldNotAcceptNull() {
         Assert.assertThrows(
                 AssertionError.class,
-                () -> registry.registerCustomCodec(10224, null));
+                () -> registry.registerCodec(null));
     }
 
     @Test
     public void registerCustomCodecShouldFailedWhenRegisterReservedCode() {
-        CustomTopicCodec codec1 = new CustomCustomTopicCode();
+        CodecTopic codec1 = new CodecTopic();
         expectErrorRegister(-1, codec1);
         expectErrorRegister(-100, codec1);
         expectErrorRegister(0, codec1);
@@ -64,44 +58,39 @@ public class YdbTopicsCustomCodecImplTest {
         expectErrorRegister(10000, codec1);
     }
 
-    @Test
-    public void unregisterCustomCodecShouldFailedWhenRegisterReservedCode() {
-        expectErrorUnregister(-1);
-        expectErrorUnregister(-100);
-        expectErrorUnregister(0);
-        expectErrorUnregister(1);
-        expectErrorUnregister(2);
-        expectErrorUnregister(3);
-        expectErrorUnregister(4);
-        expectErrorUnregister(10000);
-    }
-
-    void expectErrorRegister(int codec, CustomTopicCodec customTopicCodec) {
+    void expectErrorRegister(int codecId, CodecTopic codec) {
+        codec.setCodecId(codecId);
         Exception e = Assert.assertThrows(
                 RuntimeException.class,
-                () -> registry.registerCustomCodec(codec, customTopicCodec));
+                () -> registry.registerCodec(codec));
 
         Assert.assertEquals("Create custom codec for reserved code not allowed: " + codec + " .Use code more than 10000", e.getMessage());
     }
 
-    void expectErrorUnregister(int codec) {
-        Exception e = Assert.assertThrows(
-                RuntimeException.class,
-                () -> registry.unregisterCustomCodec(codec));
+    static class CodecTopic implements Codec {
 
-        Assert.assertEquals("Create custom codec for reserved code not allowed: " + codec + " .Use code more than 10000", e.getMessage());
-    }
+        int codec;
 
+        public CodecTopic() {
+            this.codec = codecId;
+        }
 
-    static class CustomCustomTopicCode implements CustomTopicCodec {
+        public void setCodecId(int codecId) {
+            this.codec = codecId;
+        }
 
         @Override
-        public InputStream decode(ByteArrayInputStream byteArrayOutputStream) {
+        public int getId() {
+            return codec;
+        }
+
+        @Override
+        public InputStream decode(InputStream byteArrayInputStream) throws IOException {
             return null;
         }
 
         @Override
-        public OutputStream encode(ByteArrayOutputStream byteArrayOutputStream) {
+        public OutputStream encode(OutputStream byteArrayOutputStream) throws IOException {
             return null;
         }
     }

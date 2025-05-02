@@ -23,11 +23,10 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.description.CodecRegistryImpl;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
-import tech.ydb.topic.description.CustomTopicCodec;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.PartitionStats;
@@ -69,7 +68,7 @@ public class TopicClientImpl implements TopicClient {
 
     TopicClientImpl(TopicClientBuilderImpl builder) {
         this.topicRpc = builder.topicRpc;
-        this.codecRegistry = new CodecRegistryImpl();
+        this.codecRegistry = new CodecRegistry();
         if (builder.compressionExecutor != null) {
             this.defaultCompressionExecutorService = null;
             this.compressionExecutor = builder.compressionExecutor;
@@ -341,13 +340,8 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
-    public void registerCodec(int codec, CustomTopicCodec customTopicCodec) {
-        codecRegistry.registerCustomCodec(codec, customTopicCodec);
-    }
-
-    @Override
-    public CustomTopicCodec unregisterCodec(int codec) {
-        return codecRegistry.unregisterCustomCodec(codec);
+    public void registerCodec(Codec codec) {
+        codecRegistry.registerCodec(codec);
     }
 
     private static YdbTopic.MeteringMode toProto(MeteringMode meteringMode) {

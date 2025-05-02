@@ -30,7 +30,6 @@ import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
-import tech.ydb.topic.impl.UnModifiableRegistry;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
@@ -58,11 +57,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     // Every reading stream has a sequential number (for debug purposes)
     private final AtomicLong seqNumberCounter = new AtomicLong(0);
     private final String consumerName;
-
-    @Deprecated
-    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
-        this(topicRpc, settings, UnModifiableRegistry.getInstance());
-    }
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
         super(topicRpc.getScheduler(), settings.getErrorsHandler());

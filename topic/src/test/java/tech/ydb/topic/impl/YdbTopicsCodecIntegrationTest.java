@@ -1,5 +1,6 @@
 package tech.ydb.topic.impl;
 
+import com.google.rpc.Code;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -13,7 +14,6 @@ import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.Consumer;
-import tech.ydb.topic.description.CustomTopicCodec;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.CreateTopicSettings;
@@ -23,8 +23,7 @@ import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.SyncWriter;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
@@ -106,9 +105,9 @@ public class YdbTopicsCodecIntegrationTest {
         client1 = createClient();
         createTopic(client1, TEST_TOPIC1);
 
-        CustomTopicCodec codec = new CustomCustomTopicCode(1);
+        Codec codec = new CustomCodec(1, 10113);
 
-        client1.registerCodec(10113, codec);
+        client1.registerCodec(codec);
 
         writeData(10113, TEST_TOPIC1, client1);
 
@@ -139,11 +138,11 @@ public class YdbTopicsCodecIntegrationTest {
         createTopic(client1, TEST_TOPIC1);
         createTopic(client1, TEST_TOPIC2);
 
-        CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
-        CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
+        Codec codec1 = new CustomCodec(1, 10113);
+        Codec codec2 = new CustomCodec(7, 10114);
 
-        client1.registerCodec(10113, codec1);
-        client1.registerCodec(10114, codec2);
+        client1.registerCodec(codec1);
+        client1.registerCodec(codec2);
 
         writeData(10113, TEST_TOPIC1, client1);
         writeData(10114, TEST_TOPIC2, client1);
@@ -178,11 +177,11 @@ public class YdbTopicsCodecIntegrationTest {
         createTopic(client1, TEST_TOPIC1);
         createTopic(client2, TEST_TOPIC2);
 
-        CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
-        CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
+        Codec codec1 = new CustomCodec(1, 10113);
+        Codec codec2 = new CustomCodec(7, 10113);
 
-        client1.registerCodec(10113, codec1);
-        client2.registerCodec(10113, codec2);
+        client1.registerCodec(codec1);
+        client2.registerCodec(codec2);
 
         writeData(10113, TEST_TOPIC1, client1);
         writeData(10113, TEST_TOPIC2, client2);
@@ -212,14 +211,14 @@ public class YdbTopicsCodecIntegrationTest {
         client1 = createClient();
         createTopic(client1, TEST_TOPIC1);
 
-        CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
-        CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
+        Codec codec1 = new CustomCodec(1,10113);
+        Codec codec2 = new CustomCodec(7, 10113);
 
-        client1.registerCodec(10113, codec1);
+        client1.registerCodec(codec1);
 
         writeData(10113, TEST_TOPIC1, client1);
 
-        client1.registerCodec(10113, codec2);
+        client1.registerCodec(codec2);
 
         readDataFail(TEST_TOPIC1, client1);
     }
@@ -244,11 +243,11 @@ public class YdbTopicsCodecIntegrationTest {
         client1 = createClient();
         createTopic(client1, TEST_TOPIC1);
 
-        CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
-        CustomTopicCodec codec2 = new CustomCustomTopicCode(7);
+        Codec codec1 = new CustomCodec(1, 10113);
+        Codec codec2 = new CustomCodec(7 , 10114);
 
-        client1.registerCodec(10113, codec1);
-        client1.registerCodec(10114, codec2);
+        client1.registerCodec(codec1);
+        client1.registerCodec(codec2);
 
         writeData(Codec.RAW, TEST_TOPIC1, client1);
         writeData(10114, TEST_TOPIC1, client1);
@@ -264,33 +263,31 @@ public class YdbTopicsCodecIntegrationTest {
      * In this test we verify that decode failed when code not found but after specify correct codec
      * Messages reads again and will be decoded
      * <p>
-     * 1. Create client1
+     * 1. Create client1 and client2
      * 2. Create topic TEST_TOPIC1 in client1
      * 3. Create custom codec1
      * 4. Register codec with id = 10113 and codec1
      * 5. Write data with codec 10113
-     * 6. Unregister code
-     * 7. Read data with errors
-     * 8. Once again register codec with id = 10113 and codec1
-     * 9. Read data without errors
+     * 6. Read data with errors in client2
+     * 7 Once again register codec with id = 10113 and codec1
+     * 8. Read data without errors
      *
      */
     @Test
     public void readShouldFailIfWithNotRegisteredCodec() throws ExecutionException, InterruptedException, TimeoutException {
         client1 = createClient();
+        TopicClient client2 = createClient();
         createTopic(client1, TEST_TOPIC1);
 
-        CustomTopicCodec codec1 = new CustomCustomTopicCode(1);
+        Codec codec1 = new CustomCodec(1, 10113);
 
-        client1.registerCodec(10113, codec1);
+        client1.registerCodec(codec1);
         writeData(10113, TEST_TOPIC1, client1);
 
-        client1.unregisterCodec(10113);
+        readDataWithError(TEST_TOPIC1, client2);
 
-        readDataWithError(TEST_TOPIC1, client1);
-
-        client1.registerCodec(10113, codec1);
-        readData(TEST_TOPIC1, client1);
+        client2.registerCodec(codec1);
+        readData(TEST_TOPIC1, client2);
     }
 
     /**
@@ -439,7 +436,7 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
     private void writeData(SyncWriter writer, String topicName, byte[][] testMessages) throws ExecutionException, InterruptedException, TimeoutException {
-        writer.init();
+        writer.initAndWait();
 
         Deque<byte[][]> deque = queueOfMessages.computeIfAbsent(topicName, k -> new ArrayDeque<>());
         deque.add(testMessages);
@@ -525,35 +522,40 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
 
-    static class CustomCustomTopicCode implements CustomTopicCodec {
+    static class CustomCodec implements Codec {
 
         final int stub;
+        final int codecId;
 
-        public CustomCustomTopicCode(int stub) {
+        public CustomCodec(int stub, int codecId) {
             this.stub = stub;
+            this.codecId = codecId;
         }
 
+        @Override
+        public int getId() {
+            return codecId;
+        }
 
         @Override
-        public InputStream decode(ByteArrayInputStream byteArrayOutputStream) {
-            final ByteArrayInputStream outputStream = byteArrayOutputStream;
+        public InputStream decode(InputStream inputStream) throws IOException {
             return new InputStream() {
                 @Override
-                public int read() {
+                public int read() throws IOException {
                     for (int i = 0; i < stub; i++) {
-                        outputStream.read();
+                        inputStream.read();
                     }
 
-                    return outputStream.read();
+                    return inputStream.read();
                 }
             };
         }
 
         @Override
-        public OutputStream encode(ByteArrayOutputStream byteArrayOutputStream) {
+        public OutputStream encode(OutputStream byteArrayOutputStream) throws IOException {
             return new OutputStream() {
                 @Override
-                public void write(int b) {
+                public void write(int b) throws IOException {
                     for (int i = 0; i < stub; i++) {
                         byteArrayOutputStream.write(stub);
                     }

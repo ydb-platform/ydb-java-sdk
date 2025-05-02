@@ -28,7 +28,6 @@ import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
-import tech.ydb.topic.impl.UnModifiableRegistry;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.Encoder;
@@ -73,11 +72,6 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private long availableSizeBytes;
     // Future for flush method
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
-
-    @Deprecated
-    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
-        this(topicRpc, settings, compressionExecutor, UnModifiableRegistry.getInstance());
-    }
 
     public WriterImpl(TopicRpc topicRpc,
                       WriterSettings settings,

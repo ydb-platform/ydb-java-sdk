@@ -5,22 +5,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 import javax.annotation.Nonnull;
 
-import com.github.luben.zstd.ZstdInputStreamNoFinalizer;
-import com.github.luben.zstd.ZstdOutputStreamNoFinalizer;
-import org.anarres.lzo.LzoAlgorithm;
-import org.anarres.lzo.LzoCompressor;
-import org.anarres.lzo.LzoLibrary;
-import org.anarres.lzo.LzopInputStream;
-import org.anarres.lzo.LzopOutputStream;
-
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.description.CustomTopicCodec;
 
 /**
  * Class accumulated logic for encode and decode messages
@@ -85,46 +74,27 @@ public class Encoder {
         }
     }
 
-    private static OutputStream makeOutputStream(int codec,
-                                                 ByteArrayOutputStream byteArrayOutputStream,
-                                                 CodecRegistry codecRegistry) throws IOException {
-        CustomTopicCodec customTopicCodec;
-        if (codec > 10000 && (customTopicCodec = codecRegistry.getCustomCodec(codec)) != null) {
-            return customTopicCodec.encode(byteArrayOutputStream);
-        }
+    private static OutputStream makeOutputStream(int codecId,
+                                                 @Nonnull ByteArrayOutputStream byteArrayOutputStream,
+                                                 @Nonnull CodecRegistry codecRegistry) throws IOException {
+        Codec codec = getCodec(codecId, codecRegistry);
 
-        switch (codec) {
-            case Codec.GZIP:
-                return new GZIPOutputStream(byteArrayOutputStream);
-            case Codec.LZOP:
-                LzoCompressor lzoCompressor = LzoLibrary.getInstance().newCompressor(LzoAlgorithm.LZO1X, null);
-                return new LzopOutputStream(byteArrayOutputStream, lzoCompressor);
-            case Codec.ZSTD:
-                return new ZstdOutputStreamNoFinalizer(byteArrayOutputStream);
-            case Codec.CUSTOM:
-            default:
-                throw new RuntimeException("Unsupported codec: " + codec);
-        }
+        return codec.encode(byteArrayOutputStream);
     }
 
-    private static InputStream makeInputStream(int codec,
-                                               ByteArrayInputStream byteArrayInputStream,
-                                               CodecRegistry codecRegistry) throws IOException {
-        CustomTopicCodec customTopicCodec;
-        if (codec > 10000 && (customTopicCodec = codecRegistry.getCustomCodec(codec)) != null) {
-            return customTopicCodec.decode(byteArrayInputStream);
-        }
+    private static InputStream makeInputStream(int codecId,
+                                               @Nonnull ByteArrayInputStream byteArrayInputStream,
+                                               @Nonnull CodecRegistry codecRegistry) throws IOException {
+        Codec codec = getCodec(codecId, codecRegistry);
 
-        switch (codec) {
-            case Codec.GZIP:
-                return new GZIPInputStream(byteArrayInputStream);
-            case Codec.LZOP:
-                return new LzopInputStream(byteArrayInputStream);
-            case Codec.ZSTD:
-                return new ZstdInputStreamNoFinalizer(byteArrayInputStream);
-            case Codec.CUSTOM:
-            default:
-                throw new RuntimeException("Unsupported codec: " + codec);
+        return codec.decode(byteArrayInputStream);
+    }
+
+    private static @Nonnull Codec getCodec(int codecId, @Nonnull CodecRegistry codecRegistry) {
+        Codec codec = codecRegistry.getCodec(codecId);
+        if (codec == null) {
+            throw new RuntimeException("Unsupported codec: " + codecId);
         }
+        return codec;
     }
 }

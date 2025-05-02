@@ -22,7 +22,6 @@ import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.impl.UnModifiableRegistry;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
@@ -42,11 +41,6 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private final ReentrantLock queueLock = new ReentrantLock();
     private final Condition queueIsNotEmptyCondition = queueLock.newCondition();
     private int currentMessageIndex = 0;
-
-    @Deprecated
-    public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
-        this(topicRpc, settings, UnModifiableRegistry.getInstance());
-    }
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
         super(topicRpc, settings, codecRegistry);
