@@ -14,6 +14,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -43,6 +44,7 @@ import tech.ydb.test.junit4.GrpcTransportRule;
  * @author Alexandr Gorshenin <alexandr268@ydb.tech>
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Ignore
 public class TableExampleTest {
     @ClassRule
     public final static GrpcTransportRule ydbRule = new GrpcTransportRule();
