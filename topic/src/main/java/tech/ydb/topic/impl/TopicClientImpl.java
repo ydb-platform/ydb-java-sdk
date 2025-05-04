@@ -48,7 +48,6 @@ import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.WriterSettings;
-import tech.ydb.topic.utils.ProtoUtils;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.SyncWriter;
 import tech.ydb.topic.write.impl.AsyncWriterImpl;
@@ -296,7 +295,7 @@ public class TopicClientImpl implements TopicClient {
 
         SupportedCodecs.Builder supportedCodecsBuilder = SupportedCodecs.newBuilder();
         for (int codec : result.getSupportedCodecs().getCodecsList()) {
-            supportedCodecsBuilder.addCodec(ProtoUtils.codecFromProto(codec));
+            supportedCodecsBuilder.addCodec(codec);
         }
         description.setSupportedCodecs(supportedCodecsBuilder.build());
 
@@ -383,7 +382,7 @@ public class TopicClientImpl implements TopicClient {
         List<Integer> supportedCodecs = consumer.getSupportedCodecsList();
         if (!supportedCodecs.isEmpty()) {
             YdbTopic.SupportedCodecs.Builder codecBuilder = YdbTopic.SupportedCodecs.newBuilder();
-            supportedCodecs.forEach(codec -> codecBuilder.addCodecs(ProtoUtils.toProto(codec)));
+            supportedCodecs.forEach(codecBuilder::addCodecs);
             consumerBuilder.setSupportedCodecs(codecBuilder.build());
         }
 
@@ -394,7 +393,7 @@ public class TopicClientImpl implements TopicClient {
         List<Integer> supportedCodecsList = supportedCodecs.getCodecs();
         YdbTopic.SupportedCodecs.Builder codecsBuilder = YdbTopic.SupportedCodecs.newBuilder();
         for (Integer codec : supportedCodecsList) {
-            codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
+            codecsBuilder.addCodecs(codec);
         }
         return codecsBuilder.build();
     }

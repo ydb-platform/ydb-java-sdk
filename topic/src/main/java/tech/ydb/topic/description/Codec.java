@@ -43,17 +43,6 @@ public interface Codec {
     int GZIP = 2;
     int LZOP = 3;
     int ZSTD = 4;
-    int CUSTOM = 10000;
-
-    /**
-     * Check is codec is reserved
-     *
-     * @param codec codec id
-     * @return true - codec id is reserved; false - elsewhere
-     */
-    default boolean isReserved(int codec) {
-        return codec <= CUSTOM;
-    }
 
     /**
      * Get codec identifier

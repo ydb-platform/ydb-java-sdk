@@ -39,10 +39,6 @@ public class CodecRegistry {
         assert codec != null;
         int codecId = codec.getId();
 
-        if (codec.isReserved(codecId)) {
-            throw new RuntimeException(
-                    "Create custom codec for reserved code not allowed: " + codec + " .Use code more than 10000");
-        }
         Codec result = customCodecMap.put(codecId, codec);
 
         if (result != null) {

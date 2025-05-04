@@ -16,7 +16,7 @@ import java.io.OutputStream;
  *
  * @author Evgeny Kuvardin
  */
-public class YdbTopicsCustomCodecImplTest {
+public class CodecRegistryTest {
     CodecRegistry registry;
 
     private static final int codecId = 10113;
@@ -46,25 +46,18 @@ public class YdbTopicsCustomCodecImplTest {
     }
 
     @Test
-    public void registerCustomCodecShouldFailedWhenRegisterReservedCode() {
+    public void registerCustomCodecShouldRegisterAndOverrideAnyCodec() {
         CodecTopic codec1 = new CodecTopic();
-        expectErrorRegister(-1, codec1);
-        expectErrorRegister(-100, codec1);
-        expectErrorRegister(0, codec1);
-        expectErrorRegister(1, codec1);
-        expectErrorRegister(2, codec1);
-        expectErrorRegister(3, codec1);
-        expectErrorRegister(4, codec1);
-        expectErrorRegister(10000, codec1);
+        expectRegisterCodec(1, codec1, RawCodec.getInstance());
+        expectRegisterCodec(2, codec1, GzipCodec.getInstance());
+        expectRegisterCodec(3, codec1, LzopCodec.getInstance());
+        expectRegisterCodec(4, codec1, ZstdCodec.getInstance());
     }
 
-    void expectErrorRegister(int codecId, CodecTopic codec) {
-        codec.setCodecId(codecId);
-        Exception e = Assert.assertThrows(
-                RuntimeException.class,
-                () -> registry.registerCodec(codec));
-
-        Assert.assertEquals("Create custom codec for reserved code not allowed: " + codec + " .Use code more than 10000", e.getMessage());
+    void expectRegisterCodec(int codecId, CodecTopic newCodec, Codec oldCodec) {
+        newCodec.setCodecId(codecId);
+        Codec codecOldPredefined = registry.registerCodec(newCodec);
+        Assert.assertSame(codecOldPredefined, oldCodec);
     }
 
     static class CodecTopic implements Codec {

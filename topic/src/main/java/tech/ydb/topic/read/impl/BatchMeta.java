@@ -18,7 +18,7 @@ public class BatchMeta {
     public BatchMeta(YdbTopic.StreamReadMessage.ReadResponse.Batch batch) {
         this.producerId = batch.getProducerId();
         this.writeSessionMeta = batch.getWriteSessionMetaMap();
-        this.codec = tech.ydb.topic.utils.ProtoUtils.codecFromProto(batch.getCodec());
+        this.codec = batch.getCodec();
         this.writtenAt = ProtobufUtils.protoToInstant(batch.getWrittenAt());
     }
 

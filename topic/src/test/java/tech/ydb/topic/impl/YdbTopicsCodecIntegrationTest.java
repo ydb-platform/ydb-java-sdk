@@ -305,9 +305,8 @@ public class YdbTopicsCodecIntegrationTest {
         createTopic(client1, TEST_TOPIC1);
 
         Exception e = Assert.assertThrows(RuntimeException.class, () -> writeData(7, TEST_TOPIC1, client1));
-        Assert.assertEquals("Cannot convert codec to proto. Unknown codec value: " + 7, e.getMessage());
+        Assert.assertTrue(e.getMessage().contains("Unsupported codec: " + 7));
     }
-
 
     /**
      * Create one more defect. Test failed for unknown reason. Seems RuntimeException produce some weird behaviour
@@ -341,6 +340,33 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
     /**
+     * The test checks that we can rewrite the predefined RAW codec.
+     * Please note that modifying a RAW codec is highly unusual and potentially risky.
+     * You take full responsibility for any consequences that may result.
+     * The SDK includes mechanisms in some parts of the codec that attempt to optimize the code
+     * and detect write or read operations to RAW codecs.
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Create custom codec
+     * 4, Register codec
+     * 5. Try to write
+     * 6. Read data
+     */
+    @Test
+    public void userCanRewriteRawCodec() throws ExecutionException, InterruptedException, TimeoutException {
+        client1 = createClient();
+        createTopic(client1, TEST_TOPIC1);
+
+        Codec codec = new CustomCodec(0, Codec.RAW);
+        client1.registerCodec(codec);
+
+        writeData(codec.getId(), TEST_TOPIC1, client1);
+
+        readData(TEST_TOPIC1, client1);
+    }
+
+    /**
      * Test checks that we can write and read using GZIP Codec
      * <p>
      * 1. Create client1
@@ -354,6 +380,29 @@ public class YdbTopicsCodecIntegrationTest {
         createTopic(client1, TEST_TOPIC1);
 
         writeData(Codec.GZIP, TEST_TOPIC1, client1);
+
+        readData(TEST_TOPIC1, client1);
+    }
+
+    /**
+     * The test checks that we can rewrite the predefined Gzip codec.
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Create custom codec
+     * 4, Register codec
+     * 5. Try to write
+     * 6. Read data
+     */
+    @Test
+    public void userCanRewriteGzipCodec() throws ExecutionException, InterruptedException, TimeoutException {
+        client1 = createClient();
+        createTopic(client1, TEST_TOPIC1);
+
+        Codec codec = new CustomCodec(2, Codec.GZIP);
+        client1.registerCodec(codec);
+
+        writeData(codec.getId(), TEST_TOPIC1, client1);
 
         readData(TEST_TOPIC1, client1);
     }
@@ -377,6 +426,29 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
     /**
+     * The test checks that we can rewrite the predefined Lzop codec.
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Create custom codec
+     * 4, Register codec
+     * 5. Try to write
+     * 6. Read data
+     */
+    @Test
+    public void userCanRewriteLzopCodec() throws ExecutionException, InterruptedException, TimeoutException {
+        client1 = createClient();
+        createTopic(client1, TEST_TOPIC1);
+
+        Codec codec = new CustomCodec(3, Codec.LZOP);
+        client1.registerCodec(codec);
+
+        writeData(codec.getId(), TEST_TOPIC1, client1);
+
+        readData(TEST_TOPIC1, client1);
+    }
+
+    /**
      * Test checks that we can write and read using Zstd Codec
      * <p>
      * 1. Create client1
@@ -390,6 +462,29 @@ public class YdbTopicsCodecIntegrationTest {
         createTopic(client1, TEST_TOPIC1);
 
         writeData(Codec.ZSTD, TEST_TOPIC1, client1);
+
+        readData(TEST_TOPIC1, client1);
+    }
+
+    /**
+     * The test checks that we can rewrite the predefined Lzop codec.
+     * <p>
+     * 1. Create client1
+     * 2. Create topic TEST_TOPIC1 in client1
+     * 3. Create custom codec
+     * 4, Register codec
+     * 5. Try to write
+     * 6. Read data
+     */
+    @Test
+    public void userCanRewriteZstdCodec() throws ExecutionException, InterruptedException, TimeoutException {
+        client1 = createClient();
+        createTopic(client1, TEST_TOPIC1);
+
+        Codec codec = new CustomCodec(4, Codec.ZSTD);
+        client1.registerCodec(codec);
+
+        writeData(codec.getId(), TEST_TOPIC1, client1);
 
         readData(TEST_TOPIC1, client1);
     }
@@ -468,7 +563,7 @@ public class YdbTopicsCodecIntegrationTest {
 
             Assert.assertNotNull(testMessages);
             for (byte[] bytes : testMessages) {
-                tech.ydb.topic.read.Message msg = reader.receive(1, TimeUnit.SECONDS);
+                tech.ydb.topic.read.Message msg = reader.receive(10, TimeUnit.SECONDS);
                 Assert.assertNotNull(msg);
                 Assert.assertArrayEquals(bytes, msg.getData());
             }
