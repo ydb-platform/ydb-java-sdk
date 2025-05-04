@@ -16,6 +16,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
 import org.junit.Assert;
 
 /**
@@ -30,11 +31,11 @@ public class MockedScheduler implements ScheduledExecutorService {
     public MockedScheduler(MockedClock clock) {
         this.clock = clock;
     }
-    
+
     public Checker check() {
         return new Checker();
     }
-    
+
     public void runTasksTo(Instant timestamp, Runnable... runs) {
         int runIdx = 0;
         MockedTask<?> next = tasks.peek();
@@ -57,7 +58,7 @@ public class MockedScheduler implements ScheduledExecutorService {
 
         clock.goToFuture(timestamp);
     }
-    
+
     @Override
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
         Instant time = clock.instant().plusNanos(unit.toNanos(delay));
@@ -133,27 +134,27 @@ public class MockedScheduler implements ScheduledExecutorService {
 
     @Override
     public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void execute(Runnable command) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     private class MockedTask<V> extends FutureTask<V> implements RunnableScheduledFuture<V> {
@@ -195,7 +196,7 @@ public class MockedScheduler implements ScheduledExecutorService {
                 MockedTask<?> x = (MockedTask<?>)other;
                 return time.compareTo(x.time);
             }
-            
+
             @SuppressWarnings("null")
             long diff = getDelay(TimeUnit.MILLISECONDS) - other.getDelay(TimeUnit.MILLISECONDS);
             return (diff < 0) ? -1 : (diff > 0) ? 1 : 0;
@@ -225,7 +226,7 @@ public class MockedScheduler implements ScheduledExecutorService {
                 cancel(false);
                 return;
             }
-            
+
             if (isPeriodic()) {
                 if (super.runAndReset()) {
                     setNextRunTime();
@@ -236,14 +237,14 @@ public class MockedScheduler implements ScheduledExecutorService {
             }
         }
     }
-    
+
     public class Checker {
         public Checker isClosed() {
             Assert.assertTrue("Scheduler is shutdown", isShutdown());
             Assert.assertTrue("Scheduler is terminated", isTerminated());
             return this;
         }
-    
+
         public Checker hasNoTasks() {
             Assert.assertTrue("Scheduler hasn't tasks", tasks.isEmpty());
             return this;

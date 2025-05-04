@@ -140,7 +140,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         handler.destroy(object);
 
         // After deleting one object we can try to create new pending if it needed
-        checkNextWaitingAcquire();
+        CompletableFuture.runAsync(this::checkNextWaitingAcquire);
     }
 
     @Override

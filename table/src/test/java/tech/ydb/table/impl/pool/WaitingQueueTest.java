@@ -8,6 +8,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Supplier;
 
@@ -595,6 +597,7 @@ public class WaitingQueueTest extends FutureHelper {
         // After deleting current resource queue must create new pending to complete waiting
         queue.delete(r1);
 
+        ForkJoinPool.commonPool().awaitQuiescence(1, TimeUnit.SECONDS);
         check(rs).requestsCount(1).activeCount(0);
         check(queue).queueSize(1).idleSize(0).waitingsCount(3);
         futureIsPending(w1);
@@ -611,6 +614,8 @@ public class WaitingQueueTest extends FutureHelper {
         Assert.assertNotEquals("After deleting waiting got different resource ", r1, r2);
 
         queue.delete(r2);
+
+        ForkJoinPool.commonPool().awaitQuiescence(1, TimeUnit.SECONDS);
         check(rs).requestsCount(1).activeCount(0);
 
         // If pending completed with exception - queue must repeat it
@@ -623,16 +628,20 @@ public class WaitingQueueTest extends FutureHelper {
         futureIsPending(w3);
 
         Assert.assertNotEquals("After deleting waiting got different resource ", r2, r3);
+
+        ForkJoinPool.commonPool().awaitQuiescence(1, TimeUnit.SECONDS);
         check(rs).requestsCount(0).activeCount(1);
         check(queue).queueSize(1).idleSize(0).waitingsCount(1);
 
         queue.delete(r3);
 
         // After canceling of pending waiting queue will move resource to idle
+        ForkJoinPool.commonPool().awaitQuiescence(1, TimeUnit.SECONDS);
         check(rs).requestsCount(1).activeCount(0);
         w3.cancel(true);
         rs.completeNext();
 
+        ForkJoinPool.commonPool().awaitQuiescence(1, TimeUnit.SECONDS);
         check(rs).requestsCount(0).activeCount(1);
         check(queue).queueSize(1).idleSize(1).waitingsCount(0);
 
