@@ -1,8 +1,8 @@
 package tech.ydb.coordination.recipes.election;
 
 import java.time.Duration;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.common.retry.RetryUntilElapsed;
@@ -13,16 +13,17 @@ public class LeaderElectionSettings {
             DEFAULT_CONNECT_TIMEOUT.toMillis(), 250, 5
     );
 
-    private final ExecutorService executorService;
+    private final ScheduledExecutorService scheduledExecutor;
     private final RetryPolicy retryPolicy;
 
     public LeaderElectionSettings(Builder builder) {
-        this.executorService = builder.executorService;
+        this.scheduledExecutor = builder.scheduledExecutor != null ? builder.scheduledExecutor :
+                Executors.newSingleThreadScheduledExecutor();
         this.retryPolicy = builder.retryPolicy;
     }
 
-    public ExecutorService getExecutorService() {
-        return executorService;
+    public ScheduledExecutorService getScheduledExecutor() {
+        return scheduledExecutor;
     }
 
     public RetryPolicy getRetryPolicy() {
@@ -34,11 +35,11 @@ public class LeaderElectionSettings {
     }
 
     public static class Builder {
-        private ExecutorService executorService = Executors.newSingleThreadExecutor();
+        private ScheduledExecutorService scheduledExecutor;
         private RetryPolicy retryPolicy = DEFAULT_RETRY_POLICY;
 
-        public Builder withExecutorService(ExecutorService executorService) {
-            this.executorService = executorService;
+        public Builder withScheduledExecutor(ScheduledExecutorService executorService) {
+            this.scheduledExecutor = executorService;
             return this;
         }
 

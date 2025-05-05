@@ -9,7 +9,6 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import tech.ydb.common.retry.RetryForever;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
@@ -45,8 +44,7 @@ public class GroupMembershipIntegrationTest {
         return new GroupMembershipImpl(
                 client,
                 coordinationNodePath,
-                groupName,
-                new RetryForever(100)
+                groupName
         );
     }
 

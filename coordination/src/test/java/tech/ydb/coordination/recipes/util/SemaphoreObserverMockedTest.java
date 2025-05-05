@@ -1,5 +1,7 @@
 package tech.ydb.coordination.recipes.util;
 
+import java.util.concurrent.Executors;
+
 import org.junit.Test;
 import tech.ydb.common.retry.RetryForever;
 import tech.ydb.coordination.CoordinationSessionBaseMockedTest;
@@ -19,7 +21,8 @@ public class SemaphoreObserverMockedTest extends CoordinationSessionBaseMockedTe
                 "observable_semaphore",
                 WatchSemaphoreMode.WATCH_DATA_AND_OWNERS,
                 DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS,
-                new RetryForever(100)
+                new RetryForever(100),
+                Executors.newSingleThreadScheduledExecutor()
         );
         observer.start();
         sessionMock.connected();

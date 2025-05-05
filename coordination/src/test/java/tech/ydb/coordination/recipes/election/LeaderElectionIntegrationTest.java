@@ -12,7 +12,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -106,7 +105,6 @@ public class LeaderElectionIntegrationTest {
     }
 
     @Test
-    @Ignore
     public void shouldTrackParticipantsAndLeader() throws Exception {
         String testName = "shouldTrackParticipantsAndLeader";
 

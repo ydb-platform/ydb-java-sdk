@@ -34,13 +34,27 @@ public class GroupMembershipImpl implements GroupMembership {
     public GroupMembershipImpl(
             CoordinationClient coordinationClient,
             String coordinationNodePath,
+            String groupName
+    ) {
+        this(
+                coordinationClient,
+                coordinationNodePath,
+                groupName,
+                GroupMembershipSettings.newBuilder()
+                        .build()
+        );
+    }
+
+    public GroupMembershipImpl(
+            CoordinationClient coordinationClient,
+            String coordinationNodePath,
             String groupName,
-            RetryPolicy retryPolicy
+            GroupMembershipSettings settings
     ) {
         this.coordinationClient = coordinationClient;
         this.coordinationNodePath = coordinationNodePath;
         this.groupName = groupName;
-        this.retryPolicy = retryPolicy;
+        this.retryPolicy = settings.getRetryPolicy();
 
         this.session = coordinationClient.createSession(
                 coordinationNodePath,
@@ -62,7 +76,8 @@ public class GroupMembershipImpl implements GroupMembership {
                 groupName,
                 WatchSemaphoreMode.WATCH_OWNERS,
                 DescribeSemaphoreMode.WITH_OWNERS,
-                retryPolicy
+                settings.getRetryPolicy(),
+                settings.getScheduledExecutor()
         );
         this.groupMembersListenable = new ListenableContainer<>();
         semaphoreObserver.getWatchDataListenable().addListener(description -> {

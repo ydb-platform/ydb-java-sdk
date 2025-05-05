@@ -5,10 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,12 +20,14 @@ import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.recipes.locks.LockInternals;
 import tech.ydb.coordination.recipes.util.Listenable;
 import tech.ydb.coordination.recipes.util.ListenableContainer;
+import tech.ydb.coordination.recipes.util.RetryableTask;
 import tech.ydb.coordination.recipes.util.SessionListenableProvider;
 import tech.ydb.coordination.recipes.util.SemaphoreObserver;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
@@ -29,7 +35,7 @@ import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
-// TODO: backoff политика + документцаия /  логгирование / рекомендации по коду
+// TODO: документцаия /  логгирование / рекомендации по коду
 public class LeaderElection implements Closeable, SessionListenableProvider {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
     private static final long MAX_LEASE = 1L;
@@ -38,22 +44,27 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
     private final String coordinationNodePath;
     private final String electionName;
     private final byte[] data;
+    private final RetryPolicy retryPolicy;
 
-    private final ExecutorService electionExecutor;
+    private final ScheduledExecutorService scheduledExecutor;
+    private final ExecutorService blockingExecutor;
     private final CoordinationSession coordinationSession;
     private final ListenableContainer<CoordinationSession.State> sessionListenable;
     private final LockInternals lock;
     private final SemaphoreObserver semaphoreObserver;
 
-    private AtomicReference<State> state = new AtomicReference<>(State.CREATED);
-    private Future<Status> sessionConnectionTask = null;
+    private final CountDownLatch startingLatch = new CountDownLatch(1);
+    private AtomicReference<State> state = new AtomicReference<>(State.INITIAL);
+    private AtomicReference<Future<Status>> initializingTask = new AtomicReference<>(null);
     private Future<Void> electionTask = null;
     private volatile boolean autoRequeue = false;
     private volatile boolean isLeader = false;
 
     private enum State {
-        CREATED,
+        INITIAL,
+        STARTING,
         STARTED,
+        FAILED,
         CLOSED
     }
 
@@ -87,11 +98,20 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         this.electionName = electionName;
         this.data = data;
         this.leaderElectionListener = leaderElectionListener;
-        this.electionExecutor = settings.getExecutorService();
+        this.scheduledExecutor = settings.getScheduledExecutor();
+        this.blockingExecutor = Executors.newSingleThreadExecutor(); // TODO: thread factory
+        this.retryPolicy = settings.getRetryPolicy();
 
         this.coordinationSession = client.createSession(coordinationNodePath);
         this.sessionListenable = new ListenableContainer<>();
-        coordinationSession.addStateListener(sessionListenable::notifyListeners);
+        coordinationSession.addStateListener(sessionState -> {
+            if (sessionState == CoordinationSession.State.LOST || sessionState == CoordinationSession.State.CLOSED) {
+                logger.error("Coordination session unexpectedly changed to {} state, marking election as FAILED",
+                        sessionState);
+                state.set(State.FAILED);
+            }
+            sessionListenable.notifyListeners(sessionState);
+        });
         this.lock = new LockInternals(
                 coordinationSession,
                 electionName,
@@ -102,39 +122,58 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
                 electionName,
                 WatchSemaphoreMode.WATCH_OWNERS,
                 DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS,
-                settings.getRetryPolicy()
+                settings.getRetryPolicy(),
+                settings.getScheduledExecutor()
         );
     }
 
-    private CoordinationSession connectedSession() {
-        if (sessionConnectionTask == null) {
-            throw new IllegalStateException("Not started yet");
-        }
-        try {
-            sessionConnectionTask.get().expectSuccess("Unable to connect to session");
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-        return coordinationSession;
-    }
-
     public void start() {
-        Preconditions.checkState(state.compareAndSet(State.CREATED, State.STARTED), "Already started or closed");
-        // TODO: handle errors retries and logging?
-        this.sessionConnectionTask = coordinationSession.connect().thenCompose(connectionStatus -> {
-            connectionStatus.expectSuccess("Unable to establish session");
-            return coordinationSession.createSemaphore(electionName, MAX_LEASE).thenApply(semaphoreStatus -> {
-                if (semaphoreStatus.isSuccess() || semaphoreStatus.getCode() == StatusCode.ALREADY_EXISTS) {
-                    semaphoreObserver.start();
-                }
-                semaphoreStatus.expectSuccess("Unable to create semaphore");
-                return semaphoreStatus;
-            });
-        });
+        Preconditions.checkState(
+                state.compareAndSet(State.INITIAL, State.STARTING),
+                "Leader election may be started only once"
+        );
+
+        CompletableFuture<Status> connectionTask = executeWithRetry(coordinationSession::connect);
+        CompletableFuture<Status> semaphoreCreateTask = executeWithRetry(
+                () -> coordinationSession.createSemaphore(electionName, MAX_LEASE)
+                        .thenCompose(status -> {
+                            if (status.getCode() == StatusCode.ALREADY_EXISTS) {
+                                return CompletableFuture.completedFuture(Status.SUCCESS);
+                            }
+                            return CompletableFuture.completedFuture(status);
+                        })
+        );
+
+        CompletableFuture<Status> initializingRetriedTask = connectionTask
+                .thenCompose(connectionStatus -> {
+                    connectionStatus.expectSuccess("Unable to establish session");
+                    return semaphoreCreateTask;
+                })
+                .thenApply(semaphoreStatus -> {
+                    if (semaphoreStatus.isSuccess()) {
+                        state.set(State.STARTED);
+                        semaphoreObserver.start();
+                        startingLatch.countDown();
+                    }
+                    semaphoreStatus.expectSuccess("Unable to create semaphore");
+                    return semaphoreStatus;
+                }).exceptionally(ex -> {
+                    logger.error("Leader election initializing task failed", ex);
+                    state.set(State.FAILED);
+                    semaphoreObserver.close();
+                    startingLatch.countDown();
+                    return Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
+                });
+
+        initializingTask.set(initializingRetriedTask);
 
         if (autoRequeue) {
             enqueueElection();
         }
+    }
+
+    private CompletableFuture<Status> executeWithRetry(Supplier<CompletableFuture<Status>> taskSupplier) {
+        return new RetryableTask("leaderElectionInitialize", taskSupplier, scheduledExecutor, retryPolicy).execute();
     }
 
     public void autoRequeue() {
@@ -153,9 +192,12 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
      * @return true if re-enqueue was successful
      */
     public boolean requeue() {
-        Preconditions.checkState(state.get() == State.STARTED, "Already closed or not yet started");
+        State localState = state.get();
+        Preconditions.checkState(
+                localState == State.STARTED || localState == State.STARTING,
+                "Unexpected state: " + localState.name()
+        );
 
-        // TODO: корректно обрабатывать если старт еще не кончился
         return enqueueElection();
     }
 
@@ -170,8 +212,9 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
     }
 
     private synchronized boolean enqueueElection() {
-        if (!isQueued() && state.get() == State.STARTED) {
-            electionTask = electionExecutor.submit(new Callable<Void>() {
+        State localState = state.get();
+        if (!isQueued() && (localState == State.STARTED || localState == State.STARTING)) {
+            electionTask = blockingExecutor.submit(new Callable<Void>() {
                 @Override
                 public Void call() throws Exception {
                     try {
@@ -192,6 +235,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         isLeader = false;
 
         try {
+            waitStartedState();
             lock.tryAcquire(
                     null,
                     true,
@@ -226,9 +270,22 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         }
     }
 
+    private void waitStartedState() throws InterruptedException {
+        State localState = state.get();
+        if (localState == State.STARTING) {
+            startingLatch.await();
+            localState = state.get();
+        }
+
+        if (localState == State.INITIAL || localState == State.CLOSED || localState == State.FAILED) {
+            throw new IllegalStateException("Unexpected state: " + localState.name());
+        }
+    }
+
     private synchronized void finishTask() {
         electionTask = null;
-        if (autoRequeue) {
+        State localState = state.get();
+        if (autoRequeue && localState != State.CLOSED && localState != State.FAILED) {
             enqueueElection();
         }
     }
@@ -281,6 +338,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
 
     @Override
     public synchronized void close() {
+        // TODO: Учесть все стейты
         Preconditions.checkState(state.compareAndSet(State.STARTED, State.CLOSED), "Already closed");
 
         Future<Void> localTask = electionTask;
@@ -289,7 +347,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
             electionTask = null;
         }
 
-        electionExecutor.shutdown();
+        blockingExecutor.shutdown();
         semaphoreObserver.close();
     }
 }
