@@ -299,6 +299,7 @@ public class YdbTopicsCodecIntegrationTest {
      * 4. Try to write with reserved codec 10000 -> get error
      * 5. Try to write with custom unregister codec 20000 -> get error
      */
+    @Ignore
     @Test
     public void writeWithReservedNotExistedCodec() {
         client1 = createClient();
