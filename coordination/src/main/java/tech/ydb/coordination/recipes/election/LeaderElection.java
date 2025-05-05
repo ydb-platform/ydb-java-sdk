@@ -277,7 +277,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
             localState = state.get();
         }
 
-        if (localState == State.INITIAL || localState == State.CLOSED || localState == State.FAILED) {
+        if (localState != State.STARTED) {
             throw new IllegalStateException("Unexpected state: " + localState.name());
         }
     }

@@ -3,6 +3,7 @@ package tech.ydb.coordination.recipes.locks;
 import java.io.Closeable;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
@@ -24,11 +25,13 @@ import tech.ydb.coordination.recipes.util.ListenableContainer;
 public class InterProcessMutex implements InterProcessLock, Closeable {
     private static final Logger logger = LoggerFactory.getLogger(InterProcessMutex.class);
 
-    private final AtomicReference<State> state = new AtomicReference<>(State.INITIAL);
+    private final String lockName;
     private final CoordinationSession coordinationSession;
     private final Future<?> sessionConnectionTask;
     private final LockInternals lockInternals;
     private final ListenableContainer<CoordinationSession.State> sessionListenable;
+
+    private final AtomicReference<State> state = new AtomicReference<>(State.INITIAL);
 
     /**
      * Internal state machine states
@@ -82,15 +85,14 @@ public class InterProcessMutex implements InterProcessLock, Closeable {
         }
 
         state.set(State.STARTING);
-        logger.debug("Initializing InterProcessMutex for lock '{}'", lockName);
-
+        this.lockName = lockName;
         this.coordinationSession = client.createSession(coordinationNodePath);
         this.sessionListenable = new ListenableContainer<>();
         this.lockInternals = new LockInternals(coordinationSession, lockName);
 
         coordinationSession.addStateListener(sessionState -> {
             if (sessionState == CoordinationSession.State.LOST || sessionState == CoordinationSession.State.CLOSED) {
-                logger.error("Coordination session unexpectedly changed to {} state, marking mutex as FAILED",
+                logger.error("Coordination session unexpectedly changed to '{}' state, marking mutex as 'FAILED'",
                         sessionState);
                 state.set(State.FAILED);
             }
@@ -109,9 +111,8 @@ public class InterProcessMutex implements InterProcessLock, Closeable {
 
         if (settings.isWaitConnection()) {
             try {
-                logger.debug("Waiting for session connection to complete...");
+                logger.debug("Waiting for session connection to complete for lock '{}'", lockName);
                 sessionConnectionTask.get();
-                logger.debug("Session connection completed");
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 logger.error("Interrupted while waiting for session connection for lock '{}'", lockName, e);
@@ -128,36 +129,38 @@ public class InterProcessMutex implements InterProcessLock, Closeable {
     @Override
     public void acquire() throws Exception {
         checkState();
-        logger.debug("Attempting to acquire lock...");
+        logger.debug("Attempting to acquire lock '{}'", lockName);
         lockInternals.tryAcquire(
                 null,
                 true,
                 null
         );
-        logger.debug("Lock acquired successfully");
+        logger.debug("Lock '{}' acquired successfully", lockName);
     }
 
     @Override
     public boolean acquire(Duration waitDuration) throws Exception {
+        Objects.requireNonNull(waitDuration, "wait duration must not be null");
+
         checkState();
-        logger.debug("Attempting to acquire lock with timeout {}...", waitDuration);
+        logger.debug("Attempting to acquire lock '{}' with timeout {}", lockName, waitDuration);
         Instant deadline = Instant.now().plus(waitDuration);
         boolean acquired = lockInternals.tryAcquire(
                 deadline,
                 true,
                 null
         ) != null;
-        logger.debug("Lock acquisition {}successful", acquired ? "" : "un");
+        logger.debug("Lock '{}' acquisition {}successful", lockName, acquired ? "" : "un");
         return acquired;
     }
 
     @Override
     public boolean release() throws InterruptedException {
         checkState();
-        logger.debug("Attempting to release lock...");
+        logger.debug("Attempting to release lock '{}'", lockName);
         boolean released = lockInternals.release();
         if (released) {
-            logger.debug("Lock released successfully");
+            logger.debug("Lock '{}' released successfully", lockName);
         } else {
             logger.debug("No lock to release");
         }
@@ -184,29 +187,27 @@ public class InterProcessMutex implements InterProcessLock, Closeable {
 
     @Override
     public void close() {
-        logger.debug("Closing InterProcessMutex...");
+        logger.debug("Closing mutex '{}'", lockName);
         state.set(State.CLOSED);
         try {
             lockInternals.close();
         } catch (Exception e) {
-            logger.warn("Error while closing lock internals", e);
+            logger.warn("Error while closing lock internals '{}'", lockName, e);
         }
-        logger.info("InterProcessMutex closed");
+        logger.info("Mutex '{}' closed", lockName);
     }
 
     private void checkState() throws LockStateException {
         State currentState = state.get();
         if (currentState == State.FAILED) {
-            throw new LockStateException("Lock '" + lockInternals.getLockName() + "' is in FAILED state",
-                    lockInternals.getLockName());
+            throw new LockStateException("Lock '" + lockName + "' is in FAILED state", lockName);
         }
         if (currentState == State.CLOSED) {
-            throw new LockStateException("Lock '" + lockInternals.getLockName() + "' is already closed",
-                    lockInternals.getLockName());
+            throw new LockStateException("Lock '" + lockName + "' is already closed", lockName);
         }
         if (currentState != State.STARTED) {
-            throw new LockStateException("Lock '" + lockInternals.getLockName() + "' is not ready (current state: "
-                    + currentState + ")", lockInternals.getLockName());
+            throw new LockStateException("Lock '" + lockName + "' is not ready (current state: " + currentState + ")",
+                    lockName);
         }
     }
 }

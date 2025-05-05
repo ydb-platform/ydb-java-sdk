@@ -36,11 +36,11 @@ public interface InterProcessLock extends SessionListenableProvider {
      * Releases the lock if it is held by this process.
      *
      * @return false if there was nothing to release
-     * @throws InterruptedException       if the thread is interrupted
+     * @throws Exception                  if an unexpected error occurs
      * @throws LockReleaseFailedException if the lock release fails
      * @throws LockStateException         if the lock is in invalid state for release
      */
-    boolean release() throws InterruptedException, LockReleaseFailedException, LockStateException;
+    boolean release() throws Exception, LockReleaseFailedException, LockStateException;
 
 
     /**

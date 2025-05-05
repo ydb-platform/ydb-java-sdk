@@ -295,7 +295,10 @@ public class ReadWriteInterProcessLockIntegrationTest {
         return new ReadWriteInterProcessLock(
                 client,
                 nodePath,
-                lockName
+                lockName,
+                ReadWriteInterProcessLockSettings.newBuilder()
+                        .withWaitConnection(true)
+                        .build()
         );
     }
 
