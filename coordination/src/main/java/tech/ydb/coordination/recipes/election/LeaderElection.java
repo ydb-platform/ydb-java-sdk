@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
@@ -16,36 +16,40 @@ import com.google.common.base.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.common.retry.RetryForever;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.recipes.locks.LockInternals;
 import tech.ydb.coordination.recipes.util.Listenable;
+import tech.ydb.coordination.recipes.util.ListenableContainer;
 import tech.ydb.coordination.recipes.util.SessionListenableProvider;
 import tech.ydb.coordination.recipes.util.SemaphoreObserver;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
+import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
-// TODO: настройки + переименовать переменные + рекомендации по коду + логгирование + backoff политика
+// TODO: backoff политика + документцаия /  логгирование / рекомендации по коду
 public class LeaderElection implements Closeable, SessionListenableProvider {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
     private static final long MAX_LEASE = 1L;
 
-    private final CoordinationClient client;
     private final LeaderElectionListener leaderElectionListener;
     private final String coordinationNodePath;
     private final String electionName;
     private final byte[] data;
+
     private final ExecutorService electionExecutor;
+    private final CoordinationSession coordinationSession;
+    private final ListenableContainer<CoordinationSession.State> sessionListenable;
     private final LockInternals lock;
     private final SemaphoreObserver semaphoreObserver;
 
     private AtomicReference<State> state = new AtomicReference<>(State.CREATED);
+    private Future<Status> sessionConnectionTask = null;
+    private Future<Void> electionTask = null;
     private volatile boolean autoRequeue = false;
     private volatile boolean isLeader = false;
-    private Future<Void> electionTask = null;
 
     private enum State {
         CREATED,
@@ -55,62 +59,77 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
 
     public LeaderElection(
             CoordinationClient client,
-            LeaderElectionListener leaderElectionListener,
             String coordinationNodePath,
             String electionName,
-            byte[] data
+            byte[] data,
+            LeaderElectionListener leaderElectionListener
     ) {
         this(
                 client,
-                leaderElectionListener,
                 coordinationNodePath,
                 electionName,
                 data,
-                Executors.newSingleThreadExecutor()
+                leaderElectionListener,
+                LeaderElectionSettings.newBuilder()
+                        .build()
         );
     }
 
     public LeaderElection(
             CoordinationClient client,
-            LeaderElectionListener leaderElectionListener,
             String coordinationNodePath,
             String electionName,
             byte[] data,
-            ExecutorService executorService
+            LeaderElectionListener leaderElectionListener,
+            LeaderElectionSettings settings
     ) {
-        this.client = client;
-        this.leaderElectionListener = leaderElectionListener;
         this.coordinationNodePath = coordinationNodePath;
         this.electionName = electionName;
         this.data = data;
-        this.electionExecutor = executorService;
+        this.leaderElectionListener = leaderElectionListener;
+        this.electionExecutor = settings.getExecutorService();
+
+        this.coordinationSession = client.createSession(coordinationNodePath);
+        this.sessionListenable = new ListenableContainer<>();
+        coordinationSession.addStateListener(sessionListenable::notifyListeners);
         this.lock = new LockInternals(
-                MAX_LEASE,
-                client,
-                coordinationNodePath,
-                electionName
+                coordinationSession,
+                electionName,
+                MAX_LEASE
         );
         this.semaphoreObserver = new SemaphoreObserver(
-                lock.getCoordinationSession(),
+                coordinationSession,
                 electionName,
                 WatchSemaphoreMode.WATCH_OWNERS,
                 DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS,
-                new RetryForever(100) // TODO: передавать снаружи
+                settings.getRetryPolicy()
         );
+    }
+
+    private CoordinationSession connectedSession() {
+        if (sessionConnectionTask == null) {
+            throw new IllegalStateException("Not started yet");
+        }
+        try {
+            sessionConnectionTask.get().expectSuccess("Unable to connect to session");
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        return coordinationSession;
     }
 
     public void start() {
         Preconditions.checkState(state.compareAndSet(State.CREATED, State.STARTED), "Already started or closed");
-        // TODO: create session?
-        CoordinationSession coordinationSession = lock.getCoordinationSession();
-        // TODO: retry on create? Non idempotent - will not be retried automatically
-        lock.start();
-        coordinationSession.createSemaphore(electionName, MAX_LEASE).thenAccept(status -> {
-            if (status.isSuccess() || status.getCode() == StatusCode.ALREADY_EXISTS) {
-                semaphoreObserver.start();
-            }
-            status.expectSuccess("Unable to create semaphore");
-            // TODO: set status == error
+        // TODO: handle errors retries and logging?
+        this.sessionConnectionTask = coordinationSession.connect().thenCompose(connectionStatus -> {
+            connectionStatus.expectSuccess("Unable to establish session");
+            return coordinationSession.createSemaphore(electionName, MAX_LEASE).thenApply(semaphoreStatus -> {
+                if (semaphoreStatus.isSuccess() || semaphoreStatus.getCode() == StatusCode.ALREADY_EXISTS) {
+                    semaphoreObserver.start();
+                }
+                semaphoreStatus.expectSuccess("Unable to create semaphore");
+                return semaphoreStatus;
+            });
         });
 
         if (autoRequeue) {
@@ -173,7 +192,6 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         isLeader = false;
 
         try {
-            lock.getConnectedCoordinationSession(); // asserts that session is connected or throws exception
             lock.tryAcquire(
                     null,
                     true,
@@ -221,6 +239,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
 
     /**
      * Не гарантированы все, кроме лидера
+     *
      * @return
      */
     public List<ElectionParticipant> getParticipants() {
@@ -257,7 +276,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
 
     @Override
     public Listenable<CoordinationSession.State> getSessionListenable() {
-        return lock.getSessionListenable();
+        return sessionListenable;
     }
 
     @Override

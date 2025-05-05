@@ -1,9 +1,9 @@
 package tech.ydb.coordination.recipes.locks;
 
-public class InterProcessMutexSettings {
+public class ReadWriteInterProcessLockSettings {
     private final boolean waitConnection;
 
-    public InterProcessMutexSettings(Builder builder) {
+    public ReadWriteInterProcessLockSettings(Builder builder) {
         this.waitConnection = builder.waitConnection;
     }
 
@@ -23,8 +23,9 @@ public class InterProcessMutexSettings {
             return this;
         }
 
-        public InterProcessMutexSettings build() {
-            return new InterProcessMutexSettings(this);
+        public ReadWriteInterProcessLockSettings build() {
+            return new ReadWriteInterProcessLockSettings(this);
         }
     }
 }
+

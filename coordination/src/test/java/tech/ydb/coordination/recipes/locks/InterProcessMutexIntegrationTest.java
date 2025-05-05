@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.recipes.locks.exception.LockAlreadyAcquiredException;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 public class InterProcessMutexIntegrationTest {
@@ -54,6 +55,7 @@ public class InterProcessMutexIntegrationTest {
                 nodePath,
                 lockName,
                 InterProcessMutexSettings.newBuilder()
+                        .withWaitConnection(true)
                         .build()
         );
         return lock;

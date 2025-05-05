@@ -10,8 +10,10 @@ import java.util.concurrent.Future;
 
 import org.junit.Assert;
 import org.junit.Test;
-import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.CoordinationSessionBaseMockedTest;
+import tech.ydb.coordination.recipes.locks.exception.LockAcquireFailedException;
+import tech.ydb.coordination.recipes.locks.exception.LockAlreadyAcquiredException;
+import tech.ydb.coordination.recipes.locks.exception.LockReleaseFailedException;
 import tech.ydb.core.StatusCode;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -82,11 +84,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
         sessionMock.connected();
 
         LeaseMock lease = lease("lock_name");
@@ -114,11 +114,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
         sessionMock.connect().then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
         sessionMock.connected();
 
         LeaseMock lease = lease("lock_name");
@@ -146,13 +144,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
-        verify(getCoordinationSession())
-                .connect();
 
         sessionMock.lost();
 
@@ -170,14 +164,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
-        verify(getCoordinationSession())
-                .connect();
-
         sessionMock.connected();
 
         sessionMock.acquireEphemeralSemaphore()
@@ -206,21 +195,11 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
-        );
-        lock.start();
-        lock.getSessionListenable().addListener(
-                getSessionStateAssert()
-                        .next(CoordinationSession.State.CONNECTING)
-                        .next(CoordinationSession.State.CONNECTED)
-                        .next(CoordinationSession.State.LOST)
         );
 
         sessionMock.connecting();
-        verify(getCoordinationSession())
-                .connect();
         sessionMock.connected();
 
         sessionMock.acquireEphemeralSemaphore()
@@ -240,7 +219,6 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
 
         sessionMock.lost();
         Assert.assertFalse(lock.isAcquired());
-        getSessionStateAssert().finished();
     }
 
     @Test
@@ -250,14 +228,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
-        verify(getCoordinationSession())
-                .connect();
-
         sessionMock.connected();
 
         sessionMock.acquireEphemeralSemaphore()
@@ -290,14 +263,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
-        verify(getCoordinationSession())
-                .connect();
-
         sessionMock.connected();
 
         sessionMock.acquireEphemeralSemaphore()
@@ -326,14 +294,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
-        verify(getCoordinationSession())
-                .connect();
-
         sessionMock.connected();
 
         sessionMock.acquireEphemeralSemaphore()
@@ -371,14 +334,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
-        verify(getCoordinationSession())
-                .connect();
-
         sessionMock.connected();
 
         sessionMock.acquireEphemeralSemaphore()
@@ -414,11 +372,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
         sessionMock.connected();
 
         LeaseMock lease = lease("lock_name");
@@ -448,11 +404,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
         sessionMock.connected();
 
         LeaseMock lease = lease("lock_name");
@@ -481,11 +435,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
         sessionMock.connected();
 
         LeaseMock lease = lease("lock_name");
@@ -510,11 +462,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
         sessionMock.connected();
 
         Assert.assertFalse(lock.release());
@@ -528,11 +478,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
 
         sessionMock.lost();
 
@@ -547,11 +495,9 @@ public class InternalLockMockedTest extends CoordinationSessionBaseMockedTest {
                 .then(successConnect());
 
         LockInternals lock = new LockInternals(
-                getClient(),
-                "/node/path",
+                getCoordinationSession(),
                 "lock_name"
         );
-        lock.start();
         sessionMock.connected();
 
         LeaseMock lease = lease("lock_name")

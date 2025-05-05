@@ -4,6 +4,7 @@ import java.io.Closeable;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +12,12 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.recipes.util.Listenable;
+import tech.ydb.coordination.recipes.util.ListenableContainer;
 
-// TODO: add documentation and logs
+// TODO: state management + (документация, логи, рекомендации)
 public class ReadWriteInterProcessLock implements Closeable {
     private static final Logger logger = LoggerFactory.getLogger(ReadWriteInterProcessLock.class);
 
-    private final LockInternals readLockInternals;
-    private final LockInternals writeLockInternals;
     private final InternalLock readLock;
     private final InternalLock writeLock;
 
@@ -26,21 +26,22 @@ public class ReadWriteInterProcessLock implements Closeable {
             String coordinationNodePath,
             String lockName
     ) {
-        this.readLockInternals = new LockInternals(
+        this(
                 client,
                 coordinationNodePath,
-                lockName
+                lockName,
+                ReadWriteInterProcessLockSettings.newBuilder().build()
         );
-        readLockInternals.start();
-        this.readLock = new InternalLock(readLockInternals, false);
+    }
 
-        this.writeLockInternals = new LockInternals(
-                client,
-                coordinationNodePath,
-                lockName
-        );
-        writeLockInternals.start();
-        this.writeLock = new InternalLock(writeLockInternals, true);
+    public ReadWriteInterProcessLock(
+            CoordinationClient client,
+            String coordinationNodePath,
+            String lockName,
+            ReadWriteInterProcessLockSettings settings
+    ) {
+        this.readLock = new InternalLock(client, coordinationNodePath, lockName, false);
+        this.writeLock = new InternalLock(client, coordinationNodePath, lockName, true);
     }
 
     public InterProcessLock writeLock() {
@@ -52,12 +53,44 @@ public class ReadWriteInterProcessLock implements Closeable {
     }
 
     private static class InternalLock implements InterProcessLock {
-        private final LockInternals lockInternals;
         private final boolean isExclusive;
 
-        private InternalLock(LockInternals lockInternals, boolean isExclusive) {
-            this.lockInternals = lockInternals;
+        private final AtomicReference<State> state = new AtomicReference<>(State.INITIAL);
+        private final CoordinationSession coordinationSession;
+        private final LockInternals lockInternals;
+        private final ListenableContainer<CoordinationSession.State> sessionListenable;
+
+        private enum State {
+            INITIAL,
+            STARTING,
+            STARTED,
+            FAILED,
+            CLOSED
+        }
+
+        public InternalLock(
+                CoordinationClient client,
+                String coordinationNodePath,
+                String lockName,
+                boolean isExclusive
+        ) {
             this.isExclusive = isExclusive;
+
+            this.coordinationSession = client.createSession(coordinationNodePath);
+            this.lockInternals = new LockInternals(
+                    coordinationSession,
+                    lockName
+            );
+            this.sessionListenable = new ListenableContainer<>();
+            coordinationSession.addStateListener(sessionListenable::notifyListeners);
+            // TODO: add settings to block
+            coordinationSession.connect().thenAccept(status -> {
+                status.expectSuccess("Unable to establish session");
+            });
+        }
+
+        private void start() {
+            ;
         }
 
         @Override
@@ -93,14 +126,18 @@ public class ReadWriteInterProcessLock implements Closeable {
 
         @Override
         public Listenable<CoordinationSession.State> getSessionListenable() {
-            return lockInternals.getSessionListenable();
+            return sessionListenable;
+        }
+
+        private void close() {
+            lockInternals.close();
         }
     }
 
     @Override
     public void close() {
-        readLockInternals.close();
-        writeLockInternals.close();
+        readLock.close();
+        writeLock.close();
     }
 
 }

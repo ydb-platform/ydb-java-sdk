@@ -2,10 +2,8 @@ package tech.ydb.coordination;
 
 import java.time.Duration;
 import java.util.HashSet;
-import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.function.Consumer;
 
 import org.junit.Assert;
@@ -32,7 +30,6 @@ public class CoordinationSessionBaseMockedTest {
     private final CoordinationClient client = Mockito.mock(CoordinationClient.class);
     private final CoordinationSession coordinationSession = Mockito.mock(CoordinationSession.class);
     private final SessionMock sessionMock = new SessionMock();
-    private final SessionStateAssert sessionStateAssert = new SessionStateAssert();
 
     @Before
     public void beforeEach() {
@@ -67,10 +64,6 @@ public class CoordinationSessionBaseMockedTest {
 
     public CoordinationSession getCoordinationSession() {
         return coordinationSession;
-    }
-
-    public SessionStateAssert getSessionStateAssert() {
-        return sessionStateAssert;
     }
 
     protected Answer<CompletableFuture<Status>> successConnect() {
@@ -152,27 +145,6 @@ public class CoordinationSessionBaseMockedTest {
 
     protected SessionMock getSessionMock() {
         return sessionMock;
-    }
-
-    protected class SessionStateAssert implements Consumer<CoordinationSession.State> {
-        private final Queue<CoordinationSession.State> queue = new ConcurrentLinkedQueue<>();
-
-        public SessionStateAssert next(CoordinationSession.State state) {
-            queue.add(state);
-            return this;
-        }
-
-        @Override
-        public void accept(CoordinationSession.State state) {
-            logger.debug("Next state: {}", state);
-            Assert.assertFalse(queue.isEmpty());
-            CoordinationSession.State lastState = queue.poll();
-            Assert.assertEquals(state, lastState);
-        }
-
-        public void finished() {
-            Assert.assertTrue(queue.isEmpty());
-        }
     }
 
     protected class LeaseMock implements SemaphoreLease {

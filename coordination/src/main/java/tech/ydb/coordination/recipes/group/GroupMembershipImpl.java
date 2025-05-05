@@ -77,7 +77,7 @@ public class GroupMembershipImpl implements GroupMembership {
         session.connect().thenAccept(sessionStatus -> {
             sessionStatus.expectSuccess("Unable to establish session");
             session.createSemaphore(groupName, MAX_GROUP_SIZE).thenAccept(semaphoreStatus -> {
-                lockInternals.start();
+                // TODO: start acquiring task
                 semaphoreObserver.start();
             });
         });

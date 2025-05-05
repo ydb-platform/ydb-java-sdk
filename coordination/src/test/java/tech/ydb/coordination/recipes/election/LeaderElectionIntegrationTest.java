@@ -1,9 +1,9 @@
 package tech.ydb.coordination.recipes.election;
 
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BooleanSupplier;
@@ -41,22 +41,27 @@ public class LeaderElectionIntegrationTest {
             String testName,
             LeaderElectionListener leaderElectionListener
     ) {
-        return getLeaderElector(testName, testName, leaderElectionListener);
+        return getLeaderElector(
+                testName,
+                testName,
+                testName.getBytes(StandardCharsets.UTF_8),
+                leaderElectionListener
+        );
     }
 
     private LeaderElection getLeaderElector(
             String nodePath,
             String lockName,
+            byte[] data,
             LeaderElectionListener leaderElectionListener
     ) {
         client.createNode(nodePath).join().expectSuccess("cannot create coordination path");
         LeaderElection leaderElectorImpl = new LeaderElection(
                 client,
-                leaderElectionListener,
                 nodePath,
                 lockName,
-                null,
-                Executors.newSingleThreadExecutor()
+                data,
+                leaderElectionListener
         );
         return leaderElectorImpl;
     }
