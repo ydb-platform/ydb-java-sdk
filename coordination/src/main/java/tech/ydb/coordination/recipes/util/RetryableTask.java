@@ -40,7 +40,7 @@ public class RetryableTask {
         return result;
     }
 
-    private void attemptTask(CompletableFuture<Status> result) {
+    void attemptTask(CompletableFuture<Status> result) {
         try {
             taskSupplier.get().whenComplete((status, throwable) -> {
                 if (throwable != null) {
