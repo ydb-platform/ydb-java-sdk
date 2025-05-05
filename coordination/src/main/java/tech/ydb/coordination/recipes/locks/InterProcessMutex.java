@@ -1,26 +1,28 @@
 package tech.ydb.coordination.recipes.locks;
 
-import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.recipes.util.Listenable;
-import tech.ydb.coordination.recipes.util.ListenableProvider;
-
-import javax.annotation.concurrent.ThreadSafe;
 import java.io.Closeable;
 import java.time.Duration;
 import java.time.Instant;
 
-@ThreadSafe
-public class InterProcessMutex implements InterProcessLock, ListenableProvider<CoordinationSession.State>, Closeable {
+import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
+import tech.ydb.coordination.recipes.util.Listenable;
+
+// TODO: add documentation and logs
+public class InterProcessMutex implements InterProcessLock, Closeable {
     private final LockInternals lockInternals;
 
     public InterProcessMutex(
             CoordinationClient client,
             String coordinationNodePath,
-            String lockName
+            String lockName,
+            InterProcessMutexSettings settings
     ) {
         lockInternals = new LockInternals(client, coordinationNodePath, lockName);
         lockInternals.start();
+        if (settings.isWaitConnection()) {
+             lockInternals.getConnectedCoordinationSession();
+        }
     }
 
     @Override
@@ -43,7 +45,7 @@ public class InterProcessMutex implements InterProcessLock, ListenableProvider<C
     }
 
     @Override
-    public boolean release() throws Exception {
+    public boolean release() throws InterruptedException {
         return lockInternals.release();
     }
 
@@ -53,12 +55,12 @@ public class InterProcessMutex implements InterProcessLock, ListenableProvider<C
     }
 
     @Override
-    public Listenable<CoordinationSession.State> getListenable() {
-        return null;
+    public void close() {
+        lockInternals.close();
     }
 
     @Override
-    public void close() {
-        lockInternals.close();
+    public Listenable<CoordinationSession.State> getSessionListenable() {
+        return lockInternals.getSessionListenable();
     }
 }

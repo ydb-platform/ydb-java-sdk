@@ -1,31 +1,25 @@
-package tech.ydb.coordination.recipes.watch;
+package tech.ydb.coordination.recipes.election;
 
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Participant {
-    private final long id;
+public class ElectionParticipant {
+    private final long sessionId;
     private final byte[] data;
-    private final long count;
     private final boolean isLeader;
 
-    public Participant(long id, byte[] data, long count, boolean isLeader) {
-        this.id = id;
+    public ElectionParticipant(long id, byte[] data, boolean isLeader) {
+        this.sessionId = id;
         this.data = data;
-        this.count = count;
         this.isLeader = isLeader;
     }
 
-    public long getId() {
-        return id;
+    public long getSessionId() {
+        return sessionId;
     }
 
     public byte[] getData() {
         return data;
-    }
-
-    public long getCount() {
-        return count;
     }
 
     public boolean isLeader() {
@@ -40,21 +34,21 @@ public class Participant {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Participant that = (Participant) o;
-        return id == that.id && count == that.count && isLeader == that.isLeader && Objects.deepEquals(data, that.data);
+        ElectionParticipant that = (ElectionParticipant) o;
+        return sessionId == that.sessionId && isLeader == that.isLeader &&
+                Objects.deepEquals(data, that.data);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, Arrays.hashCode(data), count, isLeader);
+        return Objects.hash(sessionId, Arrays.hashCode(data), isLeader);
     }
 
     @Override
     public String toString() {
-        return "Participant{" +
-                "id=" + id +
+        return "ElectionParticipant{" +
+                "sessionId=" + sessionId +
                 ", data=" + Arrays.toString(data) +
-                ", count=" + count +
                 ", isLeader=" + isLeader +
                 '}';
     }

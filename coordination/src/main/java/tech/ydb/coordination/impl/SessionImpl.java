@@ -162,7 +162,7 @@ class SessionImpl implements CoordinationSession {
             }
         }, executor);
 
-        // and send session start message with id of previos session (or zero if it's first connect)
+        // and send session start message with id of previous session (or zero if it's first connect)
         return stream.sendSessionStart(sessionID, nodePath, connectTimeout, protectionKey);
     }
 

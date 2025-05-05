@@ -1,219 +1,264 @@
 package tech.ydb.coordination;
 
-import org.jetbrains.annotations.NotNull;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.Queue;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.function.Consumer;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.mockito.stubbing.OngoingStubbing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.grpc.GrpcReadWriteStream;
-import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.proto.StatusCodesProtos;
-import tech.ydb.proto.coordination.SessionRequest;
-import tech.ydb.proto.coordination.SessionResponse;
-import tech.ydb.proto.coordination.v1.CoordinationServiceGrpc;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.concurrent.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.when;
 
 public class CoordinationSessionBaseMockedTest {
     private static final Logger logger = LoggerFactory.getLogger(CoordinationSessionBaseMockedTest.class);
 
-    private final ScheduledExecutorService scheduler = Mockito.mock(ScheduledExecutorService.class);
-    private final GrpcTransport transport = Mockito.mock(GrpcTransport.class);
-    private final ScheduledFuture<?> emptyFuture = Mockito.mock(ScheduledFuture.class);
-    private final SchedulerAssert schedulerHelper = new SchedulerAssert();
-
-    protected final CoordinationClient client = CoordinationClient.newClient(transport);
+    private final CoordinationClient client = Mockito.mock(CoordinationClient.class);
+    private final CoordinationSession coordinationSession = Mockito.mock(CoordinationSession.class);
+    private final SessionMock sessionMock = new SessionMock();
+    private final SessionStateAssert sessionStateAssert = new SessionStateAssert();
 
     @Before
     public void beforeEach() {
-        Mockito.when(transport.getScheduler()).thenReturn(scheduler);
+        when(client.createSession(any())).thenReturn(coordinationSession);
 
-        Mockito.when(scheduler.schedule(Mockito.any(Runnable.class), Mockito.anyLong(), Mockito.any()))
-                .thenAnswer((InvocationOnMock iom) -> {
-                    logger.debug("mock scheduled task");
-                    schedulerHelper.tasks.add(iom.getArgument(0, Runnable.class));
-                    return emptyFuture;
-                });
-    }
+        when(coordinationSession.connect())
+                .thenReturn(
+                        CompletableFuture.completedFuture(
+                                Status.of(StatusCode.TRANSPORT_UNAVAILABLE)
+                        )
+                );
 
-    protected SchedulerAssert getScheduler() {
-        return schedulerHelper;
-    }
-
-    protected StreamMock mockStream() {
-        StreamMock streamMock = new StreamMock();
-
-        GrpcReadWriteStream<SessionResponse, SessionRequest> readWriteStream = Mockito.mock(GrpcReadWriteStream.class);
-
-        Mockito.when(readWriteStream.start(Mockito.any())).thenAnswer(
-                (InvocationOnMock iom) -> {
-                    streamMock.setObserver(iom.getArgument(0));
-                    return streamMock.streamFuture;
-                }
-        ).thenThrow(new RuntimeException("Unexpected second start call"));
-
-        Mockito.doAnswer((Answer<Void>) (InvocationOnMock iom) -> {
-            streamMock.sent.add(iom.getArgument(0, SessionRequest.class));
+        doAnswer((InvocationOnMock iom) -> {
+            Consumer<CoordinationSession.State> consumer = iom.getArgument(0, Consumer.class);
+            logger.debug("Add session mock listener={}", consumer);
+            sessionMock.addListener(consumer);
             return null;
-        }).when(readWriteStream).sendNext(Mockito.any());
+        }).when(coordinationSession).addStateListener(any());
 
-        Mockito.when(transport.readWriteStreamCall(Mockito.eq(CoordinationServiceGrpc.getSessionMethod()), Mockito.any()))
-                .thenReturn(readWriteStream);
-        return streamMock;
+        doAnswer((InvocationOnMock iom) -> {
+            Consumer<CoordinationSession.State> consumer = iom.getArgument(0, Consumer.class);
+            logger.debug("Remove session mock listener={}", consumer);
+            sessionMock.removeListener(consumer);
+            return null;
+        }).when(coordinationSession).removeStateListener(any());
+
+        doAnswer((InvocationOnMock iom) -> {
+            logger.debug("Get mock state={}", sessionMock.state);
+            return sessionMock.state;
+        }).when(coordinationSession).getState();
     }
 
-    protected static class SchedulerAssert implements Executor {
-        private final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
+    public CoordinationSession getCoordinationSession() {
+        return coordinationSession;
+    }
+
+    public SessionStateAssert getSessionStateAssert() {
+        return sessionStateAssert;
+    }
+
+    protected Answer<CompletableFuture<Status>> successConnect() {
+        return (InvocationOnMock iom) -> {
+            logger.debug("Successful session connect");
+            return CompletableFuture.completedFuture(
+                    Status.SUCCESS
+            );
+        };
+    }
+
+    protected Answer<CompletableFuture<Status>> failedConnect(StatusCode code) {
+        return (InvocationOnMock iom) -> {
+            logger.debug("Failed session connect, code={}", code);
+            return CompletableFuture.completedFuture(
+                    Status.of(code)
+            );
+        };
+    }
+
+    protected Answer<CompletableFuture<Result<SemaphoreLease>>> successAcquire(SemaphoreLease lease) {
+        return (InvocationOnMock iom) -> {
+            logger.debug("Success semaphore acquire {}", lease.getSemaphoreName());
+            return CompletableFuture.completedFuture(
+                    Result.success(lease)
+            );
+        };
+    }
+
+    protected Answer<CompletableFuture<Result<SemaphoreLease>>> statusAcquire(StatusCode statusCode) {
+        return (InvocationOnMock iom) -> {
+            logger.debug("Response semaphore acquire with code: {}", statusCode);
+            return CompletableFuture.completedFuture(
+                    Result.fail(Status.of(statusCode))
+            );
+        };
+    }
+
+    protected Answer<CompletableFuture<Result<SemaphoreLease>>> timeoutAcquire() {
+        return (InvocationOnMock iom) -> {
+            logger.debug("Timeout semaphore acquire");
+            return CompletableFuture.completedFuture(
+                    Result.fail(Status.of(StatusCode.TIMEOUT))
+            );
+        };
+    }
+
+    protected Answer<CompletableFuture<Result<SemaphoreLease>>> timeoutAcquire(Duration blockDuration) {
+        return (InvocationOnMock iom) -> {
+            logger.debug("Block acquire duration={}", blockDuration);
+            Thread.sleep(blockDuration.toMillis());
+            return CompletableFuture.completedFuture(
+                    Result.fail(Status.of(StatusCode.TIMEOUT))
+            );
+        };
+    }
+
+    protected Answer<CompletableFuture<Result<SemaphoreLease>>> lostAcquire() {
+        return (InvocationOnMock iom) -> {
+            logger.debug("Lost session during");
+            sessionMock.lost();
+            return CompletableFuture.completedFuture(
+                    Result.fail(Status.of(StatusCode.TIMEOUT))
+            );
+        };
+    }
+
+    protected LeaseMock lease(String semaphoreName) {
+        return new LeaseMock(
+                sessionMock,
+                semaphoreName,
+                coordinationSession
+        );
+    }
+
+    protected CoordinationClient getClient() {
+        return client;
+    }
+
+    protected SessionMock getSessionMock() {
+        return sessionMock;
+    }
+
+    protected class SessionStateAssert implements Consumer<CoordinationSession.State> {
+        private final Queue<CoordinationSession.State> queue = new ConcurrentLinkedQueue<>();
+
+        public SessionStateAssert next(CoordinationSession.State state) {
+            queue.add(state);
+            return this;
+        }
 
         @Override
-        public void execute(@NotNull Runnable command) {
-            logger.debug("scheduling command: " + command);
-            tasks.add(command);
+        public void accept(CoordinationSession.State state) {
+            logger.debug("Next state: {}", state);
+            Assert.assertFalse(queue.isEmpty());
+            CoordinationSession.State lastState = queue.poll();
+            Assert.assertEquals(state, lastState);
         }
 
-        public SchedulerAssert hasNoTasks() {
-            Assert.assertTrue(tasks.isEmpty());
-            return this;
-        }
-
-        public SchedulerAssert hasTasks(int count) {
-            Assert.assertEquals(count, tasks.size());
-            return this;
-        }
-
-        public SchedulerAssert executeNextTasks(int count) {
-            Assert.assertTrue(count <= tasks.size());
-
-            CompletableFuture.runAsync(() -> {
-                logger.debug("execute {} scheduled tasks", count);
-                for (int idx = 0; idx < count; idx++) {
-                    tasks.poll().run();
-                }
-            }).join();
-            return this;
+        public void finished() {
+            Assert.assertTrue(queue.isEmpty());
         }
     }
 
-    protected class StreamMock {
-        private final CompletableFuture<Status> streamFuture;
-        private final List<SessionRequest> sent = new ArrayList<>();
-        private volatile int sentIdx = 0;
+    protected class LeaseMock implements SemaphoreLease {
+        private final SessionMock sessionMock;
+        private final String name;
+        private final CoordinationSession session;
+        private boolean released = false;
+        private CompletableFuture<Void> result = CompletableFuture.completedFuture(null);
 
-        private volatile GrpcReadWriteStream.Observer<SessionResponse> observer = null;
-
-        public StreamMock() {
-            streamFuture = new CompletableFuture<>();
+        public LeaseMock(SessionMock sessionMock, String name, CoordinationSession session) {
+            this.sessionMock = sessionMock;
+            this.name = name;
+            this.session = session;
         }
 
-        public void setObserver(GrpcReadWriteStream.Observer<SessionResponse> observer) {
-            this.observer = observer;
+        @Override
+        public CoordinationSession getSession() {
+            return session;
         }
 
-        public void complete(StatusCode statusCode) {
-            streamFuture.complete(Status.of(statusCode));
+        @Override
+        public String getSemaphoreName() {
+            return name;
         }
 
-        public void complete(Status status) {
-            streamFuture.complete(status);
+        @Override
+        public CompletableFuture<Void> release() {
+            released = true;
+            return result;
         }
 
-        public void complete(Throwable th) {
-            streamFuture.completeExceptionally(th);
+        public LeaseMock failed(Exception exception) {
+            result = new CompletableFuture<>();
+            result.completeExceptionally(exception);
+            return this;
         }
 
-        public void hasNoNewMessages() {
-            Assert.assertTrue(sentIdx >= sent.size());
+        public void assertReleased() {
+            Assert.assertTrue(released);
         }
-
-        public Checker nextMsg() {
-            Assert.assertTrue(sentIdx < sent.size());
-            return new Checker(sent.get(sentIdx++));
-        }
-
-        public void responseSemaphoreAlreadyExists() {
-            SessionResponse msg = SessionResponse.newBuilder()
-                    .setAcquireSemaphoreResult(
-                            SessionResponse.AcquireSemaphoreResult.newBuilder().setStatus(
-                                    StatusCodesProtos.StatusIds.StatusCode.ALREADY_EXISTS
-                            )
-                    )
-                    .build();
-            response(msg);
-        }
-
-        public void responseSessionStarted(long sessionId) {
-            SessionResponse msg = SessionResponse.newBuilder()
-                    .setSessionStarted(
-                            SessionResponse.SessionStarted.newBuilder()
-                                    .setSessionId(sessionId)
-                                    .build()
-                    )
-                    .build();
-            response(msg);
-        }
-
-        public void responseAcquiredSuccessfully(long requestId) {
-            SessionResponse msg = SessionResponse.newBuilder()
-                    .setAcquireSemaphoreResult(
-                            SessionResponse.AcquireSemaphoreResult.newBuilder()
-                                    .setReqId(requestId)
-                                    .setAcquired(true)
-                                    .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-                    )
-                    .build();
-            response(msg);
-        }
-
-        private void response(SessionResponse msg) {
-            Assert.assertNotNull(observer);
-            observer.onNext(msg);
-        }
-
     }
 
-    protected class Checker {
-        private final SessionRequest msg;
+    protected class SessionMock {
+        private final Set<Consumer<CoordinationSession.State>> listeners = new HashSet<>();
 
-        public Checker(SessionRequest msg) {
-            this.msg = msg;
+        private CoordinationSession.State state = CoordinationSession.State.INITIAL;
+
+        public SessionMock() {
         }
 
-        public SessionRequest get() {
-            return msg;
+        private void addListener(Consumer<CoordinationSession.State> consumer) {
+            listeners.add(consumer);
         }
 
-        public Checker isAcquireSemaphore() {
-            Assert.assertTrue("next msg must be acquire semaphore", msg.hasAcquireSemaphore());
-            return this;
+        private void removeListener(Consumer<CoordinationSession.State> consumer) {
+            listeners.remove(consumer);
         }
 
-        public Checker isEphemeralSemaphore() {
-            Assert.assertTrue("next msg must be acquire ephemeral semaphore", msg.getAcquireSemaphore().getEphemeral());
-            return this;
+        public OngoingStubbing<CompletableFuture<Status>> connect() {
+            return when(coordinationSession.connect());
         }
 
-        public Checker hasSemaphoreName(String semaphoreName) {
-            Assert.assertEquals("invalid semaphore name", semaphoreName, msg.getAcquireSemaphore().getName());
-            return this;
+        public OngoingStubbing<CompletableFuture<Result<SemaphoreLease>>> acquireEphemeralSemaphore() {
+            return when(coordinationSession.acquireEphemeralSemaphore(anyString(), anyBoolean(), any(), any()));
         }
 
-        public Checker isSessionStart() {
-            Assert.assertTrue("next msg must be session start", msg.hasSessionStart());
-            return this;
+        public void connecting() {
+            changeState(CoordinationSession.State.CONNECTING);
         }
 
-        public Checker hasPath(String coordinationNodePath) {
-            Assert.assertEquals("invalid coordination node path", coordinationNodePath, msg.getSessionStart().getPath());
-            return this;
+        public void connected() {
+            changeState(CoordinationSession.State.CONNECTED);
+        }
+
+        public void lost() {
+            changeState(CoordinationSession.State.LOST);
+        }
+
+        public void closed() {
+            changeState(CoordinationSession.State.CLOSED);
+        }
+
+        private void changeState(CoordinationSession.State newState) {
+            state = newState;
+            listeners.forEach(it -> it.accept(newState));
         }
     }
+
 }

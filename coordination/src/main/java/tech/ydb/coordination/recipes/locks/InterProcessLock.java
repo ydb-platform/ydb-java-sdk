@@ -1,11 +1,10 @@
 package tech.ydb.coordination.recipes.locks;
 
-import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.recipes.util.Listenable;
-
 import java.time.Duration;
 
-public interface InterProcessLock extends Listenable<CoordinationSession.State> {
+import tech.ydb.coordination.recipes.util.SessionListenableProvider;
+
+public interface InterProcessLock extends SessionListenableProvider {
     void acquire() throws Exception, LockAlreadyAcquiredException, LockAcquireFailedException;
 
     /**
@@ -16,7 +15,7 @@ public interface InterProcessLock extends Listenable<CoordinationSession.State> 
     /**
      * @return false if nothing to release
      */
-    boolean release() throws Exception;
+    boolean release() throws InterruptedException, LockReleaseFailedException;
 
     /**
      * @return true if the lock is acquired by a thread in this JVM

@@ -1,21 +1,5 @@
 package tech.ydb.coordination.recipes.locks;
 
-import org.checkerframework.checker.nullness.qual.Nullable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import tech.ydb.coordination.CoordinationClient;
-import tech.ydb.coordination.CoordinationSession;
-import tech.ydb.coordination.SemaphoreLease;
-import tech.ydb.coordination.description.SemaphoreDescription;
-import tech.ydb.coordination.recipes.util.Listenable;
-import tech.ydb.coordination.recipes.util.ListenableProvider;
-import tech.ydb.coordination.recipes.util.SessionListenerWrapper;
-import tech.ydb.coordination.settings.DescribeSemaphoreMode;
-import tech.ydb.core.Result;
-import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
-
-import javax.annotation.concurrent.ThreadSafe;
 import java.io.Closeable;
 import java.time.Duration;
 import java.time.Instant;
@@ -24,43 +8,78 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 
-@ThreadSafe
-public class LockInternals implements ListenableProvider<CoordinationSession.State>, Closeable {
+import org.checkerframework.checker.nullness.qual.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
+import tech.ydb.coordination.SemaphoreLease;
+import tech.ydb.coordination.recipes.util.ListenableContainer;
+import tech.ydb.coordination.recipes.util.Listenable;
+import tech.ydb.coordination.recipes.util.SessionListenableProvider;
+import tech.ydb.core.Result;
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+
+public class LockInternals implements Closeable, SessionListenableProvider {
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(30);
+
     private static final Logger logger = LoggerFactory.getLogger(LockInternals.class);
 
+    private final boolean persistent;
+    private final long maxPersistentLease;
     private final String coordinationNodePath;
     private final String semaphoreName;
     private final CoordinationSession session;
-    private final SessionListenerWrapper sessionListenerWrapper;
+    private final ListenableContainer<CoordinationSession.State> sessionListenable = new ListenableContainer();
 
     private CompletableFuture<Status> sessionConnectionTask = null;
-    private volatile LeaseData leaseData = null; // TODO: needs to be volatile?
+    private volatile LeaseData leaseData = null;
 
     public static class LeaseData {
         private final SemaphoreLease processLease;
-        private final boolean isExclusive;
+        private final boolean exclusive;
+        private final long leaseSessionId;
 
-        public LeaseData(SemaphoreLease processLease, boolean isExclusive) {
+        public LeaseData(SemaphoreLease processLease, boolean exclusive, long leaseSessionId) {
             this.processLease = processLease;
-            this.isExclusive = isExclusive;
+            this.exclusive = exclusive;
+            this.leaseSessionId = leaseSessionId;
         }
 
         public boolean isExclusive() {
-            return isExclusive;
+            return exclusive;
         }
 
         public SemaphoreLease getProcessLease() {
             return processLease;
         }
 
+        public long getLeaseSessionId() {
+            return leaseSessionId;
+        }
+
         @Override
         public String toString() {
             return "LeaseData{" +
                     "processLease=" + processLease +
-                    ", isExclusive=" + isExclusive +
+                    ", isExclusive=" + exclusive +
+                    ", leaseSessionId=" + leaseSessionId +
                     '}';
         }
+    }
+
+    public LockInternals(
+            CoordinationSession session,
+            String lockName,
+            long maxPersistentLease
+    ) {
+        this.persistent = false;
+        this.maxPersistentLease = -1;
+        this.coordinationNodePath = coordinationNodePath;
+        this.semaphoreName = lockName;
+        this.session = client.createSession(coordinationNodePath);
     }
 
     public LockInternals(
@@ -68,10 +87,24 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
             String coordinationNodePath,
             String lockName
     ) {
+        this.persistent = false;
+        this.maxPersistentLease = -1;
         this.coordinationNodePath = coordinationNodePath;
         this.semaphoreName = lockName;
         this.session = client.createSession(coordinationNodePath);
-        this.sessionListenerWrapper = new SessionListenerWrapper(session);
+    }
+
+    public LockInternals(
+            long maxPersistentLease,
+            CoordinationClient client,
+            String coordinationNodePath,
+            String lockName
+    ) {
+        this.persistent = true;
+        this.maxPersistentLease = maxPersistentLease;
+        this.coordinationNodePath = coordinationNodePath;
+        this.semaphoreName = lockName;
+        this.session = client.createSession(coordinationNodePath);
     }
 
     public void start() {
@@ -89,15 +122,17 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
                 }
                 case CLOSED: {
                     logger.debug("Session CLOSED, releasing lock");
-                    release();
+                    leaseData = null;
                     break;
                 }
                 case LOST: {
                     logger.debug("Session LOST, releasing lock");
-                    release();
+                    leaseData = null;
                     break;
                 }
+                default:
             }
+            sessionListenable.notifyListeners(state);
         };
 
         session.addStateListener(listener);
@@ -116,86 +151,75 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
     }
 
     private void reconnect() {
-        // TODO: check id on reconnect
-        CoordinationSession coordinationSession = connectedSession();
-        coordinationSession.describeSemaphore(
-                semaphoreName,
-                DescribeSemaphoreMode.WITH_OWNERS_AND_WAITERS
-        ).thenAccept(result -> {
-            if (!result.isSuccess()) {
-                logger.error("Unable to describe semaphore {}", semaphoreName);
-                return;
-            }
-            SemaphoreDescription semaphoreDescription = result.getValue();
-            SemaphoreDescription.Session owner = semaphoreDescription.getOwnersList().stream().findFirst().get();
-            if (owner.getId() != coordinationSession.getId()) {
-                logger.warn(
-                        "Current session with id: {} lost lease after reconnection on semaphore: {}",
-                        owner.getId(),
-                        semaphoreName
-                );
-                release();
-            }
-        });
+        LeaseData currentLeaseData = leaseData;
+        long oldId = currentLeaseData.getLeaseSessionId();
+        long newId = session.getId();
+        if (oldId != newId) {
+            logger.warn(
+                    "Current session with new id: {} lost lease after reconnection on semaphore: {}",
+                    newId,
+                    semaphoreName
+            );
+            leaseData = null;
+        } else {
+            logger.debug("Successfully reestablished session with same id: {}", newId);
+        }
     }
 
-    // TODO: interruptible?
-    public synchronized boolean release() {
-        logger.debug("Trying to release");
-        if (leaseData == null) {
-            logger.debug("Already released");
+    public synchronized boolean release() throws LockReleaseFailedException, InterruptedException {
+        logger.debug("Trying to release semaphore '{}'", semaphoreName);
+
+        if (!connectedSession().getState().isActive()) {
+            throw new LockReleaseFailedException(
+                    "Coordination session is inactive",
+                    coordinationNodePath,
+                    semaphoreName
+            );
+        }
+
+        LeaseData localLeaseData = leaseData;
+        if (localLeaseData == null) {
+            logger.debug("Semaphore '{}' already released", semaphoreName);
             return false;
         }
 
         try {
-            return leaseData.getProcessLease().release().thenApply(it -> {
-                logger.debug("Released lock");
-                leaseData = null;
-                return true;
-            }).get();
-        } catch (ExecutionException e) {
-            throw new RuntimeException(e);
+            localLeaseData.getProcessLease().release().get();
+            leaseData = null;
+            logger.debug("Successfully released semaphore '{}'", semaphoreName);
+            return true;
         } catch (InterruptedException e) {
-            throw new RuntimeException(e);
+            Thread.currentThread().interrupt();
+            throw e;
+        } catch (ExecutionException e) {
+            throw new LockReleaseFailedException(
+                    "Failed to release lock: " + e.getCause().getMessage(),
+                    coordinationNodePath,
+                    semaphoreName,
+                    e.getCause()
+            );
         }
     }
 
-    /**
-     * @param deadline
-     * @return true - if successfully acquired lock
-     * @throws Exception
-     * @throws LockAlreadyAcquiredException
-     * @throws LockAcquireFailedException
-     */
-    // TODO: deadlock?
     public synchronized LeaseData tryAcquire(
             @Nullable Instant deadline,
             boolean exclusive,
-            byte[] data
+            byte @Nullable [] data
     ) throws Exception {
-        logger.debug("Trying to acquire with deadline: {}, exclusive: {}", deadline, exclusive);
+        logger.debug("Trying to acquire lock: {} with deadline: {}, exclusive: {}", semaphoreName, deadline, exclusive);
 
         if (leaseData != null) {
-            if (leaseData.isExclusive() == exclusive) {
-                throw new LockAlreadyAcquiredException(
-                        coordinationNodePath,
-                        semaphoreName
-                );
-            }
-            if (!leaseData.isExclusive() && exclusive) {
-                throw new LockUpgradeFailedException(
-                        coordinationNodePath,
-                        semaphoreName
-                );
-            }
+            throw new LockAlreadyAcquiredException(coordinationNodePath, semaphoreName);
         }
 
         Optional<SemaphoreLease> lease = tryBlockingLock(deadline, exclusive, data);
         if (lease.isPresent()) {
-            leaseData = new LeaseData(lease.get(), exclusive);
+            LeaseData localLeaseData = new LeaseData(lease.get(), exclusive, 1);
+            leaseData = localLeaseData;
             logger.debug("Successfully acquired lock: {}", semaphoreName);
-            return leaseData;
+            return localLeaseData;
         }
+
         logger.debug("Unable to acquire lock: {}", semaphoreName);
         return null;
     }
@@ -203,7 +227,7 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
     private Optional<SemaphoreLease> tryBlockingLock(
             @Nullable Instant deadline,
             boolean exclusive,
-            byte[] data
+            byte @Nullable [] data
     ) throws Exception {
         int retryCount = 0;
         CoordinationSession coordinationSession = connectedSession();
@@ -215,12 +239,13 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
             if (deadline == null) {
                 timeout = DEFAULT_TIMEOUT;
             } else {
-                timeout = Duration.between(Instant.now(), deadline); // TODO: use external Clock instead of Instant?
+                timeout = Duration.between(Instant.now(), deadline);
             }
 
-            CompletableFuture<Result<SemaphoreLease>> acquireTask = coordinationSession.acquireEphemeralSemaphore(
-                    semaphoreName, exclusive, data, timeout // TODO: change Session API to use deadlines
+            CompletableFuture<Result<SemaphoreLease>> acquireTask = acquire(
+                    exclusive, data, coordinationSession, timeout
             );
+
             Result<SemaphoreLease> leaseResult;
             try {
                 leaseResult = acquireTask.get();
@@ -241,7 +266,7 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
             logger.debug("Lease result status: {}", status);
 
             if (status.isSuccess()) {
-                logger.debug("Successfully acquired the lock");
+                logger.debug("Successfully acquired the lock '{}'", semaphoreName);
                 return Optional.of(leaseResult.getValue());
             }
 
@@ -251,7 +276,7 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
             }
 
             if (!status.getCode().isRetryable(true)) {
-                status.expectSuccess("Unable to retry acquiring semaphore");
+                logger.debug("Unable to retry acquiring semaphore '{}'", semaphoreName);
                 throw new LockAcquireFailedException(coordinationNodePath, semaphoreName);
             }
         }
@@ -261,6 +286,23 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
         }
 
         throw new LockAcquireFailedException(coordinationNodePath, semaphoreName);
+    }
+
+    private CompletableFuture<Result<SemaphoreLease>> acquire(
+            boolean exclusive,
+            byte[] data,
+            CoordinationSession coordinationSession,
+            Duration timeout
+    ) {
+        if (!persistent) {
+            return coordinationSession.acquireEphemeralSemaphore(semaphoreName, exclusive, data, timeout);
+        }
+
+        if (exclusive) {
+            return coordinationSession.acquireSemaphore(semaphoreName, maxPersistentLease, data, timeout);
+        }
+
+        return coordinationSession.acquireSemaphore(semaphoreName, 1, data, timeout);
     }
 
     public String getCoordinationNodePath() {
@@ -287,9 +329,13 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
         return leaseData != null;
     }
 
+    public boolean isPersistent() {
+        return persistent;
+    }
+
     @Override
-    public Listenable<CoordinationSession.State> getListenable() {
-        return sessionListenerWrapper;
+    public Listenable<CoordinationSession.State> getSessionListenable() {
+        return sessionListenable;
     }
 
     @Override
@@ -300,6 +346,5 @@ public class LockInternals implements ListenableProvider<CoordinationSession.Sta
         }
 
         session.close();
-        sessionListenerWrapper.clearListeners();
     }
 }
