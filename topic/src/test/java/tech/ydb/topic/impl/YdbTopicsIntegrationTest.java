@@ -177,7 +177,7 @@ public class YdbTopicsIntegrationTest {
     }
 
     @Test
-    public void step05_describeTopic() throws InterruptedException {
+    public void step05_describeTopic() {
         TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
 
         Assert.assertNull(description.getTopicStats());
@@ -226,5 +226,10 @@ public class YdbTopicsIntegrationTest {
             Assert.assertArrayEquals(TEST_MESSAGES[idx], results[idx]);
             Assert.assertArrayEquals(TEST_MESSAGES[idx], results[results.length - idx - 1]);
         }
+    }
+
+    @Test
+    public void step07_alterTopicWithAutoPartitioning() {
+        // TODO add proper integration test for alter + describe
     }
 }
