@@ -9,7 +9,7 @@ import org.testcontainers.shaded.com.google.common.base.Suppliers;
  * @author Aleksandr Gorshenin
  */
 public class YdbEnvironment {
-    private static final String YDB_DEFAULT_IMAGE = "ydbplatform/local-ydb:25.1";
+    private static final String YDB_DEFAULT_IMAGE = "ydbplatform/local-ydb:latest";
 
     private final Supplier<String> ydbEndpoint = createParam("YDB_ENDPOINT", null);
     private final Supplier<String> ydbDatabase = createParam("YDB_DATABASE", null);
