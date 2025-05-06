@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import java.time.Duration;
 
-// TODO add proper javadocs
 public class AlterAutoPartitioningWriteStrategySettings {
     @Nullable
     private final Duration stabilizationWindow;
@@ -44,7 +43,8 @@ public class AlterAutoPartitioningWriteStrategySettings {
         private Integer downUtilizationPercent = null;
 
         /**
-         * @param stabilizationWindow
+         * @param stabilizationWindow       Duration used by the auto partitioning algorithm to define if the partition must be split.
+         *                                  Default value is 5 minutes.
          * @return strategy builder
          */
         public Builder setStabilizationWindow(Duration stabilizationWindow) {
@@ -53,7 +53,8 @@ public class AlterAutoPartitioningWriteStrategySettings {
         }
 
         /**
-         * @param upUtilizationPercent
+         * @param upUtilizationPercent      Upper level of partition quota utilization after which the partition should be split.
+         *                                  Default value is 90%.
          * @return strategy builder
          */
         public Builder setUpUtilizationPercent(int upUtilizationPercent) {
@@ -62,7 +63,9 @@ public class AlterAutoPartitioningWriteStrategySettings {
         }
 
         /**
-         * @param downUtilizationPercent
+         * @param downUtilizationPercent    Lower level of partition quota utilization
+         *                                  after which the partition should be merged with the other one.
+         *                                  Default value is 30%.
          * @return strategy builder
          */
         public Builder setDownUtilizationPercent(int downUtilizationPercent) {

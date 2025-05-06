@@ -3,6 +3,7 @@ package tech.ydb.topic.description;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
@@ -177,5 +178,23 @@ public class ConsumerPartitionInfo {
         public int getConnectionNodeId() {
             return connectionNodeId;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ConsumerPartitionInfo that = (ConsumerPartitionInfo) o;
+        return partitionId == that.partitionId &&
+                active == that.active &&
+                Objects.equals(childPartitionIds, that.childPartitionIds) &&
+                Objects.equals(parentPartitionIds, that.parentPartitionIds) &&
+                Objects.equals(partitionStats, that.partitionStats) &&
+                Objects.equals(consumerStats, that.consumerStats) &&
+                Objects.equals(location, that.location);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(partitionId, active, childPartitionIds, parentPartitionIds, partitionStats, consumerStats, location);
     }
 }

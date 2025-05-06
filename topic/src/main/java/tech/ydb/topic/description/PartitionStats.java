@@ -2,6 +2,7 @@ package tech.ydb.topic.description;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
 
 import javax.annotation.Nullable;
 
@@ -125,5 +126,22 @@ public class PartitionStats {
         public PartitionStats build() {
             return new PartitionStats(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        PartitionStats that = (PartitionStats) o;
+        return storeSizeBytes == that.storeSizeBytes &&
+                partitionNodeId == that.partitionNodeId &&
+                Objects.equals(partitionOffsets, that.partitionOffsets) &&
+                Objects.equals(lastWriteTime, that.lastWriteTime) &&
+                Objects.equals(maxWriteTimeLag, that.maxWriteTimeLag) &&
+                Objects.equals(bytesWritten, that.bytesWritten);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(partitionOffsets, storeSizeBytes, lastWriteTime, maxWriteTimeLag, bytesWritten, partitionNodeId);
     }
 }

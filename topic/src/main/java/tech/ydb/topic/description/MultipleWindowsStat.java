@@ -2,6 +2,8 @@ package tech.ydb.topic.description;
 
 import tech.ydb.proto.topic.YdbTopic;
 
+import java.util.Objects;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -32,5 +34,17 @@ public class MultipleWindowsStat {
 
     public long getPerDay() {
         return perDay;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        MultipleWindowsStat that = (MultipleWindowsStat) o;
+        return perMinute == that.perMinute && perHour == that.perHour && perDay == that.perDay;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(perMinute, perHour, perDay);
     }
 }
