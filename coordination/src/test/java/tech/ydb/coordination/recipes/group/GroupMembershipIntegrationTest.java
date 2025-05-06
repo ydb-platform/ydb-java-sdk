@@ -1,14 +1,12 @@
 package tech.ydb.coordination.recipes.group;
 
-import java.util.List;
-
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.ydb.coordination.AwaitAssert;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
@@ -55,8 +53,13 @@ public class GroupMembershipIntegrationTest {
         GroupMembership groupMembership = getGroupMembership(testName);
         groupMembership.start();
 
-        List<GroupMember> currentMembers = groupMembership.getCurrentMembers();
-        Assert.assertEquals(1, currentMembers.size());
+
+        AwaitAssert.await().until(() -> {
+            if (groupMembership.getCurrentMembers() == null) {
+                return false;
+            }
+            return groupMembership.getCurrentMembers().size() == 1;
+        });
 
         groupMembership.close();
     }

@@ -1,12 +1,10 @@
 package tech.ydb.coordination.recipes.election;
 
 import java.nio.charset.StandardCharsets;
-import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BooleanSupplier;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -15,6 +13,7 @@ import org.junit.ClassRule;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.ydb.coordination.AwaitAssert;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
@@ -80,8 +79,9 @@ public class LeaderElectionIntegrationTest {
         elector.start();
         elector.requeue();
 
-        await(Duration.ofSeconds(10), Duration.ofMillis(100), leadershipTaken::get);
+        AwaitAssert.await().until(leadershipTaken::get);
         Assert.assertTrue(leadershipTaken.get());
+        elector.close();
     }
 
     @Test
@@ -98,10 +98,11 @@ public class LeaderElectionIntegrationTest {
         elector.start();
 
         elector.requeue();
-        await(Duration.ofSeconds(10), Duration.ofMillis(100), () -> leadershipCount.get() > 0);
+        AwaitAssert.await().until(() -> leadershipCount.get() == 1);
 
         elector.requeue();
-        await(Duration.ofSeconds(10), Duration.ofMillis(100), () -> leadershipCount.get() > 1);
+        AwaitAssert.await().until(() -> leadershipCount.get() == 2);
+        elector.close();
     }
 
     @Test
@@ -122,7 +123,7 @@ public class LeaderElectionIntegrationTest {
         elector1.start();
         elector1.requeue();
 
-        await(Duration.ofSeconds(10), Duration.ofMillis(100), leader1Taken::get);
+        AwaitAssert.await().until(leader1Taken::get);
 
         // Check participants and leader
         List<ElectionParticipant> participants1 = elector1.getParticipants();
@@ -148,7 +149,7 @@ public class LeaderElectionIntegrationTest {
         elector2.start();
         elector2.requeue();
 
-        await(Duration.ofSeconds(10), Duration.ofMillis(100), leader2Taken::get);
+        AwaitAssert.await().until(leader2Taken::get);
         // Check participants and leader
         participants1 = elector1.getParticipants();
         leader1 = elector1.getCurrentLeader();
@@ -165,24 +166,8 @@ public class LeaderElectionIntegrationTest {
         Assert.assertEquals(elector2.getCurrentLeader().get().getSessionId(),
                 elector1.getCurrentLeader().get().getSessionId());
         Assert.assertFalse(elector1.isLeader());
-    }
 
-    public static void await(Duration waitDuration, Duration checkDuration, BooleanSupplier condition) {
-        long timeout = System.currentTimeMillis() + waitDuration.toMillis();
-
-        while (System.currentTimeMillis() < timeout) {
-            if (condition.getAsBoolean()) {
-                return;
-            }
-
-            try {
-                Thread.sleep(checkDuration.toMillis());
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                throw new RuntimeException("Await interrupted", e);
-            }
-        }
-
-        throw new RuntimeException("Condition not met within " + waitDuration);
+        elector1.close();
+        elector2.close();
     }
 }

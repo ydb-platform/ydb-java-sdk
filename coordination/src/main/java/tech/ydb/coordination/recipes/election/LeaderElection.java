@@ -74,12 +74,15 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
     private final SemaphoreObserver semaphoreObserver;
 
     private final CountDownLatch startingLatch = new CountDownLatch(1);
-    private AtomicReference<State> state = new AtomicReference<>(State.INITIAL);
-    private AtomicReference<Future<Status>> initializingTask = new AtomicReference<>(null);
+    private final AtomicReference<State> state = new AtomicReference<>(State.INITIAL);
+    private final AtomicReference<Future<Status>> initializingTask = new AtomicReference<>(null);
     private Future<Void> electionTask = null;
     private volatile boolean autoRequeue = false;
     private volatile boolean isLeader = false;
 
+    /**
+     * Internal state
+     */
     private enum State {
         INITIAL,
         STARTING,
@@ -91,10 +94,10 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
     /**
      * Creates a new LeaderElection instance with default settings.
      *
-     * @param client the coordination client to use
-     * @param coordinationNodePath path to the coordination node
-     * @param electionName name of the election (must be unique per coordination node)
-     * @param data optional data to associate with the leader (visible to all participants)
+     * @param client                 the coordination client to use
+     * @param coordinationNodePath   path to the coordination node
+     * @param electionName           name of the election (must be unique per coordination node)
+     * @param data                   optional data to associate with the leader (visible to all participants)
      * @param leaderElectionListener callback for leadership events
      */
     public LeaderElection(
@@ -118,12 +121,12 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
     /**
      * Creates a new LeaderElection instance with custom settings.
      *
-     * @param client the coordination client to use
-     * @param coordinationNodePath path to the coordination node
-     * @param electionName name of the election (must be unique per coordination node)
-     * @param data optional data to associate with the leader (visible to all participants)
+     * @param client                 the coordination client to use
+     * @param coordinationNodePath   path to the coordination node
+     * @param electionName           name of the election (must be unique per coordination node)
+     * @param data                   optional data to associate with the leader (visible to all participants)
      * @param leaderElectionListener callback for leadership events
-     * @param settings configuration settings for the election process
+     * @param settings               configuration settings for the election process
      * @throws NullPointerException if any required parameter is null
      */
     public LeaderElection(
@@ -184,6 +187,8 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
                 state.compareAndSet(State.INITIAL, State.STARTING),
                 "Leader election may be started only once"
         );
+
+        logger.debug("Starting leader election '{}' initialization", electionName);
 
         CompletableFuture<Status> connectionTask = executeWithRetry(coordinationSession::connect);
         CompletableFuture<Status> semaphoreCreateTask = executeWithRetry(
@@ -459,11 +464,15 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         } catch (Exception e) {
             logger.warn("Error closing semaphore observer for {}: {}", electionName, e.getMessage());
         }
-
         try {
             blockingExecutor.shutdown();
         } catch (Exception e) {
             logger.warn("Error shutting down executor for {}: {}", electionName, e.getMessage());
+        }
+        try {
+            coordinationSession.close();
+        } catch (Exception e) {
+            logger.warn("Error closing session for {}: {}", electionName, e.getMessage());
         }
         return true;
     }
