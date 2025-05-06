@@ -11,12 +11,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,9 +37,27 @@ import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
-// TODO: документцаия /  логгирование / рекомендации по коду
+/**
+ * A distributed leader election implementation using coordination services.
+ * This class provides a mechanism for multiple instances to compete for leadership
+ * of a named resource, with exactly one instance becoming the leader at any time.
+ *
+ * <p>The election process uses a semaphore-based approach where:
+ * <ul>
+ *   <li>The leader holds the semaphore lock</li>
+ *   <li>Other participants wait in a queue</li>
+ *   <li>Leadership can be voluntarily released or lost due to session issues</li>
+ * </ul>
+ *
+ * <p>Thread safety: This class is thread-safe. All public methods can be called
+ * from multiple threads concurrently.
+ */
 public class LeaderElection implements Closeable, SessionListenableProvider {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
+    private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
+            .setNameFormat("ydb-leader-election-%d")
+            .setDaemon(true)
+            .build();
     private static final long MAX_LEASE = 1L;
 
     private final LeaderElectionListener leaderElectionListener;
@@ -68,6 +88,15 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         CLOSED
     }
 
+    /**
+     * Creates a new LeaderElection instance with default settings.
+     *
+     * @param client the coordination client to use
+     * @param coordinationNodePath path to the coordination node
+     * @param electionName name of the election (must be unique per coordination node)
+     * @param data optional data to associate with the leader (visible to all participants)
+     * @param leaderElectionListener callback for leadership events
+     */
     public LeaderElection(
             CoordinationClient client,
             String coordinationNodePath,
@@ -86,6 +115,17 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         );
     }
 
+    /**
+     * Creates a new LeaderElection instance with custom settings.
+     *
+     * @param client the coordination client to use
+     * @param coordinationNodePath path to the coordination node
+     * @param electionName name of the election (must be unique per coordination node)
+     * @param data optional data to associate with the leader (visible to all participants)
+     * @param leaderElectionListener callback for leadership events
+     * @param settings configuration settings for the election process
+     * @throws NullPointerException if any required parameter is null
+     */
     public LeaderElection(
             CoordinationClient client,
             String coordinationNodePath,
@@ -94,21 +134,28 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
             LeaderElectionListener leaderElectionListener,
             LeaderElectionSettings settings
     ) {
+        Preconditions.checkNotNull(client, "CoordinationClient cannot be null");
+        Preconditions.checkNotNull(coordinationNodePath, "Coordination node path cannot be null");
+        Preconditions.checkNotNull(electionName, "Election name cannot be null");
+        Preconditions.checkNotNull(leaderElectionListener, "LeaderElectionListener cannot be null");
+        Preconditions.checkNotNull(settings, "LeaderElectionSettings cannot be null");
+
         this.coordinationNodePath = coordinationNodePath;
         this.electionName = electionName;
         this.data = data;
         this.leaderElectionListener = leaderElectionListener;
         this.scheduledExecutor = settings.getScheduledExecutor();
-        this.blockingExecutor = Executors.newSingleThreadExecutor(); // TODO: thread factory
+        this.blockingExecutor = Executors.newSingleThreadExecutor(threadFactory);
         this.retryPolicy = settings.getRetryPolicy();
 
         this.coordinationSession = client.createSession(coordinationNodePath);
         this.sessionListenable = new ListenableContainer<>();
         coordinationSession.addStateListener(sessionState -> {
-            if (sessionState == CoordinationSession.State.LOST || sessionState == CoordinationSession.State.CLOSED) {
+            if (!state.get().equals(State.CLOSED) && (sessionState == CoordinationSession.State.LOST ||
+                    sessionState == CoordinationSession.State.CLOSED)) {
                 logger.error("Coordination session unexpectedly changed to {} state, marking election as FAILED",
                         sessionState);
-                state.set(State.FAILED);
+                stopInternal(State.FAILED);
             }
             sessionListenable.notifyListeners(sessionState);
         });
@@ -127,6 +174,11 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         );
     }
 
+    /**
+     * Starts the leader election process.
+     *
+     * @throws IllegalStateException if the election is already started or closed
+     */
     public void start() {
         Preconditions.checkState(
                 state.compareAndSet(State.INITIAL, State.STARTING),
@@ -159,9 +211,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
                     return semaphoreStatus;
                 }).exceptionally(ex -> {
                     logger.error("Leader election initializing task failed", ex);
-                    state.set(State.FAILED);
-                    semaphoreObserver.close();
-                    startingLatch.countDown();
+                    stopInternal(State.FAILED);
                     return Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
                 });
 
@@ -176,10 +226,19 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         return new RetryableTask("leaderElectionInitialize", taskSupplier, scheduledExecutor, retryPolicy).execute();
     }
 
+    /**
+     * Enables automatic requeueing when leadership is lost.
+     * If called before start election will be started immediately.
+     */
     public void autoRequeue() {
         autoRequeue = true;
     }
 
+    /**
+     * Checks if this instance is currently the leader.
+     *
+     * @return true if this instance is the leader, false otherwise
+     */
     public boolean isLeader() {
         return isLeader;
     }
@@ -187,9 +246,10 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
     /**
      * Re-queue an attempt for leadership. If this instance is already queued, nothing
      * happens and false is returned. If the instance was not queued, it is re-queued and true
-     * is returned
+     * is returned.
      *
-     * @return true if re-enqueue was successful
+     * @return true if reenqueue was successful
+     * @throws IllegalStateException if the election is not in STARTED or STARTING state
      */
     public boolean requeue() {
         State localState = state.get();
@@ -201,6 +261,11 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         return enqueueElection();
     }
 
+    /**
+     * Interrupts the current leadership attempt if one is in progress.
+     *
+     * @return true if leadership was interrupted, false if no attempt was in progress
+     */
     public synchronized boolean interruptLeadership() {
         Future<?> localTask = electionTask;
         if (localTask != null) {
@@ -231,11 +296,16 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         return false;
     }
 
+    /**
+     * Main work loop for leadership acquisition and maintenance.
+     *
+     * @throws Exception if the leadership attempt fails
+     */
     private void doWork() throws Exception {
         isLeader = false;
 
         try {
-            waitStartedState();
+            waitStartedStateOrFail();
             lock.tryAcquire(
                     null,
                     true,
@@ -248,7 +318,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
                 Thread.currentThread().interrupt();
                 throw e;
             } catch (Throwable e) {
-                logger.debug("takeLeadership exception", e);
+                logger.error("Unexpected error in takeLeadership", e);
             }
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -270,7 +340,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         }
     }
 
-    private void waitStartedState() throws InterruptedException {
+    private void waitStartedStateOrFail() throws InterruptedException {
         State localState = state.get();
         if (localState == State.STARTING) {
             startingLatch.await();
@@ -295,9 +365,10 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
     }
 
     /**
-     * Не гарантированы все, кроме лидера
+     * Gets all participants in the election.
+     * Note: Due to observer limitations, waiters may be visible only eventually (after lease changes).
      *
-     * @return
+     * @return list of election participants (owners and visible waiters)
      */
     public List<ElectionParticipant> getParticipants() {
         SemaphoreDescription semaphoreDescription = semaphoreObserver.getCachedData();
@@ -313,6 +384,11 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         ).collect(Collectors.toList());
     }
 
+    /**
+     * Gets the current leader if one exists.
+     *
+     * @return Optional containing the current leader, or empty if no leader exists
+     */
     public Optional<ElectionParticipant> getCurrentLeader() {
         SemaphoreDescription semaphoreDescription = semaphoreObserver.getCachedData();
         if (semaphoreDescription == null) {
@@ -336,18 +412,59 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         return sessionListenable;
     }
 
+    /**
+     * Closes the leader election and releases all resources.
+     * After closing, the instance cannot be reused.
+     */
     @Override
     public synchronized void close() {
-        // TODO: Учесть все стейты
-        Preconditions.checkState(state.compareAndSet(State.STARTED, State.CLOSED), "Already closed");
+        stopInternal(State.CLOSED);
+    }
 
+    /**
+     * Internal method to stop the election with the specified termination state.
+     *
+     * @param terminationState the state to transition to (FAILED or CLOSED)
+     * @return true if the state was changed, false if already terminated
+     */
+    private synchronized boolean stopInternal(State terminationState) {
+        State localState = state.get();
+        if (localState == State.FAILED || localState == State.CLOSED) {
+            logger.warn("Already stopped leader election {} with status: {}", electionName, localState);
+            return false;
+        }
+        logger.debug("Transitioning leader election {} from {} to {}", electionName, localState, terminationState);
+
+        // change state
+        state.set(terminationState);
+
+        // unblock starting latch if not yet
+        startingLatch.countDown();
+
+        // stop tasks
+        Future<Status> localInitializingTask = initializingTask.get();
+        if (localInitializingTask != null) {
+            localInitializingTask.cancel(true);
+            initializingTask.set(null);
+        }
         Future<Void> localTask = electionTask;
         if (localTask != null) {
             localTask.cancel(true);
             electionTask = null;
         }
 
-        blockingExecutor.shutdown();
-        semaphoreObserver.close();
+        // Clean up resources
+        try {
+            semaphoreObserver.close();
+        } catch (Exception e) {
+            logger.warn("Error closing semaphore observer for {}: {}", electionName, e.getMessage());
+        }
+
+        try {
+            blockingExecutor.shutdown();
+        } catch (Exception e) {
+            logger.warn("Error shutting down executor for {}: {}", electionName, e.getMessage());
+        }
+        return true;
     }
 }

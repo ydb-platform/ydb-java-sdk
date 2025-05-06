@@ -30,18 +30,18 @@ public class GroupMembershipIntegrationTest {
         ydbRule.close();
     }
 
-    private GroupMembershipImpl getGroupMembership(String testName) {
+    private GroupMembership getGroupMembership(String testName) {
         return getGroupMembership(testName, testName);
     }
 
-    private GroupMembershipImpl getGroupMembership(
+    private GroupMembership getGroupMembership(
             String coordinationNodePath,
             String groupName
     ) {
         client.createNode(coordinationNodePath).join().expectSuccess(
                 "cannot create coordination node on path: " + coordinationNodePath
         );
-        return new GroupMembershipImpl(
+        return new GroupMembership(
                 client,
                 coordinationNodePath,
                 groupName
@@ -52,7 +52,7 @@ public class GroupMembershipIntegrationTest {
     public void successTest() throws Exception {
         String testName = "successTest";
 
-        GroupMembershipImpl groupMembership = getGroupMembership(testName);
+        GroupMembership groupMembership = getGroupMembership(testName);
         groupMembership.start();
 
         List<GroupMember> currentMembers = groupMembership.getCurrentMembers();
