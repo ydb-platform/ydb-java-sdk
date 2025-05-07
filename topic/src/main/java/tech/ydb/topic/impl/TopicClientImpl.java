@@ -109,7 +109,7 @@ public class TopicClientImpl implements TopicClient {
                     .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
                     .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
                     .setAutoPartitioningSettings(YdbTopic.AutoPartitioningSettings.newBuilder()
-                            .setStrategy(partitioningSettings.getAutoPartitioningStrategy().getProtoReference())));
+                            .setStrategy(toProto(partitioningSettings.getAutoPartitioningStrategy()))));
 
             AutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings
                     .getWriteStrategySettings();
@@ -166,7 +166,7 @@ public class TopicClientImpl implements TopicClient {
             }
             AutoPartitioningStrategy autoPartitioningStrategy = partitioningSettings.getAutoPartitioningStrategy();
             if (autoPartitioningStrategy != null) {
-                YdbTopic.AutoPartitioningStrategy protoReference = autoPartitioningStrategy.getProtoReference();
+                YdbTopic.AutoPartitioningStrategy protoReference = toProto(autoPartitioningStrategy);
                 builder.getAlterAutoPartitioningSettingsBuilder().setSetStrategy(protoReference);
             }
             AlterAutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings
@@ -322,7 +322,7 @@ public class TopicClientImpl implements TopicClient {
         PartitioningSettings.Builder partitioningDescription = PartitioningSettings.newBuilder()
                 .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
                 .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
-                .setAutoPartitioningStrategy(AutoPartitioningStrategy.fromProto(autoPartitioningStrategy));
+                .setAutoPartitioningStrategy(fromProto(autoPartitioningStrategy));
 
         YdbTopic.AutoPartitioningWriteSpeedStrategy partitionWriteSpeed = autoPartitioningSettings
                 .getPartitionWriteSpeed();
@@ -447,6 +447,36 @@ public class TopicClientImpl implements TopicClient {
             codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
         }
         return codecsBuilder.build();
+    }
+
+    private static AutoPartitioningStrategy fromProto(YdbTopic.AutoPartitioningStrategy autoPartitioningStrategy) {
+        switch (autoPartitioningStrategy) {
+            case AUTO_PARTITIONING_STRATEGY_PAUSED:
+                return AutoPartitioningStrategy.PAUSED;
+            case AUTO_PARTITIONING_STRATEGY_SCALE_UP:
+                return AutoPartitioningStrategy.SCALE_UP;
+            case AUTO_PARTITIONING_STRATEGY_SCALE_UP_AND_DOWN:
+                return AutoPartitioningStrategy.SCALE_UP_AND_DOWN;
+            case AUTO_PARTITIONING_STRATEGY_DISABLED:
+                return AutoPartitioningStrategy.DISABLED;
+            default:
+                return null;
+        }
+    }
+
+    private static YdbTopic.AutoPartitioningStrategy toProto(AutoPartitioningStrategy autoPartitioningStrategy) {
+        switch (autoPartitioningStrategy) {
+            case PAUSED:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_PAUSED;
+            case SCALE_UP:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_SCALE_UP;
+            case SCALE_UP_AND_DOWN:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_SCALE_UP_AND_DOWN;
+            case DISABLED:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_DISABLED;
+            default:
+                throw new IllegalArgumentException("Unknown auto partitioning strategy: " + autoPartitioningStrategy);
+        }
     }
 
     @Override
