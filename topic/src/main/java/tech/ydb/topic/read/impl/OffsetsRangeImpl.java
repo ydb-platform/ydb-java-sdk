@@ -1,7 +1,5 @@
 package tech.ydb.topic.read.impl;
 
-import java.util.Objects;
-
 import tech.ydb.topic.description.OffsetsRange;
 
 /**
@@ -37,19 +35,5 @@ public class OffsetsRangeImpl implements OffsetsRange {
 
     public void setEnd(long end) {
         this.end = end;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        OffsetsRangeImpl that = (OffsetsRangeImpl) o;
-        return start == that.start && end == that.end;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(start, end);
     }
 }
