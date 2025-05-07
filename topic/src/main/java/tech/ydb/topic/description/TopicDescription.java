@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -178,5 +179,41 @@ public class TopicDescription {
         public TopicDescription build() {
             return new TopicDescription(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TopicDescription that = (TopicDescription) o;
+        return retentionStorageMb == that.retentionStorageMb &&
+                partitionWriteSpeedBytesPerSecond == that.partitionWriteSpeedBytesPerSecond &&
+                partitionWriteBurstBytes == that.partitionWriteBurstBytes &&
+                Objects.equals(partitioningSettings, that.partitioningSettings) &&
+                Objects.equals(partitions, that.partitions) &&
+                Objects.equals(retentionPeriod, that.retentionPeriod) &&
+                Objects.equals(supportedCodecs, that.supportedCodecs) &&
+                Objects.equals(attributes, that.attributes) &&
+                Objects.equals(consumers, that.consumers) &&
+                meteringMode == that.meteringMode &&
+                Objects.equals(topicStats, that.topicStats);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(
+                partitioningSettings,
+                partitions,
+                retentionPeriod,
+                retentionStorageMb,
+                supportedCodecs,
+                partitionWriteSpeedBytesPerSecond,
+                partitionWriteBurstBytes,
+                attributes,
+                consumers,
+                meteringMode,
+                topicStats
+        );
     }
 }
