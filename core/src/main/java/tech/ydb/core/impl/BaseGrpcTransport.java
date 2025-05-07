@@ -95,8 +95,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             logger.warn("UnaryCall[{}] got unexprected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
         } catch (RuntimeException ex) {
-            logger.warn("UnaryCall[{}] got problem {}", traceId, ex.getMessage());
-            return CompletableFuture.completedFuture(Result.error(ex.getMessage(), ex));
+            String message = ex.getMessage() != null ? ex.getMessage() : ex.toString();
+            logger.warn("UnaryCall[{}] got problem {}", traceId, message);
+            return CompletableFuture.completedFuture(Result.error(message, ex));
         }
     }
 
@@ -136,9 +137,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             logger.warn("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
-            logger.warn("ReadStreamCall[{}] got problem {}", traceId, ex.getMessage());
-            Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
-            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+            String message = ex.getMessage() != null ? ex.getMessage() : ex.toString();
+            logger.warn("ReadStreamCall[{}] got problem {}", traceId, message);
+            Issue issue = Issue.of(message, Issue.Severity.ERROR);
+            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, ex, issue));
         }
     }
 
@@ -180,9 +182,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             logger.warn("ReadWriteStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
         } catch (RuntimeException ex) {
-            logger.warn("ReadWriteStreamCall[{}] got problem {}", traceId, ex.getMessage());
-            Issue issue = Issue.of(ex.getMessage(), Issue.Severity.ERROR);
-            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+            String message = ex.getMessage() != null ? ex.getMessage() : ex.toString();
+            logger.warn("ReadWriteStreamCall[{}] got problem {}", traceId, message);
+            Issue issue = Issue.of(message, Issue.Severity.ERROR);
+            return new EmptyStream<>(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, ex, issue));
         }
     }
 
