@@ -9,16 +9,14 @@ import tech.ydb.core.settings.BaseRequestSettings;
 public class ExecuteQuerySettings extends BaseRequestSettings {
     private final QueryExecMode execMode;
     private final QueryStatsMode statsMode;
-
-    /**
-     * Resource pool
-     */
+    private final boolean concurrentResultSets;
     private final String resourcePool;
 
     private ExecuteQuerySettings(Builder builder) {
         super(builder);
         this.execMode = builder.execMode;
         this.statsMode = builder.statsMode;
+        this.concurrentResultSets = builder.concurrentResultSets;
         this.resourcePool = builder.resourcePool;
     }
 
@@ -30,6 +28,14 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         return this.statsMode;
     }
 
+    public boolean isConcurrentResultSets() {
+        return this.concurrentResultSets;
+    }
+
+    /**
+     * Get resource pool for query execution
+     * @return resource pool name
+     */
     public String getResourcePool() {
         return this.resourcePool;
     }
@@ -41,6 +47,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
     public static class Builder extends BaseBuilder<Builder> {
         private QueryExecMode execMode = QueryExecMode.EXECUTE;
         private QueryStatsMode statsMode = QueryStatsMode.NONE;
+        private boolean concurrentResultSets = false;
         private String resourcePool = null;
 
         public Builder withExecMode(QueryExecMode mode) {
@@ -53,12 +60,17 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
             return this;
         }
 
+        public Builder withConcurrentResultSets(boolean value) {
+            this.concurrentResultSets = value;
+            return this;
+        }
+
         /**
          * Set resource pool which query try to use.
          * If no pool specify or poolId is empty or poolId equals "default"
-         * the undeleted resource pool "default" wll be used
+         * the unremovable resource pool "default" will be used
          *
-         * @param poolId poolId in ydb
+         * @param poolId resource pool identifier
          *
          * @return builder
          */
