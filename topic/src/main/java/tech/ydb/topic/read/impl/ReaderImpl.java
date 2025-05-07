@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,7 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.read.PartitionOffsets;
@@ -49,16 +52,18 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
     private final AtomicReference<CompletableFuture<Void>> initResultFutureRef = new AtomicReference<>(null);
+    private final CodecRegistry codecRegistry;
 
     // Every reading stream has a sequential number (for debug purposes)
     private final AtomicLong seqNumberCounter = new AtomicLong(0);
     private final String consumerName;
 
-    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
+    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
         super(topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new ReadSessionImpl();
+        this.codecRegistry = codecRegistry;
         if (settings.getDecompressionExecutor() != null) {
             this.defaultDecompressionExecutorService = null;
             this.decompressionExecutor = settings.getDecompressionExecutor();
@@ -410,6 +415,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .setDecompressionExecutor(decompressionExecutor)
                     .setDataEventCallback(ReaderImpl.this::handleDataReceivedEvent)
                     .setCommitFunction((offsets) -> sendCommitOffsetRequest(partitionSessionId, partitionId, offsets))
+                    .setCodecRegistry(codecRegistry)
                     .build();
             partitionSessions.put(partitionSession.getId(), partitionSession);
 
