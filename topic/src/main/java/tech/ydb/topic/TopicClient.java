@@ -166,7 +166,7 @@ public interface TopicClient extends AutoCloseable {
     void close();
 
     /**
-     * Register custom codec implementation to TopicClient     *
+     * Register custom codec implementation to TopicClient
      *
      * @param codec - custom implementation
      */
