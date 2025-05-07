@@ -182,16 +182,6 @@ abstract class SessionImpl implements QuerySession {
         }
     }
 
-    private String mapPoolId(ExecuteQuerySettings settings) {
-        String actualPoolId = settings.getResourcePool();
-
-        if (actualPoolId == null) {
-            return YdbQuery.ExecuteQueryRequest.getDefaultInstance().getPoolId();
-        }
-
-        return actualPoolId;
-    }
-
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
             String query, YdbQuery.TransactionControl tx, Params prms, ExecuteQuerySettings settings
     ) {
@@ -199,13 +189,18 @@ abstract class SessionImpl implements QuerySession {
                 .setSessionId(sessionId)
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
+                .setConcurrentResultSets(settings.isConcurrentResultSets())
                 .setQueryContent(YdbQuery.QueryContent.newBuilder()
                         .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)
                         .setText(query)
                         .build()
                 )
-                .setPoolId(mapPoolId(settings))
                 .putAllParameters(prms.toPb());
+
+        String resourcePool = settings.getResourcePool();
+        if (resourcePool != null && !resourcePool.isEmpty()) {
+            requestBuilder.setPoolId(resourcePool);
+        }
 
         if (tx != null) {
             requestBuilder.setTxControl(tx);
