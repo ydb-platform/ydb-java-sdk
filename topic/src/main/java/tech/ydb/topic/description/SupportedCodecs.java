@@ -51,7 +51,9 @@ public class SupportedCodecs {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         SupportedCodecs that = (SupportedCodecs) o;
         return Objects.equals(codecs, that.codecs);
     }

@@ -73,7 +73,9 @@ public class AutoPartitioningWriteStrategySettings {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         AutoPartitioningWriteStrategySettings that = (AutoPartitioningWriteStrategySettings) o;
         return upUtilizationPercent == that.upUtilizationPercent &&
                 downUtilizationPercent == that.downUtilizationPercent &&

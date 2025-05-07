@@ -32,7 +32,9 @@ public class ConsumerDescription {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ConsumerDescription that = (ConsumerDescription) o;
         return Objects.equals(consumer, that.consumer) && Objects.equals(partitions, that.partitions);
     }

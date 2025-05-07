@@ -90,7 +90,9 @@ public class PartitionInfo {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         PartitionInfo that = (PartitionInfo) o;
         return partitionId == that.partitionId &&
                 active == that.active &&

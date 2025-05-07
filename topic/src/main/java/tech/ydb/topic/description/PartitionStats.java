@@ -130,7 +130,9 @@ public class PartitionStats {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         PartitionStats that = (PartitionStats) o;
         return storeSizeBytes == that.storeSizeBytes &&
                 partitionNodeId == that.partitionNodeId &&
@@ -142,6 +144,13 @@ public class PartitionStats {
 
     @Override
     public int hashCode() {
-        return Objects.hash(partitionOffsets, storeSizeBytes, lastWriteTime, maxWriteTimeLag, bytesWritten, partitionNodeId);
+        return Objects.hash(
+                partitionOffsets,
+                storeSizeBytes,
+                lastWriteTime,
+                maxWriteTimeLag,
+                bytesWritten,
+                partitionNodeId
+        );
     }
 }

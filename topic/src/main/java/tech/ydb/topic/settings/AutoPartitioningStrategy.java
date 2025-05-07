@@ -1,8 +1,8 @@
 package tech.ydb.topic.settings;
 
-import tech.ydb.proto.topic.YdbTopic;
-
 import javax.annotation.Nullable;
+
+import tech.ydb.proto.topic.YdbTopic;
 
 public enum AutoPartitioningStrategy {
     /**

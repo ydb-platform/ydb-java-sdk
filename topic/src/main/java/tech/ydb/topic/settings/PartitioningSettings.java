@@ -112,7 +112,9 @@ public class PartitioningSettings {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         PartitioningSettings that = (PartitioningSettings) o;
         return minActivePartitions == that.minActivePartitions &&
                 partitionCountLimit == that.partitionCountLimit &&

@@ -1,8 +1,8 @@
 package tech.ydb.topic.read.impl;
 
-import tech.ydb.topic.description.OffsetsRange;
-
 import java.util.Objects;
+
+import tech.ydb.topic.description.OffsetsRange;
 
 /**
  * @author Nikolay Perfilov
@@ -41,7 +41,9 @@ public class OffsetsRangeImpl implements OffsetsRange {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         OffsetsRangeImpl that = (OffsetsRangeImpl) o;
         return start == that.start && end == that.end;
     }

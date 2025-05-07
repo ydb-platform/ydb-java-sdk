@@ -80,7 +80,9 @@ public class TopicStats {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         TopicStats that = (TopicStats) o;
         return storeSizeBytes == that.storeSizeBytes &&
                 Objects.equals(minLastWriteTime, that.minLastWriteTime) &&

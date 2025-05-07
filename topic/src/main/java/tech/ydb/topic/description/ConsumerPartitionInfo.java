@@ -182,7 +182,9 @@ public class ConsumerPartitionInfo {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         ConsumerPartitionInfo that = (ConsumerPartitionInfo) o;
         return partitionId == that.partitionId &&
                 active == that.active &&
@@ -195,6 +197,14 @@ public class ConsumerPartitionInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hash(partitionId, active, childPartitionIds, parentPartitionIds, partitionStats, consumerStats, location);
+        return Objects.hash(
+                partitionId,
+                active,
+                childPartitionIds,
+                parentPartitionIds,
+                partitionStats,
+                consumerStats,
+                location
+        );
     }
 }

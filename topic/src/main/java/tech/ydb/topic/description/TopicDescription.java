@@ -183,7 +183,9 @@ public class TopicDescription {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         TopicDescription that = (TopicDescription) o;
         return retentionStorageMb == that.retentionStorageMb &&
                 partitionWriteSpeedBytesPerSecond == that.partitionWriteSpeedBytesPerSecond &&
@@ -200,6 +202,18 @@ public class TopicDescription {
 
     @Override
     public int hashCode() {
-        return Objects.hash(partitioningSettings, partitions, retentionPeriod, retentionStorageMb, supportedCodecs, partitionWriteSpeedBytesPerSecond, partitionWriteBurstBytes, attributes, consumers, meteringMode, topicStats);
+        return Objects.hash(
+                partitioningSettings,
+                partitions,
+                retentionPeriod,
+                retentionStorageMb,
+                supportedCodecs,
+                partitionWriteSpeedBytesPerSecond,
+                partitionWriteBurstBytes,
+                attributes,
+                consumers,
+                meteringMode,
+                topicStats
+        );
     }
 }

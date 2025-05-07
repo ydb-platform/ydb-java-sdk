@@ -1,8 +1,8 @@
 package tech.ydb.topic.description;
 
-import tech.ydb.proto.topic.YdbTopic;
-
 import java.util.Objects;
+
+import tech.ydb.proto.topic.YdbTopic;
 
 /**
  * @author Nikolay Perfilov
@@ -38,7 +38,9 @@ public class MultipleWindowsStat {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         MultipleWindowsStat that = (MultipleWindowsStat) o;
         return perMinute == that.perMinute && perHour == that.perHour && perDay == that.perDay;
     }

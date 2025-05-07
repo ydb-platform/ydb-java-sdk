@@ -144,7 +144,9 @@ public class Consumer {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Consumer consumer = (Consumer) o;
         return important == consumer.important &&
                 Objects.equals(name, consumer.name) &&

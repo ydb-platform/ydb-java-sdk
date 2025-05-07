@@ -111,11 +111,15 @@ public class TopicClientImpl implements TopicClient {
                     .setAutoPartitioningSettings(YdbTopic.AutoPartitioningSettings.newBuilder()
                             .setStrategy(partitioningSettings.getAutoPartitioningStrategy().getProtoReference())));
 
-            AutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings.getWriteStrategySettings();
+            AutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings
+                    .getWriteStrategySettings();
+
             if (writeStrategySettings != null) {
                 requestBuilder.getPartitioningSettingsBuilder().getAutoPartitioningSettingsBuilder()
                         .setPartitionWriteSpeed(YdbTopic.AutoPartitioningWriteSpeedStrategy.newBuilder()
-                                .setStabilizationWindow(ProtobufUtils.durationToProto(writeStrategySettings.getStabilizationWindow()))
+                                .setStabilizationWindow(ProtobufUtils.durationToProto(
+                                        writeStrategySettings.getStabilizationWindow()
+                                ))
                                 .setDownUtilizationPercent(writeStrategySettings.getDownUtilizationPercent())
                                 .setUpUtilizationPercent(writeStrategySettings.getUpUtilizationPercent())
                         );
@@ -162,9 +166,11 @@ public class TopicClientImpl implements TopicClient {
             }
             AutoPartitioningStrategy autoPartitioningStrategy = partitioningSettings.getAutoPartitioningStrategy();
             if (autoPartitioningStrategy != null) {
-                builder.getAlterAutoPartitioningSettingsBuilder().setSetStrategy(autoPartitioningStrategy.getProtoReference());
+                YdbTopic.AutoPartitioningStrategy protoReference = autoPartitioningStrategy.getProtoReference();
+                builder.getAlterAutoPartitioningSettingsBuilder().setSetStrategy(protoReference);
             }
-            AlterAutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings.getWriteStrategySettings();
+            AlterAutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings
+                    .getWriteStrategySettings();
             if (writeStrategySettings != null) {
                 Duration stabilizationWindow = writeStrategySettings.getStabilizationWindow();
                 if (stabilizationWindow != null) {
@@ -310,14 +316,20 @@ public class TopicClientImpl implements TopicClient {
                 .setMeteringMode(fromProto(result.getMeteringMode()));
 
         YdbTopic.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
+        YdbTopic.AutoPartitioningSettings autoPartitioningSettings = partitioningSettings.getAutoPartitioningSettings();
+        YdbTopic.AutoPartitioningStrategy autoPartitioningStrategy = autoPartitioningSettings.getStrategy();
+
         PartitioningSettings.Builder partitioningDescription = PartitioningSettings.newBuilder()
                 .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
                 .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
-                .setAutoPartitioningStrategy(AutoPartitioningStrategy.fromProto(partitioningSettings.getAutoPartitioningSettings().getStrategy()));
+                .setAutoPartitioningStrategy(AutoPartitioningStrategy.fromProto(autoPartitioningStrategy));
 
-        YdbTopic.AutoPartitioningWriteSpeedStrategy partitionWriteSpeed = partitioningSettings.getAutoPartitioningSettings().getPartitionWriteSpeed();
+        YdbTopic.AutoPartitioningWriteSpeedStrategy partitionWriteSpeed = autoPartitioningSettings
+                .getPartitionWriteSpeed();
         partitioningDescription.setWriteStrategySettings(AutoPartitioningWriteStrategySettings.newBuilder()
-                .setStabilizationWindow(ProtobufUtils.protoToDuration(partitionWriteSpeed.getStabilizationWindow()))
+                .setStabilizationWindow(ProtobufUtils.protoToDuration(
+                        partitionWriteSpeed.getStabilizationWindow()
+                ))
                 .setUpUtilizationPercent(partitionWriteSpeed.getUpUtilizationPercent())
                 .setDownUtilizationPercent(partitionWriteSpeed.getDownUtilizationPercent())
                 .build());

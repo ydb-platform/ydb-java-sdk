@@ -1,8 +1,8 @@
 package tech.ydb.topic.settings;
 
-import javax.annotation.Nullable;
-
 import java.time.Duration;
+
+import javax.annotation.Nullable;
 
 public class AlterAutoPartitioningWriteStrategySettings {
     @Nullable
