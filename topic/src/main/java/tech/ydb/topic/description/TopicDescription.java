@@ -179,5 +179,4 @@ public class TopicDescription {
             return new TopicDescription(this);
         }
     }
-
 }

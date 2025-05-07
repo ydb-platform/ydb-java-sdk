@@ -28,5 +28,4 @@ public class ConsumerDescription {
     public List<ConsumerPartitionInfo> getPartitions() {
         return partitions;
     }
-
 }

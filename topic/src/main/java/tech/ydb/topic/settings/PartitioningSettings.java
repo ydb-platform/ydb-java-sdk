@@ -6,10 +6,14 @@ package tech.ydb.topic.settings;
 public class PartitioningSettings {
     private final long minActivePartitions;
     private final long partitionCountLimit;
+    private final AutoPartitioningStrategy autoPartitioningStrategy;
+    private final AutoPartitioningWriteStrategySettings writeStrategySettings;
 
     private PartitioningSettings(Builder builder) {
         this.minActivePartitions = builder.minActivePartitions;
         this.partitionCountLimit = builder.partitionCountLimit;
+        this.autoPartitioningStrategy = builder.autoPartitioningStrategy;
+        this.writeStrategySettings = builder.writeStrategySettings;
     }
 
     /**
@@ -29,6 +33,20 @@ public class PartitioningSettings {
         return partitionCountLimit;
     }
 
+    /**
+     * @return  Auto partitioning strategy. Disabled by default
+     */
+    public AutoPartitioningStrategy getAutoPartitioningStrategy() {
+        return autoPartitioningStrategy;
+    }
+
+    /**
+     * @return  Auto partitioning write strategy settings. Does not have effect until the auto partitioning is enabled
+     */
+    public AutoPartitioningWriteStrategySettings getWriteStrategySettings() {
+        return writeStrategySettings;
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -39,6 +57,8 @@ public class PartitioningSettings {
     public static class Builder {
         private long minActivePartitions = 0;
         private long partitionCountLimit = 0;
+        private AutoPartitioningStrategy autoPartitioningStrategy = AutoPartitioningStrategy.DISABLED;
+        private AutoPartitioningWriteStrategySettings writeStrategySettings = null;
 
         /**
          * @param minActivePartitions  minimum partition count auto merge would stop working at.
@@ -58,6 +78,28 @@ public class PartitioningSettings {
          */
         public Builder setPartitionCountLimit(long partitionCountLimit) {
             this.partitionCountLimit = partitionCountLimit;
+            return this;
+        }
+
+        /**
+         * @param autoPartitioningStrategy  Strategy for auto partitioning.
+         *                                  Auto partitioning is disabled by default.
+         * @return settings builder
+         * @see AutoPartitioningStrategy#DISABLED
+         */
+        public Builder setAutoPartitioningStrategy(AutoPartitioningStrategy autoPartitioningStrategy) {
+            this.autoPartitioningStrategy = autoPartitioningStrategy;
+            return this;
+        }
+
+        /**
+         * @param writeStrategySettings     Settings for auto partitioning write strategy.
+         *                                  Does not have any effect if auto partitioning is disabled.
+         *                                  See {@link AutoPartitioningWriteStrategySettings} for defaults
+         * @return settings builder
+         */
+        public Builder setWriteStrategySettings(AutoPartitioningWriteStrategySettings writeStrategySettings) {
+            this.writeStrategySettings = writeStrategySettings;
             return this;
         }
 

@@ -1,5 +1,6 @@
 package tech.ydb.topic.impl;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -12,6 +13,7 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
@@ -27,7 +29,13 @@ import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.AbstractReadEventHandler;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.settings.AlterAutoPartitioningWriteStrategySettings;
+import tech.ydb.topic.settings.AlterPartitioningSettings;
+import tech.ydb.topic.settings.AlterTopicSettings;
+import tech.ydb.topic.settings.AutoPartitioningStrategy;
+import tech.ydb.topic.settings.AutoPartitioningWriteStrategySettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
@@ -131,7 +139,7 @@ public class YdbTopicsIntegrationTest {
         for (byte[] bytes: TEST_MESSAGES) {
             tech.ydb.topic.read.Message msg = reader.receive();
             Assert.assertArrayEquals(bytes, msg.getData());
-            msg.commit();
+            msg.commit().join();
         }
 
         reader.shutdown();
@@ -149,7 +157,11 @@ public class YdbTopicsIntegrationTest {
 
         for (int idx = TEST_MESSAGES.length - 1; idx >= 0; idx -= 1) {
             tech.ydb.topic.read.Message msg = reader.receive();
-            Assert.assertArrayEquals(TEST_MESSAGES[idx], msg.getData());
+            Assert.assertArrayEquals(
+                    new String(msg.getData()) + " on position " + idx,
+                    TEST_MESSAGES[idx],
+                    msg.getData()
+            );
         }
 
         reader.shutdown();
@@ -168,7 +180,11 @@ public class YdbTopicsIntegrationTest {
         DeferredCommitter committer = DeferredCommitter.newInstance();
         for (int idx = TEST_MESSAGES.length - 1; idx >= 0; idx -= 1) {
             tech.ydb.topic.read.Message msg = reader.receive();
-            Assert.assertArrayEquals(TEST_MESSAGES[idx], msg.getData());
+            Assert.assertArrayEquals(
+                    new String(msg.getData()) + " on position " + idx,
+                    TEST_MESSAGES[idx],
+                    msg.getData()
+            );
             committer.add(msg);
         }
 
@@ -177,7 +193,7 @@ public class YdbTopicsIntegrationTest {
     }
 
     @Test
-    public void step05_describeTopic() throws InterruptedException {
+    public void step05_describeTopic() {
         TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
 
         Assert.assertNull(description.getTopicStats());
@@ -226,5 +242,35 @@ public class YdbTopicsIntegrationTest {
             Assert.assertArrayEquals(TEST_MESSAGES[idx], results[idx]);
             Assert.assertArrayEquals(TEST_MESSAGES[idx], results[results.length - idx - 1]);
         }
+    }
+
+    @Ignore("remove ignore once :latest YDB container tag moves onto version 25.1")
+    @Test
+    public void step07_alterTopicWithAutoPartitioning() {
+        client.alterTopic(TEST_TOPIC, AlterTopicSettings.newBuilder()
+                        .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
+                                .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                                .setWriteStrategySettings(AlterAutoPartitioningWriteStrategySettings.newBuilder()
+                                        .setStabilizationWindow(Duration.ofMinutes(1))
+                                        .setUpUtilizationPercent(80)
+                                        .build())
+                                .build())
+                .build()).join().expectSuccess("can't alter the topic");
+
+        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
+
+        PartitioningSettings actualPartitioningSettings = description.getPartitioningSettings();
+        PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
+                .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                .setWriteStrategySettings(AutoPartitioningWriteStrategySettings.newBuilder()
+                        .setStabilizationWindow(Duration.ofMinutes(1))
+                        .setUpUtilizationPercent(80)
+                        .setDownUtilizationPercent(20)
+                        .build())
+                .setMinActivePartitions(1)
+                .setPartitionCountLimit(0)
+                .build();
+
+        Assert.assertEquals(expectedPartitioningSettings, actualPartitioningSettings);
     }
 }
