@@ -1,5 +1,7 @@
 package tech.ydb.topic.settings;
 
+import java.util.Objects;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -106,5 +108,22 @@ public class PartitioningSettings {
         public PartitioningSettings build() {
             return new PartitioningSettings(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PartitioningSettings that = (PartitioningSettings) o;
+        return minActivePartitions == that.minActivePartitions &&
+                partitionCountLimit == that.partitionCountLimit &&
+                autoPartitioningStrategy == that.autoPartitioningStrategy &&
+                Objects.equals(writeStrategySettings, that.writeStrategySettings);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(minActivePartitions, partitionCountLimit, autoPartitioningStrategy, writeStrategySettings);
     }
 }

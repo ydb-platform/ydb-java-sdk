@@ -2,6 +2,7 @@ package tech.ydb.topic.description;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.google.common.collect.ImmutableList;
 
@@ -85,5 +86,23 @@ public class PartitionInfo {
         public PartitionInfo build() {
             return new PartitionInfo(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        PartitionInfo that = (PartitionInfo) o;
+        return partitionId == that.partitionId &&
+                active == that.active &&
+                Objects.equals(childPartitionIds, that.childPartitionIds) &&
+                Objects.equals(parentPartitionIds, that.parentPartitionIds) &&
+                Objects.equals(partitionStats, that.partitionStats);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(partitionId, active, childPartitionIds, parentPartitionIds, partitionStats);
     }
 }
