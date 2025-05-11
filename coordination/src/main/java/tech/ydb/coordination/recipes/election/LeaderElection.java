@@ -11,14 +11,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.google.common.base.Preconditions;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,8 +28,8 @@ import tech.ydb.coordination.recipes.locks.LockInternals;
 import tech.ydb.coordination.recipes.util.Listenable;
 import tech.ydb.coordination.recipes.util.ListenableContainer;
 import tech.ydb.coordination.recipes.util.RetryableTask;
-import tech.ydb.coordination.recipes.util.SessionListenableProvider;
 import tech.ydb.coordination.recipes.util.SemaphoreObserver;
+import tech.ydb.coordination.recipes.util.SessionListenableProvider;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Status;
@@ -54,10 +52,6 @@ import tech.ydb.core.StatusCode;
  */
 public class LeaderElection implements Closeable, SessionListenableProvider {
     private static final Logger logger = LoggerFactory.getLogger(LeaderElection.class);
-    private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
-            .setNameFormat("ydb-leader-election-%d")
-            .setDaemon(true)
-            .build();
     private static final long MAX_LEASE = 1L;
 
     private final LeaderElectionListener leaderElectionListener;
@@ -148,7 +142,7 @@ public class LeaderElection implements Closeable, SessionListenableProvider {
         this.data = data;
         this.leaderElectionListener = leaderElectionListener;
         this.scheduledExecutor = settings.getScheduledExecutor();
-        this.blockingExecutor = Executors.newSingleThreadExecutor(threadFactory);
+        this.blockingExecutor = Executors.newSingleThreadExecutor();
         this.retryPolicy = settings.getRetryPolicy();
 
         this.coordinationSession = client.createSession(coordinationNodePath);

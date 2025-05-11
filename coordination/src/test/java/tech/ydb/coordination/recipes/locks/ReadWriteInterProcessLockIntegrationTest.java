@@ -10,6 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.junit.AfterClass;
@@ -20,6 +21,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 public class ReadWriteInterProcessLockIntegrationTest {
@@ -47,10 +49,16 @@ public class ReadWriteInterProcessLockIntegrationTest {
     public void simpleWriteLockTest() throws Exception {
         ReadWriteInterProcessLock rwLock = getReadWriteLock();
 
+        Consumer<CoordinationSession.State> listener = state -> logger.info("New state: " + state);
+        rwLock.writeLock().getSessionListenable().addListener(listener);
+
         rwLock.writeLock().acquire();
         Assert.assertTrue(rwLock.writeLock().isAcquiredInThisProcess());
         Thread.sleep(100);
         rwLock.writeLock().release();
+
+        rwLock.close();
+        rwLock.writeLock().getSessionListenable().removeListener(listener);
     }
 
     /**
@@ -64,6 +72,8 @@ public class ReadWriteInterProcessLockIntegrationTest {
         Assert.assertTrue(rwLock.readLock().isAcquiredInThisProcess());
         Thread.sleep(100);
         rwLock.readLock().release();
+
+        rwLock.close();
     }
 
     /**
@@ -81,6 +91,9 @@ public class ReadWriteInterProcessLockIntegrationTest {
 
         Assert.assertFalse(lock2.writeLock().acquire(Duration.ofMillis(100)));
         Assert.assertFalse(lock2.writeLock().isAcquiredInThisProcess());
+
+        lock1.close();
+        lock2.close();
     }
 
     /**
@@ -98,6 +111,9 @@ public class ReadWriteInterProcessLockIntegrationTest {
 
         Assert.assertTrue(lock2.readLock().acquire(Duration.ofMillis(100)));
         Assert.assertTrue(lock2.readLock().isAcquiredInThisProcess());
+
+        lock1.close();
+        lock2.close();
     }
 
 
@@ -116,6 +132,9 @@ public class ReadWriteInterProcessLockIntegrationTest {
 
         Assert.assertFalse(lock2.writeLock().acquire(Duration.ofMillis(100)));
         Assert.assertFalse(lock2.writeLock().isAcquiredInThisProcess());
+
+        lock1.close();
+        lock2.close();
     }
 
     /**
@@ -133,6 +152,9 @@ public class ReadWriteInterProcessLockIntegrationTest {
 
         Assert.assertFalse(lock2.readLock().acquire(Duration.ofMillis(100)));
         Assert.assertFalse(lock2.readLock().isAcquiredInThisProcess());
+
+        lock1.close();
+        lock2.close();
     }
 
     /**
@@ -254,6 +276,10 @@ public class ReadWriteInterProcessLockIntegrationTest {
 
         // Cleanup
         executor.shutdown();
+
+        lock1.close();
+        lock2.close();
+        lock3.close();
     }
 
     /**
@@ -284,6 +310,8 @@ public class ReadWriteInterProcessLockIntegrationTest {
         Assert.assertTrue(rwLock.readLock().acquire(Duration.ofMillis(100)));
         Assert.assertTrue(rwLock.readLock().isAcquiredInThisProcess());
         rwLock.readLock().release();
+
+        rwLock.close();
     }
 
     private ReadWriteInterProcessLock getReadWriteLock() {

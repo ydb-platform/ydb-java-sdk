@@ -149,7 +149,7 @@ public class ReadWriteInterProcessLock implements Closeable {
             CLOSED
         }
 
-        public InternalLock(
+        InternalLock(
                 CoordinationClient client,
                 String coordinationNodePath,
                 String lockName,

@@ -14,6 +14,8 @@ import org.mockito.stubbing.Answer;
 import org.mockito.stubbing.OngoingStubbing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tech.ydb.coordination.description.SemaphoreDescription;
+import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -209,6 +211,14 @@ public class CoordinationSessionBaseMockedTest {
 
         public OngoingStubbing<CompletableFuture<Result<SemaphoreLease>>> acquireEphemeralSemaphore() {
             return when(coordinationSession.acquireEphemeralSemaphore(anyString(), anyBoolean(), any(), any()));
+        }
+
+        public OngoingStubbing<CompletableFuture<Result<SemaphoreDescription>>> describeSemaphore() {
+            return when(coordinationSession.describeSemaphore(anyString(), any()));
+        }
+
+        public OngoingStubbing<CompletableFuture<Result<SemaphoreWatcher>>> watchSemaphore() {
+            return when(coordinationSession.watchSemaphore(anyString(), any(), any()));
         }
 
         public void connecting() {

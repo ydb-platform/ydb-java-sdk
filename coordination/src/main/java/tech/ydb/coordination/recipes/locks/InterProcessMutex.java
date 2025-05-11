@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.recipes.locks.exception.LockException;
@@ -96,6 +97,7 @@ public class InterProcessMutex implements InterProcessLock, Closeable {
                         sessionState);
                 state.set(State.FAILED);
             }
+            logger.info("New State: " + sessionState);
             sessionListenable.notifyListeners(sessionState);
         });
 
@@ -191,6 +193,7 @@ public class InterProcessMutex implements InterProcessLock, Closeable {
         state.set(State.CLOSED);
         try {
             lockInternals.close();
+            coordinationSession.close();
         } catch (Exception e) {
             logger.warn("Error while closing lock internals '{}'", lockName, e);
         }

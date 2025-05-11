@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.junit.AfterClass;
@@ -19,6 +20,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import tech.ydb.coordination.CoordinationClient;
+import tech.ydb.coordination.CoordinationSession;
 import tech.ydb.coordination.recipes.locks.exception.LockAlreadyAcquiredException;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
@@ -72,6 +74,34 @@ public class InterProcessMutexIntegrationTest {
         Assert.assertTrue(lock.isAcquiredInThisProcess());
         Thread.sleep(100);
         lock.release();
+    }
+
+    /**
+     * Asserts that code does not throw any exceptions
+     */
+    @Test(timeout = 10000)
+    public void sessionListenerTest() throws Exception {
+        InterProcessMutex lock = getInterProcessMutex();
+
+        Consumer<CoordinationSession.State> syncListener = state -> logger.info("Recieved sync state change: " + state);
+        Consumer<CoordinationSession.State> asyncListener = state -> logger.info("Recieved async state change: " + state);
+
+        lock.getSessionListenable().addListener(syncListener);
+        // try add listener twice
+        lock.getSessionListenable().addListener(syncListener);
+
+        lock.getSessionListenable().addListener(asyncListener, Executors.newSingleThreadExecutor());
+        // try add listener twice
+        lock.getSessionListenable().addListener(asyncListener, Executors.newSingleThreadExecutor());
+
+        lock.acquire();
+        Assert.assertTrue(lock.isAcquiredInThisProcess());
+        Thread.sleep(100);
+        lock.release();
+        lock.close();
+
+        lock.getSessionListenable().removeListener(syncListener);
+        lock.getSessionListenable().removeListener(asyncListener);
     }
 
     /**

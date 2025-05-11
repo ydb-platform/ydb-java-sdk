@@ -85,6 +85,39 @@ public class LeaderElectionIntegrationTest {
     }
 
     @Test
+    public void interruptLeadership_ThenStops() throws Exception {
+        AtomicBoolean leadershipTaken = new AtomicBoolean(false);
+        AtomicBoolean interrupted = new AtomicBoolean(false);
+
+        String testName = "interruptLeadership_ThenStops";
+        LeaderElection elector = getLeaderElector(testName, new LeaderElectionListener() {
+            @Override
+            public void takeLeadership() throws Exception {
+                try {
+                    logger.debug("Leadership is taken");
+                    leadershipTaken.set(true);
+                    Thread.sleep(10000);
+                } catch (InterruptedException e) {
+                    interrupted.set(true);
+                    logger.debug("Leadership is interrupted");
+                }
+            }
+        });
+        elector.start();
+        elector.requeue();
+
+        AwaitAssert.await().until(leadershipTaken::get);
+        Assert.assertTrue(leadershipTaken.get());
+
+        elector.interruptLeadership();
+        AwaitAssert.await().until(interrupted::get);
+        Assert.assertFalse(elector.isLeader());
+
+        elector.close();
+    }
+
+
+    @Test
     public void shouldCallTakeLeadershipAgainAfterRequeue() throws Exception {
         AtomicInteger leadershipCount = new AtomicInteger(0);
 
@@ -133,6 +166,8 @@ public class LeaderElectionIntegrationTest {
 
         Assert.assertEquals(1, participants1.size());
         Assert.assertTrue(leader1.isPresent());
+        Assert.assertTrue(leader1.get().isLeader());
+        Assert.assertArrayEquals(leader1.get().getData(), testName.getBytes(StandardCharsets.UTF_8));
         Assert.assertEquals(participants1.get(0).getSessionId(), leader1.get().getSessionId());
 
         // Add second leader
@@ -146,8 +181,8 @@ public class LeaderElectionIntegrationTest {
                 logger.info("Leadership 2 ended");
             }
         });
+        elector2.autoRequeue();
         elector2.start();
-        elector2.requeue();
 
         AwaitAssert.await().until(leader2Taken::get);
         // Check participants and leader
@@ -160,6 +195,9 @@ public class LeaderElectionIntegrationTest {
         Optional<ElectionParticipant> leader2 = elector2.getCurrentLeader();
         logger.info("current leader 2 {}", leader2);
         logger.info("current participants 2 {}", participants2);
+
+        Assert.assertEquals(participants1, participants2);
+        Assert.assertEquals(leader1.hashCode(), leader2.hashCode());
 
         Assert.assertTrue(leader2Taken.get());
         Assert.assertTrue(elector2.isLeader());

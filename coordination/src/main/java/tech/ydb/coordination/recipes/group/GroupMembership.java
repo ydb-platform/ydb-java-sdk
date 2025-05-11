@@ -16,6 +16,7 @@ import com.google.common.base.Preconditions;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.coordination.CoordinationClient;
 import tech.ydb.coordination.CoordinationSession;
@@ -24,6 +25,7 @@ import tech.ydb.coordination.recipes.util.Listenable;
 import tech.ydb.coordination.recipes.util.ListenableContainer;
 import tech.ydb.coordination.recipes.util.RetryableTask;
 import tech.ydb.coordination.recipes.util.SemaphoreObserver;
+import tech.ydb.coordination.recipes.util.SessionListenableProvider;
 import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
@@ -44,12 +46,13 @@ import tech.ydb.core.StatusCode;
  *
  * <p>The implementation uses a semaphore with watch capabilities to track membership.
  */
-public class GroupMembership implements Closeable {
+public class GroupMembership implements Closeable, SessionListenableProvider {
     private static final Logger logger = LoggerFactory.getLogger(GroupMembership.class);
     private static final long MAX_GROUP_SIZE = Long.MAX_VALUE;
     private static final Duration ACQUIRE_TIMEOUT = Duration.ofSeconds(30);
 
     private final String groupName;
+    private final byte[] data;
     private final RetryPolicy retryPolicy;
     private final ScheduledExecutorService scheduledExecutor;
 
@@ -89,12 +92,14 @@ public class GroupMembership implements Closeable {
     public GroupMembership(
             CoordinationClient coordinationClient,
             String coordinationNodePath,
-            String groupName
+            String groupName,
+            byte[] data
     ) {
         this(
                 coordinationClient,
                 coordinationNodePath,
                 groupName,
+                data,
                 GroupMembershipSettings.newBuilder()
                         .build()
         );
@@ -114,11 +119,13 @@ public class GroupMembership implements Closeable {
             CoordinationClient coordinationClient,
             String coordinationNodePath,
             String groupName,
+            byte[] data,
             GroupMembershipSettings settings
     ) {
         validateConstructorArgs(coordinationClient, coordinationNodePath, groupName, settings);
 
         this.groupName = groupName;
+        this.data = data;
         this.retryPolicy = settings.getRetryPolicy();
         this.scheduledExecutor = settings.getScheduledExecutor();
 
@@ -271,7 +278,7 @@ public class GroupMembership implements Closeable {
         logger.debug("Enqueuing new acquire task for group '{}'", groupName);
         CompletableFuture<Status> acquireRetryableTask = new RetryableTask(
                 "groupMembership-acquireSemaphoreTask-" + groupName,
-                () -> coordinationSession.acquireSemaphore(groupName, 1, ACQUIRE_TIMEOUT)
+                () -> coordinationSession.acquireSemaphore(groupName, 1, data, ACQUIRE_TIMEOUT)
                         .thenApply(Result::getStatus),
                 scheduledExecutor,
                 retryPolicy
@@ -330,6 +337,7 @@ public class GroupMembership implements Closeable {
      *
      * @return observable for coordination session state changes
      */
+    @Override
     public Listenable<CoordinationSession.State> getSessionListenable() {
         return sessionListenable;
     }
