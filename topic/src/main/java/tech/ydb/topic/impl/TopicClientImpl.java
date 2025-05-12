@@ -35,9 +35,12 @@ import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
 import tech.ydb.topic.read.impl.SyncReaderImpl;
+import tech.ydb.topic.settings.AlterAutoPartitioningWriteStrategySettings;
 import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
+import tech.ydb.topic.settings.AutoPartitioningStrategy;
+import tech.ydb.topic.settings.AutoPartitioningWriteStrategySettings;
 import tech.ydb.topic.settings.CommitOffsetSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeConsumerSettings;
@@ -104,7 +107,23 @@ public class TopicClientImpl implements TopicClient {
         if (partitioningSettings != null) {
             requestBuilder.setPartitioningSettings(YdbTopic.PartitioningSettings.newBuilder()
                     .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
-                    .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit()));
+                    .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
+                    .setAutoPartitioningSettings(YdbTopic.AutoPartitioningSettings.newBuilder()
+                            .setStrategy(toProto(partitioningSettings.getAutoPartitioningStrategy()))));
+
+            AutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings
+                    .getWriteStrategySettings();
+
+            if (writeStrategySettings != null) {
+                requestBuilder.getPartitioningSettingsBuilder().getAutoPartitioningSettingsBuilder()
+                        .setPartitionWriteSpeed(YdbTopic.AutoPartitioningWriteSpeedStrategy.newBuilder()
+                                .setStabilizationWindow(ProtobufUtils.durationToProto(
+                                        writeStrategySettings.getStabilizationWindow()
+                                ))
+                                .setDownUtilizationPercent(writeStrategySettings.getDownUtilizationPercent())
+                                .setUpUtilizationPercent(writeStrategySettings.getUpUtilizationPercent())
+                        );
+            }
         }
 
         Duration retentionPeriod = settings.getRetentionPeriod();
@@ -144,6 +163,30 @@ public class TopicClientImpl implements TopicClient {
             Long partitionCountLimit = partitioningSettings.getPartitionCountLimit();
             if (partitionCountLimit != null) {
                 builder.setSetPartitionCountLimit(partitionCountLimit);
+            }
+            AutoPartitioningStrategy autoPartitioningStrategy = partitioningSettings.getAutoPartitioningStrategy();
+            if (autoPartitioningStrategy != null) {
+                YdbTopic.AutoPartitioningStrategy protoReference = toProto(autoPartitioningStrategy);
+                builder.getAlterAutoPartitioningSettingsBuilder().setSetStrategy(protoReference);
+            }
+            AlterAutoPartitioningWriteStrategySettings writeStrategySettings = partitioningSettings
+                    .getWriteStrategySettings();
+            if (writeStrategySettings != null) {
+                Duration stabilizationWindow = writeStrategySettings.getStabilizationWindow();
+                if (stabilizationWindow != null) {
+                    builder.getAlterAutoPartitioningSettingsBuilder().getSetPartitionWriteSpeedBuilder()
+                            .setSetStabilizationWindow(ProtobufUtils.durationToProto(stabilizationWindow));
+                }
+                Integer upUtilizationPercent = writeStrategySettings.getUpUtilizationPercent();
+                if (upUtilizationPercent != null) {
+                    builder.getAlterAutoPartitioningSettingsBuilder().getSetPartitionWriteSpeedBuilder()
+                            .setSetUpUtilizationPercent(upUtilizationPercent);
+                }
+                Integer downUtilizationPercent = writeStrategySettings.getDownUtilizationPercent();
+                if (downUtilizationPercent != null) {
+                    builder.getAlterAutoPartitioningSettingsBuilder().getSetPartitionWriteSpeedBuilder()
+                            .setSetDownUtilizationPercent(downUtilizationPercent);
+                }
             }
             requestBuilder.setAlterPartitioningSettings(builder);
         }
@@ -273,10 +316,25 @@ public class TopicClientImpl implements TopicClient {
                 .setMeteringMode(fromProto(result.getMeteringMode()));
 
         YdbTopic.PartitioningSettings partitioningSettings = result.getPartitioningSettings();
-        description.setPartitioningSettings(PartitioningSettings.newBuilder()
+        YdbTopic.AutoPartitioningSettings autoPartitioningSettings = partitioningSettings.getAutoPartitioningSettings();
+        YdbTopic.AutoPartitioningStrategy autoPartitioningStrategy = autoPartitioningSettings.getStrategy();
+
+        PartitioningSettings.Builder partitioningDescription = PartitioningSettings.newBuilder()
                 .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
                 .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
+                .setAutoPartitioningStrategy(fromProto(autoPartitioningStrategy));
+
+        YdbTopic.AutoPartitioningWriteSpeedStrategy partitionWriteSpeed = autoPartitioningSettings
+                .getPartitionWriteSpeed();
+        partitioningDescription.setWriteStrategySettings(AutoPartitioningWriteStrategySettings.newBuilder()
+                .setStabilizationWindow(ProtobufUtils.protoToDuration(
+                        partitionWriteSpeed.getStabilizationWindow()
+                ))
+                .setUpUtilizationPercent(partitionWriteSpeed.getUpUtilizationPercent())
+                .setDownUtilizationPercent(partitionWriteSpeed.getDownUtilizationPercent())
                 .build());
+
+        description.setPartitioningSettings(partitioningDescription.build());
 
         List<PartitionInfo> partitions = new ArrayList<>();
         for (YdbTopic.DescribeTopicResult.PartitionInfo partition : result.getPartitionsList()) {
@@ -389,6 +447,36 @@ public class TopicClientImpl implements TopicClient {
             codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
         }
         return codecsBuilder.build();
+    }
+
+    private static AutoPartitioningStrategy fromProto(YdbTopic.AutoPartitioningStrategy autoPartitioningStrategy) {
+        switch (autoPartitioningStrategy) {
+            case AUTO_PARTITIONING_STRATEGY_PAUSED:
+                return AutoPartitioningStrategy.PAUSED;
+            case AUTO_PARTITIONING_STRATEGY_SCALE_UP:
+                return AutoPartitioningStrategy.SCALE_UP;
+            case AUTO_PARTITIONING_STRATEGY_SCALE_UP_AND_DOWN:
+                return AutoPartitioningStrategy.SCALE_UP_AND_DOWN;
+            case AUTO_PARTITIONING_STRATEGY_DISABLED:
+                return AutoPartitioningStrategy.DISABLED;
+            default:
+                return null;
+        }
+    }
+
+    private static YdbTopic.AutoPartitioningStrategy toProto(AutoPartitioningStrategy autoPartitioningStrategy) {
+        switch (autoPartitioningStrategy) {
+            case PAUSED:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_PAUSED;
+            case SCALE_UP:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_SCALE_UP;
+            case SCALE_UP_AND_DOWN:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_SCALE_UP_AND_DOWN;
+            case DISABLED:
+                return YdbTopic.AutoPartitioningStrategy.AUTO_PARTITIONING_STRATEGY_DISABLED;
+            default:
+                throw new IllegalArgumentException("Unknown auto partitioning strategy: " + autoPartitioningStrategy);
+        }
     }
 
     @Override
