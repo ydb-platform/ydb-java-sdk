@@ -3,8 +3,6 @@ package tech.ydb.topic.read;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 
-import tech.ydb.topic.description.Codec;
-
 /**
  * @author Nikolay Perfilov
  */
@@ -12,9 +10,9 @@ public class DecompressionException extends UncheckedIOException {
     private static final long serialVersionUID = 2720187645859527813L;
 
     private final byte[] rawData;
-    private final Codec codec;
+    private final int codec;
 
-    public DecompressionException(String message, IOException cause, byte[] rawData, Codec codec) {
+    public DecompressionException(String message, IOException cause, byte[] rawData, int codec) {
         super(message, cause);
         this.rawData = rawData;
         this.codec = codec;
@@ -30,7 +28,7 @@ public class DecompressionException extends UncheckedIOException {
     /**
      * @return Codec of message byte data
      */
-    public Codec getCodec() {
+    public int getCodec() {
         return codec;
     }
 }

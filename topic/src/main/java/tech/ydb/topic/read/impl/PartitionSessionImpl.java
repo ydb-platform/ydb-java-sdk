@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
@@ -54,9 +55,11 @@ public class PartitionSessionImpl {
     private final Consumer<List<OffsetsRange>> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
+    private final CodecRegistry codecRegistry;
     // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
+
 
     private PartitionSessionImpl(Builder builder) {
         this.id = builder.id;
@@ -70,6 +73,7 @@ public class PartitionSessionImpl {
         this.decompressionExecutor = builder.decompressionExecutor;
         this.dataEventCallback = builder.dataEventCallback;
         this.commitFunction = builder.commitFunction;
+        this.codecRegistry = builder.codecRegistry;
         logger.info("[{}] Partition session is started for Topic \"{}\" and Consumer \"{}\". CommittedOffset: {}. " +
                 "Partition offsets: {}-{}", fullId, topicPath, consumerName, lastReadOffset,
                 builder.partitionOffsets.getStart(), builder.partitionOffsets.getEnd());
@@ -289,7 +293,7 @@ public class PartitionSessionImpl {
 
         batch.getMessages().forEach(message -> {
             try {
-                message.setData(Encoder.decode(batch.getCodec(), message.getData()));
+                message.setData(Encoder.decode(batch.getCodec(), message.getData(), this.codecRegistry));
                 message.setDecompressed(true);
             } catch (IOException exception) {
                 message.setException(exception);
@@ -385,6 +389,7 @@ public class PartitionSessionImpl {
         private Executor decompressionExecutor;
         private Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
         private Consumer<List<OffsetsRange>> commitFunction;
+        private CodecRegistry codecRegistry;
 
         public Builder setId(long id) {
             this.id = id;
@@ -438,6 +443,11 @@ public class PartitionSessionImpl {
 
         public PartitionSessionImpl build() {
             return new PartitionSessionImpl(this);
+        }
+
+        public Builder setCodecRegistry(CodecRegistry codecRegistry) {
+            this.codecRegistry = codecRegistry;
+            return this;
         }
     }
 }

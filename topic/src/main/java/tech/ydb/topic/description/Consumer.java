@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -14,7 +13,6 @@ import com.google.common.collect.ImmutableMap;
 
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.topic.utils.ProtoUtils;
 
 /**
  * @author Nikolay Perfilov
@@ -23,7 +21,7 @@ public class Consumer {
     private final String name;
     private final boolean important;
     private final Instant readFrom;
-    private final List<Codec> supportedCodecs;
+    private final List<Integer> supportedCodecs;
     private final Map<String, String> attributes;
     private final ConsumerStats stats;
 
@@ -40,8 +38,7 @@ public class Consumer {
         this.name = consumer.getName();
         this.important = consumer.getImportant();
         this.readFrom = ProtobufUtils.protoToInstant(consumer.getReadFrom());
-        this.supportedCodecs = consumer.getSupportedCodecs().getCodecsList()
-                .stream().map(ProtoUtils::codecFromProto).collect(Collectors.toList());
+        this.supportedCodecs = new ArrayList<>(consumer.getSupportedCodecs().getCodecsList());
         this.attributes = consumer.getAttributesMap();
         this.stats = new ConsumerStats(consumer.getConsumerStats());
     }
@@ -68,7 +65,7 @@ public class Consumer {
         return new SupportedCodecs(supportedCodecs);
     }
 
-    public List<Codec> getSupportedCodecsList() {
+    public List<Integer> getSupportedCodecsList() {
         return supportedCodecs;
     }
 
@@ -88,7 +85,7 @@ public class Consumer {
         private String name;
         private boolean important = false;
         private Instant readFrom = null;
-        private List<Codec> supportedCodecs = new ArrayList<>();
+        private List<Integer> supportedCodecs = new ArrayList<>();
         private Map<String, String> attributes = new HashMap<>();
         private ConsumerStats stats = null;
 
@@ -107,7 +104,7 @@ public class Consumer {
             return this;
         }
 
-        public Builder addSupportedCodec(Codec codec) {
+        public Builder addSupportedCodec(int codec) {
             this.supportedCodecs.add(codec);
             return this;
         }

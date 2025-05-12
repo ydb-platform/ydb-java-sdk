@@ -12,6 +12,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
@@ -40,8 +42,8 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private final Condition queueIsNotEmptyCondition = queueLock.newCondition();
     private int currentMessageIndex = 0;
 
-    public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
-        super(topicRpc, settings);
+    public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
+        super(topicRpc, settings, codecRegistry);
     }
 
     private static class MessageBatchWrapper {
