@@ -1,5 +1,7 @@
 package tech.ydb.topic.read.events;
 
+import tech.ydb.topic.read.impl.events.SessionStartedEvent;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -22,4 +24,6 @@ public interface ReadEventHandler {
     default void onPartitionSessionClosed(PartitionSessionClosedEvent event) { }
 
     default void onReaderClosed(ReaderClosedEvent event) { }
+
+    default void onSessionStarted(SessionStartedEvent event) { }
 }

@@ -109,6 +109,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     }
 
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
+    protected abstract void handleSessionStarted(String sessionId);
     protected abstract void handleCommitResponse(long committedOffset, PartitionSession partitionSession);
     protected abstract void handleStartPartitionSessionRequest(
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
@@ -385,6 +386,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             sizeBytesToRequest.set(settings.getMaxMemoryUsageBytes());
             logger.info("[{}] Session {} initialized. Requesting {} bytes...", streamId, sessionId,
                     settings.getMaxMemoryUsageBytes());
+            handleSessionStarted(sessionId);
             sendReadRequest();
         }
 
