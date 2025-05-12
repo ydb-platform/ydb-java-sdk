@@ -852,12 +852,20 @@ public class ProtoValue {
                 return newUuid(value.getHigh128(), value.getLow128());
             case Date:
                 return PrimitiveValue.newDate(Integer.toUnsignedLong(value.getUint32Value()));
+            case Date32:
+                return PrimitiveValue.newDate32(value.getInt32Value());
             case Datetime:
                 return PrimitiveValue.newDatetime(Integer.toUnsignedLong(value.getUint32Value()));
+            case Datetime64:
+                return PrimitiveValue.newDatetime64(value.getInt64Value());
             case Timestamp:
                 return PrimitiveValue.newTimestamp(value.getUint64Value());
+            case Timestamp64:
+                return PrimitiveValue.newTimestamp64(value.getInt64Value());
             case Interval:
                 return PrimitiveValue.newInterval(value.getInt64Value());
+            case Interval64:
+                return PrimitiveValue.newInterval64(value.getInt64Value());
             case TzDate:
                 return PrimitiveValue.newTzDate(toTzDate(value));
             case TzDatetime:
