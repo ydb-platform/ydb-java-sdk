@@ -276,9 +276,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         incomingQueueLock.lock();
 
         try {
-            return this.lastAcceptedMessageFuture.isDone()
-                    ? CompletableFuture.completedFuture(null)
-                    : this.lastAcceptedMessageFuture.thenApply(v -> null);
+            return this.lastAcceptedMessageFuture.thenApply(v -> null);
         } finally {
             incomingQueueLock.unlock();
         }
