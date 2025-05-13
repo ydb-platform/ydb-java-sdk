@@ -269,6 +269,11 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         return tryToEnqueue(enqueuedMessage, instant).thenApply(v -> enqueuedMessage.getFuture());
     }
 
+    /**
+     * Create a wrapper upon the future for the flush method.
+     *
+     * @return an empty Future if successful. Throw CompletionException when an error occurs.
+     */
     protected CompletableFuture<Void> flushImpl() {
         if (this.lastAcceptedMessageFuture == null) {
             return CompletableFuture.completedFuture(null);
