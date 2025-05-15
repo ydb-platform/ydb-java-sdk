@@ -39,6 +39,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private final ReentrantLock queueLock = new ReentrantLock();
     private final Condition queueIsNotEmptyCondition = queueLock.newCondition();
     private int currentMessageIndex = 0;
+    private volatile String sessionId = null;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
         super(topicRpc, settings);
@@ -52,6 +53,11 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             this.messages = messages;
             this.future = future;
         }
+    }
+
+    @Override
+    public String getSessionId() {
+        return sessionId;
     }
 
     @Override
@@ -158,6 +164,11 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             queueLock.unlock();
         }
         return resultFuture;
+    }
+
+    @Override
+    protected void handleSessionStarted(String sessionId) {
+        this.sessionId = sessionId;
     }
 
     @Override
