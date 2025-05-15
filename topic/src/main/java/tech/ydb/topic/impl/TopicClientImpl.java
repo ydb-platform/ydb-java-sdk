@@ -373,15 +373,19 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public CompletableFuture<Status> commitOffset(String path, CommitOffsetSettings settings) {
-        YdbTopic.CommitOffsetRequest request = YdbTopic.CommitOffsetRequest.newBuilder()
+        YdbTopic.CommitOffsetRequest.Builder request = YdbTopic.CommitOffsetRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings))
                 .setOffset(settings.getOffset())
-                .setPath(path)
                 .setConsumer(settings.getConsumer())
                 .setPartitionId(settings.getPartitionId())
-                .build();
+                .setPath(path);
+
+        if (settings.getReadSessionId() != null) {
+            request.setReadSessionId(settings.getReadSessionId());
+        }
+
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
-        return topicRpc.commitOffset(request, grpcRequestSettings);
+        return topicRpc.commitOffset(request.build(), grpcRequestSettings);
     }
 
     @Override
