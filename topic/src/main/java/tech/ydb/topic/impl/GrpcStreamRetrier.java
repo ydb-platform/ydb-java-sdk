@@ -137,7 +137,11 @@ public abstract class GrpcStreamRetrier {
         }
 
         if (errorsHandler != null) {
-            errorsHandler.accept(status, th);
+            try {
+                errorsHandler.accept(status, th);
+            } catch (Exception ex) {
+                getLogger().error("[{}] error handler throws exception", id, ex);
+            }
         }
 
         if (!isStopped.get()) {
