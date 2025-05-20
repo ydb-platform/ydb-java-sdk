@@ -2,6 +2,7 @@ package tech.ydb.topic.description;
 
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import tech.ydb.proto.topic.YdbTopic;
@@ -27,5 +28,22 @@ public class ConsumerDescription {
 
     public List<ConsumerPartitionInfo> getPartitions() {
         return partitions;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        ConsumerDescription that = (ConsumerDescription) o;
+        return Objects.equals(consumer, that.consumer) && Objects.equals(partitions, that.partitions);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(consumer, partitions);
     }
 }

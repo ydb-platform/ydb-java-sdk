@@ -1,6 +1,7 @@
 package tech.ydb.topic.settings;
 
 import java.time.Duration;
+import java.util.Objects;
 
 public class AutoPartitioningWriteStrategySettings {
     private final Duration stabilizationWindow;
@@ -68,5 +69,24 @@ public class AutoPartitioningWriteStrategySettings {
         public AutoPartitioningWriteStrategySettings build() {
             return new AutoPartitioningWriteStrategySettings(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        AutoPartitioningWriteStrategySettings that = (AutoPartitioningWriteStrategySettings) o;
+        return upUtilizationPercent == that.upUtilizationPercent &&
+                downUtilizationPercent == that.downUtilizationPercent &&
+                Objects.equals(stabilizationWindow, that.stabilizationWindow);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(stabilizationWindow, upUtilizationPercent, downUtilizationPercent);
     }
 }
