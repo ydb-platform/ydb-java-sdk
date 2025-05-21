@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -136,5 +137,27 @@ public class Consumer {
             }
             return new Consumer(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Consumer consumer = (Consumer) o;
+        return important == consumer.important &&
+                Objects.equals(name, consumer.name) &&
+                Objects.equals(readFrom, consumer.readFrom) &&
+                Objects.equals(supportedCodecs, consumer.supportedCodecs) &&
+                Objects.equals(attributes, consumer.attributes) &&
+                Objects.equals(stats, consumer.stats);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, important, readFrom, supportedCodecs, attributes, stats);
     }
 }

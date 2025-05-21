@@ -22,10 +22,18 @@ public interface SyncReader {
     void initAndWait();
 
     /**
-     * Receive a {@link Message}. Blocks until a Message is received.
+     * Return identifier of read session.
+     * @return current read session identifier or null if session has not started yet
+     */
+    @Nullable
+    String getSessionId();
+
+    /**
+     * Receive a {@link Message}.Blocks until a Message is received.
      *
      * @param settings  settings for receiving a Message
      * @return returns a {@link Message}, or null if the specified timeout time elapses before a message is available
+     * @throws java.lang.InterruptedException if current thread was interrupted
      */
     Message receive(ReceiveSettings settings) throws InterruptedException;
 
@@ -35,6 +43,7 @@ public interface SyncReader {
      * @param timeout  timeout to wait a Message with
      * @param unit  TimeUnit for timeout
      * @return returns a {@link Message}, or null if the specified waiting time elapses before a message is available
+     * @throws java.lang.InterruptedException if current thread was interrupted
      */
     @Nullable
     default Message receive(long timeout, TimeUnit unit) throws InterruptedException {
@@ -47,6 +56,7 @@ public interface SyncReader {
      * Receive a {@link Message}. Blocks until a Message is received.
      *
      * @return {@link Message}
+     * @throws java.lang.InterruptedException if current thread was interrupted
      */
     default Message receive() throws InterruptedException {
         return receive(ReceiveSettings.newBuilder().build());

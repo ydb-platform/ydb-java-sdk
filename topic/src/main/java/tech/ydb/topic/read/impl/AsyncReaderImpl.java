@@ -30,6 +30,7 @@ import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
+import tech.ydb.topic.read.impl.events.SessionStartedEvent;
 import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
@@ -80,6 +81,18 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
                     "Can only read topic messages in already running transactions from other services");
         }
         return sendUpdateOffsetsInTransaction(transaction, offsets, settings);
+    }
+
+    @Override
+    protected void handleSessionStarted(String sessionId) {
+        handlerExecutor.execute(() -> {
+            try {
+                eventHandler.onSessionStarted(new SessionStartedEvent(sessionId));
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onSessionStarted");
+                throw th;
+            }
+        });
     }
 
     @Override

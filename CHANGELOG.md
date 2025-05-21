@@ -1,3 +1,17 @@
+## 2.3.14 ##
+
+* Core: Removed mockito-inline from compile dependencies
+* Core: Improved catching of RuntimeException in BaseGrpcTransport
+* Table: Fixed support of extended date types in ProtoValue
+* Query: Added support of concurrent_result_sets option
+* Topic: Add equals() and hashCode() methods to topic description classes
+* Topic: Fixed ErrorHandler behaviour
+* Topic: Added support of readSessionId
+* Topic: SyncWriter.flush() now throw Exception when previous task was failed
+* Topic: Add functional interface support to ReadEventHandler
+* Topic: Added support of auto-partitioning options to CreateTopic/AlterTopic
+* Topic: Fix logger prefix for partition session log events and print correct consumer name
+
 ## 2.3.13 ##
 
 * Topic: fixed reconnect after shutdown

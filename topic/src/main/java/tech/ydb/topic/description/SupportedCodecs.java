@@ -2,6 +2,7 @@ package tech.ydb.topic.description;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.google.common.collect.ImmutableList;
 
@@ -46,5 +47,22 @@ public class SupportedCodecs {
         public SupportedCodecs build() {
             return new SupportedCodecs(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        SupportedCodecs that = (SupportedCodecs) o;
+        return Objects.equals(codecs, that.codecs);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(codecs);
     }
 }
