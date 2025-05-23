@@ -66,7 +66,11 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
 
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
-        super(topicRpc.getScheduler(), settings.getErrorsHandler());
+        this(null, topicRpc, settings, compressionExecutor);
+    }
+
+    public WriterImpl(String id, TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
+        super(id, topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new WriteSessionImpl();

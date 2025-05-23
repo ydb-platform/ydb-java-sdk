@@ -35,9 +35,13 @@ public abstract class GrpcStreamRetrier {
     private final ScheduledExecutorService scheduler;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
-    protected GrpcStreamRetrier(ScheduledExecutorService scheduler, BiConsumer<Status, Throwable> errorsHandler) {
+    protected GrpcStreamRetrier(
+            String id,
+            ScheduledExecutorService scheduler,
+            BiConsumer<Status, Throwable> errorsHandler
+    ) {
         this.scheduler = scheduler;
-        this.id = generateRandomId(ID_LENGTH);
+        this.id = id == null ? generateRandomId(ID_LENGTH) : id;
         this.errorsHandler = errorsHandler;
     }
 

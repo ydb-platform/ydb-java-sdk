@@ -22,6 +22,10 @@ public class SyncWriterImpl extends WriterImpl implements SyncWriter {
         super(topicRpc, settings, compressionExecutor);
     }
 
+    public SyncWriterImpl(String id, TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
+        super(topicRpc, settings, compressionExecutor);
+    }
+
     @Override
     public void init() {
         initImpl();
