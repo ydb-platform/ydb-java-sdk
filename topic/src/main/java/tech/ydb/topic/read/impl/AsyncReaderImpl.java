@@ -47,10 +47,19 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private final ReadEventHandler eventHandler;
 
     public AsyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        super(topicRpc, settings);
+        this(null, topicRpc, settings, handlersSettings);
+    }
+
+    public AsyncReaderImpl(
+            String id,
+            TopicRpc topicRpc,
+            ReaderSettings settings,
+            ReadEventHandlersSettings handlersSettings
+    ) {
+        super(id, topicRpc, settings);
         this.eventHandler = handlersSettings.getEventHandler();
 
-        if (handlersSettings.getExecutor() != null) {
+        if (handlersSettings.getExecutor()!=null) {
             logger.debug("Using handler executor provided by user");
             this.defaultHandlerExecutorService = null;
             this.handlerExecutor = handlersSettings.getExecutor();

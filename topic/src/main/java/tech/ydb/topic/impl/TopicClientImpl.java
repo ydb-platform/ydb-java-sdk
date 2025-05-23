@@ -362,13 +362,13 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
-    public SyncReader createSyncReader(ReaderSettings settings) {
-        return new SyncReaderImpl(topicRpc, settings);
+    public SyncReader createSyncReader(String id, ReaderSettings settings) {
+        return new SyncReaderImpl(id, topicRpc, settings);
     }
 
     @Override
-    public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        return new AsyncReaderImpl(topicRpc, settings, handlersSettings);
+    public AsyncReader createAsyncReader(String id, ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
+        return new AsyncReaderImpl(id, topicRpc, settings, handlersSettings);
     }
 
     @Override
@@ -389,13 +389,13 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
-    public SyncWriter createSyncWriter(WriterSettings settings) {
-        return new SyncWriterImpl(topicRpc, settings, compressionExecutor);
+    public SyncWriter createSyncWriter(String id, WriterSettings settings) {
+        return new SyncWriterImpl(id, topicRpc, settings, compressionExecutor);
     }
 
     @Override
-    public AsyncWriter createAsyncWriter(WriterSettings settings) {
-        return new AsyncWriterImpl(topicRpc, settings, compressionExecutor);
+    public AsyncWriter createAsyncWriter(String id, WriterSettings settings) {
+        return new AsyncWriterImpl(id, topicRpc, settings, compressionExecutor);
     }
 
     private static YdbTopic.MeteringMode toProto(MeteringMode meteringMode) {

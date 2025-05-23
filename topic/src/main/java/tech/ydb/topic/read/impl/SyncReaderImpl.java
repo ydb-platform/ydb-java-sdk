@@ -45,6 +45,10 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         super(topicRpc, settings);
     }
 
+    public SyncReaderImpl(String id, TopicRpc topicRpc, ReaderSettings settings) {
+        super(id, topicRpc, settings);
+    }
+
     private static class MessageBatchWrapper {
         private final List<Message> messages;
         private final CompletableFuture<Void> future;
