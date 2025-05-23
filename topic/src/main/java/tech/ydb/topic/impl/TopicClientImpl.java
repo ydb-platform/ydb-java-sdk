@@ -367,7 +367,11 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
-    public AsyncReader createAsyncReader(String id, ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
+    public AsyncReader createAsyncReader(
+            String id,
+            ReaderSettings settings,
+            ReadEventHandlersSettings handlersSettings
+    ) {
         return new AsyncReaderImpl(id, topicRpc, settings, handlersSettings);
     }
 

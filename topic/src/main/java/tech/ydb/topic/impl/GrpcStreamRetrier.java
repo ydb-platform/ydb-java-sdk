@@ -41,7 +41,7 @@ public abstract class GrpcStreamRetrier {
             BiConsumer<Status, Throwable> errorsHandler
     ) {
         this.scheduler = scheduler;
-        this.id = id==null ? generateRandomId(ID_LENGTH):id;
+        this.id = id == null ? generateRandomId(ID_LENGTH) : id;
         this.errorsHandler = errorsHandler;
     }
 
