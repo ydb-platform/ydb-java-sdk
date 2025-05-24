@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,6 +50,7 @@ import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableIndex;
+import tech.ydb.table.description.TableOptionDescription;
 import tech.ydb.table.description.TableTtl;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
@@ -70,6 +72,7 @@ import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateSessionSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DeleteSessionSettings;
+import tech.ydb.table.settings.DescribeTableOptionsSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
@@ -665,6 +668,18 @@ public abstract class BaseSession implements Session {
                 .thenApply(res -> mapDescribeTable(res, settings));
     }
 
+    @Override
+    public CompletableFuture<Result<TableOptionDescription>> describeTableOptions(DescribeTableOptionsSettings settings) {
+        YdbTable.DescribeTableOptionsRequest request = YdbTable.DescribeTableOptionsRequest.newBuilder()
+                .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
+                .build();
+
+        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
+        return tableRpc.describeTableOptions(request, grpcRequestSettings)
+                .thenApply(BaseSession::mapDescribeTableOptions);
+    }
+
     private static TableTtl mapTtlSettings(YdbTable.TtlSettings ttl) {
         switch (ttl.getModeCase()) {
             case DATE_TYPE_COLUMN:
@@ -897,6 +912,79 @@ public abstract class BaseSession implements Session {
         }
         return settings.build();
     }
+
+    private static Result<TableOptionDescription> mapDescribeTableOptions(Result<YdbTable.DescribeTableOptionsResult> describeTableOptionsResult) {
+        if (!describeTableOptionsResult.isSuccess()) {
+            return describeTableOptionsResult.map(null);
+        }
+
+        YdbTable.DescribeTableOptionsResult describeResult = describeTableOptionsResult.getValue();
+
+        TableOptionDescription.Builder builder = TableOptionDescription.newBuilder();
+
+        builder.setTableProfileDescriptions(new ArrayList<>());
+        for (YdbTable.TableProfileDescription tableProfileDescription : describeResult.getTableProfilePresetsList()) {
+            TableOptionDescription.TableProfileDescription.Builder descBuilder = TableOptionDescription.TableProfileDescription.newBuilder();
+            descBuilder.setName(tableProfileDescription.getName());
+            descBuilder.setLabels(tableProfileDescription.getLabelsMap());
+
+            descBuilder.setDefaultStoragePolicy(tableProfileDescription.getDefaultStoragePolicy());
+            descBuilder.setDefaultCompactionPolicy(tableProfileDescription.getDefaultCompactionPolicy());
+            descBuilder.setDefaultPartitioningPolicy(tableProfileDescription.getDefaultPartitioningPolicy());
+            descBuilder.setDefaultExecutionPolicy(tableProfileDescription.getDefaultExecutionPolicy());
+            descBuilder.setDefaultReplicationPolicy(tableProfileDescription.getDefaultReplicationPolicy());
+            descBuilder.setDefaultCachingPolicy(tableProfileDescription.getDefaultCachingPolicy());
+
+            descBuilder.setAllowedStoragePolicy(tableProfileDescription.getAllowedStoragePoliciesList());
+            descBuilder.setAllowedCompactionPolicy(tableProfileDescription.getAllowedCompactionPoliciesList());
+            descBuilder.setAllowedPartitioningPolicy(tableProfileDescription.getAllowedPartitioningPoliciesList());
+            descBuilder.setAllowedExecutionPolicy(tableProfileDescription.getAllowedExecutionPoliciesList());
+            descBuilder.setAllowedReplicationPolicy(tableProfileDescription.getAllowedReplicationPoliciesList());
+            descBuilder.setAllowedCachingPolicy(tableProfileDescription.getAllowedCachingPoliciesList());
+
+            TableOptionDescription.TableProfileDescription description = new TableOptionDescription.TableProfileDescription(descBuilder);
+            builder.getTableProfileDescriptions().add(description);
+        }
+
+        List<TableOptionDescription.StoragePolicyDescription> storagePolicyDescription = new ArrayList<>();
+        builder.setStoragePolicyPresets(storagePolicyDescription);
+        for (YdbTable.StoragePolicyDescription iter : describeResult.getStoragePolicyPresetsList()) {
+            storagePolicyDescription.add(new TableOptionDescription.StoragePolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.CompactionPolicyDescription> compactionPolicyDescription = new ArrayList<>();
+        builder.setCompactionPolicyPresets(compactionPolicyDescription);
+        for (YdbTable.CompactionPolicyDescription iter : describeResult.getCompactionPolicyPresetsList()) {
+            compactionPolicyDescription.add(new TableOptionDescription.CompactionPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.PartitioningPolicyDescription> partitioningPolicyPresets = new ArrayList<>();
+        builder.setPartitioningPolicyPresets(partitioningPolicyPresets);
+        for (YdbTable.PartitioningPolicyDescription iter : describeResult.getPartitioningPolicyPresetsList()) {
+            partitioningPolicyPresets.add(new TableOptionDescription.PartitioningPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.ExecutionPolicyDescription> executionPolicyDescriptions = new ArrayList<>();
+        builder.setExecutionPolicyPresets(executionPolicyDescriptions);
+        for (YdbTable.ExecutionPolicyDescription iter : describeResult.getExecutionPolicyPresetsList()) {
+            executionPolicyDescriptions.add(new TableOptionDescription.ExecutionPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.ReplicationPolicyDescription> replicationPolicyPresets = new ArrayList<>();
+        builder.setReplicationPolicyPresets(replicationPolicyPresets);
+        for (YdbTable.ReplicationPolicyDescription iter : describeResult.getReplicationPolicyPresetsList()) {
+            replicationPolicyPresets.add(new TableOptionDescription.ReplicationPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.CachingPolicyDescription> cachingPolicyPresets = new ArrayList<>();
+        builder.setCachingPolicyPresets(cachingPolicyPresets);
+        for (YdbTable.CachingPolicyDescription iter : describeResult.getCachingPolicyPresetsList()) {
+            cachingPolicyPresets.add(new TableOptionDescription.CachingPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        return Result.success(new TableOptionDescription(builder));
+    }
+
 
     protected CompletableFuture<Result<DataQueryResult>> executeDataQueryInternal(
             String query, YdbTable.TransactionControl txControl, Params params, ExecuteDataQuerySettings settings) {
