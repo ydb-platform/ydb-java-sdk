@@ -1,12 +1,17 @@
 package tech.ydb.table.description;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+
+/**
+ * Description of table options which is set globally in YDB
+ *
+ *  @author Evgeny Kuvardin
+ */
 public class TableOptionDescription {
 
     private final List<TableProfileDescription> tableProfileDescriptions;
@@ -59,6 +64,9 @@ public class TableOptionDescription {
         return cachingPolicyPresets;
     }
 
+    /**
+     * Builder to construct {@link TableOptionDescription}
+     */
     public static class Builder {
         private List<TableProfileDescription> tableProfileDescriptions;
         private List<StoragePolicyDescription> storagePolicyPresets;
@@ -76,48 +84,24 @@ public class TableOptionDescription {
             this.tableProfileDescriptions = tableProfileDescriptions;
         }
 
-        public List<StoragePolicyDescription> getStoragePolicyPresets() {
-            return storagePolicyPresets;
-        }
-
         public void setStoragePolicyPresets(List<StoragePolicyDescription> storagePolicyPresets) {
             this.storagePolicyPresets = storagePolicyPresets;
-        }
-
-        public List<CompactionPolicyDescription> getCompactionPolicyPresets() {
-            return compactionPolicyPresets;
         }
 
         public void setCompactionPolicyPresets(List<CompactionPolicyDescription> compactionPolicyPresets) {
             this.compactionPolicyPresets = compactionPolicyPresets;
         }
 
-        public List<PartitioningPolicyDescription> getPartitioningPolicyPresets() {
-            return partitioningPolicyPresets;
-        }
-
         public void setPartitioningPolicyPresets(List<PartitioningPolicyDescription> partitioningPolicyPresets) {
             this.partitioningPolicyPresets = partitioningPolicyPresets;
-        }
-
-        public List<ExecutionPolicyDescription> getExecutionPolicyPresets() {
-            return executionPolicyPresets;
         }
 
         public void setExecutionPolicyPresets(List<ExecutionPolicyDescription> executionPolicyPresets) {
             this.executionPolicyPresets = executionPolicyPresets;
         }
 
-        public List<ReplicationPolicyDescription> getReplicationPolicyPresets() {
-            return replicationPolicyPresets;
-        }
-
         public void setReplicationPolicyPresets(List<ReplicationPolicyDescription> replicationPolicyPresets) {
             this.replicationPolicyPresets = replicationPolicyPresets;
-        }
-
-        public List<CachingPolicyDescription> getCachingPolicyPresets() {
-            return cachingPolicyPresets;
         }
 
         public void setCachingPolicyPresets(List<CachingPolicyDescription> cachingPolicyPresets) {
@@ -125,6 +109,9 @@ public class TableOptionDescription {
         }
     }
 
+    /**
+     * Describe profile and associated settings to it
+     */
     public static class TableProfileDescription {
         private final String name;
         private final Map<String, String> labels;
@@ -221,6 +208,9 @@ public class TableOptionDescription {
             return allowedCachingPolicy;
         }
 
+        /**
+         * Builder to construct {@link TableProfileDescription}
+         */
         public static class Builder {
             String name;
             Map<String, String> labels;
@@ -302,9 +292,16 @@ public class TableOptionDescription {
         }
     }
 
+    /**
+     * Describe storage policy
+     * <p>
+     * For example
+     * which codec is used
+     * where sored log an etc
+     */
     public static class StoragePolicyDescription {
         private final String name;
-        private final Map<String,String> labels;
+        private final Map<String, String> labels;
 
         public StoragePolicyDescription(String name, Map<String, String> labels) {
             this.name = name;
@@ -320,9 +317,12 @@ public class TableOptionDescription {
         }
     }
 
+    /**
+     * Describe compaction policy
+     */
     public static class CompactionPolicyDescription {
         private final String name;
-        private final Map<String,String> labels;
+        private final Map<String, String> labels;
 
         public CompactionPolicyDescription(String name, Map<String, String> labels) {
             this.name = name;
@@ -338,9 +338,15 @@ public class TableOptionDescription {
         }
     }
 
+    /**
+     * Describe partition policy
+     * <p>
+     * For example
+     * split_threshold or is auto_split enabled
+     */
     public static class PartitioningPolicyDescription {
         private final String name;
-        private final Map<String,String> labels;
+        private final Map<String, String> labels;
 
         public PartitioningPolicyDescription(String name, Map<String, String> labels) {
             this.name = name;
@@ -356,9 +362,15 @@ public class TableOptionDescription {
         }
     }
 
+    /**
+     * Describe execution policy
+     * <p>
+     * For example
+     * pipeline_width or is bloom filter is used
+     */
     public static class ExecutionPolicyDescription {
         private final String name;
-        private final Map<String,String> labels;
+        private final Map<String, String> labels;
 
         public ExecutionPolicyDescription(String name, Map<String, String> labels) {
             this.name = name;
@@ -374,9 +386,14 @@ public class TableOptionDescription {
         }
     }
 
+    /**
+     * Describe replication policy
+     * <p>
+     * For example is followers enabled
+     */
     public static class ReplicationPolicyDescription {
         private final String name;
-        private final Map<String,String> labels;
+        private final Map<String, String> labels;
 
         public ReplicationPolicyDescription(String name, Map<String, String> labels) {
             this.name = name;
@@ -392,9 +409,12 @@ public class TableOptionDescription {
         }
     }
 
+    /**
+     * Describe caching policy
+     */
     public static class CachingPolicyDescription {
         private final String name;
-        private final Map<String,String> labels;
+        private final Map<String, String> labels;
 
         public CachingPolicyDescription(String name, Map<String, String> labels) {
             this.name = name;

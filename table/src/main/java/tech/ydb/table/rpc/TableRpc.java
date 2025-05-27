@@ -248,7 +248,8 @@ public interface TableRpc extends AutoCloseable {
      * @param settings rpc call settings
      * @return GrpcReadStream object that allows to start and cancel the stream
      */
-    CompletableFuture<Result<YdbTable.DescribeTableOptionsResult>> describeTableOptions(YdbTable.DescribeTableOptionsRequest request,
-                                                                         GrpcRequestSettings settings);
+    CompletableFuture<Result<YdbTable.DescribeTableOptionsResult>> describeTableOptions(
+            YdbTable.DescribeTableOptionsRequest request,
+            GrpcRequestSettings settings);
 }
 

@@ -90,6 +90,12 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
+    /**
+     * Get global table options settings
+     *
+     * @param settings settings
+     * @return global table options settings
+     */
     CompletableFuture<Result<TableOptionDescription>> describeTableOptions(DescribeTableOptionsSettings settings);
 
     /**
@@ -226,6 +232,11 @@ public interface Session extends AutoCloseable {
         return executeBulkUpsert(tablePath, rows, new BulkUpsertSettings());
     }
 
+    /**
+     * Get table option settings
+     *
+     * @return fully described options settings
+     */
     default CompletableFuture<Result<TableOptionDescription>> describeTableOptions() {
         return describeTableOptions(new DescribeTableOptionsSettings());
     }
