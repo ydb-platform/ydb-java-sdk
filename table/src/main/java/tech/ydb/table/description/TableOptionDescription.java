@@ -1,6 +1,5 @@
 package tech.ydb.table.description;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -80,7 +79,7 @@ public class TableOptionDescription {
             return tableProfileDescriptions;
         }
 
-        public void setTableProfileDescriptions(ArrayList<TableProfileDescription> tableProfileDescriptions) {
+        public void setTableProfileDescriptions(List<TableProfileDescription> tableProfileDescriptions) {
             this.tableProfileDescriptions = tableProfileDescriptions;
         }
 

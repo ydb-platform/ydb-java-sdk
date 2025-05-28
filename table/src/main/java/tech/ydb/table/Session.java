@@ -91,10 +91,10 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
     /**
-     * Get global table options settings
+     * Get table option settings
      *
      * @param settings settings
-     * @return global table options settings
+     * @return fully described options settings
      */
     CompletableFuture<Result<TableOptionDescription>> describeTableOptions(DescribeTableOptionsSettings settings);
 
@@ -233,7 +233,7 @@ public interface Session extends AutoCloseable {
     }
 
     /**
-     * Get table option settings
+     * Get table option settings with default {@link DescribeTableOptionsSettings}
      *
      * @return fully described options settings
      */

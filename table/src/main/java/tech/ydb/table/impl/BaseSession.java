@@ -924,13 +924,14 @@ public abstract class BaseSession implements Session {
 
         TableOptionDescription.Builder builder = TableOptionDescription.newBuilder();
 
-        builder.setTableProfileDescriptions(new ArrayList<>());
+        List<TableOptionDescription.TableProfileDescription> tableProfileDescriptions = new ArrayList<>();
+        builder.setTableProfileDescriptions(tableProfileDescriptions);
         for (YdbTable.TableProfileDescription tableProfileDescription : describeResult.getTableProfilePresetsList()) {
             TableOptionDescription.TableProfileDescription.Builder descBuilder =
                     getDescBuilder(tableProfileDescription);
 
             TableOptionDescription.TableProfileDescription description = descBuilder.build();
-            builder.getTableProfileDescriptions().add(description);
+            tableProfileDescriptions.add(description);
         }
 
         List<TableOptionDescription.StoragePolicyDescription> storagePolicyDescription = new ArrayList<>();

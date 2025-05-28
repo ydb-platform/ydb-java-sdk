@@ -38,7 +38,7 @@ public class TableOptionTest {
     private final SessionRetryContext ctx = SessionRetryContext.create(tableClient).build();
 
     /**
-     * Test checks that call to describe table options works with the default settings
+     * The test checks that the call to describe table options works with the default settings.
      */
     @Test
     public void tableOptionsTestShouldGetGlobalOptionsWithDefaultSettings() {
@@ -52,7 +52,7 @@ public class TableOptionTest {
     }
 
     /**
-     * Test checks that call to describe table options works with all set options
+     * The test checks that the call to describe table options works with all set options
      */
     @Test
     public void tableOptionsTestShouldGetGlobalOptions() {
@@ -72,8 +72,8 @@ public class TableOptionTest {
     }
 
     /**
-     * Test checks that call to describe table options fails when we set client timeout as low as possible
-     * and request can't be completed in this time.
+     * The test checks that the call to describe table options fails when we set the client timeout as low as possible.
+     * and the request can't be completed in this time.
      * We should catch StatusCode == CLIENT_DEADLINE_EXPIRED
      */
     @Test
