@@ -75,10 +75,6 @@ public class TableOptionDescription {
         private List<ReplicationPolicyDescription> replicationPolicyPresets;
         private List<CachingPolicyDescription> cachingPolicyPresets;
 
-        public List<TableProfileDescription> getTableProfileDescriptions() {
-            return tableProfileDescriptions;
-        }
-
         public void setTableProfileDescriptions(List<TableProfileDescription> tableProfileDescriptions) {
             this.tableProfileDescriptions = tableProfileDescriptions;
         }
