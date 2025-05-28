@@ -776,7 +776,12 @@ public abstract class BaseSession implements Session {
 
         for (int i = 0; i < desc.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = desc.getColumns(i);
-            description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());
+            description.addColumn(new TableColumn(
+                    column.getName(),
+                    ProtoType.fromPb(column.getType()),
+                    column.getFamily(),
+                    column.hasFromLiteral() || column.hasFromSequence()
+            ));
         }
         description.setPrimaryKeys(desc.getPrimaryKeyList());
         for (int i = 0; i < desc.getIndexesCount(); i++) {
