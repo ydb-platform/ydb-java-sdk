@@ -227,6 +227,16 @@ public final class GrpcTableRpc implements TableRpc {
     }
 
     @Override
+    public CompletableFuture<Result<YdbTable.DescribeTableOptionsResult>> describeTableOptions(
+            YdbTable.DescribeTableOptionsRequest request, GrpcRequestSettings settings
+    ) {
+        return transport.unaryCall(TableServiceGrpc.getDescribeTableOptionsMethod(), settings, request)
+                .thenApply(OperationBinder.bindSync(
+                        YdbTable.DescribeTableOptionsResponse::getOperation, YdbTable.DescribeTableOptionsResult.class
+                ));
+    }
+
+    @Override
     public String getDatabase() {
         return transport.getDatabase();
     }
