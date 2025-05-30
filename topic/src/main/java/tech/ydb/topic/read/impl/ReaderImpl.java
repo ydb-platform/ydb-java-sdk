@@ -55,7 +55,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     private final String consumerName;
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
-        super(settings.getDebugId(), topicRpc.getScheduler(), settings.getErrorsHandler());
+        super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new ReadSessionImpl();
