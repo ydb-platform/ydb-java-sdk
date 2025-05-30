@@ -268,7 +268,7 @@ public class YdbTopicsIntegrationTest {
                         .setDownUtilizationPercent(20)
                         .build())
                 .setMinActivePartitions(1)
-                .setPartitionCountLimit(0)
+                .setMaxActivePartitions(1)
                 .build();
 
         Assert.assertEquals(expectedPartitioningSettings, actualPartitioningSettings);
