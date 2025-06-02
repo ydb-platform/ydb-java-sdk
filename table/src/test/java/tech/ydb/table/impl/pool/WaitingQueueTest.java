@@ -22,7 +22,7 @@ public class WaitingQueueTest extends FutureHelper {
     private final static String LIMIT_EXCEEDED = "Objects limit exceeded, code: CLIENT_RESOURCE_EXHAUSTED";
     private final static String QUEUE_IS_CLOSED = "Queue is already closed";
 
-    public class Resource {
+    public static class Resource {
         private final int id;
 
         Resource(int id) {
@@ -170,7 +170,7 @@ public class WaitingQueueTest extends FutureHelper {
         queue.delete(r2);
         check(rs).requestsCount(0).activeCount(0);
 
-        // afrer deleting resource pool is empty
+        // after deleting resource pool is empty
         CompletableFuture<Resource> second = pendingFuture(acquire(queue));
         // next acquire is rejected
         exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
@@ -203,7 +203,7 @@ public class WaitingQueueTest extends FutureHelper {
 
         check(queue).queueSize(1).idleSize(0);
 
-        // After cancelation future resource will go to idle
+        // After cancellation future resource will go to idle
         first.cancel(true);
         rs.completeNext();
         check(queue).queueSize(1).idleSize(1);
@@ -264,7 +264,7 @@ public class WaitingQueueTest extends FutureHelper {
         rs.completeNext();
 
         Resource two = pendingIsReady(second);
-        Assert.assertNotEquals("Pool returned the differents resources", one, two);
+        Assert.assertNotEquals("Pool returned the different resources", one, two);
 
         queue.delete(two);
         queue.close();
@@ -318,7 +318,7 @@ public class WaitingQueueTest extends FutureHelper {
         rs.completeNext();
 
         Resource two = pendingIsReady(second);
-        Assert.assertNotEquals("Pool returned the differents resources", one, two);
+        Assert.assertNotEquals("Pool returned the different resources", one, two);
 
         queue.delete(two);
         queue.close();
@@ -404,7 +404,7 @@ public class WaitingQueueTest extends FutureHelper {
 
         futureIsPending(first);
 
-        // After complete obejct to closed queue
+        // After complete object to closed queue
         // object will be released and future will be canceled
         rs.completeNext();
         futureIsCanceled(first, QUEUE_IS_CLOSED);
@@ -476,7 +476,7 @@ public class WaitingQueueTest extends FutureHelper {
 
         futureIsPending(first);
 
-        // After complete obejct to closed queue
+        // After complete object to closed queue
         // object will be released and future will be canceled
         rs.completeNextWithException(new RuntimeException("big problem"));
         futureIsCanceled(first, QUEUE_IS_CLOSED);
@@ -558,7 +558,7 @@ public class WaitingQueueTest extends FutureHelper {
         Resource r2 = pendingIsReady(w1);
         Assert.assertEquals("Next waiting got same resource ", r1, r2);
 
-        // Cancelation of waiting doesn't affect to queue
+        // Cancellation of waiting doesn't affect to queue
         w2.cancel(true);
         check(queue).queueSize(1).idleSize(0).waitingsCount(2);
 

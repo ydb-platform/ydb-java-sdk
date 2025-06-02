@@ -355,7 +355,7 @@ public class ProtoValue {
     public static ZonedDateTime toTzDate(String textValue) {
         int commaIdx = textValue.indexOf(',');
         if (commaIdx == -1) {
-            throw new IllegalArgumentException("cannot parse TzDate from: \'" + textValue + '\'');
+            throw new IllegalArgumentException("cannot parse TzDate from: '" + textValue + '\'');
         }
 
         LocalDate date = LocalDate.parse(textValue.substring(0, commaIdx));
@@ -377,7 +377,7 @@ public class ProtoValue {
     public static ZonedDateTime toTzDatetime(String textValue) {
         int commaIdx = textValue.indexOf(',');
         if (commaIdx == -1) {
-            throw new IllegalArgumentException("cannot parse TzDatetime from: \'" + textValue + '\'');
+            throw new IllegalArgumentException("cannot parse TzDatetime from: '" + textValue + '\'');
         }
         Instant instant = Instant.parse(textValue.substring(0, commaIdx) + 'Z')
                 .truncatedTo(ChronoUnit.SECONDS);
@@ -396,7 +396,7 @@ public class ProtoValue {
     public static ZonedDateTime toTzTimestamp(String value) {
         int commaIdx = value.indexOf(',');
         if (commaIdx == -1) {
-            throw new IllegalArgumentException("cannot parse TzTimestamp from: \'" + value + '\'');
+            throw new IllegalArgumentException("cannot parse TzTimestamp from: '" + value + '\'');
         }
         Instant instant = Instant.parse(value.substring(0, commaIdx) + 'Z')
                 .truncatedTo(ChronoUnit.MICROS);
@@ -952,8 +952,8 @@ public class ProtoValue {
 
         @Override
         public int hashCode() {
-            int result = (int) (high ^ (high >>> 32));
-            result = 31 * result + (int) (low ^ (low >>> 32));
+            int result = Long.hashCode(high);
+            result = 31 * result + Long.hashCode(low);
             return result;
         }
 

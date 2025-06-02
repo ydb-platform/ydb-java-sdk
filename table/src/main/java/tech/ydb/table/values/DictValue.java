@@ -86,7 +86,7 @@ public class DictValue implements Value<DictType> {
             sb.append(e.getKey()).append(": ");
             sb.append(e.getValue()).append(", ");
         }
-        if (items.size() > 0) {
+        if (!items.isEmpty()) {
             sb.setLength(sb.length() - 2);
         }
         sb.append(']');

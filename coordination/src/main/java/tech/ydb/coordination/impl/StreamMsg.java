@@ -46,8 +46,8 @@ abstract class StreamMsg<R> {
     protected abstract boolean handleResponse(SessionResponse response);
     protected abstract boolean handleError(Status status);
 
-    protected Status incorrectTypeStatus(SessionResponse response, String exptected) {
-        String msg = "Incorrect type of response " + TextFormat.shortDebugString(response) + ", expected " + exptected;
+    protected Status incorrectTypeStatus(SessionResponse response, String expected) {
+        String msg = "Incorrect type of response " + TextFormat.shortDebugString(response) + ", expected " + expected;
         return Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR));
     }
 
@@ -78,8 +78,8 @@ abstract class StreamMsg<R> {
     }
 
     public static StreamMsg<Result<SemaphoreWatcher>> watchSemaphore(
-            String name, DescribeSemaphoreMode decribeMode, WatchSemaphoreMode watchMode) {
-        return new WatchSemaphoreMsg(name, decribeMode, watchMode);
+            String name, DescribeSemaphoreMode describeMode, WatchSemaphoreMode watchMode) {
+        return new WatchSemaphoreMsg(name, describeMode, watchMode);
     }
 
     private abstract static class BaseStatusMsg extends StreamMsg<Status> {
@@ -308,9 +308,7 @@ abstract class StreamMsg<R> {
             }
             SemaphoreDescription desc = null;
             SessionResponse.DescribeSemaphoreResult result = response.getDescribeSemaphoreResult();
-            if (result.getSemaphoreDescription() != null) {
-                desc = new SemaphoreDescription(result.getSemaphoreDescription());
-            }
+            desc = new SemaphoreDescription(result.getSemaphoreDescription());
             return handleResult(desc, result.getStatus(), result.getIssuesList());
         }
     }
@@ -353,10 +351,8 @@ abstract class StreamMsg<R> {
             }
             SemaphoreWatcher watcher = null;
             SessionResponse.DescribeSemaphoreResult result = response.getDescribeSemaphoreResult();
-            if (result.getSemaphoreDescription() != null) {
-                SemaphoreDescription desc = new SemaphoreDescription(result.getSemaphoreDescription());
-                watcher = new SemaphoreWatcher(desc, changedMsg.getResult());
-            }
+            SemaphoreDescription desc = new SemaphoreDescription(result.getSemaphoreDescription());
+            watcher = new SemaphoreWatcher(desc, changedMsg.getResult());
             return handleResult(watcher, result.getStatus(), result.getIssuesList());
         }
 

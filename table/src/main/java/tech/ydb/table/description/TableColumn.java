@@ -15,7 +15,7 @@ public class TableColumn {
     @Nullable
     private final String family;
 
-    private boolean hasDefaultValue;
+    private final boolean hasDefaultValue;
 
     public TableColumn(String name, Type type, String family, boolean hasDefaultValue) {
         this.name = name;

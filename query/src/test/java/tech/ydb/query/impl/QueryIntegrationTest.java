@@ -252,7 +252,7 @@ public class QueryIntegrationTest {
         entities.add(new Entity(1, "entity 1", BYTES_EMPTY, true));
         entities.add(new Entity(2, "entity 2", BYTES_EMPTY, true));
         entities.add(new Entity(3, "entity 3", BYTES_LEN2, false));
-        entities.add(new Entity(3, "dublicate", BYTES_LEN5, true));
+        entities.add(new Entity(3, "duplicate", BYTES_LEN5, true));
         entities.add(new Entity(5, "entity 5", BYTES_LEN2, false));
 
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {

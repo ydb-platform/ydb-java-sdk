@@ -1,8 +1,6 @@
 package tech.ydb.core.ssl;
 
-import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.Provider;
 
 import javax.net.ssl.ManagerFactoryParameters;
@@ -14,7 +12,6 @@ import javax.net.ssl.X509TrustManager;
 
 public final class YandexTrustManagerFactory extends TrustManagerFactory {
 
-    @SuppressWarnings("deprecation")
     private static final Provider PROVIDER = new Provider("", 0.0D, "") {
         private static final long serialVersionUID = -2680540247105807895L;
     };
@@ -29,12 +26,11 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
         YandexTrustManagerFactorySpi() { }
 
         @Override
-        protected void engineInit(KeyStore keyStore) throws KeyStoreException {
+        protected void engineInit(KeyStore keyStore) {
         }
 
         @Override
-        protected void engineInit(ManagerFactoryParameters managerFactoryParameters)
-                throws InvalidAlgorithmParameterException {
+        protected void engineInit(ManagerFactoryParameters managerFactoryParameters) {
         }
 
         @Override

@@ -35,7 +35,7 @@ public class StreamTest {
         Mockito.when(rpc.getScheduler()).thenReturn(scheduler);
         Mockito.when(rpc.getDatabase()).thenReturn("/mocked");
         Mockito.when(rpc.createSession(Mockito.any())).thenAnswer(i -> {
-            GrpcStreamMock mock = new GrpcStreamMock(r -> r.run());
+            GrpcStreamMock mock = new GrpcStreamMock(Runnable::run);
             grpcMocks.add(mock);
             return mock;
         });

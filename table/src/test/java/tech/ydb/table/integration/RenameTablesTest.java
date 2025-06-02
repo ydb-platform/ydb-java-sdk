@@ -1,6 +1,6 @@
 package tech.ydb.table.integration;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -59,8 +59,8 @@ public class RenameTablesTest {
                 .addNullableColumn("created", PrimitiveType.Timestamp)
                 .addNullableColumn("data", PrimitiveType.Json)
                 .setPrimaryKey("id")
-                .addGlobalIndex("ix1", Arrays.asList("code"))
-                .addGlobalAsyncIndex("ix2", Arrays.asList("created"))
+                .addGlobalIndex("ix1", Collections.singletonList("code"))
+                .addGlobalAsyncIndex("ix2", Collections.singletonList("created"))
                 .build();
 
         createTable(origTablePath1, tableDescription);
@@ -106,9 +106,7 @@ public class RenameTablesTest {
     }
 
     private void describeTable(String tablePath, TableDescription tableDescription) {
-        Result<TableDescription> describeResult = ctx.supplyResult(session -> {
-            return session.describeTable(tablePath);
-        }).join();
+        Result<TableDescription> describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
         Assert.assertTrue("Describe table " + describeResult.getStatus(), describeResult.isSuccess());
 
         TableDescription description = describeResult.getValue();

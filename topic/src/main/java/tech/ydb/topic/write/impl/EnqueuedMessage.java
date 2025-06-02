@@ -44,8 +44,8 @@ public class EnqueuedMessage {
         return isProcessingFailed.get();
     }
 
-     public void setProcessingFailed(boolean procesingFailed) {
-        isProcessingFailed.set(procesingFailed);
+    public void setProcessingFailed(boolean processingFailed) {
+        isProcessingFailed.set(processingFailed);
      }
 
     public long getUncompressedSizeBytes() {

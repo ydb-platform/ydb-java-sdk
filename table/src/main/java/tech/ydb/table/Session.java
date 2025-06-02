@@ -136,7 +136,7 @@ public interface Session extends AutoCloseable {
     }
 
     /**
-     * Consider using {@link TableTransaction#commit()} ()} instead
+     * Consider using {@link TableTransaction#commit()} instead
      */
     CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
 

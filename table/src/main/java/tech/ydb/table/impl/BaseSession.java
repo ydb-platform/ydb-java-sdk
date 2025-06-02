@@ -297,7 +297,7 @@ public abstract class BaseSession implements Session {
         return builder.build();
     }
 
-    private static YdbTable.ColumnFamily buildColumnFamity(ColumnFamily family) {
+    private static YdbTable.ColumnFamily buildColumnFamily(ColumnFamily family) {
         YdbTable.ColumnFamily.Compression compression;
         switch (family.getCompression()) {
             case COMPRESSION_NONE:
@@ -359,8 +359,8 @@ public abstract class BaseSession implements Session {
                     .build());
         }
 
-        if (ttl.getRunIntervaelSeconds() != null) {
-            tb.setRunIntervalSeconds(ttl.getRunIntervaelSeconds());
+        if (ttl.getRunIntervalSeconds() != null) {
+            tb.setRunIntervalSeconds(ttl.getRunIntervalSeconds());
         }
 
         return tb.build();
@@ -391,7 +391,7 @@ public abstract class BaseSession implements Session {
         }
 
         for (ColumnFamily family: description.getColumnFamilies()) {
-            request.addColumnFamilies(buildColumnFamity(family));
+            request.addColumnFamilies(buildColumnFamily(family));
         }
 
         for (TableColumn column : description.getColumns()) {
@@ -408,7 +408,7 @@ public abstract class BaseSession implements Session {
                 request.setTtlSettings(ttl);
             }
         }
-        // deprecated variant has high pripority
+        // deprecated variant has high priority
         tech.ydb.table.settings.TtlSettings deprecatedTTL = settings.getTtlSettings();
         if (deprecatedTTL != null) {
             YdbTable.TtlSettings ttl = YdbTable.TtlSettings.newBuilder()
@@ -816,69 +816,61 @@ public abstract class BaseSession implements Session {
             }
         }
         YdbTable.TableStats tableStats = desc.getTableStats();
-        if (settings.isIncludeTableStats() && tableStats != null) {
+        if (settings.isIncludeTableStats()) {
             Timestamp creationTime = tableStats.getCreationTime();
-            Instant createdAt = creationTime == null ? null : Instant.ofEpochSecond(creationTime.getSeconds(),
-                    creationTime.getNanos());
+            Instant createdAt = Instant.ofEpochSecond(creationTime.getSeconds(), creationTime.getNanos());
             Timestamp modificationTime = tableStats.getCreationTime();
-            Instant modifiedAt = modificationTime == null ? null : Instant.ofEpochSecond(modificationTime.getSeconds(),
-                    modificationTime.getNanos());
+            Instant modifiedAt = Instant.ofEpochSecond(modificationTime.getSeconds(), modificationTime.getNanos());
             TableDescription.TableStats stats = new TableDescription.TableStats(
                     createdAt, modifiedAt, tableStats.getRowsEstimate(), tableStats.getStoreSize());
             description.setTableStats(stats);
 
             List<YdbTable.PartitionStats> partitionStats = tableStats.getPartitionStatsList();
-            if (settings.isIncludePartitionStats() && partitionStats != null) {
+            if (settings.isIncludePartitionStats()) {
                 for (YdbTable.PartitionStats stat : partitionStats) {
                     description.addPartitionStat(stat.getRowsEstimate(), stat.getStoreSize());
                 }
             }
         }
         YdbTable.PartitioningSettings protoPs = desc.getPartitioningSettings();
-        if (protoPs != null) {
-            PartitioningSettings ps = new PartitioningSettings();
-            ps.setPartitionSize(protoPs.getPartitionSizeMb());
-            ps.setMinPartitionsCount(protoPs.getMinPartitionsCount());
-            ps.setMaxPartitionsCount(protoPs.getMaxPartitionsCount());
-            ps.setPartitioningByLoad(protoPs.getPartitioningByLoad() == CommonProtos.FeatureFlag.Status.ENABLED);
-            ps.setPartitioningBySize(protoPs.getPartitioningBySize() == CommonProtos.FeatureFlag.Status.ENABLED);
-            description.setPartitioningSettings(ps);
-        }
+        PartitioningSettings ps = new PartitioningSettings();
+        ps.setPartitionSize(protoPs.getPartitionSizeMb());
+        ps.setMinPartitionsCount(protoPs.getMinPartitionsCount());
+        ps.setMaxPartitionsCount(protoPs.getMaxPartitionsCount());
+        ps.setPartitioningByLoad(protoPs.getPartitioningByLoad() == CommonProtos.FeatureFlag.Status.ENABLED);
+        ps.setPartitioningBySize(protoPs.getPartitioningBySize() == CommonProtos.FeatureFlag.Status.ENABLED);
+        description.setPartitioningSettings(ps);
 
         List<YdbTable.ColumnFamily> columnFamiliesList = desc.getColumnFamiliesList();
-        if (columnFamiliesList != null) {
-            for (YdbTable.ColumnFamily family : columnFamiliesList) {
-                ColumnFamily.Compression compression;
-                switch (family.getCompression()) {
-                    case COMPRESSION_LZ4:
-                        compression = ColumnFamily.Compression.COMPRESSION_LZ4;
-                        break;
-                    default:
-                        compression = ColumnFamily.Compression.COMPRESSION_NONE;
-                }
-                description.addColumnFamily(
-                        new ColumnFamily(family.getName(), new StoragePool(family.getData().getMedia()), compression)
-                );
+        for (YdbTable.ColumnFamily family : columnFamiliesList) {
+            ColumnFamily.Compression compression;
+            switch (family.getCompression()) {
+                case COMPRESSION_LZ4:
+                    compression = ColumnFamily.Compression.COMPRESSION_LZ4;
+                    break;
+                default:
+                    compression = ColumnFamily.Compression.COMPRESSION_NONE;
             }
+            description.addColumnFamily(
+                    new ColumnFamily(family.getName(), new StoragePool(family.getData().getMedia()), compression)
+            );
         }
         if (settings.isIncludeShardKeyBounds()) {
             List<ValueProtos.TypedValue> shardKeyBoundsList = desc.getShardKeyBoundsList();
-            if (shardKeyBoundsList != null) {
-                Optional<Value<?>> leftValue = Optional.empty();
-                for (ValueProtos.TypedValue typedValue : shardKeyBoundsList) {
-                    Optional<KeyBound> fromBound = leftValue.map(KeyBound::inclusive);
-                    Value<?> value = ProtoValue.fromPb(
-                            ProtoType.fromPb(typedValue.getType()),
-                            typedValue.getValue()
-                    );
-                    Optional<KeyBound> toBound = Optional.of(KeyBound.exclusive(value));
-                    description.addKeyRange(new KeyRange(fromBound, toBound));
-                    leftValue = Optional.of(value);
-                }
-                description.addKeyRange(
-                        new KeyRange(leftValue.map(KeyBound::inclusive), Optional.empty())
+            Optional<Value<?>> leftValue = Optional.empty();
+            for (TypedValue typedValue : shardKeyBoundsList) {
+                Optional<KeyBound> fromBound = leftValue.map(KeyBound::inclusive);
+                Value<?> value = ProtoValue.fromPb(
+                        ProtoType.fromPb(typedValue.getType()),
+                        typedValue.getValue()
                 );
+                Optional<KeyBound> toBound = Optional.of(KeyBound.exclusive(value));
+                description.addKeyRange(new KeyRange(fromBound, toBound));
+                leftValue = Optional.of(value);
             }
+            description.addKeyRange(
+                    new KeyRange(leftValue.map(KeyBound::inclusive), Optional.empty())
+            );
         }
 
         description.setTtlSettings(mapTtlSettings(desc.getTtlSettings()));
