@@ -28,7 +28,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
     private final List<Issue> isssues;
     private final List<ResultSetParts> results;
 
-    private QueryReader(QueryInfo info, List<Issue> issues, List<ResultSetParts> results) {
+    QueryReader(QueryInfo info, List<Issue> issues, List<ResultSetParts> results) {
         this.info = info;
         this.isssues = issues;
         this.results = results;
@@ -113,7 +113,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
         }
     }
 
-    private static class ResultSetParts {
+    static class ResultSetParts {
         private final long resultSetIndex;
         private final List<QueryResultPart> parts = new ArrayList<>();
 
@@ -211,11 +211,14 @@ public class QueryReader implements Iterable<ResultSetReader> {
                 int readerRows = parts.get(partIndex).getRowCount();
                 if (currentIdx < readerRows) {
                     parts.get(partIndex).setRowIndex(currentIdx);
-                    return;
+                    break;
                 }
                 parts.get(partIndex).setRowIndex(readerRows - 1);
                 currentIdx -= readerRows;
                 partIndex++;
+            }
+            for (int partStep = partIndex + 1; partStep < parts.size(); partStep++) {
+                parts.get(partStep).setRowIndex(0);
             }
         }
 
