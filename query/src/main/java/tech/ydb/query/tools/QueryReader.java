@@ -176,12 +176,14 @@ public class QueryReader implements Iterable<ResultSetReader> {
 
         @Override
         public void setRowIndex(int index) {
-            if (index < 0 || index >= rowsCount) {
-                throw new IndexOutOfBoundsException(String.format("Index %s out of bounds for length %s",
-                        index, rowsCount));
-            }
+            // TODO: Enable after JDBC fixing
+//            if (index < 0 || index >= rowsCount) {
+//                throw new IndexOutOfBoundsException(String.format("Index %s out of bounds for length %s",
+//                        index, rowsCount));
+//            }
+//            int currentIdx = index;
+            int currentIdx = Math.max(0, index);
             partIndex = 0;
-            int currentIdx = index;
             while (partIndex < parts.length) {
                 int readerRows = parts[partIndex].getRowCount();
                 if (currentIdx < readerRows) {
@@ -191,6 +193,11 @@ public class QueryReader implements Iterable<ResultSetReader> {
                 parts[partIndex].setRowIndex(readerRows);
                 currentIdx -= readerRows;
                 partIndex++;
+            }
+
+            // TODO: remove after JDBC fixing
+            if (partIndex >= parts.length) {
+                partIndex = parts.length - 1;
             }
 
             for (int partStep = partIndex + 1; partStep < parts.length; partStep++) {
