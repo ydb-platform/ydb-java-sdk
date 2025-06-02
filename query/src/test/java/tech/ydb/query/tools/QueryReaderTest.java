@@ -142,11 +142,11 @@ public class QueryReaderTest {
         rsr.setRowIndex(5);
         Assert.assertEquals(1, readAll(rsr, 5));
 
-        rsr.setRowIndex(6); // after end
-        Assert.assertEquals(0, readAll(rsr, 0));
+        IndexOutOfBoundsException ex1 = Assert.assertThrows(IndexOutOfBoundsException.class, () -> rsr.setRowIndex(6));
+        Assert.assertEquals("Index 6 out of bounds for length 6", ex1.getMessage());
 
-        rsr.setRowIndex(-1); // before start
-        Assert.assertEquals(6, readAll(rsr, 0));
+        IndexOutOfBoundsException ex2 = Assert.assertThrows(IndexOutOfBoundsException.class, () -> rsr.setRowIndex(-1));
+        Assert.assertEquals("Index -1 out of bounds for length 6", ex2.getMessage());
     }
 
     private int readAll(ResultSetReader rsr, int startKey) {
