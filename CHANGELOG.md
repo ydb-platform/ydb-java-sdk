@@ -1,3 +1,13 @@
+## 2.3.15 ##
+
+* Core: ResourceExhausted isn't pessimize the node
+* Table: Added flag about default value in TableColumn
+* Table: Added support of describeTableOptions
+* Query: Fixed QueryReader.setRowIndex() & added tests
+* Topic: Added max_active_partitions support to topic operations
+* Topic: Added configuration for GrpcStreamRetrier ID
+* Topic: Added equals & hashCode implementations for descriptions
+
 ## 2.3.14 ##
 
 * Core: Removed mockito-inline from compile dependencies
