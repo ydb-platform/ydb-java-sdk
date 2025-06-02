@@ -160,6 +160,10 @@ public class TopicClientImpl implements TopicClient {
             if (minActivePartitions != null) {
                 builder.setSetMinActivePartitions(minActivePartitions);
             }
+            Long maxActivePartitions = partitioningSettings.getMaxActivePartitions();
+            if (maxActivePartitions != null) {
+                builder.setSetMaxActivePartitions(maxActivePartitions);
+            }
             Long partitionCountLimit = partitioningSettings.getPartitionCountLimit();
             if (partitionCountLimit != null) {
                 builder.setSetPartitionCountLimit(partitionCountLimit);
@@ -321,6 +325,7 @@ public class TopicClientImpl implements TopicClient {
 
         PartitioningSettings.Builder partitioningDescription = PartitioningSettings.newBuilder()
                 .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
+                .setMaxActivePartitions(partitioningSettings.getMaxActivePartitions())
                 .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
                 .setAutoPartitioningStrategy(fromProto(autoPartitioningStrategy));
 
