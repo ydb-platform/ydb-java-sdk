@@ -12,6 +12,7 @@ import javax.net.ssl.X509TrustManager;
 
 public final class YandexTrustManagerFactory extends TrustManagerFactory {
 
+    @SuppressWarnings("deprecation")
     private static final Provider PROVIDER = new Provider("", 0.0D, "") {
         private static final long serialVersionUID = -2680540247105807895L;
     };
