@@ -30,7 +30,7 @@ public class WaitingQueueTest extends FutureHelper {
         }
     }
 
-    private class ResourceHandler implements WaitingQueue.Handler<Resource> {
+    private static class ResourceHandler implements WaitingQueue.Handler<Resource> {
         private final AtomicInteger idGenerator = new AtomicInteger();
         private final Queue<CompletableFuture<Resource>> futures = new ConcurrentLinkedQueue<>();
         private final Set<Resource> active = new HashSet<>();
@@ -66,7 +66,7 @@ public class WaitingQueueTest extends FutureHelper {
         }
     }
 
-    private class QueueChecker {
+    private static class QueueChecker {
         private final WaitingQueue<Resource> queue;
 
         private QueueChecker(WaitingQueue<Resource> queue) {
@@ -89,7 +89,7 @@ public class WaitingQueueTest extends FutureHelper {
         }
     }
 
-    private class ResourceHandlerChecker {
+    private static class ResourceHandlerChecker {
         private final ResourceHandler handler;
 
         public ResourceHandlerChecker(ResourceHandler handler) {

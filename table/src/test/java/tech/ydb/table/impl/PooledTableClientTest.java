@@ -241,7 +241,7 @@ public class PooledTableClientTest {
     }
 
     @Test
-    public void createSessionException() throws InterruptedException {
+    public void createSessionException() {
         MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).build();
 

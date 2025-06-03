@@ -110,7 +110,7 @@ public class YdbHelperFactoryTest {
     }
 
     @Test
-    public void externalAuthInstanceTest() throws IOException {
+    public void externalAuthInstanceTest() {
         transportMock.setup("/token");
 
         YdbEnvironmentMock env = new YdbEnvironmentMock()

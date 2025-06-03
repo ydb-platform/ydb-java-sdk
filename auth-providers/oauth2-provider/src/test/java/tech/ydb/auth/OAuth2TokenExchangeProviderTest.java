@@ -11,14 +11,16 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import org.apache.http.client.utils.URLEncodedUtils;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
 import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -33,10 +35,6 @@ import org.mockserver.model.HttpRequest;
 import org.mockserver.model.HttpResponse;
 import org.mockserver.socket.PortFactory;
 import org.mockserver.verify.VerificationTimes;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
@@ -118,12 +116,12 @@ public class OAuth2TokenExchangeProviderTest {
     }
 
     private String requestForm(String token) {
-        return Stream.of(
+        return String.join("&",
                 "grant_type=" + OAuth2TokenExchangeProvider.GRANT_TYPE,
                 "requested_token_type=" + OAuth2TokenSource.ACCESS_TOKEN,
                 "subject_token=" + token,
                 "subject_token_type=" + OAuth2TokenSource.JWT_TOKEN
-        ).collect(Collectors.joining("&")).replace(":", "%3A");
+        ).replace(":", "%3A");
     }
 
     @Test
@@ -231,18 +229,18 @@ public class OAuth2TokenExchangeProviderTest {
             Assert.assertEquals("Bearer custom_token", identity.getToken());
             Assert.assertEquals("Bearer custom_token", identity.getToken());
 
-            String form = Stream.of(
-                "grant_type=" + OAuth2TokenSource.ACCESS_TOKEN,
-                "requested_token_type=" + OAuth2TokenSource.REFRESH_TOKEN,
-                "resource=Resource",
-                "resource=OtherResource",
-                "audience=testAudience",
-                "scope=TestedScope",
-                "subject_token=Token1",
-                "subject_token_type=Test",
-                "actor_token=actorToken",
-                "actor_token_type=actorType"
-            ).collect(Collectors.joining("&")).replace(":", "%3A");
+            String form = String.join("&",
+                    "grant_type=" + OAuth2TokenSource.ACCESS_TOKEN,
+                    "requested_token_type=" + OAuth2TokenSource.REFRESH_TOKEN,
+                    "resource=Resource",
+                    "resource=OtherResource",
+                    "audience=testAudience",
+                    "scope=TestedScope",
+                    "subject_token=Token1",
+                    "subject_token_type=Test",
+                    "actor_token=actorToken",
+                    "actor_token_type=actorType"
+            ).replace(":", "%3A");
 
             mockClient.verify(HttpRequest.request().withMethod("POST")
                     .withHeader("Content-Type", "application/x-www-form-urlencoded")
@@ -368,7 +366,7 @@ public class OAuth2TokenExchangeProviderTest {
         public void check(String token, String tokenType) throws AssertionError, Exception;
     }
 
-    private class FixedTokenExpectationChecker implements TokenExpectationChecker {
+    private static class FixedTokenExpectationChecker implements TokenExpectationChecker {
         String token;
         String tokenType;
 
@@ -383,7 +381,7 @@ public class OAuth2TokenExchangeProviderTest {
         }
     }
 
-    private class JwtTokenExpectationChecker implements TokenExpectationChecker {
+    private static class JwtTokenExpectationChecker implements TokenExpectationChecker {
         private String alg;
         private String publicKey;
         private String kid;
@@ -436,14 +434,14 @@ public class OAuth2TokenExchangeProviderTest {
         }
 
         private Key getKey() {
-            if (alg == "HS256" || alg == "HS384" || alg == "HS512") {
+            if (Objects.equals(alg, "HS256") || Objects.equals(alg, "HS384") || Objects.equals(alg, "HS512")) {
                 return OAuth2TokenTest.getHmacKey(alg, publicKey);
             }
             return OAuth2TokenTest.getPublicKeyFromPem(publicKey);
         }
     }
 
-    private class RequestExpectationChecker implements ExpectationResponseCallback {
+    private static class RequestExpectationChecker implements ExpectationResponseCallback {
         String grantType;
         String requestedTokenType;
         String[] res;
@@ -499,7 +497,7 @@ public class OAuth2TokenExchangeProviderTest {
             System.err.println(String.format("Parsing http request body: %s", req.getBodyAsString()));
             URI uri = new URI("https", "", "/path", req.getBodyAsString(), "");
             List<NameValuePair> params = URLEncodedUtils.parse(uri, Charset.defaultCharset());
-            List<NameValuePair> list = new ArrayList<NameValuePair>();
+            List<NameValuePair> list = new ArrayList<>();
             for (int i = 0; i < params.size(); i++) {
                 list.add(new BasicNameValuePair(
                     params.get(i).getName(),
@@ -598,15 +596,15 @@ public class OAuth2TokenExchangeProviderTest {
                     "}",
                     testEndpoint()
                 ),
-                new RequestExpectationChecker(
-                    "grant",
-                    "urn:ietf:params:oauth:token-type:access_token",
-                    new String[]{"tEst"},
-                    null,
-                    null,
-                    new FixedTokenExpectationChecker("test-token", "test-token-type"),
-                    null
-                ),
+                    new RequestExpectationChecker(
+                            "grant",
+                            "urn:ietf:params:oauth:token-type:access_token",
+                            new String[]{"tEst"},
+                            null,
+                            null,
+                            new FixedTokenExpectationChecker("test-token", "test-token-type"),
+                            null
+                    ),
                 null,
                 null
             ),
@@ -626,15 +624,15 @@ public class OAuth2TokenExchangeProviderTest {
                     "}",
                     testEndpoint()
                 ),
-                new RequestExpectationChecker(
-                    "urn:ietf:params:oauth:grant-type:token-exchange",
-                    "urn:ietf:params:oauth:token-type:access_token",
-                    new String[]{"r1", "r2"},
-                    new String[]{"test-aud"},
-                    "s1 s2",
-                    new FixedTokenExpectationChecker("test-token", "test-token-type"),
-                    null
-                ),
+                    new RequestExpectationChecker(
+                            "urn:ietf:params:oauth:grant-type:token-exchange",
+                            "urn:ietf:params:oauth:token-type:access_token",
+                            new String[]{"r1", "r2"},
+                            new String[]{"test-aud"},
+                            "s1 s2",
+                            new FixedTokenExpectationChecker("test-token", "test-token-type"),
+                            null
+                    ),
                 null,
                 null
             ),
@@ -661,24 +659,24 @@ public class OAuth2TokenExchangeProviderTest {
                     testEndpoint(),
                     OAuth2TokenTest.TEST_RSA_PRIVATE_KEY_JSON
                 ),
-                new RequestExpectationChecker(
-                    "urn:ietf:params:oauth:grant-type:token-exchange",
-                    "access_token",
-                    null,
-                    new String[]{"test-aud"},
-                    "scope",
-                    null,
-                    new JwtTokenExpectationChecker(
-                        "PS256",
-                        OAuth2TokenTest.TEST_RSA_PUBLIC_KEY,
-                        "test_key_id",
-                        "test_issuer",
-                        "test_subject",
-                        "test_audience",
-                        "123",
-                        24 * 60 * 60
-                    )
-                ),
+                    new RequestExpectationChecker(
+                            "urn:ietf:params:oauth:grant-type:token-exchange",
+                            "access_token",
+                            null,
+                            new String[]{"test-aud"},
+                            "scope",
+                            null,
+                            new JwtTokenExpectationChecker(
+                                    "PS256",
+                                    OAuth2TokenTest.TEST_RSA_PUBLIC_KEY,
+                                    "test_key_id",
+                                    "test_issuer",
+                                    "test_subject",
+                                    "test_audience",
+                                    "123",
+                                    24 * 60 * 60
+                            )
+                    ),
                 null,
                 null
             ),
@@ -696,24 +694,24 @@ public class OAuth2TokenExchangeProviderTest {
                     testEndpoint(),
                     OAuth2TokenTest.TEST_EC_PRIVATE_KEY_JSON
                 ),
-                new RequestExpectationChecker(
-                    "urn:ietf:params:oauth:grant-type:token-exchange",
-                    "urn:ietf:params:oauth:token-type:access_token",
-                    null,
-                    null,
-                    null,
-                    new JwtTokenExpectationChecker(
-                        "ES256",
-                        OAuth2TokenTest.TEST_EC_PUBLIC_KEY,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        3 * 60
+                    new RequestExpectationChecker(
+                            "urn:ietf:params:oauth:grant-type:token-exchange",
+                            "urn:ietf:params:oauth:token-type:access_token",
+                            null,
+                            null,
+                            null,
+                            new JwtTokenExpectationChecker(
+                                    "ES256",
+                                    OAuth2TokenTest.TEST_EC_PUBLIC_KEY,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    3 * 60
+                            ),
+                            null
                     ),
-                    null
-                ),
                 null,
                 null
             ),
@@ -730,24 +728,24 @@ public class OAuth2TokenExchangeProviderTest {
                     testEndpoint(),
                     OAuth2TokenTest.TEST_HMAC_SECRET_KEY_BASE64
                 ),
-                new RequestExpectationChecker(
-                    "urn:ietf:params:oauth:grant-type:token-exchange",
-                    "urn:ietf:params:oauth:token-type:access_token",
-                    null,
-                    null,
-                    null,
-                    new JwtTokenExpectationChecker(
-                        "HS512",
-                        OAuth2TokenTest.TEST_HMAC_SECRET_KEY_BASE64,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        60 * 60
+                    new RequestExpectationChecker(
+                            "urn:ietf:params:oauth:grant-type:token-exchange",
+                            "urn:ietf:params:oauth:token-type:access_token",
+                            null,
+                            null,
+                            null,
+                            new JwtTokenExpectationChecker(
+                                    "HS512",
+                                    OAuth2TokenTest.TEST_HMAC_SECRET_KEY_BASE64,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    null,
+                                    60 * 60
+                            ),
+                            null
                     ),
-                    null
-                ),
                 null,
                 null
             ),
@@ -1025,7 +1023,7 @@ public class OAuth2TokenExchangeProviderTest {
                     String msg = ex.getMessage();
                     Assert.assertNotNull(msg);
                     Assert.assertNotNull(String.format("Got exception while provider was initializing: %s", msg), test.errorMessageOnCreate);
-                    Assert.assertTrue(String.format("Exception on creation [%s] is expected to contain substring [%s]", msg, test.errorMessageOnCreate), msg.indexOf(test.errorMessageOnCreate) >= 0);
+                    Assert.assertTrue(String.format("Exception on creation [%s] is expected to contain substring [%s]", msg, test.errorMessageOnCreate), msg.contains(test.errorMessageOnCreate));
                 }
 
                 if (provider == null) {
@@ -1050,7 +1048,7 @@ public class OAuth2TokenExchangeProviderTest {
                     String testMsg = String.format("Got exception while getting token: %s", ex.getMessage());
                     Assert.assertNull(testMsg, test.requestChecker);
                     Assert.assertNotNull(testMsg, test.errorMessageOnGet);
-                    Assert.assertTrue(String.format("Exception on get token [%s] is expected to contain substring [%s]", ex.getMessage(), test.errorMessageOnGet), ex.getMessage().indexOf(test.errorMessageOnGet) >= 0);
+                    Assert.assertTrue(String.format("Exception on get token [%s] is expected to contain substring [%s]", ex.getMessage(), test.errorMessageOnGet), ex.getMessage().contains(test.errorMessageOnGet));
                 }
             } catch (AssertionError ex) {
                 System.err.println(String.format("Test failed. File: %s, Cfg:\n%s", test.getCfgFile().getName(), test.cfg));

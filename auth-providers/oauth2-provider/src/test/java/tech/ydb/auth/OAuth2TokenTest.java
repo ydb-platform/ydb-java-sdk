@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.security.Key;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
@@ -14,19 +12,18 @@ import java.util.Date;
 
 import javax.crypto.spec.SecretKeySpec;
 
-import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  *
@@ -99,7 +96,7 @@ public class OAuth2TokenTest {
                 throw new RuntimeException("Failed to parse PEM private key");
             }
 
-            PrivateKeyInfo info = null;
+            PrivateKeyInfo info;
             if (parsed instanceof PrivateKeyInfo) {
                 info = (PrivateKeyInfo) parsed;
             } else if (parsed instanceof PEMKeyPair) {
@@ -167,7 +164,7 @@ public class OAuth2TokenTest {
     }
 
     @Test
-    public void readKeyFromFileTest() throws NoSuchAlgorithmException, InvalidKeySpecException, IOException {
+    public void readKeyFromFileTest() throws IOException {
         File file = File.createTempFile("test", "oauth2-key.pem");
         try (FileWriter writer = new FileWriter(file)) {
             writer.write(TEST_RSA_PRIVATE_KEY);
@@ -186,7 +183,7 @@ public class OAuth2TokenTest {
     }
 
     @Test
-    public void jwsTokenTest() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public void jwsTokenTest() {
         Clock clock = Mockito.mock(Clock.class);
         Mockito.when(clock.instant()).thenReturn(now);
 

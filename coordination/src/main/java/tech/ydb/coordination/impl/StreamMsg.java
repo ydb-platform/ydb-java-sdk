@@ -306,9 +306,8 @@ abstract class StreamMsg<R> {
             if (!response.hasDescribeSemaphoreResult()) {
                 return handleError(incorrectTypeStatus(response, "describe_semaphore_result"));
             }
-            SemaphoreDescription desc = null;
             SessionResponse.DescribeSemaphoreResult result = response.getDescribeSemaphoreResult();
-            desc = new SemaphoreDescription(result.getSemaphoreDescription());
+            SemaphoreDescription desc = new SemaphoreDescription(result.getSemaphoreDescription());
             return handleResult(desc, result.getStatus(), result.getIssuesList());
         }
     }
@@ -349,10 +348,9 @@ abstract class StreamMsg<R> {
             if (!response.hasDescribeSemaphoreResult()) {
                 return handleError(incorrectTypeStatus(response, "describe_semaphore_result"));
             }
-            SemaphoreWatcher watcher = null;
             SessionResponse.DescribeSemaphoreResult result = response.getDescribeSemaphoreResult();
             SemaphoreDescription desc = new SemaphoreDescription(result.getSemaphoreDescription());
-            watcher = new SemaphoreWatcher(desc, changedMsg.getResult());
+            SemaphoreWatcher watcher = new SemaphoreWatcher(desc, changedMsg.getResult());
             return handleResult(watcher, result.getStatus(), result.getIssuesList());
         }
 

@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,7 +25,7 @@ import tech.ydb.table.rpc.TableRpc;
 public class SimpleTableClientTest {
 
     @Test
-    public void createSessionAndRelease() throws InterruptedException, ExecutionException {
+    public void createSessionAndRelease() {
         Set<String> sessionIDs = new HashSet<>();
 
         TableRpc fakeRpc = new TableRpcStub(null) {

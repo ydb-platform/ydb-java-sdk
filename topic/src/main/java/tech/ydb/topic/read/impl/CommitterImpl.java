@@ -29,8 +29,14 @@ public class CommitterImpl {
 
     public CompletableFuture<Void> commitImpl(boolean fromCommitter) {
         if (logger.isDebugEnabled()) {
-            logger.debug("[{}] Committing {} message(s), offsets [{},{})" + (fromCommitter ? " from Committer" : ""),
-                    partitionSession.getFullId(), messageCount, offsetsToCommit.getStart(), offsetsToCommit.getEnd());
+            logger.debug(
+                    "[{}] Committing {} message(s), offsets [{},{}){}",
+                    partitionSession.getFullId(),
+                    messageCount,
+                    offsetsToCommit.getStart(),
+                    offsetsToCommit.getEnd(),
+                    fromCommitter ? " from Committer" : ""
+            );
         }
         return partitionSession.commitOffsetRange(offsetsToCommit);
     }
