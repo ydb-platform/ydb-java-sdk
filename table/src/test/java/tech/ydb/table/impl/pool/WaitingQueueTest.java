@@ -662,12 +662,12 @@ public class WaitingQueueTest extends FutureHelper {
 
     @Test(expected = IllegalArgumentException.class)
     public void validateQueueMaxSize() {
-        (new WaitingQueue<>(new ResourceHandler(), 0, 3)).getClass();
+        new WaitingQueue<>(new ResourceHandler(), 0, 3);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void validateQueueHandler() {
-        (new WaitingQueue<>(null, 1)).getClass();
+        new WaitingQueue<>(null, 1);
     }
 
     @Test
