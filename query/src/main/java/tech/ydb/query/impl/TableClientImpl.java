@@ -88,7 +88,7 @@ public class TableClientImpl implements TableClient {
         return TxControl.txModeCtrl(TxMode.NONE, tc.getCommitTx());
     }
 
-    private class ProxedDataQueryResult extends DataQueryResult {
+    private static class ProxedDataQueryResult extends DataQueryResult {
         private final String txID;
         private final QueryReader reader;
 

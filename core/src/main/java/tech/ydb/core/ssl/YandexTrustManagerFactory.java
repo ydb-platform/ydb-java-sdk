@@ -1,8 +1,6 @@
 package tech.ydb.core.ssl;
 
-import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
 import java.security.Provider;
 
 import javax.net.ssl.ManagerFactoryParameters;
@@ -29,12 +27,11 @@ public final class YandexTrustManagerFactory extends TrustManagerFactory {
         YandexTrustManagerFactorySpi() { }
 
         @Override
-        protected void engineInit(KeyStore keyStore) throws KeyStoreException {
+        protected void engineInit(KeyStore keyStore) {
         }
 
         @Override
-        protected void engineInit(ManagerFactoryParameters managerFactoryParameters)
-                throws InvalidAlgorithmParameterException {
+        protected void engineInit(ManagerFactoryParameters managerFactoryParameters) {
         }
 
         @Override

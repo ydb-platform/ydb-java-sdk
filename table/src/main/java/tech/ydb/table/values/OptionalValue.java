@@ -76,7 +76,7 @@ public class OptionalValue implements Value<OptionalType> {
         if (value == null) {
             return "Empty[]";
         }
-        return "Some[" + value.toString() + ']';
+        return "Some[" + value + ']';
     }
 
     @Override

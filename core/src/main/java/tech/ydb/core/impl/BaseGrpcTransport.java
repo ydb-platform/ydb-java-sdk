@@ -92,7 +92,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             return new UnaryCall<>(traceId, call, handler).startCall(request, makeMetadataFromSettings(settings));
         } catch (UnexpectedResultException ex) {
-            logger.warn("UnaryCall[{}] got unexprected status {}", traceId, ex.getStatus());
+            logger.warn("UnaryCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
         } catch (RuntimeException ex) {
             String message = ex.getMessage() != null ? ex.getMessage() : ex.toString();

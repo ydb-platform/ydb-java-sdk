@@ -150,7 +150,7 @@ public class ReadRowsTest {
                 session.readRows(tablePath(SEASONS), ReadRowsSettings.newBuilder().addKey(partKey).build())
         ).join();
 
-        Assert.assertFalse("ReadRows by partitial keys must be failed", result.isSuccess());
+        Assert.assertFalse("ReadRows by partial keys must be failed", result.isSuccess());
     }
 
     /**

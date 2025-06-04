@@ -18,8 +18,8 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
-import tech.ydb.table.TableRpcStub;
 import tech.ydb.proto.table.YdbTable;
+import tech.ydb.table.TableRpcStub;
 
 /**
  *
@@ -36,7 +36,7 @@ public class MockedTableRpc extends TableRpcStub {
     private final AtomicInteger sessionCounter = new AtomicInteger();
 
     private final Queue<CreateSession> createSessionQueue = new LinkedBlockingQueue<>();
-    private final Queue<ExecuteDataQuery> executeDataQueryQueye = new LinkedBlockingQueue<>();
+    private final Queue<ExecuteDataQuery> executeDataQueryQueue = new LinkedBlockingQueue<>();
     private final Queue<KeepAlive> keepAliveQueue = new LinkedBlockingQueue<>();
     private final Queue<DeleteSession> deleteSessionQueue = new LinkedBlockingQueue<>();
 
@@ -55,8 +55,8 @@ public class MockedTableRpc extends TableRpcStub {
     }
 
     public ExecuteDataQuery nextExecuteDataQuery() {
-        Assert.assertFalse("Mocked server has execute data query request", executeDataQueryQueye.isEmpty());
-        return executeDataQueryQueye.poll();
+        Assert.assertFalse("Mocked server has execute data query request", executeDataQueryQueue.isEmpty());
+        return executeDataQueryQueue.poll();
     }
 
     public KeepAlive nextKeepAlive() {
@@ -90,7 +90,7 @@ public class MockedTableRpc extends TableRpcStub {
     public CompletableFuture<Result<YdbTable.ExecuteQueryResult>> executeDataQuery(
         YdbTable.ExecuteDataQueryRequest request, GrpcRequestSettings settings) {
         ExecuteDataQuery task = new ExecuteDataQuery(request, settings);
-        executeDataQueryQueye.offer(task);
+        executeDataQueryQueue.offer(task);
         return task.future;
     }
 
@@ -284,14 +284,14 @@ public class MockedTableRpc extends TableRpcStub {
         }
 
         public Checker hasNoKeepAlive() {
-            Assert.assertTrue("MockTable has no keep alives", keepAliveQueue.isEmpty());
+            Assert.assertTrue("MockTable has no keepalives", keepAliveQueue.isEmpty());
             return this;
         }
 
         public Checker hasNoPendingRequests() {
             Assert.assertTrue("MockTable has no session requests", createSessionQueue.isEmpty());
             Assert.assertTrue("MockTable has no keepalive requests", keepAliveQueue.isEmpty());
-            Assert.assertTrue("MockTable has no exec data query requests", executeDataQueryQueye.isEmpty());
+            Assert.assertTrue("MockTable has no exec data query requests", executeDataQueryQueue.isEmpty());
             Assert.assertTrue("MockTable has no session delete responses", deleteSessionQueue.isEmpty());
             return this;
         }
@@ -307,12 +307,12 @@ public class MockedTableRpc extends TableRpcStub {
         }
 
         public Checker keepAlives(int count) {
-            Assert.assertEquals("MockTable check keep alives", count, keepAliveQueue.size());
+            Assert.assertEquals("MockTable check keepalives", count, keepAliveQueue.size());
             return this;
         }
 
         public Checker executeDataRequests(int count) {
-            Assert.assertEquals("MockTable check execute data requests", count, executeDataQueryQueye.size());
+            Assert.assertEquals("MockTable check execute data requests", count, executeDataQueryQueue.size());
             return this;
         }
     }

@@ -2,10 +2,10 @@ package tech.ydb.core.impl.pool;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.net.ServerSocketFactory;
 
@@ -31,10 +31,10 @@ public class PriorityPickerTest {
 
     @Test
     public void fixedLocalDcTest() {
-        PriorityPicker ignoreSelftLocation = PriorityPicker.from(BalancingSettings.defaultInstance(), "DC1", null);
-        Assert.assertEquals(0, ignoreSelftLocation.getEndpointPriority("dC1"));
-        Assert.assertEquals(0, ignoreSelftLocation.getEndpointPriority("Dc2"));
-        Assert.assertEquals(0, ignoreSelftLocation.getEndpointPriority("Dc3"));
+        PriorityPicker ignoreSelfLocation = PriorityPicker.from(BalancingSettings.defaultInstance(), "DC1", null);
+        Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("dC1"));
+        Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("Dc2"));
+        Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("Dc3"));
 
         PriorityPicker useSelfLocation = PriorityPicker.from(BalancingSettings.fromLocation(""), "DC1", null);
         Assert.assertEquals(0, useSelfLocation.getEndpointPriority("dC1"));
@@ -48,13 +48,13 @@ public class PriorityPickerTest {
     }
 
     @Test
-    public void detectLocalDCfallbackTest() {
+    public void detectLocalDCFallbackTest() {
         List<EndpointRecord> single = Collections.singletonList(new EndpointRecord("localhost", 8080, 0, "DC1", null));
-        PriorityPicker ignoreSelftLocation = PriorityPicker.from(BalancingSettings.detectLocalDs(), "DC1", single);
+        PriorityPicker ignoreSelfLocation = PriorityPicker.from(BalancingSettings.detectLocalDs(), "DC1", single);
 
-        Assert.assertEquals(0, ignoreSelftLocation.getEndpointPriority("DC1"));
-        Assert.assertEquals(0, ignoreSelftLocation.getEndpointPriority("DC2"));
-        Assert.assertEquals(0, ignoreSelftLocation.getEndpointPriority("DC3"));
+        Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("DC1"));
+        Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("DC2"));
+        Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("DC3"));
     }
 
     @Test
@@ -72,8 +72,8 @@ public class PriorityPickerTest {
             Assert.assertFalse(serverSocket.isClosed());
             final int port = serverSocket.getLocalPort();
 
-            List<EndpointRecord> records = Arrays.asList("DC1", "DC1", "DC2", "DC2", "DC2", "DC3")
-                    .stream().map(location -> new EndpointRecord("localhost", port, 1, location, null))
+            List<EndpointRecord> records = Stream.of("DC1", "DC1", "DC2", "DC2", "DC2", "DC3")
+                    .map(location -> new EndpointRecord("localhost", port, 1, location, null))
                     .collect(Collectors.toList());
 
             String localDC = PriorityPicker.detectLocalDC(records, testTicker);

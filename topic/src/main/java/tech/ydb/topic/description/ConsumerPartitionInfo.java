@@ -159,7 +159,7 @@ public class ConsumerPartitionInfo {
         }
 
         /**
-         * @return How much bytes were read during several windows statistics from this partition.
+         * @return How many bytes were read during several windows statistics from this partition.
          */
         public MultipleWindowsStat getBytesRead() {
             return bytesRead;

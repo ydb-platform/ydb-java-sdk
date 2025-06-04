@@ -51,7 +51,7 @@ public class AlterTableTest {
 
     @Test
     public void alterTableTest() {
-        // --------------------- craete table -----------------------------
+        // --------------------- create table -----------------------------
         TableDescription createTableDesc = TableDescription.newBuilder()
                 .addNonnullColumn("id", PrimitiveType.Uint64)
                 .addNullableColumn("code", PrimitiveType.Text)
@@ -60,7 +60,7 @@ public class AlterTableTest {
                 .addNullableColumn("data", PrimitiveType.Text)
                 .setPrimaryKey("id")
                 .addGlobalIndex("idx1", Arrays.asList("id", "code"))
-                .addGlobalAsyncIndex("idx2", Arrays.asList("data"), Arrays.asList("code"))
+                .addGlobalAsyncIndex("idx2", Collections.singletonList("data"), Collections.singletonList("code"))
                 .build();
 
         Status createStatus = ctx.supplyStatus(
@@ -87,7 +87,7 @@ public class AlterTableTest {
 
         Assert.assertEquals(2, description.getIndexes().size());
         assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
-        assertIndexAsync(description.getIndexes().get(1), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
 
         // --------------------- alter table with changing columns -----------------------------
 
@@ -116,7 +116,7 @@ public class AlterTableTest {
 
         Assert.assertEquals(2, description.getIndexes().size());
         assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
-        assertIndexAsync(description.getIndexes().get(1), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
 
         // --------------------- alter table with changing indexes -----------------------------
         alterStatus = ctx.supplyStatus(
@@ -142,12 +142,12 @@ public class AlterTableTest {
         assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes);
 
         Assert.assertEquals(1, description.getIndexes().size());
-        assertIndexAsync(description.getIndexes().get(0), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(0), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
     }
 
     @Test
     public void alterTableWithSerialTest() {
-        // --------------------- craete table -----------------------------
+        // --------------------- create table -----------------------------
         Status createStatus = ctx.supplyStatus(session -> session.executeSchemeQuery(""
                 + "CREATE TABLE alter_table_test ("
                 + " id BigSerial NOT NULL,"
@@ -181,7 +181,7 @@ public class AlterTableTest {
 
         Assert.assertEquals(2, description.getIndexes().size());
         assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
-        assertIndexAsync(description.getIndexes().get(1), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
 
         // --------------------- alter table with changing columns -----------------------------
 
@@ -210,7 +210,7 @@ public class AlterTableTest {
 
         Assert.assertEquals(2, description.getIndexes().size());
         assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
-        assertIndexAsync(description.getIndexes().get(1), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
 
         // --------------------- alter table with changing indexes -----------------------------
         alterStatus = ctx.supplyStatus(
@@ -236,7 +236,7 @@ public class AlterTableTest {
         assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes);
 
         Assert.assertEquals(1, description.getIndexes().size());
-        assertIndexAsync(description.getIndexes().get(0), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(0), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
     }
 
     private void assertColumn(TableColumn column, String name, Type type) {

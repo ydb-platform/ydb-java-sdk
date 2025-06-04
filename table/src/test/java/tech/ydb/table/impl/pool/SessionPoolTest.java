@@ -285,7 +285,7 @@ public class SessionPoolTest extends FutureHelper {
         futureIsReady(r2);
         futureIsReady(r3);
 
-        s3.close(); // will be shutdowned
+        s3.close(); // will be shutdown
 
         check(pool).idle(0).acquired(2).pending(0).size(0, 3).totalClient(3, 1).totalServer(3, 3, 0, 1);
         tableRpc.check().deleteSessionRequests(1);
@@ -301,8 +301,8 @@ public class SessionPoolTest extends FutureHelper {
         futureIsReady(r1);
         futureIsReady(r2);
 
-        s1.close(); // will be shutdowned
-        s2.close(); // will be shutdowned
+        s1.close(); // will be shutdown
+        s2.close(); // will be shutdown
 
         check(pool).idle(0).acquired(0).pending(0).size(0, 3).totalClient(3, 3).totalServer(3, 3, 0, 3);
         tableRpc.check().deleteSessionRequests(2);
@@ -336,7 +336,7 @@ public class SessionPoolTest extends FutureHelper {
 
         check(pool).idle(2).acquired(0).pending(0).size(0, 2).totalClient(2, 2).totalServer(2, 2, 0, 0);
 
-        // try to use session after closing - must be fixed in futher versions
+        // try to use session after closing - must be fixed in further versions
         CompletableFuture<Result<DataQueryResult>> r1 = s1.executeDataQuery("SELECT 1;", TxControl.onlineRo());
         CompletableFuture<Result<DataQueryResult>> r2 = s2.executeDataQuery("SELECT 1;", TxControl.onlineRo());
 
@@ -531,7 +531,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().executeDataRequests(1);
         tableRpc.nextExecuteDataQuery().completeTransportUnavailable();
 
-        // Close session 2 with runtime exeception
+        // Close session 2 with runtime exception
         s2.close();
         tableRpc.check().deleteSessionRequests(1);
         tableRpc.nextDeleteSession().completeRuntimeException();

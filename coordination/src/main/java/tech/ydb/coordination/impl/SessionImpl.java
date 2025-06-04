@@ -152,7 +152,7 @@ class SessionImpl implements CoordinationSession {
             SessionState local = state.get();
             boolean recoverableState = local.getState() == State.CONNECTED || local.getState() == State.RECONNECTING;
             if (recoverableState && local.hasStream(stream)) {
-                logger.debug("stream {} starts to recover");
+                logger.debug("stream {} starts to recover", this);
                 long disconnectedAt = clock.millis();
                 restoreSession(disconnectedAt, 0, messagesToRetry);
             } else {
@@ -162,7 +162,7 @@ class SessionImpl implements CoordinationSession {
             }
         }, executor);
 
-        // and send session start message with id of previos session (or zero if it's first connect)
+        // and send session start message with id of previous session (or zero if it's first connect)
         return stream.sendSessionStart(sessionID, nodePath, connectTimeout, protectionKey);
     }
 
@@ -207,7 +207,7 @@ class SessionImpl implements CoordinationSession {
         long elapsedTimeMs = clock.millis() - disconnectedAt;
         long retryInMs = retryPolicy.nextRetryMs(retryCount, elapsedTimeMs);
         if (retryInMs < 0) {
-            logger.debug("stream {} lost connection by retry policy");
+            logger.debug("stream {} lost connection by retry policy", this);
             updateState(local, makeLostState(local));
             completeMessagesWithBadSession(messagesToRetry);
             return;
@@ -221,14 +221,14 @@ class SessionImpl implements CoordinationSession {
         }
 
         if (retryInMs > 0) {
-            logger.debug("stream {} shedule next retry {} in {} ms", this, retryCount, retryInMs);
+            logger.debug("stream {} schedule next retry {} in {} ms", this, retryCount, retryInMs);
             rpc.getScheduler().schedule(
                     () -> reconnect(stream, disconnectedAt, retryCount, messagesToRetry),
                     retryInMs,
                     TimeUnit.MILLISECONDS
             );
         } else {
-            logger.debug("stream {} immediatelly retry {}", this, retryCount);
+            logger.debug("stream {} immediately retry {}", this, retryCount);
             reconnect(stream, disconnectedAt, retryCount, messagesToRetry);
         }
     }

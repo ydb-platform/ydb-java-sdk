@@ -2,14 +2,15 @@ package tech.ydb.core.impl.pool;
 
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.security.cert.CertificateException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import com.google.common.io.ByteStreams;
 import io.grpc.ClientInterceptor;
+import io.grpc.ForwardingChannelBuilder2;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
@@ -128,7 +129,7 @@ public class DefaultChannelFactoryTest {
                 .withUseDefaultGrpcResolver(true);
 
         ManagedChannelFactory factory = ShadedNettyChannelFactory
-                .withInterceptor(cb -> cb.enableFullStreamDecompression())
+                .withInterceptor(ForwardingChannelBuilder2::enableFullStreamDecompression)
                 .buildFactory(builder);
 
         channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
@@ -153,7 +154,7 @@ public class DefaultChannelFactoryTest {
         SelfSignedCertificate selfSignedCert = new SelfSignedCertificate(MOCKED_HOST);
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ByteStreams.copy(new FileInputStream(selfSignedCert.certificate()), baos);
+            ByteStreams.copy(Files.newInputStream(selfSignedCert.certificate().toPath()), baos);
 
             GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
                     .withSecureConnection(baos.toByteArray())

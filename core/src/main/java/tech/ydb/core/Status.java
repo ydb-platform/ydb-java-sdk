@@ -87,7 +87,7 @@ public final class Status implements Serializable {
      * session.beginTransaction(...)
      *    // Execute query in opened transaction
      *    .thenCompose(Result.compose(transaction -> session.executeDataQuery(...)
-     *        // Commmit transaction
+     *        // Commit transaction
      *        .thenCompose(Result.compose(result -> transaction.commit()
      *            // And return result of query if commit was successful
      *            .thenCompose(Status.bindValue(result.getResultSet(0)))

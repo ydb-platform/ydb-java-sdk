@@ -194,7 +194,7 @@ public class OperationBinderTest {
 
         Assert.assertFalse(result.isSuccess());
         Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, result.getStatus().getCode());
-        UnexpectedResultException ex = Assert.assertThrows(UnexpectedResultException.class, () -> result.getValue());
+        UnexpectedResultException ex = Assert.assertThrows(UnexpectedResultException.class, result::getValue);
         Assert.assertEquals(
                 "Can't unpack message tech.ydb.proto.table.YdbTable$ExecuteQueryResult, code: CLIENT_INTERNAL_ERROR",
                 ex.getMessage()

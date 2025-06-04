@@ -9,6 +9,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 
+import javax.annotation.Nonnull;
+
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.query.QueryStream;
@@ -54,6 +56,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
         return stream.execute(collector).thenApply(res -> res.map(collector::toReader));
     }
 
+    @Nonnull
     @Override
     public Iterator<ResultSetReader> iterator() {
         return results.iterator();

@@ -48,7 +48,7 @@ public interface Params {
      *
      * @param name param name
      * @param value param value
-     * @return non empty {@link Params} with single parameter
+     * @return nonempty {@link Params} with single parameter
      */
     static Params of(String name, Value<?> value) {
         return ParamsImmutableMap.create(name, value);
@@ -57,7 +57,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with two parameters.
      *
-     * @return non empty {@link Params} with two parameters
+     * @return nonempty {@link Params} with two parameters
      */
     static Params of(String name1, Value<?> value1, String name2, Value<?> value2) {
         return ParamsImmutableMap.create(name1, value1, name2, value2);
@@ -66,7 +66,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with three parameters.
      *
-     * @return non empty {@link Params} with three parameters
+     * @return nonempty {@link Params} with three parameters
      */
     static Params of(
         String name1, Value<?> value1,
@@ -78,7 +78,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with four parameters.
      *
-     * @return non empty {@link Params} with four parameters
+     * @return nonempty {@link Params} with four parameters
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
@@ -92,7 +92,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with five parameters.
      *
-     * @return non empty {@link Params} with five parameters
+     * @return nonempty {@link Params} with five parameters
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
@@ -107,7 +107,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with six parameters.
      *
-     * @return non empty {@link Params} with six parameters
+     * @return nonempty {@link Params} with six parameters
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
@@ -124,7 +124,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with six parameters.
      *
-     * @return non empty {@link Params} with seven parameters
+     * @return nonempty {@link Params} with seven parameters
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
@@ -143,7 +143,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with eight parameters.
      *
-     * @return non empty {@link Params} with eight parameters
+     * @return nonempty {@link Params} with eight parameters
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(
@@ -164,7 +164,7 @@ public interface Params {
     /**
      * Returns an immutable implementation of {@link Params} with nine parameters.
      *
-     * @return non empty {@link Params} with nine parameters
+     * @return nonempty {@link Params} with nine parameters
      */
     @SuppressWarnings("checkstyle:ParameterNumber")
     static Params of(

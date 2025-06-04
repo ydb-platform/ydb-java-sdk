@@ -95,7 +95,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         logger.trace("stream {} send session stop msg", hashCode());
         stream.sendNext(stopMsg);
 
-        // schedule cancelation of grpc-stream
+        // schedule cancellation of grpc-stream
         // if server doesn't close stream by stop message - this timer cancels grpc stream
         final Future<?> timer = scheduler.schedule(this::cancelStream, SHUTDOWN_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         stopFuture.whenComplete((st, ex) -> {

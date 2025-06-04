@@ -90,7 +90,7 @@ public class YdbDiscoveryTest {
         discovery.waitReady(-1);
         discovery.stop();
 
-        // stop is imdepotent operation
+        // stop is idempotent operation
         discovery.stop();
     }
 
@@ -117,7 +117,7 @@ public class YdbDiscoveryTest {
         scheduler.hasTasksCount(1).runNextTask();
         verifyDiscoveryCount(1);
 
-        // few next ticks will be dump
+        // few next ticks will be dumped
         Instant started = clock.instant();
         Instant lastUpdate = started;
 
@@ -125,7 +125,7 @@ public class YdbDiscoveryTest {
         while (!clock.instant().isAfter(started.plus(normal))) {
             verifyDiscoveryCount(1);
 
-            Assert.assertFalse("" + clock.instant() + " must be after " + lastUpdate.plus(tick),
+            Assert.assertFalse(clock.instant() + " must be after " + lastUpdate.plus(tick),
                     clock.instant().isBefore(lastUpdate.plus(tick)));
             lastUpdate = clock.instant();
 

@@ -60,7 +60,7 @@ public class ChangefeedTableTest {
                 .addChangefeed(Changefeed.newBuilder("change2").build())
         )).join();
 
-        Assert.assertFalse("Alter table add multipli changefeeds", alterStatus.isSuccess());
+        Assert.assertFalse("Alter table add multiple changefeeds", alterStatus.isSuccess());
         Assert.assertEquals("Status{code = UNSUPPORTED(code=400180), issues = "
                 + "[Only one changefeed can be added by one operation (S_ERROR)]}", alterStatus.toString());
 
@@ -80,7 +80,7 @@ public class ChangefeedTableTest {
                 .dropChangefeed("change1")
                 .dropChangefeed("change2")
         )).join();
-        Assert.assertFalse("Alter table drop multipli changefeeds", alterStatus.isSuccess());
+        Assert.assertFalse("Alter table drop multiple changefeeds", alterStatus.isSuccess());
         Assert.assertEquals("Status{code = UNSUPPORTED(code=400180), issues = "
                 + "[Only one changefeed can be removed by one operation (S_ERROR)]}", alterStatus.toString());
     }

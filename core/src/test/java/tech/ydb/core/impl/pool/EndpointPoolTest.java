@@ -422,7 +422,7 @@ public class EndpointPoolTest {
 
 
     @Test
-    public void detectLocalDCTest() throws IOException {
+    public void detectLocalDCTest() {
         final TestTicker testTicker = new TestTicker(
                 1, 4,
                 5, 26,

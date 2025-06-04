@@ -133,7 +133,6 @@ public class TablePartitioningSettingsTest {
         PartitioningSettings settings = description.getPartitioningSettings();
         Assert.assertNotNull("Table partitioning settings", settings);
 
-        assert (settings != null);
         Assert.assertEquals("Partition Size Mb",
                 partitioning.getPartitionSizeMb(), settings.getPartitionSizeMb());
         Assert.assertEquals("Min Partitions Count",

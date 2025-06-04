@@ -54,7 +54,7 @@ public class VariantValue implements Value<VariantType> {
 
     @Override
     public String toString() {
-        return "Variant[" + typeIndex + "; " + item.toString() + ']';
+        return "Variant[" + typeIndex + "; " + item + ']';
     }
 
     @Override

@@ -57,7 +57,7 @@ public class GrpcTransportBuilder {
          * to the discovery endpoint. Any discovery problems will be ignored. This mode allows to start working with the
          * database without waiting for discovery to complete, but after its completion, existing long-running
          * operations (like grpc streams) will be interrupted.
-         * Thus this mode is not recommended for long-running streams such as topic reading/writing.
+         * Thus, this mode is not recommended for long-running streams such as topic reading/writing.
          */
         ASYNC_FALLBACK
     }
@@ -201,7 +201,7 @@ public class GrpcTransportBuilder {
      * {@link GrpcTransportBuilder#withChannelFactoryBuilder(tech.ydb.core.impl.pool.ManagedChannelFactory.Builder)}
      * instead
      *
-     * @param ci custom NettyChannelBuilder initializator
+     * @param ci custom NettyChannelBuilder initializer
      * @return this
      * @deprecated
      */

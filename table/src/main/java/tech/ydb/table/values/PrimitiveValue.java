@@ -1250,7 +1250,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public int hashCode() {
-            return 31 * type.hashCode() + (int) (microsSinceEpoch ^ (microsSinceEpoch >>> 32));
+            return 31 * type.hashCode() + Long.hashCode(microsSinceEpoch);
         }
 
         @Override
@@ -1334,7 +1334,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public int hashCode() {
-            return (int) (micros ^ (micros >>> 32));
+            return Long.hashCode(micros);
         }
 
         @Override

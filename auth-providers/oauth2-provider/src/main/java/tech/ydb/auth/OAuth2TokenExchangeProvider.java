@@ -14,7 +14,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
@@ -54,12 +53,12 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
     private static final Logger logger = LoggerFactory.getLogger(OAuth2TokenExchangeProvider.class);
     private static final Gson GSON = new Gson();
-    private static final Set<String> SUPPORTED_JWT_ALGS = new HashSet<String>(Arrays.asList(new String[]{
-        "HS256", "HS384", "HS512",
-        "RS256", "RS384", "RS512",
-        "PS256", "PS384", "PS512",
-        "ES256", "ES384", "ES512",
-    }));
+    private static final Set<String> SUPPORTED_JWT_ALGS = new HashSet<>(Arrays.asList(
+            "HS256", "HS384", "HS512",
+            "RS256", "RS384", "RS512",
+            "PS256", "PS384", "PS512",
+            "ES256", "ES384", "ES512"
+    ));
 
     private final Clock clock;
     private final String endpoint;
@@ -83,41 +82,40 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
     public static String[] getSupportedJwtAlgorithms() {
         String[] result = new String[SUPPORTED_JWT_ALGS.size()];
         int i = 0;
-        Iterator<String> it = SUPPORTED_JWT_ALGS.iterator();
-        while (it.hasNext()) {
-            result[i++] = it.next();
+        for (String supportedJwtAlg : SUPPORTED_JWT_ALGS) {
+            result[i++] = supportedJwtAlg;
         }
         Arrays.sort(result);
         return result;
     }
 
     private static OAuth2TokenSource buildFixedTokenSourceFromConfig(TokenSourceJsonConfig cfg) {
-        if (cfg.getToken() == null || cfg.getToken().length() == 0
-            || cfg.getTokenType() == null || cfg.getTokenType().length() == 0) {
+        if (cfg.getToken() == null || cfg.getToken().isEmpty()
+                || cfg.getTokenType() == null || cfg.getTokenType().isEmpty()) {
             throw new RuntimeException("Both token and token-type are required");
         }
         return OAuth2TokenSource.fromValue(cfg.getToken(), cfg.getTokenType());
     }
 
     private static OAuth2TokenSource buildJwtTokenSourceFromConfig(TokenSourceJsonConfig cfg) {
-        if (cfg.getAlg() == null || cfg.getAlg().length() == 0) {
+        if (cfg.getAlg() == null || cfg.getAlg().isEmpty()) {
             throw new RuntimeException("Algorithm is required");
         }
-        if (cfg.getPrivateKey() == null || cfg.getPrivateKey().length() == 0) {
+        if (cfg.getPrivateKey() == null || cfg.getPrivateKey().isEmpty()) {
             throw new RuntimeException("Key is required");
         }
 
         String alg = cfg.getAlg().toUpperCase();
         if (!SUPPORTED_JWT_ALGS.contains(alg)) {
             String[] supportedAlgs = getSupportedJwtAlgorithms();
-            String lstMsg = "";
+            StringBuilder lstMsg = new StringBuilder();
             for (int i = 0; i < supportedAlgs.length; i++) {
                 if (lstMsg.length() > 0) {
-                    lstMsg += ", ";
+                    lstMsg.append(", ");
                 }
-                lstMsg += "\"";
-                lstMsg += supportedAlgs[i];
-                lstMsg += "\"";
+                lstMsg.append("\"");
+                lstMsg.append(supportedAlgs[i]);
+                lstMsg.append("\"");
             }
             throw new RuntimeException(
                 String.format("Algorithm \"%s\" is not supported. Supported algorithms: %s",
@@ -129,7 +127,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         boolean isHmac = "HS256".equals(alg)
             || "HS384".equals(alg)
             || "HS512".equals(alg);
-        OAuth2TokenSource.JWTTokenBuilder builder = null;
+        OAuth2TokenSource.JWTTokenBuilder builder;
         if (isHmac) {
             builder = OAuth2TokenSource.withHmacPrivateKeyBase64(cfg.getPrivateKey(), alg);
         } else {
@@ -196,13 +194,13 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
                 builder.withCustomGrantType(cfg.getGrantType());
             }
 
-            if (cfg.getResource() != null && cfg.getResource().length != 0) {
+            if (cfg.getResource() != null) {
                 for (String res: cfg.getResource()) {
                     builder.withResource(res);
                 }
             }
 
-            if (cfg.getAudience() != null && cfg.getAudience().length != 0) {
+            if (cfg.getAudience() != null) {
                 for (String audience: cfg.getAudience()) {
                     builder.withAudience(audience);
                 }
@@ -535,13 +533,13 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         public String[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
             if (json.isJsonArray()) {
                 JsonArray arr = json.getAsJsonArray();
-                if (arr.size() == 0) {
+                if (arr.isEmpty()) {
                     return null;
                 }
                 String[] result = new String[arr.size()];
                 for (int i = 0; i < arr.size(); i++) {
                     result[i] = arr.get(i).getAsJsonPrimitive().getAsString();
-                    if (result[i].length() == 0) {
+                    if (result[i].isEmpty()) {
                         throw new RuntimeException("Cannot parse config from json: empty string");
                     }
                 }
@@ -550,7 +548,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             if (json.isJsonPrimitive()) {
                 String[] result = new String[1];
                 result[0] = json.getAsJsonPrimitive().getAsString();
-                if (result[0].length() == 0) {
+                if (result[0].isEmpty()) {
                     throw new RuntimeException("Cannot parse config from json: empty string");
                 }
                 return result;
@@ -715,14 +713,14 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
 
         public String buildScope() {
-            String result = new String();
+            StringBuilder result = new StringBuilder();
             for (String s: this.scope) {
                 if (result.length() != 0) {
-                    result += " ";
+                    result.append(" ");
                 }
-                result += s;
+                result.append(s);
             }
-            return result;
+            return result.toString();
         }
 
         public String getRequestedTokenType() {
