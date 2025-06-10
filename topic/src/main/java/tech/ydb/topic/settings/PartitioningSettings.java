@@ -42,6 +42,7 @@ public class PartitioningSettings {
      *                             Zero value means default - 100.
      * @deprecated Use {@link #getMaxActivePartitions()} instead
      */
+    @Deprecated
     public long getPartitionCountLimit() {
         return partitionCountLimit;
     }

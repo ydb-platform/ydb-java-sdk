@@ -9,8 +9,8 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Sergey Polovko
  */
 public final class VoidType implements Type {
-
     private static final VoidType INSTANCE = new VoidType();
+    private static final long serialVersionUID = 2865013061318532939L;
 
     private VoidType() {
     }

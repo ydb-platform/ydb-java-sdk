@@ -897,6 +897,7 @@ public class ProtoValue {
     }
 
     private static final class Uuid extends PrimitiveValue {
+        private static final long serialVersionUID = 761577812627003532L;
         private final long high;
         private final long low;
 

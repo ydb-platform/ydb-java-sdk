@@ -10,6 +10,7 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Sergey Polovko
  */
 public class ListValue implements Value<ListType> {
+    private static final long serialVersionUID = 8672625561012902978L;
 
     private final ListType type;
     private final Value<?>[] items;

@@ -8,8 +8,8 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Aleksandr Gorshenin
  */
 public class NullValue implements Value<NullType> {
-
     private static final NullValue INSTANCE = new NullValue();
+    private static final long serialVersionUID = 7394540932620428882L;
 
     private NullValue() {
     }

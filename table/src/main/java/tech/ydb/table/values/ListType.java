@@ -11,6 +11,7 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Sergey Polovko
  */
 public final class ListType implements Type {
+    private static final long serialVersionUID = -2673063704709926669L;
 
     private final Type itemType;
 
