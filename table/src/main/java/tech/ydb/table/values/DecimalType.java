@@ -1,5 +1,6 @@
 package tech.ydb.table.values;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
@@ -13,11 +14,12 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Sergey Polovko
  */
 public class DecimalType implements Type {
-
     public static final int MAX_PRECISION = 35;
 
     private static final InfValues[] INF_VALUES;
     private static final DecimalType YDB_DEFAULT;
+
+    private static final long serialVersionUID = 5260350619058403189L;
 
     static {
         // Precalculate +inf/-inf values for all precisions
@@ -171,7 +173,9 @@ public class DecimalType implements Type {
         return high < inf.negHigh || (high == inf.negHigh && Long.compareUnsigned(low, inf.negLow) <= 0);
     }
 
-    private static class InfValues {
+    private static class InfValues implements Serializable {
+        private static final long serialVersionUID = 3291796497109728849L;
+
         private final long posHigh;
         private final long posLow;
         private final long negHigh;

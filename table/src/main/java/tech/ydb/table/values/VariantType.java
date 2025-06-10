@@ -10,6 +10,7 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Sergey Polovko
  */
 public final class VariantType implements Type {
+    private static final long serialVersionUID = -8107634160011423979L;
 
     private final Type[] itemTypes;
 

@@ -1,6 +1,5 @@
 package tech.ydb.table.values;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Sergey Polovko
  */
 public final class DictType implements Type {
+    private static final long serialVersionUID = -2863510622617082427L;
 
     private final Type keyType;
     private final Type valueType;
@@ -71,7 +71,7 @@ public final class DictType implements Type {
     }
 
     public DictValue emptyValue() {
-        return new DictValue(this, Collections.emptyMap());
+        return new DictValue(this, new HashMap<>());
     }
 
     public DictValue newValueCopy(Map<Value<?>, Value<?>> items) {
@@ -85,6 +85,6 @@ public final class DictType implements Type {
         if (items.isEmpty()) {
             return emptyValue();
         }
-        return new DictValue(this, items);
+        return new DictValue(this, new HashMap<>(items));
     }
 }

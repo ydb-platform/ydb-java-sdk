@@ -53,6 +53,8 @@ public class DecimalValue implements Value<DecimalType> {
     public static final DecimalValue NAN = new DecimalValue(
         MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000001L);
 
+    private static final long serialVersionUID = 1362798151263983188L;
+
     private final DecimalType type;
     private final long high;
     private final long low;

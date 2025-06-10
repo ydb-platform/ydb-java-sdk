@@ -91,6 +91,7 @@ public class AlterPartitioningSettings {
          * @return settings builder
          * @deprecated Use {@link #setMaxActivePartitions(long)} instead
          */
+        @Deprecated
         public Builder setPartitionCountLimit(long partitionCountLimit) {
             this.partitionCountLimit = partitionCountLimit;
             return this;

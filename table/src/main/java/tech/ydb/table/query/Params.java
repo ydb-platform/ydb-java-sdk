@@ -1,5 +1,6 @@
 package tech.ydb.table.query;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -13,7 +14,7 @@ import tech.ydb.table.values.Value;
  * @author Sergey Polovko
  */
 @ParametersAreNonnullByDefault
-public interface Params {
+public interface Params extends Serializable {
 
     /**
      * Returns an immutable implementation of {@link Params} with no parameters.

@@ -10,6 +10,7 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Sergey Polovko
  */
 public final class OptionalType implements Type {
+    private static final long serialVersionUID = 9055043063372724062L;
 
     private final Type itemType;
 

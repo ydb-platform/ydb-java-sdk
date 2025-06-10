@@ -17,10 +17,11 @@ import static com.google.common.base.Preconditions.checkArgument;
  * @author Sergey Polovko
  */
 public final class StructType implements Type {
+    private static final long serialVersionUID = 6319617873645784207L;
 
     private final String[] names;
     private final Type[] types;
-    private final Map<String, Integer> namesIdx;
+    private final HashMap<String, Integer> namesIdx;
 
     StructType(String[] names, Type[] types) {
         if (names.length == 0 || types.length == 0) {
@@ -283,7 +284,7 @@ public final class StructType implements Type {
         return new StructValue(this, members);
     }
 
-    private static Map<String, Integer> buildNamesIdx(String[] names) {
+    private static HashMap<String, Integer> buildNamesIdx(String[] names) {
         // TODO: use structure with lower memory usage
         HashMap<String, Integer> namesIdx = Maps.newHashMapWithExpectedSize(names.length);
         for (int i = 0; i < names.length; i++) {
