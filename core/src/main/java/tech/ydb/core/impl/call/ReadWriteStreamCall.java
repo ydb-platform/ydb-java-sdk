@@ -4,7 +4,6 @@ import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -18,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -39,23 +39,21 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     private final GrpcStatusHandler statusConsumer;
     private final Metadata headers;
     private final AuthCallOptions callOptions;
+    private final GrpcFlowControl.Call flow;
 
-    private final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
-    private final AtomicReference<Observer<R>> observerReference = new AtomicReference<>();
     private final Queue<W> messagesQueue = new ArrayDeque<>();
 
-    public ReadWriteStreamCall(
-            String traceId,
-            ClientCall<W, R> call,
-            Metadata headers,
-            AuthCallOptions callOptions,
-            GrpcStatusHandler statusConsumer
-    ) {
+    private final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
+    private Observer<R> consumer = null;
+
+    public ReadWriteStreamCall(String traceId, ClientCall<W, R> call, GrpcFlowControl flowCtrl,
+            Metadata headers, AuthCallOptions options, GrpcStatusHandler statusHandler) {
         this.traceId = traceId;
         this.call = call;
         this.headers = headers;
-        this.statusConsumer = statusConsumer;
-        this.callOptions = callOptions;
+        this.statusConsumer = statusHandler;
+        this.callOptions = options;
+        this.flow = flowCtrl.newCall(this::nextRequest);
     }
 
     @Override
@@ -65,14 +63,18 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
 
     @Override
     public CompletableFuture<Status> start(Observer<R> observer) {
-        if (!observerReference.compareAndSet(null, observer)) {
-            throw new IllegalStateException("Read stream call is already started");
-        }
-
         callLock.lock();
         try {
+            if (consumer != null) {
+                throw new IllegalStateException("Read write stream call is already started");
+            }
+            if (observer == null) {
+                throw new IllegalArgumentException("Observer must be not empty");
+            }
+            consumer = observer;
             call.start(this, headers);
-            call.request(1);
+            // init flow control
+            flow.onStart();
         } catch (Throwable t) {
             try {
                 call.cancel(null, t);
@@ -133,6 +135,16 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         }
     }
 
+    private void nextRequest(int count) {
+        // request delivery of the next inbound message.
+        callLock.lock();
+        try {
+            call.request(count);
+        } finally {
+            callLock.unlock();
+        }
+    }
+
     @Override
     public void onMessage(R message) {
         try {
@@ -140,17 +152,10 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
                 logger.trace("ReadWriteStreamCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) message));
             }
 
-            observerReference.get().onNext(message);
-            // request delivery of the next inbound message.
-            callLock.lock();
-            try {
-                call.request(1);
-            } finally {
-                callLock.unlock();
-            }
+            consumer.onNext(message);
+            flow.onMessageReaded();
         } catch (Exception ex) {
             statusFuture.completeExceptionally(ex);
-
             try {
                 callLock.lock();
                 try {

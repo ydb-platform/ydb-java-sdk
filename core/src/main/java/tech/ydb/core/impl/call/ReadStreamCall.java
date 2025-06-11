@@ -2,7 +2,6 @@ package tech.ydb.core.impl.call;
 
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -16,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -35,32 +35,34 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
     private final GrpcStatusHandler statusConsumer;
     private final ReqT request;
     private final Metadata headers;
+    private final GrpcFlowControl.Call flow;
 
     private final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
-    private final AtomicReference<Observer<RespT>> observerReference = new AtomicReference<>();
 
-    public ReadStreamCall(
-            String traceId,
-            ClientCall<ReqT, RespT> call,
-            ReqT request,
-            Metadata headers,
-            GrpcStatusHandler statusConsumer
-    ) {
+    private Observer<RespT> consumer;
+
+    public ReadStreamCall(String traceId, ClientCall<ReqT, RespT> call, GrpcFlowControl flowCtrl, ReqT req,
+            Metadata headers, GrpcStatusHandler statusHandler) {
         this.traceId = traceId;
         this.call = call;
-        this.request = request;
+        this.request = req;
         this.headers = headers;
-        this.statusConsumer = statusConsumer;
+        this.statusConsumer = statusHandler;
+        this.flow = flowCtrl.newCall(this::nextRequest);
     }
 
     @Override
     public CompletableFuture<Status> start(Observer<RespT> observer) {
-        if (!observerReference.compareAndSet(null, observer)) {
-            throw new IllegalStateException("Read stream call is already started");
-        }
-
         callLock.lock();
         try {
+            if (consumer != null) {
+                throw new IllegalStateException("Read stream call is already started");
+            }
+            if (observer == null) {
+                throw new IllegalArgumentException("Observer must be not empty");
+            }
+
+            consumer = observer;
             call.start(this, headers);
             if (logger.isTraceEnabled()) {
                 logger.trace("ReadStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
@@ -68,15 +70,16 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
             call.sendMessage(request);
             // close stream by client side
             call.halfClose();
-            call.request(1);
-        } catch (Throwable t) {
+            // init flow
+            flow.onStart();
+        } catch (Throwable th) {
+            statusFuture.completeExceptionally(th);
+
             try {
-                call.cancel(null, t);
+                call.cancel(null, th);
             } catch (Throwable ex) {
                 logger.error("ReadStreamCall[{}] got exception while canceling", traceId, ex);
             }
-
-            statusFuture.completeExceptionally(t);
         } finally {
             callLock.unlock();
         }
@@ -94,20 +97,24 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
         }
     }
 
+    private void nextRequest(int count) {
+        // request delivery of the next inbound message.
+        callLock.lock();
+        try {
+            call.request(count);
+        } finally {
+            callLock.unlock();
+        }
+    }
+
     @Override
     public void onMessage(RespT message) {
         try {
             if (logger.isTraceEnabled()) {
                 logger.trace("ReadStreamCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) message));
             }
-            observerReference.get().onNext(message);
-            // request delivery of the next inbound message.
-            callLock.lock();
-            try {
-                call.request(1);
-            } finally {
-                callLock.unlock();
-            }
+            consumer.onNext(message);
+            flow.onMessageReaded();
         } catch (Exception ex) {
             statusFuture.completeExceptionally(ex);
 
