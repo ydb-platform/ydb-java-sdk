@@ -35,7 +35,7 @@ public class EnqueuedMessage {
     private final YdbTransaction transaction;
 
     private volatile boolean isReady = false;
-    private volatile IOException comporessError = null;
+    private volatile IOException compressError = null;
 
     public EnqueuedMessage(Message message, SendSettings sendSettings, boolean noCompression) {
         this.bytes = message.getData();
@@ -52,27 +52,27 @@ public class EnqueuedMessage {
         return isReady;
     }
 
-    public long getOriginLength() {
+    public long getOriginalSize() {
         return originLength;
     }
 
-    public long getLength() {
+    public long getSize() {
         return bytes.length;
     }
 
     public IOException getCompressError() {
-        return comporessError;
+        return compressError;
     }
 
-    public void encode(String id, Codec codec) {
-        logger.trace("[{}] Started encoding message", id);
+    public void encode(String writeId, Codec codec) {
+        logger.trace("[{}] Started encoding message", writeId);
 
         try {
             bytes = Encoder.encode(codec, bytes);
             isReady = true;
-            logger.trace("[{}] Successfully finished encoding message", id);
+            logger.trace("[{}] Successfully finished encoding message", writeId);
         } catch (IOException ex) {
-            logger.error("[{}] Exception while encoding message: ", id, ex);
+            logger.error("[{}] Exception while encoding message: ", writeId, ex);
             isReady = true;
             future.completeExceptionally(ex);
         }

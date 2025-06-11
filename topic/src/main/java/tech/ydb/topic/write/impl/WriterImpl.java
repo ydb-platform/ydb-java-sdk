@@ -115,10 +115,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     logger.info("[{}] Message queue in-flight limit of {} reached. Putting the message into incoming " +
                             "waiting queue", id, settings.getMaxSendBufferMessagesCount());
                 }
-            } else if (availableSizeBytes < message.getLength()) {
+            } else if (availableSizeBytes < message.getSize()) {
                 if (instant) {
                     String errorMessage = "[" + id + "] Rejecting a message of " +
-                            message.getLength() +
+                            message.getSize() +
                             " bytes: not enough space in message queue. Buffer currently has " + currentInFlightCount +
                             " messages with " + availableSizeBytes + " / " + settings.getMaxSendBufferMemorySize() +
                             " bytes available";
@@ -129,7 +129,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                 } else {
                     logger.info("[{}] Can't accept a message of {} bytes into message queue. Buffer currently has " +
                                     "{} messages with {} / {} bytes available. Putting the message into incoming " +
-                                    "waiting queue.", id, message.getLength(), currentInFlightCount,
+                                    "waiting queue.", id, message.getSize(), currentInFlightCount,
                             availableSizeBytes, settings.getMaxSendBufferMemorySize());
                 }
             } else if (incomingQueue.isEmpty()) {
@@ -149,10 +149,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private void acceptMessageIntoSendingQueue(EnqueuedMessage message) {
         this.lastAcceptedMessageFuture = message.getFuture();
         this.currentInFlightCount++;
-        this.availableSizeBytes -= message.getOriginLength();
+        this.availableSizeBytes -= message.getOriginalSize();
         if (logger.isDebugEnabled()) {
             logger.debug("[{}] Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, " +
-                            "AvailableSizeBytes: {} ({} / {} acquired)", id, message.getOriginLength(),
+                            "AvailableSizeBytes: {} ({} / {} acquired)", id, message.getOriginalSize(),
                     currentInFlightCount, availableSizeBytes, maxSendBufferMemorySize - availableSizeBytes,
                     maxSendBufferMemorySize);
         }
@@ -189,15 +189,15 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                 IOException error = msg.getCompressError();
                 if (error != null) { // just skip
                     logger.warn("[{}] Message wasn't sent because of processing error", id, error);
-                    free(1, msg.getOriginLength());
+                    free(1, msg.getOriginalSize());
                     continue;
                 }
 
-                if (msg.getOriginLength() != msg.getLength()) {
-                    logger.trace("[{}] Message compressed from {} to {} bytes", id, msg.getOriginLength(),
-                            msg.getLength());
+                if (msg.getOriginalSize() != msg.getSize()) {
+                    logger.trace("[{}] Message compressed from {} to {} bytes", id, msg.getOriginalSize(),
+                            msg.getSize());
                     // message was actually encoded. Need to free some bytes
-                    long bytesFreed = msg.getOriginLength() - msg.getLength();
+                    long bytesFreed = msg.getOriginalSize() - msg.getSize();
                     // bytesFreed can be less than 0
                     free(0, bytesFreed);
                 }
@@ -288,7 +288,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     if (incomingMessage == null) {
                         break;
                     }
-                    if (incomingMessage.message.getOriginLength() > availableSizeBytes
+                    if (incomingMessage.message.getOriginalSize() > availableSizeBytes
                             || currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
                         logger.trace("[{}] There are messages in incomingQueue still, but no space in send buffer", id);
                         return;
@@ -431,7 +431,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     }
                     if (sentMessage.getSeqNo() == ack.getSeqNo()) {
                         inFlightFreed++;
-                        bytesFreed += sentMessage.getLength();
+                        bytesFreed += sentMessage.getSize();
                         sentMessages.remove();
                         processWriteAck(sentMessage, ack);
                         break;
@@ -443,7 +443,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                         sentMessage.getFuture().completeExceptionally(
                                 new RuntimeException("Didn't get ack from server for this message"));
                         inFlightFreed++;
-                        bytesFreed += sentMessage.getLength();
+                        bytesFreed += sentMessage.getSize();
                         sentMessages.remove();
                         // Checking next message waiting for ack
                     } else {
