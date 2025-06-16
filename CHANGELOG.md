@@ -1,3 +1,8 @@
+## 2.3.16 ##
+* Core: Added option to control the grpc stream flow
+* Table: Added Serializable to all values and types
+* Topic: Fixed double compression of one message
+
 ## 2.3.15 ##
 
 * Core: ResourceExhausted isn't pessimize the node
