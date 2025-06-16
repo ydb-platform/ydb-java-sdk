@@ -13,6 +13,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
     private final boolean concurrentResultSets;
     private final String resourcePool;
     private final GrpcFlowControl flowControl;
+    private final long partBytesLimit;
 
     private ExecuteQuerySettings(Builder builder) {
         super(builder);
@@ -21,6 +22,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         this.concurrentResultSets = builder.concurrentResultSets;
         this.resourcePool = builder.resourcePool;
         this.flowControl = builder.flowControl;
+        this.partBytesLimit = builder.partBytesLimit;
     }
 
     public QueryExecMode getExecMode() {
@@ -47,6 +49,10 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         return flowControl;
     }
 
+    public long getPartBytesLimit() {
+        return partBytesLimit;
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -57,6 +63,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         private boolean concurrentResultSets = false;
         private String resourcePool = null;
         private GrpcFlowControl flowControl = null;
+        private long partBytesLimit = -1;
 
         public Builder withExecMode(QueryExecMode mode) {
             this.execMode = mode;
@@ -89,6 +96,16 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
 
         public Builder withGrpcFlowControl(GrpcFlowControl ctrl) {
             this.flowControl = ctrl;
+            return this;
+        }
+
+        /**
+         * Allows to set size limitation (in bytes) for one result part
+         * @param limit maximum length if one result set part
+         * @return builder
+         */
+        public Builder withPartBytesLimit(long limit) {
+            this.partBytesLimit = limit;
             return this;
         }
 

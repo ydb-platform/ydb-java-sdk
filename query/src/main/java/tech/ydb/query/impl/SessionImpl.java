@@ -200,6 +200,10 @@ abstract class SessionImpl implements QuerySession {
             request.setPoolId(resourcePool);
         }
 
+        if (settings.getPartBytesLimit() >= 0) {
+            request.setResponsePartLimitBytes(settings.getPartBytesLimit());
+        }
+
         if (tx != null) {
             request.setTxControl(tx);
         }
