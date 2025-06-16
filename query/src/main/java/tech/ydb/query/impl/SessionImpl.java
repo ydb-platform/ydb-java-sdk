@@ -183,7 +183,7 @@ abstract class SessionImpl implements QuerySession {
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
             String query, YdbQuery.TransactionControl tx, Params prms, ExecuteQuerySettings settings
     ) {
-        YdbQuery.ExecuteQueryRequest.Builder requestBuilder = YdbQuery.ExecuteQueryRequest.newBuilder()
+        YdbQuery.ExecuteQueryRequest.Builder request = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(sessionId)
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
@@ -197,15 +197,19 @@ abstract class SessionImpl implements QuerySession {
 
         String resourcePool = settings.getResourcePool();
         if (resourcePool != null && !resourcePool.isEmpty()) {
-            requestBuilder.setPoolId(resourcePool);
+            request.setPoolId(resourcePool);
         }
 
         if (tx != null) {
-            requestBuilder.setTxControl(tx);
+            request.setTxControl(tx);
         }
 
-        YdbQuery.ExecuteQueryRequest request = requestBuilder.build();
-        return rpc.executeQuery(request, makeOptions(settings).build());
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+        if (settings.getGrpcFlowControl() != null) {
+            options = options.withFlowControl(settings.getGrpcFlowControl());
+        }
+
+        return rpc.executeQuery(request.build(), options.build());
     }
 
     @Override

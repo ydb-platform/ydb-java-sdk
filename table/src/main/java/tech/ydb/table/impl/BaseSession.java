@@ -1199,9 +1199,12 @@ public abstract class BaseSession implements Session {
             request.addAllColumns(settings.getColumns());
         }
 
-        final GrpcRequestSettings opts = makeOptions(settings).build();
-        final GrpcReadStream<YdbTable.ReadTableResponse> origin = rpc.streamReadTable(request.build(), opts);
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+        if (settings.getGrpcFlowControl() != null) {
+            options = options.withFlowControl(settings.getGrpcFlowControl());
+        }
 
+        GrpcReadStream<YdbTable.ReadTableResponse> origin = rpc.streamReadTable(request.build(), options.build());
         return new ProxyReadStream<>(origin, (response, future, observer) -> {
             StatusIds.StatusCode statusCode = response.getStatus();
             if (statusCode == StatusIds.StatusCode.SUCCESS) {
@@ -1222,8 +1225,7 @@ public abstract class BaseSession implements Session {
 
     @Override
     public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
-                                                            ExecuteScanQuerySettings settings
-    ) {
+            ExecuteScanQuerySettings settings) {
         YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
                 .setMode(settings.getMode().toPb())
@@ -1231,9 +1233,12 @@ public abstract class BaseSession implements Session {
                 .setCollectStats(settings.getCollectStats().toPb())
                 .build();
 
-        GrpcRequestSettings opts = makeOptions(settings).build();
+        GrpcRequestSettings.Builder opts = makeOptions(settings);
+        if (settings.getGrpcFlowControl() != null) {
+            opts = opts.withFlowControl(settings.getGrpcFlowControl());
+        }
 
-        final GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = rpc.streamExecuteScanQuery(req, opts);
+        GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = rpc.streamExecuteScanQuery(req, opts.build());
         return new ProxyReadStream<>(origin, (response, future, observer) -> {
             StatusIds.StatusCode statusCode = response.getStatus();
             if (statusCode == StatusIds.StatusCode.SUCCESS) {

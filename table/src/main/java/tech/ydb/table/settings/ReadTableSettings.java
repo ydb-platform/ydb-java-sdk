@@ -9,6 +9,7 @@ import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.collect.ImmutableList;
 
+import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.TupleValue;
@@ -31,6 +32,7 @@ public class ReadTableSettings extends BaseRequestSettings {
     private final ImmutableList<String> columns;
     private final int batchLimitBytes;
     private final int batchLimitRows;
+    private final GrpcFlowControl flowControl;
 
     private ReadTableSettings(Builder builder) {
         super(builder);
@@ -43,6 +45,7 @@ public class ReadTableSettings extends BaseRequestSettings {
         this.columns = ImmutableList.copyOf(builder.columns);
         this.batchLimitBytes = builder.batchLimitBytes;
         this.batchLimitRows = builder.batchLimitRows;
+        this.flowControl = builder.flowControl;
     }
 
     public static Builder newBuilder() {
@@ -87,6 +90,10 @@ public class ReadTableSettings extends BaseRequestSettings {
         return batchLimitRows;
     }
 
+    public GrpcFlowControl getGrpcFlowControl() {
+        return flowControl;
+    }
+
     /**
      * BUILDER
      */
@@ -100,6 +107,7 @@ public class ReadTableSettings extends BaseRequestSettings {
         private List<String> columns = Collections.emptyList();
         private int batchLimitBytes = 0;
         private int batchLimitRows = 0;
+        private GrpcFlowControl flowControl = null;
 
         public Builder orderedRead(boolean ordered) {
             this.ordered = ordered;
@@ -181,6 +189,11 @@ public class ReadTableSettings extends BaseRequestSettings {
 
         public Builder batchLimitRows(int batchLimitRows) {
             this.batchLimitRows = batchLimitRows;
+            return this;
+        }
+
+        public Builder withGrpcFlowControl(GrpcFlowControl ctrl) {
+            this.flowControl = ctrl;
             return this;
         }
 

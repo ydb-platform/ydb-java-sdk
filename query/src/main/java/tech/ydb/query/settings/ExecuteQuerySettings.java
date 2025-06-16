@@ -1,5 +1,6 @@
 package tech.ydb.query.settings;
 
+import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.settings.BaseRequestSettings;
 
 /**
@@ -11,6 +12,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
     private final QueryStatsMode statsMode;
     private final boolean concurrentResultSets;
     private final String resourcePool;
+    private final GrpcFlowControl flowControl;
 
     private ExecuteQuerySettings(Builder builder) {
         super(builder);
@@ -18,6 +20,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         this.statsMode = builder.statsMode;
         this.concurrentResultSets = builder.concurrentResultSets;
         this.resourcePool = builder.resourcePool;
+        this.flowControl = builder.flowControl;
     }
 
     public QueryExecMode getExecMode() {
@@ -40,6 +43,10 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         return this.resourcePool;
     }
 
+    public GrpcFlowControl getGrpcFlowControl() {
+        return flowControl;
+    }
+
     public static Builder newBuilder() {
         return new Builder();
     }
@@ -49,6 +56,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         private QueryStatsMode statsMode = QueryStatsMode.NONE;
         private boolean concurrentResultSets = false;
         private String resourcePool = null;
+        private GrpcFlowControl flowControl = null;
 
         public Builder withExecMode(QueryExecMode mode) {
             this.execMode = mode;
@@ -76,6 +84,11 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
          */
         public Builder withResourcePool(String poolId) {
             this.resourcePool = poolId;
+            return this;
+        }
+
+        public Builder withGrpcFlowControl(GrpcFlowControl ctrl) {
+            this.flowControl = ctrl;
             return this;
         }
 
