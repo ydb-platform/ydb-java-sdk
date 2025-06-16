@@ -114,7 +114,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
                 logger.trace("ReadStreamCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) message));
             }
             consumer.onNext(message);
-            flow.onMessageReaded();
+            flow.onMessageRead();
         } catch (Exception ex) {
             statusFuture.completeExceptionally(ex);
 

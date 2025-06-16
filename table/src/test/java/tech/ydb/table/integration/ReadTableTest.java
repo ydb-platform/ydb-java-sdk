@@ -108,73 +108,73 @@ public class ReadTableTest {
     @Test
     public void readTableTest() {
         String tablePath = tablePath(TEST_TABLE);
-        AtomicLong rowReaded = new AtomicLong(0);
+        AtomicLong rowsRead = new AtomicLong(0);
 
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id").build();
         retryCtx.supplyStatus(session -> {
-            rowReaded.set(0);
+            rowsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {
-                rowReaded.addAndGet(part.getResultSetReader().getRowCount());
+                rowsRead.addAndGet(part.getResultSetReader().getRowCount());
             });
         }).join().expectSuccess("Cannot read table " + tablePath);
 
-        Assert.assertEquals(TEST_TABLE_SIZE, rowReaded.get());
+        Assert.assertEquals(TEST_TABLE_SIZE, rowsRead.get());
     }
 
     @Test
     public void limitedReadTableTest() {
         String tablePath = tablePath(TEST_TABLE);
-        AtomicLong rowReaded = new AtomicLong(0);
+        AtomicLong rewsRead = new AtomicLong(0);
 
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id").batchLimitRows(100).build();
         retryCtx.supplyStatus(session -> {
-            rowReaded.set(0);
+            rewsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {
                 Assert.assertTrue(part.getResultSetReader().getRowCount() <= 100);
-                rowReaded.addAndGet(part.getResultSetReader().getRowCount());
+                rewsRead.addAndGet(part.getResultSetReader().getRowCount());
             });
         }).join().expectSuccess("Cannot read table " + tablePath);
 
-        Assert.assertEquals(TEST_TABLE_SIZE, rowReaded.get());
+        Assert.assertEquals(TEST_TABLE_SIZE, rewsRead.get());
     }
 
     @Test
     public void partialReadTableTest() {
         String tablePath = tablePath(TEST_TABLE);
-        AtomicLong rowReaded = new AtomicLong(0);
+        AtomicLong rowsRead = new AtomicLong(0);
 
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id")
                 .fromKeyExclusive(PrimitiveValue.newInt64(1))
                 .toKeyExclusive(PrimitiveValue.newInt64(TEST_TABLE_SIZE))
                 .build();
         retryCtx.supplyStatus(session -> {
-            rowReaded.set(0);
+            rowsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {
-                rowReaded.addAndGet(part.getResultSetReader().getRowCount());
+                rowsRead.addAndGet(part.getResultSetReader().getRowCount());
             });
         }).join().expectSuccess("Cannot read table " + tablePath);
 
-        Assert.assertEquals(TEST_TABLE_SIZE - 2, rowReaded.get());
+        Assert.assertEquals(TEST_TABLE_SIZE - 2, rowsRead.get());
 
         ReadTableSettings rts2 = ReadTableSettings.newBuilder().column("id")
                 .fromKeyInclusive(PrimitiveValue.newInt64(2))
                 .toKeyInclusive(PrimitiveValue.newInt64(TEST_TABLE_SIZE - 1))
                 .build();
         retryCtx.supplyStatus(session -> {
-            rowReaded.set(0);
+            rowsRead.set(0);
             return session.executeReadTable(tablePath, rts2).start(part -> {
-                rowReaded.addAndGet(part.getResultSetReader().getRowCount());
+                rowsRead.addAndGet(part.getResultSetReader().getRowCount());
             });
         }).join().expectSuccess("Cannot read table " + tablePath);
 
-        Assert.assertEquals(TEST_TABLE_SIZE - 2, rowReaded.get());
+        Assert.assertEquals(TEST_TABLE_SIZE - 2, rowsRead.get());
     }
 
     @Test
     public void flowControlReadTableTest() {
         String tablePath = tablePath(TEST_TABLE);
 
-        AtomicLong rowReaded = new AtomicLong(0);
+        AtomicLong rowsRead = new AtomicLong(0);
         TestFlowCall flow = new TestFlowCall();
 
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id")
@@ -188,21 +188,21 @@ public class ReadTableTest {
             Assert.assertFalse(flow.isStarted());
 
             CompletableFuture<Status> res = stream.start(part -> {
-                rowReaded.addAndGet(part.getResultSetReader().getRowCount());
+                rowsRead.addAndGet(part.getResultSetReader().getRowCount());
             });
 
             Assert.assertTrue(flow.isStarted());
 
             int requested = 0;
-            long readed = rowReaded.get();
-            Assert.assertEquals(0l, readed);
+            long read = rowsRead.get();
+            Assert.assertEquals(0l, read);
 
-            while (readed < TEST_TABLE_SIZE) {
+            while (read < TEST_TABLE_SIZE) {
                 flow.requestNext(1);
                 requested++;
                 flow.waitUntil(requested);
-                Assert.assertTrue(rowReaded.get() > readed);
-                readed = rowReaded.get();
+                Assert.assertTrue(rowsRead.get() > read);
+                read = rowsRead.get();
             }
 
             Assert.assertTrue(res.join().isSuccess());
@@ -225,7 +225,7 @@ public class ReadTableTest {
             }
 
             @Override
-            public void onMessageReaded() {
+            public void onMessageRead() {
                 semaphore.release();
             }
         }

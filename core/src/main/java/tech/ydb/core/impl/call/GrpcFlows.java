@@ -26,7 +26,7 @@ public class GrpcFlows {
         }
 
         @Override
-        public void onMessageReaded() {
+        public void onMessageRead() {
             req.accept(1);
         }
     }

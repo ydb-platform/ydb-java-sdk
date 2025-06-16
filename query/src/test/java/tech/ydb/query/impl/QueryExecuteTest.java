@@ -104,23 +104,23 @@ public class QueryExecuteTest {
 
     @Test
     public void streamReadTest() {
-        AtomicLong rowReaded = new AtomicLong(0);
+        AtomicLong rowsRead = new AtomicLong(0);
 
         try (QueryClient client = QueryClient.newClient(YDB).build()) {
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 session.createQuery("SELECT * FROM " + TEST_TABLE, TxMode.NONE).execute(part -> {
-                    rowReaded.addAndGet(part.getResultSetReader().getRowCount());
+                    rowsRead.addAndGet(part.getResultSetReader().getRowCount());
                 }).join().getStatus().expectSuccess("Cannot execute query");
             }
         }
 
-        Assert.assertEquals(TEST_TABLE_SIZE, rowReaded.get());
+        Assert.assertEquals(TEST_TABLE_SIZE, rowsRead.get());
     }
 
 
     @Test
     public void flowControlTest() {
-        AtomicLong rowReaded = new AtomicLong(0);
+        AtomicLong rowsRead = new AtomicLong(0);
         TestFlowCall flow = new TestFlowCall();
 
         ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
@@ -136,21 +136,21 @@ public class QueryExecuteTest {
                 Assert.assertFalse(flow.isStarted());
 
                 CompletableFuture<Result<QueryInfo>> res = stream.execute(part -> {
-                    rowReaded.addAndGet(part.getResultSetReader().getRowCount());
+                    rowsRead.addAndGet(part.getResultSetReader().getRowCount());
                 });
 
                 Assert.assertTrue(flow.isStarted());
 
                 int requested = 0;
-                long readed = rowReaded.get();
-                Assert.assertEquals(0l, readed);
+                long read = rowsRead.get();
+                Assert.assertEquals(0l, read);
 
-                while (readed < TEST_TABLE_SIZE) {
+                while (read < TEST_TABLE_SIZE) {
                     flow.requestNext(1);
                     requested++;
                     flow.waitUntil(requested);
-                    Assert.assertTrue(rowReaded.get() > readed);
-                    readed = rowReaded.get();
+                    Assert.assertTrue(rowsRead.get() > read);
+                    read = rowsRead.get();
                 }
 
                 Assert.assertTrue(res.join().isSuccess());
@@ -174,7 +174,7 @@ public class QueryExecuteTest {
             }
 
             @Override
-            public void onMessageReaded() {
+            public void onMessageRead() {
                 semaphore.release();
             }
         }

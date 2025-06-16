@@ -153,7 +153,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
             }
 
             consumer.onNext(message);
-            flow.onMessageReaded();
+            flow.onMessageRead();
         } catch (Exception ex) {
             statusFuture.completeExceptionally(ex);
             try {

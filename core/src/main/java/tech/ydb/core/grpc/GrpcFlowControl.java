@@ -10,7 +10,7 @@ import java.util.function.IntConsumer;
 public interface GrpcFlowControl {
     interface Call {
         void onStart();
-        void onMessageReaded();
+        void onMessageRead();
     }
 
     Call newCall(IntConsumer req);
