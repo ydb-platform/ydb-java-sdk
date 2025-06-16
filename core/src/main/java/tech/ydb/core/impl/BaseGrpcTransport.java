@@ -16,6 +16,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -132,7 +133,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 );
             }
 
-            return new ReadStreamCall<>(traceId, call, request, makeMetadataFromSettings(settings), handler);
+            Metadata metadata = makeMetadataFromSettings(settings);
+            GrpcFlowControl flowCtrl = settings.getFlowControl();
+            return new ReadStreamCall<>(traceId, call, flowCtrl, request, metadata, handler);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -175,9 +178,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 );
             }
 
-            return new ReadWriteStreamCall<>(
-                    traceId, call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler
-            );
+            Metadata metadata = makeMetadataFromSettings(settings);
+            GrpcFlowControl flowCtrl = settings.getFlowControl();
+            return new ReadWriteStreamCall<>(traceId, call, flowCtrl, metadata, getAuthCallOptions(), handler);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadWriteStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
