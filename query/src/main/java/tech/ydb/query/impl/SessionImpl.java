@@ -119,8 +119,7 @@ abstract class SessionImpl implements QuerySession {
                 .setTxSettings(TxControl.txSettings(tx))
                 .build();
 
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-        return rpc.beginTransaction(request, grpcSettings).thenApply(result -> {
+        return rpc.beginTransaction(request, makeOptions(settings).build()).thenApply(result -> {
             updateSessionState(result.getStatus());
             return result.map(resp -> updateTransaction(new TransactionImpl(tx, resp.getTxMeta().getId())));
         });
@@ -138,7 +137,7 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.AttachSessionRequest request = YdbQuery.AttachSessionRequest.newBuilder()
                 .setSessionId(sessionId)
                 .build();
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
+        GrpcRequestSettings grpcSettings = makeOptions(settings).build();
         return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
             logger.trace("session '{}' got attach stream message {}", sessionId, TextFormat.shortDebugString(message));
             Status status = Status.of(StatusCode.fromProto(message.getStatus()), Issue.fromPb(message.getIssuesList()));
@@ -147,13 +146,12 @@ abstract class SessionImpl implements QuerySession {
         });
     }
 
-    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+    private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings) {
         String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withPreferredNodeID((int) nodeID)
-                .withTraceId(traceId)
-                .build();
+                .withTraceId(traceId);
     }
 
     private static YdbQuery.ExecMode mapExecMode(QueryExecMode mode) {
@@ -207,8 +205,7 @@ abstract class SessionImpl implements QuerySession {
         }
 
         YdbQuery.ExecuteQueryRequest request = requestBuilder.build();
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-        return rpc.executeQuery(request, grpcSettings);
+        return rpc.executeQuery(request, makeOptions(settings).build());
     }
 
     @Override
@@ -229,8 +226,7 @@ abstract class SessionImpl implements QuerySession {
                 .setSessionId(sessionId)
                 .build();
 
-        GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-        return rpc.deleteSession(request, grpcSettings).thenApply(DELETE_SESSION);
+        return rpc.deleteSession(request, makeOptions(settings).build()).thenApply(DELETE_SESSION);
     }
 
     static CompletableFuture<Result<YdbQuery.CreateSessionResponse>> createSession(
@@ -405,8 +401,7 @@ abstract class SessionImpl implements QuerySession {
                     .setSessionId(sessionId)
                     .setTxId(transactionId)
                     .build();
-            GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-            return rpc.commitTransaction(request, grpcSettings)
+            return rpc.commitTransaction(request, makeOptions(settings).build())
                     .thenApply(res -> {
                         Status status = res.getStatus();
                         currentStatusFuture.complete(status);
@@ -438,8 +433,7 @@ abstract class SessionImpl implements QuerySession {
                     .setSessionId(sessionId)
                     .setTxId(transactionId)
                     .build();
-            GrpcRequestSettings grpcSettings = makeGrpcRequestSettings(settings);
-            return rpc.rollbackTransaction(request, grpcSettings)
+            return rpc.rollbackTransaction(request, makeOptions(settings).build())
                     .thenApply(result -> {
                         updateSessionState(result.getStatus());
                         if (!txId.compareAndSet(transactionId, null)) {
