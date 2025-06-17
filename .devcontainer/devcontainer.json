@@ -1,0 +1,37 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java
+{
+    "name": "YDB Java SDK",
+    "dockerFile": "Dockerfile",
+    // Allows the container to use ptrace, which is useful for debugging.
+    "capAdd": [
+        "SYS_PTRACE"
+    ],
+    // Disables seccomp, which can be necessary for some debugging tools to function correctly.
+    "securityOpt": [
+        "seccomp=unconfined"
+    ],
+    "features": {
+        "ghcr.io/devcontainers/features/github-cli:1": {},
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    },
+    // Use 'initializeCommand' to run commands before the container is created.
+    "initializeCommand": "chmod +x .devcontainer/commands/initialize.sh && .devcontainer/commands/initialize.sh",
+    // Use 'postCreateCommand' to run commands after the container is created.
+    // Use 'postStartCommand' to run commands after the container is started.
+    // Configure tool-specific properties.
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "redhat.java",
+                "vscjava.vscode-java-pack"
+            ]
+        }
+    },
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    "remoteUser": "root",
+    // Maven cache volume configuration.
+    "mounts": [
+        "source=maven-cache,target=/root/.m2,type=volume",
+    ]
+}
