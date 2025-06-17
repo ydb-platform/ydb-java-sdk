@@ -28,10 +28,8 @@
             ]
         }
     },
-    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-    "remoteUser": "root",
     // Maven cache volume configuration.
     "mounts": [
-        "source=maven-cache,target=/root/.m2,type=volume",
+        "source=maven-cache,target=/var/maven/.m2,type=volume"
     ]
 }
