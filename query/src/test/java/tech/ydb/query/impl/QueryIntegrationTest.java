@@ -1,8 +1,12 @@
 package tech.ydb.query.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.channels.Channels;
 import java.time.Duration;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -10,6 +14,17 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
+import com.google.protobuf.ByteString;
+import org.apache.arrow.memory.BufferAllocator;
+import org.apache.arrow.memory.RootAllocator;
+import org.apache.arrow.vector.FieldVector;
+import org.apache.arrow.vector.VectorLoader;
+import org.apache.arrow.vector.VectorSchemaRoot;
+import org.apache.arrow.vector.ipc.ReadChannel;
+import org.apache.arrow.vector.ipc.message.ArrowRecordBatch;
+import org.apache.arrow.vector.ipc.message.MessageSerializer;
+import org.apache.arrow.vector.types.pojo.Field;
+import org.apache.arrow.vector.types.pojo.Schema;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -24,6 +39,7 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
@@ -32,6 +48,7 @@ import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.QueryExecMode;
+import tech.ydb.query.settings.QueryResultFormat;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.query.tools.QueryReader;
 import tech.ydb.table.SessionRetryContext;
@@ -40,6 +57,7 @@ import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
+import tech.ydb.table.utils.Hex;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.test.junit4.GrpcTransportRule;
@@ -249,7 +267,7 @@ public class QueryIntegrationTest {
     @Test
     public void testSimpleCRUD() {
         List<Entity> entities = new ArrayList<>();
-        entities.add(new Entity(1, "entity 1", BYTES_EMPTY, true));
+        entities.add(new Entity(1, "1234567890", BYTES_EMPTY, true));
         entities.add(new Entity(2, "entity 2", BYTES_EMPTY, true));
         entities.add(new Entity(3, "entity 3", BYTES_LEN2, false));
         entities.add(new Entity(3, "duplicate", BYTES_LEN5, true));
@@ -279,9 +297,54 @@ public class QueryIntegrationTest {
             }
 
             try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                String query = "SELECT id, name, payload, is_valid FROM " + TEST_TABLE + " ORDER BY id;";
+                String query = "SELECT is_valid, name FROM " + TEST_TABLE + " ORDER BY id;";
                 session.createQuery(query, TxMode.SERIALIZABLE_RW)
                         .execute(this::printQuerySetPart)
+                        .join().getStatus().expectSuccess();
+            }
+
+            // Apache arrow format
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                String query = "SELECT id, name, payload, is_valid FROM " + TEST_TABLE + " ORDER BY id;";
+                ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                        .withResultFormat(QueryResultFormat.APACHE_ARROW)
+                        .build();
+                session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings)
+                        .execute(new QueryStream.PartsHandler() {
+                            @Override
+                            public void onNextPart(QueryResultPart part) {
+                                throw new AssertionError("Must be used apache arrow format");
+                            }
+
+                            @Override
+                            public void onNextPartRaw(long index, ValueProtos.ResultSet rs) {
+                                Assert.assertTrue("Must be used apache arrow format", rs.hasArrowBatchSettings());
+                                BufferAllocator allocator = new RootAllocator();
+                                readApacheArrowBatch(rs.getArrowBatchSettings().getSchema(), rs.getData(), allocator);
+                            }
+                        })
+                        .join().getStatus().expectSuccess();
+            }
+
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                String query = "SELECT id, is_valid, name, payload  FROM " + TEST_TABLE + " ORDER BY id;";
+                ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                        .withResultFormat(QueryResultFormat.APACHE_ARROW)
+                        .build();
+                session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings)
+                        .execute(new QueryStream.PartsHandler() {
+                            @Override
+                            public void onNextPart(QueryResultPart part) {
+                                throw new AssertionError("Must be used apache arrow format");
+                            }
+
+                            @Override
+                            public void onNextPartRaw(long index, ValueProtos.ResultSet rs) {
+                                Assert.assertTrue("Must be used apache arrow format", rs.hasArrowBatchSettings());
+                                BufferAllocator allocator = new RootAllocator();
+                                readApacheArrowBatch(rs.getArrowBatchSettings().getSchema(), rs.getData(), allocator);
+                            }
+                        })
                         .join().getStatus().expectSuccess();
             }
 
@@ -293,10 +356,55 @@ public class QueryIntegrationTest {
         }
     }
 
+    private Schema readApacheArrowSchema(ByteString bytes) {
+        try (InputStream is = bytes.newInput()) {
+            try (ReadChannel channel = new ReadChannel(Channels.newChannel(is))) {
+              return MessageSerializer.deserializeSchema(channel);
+            }
+        } catch (IOException ex) {
+          throw new RuntimeException(ex);
+        }
+    }
+
+    private void readApacheArrowBatch(ByteString schemaBytes, ByteString batchBytes, BufferAllocator bufferAllocator) {
+        logger.info("ARROW SCHEMA = {}", Hex.toHex(schemaBytes));
+        logger.info("ARROW DATA = {}", Hex.toHex(batchBytes));
+        Schema schema = readApacheArrowSchema(schemaBytes);
+        VectorSchemaRoot vector = VectorSchemaRoot.create(schema, bufferAllocator);
+        VectorLoader loader = new VectorLoader(vector);
+
+        try (InputStream is = batchBytes.newInput()) {
+            try (ReadChannel channel = new ReadChannel(Channels.newChannel(is))) {
+                ArrowRecordBatch batch = MessageSerializer.deserializeRecordBatch(channel, bufferAllocator);
+                loader.load(batch);
+
+                logger.info("LOAD {}", vector.getRowCount());
+                for (Field field: schema.getFields()) {
+                    FieldVector fv = vector.getVector(field);
+                    logger.info("{} -> {} ", field.getName(), field.getFieldType().getType());
+                    for (int idx = 0; idx < vector.getRowCount(); idx++) {
+                        Object obj = fv.getObject(idx);
+                        Object s = (obj instanceof byte[]) ? Arrays.toString((byte[]) obj) : obj;
+                        logger.info("{}[{}]={}[{}] ", field.getName(), idx, s, obj.getClass());
+                    }
+                }
+
+                batch.close();
+            }
+        } catch (IOException ex) {
+          throw new RuntimeException(ex);
+        }
+    }
+
     public void printQuerySetPart(QueryResultPart part) {
         ResultSetReader rs = part.getResultSetReader();
         if (rs != null) {
             logger.info("got query result part with index {} and {} rows", part.getResultSetIndex(), rs.getRowCount());
+            while (rs.next()) {
+                for (int c = 0; c < rs.getColumnCount(); c++) {
+                    System.out.println("read " + rs.getColumnName(c) + " = " + rs.getColumn(c).toString());
+                }
+            }
         }
     }
 
@@ -598,8 +706,8 @@ public class QueryIntegrationTest {
                 Assert.assertFalse(result.isSuccess());
                 Assert.assertEquals(StatusCode.PRECONDITION_FAILED, result.getStatus().getCode());
                 Issue issue =  Issue.of(2012,
-//                        "Constraint violated. Table: `" + ydbTransport.getDatabase() + "/" + TEST_TABLE + "`.",
-                        "Conflict with existing key.",
+                        "Constraint violated. Table: `" + ydbTransport.getDatabase() + "/" + TEST_TABLE + "`.",
+//                        "Conflict with existing key.",
                         Issue.Severity.ERROR
                 );
                 Assert.assertArrayEquals(new Issue[] { issue }, result.getStatus().getIssues());

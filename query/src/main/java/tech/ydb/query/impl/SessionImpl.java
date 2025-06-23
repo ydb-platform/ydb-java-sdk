@@ -24,12 +24,12 @@ import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
-import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.result.QueryStats;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.BeginTransactionSettings;
@@ -38,6 +38,7 @@ import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.QueryExecMode;
+import tech.ydb.query.settings.QueryResultFormat;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.query.settings.RollbackTransactionSettings;
 import tech.ydb.table.query.Params;
@@ -154,6 +155,16 @@ abstract class SessionImpl implements QuerySession {
                 .withTraceId(traceId);
     }
 
+    private static ValueProtos.ResultSet.Type mapResultFormat(QueryResultFormat format) {
+        switch (format) {
+            case STANDARD:
+            default:
+                return ValueProtos.ResultSet.Type.MESSAGE;
+            case APACHE_ARROW:
+                return ValueProtos.ResultSet.Type.ARROW;
+        }
+    }
+
     private static YdbQuery.ExecMode mapExecMode(QueryExecMode mode) {
         switch (mode) {
             case EXECUTE: return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
@@ -187,6 +198,7 @@ abstract class SessionImpl implements QuerySession {
                 .setSessionId(sessionId)
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
+                .setResultSetType(mapResultFormat(settings.getResultFormat()))
                 .setConcurrentResultSets(settings.isConcurrentResultSets())
                 .setQueryContent(YdbQuery.QueryContent.newBuilder()
                         .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)
@@ -304,7 +316,7 @@ abstract class SessionImpl implements QuerySession {
                 if (msg.hasResultSet()) {
                     long index = msg.getResultSetIndex();
                     if (handler != null) {
-                        handler.onNextPart(new QueryResultPart(index, msg.getResultSet()));
+                        handler.onNextPartRaw(index, msg.getResultSet());
                     } else {
                         logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
                     }

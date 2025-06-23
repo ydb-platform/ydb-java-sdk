@@ -2,7 +2,7 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="[%level] %d{HH:mm:ss.SSS} [%t] %logger{36} - %msg%n"/>
+            <PatternLayout pattern="[%level]\t%d{HH:mm:ss.SSS} [%t] %logger{36} - %msg%n"/>
         </Console>
     </Appenders>
 
@@ -10,7 +10,10 @@
         <Logger name="io.grpc" level="warn" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
-        <Logger name="tech.ydb" level="debug" additivity="false">
+        <Logger name="io.netty" level="warn" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="tech.ydb" level="info" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
         <Logger name="tech.ydb.query" level="debug" additivity="false">

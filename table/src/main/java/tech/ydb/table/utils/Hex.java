@@ -22,4 +22,10 @@ public class Hex {
             sb.append(HEX_DIGITS[b & 0x0f]);
         }
     }
+
+    public static String toHex(ByteString bytes) {
+        StringBuilder sb = new StringBuilder();
+        toHex(bytes, sb);
+        return sb.toString();
+    }
 }

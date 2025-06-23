@@ -6,6 +6,7 @@ import io.grpc.ExperimentalApi;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
 
@@ -15,9 +16,16 @@ import tech.ydb.query.result.QueryResultPart;
  */
 @ExperimentalApi("QueryService is experimental and API may change without notice")
 public interface QueryStream {
+
+    @FunctionalInterface
     interface PartsHandler {
         default void onIssues(Issue[] issues) { }
+
         void onNextPart(QueryResultPart part);
+
+        default void onNextPartRaw(long index, ValueProtos.ResultSet rs) {
+            onNextPart(new QueryResultPart(index, rs));
+        }
     }
 
     CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler);

@@ -10,6 +10,7 @@ import tech.ydb.core.settings.BaseRequestSettings;
 public class ExecuteQuerySettings extends BaseRequestSettings {
     private final QueryExecMode execMode;
     private final QueryStatsMode statsMode;
+    private final QueryResultFormat resultFormat;
     private final boolean concurrentResultSets;
     private final String resourcePool;
     private final GrpcFlowControl flowControl;
@@ -19,6 +20,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         super(builder);
         this.execMode = builder.execMode;
         this.statsMode = builder.statsMode;
+        this.resultFormat = builder.resultFormat;
         this.concurrentResultSets = builder.concurrentResultSets;
         this.resourcePool = builder.resourcePool;
         this.flowControl = builder.flowControl;
@@ -31,6 +33,10 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
 
     public QueryStatsMode getStatsMode() {
         return this.statsMode;
+    }
+
+    public QueryResultFormat getResultFormat() {
+        return this.resultFormat;
     }
 
     public boolean isConcurrentResultSets() {
@@ -60,6 +66,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
     public static class Builder extends BaseBuilder<Builder> {
         private QueryExecMode execMode = QueryExecMode.EXECUTE;
         private QueryStatsMode statsMode = QueryStatsMode.NONE;
+        private QueryResultFormat resultFormat = QueryResultFormat.STANDARD;
         private boolean concurrentResultSets = false;
         private String resourcePool = null;
         private GrpcFlowControl flowControl = null;
@@ -72,6 +79,11 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
 
         public Builder withStatsMode(QueryStatsMode mode) {
             this.statsMode = mode;
+            return this;
+        }
+
+        public Builder withResultFormat(QueryResultFormat format) {
+            this.resultFormat = format;
             return this;
         }
 

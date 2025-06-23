@@ -35,6 +35,19 @@
             <artifactId>log4j-slf4j-impl</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.arrow</groupId>
+            <artifactId>arrow-vector</artifactId>
+            <version>18.3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.arrow</groupId>
+            <artifactId>arrow-memory-netty</artifactId>
+            <version>18.3.0</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -45,9 +58,22 @@
                 <configuration>
                     <environmentVariables>
                         <YDB_DOCKER_FEATURE_FLAGS>enable_resource_pools</YDB_DOCKER_FEATURE_FLAGS>
+                        <YDB_DOCKER_IMAGE>ydbplatform/local-ydb:dev-arrow</YDB_DOCKER_IMAGE>
                     </environmentVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>jdk8-bootstrap</id>
+            <activation>
+                <jdk>[9</jdk>
+            </activation>
+            <properties>
+                <!-- Hide warnings on JDK later 8 -->
+                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
+            </properties>
+        </profile>
+    </profiles>
 </project>
