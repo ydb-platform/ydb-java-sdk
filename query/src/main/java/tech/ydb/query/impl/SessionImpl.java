@@ -315,6 +315,7 @@ abstract class SessionImpl implements QuerySession {
                     result.completeExceptionally(th);
                 }
                 if (status != null) {
+                    updateSessionState(status);
                     if (status.isSuccess()) {
                         result.complete(Result.success(new QueryInfo(stats.get()), status));
                     } else {
