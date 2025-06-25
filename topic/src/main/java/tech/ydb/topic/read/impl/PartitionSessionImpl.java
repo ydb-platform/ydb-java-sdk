@@ -237,7 +237,7 @@ public class PartitionSessionImpl {
     // Bulk commit without result future
     public void commitOffsetRanges(List<OffsetsRange> rangesToCommit) {
         if (isWorking.get()) {
-            if (logger.isInfoEnabled()) {
+            if (logger.isDebugEnabled()) {
                 StringBuilder message = new StringBuilder("[").append(fullId)
                         .append("] Sending CommitRequest with offset ranges ");
                 addRangesToString(message, rangesToCommit);
