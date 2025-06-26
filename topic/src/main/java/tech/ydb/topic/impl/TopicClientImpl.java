@@ -107,6 +107,7 @@ public class TopicClientImpl implements TopicClient {
         if (partitioningSettings != null) {
             requestBuilder.setPartitioningSettings(YdbTopic.PartitioningSettings.newBuilder()
                     .setMinActivePartitions(partitioningSettings.getMinActivePartitions())
+                    .setMaxActivePartitions(partitioningSettings.getMaxActivePartitions())
                     .setPartitionCountLimit(partitioningSettings.getPartitionCountLimit())
                     .setAutoPartitioningSettings(YdbTopic.AutoPartitioningSettings.newBuilder()
                             .setStrategy(toProto(partitioningSettings.getAutoPartitioningStrategy()))));
