@@ -13,7 +13,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
@@ -244,12 +243,13 @@ public class YdbTopicsIntegrationTest {
         }
     }
 
-    @Ignore("remove ignore once :latest YDB container tag moves onto version 25.1")
     @Test
     public void step07_alterTopicWithAutoPartitioning() {
         client.alterTopic(TEST_TOPIC, AlterTopicSettings.newBuilder()
                         .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
                                 .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                                .setMaxActivePartitions(10)
+                                .setMinActivePartitions(5)
                                 .setWriteStrategySettings(AlterAutoPartitioningWriteStrategySettings.newBuilder()
                                         .setStabilizationWindow(Duration.ofMinutes(1))
                                         .setUpUtilizationPercent(80)
@@ -267,8 +267,8 @@ public class YdbTopicsIntegrationTest {
                         .setUpUtilizationPercent(80)
                         .setDownUtilizationPercent(20)
                         .build())
-                .setMinActivePartitions(1)
-                .setMaxActivePartitions(1)
+                .setMinActivePartitions(5)
+                .setMaxActivePartitions(10)
                 .build();
 
         Assert.assertEquals(expectedPartitioningSettings, actualPartitioningSettings);
