@@ -53,7 +53,8 @@ public class YdbTopicsIntegrationTest {
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
-    private final static String TEST_TOPIC = "integration_test_topic";
+    private final static String TEST_TOPIC1 = "integration_test_topic";
+    private final static String TEST_TOPIC2 = "integration_test_other_topic";
     private final static String TEST_CONSUMER1 = "consumer";
     private final static String TEST_CONSUMER2 = "other_consumer";
 
@@ -69,10 +70,10 @@ public class YdbTopicsIntegrationTest {
 
     @BeforeClass
     public static void initTopic() {
-        logger.info("Create test topic {} ...", TEST_TOPIC);
+        logger.info("Create test topic {} ...", TEST_TOPIC1);
 
         client = TopicClient.newClient(ydbTransport).build();
-        client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
+        client.createTopic(TEST_TOPIC1, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER2).build())
                 .build()
@@ -81,8 +82,8 @@ public class YdbTopicsIntegrationTest {
 
     @AfterClass
     public static void dropTopic() {
-        logger.info("Drop test topic {} ...", TEST_TOPIC);
-        Status dropStatus = client.dropTopic(TEST_TOPIC).join();
+        logger.info("Drop test topic {} ...", TEST_TOPIC1);
+        Status dropStatus = client.dropTopic(TEST_TOPIC1).join();
         client.close();
         dropStatus.expectSuccess("can't drop test topic");
     }
@@ -90,7 +91,7 @@ public class YdbTopicsIntegrationTest {
     @Test
     public void step01_writeWithoutDeduplication() throws InterruptedException, ExecutionException, TimeoutException {
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
+                .setTopicPath(TEST_TOPIC1)
                 .build();
         SyncWriter writer = client.createSyncWriter(settings);
         writer.init();
@@ -110,7 +111,7 @@ public class YdbTopicsIntegrationTest {
     @Test
     public void step02_readHalfWithoutCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC1).build())
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
@@ -128,7 +129,7 @@ public class YdbTopicsIntegrationTest {
     @Test
     public void step03_readHalfWithCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC1).build())
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
@@ -147,7 +148,7 @@ public class YdbTopicsIntegrationTest {
     @Test
     public void step03_readNextHalfWithoutCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC1).build())
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
@@ -169,7 +170,7 @@ public class YdbTopicsIntegrationTest {
     @Test
     public void step04_readNextHalfWithCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC1).build())
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
@@ -193,7 +194,7 @@ public class YdbTopicsIntegrationTest {
 
     @Test
     public void step05_describeTopic() {
-        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
+        TopicDescription description = client.describeTopic(TEST_TOPIC1).join().getValue();
 
         Assert.assertNull(description.getTopicStats());
         List<Consumer> consumers = description.getConsumers();
@@ -206,7 +207,7 @@ public class YdbTopicsIntegrationTest {
     @Test
     public void step06_readAllByAsyncReader() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC1).build())
                 .setConsumerName(TEST_CONSUMER2)
                 .build();
 
@@ -245,7 +246,7 @@ public class YdbTopicsIntegrationTest {
 
     @Test
     public void step07_alterTopicWithAutoPartitioning() {
-        client.alterTopic(TEST_TOPIC, AlterTopicSettings.newBuilder()
+        client.alterTopic(TEST_TOPIC1, AlterTopicSettings.newBuilder()
                         .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
                                 .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
                                 .setMaxActivePartitions(10)
@@ -257,7 +258,7 @@ public class YdbTopicsIntegrationTest {
                                 .build())
                 .build()).join().expectSuccess("can't alter the topic");
 
-        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
+        TopicDescription description = client.describeTopic(TEST_TOPIC1).join().getValue();
 
         PartitioningSettings actualPartitioningSettings = description.getPartitioningSettings();
         PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
@@ -272,5 +273,29 @@ public class YdbTopicsIntegrationTest {
                 .build();
 
         Assert.assertEquals(expectedPartitioningSettings, actualPartitioningSettings);
+    }
+
+    @Test
+    public void step08_createTopicWithAutoPartitioning() {
+        PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
+                .setMaxActivePartitions(8)
+                .setMinActivePartitions(4)
+                .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                .setWriteStrategySettings(AutoPartitioningWriteStrategySettings.newBuilder()
+                        .setDownUtilizationPercent(5)
+                        .setUpUtilizationPercent(75)
+                        .setStabilizationWindow(Duration.ofMinutes(2))
+                        .build())
+                .build();
+
+        CompletableFuture<Status> secondaryTopicCreated = client.createTopic(TEST_TOPIC2, CreateTopicSettings.newBuilder()
+                .setPartitioningSettings(expectedPartitioningSettings)
+                .build());
+
+        secondaryTopicCreated.join().expectSuccess("can't create the topic");
+
+        TopicDescription description = client.describeTopic(TEST_TOPIC2).join().getValue();
+
+        Assert.assertEquals(expectedPartitioningSettings, description.getPartitioningSettings());
     }
 }
