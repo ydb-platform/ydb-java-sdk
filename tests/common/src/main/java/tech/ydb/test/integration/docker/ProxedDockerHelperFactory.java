@@ -85,6 +85,11 @@ public class ProxedDockerHelperFactory extends YdbHelperFactory {
                 container.stop();
                 container.close();
             }
+
+            @Override
+            public String getStdErr() {
+                return container.getLogs();
+            }
         };
     }
 }
