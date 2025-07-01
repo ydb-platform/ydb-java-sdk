@@ -1,3 +1,9 @@
+## 2.3.17 ##
+* Query: Fixed session status updating
+* Topic: Fixed maxActivePartitions on topic creation
+* Tests: Updated JUnit5 helper to avoid NPE
+* Added devcontainer configuration
+
 ## 2.3.16 ##
 * Core: Added option to control the grpc stream flow
 * Table: Added Serializable to all values and types
