@@ -58,6 +58,11 @@ public class YdbHelperExtension extends ProxyYdbHelper implements BeforeAllCallb
         holder.after(ec);
     }
 
+    @Override
+    public String getStdErr() {
+        return holder.helper.getStdErr();
+    }
+
     private static class Holder {
         private final Lock holderLock = new ReentrantLock();
 
