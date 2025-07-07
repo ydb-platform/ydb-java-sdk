@@ -2,6 +2,7 @@ package tech.ydb.core.ssl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -16,14 +17,15 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import com.google.common.io.ByteStreams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 final class YandexTrustManagersProvider {
     private static final Logger logger = LoggerFactory.getLogger(YandexTrustManagerFactory.class);
 
-    private static final String YANDEX_CA_STORE = "certificates/YandexAllCAs.pkcs";
-    private static final String STORE_PASSWORD = "yandex";
+    private static final String CA_STORE = "certificates/YandexAllCAs.pkcs";
+    private static final String CA_KEYPHRASE = "certificates/YandexAllCAs.password";
 
     private final TrustManager[] trustManagers;
 
@@ -45,8 +47,8 @@ final class YandexTrustManagersProvider {
             allTrustManagers.add(composite);
             trustManagers = allTrustManagers.toArray(new TrustManager[0]);
         } catch (NoSuchAlgorithmException | KeyStoreException | CertificateException | IOException e) {
-            logger.debug("Can't init yandex root CA settings", e);
             String msg = "Can't init yandex root CA setting";
+            logger.debug(msg, e);
             throw new RuntimeException(msg, e);
         }
     }
@@ -55,11 +57,14 @@ final class YandexTrustManagersProvider {
         return getTrustManagersFromKeyStore(null);
     }
 
-    private List<TrustManager> getCustomTrustManagers()
-            throws KeyStoreException, IOException, NoSuchAlgorithmException, CertificateException {
+    private List<TrustManager> getCustomTrustManagers() throws KeyStoreException, IOException, NoSuchAlgorithmException,
+            CertificateException {
         KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        try (InputStream is = YandexTrustManagersProvider.class.getClassLoader().getResourceAsStream(YANDEX_CA_STORE)) {
-            keyStore.load(is, STORE_PASSWORD.toCharArray());
+        try (InputStream pis = YandexTrustManagersProvider.class.getClassLoader().getResourceAsStream(CA_KEYPHRASE)) {
+            String passPhrase = new String(ByteStreams.toByteArray(pis), StandardCharsets.UTF_8);
+            try (InputStream is = YandexTrustManagersProvider.class.getClassLoader().getResourceAsStream(CA_STORE)) {
+                keyStore.load(is, passPhrase.toCharArray());
+            }
         }
         return getTrustManagersFromKeyStore(keyStore);
     }
