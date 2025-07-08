@@ -67,7 +67,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ReqT request
     ) {
         if (isClosed.get()) {
-            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
+            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(o -> null));
         }
 
         String traceId = settings.getTraceId();

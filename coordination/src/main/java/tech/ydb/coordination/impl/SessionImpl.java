@@ -391,7 +391,7 @@ class SessionImpl implements CoordinationSession {
         @Override
         public Result<SemaphoreLease> apply(Result<Boolean> acquireResult) {
             if (!acquireResult.isSuccess()) {
-                return acquireResult.map(null);
+                return acquireResult.map(l -> null);
             }
             if (!acquireResult.getValue()) {
                 return Result.fail(Status.of(StatusCode.TIMEOUT));

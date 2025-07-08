@@ -20,13 +20,13 @@ public interface Result<T> {
     T getValue() throws UnexpectedResultException;
 
     @Nonnull
-    <U> Result<U> map(Function<T, U> mapper);
+    <U> Result<U> map(@Nonnull Function<T, U> mapper);
 
     @Nonnull
-    <U> CompletableFuture<Result<U>> mapResultFuture(Function<T, CompletableFuture<Result<U>>> mapper);
+    <U> CompletableFuture<Result<U>> mapResultFuture(@Nonnull Function<T, CompletableFuture<Result<U>>> mapper);
 
     @Nonnull
-    CompletableFuture<Status> mapStatusFuture(Function<T, CompletableFuture<Status>> mapper);
+    CompletableFuture<Status> mapStatusFuture(@Nonnull Function<T, CompletableFuture<Status>> mapper);
 
     default boolean isSuccess() {
         return getStatus().getCode() == StatusCode.SUCCESS;
