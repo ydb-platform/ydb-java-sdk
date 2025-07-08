@@ -287,7 +287,7 @@ public class SessionRetryContext {
 
         @Override
         Result<T> toFailedResult(Result<Session> sessionResult) {
-            return sessionResult.map(null);
+            return sessionResult.map(s -> null);
         }
     }
 

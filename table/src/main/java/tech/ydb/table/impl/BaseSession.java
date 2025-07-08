@@ -751,7 +751,7 @@ public abstract class BaseSession implements Session {
     private static Result<TableDescription> mapDescribeTable(Result<YdbTable.DescribeTableResult> describeResult,
             DescribeTableSettings settings) {
         if (!describeResult.isSuccess()) {
-            return describeResult.map(null);
+            return describeResult.map(r -> null);
         }
         YdbTable.DescribeTableResult desc = describeResult.getValue();
         SchemeOperationProtos.Entry.Type entryType = desc.getSelf().getType();
@@ -900,7 +900,7 @@ public abstract class BaseSession implements Session {
     private static Result<TableOptionDescription> mapDescribeTableOptions(
             Result<YdbTable.DescribeTableOptionsResult> describeTableOptionsResult) {
         if (!describeTableOptionsResult.isSuccess()) {
-            return describeTableOptionsResult.map(null);
+            return describeTableOptionsResult.map(r -> null);
         }
 
         YdbTable.DescribeTableOptionsResult describeResult = describeTableOptionsResult.getValue();
