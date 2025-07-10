@@ -2,8 +2,6 @@ package tech.ydb.topic.write;
 
 import java.time.Duration;
 
-import tech.ydb.proto.topic.YdbTopic;
-
 /**
  * @author Nikolay Perfilov
  */
@@ -50,13 +48,6 @@ public class WriteAck {
         return statistics;
     }
 
-    private static Duration convert(com.google.protobuf.Duration d) {
-        if (d == null) {
-            return Duration.ZERO;
-        }
-        return Duration.ofSeconds(d.getSeconds(), d.getNanos());
-    }
-
     public static class Details {
         private final long offset;
 
@@ -76,12 +67,14 @@ public class WriteAck {
         private final Duration maxQueueWaitTime;
         private final Duration minQueueWaitTime;
 
-        public Statistics(YdbTopic.StreamWriteMessage.WriteResponse.WriteStatistics src) {
-            this.persistingTime          = convert(src.getPersistingTime());
-            this.partitionQuotaWaitTime  = convert(src.getPartitionQuotaWaitTime());
-            this.topicQuotaWaitTime      = convert(src.getTopicQuotaWaitTime());
-            this.maxQueueWaitTime        = convert(src.getMaxQueueWaitTime());
-            this.minQueueWaitTime        = convert(src.getMinQueueWaitTime());
+        public Statistics(Duration persistingTime,
+                Duration partitionQuotaWaitTime, Duration topicQuotaWaitTime,
+                Duration maxQueueWaitTime, Duration minQueueWaitTime) {
+            this.persistingTime = persistingTime;
+            this.partitionQuotaWaitTime = partitionQuotaWaitTime;
+            this.topicQuotaWaitTime = topicQuotaWaitTime;
+            this.maxQueueWaitTime = maxQueueWaitTime;
+            this.minQueueWaitTime = minQueueWaitTime;
         }
 
         public Duration getPersistingTime() {

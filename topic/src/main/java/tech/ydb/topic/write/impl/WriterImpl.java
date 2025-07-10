@@ -1,6 +1,7 @@
 package tech.ydb.topic.write.impl;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -320,6 +321,13 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
     }
 
+    private static Duration convertDuration(com.google.protobuf.Duration d) {
+        if (d == null) {
+            return Duration.ZERO;
+        }
+        return Duration.ofSeconds(d.getSeconds(), d.getNanos());
+    }
+
     private class WriteSessionImpl extends WriteSession {
         protected String sessionId;
         private final MessageSender messageSender;
@@ -423,7 +431,14 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             logger.debug("[{}] Received WriteResponse with {} WriteAcks", streamId, acks.size());
             WriteAck.Statistics statistics = null;
             if (response.getWriteStatistics() != null) {
-                statistics = new WriteAck.Statistics(response.getWriteStatistics());
+                YdbTopic.StreamWriteMessage.WriteResponse.WriteStatistics src = response.getWriteStatistics();
+                statistics = new WriteAck.Statistics(
+                    convertDuration(src.getPersistingTime()),
+                    convertDuration(src.getPartitionQuotaWaitTime()),
+                    convertDuration(src.getTopicQuotaWaitTime()),
+                    convertDuration(src.getMaxQueueWaitTime()),
+                    convertDuration(src.getMinQueueWaitTime())
+                );
             }
             int inFlightFreed = 0;
             long bytesFreed = 0;
