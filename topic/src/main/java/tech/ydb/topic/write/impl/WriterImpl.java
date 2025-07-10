@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
@@ -321,13 +322,6 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         }
     }
 
-    private static Duration convertDuration(com.google.protobuf.Duration d) {
-        if (d == null) {
-            return Duration.ZERO;
-        }
-        return Duration.ofSeconds(d.getSeconds(), d.getNanos());
-    }
-
     private class WriteSessionImpl extends WriteSession {
         protected String sessionId;
         private final MessageSender messageSender;
@@ -433,11 +427,11 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             if (response.getWriteStatistics() != null) {
                 YdbTopic.StreamWriteMessage.WriteResponse.WriteStatistics src = response.getWriteStatistics();
                 statistics = new WriteAck.Statistics(
-                    convertDuration(src.getPersistingTime()),
-                    convertDuration(src.getPartitionQuotaWaitTime()),
-                    convertDuration(src.getTopicQuotaWaitTime()),
-                    convertDuration(src.getMaxQueueWaitTime()),
-                    convertDuration(src.getMinQueueWaitTime())
+                    ProtobufUtils.protoToDuration(src.getPersistingTime()),
+                    ProtobufUtils.protoToDuration(src.getPartitionQuotaWaitTime()),
+                    ProtobufUtils.protoToDuration(src.getTopicQuotaWaitTime()),
+                    ProtobufUtils.protoToDuration(src.getMaxQueueWaitTime()),
+                    ProtobufUtils.protoToDuration(src.getMinQueueWaitTime())
                 );
             }
             int inFlightFreed = 0;
