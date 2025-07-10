@@ -77,12 +77,12 @@ public class WriteAck {
 
         /**
          * Create the messages batch statistics object, for a single messages batch.
-         * 
+         *
          * @param persistingTime
          * @param partitionQuotaWaitTime
          * @param topicQuotaWaitTime
          * @param maxQueueWaitTime
-         * @param minQueueWaitTime 
+         * @param minQueueWaitTime
          */
         public Statistics(Duration persistingTime,
                 Duration partitionQuotaWaitTime, Duration topicQuotaWaitTime,
