@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.settings.WriterSettings;
 
 /**
@@ -145,46 +143,23 @@ public class MessageSender {
             }
             currentTransaction = message.getTransaction();
         }
-        long messageSeqNo = message.getSeqNo() == null
-                ? (message.getMessage().getSeqNo() == null ? ++seqNo : message.getMessage().getSeqNo())
-                : message.getSeqNo();
-        if (message.getSeqNo() == null) {
-            message.setSeqNo(messageSeqNo);
-        }
 
-        YdbTopic.StreamWriteMessage.WriteRequest.MessageData.Builder messageDataBuilder =
-                YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
-                        .setSeqNo(messageSeqNo)
-                        .setData(ByteString.copyFrom(message.getMessage().getData()))
-                        .setCreatedAt(ProtobufUtils.instantToProto(message.getMessage().getCreateTimestamp()))
-                        .setUncompressedSize(message.getUncompressedSizeBytes());
+        seqNo = message.updateSeqNo(seqNo);
 
-        List<MetadataItem> metadataItems = message.getMessage().getMetadataItems();
-        if (metadataItems != null && !metadataItems.isEmpty()) {
-            messageDataBuilder.addAllMetadataItems(metadataItems
-                    .stream()
-                    .map(metadataItem -> YdbTopic.MetadataItem.newBuilder()
-                            .setKey(metadataItem.getKey())
-                            .setValue(ByteString.copyFrom(metadataItem.getValue()))
-                            .build())
-                    .collect(Collectors.toList()));
-        }
-
-        YdbTopic.StreamWriteMessage.WriteRequest.MessageData messageData = messageDataBuilder.build();
-
-        long sizeWithCurrentMessage = getCurrentRequestSize() + messageData.getSerializedSize() + messageOverheadBytes;
+        YdbTopic.StreamWriteMessage.WriteRequest.MessageData pb = message.toMessageData();
+        long sizeWithCurrentMessage = getCurrentRequestSize() + pb.getSerializedSize() + messageOverheadBytes;
         if (sizeWithCurrentMessage <= MAX_GRPC_MESSAGE_SIZE) {
-            addMessage(messageData);
+            addMessage(pb);
         } else {
             if (messageCount > 0) {
                 logger.debug("Adding next message to the same request would lead to grpc request size overflow. " +
                         "Sending previous {} messages...", messageCount);
                 sendWriteRequest();
                 reset();
-                addMessage(messageData);
+                addMessage(pb);
             } else {
                 logger.error("A single message is larger than grpc size limit. Sending it anyway...");
-                addMessage(messageData);
+                addMessage(pb);
                 sendWriteRequest();
                 reset();
             }

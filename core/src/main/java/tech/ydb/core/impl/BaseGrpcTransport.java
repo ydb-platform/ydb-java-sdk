@@ -16,6 +16,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -66,7 +67,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             ReqT request
     ) {
         if (isClosed.get()) {
-            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(null));
+            return CompletableFuture.completedFuture(SHUTDOWN_RESULT.map(o -> null));
         }
 
         String traceId = settings.getTraceId();
@@ -92,7 +93,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             return new UnaryCall<>(traceId, call, handler).startCall(request, makeMetadataFromSettings(settings));
         } catch (UnexpectedResultException ex) {
-            logger.warn("UnaryCall[{}] got unexprected status {}", traceId, ex.getStatus());
+            logger.warn("UnaryCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
         } catch (RuntimeException ex) {
             String message = ex.getMessage() != null ? ex.getMessage() : ex.toString();
@@ -132,7 +133,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 );
             }
 
-            return new ReadStreamCall<>(traceId, call, request, makeMetadataFromSettings(settings), handler);
+            Metadata metadata = makeMetadataFromSettings(settings);
+            GrpcFlowControl flowCtrl = settings.getFlowControl();
+            return new ReadStreamCall<>(traceId, call, flowCtrl, request, metadata, handler);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -175,9 +178,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 );
             }
 
-            return new ReadWriteStreamCall<>(
-                    traceId, call, makeMetadataFromSettings(settings), getAuthCallOptions(), handler
-            );
+            Metadata metadata = makeMetadataFromSettings(settings);
+            GrpcFlowControl flowCtrl = settings.getFlowControl();
+            return new ReadWriteStreamCall<>(traceId, call, flowCtrl, metadata, getAuthCallOptions(), handler);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadWriteStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());

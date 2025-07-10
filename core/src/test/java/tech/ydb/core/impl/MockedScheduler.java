@@ -9,7 +9,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Delayed;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
@@ -17,9 +16,10 @@ import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
+import javax.annotation.Nonnull;
 
 import org.junit.Assert;
 
@@ -68,32 +68,46 @@ public class MockedScheduler implements ScheduledExecutorService {
         }
     }
 
+    @Nonnull
     @Override
-    public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
+    public ScheduledFuture<?> schedule(@Nonnull Runnable command, long delay, @Nonnull TimeUnit unit) {
         Instant time = clock.instant().plusNanos(unit.toNanos(delay));
         MockedTask<?> task = new MockedTask<Void>(command, null, time);
         tasks.add(task);
         return task;
     }
 
+    @Nonnull
     @Override
-    public <V> ScheduledFuture<V> schedule(Callable<V> callable, long delay, TimeUnit unit) {
+    public <V> ScheduledFuture<V> schedule(@Nonnull Callable<V> callable, long delay, @Nonnull TimeUnit unit) {
         Instant time = clock.instant().plusNanos(unit.toNanos(delay));
         MockedTask<V> task = new MockedTask<>(callable, time);
         tasks.add(task);
         return task;
     }
 
+    @Nonnull
     @Override
-    public ScheduledFuture<?> scheduleAtFixedRate(Runnable command, long initialDelay, long period, TimeUnit unit) {
+    public ScheduledFuture<?> scheduleAtFixedRate(
+            @Nonnull Runnable command,
+            long initialDelay,
+            long period,
+            @Nonnull TimeUnit unit
+    ) {
         Instant time = clock.instant().plusNanos(unit.toNanos(initialDelay));
         MockedTask<?> task = new MockedTask<Void>(command, null, time, unit.toMillis(period));
         tasks.add(task);
         return task;
     }
 
+    @Nonnull
     @Override
-    public ScheduledFuture<?> scheduleWithFixedDelay(Runnable command, long initialDelay, long delay, TimeUnit unit) {
+    public ScheduledFuture<?> scheduleWithFixedDelay(
+            @Nonnull Runnable command,
+            long initialDelay,
+            long delay,
+            @Nonnull TimeUnit unit
+    ) {
         Instant time = clock.instant().plusNanos(unit.toNanos(initialDelay));
         MockedTask<?> task = new MockedTask<Void>(command, null, time, -unit.toMillis(initialDelay));
         tasks.add(task);
@@ -105,6 +119,7 @@ public class MockedScheduler implements ScheduledExecutorService {
         stopped = true;
     }
 
+    @Nonnull
     @Override
     public List<Runnable> shutdownNow() {
         stopped = true;
@@ -122,12 +137,13 @@ public class MockedScheduler implements ScheduledExecutorService {
     }
 
     @Override
-    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+    public boolean awaitTermination(long timeout, @Nonnull TimeUnit unit) {
         return true;
     }
 
+    @Nonnull
     @Override
-    public Future<?> submit(Runnable task) {
+    public Future<?> submit(@Nonnull Runnable task) {
         if (queueIsBlocked) {
             task.run();
             return CompletableFuture.completedFuture(null);
@@ -135,8 +151,9 @@ public class MockedScheduler implements ScheduledExecutorService {
         return schedule(task, 0, TimeUnit.MILLISECONDS);
     }
 
+    @Nonnull
     @Override
-    public <T> Future<T> submit(Runnable task, T result) {
+    public <T> Future<T> submit(@Nonnull Runnable task, T result) {
         if (queueIsBlocked) {
             task.run();
             return CompletableFuture.completedFuture(result);
@@ -144,8 +161,9 @@ public class MockedScheduler implements ScheduledExecutorService {
         return schedule(Executors.callable(task, result), 0, TimeUnit.MILLISECONDS);
     }
 
+    @Nonnull
     @Override
-    public <T> Future<T> submit(Callable<T> task) {
+    public <T> Future<T> submit(@Nonnull Callable<T> task) {
         if (queueIsBlocked) {
             CompletableFuture<T> future = new CompletableFuture<>();
             try {
@@ -158,28 +176,31 @@ public class MockedScheduler implements ScheduledExecutorService {
         return schedule(task, 0, TimeUnit.MILLISECONDS);
     }
 
+    @Nonnull
     @Override
-    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks) throws InterruptedException {
+    public <T> List<Future<T>> invokeAll(@Nonnull Collection<? extends Callable<T>> tasks) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Nonnull
+    @Override
+    public <T> List<Future<T>> invokeAll(@Nonnull Collection<? extends Callable<T>> tasks, long timeout, @Nonnull TimeUnit unit) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Nonnull
+    @Override
+    public <T> T invokeAny(@Nonnull Collection<? extends Callable<T>> tasks) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException {
+    public <T> T invokeAny(@Nonnull Collection<? extends Callable<T>> tasks, long timeout, @Nonnull TimeUnit unit) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public <T> T invokeAny(Collection<? extends Callable<T>> tasks) throws InterruptedException, ExecutionException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit) throws InterruptedException, ExecutionException, TimeoutException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void execute(Runnable command) {
+    public void execute(@Nonnull Runnable command) {
         if (queueIsBlocked) {
             command.run();
             return;
@@ -214,12 +235,12 @@ public class MockedScheduler implements ScheduledExecutorService {
         }
 
         @Override
-        public long getDelay(TimeUnit unit) {
+        public long getDelay(@Nonnull TimeUnit unit) {
             return unit.convert(time.toEpochMilli() - clock.millis(), TimeUnit.MILLISECONDS);
         }
 
         @Override
-        public int compareTo(Delayed other) {
+        public int compareTo(@Nonnull Delayed other) {
             if (other == this) // compare zero if same object
                 return 0;
             if (other instanceof MockedTask) {

@@ -168,10 +168,10 @@ public class Issue implements Serializable {
 
     public void toString(StringBuilder sb) {
         if (position != Position.EMPTY) {
-            sb.append(position.toString());
+            sb.append(position);
             if (endPosition != Position.EMPTY) {
                 sb.append(" - ");
-                sb.append(endPosition.toString());
+                sb.append(endPosition);
             }
             sb.append(": ");
         }

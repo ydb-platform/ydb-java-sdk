@@ -15,19 +15,20 @@ public class Message {
     private byte[] data;
     private final Long seqNo;
     private final Instant createTimestamp;
-    private List<MetadataItem> metadataItems;
+    private final List<MetadataItem> metadataItems;
 
     private Message(Builder builder) {
         this.data = builder.data;
         this.seqNo = builder.seqNo;
         this.createTimestamp = builder.createTimestamp != null ? builder.createTimestamp : Instant.now();
-        this.metadataItems = builder.metadataItems;
+        this.metadataItems = builder.metadataItems != null ? builder.metadataItems : new ArrayList<>();
     }
 
     private Message(byte[] data) {
         this.data = data;
         this.seqNo = null;
         this.createTimestamp = Instant.now();
+        this.metadataItems = new ArrayList<>();
     }
 
     public static Message of(byte[] data) {
@@ -42,6 +43,7 @@ public class Message {
         return data;
     }
 
+    @Deprecated
     public void setData(byte[] data) {
         this.data = data;
     }
@@ -50,10 +52,12 @@ public class Message {
         return seqNo;
     }
 
+    @Nonnull
     public Instant getCreateTimestamp() {
         return createTimestamp;
     }
 
+    @Nonnull
     public List<MetadataItem> getMetadataItems() {
         return metadataItems;
     }

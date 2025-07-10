@@ -106,7 +106,7 @@ public abstract class OAuth2TokenSource {
                 throw new RuntimeException("Failed to parse PEM key");
             }
 
-            PrivateKeyInfo info = null;
+            PrivateKeyInfo info;
             if (parsed instanceof PrivateKeyInfo) {
                 info = (PrivateKeyInfo) parsed;
             } else if (parsed instanceof PEMKeyPair) {

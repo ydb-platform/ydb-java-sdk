@@ -67,7 +67,7 @@ public class TtlTableTest {
         Assert.assertEquals("date", ttl.getDateTimeColumn());
         Assert.assertEquals(Integer.valueOf(15), ttl.getExpireAfterSeconds());
         Assert.assertEquals(TableTtl.TtlUnit.UNSPECIFIED, ttl.getTtlUnit());
-        Assert.assertEquals(Integer.valueOf(7200), ttl.getRunIntervaelSeconds());
+        Assert.assertEquals(Integer.valueOf(7200), ttl.getRunIntervalSeconds());
 
         // --------------------- alter table with changing ttl -----------------------------
 
@@ -89,7 +89,7 @@ public class TtlTableTest {
         Assert.assertEquals("value", ttl.getDateTimeColumn());
         Assert.assertEquals(Integer.valueOf(60), ttl.getExpireAfterSeconds());
         Assert.assertEquals(TableTtl.TtlUnit.SECONDS, ttl.getTtlUnit());
-        Assert.assertEquals(Integer.valueOf(0), ttl.getRunIntervaelSeconds());
+        Assert.assertEquals(Integer.valueOf(0), ttl.getRunIntervalSeconds());
 
         // --------------------- alter table with dropping ttl -----------------------------
         alterStatus = ctx.supplyStatus(
@@ -110,7 +110,7 @@ public class TtlTableTest {
         Assert.assertEquals("", ttl.getDateTimeColumn());
         Assert.assertEquals(Integer.valueOf(0), ttl.getExpireAfterSeconds());
         Assert.assertEquals(TableTtl.TtlUnit.UNSPECIFIED, ttl.getTtlUnit());
-        Assert.assertNull(ttl.getRunIntervaelSeconds());
+        Assert.assertNull(ttl.getRunIntervalSeconds());
     }
 
     @Test
@@ -139,6 +139,6 @@ public class TtlTableTest {
         Assert.assertEquals("", ttl.getDateTimeColumn());
         Assert.assertEquals(Integer.valueOf(0), ttl.getExpireAfterSeconds());
         Assert.assertEquals(TableTtl.TtlUnit.UNSPECIFIED, ttl.getTtlUnit());
-        Assert.assertNull(ttl.getRunIntervaelSeconds());
+        Assert.assertNull(ttl.getRunIntervalSeconds());
     }
 }

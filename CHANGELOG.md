@@ -1,3 +1,24 @@
+## 2.3.17 ##
+* Query: Fixed session status updating
+* Topic: Fixed maxActivePartitions on topic creation
+* Tests: Updated JUnit5 helper to avoid NPE
+* Added devcontainer configuration
+
+## 2.3.16 ##
+* Core: Added option to control the grpc stream flow
+* Table: Added Serializable to all values and types
+* Topic: Fixed double compression of one message
+
+## 2.3.15 ##
+
+* Core: ResourceExhausted isn't pessimize the node
+* Table: Added flag about default value in TableColumn
+* Table: Added support of describeTableOptions
+* Query: Fixed QueryReader.setRowIndex() & added tests
+* Topic: Added max_active_partitions support to topic operations
+* Topic: Added configuration for GrpcStreamRetrier ID
+* Topic: Added equals & hashCode implementations for descriptions
+
 ## 2.3.14 ##
 
 * Core: Removed mockito-inline from compile dependencies

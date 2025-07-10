@@ -70,7 +70,7 @@ public class ResourcePoolTest {
             logger.info("Clean database...");
             String dropTable = "DROP TABLE " + TEST_TABLE + ";";
             Result<QueryInfo> dt = retryCtx.supplyResult(s -> s.createQuery(dropTable, TxMode.NONE).execute()).join();
-            logger.info("Clean database " + dt.getStatus());
+            logger.info("Clean database {}", dt.getStatus());
             retryCtx = null;
         }
 

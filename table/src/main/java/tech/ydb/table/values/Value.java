@@ -1,13 +1,14 @@
 package tech.ydb.table.values;
 
-import tech.ydb.proto.ValueProtos;
+import java.io.Serializable;
 
+import tech.ydb.proto.ValueProtos;
 
 /**
  * @author Sergey Polovko
  * @param <T> type of value
  */
-public interface Value<T extends Type> {
+public interface Value<T extends Type> extends Serializable {
 
     Value<?>[] EMPTY_ARRAY = {};
 
@@ -31,7 +32,15 @@ public interface Value<T extends Type> {
         return (OptionalValue) this;
     }
 
+    /**
+     * @deprecated Use {{@link #asStruct()}} instead
+     */
+    @Deprecated
     default StructValue asStuct() {
+        return asStruct();
+    }
+
+    default StructValue asStruct() {
         return (StructValue) this;
     }
 

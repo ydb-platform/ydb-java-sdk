@@ -130,7 +130,7 @@ public class CoordinationServiceTest {
         CoordinationSession session = CLIENT.createSession(nodePath);
 
         List<CoordinationSession.State> states = new ArrayList<>();
-        session.addStateListener(state -> states.add(state));
+        session.addStateListener(states::add);
 
         Assert.assertEquals(CoordinationSession.State.INITIAL, session.getState());
         Assert.assertEquals(-1, session.getId());
@@ -143,7 +143,6 @@ public class CoordinationServiceTest {
         Assert.assertEquals(CoordinationSession.State.CONNECTING, states.get(0));
         Assert.assertEquals(CoordinationSession.State.CONNECTED, states.get(1));
         Assert.assertEquals(CoordinationSession.State.CONNECTED, session.getState());
-        Assert.assertNotNull(session.getId());
 
         logger.info("stop session");
         session.close();
@@ -173,7 +172,7 @@ public class CoordinationServiceTest {
         session.createSemaphore(semaphoreName, 10, semaphoreData).join().expectSuccess("cannot create semaphore");
 
         logger.info("delete semaphore");
-        session.deleteSemaphore(semaphoreName).join().expectSuccess("cannpt create semaphore");
+        session.deleteSemaphore(semaphoreName).join().expectSuccess("cannot create semaphore");
 
         logger.info("stop session");
         session.close();
@@ -217,19 +216,19 @@ public class CoordinationServiceTest {
         logger.info("delete semaphore");
         session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannot create semaphore");
 
-        logger.info("take first ephemaral lease");
+        logger.info("take first ephemeral lease");
         lease2 = session2.acquireEphemeralSemaphore(semaphoreName, true, timeout);
         lease2.join().getStatus().expectSuccess("cannot acquire semaphore");
 
-        logger.info("request second ephemaral lease, waiting");
+        logger.info("request second ephemeral lease, waiting");
         lease1 = session1.acquireEphemeralSemaphore(semaphoreName, true, timeout);
         Assert.assertFalse(lease1.isDone());
 
-        logger.info("release first ephemaral lease, complete second ephemaral lease");
+        logger.info("release first ephemeral lease, complete second ephemaral lease");
         lease2.join().getValue().release().join();
         lease1.join().getStatus().expectSuccess("cannot acquire semaphore");
 
-        logger.info("release second ephemaral lease");
+        logger.info("release second ephemeral lease");
         lease1.join().getValue().release().join();
 
         logger.info("stop sessions");
@@ -280,7 +279,7 @@ public class CoordinationServiceTest {
         Assert.assertTrue(description.getWaitersList().isEmpty());
 
         logger.info("delete semaphore");
-        session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannpt create semaphore");
+        session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannot create semaphore");
         logger.info("stop sessions");
         session1.close();
         session2.close();
@@ -380,7 +379,7 @@ public class CoordinationServiceTest {
         Assert.assertTrue(description.getWaitersList().isEmpty());
 
         logger.info("delete semaphore");
-        session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannpt create semaphore");
+        session2.deleteSemaphore(semaphoreName).join().expectSuccess("cannot create semaphore");
         logger.info("stop sessions");
         session1.close();
         session2.close();

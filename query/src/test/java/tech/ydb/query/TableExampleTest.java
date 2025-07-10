@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -129,7 +130,7 @@ public class TableExampleTest {
                 session -> session.describeTable(ydbRule.getDatabase() + "/series")
         ).join().getValue();
 
-        Assert.assertEquals(Arrays.asList("series_id"), series.getPrimaryKeys());
+        Assert.assertEquals(Collections.singletonList("series_id"), series.getPrimaryKeys());
         Assert.assertEquals(4, series.getColumns().size());
         Assert.assertEquals("series_id", series.getColumns().get(0).getName());
         Assert.assertEquals("title", series.getColumns().get(1).getName());

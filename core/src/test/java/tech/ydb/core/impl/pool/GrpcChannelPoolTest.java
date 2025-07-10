@@ -28,7 +28,7 @@ public class GrpcChannelPoolTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         YdbSchedulerFactory.shutdownScheduler(scheduler);
     }
 
@@ -93,7 +93,7 @@ public class GrpcChannelPoolTest {
         Assert.assertEquals(3, pool.getChannels().size());
 
         // remove channel1
-        Assert.assertTrue(pool.removeChannels(Arrays.asList(e1)).join());
+        Assert.assertTrue(pool.removeChannels(Collections.singletonList(e1)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
         Assert.assertTrue(channel1.isShutdown());
@@ -101,7 +101,7 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel3.isShutdown());
 
         // second remove channel1 - nothing happens
-        Assert.assertTrue(pool.removeChannels(Arrays.asList(e1)).join());
+        Assert.assertTrue(pool.removeChannels(Collections.singletonList(e1)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
         Assert.assertTrue(channel1.isShutdown());
@@ -141,10 +141,10 @@ public class GrpcChannelPoolTest {
         Assert.assertFalse(channel2.isShutdown());
         Assert.assertFalse(channel3.isShutdown());
 
-        Assert.assertFalse(pool.removeChannels(Arrays.asList(e3)).join());
+        Assert.assertFalse(pool.removeChannels(Collections.singletonList(e3)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
-        Assert.assertTrue(pool.removeChannels(Arrays.asList(e3)).join());
+        Assert.assertTrue(pool.removeChannels(Collections.singletonList(e3)).join());
         Assert.assertEquals(2, pool.getChannels().size());
 
         GrpcChannel channel4 = pool.getChannel(e3);

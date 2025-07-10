@@ -53,6 +53,8 @@ public class DecimalValue implements Value<DecimalType> {
     public static final DecimalValue NAN = new DecimalValue(
         MAX_DECIMAL, 0x0013426172C74D82L, 0x2B878FE800000001L);
 
+    private static final long serialVersionUID = 1362798151263983188L;
+
     private final DecimalType type;
     private final long high;
     private final long low;
@@ -168,8 +170,8 @@ public class DecimalValue implements Value<DecimalType> {
     @Override
     public int hashCode() {
         int result = type.hashCode();
-        result = 31 * result + (int) (high ^ (high >>> 32));
-        result = 31 * result + (int) (low ^ (low >>> 32));
+        result = 31 * result + Long.hashCode(high);
+        result = 31 * result + Long.hashCode(low);
         return result;
     }
 
@@ -455,7 +457,7 @@ public class DecimalValue implements Value<DecimalType> {
             char ch = value.charAt(cursor);
             if (ch >= '0' && ch <= '9') {
                 if (accumulatedCount == DecimalValue.LONG_MAX_DIGITS) {
-                    if (unscaledValue == BigInteger.ZERO) {
+                    if (unscaledValue.equals(BigInteger.ZERO)) {
                         unscaledValue = BigInteger.valueOf(accumulated);
                     } else {
                         unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(accumulatedCount));
@@ -483,7 +485,7 @@ public class DecimalValue implements Value<DecimalType> {
         }
 
         if (accumulatedCount > 0) {
-            if (unscaledValue == BigInteger.ZERO) {
+            if (unscaledValue.equals(BigInteger.ZERO)) {
                 unscaledValue = BigInteger.valueOf(accumulated);
             } else {
                 unscaledValue = unscaledValue.multiply(BigInteger.TEN.pow(accumulatedCount));

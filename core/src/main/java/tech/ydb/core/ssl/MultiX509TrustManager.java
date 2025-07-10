@@ -8,7 +8,12 @@ import java.util.List;
 
 import javax.net.ssl.X509TrustManager;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 final class MultiX509TrustManager implements X509TrustManager {
+    private static final Logger logger = LoggerFactory.getLogger(MultiX509TrustManager.class);
+
     final List<X509TrustManager> trustManagers;
 
     MultiX509TrustManager(final List<X509TrustManager> trustManagers) {
@@ -23,6 +28,7 @@ final class MultiX509TrustManager implements X509TrustManager {
                 trustManager.checkClientTrusted(x509Certificates, authType);
                 return;
             } catch (CertificateException ignored) {
+                logger.trace("cannot use trust manager {}",  trustManager, ignored);
             }
         }
         throw new CertificateException("No trust manager trusts this certificates");
@@ -36,6 +42,7 @@ final class MultiX509TrustManager implements X509TrustManager {
                 trustManager.checkServerTrusted(x509Certificates, authType);
                 return;
             } catch (CertificateException ignored) {
+                logger.trace("cannot use trust manager {}",  trustManager, ignored);
             }
         }
         throw new CertificateException("No trust manager trusts this certificates");

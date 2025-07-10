@@ -11,6 +11,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.table.description.TableDescription;
+import tech.ydb.table.description.TableOptionDescription;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
@@ -25,6 +26,7 @@ import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.CopyTableSettings;
 import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateTableSettings;
+import tech.ydb.table.settings.DescribeTableOptionsSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
@@ -89,6 +91,14 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query, ExplainDataQuerySettings settings);
 
     /**
+     * Get table option settings
+     *
+     * @param settings settings
+     * @return fully described options settings
+     */
+    CompletableFuture<Result<TableOptionDescription>> describeTableOptions(DescribeTableOptionsSettings settings);
+
+    /**
      * Consider using {@link Session#beginTransaction(TxMode, BeginTxSettings)} instead
      */
     CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode, BeginTxSettings settings);
@@ -126,7 +136,7 @@ public interface Session extends AutoCloseable {
     }
 
     /**
-     * Consider using {@link TableTransaction#commit()} ()} instead
+     * Consider using {@link TableTransaction#commit()} instead
      */
     CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings);
 
@@ -220,6 +230,15 @@ public interface Session extends AutoCloseable {
 
     default CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows) {
         return executeBulkUpsert(tablePath, rows, new BulkUpsertSettings());
+    }
+
+    /**
+     * Get table option settings with default {@link DescribeTableOptionsSettings}
+     *
+     * @return fully described options settings
+     */
+    default CompletableFuture<Result<TableOptionDescription>> describeTableOptions() {
+        return describeTableOptions(new DescribeTableOptionsSettings());
     }
 
     default CompletableFuture<Result<State>> keepAlive() {

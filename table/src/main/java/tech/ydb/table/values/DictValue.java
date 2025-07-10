@@ -1,7 +1,7 @@
 package tech.ydb.table.values;
 
 import java.util.Collection;
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -15,19 +15,20 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Sergey Polovko
  */
 public class DictValue implements Value<DictType> {
+    private static final long serialVersionUID = 6205349432501922070L;
 
     private final DictType type;
-    private final Map<Value<?>, Value<?>> items;
+    private final HashMap<Value<?>, Value<?>> items;
 
-    DictValue(DictType type, Map<Value<?>, Value<?>> items) {
+    DictValue(DictType type, HashMap<Value<?>, Value<?>> items) {
         this.type = type;
         this.items = items;
     }
 
     public static DictValue of(Value<?> key, Value<?> value) {
-        return new DictValue(
-            DictType.of(key.getType(), value.getType()),
-            Collections.singletonMap(key, value));
+        HashMap<Value<?>, Value<?>> map = new HashMap<>();
+        map.put(key, value);
+        return new DictValue(DictType.of(key.getType(), value.getType()), map);
     }
 
     public int size() {
@@ -86,7 +87,7 @@ public class DictValue implements Value<DictType> {
             sb.append(e.getKey()).append(": ");
             sb.append(e.getValue()).append(", ");
         }
-        if (items.size() > 0) {
+        if (!items.isEmpty()) {
             sb.setLength(sb.length() - 2);
         }
         sb.append(']');

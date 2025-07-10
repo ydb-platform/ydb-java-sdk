@@ -9,6 +9,8 @@ public class AlterPartitioningSettings {
     @Nullable
     private final Long minActivePartitions;
     @Nullable
+    private final Long maxActivePartitions;
+    @Nullable
     private final Long partitionCountLimit;
     @Nullable
     private final AutoPartitioningStrategy autoPartitioningStrategy;
@@ -17,6 +19,7 @@ public class AlterPartitioningSettings {
 
     private AlterPartitioningSettings(Builder builder) {
         this.minActivePartitions = builder.minActivePartitions;
+        this.maxActivePartitions = builder.maxActivePartitions;
         this.partitionCountLimit = builder.partitionCountLimit;
         this.autoPartitioningStrategy = builder.autoPartitioningStrategy;
         this.writeStrategySettings = builder.writeStrategySettings;
@@ -29,6 +32,11 @@ public class AlterPartitioningSettings {
     @Nullable
     public Long getMinActivePartitions() {
         return minActivePartitions;
+    }
+
+    @Nullable
+    public Long getMaxActivePartitions() {
+        return maxActivePartitions;
     }
 
     @Nullable
@@ -51,6 +59,7 @@ public class AlterPartitioningSettings {
      */
     public static class Builder {
         private Long minActivePartitions = null;
+        private Long maxActivePartitions = null;
         private Long partitionCountLimit = null;
         private AutoPartitioningStrategy autoPartitioningStrategy = null;
         private AlterAutoPartitioningWriteStrategySettings writeStrategySettings = null;
@@ -66,11 +75,23 @@ public class AlterPartitioningSettings {
         }
 
         /**
+         * @param maxActivePartitions  maximum partition count auto merge would stop working at.
+         *                             Zero value means default - 1.
+         * @return settings builder
+         */
+        public Builder setMaxActivePartitions(long maxActivePartitions) {
+            this.maxActivePartitions = maxActivePartitions;
+            return this;
+        }
+
+        /**
          * @param partitionCountLimit  Limit for total partition count, including active (open for write) and
          *                             read-only partitions.
          *                             Zero value means default - 100.
          * @return settings builder
+         * @deprecated Use {@link #setMaxActivePartitions(long)} instead
          */
+        @Deprecated
         public Builder setPartitionCountLimit(long partitionCountLimit) {
             this.partitionCountLimit = partitionCountLimit;
             return this;

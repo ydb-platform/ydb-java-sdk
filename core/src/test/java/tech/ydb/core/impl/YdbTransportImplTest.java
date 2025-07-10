@@ -10,6 +10,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import javax.annotation.Nonnull;
+
 import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
 import org.junit.After;
@@ -92,7 +94,7 @@ public class YdbTransportImplTest {
     }
 
     @Test
-    public void defaultBuildUnavailabledTest() {
+    public void defaultBuildUnavailableTest() {
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
                 .thenReturn(MockedCall.unavailable(testScheduler));
 
@@ -106,8 +108,8 @@ public class YdbTransportImplTest {
         Assert.assertEquals("Discovery failed", ex.getMessage());
         Assert.assertTrue(ex.getCause() instanceof UnexpectedResultException);
 
-        UnexpectedResultException unexpecteed = (UnexpectedResultException) ex.getCause();
-        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, unexpecteed.getStatus().getCode());
+        UnexpectedResultException unexpected = (UnexpectedResultException) ex.getCause();
+        Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, unexpected.getStatus().getCode());
     }
 
     @Test
@@ -172,11 +174,11 @@ public class YdbTransportImplTest {
         Assert.assertTrue(isReady.isDone());
     }
 
-    public class Ticker implements Executor {
+    public static class Ticker implements Executor {
         private final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
 
         @Override
-        public void execute(Runnable command) {
+        public void execute(@Nonnull Runnable command) {
             tasks.offer(command);
         }
 

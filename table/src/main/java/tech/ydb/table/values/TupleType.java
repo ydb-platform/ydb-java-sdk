@@ -11,8 +11,8 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Sergey Polovko
  */
 public final class TupleType implements Type {
-
     private static final TupleType EMPTY = new TupleType(Type.EMPTY_ARRAY);
+    private static final long serialVersionUID = -5765157006188108560L;
 
     private final Type[] elementTypes;
 

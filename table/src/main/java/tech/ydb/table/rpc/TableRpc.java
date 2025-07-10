@@ -7,6 +7,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.AlterTableRequest;
 import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
 import tech.ydb.proto.table.YdbTable.BeginTransactionResult;
@@ -240,5 +241,15 @@ public interface TableRpc extends AutoCloseable {
      * @return completable future with status of operation
      */
     CompletableFuture<Status> bulkUpsert(BulkUpsertRequest request, GrpcRequestSettings settings);
+
+    /**
+     * Describe table request.
+     * @param request request proto
+     * @param settings rpc call settings
+     * @return GrpcReadStream object that allows to start and cancel the stream
+     */
+    CompletableFuture<Result<YdbTable.DescribeTableOptionsResult>> describeTableOptions(
+            YdbTable.DescribeTableOptionsRequest request,
+            GrpcRequestSettings settings);
 }
 

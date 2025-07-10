@@ -86,7 +86,7 @@ public class Consumer {
         private String name;
         private boolean important = false;
         private Instant readFrom = null;
-        private List<Integer> supportedCodecs = new ArrayList<>();
+        private final List<Integer> supportedCodecs = new ArrayList<>();
         private Map<String, String> attributes = new HashMap<>();
         private ConsumerStats stats = null;
 

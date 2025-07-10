@@ -13,7 +13,6 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
@@ -55,6 +54,8 @@ public class YdbTopicsIntegrationTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final static String TEST_TOPIC = "integration_test_topic";
+    private final static String TEST_OTHER_TOPIC = "integration_test_other_topic";
+
     private final static String TEST_CONSUMER1 = "consumer";
     private final static String TEST_CONSUMER2 = "other_consumer";
 
@@ -244,12 +245,13 @@ public class YdbTopicsIntegrationTest {
         }
     }
 
-    @Ignore("remove ignore once :latest YDB container tag moves onto version 25.1")
     @Test
     public void step07_alterTopicWithAutoPartitioning() {
         client.alterTopic(TEST_TOPIC, AlterTopicSettings.newBuilder()
                         .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
                                 .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                                .setMaxActivePartitions(10)
+                                .setMinActivePartitions(5)
                                 .setWriteStrategySettings(AlterAutoPartitioningWriteStrategySettings.newBuilder()
                                         .setStabilizationWindow(Duration.ofMinutes(1))
                                         .setUpUtilizationPercent(80)
@@ -267,10 +269,34 @@ public class YdbTopicsIntegrationTest {
                         .setUpUtilizationPercent(80)
                         .setDownUtilizationPercent(20)
                         .build())
-                .setMinActivePartitions(1)
-                .setPartitionCountLimit(0)
+                .setMinActivePartitions(5)
+                .setMaxActivePartitions(10)
                 .build();
 
         Assert.assertEquals(expectedPartitioningSettings, actualPartitioningSettings);
+    }
+
+    @Test
+    public void step08_createTopicWithAutoPartitioning() {
+        PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
+                .setMaxActivePartitions(8)
+                .setMinActivePartitions(4)
+                .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                .setWriteStrategySettings(AutoPartitioningWriteStrategySettings.newBuilder()
+                        .setDownUtilizationPercent(5)
+                        .setUpUtilizationPercent(75)
+                        .setStabilizationWindow(Duration.ofMinutes(2))
+                        .build())
+                .build();
+
+        CompletableFuture<Status> secondaryTopicCreated = client.createTopic(TEST_OTHER_TOPIC, CreateTopicSettings.newBuilder()
+                .setPartitioningSettings(expectedPartitioningSettings)
+                .build());
+
+        secondaryTopicCreated.join().expectSuccess("can't create the topic");
+
+        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
+
+        Assert.assertEquals(expectedPartitioningSettings, description.getPartitioningSettings());
     }
 }

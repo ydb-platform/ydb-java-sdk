@@ -15,6 +15,7 @@ import tech.ydb.table.values.proto.ProtoValue;
  */
 @ParametersAreNonnullByDefault
 public class OptionalValue implements Value<OptionalType> {
+    private static final long serialVersionUID = -6012287716342869258L;
 
     private final OptionalType type;
     @Nullable
@@ -76,7 +77,7 @@ public class OptionalValue implements Value<OptionalType> {
         if (value == null) {
             return "Empty[]";
         }
-        return "Some[" + value.toString() + ']';
+        return "Some[" + value + ']';
     }
 
     @Override

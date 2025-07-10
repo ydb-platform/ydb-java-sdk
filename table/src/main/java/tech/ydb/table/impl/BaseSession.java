@@ -4,6 +4,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -32,6 +33,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.Operation;
+import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
@@ -49,6 +51,7 @@ import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableIndex;
+import tech.ydb.table.description.TableOptionDescription;
 import tech.ydb.table.description.TableTtl;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
@@ -70,6 +73,7 @@ import tech.ydb.table.settings.CopyTablesSettings;
 import tech.ydb.table.settings.CreateSessionSettings;
 import tech.ydb.table.settings.CreateTableSettings;
 import tech.ydb.table.settings.DeleteSessionSettings;
+import tech.ydb.table.settings.DescribeTableOptionsSettings;
 import tech.ydb.table.settings.DescribeTableSettings;
 import tech.ydb.table.settings.DropTableSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
@@ -84,6 +88,7 @@ import tech.ydb.table.settings.ReadRowsSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.settings.RenameTablesSettings;
 import tech.ydb.table.settings.ReplicationPolicy;
+import tech.ydb.table.settings.RequestSettings;
 import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.settings.StoragePolicy;
 import tech.ydb.table.transaction.TableTransaction;
@@ -112,13 +117,13 @@ public abstract class BaseSession implements Session {
 
     private final String id;
     private final Integer preferredNodeID;
-    private final TableRpc tableRpc;
+    private final TableRpc rpc;
     private final ShutdownHandler shutdownHandler;
     private final boolean keepQueryText;
 
     protected BaseSession(String id, TableRpc tableRpc, boolean keepQueryText) {
         this.id = id;
-        this.tableRpc = tableRpc;
+        this.rpc = tableRpc;
         this.keepQueryText = keepQueryText;
         this.preferredNodeID = getNodeBySessionId(id);
         this.shutdownHandler = new ShutdownHandler();
@@ -137,17 +142,22 @@ public abstract class BaseSession implements Session {
         return null;
     }
 
-    private static String getTraceIdOrGenerateNew(String traceId) {
-        return traceId == null ? UUID.randomUUID().toString() : traceId;
-    }
-
-    private GrpcRequestSettings makeGrpcRequestSettings(Duration timeout, String traceId) {
+    private static GrpcRequestSettings.Builder makeBaseOptions(Duration timeout, String traceId) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(timeout)
-                .withTraceId(traceId)
+                .withTraceId(traceId == null ? UUID.randomUUID().toString() : traceId);
+    }
+
+    private GrpcRequestSettings.Builder makeOptions(RequestSettings<?> settings) {
+        return makeBaseOptions(settings.getTimeoutDuration(), settings.getTraceId())
                 .withPreferredNodeID(preferredNodeID)
-                .withTrailersHandler(shutdownHandler)
-                .build();
+                .withTrailersHandler(shutdownHandler);
+    }
+
+    private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings) {
+        return makeBaseOptions(settings.getRequestTimeout(), settings.getTraceId())
+                .withPreferredNodeID(preferredNodeID)
+                .withTrailersHandler(shutdownHandler);
     }
 
     @Override
@@ -155,23 +165,18 @@ public abstract class BaseSession implements Session {
         return id;
     }
 
-    public static CompletableFuture<Result<String>> createSessionId(TableRpc tableRpc,
-                                                                    CreateSessionSettings settings,
-                                                                    boolean useServerBalancer) {
+    public static CompletableFuture<Result<String>> createSessionId(TableRpc rpc, CreateSessionSettings settings,
+            boolean useServerBalancer) {
         YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        GrpcRequestSettings.Builder grpcSettingsBuilder = GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getTimeoutDuration())
-                .withTraceId(traceId);
-
+        GrpcRequestSettings.Builder options = makeBaseOptions(settings.getTimeoutDuration(), settings.getTraceId());
         if (useServerBalancer) {
-            grpcSettingsBuilder.addClientCapability(SERVER_BALANCER_HINT);
+            options.addClientCapability(SERVER_BALANCER_HINT);
         }
 
-        return tableRpc.createSession(request, grpcSettingsBuilder.build())
+        return rpc.createSession(request, options.build())
                 .thenApply(result -> result.map(YdbTable.CreateSessionResult::getSessionId));
     }
 
@@ -294,7 +299,7 @@ public abstract class BaseSession implements Session {
         return builder.build();
     }
 
-    private static YdbTable.ColumnFamily buildColumnFamity(ColumnFamily family) {
+    private static YdbTable.ColumnFamily buildColumnFamily(ColumnFamily family) {
         YdbTable.ColumnFamily.Compression compression;
         switch (family.getCompression()) {
             case COMPRESSION_NONE:
@@ -356,8 +361,8 @@ public abstract class BaseSession implements Session {
                     .build());
         }
 
-        if (ttl.getRunIntervaelSeconds() != null) {
-            tb.setRunIntervalSeconds(ttl.getRunIntervaelSeconds());
+        if (ttl.getRunIntervalSeconds() != null) {
+            tb.setRunIntervalSeconds(ttl.getRunIntervalSeconds());
         }
 
         return tb.build();
@@ -388,7 +393,7 @@ public abstract class BaseSession implements Session {
         }
 
         for (ColumnFamily family: description.getColumnFamilies()) {
-            request.addColumnFamilies(buildColumnFamity(family));
+            request.addColumnFamilies(buildColumnFamily(family));
         }
 
         for (TableColumn column : description.getColumns()) {
@@ -405,7 +410,7 @@ public abstract class BaseSession implements Session {
                 request.setTtlSettings(ttl);
             }
         }
-        // deprecated variant has high pripority
+        // deprecated variant has high priority
         tech.ydb.table.settings.TtlSettings deprecatedTTL = settings.getTtlSettings();
         if (deprecatedTTL != null) {
             YdbTable.TtlSettings ttl = YdbTable.TtlSettings.newBuilder()
@@ -492,9 +497,7 @@ public abstract class BaseSession implements Session {
                     CommonProtos.FeatureFlag.Status.ENABLED : CommonProtos.FeatureFlag.Status.DISABLED);
         }
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return tableRpc.createTable(request.build(), grpcRequestSettings);
+        return rpc.createTable(request.build(), makeOptions(settings).build());
     }
 
     private static YdbTable.PartitioningPolicy.AutoPartitioningPolicy toPb(AutoPartitioningPolicy policy) {
@@ -518,9 +521,7 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return tableRpc.dropTable(request, grpcRequestSettings);
+        return rpc.dropTable(request, makeOptions(settings).build());
     }
 
     @Override
@@ -567,9 +568,7 @@ public abstract class BaseSession implements Session {
             builder.addDropIndexes(dropIndex);
         }
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return tableRpc.alterTable(builder.build(), grpcRequestSettings);
+        return rpc.alterTable(builder.build(), makeOptions(settings).build());
     }
 
     @Override
@@ -581,9 +580,7 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return tableRpc.copyTable(request, grpcRequestSettings);
+        return rpc.copyTable(request, makeOptions(settings).build());
     }
 
     @Override
@@ -593,13 +590,11 @@ public abstract class BaseSession implements Session {
                 .addAllTables(convertCopyTableItems(settings))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return tableRpc.copyTables(request, grpcRequestSettings);
+        return rpc.copyTables(request, makeOptions(settings).build());
     }
 
     private List<YdbTable.CopyTableItem> convertCopyTableItems(CopyTablesSettings cts) {
-        final String dbpath = tableRpc.getDatabase();
+        final String dbpath = rpc.getDatabase();
         return cts.getItems().stream().map(t -> {
             String sp = t.getSourcePath();
             if (!sp.startsWith("/")) {
@@ -624,13 +619,11 @@ public abstract class BaseSession implements Session {
                 .addAllTables(convertRenameTableItems(settings))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return tableRpc.renameTables(request, grpcRequestSettings);
+        return rpc.renameTables(request, makeOptions(settings).build());
     }
 
     private List<YdbTable.RenameTableItem> convertRenameTableItems(RenameTablesSettings cts) {
-        final String dbpath = tableRpc.getDatabase();
+        final String dbpath = rpc.getDatabase();
         return cts.getItems().stream().map(t -> {
             String sp = t.getSourcePath();
             if (!sp.startsWith("/")) {
@@ -659,10 +652,19 @@ public abstract class BaseSession implements Session {
                 .setIncludePartitionStats(settings.isIncludePartitionStats())
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return tableRpc.describeTable(request, grpcRequestSettings)
+        return rpc.describeTable(request, makeOptions(settings).build())
                 .thenApply(res -> mapDescribeTable(res, settings));
+    }
+
+    @Override
+    public CompletableFuture<Result<TableOptionDescription>> describeTableOptions(
+            DescribeTableOptionsSettings settings) {
+        YdbTable.DescribeTableOptionsRequest request = YdbTable.DescribeTableOptionsRequest.newBuilder()
+                .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
+                .build();
+
+        return rpc.describeTableOptions(request, makeOptions(settings).build())
+                .thenApply(BaseSession::mapDescribeTableOptions);
     }
 
     private static TableTtl mapTtlSettings(YdbTable.TtlSettings ttl) {
@@ -749,7 +751,7 @@ public abstract class BaseSession implements Session {
     private static Result<TableDescription> mapDescribeTable(Result<YdbTable.DescribeTableResult> describeResult,
             DescribeTableSettings settings) {
         if (!describeResult.isSuccess()) {
-            return describeResult.map(null);
+            return describeResult.map(r -> null);
         }
         YdbTable.DescribeTableResult desc = describeResult.getValue();
         SchemeOperationProtos.Entry.Type entryType = desc.getSelf().getType();
@@ -776,7 +778,12 @@ public abstract class BaseSession implements Session {
 
         for (int i = 0; i < desc.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = desc.getColumns(i);
-            description.addNonnullColumn(column.getName(), ProtoType.fromPb(column.getType()), column.getFamily());
+            description.addColumn(new TableColumn(
+                    column.getName(),
+                    ProtoType.fromPb(column.getType()),
+                    column.getFamily(),
+                    column.hasFromLiteral() || column.hasFromSequence()
+            ));
         }
         description.setPrimaryKeys(desc.getPrimaryKeyList());
         for (int i = 0; i < desc.getIndexesCount(); i++) {
@@ -795,69 +802,61 @@ public abstract class BaseSession implements Session {
             }
         }
         YdbTable.TableStats tableStats = desc.getTableStats();
-        if (settings.isIncludeTableStats() && tableStats != null) {
+        if (settings.isIncludeTableStats()) {
             Timestamp creationTime = tableStats.getCreationTime();
-            Instant createdAt = creationTime == null ? null : Instant.ofEpochSecond(creationTime.getSeconds(),
-                    creationTime.getNanos());
+            Instant createdAt = Instant.ofEpochSecond(creationTime.getSeconds(), creationTime.getNanos());
             Timestamp modificationTime = tableStats.getCreationTime();
-            Instant modifiedAt = modificationTime == null ? null : Instant.ofEpochSecond(modificationTime.getSeconds(),
-                    modificationTime.getNanos());
+            Instant modifiedAt = Instant.ofEpochSecond(modificationTime.getSeconds(), modificationTime.getNanos());
             TableDescription.TableStats stats = new TableDescription.TableStats(
                     createdAt, modifiedAt, tableStats.getRowsEstimate(), tableStats.getStoreSize());
             description.setTableStats(stats);
 
             List<YdbTable.PartitionStats> partitionStats = tableStats.getPartitionStatsList();
-            if (settings.isIncludePartitionStats() && partitionStats != null) {
+            if (settings.isIncludePartitionStats()) {
                 for (YdbTable.PartitionStats stat : partitionStats) {
                     description.addPartitionStat(stat.getRowsEstimate(), stat.getStoreSize());
                 }
             }
         }
         YdbTable.PartitioningSettings protoPs = desc.getPartitioningSettings();
-        if (protoPs != null) {
-            PartitioningSettings ps = new PartitioningSettings();
-            ps.setPartitionSize(protoPs.getPartitionSizeMb());
-            ps.setMinPartitionsCount(protoPs.getMinPartitionsCount());
-            ps.setMaxPartitionsCount(protoPs.getMaxPartitionsCount());
-            ps.setPartitioningByLoad(protoPs.getPartitioningByLoad() == CommonProtos.FeatureFlag.Status.ENABLED);
-            ps.setPartitioningBySize(protoPs.getPartitioningBySize() == CommonProtos.FeatureFlag.Status.ENABLED);
-            description.setPartitioningSettings(ps);
-        }
+        PartitioningSettings ps = new PartitioningSettings();
+        ps.setPartitionSize(protoPs.getPartitionSizeMb());
+        ps.setMinPartitionsCount(protoPs.getMinPartitionsCount());
+        ps.setMaxPartitionsCount(protoPs.getMaxPartitionsCount());
+        ps.setPartitioningByLoad(protoPs.getPartitioningByLoad() == CommonProtos.FeatureFlag.Status.ENABLED);
+        ps.setPartitioningBySize(protoPs.getPartitioningBySize() == CommonProtos.FeatureFlag.Status.ENABLED);
+        description.setPartitioningSettings(ps);
 
         List<YdbTable.ColumnFamily> columnFamiliesList = desc.getColumnFamiliesList();
-        if (columnFamiliesList != null) {
-            for (YdbTable.ColumnFamily family : columnFamiliesList) {
-                ColumnFamily.Compression compression;
-                switch (family.getCompression()) {
-                    case COMPRESSION_LZ4:
-                        compression = ColumnFamily.Compression.COMPRESSION_LZ4;
-                        break;
-                    default:
-                        compression = ColumnFamily.Compression.COMPRESSION_NONE;
-                }
-                description.addColumnFamily(
-                        new ColumnFamily(family.getName(), new StoragePool(family.getData().getMedia()), compression)
-                );
+        for (YdbTable.ColumnFamily family : columnFamiliesList) {
+            ColumnFamily.Compression compression;
+            switch (family.getCompression()) {
+                case COMPRESSION_LZ4:
+                    compression = ColumnFamily.Compression.COMPRESSION_LZ4;
+                    break;
+                default:
+                    compression = ColumnFamily.Compression.COMPRESSION_NONE;
             }
+            description.addColumnFamily(
+                    new ColumnFamily(family.getName(), new StoragePool(family.getData().getMedia()), compression)
+            );
         }
         if (settings.isIncludeShardKeyBounds()) {
             List<ValueProtos.TypedValue> shardKeyBoundsList = desc.getShardKeyBoundsList();
-            if (shardKeyBoundsList != null) {
-                Optional<Value<?>> leftValue = Optional.empty();
-                for (ValueProtos.TypedValue typedValue : shardKeyBoundsList) {
-                    Optional<KeyBound> fromBound = leftValue.map(KeyBound::inclusive);
-                    Value<?> value = ProtoValue.fromPb(
-                            ProtoType.fromPb(typedValue.getType()),
-                            typedValue.getValue()
-                    );
-                    Optional<KeyBound> toBound = Optional.of(KeyBound.exclusive(value));
-                    description.addKeyRange(new KeyRange(fromBound, toBound));
-                    leftValue = Optional.of(value);
-                }
-                description.addKeyRange(
-                        new KeyRange(leftValue.map(KeyBound::inclusive), Optional.empty())
+            Optional<Value<?>> leftValue = Optional.empty();
+            for (TypedValue typedValue : shardKeyBoundsList) {
+                Optional<KeyBound> fromBound = leftValue.map(KeyBound::inclusive);
+                Value<?> value = ProtoValue.fromPb(
+                        ProtoType.fromPb(typedValue.getType()),
+                        typedValue.getValue()
                 );
+                Optional<KeyBound> toBound = Optional.of(KeyBound.exclusive(value));
+                description.addKeyRange(new KeyRange(fromBound, toBound));
+                leftValue = Optional.of(value);
             }
+            description.addKeyRange(
+                    new KeyRange(leftValue.map(KeyBound::inclusive), Optional.empty())
+            );
         }
 
         description.setTtlSettings(mapTtlSettings(desc.getTtlSettings()));
@@ -898,6 +897,95 @@ public abstract class BaseSession implements Session {
         return settings.build();
     }
 
+    private static Result<TableOptionDescription> mapDescribeTableOptions(
+            Result<YdbTable.DescribeTableOptionsResult> describeTableOptionsResult) {
+        if (!describeTableOptionsResult.isSuccess()) {
+            return describeTableOptionsResult.map(r -> null);
+        }
+
+        YdbTable.DescribeTableOptionsResult describeResult = describeTableOptionsResult.getValue();
+
+        TableOptionDescription.Builder builder = TableOptionDescription.newBuilder();
+
+        List<TableOptionDescription.TableProfileDescription> tableProfileDescriptions = new ArrayList<>();
+        builder.setTableProfileDescriptions(tableProfileDescriptions);
+        for (YdbTable.TableProfileDescription tableProfileDescription : describeResult.getTableProfilePresetsList()) {
+            TableOptionDescription.TableProfileDescription.Builder descBuilder =
+                    getDescBuilder(tableProfileDescription);
+
+            TableOptionDescription.TableProfileDescription description = descBuilder.build();
+            tableProfileDescriptions.add(description);
+        }
+
+        List<TableOptionDescription.StoragePolicyDescription> storagePolicyDescription = new ArrayList<>();
+        builder.setStoragePolicyPresets(storagePolicyDescription);
+        for (YdbTable.StoragePolicyDescription iter : describeResult.getStoragePolicyPresetsList()) {
+            storagePolicyDescription.add(
+                    new TableOptionDescription.StoragePolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.CompactionPolicyDescription> compactionPolicyDescription = new ArrayList<>();
+        builder.setCompactionPolicyPresets(compactionPolicyDescription);
+        for (YdbTable.CompactionPolicyDescription iter : describeResult.getCompactionPolicyPresetsList()) {
+            compactionPolicyDescription.add(
+                    new TableOptionDescription.CompactionPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.PartitioningPolicyDescription> partitioningPolicyPresets = new ArrayList<>();
+        builder.setPartitioningPolicyPresets(partitioningPolicyPresets);
+        for (YdbTable.PartitioningPolicyDescription iter : describeResult.getPartitioningPolicyPresetsList()) {
+            partitioningPolicyPresets.add(
+                    new TableOptionDescription.PartitioningPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.ExecutionPolicyDescription> executionPolicyDescriptions = new ArrayList<>();
+        builder.setExecutionPolicyPresets(executionPolicyDescriptions);
+        for (YdbTable.ExecutionPolicyDescription iter : describeResult.getExecutionPolicyPresetsList()) {
+            executionPolicyDescriptions.add(
+                    new TableOptionDescription.ExecutionPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.ReplicationPolicyDescription> replicationPolicyPresets = new ArrayList<>();
+        builder.setReplicationPolicyPresets(replicationPolicyPresets);
+        for (YdbTable.ReplicationPolicyDescription iter : describeResult.getReplicationPolicyPresetsList()) {
+            replicationPolicyPresets.add(
+                    new TableOptionDescription.ReplicationPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        List<TableOptionDescription.CachingPolicyDescription> cachingPolicyPresets = new ArrayList<>();
+        builder.setCachingPolicyPresets(cachingPolicyPresets);
+        for (YdbTable.CachingPolicyDescription iter : describeResult.getCachingPolicyPresetsList()) {
+            cachingPolicyPresets.add(
+                    new TableOptionDescription.CachingPolicyDescription(iter.getName(), iter.getLabelsMap()));
+        }
+
+        return Result.success(new TableOptionDescription(builder));
+    }
+
+    private static TableOptionDescription.TableProfileDescription.Builder getDescBuilder(
+            YdbTable.TableProfileDescription tableProfileDescription) {
+        TableOptionDescription.TableProfileDescription.Builder descBuilder =
+                TableOptionDescription.TableProfileDescription.newBuilder();
+        descBuilder.setName(tableProfileDescription.getName());
+        descBuilder.setLabels(tableProfileDescription.getLabelsMap());
+
+        descBuilder.setDefaultStoragePolicy(tableProfileDescription.getDefaultStoragePolicy());
+        descBuilder.setDefaultCompactionPolicy(tableProfileDescription.getDefaultCompactionPolicy());
+        descBuilder.setDefaultPartitioningPolicy(tableProfileDescription.getDefaultPartitioningPolicy());
+        descBuilder.setDefaultExecutionPolicy(tableProfileDescription.getDefaultExecutionPolicy());
+        descBuilder.setDefaultReplicationPolicy(tableProfileDescription.getDefaultReplicationPolicy());
+        descBuilder.setDefaultCachingPolicy(tableProfileDescription.getDefaultCachingPolicy());
+
+        descBuilder.setAllowedStoragePolicy(tableProfileDescription.getAllowedStoragePoliciesList());
+        descBuilder.setAllowedCompactionPolicy(tableProfileDescription.getAllowedCompactionPoliciesList());
+        descBuilder.setAllowedPartitioningPolicy(tableProfileDescription.getAllowedPartitioningPoliciesList());
+        descBuilder.setAllowedExecutionPolicy(tableProfileDescription.getAllowedExecutionPoliciesList());
+        descBuilder.setAllowedReplicationPolicy(tableProfileDescription.getAllowedReplicationPoliciesList());
+        descBuilder.setAllowedCachingPolicy(tableProfileDescription.getAllowedCachingPoliciesList());
+        return descBuilder;
+    }
+
+
     protected CompletableFuture<Result<DataQueryResult>> executeDataQueryInternal(
             String query, YdbTable.TransactionControl txControl, Params params, ExecuteDataQuerySettings settings) {
         YdbTable.ExecuteDataQueryRequest.Builder request = YdbTable.ExecuteDataQueryRequest.newBuilder()
@@ -934,9 +1022,7 @@ public abstract class BaseSession implements Session {
             msg = sb.toString();
         }
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
+        return interceptResultWithLog(msg, rpc.executeDataQuery(request.build(), makeOptions(settings).build()))
                 .thenApply(result -> result.map(DataQueryResult::new));
     }
 
@@ -959,10 +1045,7 @@ public abstract class BaseSession implements Session {
                                     .addAllItems(settings.getKeys().stream().map(StructValue::toPb)
                                             .collect(Collectors.toList())))
                             .build());
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        return interceptResult(
-                tableRpc.readRows(requestBuilder.build(),
-                        makeGrpcRequestSettings(settings.getRequestTimeout(), traceId)))
+        return interceptResult(rpc.readRows(requestBuilder.build(), makeOptions(settings).build()))
                 .thenApply(result -> result.map(ReadRowsResult::new));
     }
 
@@ -1007,9 +1090,7 @@ public abstract class BaseSession implements Session {
             msg = sb.toString();
         }
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptResultWithLog(msg, tableRpc.executeDataQuery(request.build(), grpcRequestSettings))
+        return interceptResultWithLog(msg, rpc.executeDataQuery(request.build(), makeOptions(settings).build()))
                 .thenApply(result -> result.map(DataQueryResult::new));
     }
 
@@ -1020,9 +1101,7 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .setYqlText(query);
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptResult(tableRpc.prepareDataQuery(request.build(), grpcRequestSettings))
+        return interceptResult(rpc.prepareDataQuery(request.build(), makeOptions(settings).build()))
                 .thenApply(result -> result.map((value) -> {
                     String queryId = value.getQueryId();
                     Map<String, ValueProtos.Type> types = value.getParametersTypesMap();
@@ -1038,9 +1117,7 @@ public abstract class BaseSession implements Session {
                 .setYqlText(query)
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptStatus(tableRpc.executeSchemeQuery(request, grpcRequestSettings));
+        return interceptStatus(rpc.executeSchemeQuery(request, makeOptions(settings).build()));
     }
 
     @Override
@@ -1052,9 +1129,7 @@ public abstract class BaseSession implements Session {
                 .setYqlText(query)
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptResult(tableRpc.explainDataQuery(request, grpcRequestSettings))
+        return interceptResult(rpc.explainDataQuery(request, makeOptions(settings).build()))
                 .thenApply(result -> result.map(ExplainDataQueryResult::new));
     }
 
@@ -1067,10 +1142,8 @@ public abstract class BaseSession implements Session {
                 .setTxSettings(txSettings(transactionMode))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
         return interceptResultWithLog("begin transaction",
-                tableRpc.beginTransaction(request, grpcRequestSettings))
+                rpc.beginTransaction(request, makeOptions(settings).build()))
                 .thenApply(result -> result.map(tx -> new DeprecatedTransactionImpl(tx.getTxMeta().getId())));
     }
 
@@ -1087,11 +1160,9 @@ public abstract class BaseSession implements Session {
                 .setTxSettings(TxControlToPb.txSettings(txMode))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptResultWithLog("begin transaction",
-                tableRpc.beginTransaction(request, grpcRequestSettings))
-                .thenApply(result -> result.map(tx -> new TableTransactionImpl(txMode, tx.getTxMeta().getId())));
+        return interceptResultWithLog(
+                "begin transaction", rpc.beginTransaction(request, makeOptions(settings).build())
+        ).thenApply(result -> result.map(tx -> new TableTransactionImpl(txMode, tx.getTxMeta().getId())));
     }
 
     @Override
@@ -1128,12 +1199,12 @@ public abstract class BaseSession implements Session {
             request.addAllColumns(settings.getColumns());
         }
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout(), traceId);
-        final GrpcReadStream<YdbTable.ReadTableResponse> origin = tableRpc.streamReadTable(
-                request.build(), grpcRequestSettings
-        );
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+        if (settings.getGrpcFlowControl() != null) {
+            options = options.withFlowControl(settings.getGrpcFlowControl());
+        }
 
+        GrpcReadStream<YdbTable.ReadTableResponse> origin = rpc.streamReadTable(request.build(), options.build());
         return new ProxyReadStream<>(origin, (response, future, observer) -> {
             StatusIds.StatusCode statusCode = response.getStatus();
             if (statusCode == StatusIds.StatusCode.SUCCESS) {
@@ -1154,21 +1225,20 @@ public abstract class BaseSession implements Session {
 
     @Override
     public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
-                                                            ExecuteScanQuerySettings settings
-    ) {
-        YdbTable.ExecuteScanQueryRequest request = YdbTable.ExecuteScanQueryRequest.newBuilder()
+            ExecuteScanQuerySettings settings) {
+        YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
                 .setMode(settings.getMode().toPb())
                 .putAllParameters(params.toPb())
                 .setCollectStats(settings.getCollectStats().toPb())
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getRequestTimeout(), traceId);
-        final GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = tableRpc.streamExecuteScanQuery(
-                request, grpcRequestSettings
-        );
+        GrpcRequestSettings.Builder opts = makeOptions(settings);
+        if (settings.getGrpcFlowControl() != null) {
+            opts = opts.withFlowControl(settings.getGrpcFlowControl());
+        }
 
+        GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = rpc.streamExecuteScanQuery(req, opts.build());
         return new ProxyReadStream<>(origin, (response, future, observer) -> {
             StatusIds.StatusCode statusCode = response.getStatus();
             if (statusCode == StatusIds.StatusCode.SUCCESS) {
@@ -1194,10 +1264,8 @@ public abstract class BaseSession implements Session {
                 .setTxId(txId)
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptStatusWithLog("commit transaction",
-                tableRpc.commitTransaction(request, grpcRequestSettings));
+        CompletableFuture<Status> future = rpc.commitTransaction(request, makeOptions(settings).build());
+        return interceptStatusWithLog("commit transaction", future);
     }
 
     @Override
@@ -1212,10 +1280,8 @@ public abstract class BaseSession implements Session {
                 .setTxId(txId)
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptStatusWithLog("rollback transaction",
-                tableRpc.rollbackTransaction(request, grpcRequestSettings));
+        CompletableFuture<Status> future = rpc.rollbackTransaction(request, makeOptions(settings).build());
+        return interceptStatusWithLog("rollback transaction", future);
     }
 
     @Override
@@ -1231,10 +1297,9 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptResult(tableRpc.keepAlive(request, grpcRequestSettings))
-                .thenApply(result -> result.map(BaseSession::mapSessionStatus));
+        GrpcRequestSettings config = makeOptions(settings).build();
+        CompletableFuture<Result<YdbTable.KeepAliveResult>> future = rpc.keepAlive(request, config);
+        return interceptResult(future).thenApply(result -> result.map(BaseSession::mapSessionStatus));
     }
 
     @Override
@@ -1250,10 +1315,7 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-
-        return interceptStatus(tableRpc.bulkUpsert(request, grpcRequestSettings));
+        return interceptStatus(rpc.bulkUpsert(request, makeOptions(settings).build()));
     }
 
     private static State mapSessionStatus(YdbTable.KeepAliveResult result) {
@@ -1276,9 +1338,7 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        String traceId = getTraceIdOrGenerateNew(settings.getTraceId());
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings.getTimeoutDuration(), traceId);
-        return interceptStatus(tableRpc.deleteSession(request, grpcRequestSettings));
+        return interceptStatus(rpc.deleteSession(request, makeOptions(settings).build()));
     }
 
     private <T> CompletableFuture<Result<T>> interceptResultWithLog(String msg, CompletableFuture<Result<T>> future) {

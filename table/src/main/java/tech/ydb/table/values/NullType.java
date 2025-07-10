@@ -9,8 +9,8 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Aleksandr Gorshenin
  */
 public final class NullType implements Type {
-
     private static final NullType INSTANCE = new NullType();
+    private static final long serialVersionUID = 5283267584194481781L;
 
     private NullType() {
     }

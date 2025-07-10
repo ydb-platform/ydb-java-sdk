@@ -20,13 +20,13 @@ public interface Result<T> {
     T getValue() throws UnexpectedResultException;
 
     @Nonnull
-    <U> Result<U> map(Function<T, U> mapper);
+    <U> Result<U> map(@Nonnull Function<T, U> mapper);
 
     @Nonnull
-    <U> CompletableFuture<Result<U>> mapResultFuture(Function<T, CompletableFuture<Result<U>>> mapper);
+    <U> CompletableFuture<Result<U>> mapResultFuture(@Nonnull Function<T, CompletableFuture<Result<U>>> mapper);
 
     @Nonnull
-    CompletableFuture<Status> mapStatusFuture(Function<T, CompletableFuture<Status>> mapper);
+    CompletableFuture<Status> mapStatusFuture(@Nonnull Function<T, CompletableFuture<Status>> mapper);
 
     default boolean isSuccess() {
         return getStatus().getCode() == StatusCode.SUCCESS;
@@ -49,7 +49,7 @@ public interface Result<T> {
     }
 
     static <V> Result<V> error(String message, Throwable throwable) {
-        if (throwable != null && throwable instanceof UnexpectedResultException) {
+        if (throwable instanceof UnexpectedResultException) {
             return new Unexpected<>(message, (UnexpectedResultException) throwable);
         }
         return new Error<>(message, throwable);
@@ -67,7 +67,7 @@ public interface Result<T> {
      * // Execute one query, with opening new transaction
      * session.executeDataQuery(...)
      *    // Execute second query if first was successful
-     *    .thenCompose(Result.compose(fisrt -> session.executeDataQuery(...)))
+     *    .thenCompose(Result.compose(first -> session.executeDataQuery(...)))
      *    // Commit transaction after two successful query executions
      *    .thenCompose(Result.composeStatus(second -> session.commitTransaction(...)));
      * }</pre>
@@ -93,7 +93,7 @@ public interface Result<T> {
      * // Execute one query, with opening new transaction
      * session.executeDataQuery(...)
      *    // Execute second query if first was successful
-     *    .thenCompose(Result.compose(fisrt -> session.executeDataQuery(...)))
+     *    .thenCompose(Result.compose(first -> session.executeDataQuery(...)))
      *    // Commit transaction after two successful query executions
      *    .thenCompose(Result.composeStatus(second -> session.commitTransaction(...)));
      * }</pre>
@@ -118,7 +118,7 @@ public interface Result<T> {
      * // Execute one query
      * session.executeDataQuery(...)
      *    // Execute second query if first was successful
-     *    .thenCompose(Result.compose(fisrt -> session
+     *    .thenCompose(Result.compose(first -> session
      *        .executeDataQuery(...)
      *        // But use first request result as the result of
      *        .thenCompose(Result.composeValue(first))
@@ -147,26 +147,31 @@ public interface Result<T> {
             this.status = status;
         }
 
+        @Nonnull
         @Override
         public Status getStatus() {
             return status;
         }
 
+        @Nonnull
         @Override
         public V getValue() {
             return value;
         }
 
+        @Nonnull
         @Override
         public <U> Success<U> map(Function<V, U> mapper) {
             return new Success<>(mapper.apply(value), status);
         }
 
+        @Nonnull
         @Override
         public <U> CompletableFuture<Result<U>> mapResultFuture(Function<V, CompletableFuture<Result<U>>> mapper) {
             return mapper.apply(value);
         }
 
+        @Nonnull
         @Override
         public CompletableFuture<Status> mapStatusFuture(Function<V, CompletableFuture<Status>> mapper) {
             return mapper.apply(value);
@@ -208,28 +213,33 @@ public interface Result<T> {
             this.status = status;
         }
 
+        @Nonnull
         @Override
         @SuppressWarnings("unchecked")
         public <U> Fail<U> map(Function<V, U> mapper) {
             return (Fail<U>) this;
         }
 
+        @Nonnull
         @Override
         @SuppressWarnings("unchecked")
         public <U> CompletableFuture<Result<U>> mapResultFuture(Function<V, CompletableFuture<Result<U>>> mapper) {
             return CompletableFuture.completedFuture((Fail<U>) this);
         }
 
+        @Nonnull
         @Override
         public CompletableFuture<Status> mapStatusFuture(Function<V, CompletableFuture<Status>> mapper) {
             return CompletableFuture.completedFuture(status);
         }
 
+        @Nonnull
         @Override
         public Status getStatus() {
             return status;
         }
 
+        @Nonnull
         @Override
         public V getValue() {
             throw new UnexpectedResultException("Cannot get value", status);
@@ -270,28 +280,33 @@ public interface Result<T> {
             this.cause = (message == null || message.isEmpty()) ? cause : new UnexpectedResultException(message, cause);
         }
 
+        @Nonnull
         @Override
         public Status getStatus() {
             return cause.getStatus();
         }
 
+        @Nonnull
         @Override
         public V getValue() {
             throw cause;
         }
 
+        @Nonnull
         @Override
         @SuppressWarnings("unchecked")
         public <U> Unexpected<U> map(Function<V, U> mapper) {
             return (Unexpected<U>) this;
         }
 
+        @Nonnull
         @Override
         @SuppressWarnings("unchecked")
         public <U> CompletableFuture<Result<U>> mapResultFuture(Function<V, CompletableFuture<Result<U>>> mapper) {
             return CompletableFuture.completedFuture((Unexpected<U>) this);
         }
 
+        @Nonnull
         @Override
         public CompletableFuture<Status> mapStatusFuture(Function<V, CompletableFuture<Status>> mapper) {
             return CompletableFuture.completedFuture(cause.getStatus());
@@ -338,30 +353,34 @@ public interface Result<T> {
             this.status = ERROR.withCause(cause);
         }
 
+        @Nonnull
         @Override
         public Status getStatus() {
             return status;
         }
 
+        @Nonnull
         @Override
         public V getValue() {
             throw new UnexpectedResultException(message, status);
         }
 
+        @Nonnull
         @Override
         @SuppressWarnings("unchecked")
         public <U> Error<U> map(Function<V, U> mapper) {
             return (Error<U>) this;
         }
 
+        @Nonnull
         @Override
-        @SuppressWarnings("unchecked")
         public <U> CompletableFuture<Result<U>> mapResultFuture(Function<V, CompletableFuture<Result<U>>> mapper) {
             CompletableFuture<Result<U>> future = new CompletableFuture<>();
             future.completeExceptionally(status.getCause());
             return future;
         }
 
+        @Nonnull
         @Override
         public CompletableFuture<Status> mapStatusFuture(Function<V, CompletableFuture<Status>> mapper) {
             return CompletableFuture.completedFuture(status);
