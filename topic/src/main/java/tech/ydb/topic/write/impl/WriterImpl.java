@@ -421,6 +421,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         private void onWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse response) {
             List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks = response.getAcksList();
             logger.debug("[{}] Received WriteResponse with {} WriteAcks", streamId, acks.size());
+            WriteAck.Statistics statistics = null;
+            if (response.getWriteStatistics() != null) {
+                statistics = new WriteAck.Statistics(response.getWriteStatistics());
+            }
             int inFlightFreed = 0;
             long bytesFreed = 0;
             for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
@@ -433,7 +437,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                         inFlightFreed++;
                         bytesFreed += sentMessage.getSize();
                         sentMessages.remove();
-                        processWriteAck(sentMessage, ack);
+                        processWriteAck(sentMessage, statistics, ack);
                         break;
                     }
                     if (sentMessage.getSeqNo() < ack.getSeqNo()) {
@@ -474,7 +478,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             }
         }
 
-        private void processWriteAck(EnqueuedMessage message,
+        private void processWriteAck(EnqueuedMessage message, WriteAck.Statistics statistics,
                                      YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
             logger.debug("[{}] Received WriteAck with seqNo {} and status {}", streamId, ack.getSeqNo(),
                     ack.getMessageWriteStatusCase());
@@ -482,12 +486,12 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             switch (ack.getMessageWriteStatusCase()) {
                 case WRITTEN:
                     WriteAck.Details details = new WriteAck.Details(ack.getWritten().getOffset());
-                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details);
+                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details, statistics);
                     break;
                 case SKIPPED:
                     switch (ack.getSkipped().getReason()) {
                         case REASON_ALREADY_WRITTEN:
-                            resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null);
+                            resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null, statistics);
                             break;
                         case REASON_UNSPECIFIED:
                         default:
@@ -497,7 +501,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     }
                     break;
                 case WRITTEN_IN_TX:
-                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN_IN_TX, null);
+                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN_IN_TX, null, statistics);
                     break;
                 default:
                     message.getFuture().completeExceptionally(
@@ -519,5 +523,6 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         protected void onStop() {
             logger.debug("[{}] Session {} onStop called", streamId, sessionId);
         }
+
     }
 }
