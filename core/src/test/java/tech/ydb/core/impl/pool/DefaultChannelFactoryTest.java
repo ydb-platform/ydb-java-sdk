@@ -124,7 +124,7 @@ public class DefaultChannelFactoryTest {
                 .withUseDefaultGrpcResolver(true);
 
         ManagedChannelFactory factory = ShadedNettyChannelFactory
-                .withInterceptor(ForwardingChannelBuilder2::enableFullStreamDecompression)
+                .withInterceptor(ForwardingChannelBuilder2::useTransportSecurity)
                 .buildFactory(builder);
 
         channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
@@ -141,7 +141,7 @@ public class DefaultChannelFactoryTest {
         Mockito.verify(channelBuilderMock, Mockito.times(1))
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         Mockito.verify(channelBuilderMock, Mockito.times(1)).withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
-        Mockito.verify(channelBuilderMock, Mockito.times(1)).enableFullStreamDecompression();
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).useTransportSecurity();
     }
 
     @Test
