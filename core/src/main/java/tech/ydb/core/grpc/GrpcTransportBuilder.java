@@ -75,7 +75,6 @@ public class GrpcTransportBuilder {
     private Executor callExecutor = MoreExecutors.directExecutor();
     private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
-    private long connectTimeoutMillis = 30_000;
     private long discoveryTimeoutMillis = 60_000;
     private boolean useDefaultGrpcResolver = false;
     private GrpcCompression compression = GrpcCompression.NO_COMPRESSION;
@@ -147,8 +146,9 @@ public class GrpcTransportBuilder {
         return readTimeoutMillis;
     }
 
+    @Deprecated
     public long getConnectTimeoutMillis() {
-        return connectTimeoutMillis;
+        return 10_000;
     }
 
     public long getDiscoveryTimeoutMillis() {
@@ -296,15 +296,13 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    @Deprecated
     public GrpcTransportBuilder withConnectTimeout(Duration timeout) {
-        this.connectTimeoutMillis = timeout.toMillis();
-        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
         return this;
     }
 
+    @Deprecated
     public GrpcTransportBuilder withConnectTimeout(long timeout, TimeUnit unit) {
-        this.connectTimeoutMillis = unit.toMillis(timeout);
-        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
         return this;
     }
 
