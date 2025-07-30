@@ -499,27 +499,35 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             case Yson:
                 return compareByteArrays(getBytesUnsafe(), otherPrimitive.getBytesUnsafe());
             case Text:
-            case Json:
-            case JsonDocument:
                 return getText().compareTo(otherPrimitive.getText());
+            case Json:
+                return getJson().compareTo(otherPrimitive.getJson());
+            case JsonDocument:
+                return getJsonDocument().compareTo(otherPrimitive.getJsonDocument());
             case Uuid:
                 return getUuidJdk().compareTo(otherPrimitive.getUuidJdk());
             case Date:
-            case Date32:
                 return getDate().compareTo(otherPrimitive.getDate());
+            case Date32:
+                return getDate32().compareTo(otherPrimitive.getDate32());
             case Datetime:
-            case Datetime64:
                 return getDatetime().compareTo(otherPrimitive.getDatetime());
+            case Datetime64:
+                return getDatetime64().compareTo(otherPrimitive.getDatetime64());
             case Timestamp:
-            case Timestamp64:
                 return getTimestamp().compareTo(otherPrimitive.getTimestamp());
+            case Timestamp64:
+                return getTimestamp64().compareTo(otherPrimitive.getTimestamp64());
             case Interval:
-            case Interval64:
                 return getInterval().compareTo(otherPrimitive.getInterval());
+            case Interval64:
+                return getInterval64().compareTo(otherPrimitive.getInterval64());
             case TzDate:
-            case TzDatetime:
-            case TzTimestamp:
                 return getTzDate().compareTo(otherPrimitive.getTzDate());
+            case TzDatetime:
+                return getTzDatetime().compareTo(otherPrimitive.getTzDatetime());
+            case TzTimestamp:
+                return getTzTimestamp().compareTo(otherPrimitive.getTzTimestamp());
             default:
                 throw new UnsupportedOperationException("Comparison not supported for type: " + getType());
         }
