@@ -21,7 +21,7 @@ public interface Value<T extends Type> extends Serializable, Comparable<Value<?>
      * The comparison is based on the actual data type of the value stored.
      * For complex types like ListValue and StructValue, the comparison follows lexicographical rules.
      * For OptionalValue, comparison with non-optional values of the same underlying type is supported.
-     * 
+     *
      * @param other the value to compare with
      * @return a negative integer, zero, or a positive integer as this value is less than, equal to, or greater than the other value
      * @throws IllegalArgumentException if the other value is null or has an incompatible type

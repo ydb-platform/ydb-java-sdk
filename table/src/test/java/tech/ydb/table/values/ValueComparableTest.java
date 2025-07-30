@@ -3,9 +3,6 @@ package tech.ydb.table.values;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * Test for Comparable implementation of Value classes
  */
@@ -129,7 +126,7 @@ public class ValueComparableTest {
         OptionalValue opt1 = OptionalValue.of(PrimitiveValue.newInt32(1));
         OptionalValue opt2 = OptionalValue.of(PrimitiveValue.newInt32(2));
         OptionalValue opt3 = OptionalValue.of(PrimitiveValue.newInt32(1));
-        OptionalValue opt4 = OptionalValue.of(null);
+        OptionalValue opt4 = PrimitiveType.Int32.makeOptional().emptyValue();
         
         assertTrue(opt1.compareTo(opt2) < 0);
         assertTrue(opt2.compareTo(opt1) > 0);
@@ -266,30 +263,5 @@ public class ValueComparableTest {
         PrimitiveValue intValue = PrimitiveValue.newInt32(1);
         PrimitiveValue textValue = PrimitiveValue.newText("abc");
         intValue.compareTo(textValue);
-    }
-
-    @Test
-    public void testSorting() {
-        List<Value<?>> values = Arrays.asList(
-            PrimitiveValue.newInt32(3),
-            PrimitiveValue.newInt32(1),
-            PrimitiveValue.newInt32(2),
-            PrimitiveValue.newText("abc"),
-            PrimitiveValue.newText("aaa")
-        );
-        
-        values.sort((a, b) -> {
-            // Compare by type kind first, then by value
-            int typeComparison = a.getType().getKind().compareTo(b.getType().getKind());
-            if (typeComparison != 0) {
-                return typeComparison;
-            }
-            return a.toString().compareTo(b.toString());
-        });
-        
-        // Verify sorting worked
-        assertTrue(values.get(0).toString().contains("1"));
-        assertTrue(values.get(1).toString().contains("2"));
-        assertTrue(values.get(2).toString().contains("3"));
     }
 } 

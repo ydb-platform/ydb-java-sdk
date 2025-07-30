@@ -439,16 +439,38 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         if (other == null) {
             throw new IllegalArgumentException("Cannot compare with null value");
         }
-        
-        if (!(other instanceof PrimitiveValue)) {
-            throw new IllegalArgumentException("Cannot compare PrimitiveValue with " + other.getClass().getSimpleName());
+
+        // Handle comparison with OptionalValue
+        if (other instanceof OptionalValue) {
+            OptionalValue otherOptional = (OptionalValue) other;
+
+            // Check that the item type matches this primitive type
+            if (!getType().equals(otherOptional.getType().getItemType())) {
+                throw new IllegalArgumentException(
+                    "Cannot compare PrimitiveValue with OptionalValue of different item type: " +
+                    getType() + " vs " + otherOptional.getType().getItemType());
+            }
+
+            // Non-empty value is greater than empty optional
+            if (!otherOptional.isPresent()) {
+                return 1;
+            }
+
+            // Compare with the wrapped value
+            return compareTo(otherOptional.get());
         }
-        
+
+        if (!(other instanceof PrimitiveValue)) {
+            throw new IllegalArgumentException(
+                "Cannot compare PrimitiveValue with " + other.getClass().getSimpleName());
+        }
+
         PrimitiveValue otherPrimitive = (PrimitiveValue) other;
         if (getType() != otherPrimitive.getType()) {
-            throw new IllegalArgumentException("Cannot compare values of different types: " + getType() + " vs " + otherPrimitive.getType());
+            throw new IllegalArgumentException("Cannot compare values of different types: " +
+                getType() + " vs " + otherPrimitive.getType());
         }
-        
+
         // Compare based on the actual primitive type
         switch (getType()) {
             case Bool:

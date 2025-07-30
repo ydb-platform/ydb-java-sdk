@@ -139,50 +139,78 @@ public class StructValue implements Value<StructType> {
         if (other == null) {
             throw new IllegalArgumentException("Cannot compare with null value");
         }
-        
+
+        // Handle comparison with OptionalValue
+        if (other instanceof OptionalValue) {
+            OptionalValue otherOptional = (OptionalValue) other;
+
+            // Check that the item type matches this struct type
+            if (!getType().equals(otherOptional.getType().getItemType())) {
+                throw new IllegalArgumentException(
+                    "Cannot compare StructValue with OptionalValue of different item type: " +
+                    getType() + " vs " + otherOptional.getType().getItemType());
+            }
+
+            // Non-empty value is greater than empty optional
+            if (!otherOptional.isPresent()) {
+                return 1;
+            }
+
+            // Compare with the wrapped value
+            return compareTo(otherOptional.get());
+        }
+
         if (!(other instanceof StructValue)) {
             throw new IllegalArgumentException("Cannot compare StructValue with " + other.getClass().getSimpleName());
         }
-        
+
         StructValue otherStruct = (StructValue) other;
-        
+
         // Compare members lexicographically
         int minLength = Math.min(members.length, otherStruct.members.length);
         for (int i = 0; i < minLength; i++) {
             Value<?> thisMember = members[i];
             Value<?> otherMember = otherStruct.members[i];
-            
+
             int memberComparison = compareValues(thisMember, otherMember);
             if (memberComparison != 0) {
                 return memberComparison;
             }
         }
-        
+
         // If we reach here, one struct is a prefix of the other
         // The shorter struct comes first
         return Integer.compare(members.length, otherStruct.members.length);
     }
-    
+
     private static int compareValues(Value<?> a, Value<?> b) {
         // Handle null values
-        if (a == null && b == null) return 0;
-        if (a == null) return -1;
-        if (b == null) return 1;
-        
+        if (a == null && b == null) {
+            return 0;
+        }
+        if (a == null) {
+            return -1;
+        }
+        if (b == null) {
+            return 1;
+        }
+
         // Check that the types are the same
         if (!a.getType().equals(b.getType())) {
-            throw new IllegalArgumentException("Cannot compare values of different types: " + 
+            throw new IllegalArgumentException("Cannot compare values of different types: " +
                 a.getType() + " vs " + b.getType());
         }
-        
+
         // Use the actual compareTo method of the values
         if (a instanceof Comparable && b instanceof Comparable) {
             try {
                 return ((Comparable<Value<?>>) a).compareTo((Value<?>) b);
-            } catch (ClassCastException e) {}
+            } catch (ClassCastException e) {
+                // Fall back to error
+            }
         }
-        
-        throw new IllegalArgumentException("Cannot compare values of different types: " + 
+
+        throw new IllegalArgumentException("Cannot compare values of different types: " +
             a.getClass().getSimpleName() + " vs " + b.getClass().getSimpleName());
     }
 

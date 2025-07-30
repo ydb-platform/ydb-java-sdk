@@ -48,11 +48,31 @@ public class VoidValue implements Value<VoidType> {
         if (other == null) {
             throw new IllegalArgumentException("Cannot compare with null value");
         }
-        
+
+        // Handle comparison with OptionalValue
+        if (other instanceof OptionalValue) {
+            OptionalValue otherOptional = (OptionalValue) other;
+
+            // Check that the item type matches this void type
+            if (!getType().equals(otherOptional.getType().getItemType())) {
+                throw new IllegalArgumentException(
+                    "Cannot compare VoidValue with OptionalValue of different item type: " +
+                    getType() + " vs " + otherOptional.getType().getItemType());
+            }
+
+            // Non-empty value is greater than empty optional
+            if (!otherOptional.isPresent()) {
+                return 1;
+            }
+
+            // Compare with the wrapped value
+            return compareTo(otherOptional.get());
+        }
+
         if (!(other instanceof VoidValue)) {
             throw new IllegalArgumentException("Cannot compare VoidValue with " + other.getClass().getSimpleName());
         }
-        
+
         // All VoidValue instances are equal
         return 0;
     }

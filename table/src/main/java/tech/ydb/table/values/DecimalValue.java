@@ -274,13 +274,33 @@ public class DecimalValue implements Value<DecimalType> {
         if (other == null) {
             throw new IllegalArgumentException("Cannot compare with null value");
         }
-        
+
+        // Handle comparison with OptionalValue
+        if (other instanceof OptionalValue) {
+            OptionalValue otherOptional = (OptionalValue) other;
+
+            // Check that the item type matches this decimal type
+            if (!getType().equals(otherOptional.getType().getItemType())) {
+                throw new IllegalArgumentException(
+                    "Cannot compare DecimalValue with OptionalValue of different item type: " +
+                    getType() + " vs " + otherOptional.getType().getItemType());
+            }
+
+            // Non-empty value is greater than empty optional
+            if (!otherOptional.isPresent()) {
+                return 1;
+            }
+
+            // Compare with the wrapped value
+            return compareTo(otherOptional.get());
+        }
+
         if (!(other instanceof DecimalValue)) {
             throw new IllegalArgumentException("Cannot compare DecimalValue with " + other.getClass().getSimpleName());
         }
-        
+
         DecimalValue otherDecimal = (DecimalValue) other;
-        
+
         // Handle special values first
         if (isNan() || otherDecimal.isNan()) {
             // NaN is not comparable, but we need to provide a consistent ordering
@@ -292,7 +312,7 @@ public class DecimalValue implements Value<DecimalType> {
             }
             return -1;
         }
-        
+
         if (isInf() && otherDecimal.isInf()) {
             return 0;
         }
@@ -302,7 +322,7 @@ public class DecimalValue implements Value<DecimalType> {
         if (otherDecimal.isInf()) {
             return -1;
         }
-        
+
         if (isNegativeInf() && otherDecimal.isNegativeInf()) {
             return 0;
         }
@@ -312,18 +332,18 @@ public class DecimalValue implements Value<DecimalType> {
         if (otherDecimal.isNegativeInf()) {
             return 1;
         }
-        
+
         // Compare finite values
         if (isNegative() != otherDecimal.isNegative()) {
             return isNegative() ? -1 : 1;
         }
-        
+
         // Both have the same sign, compare magnitudes
         int highComparison = Long.compareUnsigned(high, otherDecimal.high);
         if (highComparison != 0) {
             return isNegative() ? -highComparison : highComparison;
         }
-        
+
         int lowComparison = Long.compareUnsigned(low, otherDecimal.low);
         return isNegative() ? -lowComparison : lowComparison;
     }
