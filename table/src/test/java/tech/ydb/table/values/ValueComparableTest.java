@@ -1,5 +1,7 @@
 package tech.ydb.table.values;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -14,24 +16,24 @@ public class ValueComparableTest {
         PrimitiveValue int1 = PrimitiveValue.newInt32(1);
         PrimitiveValue int2 = PrimitiveValue.newInt32(2);
         PrimitiveValue int3 = PrimitiveValue.newInt32(1);
-        
+
         assertTrue(int1.compareTo(int2) < 0);
         assertTrue(int2.compareTo(int1) > 0);
         assertEquals(0, int1.compareTo(int3));
-        
+
         // Test string comparisons
         PrimitiveValue text1 = PrimitiveValue.newText("abc");
         PrimitiveValue text2 = PrimitiveValue.newText("def");
         PrimitiveValue text3 = PrimitiveValue.newText("abc");
-        
+
         assertTrue(text1.compareTo(text2) < 0);
         assertTrue(text2.compareTo(text1) > 0);
         assertEquals(0, text1.compareTo(text3));
-        
+
         // Test boolean comparisons
         PrimitiveValue bool1 = PrimitiveValue.newBool(false);
         PrimitiveValue bool2 = PrimitiveValue.newBool(true);
-        
+
         assertTrue(bool1.compareTo(bool2) < 0);
         assertTrue(bool2.compareTo(bool1) > 0);
     }
@@ -42,7 +44,7 @@ public class ValueComparableTest {
         ListValue list2 = ListValue.of(PrimitiveValue.newInt32(1), PrimitiveValue.newInt32(3));
         ListValue list3 = ListValue.of(PrimitiveValue.newInt32(1), PrimitiveValue.newInt32(2));
         ListValue list4 = ListValue.of(PrimitiveValue.newInt32(1));
-        
+
         assertTrue(list1.compareTo(list2) < 0);
         assertTrue(list2.compareTo(list1) > 0);
         assertEquals(0, list1.compareTo(list3));
@@ -54,15 +56,15 @@ public class ValueComparableTest {
         // Test proper lexicographical ordering
         ListValue list1 = ListValue.of(PrimitiveValue.newText("A"), PrimitiveValue.newText("Z"));
         ListValue list2 = ListValue.of(PrimitiveValue.newText("Z"));
-        
+
         // ('Z') should be "bigger" than ('A','Z') in lexicographical order
         assertTrue(list1.compareTo(list2) < 0); // ('A','Z') < ('Z')
         assertTrue(list2.compareTo(list1) > 0); // ('Z') > ('A','Z')
-        
+
         // Test prefix ordering
         ListValue list3 = ListValue.of(PrimitiveValue.newText("A"));
         ListValue list4 = ListValue.of(PrimitiveValue.newText("A"), PrimitiveValue.newText("B"));
-        
+
         assertTrue(list3.compareTo(list4) < 0); // ('A') < ('A','B')
         assertTrue(list4.compareTo(list3) > 0); // ('A','B') > ('A')
     }
@@ -79,7 +81,7 @@ public class ValueComparableTest {
         StructValue struct1 = StructValue.of("a", PrimitiveValue.newInt32(1), "b", PrimitiveValue.newInt32(2));
         StructValue struct2 = StructValue.of("a", PrimitiveValue.newInt32(1), "b", PrimitiveValue.newInt32(3));
         StructValue struct3 = StructValue.of("a", PrimitiveValue.newInt32(1), "b", PrimitiveValue.newInt32(2));
-        
+
         assertTrue(struct1.compareTo(struct2) < 0);
         assertTrue(struct2.compareTo(struct1) > 0);
         assertEquals(0, struct1.compareTo(struct3));
@@ -90,7 +92,7 @@ public class ValueComparableTest {
         // Test proper lexicographical ordering
         StructValue struct1 = StructValue.of("a", PrimitiveValue.newText("A"), "b", PrimitiveValue.newText("Z"));
         StructValue struct2 = StructValue.of("a", PrimitiveValue.newText("Z"));
-        
+
         // ('Z') should be "bigger" than ('A','Z') in lexicographical order
         assertTrue(struct1.compareTo(struct2) < 0); // ('A','Z') < ('Z')
         assertTrue(struct2.compareTo(struct1) > 0); // ('Z') > ('A','Z')
@@ -108,7 +110,7 @@ public class ValueComparableTest {
         DictValue dict1 = DictValue.of(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(1));
         DictValue dict2 = DictValue.of(PrimitiveValue.newText("b"), PrimitiveValue.newInt32(1));
         DictValue dict3 = DictValue.of(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(1));
-        
+
         assertTrue(dict1.compareTo(dict2) < 0);
         assertTrue(dict2.compareTo(dict1) > 0);
         assertEquals(0, dict1.compareTo(dict3));
@@ -122,12 +124,63 @@ public class ValueComparableTest {
     }
 
     @Test
+    public void testDictValueLexicographical() {
+        // Test proper lexicographical ordering - content matters more than size
+
+        // Case 1: Shorter dict with "larger" key should be greater than longer dict with "smaller" keys
+        Map<Value<?>, Value<?>> map1 = new HashMap<>();
+        map1.put(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(1));
+        map1.put(PrimitiveValue.newText("b"), PrimitiveValue.newInt32(2));
+        DictValue dict1 = DictType.of(PrimitiveType.Text, PrimitiveType.Int32).newValueOwn(map1);
+
+        DictValue dict2 = DictValue.of(PrimitiveValue.newText("z"), PrimitiveValue.newInt32(1));
+
+        // {"z": 1} should be "bigger" than {"a": 1, "b": 2} in lexicographical order
+        assertTrue(dict1.compareTo(dict2) < 0); // {"a": 1, "b": 2} < {"z": 1}
+        assertTrue(dict2.compareTo(dict1) > 0); // {"z": 1} > {"a": 1, "b": 2}
+
+        // Case 2: Same keys, different values - value comparison matters
+        DictValue dict3 = DictValue.of(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(1));
+        DictValue dict4 = DictValue.of(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(2));
+
+        assertTrue(dict3.compareTo(dict4) < 0); // {"a": 1} < {"a": 2}
+        assertTrue(dict4.compareTo(dict3) > 0); // {"a": 2} > {"a": 1}
+
+        // Case 3: One dict is a prefix of another - shorter comes first only if it's a prefix
+        DictValue dict5 = DictValue.of(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(1));
+
+        Map<Value<?>, Value<?>> map6 = new HashMap<>();
+        map6.put(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(1));
+        map6.put(PrimitiveValue.newText("b"), PrimitiveValue.newInt32(2));
+        DictValue dict6 = DictType.of(PrimitiveType.Text, PrimitiveType.Int32).newValueOwn(map6);
+
+        assertTrue(dict5.compareTo(dict6) < 0); // {"a": 1} < {"a": 1, "b": 2} (prefix case)
+        assertTrue(dict6.compareTo(dict5) > 0); // {"a": 1, "b": 2} > {"a": 1}
+
+        // Case 4: Multiple entries with different ordering
+        Map<Value<?>, Value<?>> map7 = new HashMap<>();
+        map7.put(PrimitiveValue.newText("x"), PrimitiveValue.newInt32(1));
+        map7.put(PrimitiveValue.newText("y"), PrimitiveValue.newInt32(1));
+        DictValue dict7 = DictType.of(PrimitiveType.Text, PrimitiveType.Int32).newValueOwn(map7);
+
+        Map<Value<?>, Value<?>> map8 = new HashMap<>();
+        map8.put(PrimitiveValue.newText("a"), PrimitiveValue.newInt32(1));
+        map8.put(PrimitiveValue.newText("b"), PrimitiveValue.newInt32(1));
+        map8.put(PrimitiveValue.newText("c"), PrimitiveValue.newInt32(1));
+        DictValue dict8 = DictType.of(PrimitiveType.Text, PrimitiveType.Int32).newValueOwn(map8);
+
+        // {"x": 1, "y": 1} should be greater than {"a": 1, "b": 1, "c": 1} despite being shorter
+        assertTrue(dict8.compareTo(dict7) < 0); // {"a": 1, "b": 1, "c": 1} < {"x": 1, "y": 1}
+        assertTrue(dict7.compareTo(dict8) > 0); // {"x": 1, "y": 1} > {"a": 1, "b": 1, "c": 1}
+    }
+
+    @Test
     public void testOptionalValueComparison() {
         OptionalValue opt1 = OptionalValue.of(PrimitiveValue.newInt32(1));
         OptionalValue opt2 = OptionalValue.of(PrimitiveValue.newInt32(2));
         OptionalValue opt3 = OptionalValue.of(PrimitiveValue.newInt32(1));
         OptionalValue opt4 = PrimitiveType.Int32.makeOptional().emptyValue();
-        
+
         assertTrue(opt1.compareTo(opt2) < 0);
         assertTrue(opt2.compareTo(opt1) > 0);
         assertEquals(0, opt1.compareTo(opt3));
@@ -148,15 +201,15 @@ public class ValueComparableTest {
         OptionalValue opt3 = PrimitiveType.Int32.makeOptional().emptyValue();
         PrimitiveValue prim1 = PrimitiveValue.newInt32(1);
         PrimitiveValue prim2 = PrimitiveValue.newInt32(2);
-        
+
         // Optional with non-optional of same type
         assertEquals(0, opt1.compareTo(prim1)); // Same value
         assertTrue(opt1.compareTo(prim2) < 0); // Optional value less than non-optional
         assertTrue(opt2.compareTo(prim1) > 0); // Optional value greater than non-optional
-        
+
         // Empty optional with non-optional
         assertTrue(opt3.compareTo(prim1) < 0); // Empty < non-empty
-        
+
         // Non-optional with optional
         assertEquals(0, prim1.compareTo(opt1)); // Same value
         assertTrue(prim1.compareTo(opt2) < 0); // Non-optional less than optional
@@ -177,7 +230,7 @@ public class ValueComparableTest {
         TupleValue tuple2 = TupleValue.of(PrimitiveValue.newInt32(1), PrimitiveValue.newInt32(3));
         TupleValue tuple3 = TupleValue.of(PrimitiveValue.newInt32(1), PrimitiveValue.newInt32(2));
         TupleValue tuple4 = TupleValue.of(PrimitiveValue.newInt32(1));
-        
+
         assertTrue(tuple1.compareTo(tuple2) < 0);
         assertTrue(tuple2.compareTo(tuple1) > 0);
         assertEquals(0, tuple1.compareTo(tuple3));
@@ -189,7 +242,7 @@ public class ValueComparableTest {
         // Test proper lexicographical ordering
         TupleValue tuple1 = TupleValue.of(PrimitiveValue.newText("A"), PrimitiveValue.newText("Z"));
         TupleValue tuple2 = TupleValue.of(PrimitiveValue.newText("Z"));
-        
+
         // ('Z') should be "bigger" than ('A','Z') in lexicographical order
         assertTrue(tuple1.compareTo(tuple2) < 0); // ('A','Z') < ('Z')
         assertTrue(tuple2.compareTo(tuple1) > 0); // ('Z') > ('A','Z')
@@ -204,13 +257,13 @@ public class ValueComparableTest {
 
     @Test
     public void testVariantValueComparison() {
-        VariantValue variant1 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text), 
+        VariantValue variant1 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text),
                                                  PrimitiveValue.newInt32(1), 0);
-        VariantValue variant2 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text), 
+        VariantValue variant2 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text),
                                                  PrimitiveValue.newText("abc"), 1);
-        VariantValue variant3 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text), 
+        VariantValue variant3 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text),
                                                  PrimitiveValue.newInt32(2), 0);
-        
+
         assertTrue(variant1.compareTo(variant2) < 0); // type index 0 < 1
         assertTrue(variant2.compareTo(variant1) > 0);
         assertTrue(variant1.compareTo(variant3) < 0); // same type index, compare values
@@ -218,9 +271,9 @@ public class ValueComparableTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testVariantValueDifferentTypes() {
-        VariantValue variant1 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text), 
+        VariantValue variant1 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text),
                                                  PrimitiveValue.newInt32(1), 0);
-        VariantValue variant2 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text), 
+        VariantValue variant2 = new VariantValue(VariantType.ofOwn(PrimitiveType.Int32, PrimitiveType.Text),
                                                  PrimitiveValue.newText("abc"), 0);
         variant1.compareTo(variant2); // Should throw exception for different item types
     }
@@ -229,7 +282,7 @@ public class ValueComparableTest {
     public void testVoidValueComparison() {
         VoidValue void1 = VoidValue.of();
         VoidValue void2 = VoidValue.of();
-        
+
         assertEquals(0, void1.compareTo(void2));
     }
 
@@ -237,7 +290,7 @@ public class ValueComparableTest {
     public void testNullValueComparison() {
         NullValue null1 = NullValue.of();
         NullValue null2 = NullValue.of();
-        
+
         assertEquals(0, null1.compareTo(null2));
     }
 
@@ -246,7 +299,7 @@ public class ValueComparableTest {
         DecimalValue decimal1 = DecimalValue.fromLong(DecimalType.of(10, 2), 100);
         DecimalValue decimal2 = DecimalValue.fromLong(DecimalType.of(10, 2), 200);
         DecimalValue decimal3 = DecimalValue.fromLong(DecimalType.of(10, 2), 100);
-        
+
         assertTrue(decimal1.compareTo(decimal2) < 0);
         assertTrue(decimal2.compareTo(decimal1) > 0);
         assertEquals(0, decimal1.compareTo(decimal3));
@@ -264,4 +317,4 @@ public class ValueComparableTest {
         PrimitiveValue textValue = PrimitiveValue.newText("abc");
         intValue.compareTo(textValue);
     }
-} 
+}

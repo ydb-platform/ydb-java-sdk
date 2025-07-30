@@ -151,12 +151,6 @@ public class DictValue implements Value<DictType> {
 
         DictValue otherDict = (DictValue) other;
 
-        // Compare sizes first
-        int sizeComparison = Integer.compare(items.size(), otherDict.items.size());
-        if (sizeComparison != 0) {
-            return sizeComparison;
-        }
-
         // Convert to sorted lists for lexicographical comparison
         List<Map.Entry<Value<?>, Value<?>>> thisEntries = new ArrayList<>(items.entrySet());
         List<Map.Entry<Value<?>, Value<?>>> otherEntries = new ArrayList<>(otherDict.items.entrySet());
@@ -178,8 +172,9 @@ public class DictValue implements Value<DictType> {
             return compareValues(e1.getValue(), e2.getValue());
         });
 
-        // Compare sorted entries
-        for (int i = 0; i < thisEntries.size(); i++) {
+        // Compare sorted entries lexicographically
+        int minLength = Math.min(thisEntries.size(), otherEntries.size());
+        for (int i = 0; i < minLength; i++) {
             Map.Entry<Value<?>, Value<?>> thisEntry = thisEntries.get(i);
             Map.Entry<Value<?>, Value<?>> otherEntry = otherEntries.get(i);
 
@@ -194,7 +189,9 @@ public class DictValue implements Value<DictType> {
             }
         }
 
-        return 0;
+        // If we reach here, one dict is a prefix of the other
+        // The shorter dict comes first
+        return Integer.compare(thisEntries.size(), otherEntries.size());
     }
 
     private static int compareValues(Value<?> a, Value<?> b) {
