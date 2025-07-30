@@ -113,4 +113,56 @@ public class ListValue implements Value<ListType> {
         }
         return builder.build();
     }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Cannot compare with null value");
+        }
+        
+        if (!(other instanceof ListValue)) {
+            throw new IllegalArgumentException("Cannot compare ListValue with " + other.getClass().getSimpleName());
+        }
+        
+        ListValue otherList = (ListValue) other;
+        
+        // Compare elements lexicographically
+        int minLength = Math.min(items.length, otherList.items.length);
+        for (int i = 0; i < minLength; i++) {
+            Value<?> thisItem = items[i];
+            Value<?> otherItem = otherList.items[i];
+            
+            int itemComparison = compareValues(thisItem, otherItem);
+            if (itemComparison != 0) {
+                return itemComparison;
+            }
+        }
+        
+        // If we reach here, one list is a prefix of the other
+        // The shorter list comes first
+        return Integer.compare(items.length, otherList.items.length);
+    }
+    
+    private static int compareValues(Value<?> a, Value<?> b) {
+        // Handle null values
+        if (a == null && b == null) return 0;
+        if (a == null) return -1;
+        if (b == null) return 1;
+        
+        // Check that the types are the same
+        if (!a.getType().equals(b.getType())) {
+            throw new IllegalArgumentException("Cannot compare values of different types: " + 
+                a.getType() + " vs " + b.getType());
+        }
+        
+        // Use the actual compareTo method of the values
+        if (a instanceof Comparable && b instanceof Comparable) {
+            try {
+                return ((Comparable<Value<?>>) a).compareTo((Value<?>) b);
+            } catch (ClassCastException e) {}
+        }
+        
+        throw new IllegalArgumentException("Cannot compare values of different types: " + 
+            a.getClass().getSimpleName() + " vs " + b.getClass().getSimpleName());
+    }
 }

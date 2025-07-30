@@ -42,4 +42,18 @@ public class VoidValue implements Value<VoidType> {
     public ValueProtos.Value toPb() {
         return ProtoValue.voidValue();
     }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Cannot compare with null value");
+        }
+        
+        if (!(other instanceof VoidValue)) {
+            throw new IllegalArgumentException("Cannot compare VoidValue with " + other.getClass().getSimpleName());
+        }
+        
+        // All VoidValue instances are equal
+        return 0;
+    }
 }

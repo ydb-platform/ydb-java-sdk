@@ -32,4 +32,18 @@ public class NullValue implements Value<NullType> {
     public ValueProtos.Value toPb() {
         return ProtoValue.nullValue();
     }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Cannot compare with null value");
+        }
+        
+        if (!(other instanceof NullValue)) {
+            throw new IllegalArgumentException("Cannot compare NullValue with " + other.getClass().getSimpleName());
+        }
+        
+        // All NullValue instances are equal
+        return 0;
+    }
 }

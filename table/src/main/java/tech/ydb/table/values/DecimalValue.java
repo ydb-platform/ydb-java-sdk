@@ -269,6 +269,65 @@ public class DecimalValue implements Value<DecimalType> {
         return ProtoValue.fromDecimal(high, low);
     }
 
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Cannot compare with null value");
+        }
+        
+        if (!(other instanceof DecimalValue)) {
+            throw new IllegalArgumentException("Cannot compare DecimalValue with " + other.getClass().getSimpleName());
+        }
+        
+        DecimalValue otherDecimal = (DecimalValue) other;
+        
+        // Handle special values first
+        if (isNan() || otherDecimal.isNan()) {
+            // NaN is not comparable, but we need to provide a consistent ordering
+            if (isNan() && otherDecimal.isNan()) {
+                return 0;
+            }
+            if (isNan()) {
+                return 1; // NaN is considered greater than any other value
+            }
+            return -1;
+        }
+        
+        if (isInf() && otherDecimal.isInf()) {
+            return 0;
+        }
+        if (isInf()) {
+            return 1; // Positive infinity is greater than any finite value
+        }
+        if (otherDecimal.isInf()) {
+            return -1;
+        }
+        
+        if (isNegativeInf() && otherDecimal.isNegativeInf()) {
+            return 0;
+        }
+        if (isNegativeInf()) {
+            return -1; // Negative infinity is less than any finite value
+        }
+        if (otherDecimal.isNegativeInf()) {
+            return 1;
+        }
+        
+        // Compare finite values
+        if (isNegative() != otherDecimal.isNegative()) {
+            return isNegative() ? -1 : 1;
+        }
+        
+        // Both have the same sign, compare magnitudes
+        int highComparison = Long.compareUnsigned(high, otherDecimal.high);
+        if (highComparison != 0) {
+            return isNegative() ? -highComparison : highComparison;
+        }
+        
+        int lowComparison = Long.compareUnsigned(low, otherDecimal.low);
+        return isNegative() ? -lowComparison : lowComparison;
+    }
+
     /**
      * Write long to a big-endian buffer.
      */

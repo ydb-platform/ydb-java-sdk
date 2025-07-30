@@ -423,6 +423,86 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
     }
 
+    private static int compareByteArrays(byte[] a, byte[] b) {
+        int minLength = Math.min(a.length, b.length);
+        for (int i = 0; i < minLength; i++) {
+            int comparison = Byte.compare(a[i], b[i]);
+            if (comparison != 0) {
+                return comparison;
+            }
+        }
+        return Integer.compare(a.length, b.length);
+    }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new IllegalArgumentException("Cannot compare with null value");
+        }
+        
+        if (!(other instanceof PrimitiveValue)) {
+            throw new IllegalArgumentException("Cannot compare PrimitiveValue with " + other.getClass().getSimpleName());
+        }
+        
+        PrimitiveValue otherPrimitive = (PrimitiveValue) other;
+        if (getType() != otherPrimitive.getType()) {
+            throw new IllegalArgumentException("Cannot compare values of different types: " + getType() + " vs " + otherPrimitive.getType());
+        }
+        
+        // Compare based on the actual primitive type
+        switch (getType()) {
+            case Bool:
+                return Boolean.compare(getBool(), otherPrimitive.getBool());
+            case Int8:
+                return Byte.compare(getInt8(), otherPrimitive.getInt8());
+            case Uint8:
+                return Integer.compare(getUint8(), otherPrimitive.getUint8());
+            case Int16:
+                return Short.compare(getInt16(), otherPrimitive.getInt16());
+            case Uint16:
+                return Integer.compare(getUint16(), otherPrimitive.getUint16());
+            case Int32:
+                return Integer.compare(getInt32(), otherPrimitive.getInt32());
+            case Uint32:
+                return Long.compare(getUint32(), otherPrimitive.getUint32());
+            case Int64:
+                return Long.compare(getInt64(), otherPrimitive.getInt64());
+            case Uint64:
+                return Long.compare(getUint64(), otherPrimitive.getUint64());
+            case Float:
+                return Float.compare(getFloat(), otherPrimitive.getFloat());
+            case Double:
+                return Double.compare(getDouble(), otherPrimitive.getDouble());
+            case Bytes:
+            case Yson:
+                return compareByteArrays(getBytesUnsafe(), otherPrimitive.getBytesUnsafe());
+            case Text:
+            case Json:
+            case JsonDocument:
+                return getText().compareTo(otherPrimitive.getText());
+            case Uuid:
+                return getUuidJdk().compareTo(otherPrimitive.getUuidJdk());
+            case Date:
+            case Date32:
+                return getDate().compareTo(otherPrimitive.getDate());
+            case Datetime:
+            case Datetime64:
+                return getDatetime().compareTo(otherPrimitive.getDatetime());
+            case Timestamp:
+            case Timestamp64:
+                return getTimestamp().compareTo(otherPrimitive.getTimestamp());
+            case Interval:
+            case Interval64:
+                return getInterval().compareTo(otherPrimitive.getInterval());
+            case TzDate:
+            case TzDatetime:
+            case TzTimestamp:
+                return getTzDate().compareTo(otherPrimitive.getTzDate());
+            default:
+                throw new UnsupportedOperationException("Comparison not supported for type: " + getType());
+        }
+    }
+
     // -- implementations --
 
     private static final class Bool extends PrimitiveValue {
