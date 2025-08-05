@@ -6,8 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.WillNotClose;
 
-import io.grpc.ExperimentalApi;
-
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.query.impl.QueryClientImpl;
@@ -18,7 +16,6 @@ import tech.ydb.table.TableClient;
  *
  * @author Aleksandr Gorshenin
  */
-@ExperimentalApi("QueryService is experimental and API may change without notice")
 public interface QueryClient extends AutoCloseable {
     static Builder newClient(@WillNotClose GrpcTransport transport) {
         return QueryClientImpl.newClient(transport);
