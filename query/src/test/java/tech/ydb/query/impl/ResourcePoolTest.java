@@ -7,7 +7,6 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,6 @@ import tech.ydb.test.junit4.GrpcTransportRule;
  *
  * @author Evgeny Kuvardin
  */
-@Ignore // Resource pools are unstable now
 public class ResourcePoolTest {
     private final static Logger logger = LoggerFactory.getLogger(ResourcePoolTest.class);
 
@@ -78,6 +76,8 @@ public class ResourcePoolTest {
             client.close();
             client = null;
         }
+
+        ydbTransport.printStdErr();
     }
 
     private Status selectWithPool(String poolName) {
@@ -98,7 +98,7 @@ public class ResourcePoolTest {
     private Status createResourcePool(String poolName) {
         String createPool = "CREATE RESOURCE POOL " + poolName + " WITH ("
                 + "CONCURRENT_QUERY_LIMIT=10,"
-                + "QUEUE_SIZE=\"-1\"," // Query size works unstable
+                + "QUEUE_SIZE=1000,"
                 + "DATABASE_LOAD_CPU_THRESHOLD=80);";
         return retryCtx.supplyResult(s -> s.createQuery(createPool, TxMode.NONE).execute()).join().getStatus();
     }

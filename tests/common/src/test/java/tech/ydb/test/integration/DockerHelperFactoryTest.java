@@ -60,6 +60,13 @@ public class DockerHelperFactoryTest {
 
         @Override
         public <T> T copyFileFromContainer(String containerPath, ThrowingFunction<InputStream, T> function) {
+            if (!pemPath.equals(containerPath)) {
+                try (ByteArrayInputStream bais = new ByteArrayInputStream("".getBytes())) {
+                    return function.apply(bais);
+                } catch (Exception ex) {
+                    throw new AssertionError("mock error", ex);
+                }
+            }
             Assert.assertEquals("check pem path", pemPath, containerPath);
 
             try (ByteArrayInputStream bais = new ByteArrayInputStream(pemCert)) {
