@@ -2,8 +2,6 @@ package tech.ydb.query;
 
 import java.util.concurrent.CompletableFuture;
 
-import io.grpc.ExperimentalApi;
-
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -22,7 +20,6 @@ import tech.ydb.table.query.Params;
  *
  * @author Aleksandr Gorshenin
  */
-@ExperimentalApi("QueryService is experimental and API may change without notice")
 public interface QueryTransaction extends YdbTransaction {
 
     /**

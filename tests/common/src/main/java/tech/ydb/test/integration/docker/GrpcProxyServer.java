@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.io.ByteStreams;
 import io.grpc.CallOptions;
@@ -71,21 +70,19 @@ public class GrpcProxyServer implements AutoCloseable {
     }
 
     private static class CallProxy<ReqT, RespT> {
-        final RequestProxy serverCallListener;
-        final ResponseProxy clientCallListener;
+        final ClientProxy clientProxy;
+        final ServerProxy serverProxy;
 
         CallProxy(ServerCall<ReqT, RespT> serverCall, ClientCall<ReqT, RespT> clientCall) {
-            serverCallListener = new RequestProxy(clientCall);
-            clientCallListener = new ResponseProxy(serverCall);
+            clientProxy = new ClientProxy(clientCall);
+            serverProxy = new ServerProxy(serverCall);
         }
 
-        private class RequestProxy extends ServerCall.Listener<ReqT> {
-            private final Lock clientCallLock = new ReentrantLock();
+        private class ClientProxy extends ServerCall.Listener<ReqT> {
             private final ClientCall<ReqT, ?> clientCall;
-            // Hold 'this' lock when accessing
-            private boolean needToRequest;
+            private final AtomicBoolean needToRequest = new AtomicBoolean(false);
 
-            RequestProxy(ClientCall<ReqT, ?> clientCall) {
+            ClientProxy(ClientCall<ReqT, ?> clientCall) {
                 this.clientCall = clientCall;
             }
 
@@ -102,47 +99,34 @@ public class GrpcProxyServer implements AutoCloseable {
             @Override
             public void onMessage(ReqT message) {
                 clientCall.sendMessage(message);
-                clientCallLock.lock();
-                try {
-                    if (clientCall.isReady()) {
-                        clientCallListener.serverCall.request(1);
-                    } else {
-                        // The outgoing call is not ready for more requests. Stop requesting additional data and
-                        // wait for it to catch up.
-                        needToRequest = true;
-                    }
-                } finally {
-                    clientCallLock.unlock();
+                if (clientCall.isReady()) {
+                    serverProxy.serverCall.request(1);
+                } else {
+                    // The outgoing call is not ready for more requests. Stop requesting additional data and
+                    // wait for it to catch up.
+                    needToRequest.set(true);
                 }
             }
 
             @Override
             public void onReady() {
-                clientCallListener.onServerReady();
+                serverProxy.onServerReady();
             }
 
             // Called from ResponseProxy, which is a different thread than the ServerCall.Listener
             // callbacks.
             void onClientReady() {
-                clientCallLock.lock();
-                try {
-                    if (needToRequest) {
-                        clientCallListener.serverCall.request(1);
-                        needToRequest = false;
-                    }
-                } finally {
-                    clientCallLock.unlock();
+                if (needToRequest.compareAndSet(true, false)) {
+                    serverProxy.serverCall.request(1);
                 }
             }
         }
 
-        private class ResponseProxy extends ClientCall.Listener<RespT> {
-            private final Lock serverCallLock = new ReentrantLock();
+        private class ServerProxy extends ClientCall.Listener<RespT> {
             private final ServerCall<?, RespT> serverCall;
-            // Hold 'this' lock when accessing
-            private boolean needToRequest;
+            private final AtomicBoolean needToRequest = new AtomicBoolean(false);
 
-            ResponseProxy(ServerCall<?, RespT> serverCall) {
+            ServerProxy(ServerCall<?, RespT> serverCall) {
                 this.serverCall = serverCall;
             }
 
@@ -159,36 +143,25 @@ public class GrpcProxyServer implements AutoCloseable {
             @Override
             public void onMessage(RespT message) {
                 serverCall.sendMessage(message);
-                serverCallLock.lock();
-                try {
-                    if (serverCall.isReady()) {
-                        serverCallListener.clientCall.request(1);
-                    } else {
-                        // The incoming call is not ready for more responses. Stop requesting additional data
-                        // and wait for it to catch up.
-                        needToRequest = true;
-                    }
-                } finally {
-                    serverCallLock.unlock();
+                if (serverCall.isReady()) {
+                    clientProxy.clientCall.request(1);
+                } else {
+                    // The incoming call is not ready for more responses. Stop requesting additional data
+                    // and wait for it to catch up.
+                    needToRequest.set(true);
                 }
             }
 
             @Override
             public void onReady() {
-                serverCallListener.onClientReady();
+                clientProxy.onClientReady();
             }
 
             // Called from RequestProxy, which is a different thread than the ClientCall.Listener
             // callbacks.
             void onServerReady() {
-                serverCallLock.lock();
-                try {
-                    if (needToRequest) {
-                        serverCallListener.clientCall.request(1);
-                        needToRequest = false;
-                    }
-                } finally {
-                    serverCallLock.unlock();
+                if (needToRequest.compareAndSet(true, false)) {
+                    clientProxy.clientCall.request(1);
                 }
             }
         }
@@ -199,10 +172,10 @@ public class GrpcProxyServer implements AutoCloseable {
         public ServerCall.Listener<ReqT> startCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata) {
             ClientCall<ReqT, RespT> clientCall = target.newCall(serverCall.getMethodDescriptor(), CallOptions.DEFAULT);
             CallProxy<ReqT, RespT> proxy = new CallProxy<>(serverCall, clientCall);
-            clientCall.start(proxy.clientCallListener, metadata);
-            serverCall.request(1);
+            clientCall.start(proxy.serverProxy, metadata);
             clientCall.request(1);
-            return proxy.serverCallListener;
+            serverCall.request(1);
+            return proxy.clientProxy;
         }
     }
 
