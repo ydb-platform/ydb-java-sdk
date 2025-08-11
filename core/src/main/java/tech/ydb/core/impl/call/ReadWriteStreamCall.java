@@ -22,6 +22,7 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
+import tech.ydb.proto.topic.YdbTopic;
 
 /**
  *
@@ -96,8 +97,12 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         try {
             if (flush()) {
                 if (logger.isTraceEnabled()) {
-                    String msg = TextFormat.shortDebugString((Message) message);
-                    logger.trace("ReadWriteStreamCall[{}] --> {}", traceId, msg);
+                    if (message instanceof YdbTopic.UpdateTokenRequest) {
+                        logger.trace("ReadWriteStreamCall[{}] --> {}", traceId, "update_token_request { token: XXXX }");
+                    } else {
+                        String msg = TextFormat.shortDebugString((Message) message);
+                        logger.trace("ReadWriteStreamCall[{}] --> {}", traceId, msg);
+                    }
                 }
                 call.sendMessage(message);
             } else {

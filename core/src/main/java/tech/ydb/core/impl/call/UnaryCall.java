@@ -18,6 +18,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.proto.auth.YdbAuth;
 
 /**
  *
@@ -51,7 +52,11 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
         try {
             call.start(this, headers);
             if (logger.isTraceEnabled()) {
-                logger.trace("UnaryCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
+                if (request instanceof YdbAuth.LoginRequest) {
+                    logger.trace("UnaryCall[{}] --> {}", traceId, "LoginRequest user: XXXX password: XXXX");
+                } else {
+                    logger.trace("UnaryCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
+                }
             }
             call.sendMessage(request);
             call.halfClose();
@@ -71,7 +76,11 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
     @Override
     public void onMessage(RespT value) {
         if (logger.isTraceEnabled()) {
-            logger.trace("UnaryCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) value));
+            if (value instanceof YdbAuth.LoginResponse) {
+                logger.trace("UnaryCall[{}] <-- {}", traceId, "LoginResponse XXXX");
+            } else {
+                logger.trace("UnaryCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) value));
+            }
         }
         if (!this.value.compareAndSet(null, value)) {
             future.complete(Result.fail(MULTIPLY_VALUES));
