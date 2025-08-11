@@ -238,6 +238,9 @@
             <id>jdk8-bootstrap</id>
             <activation>
                 <jdk>[9</jdk>
+                <property>
+                    <name>argLine</name>
+                </property>
             </activation>
             <build>
                 <plugins>
