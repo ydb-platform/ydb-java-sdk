@@ -1,6 +1,8 @@
 package tech.ydb.core.grpc;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -15,6 +17,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.net.HostAndPort;
 import com.google.common.util.concurrent.MoreExecutors;
 import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 
 import tech.ydb.auth.AuthRpcProvider;
 import tech.ydb.auth.NopAuthProvider;
@@ -69,6 +72,7 @@ public class GrpcTransportBuilder {
     private byte[] cert = null;
     private boolean useTLS = false;
     private ManagedChannelFactory.Builder channelFactoryBuilder = null;
+    private final List<Consumer<ManagedChannelBuilder<?>>> channelInitializers = new ArrayList<>();
     private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
     private String localDc;
     private BalancingSettings balancingSettings;
@@ -183,6 +187,10 @@ public class GrpcTransportBuilder {
         return channelFactoryBuilder.buildFactory(this);
     }
 
+    public List<Consumer<ManagedChannelBuilder<?>>> getChannelInitializers() {
+        return this.channelInitializers;
+    }
+
     /**
      * Set a custom factory of {@link ManagedChannel}. This option must be used only if you want to configure
      * grpc channels in a special way.
@@ -192,6 +200,17 @@ public class GrpcTransportBuilder {
      */
     public GrpcTransportBuilder withChannelFactoryBuilder(ManagedChannelFactory.Builder channelFactoryBuilder) {
         this.channelFactoryBuilder = Objects.requireNonNull(channelFactoryBuilder, "Channel factory must be not null");
+        return this;
+    }
+
+    /**
+     * Add a custom initialization of {@link ManagedChannelBuilder}
+     *
+     * @param ci custom ManagedChannelBuilder initializer
+     * @return this
+     */
+    public GrpcTransportBuilder addChannelInitializer(Consumer<ManagedChannelBuilder<?>> ci) {
+        channelInitializers.add(ci);
         return this;
     }
 
