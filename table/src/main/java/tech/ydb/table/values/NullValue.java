@@ -36,31 +36,19 @@ public class NullValue implements Value<NullType> {
     @Override
     public int compareTo(Value<?> other) {
         if (other == null) {
-            throw new IllegalArgumentException("Cannot compare with null value");
+            throw new NullPointerException("Cannot compare with null value");
         }
 
-        // Handle comparison with OptionalValue
         if (other instanceof OptionalValue) {
-            OptionalValue otherOptional = (OptionalValue) other;
-
-            // Check that the item type matches this null type
-            if (!getType().equals(otherOptional.getType().getItemType())) {
-                throw new IllegalArgumentException(
-                    "Cannot compare NullValue with OptionalValue of different item type: " +
-                    getType() + " vs " + otherOptional.getType().getItemType());
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                return 0;
             }
-
-            // Non-empty value is greater than empty optional
-            if (!otherOptional.isPresent()) {
-                return 1;
-            }
-
-            // Compare with the wrapped value
-            return compareTo(otherOptional.get());
+            return compareTo(optional.get());
         }
 
-        if (!(other instanceof NullValue)) {
-            throw new IllegalArgumentException("Cannot compare NullValue with " + other.getClass().getSimpleName());
+        if (!getType().equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
         }
 
         // All NullValue instances are equal

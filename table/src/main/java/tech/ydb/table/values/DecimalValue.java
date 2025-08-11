@@ -272,39 +272,27 @@ public class DecimalValue implements Value<DecimalType> {
     @Override
     public int compareTo(Value<?> other) {
         if (other == null) {
-            throw new IllegalArgumentException("Cannot compare with null value");
+            throw new NullPointerException("Cannot compare with null value");
         }
 
-        // Handle comparison with OptionalValue
         if (other instanceof OptionalValue) {
-            OptionalValue otherOptional = (OptionalValue) other;
-
-            // Check that the item type matches this decimal type
-            if (!getType().equals(otherOptional.getType().getItemType())) {
-                throw new IllegalArgumentException(
-                    "Cannot compare DecimalValue with OptionalValue of different item type: " +
-                    getType() + " vs " + otherOptional.getType().getItemType());
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
             }
-
-            // Non-empty value is greater than empty optional
-            if (!otherOptional.isPresent()) {
-                return 1;
-            }
-
-            // Compare with the wrapped value
-            return compareTo(otherOptional.get());
+            return compareTo(optional.get());
         }
 
         if (!(other instanceof DecimalValue)) {
             throw new IllegalArgumentException("Cannot compare DecimalValue with " + other.getClass().getSimpleName());
         }
 
-        DecimalValue otherDecimal = (DecimalValue) other;
+        DecimalValue decimal = (DecimalValue) other;
 
         // Handle special values first
-        if (isNan() || otherDecimal.isNan()) {
+        if (isNan() || decimal.isNan()) {
             // NaN is not comparable, but we need to provide a consistent ordering
-            if (isNan() && otherDecimal.isNan()) {
+            if (isNan() && decimal.isNan()) {
                 return 0;
             }
             if (isNan()) {
@@ -313,38 +301,39 @@ public class DecimalValue implements Value<DecimalType> {
             return -1;
         }
 
-        if (isInf() && otherDecimal.isInf()) {
+        if (isInf() && decimal.isInf()) {
             return 0;
         }
         if (isInf()) {
             return 1; // Positive infinity is greater than any finite value
         }
-        if (otherDecimal.isInf()) {
+        if (decimal.isInf()) {
             return -1;
         }
 
-        if (isNegativeInf() && otherDecimal.isNegativeInf()) {
+        if (isNegativeInf() && decimal.isNegativeInf()) {
             return 0;
         }
         if (isNegativeInf()) {
             return -1; // Negative infinity is less than any finite value
         }
-        if (otherDecimal.isNegativeInf()) {
+
+        if (decimal.isNegativeInf()) {
             return 1;
         }
 
         // Compare finite values
-        if (isNegative() != otherDecimal.isNegative()) {
+        if (isNegative() != decimal.isNegative()) {
             return isNegative() ? -1 : 1;
         }
 
         // Both have the same sign, compare magnitudes
-        int highComparison = Long.compareUnsigned(high, otherDecimal.high);
+        int highComparison = Long.compareUnsigned(high, decimal.high);
         if (highComparison != 0) {
             return isNegative() ? -highComparison : highComparison;
         }
 
-        int lowComparison = Long.compareUnsigned(low, otherDecimal.low);
+        int lowComparison = Long.compareUnsigned(low, decimal.low);
         return isNegative() ? -lowComparison : lowComparison;
     }
 

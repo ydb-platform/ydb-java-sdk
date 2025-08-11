@@ -74,43 +74,31 @@ public class VariantValue implements Value<VariantType> {
     @Override
     public int compareTo(Value<?> other) {
         if (other == null) {
-            throw new IllegalArgumentException("Cannot compare with null value");
+            throw new NullPointerException("Cannot compare with null value");
         }
 
-        // Handle comparison with OptionalValue
         if (other instanceof OptionalValue) {
-            OptionalValue otherOptional = (OptionalValue) other;
-
-            // Check that the item type matches this variant type
-            if (!getType().equals(otherOptional.getType().getItemType())) {
-                throw new IllegalArgumentException(
-                    "Cannot compare VariantValue with OptionalValue of different item type: " +
-                    getType() + " vs " + otherOptional.getType().getItemType());
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
             }
-
-            // Non-empty value is greater than empty optional
-            if (!otherOptional.isPresent()) {
-                return 1;
-            }
-
-            // Compare with the wrapped value
-            return compareTo(otherOptional.get());
+            return compareTo(optional.get());
         }
 
-        if (!(other instanceof VariantValue)) {
-            throw new IllegalArgumentException("Cannot compare VariantValue with " + other.getClass().getSimpleName());
+        if (!getType().equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
         }
 
-        VariantValue otherVariant = (VariantValue) other;
+        VariantValue variant = (VariantValue) other;
 
         // Compare type indices first
-        int indexComparison = Integer.compare(typeIndex, otherVariant.typeIndex);
+        int indexComparison = Integer.compare(typeIndex, variant.typeIndex);
         if (indexComparison != 0) {
             return indexComparison;
         }
 
         // If type indices are the same, compare the items
-        return compareValues(item, otherVariant.item);
+        return compareValues(item, variant.item);
     }
 
     private static int compareValues(Value<?> a, Value<?> b) {

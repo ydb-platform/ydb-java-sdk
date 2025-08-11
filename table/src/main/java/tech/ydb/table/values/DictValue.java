@@ -1,11 +1,10 @@
 package tech.ydb.table.values;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Nullable;
 
@@ -122,106 +121,42 @@ public class DictValue implements Value<DictType> {
     @Override
     public int compareTo(Value<?> other) {
         if (other == null) {
-            throw new IllegalArgumentException("Cannot compare with null value");
+            throw new NullPointerException("Cannot compare with null value");
         }
 
-        // Handle comparison with OptionalValue
         if (other instanceof OptionalValue) {
-            OptionalValue otherOptional = (OptionalValue) other;
-
-            // Check that the item type matches this dict type
-            if (!getType().equals(otherOptional.getType().getItemType())) {
-                throw new IllegalArgumentException(
-                    "Cannot compare DictValue with OptionalValue of different item type: " +
-                    getType() + " vs " + otherOptional.getType().getItemType());
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
             }
-
-            // Non-empty value is greater than empty optional
-            if (!otherOptional.isPresent()) {
-                return 1;
-            }
-
-            // Compare with the wrapped value
-            return compareTo(otherOptional.get());
+            return compareTo(optional.get());
         }
 
-        if (!(other instanceof DictValue)) {
-            throw new IllegalArgumentException("Cannot compare DictValue with " + other.getClass().getSimpleName());
+        if (!type.equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + type + " with " + other.getType());
         }
 
         DictValue otherDict = (DictValue) other;
 
-        // Convert to sorted lists for lexicographical comparison
-        List<Map.Entry<Value<?>, Value<?>>> thisEntries = new ArrayList<>(items.entrySet());
-        List<Map.Entry<Value<?>, Value<?>>> otherEntries = new ArrayList<>(otherDict.items.entrySet());
+        // Sort entries by keys
+        Set<Value<?>> keys = new TreeSet<>();
+        keys.addAll(items.keySet());
+        keys.addAll(otherDict.keySet());
 
-        // Sort entries by key first, then by value
-        thisEntries.sort((e1, e2) -> {
-            int keyComparison = compareValues(e1.getKey(), e2.getKey());
-            if (keyComparison != 0) {
-                return keyComparison;
+        for (Value<?> key: keys) {
+            if (!otherDict.items.containsKey(key)) {
+                return 1;
             }
-            return compareValues(e1.getValue(), e2.getValue());
-        });
-
-        otherEntries.sort((e1, e2) -> {
-            int keyComparison = compareValues(e1.getKey(), e2.getKey());
-            if (keyComparison != 0) {
-                return keyComparison;
-            }
-            return compareValues(e1.getValue(), e2.getValue());
-        });
-
-        // Compare sorted entries lexicographically
-        int minLength = Math.min(thisEntries.size(), otherEntries.size());
-        for (int i = 0; i < minLength; i++) {
-            Map.Entry<Value<?>, Value<?>> thisEntry = thisEntries.get(i);
-            Map.Entry<Value<?>, Value<?>> otherEntry = otherEntries.get(i);
-
-            int keyComparison = compareValues(thisEntry.getKey(), otherEntry.getKey());
-            if (keyComparison != 0) {
-                return keyComparison;
+            if (!items.containsKey(key)) {
+                return -1;
             }
 
-            int valueComparison = compareValues(thisEntry.getValue(), otherEntry.getValue());
+            int valueComparison = items.get(key).compareTo(otherDict.items.get(key));
             if (valueComparison != 0) {
                 return valueComparison;
             }
         }
 
-        // If we reach here, one dict is a prefix of the other
-        // The shorter dict comes first
-        return Integer.compare(thisEntries.size(), otherEntries.size());
-    }
-
-    private static int compareValues(Value<?> a, Value<?> b) {
-        // Handle null values
-        if (a == null && b == null) {
-            return 0;
-        }
-        if (a == null) {
-            return -1;
-        }
-        if (b == null) {
-            return 1;
-        }
-
-        // Check that the types are the same
-        if (!a.getType().equals(b.getType())) {
-            throw new IllegalArgumentException("Cannot compare values of different types: " +
-                a.getType() + " vs " + b.getType());
-        }
-
-        // Use the actual compareTo method of the values
-        if (a instanceof Comparable && b instanceof Comparable) {
-            try {
-                return ((Comparable<Value<?>>) a).compareTo((Value<?>) b);
-            } catch (ClassCastException e) {
-                // Fall back to error
-            }
-        }
-
-        throw new IllegalArgumentException("Cannot compare values of different types: " +
-            a.getClass().getSimpleName() + " vs " + b.getClass().getSimpleName());
+        return 0;
     }
 }

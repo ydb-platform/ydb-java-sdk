@@ -100,61 +100,24 @@ public class OptionalValue implements Value<OptionalType> {
     @Override
     public int compareTo(Value<?> other) {
         if (other == null) {
-            throw new IllegalArgumentException("Cannot compare with null value");
+            throw new NullPointerException("Cannot compare with null value");
         }
 
-        // Handle comparison with another OptionalValue
         if (other instanceof OptionalValue) {
-            OptionalValue otherOptional = (OptionalValue) other;
-
-            // Check that the item types are the same
-            if (!type.getItemType().equals(otherOptional.type.getItemType())) {
-                throw new IllegalArgumentException("Cannot compare OptionalValue with different item types: " +
-                    type.getItemType() + " vs " + otherOptional.type.getItemType());
+            OptionalValue optional = (OptionalValue) other;
+            if (optional.value == null) {
+                if (value == null) {
+                    return 0;
+                }
+                throw new NullPointerException("Cannot compare value " + value + " with NULL");
             }
-
-            // Handle empty values: empty values are considered less than non-empty values
-            if (value == null && otherOptional.value == null) {
-                return 0;
-            }
-            if (value == null) {
-                return -1;
-            }
-            if (otherOptional.value == null) {
-                return 1;
-            }
-
-            // Both values are non-null and have the same type, compare them using their compareTo method
-            return compareValues(value, otherOptional.value);
+            return compareTo(optional.value);
         }
 
-        // Handle comparison with non-optional values of the same underlying type
-        if (type.getItemType().equals(other.getType())) {
-            // This OptionalValue is empty, so it's less than any non-optional value
-            if (value == null) {
-                return -1;
-            }
-
-            // This OptionalValue has a value, compare it with the non-optional value
-            return compareValues(value, other);
+        if (value == null) {
+            throw new NullPointerException("Cannot compare NULL with value " + other);
         }
 
-        // Types are incompatible
-        throw new IllegalArgumentException("Cannot compare OptionalValue with incompatible type: " +
-            type.getItemType() + " vs " + other.getType());
-    }
-
-    private static int compareValues(Value<?> a, Value<?> b) {
-        // Since we've already verified the types are the same, we can safely cast
-        // and use the compareTo method of the actual value type
-        if (a instanceof Comparable && b instanceof Comparable) {
-            try {
-                return ((Comparable<Value<?>>) a).compareTo((Value<?>) b);
-            } catch (ClassCastException e) {
-                // Fall back to error
-            }
-        }
-        throw new IllegalArgumentException("Cannot compare values of different types: " +
-            a.getClass().getSimpleName() + " vs " + b.getClass().getSimpleName());
+        return value.compareTo(other);
     }
 }
