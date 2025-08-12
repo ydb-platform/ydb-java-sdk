@@ -20,6 +20,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 
 import tech.ydb.proto.ValueProtos;
+import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -423,17 +424,6 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         }
     }
 
-    private static int compareByteArrays(byte[] a, byte[] b) {
-        int minLength = Math.min(a.length, b.length);
-        for (int i = 0; i < minLength; i++) {
-            int comparison = Byte.compare(a[i], b[i]);
-            if (comparison != 0) {
-                return comparison;
-            }
-        }
-        return Integer.compare(a.length, b.length);
-    }
-
     @Override
     public int compareTo(Value<?> other) {
         if (other == null) {
@@ -473,14 +463,15 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             case Int64:
                 return Long.compare(getInt64(), otherValue.getInt64());
             case Uint64:
-                return Long.compare(getUint64(), otherValue.getUint64());
+                return Long.compareUnsigned(getUint64(), otherValue.getUint64());
             case Float:
                 return Float.compare(getFloat(), otherValue.getFloat());
             case Double:
                 return Double.compare(getDouble(), otherValue.getDouble());
             case Bytes:
+                return Arrays.compare(getBytesUnsafe(), otherValue.getBytesUnsafe());
             case Yson:
-                return compareByteArrays(getBytesUnsafe(), otherValue.getBytesUnsafe());
+                return Arrays.compare(getYsonUnsafe(), otherValue.getYsonUnsafe());
             case Text:
                 return getText().compareTo(otherValue.getText());
             case Json:
@@ -488,7 +479,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             case JsonDocument:
                 return getJsonDocument().compareTo(otherValue.getJsonDocument());
             case Uuid:
-                return getUuidJdk().compareTo(otherValue.getUuidJdk());
+                return compareUUID(this, otherValue);
             case Date:
                 return getDate().compareTo(otherValue.getDate());
             case Date32:
@@ -514,6 +505,16 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             default:
                 throw new UnsupportedOperationException("Comparison not supported for type: " + getType());
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    private static int compareUUID(PrimitiveValue a, PrimitiveValue b) {
+        long ah = LittleEndian.bswap(a.getUuidHigh());
+        long bh = LittleEndian.bswap(b.getUuidHigh());
+        long al = LittleEndian.bswap(a.getUuidLow());
+        long bl = LittleEndian.bswap(b.getUuidLow());
+
+        return (al != bl) ? Long.compareUnsigned(al, bl) : Long.compareUnsigned(ah, bh);
     }
 
     // -- implementations --

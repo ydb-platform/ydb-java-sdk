@@ -47,11 +47,11 @@ public class NullValue implements Value<NullType> {
             return compareTo(optional.get());
         }
 
-        if (!getType().equals(other.getType())) {
-            throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
+        if (other instanceof VoidValue || other instanceof NullValue) {
+            // All VoidValue and NullValue  are equal
+            return 0;
         }
 
-        // All NullValue instances are equal
-        return 0;
+        throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
     }
 }

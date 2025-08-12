@@ -289,52 +289,14 @@ public class DecimalValue implements Value<DecimalType> {
 
         DecimalValue decimal = (DecimalValue) other;
 
-        // Handle special values first
-        if (isNan() || decimal.isNan()) {
-            // NaN is not comparable, but we need to provide a consistent ordering
-            if (isNan() && decimal.isNan()) {
-                return 0;
-            }
-            if (isNan()) {
-                return 1; // NaN is considered greater than any other value
-            }
-            return -1;
+        // Fast way to compare decimals with the same scale or with special values
+        boolean isSpecial = isNan() || isInf() || isNegativeInf();
+        boolean otherIsSpecial = decimal.isNan() || decimal.isInf() || decimal.isNegativeInf();
+        if (isSpecial || otherIsSpecial || (getType().getScale() == decimal.getType().getScale())) {
+            return high != decimal.high ? Long.compare(high, decimal.high) : Long.compare(low, decimal.low);
         }
 
-        if (isInf() && decimal.isInf()) {
-            return 0;
-        }
-        if (isInf()) {
-            return 1; // Positive infinity is greater than any finite value
-        }
-        if (decimal.isInf()) {
-            return -1;
-        }
-
-        if (isNegativeInf() && decimal.isNegativeInf()) {
-            return 0;
-        }
-        if (isNegativeInf()) {
-            return -1; // Negative infinity is less than any finite value
-        }
-
-        if (decimal.isNegativeInf()) {
-            return 1;
-        }
-
-        // Compare finite values
-        if (isNegative() != decimal.isNegative()) {
-            return isNegative() ? -1 : 1;
-        }
-
-        // Both have the same sign, compare magnitudes
-        int highComparison = Long.compareUnsigned(high, decimal.high);
-        if (highComparison != 0) {
-            return isNegative() ? -highComparison : highComparison;
-        }
-
-        int lowComparison = Long.compareUnsigned(low, decimal.low);
-        return isNegative() ? -lowComparison : lowComparison;
+        return toBigDecimal().compareTo(decimal.toBigDecimal());
     }
 
     /**

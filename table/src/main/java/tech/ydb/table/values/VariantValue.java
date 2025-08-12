@@ -97,38 +97,6 @@ public class VariantValue implements Value<VariantType> {
             return indexComparison;
         }
 
-        // If type indices are the same, compare the items
-        return compareValues(item, variant.item);
-    }
-
-    private static int compareValues(Value<?> a, Value<?> b) {
-        // Handle null values
-        if (a == null && b == null) {
-            return 0;
-        }
-        if (a == null) {
-            return -1;
-        }
-        if (b == null) {
-            return 1;
-        }
-
-        // Check that the types are the same
-        if (!a.getType().equals(b.getType())) {
-            throw new IllegalArgumentException("Cannot compare values of different types: " +
-                a.getType() + " vs " + b.getType());
-        }
-
-        // Use the actual compareTo method of the values
-        if (a instanceof Comparable && b instanceof Comparable) {
-            try {
-                return ((Comparable<Value<?>>) a).compareTo((Value<?>) b);
-            } catch (ClassCastException e) {
-                // Fall back to error
-            }
-        }
-
-        throw new IllegalArgumentException("Cannot compare values of different types: " +
-            a.getClass().getSimpleName() + " vs " + b.getClass().getSimpleName());
+        return item.compareTo(variant.item);
     }
 }
