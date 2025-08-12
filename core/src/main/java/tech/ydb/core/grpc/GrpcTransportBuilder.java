@@ -72,7 +72,7 @@ public class GrpcTransportBuilder {
     private byte[] cert = null;
     private boolean useTLS = false;
     private ManagedChannelFactory.Builder channelFactoryBuilder = null;
-    private final List<Consumer<ManagedChannelBuilder<?>>> channelInitializers = new ArrayList<>();
+    private final List<Consumer<? super ManagedChannelBuilder<?>>> channelInitializers = new ArrayList<>();
     private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
     private String localDc;
     private BalancingSettings balancingSettings;
@@ -187,7 +187,7 @@ public class GrpcTransportBuilder {
         return channelFactoryBuilder.buildFactory(this);
     }
 
-    public List<Consumer<ManagedChannelBuilder<?>>> getChannelInitializers() {
+    public List<Consumer<? super ManagedChannelBuilder<?>>> getChannelInitializers() {
         return this.channelInitializers;
     }
 
@@ -209,7 +209,7 @@ public class GrpcTransportBuilder {
      * @param ci custom ManagedChannelBuilder initializer
      * @return this
      */
-    public GrpcTransportBuilder addChannelInitializer(Consumer<ManagedChannelBuilder<?>> ci) {
+    public GrpcTransportBuilder addChannelInitializer(Consumer<? super ManagedChannelBuilder<?>> ci) {
         channelInitializers.add(ci);
         return this;
     }

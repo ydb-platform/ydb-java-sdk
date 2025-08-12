@@ -41,7 +41,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
     private final long connectTimeoutMs;
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
-    private final List<Consumer<ManagedChannelBuilder<?>>> initializers;
+    private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
 
     public ShadedNettyChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
@@ -101,7 +101,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
             channelBuilder.disableRetry();
         }
 
-        for (Consumer<ManagedChannelBuilder<?>> initializer: initializers) {
+        for (Consumer<? super ManagedChannelBuilder<?>> initializer: initializers) {
             initializer.accept(channelBuilder);
         }
 
