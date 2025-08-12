@@ -88,8 +88,13 @@ public class ValueComparableTest {
         assertLess(PrimitiveValue.newFloat(1e-3f), PrimitiveValue.newFloat(1e-2f));
         assertLess(PrimitiveValue.newDouble(1e-3d), PrimitiveValue.newDouble(1e-2d));
 
-        assertLess(PrimitiveValue.newBytes(new byte[] { 0x01 }), PrimitiveValue.newBytes(new byte[] { 0x02 }));
-        assertLess(PrimitiveValue.newYson(new byte[] { 0x01 }), PrimitiveValue.newYson(new byte[] { 0x02 }));
+        byte[] b1 = new byte[] { 0x01, 0x02 };
+        assertEquals(PrimitiveValue.newBytesOwn(b1), PrimitiveValue.newBytesOwn(b1));
+        assertEquals(PrimitiveValue.newBytes(b1), PrimitiveValue.newBytes(new byte[] { 0x01, 0x02 }));
+        assertLess(PrimitiveValue.newBytes(b1), PrimitiveValue.newBytes(new byte[] { 0x01, 0x02, 0x1 }));
+        assertLess(PrimitiveValue.newBytes(b1), PrimitiveValue.newBytes(new byte[] { 0x02 }));
+
+        assertLess(PrimitiveValue.newYson(b1), PrimitiveValue.newYson(new byte[] { 0x01, 0x03 }));
 
         assertLess(PrimitiveValue.newText("abc"), PrimitiveValue.newText("abcd"));
         assertLess(PrimitiveValue.newJson("['abc']"), PrimitiveValue.newJson("['abcd']"));

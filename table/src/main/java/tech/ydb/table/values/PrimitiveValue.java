@@ -469,9 +469,9 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             case Double:
                 return Double.compare(getDouble(), otherValue.getDouble());
             case Bytes:
-                return Arrays.compare(getBytesUnsafe(), otherValue.getBytesUnsafe());
+                return compareArrays(getBytesUnsafe(), otherValue.getBytesUnsafe());
             case Yson:
-                return Arrays.compare(getYsonUnsafe(), otherValue.getYsonUnsafe());
+                return compareArrays(getYsonUnsafe(), otherValue.getYsonUnsafe());
             case Text:
                 return getText().compareTo(otherValue.getText());
             case Json:
@@ -515,6 +515,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         long bl = LittleEndian.bswap(b.getUuidLow());
 
         return (al != bl) ? Long.compareUnsigned(al, bl) : Long.compareUnsigned(ah, bh);
+    }
+
+    private static int compareArrays(byte[] a, byte[] b) {
+        if (a == b) {
+            return 0;
+        }
+
+        int i = 0;
+        int len = Math.min(a.length, b.length);
+        while (i < len && a[i] == b[i]) {
+            i++;
+        }
+
+        if (i < len) {
+            return Byte.compare(a[i], b[i]);
+        }
+
+        return a.length - b.length;
     }
 
     // -- implementations --
