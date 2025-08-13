@@ -29,7 +29,6 @@ import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
-import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.result.QueryStats;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.BeginTransactionSettings;
@@ -304,7 +303,7 @@ abstract class SessionImpl implements QuerySession {
                 if (msg.hasResultSet()) {
                     long index = msg.getResultSetIndex();
                     if (handler != null) {
-                        handler.onNextPart(new QueryResultPart(index, msg.getResultSet()));
+                        handler.onNextRawPart(index, msg.getResultSet());
                     } else {
                         logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
                     }
