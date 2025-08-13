@@ -1,3 +1,11 @@
+## 2.3.18 ##
+* Core: Added method addChannelInitializer
+* Core: Hided token & passwords from trace logs
+* Query: Added support of reading raw proto message
+* Topic: Set max_active_partitions on topic creation
+* Topic: Added statistic to WriteAck
+* Topic: Fixed lost compression errors
+
 ## 2.3.17 ##
 * Query: Fixed session status updating
 * Topic: Fixed maxActivePartitions on topic creation
