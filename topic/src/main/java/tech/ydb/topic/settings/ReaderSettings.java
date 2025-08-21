@@ -22,6 +22,7 @@ public class ReaderSettings {
     private final String readerName;
     private final List<TopicReadSettings> topics;
     private final long maxMemoryUsageBytes;
+    private final int maxBatchSize;
     private final Executor decompressionExecutor;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
@@ -31,6 +32,7 @@ public class ReaderSettings {
         this.readerName = builder.readerName;
         this.topics = ImmutableList.copyOf(builder.topics);
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
+        this.maxBatchSize = builder.maxBatchSize;
         this.decompressionExecutor = builder.decompressionExecutor;
         this.errorsHandler = builder.errorsHandler;
     }
@@ -60,6 +62,10 @@ public class ReaderSettings {
         return maxMemoryUsageBytes;
     }
 
+    public int getMaxBatchSize() {
+        return maxBatchSize;
+    }
+
     public Executor getDecompressionExecutor() {
         return decompressionExecutor;
     }
@@ -78,6 +84,7 @@ public class ReaderSettings {
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
+        private int maxBatchSize = 0;
         private Executor decompressionExecutor = null;
         private BiConsumer<Status, Throwable> errorsHandler = null;
 
@@ -130,6 +137,11 @@ public class ReaderSettings {
 
         public Builder setMaxMemoryUsageBytes(long maxMemoryUsageBytes) {
             this.maxMemoryUsageBytes = maxMemoryUsageBytes;
+            return this;
+        }
+
+        public Builder setMaxBatchSize(int maxBatchSize) {
+            this.maxBatchSize = maxBatchSize;
             return this;
         }
 

@@ -45,6 +45,7 @@ public class PartitionSessionImpl {
     private final PartitionSession sessionInfo;
     private final Executor decompressionExecutor;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
+    private final int maxBatchSize;
 
     private final Queue<Batch> decodingBatches = new LinkedList<>();
     private final ReentrantLock decodingBatchesLock = new ReentrantLock();
@@ -60,6 +61,7 @@ public class PartitionSessionImpl {
 
     private PartitionSessionImpl(Builder builder) {
         this.id = builder.id;
+        this.maxBatchSize = builder.maxBatchSize;
         this.fullId = builder.fullId;
         this.topicPath = builder.topicPath;
         this.consumerName = builder.consumerName;
@@ -308,21 +310,43 @@ public class PartitionSessionImpl {
             return;
         }
         if (isReadingNow.compareAndSet(false, true)) {
-            Batch batchToRead = readingQueue.poll();
-            if (batchToRead == null) {
+            List<Batch> batchesToRead = new ArrayList<>();
+
+            Batch next = readingQueue.poll();
+            if (next == null) {
                 isReadingNow.set(false);
                 return;
             }
+
+            batchesToRead.add(next);
+            List<Message> messagesToRead = new ArrayList<>(next.getMessages());
+            long commitFrom = next.getFirstCommitOffsetFrom();
+            long commitTo = next.getLastOffset() + 1;
+
+            int batchSize = messagesToRead.size();
+            while (maxBatchSize <= 0 || batchSize < maxBatchSize) {
+                next = readingQueue.peek();
+                if (next == null) {
+                    break;
+                }
+                if (maxBatchSize > 0 && next.getMessages().size() + batchSize > maxBatchSize) {
+                    break;
+                }
+
+                next = readingQueue.poll();
+
+                batchesToRead.add(next);
+                messagesToRead.addAll(next.getMessages());
+                batchSize += next.getMessages().size();
+                commitTo = next.getLastOffset() + 1;
+            }
+
             // Should be called maximum in 1 thread at a time
-            List<MessageImpl> messageImplList = batchToRead.getMessages();
-            List<Message> messagesToRead = new ArrayList<>(messageImplList);
-            OffsetsRange offsetsToCommit = new OffsetsRangeImpl(messageImplList.get(0).getCommitOffsetFrom(),
-                    messageImplList.get(messageImplList.size() - 1).getOffset() + 1);
+            OffsetsRange offsetsToCommit = new OffsetsRangeImpl(commitFrom, commitTo);
             DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead, offsetsToCommit);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
-                                "to be called...", fullId, messagesToRead.size(), messagesToRead.get(0).getOffset(),
-                        messagesToRead.get(messagesToRead.size() - 1).getOffset());
+                                "to be called...", fullId, messagesToRead.size(), commitFrom, commitTo);
             }
             dataEventCallback.apply(event)
                     .whenComplete((res, th) -> {
@@ -338,7 +362,7 @@ public class PartitionSessionImpl {
                                     messagesToRead.get(messagesToRead.size() - 1).getOffset());
                         }
                         isReadingNow.set(false);
-                        batchToRead.complete();
+                        batchesToRead.forEach(Batch::complete);
                         sendDataToReadersIfNeeded();
                     });
         } else {
@@ -376,6 +400,7 @@ public class PartitionSessionImpl {
      */
     public static class Builder {
         private long id;
+        private int maxBatchSize;
         private String fullId;
         private String topicPath;
         private String consumerName;
@@ -388,6 +413,11 @@ public class PartitionSessionImpl {
 
         public Builder setId(long id) {
             this.id = id;
+            return this;
+        }
+
+        public Builder setMaxBatchSize(int maxBatchSize) {
+            this.maxBatchSize = maxBatchSize;
             return this;
         }
 

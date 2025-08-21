@@ -402,6 +402,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
             PartitionSessionImpl partitionSession = PartitionSessionImpl.newBuilder()
                     .setId(partitionSessionId)
+                    .setMaxBatchSize(settings.getMaxBatchSize())
                     .setFullId(partitionSessionFullId)
                     .setTopicPath(request.getPartitionSession().getPath())
                     .setConsumerName(consumerName)
