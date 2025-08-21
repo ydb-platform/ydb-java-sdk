@@ -346,7 +346,9 @@ public class PartitionSessionImpl {
             DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead, offsetsToCommit);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
-                                "to be called...", fullId, messagesToRead.size(), commitFrom, commitTo);
+                                "to be called...", fullId, messagesToRead.size(),
+                                    messagesToRead.get(0).getOffset(),
+                                    messagesToRead.get(messagesToRead.size() - 1).getOffset());
             }
             dataEventCallback.apply(event)
                     .whenComplete((res, th) -> {
