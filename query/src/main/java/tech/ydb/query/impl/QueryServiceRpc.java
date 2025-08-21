@@ -2,6 +2,8 @@ package tech.ydb.query.impl;
 
 import java.util.concurrent.CompletableFuture;
 
+import io.grpc.Context;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -68,7 +70,14 @@ class QueryServiceRpc {
 
     public GrpcReadStream<YdbQuery.SessionState> attachSession(
             YdbQuery.AttachSessionRequest request, GrpcRequestSettings settings) {
-        return transport.readStreamCall(QueryServiceGrpc.getAttachSessionMethod(), settings, request);
+        // Execute attachSession call outside current context to avoid span propogation
+        Context ctx = Context.ROOT.fork();
+        Context previous = ctx.attach();
+        try {
+            return transport.readStreamCall(QueryServiceGrpc.getAttachSessionMethod(), settings, request);
+        } finally {
+            ctx.detach(previous);
+        }
     }
 
     public CompletableFuture<Result<YdbQuery.BeginTransactionResponse>> beginTransaction(

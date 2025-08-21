@@ -11,6 +11,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
+import io.grpc.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -147,6 +148,9 @@ public class YdbDiscovery {
     private void runDiscovery() {
         lastUpdateTime = handler.instant();
         try {
+            // Execute discovery call outside current context to avoid span propogation
+            Context ctx = Context.ROOT.fork();
+            Context previous = ctx.attach();
             final GrpcTransport transport = handler.createDiscoveryTransport();
             try {
                 logger.debug("execute list endpoints on {} with timeout {}", transport, discoveryTimeout);
@@ -168,6 +172,8 @@ public class YdbDiscovery {
             } catch (Throwable th) {
                 transport.close();
                 throw th;
+            } finally {
+                ctx.detach(previous);
             }
         } catch (Throwable th) {
             handleDiscoveryResult(null, th);
