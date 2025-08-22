@@ -1,3 +1,7 @@
+## 2.3.19 ##
+* Core: Added isolated grpc context for discovery and attachStream methods
+* Topic: Added support of message batching
+
 ## 2.3.18 ##
 * Core: Added method addChannelInitializer
 * Core: Hided token & passwords from trace logs
