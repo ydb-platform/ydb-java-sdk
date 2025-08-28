@@ -9,7 +9,6 @@ import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
-import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableOptionDescription;
 import tech.ydb.table.query.DataQuery;
@@ -151,9 +150,18 @@ public interface Session extends AutoCloseable {
 
     @Deprecated
     default GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
-        return new ProxyReadStream<>(executeReadTable(tablePath, settings), (part, promise, observer) -> {
-            observer.onNext(part.getResultSetReader());
-        });
+        GrpcReadStream<ReadTablePart> stream = executeReadTable(tablePath, settings);
+        return new GrpcReadStream<ResultSetReader>() {
+            @Override
+            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
+                return stream.start(part -> observer.onNext(part.getResultSetReader()));
+            }
+
+            @Override
+            public void cancel() {
+                stream.cancel();
+            }
+        };
     }
 
     @Deprecated

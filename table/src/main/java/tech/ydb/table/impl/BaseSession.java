@@ -31,7 +31,6 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
-import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
@@ -39,6 +38,7 @@ import tech.ydb.core.utils.URITools;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.ValueProtos.TypedValue;
+import tech.ydb.proto.YdbIssueMessage;
 import tech.ydb.proto.common.CommonProtos;
 import tech.ydb.proto.scheme.SchemeOperationProtos;
 import tech.ydb.proto.table.YdbTable;
@@ -1205,22 +1205,22 @@ public abstract class BaseSession implements Session {
         }
 
         GrpcReadStream<YdbTable.ReadTableResponse> origin = rpc.streamReadTable(request.build(), options.build());
-        return new ProxyReadStream<>(origin, (response, future, observer) -> {
-            StatusIds.StatusCode statusCode = response.getStatus();
-            if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                try {
-                    observer.onNext(new ReadTablePart(response.getResult(), response.getSnapshot()));
-                } catch (Throwable t) {
-                    future.completeExceptionally(t);
-                    origin.cancel();
-                }
-            } else {
-                Issue[] issues = Issue.fromPb(response.getIssuesList());
-                StatusCode code = StatusCode.fromProto(statusCode);
-                future.complete(Status.of(code, issues));
-                origin.cancel();
+        return new ProxyStream<YdbTable.ReadTableResponse, ReadTablePart>(origin) {
+            @Override
+            StatusIds.StatusCode readStatusCode(YdbTable.ReadTableResponse message) {
+                return message.getStatus();
             }
-        });
+
+            @Override
+            List<YdbIssueMessage.IssueMessage> readIssues(YdbTable.ReadTableResponse message) {
+                return message.getIssuesList();
+            }
+
+            @Override
+            ReadTablePart readValue(YdbTable.ReadTableResponse message) {
+                return new ReadTablePart(message.getResult(), message.getSnapshot());
+            }
+        };
     }
 
     @Override
@@ -1239,22 +1239,22 @@ public abstract class BaseSession implements Session {
         }
 
         GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = rpc.streamExecuteScanQuery(req, opts.build());
-        return new ProxyReadStream<>(origin, (response, future, observer) -> {
-            StatusIds.StatusCode statusCode = response.getStatus();
-            if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                try {
-                    observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
-                } catch (Throwable t) {
-                    future.completeExceptionally(t);
-                    origin.cancel();
-                }
-            } else {
-                Issue[] issues = Issue.fromPb(response.getIssuesList());
-                StatusCode code = StatusCode.fromProto(statusCode);
-                future.complete(Status.of(code, issues));
-                origin.cancel();
+        return new ProxyStream<YdbTable.ExecuteScanQueryPartialResponse, ResultSetReader>(origin) {
+            @Override
+            StatusIds.StatusCode readStatusCode(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return message.getStatus();
             }
-        });
+
+            @Override
+            List<YdbIssueMessage.IssueMessage> readIssues(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return message.getIssuesList();
+            }
+
+            @Override
+            ResultSetReader readValue(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return ProtoValueReaders.forResultSet(message.getResult().getResultSet());
+            }
+        };
     }
 
     private CompletableFuture<Status> commitTransactionInternal(String txId, CommitTxSettings settings) {
@@ -1376,6 +1376,56 @@ public abstract class BaseSession implements Session {
     @Override
     public String toString() {
         return "Session{" + id + "}";
+    }
+
+    private abstract class ProxyStream<R, T> implements GrpcReadStream<T> {
+        private final GrpcReadStream<R> origin;
+        private final CompletableFuture<Status> result = new CompletableFuture<>();
+
+        ProxyStream(GrpcReadStream<R> origin) {
+            this.origin = origin;
+        }
+
+        abstract StatusIds.StatusCode readStatusCode(R message);
+        abstract List<YdbIssueMessage.IssueMessage> readIssues(R message);
+        abstract T readValue(R message);
+
+        private void onClose(Status status, Throwable th) {
+            if (th != null) {
+                updateSessionState(th, null, false);
+                result.completeExceptionally(th);
+            }
+            if (status != null) {
+                updateSessionState(null, status.getCode(), false);
+                result.complete(status);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> start(Observer<T> observer) {
+            origin.start(message -> {
+                StatusIds.StatusCode statusCode = readStatusCode(message);
+                if (statusCode == StatusIds.StatusCode.SUCCESS) {
+                    try {
+                        observer.onNext(readValue(message));
+                    } catch (Throwable t) {
+                        result.completeExceptionally(t);
+                        origin.cancel();
+                    }
+                } else {
+                    Issue[] issues = Issue.fromPb(readIssues(message));
+                    StatusCode code = StatusCode.fromProto(statusCode);
+                    result.complete(Status.of(code, issues));
+                    origin.cancel();
+                }
+            }).whenComplete(this::onClose);
+            return result;
+        }
+
+        @Override
+        public void cancel() {
+            origin.cancel();
+        }
     }
 
     class TableTransactionImpl extends YdbTransactionImpl implements TableTransaction {
