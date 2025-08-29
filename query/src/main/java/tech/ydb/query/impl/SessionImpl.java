@@ -20,7 +20,6 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
@@ -137,12 +136,27 @@ abstract class SessionImpl implements QuerySession {
                 .setSessionId(sessionId)
                 .build();
         GrpcRequestSettings grpcSettings = makeOptions(settings).build();
-        return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
-            logger.trace("session '{}' got attach stream message {}", sessionId, TextFormat.shortDebugString(message));
-            Status status = Status.of(StatusCode.fromProto(message.getStatus()), Issue.fromPb(message.getIssuesList()));
-            updateSessionState(status);
-            observer.onNext(status);
-        });
+        GrpcReadStream<YdbQuery.SessionState> origin = rpc.attachSession(request, grpcSettings);
+        return new GrpcReadStream<Status>() {
+            @Override
+            public CompletableFuture<Status> start(GrpcReadStream.Observer<Status> observer) {
+                return origin.start(message -> {
+                    if (logger.isTraceEnabled()) {
+                        String msg = TextFormat.shortDebugString(message);
+                        logger.trace("session '{}' got attach stream message {}", sessionId, msg);
+                    }
+                    StatusCode code = StatusCode.fromProto(message.getStatus());
+                    Status status = Status.of(code, Issue.fromPb(message.getIssuesList()));
+                    updateSessionState(status);
+                    observer.onNext(status);
+                });
+            }
+
+            @Override
+            public void cancel() {
+                origin.cancel();
+            }
+        };
     }
 
     private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings) {
