@@ -144,5 +144,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
         } else {
             statusFuture.complete(GrpcStatuses.toStatus(status));
         }
+
+        statusConsumer.postComplete();
     }
 }

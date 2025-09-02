@@ -206,5 +206,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         } else {
             statusFuture.complete(GrpcStatuses.toStatus(status));
         }
+
+        statusConsumer.postComplete();
     }
 }

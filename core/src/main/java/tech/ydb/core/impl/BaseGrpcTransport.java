@@ -3,6 +3,7 @@ package tech.ydb.core.impl;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BooleanSupplier;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
@@ -29,6 +30,7 @@ import tech.ydb.core.impl.call.GrpcStatusHandler;
 import tech.ydb.core.impl.call.ReadStreamCall;
 import tech.ydb.core.impl.call.ReadWriteStreamCall;
 import tech.ydb.core.impl.call.UnaryCall;
+import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 
 /**
@@ -47,7 +49,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     protected abstract AuthCallOptions getAuthCallOptions();
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
-    protected abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+
+    protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
+        // nothing to pessimize
+    }
 
     protected void shutdown() {
         // nothing to shutdown
@@ -226,9 +231,21 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
         @Override
         public void accept(io.grpc.Status status, Metadata trailers) {
-            updateChannelStatus(channel, status);
+            // Usually CANCELLED is received when ClientCall is canceled on client side
+            if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
+                pessimizeEndpoint(channel.getEndpoint(), "by grpc code " + status.getCode());
+            }
+
             if (settings.getTrailersHandler() != null && trailers != null) {
                 settings.getTrailersHandler().accept(trailers);
+            }
+        }
+
+        @Override
+        public void postComplete() {
+            BooleanSupplier hook = settings.getPessimizationHook();
+            if (hook != null && hook.getAsBoolean()) {
+                pessimizeEndpoint(channel.getEndpoint(), "by pessimization hook");
             }
         }
     }

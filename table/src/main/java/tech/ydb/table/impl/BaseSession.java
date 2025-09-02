@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -171,13 +172,19 @@ public abstract class BaseSession implements Session {
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        GrpcRequestSettings.Builder options = makeBaseOptions(settings.getTimeoutDuration(), settings.getTraceId());
+        AtomicBoolean pessimizationHook = new AtomicBoolean(false);
+
+        GrpcRequestSettings.Builder options = makeBaseOptions(settings.getTimeoutDuration(), settings.getTraceId())
+                .withPessimizationHook(pessimizationHook::get);
+
         if (useServerBalancer) {
             options.addClientCapability(SERVER_BALANCER_HINT);
         }
 
-        return rpc.createSession(request, options.build())
-                .thenApply(result -> result.map(YdbTable.CreateSessionResult::getSessionId));
+        return rpc.createSession(request, options.build()).thenApply(result -> {
+            pessimizationHook.set(result.getStatus().getCode() == StatusCode.OVERLOADED);
+            return result.map(YdbTable.CreateSessionResult::getSessionId);
+        });
     }
 
     private static YdbTable.PartitioningSettings buildPartitioningSettings(PartitioningSettings partitioningSettings) {
