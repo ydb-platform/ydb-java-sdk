@@ -234,7 +234,7 @@ public class EndpointPoolTest {
         Mockito.verify(random, Mockito.times(5)).nextInt(5);
 
         // Pessimize one node - four left in use
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "test");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
         Mockito.when(random.nextInt(4)).thenReturn(0, 2, 1, 3);
@@ -248,13 +248,13 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         // Pessimize unknown nodes - nothing is changed
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null, null));
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2, null, null));
-        pool.pessimizeEndpoint(null);
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null, null), "test 2");
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2, null, null), "test 3");
+        pool.pessimizeEndpoint(null, "null");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
         // Repeat node pessimization - nothing is change
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
         Mockito.when(random.nextInt(4)).thenReturn(3, 1, 2, 0);
@@ -265,9 +265,9 @@ public class EndpointPoolTest {
         Mockito.verify(random, Mockito.times(8)).nextInt(4); // Mockito counts also previous 4
 
         // Pessimize two nodes - then we need to discovery
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(3)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(3)), "");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(3);
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(5)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(5)), "");
         check(pool).records(5).knownNodes(5).needToReDiscovery(true).bestEndpointsCount(2);
 
         Mockito.when(random.nextInt(2)).thenReturn(1, 1, 0, 0);
@@ -299,7 +299,7 @@ public class EndpointPoolTest {
         Mockito.verify(random, Mockito.times(2)).nextInt(2);
 
         // Pessimize first local node - use second
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(1)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(1)), "");
         check(pool).records(4).knownNodes(4).needToReDiscovery(false).bestEndpointsCount(1);
 
         Mockito.when(random.nextInt(1)).thenReturn(0);
@@ -307,7 +307,7 @@ public class EndpointPoolTest {
         Mockito.verify(random, Mockito.times(1)).nextInt(1);
 
         // Pessimize second local node - use unlocal nodes
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "");
         check(pool).records(4).knownNodes(4).needToReDiscovery(false).bestEndpointsCount(2);
 
         Mockito.when(random.nextInt(2)).thenReturn(1, 0);
@@ -316,8 +316,8 @@ public class EndpointPoolTest {
         Mockito.verify(random, Mockito.times(4)).nextInt(2);
 
         // Pessimize all - fallback to use all nodes
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(3)));
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(4)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(3)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(4)), "");
         check(pool).records(4).knownNodes(4).needToReDiscovery(true).bestEndpointsCount(4);
 
         Mockito.when(random.nextInt(4)).thenReturn(3, 2, 1, 0);
@@ -489,7 +489,7 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
         check(pool.getEndpoint(nodeId(4))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
 
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)));
+        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "");
         check(pool.getEndpoint(empty())).hostname("127.0.0.1").nodeID(1).port(p1); // new local dc
         check(pool.getEndpoint(nodeId(0))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
         check(pool.getEndpoint(nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);

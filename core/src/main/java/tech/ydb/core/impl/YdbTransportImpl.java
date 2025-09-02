@@ -173,8 +173,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     @Override
-    protected void pessimizeEndpoint(EndpointRecord endpoint) {
-        endpointPool.pessimizeEndpoint(endpoint);
+    protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
+        endpointPool.pessimizeEndpoint(endpoint, reason);
     }
 
     private class DiscoveryHandler implements YdbDiscovery.Handler {

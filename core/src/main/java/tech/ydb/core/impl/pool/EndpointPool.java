@@ -140,7 +140,7 @@ public final class EndpointPool {
         return removed;
     }
 
-    public void pessimizeEndpoint(EndpointRecord endpoint) {
+    public void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
         if (endpoint == null) {
             return;
         }
@@ -180,7 +180,8 @@ public final class EndpointPool {
                         pcount, records.size(), DISCOVERY_PESSIMIZATION_THRESHOLD);
             }
 
-            logger.warn("Endpoint {} was pessimized. New pessimization ratio: {}/{}", endpoint, pcount, records.size());
+            logger.warn("Endpoint {} was pessimized {}. New pessimization ratio: {}/{}",
+                    endpoint, reason, pcount, records.size());
         } finally {
             recordsLock.writeLock().unlock();
         }

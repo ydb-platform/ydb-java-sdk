@@ -50,7 +50,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     protected abstract AuthCallOptions getAuthCallOptions();
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
 
-    protected void pessimizeEndpoint(EndpointRecord endpoint) {
+    protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
         // nothing to pessimize
     }
 
@@ -233,7 +233,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         public void accept(io.grpc.Status status, Metadata trailers) {
             // Usually CANCELLED is received when ClientCall is canceled on client side
             if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
-                pessimizeEndpoint(channel.getEndpoint());
+                pessimizeEndpoint(channel.getEndpoint(), "by grpc code " + status.getCode());
             }
 
             if (settings.getTrailersHandler() != null && trailers != null) {
@@ -245,7 +245,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         public void postComplete() {
             BooleanSupplier hook = settings.getPessimizationHook();
             if (hook != null && hook.getAsBoolean()) {
-                pessimizeEndpoint(channel.getEndpoint());
+                pessimizeEndpoint(channel.getEndpoint(), "by pessimization hook");
             }
         }
     }

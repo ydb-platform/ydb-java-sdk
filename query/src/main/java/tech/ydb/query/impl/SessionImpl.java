@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.protobuf.TextFormat;
@@ -257,15 +258,21 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.CreateSessionRequest request = YdbQuery.CreateSessionRequest.newBuilder()
                 .build();
 
+        AtomicBoolean pessimizationHook = new AtomicBoolean(false);
+
         String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
         GrpcRequestSettings.Builder grpcSettingsBuilder = GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withPessimizationHook(pessimizationHook::get)
                 .withTraceId(traceId);
         if (useServerBalancer) {
             grpcSettingsBuilder.addClientCapability(SERVER_BALANCER_HINT);
         }
 
-        return rpc.createSession(request, grpcSettingsBuilder.build()).thenApply(CREATE_SESSION);
+        return rpc.createSession(request, grpcSettingsBuilder.build()).thenApply(result -> {
+            pessimizationHook.set(result.getStatus().getCode() == StatusCode.OVERLOADED);
+            return CREATE_SESSION.apply(result);
+        });
     }
 
     abstract class StreamImpl implements QueryStream {

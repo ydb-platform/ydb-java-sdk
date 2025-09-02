@@ -82,8 +82,8 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    protected void pessimizeEndpoint(EndpointRecord endpoint) {
-        endpointPool.pessimizeEndpoint(endpoint);
+    protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
+        endpointPool.pessimizeEndpoint(endpoint, reason);
 
         if (endpointPool.needToRunDiscovery()) {
             endpointPool.setNewState(null, endpoints);
