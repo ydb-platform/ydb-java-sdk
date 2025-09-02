@@ -9,4 +9,6 @@ import io.grpc.Status;
  */
 public interface GrpcStatusHandler {
     void accept(Status status, Metadata trailers);
+
+    void postComplete();
 }

@@ -105,5 +105,7 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
         } else {
             future.complete(GrpcStatuses.toResult(status));
         }
+
+        statusConsumer.postComplete();
     }
 }

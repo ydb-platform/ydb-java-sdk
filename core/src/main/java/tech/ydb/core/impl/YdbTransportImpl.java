@@ -173,11 +173,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     @Override
-    protected void updateChannelStatus(GrpcChannel channel, io.grpc.Status status) {
-        // Usually CANCELLED is received when ClientCall is canceled on client side
-        if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
-            endpointPool.pessimizeEndpoint(channel.getEndpoint());
-        }
+    protected void pessimizeEndpoint(EndpointRecord endpoint) {
+        endpointPool.pessimizeEndpoint(endpoint);
     }
 
     private class DiscoveryHandler implements YdbDiscovery.Handler {

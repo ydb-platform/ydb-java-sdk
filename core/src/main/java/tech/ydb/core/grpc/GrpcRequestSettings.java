@@ -3,6 +3,7 @@ package tech.ydb.core.grpc;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
 import io.grpc.Metadata;
@@ -19,6 +20,7 @@ public class GrpcRequestSettings {
     private final String traceId;
     private final List<String> clientCapabilities;
     private final Consumer<Metadata> trailersHandler;
+    private final BooleanSupplier pessimizationHook;
     private final GrpcFlowControl flowControl;
 
     private GrpcRequestSettings(Builder builder) {
@@ -28,6 +30,7 @@ public class GrpcRequestSettings {
         this.traceId = builder.traceId;
         this.clientCapabilities = builder.clientCapabilities;
         this.trailersHandler = builder.trailersHandler;
+        this.pessimizationHook = builder.pessimizationHook;
         this.flowControl = builder.flowControl;
     }
 
@@ -59,6 +62,10 @@ public class GrpcRequestSettings {
         return trailersHandler;
     }
 
+    public BooleanSupplier getPessimizationHook() {
+        return pessimizationHook;
+    }
+
     public GrpcFlowControl getFlowControl() {
         return flowControl;
     }
@@ -70,6 +77,7 @@ public class GrpcRequestSettings {
         private String traceId = null;
         private List<String> clientCapabilities = null;
         private Consumer<Metadata> trailersHandler = null;
+        private BooleanSupplier pessimizationHook = null;
         private GrpcFlowControl flowControl = GrpcFlows.SIMPLE_FLOW;
 
         /**
@@ -136,6 +144,11 @@ public class GrpcRequestSettings {
 
         public Builder withTrailersHandler(Consumer<Metadata> handler) {
             this.trailersHandler = handler;
+            return this;
+        }
+
+        public Builder withPessimizationHook(BooleanSupplier pessimizationHook) {
+            this.pessimizationHook = pessimizationHook;
             return this;
         }
 
