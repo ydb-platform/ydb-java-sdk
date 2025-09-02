@@ -15,6 +15,7 @@ import tech.ydb.core.impl.call.GrpcFlows;
 public class GrpcRequestSettings {
     private final long deadlineAfter;
     private final Integer preferredNodeID;
+    private final boolean directMode;
     private final String traceId;
     private final List<String> clientCapabilities;
     private final Consumer<Metadata> trailersHandler;
@@ -23,6 +24,7 @@ public class GrpcRequestSettings {
     private GrpcRequestSettings(Builder builder) {
         this.deadlineAfter = builder.deadlineAfter;
         this.preferredNodeID = builder.preferredNodeID;
+        this.directMode = builder.directMode;
         this.traceId = builder.traceId;
         this.clientCapabilities = builder.clientCapabilities;
         this.trailersHandler = builder.trailersHandler;
@@ -39,6 +41,10 @@ public class GrpcRequestSettings {
 
     public Integer getPreferredNodeID() {
         return preferredNodeID;
+    }
+
+    public boolean isDirectMode() {
+        return directMode;
     }
 
     public String getTraceId() {
@@ -60,6 +66,7 @@ public class GrpcRequestSettings {
     public static final class Builder {
         private long deadlineAfter = 0L;
         private Integer preferredNodeID = null;
+        private boolean directMode = false;
         private String traceId = null;
         private List<String> clientCapabilities = null;
         private Consumer<Metadata> trailersHandler = null;
@@ -106,6 +113,11 @@ public class GrpcRequestSettings {
 
         public Builder withFlowControl(GrpcFlowControl flowCtrl) {
             this.flowControl = flowCtrl;
+            return this;
+        }
+
+        public Builder withDirectMode(boolean directMode) {
+            this.directMode = directMode;
             return this;
         }
 

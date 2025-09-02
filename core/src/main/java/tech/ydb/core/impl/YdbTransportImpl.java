@@ -160,14 +160,14 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
-        EndpointRecord endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
+        EndpointRecord endpoint = endpointPool.getEndpoint(settings);
         if (endpoint == null) {
             long timeout = -1;
             if (settings.getDeadlineAfter() != 0) {
                 timeout = settings.getDeadlineAfter() - System.nanoTime();
             }
             discovery.waitReady(timeout);
-            endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
+            endpoint = endpointPool.getEndpoint(settings);
         }
         return channelPool.getChannel(endpoint);
     }
