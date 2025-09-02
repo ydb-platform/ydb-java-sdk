@@ -1,3 +1,7 @@
+## 2.3.20 ##
+* Table: Fixed session status updating on stream calls
+* Core: Added endpoint pessimization when CreateSession returns OVERLOADED
+
 ## 2.3.19 ##
 * Core: Added isolated grpc context for discovery and attachStream methods
 * Topic: Added support of message batching
