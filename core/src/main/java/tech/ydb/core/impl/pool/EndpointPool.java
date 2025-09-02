@@ -146,26 +146,25 @@ public final class EndpointPool {
             records.sort(PriorityEndpoint.COMPARATOR);
 
             long bestPriority = records.get(0).priority;
-            int newBestCount = 0;
-            int newPessimizedCount = 0;
+            int bestCount = 0;
+            int pcount = 0;
             for (PriorityEndpoint record : records) {
                 if (record.getPriority() == bestPriority) {
-                    newBestCount++;
+                    bestCount++;
                 }
                 if (record.isPessimized()) {
-                    newPessimizedCount++;
+                    pcount++;
                 }
             }
 
-            bestEndpointsCount = newBestCount;
-            needToRunDiscovery = 100 * newPessimizedCount > records.size() * DISCOVERY_PESSIMIZATION_THRESHOLD;
+            bestEndpointsCount = bestCount;
+            needToRunDiscovery = 100 * pcount > records.size() * DISCOVERY_PESSIMIZATION_THRESHOLD;
             if (needToRunDiscovery) {
                 logger.debug("launching discovery due to pessimization threshold is exceeded: {}/{} is more than {}",
-                        newPessimizedCount, records.size(), DISCOVERY_PESSIMIZATION_THRESHOLD);
+                        pcount, records.size(), DISCOVERY_PESSIMIZATION_THRESHOLD);
             }
 
-            logger.trace("Endpoint {} was pessimized. New pessimization ratio: {}/{}",
-                    endpoint, newPessimizedCount, records.size());
+            logger.warn("Endpoint {} was pessimized. New pessimization ratio: {}/{}", endpoint, pcount, records.size());
         } finally {
             recordsLock.writeLock().unlock();
         }
