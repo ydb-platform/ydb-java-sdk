@@ -36,6 +36,7 @@ import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.core.utils.URITools;
+import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.ValueProtos.TypedValue;
@@ -1387,42 +1388,47 @@ public abstract class BaseSession implements Session {
 
     private abstract class ProxyStream<R, T> implements GrpcReadStream<T> {
         private final GrpcReadStream<R> origin;
-        private final CompletableFuture<Status> result = new CompletableFuture<>();
+        private final CompletableFuture<Status> result;
+        private final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
+        private final UpdatableOptional<Throwable> operationError = new UpdatableOptional<>();
 
         ProxyStream(GrpcReadStream<R> origin) {
             this.origin = origin;
+            this.result = new CompletableFuture<>();
         }
 
         abstract StatusIds.StatusCode readStatusCode(R message);
         abstract List<YdbIssueMessage.IssueMessage> readIssues(R message);
         abstract T readValue(R message);
 
-        private void onClose(Status status, Throwable th) {
+        private void onClose(Status streamStatus, Throwable streamError) {
+            Throwable th = operationError.orElse(streamError);
             if (th != null) {
                 updateSessionState(th, null, false);
                 result.completeExceptionally(th);
+                return;
             }
-            if (status != null) {
-                updateSessionState(null, status.getCode(), false);
-                result.complete(status);
+
+            Status st = operationStatus.orElse(streamStatus);
+            if (st != null) {
+                updateSessionState(null, st.getCode(), false);
+                result.complete(st);
             }
         }
 
         @Override
         public CompletableFuture<Status> start(Observer<T> observer) {
-            origin.start(message -> {
-                StatusIds.StatusCode statusCode = readStatusCode(message);
+            origin.start(msg -> {
+                StatusIds.StatusCode statusCode = readStatusCode(msg);
                 if (statusCode == StatusIds.StatusCode.SUCCESS) {
                     try {
-                        observer.onNext(readValue(message));
-                    } catch (Throwable t) {
-                        result.completeExceptionally(t);
+                        observer.onNext(readValue(msg));
+                    } catch (Throwable th) {
+                        operationError.update(th);
                         origin.cancel();
                     }
                 } else {
-                    Issue[] issues = Issue.fromPb(readIssues(message));
-                    StatusCode code = StatusCode.fromProto(statusCode);
-                    result.complete(Status.of(code, issues));
+                    operationStatus.update(Status.of(StatusCode.fromProto(statusCode), Issue.fromPb(readIssues(msg))));
                     origin.cancel();
                 }
             }).whenComplete(this::onClose);

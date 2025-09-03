@@ -24,6 +24,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
+import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
@@ -287,9 +288,9 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler) {
-            final CompletableFuture<Result<QueryInfo>> result = new CompletableFuture<>();
-            final AtomicReference<QueryStats> stats = new AtomicReference<>();
-            grpcStream.start(msg -> {
+            final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
+            final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
+            return grpcStream.start(msg -> {
                 if (isTraceEnabled) {
                     logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
                 }
@@ -300,7 +301,7 @@ abstract class SessionImpl implements QuerySession {
 
                 if (!status.isSuccess()) {
                     handleTxMeta(null);
-                    result.complete(Result.fail(status));
+                    operationStatus.update(status);
                     return;
                 }
 
@@ -315,10 +316,7 @@ abstract class SessionImpl implements QuerySession {
                     }
                 }
                 if (msg.hasExecStats()) {
-                    QueryStats old = stats.getAndSet(new QueryStats(msg.getExecStats()));
-                    if (old != null) {
-                        logger.warn("{} lost previous exec stats {}", SessionImpl.this, old);
-                    }
+                    stats.update(new QueryStats(msg.getExecStats()));
                 }
 
                 if (msg.hasResultSet()) {
@@ -329,21 +327,15 @@ abstract class SessionImpl implements QuerySession {
                         logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
                     }
                 }
-            }).whenComplete((status, th) -> {
-                handleCompletion(status, th);
-                if (th != null) {
-                    result.completeExceptionally(th);
-                }
-                if (status != null) {
-                    updateSessionState(status);
-                    if (status.isSuccess()) {
-                        result.complete(Result.success(new QueryInfo(stats.get()), status));
-                    } else {
-                        result.complete(Result.fail(status));
-                    }
+            }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
+                updateSessionState(streamStatus);
+                Status status = operationStatus.orElse(streamStatus);
+                if (status.isSuccess()) {
+                    return Result.success(new QueryInfo(stats.get()), streamStatus);
+                } else {
+                    return Result.fail(status);
                 }
             });
-            return result;
         }
 
         @Override
