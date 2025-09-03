@@ -21,14 +21,14 @@ import io.grpc.Status;
  * @author Aleksandr Gorshenin
  */
 public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, ClientInterceptor {
-    private final Queue<Status> nextStatus = new ConcurrentLinkedQueue<>();
+    private volatile Queue<Status> overrideQueue = new ConcurrentLinkedQueue<>();
 
     public void reset() {
-        nextStatus.clear();
+        overrideQueue = new ConcurrentLinkedQueue<>();
     }
 
-    public void addNextStatus(Status status) {
-        nextStatus.add(status);
+    public void addOverrideStatus(Status status) {
+        overrideQueue.add(status);
     }
 
     @Override
@@ -39,15 +39,17 @@ public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, 
     @Override
     public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
             MethodDescriptor<ReqT, RespT> method, CallOptions callOptions, Channel next) {
-        return new ProxyClientCall<>(next, method, callOptions);
+        return new ProxyClientCall<>(next, overrideQueue.poll(), method, callOptions);
     }
 
-    private class ProxyClientCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
+    private static class ProxyClientCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
         private final ClientCall<ReqT, RespT> delegate;
+        private final Status overrided;
 
-        private ProxyClientCall(Channel channel, MethodDescriptor<ReqT, RespT> method,
+        private ProxyClientCall(Channel channel, Status overrided, MethodDescriptor<ReqT, RespT> method,
                 CallOptions callOptions) {
             this.delegate = channel.newCall(method, callOptions);
+            this.overrided = overrided;
         }
 
         @Override
@@ -110,8 +112,7 @@ public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, 
 
             @Override
             public void onClose(Status status, Metadata trailers) {
-                Status next = nextStatus.poll();
-                delegate.onClose(next != null ? next : status, trailers);
+                delegate.onClose(overrided != null ? overrided : status, trailers);
             }
 
             @Override
