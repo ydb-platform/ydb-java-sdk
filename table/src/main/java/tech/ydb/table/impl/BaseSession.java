@@ -1418,17 +1418,17 @@ public abstract class BaseSession implements Session {
 
         @Override
         public CompletableFuture<Status> start(Observer<T> observer) {
-            origin.start(msg -> {
-                StatusIds.StatusCode statusCode = readStatusCode(msg);
-                if (statusCode == StatusIds.StatusCode.SUCCESS) {
+            origin.start(message -> {
+                StatusIds.StatusCode code = readStatusCode(message);
+                if (code == StatusIds.StatusCode.SUCCESS) {
                     try {
-                        observer.onNext(readValue(msg));
+                        observer.onNext(readValue(message));
                     } catch (Throwable th) {
                         operationError.update(th);
                         origin.cancel();
                     }
                 } else {
-                    operationStatus.update(Status.of(StatusCode.fromProto(statusCode), Issue.fromPb(readIssues(msg))));
+                    operationStatus.update(Status.of(StatusCode.fromProto(code), Issue.fromPb(readIssues(message))));
                     origin.cancel();
                 }
             }).whenComplete(this::onClose);

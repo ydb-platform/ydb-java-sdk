@@ -44,12 +44,12 @@ public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, 
 
     private static class ProxyClientCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
         private final ClientCall<ReqT, RespT> delegate;
-        private final Status overrided;
+        private final Status overriden;
 
-        private ProxyClientCall(Channel channel, Status overrided, MethodDescriptor<ReqT, RespT> method,
+        private ProxyClientCall(Channel channel, Status overriden, MethodDescriptor<ReqT, RespT> method,
                 CallOptions callOptions) {
             this.delegate = channel.newCall(method, callOptions);
-            this.overrided = overrided;
+            this.overriden = overriden;
         }
 
         @Override
@@ -112,7 +112,7 @@ public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, 
 
             @Override
             public void onClose(Status status, Metadata trailers) {
-                delegate.onClose(overrided != null ? overrided : status, trailers);
+                delegate.onClose(overriden != null ? overriden : status, trailers);
             }
 
             @Override
