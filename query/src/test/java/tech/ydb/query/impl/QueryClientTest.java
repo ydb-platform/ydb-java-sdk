@@ -94,7 +94,7 @@ public class QueryClientTest {
         QuerySession s1 = getSession();
         String id1 = s1.getId();
 
-        grpcInterceptor.addNextStatus(io.grpc.Status.UNAVAILABLE);
+        grpcInterceptor.addOverrideStatus(io.grpc.Status.UNAVAILABLE);
 
         Result<QueryInfo> res = s1.createQuery("SELECT 1 + 2", TxMode.NONE).execute().join();
         Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, res.getStatus().getCode());

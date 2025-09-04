@@ -97,7 +97,7 @@ public class TableClientTest {
         Session s1 = getSession();
         String id1 = s1.getId();
 
-        grpcInterceptor.addNextStatus(io.grpc.Status.UNAVAILABLE);
+        grpcInterceptor.addOverrideStatus(io.grpc.Status.UNAVAILABLE);
 
         Result<DataQueryResult> res = s1.executeDataQuery("SELECT 1 + 2", TxControl.snapshotRo()).join();
         Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, res.getStatus().getCode());
@@ -128,7 +128,7 @@ public class TableClientTest {
         Session s1 = getSession();
         String id1 = s1.getId();
 
-        grpcInterceptor.addNextStatus(io.grpc.Status.UNAVAILABLE);
+        grpcInterceptor.addOverrideStatus(io.grpc.Status.UNAVAILABLE);
 
         Status res = s1.executeScanQuery("SELECT 1 + 2", Params.empty(), settings).start(rsr -> {}).join();
         Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, res.getCode());
