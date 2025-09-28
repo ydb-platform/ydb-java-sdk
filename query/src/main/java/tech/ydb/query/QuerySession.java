@@ -6,8 +6,11 @@ import io.grpc.ExperimentalApi;
 
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
+import tech.ydb.proto.OperationProtos;
 import tech.ydb.query.settings.BeginTransactionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
+import tech.ydb.query.settings.ExecuteScriptSettings;
+import tech.ydb.query.settings.FetchScriptSettings;
 import tech.ydb.table.query.Params;
 
 /**
@@ -68,6 +71,29 @@ public interface QuerySession extends AutoCloseable {
      */
     QueryStream createQuery(String query, TxMode tx, Params params, ExecuteQuerySettings settings);
 
+    /**
+     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
+     * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
+     *
+     * @param query    text of query
+     * @param params   query parameters
+     * @param settings additional settings of query execution
+     * @return a ready to execute instance of {@link QueryStream}
+     */
+    CompletableFuture<Result<OperationProtos.Operation>> executeScript(String query, Params params, ExecuteScriptSettings settings);
+
+    /**
+     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
+     * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
+     *
+     * @param query text of query
+     * @param tx transaction mode
+     * @param params query parameters
+     * @param settings additional settings of query execution
+     * @return a ready to execute instance of {@link QueryStream}
+     */
+    QueryStream fetchScriptResults(String query, TxMode tx, Params params, FetchScriptSettings settings);
+
     @Override
     void close();
 
@@ -105,5 +131,28 @@ public interface QuerySession extends AutoCloseable {
      */
     default CompletableFuture<Result<QueryTransaction>> beginTransaction(TxMode txMode) {
         return beginTransaction(txMode, BeginTransactionSettings.newBuilder().build());
+    }
+
+    /**
+     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
+     * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
+     *
+     * @param query text of query
+     * @return a ready to execute instance of {@link QueryStream}
+     */
+    default CompletableFuture<Result<OperationProtos.Operation>> executeScript(String query) {
+        return executeScript(query, Params.empty(), ExecuteScriptSettings.newBuilder().build());
+    }
+
+    /**
+     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
+     * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
+     *
+     * @param query text of query
+     * @param tx transaction mode
+     * @return a ready to execute instance of {@link QueryStream}
+     */
+    default QueryStream fetchScriptResults(String query, TxMode tx) {
+        return fetchScriptResults(query, tx, Params.empty(), FetchScriptSettings.newBuilder().build());
     }
 }

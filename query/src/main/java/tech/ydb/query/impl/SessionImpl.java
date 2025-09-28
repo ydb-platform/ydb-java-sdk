@@ -9,6 +9,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.google.protobuf.Duration;
 import com.google.protobuf.TextFormat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,7 @@ import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
+import tech.ydb.proto.OperationProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
@@ -37,6 +39,8 @@ import tech.ydb.query.settings.CommitTransactionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
+import tech.ydb.query.settings.ExecuteScriptSettings;
+import tech.ydb.query.settings.FetchScriptSettings;
 import tech.ydb.query.settings.QueryExecMode;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.query.settings.RollbackTransactionSettings;
@@ -242,6 +246,75 @@ abstract class SessionImpl implements QuerySession {
                 }
             }
         };
+    }
+
+    @Override
+    public CompletableFuture<Result<OperationProtos.Operation>> executeScript(String query, Params params, ExecuteScriptSettings settings) {
+        YdbQuery.ExecuteScriptRequest.Builder request = YdbQuery.ExecuteScriptRequest.newBuilder()
+                .setExecMode(mapExecMode(settings.getExecMode()))
+                .setStatsMode(mapStatsMode(settings.getStatsMode()))
+                .setScriptContent(YdbQuery.QueryContent.newBuilder()
+                        .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)
+                        .setText(query)
+                        .build());
+
+        java.time.Duration ttl = settings.getTtl();
+        if(ttl != null) {
+            request.setResultsTtl(Duration.newBuilder().setNanos(settings.getTtl().getNano()));
+        }
+
+        String resourcePool = settings.getResourcePool();
+        if (resourcePool != null && !resourcePool.isEmpty()) {
+            request.setPoolId(resourcePool);
+        }
+
+        request.putAllParameters(params.toPb());
+
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+
+        return rpc.executeScript(request.build(), options.build());
+    }
+
+    @Override
+    public QueryStream fetchScriptResults(String query, TxMode tx, Params params, FetchScriptSettings settings) {
+        YdbQuery.FetchScriptResultsRequest.Builder request = YdbQuery.FetchScriptResultsRequest.newBuilder()
+                .setOperationId(settings.getOperationId())
+                .setFetchToken(settings.getFetchToken())
+                .setRowsLimit(10)
+                .setResultSetIndex(0L);
+
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+        CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>> response
+                = rpc.fetchScriptResults(request.build(), options.build());
+
+        return null;
+      /*  response.thenApply(result -> result.getValue() )
+
+        Result<YdbQuery.FetchScriptResultsResponse> resp = response.get();
+        YdbQuery.FetchScriptResultsResponse rs = resp.getValue();
+
+        rs.getResultSet();
+        rs.get*/
+        /*
+        rs := response.GetResultSet()
+		columns := rs.GetColumns()
+		columnNames := make([]string, len(columns))
+		columnTypes := make([]types.Type, len(columns))
+		for i := range columns {
+			columnNames[i] = columns[i].GetName()
+			columnTypes[i] = types.TypeFromYDB(columns[i].GetType())
+		}
+		rows := make([]query.Row, len(rs.GetRows()))
+		for i, r := range rs.GetRows() {
+			rows[i] = NewRow(columns, r)
+		}
+
+		return &options.FetchScriptResult{
+			ResultSetIndex: response.GetResultSetIndex(),
+			ResultSet:      MaterializedResultSet(int(response.GetResultSetIndex()), columnNames, columnTypes, rows),
+			NextToken:      response.GetNextFetchToken(),
+		}, nil
+         */
     }
 
     public CompletableFuture<Result<YdbQuery.DeleteSessionResponse>> delete(DeleteSessionSettings settings) {
