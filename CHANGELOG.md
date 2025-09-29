@@ -1,3 +1,5 @@
+* Table: AlterTable supports index renaming
+
 ## 2.3.20 ##
 * Table: Fixed session status updating on stream calls
 * Core: Added endpoint pessimization when CreateSession returns OVERLOADED

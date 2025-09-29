@@ -143,20 +143,6 @@ public class AlterTableTest {
 
         Assert.assertEquals(1, description.getIndexes().size());
         assertIndexAsync(description.getIndexes().get(0), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
-
-//        // --------------------- alter table with rename indexes -----------------------------
-//        alterStatus = ctx.supplyStatus(
-//                session -> session.alterTable(tablePath, new AlterTableSettings()
-//                        .addRenameIndex("idx2", "new_name"))
-//        ).join();
-//        Assert.assertTrue("Alter table with rename indexes " + alterStatus, alterStatus.isSuccess());
-//
-//        // --------------------- describe table after rename indexes altering -----------------------------
-//        describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
-//        Assert.assertTrue("Describe table after altering " + describeResult.getStatus(), describeResult.isSuccess());
-//
-//        Assert.assertEquals(1, description.getIndexes().size());
-//        assertIndexAsync(description.getIndexes().get(0), "new_name", Arrays.asList("data"), Arrays.asList("code"));
     }
 
     @Test
@@ -177,7 +163,7 @@ public class AlterTableTest {
         Assert.assertTrue("Create table with indexes " + createStatus, createStatus.isSuccess());
 
         // --------------------- describe table after creating -----------------------------
-        Result<TableDescription> describeResult = ctx.supplyResult(session ->session.describeTable(tablePath)).join();
+        Result<TableDescription> describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
         Assert.assertTrue("Describe table with indexes " + describeResult.getStatus(), describeResult.isSuccess());
 
         TableDescription description = describeResult.getValue();
@@ -207,7 +193,7 @@ public class AlterTableTest {
         Assert.assertTrue("Alter table with column " + alterStatus, alterStatus.isSuccess());
 
         // --------------------- describe table after first altering -----------------------------
-        describeResult = ctx.supplyResult(session ->session.describeTable(tablePath)).join();
+        describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
         Assert.assertTrue("Describe table after altering " + describeResult.getStatus(), describeResult.isSuccess());
 
         description = describeResult.getValue();
@@ -234,7 +220,7 @@ public class AlterTableTest {
         Assert.assertTrue("Alter table with indexes " + alterStatus, alterStatus.isSuccess());
 
         // --------------------- describe table after first altering -----------------------------
-        describeResult = ctx.supplyResult(session ->session.describeTable(tablePath)).join();
+        describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
         Assert.assertTrue("Describe table after altering " + describeResult.getStatus(), describeResult.isSuccess());
 
         description = describeResult.getValue();
@@ -251,6 +237,50 @@ public class AlterTableTest {
 
         Assert.assertEquals(1, description.getIndexes().size());
         assertIndexAsync(description.getIndexes().get(0), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
+    }
+
+    @Test
+    public void renameIndexTest() {
+        // --------------------- create table -----------------------------
+        ctx.supplyStatus(session -> session.executeSchemeQuery(""
+                + "CREATE TABLE " + TABLE_NAME + " ("
+                + " id Uint64 NOT NULL,"
+                + " code Text NOT NULL,"
+                + " size Float,"
+                + " created Timestamp,"
+                + " data Text,"
+                + " PRIMARY KEY(id),"
+                + " INDEX idx1 GLOBAL ON (id, code),"
+                + " INDEX idx2 GLOBAL ASYNC ON (data) COVER (code)"
+                + ")"
+        )).join().expectSuccess();
+
+        Status alterStatus = ctx.supplyStatus(
+                session -> session.alterTable(tablePath, new AlterTableSettings()
+                        .addRenameIndex("idx1", "new_name"))
+        ).join();
+        Assert.assertTrue("Alter table with rename indexes " + alterStatus, alterStatus.isSuccess());
+
+        Result<TableDescription> describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe table after altering " + describeResult.getStatus(), describeResult.isSuccess());
+
+        TableDescription description = describeResult.getValue();
+        Assert.assertEquals(2, description.getIndexes().size());
+        assertIndexSync(description.getIndexes().get(1), "new_name", Arrays.asList("id", "code"), Collections.emptyList());
+
+        alterStatus = ctx.supplyStatus(
+                session -> session.alterTable(tablePath, new AlterTableSettings()
+                        .addRenameIndex("new_name", "idx2", true))
+        ).join();
+        Assert.assertTrue("Alter table with rename indexes " + alterStatus, alterStatus.isSuccess());
+
+        describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe table after altering " + describeResult.getStatus(), describeResult.isSuccess());
+
+        description = describeResult.getValue();
+
+        Assert.assertEquals(1, description.getIndexes().size());
+        assertIndexSync(description.getIndexes().get(0), "idx2", Arrays.asList("id", "code"), Collections.emptyList());
     }
 
     private void assertColumn(TableColumn column, String name, Type type) {
