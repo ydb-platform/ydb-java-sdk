@@ -49,6 +49,7 @@ import tech.ydb.table.description.ChangefeedDescription;
 import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.KeyBound;
 import tech.ydb.table.description.KeyRange;
+import tech.ydb.table.description.RenameIndex;
 import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
@@ -574,6 +575,13 @@ public abstract class BaseSession implements Session {
 
         for (String dropIndex: settings.getDropIndexes()) {
             builder.addDropIndexes(dropIndex);
+        }
+
+        for (RenameIndex renameIndex : settings.getRenameIndexes()) {
+            builder.addRenameIndexes(YdbTable.RenameIndexItem.newBuilder()
+                    .setSourceName(renameIndex.getSourceName())
+                    .setDestinationName(renameIndex.getDestinationName())
+                    .setReplaceDestination(renameIndex.isReplaceDestination()).build());
         }
 
         return rpc.alterTable(builder.build(), makeOptions(settings).build());
