@@ -50,6 +50,7 @@ import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.KeyBound;
 import tech.ydb.table.description.KeyRange;
 import tech.ydb.table.description.RenameIndex;
+import tech.ydb.table.description.SequenceDescription;
 import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
@@ -99,14 +100,13 @@ import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
-
-
 
 /**
  * @author Sergey Polovko
@@ -169,7 +169,7 @@ public abstract class BaseSession implements Session {
     }
 
     public static CompletableFuture<Result<String>> createSessionId(TableRpc rpc, CreateSessionSettings settings,
-            boolean useServerBalancer) {
+                                                                    boolean useServerBalancer) {
         YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
@@ -228,6 +228,48 @@ public abstract class BaseSession implements Session {
         if (column.getType().getKind() != Type.Kind.OPTIONAL) {
             builder.setNotNull(true);
         }
+        if (column.hasDefaultValue()) {
+            if (column.getLiteralDefaultValue() != null) {
+                builder.setFromLiteral(ValueProtos.TypedValue.newBuilder()
+                        .setType(column.getType().toPb())
+                        .setValue(column.getLiteralDefaultValue().toPb()).build()
+                );
+            }
+
+            if (column.getSequenceDescription() != null) {
+                SequenceDescription sequenceDescription = column.getSequenceDescription();
+                YdbTable.SequenceDescription.Builder sequenceDescriptionBuilder = YdbTable.SequenceDescription
+                        .newBuilder()
+                        .setName(sequenceDescription.getName());
+
+                if (sequenceDescription.getMinValue() != null) {
+                    sequenceDescriptionBuilder.setMinValue(sequenceDescription.getMinValue());
+                }
+
+                if (sequenceDescription.getMaxValue() != null) {
+                    sequenceDescriptionBuilder.setMaxValue(sequenceDescription.getMaxValue());
+                }
+
+                if (sequenceDescription.getStartValue() != null) {
+                    sequenceDescriptionBuilder.setStartValue(sequenceDescription.getStartValue());
+                }
+
+                if (sequenceDescription.getCache() != null) {
+                    sequenceDescriptionBuilder.setCache(sequenceDescription.getCache());
+                }
+
+                if (sequenceDescription.getIncrement() != null) {
+                    sequenceDescriptionBuilder.setIncrement(sequenceDescription.getIncrement());
+                }
+
+                if (sequenceDescription.getCycle() != null) {
+                    sequenceDescriptionBuilder.setCycle(sequenceDescription.getCycle());
+                }
+
+                builder.setFromSequence(sequenceDescriptionBuilder.build());
+            }
+        }
+
         return builder.build();
     }
 
@@ -401,7 +443,7 @@ public abstract class BaseSession implements Session {
                 break;
         }
 
-        for (ColumnFamily family: description.getColumnFamilies()) {
+        for (ColumnFamily family : description.getColumnFamilies()) {
             request.addColumnFamilies(buildColumnFamily(family));
         }
 
@@ -540,11 +582,11 @@ public abstract class BaseSession implements Session {
                 .setPath(path)
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()));
 
-        for (TableColumn addColumn: settings.getAddColumns()) {
+        for (TableColumn addColumn : settings.getAddColumns()) {
             builder.addAddColumns(buildColumnMeta(addColumn));
         }
 
-        for (Changefeed addChangefeed: settings.getAddChangefeeds()) {
+        for (Changefeed addChangefeed : settings.getAddChangefeeds()) {
             builder.addAddChangefeeds(buildChangefeed(addChangefeed));
         }
 
@@ -565,15 +607,15 @@ public abstract class BaseSession implements Session {
             builder.setAlterPartitioningSettings(buildPartitioningSettings(settings.getPartitioningSettings()));
         }
 
-        for (String dropColumn: settings.getDropColumns()) {
+        for (String dropColumn : settings.getDropColumns()) {
             builder.addDropColumns(dropColumn);
         }
 
-        for (String dropChangefeed: settings.getDropChangefeeds()) {
+        for (String dropChangefeed : settings.getDropChangefeeds()) {
             builder.addDropChangefeeds(dropChangefeed);
         }
 
-        for (String dropIndex: settings.getDropIndexes()) {
+        for (String dropIndex : settings.getDropIndexes()) {
             builder.addDropIndexes(dropIndex);
         }
 
@@ -764,8 +806,9 @@ public abstract class BaseSession implements Session {
         }
     }
 
+    @SuppressWarnings("checkstyle:MethodLength")
     private static Result<TableDescription> mapDescribeTable(Result<YdbTable.DescribeTableResult> describeResult,
-            DescribeTableSettings settings) {
+                                                             DescribeTableSettings settings) {
         if (!describeResult.isSuccess()) {
             return describeResult.map(r -> null);
         }
@@ -794,12 +837,43 @@ public abstract class BaseSession implements Session {
 
         for (int i = 0; i < desc.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = desc.getColumns(i);
-            description.addColumn(new TableColumn(
-                    column.getName(),
-                    ProtoType.fromPb(column.getType()),
-                    column.getFamily(),
-                    column.hasFromLiteral() || column.hasFromSequence()
-            ));
+            Type type = ProtoType.fromPb(column.getType());
+
+            if (column.hasFromLiteral()) {
+                PrimitiveValue primitiveValue = (PrimitiveValue)
+                        ProtoValue.fromPb(type, column.getFromLiteral().getValue());
+                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), primitiveValue));
+            } else if (column.hasFromSequence()) {
+                YdbTable.SequenceDescription pbSeq = column.getFromSequence();
+                SequenceDescription.Builder sequenceDescriptionBuilder = new SequenceDescription.Builder();
+
+                if (pbSeq.hasName()) {
+                    sequenceDescriptionBuilder.setName(pbSeq.getName());
+                }
+                if (pbSeq.hasMinValue()) {
+                    sequenceDescriptionBuilder.setMinValue(pbSeq.getMinValue());
+                }
+                if (pbSeq.hasMaxValue()) {
+                    sequenceDescriptionBuilder.setMaxValue(pbSeq.getMaxValue());
+                }
+                if (pbSeq.hasStartValue()) {
+                    sequenceDescriptionBuilder.setStartValue(pbSeq.getStartValue());
+                }
+                if (pbSeq.hasCache()) {
+                    sequenceDescriptionBuilder.setCache(pbSeq.getCache());
+                }
+                if (pbSeq.hasIncrement()) {
+                    sequenceDescriptionBuilder.setIncrement(pbSeq.getIncrement());
+                }
+                if (pbSeq.hasCycle()) {
+                    sequenceDescriptionBuilder.setCycle(pbSeq.getCycle());
+                }
+
+                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(),
+                        sequenceDescriptionBuilder.build()));
+            } else {
+                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), false));
+            }
         }
         description.setPrimaryKeys(desc.getPrimaryKeyList());
         for (int i = 0; i < desc.getIndexesCount(); i++) {
@@ -876,14 +950,14 @@ public abstract class BaseSession implements Session {
         }
 
         description.setTtlSettings(mapTtlSettings(desc.getTtlSettings()));
-        for (YdbTable.ChangefeedDescription pb: desc.getChangefeedsList()) {
+        for (YdbTable.ChangefeedDescription pb : desc.getChangefeedsList()) {
             description.addChangefeed(new ChangefeedDescription(
-                pb.getName(),
-                mapChangefeedMode(pb.getMode()),
-                mapChangefeedFormat(pb.getFormat()),
-                mapChangefeedState(pb.getState()),
-                pb.getVirtualTimestamps(),
-                ProtobufUtils.protoToDuration(pb.getResolvedTimestampsInterval())
+                    pb.getName(),
+                    mapChangefeedMode(pb.getMode()),
+                    mapChangefeedFormat(pb.getFormat()),
+                    mapChangefeedState(pb.getState()),
+                    pb.getVirtualTimestamps(),
+                    ProtobufUtils.protoToDuration(pb.getResolvedTimestampsInterval())
             ));
         }
 
@@ -1055,12 +1129,12 @@ public abstract class BaseSession implements Session {
                 .setPath(pathToTable)
                 .addAllColumns(settings.getColumns())
                 .setKeys(settings.getKeys().isEmpty() ? TypedValue.newBuilder().build() :
-                    ValueProtos.TypedValue.newBuilder()
-                            .setType(ListType.of(settings.getKeys().get(0).getType()).toPb())
-                            .setValue(ValueProtos.Value.newBuilder()
-                                    .addAllItems(settings.getKeys().stream().map(StructValue::toPb)
-                                            .collect(Collectors.toList())))
-                            .build());
+                        ValueProtos.TypedValue.newBuilder()
+                                .setType(ListType.of(settings.getKeys().get(0).getType()).toPb())
+                                .setValue(ValueProtos.Value.newBuilder()
+                                        .addAllItems(settings.getKeys().stream().map(StructValue::toPb)
+                                                .collect(Collectors.toList())))
+                                .build());
         return interceptResult(rpc.readRows(requestBuilder.build(), makeOptions(settings).build()))
                 .thenApply(result -> result.map(ReadRowsResult::new));
     }
@@ -1241,7 +1315,7 @@ public abstract class BaseSession implements Session {
 
     @Override
     public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
-            ExecuteScanQuerySettings settings) {
+                                                            ExecuteScanQuerySettings settings) {
         YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
                 .setMode(settings.getMode().toPb())
@@ -1406,7 +1480,9 @@ public abstract class BaseSession implements Session {
         }
 
         abstract StatusIds.StatusCode readStatusCode(R message);
+
         abstract List<YdbIssueMessage.IssueMessage> readIssues(R message);
+
         abstract T readValue(R message);
 
         private void onClose(Status streamStatus, Throwable streamError) {
@@ -1492,7 +1568,7 @@ public abstract class BaseSession implements Session {
                             currentStatusFuture.complete(Status
                                     .of(StatusCode.ABORTED)
                                     .withIssues(Issue.of("ExecuteDataQuery on transaction failed with status "
-                                                    + result.getStatus(), Issue.Severity.ERROR)));
+                                            + result.getStatus(), Issue.Severity.ERROR)));
                         }
                     });
         }

@@ -51,7 +51,6 @@
                     <environmentVariables>
                         <TESTCONTAINERS_REUSE_ENABLE>true</TESTCONTAINERS_REUSE_ENABLE>
                         <YDB_DOCKER_IMAGE>ydbplatform/local-ydb:trunk</YDB_DOCKER_IMAGE>
-                        <YDB_FEATURE_FLAGS>enable_vector_index</YDB_FEATURE_FLAGS>
                     </environmentVariables>
                 </configuration>
             </plugin>
