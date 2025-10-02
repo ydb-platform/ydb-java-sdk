@@ -53,7 +53,7 @@ public class TableColumn {
     }
 
     public boolean hasDefaultValue() {
-        return literalDefaultValue != null && sequenceDescription != null;
+        return literalDefaultValue != null || sequenceDescription != null;
     }
 
     @Nullable
