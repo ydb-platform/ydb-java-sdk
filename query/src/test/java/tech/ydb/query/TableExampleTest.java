@@ -421,4 +421,34 @@ public class TableExampleTest {
             return transaction.commit();
         }).join().expectSuccess("tcl transaction problem");
     }
+
+    @Test
+    public void step10_queryStats() {
+        String query
+                = "DECLARE $seriesId AS Uint64; "
+                + "DECLARE $seasonId AS Uint64; "
+                + "SELECT sa.title AS season_title, sr.title AS series_title "
+                + "FROM seasons AS sa INNER JOIN series AS sr ON sa.series_id = sr.series_id "
+                + "WHERE sa.series_id = $seriesId AND sa.season_id = $seasonId";
+
+        tech.ydb.table.transaction.TxControl<?> txControl = tech.ydb.table.transaction.TxControl.snapshotRo().setCommitTx(true);
+        Params params = Params.of(
+                "$seriesId", PrimitiveValue.newUint64(1),
+                "$seasonId", PrimitiveValue.newUint64(2)
+        );
+        tech.ydb.table.settings.ExecuteDataQuerySettings settings = new tech.ydb.table.settings.ExecuteDataQuerySettings()
+                .disableQueryCache()
+                .setCollectStats(tech.ydb.table.query.stats.QueryStatsCollectionMode.FULL);
+
+        DataQueryResult result = retryCtx
+                .supplyResult(session -> session.executeDataQuery(query, txControl, params, settings))
+                .join().getValue();
+
+        Assert.assertTrue(result.hasQueryStats());
+        Assert.assertNotNull(result.getQueryStats());
+        Assert.assertNotEquals(0, result.getQueryStats().getQueryPhasesCount());
+        Assert.assertNotEquals(0, result.getQueryStats().getQueryPhases(0).getTableAccessCount());
+        Assert.assertFalse(result.getQueryStats().getQueryAst().isEmpty());
+        Assert.assertFalse(result.getQueryStats().getQueryPlan().isEmpty());
+    }
 }
