@@ -167,7 +167,12 @@ public class TableDescription {
             return addSequenceColumn(name, type, family, SequenceDescription.newBuilder().build());
         }
 
-        public Builder addSequenceColumn(String name, Type type, String family, SequenceDescription sequenceDescription) {
+        public Builder addSequenceColumn(
+                String name,
+                Type type,
+                String family,
+                SequenceDescription sequenceDescription
+        ) {
             if (type instanceof PrimitiveType) {
                 PrimitiveType primitiveType = (PrimitiveType) type;
 
@@ -181,6 +186,7 @@ public class TableDescription {
                     case Int64:
                         columns.put(name, new TableColumn(name, PrimitiveType.Int64, family, sequenceDescription));
                         return this;
+                    default:
                 }
             }
 
