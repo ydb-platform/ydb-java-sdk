@@ -1,3 +1,4 @@
+* Table: CreateTable with default value options
 * Table: AlterTable supports index renaming
 
 ## 2.3.20 ##
