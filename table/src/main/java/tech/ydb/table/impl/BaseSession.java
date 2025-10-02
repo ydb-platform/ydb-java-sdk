@@ -839,11 +839,7 @@ public abstract class BaseSession implements Session {
             YdbTable.ColumnMeta column = desc.getColumns(i);
             Type type = ProtoType.fromPb(column.getType());
 
-            if (column.hasFromLiteral()) {
-                PrimitiveValue primitiveValue = (PrimitiveValue)
-                        ProtoValue.fromPb(type, column.getFromLiteral().getValue());
-                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), primitiveValue));
-            } else if (column.hasFromSequence()) {
+            if (column.hasFromSequence()) {
                 YdbTable.SequenceDescription pbSeq = column.getFromSequence();
                 SequenceDescription.Builder sequenceDescriptionBuilder = new SequenceDescription.Builder();
 
@@ -871,9 +867,14 @@ public abstract class BaseSession implements Session {
 
                 description.addColumn(new TableColumn(column.getName(), type, column.getFamily(),
                         sequenceDescriptionBuilder.build()));
-            } else {
-                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), false));
+
+                continue;
             }
+
+            description.addColumn(new TableColumn(column.getName(), type, column.getFamily(),
+                    column.hasFromLiteral() ? (PrimitiveValue)
+                            ProtoValue.fromPb(type, column.getFromLiteral().getValue()) : null)
+            );
         }
         description.setPrimaryKeys(desc.getPrimaryKeyList());
         for (int i = 0; i < desc.getIndexesCount(); i++) {
