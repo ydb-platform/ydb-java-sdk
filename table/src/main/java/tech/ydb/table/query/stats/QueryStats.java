@@ -2,7 +2,8 @@ package tech.ydb.table.query.stats;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public final class QueryStats {
     private final List<QueryPhaseStats> queryPhases;
@@ -14,14 +15,33 @@ public final class QueryStats {
     private final long totalCpuTimeUs;
 
     public QueryStats(tech.ydb.proto.YdbQueryStats.QueryStats protoAutoGenQueryStats) {
-        this.queryPhases = protoAutoGenQueryStats.getQueryPhasesList().stream().map(QueryPhaseStats::new)
-                .collect(Collectors.toList());
-        this.compilation = new CompilationStats(protoAutoGenQueryStats.getCompilation());
-        this.processCpuTimeUs = protoAutoGenQueryStats.getProcessCpuTimeUs();
-        this.queryPlan = protoAutoGenQueryStats.getQueryPlan();
-        this.queryAst = protoAutoGenQueryStats.getQueryAst();
-        this.totalDurationUs = protoAutoGenQueryStats.getTotalDurationUs();
-        this.totalCpuTimeUs = protoAutoGenQueryStats.getProcessCpuTimeUs();
+        this(
+                protoAutoGenQueryStats.getQueryPhasesList().stream().map(QueryPhaseStats::new).collect(toList()),
+                new CompilationStats(protoAutoGenQueryStats.getCompilation()),
+                protoAutoGenQueryStats.getProcessCpuTimeUs(),
+                protoAutoGenQueryStats.getQueryPlan(),
+                protoAutoGenQueryStats.getQueryAst(),
+                protoAutoGenQueryStats.getTotalDurationUs(),
+                protoAutoGenQueryStats.getProcessCpuTimeUs()
+        );
+    }
+
+    public QueryStats(
+            List<QueryPhaseStats> queryPhases,
+            CompilationStats compilation,
+            long processCpuTimeUs,
+            String queryPlan,
+            String queryAst,
+            long totalDurationUs,
+            long totalCpuTimeUs
+    ) {
+        this.queryPhases = queryPhases;
+        this.compilation = compilation;
+        this.processCpuTimeUs = processCpuTimeUs;
+        this.queryPlan = queryPlan;
+        this.queryAst = queryAst;
+        this.totalDurationUs = totalDurationUs;
+        this.totalCpuTimeUs = totalCpuTimeUs;
     }
 
     public List<QueryPhaseStats> getQueryPhasesList() {

@@ -125,6 +125,10 @@ public class QueryStats {
             this.isLiteralPhase = stats.getLiteralPhase();
         }
 
+        public List<TableAccess> getTableAccesses() {
+            return this.tableAccesses;
+        }
+
         public long getDurationUs() {
             return this.durationUs;
         }

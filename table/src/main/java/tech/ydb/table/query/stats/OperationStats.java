@@ -7,8 +7,12 @@ public final class OperationStats {
     private final long bytes;
 
     public OperationStats(tech.ydb.proto.YdbQueryStats.OperationStats protoAutoGenOperationStats) {
-        this.rows = protoAutoGenOperationStats.getRows();
-        this.bytes = protoAutoGenOperationStats.getBytes();
+        this(protoAutoGenOperationStats.getRows(), protoAutoGenOperationStats.getBytes());
+    }
+
+    public OperationStats(long rows, long bytes) {
+        this.rows = rows;
+        this.bytes = bytes;
     }
 
     public long getRows() {
