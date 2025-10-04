@@ -1,5 +1,8 @@
+## 2.3.21 ##
+* Query: Support QueryStats in QueryService-based TableClient wrapper
 * Table: CreateTable with default value options
 * Table: AlterTable supports index renaming
+* Table: Fixed data race on stream result processing
 
 ## 2.3.20 ##
 * Table: Fixed session status updating on stream calls
