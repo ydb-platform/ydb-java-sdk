@@ -152,7 +152,7 @@ public class TableClientImpl implements TableClient {
         private static QueryStats queryStats(tech.ydb.query.result.QueryStats stats) {
             return new QueryStats(
                     stats.getPhases().stream().map(qp -> queryPhaseStats(qp)).collect(toList()),
-                    compilationStats(stats.getComplilationStats()),
+                    compilationStats(stats.getCompilationStats()),
                     stats.getProcessCpuTimeUs(),
                     stats.getQueryPlan(),
                     stats.getQueryAst(),
