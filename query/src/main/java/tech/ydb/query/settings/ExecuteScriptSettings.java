@@ -1,12 +1,11 @@
 package tech.ydb.query.settings;
 
-import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.settings.BaseRequestSettings;
 
 import java.time.Duration;
 
 /**
-
+ * Script settings to pass to execute script
  */
 public class ExecuteScriptSettings extends BaseRequestSettings {
     private final QueryExecMode execMode;
@@ -51,7 +50,7 @@ public class ExecuteScriptSettings extends BaseRequestSettings {
         private QueryExecMode execMode = QueryExecMode.EXECUTE;
         private QueryStatsMode statsMode = QueryStatsMode.NONE;
         private String resourcePool = null;
-        private Duration ttl =null;
+        private Duration ttl = null;
 
         public Builder withExecMode(QueryExecMode mode) {
             this.execMode = mode;

@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.base.Preconditions;
@@ -19,6 +20,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.operation.Operation;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
@@ -66,6 +68,13 @@ public class SessionRetryContext {
 
     public CompletableFuture<Status> supplyStatus(Function<QuerySession, CompletableFuture<Status>> fn) {
         RetryableStatusTask task = new RetryableStatusTask(fn);
+        task.requestSession();
+        return task.getFuture();
+    }
+
+    public CompletableFuture<Operation<Status>> supplyOperation(Function<QuerySession,
+            CompletableFuture<Operation<Status>>> fn) {
+        RetryableOperationTask task = new RetryableOperationTask(fn);
         task.requestSession();
         return task.getFuture();
     }
@@ -282,6 +291,82 @@ public class SessionRetryContext {
         @Override
         Status toFailedResult(Result<QuerySession> sessionResult) {
             return sessionResult.getStatus();
+        }
+    }
+
+    /**
+     * RETRYABLE OPERATION TASK
+     */
+    private final class RetryableOperationTask extends BaseRetryableTask<Operation<Status>> {
+        RetryableOperationTask(Function<QuerySession, CompletableFuture<Operation<Status>>> fn) {
+            super(fn);
+        }
+
+        @Override
+        StatusCode toStatusCode(Operation<Status> result) {
+            if(result.getValue() == null) {
+                return StatusCode.SUCCESS;
+            }
+            return result.getValue().getCode();
+        }
+
+        @Override
+        Operation<Status> toFailedResult(Result<QuerySession> sessionResult) {
+            return new FailedOperationTask<>(null, sessionResult.getStatus());
+        }
+
+        /**
+         * Failed Operation task which will be return in case of fail
+         * @param <R> - type of the operation result
+         */
+        class FailedOperationTask<R> implements Operation<R> {
+
+            final Status status;
+            final R value;
+
+            FailedOperationTask(@Nullable R value, Status status) {
+                this.status = status;
+                this.value = value;
+            }
+
+            @Nullable
+            @Override
+            public String getId() {
+                return "";
+            }
+
+            @Override
+            public boolean isReady() {
+                return false;
+            }
+
+            @Nullable
+            @Override
+            public R getValue() {
+                return value;
+            }
+
+            @Override
+            public CompletableFuture<Status> cancel() {
+                return CompletableFuture.completedFuture(status);
+            }
+
+            @Override
+            public CompletableFuture<Status> forget() {
+                return CompletableFuture.completedFuture(status);
+            }
+
+            @Override
+            public CompletableFuture<Result<Boolean>> fetch() {
+                return CompletableFuture.completedFuture(Result.fail(status));
+            }
+
+            @Override
+            public <R1> Operation<R1> transform(Function<R, R1> mapper) {
+                return new FailedOperationTask<>(mapper.apply(value), status);
+            }
+
+
         }
     }
 

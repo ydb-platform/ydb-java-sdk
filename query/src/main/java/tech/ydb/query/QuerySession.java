@@ -6,7 +6,10 @@ import io.grpc.ExperimentalApi;
 
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
-import tech.ydb.proto.OperationProtos;
+import tech.ydb.core.Status;
+import tech.ydb.core.operation.Operation;
+import tech.ydb.proto.query.YdbQuery;
+import tech.ydb.proto.scripting.ScriptingProtos;
 import tech.ydb.query.settings.BeginTransactionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.ExecuteScriptSettings;
@@ -71,6 +74,17 @@ public interface QuerySession extends AutoCloseable {
      */
     QueryStream createQuery(String query, TxMode tx, Params params, ExecuteQuerySettings settings);
 
+
+    /**
+     * Execute yql script
+     * @param query text of query
+     * @param params query parameters
+     * @param settings additional settings of query execution
+     * @return future with result of the script execution
+     */
+    CompletableFuture<Result<ScriptingProtos.ExecuteYqlResult>> executeScriptYql(String query, Params params, ExecuteScriptSettings settings);
+
+
     /**
      * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
      * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
@@ -80,19 +94,18 @@ public interface QuerySession extends AutoCloseable {
      * @param settings additional settings of query execution
      * @return a ready to execute instance of {@link QueryStream}
      */
-    CompletableFuture<Result<OperationProtos.Operation>> executeScript(String query, Params params, ExecuteScriptSettings settings);
+    CompletableFuture<Operation<Status>> executeScript(String query, Params params, ExecuteScriptSettings settings);
 
     /**
-     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
-     * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
+     * Fetch result from script which has already passed to YDB
+     * Before use wait for CompletableFuture with operation
      *
      * @param query text of query
-     * @param tx transaction mode
      * @param params query parameters
      * @param settings additional settings of query execution
      * @return a ready to execute instance of {@link QueryStream}
      */
-    QueryStream fetchScriptResults(String query, TxMode tx, Params params, FetchScriptSettings settings);
+    CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>> fetchScriptResults(String query, Params params, FetchScriptSettings settings);
 
     @Override
     void close();
@@ -134,25 +147,23 @@ public interface QuerySession extends AutoCloseable {
     }
 
     /**
-     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
-     * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
+     * Execute Yql script with different type of operation
      *
      * @param query text of query
-     * @return a ready to execute instance of {@link QueryStream}
+     * @return a future join on it to wait for script finished
      */
-    default CompletableFuture<Result<OperationProtos.Operation>> executeScript(String query) {
-        return executeScript(query, Params.empty(), ExecuteScriptSettings.newBuilder().build());
+    default CompletableFuture<Result<ScriptingProtos.ExecuteYqlResult>> executeScriptYql(String query) {
+        return executeScriptYql(query, Params.empty(), ExecuteScriptSettings.newBuilder().build());
     }
 
     /**
-     * Create {@link QueryStream} for executing query with specified {@link TxMode}. The query can contain DML, DDL and
-     * DCL statements. Supported mix of different statement types depends on the chosen transaction type.
+     * Execute Yql script with different type of operation
+     * Take a not join on a future is not granted that script is executed instead join guarantee that script pass to YDB
      *
      * @param query text of query
-     * @param tx transaction mode
-     * @return a ready to execute instance of {@link QueryStream}
+     * @return future join on it to wait for script pass to YDB but not get result
      */
-    default QueryStream fetchScriptResults(String query, TxMode tx) {
-        return fetchScriptResults(query, tx, Params.empty(), FetchScriptSettings.newBuilder().build());
+    default CompletableFuture<Operation<Status>> executeScript(String query) {
+        return executeScript(query, Params.empty(), ExecuteScriptSettings.newBuilder().build());
     }
 }
