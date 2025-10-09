@@ -126,6 +126,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                     + "endpoint " + builder.getEndpoint() + " and empty host " + builder.getHost());
         }
 
+        if (endpointURI.getPort() == -1) {
+            throw new IllegalArgumentException("Can't create discovery rpc, port is not specified for "
+                    + "endpoint " + builder.getEndpoint());
+        }
+
         return new EndpointRecord(endpointURI.getHost(), endpointURI.getPort());
     }
 
