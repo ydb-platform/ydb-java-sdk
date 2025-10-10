@@ -304,7 +304,7 @@ public class SessionRetryContext {
 
         @Override
         StatusCode toStatusCode(Operation<Status> result) {
-            if(result.getValue() == null) {
+            if (result.getValue() == null) {
                 return StatusCode.SUCCESS;
             }
             return result.getValue().getCode();

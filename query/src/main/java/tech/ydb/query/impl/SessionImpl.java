@@ -18,13 +18,13 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.common.transaction.impl.YdbTransactionImpl;
 import tech.ydb.core.Issue;
-import tech.ydb.core.OperationResult;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.Operation;
+import tech.ydb.core.operation.OperationTray;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
@@ -35,6 +35,7 @@ import tech.ydb.proto.table.YdbTable;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
+import tech.ydb.query.result.OperationResult;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryStats;
 import tech.ydb.query.settings.AttachSessionSettings;
@@ -266,7 +267,10 @@ abstract class SessionImpl implements QuerySession {
     }
 
     @Override
-    public CompletableFuture<Result<ScriptingProtos.ExecuteYqlResult>> executeScriptYql(String query, Params params, ExecuteScriptSettings settings) {
+    public CompletableFuture<Result<ScriptingProtos.ExecuteYqlResult>> executeScriptYql(
+            String query,
+            Params params,
+            ExecuteScriptSettings settings) {
         ScriptingProtos.ExecuteYqlRequest.Builder requestBuilder =  ScriptingProtos.ExecuteYqlRequest.newBuilder()
                 .setScript(query)
                 .setCollectStats(mapStatsCollectionMode(settings.getStatsMode()));
@@ -279,7 +283,9 @@ abstract class SessionImpl implements QuerySession {
     }
 
     @Override
-    public CompletableFuture<Operation<Status>> executeScript(String query, Params params, ExecuteScriptSettings settings) {
+    public CompletableFuture<Operation<Status>> executeScript(String query,
+                                                              Params params,
+                                                              ExecuteScriptSettings settings) {
         YdbQuery.ExecuteScriptRequest.Builder request = YdbQuery.ExecuteScriptRequest.newBuilder()
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
@@ -289,7 +295,7 @@ abstract class SessionImpl implements QuerySession {
                         .build());
 
         java.time.Duration ttl = settings.getTtl();
-        if(ttl != null) {
+        if (ttl != null) {
             request.setResultsTtl(Duration.newBuilder().setNanos(settings.getTtl().getNano()));
         }
 
@@ -306,20 +312,26 @@ abstract class SessionImpl implements QuerySession {
     }
 
     @Override
-    public CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>> fetchScriptResults(String query, Params params, FetchScriptSettings settings) {
+    public CompletableFuture<Status> waitForScript(CompletableFuture<Operation<Status>> scriptFuture) {
+       return scriptFuture.thenCompose(operation -> OperationTray.fetchOperation(operation, 1));
+    }
+
+    @Override
+    public CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>>
+                                    fetchScriptResults(String query, Params params, FetchScriptSettings settings) {
         YdbQuery.FetchScriptResultsRequest.Builder requestBuilder = YdbQuery.FetchScriptResultsRequest.newBuilder();
 
-        if(!Strings.isNullOrEmpty(settings.getFetchToken())) {
+        if (!Strings.isNullOrEmpty(settings.getFetchToken())) {
             requestBuilder.setFetchToken(settings.getFetchToken());
         }
 
-        if(settings.getRowsLimit() > 0) {
+        if (settings.getRowsLimit() > 0) {
             requestBuilder.setRowsLimit(settings.getRowsLimit());
         }
 
         requestBuilder.setOperationId(settings.getOperationId());
 
-        if(settings.getSetResultSetIndex() >= 0) {
+        if (settings.getSetResultSetIndex() >= 0) {
             requestBuilder.setResultSetIndex(settings.getSetResultSetIndex());
         }
 

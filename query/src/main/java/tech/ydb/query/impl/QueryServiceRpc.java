@@ -18,6 +18,12 @@ import tech.ydb.proto.scripting.ScriptingProtos;
 import tech.ydb.proto.scripting.v1.ScriptingServiceGrpc;
 
 /**
+ * Low-level RPC client for YDB Query and Scripting services.
+ * <p>
+ * Provides direct gRPC bindings for session management, query execution,
+ * transaction control, and script execution APIs.
+ * <p>
+ * Used internally by higher-level query session and client abstractions.
  *
  * @author Aleksandr Gorshenin
  */
@@ -111,27 +117,30 @@ class QueryServiceRpc {
     }
 
     /**
-     * Run execute script using Yql
+     * Executes a YQL script via the scripting service.
      *
-     * @param request request for execute script
-     * @param settings grpc settings
-     * @return future with result of execution
+     * @param request  the {@link ScriptingProtos.ExecuteYqlRequest} containing the script definition
+     * @param settings gRPC request settings
+     * @return a future resolving to an {@link Operation} with {@link ScriptingProtos.ExecuteYqlResult}
      */
     public CompletableFuture<Operation<Result<ScriptingProtos.ExecuteYqlResult>>> executeScriptYql(
             ScriptingProtos.ExecuteYqlRequest request, GrpcRequestSettings settings) {
 
         return transport.unaryCall(ScriptingServiceGrpc.getExecuteYqlMethod(), settings, request)
                 .thenApply(OperationBinder.bindAsync(
-                        transport, ScriptingProtos.ExecuteYqlResponse::getOperation, ScriptingProtos.ExecuteYqlResult.class)
+                        transport,
+                        ScriptingProtos.ExecuteYqlResponse::getOperation,
+                        ScriptingProtos.ExecuteYqlResult.class)
                 );
     }
 
     /**
-     * Execute script using query
+     * Executes a YQL script using the Query service API.
      *
-     * @param request request for execute script
-     * @param settings grpc settings
-     * @return future with result of execution
+     *
+     * @param request  the {@link YdbQuery.ExecuteScriptRequest} containing the script
+     * @param settings gRPC request settings
+     * @return a future resolving to an {@link Operation} representing the script execution
      */
     public CompletableFuture<Operation<Status>> executeScript(
             YdbQuery.ExecuteScriptRequest request, GrpcRequestSettings settings) {
@@ -144,11 +153,14 @@ class QueryServiceRpc {
     }
 
     /**
-     * Fetch script using query
+     * Fetches the results of a previously executed script.
      *
-     * @param request for execute script
-     * @param settings grpc settings
-     * @return future with result of execution
+     * <p>This method retrieves the next portion of script execution results,
+     * supporting pagination and partial fetch using tokens.</p>
+     *
+     * @param request  the {@link YdbQuery.FetchScriptResultsRequest} specifying the fetch parameters
+     * @param settings gRPC request settings
+     * @return a future resolving to {@link Result} containing {@link YdbQuery.FetchScriptResultsResponse}
      */
     public CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>> fetchScriptResults(
             YdbQuery.FetchScriptResultsRequest request, GrpcRequestSettings settings) {
