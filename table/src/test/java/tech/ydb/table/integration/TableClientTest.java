@@ -1,7 +1,9 @@
 package tech.ydb.table.integration;
 
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
+import io.grpc.Context;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -16,9 +18,10 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.table.Session;
-import tech.ydb.table.TableClient;
+import tech.ydb.table.impl.PooledTableClient;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.settings.ExecuteScanQuerySettings;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.test.junit4.YdbHelperRule;
@@ -36,7 +39,7 @@ public class TableClientTest {
 
     private static GrpcTransport transport;
 
-    private static TableClient tableClient;
+    private static PooledTableClient tableClient;
 
     @BeforeClass
     public static void initTransport() {
@@ -54,7 +57,7 @@ public class TableClientTest {
     @Before
     public void initTableClient() {
         grpcInterceptor.reset();
-        tableClient = TableClient.newClient(transport).build();
+        tableClient = PooledTableClient.newClient(GrpcTableRpc.useTransport(transport)).build();
     }
 
     @After
@@ -150,5 +153,42 @@ public class TableClientTest {
         try (Session s3 = getSession()) {
             Assert.assertEquals(id2, s3.getId());
         }
+    }
+
+    @Test
+    public void cancelledGrpcContextCloseTest() {
+        tableClient.updatePoolMaxSize(2);
+        Context.CancellableContext canceled = Context.current().withCancellation();
+
+        Session s1;
+        Context previous = canceled.attach();
+        try {
+            s1 = getSession();
+        } finally {
+            canceled.detach(previous);
+        }
+
+        Session s2 = getSession();
+
+        // not ready, because the session pool has max size
+        CompletableFuture<Result<Session>> s3f = tableClient.createSession(Duration.ofSeconds(5));
+
+        canceled.cancel(new RuntimeException("test"));
+
+        previous = canceled.attach();
+        try {
+            Result<DataQueryResult> res = s1.executeDataQuery("SELECT 1 + 2", TxControl.snapshotRo()).join();
+            // context is closed, session must be invalidated
+            Assert.assertEquals(StatusCode.CLIENT_CANCELLED, res.getStatus().getCode());
+            // s1 will be removed, but s3f must be completed by a new CreateSession request
+            s1.close();
+        } finally {
+            canceled.detach(previous);
+        }
+
+        Session s3 = s3f.join().getValue();
+        Assert.assertNotEquals(s2.getId(), s3.getId());
+        s2.close();
+        s3.close();
     }
 }

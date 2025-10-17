@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.BiConsumer;
 
+import io.grpc.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -270,23 +271,38 @@ class SessionPool implements AutoCloseable {
 
         @Override
         public CompletableFuture<PooledQuerySession> create() {
-            stats.requested.increment();
-            return SessionImpl
-                    .createSession(rpc, CREATE_SETTINGS, true)
-                    .thenCompose(r -> {
-                        if (!r.isSuccess()) {
-                            stats.failed.increment();
-                            throw new UnexpectedResultException("create session problem", r.getStatus());
-                        }
-                        return new PooledQuerySession(rpc, r.getValue()).start();
-                    })
-                    .thenApply(Result::getValue);
+            // Execute createSession call outside current context to avoid cancellation and deadline propogation
+            Context ctx = Context.ROOT.fork();
+            Context previous = ctx.attach();
+            try {
+                stats.requested.increment();
+                return SessionImpl
+                        .createSession(rpc, CREATE_SETTINGS, true)
+                        .thenCompose(r -> {
+                            if (!r.isSuccess()) {
+                                stats.failed.increment();
+                                throw new UnexpectedResultException("create session problem", r.getStatus());
+                            }
+                            return new PooledQuerySession(rpc, r.getValue()).start();
+                        })
+                        .thenApply(Result::getValue);
+            } finally {
+                ctx.detach(previous);
+            }
         }
 
         @Override
         public void destroy(PooledQuerySession session) {
             stats.deleted.increment();
-            session.destroy();
+
+            // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
+            Context ctx = Context.ROOT.fork();
+            Context previous = ctx.attach();
+            try {
+                session.destroy();
+            } finally {
+                ctx.detach(previous);
+            }
         }
     }
 
