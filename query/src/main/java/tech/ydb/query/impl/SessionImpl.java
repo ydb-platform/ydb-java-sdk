@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.protobuf.TextFormat;
+import io.grpc.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -137,28 +138,35 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.AttachSessionRequest request = YdbQuery.AttachSessionRequest.newBuilder()
                 .setSessionId(sessionId)
                 .build();
-        GrpcRequestSettings grpcSettings = makeOptions(settings).build();
-        GrpcReadStream<YdbQuery.SessionState> origin = rpc.attachSession(request, grpcSettings);
-        return new GrpcReadStream<Status>() {
-            @Override
-            public CompletableFuture<Status> start(GrpcReadStream.Observer<Status> observer) {
-                return origin.start(message -> {
-                    if (logger.isTraceEnabled()) {
-                        String msg = TextFormat.shortDebugString(message);
-                        logger.trace("session '{}' got attach stream message {}", sessionId, msg);
-                    }
-                    StatusCode code = StatusCode.fromProto(message.getStatus());
-                    Status status = Status.of(code, Issue.fromPb(message.getIssuesList()));
-                    updateSessionState(status);
-                    observer.onNext(status);
-                });
-            }
+        // Execute attachSession call outside current context to avoid cancellation and deadline propogation
+        Context ctx = Context.ROOT.fork();
+        Context previous = ctx.attach();
+        try {
+            GrpcRequestSettings grpcSettings = makeOptions(settings).build();
+            GrpcReadStream<YdbQuery.SessionState> origin = rpc.attachSession(request, grpcSettings);
+            return new GrpcReadStream<Status>() {
+                @Override
+                public CompletableFuture<Status> start(GrpcReadStream.Observer<Status> observer) {
+                    return origin.start(message -> {
+                        if (logger.isTraceEnabled()) {
+                            String msg = TextFormat.shortDebugString(message);
+                            logger.trace("session '{}' got attach stream message {}", sessionId, msg);
+                        }
+                        StatusCode code = StatusCode.fromProto(message.getStatus());
+                        Status status = Status.of(code, Issue.fromPb(message.getIssuesList()));
+                        updateSessionState(status);
+                        observer.onNext(status);
+                    });
+                }
 
-            @Override
-            public void cancel() {
-                origin.cancel();
-            }
-        };
+                @Override
+                public void cancel() {
+                    origin.cancel();
+                }
+            };
+        } finally {
+            ctx.detach(previous);
+        }
     }
 
     private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings) {
