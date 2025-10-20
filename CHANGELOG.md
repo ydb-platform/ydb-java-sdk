@@ -1,3 +1,8 @@
+## 2.3.22 ##
+* Core: Added endpoint address to GRPC-related errors
+* Topic: Fixed deadlock on the client-side exception handling
+* Table: Session pool service calls were isolated from grpc context
+
 ## 2.3.21 ##
 * Query: Support QueryStats in QueryService-based TableClient wrapper
 * Table: CreateTable with default value options
