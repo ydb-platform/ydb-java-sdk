@@ -36,14 +36,16 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
             .withIssues(Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR));
 
     private final String traceId;
+    private final String endpoint;
     private final ClientCall<ReqT, RespT> call;
     private final GrpcStatusHandler statusConsumer;
 
     private final CompletableFuture<Result<RespT>> future = new CompletableFuture<>();
     private final AtomicReference<RespT> value = new AtomicReference<>();
 
-    public UnaryCall(String traceId, ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
+    public UnaryCall(String traceId, String endpoint, ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
         this.traceId = traceId;
+        this.endpoint = endpoint;
         this.call = call;
         this.statusConsumer = statusConsumer;
     }
@@ -103,7 +105,7 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
                 future.complete(Result.success(snapshotValue));
             }
         } else {
-            future.complete(GrpcStatuses.toResult(status));
+            future.complete(GrpcStatuses.toResult(status, endpoint));
         }
 
         statusConsumer.postComplete();

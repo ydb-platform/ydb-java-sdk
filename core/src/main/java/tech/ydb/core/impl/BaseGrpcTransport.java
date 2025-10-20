@@ -21,7 +21,6 @@ import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.auth.AuthCallOptions;
@@ -87,6 +86,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
         try {
             GrpcChannel channel = getChannel(settings);
+            String endpoint = channel.getEndpoint().getHostAndPort();
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
@@ -95,8 +95,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         traceId, method.getFullMethodName(), channel.getEndpoint().getHostAndPort()
                 );
             }
-
-            return new UnaryCall<>(traceId, call, handler).startCall(request, makeMetadataFromSettings(settings));
+            Metadata metadata = makeMetadataFromSettings(settings);
+            return new UnaryCall<>(traceId, endpoint, call, handler).startCall(request, metadata);
         } catch (UnexpectedResultException ex) {
             logger.warn("UnaryCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
@@ -122,13 +122,14 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method, settings)));
+                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
 
         try {
             GrpcChannel channel = getChannel(settings);
+            String endpoint = channel.getEndpoint().getHostAndPort();
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
@@ -140,7 +141,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             Metadata metadata = makeMetadataFromSettings(settings);
             GrpcFlowControl flowCtrl = settings.getFlowControl();
-            return new ReadStreamCall<>(traceId, call, flowCtrl, request, metadata, handler);
+            return new ReadStreamCall<>(traceId, endpoint, call, flowCtrl, request, metadata, handler);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -167,15 +168,16 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method, settings)));
+                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
 
         try {
             GrpcChannel channel = getChannel(settings);
+            String endpoint = channel.getEndpoint().getHostAndPort();
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
-            ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
+            ChannelStatusHandler hdlr = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
                 logger.trace("ReadWriteStreamCall[{}] with method {} and endpoint {} created",
@@ -185,7 +187,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             Metadata metadata = makeMetadataFromSettings(settings);
             GrpcFlowControl flowCtrl = settings.getFlowControl();
-            return new ReadWriteStreamCall<>(traceId, call, flowCtrl, metadata, getAuthCallOptions(), handler);
+            return new ReadWriteStreamCall<>(traceId, endpoint, call, flowCtrl, metadata, getAuthCallOptions(), hdlr);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadWriteStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -203,10 +205,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         return Result.fail(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR)));
     }
 
-    private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method, GrpcRequestSettings settings) {
+    private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method, GrpcRequestSettings settings) {
         String message = "deadline expired before calling method " + method.getFullMethodName() + " with traceId " +
                 settings.getTraceId();
-        return io.grpc.Status.DEADLINE_EXCEEDED.withDescription(message);
+        return Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR));
     }
 
     private Metadata makeMetadataFromSettings(GrpcRequestSettings settings) {
