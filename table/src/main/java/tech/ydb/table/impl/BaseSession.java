@@ -57,6 +57,7 @@ import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableIndex;
 import tech.ydb.table.description.TableOptionDescription;
 import tech.ydb.table.description.TableTtl;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
@@ -99,7 +100,6 @@ import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListType;
-import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
@@ -1394,19 +1394,13 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
-        ValueProtos.TypedValue typedRows = ValueProtos.TypedValue.newBuilder()
-                .setType(rows.getType().toPb())
-                .setValue(rows.toPb())
-                .build();
-
-        YdbTable.BulkUpsertRequest request = YdbTable.BulkUpsertRequest.newBuilder()
+    public CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data, BulkUpsertSettings st) {
+        YdbTable.BulkUpsertRequest.Builder request = YdbTable.BulkUpsertRequest.newBuilder()
                 .setTable(tablePath)
-                .setRows(typedRows)
-                .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
-                .build();
+                .setOperationParams(Operation.buildParams(st.toOperationSettings()));
 
-        return interceptStatus(rpc.bulkUpsert(request, makeOptions(settings).build()));
+        data.applyToRequest(request);
+        return interceptStatus(rpc.bulkUpsert(request.build(), makeOptions(st).build()));
     }
 
     private static State mapSessionStatus(YdbTable.KeepAliveResult result) {

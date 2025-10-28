@@ -11,6 +11,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableOptionDescription;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
@@ -178,7 +179,15 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings);
 
-    CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings);
+    default CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
+        return executeBulkUpsert(tablePath, new BulkUpsertData(rows), settings);
+    }
+
+    CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data, BulkUpsertSettings settings);
+
+    default CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data) {
+        return executeBulkUpsert(tablePath, data, new BulkUpsertSettings());
+    }
 
     default CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions) {
         return createTable(path, tableDescriptions, new CreateTableSettings());

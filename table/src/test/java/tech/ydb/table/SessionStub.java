@@ -10,6 +10,7 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableOptionDescription;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
@@ -40,7 +41,6 @@ import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
-import tech.ydb.table.values.ListValue;
 
 
 /**
@@ -178,7 +178,7 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
+    public CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData rows, BulkUpsertSettings settings) {
         return notImplemented("bulkUpsert()");
     }
 

@@ -28,10 +28,10 @@ import tech.ydb.table.Session;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
-import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.PrimitiveType;
@@ -98,9 +98,9 @@ public class ReadTableTest {
             );
         }).collect(Collectors.toList());
 
-        retryCtx.supplyStatus(session -> session.executeBulkUpsert(
-                tablePath, ListType.of(batchType).newValue(batchData), new BulkUpsertSettings())
-        ).join().expectSuccess("bulk upsert problem in table " + tablePath);
+        retryCtx.supplyStatus(session -> session.executeBulkUpsert(tablePath,
+                new BulkUpsertData(ProtoValue.toTypedValue(ListType.of(batchType).newValue(batchData)))
+        )).join().expectSuccess("bulk upsert problem in table " + tablePath);
     }
 
     @AfterClass
