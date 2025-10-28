@@ -23,11 +23,13 @@ import org.junit.Test;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.query.ReadTablePart;
+import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.ReadTableSettings;
@@ -114,6 +116,20 @@ public class ReadTableTest {
         retryCtx.supplyStatus(session -> {
             rowsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {
+                YdbTable.ReadTableResponse proto = part.getReadTableResponse();
+                ResultSetReader rsr = part.getResultSetReader();
+                ReadTablePart.VirtualTimestamp vt = part.getVirtualTimestamp();
+
+                Assert.assertNotNull(proto);
+                Assert.assertNotNull(rsr);
+                Assert.assertNotNull(vt);
+
+                Assert.assertSame(rsr, part.getResultSetReader());
+                Assert.assertSame(vt, part.getVirtualTimestamp());
+
+                Assert.assertEquals(proto.getSnapshot().getPlanStep(), vt.getPlanStep());
+                Assert.assertEquals(proto.getSnapshot().getTxId(), vt.getTxId());
+
                 rowsRead.addAndGet(part.getResultSetReader().getRowCount());
             });
         }).join().expectSuccess("Cannot read table " + tablePath);

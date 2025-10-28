@@ -1309,7 +1309,7 @@ public abstract class BaseSession implements Session {
 
             @Override
             ReadTablePart readValue(YdbTable.ReadTableResponse message) {
-                return new ReadTablePart(message.getResult(), message.getSnapshot());
+                return new ReadTablePart(message);
             }
         };
     }
