@@ -38,6 +38,8 @@ import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructType;
 import tech.ydb.table.values.StructValue;
+import tech.ydb.table.values.TupleValue;
+import tech.ydb.table.values.proto.ProtoValue;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -143,6 +145,13 @@ public class ReadTableTest {
         AtomicLong rewsRead = new AtomicLong(0);
 
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id").batchLimitRows(100).build();
+        Assert.assertNull(rts.getFromKey());
+        Assert.assertNull(rts.getToKey());
+        Assert.assertNull(rts.getFromKeyRaw());
+        Assert.assertNull(rts.getToKeyRaw());
+        Assert.assertEquals(0, rts.batchLimitBytes());
+        Assert.assertEquals(100, rts.batchLimitRows());
+
         retryCtx.supplyStatus(session -> {
             rewsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {
@@ -159,10 +168,20 @@ public class ReadTableTest {
         String tablePath = tablePath(TEST_TABLE);
         AtomicLong rowsRead = new AtomicLong(0);
 
+        PrimitiveValue from = PrimitiveValue.newInt64(1);
+        PrimitiveValue to = PrimitiveValue.newInt64(TEST_TABLE_SIZE);
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id")
-                .fromKeyExclusive(PrimitiveValue.newInt64(1))
-                .toKeyExclusive(PrimitiveValue.newInt64(TEST_TABLE_SIZE))
+                .fromKeyExclusive(from) // always coverted to optional type
+                .toKeyExclusive(to)
                 .build();
+
+        Assert.assertEquals(TupleValue.of(from.makeOptional()), rts.getFromKey());
+        Assert.assertEquals(TupleValue.of(to.makeOptional()), rts.getToKey());
+        Assert.assertEquals(ProtoValue.toTypedValue(TupleValue.of(from.makeOptional())), rts.getFromKeyRaw());
+        Assert.assertEquals(ProtoValue.toTypedValue(TupleValue.of(to.makeOptional())), rts.getToKeyRaw());
+        Assert.assertEquals(0, rts.batchLimitBytes());
+        Assert.assertEquals(0, rts.batchLimitRows());
+
         retryCtx.supplyStatus(session -> {
             rowsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {

@@ -1266,23 +1266,23 @@ public abstract class BaseSession implements Session {
                 .setBatchLimitBytes(settings.batchLimitBytes())
                 .setBatchLimitRows(settings.batchLimitRows());
 
-        Value<?> fromKey = settings.getFromKey();
+        ValueProtos.TypedValue fromKey = settings.getFromKeyRaw();
         if (fromKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isFromInclusive()) {
-                range.setGreaterOrEqual(ProtoValue.toTypedValue(fromKey));
+                range.setGreaterOrEqual(fromKey);
             } else {
-                range.setGreater(ProtoValue.toTypedValue(fromKey));
+                range.setGreater(fromKey);
             }
         }
 
-        Value<?> toKey = settings.getToKey();
+        ValueProtos.TypedValue toKey = settings.getToKeyRaw();
         if (toKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isToInclusive()) {
-                range.setLessOrEqual(ProtoValue.toTypedValue(toKey));
+                range.setLessOrEqual(toKey);
             } else {
-                range.setLess(ProtoValue.toTypedValue(toKey));
+                range.setLess(toKey);
             }
         }
 

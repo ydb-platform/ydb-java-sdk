@@ -40,8 +40,15 @@ public class ProtoValueReaders {
         return new ProtoResultSetReader(builder.build());
     }
 
+    @Deprecated
     public static ValueReader forType(ValueProtos.Type type) {
         return forTypeImpl(type);
+    }
+
+    public static ValueReader forTypedValue(ValueProtos.TypedValue tv) {
+        AbstractValueReader vr = forTypeImpl(tv.getType());
+        vr.setProtoValue(tv.getValue());
+        return vr;
     }
 
     static AbstractValueReader forTypeImpl(ValueProtos.Type type) {
