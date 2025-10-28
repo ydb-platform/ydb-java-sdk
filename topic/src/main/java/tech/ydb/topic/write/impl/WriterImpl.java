@@ -100,6 +100,14 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     }
 
     public CompletableFuture<Void> tryToEnqueue(EnqueuedMessage message, boolean instant) {
+        if (message.getSize() > settings.getMaxSendBufferMemorySize()) {
+            String errorMessage = "Rejecting a message of " + message.getSize()
+                    + " bytes: not enough space in message queue. The maximum size of buffer is "
+                    + settings.getMaxSendBufferMemorySize() + " bytes";
+            logger.info("[{}] {}", id, errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
         incomingQueueLock.lock();
 
         try {
