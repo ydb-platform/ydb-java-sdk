@@ -57,14 +57,13 @@ import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableIndex;
 import tech.ydb.table.description.TableOptionDescription;
 import tech.ydb.table.description.TableTtl;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
-import tech.ydb.table.result.ResultSetReader;
-import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.AutoPartitioningPolicy;
@@ -99,7 +98,6 @@ import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListType;
-import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
@@ -1266,23 +1264,23 @@ public abstract class BaseSession implements Session {
                 .setBatchLimitBytes(settings.batchLimitBytes())
                 .setBatchLimitRows(settings.batchLimitRows());
 
-        Value<?> fromKey = settings.getFromKey();
+        ValueProtos.TypedValue fromKey = settings.getFromKeyRaw();
         if (fromKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isFromInclusive()) {
-                range.setGreaterOrEqual(ProtoValue.toTypedValue(fromKey));
+                range.setGreaterOrEqual(fromKey);
             } else {
-                range.setGreater(ProtoValue.toTypedValue(fromKey));
+                range.setGreater(fromKey);
             }
         }
 
-        Value<?> toKey = settings.getToKey();
+        ValueProtos.TypedValue toKey = settings.getToKeyRaw();
         if (toKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isToInclusive()) {
-                range.setLessOrEqual(ProtoValue.toTypedValue(toKey));
+                range.setLessOrEqual(toKey);
             } else {
-                range.setLess(ProtoValue.toTypedValue(toKey));
+                range.setLess(toKey);
             }
         }
 
@@ -1309,13 +1307,13 @@ public abstract class BaseSession implements Session {
 
             @Override
             ReadTablePart readValue(YdbTable.ReadTableResponse message) {
-                return new ReadTablePart(message.getResult(), message.getSnapshot());
+                return new ReadTablePart(message);
             }
         };
     }
 
     @Override
-    public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
+    public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
                                                             ExecuteScanQuerySettings settings) {
         YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
@@ -1330,7 +1328,7 @@ public abstract class BaseSession implements Session {
         }
 
         GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = rpc.streamExecuteScanQuery(req, opts.build());
-        return new ProxyStream<YdbTable.ExecuteScanQueryPartialResponse, ResultSetReader>(origin) {
+        return new ProxyStream<YdbTable.ExecuteScanQueryPartialResponse, ValueProtos.ResultSet>(origin) {
             @Override
             StatusIds.StatusCode readStatusCode(YdbTable.ExecuteScanQueryPartialResponse message) {
                 return message.getStatus();
@@ -1342,8 +1340,8 @@ public abstract class BaseSession implements Session {
             }
 
             @Override
-            ResultSetReader readValue(YdbTable.ExecuteScanQueryPartialResponse message) {
-                return ProtoValueReaders.forResultSet(message.getResult().getResultSet());
+            ValueProtos.ResultSet readValue(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return message.getResult().getResultSet();
             }
         };
     }
@@ -1394,19 +1392,13 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
-        ValueProtos.TypedValue typedRows = ValueProtos.TypedValue.newBuilder()
-                .setType(rows.getType().toPb())
-                .setValue(rows.toPb())
-                .build();
-
-        YdbTable.BulkUpsertRequest request = YdbTable.BulkUpsertRequest.newBuilder()
+    public CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data, BulkUpsertSettings st) {
+        YdbTable.BulkUpsertRequest.Builder request = YdbTable.BulkUpsertRequest.newBuilder()
                 .setTable(tablePath)
-                .setRows(typedRows)
-                .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
-                .build();
+                .setOperationParams(Operation.buildParams(st.toOperationSettings()));
 
-        return interceptStatus(rpc.bulkUpsert(request, makeOptions(settings).build()));
+        data.applyToRequest(request);
+        return interceptStatus(rpc.bulkUpsert(request.build(), makeOptions(st).build()));
     }
 
     private static State mapSessionStatus(YdbTable.KeepAliveResult result) {

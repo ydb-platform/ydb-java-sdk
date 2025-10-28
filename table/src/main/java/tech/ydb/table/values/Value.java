@@ -44,6 +44,10 @@ public interface Value<T extends Type> extends Serializable {
         return (StructValue) this;
     }
 
+    default TupleValue asTuple() {
+        return (TupleValue) this;
+    }
+
     default VariantValue asVariant() {
         return (VariantValue) this;
     }

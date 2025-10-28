@@ -27,19 +27,30 @@ public class ReadTablePart {
         }
     }
 
-    private final ResultSetReader resultSetReader;
-    private final VirtualTimestamp timestamp;
+    private final YdbTable.ReadTableResponse part;
+    private ResultSetReader resultSetReader = null;
+    private VirtualTimestamp timestamp = null;
 
-    public ReadTablePart(YdbTable.ReadTableResult result, CommonProtos.VirtualTimestamp snapshot) {
-        this.resultSetReader = ProtoValueReaders.forResultSet(result.getResultSet());
-        this.timestamp = new VirtualTimestamp(snapshot.getPlanStep(), snapshot.getTxId());
+    public ReadTablePart(YdbTable.ReadTableResponse part) {
+        this.part = part;
+    }
+
+    public YdbTable.ReadTableResponse getReadTableResponse() {
+        return part;
     }
 
     public ResultSetReader getResultSetReader() {
+        if (resultSetReader == null) {
+            resultSetReader = ProtoValueReaders.forResultSet(part.getResult().getResultSet());
+        }
         return resultSetReader;
     }
 
     public VirtualTimestamp getVirtualTimestamp() {
+        if (timestamp == null) {
+            CommonProtos.VirtualTimestamp vt = part.getSnapshot();
+            timestamp = new VirtualTimestamp(vt.getPlanStep(), vt.getTxId());
+        }
         return timestamp;
     }
 }

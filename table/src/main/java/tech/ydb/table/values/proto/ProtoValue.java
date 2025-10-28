@@ -884,6 +884,20 @@ public class ProtoValue {
                 .build();
     }
 
+    public static ValueProtos.TypedValue toTypedValue(ValueProtos.Type type, ValueProtos.Value value) {
+        return ValueProtos.TypedValue.newBuilder()
+                .setType(type)
+                .setValue(value)
+                .build();
+    }
+
+    public static ValueProtos.TypedValue toTypedValue(ValueProtos.Type type, ValueProtos.Value.Builder value) {
+        return ValueProtos.TypedValue.newBuilder()
+                .setType(type)
+                .setValue(value)
+                .build();
+    }
+
     public static PrimitiveValue newUuid(long high, long low) {
         return new Uuid(high, low);
     }

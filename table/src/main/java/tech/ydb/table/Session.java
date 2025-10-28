@@ -9,8 +9,10 @@ import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableOptionDescription;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
@@ -18,6 +20,7 @@ import tech.ydb.table.query.Params;
 import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
 import tech.ydb.table.result.ResultSetReader;
+import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
@@ -146,7 +149,24 @@ public interface Session extends AutoCloseable {
 
     GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings);
 
-    GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings);
+    GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
+            ExecuteScanQuerySettings settings);
+
+    default GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
+            ExecuteScanQuerySettings settings) {
+        GrpcReadStream<ValueProtos.ResultSet> stream = executeScanQueryRaw(query, params, settings);
+        return new GrpcReadStream<ResultSetReader>() {
+            @Override
+            public CompletableFuture<Status> start(GrpcReadStream.Observer<ResultSetReader> observer) {
+                return stream.start(part -> observer.onNext(ProtoValueReaders.forResultSet(part)));
+            }
+
+            @Override
+            public void cancel() {
+                stream.cancel();
+            }
+        };
+    }
 
     @Deprecated
     default GrpcReadStream<ResultSetReader> readTable(String tablePath, ReadTableSettings settings) {
@@ -178,7 +198,15 @@ public interface Session extends AutoCloseable {
 
     CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings);
 
-    CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings);
+    default CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
+        return executeBulkUpsert(tablePath, new BulkUpsertData(rows), settings);
+    }
+
+    CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data, BulkUpsertSettings settings);
+
+    default CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data) {
+        return executeBulkUpsert(tablePath, data, new BulkUpsertSettings());
+    }
 
     default CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions) {
         return createTable(path, tableDescriptions, new CreateTableSettings());

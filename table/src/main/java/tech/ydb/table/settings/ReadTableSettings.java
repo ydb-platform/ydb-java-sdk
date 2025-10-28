@@ -11,8 +11,11 @@ import com.google.common.collect.ImmutableList;
 
 import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.proto.ValueProtos;
+import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.TupleValue;
+import tech.ydb.table.values.proto.ProtoValue;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
@@ -24,9 +27,9 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class ReadTableSettings extends BaseRequestSettings {
 
     private final boolean ordered;
-    private final TupleValue fromKey;
+    private final ValueProtos.TypedValue fromKey;
     private final boolean fromInclusive;
-    private final TupleValue toKey;
+    private final ValueProtos.TypedValue toKey;
     private final boolean toInclusive;
     private final int rowLimit;
     private final ImmutableList<String> columns;
@@ -58,6 +61,11 @@ public class ReadTableSettings extends BaseRequestSettings {
 
     @Nullable
     public TupleValue getFromKey() {
+        return fromKey == null ? null : ProtoValueReaders.forTypedValue(fromKey).getValue().asTuple();
+    }
+
+    @Nullable
+    public ValueProtos.TypedValue getFromKeyRaw() {
         return fromKey;
     }
 
@@ -67,6 +75,11 @@ public class ReadTableSettings extends BaseRequestSettings {
 
     @Nullable
     public TupleValue getToKey() {
+        return toKey == null ? null : ProtoValueReaders.forTypedValue(toKey).getValue().asTuple();
+    }
+
+    @Nullable
+    public ValueProtos.TypedValue getToKeyRaw() {
         return toKey;
     }
 
@@ -99,9 +112,9 @@ public class ReadTableSettings extends BaseRequestSettings {
      */
     public static final class Builder extends BaseBuilder<Builder> {
         private boolean ordered = false;
-        private TupleValue fromKey = null;
+        private ValueProtos.TypedValue fromKey = null;
         private boolean fromInclusive = false;
-        private TupleValue toKey = null;
+        private ValueProtos.TypedValue toKey = null;
         private boolean toInclusive = false;
         private int rowLimit = 0;
         private List<String> columns = Collections.emptyList();
@@ -115,12 +128,24 @@ public class ReadTableSettings extends BaseRequestSettings {
         }
 
         public Builder fromKey(TupleValue value, boolean inclusive) {
+            this.fromKey = ProtoValue.toTypedValue(value);
+            this.fromInclusive = inclusive;
+            return this;
+        }
+
+        public Builder fromKey(ValueProtos.TypedValue value, boolean inclusive) {
             this.fromKey = value;
             this.fromInclusive = inclusive;
             return this;
         }
 
         public Builder toKey(TupleValue value, boolean inclusive) {
+            this.toKey = ProtoValue.toTypedValue(value);
+            this.toInclusive = inclusive;
+            return this;
+        }
+
+        public Builder toKey(ValueProtos.TypedValue value, boolean inclusive) {
             this.toKey = value;
             this.toInclusive = inclusive;
             return this;

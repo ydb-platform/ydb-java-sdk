@@ -8,15 +8,16 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.utils.FutureTools;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableOptionDescription;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
-import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.BeginTxSettings;
 import tech.ydb.table.settings.BulkUpsertSettings;
@@ -40,7 +41,6 @@ import tech.ydb.table.settings.RollbackTxSettings;
 import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
-import tech.ydb.table.values.ListValue;
 
 
 /**
@@ -158,7 +158,7 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings) {
+    public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params, ExecuteScanQuerySettings settings) {
         throw new UnsupportedOperationException("executeScanQuery not implemented");
     }
 
@@ -178,7 +178,7 @@ public class SessionStub implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
+    public CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData rows, BulkUpsertSettings settings) {
         return notImplemented("bulkUpsert()");
     }
 
