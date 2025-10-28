@@ -64,8 +64,6 @@ import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
-import tech.ydb.table.result.ResultSetReader;
-import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.AutoPartitioningPolicy;
@@ -1315,7 +1313,7 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
+    public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
                                                             ExecuteScanQuerySettings settings) {
         YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
@@ -1330,7 +1328,7 @@ public abstract class BaseSession implements Session {
         }
 
         GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = rpc.streamExecuteScanQuery(req, opts.build());
-        return new ProxyStream<YdbTable.ExecuteScanQueryPartialResponse, ResultSetReader>(origin) {
+        return new ProxyStream<YdbTable.ExecuteScanQueryPartialResponse, ValueProtos.ResultSet>(origin) {
             @Override
             StatusIds.StatusCode readStatusCode(YdbTable.ExecuteScanQueryPartialResponse message) {
                 return message.getStatus();
@@ -1342,8 +1340,8 @@ public abstract class BaseSession implements Session {
             }
 
             @Override
-            ResultSetReader readValue(YdbTable.ExecuteScanQueryPartialResponse message) {
-                return ProtoValueReaders.forResultSet(message.getResult().getResultSet());
+            ValueProtos.ResultSet readValue(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return message.getResult().getResultSet();
             }
         };
     }
