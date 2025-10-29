@@ -23,6 +23,12 @@ public class DataQueryResult {
         queryStats = result.hasQueryStats() ? new QueryStats(result.getQueryStats()) : null;
     }
 
+    public DataQueryResult(String txId, List<ValueProtos.ResultSet> results, QueryStats stats) {
+        this.txId = txId;
+        this.resultSets = results;
+        queryStats = stats;
+    }
+
     public String getTxId() {
         return txId;
     }
