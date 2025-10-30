@@ -1,3 +1,8 @@
+## 2.3.23 ##
+* Topic: Added validation of a message size
+* Table: Added support of raw proto data to executeDateQuery/readTable/bulkUpsert
+* Query: Updated TableClient over QueryClient implementation, removed ProxedDataQueryResult
+
 ## 2.3.22 ##
 * Core: Added endpoint address to GRPC-related errors
 * Topic: Fixed deadlock on the client-side exception handling
