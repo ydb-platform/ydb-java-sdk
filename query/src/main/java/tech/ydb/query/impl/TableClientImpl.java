@@ -1,23 +1,29 @@
 package tech.ydb.query.impl;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
 
 import tech.ydb.common.transaction.TxMode;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
+import tech.ydb.query.result.QueryInfo;
+import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.QueryStatsMode;
-import tech.ydb.query.tools.QueryReader;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -29,7 +35,6 @@ import tech.ydb.table.query.stats.OperationStats;
 import tech.ydb.table.query.stats.QueryPhaseStats;
 import tech.ydb.table.query.stats.QueryStats;
 import tech.ydb.table.query.stats.TableAccessStats;
-import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
@@ -95,103 +100,51 @@ public class TableClientImpl implements TableClient {
         return TxControl.txModeCtrl(TxMode.NONE, tc.getCommitTx());
     }
 
-    private static class ProxedDataQueryResult extends DataQueryResult {
-        private final String txID;
-        private final QueryReader reader;
-        private final QueryStats queryStats;
-
-        private ProxedDataQueryResult(String txID, QueryReader reader) {
-            super(YdbTable.ExecuteQueryResult.getDefaultInstance());
-            this.txID = txID;
-            this.reader = reader;
-
-            tech.ydb.query.result.QueryStats stats = reader.getQueryInfo().getStats();
-            this.queryStats = stats == null ? null : queryStats(stats);
+    private static QueryStats queryStats(tech.ydb.query.result.QueryStats stats) {
+        if (stats == null) {
+            return null;
         }
+        return new QueryStats(
+                stats.getPhases().stream().map(qp -> queryPhaseStats(qp)).collect(toList()),
+                compilationStats(stats.getCompilationStats()),
+                stats.getProcessCpuTimeUs(),
+                stats.getQueryPlan(),
+                stats.getQueryAst(),
+                stats.getTotalDurationUs(),
+                stats.getTotalCpuTimeUs()
+        );
+    }
 
-        @Override
-        public String getTxId() {
-            return txID;
-        }
+    private static QueryPhaseStats queryPhaseStats(tech.ydb.query.result.QueryStats.QueryPhase queryPhase) {
+        return new QueryPhaseStats(
+                queryPhase.getDurationUs(),
+                queryPhase.getTableAccesses().stream().map(ta -> tableAccessStats(ta)).collect(toList()),
+                queryPhase.getCpuTimeUs(),
+                queryPhase.getAffectedShards(),
+                queryPhase.isLiteralPhase()
+        );
+    }
 
-        @Override
-        public int getResultSetCount() {
-            return reader.getResultSetCount();
-        }
+    private static TableAccessStats tableAccessStats(tech.ydb.query.result.QueryStats.TableAccess tableAccess) {
+        return new TableAccessStats(
+                tableAccess.getTableName(),
+                operationStats(tableAccess.getReads()),
+                operationStats(tableAccess.getUpdates()),
+                operationStats(tableAccess.getDeletes()),
+                tableAccess.getPartitionsCount()
+        );
+    }
 
-        @Override
-        public ResultSetReader getResultSet(int index) {
-            return reader.getResultSet(index);
-        }
+    private static OperationStats operationStats(tech.ydb.query.result.QueryStats.Operation operation) {
+        return new OperationStats(operation.getRows(), operation.getBytes());
+    }
 
-        @Override
-        public boolean isTruncated(int index) {
-            return false;
-        }
-
-        @Override
-        public int getRowCount(int index) {
-            return reader.getResultSet(index).getRowCount();
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return txID.isEmpty() && reader.getResultSetCount() == 0;
-        }
-
-        @Override
-        public QueryStats getQueryStats() {
-            return this.queryStats;
-        }
-
-        @Override
-        public boolean hasQueryStats() {
-            return this.queryStats != null;
-        }
-
-        private static QueryStats queryStats(tech.ydb.query.result.QueryStats stats) {
-            return new QueryStats(
-                    stats.getPhases().stream().map(qp -> queryPhaseStats(qp)).collect(toList()),
-                    compilationStats(stats.getCompilationStats()),
-                    stats.getProcessCpuTimeUs(),
-                    stats.getQueryPlan(),
-                    stats.getQueryAst(),
-                    stats.getTotalDurationUs(),
-                    stats.getTotalCpuTimeUs()
-            );
-        }
-
-        private static QueryPhaseStats queryPhaseStats(tech.ydb.query.result.QueryStats.QueryPhase queryPhase) {
-            return new QueryPhaseStats(
-                    queryPhase.getDurationUs(),
-                    queryPhase.getTableAccesses().stream().map(ta -> tableAccessStats(ta)).collect(toList()),
-                    queryPhase.getCpuTimeUs(),
-                    queryPhase.getAffectedShards(),
-                    queryPhase.isLiteralPhase()
-            );
-        }
-
-        private static TableAccessStats tableAccessStats(tech.ydb.query.result.QueryStats.TableAccess tableAccess) {
-            return new TableAccessStats(
-                    tableAccess.getTableName(),
-                    operationStats(tableAccess.getReads()),
-                    operationStats(tableAccess.getUpdates()),
-                    operationStats(tableAccess.getDeletes()),
-                    tableAccess.getPartitionsCount()
-            );
-        }
-
-        private static OperationStats operationStats(tech.ydb.query.result.QueryStats.Operation operation) {
-            return new OperationStats(operation.getRows(), operation.getBytes());
-        }
-
-        private static CompilationStats compilationStats(tech.ydb.query.result.QueryStats.Compilation compilation) {
-            return new CompilationStats(
-                    compilation.isFromCache(),
-                    compilation.getDurationUs(),
-                    compilation.getCpuTimeUs()
-            );
-        }
+    private static CompilationStats compilationStats(tech.ydb.query.result.QueryStats.Compilation compilation) {
+        return new CompilationStats(
+                compilation.isFromCache(),
+                compilation.getDurationUs(),
+                compilation.getCpuTimeUs()
+        );
     }
 
     private class TableSession extends BaseSession {
@@ -213,6 +166,9 @@ public class TableClientImpl implements TableClient {
                     .build();
 
             final AtomicReference<String> txRef = new AtomicReference<>("");
+            final List<Issue> issues = new ArrayList<>();
+            final List<ValueProtos.ResultSet> results = new ArrayList<>();
+
             QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs)) {
                 @Override
                 void handleTxMeta(String txID) {
@@ -220,10 +176,39 @@ public class TableClientImpl implements TableClient {
                 }
             };
 
-            return QueryReader.readFrom(stream)
-                    .thenApply(r -> r.map(
-                            reader -> new ProxedDataQueryResult(txRef.get(), reader)
-                    ));
+            CompletableFuture<Result<QueryInfo>> future = stream.execute(new QueryStream.PartsHandler() {
+                @Override
+                public void onIssues(Issue[] issueArr) {
+                    issues.addAll(Arrays.asList(issueArr));
+                }
+
+                @Override
+                public void onNextPart(QueryResultPart part) { } // not used
+
+                @Override
+                public void onNextRawPart(long index, ValueProtos.ResultSet rs) {
+                    int idx = (int) index;
+                    while (results.size() <= idx) {
+                        results.add(null);
+                    }
+                    if (results.get(idx) == null) {
+                        results.set(idx, rs);
+                    } else {
+                        results.set(idx, results.get(idx).toBuilder().addAllRows(rs.getRowsList()).build());
+                    }
+                }
+            });
+
+
+            return future.thenApply(res -> {
+                if (!res.isSuccess()) {
+                    return res.map(v -> null);
+                }
+                QueryStats info = queryStats(res.getValue().getStats());
+                String txId = txRef.get();
+                Status status = res.getStatus().withIssues(issues.toArray(new Issue[0]));
+                return Result.success(new DataQueryResult(txId, results, info), status);
+            });
         }
 
         @Override
