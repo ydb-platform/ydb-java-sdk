@@ -14,11 +14,8 @@ import tech.ydb.topic.impl.SessionBase;
 public abstract class WriteSession extends SessionBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
 
-    protected final String streamId;
-
     public WriteSession(TopicRpc rpc, String streamId) {
-        super(rpc.writeSession(streamId));
-        this.streamId = streamId;
+        super(rpc.writeSession(streamId), streamId);
     }
 
     @Override
