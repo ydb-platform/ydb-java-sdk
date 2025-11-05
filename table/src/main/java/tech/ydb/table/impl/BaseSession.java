@@ -98,6 +98,7 @@ import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListType;
+import tech.ydb.table.values.OptionalValue;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
@@ -228,43 +229,41 @@ public abstract class BaseSession implements Session {
         }
         if (column.hasDefaultValue()) {
             if (column.getLiteralDefaultValue() != null) {
-                builder.setFromLiteral(ValueProtos.TypedValue.newBuilder()
-                        .setType(column.getType().toPb())
-                        .setValue(column.getLiteralDefaultValue().toPb()).build()
-                );
+                builder.setFromLiteral(ProtoValue.toTypedValue(column.getLiteralDefaultValue()));
             }
 
-            if (column.getSequenceDescription() != null) {
-                SequenceDescription sequenceDescription = column.getSequenceDescription();
-                YdbTable.SequenceDescription.Builder sequenceDescriptionBuilder = YdbTable.SequenceDescription
+            SequenceDescription seqDescription = column.getSequenceDescription();
+            if (seqDescription != null) {
+                String seqName = seqDescription.getName();
+                YdbTable.SequenceDescription.Builder seqBuilder = YdbTable.SequenceDescription
                         .newBuilder()
-                        .setName(sequenceDescription.getName());
+                        .setName(seqName != null ? seqName : "_serial_column_" + column.getName());
 
-                if (sequenceDescription.getMinValue() != null) {
-                    sequenceDescriptionBuilder.setMinValue(sequenceDescription.getMinValue());
+                if (seqDescription.getMinValue() != null) {
+                    seqBuilder.setMinValue(seqDescription.getMinValue());
                 }
 
-                if (sequenceDescription.getMaxValue() != null) {
-                    sequenceDescriptionBuilder.setMaxValue(sequenceDescription.getMaxValue());
+                if (seqDescription.getMaxValue() != null) {
+                    seqBuilder.setMaxValue(seqDescription.getMaxValue());
                 }
 
-                if (sequenceDescription.getStartValue() != null) {
-                    sequenceDescriptionBuilder.setStartValue(sequenceDescription.getStartValue());
+                if (seqDescription.getStartValue() != null) {
+                    seqBuilder.setStartValue(seqDescription.getStartValue());
                 }
 
-                if (sequenceDescription.getCache() != null) {
-                    sequenceDescriptionBuilder.setCache(sequenceDescription.getCache());
+                if (seqDescription.getCache() != null) {
+                    seqBuilder.setCache(seqDescription.getCache());
                 }
 
-                if (sequenceDescription.getIncrement() != null) {
-                    sequenceDescriptionBuilder.setIncrement(sequenceDescription.getIncrement());
+                if (seqDescription.getIncrement() != null) {
+                    seqBuilder.setIncrement(seqDescription.getIncrement());
                 }
 
-                if (sequenceDescription.getCycle() != null) {
-                    sequenceDescriptionBuilder.setCycle(sequenceDescription.getCycle());
+                if (seqDescription.getCycle() != null) {
+                    seqBuilder.setCycle(seqDescription.getCycle());
                 }
 
-                builder.setFromSequence(sequenceDescriptionBuilder.build());
+                builder.setFromSequence(seqBuilder.build());
             }
         }
 
@@ -442,7 +441,9 @@ public abstract class BaseSession implements Session {
         }
 
         for (ColumnFamily family : description.getColumnFamilies()) {
-            request.addColumnFamilies(buildColumnFamily(family));
+            if (!"default".equals(family.getName())) {
+                request.addColumnFamilies(buildColumnFamily(family));
+            }
         }
 
         for (TableColumn column : description.getColumns()) {
@@ -839,40 +840,53 @@ public abstract class BaseSession implements Session {
 
             if (column.hasFromSequence()) {
                 YdbTable.SequenceDescription pbSeq = column.getFromSequence();
-                SequenceDescription.Builder sequenceDescriptionBuilder = new SequenceDescription.Builder();
+                SequenceDescription.Builder seqBuilder = new SequenceDescription.Builder();
 
                 if (pbSeq.hasName()) {
-                    sequenceDescriptionBuilder.setName(pbSeq.getName());
+                    seqBuilder.setName(pbSeq.getName());
                 }
                 if (pbSeq.hasMinValue()) {
-                    sequenceDescriptionBuilder.setMinValue(pbSeq.getMinValue());
+                    seqBuilder.setMinValue(pbSeq.getMinValue());
                 }
                 if (pbSeq.hasMaxValue()) {
-                    sequenceDescriptionBuilder.setMaxValue(pbSeq.getMaxValue());
+                    seqBuilder.setMaxValue(pbSeq.getMaxValue());
                 }
                 if (pbSeq.hasStartValue()) {
-                    sequenceDescriptionBuilder.setStartValue(pbSeq.getStartValue());
+                    seqBuilder.setStartValue(pbSeq.getStartValue());
                 }
                 if (pbSeq.hasCache()) {
-                    sequenceDescriptionBuilder.setCache(pbSeq.getCache());
+                    seqBuilder.setCache(pbSeq.getCache());
                 }
                 if (pbSeq.hasIncrement()) {
-                    sequenceDescriptionBuilder.setIncrement(pbSeq.getIncrement());
+                    seqBuilder.setIncrement(pbSeq.getIncrement());
                 }
                 if (pbSeq.hasCycle()) {
-                    sequenceDescriptionBuilder.setCycle(pbSeq.getCycle());
+                    seqBuilder.setCycle(pbSeq.getCycle());
                 }
 
-                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(),
-                        sequenceDescriptionBuilder.build()));
-
+                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), seqBuilder.build()));
                 continue;
             }
 
-            description.addColumn(new TableColumn(column.getName(), type, column.getFamily(),
-                    column.hasFromLiteral() ? (PrimitiveValue)
-                            ProtoValue.fromPb(type, column.getFromLiteral().getValue()) : null)
-            );
+            PrimitiveValue defaultValue = null;
+            if (column.hasFromLiteral()) {
+                TypedValue literalPb = column.getFromLiteral();
+
+                Type literalType = type;
+                Value<?> literalValue = ProtoValue.fromPb(literalType, literalPb.getValue());
+                if (literalType.getKind() == Type.Kind.OPTIONAL) { // unwrap optional value
+                    OptionalValue optional = literalValue.asOptional();
+                    if (optional.isPresent()) {
+                        literalType = type.unwrapOptional();
+                        literalValue = optional.get();
+                    }
+                }
+                if (literalType.getKind() == Type.Kind.PRIMITIVE) {
+                    defaultValue = literalValue.asData();
+                }
+            }
+
+            description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), defaultValue));
         }
         description.setPrimaryKeys(desc.getPrimaryKeyList());
         for (int i = 0; i < desc.getIndexesCount(); i++) {

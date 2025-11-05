@@ -141,32 +141,62 @@ public class TableDescription {
         }
 
         public Builder addNonnullColumn(String name, Type type) {
-            return addNonnullColumn(name, type, (String) null);
+            return addColumn(new TableColumn(name, type, null));
         }
 
         public Builder addNonnullColumn(String name, Type type, String family) {
-            columns.put(name, new TableColumn(name, type, family));
-            return this;
+            return addColumn(new TableColumn(name, type, family));
         }
 
+        public Builder addNonnullColumn(String name, Type type, PrimitiveValue defaultValue) {
+            return addColumn(new TableColumn(name, type, null, defaultValue));
+        }
+
+        public Builder addNullableColumn(String name, Type type) {
+            return addColumn(new TableColumn(name, OptionalType.of(type)));
+        }
+
+        public Builder addNullableColumn(String name, Type type, String family) {
+            return addColumn(new TableColumn(name, OptionalType.of(type), family));
+        }
+
+        public Builder addNullableColumn(String name, Type type, PrimitiveValue defaultValue) {
+            return addColumn(new TableColumn(name, OptionalType.of(type), null, defaultValue));
+        }
+
+        public Builder addSmallSerialColumn(String name) {
+            return addColumn(new TableColumn(name, PrimitiveType.Int16, null, SequenceDescription.DEFAULT));
+        }
+
+        public Builder addSerialColumn(String name) {
+            return addColumn(new TableColumn(name, PrimitiveType.Int32, null, SequenceDescription.DEFAULT));
+        }
+
+        public Builder addBigSerialColumn(String name) {
+            return addColumn(new TableColumn(name, PrimitiveType.Int64, null, SequenceDescription.DEFAULT));
+        }
+
+        @Deprecated
         public Builder addColumn(String name, Type type, PrimitiveValue defaultValue) {
-            columns.put(name, new TableColumn(name, type, null, defaultValue));
-            return this;
+            return addColumn(new TableColumn(name, type, null, defaultValue));
         }
 
+        @Deprecated
         public Builder addColumn(String name, Type type, String family, PrimitiveValue defaultValue) {
-            columns.put(name, new TableColumn(name, type, family, defaultValue));
-            return this;
+            return addColumn(new TableColumn(name, type, family, defaultValue));
         }
 
+        @Deprecated
         public Builder addSequenceColumn(String name, Type type) {
             return addSequenceColumn(name, type, null, SequenceDescription.newBuilder().build());
         }
 
+        @Deprecated
         public Builder addSequenceColumn(String name, Type type, String family) {
             return addSequenceColumn(name, type, family, SequenceDescription.newBuilder().build());
         }
 
+        @Deprecated
         public Builder addSequenceColumn(
                 String name,
                 Type type,
@@ -193,53 +223,38 @@ public class TableDescription {
             throw new IllegalArgumentException("Type " + type + " cannot be used as a sequence column");
         }
 
-        public Builder addSmallSerialColumn(String name) {
-            return addSmallSerialColumn(name, null, SequenceDescription.newBuilder().build());
-        }
-
-        public Builder addSerialColumn(String name) {
-            return addSerialColumn(name, null, SequenceDescription.newBuilder().build());
-        }
-
-        public Builder addBigSerialColumn(String name) {
-            return addBigSerialColumn(name, null, SequenceDescription.newBuilder().build());
-        }
-
+        @Deprecated
         public Builder addSmallSerialColumn(String name, SequenceDescription sequenceDescription) {
             return addSmallSerialColumn(name, null, sequenceDescription);
         }
 
+        @Deprecated
         public Builder addSerialColumn(String name, SequenceDescription sequenceDescription) {
             return addSerialColumn(name, null, sequenceDescription);
         }
 
+        @Deprecated
         public Builder addBigSerialColumn(String name, SequenceDescription sequenceDescription) {
             return addBigSerialColumn(name, null, sequenceDescription);
         }
 
+        @Deprecated
         public Builder addSmallSerialColumn(String name, String family, SequenceDescription sequenceDescription) {
             return addSequenceColumn(name, PrimitiveType.Int16, family, sequenceDescription);
         }
 
+        @Deprecated
         public Builder addSerialColumn(String name, String family, SequenceDescription sequenceDescription) {
             return addSequenceColumn(name, PrimitiveType.Int32, family, sequenceDescription);
         }
 
+        @Deprecated
         public Builder addBigSerialColumn(String name, String family, SequenceDescription sequenceDescription) {
             return addSequenceColumn(name, PrimitiveType.Int64, family, sequenceDescription);
         }
 
         public Builder addKeyRange(KeyRange value) {
             keyRanges.add(value);
-            return this;
-        }
-
-        public Builder addNullableColumn(String name, Type type) {
-            return addNullableColumn(name, type, null);
-        }
-
-        public Builder addNullableColumn(String name, Type type, String family) {
-            columns.put(name, new TableColumn(name, OptionalType.of(type), family));
             return this;
         }
 

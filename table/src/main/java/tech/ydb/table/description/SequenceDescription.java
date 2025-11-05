@@ -6,7 +6,9 @@ import javax.annotation.Nullable;
  * @author Kirill Kurdyukov
  */
 public class SequenceDescription {
+    public static final SequenceDescription DEFAULT = SequenceDescription.newBuilder().build();
 
+    @Nullable
     private final String name;
     @Nullable
     private final Long minValue;
@@ -31,6 +33,7 @@ public class SequenceDescription {
         this.cycle = builder.cycle;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
@@ -70,7 +73,7 @@ public class SequenceDescription {
     }
 
     public static class Builder {
-        private String name = "sequence_default";
+        private String name;
         private Long minValue;
         private Long maxValue;
         private Long startValue;
@@ -114,10 +117,6 @@ public class SequenceDescription {
         }
 
         public SequenceDescription build() {
-            if (name == null) {
-                throw new IllegalStateException("name is required");
-            }
-
             return new SequenceDescription(this);
         }
     }
