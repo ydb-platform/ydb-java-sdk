@@ -1,3 +1,7 @@
+## 2.3.24 ##
+* Topic: Added stream id to SessionBase logs
+* Table: Fixed describeTable() for table columns with default values
+
 ## 2.3.23 ##
 * Topic: Added validation of a message size
 * Table: Added support of raw proto data to executeDateQuery/readTable/bulkUpsert
