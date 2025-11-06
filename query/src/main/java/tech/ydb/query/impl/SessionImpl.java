@@ -9,6 +9,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.google.common.base.Strings;
+import com.google.protobuf.Duration;
 import com.google.protobuf.TextFormat;
 import io.grpc.Context;
 import org.slf4j.Logger;
@@ -22,14 +24,19 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.operation.Operation;
+import tech.ydb.core.operation.OperationTray;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.query.YdbQuery;
+import tech.ydb.proto.scripting.ScriptingProtos;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
+import tech.ydb.query.result.OperationResult;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryStats;
 import tech.ydb.query.settings.AttachSessionSettings;
@@ -38,6 +45,8 @@ import tech.ydb.query.settings.CommitTransactionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
+import tech.ydb.query.settings.ExecuteScriptSettings;
+import tech.ydb.query.settings.FetchScriptSettings;
 import tech.ydb.query.settings.QueryExecMode;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.query.settings.RollbackTransactionSettings;
@@ -190,6 +199,19 @@ abstract class SessionImpl implements QuerySession {
         }
     }
 
+    private static YdbTable.QueryStatsCollection.Mode mapStatsCollectionMode(QueryStatsMode mode) {
+        switch (mode) {
+            case NONE: return YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_NONE;
+            case BASIC: return YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_BASIC;
+            case FULL: return YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_FULL;
+            case PROFILE: return YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_PROFILE;
+
+            case UNSPECIFIED:
+            default:
+                return YdbTable.QueryStatsCollection.Mode.STATS_COLLECTION_UNSPECIFIED;
+        }
+    }
+
     private static YdbQuery.StatsMode mapStatsMode(QueryStatsMode mode) {
         switch (mode) {
             case NONE: return YdbQuery.StatsMode.STATS_MODE_NONE;
@@ -250,6 +272,79 @@ abstract class SessionImpl implements QuerySession {
                 }
             }
         };
+    }
+
+    @Override
+    public CompletableFuture<Result<ScriptingProtos.ExecuteYqlResult>> executeScriptYql(
+            String query,
+            Params params,
+            ExecuteScriptSettings settings) {
+        ScriptingProtos.ExecuteYqlRequest.Builder requestBuilder =  ScriptingProtos.ExecuteYqlRequest.newBuilder()
+                .setScript(query)
+                .setCollectStats(mapStatsCollectionMode(settings.getStatsMode()));
+
+        requestBuilder.putAllParameters(params.toPb());
+
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+
+        return rpc.executeScriptYql(requestBuilder.build(), options.build()).thenApply(OperationResult::new);
+    }
+
+    @Override
+    public CompletableFuture<Operation<Status>> executeScript(String query,
+                                                              Params params,
+                                                              ExecuteScriptSettings settings) {
+        YdbQuery.ExecuteScriptRequest.Builder request = YdbQuery.ExecuteScriptRequest.newBuilder()
+                .setExecMode(mapExecMode(settings.getExecMode()))
+                .setStatsMode(mapStatsMode(settings.getStatsMode()))
+                .setScriptContent(YdbQuery.QueryContent.newBuilder()
+                        .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)
+                        .setText(query)
+                        .build());
+
+        java.time.Duration ttl = settings.getTtl();
+        if (ttl != null) {
+            request.setResultsTtl(Duration.newBuilder().setNanos(settings.getTtl().getNano()));
+        }
+
+        String resourcePool = settings.getResourcePool();
+        if (resourcePool != null && !resourcePool.isEmpty()) {
+            request.setPoolId(resourcePool);
+        }
+
+        request.putAllParameters(params.toPb());
+
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+
+        return rpc.executeScript(request.build(), options.build());
+    }
+
+    @Override
+    public CompletableFuture<Status> waitForScript(CompletableFuture<Operation<Status>> scriptFuture) {
+       return scriptFuture.thenCompose(operation -> OperationTray.fetchOperation(operation, 1));
+    }
+
+    @Override
+    public CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>>
+                                    fetchScriptResults(String query, Params params, FetchScriptSettings settings) {
+        YdbQuery.FetchScriptResultsRequest.Builder requestBuilder = YdbQuery.FetchScriptResultsRequest.newBuilder();
+
+        if (!Strings.isNullOrEmpty(settings.getFetchToken())) {
+            requestBuilder.setFetchToken(settings.getFetchToken());
+        }
+
+        if (settings.getRowsLimit() > 0) {
+            requestBuilder.setRowsLimit(settings.getRowsLimit());
+        }
+
+        requestBuilder.setOperationId(settings.getOperationId());
+
+        if (settings.getSetResultSetIndex() >= 0) {
+            requestBuilder.setResultSetIndex(settings.getSetResultSetIndex());
+        }
+
+        GrpcRequestSettings.Builder options = makeOptions(settings);
+        return rpc.fetchScriptResults(requestBuilder.build(), options.build());
     }
 
     public CompletableFuture<Result<YdbQuery.DeleteSessionResponse>> delete(DeleteSessionSettings settings) {
