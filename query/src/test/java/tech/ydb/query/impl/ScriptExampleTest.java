@@ -1,8 +1,9 @@
 package tech.ydb.query.impl;
 
 import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.junit.After;
@@ -15,13 +16,12 @@ import org.junit.Test;
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.proto.ValueProtos;
+import tech.ydb.core.operation.Operation;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.TestExampleData;
 import tech.ydb.query.script.ScriptClient;
-import tech.ydb.query.script.result.OperationScript;
 import tech.ydb.query.script.impl.ScriptClientImpl;
-import tech.ydb.query.script.result.FetchScriptResult;
+import tech.ydb.query.script.result.ScriptResultPart;
 import tech.ydb.query.script.settings.ExecuteScriptSettings;
 import tech.ydb.query.script.settings.FetchScriptSettings;
 import tech.ydb.query.script.settings.FindScriptSettings;
@@ -30,7 +30,6 @@ import tech.ydb.query.tools.QueryReader;
 import tech.ydb.query.tools.SessionRetryContext;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.result.ResultSetReader;
-import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.PrimitiveType;
@@ -108,39 +107,45 @@ public class ScriptExampleTest {
         scriptClient = ScriptClientImpl.newClient(ydbRule);
 
         Assert.assertNotNull(client.getScheduler());
+
+        retryCtx.supplyResult(session -> session.createQuery(""
+                + "CREATE TABLE series ("
+                + "  series_id UInt64,"
+                + "  title Text,"
+                + "  series_info Text,"
+                + "  release_date Date,"
+                + "  PRIMARY KEY(series_id)"
+                + ")", TxMode.NONE).execute()
+        ).join().getStatus().expectSuccess("Can't create table series");
+
+        retryCtx.supplyResult(session -> session.createQuery(""
+                + "CREATE TABLE seasons ("
+                + "  series_id UInt64,"
+                + "  season_id UInt64,"
+                + "  title Text,"
+                + "  first_aired Date,"
+                + "  last_aired Date,"
+                + "  PRIMARY KEY(series_id, season_id)"
+                + ")", TxMode.NONE).execute()
+        ).join().getStatus().expectSuccess("Can't create table seasons");
     }
 
     @After
     public void clean() {
-        retryCtx.supplyResult(session -> session.createQuery("DROP TABLE series;", TxMode.NONE).execute())
+        retryCtx.supplyResult(session -> session.createQuery("delete from series;", TxMode.NONE).execute())
                 .join();
-        retryCtx.supplyResult(session -> session.createQuery("DROP TABLE seasons;", TxMode.NONE).execute())
+        retryCtx.supplyResult(session -> session.createQuery("delete from seasons;", TxMode.NONE).execute())
                 .join();
     }
 
     @AfterClass
     public static void cleanAll() {
+        retryCtx.supplyResult(session -> session.createQuery("drop table series;", TxMode.NONE).execute())
+                .join();
+        retryCtx.supplyResult(session -> session.createQuery("drop table seasons;", TxMode.NONE).execute())
+                .join();
+
         client.close();
-    }
-
-    @Test
-    public void createScript() {
-        Status status = runCreateSuccessScript();
-        Assert.assertTrue(status.isSuccess());
-
-        String query
-                = "SELECT series_id, title, release_date "
-                + "FROM series WHERE series_id = 1";
-
-        // Executes data query with specified transaction control settings.
-        QueryReader result = retryCtx.supplyResult(
-                session -> QueryReader.readFrom(session.createQuery(query, TxMode.SERIALIZABLE_RW))
-        ).join().getValue();
-
-        ResultSetReader rs = result.getResultSet(0);
-
-        // Check that table exists and contains no data
-        Assert.assertFalse(rs.next());
     }
 
     /**
@@ -151,14 +156,14 @@ public class ScriptExampleTest {
      */
     @Test
     public void createScriptShouldFail() {
-        Status statusOperation = runCreateScript("CREATE TABLE series ("
+        Status statusOperation = runCreateScript("CREATE TABLE series2 ("
                 + "  series_id UInt64,"
                 + "  title Text,"
                 + "  series_info Text,"
                 + "  release_date Date,"
                 + "  PRIMARY KEY(series_id)"
                 + ");"
-                + "ZCREATE TABLE seasons ("
+                + "ZCREATE TABLE seasons2 ("
                 + "  series_id UInt64,"
                 + "  season_id UInt64,"
                 + "  title Text,"
@@ -171,13 +176,12 @@ public class ScriptExampleTest {
 
         String query
                 = "SELECT series_id, title, release_date "
-                + "FROM series WHERE series_id = 1";
+                + "FROM series2 WHERE series_id = 1";
 
         // Executes data query with specified transaction control settings.
         Result<QueryReader> result = retryCtx.supplyResult(
                 session -> QueryReader.readFrom(session.createQuery(query, TxMode.SERIALIZABLE_RW))
         ).join();
-
 
         // Check that table exists and contains no data
         Assert.assertFalse(result.isSuccess());
@@ -191,31 +195,32 @@ public class ScriptExampleTest {
      */
     @Test
     public void createInsertQueryScript() {
-        runCreateSuccessScript();
-
         ExecuteScriptSettings executeScriptSettings = ExecuteScriptSettings.newBuilder()
                 .withExecMode(QueryExecMode.EXECUTE)
                 .withTtl(Duration.ofSeconds(10))
                 .build();
 
-        Status status = scriptClient.startJoinScript(""
-                        + "DECLARE $values AS List<Struct<"
-                        + "  series_id: Uint64,"
-                        + "  season_id: Uint64,"
-                        + "  title: Text,"
-                        + "  first_aired: Date,"
-                        + "  last_aired: Date"
-                        + ">>;"
-                        + "DECLARE $values1 AS List<Struct<"
-                        + "                        series_id: Uint64,"
-                        + "                        title: Text,"
-                        + "                        series_info: Text,"
-                        + "                        release_date: Date"
-                        + "                        >>;"
-                        + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
-                        + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);",
-                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings);
+        Status status = scriptClient.startQueryScript(""
+                                + "DECLARE $values AS List<Struct<"
+                                + "  series_id: Uint64,"
+                                + "  season_id: Uint64,"
+                                + "  title: Text,"
+                                + "  first_aired: Date,"
+                                + "  last_aired: Date"
+                                + ">>;"
+                                + "DECLARE $values1 AS List<Struct<"
+                                + "                        series_id: Uint64,"
+                                + "                        title: Text,"
+                                + "                        series_info: Text,"
+                                + "                        release_date: Date"
+                                + "                        >>;"
+                                + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
+                                + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);",
+                        Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings)
+                .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 1))
+                .join();
 
+        Assert.assertNotNull(status);
         Assert.assertTrue(status.isSuccess());
 
         String query
@@ -240,13 +245,11 @@ public class ScriptExampleTest {
      */
     @Test
     public void findAndStartScript() {
-        runCreateSuccessScript();
-
         ExecuteScriptSettings executeScriptSettings = ExecuteScriptSettings.newBuilder()
                 .withExecMode(QueryExecMode.EXECUTE)
                 .build();
 
-        CompletableFuture<OperationScript> future = scriptClient.startScript(""
+        Operation<Status> operation = scriptClient.startQueryScript(""
                         + "DECLARE $values AS List<Struct<"
                         + "  series_id: Uint64,"
                         + "  season_id: Uint64,"
@@ -263,17 +266,15 @@ public class ScriptExampleTest {
                         + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
                         + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
                         + "SELECT season_id FROM seasons where series_id = 1 order by series_id;",
-                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings);
-
-        OperationScript operationScript = future.join();
+                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
 
 
-        OperationScript operationScript1 = scriptClient.findScript(operationScript.getId(), FindScriptSettings.newBuilder().build()).join();
+        Operation<Status> operation1 = scriptClient.findQueryScript(operation.getId(), FindScriptSettings.newBuilder().build()).join();
 
 
-        Assert.assertEquals(operationScript1.getId(), operationScript.getId());
+        Assert.assertEquals(operation.getId(), operation1.getId());
 
-        Status status = operationScript1.waitForResult();
+        Status status = scriptClient.fetchQueryScriptStatus(operation1, 1).join();
         Assert.assertTrue(status.isSuccess());
     }
 
@@ -286,19 +287,14 @@ public class ScriptExampleTest {
      *   <li>Insert sample data via parameterized script</li>
      *   <li>Fetch the result set from the executed operation</li>
      * </ol>
-     *
-     * @throws ExecutionException   if the script future fails
-     * @throws InterruptedException if the fetch operation is interrupted
      */
     @Test
-    public void fetchScript() throws ExecutionException, InterruptedException {
-        runCreateSuccessScript();
-
+    public void fetchScript() {
         ExecuteScriptSettings executeScriptSettings = ExecuteScriptSettings.newBuilder()
                 .withExecMode(QueryExecMode.EXECUTE)
                 .build();
 
-        CompletableFuture<OperationScript> future = scriptClient.startScript(""
+        Operation<Status> operation = scriptClient.startQueryScript(""
                         + "DECLARE $values AS List<Struct<"
                         + "  series_id: Uint64,"
                         + "  season_id: Uint64,"
@@ -315,64 +311,143 @@ public class ScriptExampleTest {
                         + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
                         + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
                         + "SELECT season_id FROM seasons where series_id = 1 order by series_id;",
-                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings);
+                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
 
-        OperationScript operationScript = future.join();
-        Status status = operationScript.waitForResult();
-
+        scriptClient.fetchQueryScriptStatus(operation, 1).join();
 
         FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(1)
                 .withSetResultSetIndex(0)
-                .withEOperationId(operationScript.getId())
-                .withFetchToken("")
                 .build();
 
-        FetchScriptResult fetchScriptResult = checkFetch(fetchScriptSettings1, 1);
+        Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings1)
+                .join();
+
+        checkFetch(resultPartResult, 1);
 
         FetchScriptSettings fetchScriptSettings2 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(1)
-                .withSetResultSetIndex(0)
-                .withEOperationId(operationScript.getId())
-                .withFetchToken(fetchScriptResult.getNextFetchToken())
+                .withSetResultSetIndex(resultPartResult.getValue().getResultSetIndex())
                 .build();
 
-        checkFetch(fetchScriptSettings2, 2);
+        Result<ScriptResultPart> resultPartResult1 = scriptClient.fetchQueryScriptResult(operation, resultPartResult.getValue(), fetchScriptSettings2)
+                .join();
+
+        checkFetch(resultPartResult1, 2);
     }
 
-    private FetchScriptResult checkFetch(FetchScriptSettings fetchScriptSettings, int value) {
-        FetchScriptResult fetchScriptResult = scriptClient.fetchScriptResults(fetchScriptSettings).join();
+    @Test
+    public void fetchScriptWithManyResultSet() {
+        ExecuteScriptSettings executeScriptSettings = ExecuteScriptSettings.newBuilder()
+                .withExecMode(QueryExecMode.EXECUTE)
+                .build();
 
-        ValueProtos.ResultSet resultSet = fetchScriptResult.getResultSet();
-        Assert.assertEquals(1, resultSet.getRowsCount());
+        Operation<Status> operation = scriptClient.startQueryScript(""
+                        + "DECLARE $values AS List<Struct<"
+                        + "  series_id: Uint64,"
+                        + "  season_id: Uint64,"
+                        + "  title: Text,"
+                        + "  first_aired: Date,"
+                        + "  last_aired: Date"
+                        + ">>;"
+                        + "DECLARE $values1 AS List<Struct<"
+                        + "                        series_id: Uint64,"
+                        + "                        title: Text,"
+                        + "                        series_info: Text,"
+                        + "                        release_date: Date"
+                        + "                        >>;"
+                        + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
+                        + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
+                        + "SELECT season_id FROM seasons where series_id = 1 order by series_id;"
+                        + "SELECT season_id FROM seasons where series_id = 2 order by series_id;",
+                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
 
-        ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
+        scriptClient.fetchQueryScriptStatus(operation, 1).join();
+
+        FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
+                .withRowsLimit(10)
+                .withSetResultSetIndex(0)
+                .build();
+
+        Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings1)
+                .join();
+
+        ScriptResultPart part = resultPartResult.getValue();
+
+        ResultSetReader reader = part.getResultSetReader();
+
+        Assert.assertEquals(4, reader.getRowCount());
+
+        FetchScriptSettings fetchScriptSettings2 = FetchScriptSettings.newBuilder()
+                .withRowsLimit(10)
+                .withSetResultSetIndex(1)
+                .build();
+
+        Result<ScriptResultPart> resultPartResult1 = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings2)
+                .join();
+
+        ScriptResultPart part1 = resultPartResult1.getValue();
+
+        ResultSetReader reader2 = part1.getResultSetReader();
+
+        Assert.assertEquals(5, reader2.getRowCount());
+    }
+
+    @Test
+    public void fetchScriptWithError() {
+        ExecuteScriptSettings executeScriptSettings = ExecuteScriptSettings.newBuilder()
+                .withExecMode(QueryExecMode.EXECUTE)
+                .build();
+
+        Operation<Status> operation = scriptClient.startQueryScript(""
+                        + "DECLARE $values AS List<Struct<"
+                        + "  series_id: Uint64,"
+                        + "  season_id: Uint64,"
+                        + "  title: Text,"
+                        + "  first_aired: Date,"
+                        + "  last_aired: Date"
+                        + ">>;"
+                        + "DECLARE $values1 AS List<Struct<"
+                        + "                        series_id: Uint64,"
+                        + "                        title: Text,"
+                        + "                        series_info: Text,"
+                        + "                        release_date: Date"
+                        + "                        >>;"
+                        + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
+                        + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
+                        + "SELECT season_id FROM seasons where series_ids = 1 order by series_id;",
+                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
+
+        Status status = scriptClient.fetchQueryScriptStatus(operation, 1).join();
+
+        FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
+                .withRowsLimit(1)
+                .withSetResultSetIndex(0)
+                .build();
+
+        Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings1)
+                .join();
+
+        Assert.assertTrue(resultPartResult.getValue().hasErrors());
+
+        Assert.assertTrue(
+                Arrays.stream(resultPartResult.getValue().getIssues()).anyMatch(
+                        issue -> issue.toString().contains("not found: series_ids.")));
+    }
+
+    private void checkFetch(Result<ScriptResultPart> resultPartResult, int value) {
+        ScriptResultPart scriptResultPart = resultPartResult.getValue();
+
+        ResultSetReader reader = scriptResultPart.getResultSetReader();
+        Assert.assertEquals(1, reader.getRowCount());
+
         reader.next();
         Assert.assertEquals(value, reader.getColumn(0).getUint64());
-        return fetchScriptResult;
     }
 
-    private Status runCreateSuccessScript() {
-        return runCreateScript(""
-                + "CREATE TABLE series ("
-                + "  series_id UInt64,"
-                + "  title Text,"
-                + "  series_info Text,"
-                + "  release_date Date,"
-                + "  PRIMARY KEY(series_id)"
-                + ");"
-                + ""
-                + "CREATE TABLE seasons ("
-                + "  series_id UInt64,"
-                + "  season_id UInt64,"
-                + "  title Text,"
-                + "  first_aired Date,"
-                + "  last_aired Date,"
-                + "  PRIMARY KEY(series_id, season_id)"
-                + ")");
-    }
-
-    private Status runCreateScript(String query) {
-        return scriptClient.startJoinScript(query, Params.empty(), ExecuteScriptSettings.newBuilder().build());
+    private static Status runCreateScript(String query) {
+        return scriptClient.startQueryScript(query, Params.empty(), ExecuteScriptSettings.newBuilder().build())
+                .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 1))
+                .join();
     }
 }

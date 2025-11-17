@@ -6,7 +6,6 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.operation.OperationBinder;
-import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.proto.OperationProtos;
 import tech.ydb.proto.operation.v1.OperationServiceGrpc;
 import tech.ydb.proto.query.YdbQuery;
@@ -17,12 +16,14 @@ import javax.annotation.WillNotClose;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ScriptRpcImpl implements ScriptRpc {
+/**
+ * Default gRPC-based implementation of {@link ScriptRpc}.
+ * <p>
+ * Uses {@link GrpcTransport} to communicate with YDB QueryService and OperationService.
+ * Provides async unary calls for executing scripts and retrieving results or operation metadata.
+ */
 
-    private static final StatusExtractor<YdbQuery.FetchScriptResultsResponse> FETCH_SCRIPT = StatusExtractor.of(
-            YdbQuery.FetchScriptResultsResponse::getStatus,
-            YdbQuery.FetchScriptResultsResponse::getIssuesList
-    );
+public class ScriptRpcImpl implements ScriptRpc {
 
     private final GrpcTransport transport;
 
@@ -30,6 +31,12 @@ public class ScriptRpcImpl implements ScriptRpc {
         this.transport = grpcTransport;
     }
 
+    /**
+     * Creates a new RPC instance bound to the given gRPC transport.
+     *
+     * @param grpcTransport transport instance (not closed by this class)
+     * @return new {@link ScriptRpcImpl} instance
+     */
     public static ScriptRpcImpl useTransport(@WillNotClose GrpcTransport grpcTransport) {
         return new ScriptRpcImpl(grpcTransport);
     }
@@ -50,14 +57,6 @@ public class ScriptRpcImpl implements ScriptRpc {
                         ));
     }
 
-    /**
-     * Executes a YQL script using the Query service API.
-     *
-     *
-     * @param request  the {@link YdbQuery.ExecuteScriptRequest} containing the script
-     * @param settings gRPC request settings
-     * @return a future resolving to an {@link Operation} representing the script execution
-     */
     @Override
     public CompletableFuture<Operation<Status>> executeScript(
             YdbQuery.ExecuteScriptRequest request, GrpcRequestSettings settings) {
@@ -69,16 +68,6 @@ public class ScriptRpcImpl implements ScriptRpc {
                         ));
     }
 
-    /**
-     * Fetches the results of a previously executed script.
-     *
-     * <p>This method retrieves the next portion of script execution results,
-     * supporting pagination and partial fetch using tokens.</p>
-     *
-     * @param request  the {@link YdbQuery.FetchScriptResultsRequest} specifying the fetch parameters
-     * @param settings gRPC request settings
-     * @return a future resolving to {@link Result} containing {@link YdbQuery.FetchScriptResultsResponse}
-     */
     @Override
     public CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>> fetchScriptResults(
             YdbQuery.FetchScriptResultsRequest request, GrpcRequestSettings settings) {

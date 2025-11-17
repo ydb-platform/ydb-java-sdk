@@ -1,17 +1,17 @@
 package tech.ydb.query.script.impl;
 
-import com.google.common.base.Strings;
 import com.google.protobuf.Duration;
 
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.script.ScriptClient;
 import tech.ydb.query.script.ScriptRpc;
-import tech.ydb.query.script.result.FetchScriptResult;
-import tech.ydb.query.script.result.OperationScript;
+import tech.ydb.query.script.result.ScriptResultPart;
 import tech.ydb.query.script.settings.ExecuteScriptSettings;
 import tech.ydb.query.script.settings.FindScriptSettings;
 import tech.ydb.query.script.settings.FetchScriptSettings;
@@ -19,7 +19,8 @@ import tech.ydb.query.settings.QueryExecMode;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.table.query.Params;
 
-
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.WillNotClose;
 
 import java.util.UUID;
@@ -38,21 +39,14 @@ public class ScriptClientImpl implements ScriptClient {
     }
 
     @Override
-    public CompletableFuture<OperationScript> findScript(String operationId, FindScriptSettings settings) {
-        return scriptRpc.getOperation(operationId).thenApply(OperationScript::new);
+    public CompletableFuture<Operation<Status>> findQueryScript(String operationId, FindScriptSettings settings) {
+        return scriptRpc.getOperation(operationId);
     }
 
     @Override
-    public Status startJoinScript(String query,
-                                  Params params,
-                                  ExecuteScriptSettings settings) {
-        return this.startScript(query, params, settings).join().waitForResult();
-    }
-
-    @Override
-    public CompletableFuture<OperationScript> startScript(String query,
-                                                          Params params,
-                                                          ExecuteScriptSettings settings) {
+    public CompletableFuture<Operation<Status>> startQueryScript(String query,
+                                                                 Params params,
+                                                                 ExecuteScriptSettings settings) {
         YdbQuery.ExecuteScriptRequest.Builder request = YdbQuery.ExecuteScriptRequest.newBuilder()
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
@@ -75,24 +69,23 @@ public class ScriptClientImpl implements ScriptClient {
 
         GrpcRequestSettings options = makeGrpcRequestSettings(settings);
 
-        return scriptRpc.executeScript(request.build(), options)
-                .thenApply(OperationScript::new);
+        return scriptRpc.executeScript(request.build(), options);
     }
 
     @Override
-    public CompletableFuture<FetchScriptResult> fetchScriptResults(
-            FetchScriptSettings settings) {
+    public CompletableFuture<Result<ScriptResultPart>> fetchQueryScriptResult(@Nonnull Operation<Status> operation,
+                                                                              @Nullable ScriptResultPart previous, FetchScriptSettings settings) {
         YdbQuery.FetchScriptResultsRequest.Builder requestBuilder = YdbQuery.FetchScriptResultsRequest.newBuilder();
 
-        if (!Strings.isNullOrEmpty(settings.getFetchToken())) {
-            requestBuilder.setFetchToken(settings.getFetchToken());
+        if (previous != null && previous.getNextFetchToken() != null) {
+            requestBuilder.setFetchToken(previous.getNextFetchToken());
         }
 
         if (settings.getRowsLimit() > 0) {
             requestBuilder.setRowsLimit(settings.getRowsLimit());
         }
 
-        requestBuilder.setOperationId(settings.getOperationId());
+        requestBuilder.setOperationId(operation.getId());
 
         if (settings.getSetResultSetIndex() >= 0) {
             requestBuilder.setResultSetIndex(settings.getSetResultSetIndex());
@@ -101,7 +94,7 @@ public class ScriptClientImpl implements ScriptClient {
         GrpcRequestSettings options = makeGrpcRequestSettings(settings);
 
         return scriptRpc.fetchScriptResults(requestBuilder.build(), options)
-                .thenApply(p -> new FetchScriptResult(p.getValue()));
+                .thenApply(p -> p.map(ScriptResultPart::new));
     }
 
     private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
@@ -145,5 +138,4 @@ public class ScriptClientImpl implements ScriptClient {
                 return YdbQuery.StatsMode.STATS_MODE_UNSPECIFIED;
         }
     }
-
 }
