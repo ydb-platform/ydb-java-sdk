@@ -17,6 +17,7 @@ public class GrpcRequestSettings {
     private final long deadlineAfter;
     private final Integer preferredNodeID;
     private final boolean directMode;
+    private final boolean deadlineDisabled;
     private final String traceId;
     private final List<String> clientCapabilities;
     private final Consumer<Metadata> trailersHandler;
@@ -27,6 +28,7 @@ public class GrpcRequestSettings {
         this.deadlineAfter = builder.deadlineAfter;
         this.preferredNodeID = builder.preferredNodeID;
         this.directMode = builder.directMode;
+        this.deadlineDisabled = builder.deadlineDisabled;
         this.traceId = builder.traceId;
         this.clientCapabilities = builder.clientCapabilities;
         this.trailersHandler = builder.trailersHandler;
@@ -40,6 +42,10 @@ public class GrpcRequestSettings {
 
     public long getDeadlineAfter() {
         return deadlineAfter;
+    }
+
+    public boolean isDeadlineDisabled() {
+        return deadlineDisabled;
     }
 
     public Integer getPreferredNodeID() {
@@ -72,6 +78,7 @@ public class GrpcRequestSettings {
 
     public static final class Builder {
         private long deadlineAfter = 0L;
+        private boolean deadlineDisabled = false;
         private Integer preferredNodeID = null;
         private boolean directMode = false;
         private String traceId = null;
@@ -91,6 +98,7 @@ public class GrpcRequestSettings {
          */
         public Builder withDeadlineAfter(long deadlineAfter) {
             this.deadlineAfter = deadlineAfter;
+            this.deadlineDisabled = false;
             return this;
         }
 
@@ -106,6 +114,7 @@ public class GrpcRequestSettings {
             } else {
                 this.deadlineAfter = 0L;
             }
+            this.deadlineDisabled = false;
             return this;
         }
 
@@ -149,6 +158,11 @@ public class GrpcRequestSettings {
 
         public Builder withPessimizationHook(BooleanSupplier pessimizationHook) {
             this.pessimizationHook = pessimizationHook;
+            return this;
+        }
+
+        public Builder disableDeadline() {
+            this.deadlineDisabled = true;
             return this;
         }
 

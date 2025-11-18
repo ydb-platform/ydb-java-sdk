@@ -83,6 +83,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
+        if (settings.isDeadlineDisabled()) {
+            options = options.withDeadline(null);
+        }
 
         try {
             GrpcChannel channel = getChannel(settings);
@@ -125,6 +128,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        }
+        if (settings.isDeadlineDisabled()) {
+            options = options.withDeadline(null);
         }
 
         try {
@@ -171,6 +177,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        }
+        if (settings.isDeadlineDisabled()) {
+            options = options.withDeadline(null);
         }
 
         try {
