@@ -1,3 +1,7 @@
+## 2.3.25 ##
+* Core: Removed usage of default deadline for long grpc streams
+* Query: Updated QueryStats class in QueryClient
+
 ## 2.3.24 ##
 * Topic: Added stream id to SessionBase logs
 * Table: Fixed describeTable() for table columns with default values
