@@ -1,5 +1,9 @@
 package tech.ydb.query.script.impl;
 
+import java.util.concurrent.CompletableFuture;
+
+import javax.annotation.WillNotClose;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -12,17 +16,14 @@ import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.query.v1.QueryServiceGrpc;
 import tech.ydb.query.script.ScriptRpc;
 
-import javax.annotation.WillNotClose;
-
-import java.util.concurrent.CompletableFuture;
-
 /**
  * Default gRPC-based implementation of {@link ScriptRpc}.
  * <p>
  * Uses {@link GrpcTransport} to communicate with YDB QueryService and OperationService.
  * Provides async unary calls for executing scripts and retrieving results or operation metadata.
+ *
+ * <p>Author: Evgeny Kuvardin
  */
-
 public class ScriptRpcImpl implements ScriptRpc {
 
     private final GrpcTransport transport;

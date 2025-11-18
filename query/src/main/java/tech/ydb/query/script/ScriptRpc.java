@@ -1,12 +1,12 @@
 package tech.ydb.query.script;
 
+import java.util.concurrent.CompletableFuture;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.proto.query.YdbQuery;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * Low-level RPC interface for executing YQL scripts and fetching their results using gRPC.

@@ -7,9 +7,10 @@ import tech.ydb.query.settings.QueryExecMode;
 import tech.ydb.query.settings.QueryStatsMode;
 
 /**
- * Settings for configuring script execution requests.
+ * Settings controlling execution of a YQL script.
  * <p>
- * Used by {@code QuerySession.executeScript(...)} and similar APIs.
+ * Used to specify execution mode, statistics collection level,
+ * result TTL, and resource pool assignment.
  *
  * <p>Author: Evgeny Kuvardin
  */

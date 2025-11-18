@@ -4,6 +4,7 @@ import tech.ydb.core.settings.BaseRequestSettings;
 
 /**
  * Settings for configuring the fetch phase of a previously executed YQL script.
+ * Take a note that script should be executed successfully before fetch result
  * <p>
  * These settings define which operation results to fetch, pagination options,
  * row limits, and which result set index to retrieve.
@@ -44,6 +45,9 @@ public class FetchScriptSettings extends BaseRequestSettings {
         return setResultSetIndex;
     }
 
+    /**
+     * Creates a new builder configured for asynchronous operation requests.
+     */
     public static Builder newBuilder() {
         return new Builder();
     }

@@ -1,5 +1,12 @@
 package tech.ydb.query.script.impl;
 
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import javax.annotation.WillNotClose;
+
 import com.google.protobuf.Duration;
 
 import tech.ydb.core.Result;
@@ -13,19 +20,20 @@ import tech.ydb.query.script.ScriptClient;
 import tech.ydb.query.script.ScriptRpc;
 import tech.ydb.query.script.result.ScriptResultPart;
 import tech.ydb.query.script.settings.ExecuteScriptSettings;
-import tech.ydb.query.script.settings.FindScriptSettings;
 import tech.ydb.query.script.settings.FetchScriptSettings;
+import tech.ydb.query.script.settings.FindScriptSettings;
 import tech.ydb.query.settings.QueryExecMode;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.table.query.Params;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-import javax.annotation.WillNotClose;
-
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
-
+/**
+ * Default implementation of {@link ScriptClient} using {@link ScriptRpc} for RPC calls.
+ * <p>
+ * Handles script execution lifecycle: starting scripts, polling their status,
+ * and retrieving result sets in streaming fashion.
+ *
+ * <p>Author: Evgeny Kuvardin
+ */
 public class ScriptClientImpl implements ScriptClient {
 
     private final ScriptRpc scriptRpc;
@@ -74,7 +82,8 @@ public class ScriptClientImpl implements ScriptClient {
 
     @Override
     public CompletableFuture<Result<ScriptResultPart>> fetchQueryScriptResult(@Nonnull Operation<Status> operation,
-                                                                              @Nullable ScriptResultPart previous, FetchScriptSettings settings) {
+                                                                              @Nullable ScriptResultPart previous,
+                                                                              FetchScriptSettings settings) {
         YdbQuery.FetchScriptResultsRequest.Builder requestBuilder = YdbQuery.FetchScriptResultsRequest.newBuilder();
 
         if (previous != null && previous.getNextFetchToken() != null) {

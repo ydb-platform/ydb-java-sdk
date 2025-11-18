@@ -1,5 +1,10 @@
 package tech.ydb.query.script;
 
+import java.util.concurrent.CompletableFuture;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.operation.Operation;
@@ -9,11 +14,6 @@ import tech.ydb.query.script.settings.ExecuteScriptSettings;
 import tech.ydb.query.script.settings.FetchScriptSettings;
 import tech.ydb.query.script.settings.FindScriptSettings;
 import tech.ydb.table.query.Params;
-
-
-import javax.annotation.Nullable;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * High-level API for executing YQL scripts and retrieving their results.
@@ -27,27 +27,21 @@ import java.util.concurrent.CompletableFuture;
  *     <li>fetchQueryScriptStatus - wait for script execution</li>
  *     <li>fetchQueryScriptResult - fetch script result if necessary</li>
  * </ul>
- * </p>
- * Example with fetch
- * <p>
- *  <ul>
- *    <li> Operation<Status> operation = scriptClient.startQueryScript("select...",Params.of(...), executeScriptSettings).join()</li>
- *    <li>Status status = scriptClient.fetchQueryScriptStatus(operation, 1).join()</li>
- *    <li>Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings).join()</li>
- *    <li>ResultSetReader reader = scriptResultPart.getResultSetReader()</li>
- *    <li>reader.next()</li>
- *  </ul>
- * </p>
- *
- *  * Example without fetch
- *  * <p>
- *  *  <ul>
- *  *    <li> Status status =
- *                      scriptClient.startQueryScript("select...",Params.of(...), executeScriptSettings)
- *                                  .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 1))
- *                                  .join()</li>
- *  *  </ul>
- *  * </p>
+ * <p>Example with fetch
+ * <pre>{@code
+ *      Operation<Status> operation = scriptClient.startQueryScript("select...",Params.of(...), executeScriptSettings).join())
+ *      Status status = scriptClient.fetchQueryScriptStatus(operation, 1).join()
+ *      Result< ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings).join()
+ *      ResultSetReader reader = scriptResultPart.getResultSetReader()
+ *      reader.next()
+ * }</pre>
+ * <p>Example without fetch
+ * <pre>{@code
+ * Status status = scriptClient.startQueryScript("select...",Params.of(...), executeScriptSettings)
+ *                             .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 1))
+ *                             .join()
+ * }</pre>
+ * <p>Author: Evgeny Kuvardin
  */
 public interface ScriptClient {
 
@@ -91,7 +85,8 @@ public interface ScriptClient {
      * @param settings  fetch configuration
      * @return future resolving to result part containing a result set fragment
      */
-    CompletableFuture<Result<ScriptResultPart>> fetchQueryScriptResult(Operation<Status> operation,
-                                                                       @Nullable ScriptResultPart previous, FetchScriptSettings settings);
+    CompletableFuture<Result<ScriptResultPart>> fetchQueryScriptResult(@Nonnull Operation<Status> operation,
+                                                                       @Nullable ScriptResultPart previous,
+                                                                       FetchScriptSettings settings);
 
 }
