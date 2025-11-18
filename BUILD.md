@@ -10,11 +10,11 @@
 You can install the SDK artifacts in your local maven cache by running the following command in project folder.
 During the build process, the working directory will be cleared, tests will be run, artifacts will be built and copied to the local repository.
 ```
-mvn clean install
+./mvnw clean install
 ```
 
 If you don't need the test executions, just disable them
 ```
-mvn clean install -DskipTests=true
+./mvnw clean install -DskipTests=true
 ```
 

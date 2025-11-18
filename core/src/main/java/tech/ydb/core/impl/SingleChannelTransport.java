@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
-import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,15 +63,5 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     @Override
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         return channel;
-    }
-
-    @Override
-    protected void updateChannelStatus(GrpcChannel channel, Status status) {
-        if (!status.isOk()) {
-            logger.warn("grpc error {}[{}] on single channel {}",
-                    status.getCode(),
-                    status.getDescription(),
-                    channel.getEndpoint());
-        }
     }
 }

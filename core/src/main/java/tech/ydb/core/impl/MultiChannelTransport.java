@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import com.google.common.base.Strings;
 import com.google.common.net.HostAndPort;
-import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -83,13 +82,11 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     }
 
     @Override
-    protected void updateChannelStatus(GrpcChannel channel, Status status) {
-        if (!status.isOk()) {
-            endpointPool.pessimizeEndpoint(channel.getEndpoint());
+    protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
+        endpointPool.pessimizeEndpoint(endpoint, reason);
 
-            if (endpointPool.needToRunDiscovery()) {
-                endpointPool.setNewState(null, endpoints);
-            }
+        if (endpointPool.needToRunDiscovery()) {
+            endpointPool.setNewState(null, endpoints);
         }
     }
 }

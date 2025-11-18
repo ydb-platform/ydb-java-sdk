@@ -1,6 +1,5 @@
 package tech.ydb.topic.write.impl;
 
-import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -101,6 +100,14 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     }
 
     public CompletableFuture<Void> tryToEnqueue(EnqueuedMessage message, boolean instant) {
+        if (message.getSize() > settings.getMaxSendBufferMemorySize()) {
+            String errorMessage = "Rejecting a message of " + message.getSize()
+                    + " bytes: not enough space in message queue. The maximum size of buffer is "
+                    + settings.getMaxSendBufferMemorySize() + " bytes";
+            logger.info("[{}] {}", id, errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
         incomingQueueLock.lock();
 
         try {
@@ -165,7 +172,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         } else {
             CompletableFuture
                     .runAsync(() -> message.encode(id, settings.getCodec()), compressionExecutor)
-                    .thenRun(this::moveEncodedMessagesToSendingQueue);
+                    .whenComplete((res, th) -> moveEncodedMessagesToSendingQueue());
         }
     }
 
@@ -187,7 +194,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     break;
                 }
 
-                IOException error = msg.getCompressError();
+                Throwable error = msg.getCompressError();
                 if (error != null) { // just skip
                     logger.warn("[{}] Message wasn't sent because of processing error", id, error);
                     free(1, msg.getOriginalSize());

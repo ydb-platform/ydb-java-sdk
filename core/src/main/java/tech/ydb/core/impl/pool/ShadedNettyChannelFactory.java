@@ -1,6 +1,7 @@
 package tech.ydb.core.impl.pool;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -8,6 +9,7 @@ import javax.net.ssl.SSLException;
 
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.Metadata;
 import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
@@ -39,6 +41,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
     private final long connectTimeoutMs;
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
+    private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
 
     public ShadedNettyChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
@@ -49,6 +52,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
         this.connectTimeoutMs = builder.getConnectTimeoutMillis();
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
         this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
+        this.initializers = builder.getChannelInitializers();
     }
 
     @Override
@@ -95,6 +99,10 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
             channelBuilder.enableRetry();
         } else {
             channelBuilder.disableRetry();
+        }
+
+        for (Consumer<? super ManagedChannelBuilder<?>> initializer: initializers) {
+            initializer.accept(channelBuilder);
         }
 
         configure(channelBuilder);

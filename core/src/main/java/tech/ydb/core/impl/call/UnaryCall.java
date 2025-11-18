@@ -18,6 +18,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.proto.auth.YdbAuth;
 
 /**
  *
@@ -35,14 +36,16 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
             .withIssues(Issue.of("More than one value received for gRPC unary call", Issue.Severity.ERROR));
 
     private final String traceId;
+    private final String endpoint;
     private final ClientCall<ReqT, RespT> call;
     private final GrpcStatusHandler statusConsumer;
 
     private final CompletableFuture<Result<RespT>> future = new CompletableFuture<>();
     private final AtomicReference<RespT> value = new AtomicReference<>();
 
-    public UnaryCall(String traceId, ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
+    public UnaryCall(String traceId, String endpoint, ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
         this.traceId = traceId;
+        this.endpoint = endpoint;
         this.call = call;
         this.statusConsumer = statusConsumer;
     }
@@ -51,7 +54,11 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
         try {
             call.start(this, headers);
             if (logger.isTraceEnabled()) {
-                logger.trace("UnaryCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
+                if (request instanceof YdbAuth.LoginRequest) {
+                    logger.trace("UnaryCall[{}] --> {}", traceId, "LoginRequest user: XXXX password: XXXX");
+                } else {
+                    logger.trace("UnaryCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
+                }
             }
             call.sendMessage(request);
             call.halfClose();
@@ -71,7 +78,11 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
     @Override
     public void onMessage(RespT value) {
         if (logger.isTraceEnabled()) {
-            logger.trace("UnaryCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) value));
+            if (value instanceof YdbAuth.LoginResponse) {
+                logger.trace("UnaryCall[{}] <-- {}", traceId, "LoginResponse XXXX");
+            } else {
+                logger.trace("UnaryCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) value));
+            }
         }
         if (!this.value.compareAndSet(null, value)) {
             future.complete(Result.fail(MULTIPLY_VALUES));
@@ -94,7 +105,9 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
                 future.complete(Result.success(snapshotValue));
             }
         } else {
-            future.complete(GrpcStatuses.toResult(status));
+            future.complete(GrpcStatuses.toResult(status, endpoint));
         }
+
+        statusConsumer.postComplete();
     }
 }
