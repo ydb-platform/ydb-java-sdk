@@ -22,6 +22,7 @@ import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
+import tech.ydb.query.result.QueryStats;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.table.Session;
@@ -30,16 +31,9 @@ import tech.ydb.table.TableClient;
 import tech.ydb.table.impl.BaseSession;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
-import tech.ydb.table.query.stats.CompilationStats;
-import tech.ydb.table.query.stats.OperationStats;
-import tech.ydb.table.query.stats.QueryPhaseStats;
-import tech.ydb.table.query.stats.QueryStats;
-import tech.ydb.table.query.stats.TableAccessStats;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  *
@@ -100,53 +94,6 @@ public class TableClientImpl implements TableClient {
         return TxControl.txModeCtrl(TxMode.NONE, tc.getCommitTx());
     }
 
-    private static QueryStats queryStats(tech.ydb.query.result.QueryStats stats) {
-        if (stats == null) {
-            return null;
-        }
-        return new QueryStats(
-                stats.getPhases().stream().map(qp -> queryPhaseStats(qp)).collect(toList()),
-                compilationStats(stats.getCompilationStats()),
-                stats.getProcessCpuTimeUs(),
-                stats.getQueryPlan(),
-                stats.getQueryAst(),
-                stats.getTotalDurationUs(),
-                stats.getTotalCpuTimeUs()
-        );
-    }
-
-    private static QueryPhaseStats queryPhaseStats(tech.ydb.query.result.QueryStats.QueryPhase queryPhase) {
-        return new QueryPhaseStats(
-                queryPhase.getDurationUs(),
-                queryPhase.getTableAccesses().stream().map(ta -> tableAccessStats(ta)).collect(toList()),
-                queryPhase.getCpuTimeUs(),
-                queryPhase.getAffectedShards(),
-                queryPhase.isLiteralPhase()
-        );
-    }
-
-    private static TableAccessStats tableAccessStats(tech.ydb.query.result.QueryStats.TableAccess tableAccess) {
-        return new TableAccessStats(
-                tableAccess.getTableName(),
-                operationStats(tableAccess.getReads()),
-                operationStats(tableAccess.getUpdates()),
-                operationStats(tableAccess.getDeletes()),
-                tableAccess.getPartitionsCount()
-        );
-    }
-
-    private static OperationStats operationStats(tech.ydb.query.result.QueryStats.Operation operation) {
-        return new OperationStats(operation.getRows(), operation.getBytes());
-    }
-
-    private static CompilationStats compilationStats(tech.ydb.query.result.QueryStats.Compilation compilation) {
-        return new CompilationStats(
-                compilation.isFromCache(),
-                compilation.getDurationUs(),
-                compilation.getCpuTimeUs()
-        );
-    }
-
     private class TableSession extends BaseSession {
         private final SessionImpl querySession;
 
@@ -204,10 +151,11 @@ public class TableClientImpl implements TableClient {
                 if (!res.isSuccess()) {
                     return res.map(v -> null);
                 }
-                QueryStats info = queryStats(res.getValue().getStats());
+                QueryStats stats = res.getValue().getStats();
                 String txId = txRef.get();
                 Status status = res.getStatus().withIssues(issues.toArray(new Issue[0]));
-                return Result.success(new DataQueryResult(txId, results, info), status);
+                DataQueryResult value = new DataQueryResult(txId, results, stats != null ? stats.toProtobuf() : null);
+                return Result.success(value, status);
             });
         }
 

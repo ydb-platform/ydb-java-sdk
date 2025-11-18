@@ -1,6 +1,7 @@
 package tech.ydb.query.result;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import tech.ydb.proto.YdbQueryStats;
@@ -30,11 +31,23 @@ public class QueryStats {
         this.totalCpuTimeUs = stats.getTotalCpuTimeUs();
     }
 
+    public YdbQueryStats.QueryStats toProtobuf() {
+        return YdbQueryStats.QueryStats.newBuilder()
+                .setQueryAst(queryAst)
+                .setQueryPlan(queryPlan)
+                .setTotalCpuTimeUs(totalCpuTimeUs)
+                .setTotalDurationUs(totalDurationUs)
+                .setProcessCpuTimeUs(processCpuTimeUs)
+                .setCompilation(compilationStats.toProtobuf())
+                .addAllQueryPhases(queryPhases.stream().map(QueryPhase::toProtobuf).collect(Collectors.toList()))
+                .build();
+    }
+
     public List<QueryPhase> getPhases() {
         return this.queryPhases;
     }
 
-    /**
+    /*
      * @deprecated Use {{@link #getCompilationStats()}} instead
      */
     @Deprecated
@@ -64,6 +77,34 @@ public class QueryStats {
 
     public long getProcessCpuTimeUs() {
         return this.processCpuTimeUs;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = Objects.hash(queryPlan, queryAst, compilationStats, queryPhases);
+        hash = 31 * hash + (int) (processCpuTimeUs ^ (processCpuTimeUs >>> 32));
+        hash = 31 * hash + (int) (totalDurationUs ^ (totalDurationUs >>> 32));
+        hash = 31 * hash + (int) (totalCpuTimeUs ^ (totalCpuTimeUs >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+
+        QueryStats o = (QueryStats) other;
+        return Objects.equals(queryPlan, o.queryPlan)
+                && Objects.equals(queryAst, o.queryAst)
+                && Objects.equals(compilationStats, o.compilationStats)
+                && Objects.equals(queryPhases, o.queryPhases)
+                && processCpuTimeUs == o.processCpuTimeUs
+                && totalDurationUs == o.totalDurationUs
+                && totalCpuTimeUs == o.totalCpuTimeUs;
     }
 
     @Override
@@ -104,9 +145,38 @@ public class QueryStats {
             return this.isFromCache;
         }
 
+        public YdbQueryStats.CompilationStats toProtobuf() {
+            return YdbQueryStats.CompilationStats.newBuilder()
+                    .setCpuTimeUs(cpuTimeUs)
+                    .setDurationUs(durationUs)
+                    .setFromCache(isFromCache)
+                    .build();
+        }
+
         @Override
         public String toString() {
             return "Compilation{durationUs=" + durationUs + ", cpuTimeUs=" + cpuTimeUs + ", cache=" + isFromCache + "}";
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = Boolean.hashCode(isFromCache);
+            hash = 31 * hash + (int) (durationUs ^ (durationUs >>> 32));
+            hash = 31 * hash + (int) (cpuTimeUs ^ (cpuTimeUs >>> 32));
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) {
+                return true;
+            }
+            if (other == null || getClass() != other.getClass()) {
+                return false;
+            }
+
+            Compilation o = (Compilation) other;
+            return isFromCache == o.isFromCache && durationUs == o.durationUs && cpuTimeUs == o.cpuTimeUs;
         }
     }
 
@@ -157,6 +227,40 @@ public class QueryStats {
             sb.append("]}");
             return sb.toString();
         }
+
+        public YdbQueryStats.QueryPhaseStats toProtobuf() {
+            return YdbQueryStats.QueryPhaseStats.newBuilder()
+                    .setAffectedShards(affectedShards)
+                    .setCpuTimeUs(cpuTimeUs)
+                    .setDurationUs(durationUs)
+                    .setLiteralPhase(isLiteralPhase)
+                    .addAllTableAccess(tableAccesses.stream().map(TableAccess::toProtobuf).collect(Collectors.toList()))
+                    .build();
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = Boolean.hashCode(isLiteralPhase);
+            hash = 31 * hash + (int) (durationUs ^ (durationUs >>> 32));
+            hash = 31 * hash + (int) (cpuTimeUs ^ (cpuTimeUs >>> 32));
+            hash = 31 * hash + (int) (affectedShards ^ (affectedShards >>> 32));
+            hash = 31 * hash + tableAccesses.hashCode();
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) {
+                return true;
+            }
+            if (other == null || getClass() != other.getClass()) {
+                return false;
+            }
+
+            QueryPhase o = (QueryPhase) other;
+            return durationUs == o.durationUs && cpuTimeUs == o.cpuTimeUs && affectedShards == o.affectedShards
+                    && isLiteralPhase == o.isLiteralPhase && Objects.equals(tableAccesses, o.tableAccesses);
+        }
     }
 
     public static class TableAccess {
@@ -203,6 +307,40 @@ public class QueryStats {
                     + ", deletes={rows=" + deletes.rows + ", byte=" + deletes.bytes + "}"
                     + "}";
         }
+
+        public YdbQueryStats.TableAccessStats toProtobuf() {
+            return YdbQueryStats.TableAccessStats.newBuilder()
+                    .setName(name)
+                    .setPartitionsCount(partitionsCount)
+                    .setReads(reads.toProtobuf())
+                    .setDeletes(deletes.toProtobuf())
+                    .setUpdates(updates.toProtobuf())
+                    .build();
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = Objects.hash(name, reads, updates, deletes);
+            hash = 31 * hash + (int) (partitionsCount ^ (partitionsCount >>> 32));
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) {
+                return true;
+            }
+            if (other == null || getClass() != other.getClass()) {
+                return false;
+            }
+
+            TableAccess o = (TableAccess) other;
+            return Objects.equals(name, o.name)
+                    && Objects.equals(reads, o.reads)
+                    && Objects.equals(updates, o.updates)
+                    && Objects.equals(deletes, o.deletes)
+                    && partitionsCount == o.partitionsCount;
+        }
     }
 
     public static class Operation {
@@ -225,6 +363,30 @@ public class QueryStats {
         @Override
         public String toString() {
             return "OperationStats{rows=" + rows + ", bytes=" + bytes + "}";
+        }
+
+        public YdbQueryStats.OperationStats toProtobuf() {
+            return YdbQueryStats.OperationStats.newBuilder().setRows(rows).setBytes(bytes).build();
+        }
+
+        @Override
+        public int hashCode() {
+            int hash = 31 + (int) (rows ^ (rows >>> 32));
+            hash = 31 * hash + (int) (bytes ^ (bytes >>> 32));
+            return hash;
+        }
+
+        @Override
+        public boolean equals(Object other) {
+            if (this == other) {
+                return true;
+            }
+            if (other == null || getClass() != other.getClass()) {
+                return false;
+            }
+
+            Operation o = (Operation) other;
+            return rows == o.rows && bytes == o.bytes;
         }
     }
 }
