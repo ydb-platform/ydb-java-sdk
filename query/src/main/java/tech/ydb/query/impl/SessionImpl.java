@@ -142,7 +142,7 @@ abstract class SessionImpl implements QuerySession {
         Context ctx = Context.ROOT.fork();
         Context previous = ctx.attach();
         try {
-            GrpcRequestSettings grpcSettings = makeOptions(settings).build();
+            GrpcRequestSettings grpcSettings = makeOptions(settings).disableDeadline().build();
             GrpcReadStream<YdbQuery.SessionState> origin = rpc.attachSession(request, grpcSettings);
             return new GrpcReadStream<Status>() {
                 @Override
