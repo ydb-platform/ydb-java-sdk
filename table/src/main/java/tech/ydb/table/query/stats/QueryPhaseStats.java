@@ -2,7 +2,8 @@ package tech.ydb.table.query.stats;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 public final class QueryPhaseStats {
     private final long durationUs;
@@ -11,14 +12,28 @@ public final class QueryPhaseStats {
     private final long affectedShards;
     private final boolean literalPhase;
 
-
     public QueryPhaseStats(tech.ydb.proto.YdbQueryStats.QueryPhaseStats protoAutoGenQueryPhaseStats) {
-        this.durationUs = protoAutoGenQueryPhaseStats.getDurationUs();
-        this.tableAccess = protoAutoGenQueryPhaseStats.getTableAccessList().stream().map(TableAccessStats::new)
-                .collect(Collectors.toList());
-        this.cpuTimeUs = protoAutoGenQueryPhaseStats.getCpuTimeUs();
-        this.affectedShards = protoAutoGenQueryPhaseStats.getAffectedShards();
-        this.literalPhase = protoAutoGenQueryPhaseStats.getLiteralPhase();
+        this(
+                protoAutoGenQueryPhaseStats.getDurationUs(),
+                protoAutoGenQueryPhaseStats.getTableAccessList().stream().map(TableAccessStats::new).collect(toList()),
+                protoAutoGenQueryPhaseStats.getCpuTimeUs(),
+                protoAutoGenQueryPhaseStats.getAffectedShards(),
+                protoAutoGenQueryPhaseStats.getLiteralPhase()
+        );
+    }
+
+    public QueryPhaseStats(
+            long durationUs,
+            List<TableAccessStats> tableAccess,
+            long cpuTimeUs,
+            long affectedShards,
+            boolean literalPhase
+    ) {
+        this.durationUs = durationUs;
+        this.tableAccess = tableAccess;
+        this.cpuTimeUs = cpuTimeUs;
+        this.affectedShards = affectedShards;
+        this.literalPhase = literalPhase;
     }
 
     public long getDurationUs() {

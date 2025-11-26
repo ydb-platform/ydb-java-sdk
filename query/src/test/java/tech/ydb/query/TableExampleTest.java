@@ -19,6 +19,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import tech.ydb.common.transaction.TxMode;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.table.SessionPoolStats;
@@ -27,8 +28,10 @@ import tech.ydb.table.TableClient;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.stats.QueryStatsCollectionMode;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.settings.BulkUpsertSettings;
+import tech.ydb.table.settings.ExecuteDataQuerySettings;
 import tech.ydb.table.settings.ExecuteScanQuerySettings;
 import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.TxControl;
@@ -122,6 +125,7 @@ public class TableExampleTest {
 
         retryCtx.supplyStatus(session -> session.createTable(ydbRule.getDatabase() + "/episodes", episodesTable))
                 .join().expectSuccess("Can't create table /episodes");
+
     }
 
     @Test
@@ -421,5 +425,74 @@ public class TableExampleTest {
             // Commit active transaction (tx)
             return transaction.commit();
         }).join().expectSuccess("tcl transaction problem");
+    }
+
+    @Test
+    public void step10_queryStats() {
+        String query
+                = "DECLARE $seriesId AS Uint64; "
+                + "DECLARE $seasonId AS Uint64; "
+                + "SELECT sa.title AS season_title, sr.title AS series_title "
+                + "FROM seasons AS sa INNER JOIN series AS sr ON sa.series_id = sr.series_id "
+                + "WHERE sa.series_id = $seriesId AND sa.season_id = $seasonId";
+
+        TxControl<?> txControl = TxControl.snapshotRo().setCommitTx(true);
+        Params params = Params.of(
+                "$seriesId", PrimitiveValue.newUint64(1),
+                "$seasonId", PrimitiveValue.newUint64(2)
+        );
+        ExecuteDataQuerySettings settings = new ExecuteDataQuerySettings()
+                .disableQueryCache()
+                .setCollectStats(QueryStatsCollectionMode.FULL);
+
+        DataQueryResult result = retryCtx
+                .supplyResult(session -> session.executeDataQuery(query, txControl, params, settings))
+                .join().getValue();
+
+        Assert.assertTrue(result.hasQueryStats());
+        Assert.assertNotNull(result.getQueryStats());
+        Assert.assertNotEquals(0, result.getQueryStats().getQueryPhasesCount());
+        Assert.assertNotEquals(0, result.getQueryStats().getQueryPhases(0).getTableAccessCount());
+        Assert.assertFalse(result.getQueryStats().getQueryAst().isEmpty());
+        Assert.assertFalse(result.getQueryStats().getQueryPlan().isEmpty());
+    }
+
+    @Test
+    public void step11_queryIssues() {
+        String query = "$unused = 1; SELECT * FROM seasons;";
+
+        TxControl<?> txControl = TxControl.snapshotRo();
+
+        Result<DataQueryResult> result = retryCtx
+                .supplyResult(session -> session.executeDataQuery(query, txControl))
+                .join();
+
+        Status status = result.getStatus();
+        Assert.assertTrue(status.isSuccess());
+        Assert.assertEquals(1, status.getIssues().length);
+        Assert.assertEquals("Symbol $unused is not used", status.getIssues()[0].getMessage());
+    }
+
+    @Test
+    public void step12_multiStatementTest() {
+        String query = ""
+                + "SELECT * FROM series ORDER BY series_id;"
+                + "INSERT INTO series SELECT * FROM AS_TABLE(ListMap(ListFromRange(10000, 20000), ($x) -> {"
+                + " RETURN <|series_id: $x, title: 'TEST'u || CAST($x AS Text)|>;"
+                + "}));"
+                + "SELECT * FROM series ORDER BY series_id;"
+                + "DELETE FROM series WHERE series_id >= 10000;"
+                + "SELECT * FROM series ORDER BY series_id;";
+
+        TxControl<?> txControl = TxControl.serializableRw();
+
+        DataQueryResult result = retryCtx
+                .supplyResult(session -> session.executeDataQuery(query, txControl))
+                .join().getValue();
+
+        Assert.assertEquals(3, result.getResultSetCount());
+        Assert.assertEquals(2, result.getResultSet(0).getRowCount());
+        Assert.assertEquals(10002, result.getResultSet(1).getRowCount());
+        Assert.assertEquals(2, result.getResultSet(2).getRowCount());
     }
 }

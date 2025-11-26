@@ -45,4 +45,12 @@ public class Batch {
     public void setDecompressed(boolean decompressed) {
         this.decompressed = decompressed;
     }
+
+    long getFirstCommitOffsetFrom() {
+        return messages.get(0).getCommitOffsetFrom();
+    }
+
+    long getLastOffset() {
+        return messages.get(messages.size() - 1).getOffset();
+    }
 }

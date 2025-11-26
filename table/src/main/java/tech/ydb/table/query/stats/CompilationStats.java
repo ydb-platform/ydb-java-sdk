@@ -8,9 +8,17 @@ public final class CompilationStats {
     private final long cpuTimeUs;
 
     public CompilationStats(tech.ydb.proto.YdbQueryStats.CompilationStats protoAutoGenCompilationStats) {
-        this.fromCache = protoAutoGenCompilationStats.getFromCache();
-        this.durationUs = protoAutoGenCompilationStats.getDurationUs();
-        this.cpuTimeUs = protoAutoGenCompilationStats.getCpuTimeUs();
+        this(
+                protoAutoGenCompilationStats.getFromCache(),
+                protoAutoGenCompilationStats.getDurationUs(),
+                protoAutoGenCompilationStats.getCpuTimeUs()
+        );
+    }
+
+    public CompilationStats(boolean fromCache, long durationUs, long cpuTimeUs) {
+        this.fromCache = fromCache;
+        this.durationUs = durationUs;
+        this.cpuTimeUs = cpuTimeUs;
     }
 
     public boolean getFromCache() {

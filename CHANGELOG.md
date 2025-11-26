@@ -1,3 +1,43 @@
+## 2.3.25 ##
+* Core: Removed usage of default deadline for long grpc streams
+* Query: Updated QueryStats class in QueryClient
+
+## 2.3.24 ##
+* Topic: Added stream id to SessionBase logs
+* Table: Fixed describeTable() for table columns with default values
+
+## 2.3.23 ##
+* Topic: Added validation of a message size
+* Table: Added support of raw proto data to executeDateQuery/readTable/bulkUpsert
+* Query: Updated TableClient over QueryClient implementation, removed ProxedDataQueryResult
+
+## 2.3.22 ##
+* Core: Added endpoint address to GRPC-related errors
+* Topic: Fixed deadlock on the client-side exception handling
+* Table: Session pool service calls were isolated from grpc context
+
+## 2.3.21 ##
+* Query: Support QueryStats in QueryService-based TableClient wrapper
+* Table: CreateTable with default value options
+* Table: AlterTable supports index renaming
+* Table: Fixed data race on stream result processing
+
+## 2.3.20 ##
+* Table: Fixed session status updating on stream calls
+* Core: Added endpoint pessimization when CreateSession returns OVERLOADED
+
+## 2.3.19 ##
+* Core: Added isolated grpc context for discovery and attachStream methods
+* Topic: Added support of message batching
+
+## 2.3.18 ##
+* Core: Added method addChannelInitializer
+* Core: Hided token & passwords from trace logs
+* Query: Added support of reading raw proto message
+* Topic: Set max_active_partitions on topic creation
+* Topic: Added statistic to WriteAck
+* Topic: Fixed lost compression errors
+
 ## 2.3.17 ##
 * Query: Fixed session status updating
 * Topic: Fixed maxActivePartitions on topic creation

@@ -1,6 +1,5 @@
 package tech.ydb.topic.write.impl;
 
-import java.io.IOException;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
@@ -112,6 +112,14 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     }
 
     public CompletableFuture<Void> tryToEnqueue(EnqueuedMessage message, boolean instant) {
+        if (message.getSize() > settings.getMaxSendBufferMemorySize()) {
+            String errorMessage = "Rejecting a message of " + message.getSize()
+                    + " bytes: not enough space in message queue. The maximum size of buffer is "
+                    + settings.getMaxSendBufferMemorySize() + " bytes";
+            logger.info("[{}] {}", id, errorMessage);
+            throw new IllegalArgumentException(errorMessage);
+        }
+
         incomingQueueLock.lock();
 
         try {
@@ -176,7 +184,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         } else {
             CompletableFuture
                     .runAsync(() -> message.encode(id, settings.getCodec(), codecRegistry), compressionExecutor)
-                    .thenRun(this::moveEncodedMessagesToSendingQueue);
+                    .whenComplete((res, th) -> moveEncodedMessagesToSendingQueue());
         }
     }
 
@@ -198,7 +206,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     break;
                 }
 
-                IOException error = msg.getCompressError();
+                Throwable error = msg.getCompressError();
                 if (error != null) { // just skip
                     logger.warn("[{}] Message wasn't sent because of processing error", id, error);
                     free(1, msg.getOriginalSize());
@@ -433,6 +441,17 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         private void onWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse response) {
             List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks = response.getAcksList();
             logger.debug("[{}] Received WriteResponse with {} WriteAcks", streamId, acks.size());
+            WriteAck.Statistics statistics = null;
+            if (response.getWriteStatistics() != null) {
+                YdbTopic.StreamWriteMessage.WriteResponse.WriteStatistics src = response.getWriteStatistics();
+                statistics = new WriteAck.Statistics(
+                    ProtobufUtils.protoToDuration(src.getPersistingTime()),
+                    ProtobufUtils.protoToDuration(src.getPartitionQuotaWaitTime()),
+                    ProtobufUtils.protoToDuration(src.getTopicQuotaWaitTime()),
+                    ProtobufUtils.protoToDuration(src.getMaxQueueWaitTime()),
+                    ProtobufUtils.protoToDuration(src.getMinQueueWaitTime())
+                );
+            }
             int inFlightFreed = 0;
             long bytesFreed = 0;
             for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
@@ -445,7 +464,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                         inFlightFreed++;
                         bytesFreed += sentMessage.getSize();
                         sentMessages.remove();
-                        processWriteAck(sentMessage, ack);
+                        processWriteAck(sentMessage, statistics, ack);
                         break;
                     }
                     if (sentMessage.getSeqNo() < ack.getSeqNo()) {
@@ -486,7 +505,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             }
         }
 
-        private void processWriteAck(EnqueuedMessage message,
+        private void processWriteAck(EnqueuedMessage message, WriteAck.Statistics statistics,
                                      YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
             logger.debug("[{}] Received WriteAck with seqNo {} and status {}", streamId, ack.getSeqNo(),
                     ack.getMessageWriteStatusCase());
@@ -494,12 +513,12 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             switch (ack.getMessageWriteStatusCase()) {
                 case WRITTEN:
                     WriteAck.Details details = new WriteAck.Details(ack.getWritten().getOffset());
-                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details);
+                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN, details, statistics);
                     break;
                 case SKIPPED:
                     switch (ack.getSkipped().getReason()) {
                         case REASON_ALREADY_WRITTEN:
-                            resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null);
+                            resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null, statistics);
                             break;
                         case REASON_UNSPECIFIED:
                         default:
@@ -509,7 +528,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     }
                     break;
                 case WRITTEN_IN_TX:
-                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN_IN_TX, null);
+                    resultAck = new WriteAck(ack.getSeqNo(), WriteAck.State.WRITTEN_IN_TX, null, statistics);
                     break;
                 default:
                     message.getFuture().completeExceptionally(
@@ -531,5 +550,6 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         protected void onStop() {
             logger.debug("[{}] Session {} onStop called", streamId, sessionId);
         }
+
     }
 }

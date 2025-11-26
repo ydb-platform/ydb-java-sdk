@@ -2,6 +2,7 @@ package tech.ydb.table.description;
 
 import javax.annotation.Nullable;
 
+import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.Type;
 
 
@@ -14,18 +15,29 @@ public class TableColumn {
     private final Type type;
     @Nullable
     private final String family;
+    @Nullable
+    private final PrimitiveValue literalDefaultValue;
+    @Nullable
+    private final SequenceDescription sequenceDescription;
 
-    private final boolean hasDefaultValue;
-
-    public TableColumn(String name, Type type, String family, boolean hasDefaultValue) {
+    public TableColumn(String name, Type type, @Nullable String family, PrimitiveValue literalDefaultValue) {
         this.name = name;
         this.type = type;
         this.family = family;
-        this.hasDefaultValue = hasDefaultValue;
+        this.literalDefaultValue = literalDefaultValue;
+        this.sequenceDescription = null;
+    }
+
+    public TableColumn(String name, Type type, @Nullable String family, SequenceDescription sequenceDescription) {
+        this.name = name;
+        this.type = type;
+        this.family = family;
+        this.literalDefaultValue = null;
+        this.sequenceDescription = sequenceDescription;
     }
 
     public TableColumn(String name, Type type, String family) {
-        this(name, type, family, false);
+        this(name, type, family, (PrimitiveValue) null);
     }
 
     public TableColumn(String name, Type type) {
@@ -41,7 +53,7 @@ public class TableColumn {
     }
 
     public boolean hasDefaultValue() {
-        return hasDefaultValue;
+        return literalDefaultValue != null || sequenceDescription != null;
     }
 
     @Nullable
@@ -52,5 +64,15 @@ public class TableColumn {
     @Override
     public String toString() {
         return name + ' ' + type;
+    }
+
+    @Nullable
+    public PrimitiveValue getLiteralDefaultValue() {
+        return literalDefaultValue;
+    }
+
+    @Nullable
+    public SequenceDescription getSequenceDescription() {
+        return sequenceDescription;
     }
 }

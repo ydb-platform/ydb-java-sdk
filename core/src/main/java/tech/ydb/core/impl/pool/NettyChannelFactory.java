@@ -1,6 +1,7 @@
 package tech.ydb.core.impl.pool;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -8,6 +9,7 @@ import javax.net.ssl.SSLException;
 
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.Metadata;
 import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.netty.GrpcSslContexts;
@@ -38,6 +40,7 @@ public class NettyChannelFactory implements ManagedChannelFactory {
     private final boolean retryEnabled;
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
+    private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
 
     private NettyChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
@@ -47,6 +50,7 @@ public class NettyChannelFactory implements ManagedChannelFactory {
         this.retryEnabled = builder.isEnableRetry();
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
         this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
+        this.initializers = builder.getChannelInitializers();
     }
 
     @SuppressWarnings("deprecation")
@@ -88,6 +92,10 @@ public class NettyChannelFactory implements ManagedChannelFactory {
             channelBuilder.enableRetry();
         } else {
             channelBuilder.disableRetry();
+        }
+
+        for (Consumer<? super ManagedChannelBuilder<?>> initializer: initializers) {
+            initializer.accept(channelBuilder);
         }
 
         configure(channelBuilder);

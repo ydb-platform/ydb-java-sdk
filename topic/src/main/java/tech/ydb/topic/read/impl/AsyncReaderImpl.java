@@ -200,6 +200,6 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private void logUserThrowableAndStopWorking(Throwable th, String callbackName) {
         String errorMessage = "Unhandled throwable in " + callbackName + " user callback: " + th;
         logger.error(errorMessage);
-        shutdownImpl(errorMessage).join();
+        shutdownImpl(errorMessage);
     }
 }

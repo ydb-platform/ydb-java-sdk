@@ -176,12 +176,12 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             if (error != null) {
                 currentSession.closeDueToError(null,
                         new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
-                                " with partition offsets from read session " + currentSession.streamId +
+                                " with partition offsets from read session " + currentSession.getStreamId() +
                                 " was not committed with reason: " + error));
             } else if (!status.isSuccess()) {
                 currentSession.closeDueToError(null,
                         new RuntimeException("Restarting read session due to transaction " + transaction.getId() +
-                                " with partition offsets from read session " + currentSession.streamId +
+                                " with partition offsets from read session " + currentSession.getStreamId() +
                                 " was not committed with status: " + status));
             }
         });
@@ -407,6 +407,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
             PartitionSessionImpl partitionSession = PartitionSessionImpl.newBuilder()
                     .setId(partitionSessionId)
+                    .setMaxBatchSize(settings.getMaxBatchSize())
                     .setFullId(partitionSessionFullId)
                     .setTopicPath(request.getPartitionSession().getPath())
                     .setConsumerName(consumerName)

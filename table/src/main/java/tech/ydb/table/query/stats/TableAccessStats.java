@@ -10,11 +10,27 @@ public final class TableAccessStats {
     private final long partitionsCount;
 
     public TableAccessStats(tech.ydb.proto.YdbQueryStats.TableAccessStats protoAutoGenTableAccessStats) {
-        this.name = protoAutoGenTableAccessStats.getName();
-        this.reads = new OperationStats(protoAutoGenTableAccessStats.getReads());
-        this.updates = new OperationStats(protoAutoGenTableAccessStats.getUpdates());
-        this.deletes = new OperationStats(protoAutoGenTableAccessStats.getDeletes());
-        this.partitionsCount = protoAutoGenTableAccessStats.getPartitionsCount();
+        this(
+                protoAutoGenTableAccessStats.getName(),
+                new OperationStats(protoAutoGenTableAccessStats.getReads()),
+                new OperationStats(protoAutoGenTableAccessStats.getUpdates()),
+                new OperationStats(protoAutoGenTableAccessStats.getDeletes()),
+                protoAutoGenTableAccessStats.getPartitionsCount()
+        );
+    }
+
+    public TableAccessStats(
+            String name,
+            OperationStats reads,
+            OperationStats updates,
+            OperationStats deletes,
+            long partitionsCount
+    ) {
+        this.name = name;
+        this.reads = reads;
+        this.updates = updates;
+        this.deletes = deletes;
+        this.partitionsCount = partitionsCount;
     }
 
     public String getName() {
@@ -45,7 +61,8 @@ public final class TableAccessStats {
             return super.equals(obj);
         } else {
             TableAccessStats other = (TableAccessStats) obj;
-            return Objects.equals(getName(), other.getName()) && Objects.equals(getReads(), other.getReads()) &&
+            return Objects.equals(getName(), other.getName()) &&
+                    Objects.equals(getReads(), other.getReads()) &&
                     Objects.equals(getUpdates(), other.getUpdates()) &&
                     Objects.equals(getDeletes(), other.getDeletes()) &&
                     Objects.equals(getPartitionsCount(), other.getPartitionsCount());

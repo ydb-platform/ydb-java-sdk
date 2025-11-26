@@ -145,6 +145,34 @@ public class DefaultChannelFactoryTest {
     }
 
     @Test
+    public void addChannelInitializerTest() {
+        GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
+                .withUseDefaultGrpcResolver(true)
+                .addChannelInitializer(ci -> ci.usePlaintext())
+                .addChannelInitializer(ci -> ci.userAgent("TEST"));
+
+        ManagedChannelFactory factory = ShadedNettyChannelFactory.build()
+                .buildFactory(builder);
+
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
+
+        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
+
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
+
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).negotiationType(NegotiationType.PLAINTEXT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .maxInboundMessageSize(ShadedNettyChannelFactory.INBOUND_MESSAGE_SIZE);
+        Mockito.verify(channelBuilderMock, Mockito.times(0))
+                .defaultLoadBalancingPolicy(ShadedNettyChannelFactory.DEFAULT_BALANCER_POLICY);
+        Mockito.verify(channelBuilderMock, Mockito.times(1))
+                .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).usePlaintext();
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).userAgent("TEST");
+    }
+
+    @Test
     public void customSslFactory() throws CertificateException, IOException {
         SelfSignedCertificate selfSignedCert = new SelfSignedCertificate(MOCKED_HOST);
         try {

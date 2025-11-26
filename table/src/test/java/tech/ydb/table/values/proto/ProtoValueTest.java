@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import org.junit.Assert;
 import org.junit.Test;
 
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.values.PrimitiveValue;
 
 
@@ -80,5 +81,20 @@ public class ProtoValueTest {
         Assert.assertEquals(UUID.fromString("123e4567-e89b-12d3-a456-426614174000"), u1.getUuidJdk());
         Assert.assertEquals(low, u1.getUuidLow());
         Assert.assertEquals(high, u1.getUuidHigh());
+    }
+
+    @Test
+    public void toTypedValueTest() {
+        PrimitiveValue v1 = PrimitiveValue.newDouble(1.5432f);
+
+        ValueProtos.TypedValue tv1 = ProtoValue.toTypedValue(v1);
+        ValueProtos.TypedValue tv2 = ProtoValue.toTypedValue(v1.getType().toPb(), v1.toPb());
+        ValueProtos.TypedValue tv3 = ProtoValue.toTypedValue(
+                ValueProtos.Type.newBuilder().setTypeId(ValueProtos.Type.PrimitiveTypeId.DOUBLE).build(),
+                ValueProtos.Value.newBuilder().setDoubleValue(1.5432f)
+        );
+
+        Assert.assertEquals(tv1, tv2);
+        Assert.assertEquals(tv1, tv3);
     }
 }

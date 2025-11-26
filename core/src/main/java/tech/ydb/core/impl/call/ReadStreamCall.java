@@ -30,6 +30,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransport.class);
 
     private final String traceId;
+    private final String endpoint;
     private final ClientCall<ReqT, RespT> call;
     private final Lock callLock = new ReentrantLock();
     private final GrpcStatusHandler statusConsumer;
@@ -41,9 +42,10 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
 
     private Observer<RespT> consumer;
 
-    public ReadStreamCall(String traceId, ClientCall<ReqT, RespT> call, GrpcFlowControl flowCtrl, ReqT req,
-            Metadata headers, GrpcStatusHandler statusHandler) {
+    public ReadStreamCall(String traceId, String endpoint, ClientCall<ReqT, RespT> call, GrpcFlowControl flowCtrl,
+            ReqT req, Metadata headers, GrpcStatusHandler statusHandler) {
         this.traceId = traceId;
+        this.endpoint = endpoint;
         this.call = call;
         this.request = req;
         this.headers = headers;
@@ -142,7 +144,9 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
         if (status.isOk()) {
             statusFuture.complete(Status.SUCCESS);
         } else {
-            statusFuture.complete(GrpcStatuses.toStatus(status));
+            statusFuture.complete(GrpcStatuses.toStatus(status, endpoint));
         }
+
+        statusConsumer.postComplete();
     }
 }

@@ -15,7 +15,11 @@ import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.BalancingSettings;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 
 /**
  * @author Nikolay Perfilov
@@ -23,6 +27,8 @@ import tech.ydb.core.grpc.BalancingSettings;
  */
 public final class EndpointPool {
     private static final Logger logger = LoggerFactory.getLogger(EndpointPool.class);
+    private static final Status DIRECT_REQUEST_ERROR_CODE = Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
+    private static final Status NODE_NOT_FOUND_ERROR_CODE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE);
 
     // Maximum percent of endpoints pessimized by transport errors to start recheck
     private static final long DISCOVERY_PESSIMIZATION_THRESHOLD = 50;
@@ -44,15 +50,25 @@ public final class EndpointPool {
     }
 
     @Nullable
-    public EndpointRecord getEndpoint(@Nullable Integer preferredNodeID) {
+    public EndpointRecord getEndpoint(GrpcRequestSettings settings) {
         recordsLock.readLock().lock();
         try {
-            if (preferredNodeID != null) {
-                PriorityEndpoint knownEndpoint = recordsByNodeId.get(preferredNodeID);
+            Integer nodeId = settings.getPreferredNodeID();
+            boolean directMode = settings.isDirectMode();
+
+            if (nodeId != null) {
+                PriorityEndpoint knownEndpoint = recordsByNodeId.get(nodeId);
                 if (knownEndpoint != null) {
                     return knownEndpoint.record;
                 }
+                if (directMode) {
+                    throw new UnexpectedResultException("Node " + nodeId + " not found", NODE_NOT_FOUND_ERROR_CODE);
+                }
             }
+            if (directMode) {
+                throw new UnexpectedResultException("Cannot use direct mode without NodeId", DIRECT_REQUEST_ERROR_CODE);
+            }
+
             if (bestEndpointsCount > 0) {
                 // returns value in range [0, n)
                 int idx = ThreadLocalRandom.current().nextInt(bestEndpointsCount);
@@ -124,7 +140,7 @@ public final class EndpointPool {
         return removed;
     }
 
-    public void pessimizeEndpoint(EndpointRecord endpoint) {
+    public void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
         if (endpoint == null) {
             return;
         }
@@ -146,26 +162,26 @@ public final class EndpointPool {
             records.sort(PriorityEndpoint.COMPARATOR);
 
             long bestPriority = records.get(0).priority;
-            int newBestCount = 0;
-            int newPessimizedCount = 0;
+            int bestCount = 0;
+            int pcount = 0;
             for (PriorityEndpoint record : records) {
                 if (record.getPriority() == bestPriority) {
-                    newBestCount++;
+                    bestCount++;
                 }
                 if (record.isPessimized()) {
-                    newPessimizedCount++;
+                    pcount++;
                 }
             }
 
-            bestEndpointsCount = newBestCount;
-            needToRunDiscovery = 100 * newPessimizedCount > records.size() * DISCOVERY_PESSIMIZATION_THRESHOLD;
+            bestEndpointsCount = bestCount;
+            needToRunDiscovery = 100 * pcount > records.size() * DISCOVERY_PESSIMIZATION_THRESHOLD;
             if (needToRunDiscovery) {
                 logger.debug("launching discovery due to pessimization threshold is exceeded: {}/{} is more than {}",
-                        newPessimizedCount, records.size(), DISCOVERY_PESSIMIZATION_THRESHOLD);
+                        pcount, records.size(), DISCOVERY_PESSIMIZATION_THRESHOLD);
             }
 
-            logger.trace("Endpoint {} was pessimized. New pessimization ratio: {}/{}",
-                    endpoint, newPessimizedCount, records.size());
+            logger.warn("Endpoint {} was pessimized {}. New pessimization ratio: {}/{}",
+                    endpoint, reason, pcount, records.size());
         } finally {
             recordsLock.writeLock().unlock();
         }

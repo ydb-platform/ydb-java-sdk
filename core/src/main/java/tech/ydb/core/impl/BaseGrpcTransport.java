@@ -3,6 +3,7 @@ package tech.ydb.core.impl;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.BooleanSupplier;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
@@ -20,7 +21,6 @@ import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.auth.AuthCallOptions;
@@ -29,6 +29,7 @@ import tech.ydb.core.impl.call.GrpcStatusHandler;
 import tech.ydb.core.impl.call.ReadStreamCall;
 import tech.ydb.core.impl.call.ReadWriteStreamCall;
 import tech.ydb.core.impl.call.UnaryCall;
+import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 
 /**
@@ -47,7 +48,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     protected abstract AuthCallOptions getAuthCallOptions();
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
-    protected abstract void updateChannelStatus(GrpcChannel channel, io.grpc.Status status);
+
+    protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
+        // nothing to pessimize
+    }
 
     protected void shutdown() {
         // nothing to shutdown
@@ -79,9 +83,13 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
         }
+        if (settings.isDeadlineDisabled()) {
+            options = options.withDeadline(null);
+        }
 
         try {
             GrpcChannel channel = getChannel(settings);
+            String endpoint = channel.getEndpoint().getHostAndPort();
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
@@ -90,8 +98,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         traceId, method.getFullMethodName(), channel.getEndpoint().getHostAndPort()
                 );
             }
-
-            return new UnaryCall<>(traceId, call, handler).startCall(request, makeMetadataFromSettings(settings));
+            Metadata metadata = makeMetadataFromSettings(settings);
+            return new UnaryCall<>(traceId, endpoint, call, handler).startCall(request, metadata);
         } catch (UnexpectedResultException ex) {
             logger.warn("UnaryCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
@@ -117,13 +125,17 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method, settings)));
+                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        }
+        if (settings.isDeadlineDisabled()) {
+            options = options.withDeadline(null);
         }
 
         try {
             GrpcChannel channel = getChannel(settings);
+            String endpoint = channel.getEndpoint().getHostAndPort();
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
@@ -135,7 +147,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             Metadata metadata = makeMetadataFromSettings(settings);
             GrpcFlowControl flowCtrl = settings.getFlowControl();
-            return new ReadStreamCall<>(traceId, call, flowCtrl, request, metadata, handler);
+            return new ReadStreamCall<>(traceId, endpoint, call, flowCtrl, request, metadata, handler);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -162,15 +174,19 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getDeadlineAfter() != 0) {
             final long now = System.nanoTime();
             if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(GrpcStatuses.toStatus(deadlineExpiredStatus(method, settings)));
+                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
             options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        }
+        if (settings.isDeadlineDisabled()) {
+            options = options.withDeadline(null);
         }
 
         try {
             GrpcChannel channel = getChannel(settings);
+            String endpoint = channel.getEndpoint().getHostAndPort();
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
-            ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
+            ChannelStatusHandler hdlr = new ChannelStatusHandler(channel, settings);
 
             if (logger.isTraceEnabled()) {
                 logger.trace("ReadWriteStreamCall[{}] with method {} and endpoint {} created",
@@ -180,7 +196,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             Metadata metadata = makeMetadataFromSettings(settings);
             GrpcFlowControl flowCtrl = settings.getFlowControl();
-            return new ReadWriteStreamCall<>(traceId, call, flowCtrl, metadata, getAuthCallOptions(), handler);
+            return new ReadWriteStreamCall<>(traceId, endpoint, call, flowCtrl, metadata, getAuthCallOptions(), hdlr);
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadWriteStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -198,10 +214,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         return Result.fail(Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR)));
     }
 
-    private static io.grpc.Status deadlineExpiredStatus(MethodDescriptor<?, ?> method, GrpcRequestSettings settings) {
+    private static Status deadlineExpiredStatus(MethodDescriptor<?, ?> method, GrpcRequestSettings settings) {
         String message = "deadline expired before calling method " + method.getFullMethodName() + " with traceId " +
                 settings.getTraceId();
-        return io.grpc.Status.DEADLINE_EXCEEDED.withDescription(message);
+        return Status.of(StatusCode.CLIENT_DEADLINE_EXPIRED, Issue.of(message, Issue.Severity.ERROR));
     }
 
     private Metadata makeMetadataFromSettings(GrpcRequestSettings settings) {
@@ -226,9 +242,21 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
         @Override
         public void accept(io.grpc.Status status, Metadata trailers) {
-            updateChannelStatus(channel, status);
+            // Usually CANCELLED is received when ClientCall is canceled on client side
+            if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
+                pessimizeEndpoint(channel.getEndpoint(), "by grpc code " + status.getCode());
+            }
+
             if (settings.getTrailersHandler() != null && trailers != null) {
                 settings.getTrailersHandler().accept(trailers);
+            }
+        }
+
+        @Override
+        public void postComplete() {
+            BooleanSupplier hook = settings.getPessimizationHook();
+            if (hook != null && hook.getAsBoolean()) {
+                pessimizeEndpoint(channel.getEndpoint(), "by pessimization hook");
             }
         }
     }

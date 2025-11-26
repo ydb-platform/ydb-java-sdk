@@ -1,30 +1,36 @@
 package tech.ydb.query.impl;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
 
 import tech.ydb.common.transaction.TxMode;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
+import tech.ydb.query.result.QueryInfo;
+import tech.ydb.query.result.QueryResultPart;
+import tech.ydb.query.result.QueryStats;
 import tech.ydb.query.settings.ExecuteQuerySettings;
-import tech.ydb.query.tools.QueryReader;
+import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.impl.BaseSession;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
-import tech.ydb.table.query.stats.QueryStats;
-import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
@@ -88,57 +94,6 @@ public class TableClientImpl implements TableClient {
         return TxControl.txModeCtrl(TxMode.NONE, tc.getCommitTx());
     }
 
-    private static class ProxedDataQueryResult extends DataQueryResult {
-        private final String txID;
-        private final QueryReader reader;
-
-        ProxedDataQueryResult(String txID, QueryReader reader) {
-            super(YdbTable.ExecuteQueryResult.getDefaultInstance());
-            this.txID = txID;
-            this.reader = reader;
-        }
-
-        @Override
-        public String getTxId() {
-            return txID;
-        }
-
-        @Override
-        public int getResultSetCount() {
-            return reader.getResultSetCount();
-        }
-
-        @Override
-        public ResultSetReader getResultSet(int index) {
-            return reader.getResultSet(index);
-        }
-
-        @Override
-        public boolean isTruncated(int index) {
-            return false;
-        }
-
-        @Override
-        public int getRowCount(int index) {
-            return reader.getResultSet(index).getRowCount();
-        }
-
-        @Override
-        public boolean isEmpty() {
-            return txID.isEmpty() && reader.getResultSetCount() == 0;
-        }
-
-        @Override
-        public QueryStats getQueryStats() {
-            return null;
-        }
-
-        @Override
-        public boolean hasQueryStats() {
-            return false;
-        }
-    }
-
     private class TableSession extends BaseSession {
         private final SessionImpl querySession;
 
@@ -154,9 +109,13 @@ public class TableClientImpl implements TableClient {
             ExecuteQuerySettings qs = ExecuteQuerySettings.newBuilder()
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
+                    .withStatsMode(QueryStatsMode.valueOf(settings.collectStats().name()))
                     .build();
 
             final AtomicReference<String> txRef = new AtomicReference<>("");
+            final List<Issue> issues = new ArrayList<>();
+            final List<ValueProtos.ResultSet> results = new ArrayList<>();
+
             QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs)) {
                 @Override
                 void handleTxMeta(String txID) {
@@ -164,10 +123,40 @@ public class TableClientImpl implements TableClient {
                 }
             };
 
-            return QueryReader.readFrom(stream)
-                    .thenApply(r -> r.map(
-                            reader -> new ProxedDataQueryResult(txRef.get(), reader)
-                    ));
+            CompletableFuture<Result<QueryInfo>> future = stream.execute(new QueryStream.PartsHandler() {
+                @Override
+                public void onIssues(Issue[] issueArr) {
+                    issues.addAll(Arrays.asList(issueArr));
+                }
+
+                @Override
+                public void onNextPart(QueryResultPart part) { } // not used
+
+                @Override
+                public void onNextRawPart(long index, ValueProtos.ResultSet rs) {
+                    int idx = (int) index;
+                    while (results.size() <= idx) {
+                        results.add(null);
+                    }
+                    if (results.get(idx) == null) {
+                        results.set(idx, rs);
+                    } else {
+                        results.set(idx, results.get(idx).toBuilder().addAllRows(rs.getRowsList()).build());
+                    }
+                }
+            });
+
+
+            return future.thenApply(res -> {
+                if (!res.isSuccess()) {
+                    return res.map(v -> null);
+                }
+                QueryStats stats = res.getValue().getStats();
+                String txId = txRef.get();
+                Status status = res.getStatus().withIssues(issues.toArray(new Issue[0]));
+                DataQueryResult value = new DataQueryResult(txId, results, stats != null ? stats.toProtobuf() : null);
+                return Result.success(value, status);
+            });
         }
 
         @Override

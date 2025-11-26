@@ -2,7 +2,9 @@ package tech.ydb.table.values.proto;
 
 
 import java.util.Arrays;
+import java.util.List;
 
+import com.google.common.base.Preconditions;
 import com.google.protobuf.NullValue;
 
 import tech.ydb.proto.ValueProtos;
@@ -219,6 +221,13 @@ public class ProtoType {
         return builder.build();
     }
 
+    public static ValueProtos.StructMember getStructMember(String memberName, ValueProtos.Type memberType) {
+        return ValueProtos.StructMember.newBuilder()
+                .setName(memberName)
+                .setType(memberType)
+                .build();
+    }
+
     public static ValueProtos.Type getStruct(String memberName, ValueProtos.Type memberType) {
         ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
         ValueProtos.StructType.Builder structType = builder.getStructTypeBuilder();
@@ -321,6 +330,13 @@ public class ProtoType {
         return builder.build();
     }
 
+    public static ValueProtos.Type getStruct(List<ValueProtos.StructMember> members) {
+        Preconditions.checkArgument(!members.isEmpty(), "Struct members cannot be empty");
+        ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
+        builder.getStructTypeBuilder().addAllMembers(members);
+        return builder.build();
+    }
+
     public static ValueProtos.Type getTuple() {
         return EMPTY_TUPLE;
     }
@@ -331,6 +347,13 @@ public class ProtoType {
         for (ValueProtos.Type elementType : elementTypes) {
             tupleType.addElements(elementType);
         }
+        return builder.build();
+    }
+
+    public static ValueProtos.Type getTuple(List<ValueProtos.Type> elements) {
+        Preconditions.checkArgument(!elements.isEmpty(), "Tuple elements cannot be empty");
+        ValueProtos.Type.Builder builder = ValueProtos.Type.newBuilder();
+        builder.getTupleTypeBuilder().addAllElements(elements);
         return builder.build();
     }
 

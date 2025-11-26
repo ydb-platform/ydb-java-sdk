@@ -20,12 +20,18 @@ public abstract class SessionBase<R, W> implements Session {
 
     protected final GrpcReadWriteStream<R, W> streamConnection;
     protected final AtomicBoolean isWorking = new AtomicBoolean(true);
+    protected final String streamId;
     private final ReentrantLock lock = new ReentrantLock();
     private String token;
 
-    public SessionBase(GrpcReadWriteStream<R, W> streamConnection) {
+    public SessionBase(GrpcReadWriteStream<R, W> streamConnection, String streamId) {
         this.streamConnection = streamConnection;
+        this.streamId = streamId;
         this.token = streamConnection.authToken();
+    }
+
+    public String getStreamId() {
+        return streamId;
     }
 
     protected abstract Logger getLogger();
@@ -38,12 +44,12 @@ public abstract class SessionBase<R, W> implements Session {
         lock.lock();
 
         try {
-            getLogger().info("Session start");
+            getLogger().info("[{}] Session start", streamId);
             return streamConnection.start(message -> {
                 if (getLogger().isTraceEnabled()) {
-                    getLogger().trace("Message received:\n{}", message);
+                    getLogger().trace("[{}] Message received:\n{}", streamId, message);
                 } else {
-                    getLogger().debug("Message received");
+                    getLogger().debug("[{}] Message received", streamId);
                 }
 
                 if (isWorking.get()) {
@@ -61,21 +67,25 @@ public abstract class SessionBase<R, W> implements Session {
         try {
             if (!isWorking.get()) {
                 if (getLogger().isTraceEnabled()) {
-                    getLogger().trace("Session is already closed. This message is NOT sent:\n{}", request);
+                    getLogger().trace(
+                            "[{}] Session is already closed. This message is NOT sent:\n{}",
+                            streamId,
+                            request
+                    );
                 }
                 return;
             }
             String currentToken = streamConnection.authToken();
             if (!Objects.equals(token, currentToken)) {
                 token = currentToken;
-                getLogger().info("Sending new token");
+                getLogger().info("[{}] Sending new token", streamId);
                 sendUpdateTokenRequest(token);
             }
 
             if (getLogger().isTraceEnabled()) {
-                getLogger().trace("Sending request:\n{}", request);
+                getLogger().trace("[{}] Sending request:\n{}", streamId, request);
             } else {
-                getLogger().debug("Sending request");
+                getLogger().debug("[{}] Sending request", streamId);
             }
             streamConnection.sendNext(request);
         } finally {
@@ -84,7 +94,7 @@ public abstract class SessionBase<R, W> implements Session {
     }
 
     private boolean stop() {
-        getLogger().info("Session stop");
+        getLogger().info("[{}] Session stop", streamId);
         return isWorking.compareAndSet(true, false);
     }
 
@@ -93,7 +103,7 @@ public abstract class SessionBase<R, W> implements Session {
         lock.lock();
 
         try {
-            getLogger().info("Session shutdown");
+            getLogger().info("[{}] Session shutdown", streamId);
             if (stop()) {
                 onStop();
                 streamConnection.close();

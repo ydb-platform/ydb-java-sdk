@@ -1,6 +1,5 @@
 package tech.ydb.topic.write.impl;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +34,7 @@ public class EnqueuedMessage {
     private final YdbTransaction transaction;
 
     private volatile boolean isReady = false;
-    private volatile IOException compressError = null;
+    private volatile Throwable compressError = null;
 
     public EnqueuedMessage(Message message, SendSettings sendSettings, boolean noCompression) {
         this.bytes = message.getData();
@@ -60,7 +59,7 @@ public class EnqueuedMessage {
         return bytes.length;
     }
 
-    public IOException getCompressError() {
+    public Throwable getCompressError() {
         return compressError;
     }
 
@@ -71,8 +70,9 @@ public class EnqueuedMessage {
             bytes = Encoder.encode(codec, bytes, codecRegistry);
             isReady = true;
             logger.trace("[{}] Successfully finished encoding message", writeId);
-        } catch (IOException ex) {
+        } catch (Throwable ex) {
             logger.error("[{}] Exception while encoding message: ", writeId, ex);
+            compressError = ex;
             isReady = true;
             future.completeExceptionally(ex);
         }
