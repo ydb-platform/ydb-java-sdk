@@ -1,6 +1,5 @@
 package tech.ydb.table.impl;
 
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +13,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
-import com.google.common.hash.Hashing;
 
 import tech.ydb.core.Result;
 import tech.ydb.proto.ValueProtos;
@@ -26,8 +24,6 @@ import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
-
-import static com.google.common.base.Preconditions.checkArgument;
 
 
 /**
@@ -41,7 +37,6 @@ final class DataQueryImpl implements DataQuery {
     private final ImmutableMap<String, ValueProtos.Type> typesPb;
     @Nullable
     private final String text;
-    private final String textHash;
 
     DataQueryImpl(
             BaseSession session,
@@ -54,13 +49,6 @@ final class DataQueryImpl implements DataQuery {
         this.types = buildTypes(parametersTypes);
         this.typesPb = ImmutableMap.copyOf(parametersTypes);
         this.text = keepText ? text : null;
-        this.textHash = makeHash(text);
-    }
-
-    static String makeHash(String text) {
-        return Hashing.sha256()
-                .hashString(text, StandardCharsets.UTF_8)
-                .toString();
     }
 
     private static ImmutableMap<String, Type> buildTypes(Map<String, ValueProtos.Type> parametersTypes) {
@@ -91,10 +79,6 @@ final class DataQueryImpl implements DataQuery {
         return Optional.ofNullable(text);
     }
 
-    String getTextHash() {
-        return textHash;
-    }
-
     @Override
     public CompletableFuture<Result<DataQueryResult>> execute(
             TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
@@ -108,6 +92,7 @@ final class DataQueryImpl implements DataQuery {
      */
     @ParametersAreNonnullByDefault
     static final class DataQueryParams implements Params {
+        private static final long serialVersionUID = -7431562469459950668L;
         private final ImmutableMap<String, Type> types;
         private final ImmutableMap<String, ValueProtos.Type> typesPb;
         private final HashMap<String, Value<?>> params;
@@ -126,7 +111,7 @@ final class DataQueryImpl implements DataQuery {
         @Override
         public <T extends Type> Params put(String name, Value<T> value) {
             Type type = types.get(name);
-            checkArgument(type != null, "unknown parameter: %s", name);
+            Preconditions.checkArgument(type != null, "unknown parameter: %s", name);
 
             //TODO: This check will not work with Decimal type
             //checkArgument(type.equals(value.getType()), "types mismatch: expected %s, got %s", type, value.getType());

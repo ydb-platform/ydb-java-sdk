@@ -11,8 +11,8 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Sergey Polovko
  */
 public class TupleValue implements Value<TupleType> {
-
     private static final TupleValue EMPTY = new TupleValue(TupleType.empty(), Value.EMPTY_ARRAY);
+    private static final long serialVersionUID = -8142947550399877474L;
 
     private final TupleType type;
     private final Value<?>[] items;

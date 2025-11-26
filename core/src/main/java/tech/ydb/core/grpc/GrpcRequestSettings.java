@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 import io.grpc.Metadata;
 
+import tech.ydb.core.impl.call.GrpcFlows;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -16,6 +18,7 @@ public class GrpcRequestSettings {
     private final String traceId;
     private final List<String> clientCapabilities;
     private final Consumer<Metadata> trailersHandler;
+    private final GrpcFlowControl flowControl;
 
     private GrpcRequestSettings(Builder builder) {
         this.deadlineAfter = builder.deadlineAfter;
@@ -23,6 +26,7 @@ public class GrpcRequestSettings {
         this.traceId = builder.traceId;
         this.clientCapabilities = builder.clientCapabilities;
         this.trailersHandler = builder.trailersHandler;
+        this.flowControl = builder.flowControl;
     }
 
     public static Builder newBuilder() {
@@ -49,12 +53,17 @@ public class GrpcRequestSettings {
         return trailersHandler;
     }
 
+    public GrpcFlowControl getFlowControl() {
+        return flowControl;
+    }
+
     public static final class Builder {
         private long deadlineAfter = 0L;
         private Integer preferredNodeID = null;
         private String traceId = null;
         private List<String> clientCapabilities = null;
         private Consumer<Metadata> trailersHandler = null;
+        private GrpcFlowControl flowControl = GrpcFlows.SIMPLE_FLOW;
 
         /**
          * Returns a new {@code Builder} with a deadline, based on the running Java Virtual Machine's
@@ -92,6 +101,11 @@ public class GrpcRequestSettings {
 
         public Builder withTraceId(String traceId) {
             this.traceId = traceId;
+            return this;
+        }
+
+        public Builder withFlowControl(GrpcFlowControl flowCtrl) {
+            this.flowControl = flowCtrl;
             return this;
         }
 

@@ -69,8 +69,16 @@ public class TableTtl {
         return expireAfterSeconds;
     }
 
-    @Nullable
+    /**
+     * @deprecated use {{@link #getRunIntervalSeconds()}} instead
+     */
+    @Deprecated
     public Integer getRunIntervaelSeconds() {
+        return getRunIntervalSeconds();
+    }
+
+    @Nullable
+    public Integer getRunIntervalSeconds() {
         return runIntervalSeconds;
     }
 

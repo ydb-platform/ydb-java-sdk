@@ -34,7 +34,15 @@ public class QueryStats {
         return this.queryPhases;
     }
 
+    /**
+     * @deprecated Use {{@link #getCompilationStats()}} instead
+     */
+    @Deprecated
     public Compilation getComplilationStats() {
+        return this.compilationStats;
+    }
+
+    public Compilation getCompilationStats() {
         return this.compilationStats;
     }
 

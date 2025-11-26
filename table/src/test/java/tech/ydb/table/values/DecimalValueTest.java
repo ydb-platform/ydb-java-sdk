@@ -353,8 +353,8 @@ public class DecimalValueTest {
 
         Assert.assertTrue(t.newValue(0).isZero());
         Assert.assertEquals(t.newValue(1).toString(), "1" + zeros);
-        Assert.assertEquals(t.newValue(Long.MAX_VALUE).toString(), Long.toString(Long.MAX_VALUE) + zeros);
-        Assert.assertEquals(t.newValue(Long.MIN_VALUE).toString(), Long.toString(Long.MIN_VALUE) + zeros);
+        Assert.assertEquals(t.newValue(Long.MAX_VALUE).toString(), Long.MAX_VALUE + zeros);
+        Assert.assertEquals(t.newValue(Long.MIN_VALUE).toString(), Long.MIN_VALUE + zeros);
         Assert.assertEquals(t.newValue(-1).toString(), Long.toString(-1) + zeros);
 
         BigInteger rawMinusOne = BigInteger.valueOf(-1)

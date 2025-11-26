@@ -10,6 +10,7 @@ import tech.ydb.table.values.proto.ProtoType;
  * @author Aleksandr Gorshenin
  */
 public class PgType implements Type {
+    private static final long serialVersionUID = -645693159447347308L;
     private final int oid;
     private final int typlen;
     private final int typmod;

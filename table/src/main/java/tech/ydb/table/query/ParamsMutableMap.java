@@ -22,6 +22,7 @@ import tech.ydb.table.values.proto.ProtoValue;
  */
 @ParametersAreNonnullByDefault
 final class ParamsMutableMap implements Params {
+    private static final long serialVersionUID = -2195403246008082524L;
 
     private final HashMap<String, Value<?>> params;
 

@@ -37,11 +37,11 @@ public class EndpointPoolTest {
 
     @Before
     public void setUp() throws IOException {
+        Mockito.when(socketFactory.createSocket()).thenReturn(socket);
+        Mockito.doNothing().when(socket).connect(Mockito.any(SocketAddress.class));
         mocks = MockitoAnnotations.openMocks(this);
         threadLocalStaticMock.when(ThreadLocalRandom::current).thenReturn(random);
         socketFactoryStaticMock.when(SocketFactory::getDefault).thenReturn(socketFactory);
-        Mockito.when(socketFactory.createSocket()).thenReturn(socket);
-        Mockito.doNothing().when(socket).connect(Mockito.any(SocketAddress.class));
     }
 
     @After
@@ -422,7 +422,7 @@ public class EndpointPoolTest {
 
 
     @Test
-    public void detectLocalDCTest() throws IOException {
+    public void detectLocalDCTest() {
         final TestTicker testTicker = new TestTicker(
                 1, 4,
                 5, 26,

@@ -10,6 +10,7 @@ import tech.ydb.core.Status;
  * @param <R> type of message received
  */
 public interface GrpcReadStream<R> {
+    @FunctionalInterface
     interface Observer<R> {
         void onNext(R value);
     }

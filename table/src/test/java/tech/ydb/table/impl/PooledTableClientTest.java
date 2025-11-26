@@ -39,7 +39,7 @@ public class PooledTableClientTest {
 
     private void testAssert(String exceptionMsg, ThrowingRunnable runnable) {
         IllegalArgumentException ex = Assert.assertThrows(
-                "IllegalArgumentException must be throwed",
+                "IllegalArgumentException must be thrown",
                 IllegalArgumentException.class,
                 runnable
         );
@@ -241,7 +241,7 @@ public class PooledTableClientTest {
     }
 
     @Test
-    public void createSessionException() throws InterruptedException {
+    public void createSessionException() {
         MockedTableRpc rpc = new MockedTableRpc(Clock.systemUTC(), scheduler);
         TableClient client = PooledTableClient.newClient(rpc).build();
 
@@ -387,7 +387,7 @@ public class PooledTableClientTest {
         return client.createSession(Duration.ZERO).join().getValue();
     }
 
-    private class TableClientChecker {
+    private static class TableClientChecker {
         private final SessionPoolStats stats;
 
         public TableClientChecker(TableClient client) {
@@ -420,7 +420,7 @@ public class PooledTableClientTest {
         return new TableClientChecker(pool);
     }
 
-    private class DumpTableRpc extends MockedTableRpc {
+    private static class DumpTableRpc extends MockedTableRpc {
         public DumpTableRpc() {
             super(Clock.systemUTC(), scheduler);
         }
@@ -434,7 +434,7 @@ public class PooledTableClientTest {
         }
     }
 
-    private class UnavailableTableRpc extends MockedTableRpc {
+    private static class UnavailableTableRpc extends MockedTableRpc {
         public UnavailableTableRpc() {
             super(Clock.systemUTC(), scheduler);
         }

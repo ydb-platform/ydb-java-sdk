@@ -14,7 +14,7 @@ import tech.ydb.table.rpc.grpc.GrpcTableRpc;
  * @author Aleksandr Gorshenin
  *
  * TableClient is a main point for accepting and releasing sessions
- * It has factory method {@link newClient(GrpcTransport)} which
+ * It has factory method {@link #newClient(GrpcTransport)} which
  * return instance of default implementation {@link PooledTableClient}. This
  * implementation contains session pool with fixed sizes. This is recommended way
  * to create implementation of SessionSupplier.

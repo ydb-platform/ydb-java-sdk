@@ -21,7 +21,7 @@ import tech.ydb.test.integration.utils.PortsGenerator;
  * @author Aleksandr Gorshenin
  */
 public class DockerHelperFactoryTest {
-    private final class YdbMockContainer extends YdbDockerContainer {
+    private static final class YdbMockContainer extends YdbDockerContainer {
         private final byte[] pemCert = new byte[] { 0x04, 0x03, 0x02, 0x01 };
         private final String pemPath;
 

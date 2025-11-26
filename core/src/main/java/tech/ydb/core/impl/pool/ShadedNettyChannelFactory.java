@@ -36,7 +36,6 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
     private final boolean useTLS;
     private final byte[] cert;
     private final boolean retryEnabled;
-    private final long connectTimeoutMs;
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
 
@@ -46,14 +45,8 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
         this.useTLS = builder.getUseTls();
         this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
-        this.connectTimeoutMs = builder.getConnectTimeoutMillis();
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
         this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
-    }
-
-    @Override
-    public long getConnectTimeoutMs() {
-        return this.connectTimeoutMs;
     }
 
     @SuppressWarnings("deprecation")

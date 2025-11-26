@@ -159,10 +159,5 @@ public class ManagedChannelMock extends ManagedChannel {
         public ManagedChannel newManagedChannel(String host, int port, String authority) {
             return good();
         }
-
-        @Override
-        public long getConnectTimeoutMs() {
-            return builder.getConnectTimeoutMillis();
-        }
     };
 }

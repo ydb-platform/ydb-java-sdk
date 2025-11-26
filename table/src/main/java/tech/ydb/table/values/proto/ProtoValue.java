@@ -355,7 +355,7 @@ public class ProtoValue {
     public static ZonedDateTime toTzDate(String textValue) {
         int commaIdx = textValue.indexOf(',');
         if (commaIdx == -1) {
-            throw new IllegalArgumentException("cannot parse TzDate from: \'" + textValue + '\'');
+            throw new IllegalArgumentException("cannot parse TzDate from: '" + textValue + '\'');
         }
 
         LocalDate date = LocalDate.parse(textValue.substring(0, commaIdx));
@@ -377,7 +377,7 @@ public class ProtoValue {
     public static ZonedDateTime toTzDatetime(String textValue) {
         int commaIdx = textValue.indexOf(',');
         if (commaIdx == -1) {
-            throw new IllegalArgumentException("cannot parse TzDatetime from: \'" + textValue + '\'');
+            throw new IllegalArgumentException("cannot parse TzDatetime from: '" + textValue + '\'');
         }
         Instant instant = Instant.parse(textValue.substring(0, commaIdx) + 'Z')
                 .truncatedTo(ChronoUnit.SECONDS);
@@ -396,7 +396,7 @@ public class ProtoValue {
     public static ZonedDateTime toTzTimestamp(String value) {
         int commaIdx = value.indexOf(',');
         if (commaIdx == -1) {
-            throw new IllegalArgumentException("cannot parse TzTimestamp from: \'" + value + '\'');
+            throw new IllegalArgumentException("cannot parse TzTimestamp from: '" + value + '\'');
         }
         Instant instant = Instant.parse(value.substring(0, commaIdx) + 'Z')
                 .truncatedTo(ChronoUnit.MICROS);
@@ -852,12 +852,20 @@ public class ProtoValue {
                 return newUuid(value.getHigh128(), value.getLow128());
             case Date:
                 return PrimitiveValue.newDate(Integer.toUnsignedLong(value.getUint32Value()));
+            case Date32:
+                return PrimitiveValue.newDate32(value.getInt32Value());
             case Datetime:
                 return PrimitiveValue.newDatetime(Integer.toUnsignedLong(value.getUint32Value()));
+            case Datetime64:
+                return PrimitiveValue.newDatetime64(value.getInt64Value());
             case Timestamp:
                 return PrimitiveValue.newTimestamp(value.getUint64Value());
+            case Timestamp64:
+                return PrimitiveValue.newTimestamp64(value.getInt64Value());
             case Interval:
                 return PrimitiveValue.newInterval(value.getInt64Value());
+            case Interval64:
+                return PrimitiveValue.newInterval64(value.getInt64Value());
             case TzDate:
                 return PrimitiveValue.newTzDate(toTzDate(value));
             case TzDatetime:
@@ -889,6 +897,7 @@ public class ProtoValue {
     }
 
     private static final class Uuid extends PrimitiveValue {
+        private static final long serialVersionUID = 761577812627003532L;
         private final long high;
         private final long low;
 
@@ -944,8 +953,8 @@ public class ProtoValue {
 
         @Override
         public int hashCode() {
-            int result = (int) (high ^ (high >>> 32));
-            result = 31 * result + (int) (low ^ (low >>> 32));
+            int result = Long.hashCode(high);
+            result = 31 * result + Long.hashCode(low);
             return result;
         }
 

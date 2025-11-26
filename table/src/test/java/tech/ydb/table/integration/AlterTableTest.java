@@ -51,7 +51,7 @@ public class AlterTableTest {
 
     @Test
     public void alterTableTest() {
-        // --------------------- craete table -----------------------------
+        // --------------------- create table -----------------------------
         TableDescription createTableDesc = TableDescription.newBuilder()
                 .addNonnullColumn("id", PrimitiveType.Uint64)
                 .addNullableColumn("code", PrimitiveType.Text)
@@ -60,7 +60,7 @@ public class AlterTableTest {
                 .addNullableColumn("data", PrimitiveType.Text)
                 .setPrimaryKey("id")
                 .addGlobalIndex("idx1", Arrays.asList("id", "code"))
-                .addGlobalAsyncIndex("idx2", Arrays.asList("data"), Arrays.asList("code"))
+                .addGlobalAsyncIndex("idx2", Collections.singletonList("data"), Collections.singletonList("code"))
                 .build();
 
         Status createStatus = ctx.supplyStatus(
@@ -79,15 +79,15 @@ public class AlterTableTest {
         Assert.assertEquals(DEFAULT_FAMILY, description.getColumnFamilies().get(0).getName());
 
         Assert.assertEquals(5, description.getColumns().size());
-        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Uint64);
-        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text.makeOptional());
-        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float.makeOptional());
-        assertColumn(description.getColumns().get(3), "created", PrimitiveType.Timestamp.makeOptional());
-        assertColumn(description.getColumns().get(4), "data", PrimitiveType.Text.makeOptional());
+        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Uint64, true, false);
+        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text);
+        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float);
+        assertColumn(description.getColumns().get(3), "created", PrimitiveType.Timestamp);
+        assertColumn(description.getColumns().get(4), "data", PrimitiveType.Text);
 
         Assert.assertEquals(2, description.getIndexes().size());
         assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
-        assertIndexAsync(description.getIndexes().get(1), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
 
         // --------------------- alter table with changing columns -----------------------------
 
@@ -108,15 +108,15 @@ public class AlterTableTest {
         Assert.assertEquals(DEFAULT_FAMILY, description.getColumnFamilies().get(0).getName());
 
         Assert.assertEquals(5, description.getColumns().size());
-        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Uint64);
-        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text.makeOptional());
-        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float.makeOptional());
-        assertColumn(description.getColumns().get(3), "data", PrimitiveType.Text.makeOptional());
-        assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes.makeOptional());
+        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Uint64, true, false);
+        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text);
+        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float);
+        assertColumn(description.getColumns().get(3), "data", PrimitiveType.Text);
+        assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes);
 
         Assert.assertEquals(2, description.getIndexes().size());
         assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
-        assertIndexAsync(description.getIndexes().get(1), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
 
         // --------------------- alter table with changing indexes -----------------------------
         alterStatus = ctx.supplyStatus(
@@ -135,20 +135,120 @@ public class AlterTableTest {
         Assert.assertEquals(DEFAULT_FAMILY, description.getColumnFamilies().get(0).getName());
 
         Assert.assertEquals(5, description.getColumns().size());
-        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Uint64);
-        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text.makeOptional());
-        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float.makeOptional());
-        assertColumn(description.getColumns().get(3), "data", PrimitiveType.Text.makeOptional());
-        assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes.makeOptional());
+        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Uint64, true, false);
+        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text);
+        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float);
+        assertColumn(description.getColumns().get(3), "data", PrimitiveType.Text);
+        assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes);
 
         Assert.assertEquals(1, description.getIndexes().size());
-        assertIndexAsync(description.getIndexes().get(0), "idx2", Arrays.asList("data"), Arrays.asList("code"));
+        assertIndexAsync(description.getIndexes().get(0), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
+    }
+
+    @Test
+    public void alterTableWithSerialTest() {
+        // --------------------- create table -----------------------------
+        Status createStatus = ctx.supplyStatus(session -> session.executeSchemeQuery(""
+                + "CREATE TABLE alter_table_test ("
+                + " id BigSerial NOT NULL,"
+                + " code Text NOT NULL,"
+                + " size Float,"
+                + " created Timestamp,"
+                + " data Text,"
+                + " PRIMARY KEY(id),"
+                + " INDEX idx1 GLOBAL ON (id, code),"
+                + " INDEX idx2 GLOBAL ASYNC ON (data) COVER (code)"
+                + ")"
+        )).join();
+        Assert.assertTrue("Create table with indexes " + createStatus, createStatus.isSuccess());
+
+        // --------------------- describe table after creating -----------------------------
+        Result<TableDescription> describeResult = ctx.supplyResult(session ->session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe table with indexes " + describeResult.getStatus(), describeResult.isSuccess());
+
+        TableDescription description = describeResult.getValue();
+
+        Assert.assertEquals(TableDescription.StoreType.ROW, description.getStoreType());
+        Assert.assertEquals(1, description.getColumnFamilies().size());
+        Assert.assertEquals(DEFAULT_FAMILY, description.getColumnFamilies().get(0).getName());
+
+        Assert.assertEquals(5, description.getColumns().size());
+        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Int64, true, true);
+        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text, true, false);
+        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float);
+        assertColumn(description.getColumns().get(3), "created", PrimitiveType.Timestamp);
+        assertColumn(description.getColumns().get(4), "data", PrimitiveType.Text);
+
+        Assert.assertEquals(2, description.getIndexes().size());
+        assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
+
+        // --------------------- alter table with changing columns -----------------------------
+
+        Status alterStatus = ctx.supplyStatus(
+                session -> session.alterTable(tablePath, new AlterTableSettings()
+                        .addNullableColumn("data2", PrimitiveType.Bytes)
+                        .dropColumn("created"))
+        ).join();
+        Assert.assertTrue("Alter table with column " + alterStatus, alterStatus.isSuccess());
+
+        // --------------------- describe table after first altering -----------------------------
+        describeResult = ctx.supplyResult(session ->session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe table after altering " + describeResult.getStatus(), describeResult.isSuccess());
+
+        description = describeResult.getValue();
+
+        Assert.assertEquals(1, description.getColumnFamilies().size());
+        Assert.assertEquals(DEFAULT_FAMILY, description.getColumnFamilies().get(0).getName());
+
+        Assert.assertEquals(5, description.getColumns().size());
+        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Int64, true, true);
+        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text, true, false);
+        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float);
+        assertColumn(description.getColumns().get(3), "data", PrimitiveType.Text);
+        assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes);
+
+        Assert.assertEquals(2, description.getIndexes().size());
+        assertIndexSync(description.getIndexes().get(0), "idx1", Arrays.asList("id", "code"), Collections.emptyList());
+        assertIndexAsync(description.getIndexes().get(1), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
+
+        // --------------------- alter table with changing indexes -----------------------------
+        alterStatus = ctx.supplyStatus(
+                session -> session.alterTable(tablePath, new AlterTableSettings()
+                        .dropIndex("idx1"))
+        ).join();
+        Assert.assertTrue("Alter table with indexes " + alterStatus, alterStatus.isSuccess());
+
+        // --------------------- describe table after first altering -----------------------------
+        describeResult = ctx.supplyResult(session ->session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe table after altering " + describeResult.getStatus(), describeResult.isSuccess());
+
+        description = describeResult.getValue();
+
+        Assert.assertEquals(1, description.getColumnFamilies().size());
+        Assert.assertEquals(DEFAULT_FAMILY, description.getColumnFamilies().get(0).getName());
+
+        Assert.assertEquals(5, description.getColumns().size());
+        assertColumn(description.getColumns().get(0), "id", PrimitiveType.Int64, true, true);
+        assertColumn(description.getColumns().get(1), "code", PrimitiveType.Text, true, false);
+        assertColumn(description.getColumns().get(2), "size", PrimitiveType.Float);
+        assertColumn(description.getColumns().get(3), "data", PrimitiveType.Text);
+        assertColumn(description.getColumns().get(4), "data2", PrimitiveType.Bytes);
+
+        Assert.assertEquals(1, description.getIndexes().size());
+        assertIndexAsync(description.getIndexes().get(0), "idx2", Collections.singletonList("data"), Collections.singletonList("code"));
     }
 
     private void assertColumn(TableColumn column, String name, Type type) {
+        assertColumn(column, name, type, false, false);
+    }
+
+    private void assertColumn(TableColumn column, String name, Type type, boolean isNotNull, boolean hasDefaultValue) {
         Assert.assertEquals(name, column.getName());
-        Assert.assertEquals(type, column.getType());
+        Assert.assertEquals(isNotNull ? type : type.makeOptional(), column.getType());
         Assert.assertEquals(EMPTY_FAMILY, column.getFamily());
+//        Assert.assertEquals(isNotNull, column.isNotNull());
+        Assert.assertEquals(hasDefaultValue, column.hasDefaultValue());
     }
 
     private void assertIndexSync(TableIndex index, String name, List<String> columns, List<String> dataColumns) {

@@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,10 +26,10 @@ import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
-import tech.ydb.topic.utils.Encoder;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
@@ -47,7 +49,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private final Queue<IncomingMessage> incomingQueue = new LinkedList<>();
     private final ReentrantLock incomingQueueLock = new ReentrantLock();
     // Messages that are currently encoding
-    private final Queue<EnqueuedMessage> encodingMessages = new LinkedList<>();
+    private final Deque<EnqueuedMessage> encodingMessages = new LinkedList<>();
     // Messages that are taken into send buffer, are already compressed and are waiting for being sent
     private final Queue<EnqueuedMessage> sendingQueue = new ConcurrentLinkedQueue<>();
     // Messages that are currently trying to be sent and haven't received a response from server yet
@@ -59,20 +61,29 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     // Every writing stream has a sequential number (for debug purposes)
     private final AtomicLong sessionSeqNumberCounter = new AtomicLong(0);
 
+    /**
+     * Register for custom codec. User can specify custom codec which is local to TopicClient
+     */
+    private final CodecRegistry codecRegistry;
+
     private Boolean isSeqNoProvided = null;
     private int currentInFlightCount = 0;
     private long availableSizeBytes;
     // Future for flush method
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
 
-    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
-        super(topicRpc.getScheduler(), settings.getErrorsHandler());
+    public WriterImpl(TopicRpc topicRpc,
+                      WriterSettings settings,
+                      Executor compressionExecutor,
+                      @Nonnull CodecRegistry codecRegistry) {
+        super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
         this.session = new WriteSessionImpl();
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.maxSendBufferMemorySize = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
+        this.codecRegistry = codecRegistry;
         String message = "Writer" +
                 " (generated id " + id + ")" +
                 " created for topic \"" + settings.getTopicPath() + "\"" +
@@ -116,10 +127,10 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     logger.info("[{}] Message queue in-flight limit of {} reached. Putting the message into incoming " +
                             "waiting queue", id, settings.getMaxSendBufferMessagesCount());
                 }
-            } else if (availableSizeBytes < message.getMessage().getData().length) {
+            } else if (availableSizeBytes < message.getSize()) {
                 if (instant) {
                     String errorMessage = "[" + id + "] Rejecting a message of " +
-                            message.getMessage().getData().length +
+                            message.getSize() +
                             " bytes: not enough space in message queue. Buffer currently has " + currentInFlightCount +
                             " messages with " + availableSizeBytes + " / " + settings.getMaxSendBufferMemorySize() +
                             " bytes available";
@@ -130,7 +141,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                 } else {
                     logger.info("[{}] Can't accept a message of {} bytes into message queue. Buffer currently has " +
                                     "{} messages with {} / {} bytes available. Putting the message into incoming " +
-                                    "waiting queue.", id, message.getMessage().getData().length, currentInFlightCount,
+                                    "waiting queue.", id, message.getSize(), currentInFlightCount,
                             availableSizeBytes, settings.getMaxSendBufferMemorySize());
                 }
             } else if (incomingQueue.isEmpty()) {
@@ -150,43 +161,23 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     private void acceptMessageIntoSendingQueue(EnqueuedMessage message) {
         this.lastAcceptedMessageFuture = message.getFuture();
         this.currentInFlightCount++;
-        this.availableSizeBytes -= message.getUncompressedSizeBytes();
+        this.availableSizeBytes -= message.getOriginalSize();
         if (logger.isDebugEnabled()) {
             logger.debug("[{}] Accepted 1 message of {} uncompressed bytes. Current In-flight: {}, " +
-                            "AvailableSizeBytes: {} ({} / {} acquired)", id, message.getUncompressedSizeBytes(),
+                            "AvailableSizeBytes: {} ({} / {} acquired)", id, message.getOriginalSize(),
                     currentInFlightCount, availableSizeBytes, maxSendBufferMemorySize - availableSizeBytes,
                     maxSendBufferMemorySize);
         }
+
         this.encodingMessages.add(message);
 
-        CompletableFuture
-                .runAsync(() -> {
-                    encode(message);
-                    moveEncodedMessagesToSendingQueue();
-                }, compressionExecutor)
-                .exceptionally((throwable) -> {
-                    logger.error("[{}] Exception while encoding message: ", id, throwable);
-                    free(1, message.getSizeBytes());
-                    message.getFuture().completeExceptionally(throwable);
-                    message.setProcessingFailed(true);
-                    moveEncodedMessagesToSendingQueue();
-                    return null;
-                });
-    }
-
-    private void encode(EnqueuedMessage message) {
-        logger.trace("[{}] Started encoding message", id);
-        if (settings.getCodec() == Codec.RAW) {
-            return;
+        if (message.isReady()) {
+            moveEncodedMessagesToSendingQueue();
+        } else {
+            CompletableFuture
+                    .runAsync(() -> message.encode(id, settings.getCodec(), codecRegistry), compressionExecutor)
+                    .thenRun(this::moveEncodedMessagesToSendingQueue);
         }
-        try {
-            message.getMessage().setData(Encoder.encode(settings.getCodec(), message.getMessage().getData()));
-        } catch (IOException exception) {
-            throw new RuntimeException("Couldn't encode a message", exception);
-        }
-        message.setCompressedSizeBytes(message.getMessage().getData().length);
-        message.setCompressed(true);
-        logger.trace("[{}] Successfully finished encoding message", id);
     }
 
     private void moveEncodedMessagesToSendingQueue() {
@@ -197,32 +188,35 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         try {
             // Taking all encoded messages to sending queue
             while (true) {
-                EnqueuedMessage encodedMessage = encodingMessages.peek();
-                if (encodedMessage == null) {
+                EnqueuedMessage msg = encodingMessages.pollFirst();
+                if (msg == null) {
                     break;
                 }
-                if (encodedMessage.isProcessingFailed()) {
-                    encodingMessages.remove();
-                } else if (encodedMessage.isCompressed() || settings.getCodec() == Codec.RAW) {
-                    encodingMessages.remove();
-                    if (encodedMessage.isCompressed()) {
-                        if (logger.isTraceEnabled()) {
-                            logger.trace("[{}] Message compressed from {} to {} bytes", id,
-                                    encodedMessage.getUncompressedSizeBytes(),
-                                    encodedMessage.getCompressedSizeBytes());
-                        }
-                        // message was actually encoded. Need to free some bytes
-                        long bytesFreed = encodedMessage.getUncompressedSizeBytes()
-                                - encodedMessage.getCompressedSizeBytes();
-                        // bytesFreed can be less than 0
-                        free(0, bytesFreed);
-                    }
-                    logger.debug("[{}] Adding message to sending queue", id);
-                    sendingQueue.add(encodedMessage);
-                    haveNewMessagesToSend = true;
-                } else {
+
+                if (!msg.isReady()) {
+                    encodingMessages.addFirst(msg);
                     break;
                 }
+
+                IOException error = msg.getCompressError();
+                if (error != null) { // just skip
+                    logger.warn("[{}] Message wasn't sent because of processing error", id, error);
+                    free(1, msg.getOriginalSize());
+                    continue;
+                }
+
+                if (msg.getOriginalSize() != msg.getSize()) {
+                    logger.trace("[{}] Message compressed from {} to {} bytes", id, msg.getOriginalSize(),
+                            msg.getSize());
+                    // message was actually encoded. Need to free some bytes
+                    long bytesFreed = msg.getOriginalSize() - msg.getSize();
+                    // bytesFreed can be less than 0
+                    free(0, bytesFreed);
+                }
+
+                logger.debug("[{}] Adding message to sending queue", id);
+                sendingQueue.add(msg);
+                haveNewMessagesToSend = true;
             }
         } finally {
             incomingQueueLock.unlock();
@@ -264,11 +258,16 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             isSeqNoProvided = message.getSeqNo() != null;
         }
 
-        EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message, sendSettings);
+        EnqueuedMessage enqueuedMessage = new EnqueuedMessage(message, sendSettings, settings.getCodec() == Codec.RAW);
 
         return tryToEnqueue(enqueuedMessage, instant).thenApply(v -> enqueuedMessage.getFuture());
     }
 
+    /**
+     * Create a wrapper upon the future for the flush method.
+     *
+     * @return an empty Future if successful. Throw CompletionException when an error occurs.
+     */
     protected CompletableFuture<Void> flushImpl() {
         if (this.lastAcceptedMessageFuture == null) {
             return CompletableFuture.completedFuture(null);
@@ -276,9 +275,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         incomingQueueLock.lock();
 
         try {
-            return this.lastAcceptedMessageFuture.isDone()
-                    ? CompletableFuture.completedFuture(null)
-                    : this.lastAcceptedMessageFuture.thenApply(v -> null);
+            return this.lastAcceptedMessageFuture.thenApply(v -> null);
         } finally {
             incomingQueueLock.unlock();
         }
@@ -303,7 +300,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     if (incomingMessage == null) {
                         break;
                     }
-                    if (incomingMessage.message.getUncompressedSizeBytes() > availableSizeBytes
+                    if (incomingMessage.message.getOriginalSize() > availableSizeBytes
                             || currentInFlightCount >= settings.getMaxSendBufferMessagesCount()) {
                         logger.trace("[{}] There are messages in incomingQueue still, but no space in send buffer", id);
                         return;
@@ -416,11 +413,6 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             logger.info("[{}] Session with id {} (partition {}) initialized for topic \"{}\", lastSeqNo {}," +
                             " actualLastSeqNo {}", streamId, sessionId, response.getPartitionId(),
                     settings.getTopicPath(), lastSeqNo, actualLastSeqNo);
-            // If there are messages that were already sent before reconnect but haven't received acks,
-            // their highest seqNo should also be taken in consideration when calculating next seqNo automatically
-            if (!sentMessages.isEmpty()) {
-                actualLastSeqNo = Math.max(lastSeqNo, sentMessages.getLast().getSeqNo());
-            }
             messageSender.setSession(this);
             messageSender.setSeqNo(actualLastSeqNo);
             // TODO: remember supported codecs for further validation
@@ -451,7 +443,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     }
                     if (sentMessage.getSeqNo() == ack.getSeqNo()) {
                         inFlightFreed++;
-                        bytesFreed += sentMessage.getSizeBytes();
+                        bytesFreed += sentMessage.getSize();
                         sentMessages.remove();
                         processWriteAck(sentMessage, ack);
                         break;
@@ -463,7 +455,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                         sentMessage.getFuture().completeExceptionally(
                                 new RuntimeException("Didn't get ack from server for this message"));
                         inFlightFreed++;
-                        bytesFreed += sentMessage.getSizeBytes();
+                        bytesFreed += sentMessage.getSize();
                         sentMessages.remove();
                         // Checking next message waiting for ack
                     } else {

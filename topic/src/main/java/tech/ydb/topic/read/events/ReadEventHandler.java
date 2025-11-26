@@ -1,19 +1,29 @@
 package tech.ydb.topic.read.events;
 
+import tech.ydb.topic.read.impl.events.SessionStartedEvent;
+
 /**
  * @author Nikolay Perfilov
  */
+@FunctionalInterface
 public interface ReadEventHandler {
 
     void onMessages(DataReceivedEvent event);
 
-    void onCommitResponse(CommitOffsetAcknowledgementEvent event);
+    default void onCommitResponse(CommitOffsetAcknowledgementEvent event) { }
 
-    void onStartPartitionSession(StartPartitionSessionEvent event);
 
-    void onStopPartitionSession(StopPartitionSessionEvent event);
+    default void onStartPartitionSession(StartPartitionSessionEvent event) {
+        event.confirm();
+    }
 
-    void onPartitionSessionClosed(PartitionSessionClosedEvent event);
+    default void onStopPartitionSession(StopPartitionSessionEvent event) {
+        event.confirm();
+    }
 
-    void onReaderClosed(ReaderClosedEvent event);
+    default void onPartitionSessionClosed(PartitionSessionClosedEvent event) { }
+
+    default void onReaderClosed(ReaderClosedEvent event) { }
+
+    default void onSessionStarted(SessionStartedEvent event) { }
 }

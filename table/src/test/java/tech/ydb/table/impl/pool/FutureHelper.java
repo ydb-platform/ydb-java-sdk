@@ -40,11 +40,11 @@ public class FutureHelper {
         return future;
     }
 
-    protected <T> CompletableFuture<T> futureIsCanceled(CompletableFuture<T> future, String cancelationMessage) {
+    protected <T> CompletableFuture<T> futureIsCanceled(CompletableFuture<T> future, String cancellationMessage) {
         Assert.assertTrue("Future is done", future.isDone());
         Assert.assertTrue("Future is canceled", future.isCancelled());
         Assert.assertTrue("Future is exceptionally", future.isCompletedExceptionally());
-        futureHasException(future, cancelationMessage);
+        futureHasException(future, cancellationMessage);
         return future;
     }
 

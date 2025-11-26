@@ -180,6 +180,11 @@ public class TableRpcStub implements TableRpc {
     }
 
     @Override
+    public CompletableFuture<Result<YdbTable.DescribeTableOptionsResult>> describeTableOptions(YdbTable.DescribeTableOptionsRequest request, GrpcRequestSettings settings) {
+        return notImplemented("describeTableOptions()");
+    }
+
+    @Override
     public String getDatabase() {
         return "";
     }

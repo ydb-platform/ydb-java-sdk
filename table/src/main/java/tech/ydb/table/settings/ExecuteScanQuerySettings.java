@@ -1,5 +1,6 @@
 package tech.ydb.table.settings;
 
+import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.query.stats.QueryStatsCollectionMode;
@@ -27,11 +28,13 @@ public class ExecuteScanQuerySettings extends BaseRequestSettings {
 
     private final Mode mode;
     private final QueryStatsCollectionMode collectStats;
+    private final GrpcFlowControl flowControl;
 
     public ExecuteScanQuerySettings(Builder builder) {
         super(builder);
         this.mode = builder.mode;
         this.collectStats = builder.collectStats;
+        this.flowControl = builder.flowControl;
     }
 
     public static Builder newBuilder() {
@@ -41,6 +44,7 @@ public class ExecuteScanQuerySettings extends BaseRequestSettings {
     public static final class Builder extends BaseBuilder<Builder> {
         private Mode mode = Mode.EXEC;
         private QueryStatsCollectionMode collectStats = QueryStatsCollectionMode.NONE;
+        private GrpcFlowControl flowControl = null;
 
         public Builder setMode(Mode mode) {
             this.mode = mode;
@@ -49,6 +53,11 @@ public class ExecuteScanQuerySettings extends BaseRequestSettings {
 
         public Builder setCollectStats(QueryStatsCollectionMode collectStats) {
             this.collectStats = collectStats;
+            return this;
+        }
+
+        public Builder setGrpcFlowControl(GrpcFlowControl ctrl) {
+            this.flowControl = ctrl;
             return this;
         }
 
@@ -64,5 +73,9 @@ public class ExecuteScanQuerySettings extends BaseRequestSettings {
 
     public QueryStatsCollectionMode getCollectStats() {
         return collectStats;
+    }
+
+    public GrpcFlowControl getGrpcFlowControl() {
+        return flowControl;
     }
 }

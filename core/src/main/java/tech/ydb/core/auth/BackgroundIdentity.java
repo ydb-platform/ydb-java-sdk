@@ -90,7 +90,7 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
             logger.error("authentication update problem", ex);
             throw new RuntimeException("authentication update problem", ex);
         } catch (InterruptedException ex) {
-            logger.error("updating of authentication token was interupted", ex);
+            logger.error("updating of authentication token was interrupted", ex);
             Thread.currentThread().interrupt();
             return null;
         }

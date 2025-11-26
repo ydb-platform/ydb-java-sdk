@@ -11,6 +11,7 @@ import tech.ydb.table.utils.Arrays2;
  * @author Sergey Polovko
  */
 public class StructValue implements Value<StructType> {
+    private static final long serialVersionUID = -8795243395989641536L;
 
     private final StructType type;
     private final Value<?>[] members;

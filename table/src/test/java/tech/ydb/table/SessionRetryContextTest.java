@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -220,8 +221,8 @@ public class SessionRetryContextTest extends FutureHelper  {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 2, sessionSupplier.getRequestsCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
 
@@ -250,8 +251,8 @@ public class SessionRetryContextTest extends FutureHelper  {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 2, sessionSupplier.getRequestsCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
 
@@ -291,13 +292,13 @@ public class SessionRetryContextTest extends FutureHelper  {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 2, sessionSupplier.getRequestsCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
 
         // one session creation fail, but retryable. Instant retry
-        List<StatusCode> instantRetryCodes = Arrays.asList(
+        List<StatusCode> instantRetryCodes = Collections.singletonList(
                 StatusCode.BAD_SESSION
         );
         for(StatusCode statusCode : instantRetryCodes) {
@@ -319,8 +320,8 @@ public class SessionRetryContextTest extends FutureHelper  {
             Assert.assertTrue(String.format("Code: %s - Wrong timeout between retries", statusCode.toString()),
                     timePassed.compareTo(FIVE_SECONDS) < 0);
 
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 2, sessionSupplier.getRequestsCount());
-            Assert.assertEquals(String.format("Code: %s", statusCode.toString()), 1, cnt.get());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 2, sessionSupplier.getRequestsCount());
+            Assert.assertEquals(String.format("Code: %s", statusCode), 1, cnt.get());
             Assert.assertEquals(Status.SUCCESS, status);
         }
 

@@ -35,9 +35,13 @@ public abstract class GrpcStreamRetrier {
     private final ScheduledExecutorService scheduler;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
-    protected GrpcStreamRetrier(ScheduledExecutorService scheduler, BiConsumer<Status, Throwable> errorsHandler) {
+    protected GrpcStreamRetrier(
+            String id,
+            ScheduledExecutorService scheduler,
+            BiConsumer<Status, Throwable> errorsHandler
+    ) {
         this.scheduler = scheduler;
-        this.id = generateRandomId(ID_LENGTH);
+        this.id = id == null ? generateRandomId(ID_LENGTH) : id;
         this.errorsHandler = errorsHandler;
     }
 
@@ -92,6 +96,11 @@ public abstract class GrpcStreamRetrier {
     }
 
     void reconnect() {
+        if (isStopped.get()) {
+            getLogger().info("[{}] {} is already stopped, no need to reconnect", id, getStreamName());
+            return;
+        }
+
         getLogger().info("[{}] {} reconnect #{} started", id, getStreamName(), reconnectCounter.get());
         if (!isReconnecting.compareAndSet(true, false)) {
             getLogger().warn("Couldn't reset reconnect flag. Shouldn't happen");
@@ -104,8 +113,12 @@ public abstract class GrpcStreamRetrier {
     }
 
     protected CompletableFuture<Void> shutdownImpl(String reason) {
-        getLogger().info("[{}] Shutting down {}"
-                        + (reason == null || reason.isEmpty() ? "" : " with reason: " + reason), id, getStreamName());
+        getLogger().info(
+                "[{}] Shutting down {}{}",
+                id,
+                getStreamName(),
+                reason == null || reason.isEmpty() ? "" : " with reason: " + reason
+        );
         isStopped.set(true);
         return CompletableFuture.runAsync(() -> {
             onShutdown(reason);
@@ -132,7 +145,11 @@ public abstract class GrpcStreamRetrier {
         }
 
         if (errorsHandler != null) {
-            errorsHandler.accept(status, th);
+            try {
+                errorsHandler.accept(status, th);
+            } catch (Exception ex) {
+                getLogger().error("[{}] error handler throws exception", id, ex);
+            }
         }
 
         if (!isStopped.get()) {

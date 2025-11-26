@@ -195,13 +195,13 @@ public class SessionPool implements AutoCloseable {
             stats.deleted.increment();
             session.delete(new DeleteSessionSettings()).whenComplete((status, th) -> {
                 if (th != null) {
-                    logger.warn("session {} destoryed with exception {}", session.getId(), th.getMessage());
+                    logger.warn("session {} destroyed with exception {}", session.getId(), th.getMessage());
                 }
                 if (status != null) {
                     if (status.isSuccess()) {
-                        logger.debug("session {} successful destoryed", session.getId());
+                        logger.debug("session {} successfully destroyed", session.getId());
                     } else {
-                        logger.warn("session {} destoryed with status {}", session.getId(), status.toString());
+                        logger.warn("session {} destroyed with status {}", session.getId(), status);
                     }
                 }
             });

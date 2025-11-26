@@ -15,10 +15,17 @@ public class TableColumn {
     @Nullable
     private final String family;
 
-    public TableColumn(String name, Type type, String family) {
+    private final boolean hasDefaultValue;
+
+    public TableColumn(String name, Type type, String family, boolean hasDefaultValue) {
         this.name = name;
         this.type = type;
         this.family = family;
+        this.hasDefaultValue = hasDefaultValue;
+    }
+
+    public TableColumn(String name, Type type, String family) {
+        this(name, type, family, false);
     }
 
     public TableColumn(String name, Type type) {
@@ -31,6 +38,10 @@ public class TableColumn {
 
     public Type getType() {
         return type;
+    }
+
+    public boolean hasDefaultValue() {
+        return hasDefaultValue;
     }
 
     @Nullable

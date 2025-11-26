@@ -1,9 +1,13 @@
 package tech.ydb.query.impl;
 
 import java.time.Duration;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 import org.junit.AfterClass;
@@ -248,7 +252,7 @@ public class QueryIntegrationTest {
         entities.add(new Entity(1, "entity 1", BYTES_EMPTY, true));
         entities.add(new Entity(2, "entity 2", BYTES_EMPTY, true));
         entities.add(new Entity(3, "entity 3", BYTES_LEN2, false));
-        entities.add(new Entity(3, "dublicate", BYTES_LEN5, true));
+        entities.add(new Entity(3, "duplicate", BYTES_LEN5, true));
         entities.add(new Entity(5, "entity 5", BYTES_LEN2, false));
 
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
@@ -311,6 +315,46 @@ public class QueryIntegrationTest {
                         tx.createQueryWithCommit("UPDATE " + TEST_DOUBLE_TABLE + " SET amount=300 WHERE id=1")
                 ).join().getStatus().expectSuccess();
                 Assert.assertFalse(tx.isActive());
+            }
+        }
+    }
+
+    @Test
+    public void concurrentResultSetsTest() {
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                String query = ""
+                        + "SELECT id, name, payload, is_valid FROM " + TEST_TABLE + " ORDER BY id;\n"
+                        + "SELECT 3 + 5;\n"
+                        + "SELECT id, name, payload, is_valid FROM " + TEST_TABLE + " ORDER BY id DESC;\n"
+                        + "SELECT 3 + 1;\n";
+
+                // consistent read - all result sets are ordered
+                QueryStream qs1 = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(),
+                        ExecuteQuerySettings.newBuilder().withConcurrentResultSets(false).build());
+
+                Deque<Long> ordered = new ArrayDeque<>();
+                Result<QueryInfo> res1 = qs1.execute(part -> {
+                    Long id = part.getResultSetIndex();
+                    if (!ordered.isEmpty()) {
+                        Assert.assertTrue(id >= ordered.getLast());
+                    }
+                    ordered.addLast(id);
+                }).join();
+                Assert.assertTrue(res1.isSuccess());
+
+                // concurrent read - all result sets are unordered
+                QueryStream qs2 = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(),
+                        ExecuteQuerySettings.newBuilder().withConcurrentResultSets(true).build());
+
+                Set<Long> unordered = new HashSet<>();
+                Result<QueryInfo> res2 = qs2.execute(part -> {
+                    unordered.add(part.getResultSetIndex());
+                }).join();
+                Assert.assertTrue(res2.isSuccess());
+
+                Assert.assertTrue(ordered.containsAll(unordered));
+                Assert.assertTrue(unordered.containsAll(ordered));
             }
         }
     }

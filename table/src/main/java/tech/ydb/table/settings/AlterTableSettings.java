@@ -91,7 +91,15 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
         return this;
     }
 
+    /**
+     * @deprecated use {{@link #addGlobalUniqueIndex(String, List)}} instead
+     */
+    @Deprecated
     public AlterTableSettings addGlobalUiniqueIndex(String name, List<String> columns) {
+        return addGlobalUniqueIndex(name, columns);
+    }
+
+    public AlterTableSettings addGlobalUniqueIndex(String name, List<String> columns) {
         addIndexes.put(name, new TableIndex(name, columns, TableIndex.Type.GLOBAL_UNIQUE));
         return this;
     }

@@ -46,7 +46,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
     /** Deque of idle objects */
     private final ConcurrentLinkedDeque<T> idle = new ConcurrentLinkedDeque<>();
-    /** Non idle objects managed by WaitingQueue */
+    /** Nonidle objects managed by WaitingQueue */
     private final Map<T, T> used = new ConcurrentHashMap<>();
     /** Set of pending object creations */
     private final Map<CompletableFuture<T>, CompletableFuture<T>> pendingRequests = new ConcurrentHashMap<>();
@@ -201,7 +201,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     }
 
     private boolean tryToPollIdle(CompletableFuture<T> acquire) {
-        // Try to poll hottest element
+        // Try to poll the hottest element
         T next = idle.pollFirst();
         if (next == null) {
             return false;

@@ -117,7 +117,7 @@ public class TableDescription {
     public static class Builder {
         private StoreType storeType = StoreType.ROW;
         private List<String> primaryKeys = Collections.emptyList();
-        private final LinkedHashMap<String, TypeAndFamily> columns = new LinkedHashMap<>();
+        private final Map<String, TableColumn> columns = new LinkedHashMap<>();
         private final List<TableIndex> indexes = new ArrayList<>();
         private final List<ColumnFamily> families = new ArrayList<>();
         private final List<KeyRange> keyRanges = new ArrayList<>();
@@ -133,12 +133,17 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addColumn(TableColumn column) {
+            columns.put(column.getName(), column);
+            return this;
+        }
+
         public Builder addNonnullColumn(String name, Type type) {
             return addNonnullColumn(name, type, null);
         }
 
         public Builder addNonnullColumn(String name, Type type, String family) {
-            columns.put(name, new TypeAndFamily(type, family));
+            columns.put(name, new TableColumn(name, type, family));
             return this;
         }
 
@@ -152,7 +157,7 @@ public class TableDescription {
         }
 
         public Builder addNullableColumn(String name, Type type, String family) {
-            columns.put(name, new TypeAndFamily(OptionalType.of(type), family));
+            columns.put(name, new TableColumn(name, OptionalType.of(type), family));
             return this;
         }
 
@@ -279,8 +284,8 @@ public class TableDescription {
 
             int i = 0;
             TableColumn[] array = new TableColumn[this.columns.size()];
-            for (Map.Entry<String, Builder.TypeAndFamily> e : this.columns.entrySet()) {
-                array[i++] = new TableColumn(e.getKey(), e.getValue().type, e.getValue().family);
+            for (Map.Entry<String, TableColumn> e : this.columns.entrySet()) {
+                array[i++] = e.getValue();
             }
 
             return ImmutableList.copyOf(array);
@@ -294,16 +299,6 @@ public class TableDescription {
         private void checkColumnKnown(String name) {
             if (!columns.containsKey(name)) {
                 throw new IllegalArgumentException("unknown column name: " + name);
-            }
-        }
-
-        private static class TypeAndFamily {
-            private final Type type;
-            private final String family;
-
-            TypeAndFamily(Type type, String family) {
-                this.type = type;
-                this.family = family;
             }
         }
     }

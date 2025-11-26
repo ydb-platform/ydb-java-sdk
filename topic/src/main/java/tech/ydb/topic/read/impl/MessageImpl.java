@@ -26,7 +26,7 @@ public class MessageImpl implements Message {
     private final String messageGroupId;
     private final BatchMeta batchMeta;
     private final PartitionSessionImpl partitionSession;
-    private List<MetadataItem> metadataItems;
+    private final List<MetadataItem> metadataItems;
     private final OffsetsRange offsetsToCommit;
     private final CommitterImpl committer;
     private boolean isDecompressed = false;

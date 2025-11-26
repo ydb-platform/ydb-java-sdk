@@ -10,8 +10,8 @@ import tech.ydb.common.transaction.YdbTransaction;
  * @author Nikolay Perfilov
  */
 public class ReceiveSettings {
-    private Long timeout;
-    private TimeUnit timeoutTimeUnit;
+    private final Long timeout;
+    private final TimeUnit timeoutTimeUnit;
     private final YdbTransaction transaction;
 
     private ReceiveSettings(Builder builder) {

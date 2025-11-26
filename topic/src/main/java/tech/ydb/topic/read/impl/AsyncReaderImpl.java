@@ -8,6 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +17,7 @@ import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
@@ -27,6 +30,7 @@ import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
+import tech.ydb.topic.read.impl.events.SessionStartedEvent;
 import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
@@ -45,8 +49,11 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private final ExecutorService defaultHandlerExecutorService;
     private final ReadEventHandler eventHandler;
 
-    public AsyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        super(topicRpc, settings);
+    public AsyncReaderImpl(TopicRpc topicRpc,
+                           ReaderSettings settings,
+                           ReadEventHandlersSettings handlersSettings,
+                           @Nonnull CodecRegistry codecRegistry) {
+        super(topicRpc, settings, codecRegistry);
         this.eventHandler = handlersSettings.getEventHandler();
 
         if (handlersSettings.getExecutor() != null) {
@@ -74,6 +81,18 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
                     "Can only read topic messages in already running transactions from other services");
         }
         return sendUpdateOffsetsInTransaction(transaction, offsets, settings);
+    }
+
+    @Override
+    protected void handleSessionStarted(String sessionId) {
+        handlerExecutor.execute(() -> {
+            try {
+                eventHandler.onSessionStarted(new SessionStartedEvent(sessionId));
+            } catch (Throwable th) {
+                logUserThrowableAndStopWorking(th, "onSessionStarted");
+                throw th;
+            }
+        });
     }
 
     @Override

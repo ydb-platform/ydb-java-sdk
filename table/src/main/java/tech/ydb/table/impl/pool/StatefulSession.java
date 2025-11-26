@@ -37,7 +37,7 @@ abstract class StatefulSession extends BaseSession {
             current = state.get();
         }
         if (logger.isTraceEnabled()) {
-            logger.trace("{} updated => {}, {}", toString(), state.get().status, state.get().lastUpdate);
+            logger.trace("{} updated => {}, {}", this, state.get().status, state.get().lastUpdate);
         }
     }
 

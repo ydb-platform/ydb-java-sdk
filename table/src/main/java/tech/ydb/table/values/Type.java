@@ -1,12 +1,14 @@
 package tech.ydb.table.values;
 
+import java.io.Serializable;
+
 import tech.ydb.proto.ValueProtos;
 
 
 /**
  * @author Sergey Polovko
  */
-public interface Type {
+public interface Type extends Serializable {
 
     Type[] EMPTY_ARRAY = {};
 

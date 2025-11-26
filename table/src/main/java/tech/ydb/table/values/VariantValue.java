@@ -9,6 +9,7 @@ import tech.ydb.proto.ValueProtos;
  * @author Sergey Polovko
  */
 public class VariantValue implements Value<VariantType> {
+    private static final long serialVersionUID = 5689895941787378526L;
 
     private final VariantType type;
     private final Value<?> item;
@@ -54,7 +55,7 @@ public class VariantValue implements Value<VariantType> {
 
     @Override
     public String toString() {
-        return "Variant[" + typeIndex + "; " + item.toString() + ']';
+        return "Variant[" + typeIndex + "; " + item + ']';
     }
 
     @Override

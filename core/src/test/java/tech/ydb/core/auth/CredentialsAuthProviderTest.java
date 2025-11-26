@@ -65,7 +65,7 @@ public class CredentialsAuthProviderTest {
                 )
         )).thenReturn(CompletableFuture.completedFuture(Result.fail(unauthorized)));
 
-        // With correct credentitals
+        // With correct credentials
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", "pass1")) {
             Assert.assertEquals(token, identity.getToken());
             Assert.assertEquals(token, identity.getToken());
@@ -124,7 +124,7 @@ public class CredentialsAuthProviderTest {
         try (tech.ydb.auth.AuthIdentity identity = createAuth("user", null)) {
             UnexpectedResultException ex = Assert.assertThrows(
                     UnexpectedResultException.class,
-                    () -> identity.getToken()
+                    identity::getToken
             );
             Assert.assertEquals(overloaded, ex.getStatus());
         }

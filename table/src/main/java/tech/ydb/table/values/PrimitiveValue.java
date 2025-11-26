@@ -1,5 +1,6 @@
 package tech.ydb.table.values;
 
+import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
@@ -26,6 +27,7 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Sergey Polovko
  */
 public abstract class PrimitiveValue implements Value<PrimitiveType> {
+    private static final long serialVersionUID = -593973220839414910L;
 
     // -- unboxing --
 
@@ -426,6 +428,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     private static final class Bool extends PrimitiveValue {
         private static final Bool TRUE = new Bool(true);
         private static final Bool FALSE = new Bool(false);
+        private static final long serialVersionUID = 7207303321734750652L;
 
         private final boolean value;
 
@@ -473,6 +476,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Int8 extends PrimitiveValue {
+        private static final long serialVersionUID = 3867979078069236160L;
         private final byte value;
 
         Int8(byte value) {
@@ -519,6 +523,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Uint8 extends PrimitiveValue {
+        private static final long serialVersionUID = -2424977493086167336L;
         private final int value;
 
         Uint8(int value) {
@@ -565,6 +570,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Int16 extends PrimitiveValue {
+        private static final long serialVersionUID = -8311187590490101931L;
         private final short value;
 
         Int16(short value) {
@@ -611,6 +617,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Uint16 extends PrimitiveValue {
+        private static final long serialVersionUID = -1330701369583596336L;
         private final int value;
 
         Uint16(int value) {
@@ -657,6 +664,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Int32 extends PrimitiveValue {
+        private static final long serialVersionUID = 7042129605356587364L;
         private final int value;
 
         Int32(int value) {
@@ -703,6 +711,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Uint32 extends PrimitiveValue {
+        private static final long serialVersionUID = 7801315839206470466L;
         private final long value;
 
         Uint32(long value) {
@@ -749,6 +758,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Int64 extends PrimitiveValue {
+        private static final long serialVersionUID = 6172442096037248621L;
         private final long value;
 
         Int64(long value) {
@@ -795,6 +805,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Uint64 extends PrimitiveValue {
+        private static final long serialVersionUID = 5901448753419859427L;
         private final long value;
 
         Uint64(long value) {
@@ -841,6 +852,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class FloatValue extends PrimitiveValue {
+        private static final long serialVersionUID = 3923497777175128929L;
         private final float value;
 
         FloatValue(float value) {
@@ -888,6 +900,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class DoubleValue extends PrimitiveValue {
+        private static final long serialVersionUID = 9203562109584417269L;
         private final double value;
 
         DoubleValue(double value) {
@@ -937,9 +950,10 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     private static final class Bytes extends PrimitiveValue {
         private static final Bytes EMPTY_STRING = new Bytes(PrimitiveType.Bytes, new byte[0]);
         private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, new byte[0]);
+        private static final long serialVersionUID = 1523630543323446576L;
 
         private final PrimitiveType type;
-        private final Object value;
+        private final Serializable value;
 
         private Bytes(PrimitiveType type, byte[] value) {
             this.type = type;
@@ -1115,6 +1129,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
                 .addEscape('\\', "\\\\")
                 .addEscape('\"', "\\\"")
                 .build();
+        private static final long serialVersionUID = -7553749430611482975L;
 
         private final PrimitiveType type;
         private final String value;
@@ -1185,6 +1200,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class InstantValue extends PrimitiveValue {
+        private static final long serialVersionUID = -3276970465579586140L;
         private final PrimitiveType type;
         private final long microsSinceEpoch;
 
@@ -1250,7 +1266,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public int hashCode() {
-            return 31 * type.hashCode() + (int) (microsSinceEpoch ^ (microsSinceEpoch >>> 32));
+            return 31 * type.hashCode() + Long.hashCode(microsSinceEpoch);
         }
 
         @Override
@@ -1295,6 +1311,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class IntervalValue extends PrimitiveValue {
+        private static final long serialVersionUID = -5838934120795626089L;
         private final PrimitiveType type;
         private final long micros;
 
@@ -1334,7 +1351,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
         @Override
         public int hashCode() {
-            return (int) (micros ^ (micros >>> 32));
+            return Long.hashCode(micros);
         }
 
         @Override
@@ -1363,6 +1380,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class TzDatetime extends PrimitiveValue {
+        private static final long serialVersionUID = -1198584452413762990L;
         private final PrimitiveType type;
         private final ZonedDateTime dateTime;
 

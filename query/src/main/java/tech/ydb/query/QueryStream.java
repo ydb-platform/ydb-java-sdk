@@ -26,5 +26,5 @@ public interface QueryStream {
 
     default CompletableFuture<Result<QueryInfo>> execute() {
         return execute(null);
-    };
+    }
 }

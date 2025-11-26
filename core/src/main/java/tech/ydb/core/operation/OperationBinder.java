@@ -53,7 +53,7 @@ public class OperationBinder {
     ) {
         return (result) -> {
             if (!result.isSuccess()) {
-                return result.map(null);
+                return result.map(r -> null);
             }
             OperationProtos.Operation operation = method.apply(result.getValue());
             if (!operation.getReady()) {

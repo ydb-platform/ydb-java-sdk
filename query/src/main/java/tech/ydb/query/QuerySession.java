@@ -11,7 +11,7 @@ import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.table.query.Params;
 
 /**
- * Sessions are basic primitives for communicating with YDB Query Service. The are similar to connections for classic
+ * Sessions are basic primitives for communicating with YDB Query Service. They are similar to connections for classic
  * relational DBs. Sessions serve three main purposes:
  *
  * <ol>

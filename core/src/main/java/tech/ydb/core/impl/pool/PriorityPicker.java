@@ -27,14 +27,14 @@ public class PriorityPicker {
     private static final int DETECT_DC_NODE_SIZE = 3;
     private static final int DETECT_DC_TCP_PING_TIMEOUT_MS = 5000;
 
-    private final String prefferedLocation;
+    private final String preferredLocation;
 
     private PriorityPicker(String location) {
-        this.prefferedLocation = location;
+        this.preferredLocation = location;
     }
 
     public int getEndpointPriority(String location) {
-        if (prefferedLocation == null || prefferedLocation.equalsIgnoreCase(location)) {
+        if (preferredLocation == null || preferredLocation.equalsIgnoreCase(location)) {
             return 0;
         }
 
@@ -55,9 +55,9 @@ public class PriorityPicker {
     }
 
     @VisibleForTesting
-    static String getLocationFromConfig(String prefferable, String selfLocation) {
-        if (prefferable != null && !prefferable.isEmpty()) {
-            return prefferable;
+    static String getLocationFromConfig(String preferable, String selfLocation) {
+        if (preferable != null && !preferable.isEmpty()) {
+            return preferable;
         }
         if (selfLocation != null && !selfLocation.isEmpty()) {
             return selfLocation;

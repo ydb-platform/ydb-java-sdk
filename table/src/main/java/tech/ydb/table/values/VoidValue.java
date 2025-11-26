@@ -8,8 +8,8 @@ import tech.ydb.table.values.proto.ProtoValue;
  * @author Sergey Polovko
  */
 public class VoidValue implements Value<VoidType> {
-
     private static final VoidValue INSTANCE = new VoidValue();
+    private static final long serialVersionUID = -6324130072423013933L;
 
     private VoidValue() {
     }

@@ -117,7 +117,7 @@ final class ProtoResultSetReader implements ResultSetReader {
     private int columnIndex(String name) {
         Integer index = columnIndexes.get(name);
         if (index == null) {
-            throw new IllegalArgumentException("unknown column '" + name + "\'");
+            throw new IllegalArgumentException("unknown column '" + name + "'");
         }
         return index;
     }

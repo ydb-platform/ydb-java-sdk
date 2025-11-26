@@ -4,7 +4,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -54,7 +53,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.channelFactory = builder.getManagedChannelFactory();
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(scheduler, Arrays.asList(discoveryEndpoint), channelFactory, builder);
+        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(discoveryEndpoint),
+                channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discovery = new YdbDiscovery(new DiscoveryHandler(), scheduler, database, discoveryTimeout);
@@ -171,7 +171,10 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     @Override
     protected void updateChannelStatus(GrpcChannel channel, io.grpc.Status status) {
         // Usally CANCELLED is received when ClientCall is canceled on client side
-        if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
+        if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED &&
+                status.getCode() != io.grpc.Status.Code.DEADLINE_EXCEEDED &&
+                status.getCode() != io.grpc.Status.Code.RESOURCE_EXHAUSTED
+        ) {
             endpointPool.pessimizeEndpoint(channel.getEndpoint());
         }
     }

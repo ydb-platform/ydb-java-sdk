@@ -8,7 +8,6 @@ import java.util.concurrent.Executor;
 import org.junit.Assert;
 
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.proto.coordination.SessionRequest;
 import tech.ydb.proto.coordination.SessionResponse;
@@ -70,10 +69,6 @@ public class GrpcStreamMock implements GrpcReadWriteStream<SessionResponse, Sess
         executor.execute(() -> finish.complete(Status.SUCCESS));
     }
 
-    public void closeConnecttionUnavailable() {
-        executor.execute(() -> finish.complete(Status.of(StatusCode.TRANSPORT_UNAVAILABLE)));
-    }
-
     public boolean hasNextRequest() {
         return !requests.isEmpty();
     }
@@ -87,7 +82,6 @@ public class GrpcStreamMock implements GrpcReadWriteStream<SessionResponse, Sess
                 SessionResponse.SessionStarted.newBuilder().setSessionId(id).setTimeoutMillis(timeout).build()
         ).build();
         executor.execute(() -> observer.onNext(response));
-
     }
 
     public void responseSessionStopped(long id) {

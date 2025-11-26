@@ -1,5 +1,6 @@
 package tech.ydb.topic.impl;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -27,7 +28,13 @@ import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.AbstractReadEventHandler;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.settings.AlterAutoPartitioningWriteStrategySettings;
+import tech.ydb.topic.settings.AlterPartitioningSettings;
+import tech.ydb.topic.settings.AlterTopicSettings;
+import tech.ydb.topic.settings.AutoPartitioningStrategy;
+import tech.ydb.topic.settings.AutoPartitioningWriteStrategySettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
@@ -47,6 +54,8 @@ public class YdbTopicsIntegrationTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
 
     private final static String TEST_TOPIC = "integration_test_topic";
+    private final static String TEST_OTHER_TOPIC = "integration_test_other_topic";
+
     private final static String TEST_CONSUMER1 = "consumer";
     private final static String TEST_CONSUMER2 = "other_consumer";
 
@@ -131,7 +140,7 @@ public class YdbTopicsIntegrationTest {
         for (byte[] bytes: TEST_MESSAGES) {
             tech.ydb.topic.read.Message msg = reader.receive();
             Assert.assertArrayEquals(bytes, msg.getData());
-            msg.commit();
+            msg.commit().join();
         }
 
         reader.shutdown();
@@ -149,7 +158,11 @@ public class YdbTopicsIntegrationTest {
 
         for (int idx = TEST_MESSAGES.length - 1; idx >= 0; idx -= 1) {
             tech.ydb.topic.read.Message msg = reader.receive();
-            Assert.assertArrayEquals(TEST_MESSAGES[idx], msg.getData());
+            Assert.assertArrayEquals(
+                    new String(msg.getData()) + " on position " + idx,
+                    TEST_MESSAGES[idx],
+                    msg.getData()
+            );
         }
 
         reader.shutdown();
@@ -168,7 +181,11 @@ public class YdbTopicsIntegrationTest {
         DeferredCommitter committer = DeferredCommitter.newInstance();
         for (int idx = TEST_MESSAGES.length - 1; idx >= 0; idx -= 1) {
             tech.ydb.topic.read.Message msg = reader.receive();
-            Assert.assertArrayEquals(TEST_MESSAGES[idx], msg.getData());
+            Assert.assertArrayEquals(
+                    new String(msg.getData()) + " on position " + idx,
+                    TEST_MESSAGES[idx],
+                    msg.getData()
+            );
             committer.add(msg);
         }
 
@@ -177,7 +194,7 @@ public class YdbTopicsIntegrationTest {
     }
 
     @Test
-    public void step05_describeTopic() throws InterruptedException {
+    public void step05_describeTopic() {
         TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
 
         Assert.assertNull(description.getTopicStats());
@@ -226,5 +243,60 @@ public class YdbTopicsIntegrationTest {
             Assert.assertArrayEquals(TEST_MESSAGES[idx], results[idx]);
             Assert.assertArrayEquals(TEST_MESSAGES[idx], results[results.length - idx - 1]);
         }
+    }
+
+    @Test
+    public void step07_alterTopicWithAutoPartitioning() {
+        client.alterTopic(TEST_TOPIC, AlterTopicSettings.newBuilder()
+                        .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
+                                .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                                .setMaxActivePartitions(10)
+                                .setMinActivePartitions(5)
+                                .setWriteStrategySettings(AlterAutoPartitioningWriteStrategySettings.newBuilder()
+                                        .setStabilizationWindow(Duration.ofMinutes(1))
+                                        .setUpUtilizationPercent(80)
+                                        .build())
+                                .build())
+                .build()).join().expectSuccess("can't alter the topic");
+
+        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
+
+        PartitioningSettings actualPartitioningSettings = description.getPartitioningSettings();
+        PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
+                .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                .setWriteStrategySettings(AutoPartitioningWriteStrategySettings.newBuilder()
+                        .setStabilizationWindow(Duration.ofMinutes(1))
+                        .setUpUtilizationPercent(80)
+                        .setDownUtilizationPercent(20)
+                        .build())
+                .setMinActivePartitions(5)
+                .setMaxActivePartitions(10)
+                .build();
+
+        Assert.assertEquals(expectedPartitioningSettings, actualPartitioningSettings);
+    }
+
+    @Test
+    public void step08_createTopicWithAutoPartitioning() {
+        PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
+                .setMaxActivePartitions(8)
+                .setMinActivePartitions(4)
+                .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
+                .setWriteStrategySettings(AutoPartitioningWriteStrategySettings.newBuilder()
+                        .setDownUtilizationPercent(5)
+                        .setUpUtilizationPercent(75)
+                        .setStabilizationWindow(Duration.ofMinutes(2))
+                        .build())
+                .build();
+
+        CompletableFuture<Status> secondaryTopicCreated = client.createTopic(TEST_OTHER_TOPIC, CreateTopicSettings.newBuilder()
+                .setPartitioningSettings(expectedPartitioningSettings)
+                .build());
+
+        secondaryTopicCreated.join().expectSuccess("can't create the topic");
+
+        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
+
+        Assert.assertEquals(expectedPartitioningSettings, description.getPartitioningSettings());
     }
 }
