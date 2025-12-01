@@ -16,6 +16,10 @@ class TxControl {
             .setSnapshotReadOnly(YdbQuery.SnapshotModeSettings.getDefaultInstance())
             .build();
 
+    private static final YdbQuery.TransactionSettings TS_SNAPSHOT_RW = YdbQuery.TransactionSettings.newBuilder()
+            .setSnapshotReadWrite(YdbQuery.SnapshotRWModeSettings.getDefaultInstance())
+            .build();
+
     private static final YdbQuery.TransactionSettings TS_STALE = YdbQuery.TransactionSettings.newBuilder()
             .setStaleReadOnly(YdbQuery.StaleModeSettings.getDefaultInstance())
             .build();
@@ -55,6 +59,8 @@ class TxControl {
                 return TS_SERIALIZABLE;
             case SNAPSHOT_RO:
                 return TS_SNAPSHOT;
+            case SNAPSHOT_RW:
+                return TS_SNAPSHOT_RW;
             case STALE_RO:
                 return TS_STALE;
             case ONLINE_RO:
@@ -62,8 +68,9 @@ class TxControl {
             case ONLINE_INCONSISTENT_RO:
                 return TS_ONLINE_INCONSISTENT;
             case NONE:
-            default:
                 return null;
+            default:
+                throw new IllegalArgumentException("Tx mode " + tx + " is not supported");
         }
     }
 
