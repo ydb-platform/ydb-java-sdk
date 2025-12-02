@@ -39,11 +39,11 @@ public class EndpointPoolTest {
 
     @Before
     public void setUp() throws IOException {
-        Mockito.when(socketFactory.createSocket()).thenReturn(socket);
-        Mockito.doNothing().when(socket).connect(Mockito.any(SocketAddress.class));
         mocks = MockitoAnnotations.openMocks(this);
         threadLocalStaticMock.when(ThreadLocalRandom::current).thenReturn(random);
         socketFactoryStaticMock.when(SocketFactory::getDefault).thenReturn(socketFactory);
+        Mockito.when(socketFactory.createSocket()).thenReturn(socket);
+        Mockito.doNothing().when(socket).connect(Mockito.any(SocketAddress.class));
     }
 
     @After
