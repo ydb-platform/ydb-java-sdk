@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import javax.annotation.Nullable;
 
@@ -115,5 +116,47 @@ public class DictValue implements Value<DictType> {
                 .setPayload(value);
         }
         return builder.build();
+    }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!type.equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + type + " with " + other.getType());
+        }
+
+        DictValue otherDict = (DictValue) other;
+
+        // Sort entries by keys
+        Set<Value<?>> keys = new TreeSet<>();
+        keys.addAll(items.keySet());
+        keys.addAll(otherDict.keySet());
+
+        for (Value<?> key: keys) {
+            if (!otherDict.items.containsKey(key)) {
+                return 1;
+            }
+            if (!items.containsKey(key)) {
+                return -1;
+            }
+
+            int valueComparison = items.get(key).compareTo(otherDict.items.get(key));
+            if (valueComparison != 0) {
+                return valueComparison;
+            }
+        }
+
+        return 0;
     }
 }

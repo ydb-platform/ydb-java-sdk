@@ -25,16 +25,6 @@ public final class VoidType implements Type {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return this == o;
-    }
-
-    @Override
-    public int hashCode() {
-        return 31 * Kind.VOID.hashCode();
-    }
-
-    @Override
     public String toString() {
         return "Void";
     }
