@@ -1,3 +1,8 @@
+## 2.3.26 ##
+* Core: Bump org.bouncycastle:bcpkix-jdk18on from 1.78.1 to 1.79 by dependbot
+* Query: Added support of SnapshotRW transaction level
+* Query: Fixed NPE in DataQueryResults::getQueryStats
+
 ## 2.3.25 ##
 * Core: Removed usage of default deadline for long grpc streams
 * Query: Updated QueryStats class in QueryClient
