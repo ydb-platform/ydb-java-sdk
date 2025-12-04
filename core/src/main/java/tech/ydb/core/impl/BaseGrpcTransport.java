@@ -222,6 +222,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     private Metadata makeMetadataFromSettings(GrpcRequestSettings settings) {
         Metadata metadata = new Metadata();
+        String token = getAuthCallOptions().getToken();
+        if (token != null) {
+            metadata.put(YdbHeaders.AUTH_TICKET, token);
+        }
         if (settings.getTraceId() != null) {
             metadata.put(YdbHeaders.TRACE_ID, settings.getTraceId());
         }
