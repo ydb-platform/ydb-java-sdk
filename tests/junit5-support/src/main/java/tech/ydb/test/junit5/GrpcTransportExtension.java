@@ -25,7 +25,21 @@ public class GrpcTransportExtension extends ProxyGrpcTransport implements AfterA
         BeforeAllCallback, BeforeEachCallback {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtension.class);
 
-    private final Holder holder = new Holder();
+    private final boolean skipOnUnavailable;
+    private final Holder holder;
+
+    private GrpcTransportExtension(Holder holder, boolean skipOnUnavailable) {
+        this.holder = holder;
+        this.skipOnUnavailable = skipOnUnavailable;
+    }
+
+    public GrpcTransportExtension() {
+        this(new Holder(), true);
+    }
+
+    public GrpcTransportExtension failIfUnavailable() {
+        return new GrpcTransportExtension(holder, false);
+    }
 
     @Override
     protected GrpcTransport origin() {
@@ -33,7 +47,13 @@ public class GrpcTransportExtension extends ProxyGrpcTransport implements AfterA
     }
 
     private void ensureEnabled(String displayName) {
-        Assumptions.assumeTrue(YdbHelperFactory.getInstance().isEnabled(), "Ydb helper is disabled " + displayName);
+        if (skipOnUnavailable) {
+            Assumptions.assumeTrue(YdbHelperFactory.getInstance().isEnabled(), "Ydb helper is disabled " + displayName);
+        } else {
+            if (!YdbHelperFactory.getInstance().isEnabled()) {
+                throw new AssertionError("Ydb helper is not available " + displayName);
+            }
+        }
     }
 
     @Override
