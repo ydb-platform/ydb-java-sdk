@@ -31,6 +31,7 @@ import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
+import tech.ydb.topic.description.TopicStats;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
@@ -284,11 +285,13 @@ public class TopicClientImpl implements TopicClient {
     public CompletableFuture<Result<TopicDescription>> describeTopic(String path, DescribeTopicSettings settings) {
         YdbTopic.DescribeTopicRequest request = YdbTopic.DescribeTopicRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings))
+                .setIncludeStats(settings.isIncludeStats())
                 .setPath(path)
                 .build();
+
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.describeTopic(request, grpcRequestSettings)
-                .thenApply(result -> result.map(this::mapDescribeTopic));
+                .thenApply(result -> result.map(desc -> mapDescribeTopic(desc, settings.isIncludeStats())));
     }
 
     @Override
@@ -308,7 +311,7 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @SuppressWarnings("deprecation")
-    private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
+    private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result, boolean includeStats) {
         if (logger.isTraceEnabled()) {
             logger.trace("Received topic describe response:\n{}", result);
         }
@@ -351,6 +354,10 @@ public class TopicClientImpl implements TopicClient {
                     .setParentPartitionIds(partition.getParentPartitionIdsList())
                     .setPartitionStats(new PartitionStats(partition.getPartitionStats()));
 
+            if (includeStats) {
+                partitionBuilder.setPartitionStats(new PartitionStats(partition.getPartitionStats()));
+            }
+
             partitions.add(partitionBuilder.build());
         }
         description.setPartitions(partitions);
@@ -363,6 +370,10 @@ public class TopicClientImpl implements TopicClient {
 
         description.setConsumers(result.getConsumersList().stream()
                 .map(Consumer::new).collect(Collectors.toList()));
+
+        if (includeStats) {
+            description.setTopicStats(new TopicStats(result.getTopicStats()));
+        }
 
         return description.build();
     }

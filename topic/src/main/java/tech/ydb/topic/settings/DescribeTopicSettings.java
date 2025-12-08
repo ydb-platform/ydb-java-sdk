@@ -6,23 +6,15 @@ import tech.ydb.core.settings.OperationSettings;
  * @author Nikolay Perfilov
  */
 public class DescribeTopicSettings extends OperationSettings {
-    /* TODO: renew api and add stats
-    private boolean includeStats = false;
-
-    public DescribeTopicSettings(boolean includeStats) {
-        this.includeStats = includeStats;
-    }
-
-    public void setIncludeStats(boolean includeStats) {
-        this.includeStats = includeStats;
-    }
-
-    public boolean getIncludeStats() {
-        return includeStats;
-    }*/
+    private final boolean includeStats;
 
     private DescribeTopicSettings(Builder builder) {
         super(builder);
+        this.includeStats = builder.includeStats;
+    }
+
+    public boolean isIncludeStats() {
+        return includeStats;
     }
 
     public static Builder newBuilder() {
@@ -30,6 +22,13 @@ public class DescribeTopicSettings extends OperationSettings {
     }
 
     public static class Builder extends OperationBuilder<Builder> {
+        private boolean includeStats = false;
+
+        public Builder withIncludeStats(boolean includeStats) {
+            this.includeStats = includeStats;
+            return this;
+        }
+
         @Override
         public DescribeTopicSettings build() {
             return new DescribeTopicSettings(this);
