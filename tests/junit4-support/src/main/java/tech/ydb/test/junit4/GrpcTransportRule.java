@@ -21,7 +21,21 @@ import tech.ydb.test.integration.utils.ProxyGrpcTransport;
 public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransportRule.class);
 
-    private final AtomicReference<GrpcTransport> proxy = new AtomicReference<>();
+    private final AtomicReference<GrpcTransport> proxy;
+    private final boolean skipOnUnavailable;
+
+    private GrpcTransportRule(AtomicReference<GrpcTransport> proxy, boolean skipOnUnavailable) {
+        this.proxy = proxy;
+        this.skipOnUnavailable = skipOnUnavailable;
+    }
+
+    public GrpcTransportRule() {
+        this(new AtomicReference<>(), true);
+    }
+
+    public GrpcTransportRule failIfUnavailable() {
+        return new GrpcTransportRule(proxy, false);
+    }
 
     @Override
     public Statement apply(Statement base, Description description) {
@@ -30,15 +44,18 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
         return new Statement() {
             @Override
             public void evaluate() throws Throwable {
-                if (!factory.isEnabled()) {
-                    logger.info("Test {} skipped because ydb helper is not available", description.getDisplayName());
-                    Assume.assumeFalse("YDB Helper is not available", true);
-                    return;
-                }
-
-                String path = description.getClassName();
+                String path = description.getDisplayName();
                 if (description.getMethodName() != null) {
                     path += "/" + description.getMethodName();
+                }
+
+                if (!factory.isEnabled()) {
+                    if (!skipOnUnavailable) {
+                        throw new AssertionError("Ydb helper is not available " + path);
+                    }
+                    logger.info("Test {} skipped because ydb helper is not available", path);
+                    Assume.assumeFalse("YDB Helper is not available", true);
+                    return;
                 }
 
                 logger.debug("create ydb helper for test {}", path);
