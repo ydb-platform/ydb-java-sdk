@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
@@ -27,6 +28,10 @@ public class GrpcChannelPool {
     public GrpcChannelPool(ManagedChannelFactory channelFactory, ScheduledExecutorService executor) {
         this.channelFactory = channelFactory;
         this.executor = executor;
+    }
+
+    public Set<String> getReadyEndpoints() {
+        return channels.keySet();
     }
 
     public GrpcChannel getChannel(EndpointRecord endpoint) {

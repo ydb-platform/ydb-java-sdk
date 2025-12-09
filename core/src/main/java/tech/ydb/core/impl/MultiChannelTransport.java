@@ -1,5 +1,6 @@
 package tech.ydb.core.impl;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ScheduledExecutorService;
@@ -77,7 +78,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
 
     @Override
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
-        EndpointRecord endpoint = endpointPool.getEndpoint(null);
+        EndpointRecord endpoint = endpointPool.getEndpoint(Collections.emptySet(), settings);
         return channelPool.getChannel(endpoint);
     }
 
