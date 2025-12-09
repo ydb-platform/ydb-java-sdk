@@ -401,7 +401,10 @@ public class TopicClientImpl implements TopicClient {
             request.setReadSessionId(settings.getReadSessionId());
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .withPreferReadyChannel(true)
+                .build();
         return topicRpc.commitOffset(request.build(), grpcRequestSettings);
     }
 
