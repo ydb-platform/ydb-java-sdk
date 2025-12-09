@@ -1,3 +1,8 @@
+## 2.3.27 ##
+* Topic: Prefer to use the ready channels for commitOffset method
+* Topic: Added option includeStats to DescribeTopicSettings
+* Tests: Added option to fail integration tests if test database is unavailable
+
 ## 2.3.26 ##
 * Core: Bump org.bouncycastle:bcpkix-jdk18on from 1.78.1 to 1.79 by dependbot
 * Query: Added support of SnapshotRW transaction level
