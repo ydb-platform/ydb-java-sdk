@@ -23,7 +23,21 @@ public class YdbHelperExtension extends ProxyYdbHelper implements BeforeAllCallb
         BeforeEachCallback, AfterEachCallback {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransportExtension.class);
 
-    private final Holder holder = new Holder();
+    private final boolean skipOnUnavailable;
+    private final Holder holder;
+
+    private YdbHelperExtension(Holder holder, boolean skipOnUnavailable) {
+        this.holder = holder;
+        this.skipOnUnavailable = skipOnUnavailable;
+    }
+
+    public YdbHelperExtension() {
+        this(new Holder(), true);
+    }
+
+    public YdbHelperExtension failIfUnavailable() {
+        return new YdbHelperExtension(holder, false);
+    }
 
     @Override
     protected YdbHelper origin() {
@@ -31,7 +45,13 @@ public class YdbHelperExtension extends ProxyYdbHelper implements BeforeAllCallb
     }
 
     private void ensureEnabled(String displayName) {
-        Assumptions.assumeTrue(YdbHelperFactory.getInstance().isEnabled(), "Ydb helper is disabled " + displayName);
+        if (skipOnUnavailable) {
+            Assumptions.assumeTrue(YdbHelperFactory.getInstance().isEnabled(), "Ydb helper is disabled " + displayName);
+        } else {
+            if (!YdbHelperFactory.getInstance().isEnabled()) {
+                throw new AssertionError("Ydb helper is not available " + displayName);
+            }
+        }
     }
 
     @Override
