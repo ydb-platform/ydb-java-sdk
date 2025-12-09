@@ -22,6 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
+import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.DeferredCommitter;
@@ -34,6 +35,7 @@ import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.AutoPartitioningStrategy;
 import tech.ydb.topic.settings.AutoPartitioningWriteStrategySettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -299,4 +301,32 @@ public class YdbTopicsIntegrationTest {
 
         Assert.assertEquals(expectedPartitioningSettings, description.getPartitioningSettings());
     }
+
+    @Test
+    public void step09_describeTopicStats() {
+        DescribeTopicSettings on = DescribeTopicSettings.newBuilder().withIncludeStats(true).build();
+        DescribeTopicSettings off = DescribeTopicSettings.newBuilder().withIncludeStats(false).build();
+
+        TopicDescription withStats = client.describeTopic(TEST_TOPIC, on).join().getValue();
+        TopicDescription withoutStats = client.describeTopic(TEST_TOPIC, off).join().getValue();
+
+        Assert.assertNull(withoutStats.getTopicStats());
+        Assert.assertNotNull(withStats.getTopicStats());
+
+        for (Consumer consumer: withoutStats.getConsumers()) {
+            // TODO: fix it, must be null
+            Assert.assertNotNull(consumer.getStats());
+        }
+        for (Consumer consumer: withStats.getConsumers()) {
+            Assert.assertNotNull(consumer.getStats());
+        }
+
+        for (PartitionInfo partition: withoutStats.getPartitions()) {
+            // TODO: fix it, must be null
+            Assert.assertNotNull(partition.getPartitionStats());
+        }
+        for (PartitionInfo partition: withStats.getPartitions()) {
+            Assert.assertNotNull(partition.getPartitionStats());
+        }
+   }
 }
