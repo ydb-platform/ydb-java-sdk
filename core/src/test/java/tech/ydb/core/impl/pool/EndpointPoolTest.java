@@ -4,7 +4,10 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.concurrent.ThreadLocalRandom;
 
 import javax.net.SocketFactory;
@@ -28,6 +31,8 @@ import tech.ydb.core.timer.TestTicker;
  * @author Kirill Kurdyukov
  */
 public class EndpointPoolTest {
+    private final static Set<String> EMPTY = Collections.emptySet();
+
     private AutoCloseable mocks;
     private final MockedStatic<ThreadLocalRandom> threadLocalStaticMock = Mockito.mockStatic(ThreadLocalRandom.class);
     private final MockedStatic<Ticker> tickerStaticMock = Mockito.mockStatic(Ticker.class);
@@ -66,6 +71,10 @@ public class EndpointPoolTest {
         return GrpcRequestSettings.newBuilder().withPreferredNodeID(nodeId).withDirectMode(true).build();
     }
 
+    private GrpcRequestSettings preferReady() {
+        return GrpcRequestSettings.newBuilder().withPreferReadyChannel(true).build();
+    }
+
     @Test
     public void directWithoutNodeIdTest() {
         EndpointPool pool = new EndpointPool(useAllNodes());
@@ -75,7 +84,7 @@ public class EndpointPoolTest {
                 .build();
 
         UnexpectedResultException ex = Assert.assertThrows(
-                UnexpectedResultException.class, () -> pool.getEndpoint(noNodeId)
+                UnexpectedResultException.class, () -> pool.getEndpoint(EMPTY, noNodeId)
         );
 
         Assert.assertEquals("Cannot use direct mode without NodeId, code: CLIENT_INTERNAL_ERROR", ex.getMessage());
@@ -86,15 +95,15 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        check(pool.getEndpoint(empty())).isNull();
-        check(pool.getEndpoint(nodeId(0))).isNull();
-        check(pool.getEndpoint(nodeId(1))).isNull();
+        check(pool.getEndpoint(EMPTY, empty())).isNull();
+        check(pool.getEndpoint(EMPTY, nodeId(0))).isNull();
+        check(pool.getEndpoint(EMPTY, nodeId(1))).isNull();
 
         pool.setNewState("DC1", list());
 
-        check(pool.getEndpoint(empty())).isNull();
-        check(pool.getEndpoint(nodeId(0))).isNull();
-        check(pool.getEndpoint(nodeId(1))).isNull();
+        check(pool.getEndpoint(EMPTY, empty())).isNull();
+        check(pool.getEndpoint(EMPTY, nodeId(0))).isNull();
+        check(pool.getEndpoint(EMPTY, nodeId(1))).isNull();
     }
 
     @Test
@@ -112,14 +121,60 @@ public class EndpointPoolTest {
 
         Mockito.when(random.nextInt(3)).thenReturn(2, 0, 2, 1);
 
-        check(pool.getEndpoint(empty())).hostname("n3.ydb.tech").nodeID(3).port(12345); // random choice
-        check(pool.getEndpoint(nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random choose
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12345);
-        check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12345);
-        check(pool.getEndpoint(nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12345);
-        check(pool.getEndpoint(nodeId(4))).hostname("n3.ydb.tech").nodeID(3).port(12345); // random choose
-        check(pool.getEndpoint(nodeId(5))).hostname("n2.ydb.tech").nodeID(2).port(12345); // random choose
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n3.ydb.tech").nodeID(3).port(12345); // random choice
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random choose
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12345);
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12345);
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12345);
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n3.ydb.tech").nodeID(3).port(12345); // random choose
+        check(pool.getEndpoint(EMPTY, nodeId(5))).hostname("n2.ydb.tech").nodeID(2).port(12345); // random choose
 
+        Mockito.verify(random, Mockito.times(4)).nextInt(3);
+    }
+
+    @Test
+    public void prefferReadyTest() {
+        EndpointPool pool = new EndpointPool(useAllNodes());
+        check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
+
+        EndpointRecord e1 = endpoint(1, "n1.ydb.tech", 12345, "DC1");
+        EndpointRecord e2 = endpoint(2, "n2.ydb.tech", 12345, "DC2");
+        EndpointRecord e3 = endpoint(3, "n3.ydb.tech", 12345, "DC3");
+        EndpointRecord e4 = endpoint(4, "n4.ydb.tech", 12345, "DC4");
+
+        pool.setNewState("DC1", list(e1, e2, e3));
+
+        Set<String> unknown = new TreeSet<>(Arrays.asList(e4.getHostAndPort()));
+        Set<String> ready = new TreeSet<>(Arrays.asList(e3.getHostAndPort(), e1.getHostAndPort()));
+
+        check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(3);
+
+        Mockito.when(random.nextInt(3)).thenReturn(2, 0, 1, 2);
+        Mockito.when(random.nextInt(2)).thenReturn(1, 1, 0);
+        Mockito.when(random.nextInt(1)).thenReturn(0, 0, 0, 0);
+
+        check(pool.getEndpoint(EMPTY, preferReady())).hostname("n3.ydb.tech").nodeID(3).port(12345); // random choice
+        check(pool.getEndpoint(unknown, preferReady())).hostname("n1.ydb.tech").nodeID(1).port(12345); // random choice
+        Mockito.verify(random, Mockito.times(2)).nextInt(3);
+
+        check(pool.getEndpoint(ready, preferReady())).hostname("n3.ydb.tech").nodeID(3).port(12345); // ready random
+        check(pool.getEndpoint(ready, preferReady())).hostname("n3.ydb.tech").nodeID(3).port(12345); // ready random
+        check(pool.getEndpoint(ready, preferReady())).hostname("n1.ydb.tech").nodeID(1).port(12345); // ready random
+        Mockito.verify(random, Mockito.times(3)).nextInt(2);
+
+        pool.pessimizeEndpoint(e3, "test");
+        check(pool.getEndpoint(ready, preferReady())).hostname("n1.ydb.tech").nodeID(1).port(12345); // ready random
+        check(pool.getEndpoint(ready, preferReady())).hostname("n1.ydb.tech").nodeID(1).port(12345); // ready random
+        Mockito.verify(random, Mockito.times(2)).nextInt(1);
+
+        pool.pessimizeEndpoint(e1, "test");
+        check(pool.getEndpoint(ready, preferReady())).hostname("n2.ydb.tech").nodeID(2).port(12345);
+        check(pool.getEndpoint(ready, preferReady())).hostname("n2.ydb.tech").nodeID(2).port(12345);
+        Mockito.verify(random, Mockito.times(4)).nextInt(1);
+
+        pool.pessimizeEndpoint(e2, "test");
+        check(pool.getEndpoint(ready, preferReady())).hostname("n2.ydb.tech").nodeID(2).port(12345); // random choice
+        check(pool.getEndpoint(ready, preferReady())).hostname("n3.ydb.tech").nodeID(3).port(12345); // random choice
         Mockito.verify(random, Mockito.times(4)).nextInt(3);
     }
 
@@ -138,22 +193,48 @@ public class EndpointPoolTest {
 
         Mockito.when(random.nextInt(1)).thenReturn(0, 0, 0);
 
-        check(pool.getEndpoint(empty())).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
 
-        check(pool.getEndpoint(nodeId(0))).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12345); // preferred
-        check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12345); // preferred
-        check(pool.getEndpoint(nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12345); // preferred
-        check(pool.getEndpoint(nodeId(4))).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12345); // preferred
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12345); // preferred
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12345); // preferred
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from local DC
 
-        check(pool.getEndpoint(direct(1))).hostname("n1.ydb.tech").nodeID(1).port(12345); // direct
-        check(pool.getEndpoint(direct(2))).hostname("n2.ydb.tech").nodeID(2).port(12345); // direct
-        check(pool.getEndpoint(direct(3))).hostname("n3.ydb.tech").nodeID(3).port(12345); // direct
+        check(pool.getEndpoint(EMPTY, direct(1))).hostname("n1.ydb.tech").nodeID(1).port(12345); // direct
+        check(pool.getEndpoint(EMPTY, direct(2))).hostname("n2.ydb.tech").nodeID(2).port(12345); // direct
+        check(pool.getEndpoint(EMPTY, direct(3))).hostname("n3.ydb.tech").nodeID(3).port(12345); // direct
         Assert.assertEquals("Node 4 not found, code: TRANSPORT_UNAVAILABLE",
-                Assert.assertThrows(UnexpectedResultException.class, () -> pool.getEndpoint(direct(4))).getMessage());
+                Assert.assertThrows(UnexpectedResultException.class,
+                        () -> pool.getEndpoint(EMPTY, direct(4))).getMessage());
 
         Mockito.verify(random, Mockito.times(3)).nextInt(1);
     }
+
+//    @Test
+//    public void preferrReadyTest() {
+//        EndpointPool pool = new EndpointPool(preferredNode("DC1"));
+//        check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
+//
+//        pool.setNewState("DC3", list(
+//                endpoint(1, "n1.ydb.tech", 12345, "DC1"),
+//                endpoint(2, "n2.ydb.tech", 12345, "DC2"),
+//                endpoint(3, "n3.ydb.tech", 12345, "DC3")
+//        ));
+//
+//        check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
+//
+//        Mockito.when(random.nextInt(1)).thenReturn(0, 0, 0);
+//
+//        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
+//        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
+//        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12345); // preferred
+//        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12345); // preferred
+//        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12345); // preferred
+//        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
+//
+//        Mockito.verify(random, Mockito.times(3)).nextInt(1);
+//    }
 
     @Test
     public void preferredDcTest() {
@@ -170,12 +251,12 @@ public class EndpointPoolTest {
 
         Mockito.when(random.nextInt(1)).thenReturn(0, 0, 0);
 
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
-        check(pool.getEndpoint(nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12345); // preferred
-        check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12345); // preferred
-        check(pool.getEndpoint(nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12345); // preferred
-        check(pool.getEndpoint(nodeId(4))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12345); // preferred
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12345); // preferred
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12345); // preferred
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
 
         Mockito.verify(random, Mockito.times(3)).nextInt(1);
     }
@@ -196,16 +277,16 @@ public class EndpointPoolTest {
         Mockito.when(random.nextInt(3)).thenReturn(2, 0, 2, 1);
 
         // If node is known
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
 
         // If node is unknown - use default random choice
-        check(pool.getEndpoint(nodeId(4))).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(nodeId(5))).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(nodeId(6))).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(nodeId(7))).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, nodeId(5))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(6))).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, nodeId(7))).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         Mockito.verify(random, Mockito.times(4)).nextInt(3);
     }
@@ -226,26 +307,26 @@ public class EndpointPoolTest {
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(5);
 
         Mockito.when(random.nextInt(5)).thenReturn(0, 1, 3, 2, 4);
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
-        check(pool.getEndpoint(empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(empty())).hostname("n5.ydb.tech").nodeID(5).port(12345);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n5.ydb.tech").nodeID(5).port(12345);
         Mockito.verify(random, Mockito.times(5)).nextInt(5);
 
         // Pessimize one node - four left in use
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "test");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(2)), "test");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
         Mockito.when(random.nextInt(4)).thenReturn(0, 2, 1, 3);
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(empty())).hostname("n5.ydb.tech").nodeID(5).port(12345);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n5.ydb.tech").nodeID(5).port(12345);
         Mockito.verify(random, Mockito.times(4)).nextInt(4);
 
         // but we can use pessimized node if specify it as preferred
-        check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         // Pessimize unknown nodes - nothing is changed
         pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null, null), "test 2");
@@ -254,27 +335,27 @@ public class EndpointPoolTest {
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
         // Repeat node pessimization - nothing is change
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(2)), "");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
         Mockito.when(random.nextInt(4)).thenReturn(3, 1, 2, 0);
-        check(pool.getEndpoint(empty())).hostname("n5.ydb.tech").nodeID(5).port(12345);
-        check(pool.getEndpoint(empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n5.ydb.tech").nodeID(5).port(12345);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
         Mockito.verify(random, Mockito.times(8)).nextInt(4); // Mockito counts also previous 4
 
         // Pessimize two nodes - then we need to discovery
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(3)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(3)), "");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(3);
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(5)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(5)), "");
         check(pool).records(5).knownNodes(5).needToReDiscovery(true).bestEndpointsCount(2);
 
         Mockito.when(random.nextInt(2)).thenReturn(1, 1, 0, 0);
-        check(pool.getEndpoint(empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
         Mockito.verify(random, Mockito.times(4)).nextInt(2);
     }
 
@@ -294,37 +375,37 @@ public class EndpointPoolTest {
 
         // Only local nodes are used
         Mockito.when(random.nextInt(2)).thenReturn(0, 1);
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
         Mockito.verify(random, Mockito.times(2)).nextInt(2);
 
         // Pessimize first local node - use second
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(1)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(1)), "");
         check(pool).records(4).knownNodes(4).needToReDiscovery(false).bestEndpointsCount(1);
 
         Mockito.when(random.nextInt(1)).thenReturn(0);
-        check(pool.getEndpoint(empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
         Mockito.verify(random, Mockito.times(1)).nextInt(1);
 
         // Pessimize second local node - use unlocal nodes
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(2)), "");
         check(pool).records(4).knownNodes(4).needToReDiscovery(false).bestEndpointsCount(2);
 
         Mockito.when(random.nextInt(2)).thenReturn(1, 0);
-        check(pool.getEndpoint(empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
         Mockito.verify(random, Mockito.times(4)).nextInt(2);
 
         // Pessimize all - fallback to use all nodes
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(3)), "");
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(4)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(3)), "");
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(4)), "");
         check(pool).records(4).knownNodes(4).needToReDiscovery(true).bestEndpointsCount(4);
 
         Mockito.when(random.nextInt(4)).thenReturn(3, 2, 1, 0);
-        check(pool.getEndpoint(empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
-        check(pool.getEndpoint(empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n1.ydb.tech").nodeID(1).port(12341);
         Mockito.verify(random, Mockito.times(4)).nextInt(4);
 
         // setNewState reset all
@@ -360,14 +441,14 @@ public class EndpointPoolTest {
 
         Mockito.when(random.nextInt(4)).thenReturn(2, 0, 3, 1);
 
-        check(pool.getEndpoint(empty())).hostname("n3.ydb.tech").nodeID(3).port(12343); // random
-        check(pool.getEndpoint(nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12341); // random
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
-        check(pool.getEndpoint(nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(nodeId(4))).hostname("n3.ydb.tech").nodeID(6).port(12344); // random
-        check(pool.getEndpoint(nodeId(5))).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
-        check(pool.getEndpoint(nodeId(6))).hostname("n3.ydb.tech").nodeID(6).port(12344);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n3.ydb.tech").nodeID(3).port(12343); // random
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12341); // random
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n3.ydb.tech").nodeID(6).port(12344); // random
+        check(pool.getEndpoint(EMPTY, nodeId(5))).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
+        check(pool.getEndpoint(EMPTY, nodeId(6))).hostname("n3.ydb.tech").nodeID(6).port(12344);
 
         Mockito.verify(random, Mockito.times(4)).nextInt(4);
     }
@@ -391,11 +472,11 @@ public class EndpointPoolTest {
 
         Mockito.when(random.nextInt(3)).thenReturn(1, 0, 2);
 
-        check(pool.getEndpoint(empty())).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
-        check(pool.getEndpoint(nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12341); // random
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(nodeId(2))).hostname("n3.ydb.tech").nodeID(2).port(12343);
-        check(pool.getEndpoint(nodeId(3))).hostname("n3.ydb.tech").nodeID(2).port(12343); // random
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12341); // random
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n3.ydb.tech").nodeID(2).port(12343);
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n3.ydb.tech").nodeID(2).port(12343); // random
 
         Mockito.verify(random, Mockito.times(3)).nextInt(3);
     }
@@ -419,12 +500,12 @@ public class EndpointPoolTest {
 
         Mockito.when(random.nextInt(3)).thenReturn(1, 0, 2);
 
-        check(pool.getEndpoint(empty())).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
-        check(pool.getEndpoint(nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12341); // random
-        check(pool.getEndpoint(nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
-        check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
-        check(pool.getEndpoint(nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12343);
-        check(pool.getEndpoint(nodeId(4))).hostname("n3.ydb.tech").nodeID(3).port(12343); // random
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n1.ydb.tech").nodeID(1).port(12341); // random
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n1.ydb.tech").nodeID(1).port(12341);
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n3.ydb.tech").nodeID(3).port(12343);
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n3.ydb.tech").nodeID(3).port(12343); // random
 
         Mockito.verify(random, Mockito.times(3)).nextInt(3);
 
@@ -444,14 +525,14 @@ public class EndpointPoolTest {
 
         Mockito.when(random.nextInt(4)).thenReturn(3, 1, 2, 0);
 
-        check(pool.getEndpoint(empty())).hostname("n6.ydb.tech").nodeID(6).port(12346); // random
-        check(pool.getEndpoint(nodeId(0))).hostname("n4.ydb.tech").nodeID(4).port(12344); // random
-        check(pool.getEndpoint(nodeId(1))).hostname("n5.ydb.tech").nodeID(5).port(12345); // random
-        check(pool.getEndpoint(nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
-        check(pool.getEndpoint(nodeId(3))).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
-        check(pool.getEndpoint(nodeId(4))).hostname("n4.ydb.tech").nodeID(4).port(12344);
-        check(pool.getEndpoint(nodeId(5))).hostname("n5.ydb.tech").nodeID(5).port(12345);
-        check(pool.getEndpoint(nodeId(6))).hostname("n6.ydb.tech").nodeID(6).port(12346);
+        check(pool.getEndpoint(EMPTY, empty())).hostname("n6.ydb.tech").nodeID(6).port(12346); // random
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("n4.ydb.tech").nodeID(4).port(12344); // random
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("n5.ydb.tech").nodeID(5).port(12345); // random
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("n2.ydb.tech").nodeID(2).port(12342); // random
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("n4.ydb.tech").nodeID(4).port(12344);
+        check(pool.getEndpoint(EMPTY, nodeId(5))).hostname("n5.ydb.tech").nodeID(5).port(12345);
+        check(pool.getEndpoint(EMPTY, nodeId(6))).hostname("n6.ydb.tech").nodeID(6).port(12346);
 
         Mockito.verify(random, Mockito.times(4)).nextInt(4);
     }
@@ -482,20 +563,20 @@ public class EndpointPoolTest {
 
         check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
 
-        check(pool.getEndpoint(empty())).hostname("127.0.0.2").nodeID(2).port(p2); // detect local dc
-        check(pool.getEndpoint(nodeId(0))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
-        check(pool.getEndpoint(nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
-        check(pool.getEndpoint(nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
-        check(pool.getEndpoint(nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
-        check(pool.getEndpoint(nodeId(4))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
+        check(pool.getEndpoint(EMPTY, empty())).hostname("127.0.0.2").nodeID(2).port(p2); // detect local dc
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
 
-        pool.pessimizeEndpoint(pool.getEndpoint(nodeId(2)), "");
-        check(pool.getEndpoint(empty())).hostname("127.0.0.1").nodeID(1).port(p1); // new local dc
-        check(pool.getEndpoint(nodeId(0))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
-        check(pool.getEndpoint(nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
-        check(pool.getEndpoint(nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
-        check(pool.getEndpoint(nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
-        check(pool.getEndpoint(nodeId(4))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
+        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(2)), "");
+        check(pool.getEndpoint(EMPTY, empty())).hostname("127.0.0.1").nodeID(1).port(p1); // new local dc
+        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
+        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
+        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
+        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
+        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
     }
 
     private static class PoolChecker {
