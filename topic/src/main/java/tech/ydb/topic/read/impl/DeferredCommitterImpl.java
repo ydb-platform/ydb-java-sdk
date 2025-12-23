@@ -42,8 +42,7 @@ public class DeferredCommitterImpl implements DeferredCommitter {
                 }
             } catch (RuntimeException exception) {
                 String errorMessage = "[" + partitionSession.getFullId() + "] Error adding new offset range to " +
-                        "DeferredCommitter for partition session " + partitionSession.getId() + " (partition " +
-                        partitionSession.getPartitionId() + "): " + exception.getMessage();
+                        "DeferredCommitter for " + partitionSession.getSessionId() + exception.getMessage();
                 logger.error(errorMessage);
                 throw new RuntimeException(errorMessage, exception);
             }

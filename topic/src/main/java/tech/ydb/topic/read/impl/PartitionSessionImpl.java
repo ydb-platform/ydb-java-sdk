@@ -13,8 +13,6 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -34,15 +32,11 @@ import tech.ydb.topic.utils.Encoder;
 /**
  * @author Nikolay Perfilov
  */
-public class PartitionSessionImpl {
+public abstract class PartitionSessionImpl {
     private static final Logger logger = LoggerFactory.getLogger(PartitionSessionImpl.class);
 
-    private final long id;
     private final String fullId;
-    private final String topicPath;
-    private final String consumerName;
-    private final long partitionId;
-    private final PartitionSession sessionInfo;
+    private final PartitionSession sessionId;
     private final Executor decompressionExecutor;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final int maxBatchSize;
@@ -50,55 +44,37 @@ public class PartitionSessionImpl {
     private final Queue<Batch> decodingBatches = new LinkedList<>();
     private final ReentrantLock decodingBatchesLock = new ReentrantLock();
     private final Queue<Batch> readingQueue = new ConcurrentLinkedQueue<>();
-    private final Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
     private final AtomicBoolean isReadingNow = new AtomicBoolean();
-    private final Consumer<List<OffsetsRange>> commitFunction;
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
     // Offset of the last read message + 1
     private long lastReadOffset;
     private long lastCommittedOffset;
 
-    private PartitionSessionImpl(Builder builder) {
-        this.id = builder.id;
-        this.maxBatchSize = builder.maxBatchSize;
-        this.fullId = builder.fullId;
-        this.topicPath = builder.topicPath;
-        this.consumerName = builder.consumerName;
-        this.partitionId = builder.partitionId;
-        this.sessionInfo = new PartitionSession(id, partitionId, topicPath);
-        this.lastReadOffset = builder.committedOffset;
-        this.lastCommittedOffset = builder.committedOffset;
-        this.decompressionExecutor = builder.decompressionExecutor;
-        this.dataEventCallback = builder.dataEventCallback;
-        this.commitFunction = builder.commitFunction;
+    PartitionSessionImpl(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
+            String fullId, int maxBatchSize, String consumerName, Executor decompressionExecutor) {
+        YdbTopic.StreamReadMessage.PartitionSession s = request.getPartitionSession();
+        this.sessionId = new PartitionSession(s.getPartitionSessionId(), s.getPartitionId(), s.getPath());
+        this.fullId = fullId;
+        this.maxBatchSize = maxBatchSize;
+        this.lastReadOffset = request.getCommittedOffset();
+        this.lastCommittedOffset = request.getCommittedOffset();
+        this.decompressionExecutor = decompressionExecutor;
+
         logger.info("[{}] Partition session is started for Topic \"{}\" and Consumer \"{}\". CommittedOffset: {}. " +
-                "Partition offsets: {}-{}", fullId, topicPath, consumerName, lastReadOffset,
-                builder.partitionOffsets.getStart(), builder.partitionOffsets.getEnd());
+                "Partition offsets: {}-{}", fullId, sessionId.getPath(), consumerName, lastReadOffset,
+                request.getPartitionOffsets().getStart(), request.getPartitionOffsets().getEnd());
     }
 
-    public static Builder newBuilder() {
-        return new Builder();
-    }
+    public abstract void commitRanges(List<OffsetsRange> rangeWrapper);
+    public abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
 
-    public long getId() {
-        return id;
+    public PartitionSession getSessionId() {
+        return sessionId;
     }
 
     public String getFullId() {
         return fullId;
-    }
-
-    public long getPartitionId() {
-        return partitionId;
-    }
-
-    public String getTopicPath() {
-        return topicPath;
-    }
-
-    public PartitionSession getSessionInfo() {
-        return sessionInfo;
     }
 
     public void setLastReadOffset(long lastReadOffset) {
@@ -223,8 +199,7 @@ public class PartitionSessionImpl {
             } else {
                 logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session " +
                         "is already closed", fullId, rangeToCommit.getStart(), rangeToCommit.getEnd());
-                resultFuture.completeExceptionally(new RuntimeException("Partition session " + id + " (partition " +
-                        partitionId + ") for " + topicPath + " is already closed"));
+                resultFuture.completeExceptionally(new RuntimeException("" + sessionId + " is already closed"));
                 return resultFuture;
             }
         } finally {
@@ -232,7 +207,7 @@ public class PartitionSessionImpl {
         }
         List<OffsetsRange> rangeWrapper = new ArrayList<>(1);
         rangeWrapper.add(rangeToCommit);
-        commitFunction.accept(rangeWrapper);
+        commitRanges(rangeWrapper);
         return resultFuture;
     }
 
@@ -245,7 +220,7 @@ public class PartitionSessionImpl {
                 addRangesToString(message, rangesToCommit);
                 logger.debug(message.toString());
             }
-            commitFunction.accept(rangesToCommit);
+            commitRanges(rangesToCommit);
         } else if (logger.isInfoEnabled()) {
             StringBuilder message = new StringBuilder("[").append(fullId).append("] Offset ranges ");
             addRangesToString(message, rangesToCommit);
@@ -350,23 +325,22 @@ public class PartitionSessionImpl {
                                     messagesToRead.get(0).getOffset(),
                                     messagesToRead.get(messagesToRead.size() - 1).getOffset());
             }
-            dataEventCallback.apply(event)
-                    .whenComplete((res, th) -> {
-                        if (th != null) {
-                            logger.error("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) finished" +
-                                            " with error: ", fullId, messagesToRead.size(),
-                                    messagesToRead.get(0).getOffset(),
-                                    messagesToRead.get(messagesToRead.size() - 1).getOffset(), th);
-                        } else if (logger.isDebugEnabled()) {
-                            logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) " +
-                                            "successfully finished", fullId, messagesToRead.size(),
-                                    messagesToRead.get(0).getOffset(),
-                                    messagesToRead.get(messagesToRead.size() - 1).getOffset());
-                        }
-                        isReadingNow.set(false);
-                        batchesToRead.forEach(Batch::complete);
-                        sendDataToReadersIfNeeded();
-                    });
+            handleDataReceivedEvent(event).whenComplete((res, th) -> {
+                if (th != null) {
+                    logger.error("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) finished"
+                            + " with error: ", fullId, messagesToRead.size(),
+                            messagesToRead.get(0).getOffset(),
+                            messagesToRead.get(messagesToRead.size() - 1).getOffset(), th);
+                } else if (logger.isDebugEnabled()) {
+                    logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
+                            + "successfully finished", fullId, messagesToRead.size(),
+                            messagesToRead.get(0).getOffset(),
+                            messagesToRead.get(messagesToRead.size() - 1).getOffset());
+                }
+                isReadingNow.set(false);
+                batchesToRead.forEach(Batch::complete);
+                sendDataToReadersIfNeeded();
+            });
         } else {
             if (logger.isTraceEnabled()) {
                 logger.trace("[{}] No need to send data to readers: reading is already being performed", fullId);
@@ -380,9 +354,10 @@ public class PartitionSessionImpl {
         try {
             isWorking.set(false);
             logger.info("[{}] Partition session for {} is shutting down. Failing {} commit futures...", fullId,
-                    topicPath, commitFutures.size());
-            commitFutures.values().forEach(f -> f.completeExceptionally(new RuntimeException("Partition session " + id +
-                    " (partition " + partitionId + ") for " + topicPath + " is closed")));
+                    sessionId.getPath(), commitFutures.size());
+            commitFutures.values().forEach(f -> f.completeExceptionally(
+                    new RuntimeException("" + sessionId + " is closed")
+            ));
         } finally {
             commitFuturesLock.unlock();
         }
@@ -394,82 +369,6 @@ public class PartitionSessionImpl {
             readingQueue.forEach(Batch::complete);
         } finally {
             decodingBatchesLock.unlock();
-        }
-    }
-
-    /**
-     * BUILDER
-     */
-    public static class Builder {
-        private long id;
-        private int maxBatchSize;
-        private String fullId;
-        private String topicPath;
-        private String consumerName;
-        private long partitionId;
-        private long committedOffset;
-        private OffsetsRange partitionOffsets;
-        private Executor decompressionExecutor;
-        private Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback;
-        private Consumer<List<OffsetsRange>> commitFunction;
-
-        public Builder setId(long id) {
-            this.id = id;
-            return this;
-        }
-
-        public Builder setMaxBatchSize(int maxBatchSize) {
-            this.maxBatchSize = maxBatchSize;
-            return this;
-        }
-
-        public Builder setFullId(String fullId) {
-            this.fullId = fullId;
-            return this;
-        }
-
-        public Builder setTopicPath(String topicPath) {
-            this.topicPath = topicPath;
-            return this;
-        }
-
-        public Builder setConsumerName(String consumerName) {
-            this.consumerName = consumerName;
-            return this;
-        }
-
-        public Builder setPartitionId(long partitionId) {
-            this.partitionId = partitionId;
-            return this;
-        }
-
-        public Builder setCommittedOffset(long committedOffset) {
-            this.committedOffset = committedOffset;
-            return this;
-        }
-
-        public Builder setPartitionOffsets(OffsetsRange partitionOffsets) {
-            this.partitionOffsets = partitionOffsets;
-            return this;
-        }
-
-        public Builder setDecompressionExecutor(Executor decompressionExecutor) {
-            this.decompressionExecutor = decompressionExecutor;
-            return this;
-        }
-
-        public Builder setDataEventCallback(Function<DataReceivedEvent, CompletableFuture<Void>> dataEventCallback) {
-            this.dataEventCallback = dataEventCallback;
-            return this;
-        }
-
-        public Builder setCommitFunction(Consumer<List<OffsetsRange>> commitFunction) {
-            this.commitFunction = commitFunction;
-            return this;
-        }
-
-        public PartitionSessionImpl build() {
-            return new PartitionSessionImpl(this);
         }
     }
 }

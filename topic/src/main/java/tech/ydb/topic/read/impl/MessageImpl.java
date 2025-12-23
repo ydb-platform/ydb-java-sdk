@@ -104,7 +104,7 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionSession getPartitionSession() {
-        return partitionSession.getSessionInfo();
+        return partitionSession.getSessionId();
     }
 
     public PartitionSessionImpl getPartitionSessionImpl() {
@@ -118,7 +118,7 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(partitionSession.getSessionInfo(), Collections.singletonList(offsetsToCommit));
+        return new PartitionOffsets(partitionSession.getSessionId(), Collections.singletonList(offsetsToCommit));
     }
 
     public void setDecompressed(boolean decompressed) {
