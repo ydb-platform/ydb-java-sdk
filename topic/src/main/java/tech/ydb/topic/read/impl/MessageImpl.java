@@ -6,7 +6,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
+import tech.ydb.core.utils.ProtobufUtils;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.DecompressionException;
@@ -29,19 +32,22 @@ public class MessageImpl implements Message {
     private final List<MetadataItem> metadataItems;
     private final OffsetsRange offsetsToCommit;
     private final CommitterImpl committer;
-    private boolean isDecompressed = false;
     private IOException exception = null;
 
-    private MessageImpl(Builder builder) {
-        this.data = builder.data;
-        this.offset = builder.offset;
-        this.seqNo = builder.seqNo;
-        this.commitOffsetFrom = builder.commitOffsetFrom;
-        this.createdAt = builder.createdAt;
-        this.messageGroupId = builder.messageGroupId;
-        this.batchMeta = builder.batchMeta;
-        this.partitionSession = builder.partitionSession;
-        this.metadataItems = builder.metadataItems;
+    public MessageImpl(PartitionSessionImpl session, BatchMeta meta, long commitOffsetFrom,
+            YdbTopic.StreamReadMessage.ReadResponse.MessageData msg) {
+        this.data = msg.getData().toByteArray();
+        this.offset = msg.getOffset();
+        this.seqNo = msg.getSeqNo();
+        this.commitOffsetFrom = commitOffsetFrom;
+        this.createdAt = ProtobufUtils.protoToInstant(msg.getCreatedAt());
+        this.messageGroupId = msg.getMessageGroupId();
+        this.metadataItems = msg.getMetadataItemsList().stream()
+                .map(metadataItem -> new MetadataItem(metadataItem.getKey(), metadataItem.getValue().toByteArray()))
+                .collect(Collectors.toList());
+
+        this.batchMeta = meta;
+        this.partitionSession = session;
         this.offsetsToCommit = new OffsetsRangeImpl(commitOffsetFrom, offset + 1);
         this.committer = new CommitterImpl(partitionSession, 1, offsetsToCommit);
     }
@@ -121,10 +127,6 @@ public class MessageImpl implements Message {
         return new PartitionOffsets(partitionSession.getSessionId(), Collections.singletonList(offsetsToCommit));
     }
 
-    public void setDecompressed(boolean decompressed) {
-        isDecompressed = decompressed;
-    }
-
     @Override
     public CompletableFuture<Void> commit() {
         return committer.commitImpl(false);
@@ -132,69 +134,5 @@ public class MessageImpl implements Message {
 
     public OffsetsRange getOffsetsToCommit() {
         return offsetsToCommit;
-    }
-
-    /**
-     * BUILDER
-     */
-    public static class Builder {
-        private byte[] data;
-        private long offset;
-        private long seqNo;
-        private long commitOffsetFrom;
-        private Instant createdAt;
-        private String messageGroupId;
-        private BatchMeta batchMeta;
-        private PartitionSessionImpl partitionSession;
-        private List<MetadataItem> metadataItems;
-
-        public Builder setData(byte[] data) {
-            this.data = data;
-            return this;
-        }
-
-        public Builder setOffset(long offset) {
-            this.offset = offset;
-            return this;
-        }
-
-        public Builder setSeqNo(long seqNo) {
-            this.seqNo = seqNo;
-            return this;
-        }
-
-        public Builder setCommitOffsetFrom(long commitOffsetFrom) {
-            this.commitOffsetFrom = commitOffsetFrom;
-            return this;
-        }
-
-        public Builder setCreatedAt(Instant createdAt) {
-            this.createdAt = createdAt;
-            return this;
-        }
-
-        public Builder setMessageGroupId(String messageGroupId) {
-            this.messageGroupId = messageGroupId;
-            return this;
-        }
-
-        public Builder setBatchMeta(BatchMeta batchMeta) {
-            this.batchMeta = batchMeta;
-            return this;
-        }
-
-        public Builder setPartitionSession(PartitionSessionImpl partitionSession) {
-            this.partitionSession = partitionSession;
-            return this;
-        }
-
-        public Builder setMetadataItems(List<MetadataItem> metadataItems) {
-            this.metadataItems = metadataItems;
-            return this;
-        }
-
-        public MessageImpl build() {
-            return new MessageImpl(this);
-        }
     }
 }

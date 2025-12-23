@@ -13,15 +13,12 @@ import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
@@ -116,22 +113,7 @@ public abstract class PartitionSessionImpl {
                     logger.error("[{}] Received a message with offset {} which is less than last read offset {} ",
                             fullId, messageOffset, lastReadOffset);
                 }
-                newBatch.addMessage(new MessageImpl.Builder()
-                        .setBatchMeta(batchMeta)
-                        .setPartitionSession(this)
-                        .setData(messageData.getData().toByteArray())
-                        .setOffset(messageOffset)
-                        .setSeqNo(messageData.getSeqNo())
-                        .setCommitOffsetFrom(commitOffsetFrom)
-                        .setCreatedAt(ProtobufUtils.protoToInstant(messageData.getCreatedAt()))
-                        .setMessageGroupId(messageData.getMessageGroupId())
-                        .setMetadataItems(messageData.getMetadataItemsList()
-                                .stream()
-                                .map(metadataItem -> new MetadataItem(metadataItem.getKey(),
-                                        metadataItem.getValue().toByteArray()))
-                                .collect(Collectors.toList()))
-                        .build()
-                );
+                newBatch.addMessage(new MessageImpl(this, batchMeta, commitOffsetFrom, messageData));
             });
             batchFutures.add(newBatch.getReadFuture());
 
@@ -267,7 +249,6 @@ public abstract class PartitionSessionImpl {
         batch.getMessages().forEach(message -> {
             try {
                 message.setData(Encoder.decode(batch.getCodec(), message.getData()));
-                message.setDecompressed(true);
             } catch (IOException exception) {
                 message.setException(exception);
                 logger.warn("[{}] Exception was thrown while decoding a message: ", fullId, exception);
