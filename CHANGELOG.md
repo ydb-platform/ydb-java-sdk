@@ -1,3 +1,7 @@
+## 2.3.28 ##
+* Table: Fixed session creation loop
+* Core: Added validation of grpc context deadline before call execution
+
 ## 2.3.27 ##
 * Topic: Prefer to use the ready channels for commitOffset method
 * Topic: Added option includeStats to DescribeTopicSettings
