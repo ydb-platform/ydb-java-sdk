@@ -7,6 +7,8 @@ import java.util.function.BooleanSupplier;
 
 import io.grpc.CallOptions;
 import io.grpc.ClientCall;
+import io.grpc.Context;
+import io.grpc.Deadline;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import org.slf4j.Logger;
@@ -64,6 +66,27 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         }
     }
 
+    private CallOptions prepareCallOptions(GrpcRequestSettings settings) {
+        CallOptions options = getAuthCallOptions().getGrpcCallOptions();
+        if (settings.getDeadlineAfter() != 0) {
+            final long now = System.nanoTime();
+            if (now >= settings.getDeadlineAfter()) {
+                return null; // DEADLINE
+            }
+            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
+        }
+        if (settings.isDeadlineDisabled()) {
+            options = options.withDeadline(null);
+        }
+
+        Deadline deadline = Context.current().getDeadline();
+        if (deadline != null && deadline.isExpired()) {
+            return null; // DEADLINE
+        }
+
+        return options;
+    }
+
     @Override
     public <ReqT, RespT> CompletableFuture<Result<RespT>> unaryCall(
             MethodDescriptor<ReqT, RespT> method,
@@ -75,21 +98,14 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         }
 
         String traceId = settings.getTraceId();
-        CallOptions options = getAuthCallOptions().getGrpcCallOptions();
-        if (settings.getDeadlineAfter() != 0) {
-            final long now = System.nanoTime();
-            if (now >= settings.getDeadlineAfter()) {
-                return CompletableFuture.completedFuture(deadlineExpiredResult(method, settings));
-            }
-            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
-        }
-        if (settings.isDeadlineDisabled()) {
-            options = options.withDeadline(null);
-        }
-
         try {
             GrpcChannel channel = getChannel(settings);
             String endpoint = channel.getEndpoint().getHostAndPort();
+            CallOptions options = prepareCallOptions(settings);
+            if (options == null) {
+                return CompletableFuture.completedFuture(deadlineExpiredResult(method, settings));
+            }
+
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
@@ -121,21 +137,14 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         }
 
         String traceId = settings.getTraceId();
-        CallOptions options = getAuthCallOptions().getGrpcCallOptions();
-        if (settings.getDeadlineAfter() != 0) {
-            final long now = System.nanoTime();
-            if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
-            }
-            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
-        }
-        if (settings.isDeadlineDisabled()) {
-            options = options.withDeadline(null);
-        }
-
         try {
             GrpcChannel channel = getChannel(settings);
             String endpoint = channel.getEndpoint().getHostAndPort();
+            CallOptions options = prepareCallOptions(settings);
+            if (options == null) {
+                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
+            }
+
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
@@ -159,7 +168,6 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         }
     }
 
-
     @Override
     public <ReqT, RespT> GrpcReadWriteStream<RespT, ReqT> readWriteStreamCall(
             MethodDescriptor<ReqT, RespT> method,
@@ -170,21 +178,14 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         }
 
         String traceId = settings.getTraceId();
-        CallOptions options = getAuthCallOptions().getGrpcCallOptions();
-        if (settings.getDeadlineAfter() != 0) {
-            final long now = System.nanoTime();
-            if (now >= settings.getDeadlineAfter()) {
-                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
-            }
-            options = options.withDeadlineAfter(settings.getDeadlineAfter() - now, TimeUnit.NANOSECONDS);
-        }
-        if (settings.isDeadlineDisabled()) {
-            options = options.withDeadline(null);
-        }
-
         try {
             GrpcChannel channel = getChannel(settings);
             String endpoint = channel.getEndpoint().getHostAndPort();
+            CallOptions options = prepareCallOptions(settings);
+            if (options == null) {
+                return new EmptyStream<>(deadlineExpiredStatus(method, settings));
+            }
+
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler hdlr = new ChannelStatusHandler(channel, settings);
 
