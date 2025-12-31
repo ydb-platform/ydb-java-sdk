@@ -2,12 +2,10 @@ package tech.ydb.table.impl.pool;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
@@ -55,7 +53,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     private final AtomicInteger queueSize = new AtomicInteger();
 
     /** Queue of waiting acquire requests */
-    private final Queue<CompletableFuture<T>> waitingAcquires = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedDeque<CompletableFuture<T>> waitingAcquires = new ConcurrentLinkedDeque<>();
     /** Size of waiting acquires queue */
     private final AtomicInteger waitingAcqueireCount = new AtomicInteger();
 
@@ -271,16 +269,18 @@ public class WaitingQueue<T> implements AutoCloseable {
             return;
         }
 
-        CompletableFuture<T> next = waitingAcquires.peek();
+        CompletableFuture<T> next = waitingAcquires.poll();
         while (next != null && next.isDone()) {
-            waitingAcquires.remove();
             waitingAcqueireCount.decrementAndGet();
-            next = waitingAcquires.peek();
+            next = waitingAcquires.poll();
         }
 
-        if (next != null && tryToCreateNewPending(next)) {
-            waitingAcquires.remove();
-            waitingAcqueireCount.decrementAndGet();
+        if (next != null) {
+            if (tryToCreateNewPending(next)) {
+                waitingAcqueireCount.decrementAndGet();
+            } else {
+                waitingAcquires.offerFirst(next);
+            }
         }
     }
 
