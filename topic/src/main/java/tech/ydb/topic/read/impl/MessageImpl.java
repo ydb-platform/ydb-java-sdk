@@ -22,6 +22,7 @@ import tech.ydb.topic.read.PartitionSession;
  */
 public class MessageImpl implements Message {
     private byte[] data;
+    private final long uncompressedSize;
     private final long offset;
     private final long seqNo;
     private final long commitOffsetFrom;
@@ -37,6 +38,7 @@ public class MessageImpl implements Message {
     public MessageImpl(PartitionSessionImpl session, BatchMeta meta, long commitOffsetFrom,
             YdbTopic.StreamReadMessage.ReadResponse.MessageData msg) {
         this.data = msg.getData().toByteArray();
+        this.uncompressedSize = msg.getUncompressedSize();
         this.offset = msg.getOffset();
         this.seqNo = msg.getSeqNo();
         this.commitOffsetFrom = commitOffsetFrom;
@@ -59,6 +61,10 @@ public class MessageImpl implements Message {
                     exception, data, batchMeta.getCodec());
         }
         return data;
+    }
+
+    public long getUncompressedSize() {
+        return uncompressedSize;
     }
 
     public void setData(byte[] data) {

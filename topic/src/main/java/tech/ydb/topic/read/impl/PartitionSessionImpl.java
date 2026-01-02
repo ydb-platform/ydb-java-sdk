@@ -1,6 +1,5 @@
 package tech.ydb.topic.read.impl;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -10,7 +9,6 @@ import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListMap;
-import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -18,13 +16,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
-import tech.ydb.topic.utils.Encoder;
 
 /**
  * @author Nikolay Perfilov
@@ -34,13 +30,12 @@ public abstract class PartitionSessionImpl {
 
     private final String fullId;
     private final PartitionSession sessionId;
-    private final Executor decompressionExecutor;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final int maxBatchSize;
+    private final MessageDecoder decoder;
 
-    private final Queue<Batch> decodingBatches = new LinkedList<>();
-    private final ReentrantLock decodingBatchesLock = new ReentrantLock();
     private final Queue<Batch> readingQueue = new ConcurrentLinkedQueue<>();
+
     private final AtomicBoolean isReadingNow = new AtomicBoolean();
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new ConcurrentSkipListMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
@@ -48,15 +43,15 @@ public abstract class PartitionSessionImpl {
     private long lastReadOffset;
     private long lastCommittedOffset;
 
-    PartitionSessionImpl(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
-            String fullId, int maxBatchSize, String consumerName, Executor decompressionExecutor) {
+    PartitionSessionImpl(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request, String fullId,
+            int maxBatchSize, String consumerName, MessageDecoder decoder) {
         YdbTopic.StreamReadMessage.PartitionSession s = request.getPartitionSession();
         this.sessionId = new PartitionSession(s.getPartitionSessionId(), s.getPartitionId(), s.getPath());
         this.fullId = fullId;
         this.maxBatchSize = maxBatchSize;
+        this.decoder = decoder;
         this.lastReadOffset = request.getCommittedOffset();
         this.lastCommittedOffset = request.getCommittedOffset();
-        this.decompressionExecutor = decompressionExecutor;
 
         logger.info("[{}] Partition session is started for Topic \"{}\" and Consumer \"{}\". CommittedOffset: {}. " +
                 "Partition offsets: {}-{}", fullId, sessionId.getPath(), consumerName, lastReadOffset,
@@ -117,51 +112,13 @@ public abstract class PartitionSessionImpl {
             });
             batchFutures.add(newBatch.getReadFuture());
 
-            decodingBatchesLock.lock();
-
-            try {
-                decodingBatches.add(newBatch);
-            } finally {
-                decodingBatchesLock.unlock();
+            readingQueue.offer(newBatch);
+            if (!newBatch.isReady()) {
+                decoder.decode(fullId, newBatch, this::sendDataToReadersIfNeeded);
             }
-
-            CompletableFuture.runAsync(() -> decode(newBatch), decompressionExecutor)
-                    .whenComplete((res, th) -> {
-                        if (th != null) {
-                            logger.error("[{}] Message decoding failed with error: ", fullId, th);
-                            return;
-                        }
-                        boolean haveNewBatchesReady = false;
-                        decodingBatchesLock.lock();
-
-                        try {
-                            // Taking all encoded messages to sending queue
-                            while (true) {
-                                Batch decodingBatch = decodingBatches.peek();
-                                if (decodingBatch != null
-                                        && (decodingBatch.isDecompressed() || decodingBatch.getCodec() == Codec.RAW)) {
-                                    decodingBatches.remove();
-                                    if (logger.isTraceEnabled()) {
-                                        List<MessageImpl> messages = decodingBatch.getMessages();
-                                        logger.trace("[{}] Adding batch with offsets {}-{} to reading queue", fullId,
-                                                messages.get(0).getOffset(),
-                                                messages.get(messages.size() - 1).getOffset());
-                                    }
-                                    readingQueue.add(decodingBatch);
-                                    haveNewBatchesReady = true;
-                                } else {
-                                    break;
-                                }
-                            }
-                        } finally {
-                            decodingBatchesLock.unlock();
-                        }
-
-                        if (haveNewBatchesReady) {
-                            sendDataToReadersIfNeeded();
-                        }
-                    });
         });
+
+        sendDataToReadersIfNeeded();
         return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 
@@ -238,41 +195,20 @@ public abstract class PartitionSessionImpl {
         futuresToComplete.clear();
     }
 
-    private void decode(Batch batch) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("[{}] Started decoding batch", fullId);
-        }
-        if (batch.getCodec() == Codec.RAW) {
-            return;
-        }
-
-        batch.getMessages().forEach(message -> {
-            try {
-                message.setData(Encoder.decode(batch.getCodec(), message.getData()));
-            } catch (IOException exception) {
-                message.setException(exception);
-                logger.warn("[{}] Exception was thrown while decoding a message: ", fullId, exception);
-            }
-        });
-        batch.setDecompressed(true);
-
-        if (logger.isTraceEnabled()) {
-            logger.trace("[{}] Finished decoding batch", fullId);
-        }
-    }
-
-    private void sendDataToReadersIfNeeded() {
+    public void sendDataToReadersIfNeeded() {
         if (!isWorking.get()) {
             return;
         }
+
         if (isReadingNow.compareAndSet(false, true)) {
             List<Batch> batchesToRead = new ArrayList<>();
 
-            Batch next = readingQueue.poll();
-            if (next == null) {
+            Batch next = readingQueue.peek();
+            if (next == null || !next.isReady()) {
                 isReadingNow.set(false);
                 return;
             }
+            next = readingQueue.poll();
 
             batchesToRead.add(next);
             List<Message> messagesToRead = new ArrayList<>(next.getMessages());
@@ -282,7 +218,7 @@ public abstract class PartitionSessionImpl {
             int batchSize = messagesToRead.size();
             while (maxBatchSize <= 0 || batchSize < maxBatchSize) {
                 next = readingQueue.peek();
-                if (next == null) {
+                if (next == null || !next.isReady()) {
                     break;
                 }
                 if (maxBatchSize > 0 && next.getMessages().size() + batchSize > maxBatchSize) {
@@ -343,13 +279,6 @@ public abstract class PartitionSessionImpl {
             commitFuturesLock.unlock();
         }
 
-        decodingBatchesLock.lock();
-
-        try {
-            decodingBatches.forEach(Batch::complete);
-            readingQueue.forEach(Batch::complete);
-        } finally {
-            decodingBatchesLock.unlock();
-        }
+        readingQueue.forEach(Batch::complete);
     }
 }

@@ -58,7 +58,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
-        this.session = new ReadSessionImpl();
         if (settings.getDecompressionExecutor() != null) {
             this.defaultDecompressionExecutorService = null;
             this.decompressionExecutor = settings.getDecompressionExecutor();
@@ -66,6 +65,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             this.defaultDecompressionExecutorService = Executors.newFixedThreadPool(DEFAULT_DECOMPRESSION_THREAD_COUNT);
             this.decompressionExecutor = defaultDecompressionExecutorService;
         }
+        this.session = new ReadSessionImpl(this.decompressionExecutor);
         StringBuilder message = new StringBuilder("Reader");
         if (settings.getReaderName() != null) {
             message.append(" \"").append(settings.getReaderName()).append("\"");
@@ -123,7 +123,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     @Override
     protected void onStreamReconnect() {
-        session = new ReadSessionImpl();
+        session = new ReadSessionImpl(decompressionExecutor);
         session.startAndInitialize();
     }
 
@@ -217,9 +217,11 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         // Total size to request with next ReadRequest.
         // Used to group several ReadResponses in one on high rps
         private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
+        private final MessageDecoder decoder;
         private final Map<Long, PartitionSessionImpl> partitionSessions = new ConcurrentHashMap<>();
-        private ReadSessionImpl() {
+        private ReadSessionImpl(Executor decompressionExecutor) {
             super(topicRpc, id + '.' + seqNumberCounter.incrementAndGet());
+            this.decoder = new MessageDecoder(settings.getMaxMemoryUsageBytes(), decompressionExecutor);
         }
 
         @Override
@@ -401,7 +403,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     request.getPartitionOffsets().getStart(), request.getPartitionOffsets().getEnd());
 
             PartitionSessionImpl partSession = new PartitionSessionImpl(request, fullId, settings.getMaxBatchSize(),
-                    consumerName, decompressionExecutor) {
+                    consumerName, decoder) {
                 @Override
                 public void commitRanges(List<OffsetsRange> offsets) {
                     sendCommitOffsetRequest(partitionSessionId, partitionId, offsets);
