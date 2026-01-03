@@ -12,11 +12,11 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.topic.utils.Encoder;
 
 /**
- *
+ * Decodes message batches while limiting memory consumption for uncompressed data.
  * @author Aleksandr Gorshenin
  */
 public class MessageDecoder {
-    // TODO: Backward compability
+    // TODO: Backward compatibility
     private static final Logger logger = LoggerFactory.getLogger(PartitionSessionImpl.class);
 
     private final AtomicLong availableBufferSize;
@@ -46,7 +46,7 @@ public class MessageDecoder {
 
             Batch batch = task.getBatch();
             if (batch.getReadFuture().isDone()) { // session was closed, just skip decoding
-                return;
+                continue;
             }
 
             long bufferSize = getUncompressedSize(batch);
@@ -76,7 +76,7 @@ public class MessageDecoder {
         return 2 * compressed;
     }
 
-    private class DecodeTask implements Runnable {
+    private static class DecodeTask implements Runnable {
         private final String fullId;
         private final Batch batch;
         private final Runnable readyHandler;
