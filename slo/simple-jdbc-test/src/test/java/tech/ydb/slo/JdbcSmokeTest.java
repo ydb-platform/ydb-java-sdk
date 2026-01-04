@@ -1,33 +1,25 @@
 package tech.ydb.slo;
 
 import org.junit.jupiter.api.Test;
-import org.testcontainers.containers.GenericContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JdbcSmokeTest {
+@SpringBootTest(classes = SimpleJdbcConfig.class)
+class JdbcSmokeTest {
+
+    private static final Logger log = LoggerFactory.getLogger(JdbcSmokeTest.class);
+    @Autowired
+    JdbcTemplate jdbc;
 
     @Test
-    void testJdbcConnection() throws Exception {
-        // Локальный сервер YDB
-        String url = "jdbc:ydb:grpc://localhost:2136/local?useTls=false";
-
-        try (Connection connection = DriverManager.getConnection(url);
-             Statement stmt = connection.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT 1")) {
-
-            rs.next();
-            int value = rs.getInt(1);
-            System.out.println("value = " + value);
-
-            assertEquals(1, value);
-        }
+    void selectOneWorks() {
+        Integer value = jdbc.queryForObject("SELECT 1", Integer.class);
+        log.info("value={}", value);
+        assertEquals(1, value);
     }
 }

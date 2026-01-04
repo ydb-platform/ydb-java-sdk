@@ -12,6 +12,10 @@
         <version>2.3.29-SNAPSHOT</version>
     </parent>
 
+    <properties>
+        <maven.compiler.release>21</maven.compiler.release>
+    </properties>
+
     <packaging>pom</packaging>
 
     <groupId>tech.ydb.slo</groupId>
