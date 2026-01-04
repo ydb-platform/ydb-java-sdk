@@ -1,0 +1,32 @@
+name: SLO JDBC
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  jdbc-slo-test:
+    name: JDBC SLO Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Чекаут репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Устанавливаем JDK 21
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 21
+
+      # 3. Сборка всех slo модулей, без тестов
+      - name: Build slo modules
+        run: ./mvnw clean install -DskipTests
+
+      # 4. Запуск нашего Simple JDBC теста
+      - name: Run Simple JDBC Test
+        run: ./mvnw test -pl slo/simple-jdbc-test

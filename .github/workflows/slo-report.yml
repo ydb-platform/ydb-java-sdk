@@ -1,0 +1,25 @@
+name: SLO JDBC Report
+
+on:
+  workflow_run:
+    workflows: ["SLO JDBC"]
+    types:
+      - completed
+
+jobs:
+  jdbc-slo-report:
+    name: Upload JDBC SLO Test Results
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      # 1. Чекаут репозитория
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Загружаем результаты тестов (JUnit reports)
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        with:
+          name: jdbc-test-results
+          path: slo/simple-jdbc-test/target/surefire-reports/
