@@ -23,20 +23,9 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      # 3. Собираем весь SDK (родительский POM + модули), без тестов
-      - name: Build entire SDK
-        run: ./mvnw clean install -DskipTests -B
-
       # 4. Сборка всех slo модулей, без тестов
       - name: Build slo modules
         run: ./mvnw clean install -DskipTests
-
-      # 5. Поднимаем локальный YDB контейнер
-      - name: Start YDB test cluster
-        run: |
-          docker pull yandexcloud/ydb-local:latest
-          docker run -d --name ydb-test -p 2136:2136 yandexcloud/ydb-local:latest
-          sleep 10  # ждём пока кластер полностью стартует
 
       # 6. Запуск Simple JDBC теста
       - name: Run Simple JDBC Test
@@ -44,7 +33,3 @@ jobs:
           YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2136/local?useTls=false
         run: ./mvnw test -pl slo/simple-jdbc-test
 
-      # 7. Остановим контейнер после тестов
-      - name: Stop YDB test cluster
-        if: always()
-        run: docker stop ydb-test
