@@ -25,4 +25,9 @@ public class PartitionSession {
     public String getPath() {
         return path;
     }
+
+    @Override
+    public String toString() {
+        return "Partition session " + id + " (partition " + partitionId + ") for " + path;
+    }
 }

@@ -1,3 +1,7 @@
+## 2.3.29 ##
+* Table: Fixed data race in session pool
+* Topic: Added an message decoder with limits of memory consumption
+
 ## 2.3.28 ##
 * Table: Fixed session creation loop
 * Core: Added validation of grpc context deadline before call execution
