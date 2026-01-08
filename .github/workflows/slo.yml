@@ -10,16 +10,13 @@ jobs:
   jdbc-slo-test:
     name: JDBC SLO Test
     runs-on: ubuntu-latest
-    concurrency:
-      group: slo-${{ github.ref }}
-      cancel-in-progress: true
 
     steps:
       # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Initialize YDB SLO
+      # 2. Initialize real YDB cluster
       - name: Initialize YDB SLO
         uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46f81
         with:
@@ -28,43 +25,23 @@ jobs:
           ydb_database_node_count: 5
           ydb_port: 2135
 
-      # 3. Wait until YDB Discovery is ready
-      - name: Wait for YDB ready
-        run: |
-          echo "Waiting for YDB on port 2135..."
-          for i in {1..40}; do
-            ydb-cli --endpoint localhost:2135 --database /Root ping && echo "YDB ready" && break
-            echo "YDB not ready yet, retrying..."
-            sleep 3
-          done
-
-      # 4. Create test database
+      # 3. Prepare test database
       - name: Prepare YDB Database
         run: |
-          ydb-cli --endpoint localhost:2135 --database /Root create-database testdb || echo "Database already exists"
+          ydb-cli --endpoint localhost:2135 --database /Root create-database testdb || echo "Database exists"
 
-      # 5. Log Discovery & tables
-      - name: Log YDB Discovery & Tables
-        run: |
-          echo "Discovery info:"
-          ydb-cli --endpoint localhost:2135 --database /Root list-tables || echo "Cannot list tables yet"
-
-      # 6. Set up JDK 21
+      # 4. Set up JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 21
 
-      # 7. Build all modules without tests
+      # 5. Build all modules without tests
       - name: Build slo modules
         run: ./mvnw clean install -DskipTests
 
-      # 8. Extra wait before JDBC Test (optional, стабилизирует CI)
-      - name: Extra wait
-        run: sleep 5
-
-      # 9. Run Simple JDBC Test
+      # 6. Run Simple JDBC Test
       - name: Run Simple JDBC Test
         env:
           YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
