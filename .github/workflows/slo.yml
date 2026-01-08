@@ -10,69 +10,32 @@ jobs:
   jdbc-slo-test:
     name: JDBC SLO Test
     runs-on: ubuntu-latest
-    timeout-minutes: 15  # Добавляем общий таймаут
 
     steps:
       # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Initialize real YDB cluster
-      - name: Initialize YDB SLO
-        uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46f81
-        with:
-          github_pull_request_number: ${{ github.event.pull_request.number }}
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          ydb_database_node_count: 5
-          ydb_port: 2135
-          # Добавьте если есть параметры для режима ожидания
-          # wait_until_ready: true
-
-      # 3. Надёжная проверка готовности YDB
-      - name: Wait for YDB to be fully ready
+      # 2. Start YDB Docker container
+      - name: Start YDB container
         run: |
-          echo "Waiting for YDB to be fully ready..."
-          
-          # Установка ydb-cli если нет
-          if ! command -v ydb-cli &> /dev/null; then
-            echo "Installing ydb-cli..."
-            curl -sSL https://storage.yandexcloud.net/yandexcloud-ydb/install.sh | bash
-            export PATH=$HOME/ydb:$PATH
-          fi
-          
-          for i in {1..30}; do
-            # Вариант 1: проверка через ping
-            if timeout 10 ydb --endpoint grpc://localhost:2135 --database /Root scheme ls 2>&1 | grep -q "No issues\|total 0"; then
-              echo "✅ YDB is fully ready!"
-              exit 0
-            fi
-          
-            # Вариант 2: проверка через netcat + простой HTTP запрос если есть
-            if nc -z localhost 2135 2>/dev/null; then
-              echo "Port 2135 is open, attempt $i/30..."
-            fi
-          
-            sleep 5
+          docker run -d --name ydb-local -p 2135:2135 yandex/ydb-local:latest
+          echo "Waiting for YDB to start..."
+          for i in {1..20}; do
+            nc -zv localhost 2135 && echo "✅ YDB is up!" && break
+            echo "Waiting..."
+            sleep 3
           done
-          
-          # Дополнительная диагностика
-          echo "=== DIAGNOSTICS ==="
-          echo "Netstat:"
-          netstat -tlnp | grep 2135 || true
-          echo "Processes:"
-          ps aux | grep ydb || true
-          echo "==================="
-          
-          echo "❌ YDB did not become ready in time"
-          exit 1
 
-      # 4. Prepare test database
-      - name: Prepare YDB Database
+      # 3. List databases to verify container
+      - name: List YDB databases
         run: |
-          # Даём ещё небольшую задержку после проверки
-          sleep 3
-          ydb-cli --endpoint grpc://localhost:2135 --database /Root scheme ls 2>&1 || true
-          ydb-cli --endpoint grpc://localhost:2135 --database /Root -v create-database testdb 2>&1 || echo "Database may already exist"
+          docker exec ydb-local ydb-cli --endpoint localhost:2135 list-databases
+
+      # 4. Create test database
+      - name: Create test database
+        run: |
+          docker exec ydb-local ydb-cli --endpoint localhost:2135 --database /Root create-database testdb || echo "Database exists"
 
       # 5. Set up JDK 21
       - name: Set up JDK 21
@@ -81,23 +44,12 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      # 6. Build all modules without tests
+      # 6. Build modules without tests
       - name: Build slo modules
-        run: ./mvnw clean install -DskipTests -q
+        run: ./mvnw clean install -DskipTests
 
-      # 7. Run Simple JDBC Test with debug info
+      # 7. Run Simple JDBC Test
       - name: Run Simple JDBC Test
         env:
-          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb?connectionTimeout=60000
-          # Добавляем логирование для отладки
-          YDB_LOGLEVEL: DEBUG
-          JAVA_TOOL_OPTIONS: "-Dorg.slf4j.simpleLogger.defaultLogLevel=debug"
-        run: |
-          echo "Testing connection to YDB..."
-          echo "YDB_JDBC_URL: $YDB_JDBC_URL"
-          
-          # Предварительная проверка через ydb-cli
-          ydb-cli --endpoint grpc://localhost:2135 --database /Root/testdb scheme ls 2>&1 || true
-          
-          # Запуск теста с подробным выводом
-          ./mvnw test -pl slo/simple-jdbc-test -Dspring.datasource.url="$YDB_JDBC_URL" -Dtest=JdbcSmokeTest
+          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root
+        run: ./mvnw test -pl slo/simple-jdbc-test
