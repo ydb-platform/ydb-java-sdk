@@ -16,6 +16,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2. Инициализация YDB SLO
       - name: Initialize YDB SLO
         uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:
@@ -23,20 +24,52 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           ydb_database_node_count: 5
 
-      # 2. Устанавливаем JDK 21
+      # 3. Ждем готовности YDB
+      - name: Wait for YDB to be ready
+        run: |
+          echo "Waiting for YDB port 2135..."
+          for i in {1..10}; do
+            nc -zv localhost 2135 && break
+            echo "YDB not ready yet, waiting..."
+            sleep 3
+          done
+
+      # 4. Создаем базу для тестов
+      - name: Prepare YDB Database
+        run: |
+          ydb-cli --endpoint localhost:2135 --database /Root create-database testdb || echo "Database may already exist"
+
+      # 4.1. Создаем таблицу для тестов
+      - name: Create test table
+        run: |
+          ydb-cli --endpoint localhost:2135 --database /Root/testdb \
+            execute-scheme 'CREATE TABLE IF NOT EXISTS test_table (id Int32, value Utf8, PRIMARY KEY (id));'
+
+      # 5. Устанавливаем JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 21
 
-      # 4. Сборка всех slo модулей, без тестов
+      # 6. Сборка всех slo модулей без тестов
       - name: Build slo modules
         run: ./mvnw clean install -DskipTests
 
-      # 6. Запуск Simple JDBC теста
+      # 7. Запуск Simple JDBC теста
       - name: Run Simple JDBC Test
         env:
           YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
         run: ./mvnw test -pl slo/simple-jdbc-test
 
+      # 8. Всегда сохраняем логи YDB
+      - if: always()
+        name: Save YDB logs
+        run: docker logs ydb-chaos || echo "No logs found"
+
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ydb-chaos-logs
+          path: ./ydb-chaos.log
+          retention-days: 1
