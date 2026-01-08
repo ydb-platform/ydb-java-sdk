@@ -16,6 +16,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Initialize YDB SLO
+        uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46e839236f15f81
+        with:
+          github_pull_request_number: ${{ github.event.inputs.github_pull_request_number }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ydb_database_node_count: 5
+
       # 2. Устанавливаем JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -30,6 +37,6 @@ jobs:
       # 6. Запуск Simple JDBC теста
       - name: Run Simple JDBC Test
         env:
-          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2136/local?useTls=false
+          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
         run: ./mvnw test -pl slo/simple-jdbc-test
 
