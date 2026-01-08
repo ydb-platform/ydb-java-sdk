@@ -16,7 +16,7 @@ public class SimpleJdbcConfig {
                 System.getProperty("spring.datasource.url",
                         System.getenv().getOrDefault(
                                 "YDB_JDBC_URL",
-                                "jdbc:ydb:grpc://localhost:2136/local?useTls=false"
+                                "jdbc:ydb:grpc://localhost:2135/local?useTls=false"
                         ));
 
         DriverManagerDataSource ds = new DriverManagerDataSource();
