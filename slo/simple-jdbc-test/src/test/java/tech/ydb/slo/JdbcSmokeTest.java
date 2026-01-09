@@ -18,8 +18,31 @@ class JdbcSmokeTest {
 
     @Test
     void selectOneWorks() {
-        Integer value = jdbc.queryForObject("SELECT 1", Integer.class);
-        log.info("value={}", value);
-        assertEquals(1, value);
+        String promPgw = System.getenv().getOrDefault("PROM_PGW", "http://localhost:9091");
+        MetricsReporter metrics = new MetricsReporter(promPgw, "jdbc-smoke-test");
+
+        try {
+            long startTime = System.nanoTime();
+
+            Integer value = jdbc.queryForObject("SELECT 1", Integer.class);
+
+            long endTime = System.nanoTime();
+            double latencySeconds = (endTime - startTime) / 1_000_000_000.0;
+
+            log.info("value={}, latency={}s", value, latencySeconds);
+            assertEquals(1, value);
+
+            // Записываем успешную метрику
+            metrics.recordSuccess("select_one", latencySeconds);
+            metrics.setActiveConnections(1);
+
+        } catch (Exception e) {
+            log.error("Test failed", e);
+            metrics.recordError("select_one", e.getClass().getSimpleName());
+            throw e;
+        } finally {
+            // Отправляем метрики
+            metrics.push();
+        }
     }
 }
