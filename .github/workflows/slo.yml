@@ -18,7 +18,7 @@ jobs:
 
       # 2. Initialize YDB cluster
       - name: Initialize YDB SLO
-        uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46f81
+        uses: ydb-platform/ydb-slo-action/init@main
         with:
           github_pull_request_number: ${{ github.event.pull_request.number }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -110,7 +110,7 @@ jobs:
       # 9. Upload logs on failure
       - name: Upload logs on failure
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-logs
           path: |
