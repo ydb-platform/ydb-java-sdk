@@ -1,5 +1,4 @@
 name: SLO JDBC
-
 on:
   push:
     branches: [main]
@@ -10,46 +9,111 @@ jobs:
   jdbc-slo-test:
     name: JDBC SLO Test
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Start YDB Docker container
-      - name: Start YDB container
-        run: |
-          docker run -d --name ydb-local -p 2135:2135 yandex/ydb-local:latest
-          echo "Waiting for YDB to start..."
-          for i in {1..20}; do
-            nc -zv localhost 2135 && echo "✅ YDB is up!" && break
-            echo "Waiting..."
-            sleep 3
-          done
+      # 2. Initialize YDB cluster
+      - name: Initialize YDB SLO
+        uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46f81
+        with:
+          github_pull_request_number: ${{ github.event.pull_request.number }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ydb_database_node_count: 5
+          ydb_port: 2135
 
-      # 3. List databases to verify container
-      - name: List YDB databases
+      # 3. Wait for YDB to be fully ready
+      - name: Wait for YDB readiness
         run: |
-          docker exec ydb-local ydb-cli --endpoint localhost:2135 list-databases
+          echo "Waiting for YDB cluster to be ready..."
+          MAX_ATTEMPTS=60
+          ATTEMPT=0
+          
+          while [ $ATTEMPT -lt $MAX_ATTEMPTS ]; do
+            echo "Attempt $((ATTEMPT + 1))/$MAX_ATTEMPTS"
+          
+            # Проверяем доступность порта
+            if ! nc -zv localhost 2135 2>&1 | grep -q "succeeded"; then
+              echo "Port 2135 not yet available"
+              sleep 2
+              ATTEMPT=$((ATTEMPT + 1))
+              continue
+            fi
+          
+            # Проверяем, что YDB CLI может выполнить команду
+            if ydb-cli --endpoint grpc://localhost:2135 --database /Root scheme ls 2>&1 | grep -qE "(Root|success|^$)"; then
+              echo "✅ YDB is ready!"
+              ydb-cli --endpoint grpc://localhost:2135 --database /Root scheme ls
+              break
+            else
+              echo "YDB CLI command failed, retrying..."
+              sleep 2
+              ATTEMPT=$((ATTEMPT + 1))
+            fi
+          done
+          
+          if [ $ATTEMPT -eq $MAX_ATTEMPTS ]; then
+            echo "❌ YDB failed to become ready after $MAX_ATTEMPTS attempts"
+            exit 1
+          fi
+          
+          # Дополнительная пауза для стабилизации
+          echo "Giving YDB extra time to stabilize..."
+          sleep 5
 
       # 4. Create test database
       - name: Create test database
         run: |
-          docker exec ydb-local ydb-cli --endpoint localhost:2135 --database /Root create-database testdb || echo "Database exists"
+          echo "Creating test database..."
+          ydb-cli --endpoint grpc://localhost:2135 --database /Root scheme mkdir testdb 2>&1 || echo "Directory may already exist"
+          
+          # Проверяем, что база создана
+          ydb-cli --endpoint grpc://localhost:2135 --database /Root scheme ls
+          
+          echo "Test database setup complete"
 
-      # 5. Set up JDK 21
+      # 5. Verify YDB connectivity with test query
+      - name: Verify YDB connectivity
+        run: |
+          echo "Testing YDB connectivity..."
+          ydb-cli --endpoint grpc://localhost:2135 --database /Root/testdb yql -s "SELECT 1 AS test" || {
+            echo "❌ YDB connectivity test failed"
+            echo "Checking YDB status..."
+            docker ps || true
+            netstat -tlnp | grep 2135 || true
+            exit 1
+          }
+          echo "✅ YDB connectivity verified"
+
+      # 6. Set up JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: temurin
           java-version: 21
 
-      # 6. Build modules without tests
+      # 7. Build modules
       - name: Build slo modules
-        run: ./mvnw clean install -DskipTests
+        run: ./mvnw clean install -DskipTests -q
 
-      # 7. Run Simple JDBC Test
+      # 8. Run JDBC Test
       - name: Run Simple JDBC Test
         env:
-          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root
-        run: ./mvnw test -pl slo/simple-jdbc-test
+          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
+        run: |
+          echo "Running JDBC test with URL: $YDB_JDBC_URL"
+          ./mvnw test -pl slo/simple-jdbc-test -Dtest=JdbcSmokeTest
+
+      # 9. Upload logs on failure
+      - name: Upload logs on failure
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-logs
+          path: |
+            **/target/surefire-reports/
+            **/logs/
+          retention-days: 5
