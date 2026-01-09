@@ -1,0 +1,4 @@
+spring:
+  datasource:
+    url: jdbc:ydb:grpc://localhost:2136/Root/testdb
+    driver-class-name: tech.ydb.jdbc.YdbDriverurl=${YDB_JDBC_URL:jdbc:ydb:grpc://localhost:2136/Root/testdb}

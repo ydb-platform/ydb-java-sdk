@@ -1,5 +1,6 @@
 package tech.ydb.slo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,24 +11,22 @@ import javax.sql.DataSource;
 @Configuration
 public class SimpleJdbcConfig {
 
+    @Value("${spring.datasource.url}")
+    private String jdbcUrl;
+
+    @Value("${spring.datasource.driver-class-name}")
+    private String driverClassName;
+
     @Bean
-    DataSource dataSource() {
-        String url =
-                System.getProperty("spring.datasource.url",
-                        System.getenv().getOrDefault(
-                                "YDB_JDBC_URL",
-                                "jdbc:ydb:grpc://localhost:2135/Root/testdb"//"jdbc:ydb:grpc://localhost:2135/local?useTls=false"
-                        ));
-
+    public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
-        ds.setDriverClassName("tech.ydb.jdbc.YdbDriver");
-        ds.setUrl(url);
-
+        ds.setDriverClassName(driverClassName);
+        ds.setUrl(jdbcUrl);
         return ds;
     }
 
     @Bean
-    JdbcTemplate jdbcTemplate(DataSource ds) {
+    public JdbcTemplate jdbcTemplate(DataSource ds) {
         return new JdbcTemplate(ds);
     }
 }
