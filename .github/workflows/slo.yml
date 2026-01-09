@@ -72,7 +72,7 @@ jobs:
           echo "Running JDBC test with URL: $YDB_JDBC_URL"
           ./mvnw test -pl slo/${{ matrix.workload }} -Dskip.jdbc.tests=false -Dtest=JdbcSmokeTest \  
             --read-rps ${{ matrix.read_rps }} \
-            --write-rps ${{ matrix.write_rps }} \
+            --write-rps ${{ matrix.write_rps }}
 
 
       # 7. Upload logs on failure
