@@ -56,7 +56,7 @@ jobs:
           YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
         run: |
           echo "Running JDBC test with URL: $YDB_JDBC_URL"
-          ./mvnw test -pl slo/simple-jdbc-test -Dtest=JdbcSmokeTest
+          ./mvnw test -pl slo/simple-jdbc-test -Dskip.jdbc.tests=false -Dtest=JdbcSmokeTest
 
       # 7. Upload logs on failure
       - name: Upload logs on failure
