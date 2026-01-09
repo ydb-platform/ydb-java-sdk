@@ -7,19 +7,26 @@ on:
 
 jobs:
   jdbc-slo-test:
-
     if: (!contains(github.event.pull_request.labels.*.name, 'no slo'))
 
     name: JDBC SLO Test
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         workload:
           - simple-jdbc-test
         include:
           - workload: simple-jdbc-test
+            ydb_host: localhost
+            ydb_port: 2135
+            ydb_database: /Root/testdb
+            prom_pgw: http://localhost:9091
+            test_duration: 60
             read_rps: 1000
             write_rps: 100
+            read_timeout: 1000
+            write_timeout: 1000
 
     concurrency:
       group: slo-${{ github.ref }}-${{ matrix.workload }}
@@ -30,7 +37,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Initialize YDB SLO (используем правильный полный SHA)
+      # 2. Initialize YDB SLO
       - name: Initialize YDB SLO
         uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:
@@ -67,9 +74,20 @@ jobs:
       # 6. Run Simple JDBC Test
       - name: Run Simple JDBC Test
         env:
-          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
+          YDB_JDBC_URL: jdbc:ydb:grpc://${{ matrix.ydb_host }}:${{ matrix.ydb_port }}${{ matrix.ydb_database }}
+          YDB_HOST: ${{ matrix.ydb_host }}
+          YDB_PORT: ${{ matrix.ydb_port }}
+          YDB_DATABASE: ${{ matrix.ydb_database }}
+          PROM_PGW: ${{ matrix.prom_pgw }}
+          TEST_DURATION: ${{ matrix.test_duration }}
+          READ_RPS: ${{ matrix.read_rps }}
+          WRITE_RPS: ${{ matrix.write_rps }}
+          READ_TIMEOUT: ${{ matrix.read_timeout }}
+          WRITE_TIMEOUT: ${{ matrix.write_timeout }}
         run: |
           echo "Running JDBC test with URL: $YDB_JDBC_URL"
+          echo "Prometheus Push Gateway: $PROM_PGW"
+          echo "Test parameters: duration=${TEST_DURATION}s, read_rps=${READ_RPS}, write_rps=${WRITE_RPS}"
           ./mvnw test -pl slo/${{ matrix.workload }} -Dskip.jdbc.tests=false -Dtest=JdbcSmokeTest
 
       # 7. Upload logs on failure
@@ -77,7 +95,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: test-logs
+          name: ${{ matrix.workload }}-test-logs
           path: |
             **/target/surefire-reports/
             **/logs/
@@ -93,6 +111,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ydb-chaos.log
+          name: ${{ matrix.workload }}-ydb-chaos.log
           path: ./ydb-chaos.log
           retention-days: 1
