@@ -8,7 +8,9 @@ import io.prometheus.client.exporter.PushGateway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URL;
 
 public class MetricsReporter {
@@ -18,7 +20,6 @@ public class MetricsReporter {
     private final PushGateway pushGateway;
     private final String jobName;
 
-    // Метрики
     private final Counter successCounter;
     private final Counter errorCounter;
     private final Histogram latencyHistogram;
@@ -33,7 +34,6 @@ public class MetricsReporter {
             throw new RuntimeException("Failed to initialize PushGateway: " + promPgwUrl, e);
         }
 
-        // Инициализация метрик
         this.successCounter = Counter.build()
                 .name("jdbc_test_success_total")
                 .help("Total successful operations")
@@ -81,12 +81,15 @@ public class MetricsReporter {
         }
     }
 
-    public void pushAdd() {
-        try {
-            pushGateway.pushAdd(registry, jobName);
-            log.info("Metrics pushed (add) to Prometheus");
+    public void saveToFile(String filename, double latencySeconds) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+            writer.println("SUCCESS_COUNT=" + (int)successCounter.labels("select_one").get());
+            writer.println("ERROR_COUNT=" + (int)errorCounter.labels("select_one", "Exception").get());
+            writer.println("LATENCY_MS=" + String.format("%.2f", latencySeconds * 1000));
+            writer.println("ACTIVE_CONNECTIONS=" + (int)activeConnections.get());
+            log.info("Metrics saved to {}", filename);
         } catch (IOException e) {
-            log.error("Failed to push metrics to Prometheus", e);
+            log.error("Failed to save metrics to file", e);
         }
     }
 }
