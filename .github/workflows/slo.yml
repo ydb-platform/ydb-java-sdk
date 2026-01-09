@@ -7,9 +7,23 @@ on:
 
 jobs:
   jdbc-slo-test:
+
+    if: (!contains(github.event.pull_request.labels.*.name, 'no slo'))
+
     name: JDBC SLO Test
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    strategy:
+      matrix:
+        workload:
+          - simple-jdbc-test
+        include:
+          - workload: simple-jdbc-test
+            read_rps: 1000
+            write_rps: 100
+
+    concurrency:
+      group: slo-${{ github.ref }}-${{ matrix.workload }}
+      cancel-in-progress: true
 
     steps:
       # 1. Checkout repository
@@ -56,7 +70,10 @@ jobs:
           YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
         run: |
           echo "Running JDBC test with URL: $YDB_JDBC_URL"
-          ./mvnw test -pl slo/simple-jdbc-test -Dskip.jdbc.tests=false -Dtest=JdbcSmokeTest
+          ./mvnw test -pl slo/${{ matrix.workload }} -Dskip.jdbc.tests=false -Dtest=JdbcSmokeTest \  
+            --read-rps ${{ matrix.read_rps }} \
+            --write-rps ${{ matrix.write_rps }} \
+
 
       # 7. Upload logs on failure
       - name: Upload logs on failure

@@ -1,25 +1,22 @@
-name: SLO JDBC Report
+name: SLO Report
 
 on:
   workflow_run:
-    workflows: ["SLO JDBC"]
+    workflows: [ 'SLO' ]
     types:
       - completed
 
 jobs:
-  jdbc-slo-report:
-    name: Upload JDBC SLO Test Results
+  ydb-slo-action-report:
     runs-on: ubuntu-latest
+    name: Publish YDB SLO Report
+    permissions:
+      contents: read
+      pull-requests: write
     if: github.event.workflow_run.conclusion == 'success'
-
     steps:
-      # 1. Чекаут репозитория
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      # 2. Загружаем результаты тестов (JUnit reports)
-      - name: Upload Test Results
-        uses: actions/upload-artifact@v4
+      - name: Publish YDB SLO Report
+        uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:
-          name: jdbc-test-results
-          path: slo/simple-jdbc-test/target/surefire-reports/
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_run_id: ${{ github.event.workflow_run.id }}
