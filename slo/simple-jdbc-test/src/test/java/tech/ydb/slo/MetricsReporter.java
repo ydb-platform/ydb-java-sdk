@@ -33,7 +33,6 @@ public class MetricsReporter {
         this.jobName = jobName;
 
         try {
-            // Используем URI.create().toURL() вместо устаревшего new URL(String)
             URL url = URI.create(promPgwUrl).toURL();
             this.pushGateway = new PushGateway(url);
         } catch (Exception e) {

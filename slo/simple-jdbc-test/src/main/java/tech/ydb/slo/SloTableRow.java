@@ -1,7 +1,6 @@
 package tech.ydb.slo;
 
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -54,33 +53,5 @@ public class SloTableRow {
         }
 
         return sb.toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        SloTableRow that = (SloTableRow) o;
-        return id == that.id &&
-                Double.compare(that.payloadDouble, payloadDouble) == 0 &&
-                Objects.equals(guid, that.guid) &&
-                Objects.equals(payloadStr, that.payloadStr) &&
-                Objects.equals(payloadTimestamp, that.payloadTimestamp);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(guid, id, payloadStr, payloadDouble, payloadTimestamp);
-    }
-
-    @Override
-    public String toString() {
-        return "SloTableRow{" +
-                "guid=" + guid +
-                ", id=" + id +
-                ", payloadStr.length=" + (payloadStr != null ? payloadStr.length() : 0) +
-                ", payloadDouble=" + payloadDouble +
-                ", payloadTimestamp=" + payloadTimestamp +
-                '}';
     }
 }

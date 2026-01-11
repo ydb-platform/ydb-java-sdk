@@ -16,7 +16,7 @@ jobs:
 
     strategy:
       matrix:
-        java: ['21']
+        java: [ '8', '11', '17', '21']
 
     env:
         MAVEN_ARGS: --batch-mode --update-snapshots -Dstyle.color=always -DYDB_DOCKER_ISOLATION=true
@@ -60,4 +60,3 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-

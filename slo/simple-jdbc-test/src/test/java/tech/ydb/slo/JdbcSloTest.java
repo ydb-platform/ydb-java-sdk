@@ -68,7 +68,7 @@ public class JdbcSloTest {
 
         validateSloResults(result);
 
-        int finalCount = context.selectMaxId();
+        int finalCount = context.selectCount();
         int expectedMinCount = initialDataCount + (int)(writeRps * testDuration * 0.95);
         assertTrue(finalCount >= expectedMinCount);
 
