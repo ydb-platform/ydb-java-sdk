@@ -85,10 +85,10 @@ jobs:
           READ_TIMEOUT: ${{ matrix.read_timeout }}
           WRITE_TIMEOUT: ${{ matrix.write_timeout }}
         run: |
-          echo "Running JDBC test with URL: $YDB_JDBC_URL"
+          echo "Running JDBC SLO test with URL: $YDB_JDBC_URL"
           echo "Prometheus Push Gateway: $PROM_PGW"
           echo "Test parameters: duration=${TEST_DURATION}s, read_rps=${READ_RPS}, write_rps=${WRITE_RPS}"
-          ./mvnw test -pl slo/${{ matrix.workload }} -Dskip.jdbc.tests=false -Dtest=JdbcSmokeTest
+          ./mvnw test -pl slo/${{ matrix.workload }} -Dtest=JdbcSloTest
 
       # 6.5. Generate Test Summary
       - name: Generate Test Summary
