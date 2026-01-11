@@ -88,7 +88,7 @@ jobs:
           echo "Running JDBC SLO test with URL: $YDB_JDBC_URL"
           echo "Prometheus Push Gateway: $PROM_PGW"
           echo "Test parameters: duration=${TEST_DURATION}s, read_rps=${READ_RPS}, write_rps=${WRITE_RPS}"
-          ./mvnw test -pl slo/${{ matrix.workload }} -Dtest=JdbcSloTest
+          ./mvnw test -pl slo/${{ matrix.workload }} -Dskip.jdbc.tests=false -Dtest=JdbcSloTest
 
       # 6.5. Generate Test Summary
       - name: Generate Test Summary
