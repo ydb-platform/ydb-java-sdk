@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URI;
 import java.net.URL;
 
 public class MetricsReporter {
@@ -25,11 +26,16 @@ public class MetricsReporter {
     private final Histogram latencyHistogram;
     private final Gauge activeConnections;
 
+    private int totalSuccess = 0;
+    private int totalErrors = 0;
+
     public MetricsReporter(String promPgwUrl, String jobName) {
         this.jobName = jobName;
 
         try {
-            this.pushGateway = new PushGateway(new URL(promPgwUrl));
+            // Используем URI.create().toURL() вместо устаревшего new URL(String)
+            URL url = URI.create(promPgwUrl).toURL();
+            this.pushGateway = new PushGateway(url);
         } catch (Exception e) {
             throw new RuntimeException("Failed to initialize PushGateway: " + promPgwUrl, e);
         }
@@ -62,10 +68,12 @@ public class MetricsReporter {
     public void recordSuccess(String operation, double latencySeconds) {
         successCounter.labels(operation).inc();
         latencyHistogram.labels(operation).observe(latencySeconds);
+        totalSuccess++;
     }
 
     public void recordError(String operation, String errorType) {
         errorCounter.labels(operation, errorType).inc();
+        totalErrors++;
     }
 
     public void setActiveConnections(int count) {
@@ -75,7 +83,16 @@ public class MetricsReporter {
     public void push() {
         try {
             pushGateway.push(registry, jobName);
-            log.info("Metrics pushed to Prometheus");
+            log.debug("Metrics pushed to Prometheus");
+        } catch (IOException e) {
+            log.error("Failed to push metrics to Prometheus", e);
+        }
+    }
+
+    public void pushAdd() {
+        try {
+            pushGateway.pushAdd(registry, jobName);
+            log.debug("Metrics pushed (add) to Prometheus");
         } catch (IOException e) {
             log.error("Failed to push metrics to Prometheus", e);
         }
@@ -83,8 +100,8 @@ public class MetricsReporter {
 
     public void saveToFile(String filename, double latencySeconds) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
-            writer.println("SUCCESS_COUNT=" + (int)successCounter.labels("select_one").get());
-            writer.println("ERROR_COUNT=" + (int)errorCounter.labels("select_one", "Exception").get());
+            writer.println("SUCCESS_COUNT=" + totalSuccess);
+            writer.println("ERROR_COUNT=" + totalErrors);
             writer.println("LATENCY_MS=" + String.format("%.2f", latencySeconds * 1000));
             writer.println("ACTIVE_CONNECTIONS=" + (int)activeConnections.get());
             log.info("Metrics saved to {}", filename);
