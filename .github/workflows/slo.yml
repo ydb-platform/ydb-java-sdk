@@ -8,10 +8,8 @@ on:
 jobs:
   jdbc-slo-test:
     if: (!contains(github.event.pull_request.labels.*.name, 'no slo'))
-
     name: JDBC SLO Test
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
         workload:
@@ -27,11 +25,9 @@ jobs:
             write_rps: 100
             read_timeout: 1000
             write_timeout: 1000
-
     concurrency:
       group: slo-${{ github.ref }}-${{ matrix.workload }}
       cancel-in-progress: true
-
     steps:
       # 1. Checkout repository
       - name: Checkout repository
@@ -90,7 +86,7 @@ jobs:
           echo "Test parameters: duration=${TEST_DURATION}s, read_rps=${READ_RPS}, write_rps=${WRITE_RPS}"
           ./mvnw test -pl slo/${{ matrix.workload }} -Dskip.jdbc.tests=false -Dtest=JdbcSloTest
 
-      # 6.5. Generate Test Summary
+      # 7. Generate Test Summary
       - name: Generate Test Summary
         if: always()
         run: |
@@ -140,7 +136,7 @@ jobs:
             echo "⚠️ Test metrics file not found" >> $GITHUB_STEP_SUMMARY
           fi
 
-      # 7. Upload logs on failure
+      # 8. Upload logs on failure
       - name: Upload logs on failure
         if: failure()
         uses: actions/upload-artifact@v4
@@ -151,7 +147,7 @@ jobs:
             **/logs/
           retention-days: 5
 
-      # 8. Store YDB logs
+      # 9. Store YDB logs
       - name: Store YDB logs
         if: always()
         run: |
@@ -164,3 +160,27 @@ jobs:
           name: ${{ matrix.workload }}-ydb-chaos.log
           path: ./ydb-chaos.log
           retention-days: 1
+
+  # ========================================
+  # Второй job - публикация отчёта
+  # ========================================
+  publish-slo-report:
+    runs-on: ubuntu-latest
+    name: Publish YDB SLO Report
+
+    # Запускается только после успешного завершения тестов
+    needs: jdbc-slo-test
+    if: success()
+
+    # Permissions для комментариев в PR
+    permissions:
+      contents: read
+      pull-requests: write
+      actions: read
+
+    steps:
+      - name: Publish YDB SLO Report
+        uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_run_id: ${{ github.run_id }}  # ← Используем текущий run_id!
