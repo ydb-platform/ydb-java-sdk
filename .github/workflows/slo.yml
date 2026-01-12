@@ -31,38 +31,17 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      # 1. Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Initialize YDB SLO
       - name: Initialize YDB SLO
         uses: ydb-platform/ydb-slo-action/init@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:
           github_pull_request_number: ${{ github.event.pull_request.number }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          workload_name: ${{ matrix.workload }}  # ← ДОБАВЛЕНО!
+          workload_name: ${{ matrix.workload }}
           ydb_database_node_count: 5
 
-      # 2.1. ← ДОБАВЬТЕ ЭТО!
-      - name: Check what init created
-        run: |
-          echo "📊 Checking containers after init..."
-          docker ps
-
-          echo ""
-          echo "📊 Checking for Prometheus config..."
-          ls -la /tmp/*.yml 2>/dev/null || echo "No YML configs in /tmp"
-
-          echo ""
-          echo "📊 Checking for Prometheus data dir..."
-          ls -la prometheus-data/ 2>/dev/null || echo "No prometheus-data dir"
-
-          echo ""
-          echo "📊 Checking if Prometheus is running..."
-          curl -s http://localhost:9090/api/v1/query?query=up 2>/dev/null | head -20 || echo "Prometheus not accessible on :9090"
-
-      # 3. Set up JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v4
         with:
@@ -70,56 +49,25 @@ jobs:
           java-version: 21
           cache: 'maven'
 
-      # 4. Build modules
       - name: Build slo modules
         run: ./mvnw clean install -DskipTests -q
 
-      # 5. Wait for YDB readiness
       - name: Wait for YDB readiness
         run: |
-          echo "Waiting for YDB to be ready..."
+          echo "⏳ Waiting for YDB..."
           for i in {1..30}; do
             if nc -zv localhost 2135 2>&1 | grep -q "succeeded"; then
-              echo "✅ YDB port is available"
+              echo "✅ YDB ready"
               sleep 5
               break
             fi
-            echo "Attempt $i/30: waiting for YDB..."
             sleep 2
           done
 
-      # 5.5. ← ДОБАВЬТЕ проверку Push Gateway
-      - name: Verify Push Gateway is ready
-        run: |
-          echo "Waiting for Prometheus Push Gateway..."
-          for i in {1..30}; do
-            if curl -sf http://localhost:9091/-/ready > /dev/null 2>&1; then
-              echo "✅ Push Gateway is ready"
-              break
-            fi
-            echo "Attempt $i/30: waiting for Push Gateway..."
-            sleep 2
-          done
-          
-          echo "📊 Push Gateway endpoint accessible:"
-          curl -s http://localhost:9091/metrics | head -5
-
-      # 6. Prepare SLO Database (как в .NET примере)
-      - name: Prepare SLO Database
-        env:
-          YDB_JDBC_URL: jdbc:ydb:grpc://${{ matrix.ydb_host }}:${{ matrix.ydb_port }}${{ matrix.ydb_database }}
-        run: |
-          echo "📊 Creating SLO table..."
-          # Здесь можно вызвать отдельный класс для создания таблицы
-          # или включить это в тест
-
-      # 7. Run Simple JDBC Test
       - name: Run Simple JDBC Test
         env:
+          WORKLOAD_NAME: ${{ matrix.workload }}
           YDB_JDBC_URL: jdbc:ydb:grpc://${{ matrix.ydb_host }}:${{ matrix.ydb_port }}${{ matrix.ydb_database }}
-          YDB_HOST: ${{ matrix.ydb_host }}
-          YDB_PORT: ${{ matrix.ydb_port }}
-          YDB_DATABASE: ${{ matrix.ydb_database }}
           PROM_PGW: ${{ matrix.prom_pgw }}
           TEST_DURATION: ${{ matrix.test_duration }}
           READ_RPS: ${{ matrix.read_rps }}
@@ -127,69 +75,31 @@ jobs:
           READ_TIMEOUT: ${{ matrix.read_timeout }}
           WRITE_TIMEOUT: ${{ matrix.write_timeout }}
           REPORT_PERIOD: ${{ matrix.report_period }}
-          WORKLOAD_NAME: ${{ matrix.workload }}
         run: |
           echo "🧪 Running JDBC SLO test"
-          echo "   Workload: ${{ matrix.workload }}"
-          echo "   URL: $YDB_JDBC_URL"
-          echo "   Prometheus: $PROM_PGW"
+          echo "   Workload: $WORKLOAD_NAME"
           echo "   Duration: ${TEST_DURATION}s"
           echo "   Read RPS: ${READ_RPS}, Write RPS: ${WRITE_RPS}"
-          echo "   Report period: ${REPORT_PERIOD}ms"
           
           ./mvnw test -pl slo/${{ matrix.workload }} \
             -Dskip.jdbc.tests=false \
             -Dtest=JdbcSloTest
 
-      # 8 Verify metrics were pushed
-      - name: Verify metrics in Push Gateway
+      - name: Verify SDK metrics
         if: always()
         run: |
-          echo "📊 Checking Push Gateway metrics..."
-          echo ""
-          echo "=== All metrics ==="
-          curl -s http://localhost:9091/metrics | grep slo_ || echo "No SLO metrics found"
+          echo "📊 Checking SDK metrics in Prometheus..."
+          
+          echo "=== sdk_operations_success_total ==="
+          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operations_success_total' | jq '.data.result[] | {operation: .metric.operation_type, value: .value[1]}'
           
           echo ""
-          echo "=== Checking local metrics file ==="
-          if [ -f "slo/${{ matrix.workload }}/target/test-metrics.txt" ]; then
-            echo "✅ Local metrics file exists:"
-            cat "slo/${{ matrix.workload }}/target/test-metrics.txt"
-          else
-            echo "❌ Local metrics file not found"
-          fi
+          echo "=== sdk_operation_latency_seconds ==="
+          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operation_latency_seconds_bucket{le="0.01"}' | jq '.data.result[] | select(.metric.operation_type) | {operation: .metric.operation_type, count: .value[1]}'
 
-
-      # 8.1 Verify metrics in Prometheus
-      - name: Verify metrics in Prometheus Server
-        if: always()
-        run: |
-          echo "📊 Checking if Prometheus has our SLO metrics..."
-          echo ""
-
-          # Проверяем все slo_success_total без фильтра
-          echo "=== All slo_success_total ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=slo_success_total' | jq .
-
-          echo ""
-          echo "=== All slo_errors_total ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=slo_errors_total' | jq .
-
-          echo ""
-          echo "=== Проверяем временной ряд slo_success_total (последние 2 минуты) ==="
-          END_TIME=$(date +%s)
-          START_TIME=$((END_TIME - 120))
-          curl -s "http://localhost:9090/api/v1/query_range?query=slo_success_total&start=${START_TIME}&end=${END_TIME}&step=5" | jq '.data.result[] | {metric: .metric, values: .values | length}'
-
-          echo ""
-          echo "=== Latency buckets ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=slo_latency_seconds_bucket' | jq '.data.result[] | select(.metric.le == "0.01") | {operation: .metric.operation_type, value: .value[1]}'
-
-      # 9. Store YDB logs
       - name: Store YDB logs
         if: always()
-        run: |
-          docker logs ydb-chaos > ydb-chaos.log 2>&1 || echo "No ydb-chaos container"
+        run: docker logs ydb-chaos > ydb-chaos.log 2>&1 || true
 
       - name: Upload YDB logs
         if: always()
@@ -199,9 +109,6 @@ jobs:
           path: ./ydb-chaos.log
           retention-days: 1
 
-  # ========================================
-  # Job 2: Публикация отчёта
-  # ========================================
   publish-slo-report:
     runs-on: ubuntu-latest
     name: Publish YDB SLO Report
@@ -213,31 +120,6 @@ jobs:
       actions: read
 
     steps:
-      - name: Debug downloaded artifacts
-        run: |
-          echo "📦 Current directory:"
-          pwd
-
-          echo ""
-          echo "📦 All files in current directory:"
-          ls -laR
-
-          echo ""
-          echo "📦 Searching for all artifacts:"
-          find . -type f | head -20
-
-          echo ""
-          echo "📦 Searching for metrics and pull files:"
-          for pattern in "*metrics*" "*pull*" "*.json" "*.txt"; do
-            find . -name "$pattern" 2>/dev/null | while read f; do
-              echo "════════════════════════════════"
-              echo "Found: $f"
-              echo "Content:"
-              cat "$f" 2>/dev/null || echo "Cannot read"
-              echo ""
-            done
-          done
-
       - name: Publish YDB SLO Report
         uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:

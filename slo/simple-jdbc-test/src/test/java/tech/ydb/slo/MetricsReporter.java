@@ -14,7 +14,6 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
 import java.util.Map;
-import java.util.Random;
 
 public class MetricsReporter {
     private static final Logger log = LoggerFactory.getLogger(MetricsReporter.class);
@@ -22,18 +21,19 @@ public class MetricsReporter {
     private final CollectorRegistry registry = new CollectorRegistry();
     private final PushGateway pushGateway;
     private final String jobName;
+    private final String javaVersion;
 
-    private final Counter successCounter;
-    private final Counter errorCounter;
-    private final Histogram latencyHistogram;
-    private final Gauge activeConnections;
+    private final Counter operationsTotal;
+    private final Counter operationsSuccessTotal;
+    private final Histogram operationLatencySeconds;
+    private final Gauge pendingOperations;
 
     private int totalSuccess = 0;
     private int totalErrors = 0;
-    private final Random random = new Random();
 
     public MetricsReporter(String promPgwUrl, String jobName) {
         this.jobName = jobName;
+        this.javaVersion = System.getProperty("java.version");
 
         try {
             URL url = URI.create(promPgwUrl).toURL();
@@ -42,64 +42,88 @@ public class MetricsReporter {
             throw new RuntimeException("Failed to initialize PushGateway: " + promPgwUrl, e);
         }
 
-        this.successCounter = Counter.build()
-                .name("slo_success_total")
-                .labelNames("operation_type", "workload")
-                .help("Total successful operations")
+        // Total operations (including errors)
+        this.operationsTotal = Counter.build()
+                .name("sdk_operations_total")
+                .labelNames("operation_type", "sdk", "sdk_version", "workload", "workload_version")
+                .help("Total number of operations performed by the SDK")
                 .register(registry);
 
-        this.errorCounter = Counter.build()
-                .name("slo_errors_total")
-                .help("Total failed operations")
-                .labelNames("operation_type", "error_type", "workload")
+        // Successful operations only
+        this.operationsSuccessTotal = Counter.build()
+                .name("sdk_operations_success_total")
+                .labelNames("operation_type", "sdk", "sdk_version", "workload", "workload_version")
+                .help("Total number of successful operations")
                 .register(registry);
 
-        this.latencyHistogram = Histogram.build()
-                .name("slo_latency_seconds")
-                .labelNames("operation_type", "workload")
+        // Operation latency
+        this.operationLatencySeconds = Histogram.build()
+                .name("sdk_operation_latency_seconds")
+                .labelNames("operation_type", "operation_status", "sdk", "sdk_version", "workload", "workload_version")
                 .help("Operation latency in seconds")
-                .buckets(0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0)
+                .buckets(0.001, 0.002, 0.003, 0.004, 0.005, 0.0075, 0.010, 0.020, 0.050, 0.100, 0.200, 0.500, 1.000)
                 .register(registry);
 
-        this.activeConnections = Gauge.build()
-                .name("slo_active_connections")
-                .help("Number of active connections")
+        // Pending operations gauge
+        this.pendingOperations = Gauge.build()
+                .name("sdk_pending_operations")
+                .labelNames("operation_type", "sdk", "sdk_version", "workload", "workload_version")
+                .help("Current number of pending operations")
                 .register(registry);
     }
 
+    /**
+     * Record successful operation
+     */
     public void recordSuccess(String operation, double latencySeconds) {
-        successCounter.labels(operation, jobName).inc();
-        latencyHistogram.labels(operation, jobName).observe(latencySeconds);
+        // Increment total operations
+        operationsTotal.labels(operation, "java", javaVersion, jobName, "0.0.0").inc();
+
+        // Increment successful operations
+        operationsSuccessTotal.labels(operation, "java", javaVersion, jobName, "0.0.0").inc();
+
+        // Record latency
+        operationLatencySeconds.labels(operation, "success", "java", javaVersion, jobName, "0.0.0")
+                .observe(latencySeconds);
+
         totalSuccess++;
 
-        // Вывод в консоль
+        // Log every 100 operations
         if (totalSuccess % 100 == 0) {
             System.out.printf("✅ [%s] Success #%d, latency: %.3f ms%n",
                     operation, totalSuccess, latencySeconds * 1000);
         }
     }
 
+    /**
+     * Record failed operation
+     */
     public void recordError(String operation, String errorType) {
-        errorCounter.labels(operation, errorType, jobName).inc();
+        // Increment total operations (errors are also operations)
+        operationsTotal.labels(operation, "java", javaVersion, jobName, "0.0.0").inc();
+
+        // Note: We could add error latency here if we tracked it
+        // For now, we just count the error
+
         totalErrors++;
 
-        // Вывод в консоль
+        // Log errors
         System.out.printf("❌ [%s] Error #%d, type: %s%n",
                 operation, totalErrors, errorType);
     }
 
-    public void setActiveConnections(int count) {
-        activeConnections.set(count);
+    /**
+     * Set pending operations count
+     */
+    public void setPendingOperations(String operationType, int count) {
+        pendingOperations.labels(operationType, "java", javaVersion, jobName, "0.0.0").set(count);
     }
 
     /**
-     * Push метрик с генерацией тестовых данных для проверки графиков
+     * Push metrics to Prometheus Push Gateway
      */
     public void push() {
         try {
-            // Генерируем дополнительные тестовые метрики для гарантированного отображения графиков
-            generateMockMetrics();
-
             pushGateway.pushAdd(
                     registry,
                     jobName,
@@ -121,75 +145,19 @@ public class MetricsReporter {
     }
 
     /**
-     * Генерируем тестовые метрики для проверки графиков
+     * Save metrics summary to file
      */
-    private void generateMockMetrics() {
-        System.out.println("🔧 Generating mock metrics for graph validation...");
-
-        // Генерируем успешные read операции (99.5% success rate)
-        int mockReadSuccess = 1000;
-        int mockReadErrors = 5;
-
-        for (int i = 0; i < mockReadSuccess; i++) {
-            // Латентность 2-8ms (в основном)
-            double latency = 0.002 + (random.nextGaussian() * 0.002);
-            latency = Math.max(0.001, Math.min(latency, 0.050));
-
-            successCounter.labels("read", jobName).inc();
-            latencyHistogram.labels("read", jobName).observe(latency);
-        }
-
-        for (int i = 0; i < mockReadErrors; i++) {
-            errorCounter.labels("read", "TimeoutException", jobName).inc();
-        }
-
-        // Генерируем успешные write операции (99% success rate)
-        int mockWriteSuccess = 100;
-        int mockWriteErrors = 1;
-
-        for (int i = 0; i < mockWriteSuccess; i++) {
-            // Латентность 5-15ms (writes медленнее)
-            double latency = 0.010 + (random.nextGaussian() * 0.003);
-            latency = Math.max(0.005, Math.min(latency, 0.100));
-
-            successCounter.labels("write", jobName).inc();
-            latencyHistogram.labels("write", jobName).observe(latency);
-        }
-
-        for (int i = 0; i < mockWriteErrors; i++) {
-            errorCounter.labels("write", "SQLException", jobName).inc();
-        }
-
-        // Выводим что сгенерировали
-        System.out.println("   📊 Mock reads: " + mockReadSuccess + " success, " + mockReadErrors + " errors");
-        System.out.println("   📊 Mock writes: " + mockWriteSuccess + " success, " + mockWriteErrors + " errors");
-        System.out.println("   📊 Read success rate: " + String.format("%.2f%%",
-                mockReadSuccess * 100.0 / (mockReadSuccess + mockReadErrors)));
-        System.out.println("   📊 Write success rate: " + String.format("%.2f%%",
-                mockWriteSuccess * 100.0 / (mockWriteSuccess + mockWriteErrors)));
-    }
-
-    public void pushAdd() {
-        try {
-            pushGateway.pushAdd(registry, jobName);
-            log.debug("Metrics pushed (add) to Prometheus");
-        } catch (IOException e) {
-            log.error("Failed to push metrics to Prometheus", e);
-        }
-    }
-
     public void saveToFile(String filename, double latencySeconds) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
             writer.println("SUCCESS_COUNT=" + totalSuccess);
             writer.println("ERROR_COUNT=" + totalErrors);
             writer.println("LATENCY_MS=" + String.format("%.2f", latencySeconds * 1000));
-            writer.println("ACTIVE_CONNECTIONS=" + (int)activeConnections.get());
+            writer.println("PENDING_OPERATIONS=0");
 
             System.out.println("💾 Metrics saved to file:");
             System.out.println("   Success: " + totalSuccess);
             System.out.println("   Errors: " + totalErrors);
             System.out.println("   Latency: " + String.format("%.2f ms", latencySeconds * 1000));
-            System.out.println("   Active connections: " + (int)activeConnections.get());
 
             log.info("Metrics saved to {}", filename);
         } catch (IOException e) {
