@@ -216,24 +216,20 @@ jobs:
       # ← ДОБАВЬТЕ ЭТО ПЕРЕД Publish!
       - name: Debug downloaded artifacts
         run: |
-          echo "📦 Downloaded artifacts:"
-          ls -la
-          
+          echo "📦 Current directory:"
+          pwd
+
           echo ""
-          echo "📄 Content of simple-jdbc-test-metrics.json:"
-          if [ -f "simple-jdbc-test-metrics.json" ]; then
-            cat simple-jdbc-test-metrics.json | jq . || cat simple-jdbc-test-metrics.json
-          else
-            echo "❌ File not found!"
-          fi
-          
+          echo "📦 All files (recursive):"
+          find . -type f -name "*.json" -o -name "*.txt" | head -20
+
           echo ""
-          echo "📄 Content of simple-jdbc-test-pull.txt:"
-          if [ -f "simple-jdbc-test-pull.txt" ]; then
-            head -50 simple-jdbc-test-pull.txt
-          else
-            echo "❌ File not found!"
-          fi
+          echo "📦 Files in current dir:"
+          ls -laR
+
+          echo ""
+          echo "📦 Searching for metrics files:"
+          find . -name "*metrics*" -type f
 
       - name: Publish YDB SLO Report
         uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
