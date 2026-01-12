@@ -185,6 +185,45 @@ jobs:
           echo "=== Latency buckets ==="
           curl -s 'http://localhost:9090/api/v1/query?query=slo_latency_seconds_bucket' | jq '.data.result[] | select(.metric.le == "0.01") | {operation: .metric.operation_type, value: .value[1]}'
 
+      # 8.2. Create and upload metrics JSON
+      - name: Create metrics JSON for action
+        if: always()
+        run: |
+          echo "📊 Creating metrics.json for SLO action..."
+
+          # Создаем минимальный JSON
+          cat > metrics.json << EOF
+          {
+            "workload": "${{ matrix.workload }}",
+            "timestamp": $(date +%s)
+          }
+          EOF
+
+          echo "✅ Created metrics.json:"
+          cat metrics.json
+
+      - name: Upload metrics JSON
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.workload }}-metrics.json
+          path: metrics.json
+          retention-days: 7
+
+      # Также создадим pull.txt
+      - name: Create pull.txt
+        if: always()
+        run: |
+          echo "${{ github.event.pull_request.number }}" > pull.txt
+
+      - name: Upload pull number
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.workload }}-pull.txt
+          path: pull.txt
+          retention-days: 7
+
       # 9. Store YDB logs
       - name: Store YDB logs
         if: always()
