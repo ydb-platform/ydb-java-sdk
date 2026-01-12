@@ -141,7 +141,7 @@ jobs:
             -Dskip.jdbc.tests=false \
             -Dtest=JdbcSloTest
 
-      # 8. Verify metrics were pushed
+      # 8 Verify metrics were pushed
       - name: Verify metrics in Push Gateway
         if: always()
         run: |
@@ -158,6 +158,31 @@ jobs:
           else
             echo "❌ Local metrics file not found"
           fi
+
+      # 8.1 Verify metrics in Prometheus
+      - name: Verify metrics in Prometheus Server
+        if: always()
+        run: |
+          echo "📊 Checking if Prometheus has our SLO metrics..."
+          echo ""
+    
+          # Проверяем success metrics
+          echo "=== slo_success_total (read) ==="
+          curl -s 'http://localhost:9090/api/v1/query?query=slo_success_total{operation_type="read"}' | jq .
+    
+          echo ""
+          echo "=== slo_success_total (write) ==="
+          curl -s 'http://localhost:9090/api/v1/query?query=slo_success_total{operation_type="write"}' | jq .
+    
+          echo ""
+          echo "=== Проверяем временной ряд (последние 2 минуты) ==="
+          END_TIME=$(date +%s)
+          START_TIME=$((END_TIME - 120))
+          curl -s "http://localhost:9090/api/v1/query_range?query=rate(slo_success_total{operation_type=\"read\"}[30s])&start=${START_TIME}&end=${END_TIME}&step=5" | jq .
+    
+          echo ""
+          echo "=== Все метрики slo_* ==="
+          curl -s 'http://localhost:9090/api/v1/label/__name__/values' | jq '.data[] | select(startswith("slo_"))'    
 
       # 9. Store YDB logs
       - name: Store YDB logs
