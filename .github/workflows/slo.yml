@@ -25,7 +25,7 @@ jobs:
             write_rps: 100
             read_timeout: 1000
             write_timeout: 1000
-            report_period: 10000
+            report_period: 1000
     concurrency:
       group: slo-${{ github.ref }}-${{ matrix.workload }}
       cancel-in-progress: true
@@ -130,7 +130,7 @@ jobs:
           echo "📊 Checking Push Gateway metrics..."
           echo ""
           echo "=== All metrics ==="
-          curl -s http://localhost:9091/metrics | grep jdbc_test || echo "No jdbc_test metrics found"
+          curl -s http://localhost:9091/metrics | grep slo_ || echo "No SLO metrics found"
           
           echo ""
           echo "=== Checking local metrics file ==="

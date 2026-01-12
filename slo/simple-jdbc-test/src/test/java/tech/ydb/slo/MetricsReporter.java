@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URI;
 import java.net.URL;
+import java.util.Map;
 
 public class MetricsReporter {
     private static final Logger log = LoggerFactory.getLogger(MetricsReporter.class);
@@ -40,38 +41,42 @@ public class MetricsReporter {
         }
 
         this.successCounter = Counter.build()
-                .name("jdbc_test_success_total")
+                .name("slo_success_total")
+                .labelNames("operation", "workload")
+                //.name("jdbc_test_success_total")
                 .help("Total successful operations")
-                .labelNames("operation")
+                //.labelNames("operation")
                 .register(registry);
 
         this.errorCounter = Counter.build()
-                .name("jdbc_test_errors_total")
+                .name("slo_errors_total")
                 .help("Total failed operations")
-                .labelNames("operation", "error_type")
+                .labelNames("operation", "error_type", "workload")
                 .register(registry);
 
         this.latencyHistogram = Histogram.build()
-                .name("jdbc_test_latency_seconds")
+                .name("slo_latency_seconds")
+                .labelNames("operation", "workload")
+                //.name("jdbc_test_latency_seconds")
                 .help("Operation latency in seconds")
-                .labelNames("operation")
+                //.labelNames("operation")
                 .buckets(0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0)
                 .register(registry);
 
         this.activeConnections = Gauge.build()
-                .name("jdbc_test_active_connections")
+                .name("slo_active_connections")
                 .help("Number of active connections")
                 .register(registry);
     }
 
     public void recordSuccess(String operation, double latencySeconds) {
-        successCounter.labels(operation).inc();
-        latencyHistogram.labels(operation).observe(latencySeconds);
+        successCounter.labels(operation, jobName).inc();
+        latencyHistogram.labels(operation, jobName).observe(latencySeconds);
         totalSuccess++;
     }
 
     public void recordError(String operation, String errorType) {
-        errorCounter.labels(operation, errorType).inc();
+        errorCounter.labels(operation, errorType, jobName).inc();
         totalErrors++;
     }
 
@@ -79,12 +84,30 @@ public class MetricsReporter {
         activeConnections.set(count);
     }
 
+    /*
     public void push() {
         try {
             pushGateway.push(registry, jobName);
             log.debug("Metrics pushed to Prometheus");
         } catch (IOException e) {
             log.error("Failed to push metrics to Prometheus", e);
+        }
+    }
+    */
+
+    public void push() {
+        try {
+            pushGateway.pushAdd(
+                    registry,
+                    jobName,
+                    Map.of(
+                            "workload", jobName,
+                            "instance", "jdbc"
+                    )
+            );
+            log.debug("Metrics pushed to Prometheus");
+        } catch (IOException e) {
+            log.error("Failed to push metrics", e);
         }
     }
 
