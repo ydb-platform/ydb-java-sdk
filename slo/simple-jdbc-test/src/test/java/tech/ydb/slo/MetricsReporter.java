@@ -44,19 +44,19 @@ public class MetricsReporter {
 
         this.successCounter = Counter.build()
                 .name("slo_success_total")
-                .labelNames("operation", "workload")
+                .labelNames("operation_type", "workload")
                 .help("Total successful operations")
                 .register(registry);
 
         this.errorCounter = Counter.build()
                 .name("slo_errors_total")
                 .help("Total failed operations")
-                .labelNames("operation", "error_type", "workload")
+                .labelNames("operation_type", "error_type", "workload")
                 .register(registry);
 
         this.latencyHistogram = Histogram.build()
                 .name("slo_latency_seconds")
-                .labelNames("operation", "workload")
+                .labelNames("operation_type", "workload")
                 .help("Operation latency in seconds")
                 .buckets(0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0)
                 .register(registry);
