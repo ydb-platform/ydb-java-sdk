@@ -1,4 +1,5 @@
 name: SLO JDBC
+
 on:
   push:
     branches: [master, develop, main]
@@ -10,22 +11,19 @@ jobs:
     if: (!contains(github.event.pull_request.labels.*.name, 'no slo'))
     name: JDBC SLO Test
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         workload:
           - simple-jdbc-test
         include:
           - workload: simple-jdbc-test
-            ydb_host: localhost
-            ydb_port: 2135
-            ydb_database: /Root/testdb
-            prom_pgw: http://localhost:9091
             test_duration: 60
             read_rps: 1000
             write_rps: 100
             read_timeout: 1000
             write_timeout: 1000
-            report_period: 1000
+
     concurrency:
       group: slo-${{ github.ref }}-${{ matrix.workload }}
       cancel-in-progress: true
@@ -47,81 +45,57 @@ jobs:
         with:
           distribution: temurin
           java-version: 21
-          cache: 'maven'
+          cache: maven
 
-      - name: Build slo modules
+      - name: Build project
         run: ./mvnw clean install -DskipTests -q
 
-      - name: Wait for YDB readiness
+      - name: Wait for YDB
         run: |
-          echo "⏳ Waiting for YDB..."
           for i in {1..30}; do
-            if nc -zv localhost 2135 2>&1 | grep -q "succeeded"; then
-              echo "✅ YDB ready"
-              sleep 5
-              break
-            fi
+            nc -zv localhost 2135 2>&1 | grep -q "succeeded" && break
             sleep 2
           done
 
-      - name: Run Simple JDBC Test
+      - name: Run SLO test
         env:
           WORKLOAD_NAME: ${{ matrix.workload }}
-          YDB_JDBC_URL: jdbc:ydb:grpc://${{ matrix.ydb_host }}:${{ matrix.ydb_port }}${{ matrix.ydb_database }}
-          PROM_PGW: ${{ matrix.prom_pgw }}
+          YDB_JDBC_URL: jdbc:ydb:grpc://localhost:2135/Root/testdb
+          PROM_PGW: http://localhost:9091
           TEST_DURATION: ${{ matrix.test_duration }}
           READ_RPS: ${{ matrix.read_rps }}
           WRITE_RPS: ${{ matrix.write_rps }}
           READ_TIMEOUT: ${{ matrix.read_timeout }}
           WRITE_TIMEOUT: ${{ matrix.write_timeout }}
-          REPORT_PERIOD: ${{ matrix.report_period }}
+          REPORT_PERIOD: 1000
         run: |
-          echo "🧪 Running JDBC SLO test"
-          echo "   Workload: $WORKLOAD_NAME"
-          echo "   Duration: ${TEST_DURATION}s"
-          echo "   Read RPS: ${READ_RPS}, Write RPS: ${WRITE_RPS}"
-          
           ./mvnw test -pl slo/${{ matrix.workload }} \
             -Dskip.jdbc.tests=false \
             -Dtest=JdbcSloTest
 
-      - name: Verify SDK metrics
-        if: always()
-        continue-on-error: true
-        run: |
-          echo "📊 Checking SDK metrics in Prometheus..."
-
-          echo "=== sdk_operations_success_total ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operations_success_total' | jq '.data.result[] | {operation: .metric.operation_type, value: .value[1]}' || echo "No data"
-
-          echo ""
-          echo "=== sdk_operation_latency_seconds ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operation_latency_seconds_bucket{le="0.01"}' | jq '.data.result[] | select(.metric.operation_type) | {operation: .metric.operation_type, count: .value[1]}' || echo "No data"
-
-      - name: Store YDB logs
-        if: always()
-        run: docker logs ydb-chaos > ydb-chaos.log 2>&1 || true
-
-      - name: Upload YDB logs
+      - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.workload }}-ydb-chaos.log
-          path: ./ydb-chaos.log
+          name: ${{ matrix.workload }}-logs
+          path: |
+            **/target/surefire-reports/
+            ydb-chaos.log
           retention-days: 1
 
   publish-slo-report:
+    name: Publish SLO Report
     runs-on: ubuntu-latest
-    name: Publish YDB SLO Report
     needs: jdbc-slo-test
     if: success()
+
     permissions:
       contents: read
       pull-requests: write
       actions: read
 
     steps:
-      - name: Publish YDB SLO Report
+      - name: Publish report
         uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
