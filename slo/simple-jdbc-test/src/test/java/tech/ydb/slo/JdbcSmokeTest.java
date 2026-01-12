@@ -35,7 +35,6 @@ class JdbcSmokeTest {
             assertEquals(1, value);
 
             metrics.recordSuccess("select_one", latencySeconds);
-            metrics.setActiveConnections(1);
 
         } catch (Exception e) {
             log.error("Test failed", e);
