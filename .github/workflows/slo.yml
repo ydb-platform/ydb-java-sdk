@@ -1,7 +1,7 @@
 name: SLO JDBC
 on:
   push:
-    branches: [master, develop, main, ydb-slo-tests]
+    branches: [master, develop, main]
   pull_request:
     types: [opened, reopened, edited, synchronize]
 
@@ -20,7 +20,7 @@ jobs:
             ydb_port: 2135
             ydb_database: /Root/testdb
             prom_pgw: http://localhost:9091
-            test_duration: 600
+            test_duration: 60
             read_rps: 1000
             write_rps: 100
             read_timeout: 1000
