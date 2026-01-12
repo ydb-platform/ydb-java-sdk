@@ -185,45 +185,6 @@ jobs:
           echo "=== Latency buckets ==="
           curl -s 'http://localhost:9090/api/v1/query?query=slo_latency_seconds_bucket' | jq '.data.result[] | select(.metric.le == "0.01") | {operation: .metric.operation_type, value: .value[1]}'
 
-      # 8.2. Create and upload metrics JSON
-      - name: Create metrics JSON for action
-        if: always()
-        run: |
-          echo "📊 Creating metrics.json for SLO action..."
-
-          # Создаем минимальный JSON
-          cat > metrics.json << EOF
-          {
-            "workload": "${{ matrix.workload }}",
-            "timestamp": $(date +%s)
-          }
-          EOF
-
-          echo "✅ Created metrics.json:"
-          cat metrics.json
-
-      - name: Upload metrics JSON
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.workload }}-metrics.json
-          path: metrics.json
-          retention-days: 7
-
-      # Также создадим pull.txt
-      - name: Create pull.txt
-        if: always()
-        run: |
-          echo "${{ github.event.pull_request.number }}" > pull.txt
-
-      - name: Upload pull number
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.workload }}-pull.txt
-          path: pull.txt
-          retention-days: 7
-
       # 9. Store YDB logs
       - name: Store YDB logs
         if: always()
@@ -252,23 +213,30 @@ jobs:
       actions: read
 
     steps:
-      # ← ДОБАВЬТЕ ЭТО ПЕРЕД Publish!
       - name: Debug downloaded artifacts
         run: |
           echo "📦 Current directory:"
           pwd
 
           echo ""
-          echo "📦 All files (recursive):"
-          find . -type f -name "*.json" -o -name "*.txt" | head -20
-
-          echo ""
-          echo "📦 Files in current dir:"
+          echo "📦 All files in current directory:"
           ls -laR
 
           echo ""
-          echo "📦 Searching for metrics files:"
-          find . -name "*metrics*" -type f
+          echo "📦 Searching for all artifacts:"
+          find . -type f | head -20
+
+          echo ""
+          echo "📦 Searching for metrics and pull files:"
+          for pattern in "*metrics*" "*pull*" "*.json" "*.txt"; do
+            find . -name "$pattern" 2>/dev/null | while read f; do
+              echo "════════════════════════════════"
+              echo "Found: $f"
+              echo "Content:"
+              cat "$f" 2>/dev/null || echo "Cannot read"
+              echo ""
+            done
+          done
 
       - name: Publish YDB SLO Report
         uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
