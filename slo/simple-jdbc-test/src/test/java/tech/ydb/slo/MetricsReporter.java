@@ -43,9 +43,7 @@ public class MetricsReporter {
         this.successCounter = Counter.build()
                 .name("slo_success_total")
                 .labelNames("operation", "workload")
-                //.name("jdbc_test_success_total")
                 .help("Total successful operations")
-                //.labelNames("operation")
                 .register(registry);
 
         this.errorCounter = Counter.build()
@@ -57,9 +55,7 @@ public class MetricsReporter {
         this.latencyHistogram = Histogram.build()
                 .name("slo_latency_seconds")
                 .labelNames("operation", "workload")
-                //.name("jdbc_test_latency_seconds")
                 .help("Operation latency in seconds")
-                //.labelNames("operation")
                 .buckets(0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0, 5.0)
                 .register(registry);
 
