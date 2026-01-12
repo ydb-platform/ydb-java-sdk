@@ -44,6 +44,24 @@ jobs:
           workload_name: ${{ matrix.workload }}  # ← ДОБАВЛЕНО!
           ydb_database_node_count: 5
 
+      # 2.1. ← ДОБАВЬТЕ ЭТО!
+      - name: Check what init created
+        run: |
+          echo "📊 Checking containers after init..."
+          docker ps
+
+          echo ""
+          echo "📊 Checking for Prometheus config..."
+          ls -la /tmp/*.yml 2>/dev/null || echo "No YML configs in /tmp"
+
+          echo ""
+          echo "📊 Checking for Prometheus data dir..."
+          ls -la prometheus-data/ 2>/dev/null || echo "No prometheus-data dir"
+
+          echo ""
+          echo "📊 Checking if Prometheus is running..."
+          curl -s http://localhost:9090/api/v1/query?query=up 2>/dev/null | head -20 || echo "Prometheus not accessible on :9090"
+
       # 3. Set up JDK 21
       - name: Set up JDK 21
         uses: actions/setup-java@v4
