@@ -159,30 +159,31 @@ jobs:
             echo "❌ Local metrics file not found"
           fi
 
+
       # 8.1 Verify metrics in Prometheus
       - name: Verify metrics in Prometheus Server
         if: always()
         run: |
           echo "📊 Checking if Prometheus has our SLO metrics..."
           echo ""
-    
-          # Проверяем success metrics
-          echo "=== slo_success_total (read) ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=slo_success_total{operation_type="read"}' | jq .
-    
+
+          # Проверяем все slo_success_total без фильтра
+          echo "=== All slo_success_total ==="
+          curl -s 'http://localhost:9090/api/v1/query?query=slo_success_total' | jq .
+
           echo ""
-          echo "=== slo_success_total (write) ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=slo_success_total{operation_type="write"}' | jq .
-    
+          echo "=== All slo_errors_total ==="
+          curl -s 'http://localhost:9090/api/v1/query?query=slo_errors_total' | jq .
+
           echo ""
-          echo "=== Проверяем временной ряд (последние 2 минуты) ==="
+          echo "=== Проверяем временной ряд slo_success_total (последние 2 минуты) ==="
           END_TIME=$(date +%s)
           START_TIME=$((END_TIME - 120))
-          curl -s "http://localhost:9090/api/v1/query_range?query=rate(slo_success_total{operation_type=\"read\"}[30s])&start=${START_TIME}&end=${END_TIME}&step=5" | jq .
-    
+          curl -s "http://localhost:9090/api/v1/query_range?query=slo_success_total&start=${START_TIME}&end=${END_TIME}&step=5" | jq '.data.result[] | {metric: .metric, values: .values | length}'
+
           echo ""
-          echo "=== Все метрики slo_* ==="
-          curl -s 'http://localhost:9090/api/v1/label/__name__/values' | jq '.data[] | select(startswith("slo_"))'    
+          echo "=== Latency buckets ==="
+          curl -s 'http://localhost:9090/api/v1/query?query=slo_latency_seconds_bucket' | jq '.data.result[] | select(.metric.le == "0.01") | {operation: .metric.operation_type, value: .value[1]}'
 
       # 9. Store YDB logs
       - name: Store YDB logs
@@ -212,6 +213,28 @@ jobs:
       actions: read
 
     steps:
+      # ← ДОБАВЬТЕ ЭТО ПЕРЕД Publish!
+      - name: Debug downloaded artifacts
+        run: |
+          echo "📦 Downloaded artifacts:"
+          ls -la
+          
+          echo ""
+          echo "📄 Content of simple-jdbc-test-metrics.json:"
+          if [ -f "simple-jdbc-test-metrics.json" ]; then
+            cat simple-jdbc-test-metrics.json | jq . || cat simple-jdbc-test-metrics.json
+          else
+            echo "❌ File not found!"
+          fi
+          
+          echo ""
+          echo "📄 Content of simple-jdbc-test-pull.txt:"
+          if [ -f "simple-jdbc-test-pull.txt" ]; then
+            head -50 simple-jdbc-test-pull.txt
+          else
+            echo "❌ File not found!"
+          fi
+
       - name: Publish YDB SLO Report
         uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:
