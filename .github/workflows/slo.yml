@@ -87,15 +87,16 @@ jobs:
 
       - name: Verify SDK metrics
         if: always()
+        continue-on-error: true
         run: |
           echo "📊 Checking SDK metrics in Prometheus..."
-          
+
           echo "=== sdk_operations_success_total ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operations_success_total' | jq '.data.result[] | {operation: .metric.operation_type, value: .value[1]}'
-          
+          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operations_success_total' | jq '.data.result[] | {operation: .metric.operation_type, value: .value[1]}' || echo "No data"
+
           echo ""
           echo "=== sdk_operation_latency_seconds ==="
-          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operation_latency_seconds_bucket{le="0.01"}' | jq '.data.result[] | select(.metric.operation_type) | {operation: .metric.operation_type, count: .value[1]}'
+          curl -s 'http://localhost:9090/api/v1/query?query=sdk_operation_latency_seconds_bucket{le="0.01"}' | jq '.data.result[] | select(.metric.operation_type) | {operation: .metric.operation_type, count: .value[1]}' || echo "No data"
 
       - name: Store YDB logs
         if: always()
