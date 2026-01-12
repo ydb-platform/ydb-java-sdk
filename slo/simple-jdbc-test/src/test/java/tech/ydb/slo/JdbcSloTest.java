@@ -51,7 +51,8 @@ public class JdbcSloTest {
     @Test
     void sloFullTest() throws Exception {
         JdbcSloTableContext context = new JdbcSloTableContext(dataSource);
-        MetricsReporter metrics = new MetricsReporter(promPgw, "jdbc-slo-full-test");
+        String jobName = System.getenv().getOrDefault("WORKLOAD_NAME", "jdbc-slo-test");
+        MetricsReporter metrics = new MetricsReporter(promPgw, jobName);
 
         context.createTable(writeTimeout);
         assertTrue(context.tableExists());

@@ -1,7 +1,7 @@
 name: SLO JDBC
 on:
   push:
-    branches: [master, develop, main]
+    branches: [master, develop, main, ydb-slo-tests]
   pull_request:
     types: [opened, reopened, edited, synchronize]
 
@@ -20,14 +20,16 @@ jobs:
             ydb_port: 2135
             ydb_database: /Root/testdb
             prom_pgw: http://localhost:9091
-            test_duration: 60
+            test_duration: 600
             read_rps: 1000
             write_rps: 100
             read_timeout: 1000
             write_timeout: 1000
+            report_period: 10000
     concurrency:
       group: slo-${{ github.ref }}-${{ matrix.workload }}
       cancel-in-progress: true
+
     steps:
       # 1. Checkout repository
       - name: Checkout repository
@@ -39,6 +41,7 @@ jobs:
         with:
           github_pull_request_number: ${{ github.event.pull_request.number }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          workload_name: ${{ matrix.workload }}  # ← ДОБАВЛЕНО!
           ydb_database_node_count: 5
 
       # 3. Set up JDK 21
@@ -67,7 +70,32 @@ jobs:
             sleep 2
           done
 
-      # 6. Run Simple JDBC Test
+      # 5.5. ← ДОБАВЬТЕ проверку Push Gateway
+      - name: Verify Push Gateway is ready
+        run: |
+          echo "Waiting for Prometheus Push Gateway..."
+          for i in {1..30}; do
+            if curl -sf http://localhost:9091/-/ready > /dev/null 2>&1; then
+              echo "✅ Push Gateway is ready"
+              break
+            fi
+            echo "Attempt $i/30: waiting for Push Gateway..."
+            sleep 2
+          done
+          
+          echo "📊 Push Gateway endpoint accessible:"
+          curl -s http://localhost:9091/metrics | head -5
+
+      # 6. Prepare SLO Database (как в .NET примере)
+      - name: Prepare SLO Database
+        env:
+          YDB_JDBC_URL: jdbc:ydb:grpc://${{ matrix.ydb_host }}:${{ matrix.ydb_port }}${{ matrix.ydb_database }}
+        run: |
+          echo "📊 Creating SLO table..."
+          # Здесь можно вызвать отдельный класс для создания таблицы
+          # или включить это в тест
+
+      # 7. Run Simple JDBC Test
       - name: Run Simple JDBC Test
         env:
           YDB_JDBC_URL: jdbc:ydb:grpc://${{ matrix.ydb_host }}:${{ matrix.ydb_port }}${{ matrix.ydb_database }}
@@ -80,72 +108,38 @@ jobs:
           WRITE_RPS: ${{ matrix.write_rps }}
           READ_TIMEOUT: ${{ matrix.read_timeout }}
           WRITE_TIMEOUT: ${{ matrix.write_timeout }}
+          REPORT_PERIOD: ${{ matrix.report_period }}
+          WORKLOAD_NAME: ${{ matrix.workload }}
         run: |
-          echo "Running JDBC SLO test with URL: $YDB_JDBC_URL"
-          echo "Prometheus Push Gateway: $PROM_PGW"
-          echo "Test parameters: duration=${TEST_DURATION}s, read_rps=${READ_RPS}, write_rps=${WRITE_RPS}"
-          ./mvnw test -pl slo/${{ matrix.workload }} -Dskip.jdbc.tests=false -Dtest=JdbcSloTest
+          echo "🧪 Running JDBC SLO test"
+          echo "   Workload: ${{ matrix.workload }}"
+          echo "   URL: $YDB_JDBC_URL"
+          echo "   Prometheus: $PROM_PGW"
+          echo "   Duration: ${TEST_DURATION}s"
+          echo "   Read RPS: ${READ_RPS}, Write RPS: ${WRITE_RPS}"
+          echo "   Report period: ${REPORT_PERIOD}ms"
+          
+          ./mvnw test -pl slo/${{ matrix.workload }} \
+            -Dskip.jdbc.tests=false \
+            -Dtest=JdbcSloTest
 
-      # 7. Generate Test Summary
-      - name: Generate Test Summary
+      # 8. Verify metrics were pushed
+      - name: Verify metrics in Push Gateway
         if: always()
         run: |
-          echo "## 📊 SLO Test Results - ${{ matrix.workload }}" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📊 Checking Push Gateway metrics..."
+          echo ""
+          echo "=== All metrics ==="
+          curl -s http://localhost:9091/metrics | grep jdbc_test || echo "No jdbc_test metrics found"
           
+          echo ""
+          echo "=== Checking local metrics file ==="
           if [ -f "slo/${{ matrix.workload }}/target/test-metrics.txt" ]; then
-            source slo/${{ matrix.workload }}/target/test-metrics.txt
-          
-            echo "### ✅ Test Execution" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-            echo "| Workload | \`${{ matrix.workload }}\` |" >> $GITHUB_STEP_SUMMARY
-            echo "| YDB Endpoint | \`${{ matrix.ydb_host }}:${{ matrix.ydb_port }}\` |" >> $GITHUB_STEP_SUMMARY
-            echo "| Database | \`${{ matrix.ydb_database }}\` |" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-          
-            echo "### 📈 Performance Metrics" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Metric | Value |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|-------|" >> $GITHUB_STEP_SUMMARY
-            echo "| ✅ Successful Requests | ${SUCCESS_COUNT} |" >> $GITHUB_STEP_SUMMARY
-            echo "| ❌ Failed Requests | ${ERROR_COUNT} |" >> $GITHUB_STEP_SUMMARY
-            echo "| ⏱️ Latency | ${LATENCY_MS} ms |" >> $GITHUB_STEP_SUMMARY
-            echo "| 🔗 Active Connections | ${ACTIVE_CONNECTIONS} |" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-          
-            # Вычисляем success rate
-            TOTAL=$((SUCCESS_COUNT + ERROR_COUNT))
-            if [ $TOTAL -gt 0 ]; then
-              SUCCESS_RATE=$(awk "BEGIN {printf \"%.2f\", ($SUCCESS_COUNT / $TOTAL) * 100}")
-              echo "| 📊 Success Rate | ${SUCCESS_RATE}% |" >> $GITHUB_STEP_SUMMARY
-            fi
-          
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "### 🎯 Test Configuration" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-            echo "| Parameter | Value |" >> $GITHUB_STEP_SUMMARY
-            echo "|-----------|-------|" >> $GITHUB_STEP_SUMMARY
-            echo "| Read RPS | ${{ matrix.read_rps }} |" >> $GITHUB_STEP_SUMMARY
-            echo "| Write RPS | ${{ matrix.write_rps }} |" >> $GITHUB_STEP_SUMMARY
-            echo "| Duration | ${{ matrix.test_duration }}s |" >> $GITHUB_STEP_SUMMARY
-            echo "| Read Timeout | ${{ matrix.read_timeout }}ms |" >> $GITHUB_STEP_SUMMARY
-            echo "| Write Timeout | ${{ matrix.write_timeout }}ms |" >> $GITHUB_STEP_SUMMARY
+            echo "✅ Local metrics file exists:"
+            cat "slo/${{ matrix.workload }}/target/test-metrics.txt"
           else
-            echo "⚠️ Test metrics file not found" >> $GITHUB_STEP_SUMMARY
+            echo "❌ Local metrics file not found"
           fi
-
-      # 8. Upload logs on failure
-      - name: Upload logs on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ matrix.workload }}-test-logs
-          path: |
-            **/target/surefire-reports/
-            **/logs/
-          retention-days: 5
 
       # 9. Store YDB logs
       - name: Store YDB logs
@@ -162,17 +156,13 @@ jobs:
           retention-days: 1
 
   # ========================================
-  # Второй job - публикация отчёта
+  # Job 2: Публикация отчёта
   # ========================================
   publish-slo-report:
     runs-on: ubuntu-latest
     name: Publish YDB SLO Report
-
-    # Запускается только после успешного завершения тестов
     needs: jdbc-slo-test
     if: success()
-
-    # Permissions для комментариев в PR
     permissions:
       contents: read
       pull-requests: write
@@ -183,4 +173,4 @@ jobs:
         uses: ydb-platform/ydb-slo-action/report@53e02500d4a98a6b67d9009bc46e839236f15f81
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_run_id: ${{ github.run_id }}  # ← Используем текущий run_id!
+          github_run_id: ${{ github.run_id }}
