@@ -38,7 +38,6 @@ public class NettyChannelFactory implements ManagedChannelFactory {
     private final boolean useTLS;
     private final byte[] cert;
     private final boolean retryEnabled;
-    private final long connectTimeoutMs;
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
     private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
@@ -49,15 +48,9 @@ public class NettyChannelFactory implements ManagedChannelFactory {
         this.useTLS = builder.getUseTls();
         this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
-        this.connectTimeoutMs = builder.getConnectTimeoutMillis();
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
         this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
         this.initializers = builder.getChannelInitializers();
-    }
-
-    @Override
-    public long getConnectTimeoutMs() {
-        return this.connectTimeoutMs;
     }
 
     @SuppressWarnings("deprecation")

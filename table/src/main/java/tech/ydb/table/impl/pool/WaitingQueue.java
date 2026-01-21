@@ -2,12 +2,10 @@ package tech.ydb.table.impl.pool;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Queue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiConsumer;
 
@@ -55,13 +53,13 @@ public class WaitingQueue<T> implements AutoCloseable {
     private final AtomicInteger queueSize = new AtomicInteger();
 
     /** Queue of waiting acquire requests */
-    private final Queue<CompletableFuture<T>> waitingAcquires = new ConcurrentLinkedQueue<>();
+    private final ConcurrentLinkedDeque<CompletableFuture<T>> waitingAcquires = new ConcurrentLinkedDeque<>();
     /** Size of waiting acquires queue */
     private final AtomicInteger waitingAcqueireCount = new AtomicInteger();
 
     @VisibleForTesting
     WaitingQueue(Handler<T> handler, int maxSize, int waitingsLimit) {
-        Preconditions.checkArgument(maxSize > 0, "WaitingQueue max size (%d) must be positive", maxSize);
+        Preconditions.checkArgument(maxSize > 0, "WaitingQueue max size (%s) must be positive", maxSize);
         Preconditions.checkArgument(handler != null, "WaitingQueue handler must be not null");
 
         this.handler = handler;
@@ -267,23 +265,22 @@ public class WaitingQueue<T> implements AutoCloseable {
     }
 
     private void checkNextWaitingAcquire() {
-        if (stopped || waitingAcquires.isEmpty()) {
+        if (stopped) {
             return;
         }
 
-        // Try to create new pending request
-        CompletableFuture<T> pending = new CompletableFuture<>();
-        if (tryToCreateNewPending(pending)) {
-            pending.whenComplete((object, th) -> {
-                if (th != null) {
-                    checkNextWaitingAcquire();
-                }
-                if (object != null) {
-                    if (!tryToCompleteWaiting(object)) {
-                        idle.offerFirst(object);
-                    }
-                }
-            });
+        CompletableFuture<T> next = waitingAcquires.poll();
+        while (next != null && next.isDone()) {
+            waitingAcqueireCount.decrementAndGet();
+            next = waitingAcquires.poll();
+        }
+
+        if (next != null) {
+            if (tryToCreateNewPending(next)) {
+                waitingAcqueireCount.decrementAndGet();
+            } else {
+                waitingAcquires.offerFirst(next);
+            }
         }
     }
 
@@ -343,15 +340,19 @@ public class WaitingQueue<T> implements AutoCloseable {
             if (th != null) {
                 queueSize.decrementAndGet();
                 acquire.completeExceptionally(th);
+                checkNextWaitingAcquire();
                 return;
             }
 
-            if (!acquire.isDone() && safeAcquireObject(acquire, object)) {
+            if (safeAcquireObject(acquire, object)) {
                 return;
             }
 
-            // If acquire future is already canceled, put new object to hot queue
-            idle.offerFirst(object); // ConcurrentLinkedQueue always return true
+            // If acquire future is already canceled, try to complete waiting or put to hot queue
+            if (!tryToCompleteWaiting(object)) {
+                idle.offerFirst(object); // ConcurrentLinkedQueue always return true
+            }
+
             if (stopped) {
                 clear();
             }

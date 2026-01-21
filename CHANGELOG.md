@@ -1,3 +1,21 @@
+## 2.3.29 ##
+* Table: Fixed data race in session pool
+* Topic: Added an message decoder with limits of memory consumption
+
+## 2.3.28 ##
+* Table: Fixed session creation loop
+* Core: Added validation of grpc context deadline before call execution
+
+## 2.3.27 ##
+* Topic: Prefer to use the ready channels for commitOffset method
+* Topic: Added option includeStats to DescribeTopicSettings
+* Tests: Added option to fail integration tests if test database is unavailable
+
+## 2.3.26 ##
+* Core: Bump org.bouncycastle:bcpkix-jdk18on from 1.78.1 to 1.79 by dependbot
+* Query: Added support of SnapshotRW transaction level
+* Query: Fixed NPE in DataQueryResults::getQueryStats
+
 ## 2.3.25 ##
 * Core: Removed usage of default deadline for long grpc streams
 * Query: Updated QueryStats class in QueryClient

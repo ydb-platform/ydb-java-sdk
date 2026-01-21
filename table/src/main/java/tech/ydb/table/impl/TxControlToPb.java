@@ -61,9 +61,11 @@ public class TxControlToPb {
                 return TS_ONLINE;
             case ONLINE_INCONSISTENT_RO:
                 return TS_ONLINE_INCONSISTENT;
+
             case NONE:
+            case SNAPSHOT_RW:
             default:
-                return null;
+                throw new IllegalArgumentException("Tx mode " + tx + " is not supported in TableService");
         }
     }
 }

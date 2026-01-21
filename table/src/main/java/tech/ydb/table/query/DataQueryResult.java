@@ -102,7 +102,7 @@ public class DataQueryResult {
     }
 
     public QueryStats getQueryStats() {
-        return new QueryStats(queryStats);
+        return queryStats == null ? null : new QueryStats(queryStats);
     }
 
     public YdbQueryStats.QueryStats getRawQueryStats() {

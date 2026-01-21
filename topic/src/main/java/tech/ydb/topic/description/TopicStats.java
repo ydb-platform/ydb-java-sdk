@@ -6,6 +6,9 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import tech.ydb.core.utils.ProtobufUtils;
+import tech.ydb.proto.topic.YdbTopic;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -16,6 +19,18 @@ public class TopicStats {
     private final Duration maxWriteTimeLag;
     private final MultipleWindowsStat bytesWritten;
 
+    public TopicStats(YdbTopic.DescribeTopicResult.TopicStats stats) {
+        this.storeSizeBytes = stats.getStoreSizeBytes();
+        this.minLastWriteTime = ProtobufUtils.protoToInstant(stats.getMinLastWriteTime());
+        this.maxWriteTimeLag = ProtobufUtils.protoToDuration(stats.getMaxWriteTimeLag());
+        this.bytesWritten = new MultipleWindowsStat(
+                stats.getBytesWritten().getPerMinute(),
+                stats.getBytesWritten().getPerHour(),
+                stats.getBytesWritten().getPerDay()
+        );
+    }
+
+    @Deprecated
     private TopicStats(Builder builder) {
         this.storeSizeBytes = builder.storeSizeBytes;
         this.minLastWriteTime = builder.minLastWriteTime;
@@ -40,6 +55,7 @@ public class TopicStats {
         return bytesWritten;
     }
 
+    @Deprecated
     public static TopicDescription.Builder newBuilder() {
         return new TopicDescription.Builder();
     }
@@ -47,6 +63,7 @@ public class TopicStats {
     /**
      * BUILDER
      */
+    @Deprecated
     public static class Builder {
         private long storeSizeBytes;
         private Instant minLastWriteTime;

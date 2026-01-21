@@ -53,12 +53,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.channelFactory = builder.getManagedChannelFactory();
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(
-                scheduler,
-                Collections.singletonList(discoveryEndpoint),
-                channelFactory,
-                builder
-        );
+        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(discoveryEndpoint),
+                channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discovery = new YdbDiscovery(new DiscoveryHandler(), scheduler, database, discoveryTimeout);
@@ -165,14 +161,14 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
-        EndpointRecord endpoint = endpointPool.getEndpoint(settings);
+        EndpointRecord endpoint = endpointPool.getEndpoint(channelPool.getReadyEndpoints(), settings);
         if (endpoint == null) {
             long timeout = -1;
             if (settings.getDeadlineAfter() != 0) {
                 timeout = settings.getDeadlineAfter() - System.nanoTime();
             }
             discovery.waitReady(timeout);
-            endpoint = endpointPool.getEndpoint(settings);
+            endpoint = endpointPool.getEndpoint(Collections.emptySet(), settings);
         }
         return channelPool.getChannel(endpoint);
     }

@@ -14,10 +14,11 @@ public class Batch {
     private final List<MessageImpl> messages = new ArrayList<>();
     // Completes when batch is read
     private final CompletableFuture<Void> readFuture = new CompletableFuture<>();
-    private boolean decompressed = false;
+    private volatile boolean isReady = false;
 
     public Batch(BatchMeta meta) {
         this.meta = meta;
+        this.isReady = meta.getCodec() == Codec.RAW;
     }
 
     public List<MessageImpl> getMessages() {
@@ -36,16 +37,16 @@ public class Batch {
         return readFuture;
     }
 
-    public Codec getCodec() {
+    public int getCodec() {
         return meta.getCodec();
     }
 
-    public boolean isDecompressed() {
-        return decompressed;
+    public boolean isReady() {
+        return isReady;
     }
 
-    public void setDecompressed(boolean decompressed) {
-        this.decompressed = decompressed;
+    public void markAsReady() {
+        this.isReady = true;
     }
 
     long getFirstCommitOffsetFrom() {

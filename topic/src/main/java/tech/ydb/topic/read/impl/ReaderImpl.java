@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +27,7 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.read.PartitionOffsets;
@@ -49,16 +52,18 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     private final Executor decompressionExecutor;
     private final ExecutorService defaultDecompressionExecutorService;
     private final AtomicReference<CompletableFuture<Void>> initResultFutureRef = new AtomicReference<>(null);
+    private final CodecRegistry codecRegistry;
 
     // Every reading stream has a sequential number (for debug purposes)
     private final AtomicLong seqNumberCounter = new AtomicLong(0);
     private final String consumerName;
 
-    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings) {
+    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
         super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
-        this.session = new ReadSessionImpl();
+        this.codecRegistry = codecRegistry;
+
         if (settings.getDecompressionExecutor() != null) {
             this.defaultDecompressionExecutorService = null;
             this.decompressionExecutor = settings.getDecompressionExecutor();
@@ -66,6 +71,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             this.defaultDecompressionExecutorService = Executors.newFixedThreadPool(DEFAULT_DECOMPRESSION_THREAD_COUNT);
             this.decompressionExecutor = defaultDecompressionExecutorService;
         }
+        this.session = new ReadSessionImpl(this.decompressionExecutor);
+
         StringBuilder message = new StringBuilder("Reader");
         if (settings.getReaderName() != null) {
             message.append(" \"").append(settings.getReaderName()).append("\"");
@@ -123,7 +130,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     @Override
     protected void onStreamReconnect() {
-        session = new ReadSessionImpl();
+        session = new ReadSessionImpl(decompressionExecutor);
         session.startAndInitialize();
     }
 
@@ -212,14 +219,16 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         return topicRpc.updateOffsetsInTransaction(requestBuilder.build(), grpcRequestSettings);
     }
 
-    protected class ReadSessionImpl extends ReadSession {
+    class ReadSessionImpl extends ReadSession {
         protected String sessionId;
         // Total size to request with next ReadRequest.
         // Used to group several ReadResponses in one on high rps
         private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
+        private final MessageDecoder decoder;
         private final Map<Long, PartitionSessionImpl> partitionSessions = new ConcurrentHashMap<>();
-        private ReadSessionImpl() {
+        private ReadSessionImpl(Executor decompressionExecutor) {
             super(topicRpc, id + '.' + seqNumberCounter.incrementAndGet());
+            this.decoder = new MessageDecoder(settings.getMaxMemoryUsageBytes(), decompressionExecutor, codecRegistry);
         }
 
         @Override
@@ -281,14 +290,14 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                         partitionSession.getFullId());
                 return;
             }
-            if (!partitionSessions.containsKey(partitionSession.getId())) {
+            if (!partitionSessions.containsKey(partitionSession.getSessionId().getId())) {
                 logger.info("[{}] Need to send StartPartitionSessionResponse, but have no such active partition " +
                         "session anymore", partitionSession.getFullId());
                 return;
             }
             YdbTopic.StreamReadMessage.StartPartitionSessionResponse.Builder responseBuilder =
                     YdbTopic.StreamReadMessage.StartPartitionSessionResponse.newBuilder()
-                            .setPartitionSessionId(partitionSession.getId());
+                            .setPartitionSessionId(partitionSession.getSessionId().getId());
             Long userDefinedReadOffset = null;
             Long userDefinedCommitOffset = null;
             if (startSettings != null) {
@@ -374,7 +383,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
         private void closePartitionSession(PartitionSessionImpl partitionSession) {
             partitionSession.shutdown();
-            handleClosePartitionSession(partitionSession.getSessionInfo());
+            handleClosePartitionSession(partitionSession.getSessionId());
         }
 
         private void onInitResponse(YdbTopic.StreamReadMessage.InitResponse response) {
@@ -393,31 +402,30 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         private void onStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
             long partitionSessionId = request.getPartitionSession().getPartitionSessionId();
             long partitionId = request.getPartitionSession().getPartitionId();
-            String partitionSessionFullId = streamId + '/' + partitionSessionId + "-p" + partitionId;
+            String fullId = streamId + '/' + partitionSessionId + "-p" + partitionId;
             logger.info("[{}] Received StartPartitionSessionRequest for Topic \"{}\" and Consumer \"{}\". " +
                             "Partition session {} (partition {}) with committedOffset {} and partitionOffsets [{}-{})",
-                    partitionSessionFullId, request.getPartitionSession().getPath(), consumerName,
+                    fullId, request.getPartitionSession().getPath(), consumerName,
                     partitionSessionId, partitionId, request.getCommittedOffset(),
                     request.getPartitionOffsets().getStart(), request.getPartitionOffsets().getEnd());
 
-            PartitionSessionImpl partitionSession = PartitionSessionImpl.newBuilder()
-                    .setId(partitionSessionId)
-                    .setMaxBatchSize(settings.getMaxBatchSize())
-                    .setFullId(partitionSessionFullId)
-                    .setTopicPath(request.getPartitionSession().getPath())
-                    .setConsumerName(consumerName)
-                    .setPartitionId(partitionId)
-                    .setCommittedOffset(request.getCommittedOffset())
-                    .setPartitionOffsets(new OffsetsRangeImpl(request.getPartitionOffsets().getStart(),
-                            request.getPartitionOffsets().getEnd()))
-                    .setDecompressionExecutor(decompressionExecutor)
-                    .setDataEventCallback(ReaderImpl.this::handleDataReceivedEvent)
-                    .setCommitFunction((offsets) -> sendCommitOffsetRequest(partitionSessionId, partitionId, offsets))
-                    .build();
-            partitionSessions.put(partitionSession.getId(), partitionSession);
+            PartitionSessionImpl partSession = new PartitionSessionImpl(request, fullId, settings.getMaxBatchSize(),
+                    consumerName, decoder) {
+                @Override
+                public void commitRanges(List<OffsetsRange> offsets) {
+                    sendCommitOffsetRequest(partitionSessionId, partitionId, offsets);
+                }
 
-            handleStartPartitionSessionRequest(request, partitionSession.getSessionInfo(),
-                    (settings) -> sendStartPartitionSessionResponse(partitionSession, settings));
+                @Override
+                public CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
+                    return ReaderImpl.this.handleDataReceivedEvent(event);
+                }
+            };
+
+            partitionSessions.put(partSession.getSessionId().getId(), partSession);
+
+            handleStartPartitionSessionRequest(request, partSession.getSessionId(),
+                    (settings) -> sendStartPartitionSessionResponse(partSession, settings));
         }
 
         protected void onStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {
@@ -425,7 +433,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 PartitionSessionImpl partitionSession = partitionSessions.get(request.getPartitionSessionId());
                 if (partitionSession != null) {
                     logger.info("[{}] Received graceful StopPartitionSessionRequest", partitionSession.getFullId());
-                    handleStopPartitionSession(request, partitionSession.getSessionInfo(),
+                    handleStopPartitionSession(request, partitionSession.getSessionId(),
                             () -> sendStopPartitionSessionResponse(request.getPartitionSessionId()));
                 } else {
                     logger.error("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
@@ -492,7 +500,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     partitionSession.handleCommitResponse(partitionCommittedOffset.getCommittedOffset());
                     // Handling onCommitResponse callback
                     handleCommitResponse(partitionCommittedOffset.getCommittedOffset(),
-                            partitionSession.getSessionInfo());
+                            partitionSession.getSessionId());
                 } else {
                     logger.info("[{}] Received CommitOffsetResponse for unknown (most likely already closed) " +
                                     "partition session with id={}", streamId,
@@ -507,7 +515,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             logger.info("[{}] Received PartitionSessionStatusResponse: partition session {} (partition {})." +
                             " Partition offsets: [{}, {}). Committed offset: {}", streamId,
                     response.getPartitionSessionId(),
-                    partitionSession == null ? "unknown" : partitionSession.getPartitionId(),
+                    partitionSession == null ? "unknown" : partitionSession.getSessionId().getPartitionId(),
                     response.getPartitionOffsets().getStart(), response.getPartitionOffsets().getEnd(),
                     response.getCommittedOffset());
         }

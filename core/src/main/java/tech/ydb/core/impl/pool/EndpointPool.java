@@ -5,9 +5,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -50,12 +52,13 @@ public final class EndpointPool {
     }
 
     @Nullable
-    public EndpointRecord getEndpoint(GrpcRequestSettings settings) {
+    public EndpointRecord getEndpoint(Set<String> readyEnpoints, GrpcRequestSettings settings) {
+        Integer nodeId = settings.getPreferredNodeID();
+        boolean directMode = settings.isDirectMode();
+        boolean prefferReady = settings.isPreferReadyChannel();
+
         recordsLock.readLock().lock();
         try {
-            Integer nodeId = settings.getPreferredNodeID();
-            boolean directMode = settings.isDirectMode();
-
             if (nodeId != null) {
                 PriorityEndpoint knownEndpoint = recordsByNodeId.get(nodeId);
                 if (knownEndpoint != null) {
@@ -65,17 +68,32 @@ public final class EndpointPool {
                     throw new UnexpectedResultException("Node " + nodeId + " not found", NODE_NOT_FOUND_ERROR_CODE);
                 }
             }
+
             if (directMode) {
                 throw new UnexpectedResultException("Cannot use direct mode without NodeId", DIRECT_REQUEST_ERROR_CODE);
             }
 
-            if (bestEndpointsCount > 0) {
-                // returns value in range [0, n)
-                int idx = ThreadLocalRandom.current().nextInt(bestEndpointsCount);
-                return records.get(idx).record;
-            } else {
+            if (bestEndpointsCount <= 0) {
+                // pool is not ready
                 return null;
             }
+
+            if (prefferReady && !readyEnpoints.isEmpty()) {
+                List<PriorityEndpoint> ready = readyEnpoints.stream()
+                        .map(recordsByEndpoint::get)
+                        .filter(pr -> pr != null && !pr.isPessimized())
+                        .collect(Collectors.toList());
+
+                if (!ready.isEmpty()) {
+                    // returns value in range [0, n)
+                    int idx = ThreadLocalRandom.current().nextInt(ready.size());
+                    return ready.get(idx).record;
+                }
+            }
+
+            // returns value in range [0, n)
+            int idx = ThreadLocalRandom.current().nextInt(bestEndpointsCount);
+            return records.get(idx).record;
         } finally {
             recordsLock.readLock().unlock();
         }

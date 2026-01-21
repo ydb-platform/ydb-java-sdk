@@ -5,8 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.security.cert.CertificateException;
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 import com.google.common.io.ByteStreams;
 import io.grpc.ClientInterceptor;
@@ -79,7 +77,6 @@ public class DefaultChannelFactoryTest {
         ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
         channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
 
-        Assert.assertEquals(30_000l, factory.getConnectTimeoutMs());
         Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
@@ -100,13 +97,11 @@ public class DefaultChannelFactoryTest {
     public void defaultSslFactory() {
         GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
                 .withSecureConnection()
-                .withGrpcRetry(true)
-                .withConnectTimeout(Duration.ofMinutes(1));
+                .withGrpcRetry(true);
 
         ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
         channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
 
-        Assert.assertEquals(60000l, factory.getConnectTimeoutMs());
         Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
@@ -129,7 +124,7 @@ public class DefaultChannelFactoryTest {
                 .withUseDefaultGrpcResolver(true);
 
         ManagedChannelFactory factory = ShadedNettyChannelFactory
-                .withInterceptor(ForwardingChannelBuilder2::enableFullStreamDecompression)
+                .withInterceptor(ForwardingChannelBuilder2::useTransportSecurity)
                 .buildFactory(builder);
 
         channelStaticMock.verify(FOR_ADDRESS, Mockito.times(0));
@@ -146,7 +141,7 @@ public class DefaultChannelFactoryTest {
         Mockito.verify(channelBuilderMock, Mockito.times(1))
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         Mockito.verify(channelBuilderMock, Mockito.times(1)).withOption(ChannelOption.TCP_NODELAY, Boolean.TRUE);
-        Mockito.verify(channelBuilderMock, Mockito.times(1)).enableFullStreamDecompression();
+        Mockito.verify(channelBuilderMock, Mockito.times(1)).useTransportSecurity();
     }
 
     @Test
@@ -186,12 +181,10 @@ public class DefaultChannelFactoryTest {
 
             GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
                     .withSecureConnection(baos.toByteArray())
-                    .withGrpcRetry(false)
-                    .withConnectTimeout(4, TimeUnit.SECONDS);
+                    .withGrpcRetry(false);
 
             ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
 
-            Assert.assertEquals(4000l, factory.getConnectTimeoutMs());
             Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
 
         } finally {
