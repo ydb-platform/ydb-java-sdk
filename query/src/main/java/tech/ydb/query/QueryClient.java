@@ -12,6 +12,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.query.impl.QueryClientImpl;
 import tech.ydb.query.impl.TableClientImpl;
+import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
 
 /**
@@ -38,6 +39,8 @@ public interface QueryClient extends AutoCloseable {
     CompletableFuture<Result<QuerySession>> createSession(Duration duration);
 
     ScheduledExecutorService getScheduler();
+
+    SessionPoolStats getSessionPoolStats();
 
     @Override
     void close();
