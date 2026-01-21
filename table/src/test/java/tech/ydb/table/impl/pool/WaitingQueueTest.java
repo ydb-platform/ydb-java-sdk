@@ -579,14 +579,16 @@ public class WaitingQueueTest extends FutureHelper {
     @Test
     public void checkWaitingAfterDeleteTest() {
         ResourceHandler rs = new ResourceHandler();
-        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 3);
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 5);
 
         CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> w2 = pendingFuture(acquire(queue));
         CompletableFuture<Resource> w3 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w4 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w5 = pendingFuture(acquire(queue));
 
-        check(queue).queueSize(1).idleSize(0).waitingsCount(3);
+        check(queue).queueSize(1).idleSize(0).waitingsCount(5);
         rs.completeNext();
         check(rs).requestsCount(0).activeCount(1);
 
@@ -596,41 +598,46 @@ public class WaitingQueueTest extends FutureHelper {
         queue.delete(r1);
 
         check(rs).requestsCount(1).activeCount(0);
-        check(queue).queueSize(1).idleSize(0).waitingsCount(3);
+        check(queue).queueSize(1).idleSize(0).waitingsCount(4);
         futureIsPending(w1);
         futureIsPending(w2);
         futureIsPending(w3);
+        futureIsPending(w4);
 
         rs.completeNext();
         check(rs).requestsCount(0).activeCount(1);
-        check(queue).queueSize(1).idleSize(0).waitingsCount(2);
+        check(queue).queueSize(1).idleSize(0).waitingsCount(4);
 
         Resource r2 = pendingIsReady(w1);
         futureIsPending(w2);
+        futureIsPending(w3);
+        w3.cancel(true);
 
         Assert.assertNotEquals("After deleting waiting got different resource ", r1, r2);
 
         queue.delete(r2);
         check(rs).requestsCount(1).activeCount(0);
 
-        // If pending completed with exception - queue must repeat it
+        // If pending completed with exception - next waiting got that trouble
         rs.completeNextWithException(new RuntimeException("Trouble"));
+        futureIsExceptionally(w2, "Trouble");
+
         check(rs).requestsCount(1).activeCount(0);
 
         rs.completeNext();
 
-        Resource r3 = pendingIsReady(w2);
-        futureIsPending(w3);
+        Resource r4 = pendingIsReady(w4);
+        futureIsPending(w5);
 
-        Assert.assertNotEquals("After deleting waiting got different resource ", r2, r3);
+        Assert.assertNotEquals("After deleting waiting got different resource ", r2, r4);
         check(rs).requestsCount(0).activeCount(1);
         check(queue).queueSize(1).idleSize(0).waitingsCount(1);
 
-        queue.delete(r3);
+        queue.delete(r4);
 
         // After canceling of pending waiting queue will move resource to idle
         check(rs).requestsCount(1).activeCount(0);
-        w3.cancel(true);
+        w5.cancel(true);
         rs.completeNext();
 
         check(rs).requestsCount(0).activeCount(1);
@@ -660,14 +667,17 @@ public class WaitingQueueTest extends FutureHelper {
         queue.release(r1);
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void validateQueueMaxSize() {
-        new WaitingQueue<>(new ResourceHandler(), 0, 3);
-    }
+    @Test
+    public void validateQueueArguments() {
+        IllegalArgumentException ex1 = Assert.assertThrows("Invalid max size expected", IllegalArgumentException.class,
+                () -> new WaitingQueue<>(new ResourceHandler(), 0, 3)
+        );
+        Assert.assertEquals("WaitingQueue max size (0) must be positive", ex1.getMessage());
 
-    @Test(expected = IllegalArgumentException.class)
-    public void validateQueueHandler() {
-        new WaitingQueue<>(null, 1);
+        IllegalArgumentException ex2 = Assert.assertThrows("Invalid handler expected", IllegalArgumentException.class,
+                () -> new WaitingQueue<>(null, 1, 3)
+        );
+        Assert.assertEquals("WaitingQueue handler must be not null", ex2.getMessage());
     }
 
     @Test

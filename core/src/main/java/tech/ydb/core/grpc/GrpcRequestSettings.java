@@ -17,6 +17,7 @@ public class GrpcRequestSettings {
     private final long deadlineAfter;
     private final Integer preferredNodeID;
     private final boolean directMode;
+    private final boolean prefferReadyChannel;
     private final boolean deadlineDisabled;
     private final String traceId;
     private final List<String> clientCapabilities;
@@ -28,6 +29,7 @@ public class GrpcRequestSettings {
         this.deadlineAfter = builder.deadlineAfter;
         this.preferredNodeID = builder.preferredNodeID;
         this.directMode = builder.directMode;
+        this.prefferReadyChannel = builder.preferReadyChannel;
         this.deadlineDisabled = builder.deadlineDisabled;
         this.traceId = builder.traceId;
         this.clientCapabilities = builder.clientCapabilities;
@@ -56,6 +58,10 @@ public class GrpcRequestSettings {
         return directMode;
     }
 
+    public boolean isPreferReadyChannel() {
+        return prefferReadyChannel;
+    }
+
     public String getTraceId() {
         return traceId;
     }
@@ -78,6 +84,7 @@ public class GrpcRequestSettings {
 
     public static final class Builder {
         private long deadlineAfter = 0L;
+        private boolean preferReadyChannel = false;
         private boolean deadlineDisabled = false;
         private Integer preferredNodeID = null;
         private boolean directMode = false;
@@ -135,6 +142,11 @@ public class GrpcRequestSettings {
 
         public Builder withDirectMode(boolean directMode) {
             this.directMode = directMode;
+            return this;
+        }
+
+        public Builder withPreferReadyChannel(boolean preferReady) {
+            this.preferReadyChannel = preferReady;
             return this;
         }
 
