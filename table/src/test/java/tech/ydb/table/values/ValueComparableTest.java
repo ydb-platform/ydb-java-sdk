@@ -178,6 +178,7 @@ public class ValueComparableTest {
         assertGreater(list8, list5); // ('Z') > ('A','Z')
 
         assertNpe("Cannot compare with null value", list1, null);
+        assertNpe("Cannot compare value List[1, 2] with NULL", list1, list1.getType().makeOptional().emptyValue());
         assertIllegalArgument("Cannot compare value Int32 with Text", list1, list5);
         assertIllegalArgument("Cannot compare value Int32 with Text", list2, list5);
     }
@@ -198,6 +199,7 @@ public class ValueComparableTest {
         assertGreater(s3, s1);
 
         assertNpe("Cannot compare with null value", s1, null);
+        assertNpe("Cannot compare value Struct[1, 2] with NULL", s1, s1.getType().makeOptional().emptyValue());
         assertIllegalArgument("Cannot compare value Struct<'a': Int32, 'b': Int32> with Struct<'a': Int32, 'b': Text>",
                 s1, s4);
         assertIllegalArgument("Cannot compare value Struct<'a': Int32, 'b': Int32> with Struct<'a': Int32>", s1, s5);
@@ -233,6 +235,9 @@ public class ValueComparableTest {
 
         assertLess(d1, d6); // {"a": 1} < {"a": 1, "b": 2} (prefix case)
         assertGreater(d6, d1); // {"a": 1, "b": 2} > {"a": 1}
+
+        assertNpe("Cannot compare with null value", d1, null);
+        assertNpe("Cannot compare value Dict[\"a\": 1] with NULL", d1, d1.getType().makeOptional().emptyValue());
     }
 
     @Test
@@ -275,6 +280,7 @@ public class ValueComparableTest {
         assertEquals(t1.makeOptional(), t3);
 
         assertNpe("Cannot compare with null value", t1, null);
+        assertNpe("Cannot compare value Tuple[1, 2] with NULL", t1, t1.getType().makeOptional().emptyValue());
         assertIllegalArgument("Cannot compare value Tuple<Int32> with Tuple<Int32, Int32>", t4, t1);
         assertIllegalArgument("Cannot compare value Tuple<Int32, Uint32> with Tuple<Int32, Int32>", t5, t1);
     }
@@ -372,9 +378,11 @@ public class ValueComparableTest {
 
         // type bounds
         assertLess(t1.getNegInf(), t2.newValue("-999999999999999999999.999999999"));
+        assertGreater(t2.newValue("-999999999999999999999.999999999"), t1.getNegInf());
         assertEquals(t1.getNegInf(), t2.newValue("-1000000000000000000000"));
 
         assertGreater(t1.getInf(), t2.newValue("999999999999999999999.999999999"));
+        assertLess(t2.newValue("-999999999999999999999.999999999"), t1.getInf());
         assertEquals(t1.getInf(), t2.newValue("1000000000000000000000"));
 
         assertGreater(t1.getNaN(), t2.newValue("999999999999999999999.999999999"));
