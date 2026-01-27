@@ -1,4 +1,4 @@
-package tech.ydb.query.script;
+package tech.ydb.query.script.impl;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -22,9 +22,10 @@ public interface ScriptRpc {
      * Retrieves a previously created operation by its ID.
      *
      * @param operationId ID of the operation to fetch
+     * @param settings RPC request settings including timeout, trace ID, etc.
      * @return future resolving to the operation metadata and status
      */
-    CompletableFuture<Operation<Status>> getOperation(String operationId);
+    CompletableFuture<Operation<Status>> getOperation(String operationId, GrpcRequestSettings settings);
 
     /**
      * Executes a script as a long-running operation.

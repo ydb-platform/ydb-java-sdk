@@ -1,5 +1,7 @@
 package tech.ydb.query.script.settings;
 
+import com.google.common.base.Preconditions;
+
 import tech.ydb.core.settings.BaseRequestSettings;
 
 /**
@@ -14,18 +16,18 @@ import tech.ydb.core.settings.BaseRequestSettings;
  */
 public class FetchScriptSettings extends BaseRequestSettings {
     private final int rowsLimit;
-    private final long setResultSetIndex;
+    private final long resultSetIndex;
 
     private FetchScriptSettings(Builder builder) {
         super(builder);
         this.rowsLimit = builder.rowsLimit;
-        this.setResultSetIndex = builder.setResultSetIndex;
+        this.resultSetIndex = builder.resultSetIndex;
     }
 
     /**
      * Returns the maximum number of rows to retrieve in this fetch request.
      *
-     * <p>If not set , the server will use its default limit.</p>
+     * <p>If not set, the server will use its default limit.</p>
      *
      * @return the maximum number of rows to fetch
      */
@@ -41,12 +43,13 @@ public class FetchScriptSettings extends BaseRequestSettings {
      *
      * @return the result set index
      */
-    public long getSetResultSetIndex() {
-        return setResultSetIndex;
+    public long getResultSetIndex() {
+        return resultSetIndex;
     }
 
     /**
      * Creates a new builder configured for asynchronous operation requests.
+     * @return a new builder of FetchScriptSettings
      */
     public static Builder newBuilder() {
         return new Builder();
@@ -55,7 +58,7 @@ public class FetchScriptSettings extends BaseRequestSettings {
     public static class Builder extends BaseBuilder<Builder> {
 
         private int rowsLimit = 0;
-        private long setResultSetIndex = 0;
+        private long resultSetIndex = 0;
 
         @Override
         public FetchScriptSettings build() {
@@ -63,12 +66,14 @@ public class FetchScriptSettings extends BaseRequestSettings {
         }
 
         public Builder withRowsLimit(int rowsLimit) {
+            Preconditions.checkArgument(rowsLimit >= 0, "rowsLimit must be non-negative");
             this.rowsLimit = rowsLimit;
             return this;
         }
 
-        public Builder withSetResultSetIndex(long setResultSetIndex) {
-            this.setResultSetIndex = setResultSetIndex;
+        public Builder withResultSetIndex(long resultSetIndex) {
+            Preconditions.checkArgument(rowsLimit >= 0, "resultSetIndex must be non-negative");
+            this.resultSetIndex = resultSetIndex;
             return this;
         }
 

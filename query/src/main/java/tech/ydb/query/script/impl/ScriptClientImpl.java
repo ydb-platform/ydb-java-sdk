@@ -7,17 +7,15 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.annotation.WillNotClose;
 
-import com.google.protobuf.Duration;
-
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.script.ScriptClient;
-import tech.ydb.query.script.ScriptRpc;
 import tech.ydb.query.script.result.ScriptResultPart;
 import tech.ydb.query.script.settings.ExecuteScriptSettings;
 import tech.ydb.query.script.settings.FetchScriptSettings;
@@ -48,7 +46,8 @@ public class ScriptClientImpl implements ScriptClient {
 
     @Override
     public CompletableFuture<Operation<Status>> findQueryScript(String operationId, FindScriptSettings settings) {
-        return scriptRpc.getOperation(operationId);
+        GrpcRequestSettings options = makeGrpcRequestSettings(settings);
+        return scriptRpc.getOperation(operationId, options);
     }
 
     @Override
@@ -63,9 +62,8 @@ public class ScriptClientImpl implements ScriptClient {
                         .setText(query)
                         .build());
 
-        java.time.Duration ttl = settings.getTtl();
-        if (ttl != null) {
-            request.setResultsTtl(Duration.newBuilder().setNanos(settings.getTtl().getNano()));
+        if (settings.getTtl() != null) {
+            request.setResultsTtl(ProtobufUtils.durationToProto(settings.getTtl()));
         }
 
         String resourcePool = settings.getResourcePool();
@@ -74,9 +72,7 @@ public class ScriptClientImpl implements ScriptClient {
         }
 
         request.putAllParameters(params.toPb());
-
         GrpcRequestSettings options = makeGrpcRequestSettings(settings);
-
         return scriptRpc.executeScript(request.build(), options);
     }
 
@@ -96,8 +92,8 @@ public class ScriptClientImpl implements ScriptClient {
 
         requestBuilder.setOperationId(operation.getId());
 
-        if (settings.getSetResultSetIndex() >= 0) {
-            requestBuilder.setResultSetIndex(settings.getSetResultSetIndex());
+        if (settings.getResultSetIndex() >= 0) {
+            requestBuilder.setResultSetIndex(settings.getResultSetIndex());
         }
 
         GrpcRequestSettings options = makeGrpcRequestSettings(settings);

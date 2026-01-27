@@ -52,15 +52,16 @@ public class ScriptExampleTest {
     private static ScriptClient scriptClient;
 
     // Create type for struct of series
-    StructType seriesType = StructType.of(
+    private static final StructType SERIES_TYPE = StructType.of(
             "series_id", PrimitiveType.Uint64,
             "title", PrimitiveType.Text,
             "release_date", PrimitiveType.Date,
             "series_info", PrimitiveType.Text
     );
+
     // Create and fill list of series
-    ListValue seriesData = ListType.of(seriesType).newValue(
-            TestExampleData.SERIES.stream().map(series -> seriesType.newValue(
+    private static final ListValue SERIES = ListType.of(SERIES_TYPE).newValue(
+            TestExampleData.SERIES.stream().map(series -> SERIES_TYPE.newValue(
                     "series_id", PrimitiveValue.newUint64(series.seriesID()),
                     "title", PrimitiveValue.newText(series.title()),
                     "series_info", PrimitiveValue.newText(series.seriesInfo()),
@@ -69,16 +70,17 @@ public class ScriptExampleTest {
     );
 
     // Create type for struct of season
-    StructType seasonType = StructType.of(
+    private static final StructType SEASON_TYPE = StructType.of(
             "series_id", PrimitiveType.Uint64,
             "season_id", PrimitiveType.Uint64,
             "title", PrimitiveType.Text,
             "first_aired", PrimitiveType.Date,
             "last_aired", PrimitiveType.Date
     );
+
     // Create and fill list of seasons
-    ListValue seasonsData = ListType.of(seasonType).newValue(
-            TestExampleData.SEASONS.stream().map(season -> seasonType.newValue(
+    private static final ListValue SEASONS = ListType.of(SEASON_TYPE).newValue(
+            TestExampleData.SEASONS.stream().map(season -> SEASON_TYPE.newValue(
                     "series_id", PrimitiveValue.newUint64(season.seriesID()),
                     "season_id", PrimitiveValue.newUint64(season.seasonID()),
                     "title", PrimitiveValue.newText(season.title()),
@@ -181,7 +183,7 @@ public class ScriptExampleTest {
                 session -> QueryReader.readFrom(session.createQuery(query, TxMode.SERIALIZABLE_RW))
         ).join();
 
-        // Check that table exists and contains no data
+        // Check that the query fails because the target table was not created
         Assert.assertFalse(result.isSuccess());
     }
 
@@ -219,7 +221,7 @@ public class ScriptExampleTest {
                                 + "                        >>;"
                                 + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
                                 + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);",
-                        Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings)
+                        Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings)
                 .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 1))
                 .join();
 
@@ -278,7 +280,7 @@ public class ScriptExampleTest {
                         + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
                         + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
                         + "SELECT season_id FROM seasons where series_id = 1 order by series_id;",
-                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
+                Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings).join();
 
 
         Operation<Status> operation1 = scriptClient.findQueryScript(operation.getId(), FindScriptSettings.newBuilder().build()).join();
@@ -323,13 +325,13 @@ public class ScriptExampleTest {
                         + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
                         + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
                         + "SELECT season_id FROM seasons where series_id = 1 order by series_id;",
-                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
+                Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings).join();
 
         scriptClient.fetchQueryScriptStatus(operation, 1).join();
 
         FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(1)
-                .withSetResultSetIndex(0)
+                .withResultSetIndex(0)
                 .build();
 
         Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings1)
@@ -339,7 +341,7 @@ public class ScriptExampleTest {
 
         FetchScriptSettings fetchScriptSettings2 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(1)
-                .withSetResultSetIndex(resultPartResult.getValue().getResultSetIndex())
+                .withResultSetIndex(resultPartResult.getValue().getResultSetIndex())
                 .build();
 
         Result<ScriptResultPart> resultPartResult1 = scriptClient.fetchQueryScriptResult(operation, resultPartResult.getValue(), fetchScriptSettings2)
@@ -382,13 +384,13 @@ public class ScriptExampleTest {
                         + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
                         + "SELECT season_id FROM seasons where series_id = 1 order by series_id;"
                         + "SELECT season_id FROM seasons where series_id = 2 order by series_id;",
-                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
+                Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings).join();
 
         scriptClient.fetchQueryScriptStatus(operation, 1).join();
 
         FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(10)
-                .withSetResultSetIndex(0)
+                .withResultSetIndex(0)
                 .build();
 
         Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings1)
@@ -402,7 +404,7 @@ public class ScriptExampleTest {
 
         FetchScriptSettings fetchScriptSettings2 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(10)
-                .withSetResultSetIndex(1)
+                .withResultSetIndex(1)
                 .build();
 
         Result<ScriptResultPart> resultPartResult1 = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings2)
@@ -451,13 +453,13 @@ public class ScriptExampleTest {
                         + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
                         + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
                         + "SELECT season_id FROM seasons where series_ids = 1 order by series_id;",
-                Params.of("$values", seasonsData, "$values1", seriesData), executeScriptSettings).join();
+                Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings).join();
 
         Status status = scriptClient.fetchQueryScriptStatus(operation, 1).join();
 
         FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(1)
-                .withSetResultSetIndex(0)
+                .withResultSetIndex(0)
                 .build();
 
         Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings1)

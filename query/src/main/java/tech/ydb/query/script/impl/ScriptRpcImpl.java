@@ -1,6 +1,7 @@
 package tech.ydb.query.script.impl;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 import javax.annotation.WillNotClose;
 
@@ -14,7 +15,6 @@ import tech.ydb.proto.OperationProtos;
 import tech.ydb.proto.operation.v1.OperationServiceGrpc;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.query.v1.QueryServiceGrpc;
-import tech.ydb.query.script.ScriptRpc;
 
 /**
  * Default gRPC-based implementation of {@link ScriptRpc}.
@@ -43,19 +43,14 @@ public class ScriptRpcImpl implements ScriptRpc {
     }
 
     @Override
-    public CompletableFuture<Operation<Status>> getOperation(String operationId) {
+    public CompletableFuture<Operation<Status>> getOperation(String operationId, GrpcRequestSettings settings) {
         OperationProtos.GetOperationRequest request = OperationProtos.GetOperationRequest.newBuilder()
                 .setId(operationId)
                 .build();
 
-        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().build();
-
         return transport
                 .unaryCall(OperationServiceGrpc.getGetOperationMethod(), settings, request)
-                .thenApply(
-                        OperationBinder.bindAsync(transport,
-                                OperationProtos.GetOperationResponse::getOperation
-                        ));
+                .thenApply(OperationBinder.bindAsync(transport, OperationProtos.GetOperationResponse::getOperation));
     }
 
     @Override
@@ -63,16 +58,12 @@ public class ScriptRpcImpl implements ScriptRpc {
             YdbQuery.ExecuteScriptRequest request, GrpcRequestSettings settings) {
 
         return transport.unaryCall(QueryServiceGrpc.getExecuteScriptMethod(), settings, request)
-                .thenApply(
-                        OperationBinder.bindAsync(transport,
-                                op -> op
-                        ));
+                .thenApply(OperationBinder.bindAsync(transport, Function.identity()));
     }
 
     @Override
     public CompletableFuture<Result<YdbQuery.FetchScriptResultsResponse>> fetchScriptResults(
             YdbQuery.FetchScriptResultsRequest request, GrpcRequestSettings settings) {
-
         return transport
                 .unaryCall(QueryServiceGrpc.getFetchScriptResultsMethod(), settings, request);
     }
