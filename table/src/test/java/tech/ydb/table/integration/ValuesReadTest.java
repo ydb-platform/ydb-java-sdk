@@ -24,11 +24,14 @@ import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.DecimalType;
 import tech.ydb.table.values.DecimalValue;
+import tech.ydb.table.values.ListValue;
 import tech.ydb.table.values.NullType;
 import tech.ydb.table.values.NullValue;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
+import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.Type;
+import tech.ydb.table.values.Value;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -111,6 +114,89 @@ public class ValuesReadTest {
         Assert.assertEquals("2d9e498b-b746-9cfb-084d-de4e1cb4736e", v2.getUuidString());
         Assert.assertEquals(0x9cfbb7462d9e498bL, v2.getUuidLow());
         Assert.assertEquals(0x6e73b41c4ede4d08L, v2.getUuidHigh());
+    }
+
+    @Test
+    public void uuidSortTest() {
+        String[] sorted = new String[] {
+            "00000000-0000-0000-0000-000000000001",
+            "00000000-0000-0000-0000-000000000010",
+            "00000000-0000-0000-0000-000000000100",
+            "00000000-0000-0000-0000-000000001000",
+            "00000000-0000-0000-0000-000000010000",
+            "00000000-0000-0000-0000-000000100000",
+            "00000000-0000-0000-0000-000001000000",
+            "00000000-0000-0000-0000-000010000000",
+            "00000000-0000-0000-0000-000100000000",
+            "00000000-0000-0000-0000-001000000000",
+            "00000000-0000-0000-0000-010000000000",
+            "00000000-0000-0000-0000-100000000000",
+
+            "00000000-0000-0000-0001-000000000000",
+            "00000000-0000-0000-0010-000000000000",
+            "00000000-0000-0000-0100-000000000000",
+            "00000000-0000-0000-1000-000000000000",
+
+            "00000000-0000-0100-0000-000000000000",
+            "00000000-0000-1000-0000-000000000000",
+            "00000000-0000-0001-0000-000000000000",
+            "00000000-0000-0010-0000-000000000000",
+
+            "00000000-0100-0000-0000-000000000000",
+            "00000000-1000-0000-0000-000000000000",
+            "00000000-0001-0000-0000-000000000000",
+            "00000000-0010-0000-0000-000000000000",
+
+            "01000000-0000-0000-0000-000000000000",
+            "10000000-0000-0000-0000-000000000000",
+            "00010000-0000-0000-0000-000000000000",
+            "00100000-0000-0000-0000-000000000000",
+            "00000100-0000-0000-0000-000000000000",
+            "00001000-0000-0000-0000-000000000000",
+            "00000001-0000-0000-0000-000000000000",
+            "00000010-0000-0000-0000-000000000000",
+        };
+
+        StructValue[] sv = new StructValue[sorted.length];
+        for (int idx = 0; idx < sorted.length; idx++) {
+            sv[idx] = StructValue.of("uuid", PrimitiveValue.newUuid(sorted[idx]));
+        }
+        ListValue list = ListValue.of(sv);
+
+        DataQueryResult result = CTX.supplyResult(s -> s.executeDataQuery(""
+                + "DECLARE $input AS List<Struct<uuid: UUID>>;"
+                + "SELECT uuid FROM AS_TABLE($input) ORDER BY uuid ASC;"
+                + "SELECT uuid FROM AS_TABLE($input) ORDER BY uuid DESC;",
+                TxControl.snapshotRo(), Params.of("$input", list)
+        )).join().getValue();
+
+        Assert.assertEquals(2, result.getResultSetCount());
+        ResultSetReader rs1 = result.getResultSet(0);
+        ResultSetReader rs2 = result.getResultSet(1);
+
+        Value<?> p1 = null;
+        Value<?> p2 = null;
+        for (int idx = 0; idx < sorted.length; idx++) {
+            Assert.assertTrue(rs1.next());
+            Assert.assertTrue(rs2.next());
+
+            Assert.assertEquals(UUID.fromString(sorted[idx]), rs1.getColumn(0).getUuid());
+            Assert.assertEquals(UUID.fromString(sorted[sorted.length - 1 - idx]), rs2.getColumn(0).getUuid());
+
+            Value<?> v1 = rs1.getColumn(0).getValue();
+            Value<?> v2 = rs2.getColumn(0).getValue();
+
+            if (idx != 0) {
+                Assert.assertTrue("" + v1 + " > " + p1, v1.compareTo(p1) > 0);
+                Assert.assertTrue("" + v2 + " < " + p2, v2.compareTo(p2) < 0);
+            }
+
+            p1 = v1;
+            p2 = v2;
+        }
+
+        Assert.assertFalse(rs1.next());
+        Assert.assertFalse(rs2.next());
     }
 
     private void assertTimestamp(ValueReader vr, boolean optional, Instant expected) {

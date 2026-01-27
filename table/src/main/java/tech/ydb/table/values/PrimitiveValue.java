@@ -20,6 +20,7 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 
 import tech.ydb.proto.ValueProtos;
+import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -421,6 +422,117 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         if (expected != actual) {
             throw new IllegalStateException("types mismatch, expected " + expected + ", but was " + actual);
         }
+    }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!getType().equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
+        }
+
+        PrimitiveValue otherValue = (PrimitiveValue) other;
+
+        // Compare based on the actual primitive type
+        switch (getType()) {
+            case Bool:
+                return Boolean.compare(getBool(), otherValue.getBool());
+            case Int8:
+                return Byte.compare(getInt8(), otherValue.getInt8());
+            case Uint8:
+                return Integer.compare(getUint8(), otherValue.getUint8());
+            case Int16:
+                return Short.compare(getInt16(), otherValue.getInt16());
+            case Uint16:
+                return Integer.compare(getUint16(), otherValue.getUint16());
+            case Int32:
+                return Integer.compare(getInt32(), otherValue.getInt32());
+            case Uint32:
+                return Long.compare(getUint32(), otherValue.getUint32());
+            case Int64:
+                return Long.compare(getInt64(), otherValue.getInt64());
+            case Uint64:
+                return Long.compareUnsigned(getUint64(), otherValue.getUint64());
+            case Float:
+                return Float.compare(getFloat(), otherValue.getFloat());
+            case Double:
+                return Double.compare(getDouble(), otherValue.getDouble());
+            case Bytes:
+                return compareArrays(getBytesUnsafe(), otherValue.getBytesUnsafe());
+            case Yson:
+                return compareArrays(getYsonUnsafe(), otherValue.getYsonUnsafe());
+            case Text:
+                return getText().compareTo(otherValue.getText());
+            case Json:
+                return getJson().compareTo(otherValue.getJson());
+            case JsonDocument:
+                return getJsonDocument().compareTo(otherValue.getJsonDocument());
+            case Uuid:
+                return compareUUID(this, otherValue);
+            case Date:
+                return getDate().compareTo(otherValue.getDate());
+            case Date32:
+                return getDate32().compareTo(otherValue.getDate32());
+            case Datetime:
+                return getDatetime().compareTo(otherValue.getDatetime());
+            case Datetime64:
+                return getDatetime64().compareTo(otherValue.getDatetime64());
+            case Timestamp:
+                return getTimestamp().compareTo(otherValue.getTimestamp());
+            case Timestamp64:
+                return getTimestamp64().compareTo(otherValue.getTimestamp64());
+            case Interval:
+                return getInterval().compareTo(otherValue.getInterval());
+            case Interval64:
+                return getInterval64().compareTo(otherValue.getInterval64());
+            case TzDate:
+                return getTzDate().compareTo(otherValue.getTzDate());
+            case TzDatetime:
+                return getTzDatetime().compareTo(otherValue.getTzDatetime());
+            case TzTimestamp:
+                return getTzTimestamp().compareTo(otherValue.getTzTimestamp());
+            default:
+                throw new UnsupportedOperationException("Comparison not supported for type: " + getType());
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private static int compareUUID(PrimitiveValue a, PrimitiveValue b) {
+        long ah = LittleEndian.bswap(a.getUuidHigh());
+        long bh = LittleEndian.bswap(b.getUuidHigh());
+        long al = LittleEndian.bswap(a.getUuidLow());
+        long bl = LittleEndian.bswap(b.getUuidLow());
+
+        return (al != bl) ? Long.compareUnsigned(al, bl) : Long.compareUnsigned(ah, bh);
+    }
+
+    private static int compareArrays(byte[] a, byte[] b) {
+        if (a == b) {
+            return 0;
+        }
+
+        int i = 0;
+        int len = Math.min(a.length, b.length);
+        while (i < len && a[i] == b[i]) {
+            i++;
+        }
+
+        if (i < len) {
+            return Byte.compare(a[i], b[i]);
+        }
+
+        return a.length - b.length;
     }
 
     // -- implementations --
