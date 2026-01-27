@@ -24,6 +24,7 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.MeteringMode;
@@ -31,6 +32,7 @@ import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
+import tech.ydb.topic.description.TopicStats;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
@@ -50,7 +52,6 @@ import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.WriterSettings;
-import tech.ydb.topic.utils.ProtoUtils;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.SyncWriter;
 import tech.ydb.topic.write.impl.AsyncWriterImpl;
@@ -66,9 +67,11 @@ public class TopicClientImpl implements TopicClient {
     private final TopicRpc topicRpc;
     private final Executor compressionExecutor;
     private final ExecutorService defaultCompressionExecutorService;
+    private final CodecRegistry codecRegistry;
 
     TopicClientImpl(TopicClientBuilderImpl builder) {
         this.topicRpc = builder.topicRpc;
+        this.codecRegistry = new CodecRegistry();
         if (builder.compressionExecutor != null) {
             this.defaultCompressionExecutorService = null;
             this.compressionExecutor = builder.compressionExecutor;
@@ -284,11 +287,13 @@ public class TopicClientImpl implements TopicClient {
     public CompletableFuture<Result<TopicDescription>> describeTopic(String path, DescribeTopicSettings settings) {
         YdbTopic.DescribeTopicRequest request = YdbTopic.DescribeTopicRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings))
+                .setIncludeStats(settings.isIncludeStats())
                 .setPath(path)
                 .build();
+
         final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.describeTopic(request, grpcRequestSettings)
-                .thenApply(result -> result.map(this::mapDescribeTopic));
+                .thenApply(result -> result.map(desc -> mapDescribeTopic(desc, settings.isIncludeStats())));
     }
 
     @Override
@@ -308,7 +313,7 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @SuppressWarnings("deprecation")
-    private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result) {
+    private TopicDescription mapDescribeTopic(YdbTopic.DescribeTopicResult result, boolean includeStats) {
         if (logger.isTraceEnabled()) {
             logger.trace("Received topic describe response:\n{}", result);
         }
@@ -351,30 +356,38 @@ public class TopicClientImpl implements TopicClient {
                     .setParentPartitionIds(partition.getParentPartitionIdsList())
                     .setPartitionStats(new PartitionStats(partition.getPartitionStats()));
 
+            if (includeStats) {
+                partitionBuilder.setPartitionStats(new PartitionStats(partition.getPartitionStats()));
+            }
+
             partitions.add(partitionBuilder.build());
         }
         description.setPartitions(partitions);
 
         SupportedCodecs.Builder supportedCodecsBuilder = SupportedCodecs.newBuilder();
         for (int codec : result.getSupportedCodecs().getCodecsList()) {
-            supportedCodecsBuilder.addCodec(ProtoUtils.codecFromProto(codec));
+            supportedCodecsBuilder.addCodec(codec);
         }
         description.setSupportedCodecs(supportedCodecsBuilder.build());
 
         description.setConsumers(result.getConsumersList().stream()
                 .map(Consumer::new).collect(Collectors.toList()));
 
+        if (includeStats) {
+            description.setTopicStats(new TopicStats(result.getTopicStats()));
+        }
+
         return description.build();
     }
 
     @Override
     public SyncReader createSyncReader(ReaderSettings settings) {
-        return new SyncReaderImpl(topicRpc, settings);
+        return new SyncReaderImpl(topicRpc, settings, codecRegistry);
     }
 
     @Override
     public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        return new AsyncReaderImpl(topicRpc, settings, handlersSettings);
+        return new AsyncReaderImpl(topicRpc, settings, handlersSettings, codecRegistry);
     }
 
     @Override
@@ -390,18 +403,26 @@ public class TopicClientImpl implements TopicClient {
             request.setReadSessionId(settings.getReadSessionId());
         }
 
-        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
+        GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
+                .withDeadline(settings.getRequestTimeout())
+                .withPreferReadyChannel(true)
+                .build();
         return topicRpc.commitOffset(request.build(), grpcRequestSettings);
     }
 
     @Override
     public SyncWriter createSyncWriter(WriterSettings settings) {
-        return new SyncWriterImpl(topicRpc, settings, compressionExecutor);
+        return new SyncWriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override
     public AsyncWriter createAsyncWriter(WriterSettings settings) {
-        return new AsyncWriterImpl(topicRpc, settings, compressionExecutor);
+        return new AsyncWriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
+    }
+
+    @Override
+    public void registerCodec(Codec codec) {
+        codecRegistry.registerCodec(codec);
     }
 
     private static YdbTopic.MeteringMode toProto(MeteringMode meteringMode) {
@@ -440,10 +461,10 @@ public class TopicClientImpl implements TopicClient {
             consumerBuilder.setReadFrom(ProtobufUtils.instantToProto(consumer.getReadFrom()));
         }
 
-        List<Codec> supportedCodecs = consumer.getSupportedCodecsList();
+        List<Integer> supportedCodecs = consumer.getSupportedCodecsList();
         if (!supportedCodecs.isEmpty()) {
             YdbTopic.SupportedCodecs.Builder codecBuilder = YdbTopic.SupportedCodecs.newBuilder();
-            supportedCodecs.forEach(codec -> codecBuilder.addCodecs(ProtoUtils.toProto(codec)));
+            supportedCodecs.forEach(codecBuilder::addCodecs);
             consumerBuilder.setSupportedCodecs(codecBuilder.build());
         }
 
@@ -451,10 +472,10 @@ public class TopicClientImpl implements TopicClient {
     }
 
     private static YdbTopic.SupportedCodecs toProto(SupportedCodecs supportedCodecs) {
-        List<Codec> supportedCodecsList = supportedCodecs.getCodecs();
+        List<Integer> supportedCodecsList = supportedCodecs.getCodecs();
         YdbTopic.SupportedCodecs.Builder codecsBuilder = YdbTopic.SupportedCodecs.newBuilder();
-        for (Codec codec : supportedCodecsList) {
-            codecsBuilder.addCodecs(tech.ydb.topic.utils.ProtoUtils.toProto(codec));
+        for (Integer codec : supportedCodecsList) {
+            codecsBuilder.addCodecs(codec);
         }
         return codecsBuilder.build();
     }

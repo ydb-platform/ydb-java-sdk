@@ -1,5 +1,6 @@
 package tech.ydb.table.settings;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.function.Consumer;
 
 import javax.annotation.Nullable;
 
+import tech.ydb.table.description.RenameIndex;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableIndex;
 import tech.ydb.table.description.TableTtl;
@@ -30,6 +32,8 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
     private final Set<String> dropColumns = new HashSet<>();
     private final Set<String> dropChangefeeds = new HashSet<>();
     private final Set<String> dropIndexes = new HashSet<>();
+
+    private final List<RenameIndex> renameIndices = new ArrayList<>();
 
     @Nullable
     private TableTtl ttl;
@@ -119,6 +123,16 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
         return this;
     }
 
+    public AlterTableSettings addRenameIndex(String oldName, String newName) {
+        renameIndices.add(new RenameIndex(oldName, newName, false));
+        return this;
+    }
+
+    public AlterTableSettings addRenameIndex(String oldName, String newName, boolean replaceExisting) {
+        renameIndices.add(new RenameIndex(oldName, newName, replaceExisting));
+        return this;
+    }
+
     public AlterTableSettings dropIndex(String index) {
         dropIndexes.add(index);
         return this;
@@ -166,6 +180,10 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
 
     public Collection<String> getDropIndexes() {
         return dropIndexes;
+    }
+
+    public Collection<RenameIndex> getRenameIndexes() {
+        return renameIndices;
     }
 
     @Nullable

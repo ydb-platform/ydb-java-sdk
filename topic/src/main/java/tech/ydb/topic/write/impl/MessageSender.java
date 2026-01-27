@@ -13,7 +13,6 @@ import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.settings.WriterSettings;
-import tech.ydb.topic.utils.ProtoUtils;
 
 /**
  * Utility class that splits messages into several requests so that every request would be less than grpc size limit
@@ -78,7 +77,7 @@ public class MessageSender {
 
     private void reset() {
         writeRequestBuilder = YdbTopic.StreamWriteMessage.WriteRequest.newBuilder()
-                .setCodec(ProtoUtils.toProto(settings.getCodec()));
+                .setCodec(settings.getCodec());
         messageCount = 0;
         totalMessageDataProtoSize = 0;
     }
@@ -122,7 +121,7 @@ public class MessageSender {
                         messages.subList(firstHalfMessagesCount, messages.size())
                 )) {
                     writeRequestBuilder = YdbTopic.StreamWriteMessage.WriteRequest.newBuilder()
-                                .setCodec(ProtoUtils.toProto(settings.getCodec()));
+                                .setCodec(settings.getCodec());
                     writeRequestBuilder.addAllMessages(sublist);
                     YdbTopic.StreamWriteMessage.FromClient subRequest = YdbTopic.StreamWriteMessage.FromClient
                             .newBuilder()

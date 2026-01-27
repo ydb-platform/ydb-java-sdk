@@ -8,6 +8,7 @@ import javax.annotation.WillNotClose;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.impl.GrpcTopicRpc;
@@ -163,6 +164,14 @@ public interface TopicClient extends AutoCloseable {
 
     @Override
     void close();
+
+    /**
+     * Register custom codec implementation to TopicClient
+     *
+     * @param codec - custom implementation
+     */
+    void registerCodec(Codec codec);
+
 
     /**
      * BUILDER

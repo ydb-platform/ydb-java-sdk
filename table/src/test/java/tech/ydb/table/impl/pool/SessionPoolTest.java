@@ -117,11 +117,10 @@ public class SessionPoolTest extends FutureHelper {
         // increase pool limit
         pool.updateMaxSize(2);
         tableRpc.check().sessionRequests(2);
-        // NOTE: we have increasing of pendings because one request may be in both queues (pendings + waitings)
-        check(pool).idle(0).acquired(0).pending(2 + wsize).size(0, 2).totalClient(0, 0).totalServer(2, 0, 0, 0);
+        check(pool).idle(0).acquired(0).pending(1 + wsize).size(0, 2).totalClient(0, 0).totalServer(2, 0, 0, 0);
 
         tableRpc.nextCreateSession().completeSuccess();
-        check(pool).idle(0).acquired(1).pending(1 + wsize).size(0, 2).totalClient(1, 0).totalServer(2, 1, 0, 0);
+        check(pool).idle(0).acquired(1).pending(wsize).size(0, 2).totalClient(1, 0).totalServer(2, 1, 0, 0);
 
         tableRpc.nextCreateSession().completeSuccess();
         check(pool).idle(0).acquired(2).pending(-1 + wsize).size(0, 2).totalClient(2, 0).totalServer(2, 2, 0, 0);

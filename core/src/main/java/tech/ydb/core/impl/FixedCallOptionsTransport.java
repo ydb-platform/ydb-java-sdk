@@ -2,7 +2,6 @@ package tech.ydb.core.impl;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-import io.grpc.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,15 +59,4 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         return channel;
     }
-
-    @Override
-    protected void updateChannelStatus(GrpcChannel channel, Status status) {
-        if (!status.isOk()) {
-            logger.warn("grpc error {}[{}] on fixed channel {}",
-                    status.getCode(),
-                    status.getDescription(),
-                    channel.getEndpoint());
-        }
-    }
-
 }

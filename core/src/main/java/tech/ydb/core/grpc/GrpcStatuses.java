@@ -16,16 +16,16 @@ public final class GrpcStatuses {
 
     private GrpcStatuses() { }
 
-    public static <T> Result<T> toResult(io.grpc.Status status) {
+    public static <T> Result<T> toResult(io.grpc.Status status, String endpoint) {
         assert !status.isOk();
-        return Result.fail(toStatus(status));
+        return Result.fail(toStatus(status, endpoint));
     }
 
-    public static tech.ydb.core.Status toStatus(io.grpc.Status status) {
+    public static tech.ydb.core.Status toStatus(io.grpc.Status status, String endpoint) {
         if (status.isOk()) {
             return Status.SUCCESS;
         }
-        Issue message = Issue.of(getMessage(status), Issue.Severity.ERROR);
+        Issue message = Issue.of(getMessage(status, endpoint), Issue.Severity.ERROR);
         StatusCode code = getStatusCode(status.getCode());
         Throwable cause = status.getCause();
 
@@ -35,17 +35,18 @@ public final class GrpcStatuses {
         return Status.of(code, cause, message, Issue.of(cause.toString(), Issue.Severity.ERROR));
     }
 
-    private static String getMessage(io.grpc.Status status) {
+    private static String getMessage(io.grpc.Status status, String endpoint) {
         if (status.getCode() == io.grpc.Status.Code.CANCELLED) {
             logger.debug("gRPC cancellation: {}, {}", status.getCode(), status.getDescription());
         } else {
             logger.warn("gRPC issue: {}, {}", status.getCode(), status.getDescription());
         }
 
-        String message = "gRPC error: (" + status.getCode() + ')';
-        return status.getDescription() == null
-            ? message
-            : message + ' ' + status.getDescription();
+        String message = "gRPC error: (" + status.getCode() + ") on " + endpoint;
+        if (status.getDescription() != null) {
+            message += ", " + status.getDescription();
+        }
+        return message;
     }
 
     private static StatusCode getStatusCode(io.grpc.Status.Code code) {

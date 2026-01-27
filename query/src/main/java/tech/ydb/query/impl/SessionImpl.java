@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.protobuf.TextFormat;
+import io.grpc.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,16 +22,15 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
+import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
-import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.result.QueryStats;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.BeginTransactionSettings;
@@ -137,13 +138,35 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.AttachSessionRequest request = YdbQuery.AttachSessionRequest.newBuilder()
                 .setSessionId(sessionId)
                 .build();
-        GrpcRequestSettings grpcSettings = makeOptions(settings).build();
-        return new ProxyReadStream<>(rpc.attachSession(request, grpcSettings), (message, promise, observer) -> {
-            logger.trace("session '{}' got attach stream message {}", sessionId, TextFormat.shortDebugString(message));
-            Status status = Status.of(StatusCode.fromProto(message.getStatus()), Issue.fromPb(message.getIssuesList()));
-            updateSessionState(status);
-            observer.onNext(status);
-        });
+        // Execute attachSession call outside current context to avoid cancellation and deadline propogation
+        Context ctx = Context.ROOT.fork();
+        Context previous = ctx.attach();
+        try {
+            GrpcRequestSettings grpcSettings = makeOptions(settings).disableDeadline().build();
+            GrpcReadStream<YdbQuery.SessionState> origin = rpc.attachSession(request, grpcSettings);
+            return new GrpcReadStream<Status>() {
+                @Override
+                public CompletableFuture<Status> start(GrpcReadStream.Observer<Status> observer) {
+                    return origin.start(message -> {
+                        if (logger.isTraceEnabled()) {
+                            String msg = TextFormat.shortDebugString(message);
+                            logger.trace("session '{}' got attach stream message {}", sessionId, msg);
+                        }
+                        StatusCode code = StatusCode.fromProto(message.getStatus());
+                        Status status = Status.of(code, Issue.fromPb(message.getIssuesList()));
+                        updateSessionState(status);
+                        observer.onNext(status);
+                    });
+                }
+
+                @Override
+                public void cancel() {
+                    origin.cancel();
+                }
+            };
+        } finally {
+            ctx.detach(previous);
+        }
     }
 
     private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings) {
@@ -244,15 +267,21 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.CreateSessionRequest request = YdbQuery.CreateSessionRequest.newBuilder()
                 .build();
 
+        AtomicBoolean pessimizationHook = new AtomicBoolean(false);
+
         String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
         GrpcRequestSettings.Builder grpcSettingsBuilder = GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withPessimizationHook(pessimizationHook::get)
                 .withTraceId(traceId);
         if (useServerBalancer) {
             grpcSettingsBuilder.addClientCapability(SERVER_BALANCER_HINT);
         }
 
-        return rpc.createSession(request, grpcSettingsBuilder.build()).thenApply(CREATE_SESSION);
+        return rpc.createSession(request, grpcSettingsBuilder.build()).thenApply(result -> {
+            pessimizationHook.set(result.getStatus().getCode() == StatusCode.OVERLOADED);
+            return CREATE_SESSION.apply(result);
+        });
     }
 
     abstract class StreamImpl implements QueryStream {
@@ -267,9 +296,9 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler) {
-            final CompletableFuture<Result<QueryInfo>> result = new CompletableFuture<>();
-            final AtomicReference<QueryStats> stats = new AtomicReference<>();
-            grpcStream.start(msg -> {
+            final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
+            final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
+            return grpcStream.start(msg -> {
                 if (isTraceEnabled) {
                     logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
                 }
@@ -280,7 +309,7 @@ abstract class SessionImpl implements QuerySession {
 
                 if (!status.isSuccess()) {
                     handleTxMeta(null);
-                    result.complete(Result.fail(status));
+                    operationStatus.update(status);
                     return;
                 }
 
@@ -295,35 +324,26 @@ abstract class SessionImpl implements QuerySession {
                     }
                 }
                 if (msg.hasExecStats()) {
-                    QueryStats old = stats.getAndSet(new QueryStats(msg.getExecStats()));
-                    if (old != null) {
-                        logger.warn("{} lost previous exec stats {}", SessionImpl.this, old);
-                    }
+                    stats.update(new QueryStats(msg.getExecStats()));
                 }
 
                 if (msg.hasResultSet()) {
                     long index = msg.getResultSetIndex();
                     if (handler != null) {
-                        handler.onNextPart(new QueryResultPart(index, msg.getResultSet()));
+                        handler.onNextRawPart(index, msg.getResultSet());
                     } else {
                         logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
                     }
                 }
-            }).whenComplete((status, th) -> {
-                handleCompletion(status, th);
-                if (th != null) {
-                    result.completeExceptionally(th);
-                }
-                if (status != null) {
-                    updateSessionState(status);
-                    if (status.isSuccess()) {
-                        result.complete(Result.success(new QueryInfo(stats.get()), status));
-                    } else {
-                        result.complete(Result.fail(status));
-                    }
+            }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
+                updateSessionState(streamStatus);
+                Status status = operationStatus.orElse(streamStatus);
+                if (status.isSuccess()) {
+                    return Result.success(new QueryInfo(stats.get()), streamStatus);
+                } else {
+                    return Result.fail(status);
                 }
             });
-            return result;
         }
 
         @Override

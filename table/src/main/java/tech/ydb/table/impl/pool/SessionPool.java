@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.BiConsumer;
 
+import io.grpc.Context;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -178,33 +179,47 @@ public class SessionPool implements AutoCloseable {
 
         @Override
         public CompletableFuture<ClosableSession> create() {
-            stats.requested.increment();
-            return BaseSession
-                    .createSessionId(tableRpc, CREATE_SETTINGS, true)
-                    .thenApply(response -> {
-                        if (!response.isSuccess()) {
-                            stats.failed.increment();
-                            throw new UnexpectedResultException("create session problem", response.getStatus());
-                        }
-                        return new ClosableSession(response.getValue(), tableRpc, keepQueryText);
-                    });
+            // Execute createSession call outside current context to avoid cancellation and deadline propogation
+            Context ctx = Context.ROOT.fork();
+            Context previous = ctx.attach();
+            try {
+                stats.requested.increment();
+                return BaseSession
+                        .createSessionId(tableRpc, CREATE_SETTINGS, true)
+                        .thenApply(response -> {
+                            if (!response.isSuccess()) {
+                                stats.failed.increment();
+                                throw new UnexpectedResultException("create session problem", response.getStatus());
+                            }
+                            return new ClosableSession(response.getValue(), tableRpc, keepQueryText);
+                        });
+            } finally {
+                ctx.detach(previous);
+            }
         }
 
         @Override
         public void destroy(ClosableSession session) {
             stats.deleted.increment();
-            session.delete(new DeleteSessionSettings()).whenComplete((status, th) -> {
-                if (th != null) {
-                    logger.warn("session {} destroyed with exception {}", session.getId(), th.getMessage());
-                }
-                if (status != null) {
-                    if (status.isSuccess()) {
-                        logger.debug("session {} successfully destroyed", session.getId());
-                    } else {
-                        logger.warn("session {} destroyed with status {}", session.getId(), status);
+            // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
+            Context ctx = Context.ROOT.fork();
+            Context previous = ctx.attach();
+            try {
+                session.delete(new DeleteSessionSettings()).whenComplete((status, th) -> {
+                    if (th != null) {
+                        logger.warn("session {} destroyed with exception {}", session.getId(), th.getMessage());
                     }
-                }
-            });
+                    if (status != null) {
+                        if (status.isSuccess()) {
+                            logger.debug("session {} successfully destroyed", session.getId());
+                        } else {
+                            logger.warn("session {} destroyed with status {}", session.getId(), status);
+                        }
+                    }
+                });
+            } finally {
+                ctx.detach(previous);
+            }
         }
     }
 

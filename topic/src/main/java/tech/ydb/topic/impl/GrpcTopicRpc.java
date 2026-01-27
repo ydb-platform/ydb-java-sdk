@@ -16,7 +16,6 @@ import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.v1.TopicServiceGrpc;
 import tech.ydb.topic.TopicRpc;
 
-
 /**
  * @author Nikolay Perfilov
  */
@@ -49,7 +48,7 @@ public final class GrpcTopicRpc implements TopicRpc {
 
     @Override
     public CompletableFuture<Result<YdbTopic.DescribeTopicResult>> describeTopic(YdbTopic.DescribeTopicRequest request,
-                                                                                 GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDescribeTopicMethod(), settings, request)
                 .thenApply(OperationBinder.bindSync(
@@ -84,7 +83,7 @@ public final class GrpcTopicRpc implements TopicRpc {
 
     @Override
     public CompletableFuture<Status> updateOffsetsInTransaction(YdbTopic.UpdateOffsetsInTransactionRequest request,
-                                                         GrpcRequestSettings settings) {
+            GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getUpdateOffsetsInTransactionMethod(), settings, request)
                 .thenApply(OperationBinder.bindSync(YdbTopic.UpdateOffsetsInTransactionResponse::getOperation));
@@ -93,19 +92,21 @@ public final class GrpcTopicRpc implements TopicRpc {
     @Override
     public GrpcReadWriteStream<YdbTopic.StreamWriteMessage.FromServer, YdbTopic.StreamWriteMessage.FromClient>
             writeSession(String streamId) {
-        return transport.readWriteStreamCall(
-                TopicServiceGrpc.getStreamWriteMethod(),
-                GrpcRequestSettings.newBuilder().withTraceId(streamId).build()
-        );
+        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                .withTraceId(streamId)
+                .disableDeadline()
+                .build();
+        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamWriteMethod(), settings);
     }
 
     @Override
     public GrpcReadWriteStream<YdbTopic.StreamReadMessage.FromServer, YdbTopic.StreamReadMessage.FromClient>
             readSession(String streamId) {
-        return transport.readWriteStreamCall(
-                TopicServiceGrpc.getStreamReadMethod(),
-                GrpcRequestSettings.newBuilder().withTraceId(streamId).build()
-        );
+        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                .withTraceId(streamId)
+                .disableDeadline()
+                .build();
+        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamReadMethod(), settings);
     }
 
     @Override

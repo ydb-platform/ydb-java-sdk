@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -31,14 +32,15 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.YdbHeaders;
-import tech.ydb.core.impl.call.ProxyReadStream;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.core.utils.URITools;
+import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.ValueProtos.TypedValue;
+import tech.ydb.proto.YdbIssueMessage;
 import tech.ydb.proto.common.CommonProtos;
 import tech.ydb.proto.scheme.SchemeOperationProtos;
 import tech.ydb.proto.table.YdbTable;
@@ -47,20 +49,21 @@ import tech.ydb.table.description.ChangefeedDescription;
 import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.KeyBound;
 import tech.ydb.table.description.KeyRange;
+import tech.ydb.table.description.RenameIndex;
+import tech.ydb.table.description.SequenceDescription;
 import tech.ydb.table.description.StoragePool;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableIndex;
 import tech.ydb.table.description.TableOptionDescription;
 import tech.ydb.table.description.TableTtl;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.DataQuery;
 import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.ExplainDataQueryResult;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.query.ReadRowsResult;
 import tech.ydb.table.query.ReadTablePart;
-import tech.ydb.table.result.ResultSetReader;
-import tech.ydb.table.result.impl.ProtoValueReaders;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.settings.AlterTableSettings;
 import tech.ydb.table.settings.AutoPartitioningPolicy;
@@ -95,15 +98,14 @@ import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListType;
-import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.OptionalValue;
+import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructValue;
 import tech.ydb.table.values.TupleValue;
 import tech.ydb.table.values.Type;
 import tech.ydb.table.values.Value;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
-
-
 
 /**
  * @author Sergey Polovko
@@ -166,18 +168,24 @@ public abstract class BaseSession implements Session {
     }
 
     public static CompletableFuture<Result<String>> createSessionId(TableRpc rpc, CreateSessionSettings settings,
-            boolean useServerBalancer) {
+                                                                    boolean useServerBalancer) {
         YdbTable.CreateSessionRequest request = YdbTable.CreateSessionRequest.newBuilder()
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
                 .build();
 
-        GrpcRequestSettings.Builder options = makeBaseOptions(settings.getTimeoutDuration(), settings.getTraceId());
+        AtomicBoolean pessimizationHook = new AtomicBoolean(false);
+
+        GrpcRequestSettings.Builder options = makeBaseOptions(settings.getTimeoutDuration(), settings.getTraceId())
+                .withPessimizationHook(pessimizationHook::get);
+
         if (useServerBalancer) {
             options.addClientCapability(SERVER_BALANCER_HINT);
         }
 
-        return rpc.createSession(request, options.build())
-                .thenApply(result -> result.map(YdbTable.CreateSessionResult::getSessionId));
+        return rpc.createSession(request, options.build()).thenApply(result -> {
+            pessimizationHook.set(result.getStatus().getCode() == StatusCode.OVERLOADED);
+            return result.map(YdbTable.CreateSessionResult::getSessionId);
+        });
     }
 
     private static YdbTable.PartitioningSettings buildPartitioningSettings(PartitioningSettings partitioningSettings) {
@@ -219,6 +227,46 @@ public abstract class BaseSession implements Session {
         if (column.getType().getKind() != Type.Kind.OPTIONAL) {
             builder.setNotNull(true);
         }
+        if (column.hasDefaultValue()) {
+            if (column.getLiteralDefaultValue() != null) {
+                builder.setFromLiteral(ProtoValue.toTypedValue(column.getLiteralDefaultValue()));
+            }
+
+            SequenceDescription seqDescription = column.getSequenceDescription();
+            if (seqDescription != null) {
+                String seqName = seqDescription.getName();
+                YdbTable.SequenceDescription.Builder seqBuilder = YdbTable.SequenceDescription
+                        .newBuilder()
+                        .setName(seqName != null ? seqName : "_serial_column_" + column.getName());
+
+                if (seqDescription.getMinValue() != null) {
+                    seqBuilder.setMinValue(seqDescription.getMinValue());
+                }
+
+                if (seqDescription.getMaxValue() != null) {
+                    seqBuilder.setMaxValue(seqDescription.getMaxValue());
+                }
+
+                if (seqDescription.getStartValue() != null) {
+                    seqBuilder.setStartValue(seqDescription.getStartValue());
+                }
+
+                if (seqDescription.getCache() != null) {
+                    seqBuilder.setCache(seqDescription.getCache());
+                }
+
+                if (seqDescription.getIncrement() != null) {
+                    seqBuilder.setIncrement(seqDescription.getIncrement());
+                }
+
+                if (seqDescription.getCycle() != null) {
+                    seqBuilder.setCycle(seqDescription.getCycle());
+                }
+
+                builder.setFromSequence(seqBuilder.build());
+            }
+        }
+
         return builder.build();
     }
 
@@ -392,8 +440,10 @@ public abstract class BaseSession implements Session {
                 break;
         }
 
-        for (ColumnFamily family: description.getColumnFamilies()) {
-            request.addColumnFamilies(buildColumnFamily(family));
+        for (ColumnFamily family : description.getColumnFamilies()) {
+            if (!"default".equals(family.getName())) {
+                request.addColumnFamilies(buildColumnFamily(family));
+            }
         }
 
         for (TableColumn column : description.getColumns()) {
@@ -531,11 +581,11 @@ public abstract class BaseSession implements Session {
                 .setPath(path)
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()));
 
-        for (TableColumn addColumn: settings.getAddColumns()) {
+        for (TableColumn addColumn : settings.getAddColumns()) {
             builder.addAddColumns(buildColumnMeta(addColumn));
         }
 
-        for (Changefeed addChangefeed: settings.getAddChangefeeds()) {
+        for (Changefeed addChangefeed : settings.getAddChangefeeds()) {
             builder.addAddChangefeeds(buildChangefeed(addChangefeed));
         }
 
@@ -556,16 +606,23 @@ public abstract class BaseSession implements Session {
             builder.setAlterPartitioningSettings(buildPartitioningSettings(settings.getPartitioningSettings()));
         }
 
-        for (String dropColumn: settings.getDropColumns()) {
+        for (String dropColumn : settings.getDropColumns()) {
             builder.addDropColumns(dropColumn);
         }
 
-        for (String dropChangefeed: settings.getDropChangefeeds()) {
+        for (String dropChangefeed : settings.getDropChangefeeds()) {
             builder.addDropChangefeeds(dropChangefeed);
         }
 
-        for (String dropIndex: settings.getDropIndexes()) {
+        for (String dropIndex : settings.getDropIndexes()) {
             builder.addDropIndexes(dropIndex);
+        }
+
+        for (RenameIndex renameIndex : settings.getRenameIndexes()) {
+            builder.addRenameIndexes(YdbTable.RenameIndexItem.newBuilder()
+                    .setSourceName(renameIndex.getSourceName())
+                    .setDestinationName(renameIndex.getDestinationName())
+                    .setReplaceDestination(renameIndex.isReplaceDestination()).build());
         }
 
         return rpc.alterTable(builder.build(), makeOptions(settings).build());
@@ -748,8 +805,9 @@ public abstract class BaseSession implements Session {
         }
     }
 
+    @SuppressWarnings("checkstyle:MethodLength")
     private static Result<TableDescription> mapDescribeTable(Result<YdbTable.DescribeTableResult> describeResult,
-            DescribeTableSettings settings) {
+                                                             DescribeTableSettings settings) {
         if (!describeResult.isSuccess()) {
             return describeResult.map(r -> null);
         }
@@ -778,12 +836,57 @@ public abstract class BaseSession implements Session {
 
         for (int i = 0; i < desc.getColumnsCount(); i++) {
             YdbTable.ColumnMeta column = desc.getColumns(i);
-            description.addColumn(new TableColumn(
-                    column.getName(),
-                    ProtoType.fromPb(column.getType()),
-                    column.getFamily(),
-                    column.hasFromLiteral() || column.hasFromSequence()
-            ));
+            Type type = ProtoType.fromPb(column.getType());
+
+            if (column.hasFromSequence()) {
+                YdbTable.SequenceDescription pbSeq = column.getFromSequence();
+                SequenceDescription.Builder seqBuilder = new SequenceDescription.Builder();
+
+                if (pbSeq.hasName()) {
+                    seqBuilder.setName(pbSeq.getName());
+                }
+                if (pbSeq.hasMinValue()) {
+                    seqBuilder.setMinValue(pbSeq.getMinValue());
+                }
+                if (pbSeq.hasMaxValue()) {
+                    seqBuilder.setMaxValue(pbSeq.getMaxValue());
+                }
+                if (pbSeq.hasStartValue()) {
+                    seqBuilder.setStartValue(pbSeq.getStartValue());
+                }
+                if (pbSeq.hasCache()) {
+                    seqBuilder.setCache(pbSeq.getCache());
+                }
+                if (pbSeq.hasIncrement()) {
+                    seqBuilder.setIncrement(pbSeq.getIncrement());
+                }
+                if (pbSeq.hasCycle()) {
+                    seqBuilder.setCycle(pbSeq.getCycle());
+                }
+
+                description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), seqBuilder.build()));
+                continue;
+            }
+
+            PrimitiveValue defaultValue = null;
+            if (column.hasFromLiteral()) {
+                TypedValue literalPb = column.getFromLiteral();
+
+                Type literalType = type;
+                Value<?> literalValue = ProtoValue.fromPb(literalType, literalPb.getValue());
+                if (literalType.getKind() == Type.Kind.OPTIONAL) { // unwrap optional value
+                    OptionalValue optional = literalValue.asOptional();
+                    if (optional.isPresent()) {
+                        literalType = type.unwrapOptional();
+                        literalValue = optional.get();
+                    }
+                }
+                if (literalType.getKind() == Type.Kind.PRIMITIVE) {
+                    defaultValue = literalValue.asData();
+                }
+            }
+
+            description.addColumn(new TableColumn(column.getName(), type, column.getFamily(), defaultValue));
         }
         description.setPrimaryKeys(desc.getPrimaryKeyList());
         for (int i = 0; i < desc.getIndexesCount(); i++) {
@@ -860,14 +963,14 @@ public abstract class BaseSession implements Session {
         }
 
         description.setTtlSettings(mapTtlSettings(desc.getTtlSettings()));
-        for (YdbTable.ChangefeedDescription pb: desc.getChangefeedsList()) {
+        for (YdbTable.ChangefeedDescription pb : desc.getChangefeedsList()) {
             description.addChangefeed(new ChangefeedDescription(
-                pb.getName(),
-                mapChangefeedMode(pb.getMode()),
-                mapChangefeedFormat(pb.getFormat()),
-                mapChangefeedState(pb.getState()),
-                pb.getVirtualTimestamps(),
-                ProtobufUtils.protoToDuration(pb.getResolvedTimestampsInterval())
+                    pb.getName(),
+                    mapChangefeedMode(pb.getMode()),
+                    mapChangefeedFormat(pb.getFormat()),
+                    mapChangefeedState(pb.getState()),
+                    pb.getVirtualTimestamps(),
+                    ProtobufUtils.protoToDuration(pb.getResolvedTimestampsInterval())
             ));
         }
 
@@ -1039,12 +1142,12 @@ public abstract class BaseSession implements Session {
                 .setPath(pathToTable)
                 .addAllColumns(settings.getColumns())
                 .setKeys(settings.getKeys().isEmpty() ? TypedValue.newBuilder().build() :
-                    ValueProtos.TypedValue.newBuilder()
-                            .setType(ListType.of(settings.getKeys().get(0).getType()).toPb())
-                            .setValue(ValueProtos.Value.newBuilder()
-                                    .addAllItems(settings.getKeys().stream().map(StructValue::toPb)
-                                            .collect(Collectors.toList())))
-                            .build());
+                        ValueProtos.TypedValue.newBuilder()
+                                .setType(ListType.of(settings.getKeys().get(0).getType()).toPb())
+                                .setValue(ValueProtos.Value.newBuilder()
+                                        .addAllItems(settings.getKeys().stream().map(StructValue::toPb)
+                                                .collect(Collectors.toList())))
+                                .build());
         return interceptResult(rpc.readRows(requestBuilder.build(), makeOptions(settings).build()))
                 .thenApply(result -> result.map(ReadRowsResult::new));
     }
@@ -1175,23 +1278,23 @@ public abstract class BaseSession implements Session {
                 .setBatchLimitBytes(settings.batchLimitBytes())
                 .setBatchLimitRows(settings.batchLimitRows());
 
-        Value<?> fromKey = settings.getFromKey();
+        ValueProtos.TypedValue fromKey = settings.getFromKeyRaw();
         if (fromKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isFromInclusive()) {
-                range.setGreaterOrEqual(ProtoValue.toTypedValue(fromKey));
+                range.setGreaterOrEqual(fromKey);
             } else {
-                range.setGreater(ProtoValue.toTypedValue(fromKey));
+                range.setGreater(fromKey);
             }
         }
 
-        Value<?> toKey = settings.getToKey();
+        ValueProtos.TypedValue toKey = settings.getToKeyRaw();
         if (toKey != null) {
             YdbTable.KeyRange.Builder range = request.getKeyRangeBuilder();
             if (settings.isToInclusive()) {
-                range.setLessOrEqual(ProtoValue.toTypedValue(toKey));
+                range.setLessOrEqual(toKey);
             } else {
-                range.setLess(ProtoValue.toTypedValue(toKey));
+                range.setLess(toKey);
             }
         }
 
@@ -1205,27 +1308,27 @@ public abstract class BaseSession implements Session {
         }
 
         GrpcReadStream<YdbTable.ReadTableResponse> origin = rpc.streamReadTable(request.build(), options.build());
-        return new ProxyReadStream<>(origin, (response, future, observer) -> {
-            StatusIds.StatusCode statusCode = response.getStatus();
-            if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                try {
-                    observer.onNext(new ReadTablePart(response.getResult(), response.getSnapshot()));
-                } catch (Throwable t) {
-                    future.completeExceptionally(t);
-                    origin.cancel();
-                }
-            } else {
-                Issue[] issues = Issue.fromPb(response.getIssuesList());
-                StatusCode code = StatusCode.fromProto(statusCode);
-                future.complete(Status.of(code, issues));
-                origin.cancel();
+        return new ProxyStream<YdbTable.ReadTableResponse, ReadTablePart>(origin) {
+            @Override
+            StatusIds.StatusCode readStatusCode(YdbTable.ReadTableResponse message) {
+                return message.getStatus();
             }
-        });
+
+            @Override
+            List<YdbIssueMessage.IssueMessage> readIssues(YdbTable.ReadTableResponse message) {
+                return message.getIssuesList();
+            }
+
+            @Override
+            ReadTablePart readValue(YdbTable.ReadTableResponse message) {
+                return new ReadTablePart(message);
+            }
+        };
     }
 
     @Override
-    public GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
-            ExecuteScanQuerySettings settings) {
+    public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
+                                                            ExecuteScanQuerySettings settings) {
         YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
                 .setMode(settings.getMode().toPb())
@@ -1239,22 +1342,22 @@ public abstract class BaseSession implements Session {
         }
 
         GrpcReadStream<YdbTable.ExecuteScanQueryPartialResponse> origin = rpc.streamExecuteScanQuery(req, opts.build());
-        return new ProxyReadStream<>(origin, (response, future, observer) -> {
-            StatusIds.StatusCode statusCode = response.getStatus();
-            if (statusCode == StatusIds.StatusCode.SUCCESS) {
-                try {
-                    observer.onNext(ProtoValueReaders.forResultSet(response.getResult().getResultSet()));
-                } catch (Throwable t) {
-                    future.completeExceptionally(t);
-                    origin.cancel();
-                }
-            } else {
-                Issue[] issues = Issue.fromPb(response.getIssuesList());
-                StatusCode code = StatusCode.fromProto(statusCode);
-                future.complete(Status.of(code, issues));
-                origin.cancel();
+        return new ProxyStream<YdbTable.ExecuteScanQueryPartialResponse, ValueProtos.ResultSet>(origin) {
+            @Override
+            StatusIds.StatusCode readStatusCode(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return message.getStatus();
             }
-        });
+
+            @Override
+            List<YdbIssueMessage.IssueMessage> readIssues(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return message.getIssuesList();
+            }
+
+            @Override
+            ValueProtos.ResultSet readValue(YdbTable.ExecuteScanQueryPartialResponse message) {
+                return message.getResult().getResultSet();
+            }
+        };
     }
 
     private CompletableFuture<Status> commitTransactionInternal(String txId, CommitTxSettings settings) {
@@ -1303,19 +1406,13 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
-    public CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
-        ValueProtos.TypedValue typedRows = ValueProtos.TypedValue.newBuilder()
-                .setType(rows.getType().toPb())
-                .setValue(rows.toPb())
-                .build();
-
-        YdbTable.BulkUpsertRequest request = YdbTable.BulkUpsertRequest.newBuilder()
+    public CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data, BulkUpsertSettings st) {
+        YdbTable.BulkUpsertRequest.Builder request = YdbTable.BulkUpsertRequest.newBuilder()
                 .setTable(tablePath)
-                .setRows(typedRows)
-                .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
-                .build();
+                .setOperationParams(Operation.buildParams(st.toOperationSettings()));
 
-        return interceptStatus(rpc.bulkUpsert(request, makeOptions(settings).build()));
+        data.applyToRequest(request);
+        return interceptStatus(rpc.bulkUpsert(request.build(), makeOptions(st).build()));
     }
 
     private static State mapSessionStatus(YdbTable.KeepAliveResult result) {
@@ -1378,6 +1475,63 @@ public abstract class BaseSession implements Session {
         return "Session{" + id + "}";
     }
 
+    private abstract class ProxyStream<R, T> implements GrpcReadStream<T> {
+        private final GrpcReadStream<R> origin;
+        private final CompletableFuture<Status> result;
+        private final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
+        private final UpdatableOptional<Throwable> operationError = new UpdatableOptional<>();
+
+        ProxyStream(GrpcReadStream<R> origin) {
+            this.origin = origin;
+            this.result = new CompletableFuture<>();
+        }
+
+        abstract StatusIds.StatusCode readStatusCode(R message);
+
+        abstract List<YdbIssueMessage.IssueMessage> readIssues(R message);
+
+        abstract T readValue(R message);
+
+        private void onClose(Status streamStatus, Throwable streamError) {
+            Throwable th = operationError.orElse(streamError);
+            if (th != null) {
+                updateSessionState(th, null, false);
+                result.completeExceptionally(th);
+                return;
+            }
+
+            Status st = operationStatus.orElse(streamStatus);
+            if (st != null) {
+                updateSessionState(null, st.getCode(), false);
+                result.complete(st);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> start(Observer<T> observer) {
+            origin.start(message -> {
+                StatusIds.StatusCode code = readStatusCode(message);
+                if (code == StatusIds.StatusCode.SUCCESS) {
+                    try {
+                        observer.onNext(readValue(message));
+                    } catch (Throwable th) {
+                        operationError.update(th);
+                        origin.cancel();
+                    }
+                } else {
+                    operationStatus.update(Status.of(StatusCode.fromProto(code), Issue.fromPb(readIssues(message))));
+                    origin.cancel();
+                }
+            }).whenComplete(this::onClose);
+            return result;
+        }
+
+        @Override
+        public void cancel() {
+            origin.cancel();
+        }
+    }
+
     class TableTransactionImpl extends YdbTransactionImpl implements TableTransaction {
 
         TableTransactionImpl(TxMode txMode, String txId) {
@@ -1421,7 +1575,7 @@ public abstract class BaseSession implements Session {
                             currentStatusFuture.complete(Status
                                     .of(StatusCode.ABORTED)
                                     .withIssues(Issue.of("ExecuteDataQuery on transaction failed with status "
-                                                    + result.getStatus(), Issue.Severity.ERROR)));
+                                            + result.getStatus(), Issue.Severity.ERROR)));
                         }
                     });
         }

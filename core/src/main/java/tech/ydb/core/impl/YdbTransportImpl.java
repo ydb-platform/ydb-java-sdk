@@ -53,12 +53,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.channelFactory = builder.getManagedChannelFactory();
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(
-                scheduler,
-                Collections.singletonList(discoveryEndpoint),
-                channelFactory,
-                builder
-        );
+        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(discoveryEndpoint),
+                channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discovery = new YdbDiscovery(new DiscoveryHandler(), scheduler, database, discoveryTimeout);
@@ -126,6 +122,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                     + "endpoint " + builder.getEndpoint() + " and empty host " + builder.getHost());
         }
 
+        if (endpointURI.getPort() < 0) {
+            throw new IllegalArgumentException("Can't create discovery rpc, port is not specified for "
+                    + "endpoint " + builder.getEndpoint());
+        }
+
         return new EndpointRecord(endpointURI.getHost(), endpointURI.getPort());
     }
 
@@ -160,24 +161,21 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
-        EndpointRecord endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
+        EndpointRecord endpoint = endpointPool.getEndpoint(channelPool.getReadyEndpoints(), settings);
         if (endpoint == null) {
             long timeout = -1;
             if (settings.getDeadlineAfter() != 0) {
                 timeout = settings.getDeadlineAfter() - System.nanoTime();
             }
             discovery.waitReady(timeout);
-            endpoint = endpointPool.getEndpoint(settings.getPreferredNodeID());
+            endpoint = endpointPool.getEndpoint(Collections.emptySet(), settings);
         }
         return channelPool.getChannel(endpoint);
     }
 
     @Override
-    protected void updateChannelStatus(GrpcChannel channel, io.grpc.Status status) {
-        // Usually CANCELLED is received when ClientCall is canceled on client side
-        if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
-            endpointPool.pessimizeEndpoint(channel.getEndpoint());
-        }
+    protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
+        endpointPool.pessimizeEndpoint(endpoint, reason);
     }
 
     private class DiscoveryHandler implements YdbDiscovery.Handler {

@@ -15,11 +15,8 @@ import tech.ydb.topic.impl.SessionBase;
 public abstract class ReadSession extends SessionBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(ReadSession.class);
 
-    protected final String streamId;
-
     public ReadSession(TopicRpc rpc, String streamId) {
-        super(rpc.readSession(streamId));
-        this.streamId = streamId;
+        super(rpc.readSession(streamId), streamId);
     }
 
     @Override

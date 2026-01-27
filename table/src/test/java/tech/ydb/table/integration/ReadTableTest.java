@@ -23,19 +23,23 @@ import org.junit.Test;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.proto.table.YdbTable;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
+import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.ReadTablePart;
+import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
-import tech.ydb.table.settings.BulkUpsertSettings;
 import tech.ydb.table.settings.ReadTableSettings;
 import tech.ydb.table.values.ListType;
 import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.table.values.StructType;
 import tech.ydb.table.values.StructValue;
+import tech.ydb.table.values.TupleValue;
+import tech.ydb.table.values.proto.ProtoValue;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
@@ -94,9 +98,9 @@ public class ReadTableTest {
             );
         }).collect(Collectors.toList());
 
-        retryCtx.supplyStatus(session -> session.executeBulkUpsert(
-                tablePath, ListType.of(batchType).newValue(batchData), new BulkUpsertSettings())
-        ).join().expectSuccess("bulk upsert problem in table " + tablePath);
+        retryCtx.supplyStatus(session -> session.executeBulkUpsert(tablePath,
+                new BulkUpsertData(ProtoValue.toTypedValue(ListType.of(batchType).newValue(batchData)))
+        )).join().expectSuccess("bulk upsert problem in table " + tablePath);
     }
 
     @AfterClass
@@ -114,6 +118,20 @@ public class ReadTableTest {
         retryCtx.supplyStatus(session -> {
             rowsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {
+                YdbTable.ReadTableResponse proto = part.getReadTableResponse();
+                ResultSetReader rsr = part.getResultSetReader();
+                ReadTablePart.VirtualTimestamp vt = part.getVirtualTimestamp();
+
+                Assert.assertNotNull(proto);
+                Assert.assertNotNull(rsr);
+                Assert.assertNotNull(vt);
+
+                Assert.assertSame(rsr, part.getResultSetReader());
+                Assert.assertSame(vt, part.getVirtualTimestamp());
+
+                Assert.assertEquals(proto.getSnapshot().getPlanStep(), vt.getPlanStep());
+                Assert.assertEquals(proto.getSnapshot().getTxId(), vt.getTxId());
+
                 rowsRead.addAndGet(part.getResultSetReader().getRowCount());
             });
         }).join().expectSuccess("Cannot read table " + tablePath);
@@ -127,6 +145,13 @@ public class ReadTableTest {
         AtomicLong rewsRead = new AtomicLong(0);
 
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id").batchLimitRows(100).build();
+        Assert.assertNull(rts.getFromKey());
+        Assert.assertNull(rts.getToKey());
+        Assert.assertNull(rts.getFromKeyRaw());
+        Assert.assertNull(rts.getToKeyRaw());
+        Assert.assertEquals(0, rts.batchLimitBytes());
+        Assert.assertEquals(100, rts.batchLimitRows());
+
         retryCtx.supplyStatus(session -> {
             rewsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {
@@ -143,10 +168,20 @@ public class ReadTableTest {
         String tablePath = tablePath(TEST_TABLE);
         AtomicLong rowsRead = new AtomicLong(0);
 
+        PrimitiveValue from = PrimitiveValue.newInt64(1);
+        PrimitiveValue to = PrimitiveValue.newInt64(TEST_TABLE_SIZE);
         ReadTableSettings rts = ReadTableSettings.newBuilder().column("id")
-                .fromKeyExclusive(PrimitiveValue.newInt64(1))
-                .toKeyExclusive(PrimitiveValue.newInt64(TEST_TABLE_SIZE))
+                .fromKeyExclusive(from) // always coverted to optional type
+                .toKeyExclusive(to)
                 .build();
+
+        Assert.assertEquals(TupleValue.of(from.makeOptional()), rts.getFromKey());
+        Assert.assertEquals(TupleValue.of(to.makeOptional()), rts.getToKey());
+        Assert.assertEquals(ProtoValue.toTypedValue(TupleValue.of(from.makeOptional())), rts.getFromKeyRaw());
+        Assert.assertEquals(ProtoValue.toTypedValue(TupleValue.of(to.makeOptional())), rts.getToKeyRaw());
+        Assert.assertEquals(0, rts.batchLimitBytes());
+        Assert.assertEquals(0, rts.batchLimitRows());
+
         retryCtx.supplyStatus(session -> {
             rowsRead.set(0);
             return session.executeReadTable(tablePath, rts).start(part -> {

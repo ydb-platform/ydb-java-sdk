@@ -1,6 +1,7 @@
 package tech.ydb.core.impl.pool;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
@@ -8,6 +9,7 @@ import javax.net.ssl.SSLException;
 
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
 import io.grpc.Metadata;
 import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.netty.GrpcSslContexts;
@@ -36,9 +38,9 @@ public class NettyChannelFactory implements ManagedChannelFactory {
     private final boolean useTLS;
     private final byte[] cert;
     private final boolean retryEnabled;
-    private final long connectTimeoutMs;
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
+    private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
 
     private NettyChannelFactory(GrpcTransportBuilder builder) {
         this.database = builder.getDatabase();
@@ -46,14 +48,9 @@ public class NettyChannelFactory implements ManagedChannelFactory {
         this.useTLS = builder.getUseTls();
         this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
-        this.connectTimeoutMs = builder.getConnectTimeoutMillis();
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
         this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
-    }
-
-    @Override
-    public long getConnectTimeoutMs() {
-        return this.connectTimeoutMs;
+        this.initializers = builder.getChannelInitializers();
     }
 
     @SuppressWarnings("deprecation")
@@ -95,6 +92,10 @@ public class NettyChannelFactory implements ManagedChannelFactory {
             channelBuilder.enableRetry();
         } else {
             channelBuilder.disableRetry();
+        }
+
+        for (Consumer<? super ManagedChannelBuilder<?>> initializer: initializers) {
+            initializer.accept(channelBuilder);
         }
 
         configure(channelBuilder);

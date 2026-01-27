@@ -10,17 +10,17 @@ import com.google.common.collect.ImmutableList;
  * @author Nikolay Perfilov
  */
 public class SupportedCodecs {
-    private final List<Codec> codecs;
+    private final List<Integer> codecs;
 
     public SupportedCodecs(Builder builder) {
         this.codecs = ImmutableList.copyOf(builder.codecs);
     }
 
-    public SupportedCodecs(List<Codec> codecs) {
+    public SupportedCodecs(List<Integer> codecs) {
         this.codecs = codecs;
     }
 
-    public List<Codec> getCodecs() {
+    public List<Integer> getCodecs() {
         return codecs;
     }
 
@@ -32,14 +32,14 @@ public class SupportedCodecs {
      * BUILDER
      */
     public static class Builder {
-        private List<Codec> codecs = new ArrayList<>();
+        private List<Integer> codecs = new ArrayList<>();
 
-        public Builder addCodec(Codec codec) {
+        public Builder addCodec(int codec) {
             codecs.add(codec);
             return this;
         }
 
-        public Builder setCodecs(List<Codec> supportedCodecs) {
+        public Builder setCodecs(List<Integer> supportedCodecs) {
             this.codecs = supportedCodecs;
             return this;
         }

@@ -40,7 +40,9 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
 
     Stream(Rpc rpc) {
         this.scheduler = rpc.getScheduler();
-        this.stream = rpc.createSession(GrpcRequestSettings.newBuilder().build());
+        this.stream = rpc.createSession(GrpcRequestSettings.newBuilder()
+                .disableDeadline()
+                .build());
     }
 
     public CompletableFuture<Status> startStream() {
