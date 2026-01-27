@@ -128,6 +128,10 @@ public class ListValue implements Value<ListType> {
             return compareTo(optional.get());
         }
 
+        if (!(other instanceof ListValue)) {
+            throw new IllegalArgumentException("Cannot compare value " + type + " with " + other.getType());
+        }
+
         ListValue list = (ListValue) other;
 
         int minLength = Math.min(items.length, list.items.length);

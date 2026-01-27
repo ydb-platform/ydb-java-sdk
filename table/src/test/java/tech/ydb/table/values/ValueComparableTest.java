@@ -179,6 +179,7 @@ public class ValueComparableTest {
 
         assertNpe("Cannot compare with null value", list1, null);
         assertNpe("Cannot compare value List[1, 2] with NULL", list1, list1.getType().makeOptional().emptyValue());
+        assertIllegalArgument("Cannot compare value List<Int32> with Int32", list1, PrimitiveValue.newInt32(1));
         assertIllegalArgument("Cannot compare value Int32 with Text", list1, list5);
         assertIllegalArgument("Cannot compare value Int32 with Text", list2, list5);
     }
@@ -363,7 +364,7 @@ public class ValueComparableTest {
         assertGreater(t3.newValue("-999999999.98"), t1.newValue("-999999999.99"));
         assertGreater(t3.newValue("-899999999.99"), t1.newValue("-999999999.99"));
 
-        // the differnt scales
+        // the different scales
         assertEquals(t3.newValue("999999999.99"), t2.newValue("999999999.99"));
         assertEquals(t3.newValue("-999999999.99"), t2.newValue("-999999999.99"));
         assertLess(t3.newValue("999999999.99"), t2.newValue("1000000000"));
