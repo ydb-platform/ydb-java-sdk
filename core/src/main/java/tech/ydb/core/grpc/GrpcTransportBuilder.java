@@ -376,8 +376,8 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * Use existing {@link ScheduledExecutorService} for internal retries. This scheduler will not be shutdowned on the
-     * transport closing.
+     * Use the provided {@link ScheduledExecutorService} to schedule internal retries.
+     * The SDK does not manage its lifecycle and will not shut it down.
      *
      * @param scheduler scheduler instance
      * @return this builder instance
