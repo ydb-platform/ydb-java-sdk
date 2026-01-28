@@ -47,8 +47,8 @@ public class EndpointPoolTest {
         mocks = MockitoAnnotations.openMocks(this);
         threadLocalStaticMock.when(ThreadLocalRandom::current).thenReturn(random);
         socketFactoryStaticMock.when(SocketFactory::getDefault).thenReturn(socketFactory);
-        Mockito.when(socketFactory.createSocket()).thenReturn(socket);
         Mockito.doNothing().when(socket).connect(Mockito.any(SocketAddress.class));
+        Mockito.when(socketFactory.createSocket()).thenReturn(socket);
     }
 
     @After
