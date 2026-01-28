@@ -376,6 +376,19 @@ public class GrpcTransportBuilder {
     }
 
     /**
+     * Use existing {@link ScheduledExecutorService} for internal retries. This scheduler will not be shutdowned on the
+     * transport closing.
+     *
+     * @param scheduler scheduler instance
+     * @return this builder instance
+     */
+    public GrpcTransportBuilder withScheduler(ScheduledExecutorService scheduler) {
+        Objects.requireNonNull(scheduler, "scheduler is null");
+        this.schedulerFactory = () -> YdbSchedulerFactory.wrapExternal(scheduler);
+        return this;
+    }
+
+    /**
      * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
      * @return this
      * @deprecated

@@ -174,6 +174,64 @@ public class YdbTransportImplTest {
         Assert.assertTrue(isReady.isDone());
     }
 
+    @Test
+    public void failFastOnMissingPort() {
+        String endpoint = "127.1.2.3";
+        try {
+            GrpcTransport.forEndpoint(endpoint, "test").build().close();
+            Assert.fail("Exception expected");
+        } catch (IllegalArgumentException e) {
+            Assert.assertEquals("Can't create discovery rpc, port is not specified for endpoint 127.1.2.3", e.getMessage());
+        }
+    }
+
+    @Test
+    public void defaultSchedulerFactoryTest() {
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.discovery("self", new EndpointRecord("node", 2136)));
+
+        GrpcTransport transport = GrpcTransport.forEndpoint("grpc://mocked:2136", "/local")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .build();
+
+        ScheduledExecutorService scheduler = transport.getScheduler();
+        Assert.assertNotNull(scheduler);
+        Assert.assertFalse(scheduler.isShutdown());
+        Assert.assertFalse(scheduler.isTerminated());
+
+        transport.close();
+
+        Assert.assertSame(scheduler, transport.getScheduler());
+        Assert.assertTrue(scheduler.isShutdown());
+        Assert.assertTrue(scheduler.isTerminated());
+    }
+
+    @Test
+    public void customSchedulerTest() {
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.discovery("self", new EndpointRecord("node", 2136)));
+
+        ScheduledExecutorService custom = Executors.newSingleThreadScheduledExecutor();
+
+        GrpcTransport transport = GrpcTransport.forEndpoint("grpc://mocked:2136", "/local")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .withScheduler(custom)
+                .build();
+
+        ScheduledExecutorService scheduler = transport.getScheduler();
+        Assert.assertNotNull(scheduler);
+        Assert.assertFalse(scheduler.isShutdown());
+        Assert.assertFalse(scheduler.isTerminated());
+
+        transport.close();
+
+        Assert.assertSame(scheduler, transport.getScheduler());
+        Assert.assertFalse(scheduler.isShutdown());
+        Assert.assertFalse(scheduler.isTerminated());
+
+        YdbSchedulerFactory.shutdownScheduler(custom);
+    }
+
     public static class Ticker implements Executor {
         private final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
 
