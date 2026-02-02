@@ -48,8 +48,10 @@ public class ProxyDockerTest {
                         .unpack(SchemeOperationProtos.DescribePathResult.class);
 
                 Assert.assertEquals(helper.database(), "/" + result.getSelf().getName());
+                Assert.assertNull(helper.authToken());
+                Assert.assertNull(helper.pemCert());
+                Assert.assertFalse(helper.useTls());
             }
         }
     }
-
 }

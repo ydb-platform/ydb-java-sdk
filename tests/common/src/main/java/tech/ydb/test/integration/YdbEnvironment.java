@@ -22,6 +22,7 @@ public class YdbEnvironment {
     private final Supplier<String> dockerPemPath = createParam("YDB_DOCKER_PEM_PATH", "/ydb_certs/ca.pem");
     private final Supplier<String> dockerFeatures = createParam("YDB_DOCKER_FEATURE_FLAGS", "");
     private final Supplier<Boolean> dockerReuse = createParam("YDB_DOCKER_REUSE", true);
+    private final Supplier<String> dockerHealthcheckCmd = createParam("YDB_DOCKER_HEALTHCHECK", null);
 
     private final Supplier<Boolean> cleanUpTests = createParam("YDB_CLEAN_UP", true);
     private final Supplier<Boolean> disableIntegrationTests = createParam("YDB_DISABLE_INTEGRATION_TESTS", false);
@@ -65,6 +66,10 @@ public class YdbEnvironment {
 
     public String dockerFeatures() {
         return dockerFeatures.get();
+    }
+
+    public String dockerHealthcheckCmd() {
+        return dockerHealthcheckCmd.get();
     }
 
     public boolean cleanUpTests() {
