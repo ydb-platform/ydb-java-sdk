@@ -71,6 +71,8 @@ public class GrpcTransportBuilder {
 
     private byte[] cert = null;
     private boolean useTLS = false;
+    private String applicationName = null;
+    private String clientProcessId = null;
     private ManagedChannelFactory.Builder channelFactoryBuilder = null;
     private final List<Consumer<? super ManagedChannelBuilder<?>>> channelInitializers = new ArrayList<>();
     private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
@@ -125,6 +127,14 @@ public class GrpcTransportBuilder {
         return Version.getVersion()
                 .map(version -> "ydb-java-sdk/" + version)
                 .orElse(Version.UNKNOWN_VERSION);
+    }
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public String getClientProcessId() {
+        return clientProcessId;
     }
 
     public Supplier<ScheduledExecutorService> getSchedulerFactory() {
@@ -252,6 +262,16 @@ public class GrpcTransportBuilder {
 
     public GrpcTransportBuilder withSecureConnection() {
         this.useTLS = true;
+        return this;
+    }
+
+    public GrpcTransportBuilder withApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+        return this;
+    }
+
+    public GrpcTransportBuilder withClientProcessId(String clientProcessId) {
+        this.clientProcessId = clientProcessId;
         return this;
     }
 

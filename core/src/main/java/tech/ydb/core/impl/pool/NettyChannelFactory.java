@@ -10,12 +10,10 @@ import javax.net.ssl.SSLException;
 import io.grpc.ClientInterceptor;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.Metadata;
 import io.grpc.internal.DnsNameResolverProvider;
 import io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.NegotiationType;
 import io.grpc.netty.NettyChannelBuilder;
-import io.grpc.stub.MetadataUtils;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.ssl.SslContext;
@@ -33,8 +31,8 @@ public class NettyChannelFactory implements ManagedChannelFactory {
     static final int INBOUND_MESSAGE_SIZE = 64 << 20; // 64 MiB
     static final String DEFAULT_BALANCER_POLICY = "round_robin";
 
-    private final String database;
-    private final String version;
+    private final ClientInterceptor metadata;
+
     private final boolean useTLS;
     private final byte[] cert;
     private final boolean retryEnabled;
@@ -44,8 +42,7 @@ public class NettyChannelFactory implements ManagedChannelFactory {
     private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
 
     private NettyChannelFactory(GrpcTransportBuilder builder) {
-        this.database = builder.getDatabase();
-        this.version = builder.getVersionString();
+        this.metadata = YdbHeaders.createMetadataInterceptor(builder);
         this.useTLS = builder.getUseTls();
         this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
@@ -81,7 +78,7 @@ public class NettyChannelFactory implements ManagedChannelFactory {
                 .maxInboundMessageSize(INBOUND_MESSAGE_SIZE)
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT)
                 .withOption(ChannelOption.TCP_NODELAY, true)
-                .intercept(metadataInterceptor());
+                .intercept(metadata);
 
         if (!useDefaultGrpcResolver) {
             // force usage of dns resolver and round_robin balancer
@@ -112,13 +109,6 @@ public class NettyChannelFactory implements ManagedChannelFactory {
 
     protected void configure(NettyChannelBuilder channelBuilder) {
 
-    }
-
-    private ClientInterceptor metadataInterceptor() {
-        Metadata extraHeaders = new Metadata();
-        extraHeaders.put(YdbHeaders.DATABASE, database);
-        extraHeaders.put(YdbHeaders.BUILD_INFO, version);
-        return MetadataUtils.newAttachHeadersInterceptor(extraHeaders);
     }
 
     private SslContext createSslContext() {

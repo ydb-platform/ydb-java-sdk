@@ -12,15 +12,18 @@ import com.google.common.io.ByteStreams;
 import io.grpc.ClientInterceptor;
 import io.grpc.ForwardingChannelBuilder2;
 import io.grpc.ManagedChannel;
+import io.grpc.Metadata;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
 import io.grpc.netty.shaded.io.netty.channel.ChannelOption;
 import io.grpc.netty.shaded.io.netty.handler.ssl.util.SelfSignedCertificate;
+import io.grpc.stub.MetadataUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.ArgumentMatchers;
 import org.mockito.MockedStatic;
 import org.mockito.Mockito;
@@ -28,6 +31,8 @@ import org.mockito.MockitoAnnotations;
 
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.grpc.YdbHeaders;
+import tech.ydb.core.utils.Version;
 
 /**
  *
@@ -41,8 +46,11 @@ public class DefaultChannelFactoryTest {
 
     private AutoCloseable mocks;
     private MockedStatic<NettyChannelBuilder> channelStaticMock;
+    private MockedStatic<MetadataUtils> metadataUtilsStaticMock;
     private final NettyChannelBuilder channelBuilderMock = Mockito.mock(NettyChannelBuilder.class);
     private final ManagedChannel channelMock = Mockito.mock(ManagedChannel.class);
+    private final ArgumentCaptor<Metadata> metadataCapture = ArgumentCaptor.forClass(Metadata.class);
+    private final ClientInterceptor clientInterceptor = Mockito.mock(ClientInterceptor.class);
 
     @Before
     @SuppressWarnings("deprecation")
@@ -50,6 +58,9 @@ public class DefaultChannelFactoryTest {
         mocks = MockitoAnnotations.openMocks(this);
         channelStaticMock = Mockito.mockStatic(NettyChannelBuilder.class);
         channelStaticMock.when(FOR_ADDRESS).thenReturn(channelBuilderMock);
+        metadataUtilsStaticMock = Mockito.mockStatic(MetadataUtils.class);
+        metadataUtilsStaticMock.when(() -> MetadataUtils.newAttachHeadersInterceptor(metadataCapture.capture()))
+                .thenReturn(clientInterceptor);
 
         Mockito.when(channelBuilderMock.negotiationType(ArgumentMatchers.any()))
                 .thenReturn(channelBuilderMock);
@@ -70,6 +81,7 @@ public class DefaultChannelFactoryTest {
     @After
     public void tearDown() throws Exception {
         channelStaticMock.close();
+        metadataUtilsStaticMock.close();
         mocks.close();
     }
 
@@ -94,6 +106,13 @@ public class DefaultChannelFactoryTest {
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         Mockito.verify(channelBuilderMock, Mockito.times(0)).enableRetry();
         Mockito.verify(channelBuilderMock, Mockito.times(1)).disableRetry();
+
+
+        Metadata metadata = metadataCapture.getValue();
+        Assert.assertEquals("/Root", metadata.get(YdbHeaders.DATABASE));
+        Assert.assertEquals("ydb-java-sdk/" + Version.getVersion().get(), metadata.get(YdbHeaders.BUILD_INFO));
+        Assert.assertNull(metadata.get(YdbHeaders.APPLICATION_NAME));
+        Assert.assertNull(metadata.get(YdbHeaders.CLIENT_PROCESS_ID));
     }
 
     @Test
@@ -121,6 +140,23 @@ public class DefaultChannelFactoryTest {
                 .withOption(ChannelOption.ALLOCATOR, ByteBufAllocator.DEFAULT);
         Mockito.verify(channelBuilderMock, Mockito.times(1)).enableRetry();
         Mockito.verify(channelBuilderMock, Mockito.times(0)).disableRetry();
+    }
+
+    @Test
+    public void customHeadersTest() {
+        GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
+                .withApplicationName("test-application")
+                .withClientProcessId("client-hostname");
+        ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
+
+        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
+
+        Metadata metadata = metadataCapture.getValue();
+        Assert.assertEquals("/Root", metadata.get(YdbHeaders.DATABASE));
+        Assert.assertEquals("ydb-java-sdk/" + Version.getVersion().get(), metadata.get(YdbHeaders.BUILD_INFO));
+        Assert.assertEquals("test-application", metadata.get(YdbHeaders.APPLICATION_NAME));
+        Assert.assertEquals("client-hostname", metadata.get(YdbHeaders.CLIENT_PROCESS_ID));
     }
 
     @Test
