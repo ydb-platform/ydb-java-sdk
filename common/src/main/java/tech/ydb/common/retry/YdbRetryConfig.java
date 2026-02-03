@@ -9,14 +9,14 @@ import tech.ydb.core.Status;
 class YdbRetryConfig implements RetryConfig {
     private final boolean retryConditionally;
     private final boolean retryNotFound;
-    private final RetryPolicy immediatelly;
+    private final RetryPolicy immediately;
     private final RetryPolicy fast;
     private final RetryPolicy slow;
 
     YdbRetryConfig(boolean conditionally, boolean notFound, RetryPolicy instant, RetryPolicy fast, RetryPolicy slow) {
         this.retryConditionally = conditionally;
         this.retryNotFound = notFound;
-        this.immediatelly = instant;
+        this.immediately = instant;
         this.fast = fast;
         this.slow = slow;
     }
@@ -31,7 +31,7 @@ class YdbRetryConfig implements RetryConfig {
             // Instant retry
             case BAD_SESSION:
             case SESSION_BUSY:
-                return immediatelly;
+                return immediately;
 
             // Fast backoff
             case ABORTED:

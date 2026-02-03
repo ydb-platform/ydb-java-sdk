@@ -37,7 +37,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Infinity retries with default exponential delay.<br>This policy <b>does not</b> retries <i>conditionally</i>
+     * Infinity retries with default exponential delay.<br>This policy <b>does not</b> retry <i>conditionally</i>
      * retryable errors so it can be used for both as idempotent and non idempotent operations
      *
      * @return retry configuration object
@@ -47,7 +47,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Retries until the specified elapsed milliseconds expire.<br>This policy <b>does not</b> retries
+     * Retries until the specified elapsed milliseconds expire.<br>This policy <b>does not</b> retry
      * <i>conditionally</i> retryable errors so it can be used for both as idempotent and non idempotent operations
      * @param maxElapsedMs maximum timeout for retries
      * @return retry configuration object
@@ -57,7 +57,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Infinity retries with default exponential delay.<br>This policy <b>does</b> retries <i>conditionally</i>
+     * Infinity retries with default exponential delay.<br>This policy <b>does</b> retry <i>conditionally</i>
      * retryable errors so it can be used <b>ONLY</b> for idempotent operations
      * @return retry configuration object
      */
@@ -66,7 +66,7 @@ public interface RetryConfig {
     }
 
     /**
-     * Retries until the specified elapsed milliseconds expire.<br>This policy <b>does</b> retries
+     * Retries until the specified elapsed milliseconds expire.<br>This policy <b>does</b> retry
      * <i>conditionally</i> retryable errors so it can be used <b>ONLY</b> for idempotent operations
      * @param maxElapsedMs maximum timeout for retries
      * @return retry configuration object

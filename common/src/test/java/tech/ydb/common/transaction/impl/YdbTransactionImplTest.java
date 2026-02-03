@@ -10,7 +10,7 @@ import tech.ydb.common.transaction.TxMode;
  * @author Aleksandr Gorshenin
  */
 public class YdbTransactionImplTest {
-    private class MockTx extends YdbTransactionImpl {
+    private static class MockTx extends YdbTransactionImpl {
 
         public MockTx(TxMode txMode, String txId) {
             super(txMode, txId);

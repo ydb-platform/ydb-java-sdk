@@ -32,13 +32,13 @@ public class RetryConfigTest {
         Assert.assertNull(config.getThrowableRetryPolicy(new RuntimeException("test message")));
         Assert.assertNull(config.getThrowableRetryPolicy(new Exception("1", new RuntimeException("2"))));
 
-        RetryPolicy immediatelly = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
+        RetryPolicy immediately = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
         RetryPolicy fast = config.getStatusRetryPolicy(Status.of(StatusCode.NOT_FOUND));
 
-        Assert.assertEquals(immediatelly, config.getThrowableRetryPolicy(
+        Assert.assertEquals(immediately, config.getThrowableRetryPolicy(
                 new UnexpectedResultException("base", Status.of(StatusCode.BAD_SESSION)))
         );
-        Assert.assertEquals(immediatelly, config.getThrowableRetryPolicy(new Exception("base",
+        Assert.assertEquals(immediately, config.getThrowableRetryPolicy(new Exception("base",
                 new UnexpectedResultException("cause", Status.of(StatusCode.SESSION_BUSY)))
         ));
         Assert.assertEquals(fast, config.getThrowableRetryPolicy(new Exception("base",
@@ -49,7 +49,7 @@ public class RetryConfigTest {
     @Test
     public void noRetryPolicyTest() {
         RetryConfig config = RetryConfig.noRetries();
-        // unretrayable
+        // unretryable
         for (StatusCode code: StatusCode.values()) {
             Assert.assertNull(config.getStatusRetryPolicy(Status.of(code)));
         }
@@ -59,7 +59,7 @@ public class RetryConfigTest {
     public void nonIdempotentRetryPolicyTest() {
         RetryConfig config = RetryConfig.retryForever();
 
-        // unretrayable
+        // unretryable
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.SCHEME_ERROR)));
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.ALREADY_EXISTS)));
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.UNAUTHORIZED)));
@@ -69,9 +69,9 @@ public class RetryConfigTest {
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.CLIENT_INTERNAL_ERROR)));
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.NOT_FOUND)));
 
-        RetryPolicy immediatelly = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
-        Assert.assertNotNull(immediatelly);
-        Assert.assertEquals(immediatelly, config.getStatusRetryPolicy(Status.of(StatusCode.SESSION_BUSY)));
+        RetryPolicy immediately = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
+        Assert.assertNotNull(immediately);
+        Assert.assertEquals(immediately, config.getStatusRetryPolicy(Status.of(StatusCode.SESSION_BUSY)));
 
         RetryPolicy fast = config.getStatusRetryPolicy(Status.of(StatusCode.ABORTED));
         Assert.assertNotNull(fast);
@@ -86,15 +86,15 @@ public class RetryConfigTest {
     public void idempotentRetryPolicyTest() {
         RetryConfig config = RetryConfig.idempotentRetryForever();
 
-        // unretrayable
+        // unretryable
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.SCHEME_ERROR)));
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.ALREADY_EXISTS)));
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.UNAUTHORIZED)));
         Assert.assertNull(config.getStatusRetryPolicy(Status.of(StatusCode.NOT_FOUND)));
 
-        RetryPolicy immediatelly = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
-        Assert.assertNotNull(immediatelly);
-        Assert.assertEquals(immediatelly, config.getStatusRetryPolicy(Status.of(StatusCode.SESSION_BUSY)));
+        RetryPolicy immediately = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
+        Assert.assertNotNull(immediately);
+        Assert.assertEquals(immediately, config.getStatusRetryPolicy(Status.of(StatusCode.SESSION_BUSY)));
 
         RetryPolicy fast = config.getStatusRetryPolicy(Status.of(StatusCode.ABORTED));
         Assert.assertNotNull(fast);
@@ -121,11 +121,11 @@ public class RetryConfigTest {
     public void foreverRetryTest() {
         RetryConfig config = RetryConfig.newConfig().withSlowBackoff(100, 5).withFastBackoff(10, 10).retryForever();
 
-        RetryPolicy immediatelly = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(0, 0));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(0, Integer.MAX_VALUE));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(Integer.MAX_VALUE, 0));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(Integer.MAX_VALUE, Integer.MAX_VALUE));
+        RetryPolicy immediately = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
+        Assert.assertEquals(0, immediately.nextRetryMs(0, 0));
+        Assert.assertEquals(0, immediately.nextRetryMs(0, Integer.MAX_VALUE));
+        Assert.assertEquals(0, immediately.nextRetryMs(Integer.MAX_VALUE, 0));
+        Assert.assertEquals(0, immediately.nextRetryMs(Integer.MAX_VALUE, Integer.MAX_VALUE));
 
         RetryPolicy fast = config.getStatusRetryPolicy(Status.of(StatusCode.ABORTED));
         assertDuration(10, 20, fast.nextRetryMs(0, 0));
@@ -144,13 +144,13 @@ public class RetryConfigTest {
     public void untilElapsedRetryTest() {
         RetryConfig config = RetryConfig.idempotentRetryUntilElapsed(5000);
 
-        RetryPolicy immediatelly = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(0, 0));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(0, 5000));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(Integer.MAX_VALUE, 0));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(Integer.MAX_VALUE, 5000));
-        Assert.assertEquals(-1, immediatelly.nextRetryMs(0, 5001));
-        Assert.assertEquals(-1, immediatelly.nextRetryMs(Integer.MAX_VALUE, 5001));
+        RetryPolicy immediately = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
+        Assert.assertEquals(0, immediately.nextRetryMs(0, 0));
+        Assert.assertEquals(0, immediately.nextRetryMs(0, 5000));
+        Assert.assertEquals(0, immediately.nextRetryMs(Integer.MAX_VALUE, 0));
+        Assert.assertEquals(0, immediately.nextRetryMs(Integer.MAX_VALUE, 5000));
+        Assert.assertEquals(-1, immediately.nextRetryMs(0, 5001));
+        Assert.assertEquals(-1, immediately.nextRetryMs(Integer.MAX_VALUE, 5001));
 
         RetryPolicy fast = config.getStatusRetryPolicy(Status.of(StatusCode.ABORTED));
         assertDuration(5, 10, fast.nextRetryMs(0, 0));
@@ -171,13 +171,13 @@ public class RetryConfigTest {
     public void nTimesRetryTest() {
         RetryConfig config = RetryConfig.newConfig().retryNTimes(8);
 
-        RetryPolicy immediatelly = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(0, 0));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(0, Integer.MAX_VALUE));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(7, 0));
-        Assert.assertEquals(0, immediatelly.nextRetryMs(7, Integer.MAX_VALUE));
-        Assert.assertEquals(-1, immediatelly.nextRetryMs(8, 0));
-        Assert.assertEquals(-1, immediatelly.nextRetryMs(8, Integer.MAX_VALUE));
+        RetryPolicy immediately = config.getStatusRetryPolicy(Status.of(StatusCode.BAD_SESSION));
+        Assert.assertEquals(0, immediately.nextRetryMs(0, 0));
+        Assert.assertEquals(0, immediately.nextRetryMs(0, Integer.MAX_VALUE));
+        Assert.assertEquals(0, immediately.nextRetryMs(7, 0));
+        Assert.assertEquals(0, immediately.nextRetryMs(7, Integer.MAX_VALUE));
+        Assert.assertEquals(-1, immediately.nextRetryMs(8, 0));
+        Assert.assertEquals(-1, immediately.nextRetryMs(8, Integer.MAX_VALUE));
 
         RetryPolicy fast = config.getStatusRetryPolicy(Status.of(StatusCode.ABORTED));
         assertDuration(5, 10, fast.nextRetryMs(0, 0));
