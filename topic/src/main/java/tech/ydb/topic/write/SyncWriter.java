@@ -1,5 +1,6 @@
 package tech.ydb.topic.write;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -27,8 +28,9 @@ public interface SyncWriter {
      * Send message. Blocks infinitely until the message is put into sending buffer.
      * @param message message data to write
      * @param settings send settings
+     * @return {@link CompletableFuture} with {@link WriteAck} for write acknowledgement
      */
-    void send(Message message, SendSettings settings);
+    CompletableFuture<WriteAck> send(Message message, SendSettings settings);
 
     /**
      * Send message. Blocks until the message is put into sending buffer.
@@ -38,16 +40,18 @@ public interface SyncWriter {
      * @param settings send settings
      * @param timeout timeout to wait until message is punt into sending buffer
      * @param unit {@link TimeUnit} for timeout
+     * @return {@link CompletableFuture} with {@link WriteAck} for write acknowledgement
      */
-    void send(Message message, SendSettings settings, long timeout, TimeUnit unit)
+    CompletableFuture<WriteAck> send(Message message, SendSettings settings, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException;
 
     /**
      * Send message. Blocks infinitely until the message is put into sending buffer.
      * @param message message data to write
+     * @return {@link CompletableFuture} with {@link WriteAck} for write acknowledgement
      */
-    default void send(Message message) {
-        send(message, SendSettings.newBuilder().build());
+    default CompletableFuture<WriteAck> send(Message message) {
+        return send(message, SendSettings.newBuilder().build());
     }
 
     /**
@@ -57,10 +61,11 @@ public interface SyncWriter {
      * @param message message data to write
      * @param timeout timeout to wait until message is punt into sending buffer
      * @param unit {@link TimeUnit} for timeout
+     * @return {@link CompletableFuture} with {@link WriteAck} for write acknowledgement
      */
-    default void send(Message message, long timeout, TimeUnit unit)
+    default CompletableFuture<WriteAck> send(Message message, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
-        send(message, SendSettings.newBuilder().build(), timeout, unit);
+        return send(message, SendSettings.newBuilder().build(), timeout, unit);
     }
 
     /**
