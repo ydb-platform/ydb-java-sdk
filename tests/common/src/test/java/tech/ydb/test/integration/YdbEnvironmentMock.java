@@ -13,6 +13,7 @@ public class YdbEnvironmentMock extends YdbEnvironment {
     private boolean useTLS = false;
     private boolean dockerReuse = false;
     private boolean dockerIsolation = false;
+    private String dockerHealthcheck = null;
     private boolean disabledTests = false;
 
     public YdbEnvironmentMock withDatabase(String value) {
@@ -52,6 +53,11 @@ public class YdbEnvironmentMock extends YdbEnvironment {
 
     public YdbEnvironmentMock withDockerIsolation(boolean value) {
         this.dockerIsolation = value;
+        return this;
+    }
+
+    public YdbEnvironmentMock withDockerHealthcheck(String value) {
+        this.dockerHealthcheck = value;
         return this;
     }
 
@@ -103,5 +109,10 @@ public class YdbEnvironmentMock extends YdbEnvironment {
     @Override
     public boolean disableIntegrationTests() {
         return disabledTests;
+    }
+
+    @Override
+    public String dockerHealthcheckCmd() {
+        return dockerHealthcheck;
     }
 }

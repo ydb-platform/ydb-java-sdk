@@ -1,3 +1,9 @@
+## 2.3.30 ##
+* Core: Added support of YDB custom headers
+* Core: Added support for external scheduler usage
+* Query: Fixed missed interface method for accessing QueryClient pool stats
+* Tests: Added support of custom healthcheck to YdbDockerContainer
+
 ## 2.3.29 ##
 * Table: Fixed data race in session pool
 * Topic: Added an message decoder with limits of memory consumption

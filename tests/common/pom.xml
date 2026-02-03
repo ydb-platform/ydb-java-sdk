@@ -8,7 +8,7 @@
     <parent>
         <groupId>tech.ydb</groupId>
         <artifactId>ydb-sdk-parent</artifactId>
-        <version>2.3.30-SNAPSHOT</version>
+        <version>2.3.31-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -67,6 +67,7 @@
                         <TEST_VAR5>true1</TEST_VAR5>
 
                         <YDB_DOCKER_ISOLATION>true</YDB_DOCKER_ISOLATION>
+                        <YDB_DOCKER_REUSE>false</YDB_DOCKER_REUSE>
                     </environmentVariables>
                 </configuration>
             </plugin>

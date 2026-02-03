@@ -8,6 +8,8 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.containers.wait.strategy.WaitStrategy;
 import org.testcontainers.core.CreateContainerCmdModifier;
 import org.testcontainers.utility.ThrowingFunction;
 
@@ -67,6 +69,11 @@ public class DockerHelperFactoryTest {
             } catch (Exception ex) {
                 throw new AssertionError("mock error", ex);
             }
+        }
+
+        @Override
+        public WaitStrategy getWaitStrategy() {
+            return super.getWaitStrategy();
         }
     }
 
@@ -156,9 +163,10 @@ public class DockerHelperFactoryTest {
         transportMock.setup("/local");
 
         PortsGenerator ports = Mockito.mock(PortsGenerator.class);
-        Mockito.when(ports.findAvailablePort()).thenReturn(/* Secure */ 22, /* Insecure */ 33);
+        Mockito.when(ports.findAvailablePort()).thenReturn(/* Secure */ 22, /* Insecure */ 33, /* Kafka */ 44);
 
         YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withDockerHealthcheck("") // must be ignored
                 .withUseTLS(true)
                 .withToken("SIMPLE_TOKEN")
                 .withFeatures("enable_views")
@@ -173,11 +181,14 @@ public class DockerHelperFactoryTest {
         try (YdbHelper helper = factory.createHelper()) {
             Assert.assertEquals("check container is started", 1, container.starts);
             Assert.assertEquals("check container is stopped", 0, container.stops);
+            Assert.assertSame("check container wait strategy", Wait.forHealthcheck().getClass(),
+                    container.getWaitStrategy().getClass());
 
             assertCreateContainerCmdModifiers(container);
 
             Assert.assertTrue("check helper use tls", helper.useTls());
             Assert.assertEquals("check helper endpoint", "mocked:122", helper.endpoint());
+            Assert.assertEquals("check container kafka", "mocked:144", container.nonSecureKafkaEndpoint());
             Assert.assertEquals("check helper database", "/local", helper.database());
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
@@ -333,5 +344,37 @@ public class DockerHelperFactoryTest {
 
         Assert.assertEquals("check container is started", 2, container.starts);
         Assert.assertEquals("check container is stopped", 0, container.stops);
+    }
+
+    @Test
+    public void dockerCustomHealthCheckTest() {
+        dockerMock.setup(Boolean.TRUE, Boolean.TRUE);
+        transportMock.setup("/local");
+
+        PortsGenerator ports = Mockito.mock(PortsGenerator.class);
+
+        YdbEnvironmentMock env = new YdbEnvironmentMock()
+                .withDockerReuse(false)
+                .withDockerHealthcheck("/test");
+
+        YdbMockContainer container = new YdbMockContainer(env, ports);
+        DockerHelperFactory factory = new DockerHelperFactory(env, container);
+
+        Assert.assertEquals("check container is started", 0, container.starts);
+        Assert.assertEquals("check container is stopped", 0, container.stops);
+
+        try (YdbHelper helper = factory.createHelper()) {
+            Assert.assertEquals("check container is started", 1, container.starts);
+            Assert.assertEquals("check container is stopped", 0, container.stops);
+            Assert.assertSame("check container wait strategy", Wait.forSuccessfulCommand("/test").getClass(),
+                    container.getWaitStrategy().getClass());
+
+            assertCreateContainerCmdModifiers(container);
+
+            try (GrpcTransport transport = helper.createTransport()) {
+                Assert.assertEquals("/local", transport.getDatabase());
+                Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
+            }
+        }
     }
 }

@@ -26,21 +26,14 @@ import tech.ydb.table.query.Params;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
 /**
- * Test on resource poll.
+ * Test on resource pools.
  * <p>
  * Take an account, that resource poll with name "default" exists every time and can't be deleted
  * Also when we specify pool with empty string "" it's equivalent to default pool
- * <p>
- * Test marked with @Ignore should be uncommented when resource pool disappeared from experimental feature
- * <p>
- * Until this to run test go to @see tech.ydb.test.integration.YdbEnvironment
- * {@link tech.ydb.test.integration.YdbEnvironment}
- * dockerFeatures = createParam("YDB_DOCKER_FEATURE_FLAGS", "enable_resource_pools");
- * By the way feature available with image ydbplatform/local-ydb:24.3.11.13";
  *
  * @author Evgeny Kuvardin
  */
-@Ignore // Resource pools are unstable now
+@Ignore // The resourse pools are unstable
 public class ResourcePoolTest {
     private final static Logger logger = LoggerFactory.getLogger(ResourcePoolTest.class);
 

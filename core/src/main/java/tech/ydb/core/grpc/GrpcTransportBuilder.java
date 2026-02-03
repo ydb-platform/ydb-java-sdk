@@ -71,6 +71,8 @@ public class GrpcTransportBuilder {
 
     private byte[] cert = null;
     private boolean useTLS = false;
+    private String applicationName = null;
+    private String clientProcessId = null;
     private ManagedChannelFactory.Builder channelFactoryBuilder = null;
     private final List<Consumer<? super ManagedChannelBuilder<?>>> channelInitializers = new ArrayList<>();
     private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
@@ -124,6 +126,14 @@ public class GrpcTransportBuilder {
         return Version.getVersion()
                 .map(version -> "ydb-java-sdk/" + version)
                 .orElse(Version.UNKNOWN_VERSION);
+    }
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public String getClientProcessId() {
+        return clientProcessId;
     }
 
     public Supplier<ScheduledExecutorService> getSchedulerFactory() {
@@ -255,6 +265,16 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    public GrpcTransportBuilder withApplicationName(String applicationName) {
+        this.applicationName = applicationName;
+        return this;
+    }
+
+    public GrpcTransportBuilder withClientProcessId(String clientProcessId) {
+        this.clientProcessId = clientProcessId;
+        return this;
+    }
+
     public GrpcTransportBuilder withBalancingSettings(BalancingSettings balancingSettings) {
         this.balancingSettings = balancingSettings;
         return this;
@@ -370,6 +390,19 @@ public class GrpcTransportBuilder {
 
     public GrpcTransportBuilder withSchedulerFactory(Supplier<ScheduledExecutorService> factory) {
         this.schedulerFactory = Objects.requireNonNull(factory, "schedulerFactory is null");
+        return this;
+    }
+
+    /**
+     * Use the provided {@link ScheduledExecutorService} to schedule internal retries.
+     * The SDK does not manage its lifecycle and will not shut it down.
+     *
+     * @param scheduler scheduler instance
+     * @return this builder instance
+     */
+    public GrpcTransportBuilder withScheduler(ScheduledExecutorService scheduler) {
+        Objects.requireNonNull(scheduler, "scheduler is null");
+        this.schedulerFactory = () -> YdbSchedulerFactory.wrapExternal(scheduler);
         return this;
     }
 

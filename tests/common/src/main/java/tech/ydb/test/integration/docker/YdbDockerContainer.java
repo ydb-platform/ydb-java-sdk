@@ -76,7 +76,12 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
                 .withName(id)
                 .withHostName(getHost()));
 
-        waitingFor(Wait.forHealthcheck());
+        String healthcheck = env.dockerHealthcheckCmd();
+        if (healthcheck == null || healthcheck.isEmpty()) {
+            waitingFor(Wait.forHealthcheck());
+        } else {
+            waitingFor(Wait.forSuccessfulCommand(healthcheck));
+        }
 
         // Register container cleaner
         ResourceReaper.instance().registerLabelsFilterForCleanup(Collections.singletonMap(
