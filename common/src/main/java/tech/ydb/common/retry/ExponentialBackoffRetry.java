@@ -7,11 +7,11 @@ import java.util.concurrent.ThreadLocalRandom;
  *
  * @author Aleksandr Gorshenin
  */
-public abstract class ExponentialBackoffRetry implements RetryPolicy {
+public class ExponentialBackoffRetry implements RetryPolicy {
     private final long backoffMs;
     private final int backoffCeiling;
 
-    protected ExponentialBackoffRetry(long backoffMs, int backoffCeiling) {
+    public ExponentialBackoffRetry(long backoffMs, int backoffCeiling) {
         this.backoffMs = backoffMs;
         this.backoffCeiling = backoffCeiling;
     }
@@ -20,6 +20,11 @@ public abstract class ExponentialBackoffRetry implements RetryPolicy {
         int slots = 1 << Math.min(retryNumber, backoffCeiling);
         long delay = backoffMs * slots;
         return delay + ThreadLocalRandom.current().nextLong(delay);
+    }
+
+    @Override
+    public long nextRetryMs(int retryCount, long elapsedTimeMs) {
+        return backoffTimeMillis(retryCount);
     }
 
     /**
@@ -37,4 +42,5 @@ public abstract class ExponentialBackoffRetry implements RetryPolicy {
     public int getBackoffCeiling() {
         return backoffCeiling;
     }
+
 }

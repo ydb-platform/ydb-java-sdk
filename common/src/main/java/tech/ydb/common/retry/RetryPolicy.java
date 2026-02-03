@@ -5,6 +5,7 @@ package tech.ydb.common.retry;
  *
  * @author Aleksandr Gorshenin
  */
+@FunctionalInterface
 public interface RetryPolicy {
     /**
      * Called when an operation is failed for some reason to determine if it should be retried.
