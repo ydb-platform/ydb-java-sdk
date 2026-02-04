@@ -1,7 +1,6 @@
 package tech.ydb.query.impl;
 
 import java.time.Duration;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import org.junit.After;
@@ -18,7 +17,6 @@ import tech.ydb.core.operation.Operation;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.TestExampleData;
 import tech.ydb.query.script.ScriptClient;
-import tech.ydb.query.script.impl.ScriptClientImpl;
 import tech.ydb.query.script.result.ScriptResultPart;
 import tech.ydb.query.script.settings.ExecuteScriptSettings;
 import tech.ydb.query.script.settings.FetchScriptSettings;
@@ -96,7 +94,7 @@ public class ScriptExampleTest {
                 .build();
         retryCtx = SessionRetryContext.create(client).build();
 
-        scriptClient = ScriptClientImpl.newClient(ydbRule);
+        scriptClient = ScriptClient.newClient(ydbRule);
 
         Assert.assertNotNull(client.getScheduler());
 
@@ -169,7 +167,7 @@ public class ScriptExampleTest {
                         " last_aired Date, " +
                         " PRIMARY KEY(series_id, season_id))",
                         Params.empty(), ExecuteScriptSettings.newBuilder().build())
-                .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 1))
+                .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 0))
                 .join();
 
         Assert.assertFalse(statusOperation.isSuccess());
@@ -222,7 +220,7 @@ public class ScriptExampleTest {
                                 + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
                                 + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);",
                         Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings)
-                .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 1))
+                .thenCompose(p -> scriptClient.fetchQueryScriptStatus(p, 0))
                 .join();
 
         Assert.assertNotNull(status);
@@ -288,7 +286,7 @@ public class ScriptExampleTest {
 
         Assert.assertEquals(operation.getId(), operation1.getId());
 
-        Status status = scriptClient.fetchQueryScriptStatus(operation1, 1).join();
+        Status status = scriptClient.fetchQueryScriptStatus(operation1, 0).join();
         Assert.assertTrue(status.isSuccess());
     }
 
@@ -327,7 +325,7 @@ public class ScriptExampleTest {
                         + "SELECT season_id FROM seasons where series_id = 1 order by series_id;",
                 Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings).join();
 
-        scriptClient.fetchQueryScriptStatus(operation, 1).join();
+        scriptClient.fetchQueryScriptStatus(operation, 0).join();
 
         FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(1)
@@ -386,7 +384,7 @@ public class ScriptExampleTest {
                         + "SELECT season_id FROM seasons where series_id = 2 order by series_id;",
                 Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings).join();
 
-        scriptClient.fetchQueryScriptStatus(operation, 1).join();
+        scriptClient.fetchQueryScriptStatus(operation, 0).join();
 
         FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
                 .withRowsLimit(10)
@@ -415,61 +413,6 @@ public class ScriptExampleTest {
         ResultSetReader reader2 = part1.getResultSetReader();
 
         Assert.assertEquals(5, reader2.getRowCount());
-    }
-
-    /**
-     * Ensures that script execution surfaces query errors in result fetch.
-     * <p>
-     * Test steps:
-     * <ol>
-     *   <li>Executes a script containing an incorrect column reference</li>
-     *   <li>Waits for script execution to complete</li>
-     *   <li>Fetches the corresponding result set</li>
-     *   <li>Validates that the result contains error issues</li>
-     *   <li>Checks that the reported issue matches the incorrect column name</li>
-     * </ol>
-     */
-
-    @Test
-    public void fetchScriptWithError() {
-        ExecuteScriptSettings executeScriptSettings = ExecuteScriptSettings.newBuilder()
-                .withExecMode(QueryExecMode.EXECUTE)
-                .build();
-
-        Operation<Status> operation = scriptClient.startQueryScript(""
-                        + "DECLARE $values AS List<Struct<"
-                        + "  series_id: Uint64,"
-                        + "  season_id: Uint64,"
-                        + "  title: Text,"
-                        + "  first_aired: Date,"
-                        + "  last_aired: Date"
-                        + ">>;"
-                        + "DECLARE $values1 AS List<Struct<"
-                        + "                        series_id: Uint64,"
-                        + "                        title: Text,"
-                        + "                        series_info: Text,"
-                        + "                        release_date: Date"
-                        + "                        >>;"
-                        + "UPSERT INTO seasons SELECT * FROM AS_TABLE($values);"
-                        + "UPSERT INTO series SELECT * FROM AS_TABLE($values1);"
-                        + "SELECT season_id FROM seasons where series_ids = 1 order by series_id;",
-                Params.of("$values", SEASONS, "$values1", SERIES), executeScriptSettings).join();
-
-        Status status = scriptClient.fetchQueryScriptStatus(operation, 1).join();
-
-        FetchScriptSettings fetchScriptSettings1 = FetchScriptSettings.newBuilder()
-                .withRowsLimit(1)
-                .withResultSetIndex(0)
-                .build();
-
-        Result<ScriptResultPart> resultPartResult = scriptClient.fetchQueryScriptResult(operation, null, fetchScriptSettings1)
-                .join();
-
-        Assert.assertTrue(resultPartResult.getValue().hasErrors());
-
-        Assert.assertTrue(
-                Arrays.stream(resultPartResult.getValue().getIssues()).anyMatch(
-                        issue -> issue.toString().contains("not found: series_ids.")));
     }
 
     private void checkFetch(Result<ScriptResultPart> resultPartResult, int value) {

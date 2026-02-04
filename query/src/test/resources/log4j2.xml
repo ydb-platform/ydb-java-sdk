@@ -13,6 +13,9 @@
         <Logger name="tech.ydb" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="tech.ydb.core.operation.OperationTray" level="warn" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <Logger name="tech.ydb.query" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>

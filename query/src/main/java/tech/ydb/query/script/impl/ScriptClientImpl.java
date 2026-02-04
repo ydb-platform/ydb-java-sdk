@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
@@ -33,21 +32,16 @@ import tech.ydb.table.query.Params;
  * <p>Author: Evgeny Kuvardin
  */
 public class ScriptClientImpl implements ScriptClient {
+    private final ScriptRpc rpc;
 
-    private final ScriptRpc scriptRpc;
-
-    ScriptClientImpl(ScriptRpc scriptRpc) {
-        this.scriptRpc = scriptRpc;
-    }
-
-    public static ScriptClient newClient(@WillNotClose GrpcTransport transport) {
-        return new ScriptClientImpl(ScriptRpcImpl.useTransport(transport));
+    public ScriptClientImpl(GrpcTransport transport) {
+        this.rpc = new ScriptRpc(transport);
     }
 
     @Override
     public CompletableFuture<Operation<Status>> findQueryScript(String operationId, FindScriptSettings settings) {
         GrpcRequestSettings options = makeGrpcRequestSettings(settings);
-        return scriptRpc.getOperation(operationId, options);
+        return rpc.getOperation(operationId, options);
     }
 
     @Override
@@ -73,7 +67,7 @@ public class ScriptClientImpl implements ScriptClient {
 
         request.putAllParameters(params.toPb());
         GrpcRequestSettings options = makeGrpcRequestSettings(settings);
-        return scriptRpc.executeScript(request.build(), options);
+        return rpc.executeScript(request.build(), options);
     }
 
     @Override
@@ -85,7 +79,6 @@ public class ScriptClientImpl implements ScriptClient {
         if (previous != null && previous.getNextFetchToken() != null) {
             requestBuilder.setFetchToken(previous.getNextFetchToken());
         }
-
         if (settings.getRowsLimit() > 0) {
             requestBuilder.setRowsLimit(settings.getRowsLimit());
         }
@@ -98,7 +91,7 @@ public class ScriptClientImpl implements ScriptClient {
 
         GrpcRequestSettings options = makeGrpcRequestSettings(settings);
 
-        return scriptRpc.fetchScriptResults(requestBuilder.build(), options)
+        return rpc.fetchScriptResults(requestBuilder.build(), options)
                 .thenApply(p -> p.map(ScriptResultPart::new));
     }
 
