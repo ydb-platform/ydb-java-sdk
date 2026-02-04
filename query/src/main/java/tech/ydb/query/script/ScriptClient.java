@@ -4,11 +4,14 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.operation.OperationTray;
+import tech.ydb.query.script.impl.ScriptClientImpl;
 import tech.ydb.query.script.result.ScriptResultPart;
 import tech.ydb.query.script.settings.ExecuteScriptSettings;
 import tech.ydb.query.script.settings.FetchScriptSettings;
@@ -44,6 +47,9 @@ import tech.ydb.table.query.Params;
  * <p>Author: Evgeny Kuvardin
  */
 public interface ScriptClient {
+    static ScriptClient newClient(@WillNotClose GrpcTransport transport) {
+        return new ScriptClientImpl(transport);
+    }
 
     /**
      * Returns operation metadata for a previously started script execution.
