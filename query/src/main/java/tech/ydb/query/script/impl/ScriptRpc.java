@@ -16,10 +16,10 @@ import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.query.v1.QueryServiceGrpc;
 
 /**
- * Default gRPC-based implementation of {@link ScriptRpc}.
+ * Low-level RPC class for executing YQL scripts and fetching their results using gRPC.
  * <p>
- * Uses {@link GrpcTransport} to communicate with YDB QueryService and OperationService.
- * Provides async unary calls for executing scripts and retrieving results or operation metadata.
+ * Provides direct bindings to the YDB QueryService API
+ * Used internally by {@link tech.ydb.query.script.ScriptClient} implementations.
  *
  * <p>Author: Evgeny Kuvardin
  */
