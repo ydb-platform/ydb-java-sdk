@@ -74,6 +74,59 @@ public class ValuesReadTest {
     }
 
     @Test
+    public void tzDatesTest() {
+        DataQueryResult result = CTX.supplyResult(s -> s.executeDataQuery("SELECT "
+                + "AddTimezone(Timestamp('2026-10-29T04:23:45.987654Z'), 'Europe/Warsaw') as p1,"
+                + "AddTimezone(Timestamp('2026-10-29T04:23:45.987654Z'), 'Canada/Pacific') as p2,"
+                + "AddTimezone(Datetime('2021-10-10T01:23:45Z'), 'Europe/Lisbon') as p3,"
+                + "AddTimezone(Datetime('2021-10-10T01:23:45Z'), 'America/Vancouver') as p4,"
+                + "AddTimezone(Date('2005-01-01'), 'Asia/Macau') as p5,"
+                + "AddTimezone(Date('2005-01-01'), 'Pacific/Niue') as p6"
+                ,
+                TxControl.snapshotRo()
+        )).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        ValueReader p1 = rs.getColumn("p1");
+        ValueReader p2 = rs.getColumn("p2");
+        ValueReader p3 = rs.getColumn("p3");
+        ValueReader p4 = rs.getColumn("p4");
+        ValueReader p5 = rs.getColumn("p5");
+        ValueReader p6 = rs.getColumn("p6");
+
+        Assert.assertNotNull(p1);
+        Assert.assertNotNull(p2);
+        Assert.assertNotNull(p3);
+        Assert.assertNotNull(p4);
+        Assert.assertNotNull(p5);
+        Assert.assertNotNull(p6);
+
+        Assert.assertSame(Type.Kind.OPTIONAL, p1.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p2.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p3.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p4.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p5.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p6.getType().getKind());
+
+        Assert.assertSame(PrimitiveType.TzTimestamp, p1.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzTimestamp, p2.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDatetime, p3.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDatetime, p4.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDate, p5.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDate, p6.getType().unwrapOptional());
+
+        Assert.assertEquals("2026-10-29T05:23:45.987654+01:00[Europe/Warsaw]", p1.getTzTimestamp().toString());
+        Assert.assertEquals("2026-10-28T21:23:45.987654-07:00[Canada/Pacific]", p2.getTzTimestamp().toString());
+        Assert.assertEquals("2021-10-10T02:23:45+01:00[Europe/Lisbon]", p3.getTzDatetime().toString());
+        Assert.assertEquals("2021-10-09T18:23:45-07:00[America/Vancouver]", p4.getTzDatetime().toString());
+        Assert.assertEquals("2005-01-02T00:00+08:00[Asia/Macau]", p5.getTzDate().toString());
+        Assert.assertEquals("2005-01-01T00:00-11:00[Pacific/Niue]", p6.getTzDate().toString());
+    }
+
+    @Test
     @SuppressWarnings("deprecation")
     public void uuidReadTest() {
         DataQueryResult result = CTX.supplyResult(
