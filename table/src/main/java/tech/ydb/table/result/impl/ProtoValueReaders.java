@@ -123,13 +123,7 @@ public class ProtoValueReaders {
 
     private static AbstractValueReader optionalReader(ValueProtos.Type type) {
         ValueProtos.Type itemType = type.getOptionalType().getItem();
-        switch (itemType.getTypeCase()) {
-            case TYPE_ID:
-            case DECIMAL_TYPE:
-                return new ProtoPrimitiveValueReader.Optional(type);
-            default:
-                return new ProtoOptionalValueReader(type, forTypeImpl(itemType));
-        }
+        return new ProtoOptionalValueReader(type, forTypeImpl(itemType));
     }
 
     private static AbstractValueReader tupleReader(ValueProtos.Type type) {

@@ -12,11 +12,9 @@ import com.google.protobuf.ByteString;
 
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.ValueProtos.Type.PrimitiveTypeId;
-import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.utils.Hex;
 import tech.ydb.table.values.DecimalValue;
-import tech.ydb.table.values.Type;
-import tech.ydb.table.values.proto.ProtoType;
+import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -295,59 +293,6 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
 
             default:
                 throw new IllegalStateException("unsupported type case: " + type.getTypeCase());
-        }
-    }
-
-    /**
-     * Too common case to be implemented separately.
-     */
-    static final class Optional extends ProtoPrimitiveValueReader {
-
-        private final ValueProtos.Type optionalType;
-        private ProtoPrimitiveValueReader itemReader;
-        private boolean present = false;
-
-        Optional(ValueProtos.Type type) {
-            super(type.getOptionalType().getItem());
-            this.optionalType = type;
-        }
-
-        @Override
-        public Type getType() {
-            return ProtoType.fromPb(optionalType);
-        }
-
-        @Override
-        public boolean isOptionalItemPresent() {
-            return present;
-        }
-
-        @Override
-        public ValueReader getOptionalItem() {
-            return itemReader;
-        }
-
-        @Override
-        protected void setProtoValue(ValueProtos.Value value) {
-            super.setProtoValue(value);
-            if (value.getValueCase() == ValueProtos.Value.ValueCase.NULL_FLAG_VALUE) {
-                present = false;
-            } else {
-                present = true;
-                itemReader = new ProtoPrimitiveValueReader(optionalType.getOptionalType().getItem());
-                itemReader.setProtoValue(value);
-            }
-        }
-
-        @Override
-        public void toString(StringBuilder sb) {
-            if (present) {
-                sb.append("Some[");
-                super.toString(sb);
-                sb.append(']');
-            } else {
-                sb.append("Empty[]");
-            }
         }
     }
 }
