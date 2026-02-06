@@ -89,6 +89,7 @@ public class TopicClientImpl implements TopicClient {
     private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withPreferReadyChannel(true)
                 .build();
     }
 
@@ -401,10 +402,7 @@ public class TopicClientImpl implements TopicClient {
             request.setReadSessionId(settings.getReadSessionId());
         }
 
-        GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getRequestTimeout())
-                .withPreferReadyChannel(true)
-                .build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.commitOffset(request.build(), grpcRequestSettings);
     }
 
