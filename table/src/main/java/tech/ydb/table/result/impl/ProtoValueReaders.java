@@ -20,6 +20,7 @@ public class ProtoValueReaders {
         return new ProtoResultSetReader(resultSet);
     }
 
+    @Deprecated
     public static ResultSetReader forResultSets(Collection<ResultSetReader> resultSets) {
         // TODO: add lightweight implementation instead of proto joining
         Preconditions.checkArgument(!resultSets.isEmpty(), "Expect multiple result sets to join from");
