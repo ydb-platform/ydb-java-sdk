@@ -12,11 +12,9 @@ import com.google.protobuf.ByteString;
 
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.ValueProtos.Type.PrimitiveTypeId;
-import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.utils.Hex;
 import tech.ydb.table.values.DecimalValue;
-import tech.ydb.table.values.Type;
-import tech.ydb.table.values.proto.ProtoType;
+import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.proto.ProtoValue;
 
 
@@ -51,193 +49,189 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
 
     @Override
     public boolean getBool() {
-        checkPrimitive(PrimitiveTypeId.BOOL);
+        checkPrimitive(PrimitiveTypeId.BOOL, PrimitiveType.Bool.name());
         return value.getBoolValue();
     }
 
     @Override
     public byte getInt8() {
-        checkPrimitive(PrimitiveTypeId.INT8);
+        checkPrimitive(PrimitiveTypeId.INT8, PrimitiveType.Int8.name());
         return (byte) value.getInt32Value();
     }
 
     @Override
     public int getUint8() {
-        checkPrimitive(PrimitiveTypeId.UINT8);
+        checkPrimitive(PrimitiveTypeId.UINT8, PrimitiveType.Uint8.name());
         return 0xFF & value.getUint32Value();
     }
 
     @Override
     public short getInt16() {
-        checkPrimitive(PrimitiveTypeId.INT16);
+        checkPrimitive(PrimitiveTypeId.INT16, PrimitiveType.Int16.name());
         return (short) value.getInt32Value();
     }
 
     @Override
     public int getUint16() {
-        checkPrimitive(PrimitiveTypeId.UINT16);
+        checkPrimitive(PrimitiveTypeId.UINT16, PrimitiveType.Uint16.name());
         return 0xFFFF & value.getUint32Value();
     }
 
     @Override
     public int getInt32() {
-        checkPrimitive(PrimitiveTypeId.INT32);
+        checkPrimitive(PrimitiveTypeId.INT32, PrimitiveType.Int32.name());
         return value.getInt32Value();
     }
 
     @Override
     public long getUint32() {
-        checkPrimitive(PrimitiveTypeId.UINT32);
+        checkPrimitive(PrimitiveTypeId.UINT32, PrimitiveType.Uint32.name());
         return 0xFFFFFFFFL & value.getUint32Value();
     }
 
     @Override
     public long getInt64() {
-        checkPrimitive(PrimitiveTypeId.INT64);
+        checkPrimitive(PrimitiveTypeId.INT64, PrimitiveType.Int64.name());
         return value.getInt64Value();
     }
 
     @Override
     public long getUint64() {
-        checkPrimitive(PrimitiveTypeId.UINT64);
+        checkPrimitive(PrimitiveTypeId.UINT64, PrimitiveType.Uint64.name());
         return value.getUint64Value();
     }
 
     @Override
     public float getFloat() {
-        checkPrimitive(PrimitiveTypeId.FLOAT);
+        checkPrimitive(PrimitiveTypeId.FLOAT, PrimitiveType.Float.name());
         return value.getFloatValue();
     }
 
     @Override
     public double getDouble() {
-        checkPrimitive(PrimitiveTypeId.DOUBLE);
+        checkPrimitive(PrimitiveTypeId.DOUBLE, PrimitiveType.Double.name());
         return value.getDoubleValue();
     }
 
     @Override
     public LocalDate getDate() {
-        checkPrimitive(PrimitiveTypeId.DATE);
+        checkPrimitive(PrimitiveTypeId.DATE, PrimitiveType.Date.name());
         return ProtoValue.toDate(value);
     }
 
     @Override
     public LocalDateTime getDatetime() {
-        checkPrimitive(PrimitiveTypeId.DATETIME);
+        checkPrimitive(PrimitiveTypeId.DATETIME, PrimitiveType.Datetime.name());
         return ProtoValue.toDatetime(value);
     }
 
     @Override
     public Instant getTimestamp() {
-        checkPrimitive(PrimitiveTypeId.TIMESTAMP);
+        checkPrimitive(PrimitiveTypeId.TIMESTAMP, PrimitiveType.Timestamp.name());
         return ProtoValue.toTimestamp(value);
     }
 
     @Override
     public Duration getInterval() {
-        checkPrimitive(PrimitiveTypeId.INTERVAL);
+        checkPrimitive(PrimitiveTypeId.INTERVAL, PrimitiveType.Interval.name());
         return ProtoValue.toInterval(value);
     }
 
     @Override
     public LocalDate getDate32() {
-        checkPrimitive(PrimitiveTypeId.DATE32);
+        checkPrimitive(PrimitiveTypeId.DATE32, PrimitiveType.Date32.name());
         return ProtoValue.toDate32(value);
     }
 
     @Override
     public LocalDateTime getDatetime64() {
-        checkPrimitive(PrimitiveTypeId.DATETIME64);
+        checkPrimitive(PrimitiveTypeId.DATETIME64, PrimitiveType.Datetime64.name());
         return ProtoValue.toDatetime64(value);
     }
 
     @Override
     public Instant getTimestamp64() {
-        checkPrimitive(PrimitiveTypeId.TIMESTAMP64);
+        checkPrimitive(PrimitiveTypeId.TIMESTAMP64, PrimitiveType.Timestamp64.name());
         return ProtoValue.toTimestamp64(value);
     }
 
     @Override
     public Duration getInterval64() {
-        checkPrimitive(PrimitiveTypeId.INTERVAL64);
+        checkPrimitive(PrimitiveTypeId.INTERVAL64, PrimitiveType.Interval64.name());
         return ProtoValue.toInterval64(value);
     }
 
     @Override
     public ZonedDateTime getTzDate() {
-        checkPrimitive(PrimitiveTypeId.TZ_DATE);
+        checkPrimitive(PrimitiveTypeId.TZ_DATE, PrimitiveType.TzDate.name());
         return ProtoValue.toTzDate(value);
     }
 
     @Override
     public ZonedDateTime getTzDatetime() {
-        checkPrimitive(PrimitiveTypeId.TZ_DATETIME);
+        checkPrimitive(PrimitiveTypeId.TZ_DATETIME, PrimitiveType.TzDatetime.name());
         return ProtoValue.toTzDatetime(value);
     }
 
     @Override
     public ZonedDateTime getTzTimestamp() {
-        checkPrimitive(PrimitiveTypeId.TZ_TIMESTAMP);
+        checkPrimitive(PrimitiveTypeId.TZ_TIMESTAMP, PrimitiveType.TzTimestamp.name());
         return ProtoValue.toTzTimestamp(value);
     }
 
     @Override
     public byte[] getBytes() {
-        checkPrimitive(PrimitiveTypeId.STRING);
+        checkPrimitive(PrimitiveTypeId.STRING, PrimitiveType.Bytes.name());
         return ProtoValue.toBytes(value);
     }
 
     @Override
     public String getBytesAsString(Charset charset) {
-        checkPrimitive(PrimitiveTypeId.STRING);
+        checkPrimitive(PrimitiveTypeId.STRING, PrimitiveType.Bytes.name());
         return ProtoValue.toBytesAsString(value, charset);
     }
 
     @Override
     public UUID getUuid() {
-        checkPrimitive(PrimitiveTypeId.UUID);
+        checkPrimitive(PrimitiveTypeId.UUID, PrimitiveType.Uuid.name());
         return ProtoValue.toUuid(value);
     }
 
     @Override
     public String getText() {
-        checkPrimitive(PrimitiveTypeId.UTF8);
+        checkPrimitive(PrimitiveTypeId.UTF8, PrimitiveType.Text.name());
         return ProtoValue.toText(value);
     }
 
     @Override
     public byte[] getYson() {
-        checkPrimitive(PrimitiveTypeId.YSON);
+        checkPrimitive(PrimitiveTypeId.YSON, PrimitiveType.Yson.name());
         return ProtoValue.toYson(value);
     }
 
     @Override
     public String getJson() {
-        checkPrimitive(PrimitiveTypeId.JSON);
+        checkPrimitive(PrimitiveTypeId.JSON, PrimitiveType.Json.name());
         return ProtoValue.toJson(value);
     }
 
     @Override
     public String getJsonDocument() {
-        checkPrimitive(PrimitiveTypeId.JSON_DOCUMENT);
+        checkPrimitive(PrimitiveTypeId.JSON_DOCUMENT, PrimitiveType.JsonDocument.name());
         return ProtoValue.toJsonDocument(value);
     }
 
     @Override
     public DecimalValue getDecimal() {
         if (type.getTypeCase() != ValueProtos.Type.TypeCase.DECIMAL_TYPE) {
-            throw new IllegalStateException(
-                "types mismatch, expected Decimal" +
-                    ", but was " + ProtoType.toString(getProtoType()));
+            throw new IllegalStateException("types mismatch, expected Decimal, but was " + getType());
         }
         return ProtoValue.toDecimal(type, value);
     }
 
-    private void checkPrimitive(PrimitiveTypeId expected) {
-        if (primitiveTypeId != expected) {
-            throw new IllegalStateException(
-                "types mismatch, expected " + expected +
-                ", but was " + ProtoType.toString(getProtoType()));
+    private void checkPrimitive(PrimitiveTypeId typeId, String expected) {
+        if (primitiveTypeId != typeId) {
+            throw new IllegalStateException("types mismatch, expected " + expected + ", but was " + getType());
         }
     }
 
@@ -295,59 +289,6 @@ class ProtoPrimitiveValueReader extends AbstractValueReader {
 
             default:
                 throw new IllegalStateException("unsupported type case: " + type.getTypeCase());
-        }
-    }
-
-    /**
-     * Too common case to be implemented separately.
-     */
-    static final class Optional extends ProtoPrimitiveValueReader {
-
-        private final ValueProtos.Type optionalType;
-        private ProtoPrimitiveValueReader itemReader;
-        private boolean present = false;
-
-        Optional(ValueProtos.Type type) {
-            super(type.getOptionalType().getItem());
-            this.optionalType = type;
-        }
-
-        @Override
-        public Type getType() {
-            return ProtoType.fromPb(optionalType);
-        }
-
-        @Override
-        public boolean isOptionalItemPresent() {
-            return present;
-        }
-
-        @Override
-        public ValueReader getOptionalItem() {
-            return itemReader;
-        }
-
-        @Override
-        protected void setProtoValue(ValueProtos.Value value) {
-            super.setProtoValue(value);
-            if (value.getValueCase() == ValueProtos.Value.ValueCase.NULL_FLAG_VALUE) {
-                present = false;
-            } else {
-                present = true;
-                itemReader = new ProtoPrimitiveValueReader(optionalType.getOptionalType().getItem());
-                itemReader.setProtoValue(value);
-            }
-        }
-
-        @Override
-        public void toString(StringBuilder sb) {
-            if (present) {
-                sb.append("Some[");
-                super.toString(sb);
-                sb.append(']');
-            } else {
-                sb.append("Empty[]");
-            }
         }
     }
 }

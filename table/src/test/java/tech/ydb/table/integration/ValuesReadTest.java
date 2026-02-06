@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
@@ -71,6 +72,117 @@ public class ValuesReadTest {
         Assert.assertArrayEquals(new byte[]{'1'}, p1.getBytes());
         Assert.assertEquals(123, p2.getInt32());
         Assert.assertSame(NullValue.of(), p3.getValue());
+    }
+
+    private void assertIllegalStateException(String message, ThrowingRunnable runnable) {
+        IllegalStateException ex = Assert.assertThrows(IllegalStateException.class, runnable);
+        Assert.assertEquals(message, ex.getMessage());
+    }
+
+    private void assertNullPointerException(String message, ThrowingRunnable runnable) {
+        NullPointerException ex = Assert.assertThrows(NullPointerException.class, runnable);
+        Assert.assertEquals(message, ex.getMessage());
+    }
+
+    @Test
+    public void innerNullsTest() {
+        DataQueryResult result = CTX.supplyResult(
+                s -> s.executeDataQuery("SELECT "
+                        + "123ul AS p1, Just(123ul) AS p2, Just(Just(123ul)) AS p3, "
+                        + "Nothing(UInt64?) AS p4, Just(Nothing(UInt64?)) AS p5", TxControl.snapshotRo())
+        ).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        ValueReader p1 = rs.getColumn("p1");
+        ValueReader p2 = rs.getColumn("p2");
+        ValueReader p3 = rs.getColumn("p3");
+        ValueReader p4 = rs.getColumn("p4");
+        ValueReader p5 = rs.getColumn("p5");
+
+        Assert.assertNotNull(p1);
+        Assert.assertNotNull(p2);
+        Assert.assertNotNull(p3);
+        Assert.assertNotNull(p4);
+        Assert.assertNotNull(p5);
+
+        Assert.assertEquals(PrimitiveType.Uint64, p1.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional(), p2.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional().makeOptional(), p3.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional(), p4.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional().makeOptional(), p5.getType());
+
+        assertIllegalStateException("cannot call isOptionalItemPresent, actual type: Uint64",
+                p1::isOptionalItemPresent);
+        Assert.assertTrue(p2.isOptionalItemPresent());
+        Assert.assertTrue(p3.isOptionalItemPresent());
+        Assert.assertFalse(p4.isOptionalItemPresent());
+
+        // Inner NULL
+        Assert.assertTrue(p5.isOptionalItemPresent());
+        Assert.assertFalse(p5.getOptionalItem().isOptionalItemPresent());
+
+        Assert.assertEquals(123l, p1.getUint64());
+        Assert.assertEquals(123l, p2.getUint64());
+        Assert.assertEquals(123l, p3.getUint64());
+        assertNullPointerException("cannot call getUint64 for NULL value", p4::getUint64);
+        assertNullPointerException("cannot call getUint64 for NULL value", p5::getUint64);
+    }
+
+    @Test
+    public void tzDatesTest() {
+        DataQueryResult result = CTX.supplyResult(s -> s.executeDataQuery("SELECT "
+                + "AddTimezone(Timestamp('2026-10-29T04:23:45.987654Z'), 'Europe/Warsaw') as p1,"
+                + "AddTimezone(Timestamp('2026-10-29T04:23:45.987654Z'), 'Canada/Pacific') as p2,"
+                + "AddTimezone(Datetime('2021-10-10T01:23:45Z'), 'Europe/Lisbon') as p3,"
+                + "AddTimezone(Datetime('2021-10-10T01:23:45Z'), 'America/Vancouver') as p4,"
+                + "AddTimezone(Date('2005-01-01'), 'Asia/Macau') as p5,"
+                + "AddTimezone(Date('2005-01-01'), 'Pacific/Niue') as p6"
+                ,
+                TxControl.snapshotRo()
+        )).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        ValueReader p1 = rs.getColumn("p1");
+        ValueReader p2 = rs.getColumn("p2");
+        ValueReader p3 = rs.getColumn("p3");
+        ValueReader p4 = rs.getColumn("p4");
+        ValueReader p5 = rs.getColumn("p5");
+        ValueReader p6 = rs.getColumn("p6");
+
+        Assert.assertNotNull(p1);
+        Assert.assertNotNull(p2);
+        Assert.assertNotNull(p3);
+        Assert.assertNotNull(p4);
+        Assert.assertNotNull(p5);
+        Assert.assertNotNull(p6);
+
+        Assert.assertSame(Type.Kind.OPTIONAL, p1.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p2.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p3.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p4.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p5.getType().getKind());
+        Assert.assertSame(Type.Kind.OPTIONAL, p6.getType().getKind());
+
+        Assert.assertSame(PrimitiveType.TzTimestamp, p1.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzTimestamp, p2.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDatetime, p3.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDatetime, p4.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDate, p5.getType().unwrapOptional());
+        Assert.assertSame(PrimitiveType.TzDate, p6.getType().unwrapOptional());
+
+        Assert.assertEquals("2026-10-29T05:23:45.987654+01:00[Europe/Warsaw]", p1.getTzTimestamp().toString());
+        Assert.assertEquals("2026-10-28T21:23:45.987654-07:00[Canada/Pacific]", p2.getTzTimestamp().toString());
+        Assert.assertEquals("2021-10-10T02:23:45+01:00[Europe/Lisbon]", p3.getTzDatetime().toString());
+        Assert.assertEquals("2021-10-09T18:23:45-07:00[America/Vancouver]", p4.getTzDatetime().toString());
+        Assert.assertEquals("2005-01-02T00:00+08:00[Asia/Macau]", p5.getTzDate().toString());
+        Assert.assertEquals("2005-01-01T00:00-11:00[Pacific/Niue]", p6.getTzDate().toString());
     }
 
     @Test

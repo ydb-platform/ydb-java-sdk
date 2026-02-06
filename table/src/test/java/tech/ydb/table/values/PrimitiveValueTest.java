@@ -327,15 +327,27 @@ public class PrimitiveValueTest {
     @Test
     public void bytes() {
         byte[] data = { 0x0, 0x7, 0x3f, 0x7f, (byte) 0xff };
+        byte[] other = { 0x0, 0x7, 0x34, 0x7f, (byte) 0xff };
 
         Consumer<PrimitiveValue> doTest = (v) -> {
+            Assert.assertEquals(v, v);
+
+            Assert.assertNotEquals(v, null);
+            Assert.assertNotEquals(v, PrimitiveValue.newYson(data));
+            Assert.assertNotEquals(v, PrimitiveValue.newInt32(1));
+
             Assert.assertEquals(PrimitiveValue.newBytes(data), v);
             Assert.assertEquals(PrimitiveValue.newBytes(ByteString.copyFrom(data)), v);
             Assert.assertNotEquals(PrimitiveValue.newBytes(ByteString.EMPTY), v);
+            Assert.assertNotEquals(PrimitiveValue.newBytes(other), v);
 
-            Assert.assertEquals("\"\\000\\007\\077\\177\\377\"", v.toString());
+            Assert.assertEquals("Bytes[len=5 content=00073f7fff]", v.toString());
             Assert.assertArrayEquals(data, v.getBytes());
             Assert.assertArrayEquals(data, v.getBytesUnsafe());
+
+            Assert.assertNotSame(v.getBytes(), v.getBytes());
+            Assert.assertSame(v.getBytesUnsafe(), v.getBytesUnsafe());
+
             Assert.assertEquals(ByteString.copyFrom(data), v.getBytesAsByteString());
 
             ValueProtos.Value vPb = v.toPb();
@@ -350,20 +362,48 @@ public class PrimitiveValueTest {
         // hashes must be the same
         Assert.assertEquals(PrimitiveValue.newBytes(data).hashCode(),
                 PrimitiveValue.newBytes(ByteString.copyFrom(data)).hashCode());
+
+        Assert.assertEquals("Bytes[len=0]", PrimitiveValue.newBytes(ByteString.EMPTY).toString());
+
+        // toString must cut too long value
+        PrimitiveValue bytes51 = PrimitiveValue.newBytes(ByteString.fromHex(""
+                + "000102030405060708090A0B0C0D0E0F"
+                + "101112131415161718191A1B1C1D1E1F"
+                + "202122232425262728292A2B2C2D2E2F"
+                + "303132"
+        ));
+        Assert.assertEquals("Bytes[len=51 content="
+                + "000102030405060708090a0b0c0d0e0f"
+                + "101112131415161718191a1b1c1d1e1f"
+                + "202122232425262728292a2b2c2d2e..."
+                + "]", bytes51.toString());
     }
 
     @Test
     public void yson() {
         byte[] data = { 0x0, 0x7, 0x3f, 0x7f, (byte) 0xff };
+        byte[] other = { 0x0, 0x7, 0x34, 0x7f, (byte) 0xff };
 
         Consumer<PrimitiveValue> doTest = (v) -> {
+            Assert.assertEquals(v, v);
+
+            Assert.assertNotEquals(v, null);
+            Assert.assertNotEquals(v, PrimitiveValue.newBytes(data));
+            Assert.assertNotEquals(v, PrimitiveValue.newInt32(1));
+
             Assert.assertEquals(PrimitiveValue.newYson(data), v);
             Assert.assertEquals(PrimitiveValue.newYson(ByteString.copyFrom(data)), v);
             Assert.assertNotEquals(PrimitiveValue.newYson(ByteString.EMPTY), v);
+            Assert.assertNotEquals(PrimitiveValue.newYson(other), v);
 
-            Assert.assertEquals("\"\\000\\007\\077\\177\\377\"", v.toString());
+            Assert.assertEquals("Yson[len=5 content=00073f7fff]", v.toString());
+
             Assert.assertArrayEquals(data, v.getYson());
             Assert.assertArrayEquals(data, v.getYsonUnsafe());
+
+            Assert.assertNotSame(v.getYson(), v.getYson());
+            Assert.assertSame(v.getYsonUnsafe(), v.getYsonUnsafe());
+
             Assert.assertEquals(ByteString.copyFrom(data), v.getYsonBytes());
 
             ValueProtos.Value vPb = v.toPb();
@@ -378,6 +418,21 @@ public class PrimitiveValueTest {
         // hashes must be the same
         Assert.assertEquals(PrimitiveValue.newYson(data).hashCode(),
                 PrimitiveValue.newYson(ByteString.copyFrom(data)).hashCode());
+
+        Assert.assertEquals("Yson[len=0]", PrimitiveValue.newYson(ByteString.EMPTY).toString());
+
+        // toString must cut too long value
+        PrimitiveValue yson51 = PrimitiveValue.newYson(ByteString.fromHex(""
+                + "000102030405060708090A0B0C0D0E0F"
+                + "101112131415161718191A1B1C1D1E1F"
+                + "202122232425262728292A2B2C2D2E2F"
+                + "303132"
+        ));
+        Assert.assertEquals("Yson[len=51 content="
+                + "000102030405060708090a0b0c0d0e0f"
+                + "101112131415161718191a1b1c1d1e1f"
+                + "202122232425262728292a2b2c2d2e..."
+                + "]", yson51.toString());
     }
 
     @Test
