@@ -166,7 +166,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
 
         @Override
         public Type getColumnType(int index) {
-            if (partIndex < 0) {
+            if (partIndex < 0 || partIndex >= parts.length) {
                 return null;
             }
             return parts[partIndex].getColumnType(index);
@@ -179,38 +179,37 @@ public class QueryReader implements Iterable<ResultSetReader> {
 
         @Override
         public void setRowIndex(int index) {
-            // TODO: Enable after JDBC fixing
-//            if (index < 0 || index >= rowsCount) {
-//                throw new IndexOutOfBoundsException(String.format("Index %s out of bounds for length %s",
-//                        index, rowsCount));
-//            }
-//            int currentIdx = index;
-            int currentIdx = Math.max(0, index);
+            if (index < 0) { // reset all
+                partIndex = parts.length == 0 ? -1 : 0;
+                for (ResultSetReader rs: parts) {
+                    rs.setRowIndex(-1);
+                }
+                return;
+            }
+
+            int currentIdx = index;
+
             partIndex = 0;
             while (partIndex < parts.length) {
                 int readerRows = parts[partIndex].getRowCount();
                 if (currentIdx < readerRows) {
                     parts[partIndex].setRowIndex(currentIdx);
-                    break;
+                    for (int partStep = partIndex + 1; partStep < parts.length; partStep++) {
+                        parts[partStep].setRowIndex(-1);
+                    }
+                    return;
                 }
                 parts[partIndex].setRowIndex(readerRows);
                 currentIdx -= readerRows;
                 partIndex++;
             }
 
-            // TODO: remove after JDBC fixing
-            if (partIndex >= parts.length) {
-                partIndex = parts.length - 1;
-            }
-
-            for (int partStep = partIndex + 1; partStep < parts.length; partStep++) {
-                parts[partStep].setRowIndex(0);
-            }
+            partIndex = parts.length - 1;
         }
 
         @Override
         public boolean next() {
-            if (partIndex < 0) {
+            if (partIndex < 0 || partIndex >= parts.length) {
                 return false;
             }
             boolean res = parts[partIndex].next();

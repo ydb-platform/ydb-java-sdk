@@ -132,26 +132,32 @@ public class QueryReaderTest {
         Assert.assertEquals(6, readAll(rsr, 0));
         Assert.assertEquals(0, readAll(rsr, 0));
 
-        rsr.setRowIndex(0);
+        rsr.setRowIndex(-1);
         Assert.assertEquals(6, readAll(rsr, 0));
         Assert.assertEquals(0, readAll(rsr, 0));
 
+        rsr.setRowIndex(-100);
+        Assert.assertEquals(6, readAll(rsr, 0));
+        Assert.assertEquals(0, readAll(rsr, 0));
+
+        rsr.setRowIndex(0);
+        Assert.assertEquals(5, readAll(rsr, 1));
+        Assert.assertEquals(0, readAll(rsr, 0));
+
         rsr.setRowIndex(3);
-        Assert.assertEquals(3, readAll(rsr, 3));
+        Assert.assertEquals(2, readAll(rsr, 4));
 
         rsr.setRowIndex(5);
-        Assert.assertEquals(1, readAll(rsr, 5));
+        Assert.assertEquals(0, readAll(rsr, 0));
 
         rsr.setRowIndex(-1);
         Assert.assertEquals(6, readAll(rsr, 0));
 
         rsr.setRowIndex(6);
         Assert.assertEquals(0, readAll(rsr, 0));
-//        IndexOutOfBoundsException ex1 = Assert.assertThrows(IndexOutOfBoundsException.class, () -> rsr.setRowIndex(6));
-//        Assert.assertEquals("Index 6 out of bounds for length 6", ex1.getMessage());
-//
-//        IndexOutOfBoundsException ex2 = Assert.assertThrows(IndexOutOfBoundsException.class, () -> rsr.setRowIndex(-1));
-//        Assert.assertEquals("Index -1 out of bounds for length 6", ex2.getMessage());
+
+        rsr.setRowIndex(100);
+        Assert.assertEquals(0, readAll(rsr, 0));
     }
 
     private int readAll(ResultSetReader rsr, int startKey) {

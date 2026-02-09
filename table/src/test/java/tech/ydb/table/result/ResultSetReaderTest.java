@@ -2,9 +2,11 @@ package tech.ydb.table.result;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.result.impl.ProtoValueReaders;
+import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.proto.ProtoType;
 import tech.ydb.table.values.proto.ProtoValue;
 
@@ -14,20 +16,118 @@ import tech.ydb.table.values.proto.ProtoValue;
  */
 public class ResultSetReaderTest {
 
+    private void assertNotPositioned(ThrowingRunnable runnable) {
+        IllegalStateException ex = Assert.assertThrows(IllegalStateException.class, runnable);
+        Assert.assertEquals("ResultSetReader not positioned properly, perhaps you need to call next.", ex.getMessage());
+    }
+
+    private void assertIllegalArgumentException(String msg, ThrowingRunnable runnable) {
+        IllegalArgumentException ex = Assert.assertThrows(IllegalArgumentException.class, runnable);
+        Assert.assertEquals(msg, ex.getMessage());
+    }
+
+    @Test
+    public void columnInfoTest() {
+        ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
+                .addColumns(newColumn("name", ProtoType.getText()))
+                .addColumns(newColumn("year", ProtoType.getUint32()))
+                .addRows(newRow(ProtoValue.fromText("Edgy"), ProtoValue.fromUint32(2006)))
+                .build();
+
+        ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
+
+        Assert.assertEquals("name", reader.getColumnName(0));
+        Assert.assertEquals(PrimitiveType.Text, reader.getColumnType(0));
+        Assert.assertEquals(0, reader.getColumnIndex("name"));
+
+        Assert.assertEquals("year", reader.getColumnName(1));
+        Assert.assertEquals(PrimitiveType.Uint32, reader.getColumnType(1));
+        Assert.assertEquals(1, reader.getColumnIndex("year"));
+
+        Assert.assertEquals(-1, reader.getColumnIndex("test")); // not found
+        assertIllegalArgumentException("Column index: -1, columns count: 2", () -> reader.getColumnName(-1));
+        assertIllegalArgumentException("Column index: 2, columns count: 2", () -> reader.getColumnName(2));
+        assertIllegalArgumentException("Column index: -1, columns count: 2", () -> reader.getColumnType(-1));
+        assertIllegalArgumentException("Column index: 2, columns count: 2", () -> reader.getColumnType(2));
+
+        // before first row state
+        assertNotPositioned(() -> reader.getColumn("name"));
+        assertNotPositioned(() -> reader.getColumn(0));
+
+        Assert.assertTrue(reader.next()); // first row
+
+        assertIllegalArgumentException("Column index: -1, columns count: 2", () -> reader.getColumn(-1));
+        assertIllegalArgumentException("Column index: 2, columns count: 2", () -> reader.getColumn(2));
+
+        assertIllegalArgumentException("Unknown column 'test'", () -> reader.getColumn("test"));
+    }
+
+    @Test
+    public void iterateReaderTest() {
+        ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
+                .addColumns(newColumn("name", ProtoType.getText()))
+                .addColumns(newColumn("year", ProtoType.getUint32()))
+                .addRows(newRow(ProtoValue.fromText("Edgy"), ProtoValue.fromUint32(2006)))
+                .addRows(newRow(ProtoValue.fromText("Feisty"), ProtoValue.fromUint32(2007)))
+                .addRows(newRow(ProtoValue.fromText("Gutsy"), ProtoValue.fromUint32(2007)))
+                .addRows(newRow(ProtoValue.fromText("Hardy"), ProtoValue.fromUint32(2008)))
+                .build();
+
+        ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
+
+        // before first row state
+        assertNotPositioned(() -> reader.getColumn("name"));
+        assertNotPositioned(() -> reader.getColumn(0));
+
+        Assert.assertTrue(reader.next()); // first row
+        Assert.assertEquals("Edgy", reader.getColumn("name").getText());
+        Assert.assertEquals(2006, reader.getColumn("year").getUint32());
+
+        reader.setRowIndex(-10); // reset to before first
+        assertNotPositioned(() -> reader.getColumn("name"));
+        assertNotPositioned(() -> reader.getColumn(0));
+
+        Assert.assertTrue(reader.next()); // first row
+        Assert.assertEquals("Edgy", reader.getColumn("name").getText());
+        Assert.assertEquals(2006, reader.getColumn("year").getUint32());
+
+        reader.setRowIndex(3); // to last row
+        Assert.assertEquals("Hardy", reader.getColumn("name").getText());
+        Assert.assertEquals(2008, reader.getColumn("year").getUint32());
+
+        Assert.assertFalse(reader.next()); // after last row
+        assertNotPositioned(() -> reader.getColumn("name"));
+        assertNotPositioned(() -> reader.getColumn(0));
+
+        reader.setRowIndex(0); // reset to first
+        Assert.assertEquals("Edgy", reader.getColumn("name").getText());
+        Assert.assertEquals(2006, reader.getColumn("year").getUint32());
+
+        Assert.assertTrue(reader.next()); // second row
+        Assert.assertEquals("Feisty", reader.getColumn("name").getText());
+        Assert.assertEquals(2007, reader.getColumn("year").getUint32());
+
+        reader.setRowIndex(1000); // after last row
+        assertNotPositioned(() -> reader.getColumn("name"));
+        assertNotPositioned(() -> reader.getColumn(0));
+    }
+
     @Test
     public void readPrimitives() {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
-            .addColumns(newColumn("name", ProtoType.getText()))
-            .addColumns(newColumn("year", ProtoType.getUint32()))
-            .addRows(newRow(ProtoValue.fromText("Edgy"), ProtoValue.fromUint32(2006)))
-            .addRows(newRow(ProtoValue.fromText("Feisty"), ProtoValue.fromUint32(2007)))
-            .addRows(newRow(ProtoValue.fromText("Gutsy"), ProtoValue.fromUint32(2007)))
-            .addRows(newRow(ProtoValue.fromText("Hardy"), ProtoValue.fromUint32(2008)))
-            .build();
+                .addColumns(newColumn("name", ProtoType.getText()))
+                .addColumns(newColumn("year", ProtoType.getUint32()))
+                .addRows(newRow(ProtoValue.fromText("Edgy"), ProtoValue.fromUint32(2006)))
+                .addRows(newRow(ProtoValue.fromText("Feisty"), ProtoValue.fromUint32(2007)))
+                .addRows(newRow(ProtoValue.fromText("Gutsy"), ProtoValue.fromUint32(2007)))
+                .addRows(newRow(ProtoValue.fromText("Hardy"), ProtoValue.fromUint32(2008)))
+                .setTruncated(true)
+                .build();
 
         ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
         Assert.assertEquals(2, reader.getColumnCount());
         Assert.assertEquals(4, reader.getRowCount());
+        Assert.assertTrue(reader.isTruncated());
 
         Assert.assertTrue(reader.next());
         Assert.assertSame(reader.getColumn("name"), reader.getColumn(0));
@@ -54,24 +154,26 @@ public class ResultSetReaderTest {
     @Test
     public void readUnsignedInts() {
         ValueProtos.ResultSet resultSet = ValueProtos.ResultSet.newBuilder()
-            .addColumns(newColumn("u8", ProtoType.getUint8()))
-            .addColumns(newColumn("u16", ProtoType.getUint16()))
-            .addColumns(newColumn("u32", ProtoType.getUint32()))
-            .addColumns(newColumn("u64", ProtoType.getUint64()))
-            .addRows(newRow(
-                    ProtoValue.fromUint8(1), ProtoValue.fromUint16(1),
-                    ProtoValue.fromUint32(1), ProtoValue.fromUint64(1)))
-            .addRows(newRow(
-                    ProtoValue.fromUint8(-1), ProtoValue.fromUint16(-1),
-                    ProtoValue.fromUint32(-1), ProtoValue.fromUint64(-1)))
-            .addRows(newRow(
-                    ProtoValue.fromUint8(0xFF), ProtoValue.fromUint16(0xFFFF),
-                    ProtoValue.fromUint32(0xFFFFFFFFl), ProtoValue.fromUint64(0xFFFFFFFFFFFFFFFFl)))
-            .build();
+                .addColumns(newColumn("u8", ProtoType.getUint8()))
+                .addColumns(newColumn("u16", ProtoType.getUint16()))
+                .addColumns(newColumn("u32", ProtoType.getUint32()))
+                .addColumns(newColumn("u64", ProtoType.getUint64()))
+                .addRows(newRow(
+                        ProtoValue.fromUint8(1), ProtoValue.fromUint16(1),
+                        ProtoValue.fromUint32(1), ProtoValue.fromUint64(1)))
+                .addRows(newRow(
+                        ProtoValue.fromUint8(-1), ProtoValue.fromUint16(-1),
+                        ProtoValue.fromUint32(-1), ProtoValue.fromUint64(-1)))
+                .addRows(newRow(
+                        ProtoValue.fromUint8(0xFF), ProtoValue.fromUint16(0xFFFF),
+                        ProtoValue.fromUint32(0xFFFFFFFFl), ProtoValue.fromUint64(0xFFFFFFFFFFFFFFFFl)))
+                .setTruncated(false)
+                .build();
 
         ResultSetReader reader = ProtoValueReaders.forResultSet(resultSet);
         Assert.assertEquals(4, reader.getColumnCount());
         Assert.assertEquals(3, reader.getRowCount());
+        Assert.assertFalse(reader.isTruncated());
 
         Assert.assertTrue(reader.next());
         Assert.assertSame(reader.getColumn("u8"), reader.getColumn(0));
