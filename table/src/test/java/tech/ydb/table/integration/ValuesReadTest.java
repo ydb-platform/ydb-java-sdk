@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
@@ -71,6 +72,64 @@ public class ValuesReadTest {
         Assert.assertArrayEquals(new byte[]{'1'}, p1.getBytes());
         Assert.assertEquals(123, p2.getInt32());
         Assert.assertSame(NullValue.of(), p3.getValue());
+    }
+
+    private void assertIllegalStateException(String message, ThrowingRunnable runnable) {
+        IllegalStateException ex = Assert.assertThrows(IllegalStateException.class, runnable);
+        Assert.assertEquals(message, ex.getMessage());
+    }
+
+    private void assertNullPointerException(String message, ThrowingRunnable runnable) {
+        NullPointerException ex = Assert.assertThrows(NullPointerException.class, runnable);
+        Assert.assertEquals(message, ex.getMessage());
+    }
+
+    @Test
+    public void innerNullsTest() {
+        DataQueryResult result = CTX.supplyResult(
+                s -> s.executeDataQuery("SELECT "
+                        + "123ul AS p1, Just(123ul) AS p2, Just(Just(123ul)) AS p3, "
+                        + "Nothing(UInt64?) AS p4, Just(Nothing(UInt64?)) AS p5", TxControl.snapshotRo())
+        ).join().getValue();
+
+        Assert.assertEquals(1, result.getResultSetCount());
+
+        ResultSetReader rs = result.getResultSet(0);
+        Assert.assertTrue(rs.next());
+
+        ValueReader p1 = rs.getColumn("p1");
+        ValueReader p2 = rs.getColumn("p2");
+        ValueReader p3 = rs.getColumn("p3");
+        ValueReader p4 = rs.getColumn("p4");
+        ValueReader p5 = rs.getColumn("p5");
+
+        Assert.assertNotNull(p1);
+        Assert.assertNotNull(p2);
+        Assert.assertNotNull(p3);
+        Assert.assertNotNull(p4);
+        Assert.assertNotNull(p5);
+
+        Assert.assertEquals(PrimitiveType.Uint64, p1.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional(), p2.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional().makeOptional(), p3.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional(), p4.getType());
+        Assert.assertEquals(PrimitiveType.Uint64.makeOptional().makeOptional(), p5.getType());
+
+        assertIllegalStateException("cannot call isOptionalItemPresent, actual type: Uint64",
+                p1::isOptionalItemPresent);
+        Assert.assertTrue(p2.isOptionalItemPresent());
+        Assert.assertTrue(p3.isOptionalItemPresent());
+        Assert.assertFalse(p4.isOptionalItemPresent());
+
+        // Inner NULL
+        Assert.assertTrue(p5.isOptionalItemPresent());
+        Assert.assertFalse(p5.getOptionalItem().isOptionalItemPresent());
+
+        Assert.assertEquals(123l, p1.getUint64());
+        Assert.assertEquals(123l, p2.getUint64());
+        Assert.assertEquals(123l, p3.getUint64());
+        assertNullPointerException("cannot call getUint64 for NULL value", p4::getUint64);
+        assertNullPointerException("cannot call getUint64 for NULL value", p5::getUint64);
     }
 
     @Test
