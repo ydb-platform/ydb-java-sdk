@@ -1,6 +1,5 @@
 package tech.ydb.table.values;
 
-import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
@@ -10,7 +9,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -20,8 +18,10 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 
 import tech.ydb.proto.ValueProtos;
+import tech.ydb.table.utils.Hex;
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
+
 
 
 /**
@@ -97,7 +97,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public String getText() {
-        throw new IllegalStateException("expected Utf8, but was " + getClass().getSimpleName());
+        throw new IllegalStateException("expected Text, but was " + getClass().getSimpleName());
     }
 
     public byte[] getYson() {
@@ -229,15 +229,25 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newBytes(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value.clone());
+        if (value.length == 0) {
+            return Bytes.EMPTY_BYTES;
+        }
+        return new Bytes(PrimitiveType.Bytes, ByteString.copyFrom(value), value);
     }
 
     public static PrimitiveValue newBytes(ByteString value) {
-        return value.isEmpty() ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
+        if (value.isEmpty()) {
+            return Bytes.EMPTY_BYTES;
+        }
+
+        return new Bytes(PrimitiveType.Bytes, value);
     }
 
     public static PrimitiveValue newBytesOwn(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
+        if (value.length == 0) {
+            return Bytes.EMPTY_BYTES;
+        }
+        return new Bytes(PrimitiveType.Bytes, UnsafeByteOperations.unsafeWrap(value), value);
     }
 
     public static PrimitiveValue newText(String value) {
@@ -245,15 +255,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newYson(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value.clone());
+        if (value.length == 0) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, ByteString.copyFrom(value), value);
     }
 
     public static PrimitiveValue newYson(ByteString value) {
-        return value.isEmpty() ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
+        if (value.isEmpty()) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, value);
     }
 
     public static PrimitiveValue newYsonOwn(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
+        if (value.length == 0) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, UnsafeByteOperations.unsafeWrap(value), value);
     }
 
     public static PrimitiveValue newJson(String value) {
@@ -1060,21 +1079,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Bytes extends PrimitiveValue {
-        private static final Bytes EMPTY_STRING = new Bytes(PrimitiveType.Bytes, new byte[0]);
-        private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, new byte[0]);
+        private static final int OUTPUT_LIMIT = 50;
+        private static final Bytes EMPTY_BYTES = new Bytes(PrimitiveType.Bytes, ByteString.EMPTY);
+        private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, ByteString.EMPTY);
         private static final long serialVersionUID = 1523630543323446576L;
 
         private final PrimitiveType type;
-        private final Serializable value;
+        private final ByteString value;
 
-        private Bytes(PrimitiveType type, byte[] value) {
-            this.type = type;
-            this.value = value;
-        }
+        private transient byte[] cached;
 
         private Bytes(PrimitiveType type, ByteString value) {
+            this(type, value, null);
+        }
+
+        private Bytes(PrimitiveType type, ByteString value, byte[] cached) {
             this.type = type;
             this.value = value;
+            this.cached = cached;
         }
 
         @Override
@@ -1082,34 +1104,47 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             return type;
         }
 
+        private byte[] getCachedBytes() {
+            if (cached == null) {
+                cached = value.toByteArray();
+            }
+            return cached;
+        }
+
         @Override
         public byte[] getBytes() {
-            return getBytes(PrimitiveType.Bytes);
+            checkType(PrimitiveType.Bytes, type);
+            return value.toByteArray();
         }
 
         @Override
         public byte[] getBytesUnsafe() {
-            return getBytesUnsafe(PrimitiveType.Bytes);
+            checkType(PrimitiveType.Bytes, type);
+            return getCachedBytes();
         }
 
         @Override
         public ByteString getBytesAsByteString() {
-            return getByteString(PrimitiveType.Bytes);
+            checkType(PrimitiveType.Bytes, type);
+            return value;
         }
 
         @Override
         public byte[] getYson() {
-            return getBytes(PrimitiveType.Yson);
+            checkType(PrimitiveType.Yson, type);
+            return value.toByteArray();
         }
 
         @Override
         public byte[] getYsonUnsafe() {
-            return getBytesUnsafe(PrimitiveType.Yson);
+            checkType(PrimitiveType.Yson, type);
+            return getCachedBytes();
         }
 
         @Override
         public ByteString getYsonBytes() {
-            return getByteString(PrimitiveType.Yson);
+            checkType(PrimitiveType.Yson, type);
+            return value;
         }
 
         @Override
@@ -1126,109 +1161,40 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             if (type != that.type) {
                 return false;
             }
-
-            if (value instanceof byte[]) {
-                if (that.value instanceof byte[]) {
-                    return Arrays.equals((byte[]) value, (byte[]) that.value);
-                }
-                return that.value.equals(UnsafeByteOperations.unsafeWrap((byte[]) value));
-            }
-
-            if (that.value instanceof byte[]) {
-                return value.equals(UnsafeByteOperations.unsafeWrap((byte[]) that.value));
-            }
             return value.equals(that.value);
         }
 
         @Override
         public int hashCode() {
-            int result = type.hashCode();
-
-            if (value instanceof byte[]) {
-                for (byte b : (byte[]) value) {
-                    result = 31 * result + b;
-                }
-            } else {
-                ByteString v = (ByteString) this.value;
-                for (int i = 0; i < v.size(); i++) {
-                    byte b = v.byteAt(i);
-                    result = 31 * result + b;
-                }
-            }
-
-            return result;
+            return 31 * type.hashCode() + value.hashCode();
         }
 
         @Override
         public String toString() {
-            final int length = (value instanceof byte[])
-                    ? ((byte[]) value).length
-                    : ((ByteString) value).size();
-
-            if (length == 0) {
-                return "\"\"";
+            if (value.isEmpty()) {
+                return type.name() + "[len=0]";
             }
 
-            // bytes are escaped as \nnn (octal value)
-            StringBuilder sb = new StringBuilder(length * 4 + 2);
-            sb.append('\"');
+            StringBuilder sb = new StringBuilder();
+            sb.append(type.name());
+            sb.append("[len=");
+            sb.append(value.size());
+            sb.append(" content=");
 
-            if (value instanceof byte[]) {
-                for (byte b : (byte[]) value) {
-                    encodeAsOctal(sb, b);
-                }
+            if (value.size() <= OUTPUT_LIMIT) {
+                Hex.toHex(value, sb);
             } else {
-                ByteString bytes = (ByteString) this.value;
-                for (int i = 0; i < bytes.size(); i++) {
-                    encodeAsOctal(sb, bytes.byteAt(i));
-                }
+                Hex.toHex(value.substring(0, OUTPUT_LIMIT - 3), sb);
+                sb.append("...");
             }
-            sb.append('\"');
-            return sb.toString();
-        }
 
-        private static void encodeAsOctal(StringBuilder sb, byte b) {
-            final int i = Byte.toUnsignedInt(b);
-            sb.append('\\');
-            if (i < 64) {
-                sb.append('0');
-                if (i < 8) {
-                    sb.append('0');
-                }
-            }
-            sb.append(Integer.toString(i, 8));
+            sb.append("]");
+            return sb.toString();
         }
 
         @Override
         public ValueProtos.Value toPb() {
-            return ProtoValue.fromBytes(getByteString(type));
-        }
-
-        private byte[] getBytes(PrimitiveType expected) {
-            checkType(expected, type);
-
-            if (value instanceof byte[]) {
-                return ((byte[]) value).clone();
-            }
-            return ((ByteString) value).toByteArray();
-        }
-
-        private byte[] getBytesUnsafe(PrimitiveType expected) {
-            checkType(expected, type);
-
-            if (value instanceof byte[]) {
-                return (byte[]) value;
-            }
-            return ((ByteString) value).toByteArray();
-        }
-
-        private ByteString getByteString(PrimitiveType expected) {
-            checkType(expected, type);
-
-            if (value instanceof byte[]) {
-                return UnsafeByteOperations.unsafeWrap((byte[]) value);
-            }
-            return (ByteString) value;
+            return ProtoValue.fromBytes(value);
         }
     }
 
