@@ -8,7 +8,7 @@ import tech.ydb.table.values.Type;
 public interface ResultSetReader {
 
     /**
-     * Gets whether or not this result set is complete.
+     * Gets whether this result set was truncated.
      *
      * @return {@code true} if the result was truncated, {@code false} otherwise.
      */
@@ -30,8 +30,15 @@ public interface ResultSetReader {
 
     /**
      * Explicitly sets the reader on a specific row position.
+     * <p>
+     * Valid row indexes are in the range <code>0 &lt;= index &lt; getRowCount()</code>, where
+     * {@code 0} is the first row and {@code getRowCount() - 1} is the last row.
+     * Passing a negative value positions the reader <em>before</em> the first row, so that
+     * a subsequent {@link #next()} call advances to the first row. Passing a value greater
+     * than or equal to {@link #getRowCount()} positions the reader <em>after</em> the last
+     * row, so that {@link #next()} will return {@code false}.
      *
-     * @param index the row index, zero is the first row
+     * @param index the desired row index, zero is the first row; see above for special values
      */
     void setRowIndex(int index);
 

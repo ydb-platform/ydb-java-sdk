@@ -166,7 +166,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
 
         @Override
         public Type getColumnType(int index) {
-            if (partIndex < 0) {
+            if (partIndex < 0 || partIndex >= parts.length) {
                 return null;
             }
             return parts[partIndex].getColumnType(index);
@@ -180,7 +180,7 @@ public class QueryReader implements Iterable<ResultSetReader> {
         @Override
         public void setRowIndex(int index) {
             if (index < 0) { // reset all
-                partIndex = 0;
+                partIndex = parts.length == 0 ? -1 : 0;
                 for (ResultSetReader rs: parts) {
                     rs.setRowIndex(-1);
                 }
@@ -194,16 +194,17 @@ public class QueryReader implements Iterable<ResultSetReader> {
                 int readerRows = parts[partIndex].getRowCount();
                 if (currentIdx < readerRows) {
                     parts[partIndex].setRowIndex(currentIdx);
-                    break;
+                    for (int partStep = partIndex + 1; partStep < parts.length; partStep++) {
+                        parts[partStep].setRowIndex(-1);
+                    }
+                    return;
                 }
                 parts[partIndex].setRowIndex(readerRows);
                 currentIdx -= readerRows;
                 partIndex++;
             }
 
-            for (int partStep = partIndex + 1; partStep < parts.length; partStep++) {
-                parts[partStep].setRowIndex(-1);
-            }
+            partIndex = parts.length - 1;
         }
 
         @Override
