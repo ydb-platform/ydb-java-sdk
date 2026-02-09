@@ -344,11 +344,11 @@ public class PrimitiveValueTest {
             Assert.assertEquals("Bytes[len=5 content=00073f7fff]", v.toString());
             Assert.assertArrayEquals(data, v.getBytes());
             Assert.assertArrayEquals(data, v.getBytesUnsafe());
+            Assert.assertEquals(ByteString.copyFrom(data), v.getBytesAsByteString());
 
+            Assert.assertNotSame(v.getBytes(), data); // always copy
             Assert.assertNotSame(v.getBytes(), v.getBytes());
             Assert.assertSame(v.getBytesUnsafe(), v.getBytesUnsafe());
-
-            Assert.assertEquals(ByteString.copyFrom(data), v.getBytesAsByteString());
 
             ValueProtos.Value vPb = v.toPb();
             Assert.assertEquals(vPb, ProtoValue.fromBytes(data));
@@ -359,11 +359,17 @@ public class PrimitiveValueTest {
         doTest.accept(PrimitiveValue.newBytesOwn(data));
         doTest.accept(PrimitiveValue.newBytes(ByteString.copyFrom(data)));
 
+        Assert.assertSame(PrimitiveValue.newBytes(data).getBytesUnsafe(), data);
+        Assert.assertSame(PrimitiveValue.newBytesOwn(data).getBytesUnsafe(), data);
+        Assert.assertNotSame(PrimitiveValue.newBytes(ByteString.copyFrom(data)).getBytesUnsafe(), data);
+
         // hashes must be the same
         Assert.assertEquals(PrimitiveValue.newBytes(data).hashCode(),
                 PrimitiveValue.newBytes(ByteString.copyFrom(data)).hashCode());
 
         Assert.assertEquals("Bytes[len=0]", PrimitiveValue.newBytes(ByteString.EMPTY).toString());
+        Assert.assertEquals("Bytes[len=0]", PrimitiveValue.newBytes(new byte[0]).toString());
+        Assert.assertEquals("Bytes[len=0]", PrimitiveValue.newBytesOwn(new byte[0]).toString());
 
         // toString must cut too long value
         PrimitiveValue bytes51 = PrimitiveValue.newBytes(ByteString.fromHex(""
@@ -397,14 +403,13 @@ public class PrimitiveValueTest {
             Assert.assertNotEquals(PrimitiveValue.newYson(other), v);
 
             Assert.assertEquals("Yson[len=5 content=00073f7fff]", v.toString());
-
             Assert.assertArrayEquals(data, v.getYson());
             Assert.assertArrayEquals(data, v.getYsonUnsafe());
+            Assert.assertEquals(ByteString.copyFrom(data), v.getYsonBytes());
 
+            Assert.assertNotSame(v.getYson(), data); // always copy
             Assert.assertNotSame(v.getYson(), v.getYson());
             Assert.assertSame(v.getYsonUnsafe(), v.getYsonUnsafe());
-
-            Assert.assertEquals(ByteString.copyFrom(data), v.getYsonBytes());
 
             ValueProtos.Value vPb = v.toPb();
             Assert.assertEquals(vPb, ProtoValue.fromYson(data));
@@ -415,11 +420,17 @@ public class PrimitiveValueTest {
         doTest.accept(PrimitiveValue.newYsonOwn(data));
         doTest.accept(PrimitiveValue.newYson(ByteString.copyFrom(data)));
 
+        Assert.assertSame(PrimitiveValue.newYson(data).getYsonUnsafe(), data);
+        Assert.assertSame(PrimitiveValue.newYsonOwn(data).getYsonUnsafe(), data);
+        Assert.assertNotSame(PrimitiveValue.newYson(ByteString.copyFrom(data)).getYsonUnsafe(), data);
+
         // hashes must be the same
         Assert.assertEquals(PrimitiveValue.newYson(data).hashCode(),
                 PrimitiveValue.newYson(ByteString.copyFrom(data)).hashCode());
 
         Assert.assertEquals("Yson[len=0]", PrimitiveValue.newYson(ByteString.EMPTY).toString());
+        Assert.assertEquals("Yson[len=0]", PrimitiveValue.newYson(new byte[0]).toString());
+        Assert.assertEquals("Yson[len=0]", PrimitiveValue.newYsonOwn(new byte[0]).toString());
 
         // toString must cut too long value
         PrimitiveValue yson51 = PrimitiveValue.newYson(ByteString.fromHex(""

@@ -229,15 +229,25 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newBytes(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value.clone());
+        if (value.length == 0) {
+            return Bytes.EMPTY_BYTES;
+        }
+        return new Bytes(PrimitiveType.Bytes, ByteString.copyFrom(value), value);
     }
 
     public static PrimitiveValue newBytes(ByteString value) {
-        return value.isEmpty() ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
+        if (value.isEmpty()) {
+            return Bytes.EMPTY_BYTES;
+        }
+
+        return new Bytes(PrimitiveType.Bytes, value);
     }
 
     public static PrimitiveValue newBytesOwn(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
+        if (value.length == 0) {
+            return Bytes.EMPTY_BYTES;
+        }
+        return new Bytes(PrimitiveType.Bytes, UnsafeByteOperations.unsafeWrap(value), value);
     }
 
     public static PrimitiveValue newText(String value) {
@@ -245,15 +255,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newYson(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value.clone());
+        if (value.length == 0) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, ByteString.copyFrom(value), value);
     }
 
     public static PrimitiveValue newYson(ByteString value) {
-        return value.isEmpty() ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
+        if (value.isEmpty()) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, value);
     }
 
     public static PrimitiveValue newYsonOwn(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
+        if (value.length == 0) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, UnsafeByteOperations.unsafeWrap(value), value);
     }
 
     public static PrimitiveValue newJson(String value) {
@@ -1061,26 +1080,23 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
 
     private static final class Bytes extends PrimitiveValue {
         private static final int OUTPUT_LIMIT = 50;
-        private static final Bytes EMPTY_STRING = new Bytes(PrimitiveType.Bytes, new byte[0]);
-        private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, new byte[0]);
+        private static final Bytes EMPTY_BYTES = new Bytes(PrimitiveType.Bytes, ByteString.EMPTY);
+        private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, ByteString.EMPTY);
         private static final long serialVersionUID = 1523630543323446576L;
 
         private final PrimitiveType type;
         private final ByteString value;
 
-        @SuppressWarnings("VolatileArrayField")
-        private volatile byte[] cached;
-
-        private Bytes(PrimitiveType type, byte[] value) {
-            this.type = type;
-            this.value = UnsafeByteOperations.unsafeWrap(value);
-            this.cached = value;
-        }
+        private transient byte[] cached;
 
         private Bytes(PrimitiveType type, ByteString value) {
+            this(type, value, null);
+        }
+
+        private Bytes(PrimitiveType type, ByteString value, byte[] cached) {
             this.type = type;
             this.value = value;
-            this.cached = null;
+            this.cached = cached;
         }
 
         @Override

@@ -523,7 +523,7 @@ public class ProtoValueReaderTest {
 
     @Test
     public void bytesTypesTest() {
-        byte[] arr = "[1,2,3]".getBytes();
+        byte[] arr = new byte[] { '[', '1', ',', '2', ',', '3', ']' };
         ValueProtos.Value bytes = ValueProtos.Value.newBuilder().setBytesValue(ByteString.copyFrom(arr)).build();
 
         {
