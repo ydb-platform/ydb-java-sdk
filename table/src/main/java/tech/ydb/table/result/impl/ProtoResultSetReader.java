@@ -1,7 +1,8 @@
 package tech.ydb.table.result.impl;
 
-import java.util.HashMap;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.result.ResultSetReader;
@@ -23,7 +24,7 @@ final class ProtoResultSetReader implements ResultSetReader {
 
     ProtoResultSetReader(ValueProtos.ResultSet resultSet) {
         this.rs = resultSet;
-        this.columnIndexes = new HashMap<>();
+        this.columnIndexes = Maps.newHashMapWithExpectedSize(resultSet.getColumnsCount());
         this.readers = new AbstractValueReader[resultSet.getColumnsCount()];
 
         for (int i = 0; i < resultSet.getColumnsCount(); i++) {
