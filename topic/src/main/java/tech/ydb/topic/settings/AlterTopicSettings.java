@@ -12,7 +12,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-import tech.ydb.core.settings.OperationSettings;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.SupportedCodecs;
@@ -20,7 +19,7 @@ import tech.ydb.topic.description.SupportedCodecs;
 /**
  * @author Nikolay Perfilov
  */
-public class AlterTopicSettings extends OperationSettings {
+public class AlterTopicSettings extends TopicClientOperationSettings {
     @Nullable
     private final AlterPartitioningSettings alterPartitioningSettings;
     @Nullable
@@ -113,7 +112,7 @@ public class AlterTopicSettings extends OperationSettings {
     /**
      * BUILDER
      */
-    public static class Builder extends OperationBuilder<Builder> {
+    public static class Builder extends TopicClientOperationBuilder<Builder> {
         private AlterPartitioningSettings alterPartitioningSettings = null;
         private Duration retentionPeriod = null;
         private Long retentionStorageMb = null;
