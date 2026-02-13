@@ -1,11 +1,16 @@
 package tech.ydb.test.integration;
 
 
+import java.lang.reflect.Field;
+
 import com.google.protobuf.InvalidProtocolBufferException;
+import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Assume;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testcontainers.shaded.org.awaitility.Awaitility;
+import org.testcontainers.shaded.org.awaitility.constraint.WaitConstraint;
 
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -22,8 +27,31 @@ public class ProxyDockerTest {
 
     @BeforeClass
     public static void initTest() {
+        try {
+            Field f = Awaitility.class.getDeclaredField("defaultWaitConstraint");
+            f.setAccessible(true);
+            WaitConstraint constraint = (WaitConstraint) f.get(null);
+            Assume.assumeFalse(constraint.getMaxWaitTime().isZero());
+            System.out.println("BEFORE TIMEOUT = " + constraint.getMaxWaitTime());
+        } catch (Exception ex) {
+            // ignore
+        }
+
         factory = YdbHelperFactory.getInstance();
         Assume.assumeTrue(factory instanceof ProxedDockerHelperFactory);
+    }
+
+    @AfterClass
+    public static void closeTest() {
+        try {
+            Field f = Awaitility.class.getDeclaredField("defaultWaitConstraint");
+            f.setAccessible(true);
+            WaitConstraint constraint = (WaitConstraint) f.get(null);
+            Assume.assumeFalse(constraint.getMaxWaitTime().isZero());
+            System.out.println("AFTER TIMEOUT = " + constraint.getMaxWaitTime());
+        } catch (Exception ex) {
+            // ignore
+        }
     }
 
     @Test
