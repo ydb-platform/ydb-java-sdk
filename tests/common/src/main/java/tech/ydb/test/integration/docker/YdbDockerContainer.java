@@ -1,13 +1,11 @@
 package tech.ydb.test.integration.docker;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Collections;
 import java.util.UUID;
 
 import org.apache.commons.io.IOUtils;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.utility.ResourceReaper;
 
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.test.integration.YdbEnvironment;
@@ -83,10 +81,6 @@ public class YdbDockerContainer extends GenericContainer<YdbDockerContainer> {
             waitingFor(Wait.forSuccessfulCommand(healthcheck));
         }
 
-        // Register container cleaner
-        ResourceReaper.instance().registerLabelsFilterForCleanup(Collections.singletonMap(
-            "com.docker.ydb.id", id
-        ));
     }
 
     public EndpointRecord nonSecureEndpoint() {
