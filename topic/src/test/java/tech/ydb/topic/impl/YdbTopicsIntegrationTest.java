@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
@@ -328,5 +329,22 @@ public class YdbTopicsIntegrationTest {
         for (PartitionInfo partition: withStats.getPartitions()) {
             Assert.assertNotNull(partition.getPartitionStats());
         }
+   }
+
+    @Test
+    public void step10_invalidConsumerTest() {
+        AlterTopicSettings settings = AlterTopicSettings.newBuilder()
+                .addAddConsumer(Consumer.newBuilder()
+                        .setName("WRONG_CONSUMER")
+                        // importand and availability_period are incompatible
+                        .setImportant(true)
+                        .setAvailabilityPeriod(Duration.ofMinutes(5))
+                        .build()
+                ).build();
+
+        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        System.out.println("status " + status);
+        Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
+        Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
    }
 }

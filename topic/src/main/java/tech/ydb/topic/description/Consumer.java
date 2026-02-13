@@ -1,5 +1,6 @@
 package tech.ydb.topic.description;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class Consumer {
     private final List<Codec> supportedCodecs;
     private final Map<String, String> attributes;
     private final ConsumerStats stats;
+    private final Duration availabilityPeriod;
 
     private Consumer(Builder builder) {
         this.name = builder.name;
@@ -35,6 +37,7 @@ public class Consumer {
         this.supportedCodecs = builder.supportedCodecs;
         this.attributes = ImmutableMap.copyOf(builder.attributes);
         this.stats = builder.stats;
+        this.availabilityPeriod = builder.availabilityPeriod;
     }
 
     public Consumer(YdbTopic.Consumer consumer) {
@@ -45,6 +48,7 @@ public class Consumer {
                 .stream().map(ProtoUtils::codecFromProto).collect(Collectors.toList());
         this.attributes = consumer.getAttributesMap();
         this.stats = new ConsumerStats(consumer.getConsumerStats());
+        this.availabilityPeriod = ProtobufUtils.protoToDuration(consumer.getAvailabilityPeriod());
     }
 
     public static Builder newBuilder() {
@@ -82,6 +86,10 @@ public class Consumer {
         return stats;
     }
 
+    public Duration getAvailabilityPeriod() {
+        return availabilityPeriod;
+    }
+
     /**
      * BUILDER
      */
@@ -92,6 +100,7 @@ public class Consumer {
         private final List<Codec> supportedCodecs = new ArrayList<>();
         private Map<String, String> attributes = new HashMap<>();
         private ConsumerStats stats = null;
+        private Duration availabilityPeriod = null;
 
         public Builder setName(@Nonnull String name) {
             this.name = name;
@@ -105,6 +114,11 @@ public class Consumer {
 
         public Builder setReadFrom(Instant readFrom) {
             this.readFrom = readFrom;
+            return this;
+        }
+
+        public Builder setAvailabilityPeriod(Duration period) {
+            this.availabilityPeriod = period;
             return this;
         }
 
@@ -156,11 +170,12 @@ public class Consumer {
                 Objects.equals(readFrom, consumer.readFrom) &&
                 Objects.equals(supportedCodecs, consumer.supportedCodecs) &&
                 Objects.equals(attributes, consumer.attributes) &&
-                Objects.equals(stats, consumer.stats);
+                Objects.equals(stats, consumer.stats) &&
+                Objects.equals(availabilityPeriod, consumer.availabilityPeriod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, important, readFrom, supportedCodecs, attributes, stats);
+        return Objects.hash(name, important, readFrom, supportedCodecs, attributes, stats, availabilityPeriod);
     }
 }
