@@ -1,6 +1,5 @@
 package tech.ydb.topic.impl;
 
-import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 import org.junit.Test;
@@ -9,6 +8,7 @@ import org.mockito.ArgumentCaptor;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.settings.AlterTopicSettings;
@@ -34,8 +34,10 @@ public class TopicClientImplTest {
         when(mock.dropTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(Status.SUCCESS));
         when(mock.alterTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(Status.SUCCESS));
         when(mock.commitOffset(any(), any())).thenReturn(CompletableFuture.completedFuture(Status.SUCCESS));
-        when(mock.describeTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(mock(Result.class)));
-        when(mock.describeConsumer(any(), any())).thenReturn(CompletableFuture.completedFuture(mock(Result.class)));
+        when(mock.describeTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(
+                Result.success(mock(YdbTopic.DescribeTopicResult.class))));
+        when(mock.describeConsumer(any(), any())).thenReturn(CompletableFuture.completedFuture(
+                Result.success(mock(YdbTopic.DescribeConsumerResult.class))));
 
         final String topic = "topic";
         final String consumer = "consumer";
@@ -103,8 +105,10 @@ public class TopicClientImplTest {
         when(mock.dropTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(Status.SUCCESS));
         when(mock.alterTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(Status.SUCCESS));
         when(mock.commitOffset(any(), any())).thenReturn(CompletableFuture.completedFuture(Status.SUCCESS));
-        when(mock.describeTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(mock(Result.class)));
-        when(mock.describeConsumer(any(), any())).thenReturn(CompletableFuture.completedFuture(mock(Result.class)));
+        when(mock.describeTopic(any(), any())).thenReturn(CompletableFuture.completedFuture(
+                Result.success(mock(YdbTopic.DescribeTopicResult.class))));
+        when(mock.describeConsumer(any(), any())).thenReturn(CompletableFuture.completedFuture(
+                Result.success(mock(YdbTopic.DescribeConsumerResult.class))));
 
         final String topic = "topic";
         final String consumer = "consumer";
