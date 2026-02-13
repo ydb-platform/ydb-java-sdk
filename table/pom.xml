@@ -30,6 +30,12 @@
         </dependency>
 
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>tech.ydb.test</groupId>
             <artifactId>ydb-junit4-support</artifactId>
             <scope>test</scope>
