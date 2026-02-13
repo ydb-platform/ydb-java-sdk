@@ -49,7 +49,8 @@ public class Consumer {
                 .stream().map(ProtoUtils::codecFromProto).collect(Collectors.toList());
         this.attributes = consumer.getAttributesMap();
         this.stats = new ConsumerStats(consumer.getConsumerStats());
-        this.availabilityPeriod = ProtobufUtils.protoToDuration(consumer.getAvailabilityPeriod());
+        this.availabilityPeriod = consumer.hasAvailabilityPeriod() ?
+                ProtobufUtils.protoToDuration(consumer.getAvailabilityPeriod()) : null;
     }
 
     public static Builder newBuilder() {
@@ -100,6 +101,7 @@ public class Consumer {
      *
      * @return availability period for this consumer
      */
+    @Nullable
     public Duration getAvailabilityPeriod() {
         return availabilityPeriod;
     }

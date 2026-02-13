@@ -317,9 +317,11 @@ public class YdbTopicsIntegrationTest {
         for (Consumer consumer: withoutStats.getConsumers()) {
             // TODO: fix it, must be null
             Assert.assertNotNull(consumer.getStats());
+            Assert.assertNull(consumer.getAvailabilityPeriod());
         }
         for (Consumer consumer: withStats.getConsumers()) {
             Assert.assertNotNull(consumer.getStats());
+            Assert.assertNull(consumer.getAvailabilityPeriod());
         }
 
         for (PartitionInfo partition: withoutStats.getPartitions()) {
@@ -336,14 +338,13 @@ public class YdbTopicsIntegrationTest {
         AlterTopicSettings settings = AlterTopicSettings.newBuilder()
                 .addAddConsumer(Consumer.newBuilder()
                         .setName("WRONG_CONSUMER")
-                        // importand and availability_period are incompatible
+                        // important and availability_period are incompatible
                         .setImportant(true)
                         .setAvailabilityPeriod(Duration.ofMinutes(5))
                         .build()
                 ).build();
 
         Status status = client.alterTopic(TEST_TOPIC, settings).join();
-        System.out.println("status " + status);
         Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
         Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
    }
