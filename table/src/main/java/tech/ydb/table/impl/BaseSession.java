@@ -815,7 +815,7 @@ public abstract class BaseSession implements Session {
         SchemeOperationProtos.Entry.Type entryType = desc.getSelf().getType();
 
         if (entryType != SchemeOperationProtos.Entry.Type.TABLE &&
-                entryType != SchemeOperationProtos.Entry.Type.COLUMN_TABLE) {
+            entryType != SchemeOperationProtos.Entry.Type.COLUMN_TABLE) {
             String errorMsg = "Entry " + desc.getSelf().getName() + " with type " + entryType + " is not a table";
             return Result.fail(Status.of(StatusCode.SCHEME_ERROR).withIssues(Issue.of(errorMsg, Issue.Severity.ERROR)));
         }
@@ -1132,7 +1132,9 @@ public abstract class BaseSession implements Session {
     @Override
     public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
             String query, TxControl<?> txControl, Params params, ExecuteDataQuerySettings settings) {
-        return executeDataQueryInternal(query, txControl.toPb(), params, settings);
+        return getTracing().traceAsync("ExecuteQuery", query, params,
+                () -> executeDataQueryInternal(query, txControl.toPb(), params, settings)
+        );
     }
 
     @Override
@@ -1328,7 +1330,7 @@ public abstract class BaseSession implements Session {
 
     @Override
     public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
-                                                            ExecuteScanQuerySettings settings) {
+                                                                     ExecuteScanQuerySettings settings) {
         YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
                 .setQuery(YdbTable.Query.newBuilder().setYqlText(query))
                 .setMode(settings.getMode().toPb())
@@ -1575,7 +1577,7 @@ public abstract class BaseSession implements Session {
                             currentStatusFuture.complete(Status
                                     .of(StatusCode.ABORTED)
                                     .withIssues(Issue.of("ExecuteDataQuery on transaction failed with status "
-                                            + result.getStatus(), Issue.Severity.ERROR)));
+                                                         + result.getStatus(), Issue.Severity.ERROR)));
                         }
                     });
         }
@@ -1588,33 +1590,39 @@ public abstract class BaseSession implements Session {
 
         @Override
         public CompletableFuture<Status> commit(CommitTxSettings settings) {
-            CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
-            final String transactionId = txId.get();
-            if (transactionId == null) {
-                Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
-                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
-            }
-            return commitTransactionInternal(transactionId, settings).whenComplete(((status, th) -> {
-                if (th != null) {
-                    currentStatusFuture.completeExceptionally(th);
-                } else {
-                    currentStatusFuture.complete(status);
-                }
-            }));
+            return getTracing().traceAsync("Commit", null, null,
+                    () -> {
+                        CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
+                        final String transactionId = txId.get();
+                        if (transactionId == null) {
+                            Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
+                            return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
+                        }
+                        return commitTransactionInternal(transactionId, settings).whenComplete(((status, th) -> {
+                            if (th != null) {
+                                currentStatusFuture.completeExceptionally(th);
+                            } else {
+                                currentStatusFuture.complete(status);
+                            }
+                        }));
+                    });
         }
 
         @Override
         public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
-            CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
-            final String transactionId = txId.get();
-            if (transactionId == null) {
-                Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
-                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
-            }
-            return rollbackTransactionInternal(transactionId, settings)
-                    .whenComplete((status, th) -> currentStatusFuture.complete(Status
-                            .of(StatusCode.ABORTED)
-                            .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR))));
+            return getTracing().traceAsync("Rollback", null, null,
+                    () -> {
+                        CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
+                        final String transactionId = txId.get();
+                        if (transactionId == null) {
+                            Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
+                            return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
+                        }
+                        return rollbackTransactionInternal(transactionId, settings)
+                                .whenComplete((status, th) -> currentStatusFuture.complete(Status
+                                        .of(StatusCode.ABORTED)
+                                        .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR))));
+                    });
         }
     }
 

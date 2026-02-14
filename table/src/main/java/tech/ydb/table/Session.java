@@ -9,6 +9,7 @@ import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.observability.YdbTracing;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.description.TableOptionDescription;
@@ -46,7 +47,6 @@ import tech.ydb.table.transaction.Transaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.table.values.ListValue;
 
-
 /**
  * @author Sergey Polovko
  * @author Nikolay Perfilov
@@ -81,10 +81,10 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Result<DataQuery>> prepareDataQuery(String query, PrepareDataQuerySettings settings);
 
     CompletableFuture<Result<DataQueryResult>> executeDataQuery(
-        String query,
-        TxControl<?> txControl,
-        Params params,
-        ExecuteDataQuerySettings settings);
+            String query,
+            TxControl<?> txControl,
+            Params params,
+            ExecuteDataQuerySettings settings);
 
     CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings);
 
@@ -150,10 +150,10 @@ public interface Session extends AutoCloseable {
     GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings);
 
     GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
-            ExecuteScanQuerySettings settings);
+                                                              ExecuteScanQuerySettings settings);
 
     default GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
-            ExecuteScanQuerySettings settings) {
+                                                             ExecuteScanQuerySettings settings) {
         GrpcReadStream<ValueProtos.ResultSet> stream = executeScanQueryRaw(query, params, settings);
         return new GrpcReadStream<ResultSetReader>() {
             @Override
@@ -186,13 +186,13 @@ public interface Session extends AutoCloseable {
 
     @Deprecated
     default CompletableFuture<Status> readTable(String tablePath, ReadTableSettings settings,
-            Consumer<ResultSetReader> fn) {
+                                                Consumer<ResultSetReader> fn) {
         return executeReadTable(tablePath, settings).start(part -> fn.accept(part.getResultSetReader()));
     }
 
     @Deprecated
     default CompletableFuture<Status> executeScanQuery(String query, Params params, ExecuteScanQuerySettings settings,
-            Consumer<ResultSetReader> fn) {
+                                                       Consumer<ResultSetReader> fn) {
         return executeScanQuery(query, params, settings).start(fn::accept);
     }
 
@@ -237,7 +237,7 @@ public interface Session extends AutoCloseable {
     }
 
     default CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl,
-            Params params) {
+                                                                        Params params) {
         return executeDataQuery(query, txControl, params, new ExecuteDataQuerySettings());
     }
 
@@ -279,5 +279,9 @@ public interface Session extends AutoCloseable {
 
     default CompletableFuture<Result<State>> keepAlive() {
         return keepAlive(new KeepAliveSessionSettings());
+    }
+
+    default YdbTracing getTracing() {
+        return YdbTracing.global();
     }
 }
