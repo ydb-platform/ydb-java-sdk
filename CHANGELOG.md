@@ -1,3 +1,7 @@
+## 2.3.31 ##
+* Topic: Added support of availabilityPeriod to topic consumer
+* Topic: Added preferReady option to topic's control plane methods
+
 ## 2.3.30 ##
 * Core: Added support of YDB custom headers
 * Core: Added support for external scheduler usage
