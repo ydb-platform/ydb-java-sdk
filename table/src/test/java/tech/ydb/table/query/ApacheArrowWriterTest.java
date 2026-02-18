@@ -267,7 +267,7 @@ public class ApacheArrowWriterTest {
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: Int(64, true) not null, c2: Int(64, false) not null, c3: Int(64, true), "
-                    + "c4: Int(64, true), c5: Int(64, true), c6: Duration(MILLISECOND), c7: Int(64, true)>",
+                    + "c4: Int(64, true), c5: Int(64, true), c6: Duration(MICROSECOND), c7: Int(64, true)>",
                     schema.toString());
         }
     }

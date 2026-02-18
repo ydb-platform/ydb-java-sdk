@@ -96,7 +96,7 @@ public class AllTypesRecord {
         this.id1 = id1;
         this.id2 = id2;
         this.length = payload.length;
-        this.payload = new byte[length];
+        this.payload = payload;
         this.hash = Hashing.sha256().hashBytes(payload).toString();
     }
 
@@ -378,7 +378,7 @@ public class AllTypesRecord {
         return ListType.of(type).newValue(values);
     }
 
-    public static TableDescription createTableDescription(boolean isColumnShard, boolean isApacheArrow) {
+    public static TableDescription createTableDescription(boolean isColumnShard) {
         TableDescription.Builder builder = TableDescription.newBuilder()
                 .addNonnullColumn("id1", PrimitiveType.Uint64)
                 .addNonnullColumn("id2", PrimitiveType.Int64)

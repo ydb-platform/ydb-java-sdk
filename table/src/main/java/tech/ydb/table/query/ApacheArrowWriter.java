@@ -3,6 +3,7 @@ package tech.ydb.table.query;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -121,10 +122,6 @@ public class ApacheArrowWriter implements AutoCloseable {
     @Override
     public void close() {
         vsr.close();
-
-        for (FieldVector field: vsr.getFieldVectors()) {
-            field.close();
-        }
     }
 
     private class BatchImpl implements Batch {
@@ -596,7 +593,7 @@ public class ApacheArrowWriter implements AutoCloseable {
             if (type != PrimitiveType.Datetime64) {
                 throw error("writeDatetime64");
             }
-            vector.setSafe(rowIndex, (int) datetime.toEpochSecond(ZoneOffset.UTC));
+            vector.setSafe(rowIndex, datetime.toEpochSecond(ZoneOffset.UTC));
         }
 
         @Override
@@ -671,7 +668,7 @@ public class ApacheArrowWriter implements AutoCloseable {
             if (type != PrimitiveType.Text) {
                 throw error("writeText");
             }
-            vector.setSafe(rowIndex, text.getBytes());
+            vector.setSafe(rowIndex, text.getBytes(StandardCharsets.UTF_8));
         }
 
         @Override
@@ -679,7 +676,7 @@ public class ApacheArrowWriter implements AutoCloseable {
             if (type != PrimitiveType.Json) {
                 throw error("writeJson");
             }
-            vector.setSafe(rowIndex, json.getBytes());
+            vector.setSafe(rowIndex, json.getBytes(StandardCharsets.UTF_8));
         }
 
         @Override
@@ -687,7 +684,7 @@ public class ApacheArrowWriter implements AutoCloseable {
             if (type != PrimitiveType.JsonDocument) {
                 throw error("writeJsonDocument");
             }
-            vector.setSafe(rowIndex, jsonDocument.getBytes());
+            vector.setSafe(rowIndex, jsonDocument.getBytes(StandardCharsets.UTF_8));
         }
     }
 
@@ -829,7 +826,7 @@ public class ApacheArrowWriter implements AutoCloseable {
                 case Timestamp:
                     return new BigIntColumn(type, allocator, gen.apply(new ArrowType.Int(64, true)));
                 case Interval:
-                    return new BigIntColumn(type, allocator, gen.apply(new ArrowType.Duration(TimeUnit.MILLISECOND)));
+                    return new BigIntColumn(type, allocator, gen.apply(new ArrowType.Duration(TimeUnit.MICROSECOND)));
 
                 case Date32:
                     return new IntColumn(type, allocator, gen.apply(new ArrowType.Int(32, true)));

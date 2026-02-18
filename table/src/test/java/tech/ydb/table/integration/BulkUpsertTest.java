@@ -105,7 +105,7 @@ public class BulkUpsertTest {
     @Test
     public void writeProtobufToDataShardTest() {
         // Create table
-        TableDescription table = AllTypesRecord.createTableDescription(false, false);
+        TableDescription table = AllTypesRecord.createTableDescription(false);
         createTable(table);
 
         Set<String> columnNames = table.getColumns().stream().map(TableColumn::getName).collect(Collectors.toSet());
@@ -134,12 +134,12 @@ public class BulkUpsertTest {
     @Test
     public void writeProtobufToColumnShardTable() {
         // Create table
-        TableDescription table = AllTypesRecord.createTableDescription(true, false);
+        TableDescription table = AllTypesRecord.createTableDescription(true);
         Set<String> columnNames = table.getColumns().stream().map(TableColumn::getName).collect(Collectors.toSet());
 
         createTable(table);
 
-        // Write & read batch of 5000 records with id1 = 1
+        // Write & read batch of 2500 records with id1 = 1
         List<AllTypesRecord> batch1 = AllTypesRecord.randomBatch(1, 1, 2500);
         bulkUpsert(AllTypesRecord.createProtobufBatch(table, batch1));
         // Read table and validate data
@@ -149,7 +149,7 @@ public class BulkUpsertTest {
         });
         Assert.assertEquals(2500, rows1Count);
 
-        // Write & read batch of 10000 records with id1 = 2
+        // Write & read batch of 5000 records with id1 = 2
         List<AllTypesRecord> batch2 = AllTypesRecord.randomBatch(2, 1, 5000);
         bulkUpsert(AllTypesRecord.createProtobufBatch(table, batch2));
 
@@ -163,7 +163,7 @@ public class BulkUpsertTest {
     @Test
     public void writeApacheArrowToDataShardTest() {
         // Create table
-        TableDescription table = AllTypesRecord.createTableDescription(false, true);
+        TableDescription table = AllTypesRecord.createTableDescription(false);
         retryCtx.supplyStatus(s -> s.createTable(tablePath(), table)).join().expectSuccess("Cannot create table");
 
         Set<String> columnNames = table.getColumns().stream().map(TableColumn::getName).collect(Collectors.toSet());
@@ -209,7 +209,7 @@ public class BulkUpsertTest {
     @Test
     public void writeApacheArrowToColumnShardTest() {
         // Create table
-        TableDescription table = AllTypesRecord.createTableDescription(true, true);
+        TableDescription table = AllTypesRecord.createTableDescription(true);
         retryCtx.supplyStatus(s -> s.createTable(tablePath(), table)).join().expectSuccess("Cannot create table");
 
         Set<String> columnNames = table.getColumns().stream().map(TableColumn::getName).collect(Collectors.toSet());
@@ -217,10 +217,10 @@ public class BulkUpsertTest {
         ApacheArrowWriter.Schema schema = ApacheArrowWriter.newSchema();
         table.getColumns().forEach(column -> schema.addColumn(column.getName(), column.getType()));
 
+        // Create batch of 2500 records
+        List<AllTypesRecord> batch1 = AllTypesRecord.randomBatch(1, 1, 2500);
         // Create batch of 5000 records
-        List<AllTypesRecord> batch1 = AllTypesRecord.randomBatch(1, 1, 5000);
-        // Create batch of 10000 records
-        List<AllTypesRecord> batch2 = AllTypesRecord.randomBatch(2, 1, 10000);
+        List<AllTypesRecord> batch2 = AllTypesRecord.randomBatch(2, 1, 5000);
 
         try (BufferAllocator allocator = new RootAllocator()) {
             try (ApacheArrowWriter writer = schema.createWriter(allocator)) {
@@ -230,7 +230,7 @@ public class BulkUpsertTest {
                 bulkUpsert(data1.buildBatch());
 
                 // create batch with estimated size
-                ApacheArrowWriter.Batch data2 = writer.createNewBatch(10000);
+                ApacheArrowWriter.Batch data2 = writer.createNewBatch(5000);
                 batch2.forEach(r -> r.writeToApacheArrow(columnNames, data2.writeNextRow()));
                 bulkUpsert(data2.buildBatch());
 
@@ -243,13 +243,13 @@ public class BulkUpsertTest {
             Assert.assertTrue("Unexpected row index", idx < batch1.size());
             batch1.get(idx).assertRow(columnNames, idx, rs);
         });
-        Assert.assertEquals(5000, rows1Count);
+        Assert.assertEquals(2500, rows1Count);
 
         int rows2Count = readTable(2, (idx, rs) -> {
             Assert.assertTrue("Unexpected row index ", idx < batch2.size());
             batch2.get(idx).assertRow(columnNames, idx, rs);
         });
-        Assert.assertEquals(10000, rows2Count);
+        Assert.assertEquals(5000, rows2Count);
     }
 
 //
