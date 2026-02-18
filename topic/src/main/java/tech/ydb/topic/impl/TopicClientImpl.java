@@ -18,7 +18,6 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.Operation;
-import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicClient;
@@ -51,6 +50,7 @@ import tech.ydb.topic.settings.DropTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.TopicClientOperationSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.SyncWriter;
@@ -88,9 +88,10 @@ public class TopicClientImpl implements TopicClient {
         return new TopicClientBuilderImpl(rpc);
     }
 
-    private GrpcRequestSettings makeGrpcRequestSettings(BaseRequestSettings settings) {
+    private GrpcRequestSettings makeGrpcRequestSettings(TopicClientOperationSettings settings) {
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
+                .withPreferReadyChannel(settings.isPreferReadyChannel())
                 .build();
     }
 
@@ -403,10 +404,7 @@ public class TopicClientImpl implements TopicClient {
             request.setReadSessionId(settings.getReadSessionId());
         }
 
-        GrpcRequestSettings grpcRequestSettings = GrpcRequestSettings.newBuilder()
-                .withDeadline(settings.getRequestTimeout())
-                .withPreferReadyChannel(true)
-                .build();
+        final GrpcRequestSettings grpcRequestSettings = makeGrpcRequestSettings(settings);
         return topicRpc.commitOffset(request.build(), grpcRequestSettings);
     }
 
@@ -459,6 +457,10 @@ public class TopicClientImpl implements TopicClient {
 
         if (consumer.getReadFrom() != null) {
             consumerBuilder.setReadFrom(ProtobufUtils.instantToProto(consumer.getReadFrom()));
+        }
+
+        if (consumer.getAvailabilityPeriod() != null) {
+            consumerBuilder.setAvailabilityPeriod(ProtobufUtils.durationToProto(consumer.getAvailabilityPeriod()));
         }
 
         List<Integer> supportedCodecs = consumer.getSupportedCodecsList();
