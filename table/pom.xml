@@ -61,9 +61,23 @@
                     <environmentVariables>
                         <TESTCONTAINERS_REUSE_ENABLE>true</TESTCONTAINERS_REUSE_ENABLE>
                         <YDB_DOCKER_IMAGE>ydbplatform/local-ydb:trunk</YDB_DOCKER_IMAGE>
+                        <YDB_DOCKER_FEATURE_FLAGS>enable_columnshard_bool</YDB_DOCKER_FEATURE_FLAGS>
                     </environmentVariables>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>jdk8-bootstrap</id>
+            <activation>
+                <jdk>[9</jdk>
+            </activation>
+            <properties>
+                <!-- Hide warnings on JDK later 8 -->
+                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
+            </properties>
+        </profile>
+    </profiles>
 </project>
