@@ -251,48 +251,4 @@ public class BulkUpsertTest {
         });
         Assert.assertEquals(5000, rows2Count);
     }
-
-//
-//    private void assertApacheArrowBatch(ByteString schemaBytes, ByteString batchBytes, Iterator<Record> it) {
-//        try (BufferAllocator allocator = new RootAllocator()) {
-//            Schema schema = readApacheArrowSchema(schemaBytes);
-//            try (VectorSchemaRoot vector = VectorSchemaRoot.create(schema, allocator)) {
-//                try (InputStream is = batchBytes.newInput()) {
-//                    try (ReadChannel channel = new ReadChannel(Channels.newChannel(is))) {
-//                        try (ArrowRecordBatch batch = MessageSerializer.deserializeRecordBatch(channel, allocator)) {
-//                            VectorLoader loader = new VectorLoader(vector);
-//                            loader.load(batch);
-//                        }
-//                    }
-//                }
-//
-//                UInt8Vector id1 = (UInt8Vector) vector.getVector("id1");
-//                BigIntVector id2 = (BigIntVector) vector.getVector("id2");
-//                IntVector length = (IntVector) vector.getVector("length");
-//                VarCharVector hash = (VarCharVector) vector.getVector("hash");
-//                VarBinaryVector data = (VarBinaryVector) vector.getVector("data");
-//                TimeStampMicroTZVector tm = (TimeStampMicroTZVector) vector.getVector("timestamp");
-//                UInt2Vector date = (UInt2Vector) vector.getVector("date");
-//                Float8Vector amount = (Float8Vector) vector.getVector("amount");
-//
-//                for (int idx = 0; idx < vector.getRowCount(); idx++) {
-//                    Assert.assertTrue("Assert has no row " + idx, it.hasNext());
-//                    Record r = it.next();
-//
-//                    Assert.assertEquals("Row " + idx + " fail", r.id1, id1.get(idx));
-//                    Assert.assertEquals("Row " + idx + " fail", r.id2, id2.get(idx));
-//                    Assert.assertEquals("Row " + idx + " fail", r.length, length.get(idx));
-//                    Assert.assertArrayEquals("Row " + idx + " fail", r.hash.getBytes(), hash.get(idx));
-//                    Assert.assertArrayEquals("Row " + idx + " fail", r.data, data.get(idx));
-//
-//                    long rm = r.timestamp.getEpochSecond() * 1000000L + r.timestamp.getNano() / 1000;
-//                    Assert.assertEquals("Row " + idx + " fail", rm, tm.get(idx));
-//                    Assert.assertEquals("Row " + idx + " fail", r.date, LocalDate.ofEpochDay(date.get(idx)));
-//                    Assert.assertEquals("Row " + idx + " fail", r.amount, amount.get(idx), 1e-6);
-//                }
-//            }
-//        } catch (IOException ex) {
-//          throw new RuntimeException(ex);
-//        }
-//    }
 }

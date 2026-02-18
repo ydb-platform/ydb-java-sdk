@@ -3,6 +3,7 @@ package tech.ydb.table.query;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -11,7 +12,12 @@ import java.util.UUID;
 
 import com.google.protobuf.ByteString;
 import org.apache.arrow.memory.RootAllocator;
+import org.apache.arrow.vector.IntVector;
+import org.apache.arrow.vector.VarCharVector;
+import org.apache.arrow.vector.VectorLoader;
+import org.apache.arrow.vector.VectorSchemaRoot;
 import org.apache.arrow.vector.ipc.ReadChannel;
+import org.apache.arrow.vector.ipc.message.ArrowRecordBatch;
 import org.apache.arrow.vector.ipc.message.MessageSerializer;
 import org.apache.arrow.vector.types.pojo.Schema;
 import org.junit.AfterClass;
@@ -334,6 +340,53 @@ public class ApacheArrowWriterTest {
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: FixedSizeBinary(16) not null, c2: FixedSizeBinary(16)>", schema.toString());
+        }
+    }
+
+    private BulkUpsertArrowData createSimpleBatch() throws IOException {
+        try (ApacheArrowWriter writer = ApacheArrowWriter.newSchema()
+                .addColumn("pk", PrimitiveType.Int32)
+                .addNullableColumn("value", PrimitiveType.Text)
+                .createWriter(allocator)) {
+
+            ApacheArrowWriter.Batch batch = writer.createNewBatch(2);
+            ApacheArrowWriter.Row row1 = batch.writeNextRow();
+            ApacheArrowWriter.Row row2 = batch.writeNextRow();
+
+            row1.writeInt32("pk", 1);
+            row1.writeText("value", "value-1");
+
+            row2.writeInt32("pk", 2);
+            row2.writeText("value", "значение-2");
+
+            return batch.buildBatch();
+        }
+    }
+
+    @Test
+    public void readArrayBatchTest() throws IOException {
+        BulkUpsertArrowData data = createSimpleBatch();
+
+        Schema schema = readApacheArrowSchema(data.getSchema());
+        try (VectorSchemaRoot vector = VectorSchemaRoot.create(schema, allocator)) {
+            // readApacheArrowBatch
+            try (InputStream is = data.getData().newInput()) {
+                try (ReadChannel channel = new ReadChannel(Channels.newChannel(is))) {
+                    try (ArrowRecordBatch batch = MessageSerializer.deserializeRecordBatch(channel, allocator)) {
+                        VectorLoader loader = new VectorLoader(vector);
+                        loader.load(batch);
+                    }
+                }
+            }
+
+            IntVector pk = (IntVector) vector.getVector("pk");
+            VarCharVector value = (VarCharVector) vector.getVector("value");
+
+            Assert.assertEquals(2, vector.getRowCount());
+            Assert.assertEquals(1, pk.get(0));
+            Assert.assertEquals(2, pk.get(1));
+            Assert.assertEquals("value-1", new String(value.get(0), StandardCharsets.UTF_8));
+            Assert.assertEquals("значение-2", new String(value.get(1), StandardCharsets.UTF_8));
         }
     }
 
