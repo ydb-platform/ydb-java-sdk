@@ -30,11 +30,21 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.arrow</groupId>
+            <artifactId>arrow-vector</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.arrow</groupId>
+            <artifactId>arrow-memory-netty</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
             <groupId>tech.ydb.test</groupId>
             <artifactId>ydb-junit4-support</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>

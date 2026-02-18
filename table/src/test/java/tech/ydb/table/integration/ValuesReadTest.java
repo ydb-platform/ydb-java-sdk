@@ -468,7 +468,6 @@ public class ValuesReadTest {
 
     @Test
     public void timestamp64ReadTest() {
-        System.out.println(Instant.ofEpochSecond(-4611669897600L));
         DataQueryResult result = CTX.supplyResult(
                 s -> s.executeDataQuery("SELECT "
                                 + "Timestamp64('-144169-01-01T00:00:00Z') as t1,"
