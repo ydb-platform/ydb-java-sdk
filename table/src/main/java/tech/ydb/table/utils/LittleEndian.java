@@ -8,6 +8,9 @@ public class LittleEndian {
 
     /**
      * Reverses the byte order of a long value.
+     *
+     * @param v long value
+     * @return reversed long value
      */
     public static long bswap(long v) {
         return
