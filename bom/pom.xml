@@ -15,7 +15,7 @@
 
     <properties>
         <ydb-auth-api.version>1.0.0</ydb-auth-api.version>
-        <ydb-proto-api.version>1.9.0</ydb-proto-api.version>
+        <ydb-proto-api.version>1.9.2</ydb-proto-api.version>
         <yc-auth.version>2.2.0</yc-auth.version>
     </properties>
 
@@ -157,7 +157,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.14.0</version>
+                <version>3.14.1</version>
                 <configuration>
                     <target>1.8</target>
                     <source>1.8</source>
@@ -176,7 +176,7 @@
         <profile>
             <id>jdk8-bootstrap</id>
             <activation>
-                <jdk>[9</jdk>
+                <jdk>[9,)</jdk>
             </activation>
             <build>
                 <plugins>
@@ -202,7 +202,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
-                        <version>3.2.7</version>
+                        <version>3.2.8</version>
                         <executions>
                             <execution>
                                 <id>sign-artifacts</id>
@@ -222,7 +222,7 @@
                     <plugin>
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
-                        <version>0.7.0</version>
+                        <version>0.10.0</version>
                         <extensions>true</extensions>
                         <configuration>
                             <publishingServerId>ossrh-s01</publishingServerId>
