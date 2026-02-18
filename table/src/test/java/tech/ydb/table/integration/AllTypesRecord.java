@@ -23,7 +23,7 @@ import org.junit.Assert;
 
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
-import tech.ydb.table.query.ApacheArrowWriter;
+import tech.ydb.table.query.arrow.ApacheArrowWriter;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.values.DecimalType;
@@ -54,50 +54,94 @@ public class AllTypesRecord {
     private final String hash ;
 
     // All types
-    private Byte v_int8;
-    private Short v_int16;
-    private Integer v_int32;
-    private Long v_int64;
+    private final Byte v_int8;
+    private final Short v_int16;
+    private final Integer v_int32;
+    private final Long v_int64;
 
-    private Integer v_uint8;
-    private Integer v_uint16;
-    private Long v_uint32;
-    private Long v_uint64;
+    private final Integer v_uint8;
+    private final Integer v_uint16;
+    private final Long v_uint32;
+    private final Long v_uint64;
 
-    private Boolean v_bool;
-    private Float v_float;
-    private Double v_double;
+    private final Boolean v_bool;
+    private final Float v_float;
+    private final Double v_double;
 
-    private String v_text;
-    private String v_json;
-    private String v_jsdoc;
+    private final String v_text;
+    private final String v_json;
+    private final String v_jsdoc;
 
-    private byte[] v_bytes;
-    private byte[] v_yson;
+    private final byte[] v_bytes;
+    private final byte[] v_yson;
 
-    private UUID v_uuid;
+    private final UUID v_uuid;
 
-    private LocalDate v_date;
-    private LocalDateTime v_datetime;
-    private Instant v_timestamp;
-    private Duration v_interval;
+    private final LocalDate v_date;
+    private final LocalDateTime v_datetime;
+    private final Instant v_timestamp;
+    private final Duration v_interval;
 
-    private LocalDate v_date32;
-    private LocalDateTime v_datetime64;
-    private Instant v_timestamp64;
-    private Duration v_interval64;
+    private final LocalDate v_date32;
+    private final LocalDateTime v_datetime64;
+    private final Instant v_timestamp64;
+    private final Duration v_interval64;
 
-    private DecimalValue v_ydb_decimal;
-    private DecimalValue v_bank_decimal;
-    private DecimalValue v_big_decimal;
+    private final DecimalValue v_ydb_decimal;
+    private final DecimalValue v_bank_decimal;
+    private final DecimalValue v_big_decimal;
 
-    private AllTypesRecord(long id1, int id2, byte[] payload) {
+    private AllTypesRecord(long id1, int id2, Random rnd) {
         // Keys
         this.id1 = id1;
         this.id2 = id2;
-        this.length = payload.length;
-        this.payload = payload;
+        this.length = 10 + rnd.nextInt(256);
+        this.payload = new byte[this.length];
+        rnd.nextBytes(payload);
+
         this.hash = Hashing.sha256().hashBytes(payload).toString();
+
+
+        // All types
+        this.v_int8 = nullable(rnd, (byte) rnd.nextInt());
+        this.v_int16 = nullable(rnd, (short) rnd.nextInt());
+        this.v_int32 = nullable(rnd, rnd.nextInt());
+        this.v_int64 = nullable(rnd, rnd.nextLong());
+
+        this.v_uint8 = nullable(rnd, rnd.nextInt() & 0xFF);
+        this.v_uint16 = nullable(rnd, rnd.nextInt() & 0xFFFF);
+        this.v_uint32 = nullable(rnd, rnd.nextLong() & 0xFFFFFFFFL);
+        this.v_uint64 = nullable(rnd, rnd.nextLong());
+
+        this.v_bool = nullable(rnd, rnd.nextBoolean());
+        this.v_float = nullable(rnd, rnd.nextFloat());
+        this.v_double = nullable(rnd, rnd.nextDouble());
+
+        this.v_text = nullable(rnd, "Text" + rnd.nextInt(1000));
+        this.v_json = nullable(rnd, "{\"json\":" + (1000 + rnd.nextInt(1000)) + "}");
+        this.v_jsdoc = nullable(rnd, "{\"document\":" + (2000 + rnd.nextInt(1000)) + "}");
+
+        this.v_bytes = nullable(rnd, ("Bytes " + (3000 + rnd.nextInt(1000))).getBytes(StandardCharsets.UTF_8));
+        this.v_yson = nullable(rnd, ("{yson=" + (4000 + rnd.nextInt(1000)) + "}").getBytes(StandardCharsets.UTF_8));
+
+        this.v_uuid = nullable(rnd, UUID.nameUUIDFromBytes(("UUID" + rnd.nextInt()).getBytes(StandardCharsets.UTF_8)));
+
+        this.v_date = nullable(rnd, LocalDate.ofEpochDay(rnd.nextInt(5000)));
+        this.v_datetime = nullable(rnd, LocalDateTime.ofEpochSecond(0x60FFFFFF & rnd.nextLong(), 0, ZoneOffset.UTC));
+        this.v_timestamp = nullable(rnd, Instant.ofEpochSecond(0x3FFFFFFFL & rnd.nextLong(),
+                rnd.nextInt(1000000) * 1000));
+        this.v_interval = nullable(rnd, Duration.ofNanos((0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L) * 1000));
+
+        this.v_date32 = nullable(rnd, LocalDate.ofEpochDay(rnd.nextInt(5000) - 2500));
+        this.v_datetime64 = nullable(rnd, LocalDateTime.ofEpochSecond(0x60FFFFFF & rnd.nextLong() - 0x30FFFFFF, 0,
+                ZoneOffset.UTC));
+        this.v_timestamp64 = nullable(rnd, Instant.ofEpochSecond(0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L,
+                rnd.nextInt(1000000) * 1000));
+        this.v_interval64 = nullable(rnd, Duration.ofNanos((0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L) * 1000));
+
+        this.v_ydb_decimal = nullable(rnd, randomDecimal(YDB_DECIMAL, rnd));
+        this.v_bank_decimal = nullable(rnd, randomDecimal(BANK_DECIMAL, rnd));
+        this.v_big_decimal = nullable(rnd, randomDecimal(BIG_DECIMAL, rnd));
     }
 
     private <T> void assertValue(Set<String> columns, String key, int idx, Function<ValueReader, T> reader,
@@ -307,62 +351,11 @@ public class AllTypesRecord {
         return rnd.nextInt(10) == 0 ? null : value;
     }
 
-    public static AllTypesRecord random(long id1, int id2, Random rnd) {
-        int length = 10 + rnd.nextInt(256);
-        byte[] payload = new byte[length];
-        rnd.nextBytes(payload);
-
-        AllTypesRecord r = new AllTypesRecord(id1, id2, payload);
-
-        // All types
-        r.v_int8 = nullable(rnd, (byte) rnd.nextInt());
-        r.v_int16 = nullable(rnd, (short) rnd.nextInt());
-        r.v_int32 = nullable(rnd, rnd.nextInt());
-        r.v_int64 = nullable(rnd, rnd.nextLong());
-
-        r.v_uint8 = nullable(rnd, rnd.nextInt() & 0xFF);
-        r.v_uint16 = nullable(rnd, rnd.nextInt() & 0xFFFF);
-        r.v_uint32 = nullable(rnd, rnd.nextLong() & 0xFFFFFFFFL);
-        r.v_uint64 = nullable(rnd, rnd.nextLong());
-
-        r.v_bool = nullable(rnd, rnd.nextBoolean());
-        r.v_float = nullable(rnd, rnd.nextFloat());
-        r.v_double = nullable(rnd, rnd.nextDouble());
-
-        r.v_text = nullable(rnd, "Text" + rnd.nextInt(1000));
-        r.v_json = nullable(rnd, "{\"json\":" + (1000 + rnd.nextInt(1000)) + "}");
-        r.v_jsdoc = nullable(rnd, "{\"document\":" + (2000 + rnd.nextInt(1000)) + "}");
-
-        r.v_bytes = nullable(rnd, ("Bytes " + (3000 + rnd.nextInt(1000))).getBytes(StandardCharsets.UTF_8));
-        r.v_yson = nullable(rnd, ("{yson=" + (4000 + rnd.nextInt(1000)) + "}").getBytes(StandardCharsets.UTF_8));
-
-        r.v_uuid = nullable(rnd, UUID.nameUUIDFromBytes(("UUID" + rnd.nextInt()).getBytes(StandardCharsets.UTF_8)));
-
-        r.v_date = nullable(rnd, LocalDate.ofEpochDay(rnd.nextInt(5000)));
-        r.v_datetime = nullable(rnd, LocalDateTime.ofEpochSecond(0x60FFFFFF & rnd.nextLong(), 0, ZoneOffset.UTC));
-        r.v_timestamp = nullable(rnd, Instant.ofEpochSecond(0x3FFFFFFFL & rnd.nextLong(),
-                rnd.nextInt(1000000) * 1000));
-        r.v_interval = nullable(rnd, Duration.ofNanos((0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L) * 1000));
-
-        r.v_date32 = nullable(rnd, LocalDate.ofEpochDay(rnd.nextInt(5000) - 2500));
-        r.v_datetime64 = nullable(rnd, LocalDateTime.ofEpochSecond(0x60FFFFFF & rnd.nextLong() - 0x30FFFFFF, 0,
-                ZoneOffset.UTC));
-        r.v_timestamp64 = nullable(rnd, Instant.ofEpochSecond(0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L,
-                rnd.nextInt(1000000) * 1000));
-        r.v_interval64 = nullable(rnd, Duration.ofNanos((0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L) * 1000));
-
-        r.v_ydb_decimal = nullable(rnd, randomDecimal(YDB_DECIMAL, rnd));
-        r.v_bank_decimal = nullable(rnd, randomDecimal(BANK_DECIMAL, rnd));
-        r.v_big_decimal = nullable(rnd, randomDecimal(BIG_DECIMAL, rnd));
-
-        return r;
-    }
-
     public static List<AllTypesRecord> randomBatch(int id1, int id2_start, int count) {
         Random rnd = new Random(id1 * count + id2_start);
         List<AllTypesRecord> batch = new ArrayList<>(count);
         for (int idx = 0; idx < count; idx += 1) {
-            batch.add(random(id1, id2_start + idx, rnd));
+            batch.add(new AllTypesRecord(id1, id2_start + idx, rnd));
         }
         return batch;
     }

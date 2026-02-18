@@ -1,4 +1,4 @@
-package tech.ydb.table.query;
+package tech.ydb.table.query.arrow;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -53,7 +53,8 @@ import tech.ydb.table.values.proto.ProtoValue;
 public class ApacheArrowWriter implements AutoCloseable {
     public interface Batch {
         Row writeNextRow();
-        BulkUpsertArrowData buildBatch() throws IOException;
+
+        ApacheArrowData buildBatch() throws IOException;
     }
 
     public interface Row {
@@ -133,9 +134,9 @@ public class ApacheArrowWriter implements AutoCloseable {
         }
 
         @Override
-        public BulkUpsertArrowData buildBatch() throws IOException {
+        public ApacheArrowData buildBatch() throws IOException {
             vsr.setRowCount(rowIndex);
-            return new BulkUpsertArrowData(serializeSchema(), serializeBatch());
+            return new ApacheArrowData(serializeSchema(), serializeBatch());
         }
 
         private ByteString serializeSchema() throws IOException {

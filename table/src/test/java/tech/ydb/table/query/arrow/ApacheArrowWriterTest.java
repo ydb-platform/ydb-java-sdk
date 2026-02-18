@@ -1,4 +1,7 @@
-package tech.ydb.table.query;
+package tech.ydb.table.query.arrow;
+
+import tech.ydb.table.query.arrow.ApacheArrowData;
+import tech.ydb.table.query.arrow.ApacheArrowWriter;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -181,7 +184,7 @@ public class ApacheArrowWriterTest {
             assertIllegalState("cannot call writeUint8, actual type: Int8", () -> row.writeUint8("c2", 0));
             assertIllegalState("cannot call writeBool, actual type: Uint8", () -> row.writeBool("c3", false));
 
-            BulkUpsertArrowData data = batch.buildBatch();
+            ApacheArrowData data = batch.buildBatch();
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: Int(8, false) not null, c2: Int(8, true), c3: Int(8, false)>",
@@ -205,7 +208,7 @@ public class ApacheArrowWriterTest {
                     () -> row.writeDate("c2", LocalDate.ofEpochDay(0)));
             assertIllegalState("cannot call writeInt16, actual type: Uint16", () -> row.writeInt16("c3", (short) 0));
 
-            BulkUpsertArrowData data = batch.buildBatch();
+            ApacheArrowData data = batch.buildBatch();
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: Int(16, false) not null, c2: Int(16, true), c3: Int(16, false)>",
@@ -232,7 +235,7 @@ public class ApacheArrowWriterTest {
                     () -> row.writeDatetime("c3", LocalDateTime.now()));
             assertIllegalState("cannot call writeInt32, actual type: Datetime", () -> row.writeInt32("c4", 0));
 
-            BulkUpsertArrowData data = batch.buildBatch();
+            ApacheArrowData data = batch.buildBatch();
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: Int(32, true) not null, c2: Int(32, false) not null, c3: Int(32, true), "
@@ -269,7 +272,7 @@ public class ApacheArrowWriterTest {
             assertIllegalState("cannot call writeInt64, actual type: Interval64",
                     () -> row.writeInt64("c7", 0));
 
-            BulkUpsertArrowData data = batch.buildBatch();
+            ApacheArrowData data = batch.buildBatch();
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: Int(64, true) not null, c2: Int(64, false) not null, c3: Int(64, true), "
@@ -293,7 +296,7 @@ public class ApacheArrowWriterTest {
             assertIllegalState("cannot call writeJsonDocument, actual type: Json", () -> row.writeJsonDocument("c2", ""));
             assertIllegalState("cannot call writeText, actual type: JsonDocument", () -> row.writeText("c3", ""));
 
-            BulkUpsertArrowData data = batch.buildBatch();
+            ApacheArrowData data = batch.buildBatch();
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: Utf8 not null, c2: Utf8, c3: Utf8 not null>", schema.toString());
@@ -313,7 +316,7 @@ public class ApacheArrowWriterTest {
             assertIllegalState("cannot call writeYson, actual type: Bytes", () -> row.writeYson("c1", new byte[0]));
             assertIllegalState("cannot call writeBytes, actual type: Yson", () -> row.writeBytes("c2", new byte[0]));
 
-            BulkUpsertArrowData data = batch.buildBatch();
+            ApacheArrowData data = batch.buildBatch();
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: Binary not null, c2: Binary>", schema.toString());
@@ -336,14 +339,14 @@ public class ApacheArrowWriterTest {
             assertIllegalState("cannot call writeDecimal, actual type: Uuid", () -> row.writeDecimal("c1", dv));
             assertIllegalState("cannot call writeUuid, actual type: Decimal(22, 9)", () -> row.writeUuid("c2", uv));
 
-            BulkUpsertArrowData data = batch.buildBatch();
+            ApacheArrowData data = batch.buildBatch();
 
             Schema schema = readApacheArrowSchema(data.getSchema());
             Assert.assertEquals("Schema<c1: FixedSizeBinary(16) not null, c2: FixedSizeBinary(16)>", schema.toString());
         }
     }
 
-    private BulkUpsertArrowData createSimpleBatch() throws IOException {
+    private ApacheArrowData createSimpleBatch() throws IOException {
         try (ApacheArrowWriter writer = ApacheArrowWriter.newSchema()
                 .addColumn("pk", PrimitiveType.Int32)
                 .addNullableColumn("value", PrimitiveType.Text)
@@ -365,7 +368,7 @@ public class ApacheArrowWriterTest {
 
     @Test
     public void readArrayBatchTest() throws IOException {
-        BulkUpsertArrowData data = createSimpleBatch();
+        ApacheArrowData data = createSimpleBatch();
 
         Schema schema = readApacheArrowSchema(data.getSchema());
         try (VectorSchemaRoot vector = VectorSchemaRoot.create(schema, allocator)) {

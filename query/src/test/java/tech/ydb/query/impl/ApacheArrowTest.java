@@ -24,7 +24,6 @@ import tech.ydb.proto.ValueProtos;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
-import tech.ydb.query.QueryStream.PartsHandler;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.result.arrow.ArrowPartsHandler;
 import tech.ydb.query.result.arrow.ArrowQueryResultPart;
@@ -33,9 +32,9 @@ import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
-import tech.ydb.table.query.ApacheArrowWriter;
-import tech.ydb.table.query.BulkUpsertArrowData;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.arrow.ApacheArrowData;
+import tech.ydb.table.query.arrow.ApacheArrowWriter;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
@@ -64,7 +63,6 @@ public class ApacheArrowTest {
 
     private static RootAllocator allocator;
     private static QueryClient client;
-
 
     private static String tablePath(String tableName) {
         return YDB.getDatabase() + "/" + tableName;
@@ -97,7 +95,7 @@ public class ApacheArrowTest {
             // create batch with estimated size
             ApacheArrowWriter.Batch batch = writer.createNewBatch(data.size());
             data.forEach(r -> r.writeToApacheArrow(columnNames, batch.writeNextRow()));
-            BulkUpsertArrowData bulkData = batch.buildBatch();
+            ApacheArrowData bulkData = batch.buildBatch();
             retryCtx.supplyStatus(session -> session.executeBulkUpsert(tablePath, bulkData))
                     .join().expectSuccess("bulk upsert problem in table " + tablePath);
         } catch (IOException ex) {
@@ -251,7 +249,7 @@ public class ApacheArrowTest {
             String query = selectTableYql(ROW_TABLE_NAME);
             ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder().useApacheArrowFormat().build();
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new PartsHandler() {
+            assertStatusOK(stream.execute(new QueryStream.PartsHandler() {
                 @Override
                 public void onNextPart(QueryResultPart part) {
                     // not used
@@ -261,7 +259,7 @@ public class ApacheArrowTest {
                 public void onNextRawPart(long index, ValueProtos.ResultSet rs) {
                     Assert.assertTrue(rs.hasArrowFormatMeta());
                     ByteString schema = rs.getArrowFormatMeta().getSchema();
-                    BulkUpsertArrowData data = new BulkUpsertArrowData(schema, rs.getData());
+                    ApacheArrowData data = new ApacheArrowData(schema, rs.getData());
                     retryCtx.supplyStatus(session -> session.executeBulkUpsert(newTablePath, data))
                             .join().expectSuccess("cannot execute bulk upsert");
                 }

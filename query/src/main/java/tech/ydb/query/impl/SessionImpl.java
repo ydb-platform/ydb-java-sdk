@@ -216,6 +216,10 @@ abstract class SessionImpl implements QuerySession {
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
                 .setResultSetFormat(format)
+//                .setArrowFormatSettings(YdbFormats.ArrowFormatSettings.newBuilder().setCompressionCodec(
+//                        YdbFormats.ArrowFormatSettings.CompressionCodec.newBuilder().setType(
+//                                YdbFormats.ArrowFormatSettings.CompressionCodec.Type.TYPE_ZSTD
+//                        )))
                 .setConcurrentResultSets(settings.isConcurrentResultSets())
                 .setQueryContent(YdbQuery.QueryContent.newBuilder()
                         .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)

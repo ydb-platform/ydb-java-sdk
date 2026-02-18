@@ -89,9 +89,15 @@
                 <version>${gson.version}</version>
             </dependency>
 
+            <!-- Apache Arrow dependencies -->
             <dependency>
                 <groupId>org.apache.arrow</groupId>
                 <artifactId>arrow-vector</artifactId>
+                <version>${apache.arrow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.arrow</groupId>
+                <artifactId>arrow-compression</artifactId>
                 <version>${apache.arrow.version}</version>
             </dependency>
             <dependency>
