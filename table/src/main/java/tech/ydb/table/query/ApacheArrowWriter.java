@@ -622,7 +622,7 @@ public class ApacheArrowWriter implements AutoCloseable {
             if (type != PrimitiveType.Interval) {
                 throw error("writeInterval");
             }
-            long micros = duration.getSeconds() * 1000000L + duration.toNanosPart() / 1000;
+            long micros = duration.getSeconds() * 1000000L + duration.getNano() / 1000;
             vector.setSafe(rowIndex, micros);
         }
 
@@ -631,7 +631,7 @@ public class ApacheArrowWriter implements AutoCloseable {
             if (type != PrimitiveType.Interval64) {
                 throw error("writeInterval64");
             }
-            long micros = duration.getSeconds() * 1000000L + duration.toNanosPart() / 1000;
+            long micros = duration.getSeconds() * 1000000L + duration.getNano() / 1000;
             vector.setSafe(rowIndex, micros);
         }
     }

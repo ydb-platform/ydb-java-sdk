@@ -135,20 +135,20 @@ public class ApacheArrowWriterTest {
                     () -> row.writeYson("col1", new byte[0]));
 
             assertIllegalState("cannot call writeDate, actual type: Uuid",
-                    () -> row.writeDate("col1", LocalDate.EPOCH));
+                    () -> row.writeDate("col1", LocalDate.ofEpochDay(0)));
             assertIllegalState("cannot call writeDatetime, actual type: Uuid",
                     () -> row.writeDatetime("col1", LocalDateTime.now()));
             assertIllegalState("cannot call writeTimestamp, actual type: Uuid",
-                    () -> row.writeTimestamp("col1", Instant.EPOCH));
+                    () -> row.writeTimestamp("col1", Instant.ofEpochSecond(0)));
             assertIllegalState("cannot call writeInterval, actual type: Uuid",
                     () -> row.writeInterval("col1", Duration.ZERO));
 
             assertIllegalState("cannot call writeDate32, actual type: Uuid",
-                    () -> row.writeDate32("col1", LocalDate.EPOCH));
+                    () -> row.writeDate32("col1", LocalDate.ofEpochDay(0)));
             assertIllegalState("cannot call writeDatetime64, actual type: Uuid",
                     () -> row.writeDatetime64("col1", LocalDateTime.now()));
             assertIllegalState("cannot call writeTimestamp64, actual type: Uuid",
-                    () -> row.writeTimestamp64("col1", Instant.EPOCH));
+                    () -> row.writeTimestamp64("col1", Instant.ofEpochSecond(0)));
             assertIllegalState("cannot call writeInterval64, actual type: Uuid",
                     () -> row.writeInterval64("col1", Duration.ZERO));
 
@@ -195,7 +195,8 @@ public class ApacheArrowWriterTest {
             ApacheArrowWriter.Row row = batch.writeNextRow();
 
             assertIllegalState("cannot call writeUint16, actual type: Date", () -> row.writeUint16("c1", 0));
-            assertIllegalState("cannot call writeDate, actual type: Int16", () -> row.writeDate("c2", LocalDate.EPOCH));
+            assertIllegalState("cannot call writeDate, actual type: Int16",
+                    () -> row.writeDate("c2", LocalDate.ofEpochDay(0)));
             assertIllegalState("cannot call writeInt16, actual type: Uint16", () -> row.writeInt16("c3", (short) 0));
 
             BulkUpsertArrowData data = batch.buildBatch();
@@ -220,7 +221,7 @@ public class ApacheArrowWriterTest {
 
             assertIllegalState("cannot call writeUint32, actual type: Int32", () -> row.writeUint32("c1", 0));
             assertIllegalState("cannot call writeDate32, actual type: Uint32",
-                    () -> row.writeDate32("c2", LocalDate.EPOCH));
+                    () -> row.writeDate32("c2", LocalDate.ofEpochDay(0)));
             assertIllegalState("cannot call writeDatetime, actual type: Date32",
                     () -> row.writeDatetime("c3", LocalDateTime.now()));
             assertIllegalState("cannot call writeInt32, actual type: Datetime", () -> row.writeInt32("c4", 0));

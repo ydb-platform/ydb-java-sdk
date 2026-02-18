@@ -330,25 +330,26 @@ public class AllTypesRecord {
         r.v_double = nullable(rnd, rnd.nextDouble());
 
         r.v_text = nullable(rnd, "Text" + rnd.nextInt(1000));
-        r.v_json = nullable(rnd, "{\"json\":" + rnd.nextInt(1000, 2000) + "}");
-        r.v_jsdoc = nullable(rnd, "{\"document\":" + rnd.nextInt(2000, 3000) + "}");
+        r.v_json = nullable(rnd, "{\"json\":" + (1000 + rnd.nextInt(1000)) + "}");
+        r.v_jsdoc = nullable(rnd, "{\"document\":" + (2000 + rnd.nextInt(1000)) + "}");
 
-        r.v_bytes = nullable(rnd, ("Bytes " + rnd.nextInt(3000, 4000)).getBytes(StandardCharsets.UTF_8));
-        r.v_yson = nullable(rnd, ("{yson=" + rnd.nextInt(5000, 6000) + "}").getBytes(StandardCharsets.UTF_8));
+        r.v_bytes = nullable(rnd, ("Bytes " + (3000 + rnd.nextInt(1000))).getBytes(StandardCharsets.UTF_8));
+        r.v_yson = nullable(rnd, ("{yson=" + (4000 + rnd.nextInt(1000)) + "}").getBytes(StandardCharsets.UTF_8));
 
         r.v_uuid = nullable(rnd, UUID.nameUUIDFromBytes(("UUID" + rnd.nextInt()).getBytes(StandardCharsets.UTF_8)));
 
-        r.v_date = nullable(rnd, LocalDate.EPOCH.plusDays(rnd.nextInt(5000)));
-        r.v_datetime = nullable(rnd, LocalDateTime.ofEpochSecond(rnd.nextLong(1000000000), 0, ZoneOffset.ofHours(5)));
-        r.v_timestamp = nullable(rnd, Instant.ofEpochSecond(rnd.nextLong(2000000000L), rnd.nextLong(1000000) * 1000));
-        r.v_interval = nullable(rnd, Duration.ofNanos((rnd.nextLong(10000000) - 5000000) * 1000));
+        r.v_date = nullable(rnd, LocalDate.ofEpochDay(rnd.nextInt(5000)));
+        r.v_datetime = nullable(rnd, LocalDateTime.ofEpochSecond(0x60FFFFFF & rnd.nextLong(), 0, ZoneOffset.UTC));
+        r.v_timestamp = nullable(rnd, Instant.ofEpochSecond(0x3FFFFFFFL & rnd.nextLong(),
+                rnd.nextInt(1000000) * 1000));
+        r.v_interval = nullable(rnd, Duration.ofNanos((0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L) * 1000));
 
-        r.v_date32 = nullable(rnd, LocalDate.EPOCH.plusDays(rnd.nextInt(5000) - 2500));
-        r.v_datetime64 = nullable(rnd, LocalDateTime.ofEpochSecond(rnd.nextLong(1000000000) - 500000000, 0,
-                ZoneOffset.ofHours(5)));
-        r.v_timestamp64 = nullable(rnd, Instant.ofEpochSecond(rnd.nextLong(10000000000L) - 5000000000L,
-                rnd.nextLong(1000000) * 1000));
-        r.v_interval64 = nullable(rnd, Duration.ofNanos((rnd.nextLong(10000000) - 5000000) * 1000));
+        r.v_date32 = nullable(rnd, LocalDate.ofEpochDay(rnd.nextInt(5000) - 2500));
+        r.v_datetime64 = nullable(rnd, LocalDateTime.ofEpochSecond(0x60FFFFFF & rnd.nextLong() - 0x30FFFFFF, 0,
+                ZoneOffset.UTC));
+        r.v_timestamp64 = nullable(rnd, Instant.ofEpochSecond(0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L,
+                rnd.nextInt(1000000) * 1000));
+        r.v_interval64 = nullable(rnd, Duration.ofNanos((0x7FFFFFFFFFL & rnd.nextLong() - 0x4000000000L) * 1000));
 
         r.v_ydb_decimal = nullable(rnd, randomDecimal(YDB_DECIMAL, rnd));
         r.v_bank_decimal = nullable(rnd, randomDecimal(BANK_DECIMAL, rnd));

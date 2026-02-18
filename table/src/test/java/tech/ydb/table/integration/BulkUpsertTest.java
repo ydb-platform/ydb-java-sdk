@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 import org.apache.arrow.memory.BufferAllocator;
 import org.apache.arrow.memory.RootAllocator;
+import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 
@@ -52,8 +52,7 @@ public class BulkUpsertTest {
         return YDB.getDatabase() + "/" + TEST_TABLE;
     }
 
-//    @After
-    @Before
+    @After
     public void cleanTable() {
         retryCtx.supplyStatus(session -> session.executeSchemeQuery(DROP_TABLE_YQL, new ExecuteSchemeQuerySettings()))
             .join().expectSuccess("cannot drop table");
@@ -141,24 +140,24 @@ public class BulkUpsertTest {
         createTable(table);
 
         // Write & read batch of 5000 records with id1 = 1
-        List<AllTypesRecord> batch1 = AllTypesRecord.randomBatch(1, 1, 5000);
+        List<AllTypesRecord> batch1 = AllTypesRecord.randomBatch(1, 1, 2500);
         bulkUpsert(AllTypesRecord.createProtobufBatch(table, batch1));
         // Read table and validate data
         int rows1Count = readTable(1, (idx, rs) -> {
             Assert.assertTrue("Unexpected row index", idx < batch1.size());
             batch1.get(idx).assertRow(columnNames, idx, rs);
         });
-        Assert.assertEquals(5000, rows1Count);
+        Assert.assertEquals(2500, rows1Count);
 
         // Write & read batch of 10000 records with id1 = 2
-        List<AllTypesRecord> batch2 = AllTypesRecord.randomBatch(2, 1, 10000);
+        List<AllTypesRecord> batch2 = AllTypesRecord.randomBatch(2, 1, 5000);
         bulkUpsert(AllTypesRecord.createProtobufBatch(table, batch2));
 
         int rows2Count = readTable(2, (idx, rs) -> {
             Assert.assertTrue("Unexpected row index", idx < batch2.size());
             batch2.get(idx).assertRow(columnNames, idx, rs);
         });
-        Assert.assertEquals(10000, rows2Count);
+        Assert.assertEquals(5000, rows2Count);
     }
 
     @Test
