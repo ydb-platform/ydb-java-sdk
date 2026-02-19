@@ -110,9 +110,6 @@ jobs:
               yc/pom.xml
               jdbc/pom.xml
 
-      - name: Override docker client version # https://github.com/testcontainers/testcontainers-java/issues/11212
-        run: echo "api.version=1.44" > ~/.docker-java.properties
-
       - name: Extract YDB Java SDK version
         working-directory: ./sdk
         run: |
