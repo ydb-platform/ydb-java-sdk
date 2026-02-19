@@ -59,6 +59,7 @@ public class DockerMock implements AutoCloseable {
         Mockito.doNothing().when(resourceReaper).registerLabelsFilterForCleanup(Mockito.anyMap());
 
         Mockito.when(configration.environmentSupportsReuse()).thenReturn(reuseSupport);
+        Mockito.when(configration.getImagePullTimeout()).thenReturn(120);
     }
 
     @Override
