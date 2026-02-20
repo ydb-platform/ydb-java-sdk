@@ -22,6 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.tracing.DbSpanFactory;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -154,16 +155,22 @@ class SessionPool implements AutoCloseable {
 
     private class PooledQuerySession extends SessionImpl {
         private final GrpcReadStream<Status> attachStream;
+        private final DbSpanFactory.OperationSpan createSpan;
 
         private volatile Instant lastActive;
         private volatile boolean isStarted = false;
         private volatile boolean isBroken = false;
         private volatile boolean isStopped = false;
 
-        PooledQuerySession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
+        PooledQuerySession(
+                QueryServiceRpc rpc,
+                YdbQuery.CreateSessionResponse response,
+                DbSpanFactory.OperationSpan createSpan
+        ) {
             super(rpc, response);
             this.lastActive = clock.instant();
             this.attachStream = attach(ATTACH_SETTINGS);
+            this.createSpan = createSpan;
             stats.created.increment();
         }
 
@@ -196,6 +203,7 @@ class SessionPool implements AutoCloseable {
                 if (!status.isSuccess()) {
                     logger.warn("QuerySession[{}] attach message {}", getId(), status);
                     future.complete(Result.fail(status));
+                    createSpan.finishStatus(status);
                     clean();
                     return;
                 }
@@ -203,6 +211,7 @@ class SessionPool implements AutoCloseable {
                 if (future.complete(ok)) {
                     logger.debug("QuerySession[{}] attach message {}", getId(), status);
                     isStarted = true;
+                    createSpan.finishStatus(status);
                     return;
                 }
 
@@ -210,6 +219,7 @@ class SessionPool implements AutoCloseable {
             }).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.debug("QuerySession[{}] finished with exception", getId(), th);
+                    createSpan.finishError(th);
                 }
 
                 if (status != null) {
@@ -218,6 +228,7 @@ class SessionPool implements AutoCloseable {
                     } else {
                         logger.warn("QuerySession[{}] finished with status {}", getId(), status);
                     }
+                    createSpan.finishStatus(status);
                 }
             }).thenRun(this::clean);
 
@@ -270,22 +281,34 @@ class SessionPool implements AutoCloseable {
         }
 
         @Override
+        @SuppressWarnings("resource")
         public CompletableFuture<PooledQuerySession> create() {
             // Execute createSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();
             Context previous = ctx.attach();
             try {
+                DbSpanFactory.OperationSpan createSpan = rpc.startSpan(
+                        "CreateSession",
+                        CREATE_SETTINGS.getTraceId(),
+                        null
+                );
                 stats.requested.increment();
                 return SessionImpl
-                        .createSession(rpc, CREATE_SETTINGS, true)
+                        .createSession(rpc, CREATE_SETTINGS, true, createSpan)
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
                                 stats.failed.increment();
                                 throw new UnexpectedResultException("create session problem", r.getStatus());
                             }
-                            return new PooledQuerySession(rpc, r.getValue()).start();
+                            PooledQuerySession session = new PooledQuerySession(rpc, r.getValue(), createSpan);
+                            return session.start();
                         })
-                        .thenApply(Result::getValue);
+                        .thenApply(Result::getValue)
+                        .whenComplete((v, th) -> {
+                            if (th != null) {
+                                createSpan.finishError(FutureTools.unwrapCompletionException(th));
+                            }
+                        });
             } finally {
                 ctx.detach(previous);
             }

@@ -12,6 +12,8 @@ import com.google.common.net.HostAndPort;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.tracing.NoopTracer;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.URITools;
 
 
@@ -39,6 +41,22 @@ public interface GrpcTransport extends AutoCloseable {
     String getDatabase();
 
     ScheduledExecutorService getScheduler();
+
+    default Tracer getTracer() {
+        return NoopTracer.getInstance();
+    }
+
+    default String getServerAddress() {
+        return "ydb.server";
+    }
+
+    default int getServerPort() {
+        return 2135;
+    }
+
+    default String getTransportScheme() {
+        return "grpc";
+    }
 
     @Override
     void close();

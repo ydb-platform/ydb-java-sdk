@@ -204,6 +204,7 @@ public class OpenTelemetryTracing implements YdbTracing {
 
         @Override
         public void end() {
+
             span.end();
         }
     }
