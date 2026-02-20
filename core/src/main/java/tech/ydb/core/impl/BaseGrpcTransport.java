@@ -229,6 +229,15 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         if (settings.getClientCapabilities() != null) {
             settings.getClientCapabilities().forEach(name -> metadata.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, name));
         }
+        if (settings.getSpan() != null) {
+            settings.getSpan().injectHeaders((key, value) -> {
+                if (key == null || value == null || key.isEmpty() || value.isEmpty()) {
+                    return;
+                }
+                Metadata.Key<String> header = Metadata.Key.of(key, Metadata.ASCII_STRING_MARSHALLER);
+                metadata.put(header, value);
+            });
+        }
         return metadata;
     }
 

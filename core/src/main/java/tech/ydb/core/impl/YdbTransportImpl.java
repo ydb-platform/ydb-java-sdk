@@ -24,6 +24,7 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.tracing.Tracer;
 
 /**
  * @author Nikolay Perfilov
@@ -34,6 +35,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private static final Logger logger = LoggerFactory.getLogger(YdbTransportImpl.class);
 
     private final String database;
+    private final String transportScheme;
     private final EndpointRecord discoveryEndpoint;
     private final ScheduledExecutorService scheduler;
     private final ManagedChannelFactory channelFactory;
@@ -41,6 +43,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private final EndpointPool endpointPool;
     private final GrpcChannelPool channelPool;
     private final YdbDiscovery discovery;
+    private final Tracer tracer;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         BalancingSettings balancingSettings = getBalancingSettings(builder);
@@ -48,6 +51,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.discoveryEndpoint = getDiscoveryEndpoint(builder);
+        this.transportScheme = builder.getUseTls() ? "grpcs" : "grpc";
+        this.tracer = builder.getTracer();
 
         logger.info("Create YDB transport with endpoint {} and {}", discoveryEndpoint, balancingSettings);
 
@@ -156,6 +161,26 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     @Override
     public String getDatabase() {
         return database;
+    }
+
+    @Override
+    public Tracer getTracer() {
+        return tracer;
+    }
+
+    @Override
+    public String getServerAddress() {
+        return discoveryEndpoint.getHost();
+    }
+
+    @Override
+    public int getServerPort() {
+        return discoveryEndpoint.getPort();
+    }
+
+    @Override
+    public String getTransportScheme() {
+        return transportScheme;
     }
 
     @Override

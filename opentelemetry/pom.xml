@@ -1,0 +1,33 @@
+<project
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>tech.ydb</groupId>
+        <artifactId>ydb-sdk-parent</artifactId>
+        <version>2.3.32-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>ydb-sdk-opentelemetry</artifactId>
+    <name>OpenTelemetry integration for YDB Java SDK</name>
+    <description>OpenTelemetry integration module for tracing and metrics in YDB SDK</description>
+
+    <properties>
+        <opentelemetry.version>1.59.0</opentelemetry.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>tech.ydb</groupId>
+            <artifactId>ydb-sdk-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>${opentelemetry.version}</version>
+        </dependency>
+    </dependencies>
+</project>

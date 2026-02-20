@@ -116,7 +116,8 @@ public class TableClientImpl implements TableClient {
             final List<Issue> issues = new ArrayList<>();
             final List<ValueProtos.ResultSet> results = new ArrayList<>();
 
-            QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs)) {
+            QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs, null),
+                    null) {
                 @Override
                 void handleTxMeta(String txID) {
                     txRef.set(txID);

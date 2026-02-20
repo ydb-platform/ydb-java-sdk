@@ -22,12 +22,14 @@
         <module>scheme</module>
         <module>topic</module>
         <module>query</module>
+        <module>opentelemetry</module>
         <module>coordination</module>
         <module>export</module>
         <module>tests/common</module>
         <module>tests/junit4-support</module>
         <module>tests/junit5-support</module>
         <module>auth-providers/oauth2-provider</module>
+        <module>observability</module>
     </modules>
 
     <properties>
