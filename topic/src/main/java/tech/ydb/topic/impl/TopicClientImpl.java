@@ -452,6 +452,10 @@ public class TopicClientImpl implements TopicClient {
             consumerBuilder.setReadFrom(ProtobufUtils.instantToProto(consumer.getReadFrom()));
         }
 
+        if (consumer.getAvailabilityPeriod() != null) {
+            consumerBuilder.setAvailabilityPeriod(ProtobufUtils.durationToProto(consumer.getAvailabilityPeriod()));
+        }
+
         List<Codec> supportedCodecs = consumer.getSupportedCodecsList();
         if (!supportedCodecs.isEmpty()) {
             YdbTopic.SupportedCodecs.Builder codecBuilder = YdbTopic.SupportedCodecs.newBuilder();
