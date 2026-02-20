@@ -199,7 +199,7 @@ public interface Session extends AutoCloseable {
     CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings);
 
     default CompletableFuture<Status> executeBulkUpsert(String tablePath, ListValue rows, BulkUpsertSettings settings) {
-        return executeBulkUpsert(tablePath, new BulkUpsertData(rows), settings);
+        return executeBulkUpsert(tablePath, BulkUpsertData.fromRows(rows), settings);
     }
 
     CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data, BulkUpsertSettings settings);

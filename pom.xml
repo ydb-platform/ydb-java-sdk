@@ -40,8 +40,9 @@
         <log4j2.version>2.25.3</log4j2.version>
         <gson.version>2.13.2</gson.version>
         <mockito.version>5.21.0</mockito.version>
-
         <testcontainers.version>2.0.3</testcontainers.version>
+        <!-- last version with JDK8 compability -->
+        <apache.arrow.version>17.0.0</apache.arrow.version>
     </properties>
 
     <licenses>
@@ -86,6 +87,17 @@
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.arrow</groupId>
+                <artifactId>arrow-vector</artifactId>
+                <version>${apache.arrow.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.arrow</groupId>
+                <artifactId>arrow-memory-netty</artifactId>
+                <version>${apache.arrow.version}</version>
             </dependency>
 
             <!-- Test dependencies -->
@@ -238,11 +250,14 @@
         <profile>
             <id>jdk8-bootstrap</id>
             <activation>
-                <jdk>[9</jdk>
+                <jdk>[9,)</jdk>
                 <property>
                     <name>argLine</name>
                 </property>
             </activation>
+            <properties>
+                <argLine></argLine>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
