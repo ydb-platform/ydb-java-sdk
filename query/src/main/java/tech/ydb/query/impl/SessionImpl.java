@@ -26,6 +26,7 @@ import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
@@ -206,10 +207,15 @@ abstract class SessionImpl implements QuerySession {
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
             String query, YdbQuery.TransactionControl tx, Params prms, ExecuteQuerySettings settings
     ) {
+        ValueProtos.ResultSet.Format format = settings.isUseApacheArrowFormat() ?
+                ValueProtos.ResultSet.Format.FORMAT_ARROW :
+                ValueProtos.ResultSet.Format.FORMAT_VALUE;
+
         YdbQuery.ExecuteQueryRequest.Builder request = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(sessionId)
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
+                .setResultSetFormat(format)
                 .setConcurrentResultSets(settings.isConcurrentResultSets())
                 .setQueryContent(YdbQuery.QueryContent.newBuilder()
                         .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)

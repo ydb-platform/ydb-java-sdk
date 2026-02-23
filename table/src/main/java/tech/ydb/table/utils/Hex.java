@@ -15,11 +15,26 @@ public class Hex {
     private Hex() { }
 
     public static void toHex(ByteString bytes, StringBuilder sb) {
-        sb.ensureCapacity(bytes.size());
+        sb.ensureCapacity(2 * bytes.size());
         for (int i = 0; i < bytes.size(); i++) {
             byte b = bytes.byteAt(i);
             sb.append(HEX_DIGITS[(b & 0xf0) >>> 4]);
             sb.append(HEX_DIGITS[b & 0x0f]);
         }
+    }
+
+    public static void toHex(byte[] bytes, StringBuilder sb) {
+        sb.ensureCapacity(2 * bytes.length);
+        for (int i = 0; i < bytes.length; i++) {
+            byte b = bytes[i];
+            sb.append(HEX_DIGITS[(b & 0xf0) >>> 4]);
+            sb.append(HEX_DIGITS[b & 0x0f]);
+        }
+    }
+
+    public static String toHex(ByteString bytes) {
+        StringBuilder sb = new StringBuilder();
+        toHex(bytes, sb);
+        return sb.toString();
     }
 }
