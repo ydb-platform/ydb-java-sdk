@@ -33,7 +33,7 @@ public class Hex {
     }
 
     public static String toHex(ByteString bytes) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(2 * bytes.size());
         toHex(bytes, sb);
         return sb.toString();
     }

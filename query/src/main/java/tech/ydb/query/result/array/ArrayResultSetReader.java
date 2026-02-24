@@ -3,6 +3,7 @@ package tech.ydb.query.result.array;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import io.grpc.ExperimentalApi;
 import org.apache.arrow.vector.VectorSchemaRoot;
 
 import tech.ydb.table.result.ResultSetReader;
@@ -13,6 +14,7 @@ import tech.ydb.table.values.Type;
  *
  * @author Aleksandr Gorshenin
  */
+@ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
 public class ArrayResultSetReader implements ResultSetReader {
     private final boolean isTruncated;
     private final VectorSchemaRoot vsr;

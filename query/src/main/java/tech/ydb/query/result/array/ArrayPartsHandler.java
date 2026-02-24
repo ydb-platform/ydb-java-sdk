@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.nio.channels.Channels;
 
 import com.google.protobuf.ByteString;
+import io.grpc.ExperimentalApi;
 import org.apache.arrow.memory.RootAllocator;
 import org.apache.arrow.vector.VectorLoader;
 import org.apache.arrow.vector.VectorSchemaRoot;
@@ -24,6 +25,7 @@ import tech.ydb.table.values.Type;
  *
  * @author Aleksandr Gorshenin
  */
+@ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
 public abstract class ArrayPartsHandler implements QueryStream.PartsHandler {
     private final RootAllocator allocator;
 
@@ -67,7 +69,7 @@ public abstract class ArrayPartsHandler implements QueryStream.PartsHandler {
         }
     }
 
-    private static Schema readApacheArrowSchema(ByteString bytes) throws IOException {
+    public static Schema readApacheArrowSchema(ByteString bytes) throws IOException {
         try (InputStream is = bytes.newInput()) {
             try (ReadChannel channel = new ReadChannel(Channels.newChannel(is))) {
                 return MessageSerializer.deserializeSchema(channel);

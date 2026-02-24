@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import io.grpc.ExperimentalApi;
 import org.apache.arrow.vector.BigIntVector;
 import org.apache.arrow.vector.FieldVector;
 import org.apache.arrow.vector.FixedSizeBinaryVector;
@@ -42,6 +43,7 @@ import tech.ydb.table.values.Value;
  * @author Aleksandr Gorshenin
  * @param <T> type of FieldVector
  */
+@ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
 public abstract class ArrayValueReader<T extends FieldVector> implements ValueReader {
     protected final Type type;
     protected final boolean isNullable;

@@ -1,4 +1,4 @@
-package tech.ydb.table.integration;
+package tech.ydb.query.impl;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;

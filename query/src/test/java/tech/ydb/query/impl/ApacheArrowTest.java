@@ -31,7 +31,6 @@ import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableColumn;
 import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
-import tech.ydb.table.integration.AllTypesRecord;
 import tech.ydb.table.query.ApacheArrowWriter;
 import tech.ydb.table.query.BulkUpsertArrowData;
 import tech.ydb.table.query.Params;
@@ -153,12 +152,12 @@ public class ApacheArrowTest {
     }
 
     @Test
-    public void backwardCompabilytiTest() {
+    public void backwardCompatibilityTest() {
         BatchAssert ba = new BatchAssert(ROW_TABLE, ROW_BATCH);
         String query = selectTableYql(ROW_TABLE_NAME);
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-            // Execute query without ApacheArrow (or if server doen't support it)
+            // Execute query without ApacheArrow (or if server doesn't support it)
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO);
             assertStatusOK(stream.execute(new ArrayPartsHandler(allocator) {
                 @Override
