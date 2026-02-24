@@ -5,6 +5,8 @@ import java.time.Duration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -129,6 +131,12 @@ public class ApacheArrowTest {
         status.expectSuccess("Cannot execute query");
     }
 
+    private static void assertIllegalStateExceptionFuture(String message, CompletableFuture<?> future) {
+        CompletionException ex = Assert.assertThrows(CompletionException.class, future::join);
+        Assert.assertTrue(ex.getCause() instanceof IllegalStateException);
+        Assert.assertEquals(message, ex.getCause().getMessage());
+    }
+
     private static class BatchAssert {
         private final AtomicInteger idx = new AtomicInteger(0);
         private final Iterator<AllTypesRecord> iter;
@@ -169,6 +177,25 @@ public class ApacheArrowTest {
             }).join().getStatus());
 
             ba.assertFinish();
+        }
+    }
+
+    @Test
+    public void unsupportedTypesTest() {
+        ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder().useApacheArrowFormat().build();
+        String query = "SELECT AddTimezone(Timestamp('2026-10-29T04:23:45.987654Z'), 'Europe/Warsaw') as p1;";
+
+        try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
+
+            assertIllegalStateExceptionFuture(
+                    "Unsupported type for ApacheArrow reader: type_id: TZ_TIMESTAMP\n",
+                    stream.execute(new ArrayPartsHandler(allocator) {
+                        @Override
+                        public void onNextPart(QueryResultPart part) {
+                            // not called
+                        }
+                    }));
         }
     }
 
@@ -221,7 +248,6 @@ public class ApacheArrowTest {
                 .expectSuccess("cannot create table " + newTablePath);
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-
             // binary copy ROW_TABLE to newTableName
             String query = selectTableYql(ROW_TABLE_NAME);
             ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder().useApacheArrowFormat().build();

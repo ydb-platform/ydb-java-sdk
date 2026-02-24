@@ -12,6 +12,7 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
+import com.google.protobuf.UnsafeByteOperations;
 import io.grpc.ExperimentalApi;
 import org.apache.arrow.vector.BigIntVector;
 import org.apache.arrow.vector.FieldVector;
@@ -45,6 +46,8 @@ import tech.ydb.table.values.Value;
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
 public abstract class ArrayValueReader<T extends FieldVector> implements ValueReader {
+    private static final int ARRAY_HEX_OUTPUT_LIMIT = 50;
+
     protected final Type type;
     protected final boolean isNullable;
     protected final T vector;
@@ -58,11 +61,12 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
     }
 
     protected RuntimeException error(String method) {
-        throw new IllegalStateException("cannot call " + method + ", actual type: " + getType());
+        return new IllegalStateException("cannot call " + method + ", actual type: " + getType());
     }
 
     protected abstract ArrayValueReader<T> toNotNull();
     protected abstract Value<?> getNotNullValue();
+    protected abstract String getNotNullValueAsString();
 
     public void setRowIndex(int index) {
         this.rowIndex = index;
@@ -70,6 +74,13 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
 
     public String getName() {
         return vector.getName();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        toString(sb);
+        return sb.toString();
     }
 
     @Override
@@ -90,13 +101,38 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         if (!isNullable) {
             throw error("getOptionalItem");
         }
-        return toNotNull();
+        if (vector.isNull(rowIndex)) {
+            return null;
+        }
+        ArrayValueReader<T> notNull = toNotNull();
+        notNull.setRowIndex(rowIndex);
+        return notNull;
     }
 
     @Override
     public Value<?> getValue() {
-        Value<?> v = getNotNullValue();
-        return isNullable ? v.makeOptional() : v;
+        if (!isNullable) {
+            return getNotNullValue();
+        }
+
+        if (vector.isNull(rowIndex)) {
+            return type.makeOptional().emptyValue();
+        }
+
+        return getNotNullValue().makeOptional();
+    }
+
+    @Override
+    public void toString(StringBuilder sb) {
+        if (!isNullable) {
+            sb.append(getNotNullValueAsString());
+        } else {
+            if (vector.isNull(rowIndex)) {
+                sb.append("Empty[]");
+            } else {
+                sb.append("Some[").append(getNotNullValueAsString()).append("]");
+            }
+        }
     }
 
     @Override
@@ -212,6 +248,11 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
     @Override
     public byte[] getBytes() {
         throw error("getBytes");
+    }
+
+    @Override
+    public String getBytesAsString(Charset charset) {
+        throw error("getBytesAsString");
     }
 
     @Override
@@ -347,8 +388,15 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Bool) {
+                return String.valueOf(getBool());
+            }
+            if (type == PrimitiveType.Uint8) {
+                return String.valueOf(getUint8());
+            }
+
+            return "Unreadable UInt1Vector[" + type + "]";
         }
     }
 
@@ -390,8 +438,15 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Date) {
+                return getDate().toString();
+            }
+            if (type == PrimitiveType.Uint16) {
+                return String.valueOf(getUint16());
+            }
+
+            return "Unreadable UInt2Vector[" + type + "]";
         }
     }
 
@@ -433,8 +488,14 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Datetime) {
+                return getDatetime().toString();
+            }
+            if (type == PrimitiveType.Uint32) {
+                return String.valueOf(getUint32());
+            }
+            return "Unreadable UInt4Vector[" + type + "]";
         }
     }
 
@@ -479,8 +540,14 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Uint64) {
+                return Long.toUnsignedString(getUint64());
+            }
+            if (type == PrimitiveType.Timestamp) {
+                return getTimestamp().toString();
+            }
+            return "Unreadable UInt8Vector[" + type + "]";
         }
     }
 
@@ -511,8 +578,11 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Int8) {
+                return String.valueOf(getInt8());
+            }
+            return "Unreadable TinyIntVector[" + type + "]";
         }
     }
 
@@ -543,8 +613,11 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Int16) {
+                return String.valueOf(getInt16());
+            }
+            return "Unreadable SmallIntVector[" + type + "]";
         }
     }
 
@@ -586,8 +659,14 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Int32) {
+                return String.valueOf(getInt32());
+            }
+            if (type == PrimitiveType.Date32) {
+                return getDate32().toString();
+            }
+            return "Unreadable IntVector[" + type + "]";
         }
     }
 
@@ -665,8 +744,23 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Int64) {
+                return String.valueOf(vector.get(rowIndex));
+            }
+            if (type == PrimitiveType.Datetime64) {
+                return getDatetime64().toString();
+            }
+            if (type == PrimitiveType.Timestamp64) {
+                return getTimestamp64().toString();
+            }
+            if (type == PrimitiveType.Interval) {
+                return getInterval().toString();
+            }
+            if (type == PrimitiveType.Interval64) {
+                return getInterval64().toString();
+            }
+            return "Unreadable BigIntVector[" + type + "]";
         }
     }
 
@@ -697,8 +791,11 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Float) {
+                return String.valueOf(getFloat());
+            }
+            return "Unreadable Float4Vector[" + type + "]";
         }
     }
 
@@ -729,8 +826,11 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Double) {
+                return String.valueOf(getDouble());
+            }
+            return "Unreadable Float8Vector[" + type + "]";
         }
     }
 
@@ -765,14 +865,14 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
 
         @Override
         public Value<?> getNotNullValue() {
-            if (type instanceof PrimitiveType) {
-                switch ((PrimitiveType) type) {
-                    case Text: return PrimitiveValue.newText(getText());
-                    case Json: return PrimitiveValue.newJson(getJson());
-                    case JsonDocument: return PrimitiveValue.newJsonDocument(getJsonDocument());
-                    default:
-                        break;
-                }
+            if (type == PrimitiveType.Text) {
+                return PrimitiveValue.newText(getText());
+            }
+            if (type == PrimitiveType.Json) {
+                return PrimitiveValue.newJson(getJson());
+            }
+            if (type == PrimitiveType.JsonDocument) {
+                return PrimitiveValue.newJsonDocument(getJsonDocument());
             }
             throw error("getValue");
         }
@@ -783,8 +883,17 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            sb.append(vector.get(rowIndex));
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Text) {
+                return getText();
+            }
+            if (type == PrimitiveType.Json) {
+                return getJson();
+            }
+            if (type == PrimitiveType.JsonDocument) {
+                return getJsonDocument();
+            }
+            return "Unreadable VarCharVector[" + type + "]";
         }
     }
 
@@ -804,7 +913,7 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         @Override
         public String getBytesAsString(Charset charset) {
             if (type != PrimitiveType.Bytes) {
-                throw error("getBytes");
+                throw error("getBytesAsString");
             }
             return new String(vector.get(rowIndex), charset);
         }
@@ -819,13 +928,11 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
 
         @Override
         public Value<?> getNotNullValue() {
-            if (type instanceof PrimitiveType) {
-                switch ((PrimitiveType) type) {
-                    case Bytes: return PrimitiveValue.newBytesOwn(vector.get(rowIndex));
-                    case Yson: return PrimitiveValue.newYsonOwn(vector.get(rowIndex));
-                    default:
-                        break;
-                }
+            if (type == PrimitiveType.Bytes) {
+                return PrimitiveValue.newBytesOwn(vector.get(rowIndex));
+            }
+            if (type == PrimitiveType.Yson) {
+                return PrimitiveValue.newYsonOwn(vector.get(rowIndex));
             }
             throw error("getValue");
         }
@@ -836,8 +943,14 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            Hex.toHex(vector.get(rowIndex), sb);
+        public String getNotNullValueAsString() {
+            if (type == PrimitiveType.Bytes) {
+                return Hex.toHex(UnsafeByteOperations.unsafeWrap(getBytes()));
+            }
+            if (type == PrimitiveType.Yson) {
+                return Hex.toHex(UnsafeByteOperations.unsafeWrap(getYson()));
+            }
+            return "Unreadable VarBinaryVector[" + type + "]";
         }
     }
 
@@ -891,8 +1004,14 @@ public abstract class ArrayValueReader<T extends FieldVector> implements ValueRe
         }
 
         @Override
-        public void toString(StringBuilder sb) {
-            Hex.toHex(vector.get(rowIndex), sb);
+        public String getNotNullValueAsString() {
+            if (type.getKind() == Type.Kind.DECIMAL) {
+                return getDecimal().toString();
+            }
+            if (type == PrimitiveType.Uuid) {
+                return getUuid().toString();
+            }
+            return "Unreadable FixedSizeBinaryVector[" + type + "]";
         }
     }
 
