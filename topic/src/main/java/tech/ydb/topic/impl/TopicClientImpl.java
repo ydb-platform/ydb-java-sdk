@@ -2,7 +2,6 @@ package tech.ydb.topic.impl;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -28,7 +27,6 @@ import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.MeteringMode;
 import tech.ydb.topic.description.PartitionInfo;
-import tech.ydb.topic.description.PartitionStats;
 import tech.ydb.topic.description.SupportedCodecs;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.description.TopicStats;
@@ -347,23 +345,9 @@ public class TopicClientImpl implements TopicClient {
                 .build());
 
         description.setPartitioningSettings(partitioningDescription.build());
-
-        List<PartitionInfo> partitions = new ArrayList<>();
-        for (YdbTopic.DescribeTopicResult.PartitionInfo partition : result.getPartitionsList()) {
-            PartitionInfo.Builder partitionBuilder = PartitionInfo.newBuilder()
-                    .setPartitionId(partition.getPartitionId())
-                    .setActive(partition.getActive())
-                    .setChildPartitionIds(partition.getChildPartitionIdsList())
-                    .setParentPartitionIds(partition.getParentPartitionIdsList())
-                    .setPartitionStats(new PartitionStats(partition.getPartitionStats()));
-
-            if (includeStats) {
-                partitionBuilder.setPartitionStats(new PartitionStats(partition.getPartitionStats()));
-            }
-
-            partitions.add(partitionBuilder.build());
-        }
-        description.setPartitions(partitions);
+        description.setPartitions(result.getPartitionsList().stream()
+                .map(PartitionInfo::new)
+                .collect(Collectors.toList()));
 
         SupportedCodecs.Builder supportedCodecsBuilder = SupportedCodecs.newBuilder();
         for (int codec : result.getSupportedCodecs().getCodecsList()) {
