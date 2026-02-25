@@ -26,8 +26,8 @@ import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryStream.PartsHandler;
 import tech.ydb.query.result.QueryResultPart;
-import tech.ydb.query.result.array.ArrayPartsHandler;
-import tech.ydb.query.result.array.ArrayQueryResultPart;
+import tech.ydb.query.result.arrow.ArrowPartsHandler;
+import tech.ydb.query.result.arrow.ArrowQueryResultPart;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableColumn;
@@ -167,10 +167,10 @@ public class ApacheArrowTest {
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             // Execute query without ApacheArrow (or if server doesn't support it)
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO);
-            assertStatusOK(stream.execute(new ArrayPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ArrowPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertFalse(part instanceof ArrayQueryResultPart);
+                    Assert.assertFalse(part instanceof ArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -188,9 +188,8 @@ public class ApacheArrowTest {
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
 
-            assertIllegalStateExceptionFuture(
-                    "Unsupported type for ApacheArrow reader: type_id: TZ_TIMESTAMP\n",
-                    stream.execute(new ArrayPartsHandler(allocator) {
+            assertIllegalStateExceptionFuture("Unsupported type for ApacheArrow reader: type_id: TZ_TIMESTAMP\n",
+                    stream.execute(new ArrowPartsHandler(allocator) {
                         @Override
                         public void onNextPart(QueryResultPart part) {
                             // not called
@@ -207,10 +206,10 @@ public class ApacheArrowTest {
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new ArrayPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ArrowPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertTrue(part instanceof ArrayQueryResultPart);
+                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -227,10 +226,10 @@ public class ApacheArrowTest {
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new ArrayPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ArrowPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertTrue(part instanceof ArrayQueryResultPart);
+                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }

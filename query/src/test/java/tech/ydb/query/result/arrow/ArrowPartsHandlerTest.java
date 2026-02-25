@@ -1,4 +1,4 @@
-package tech.ydb.query.result.array;
+package tech.ydb.query.result.arrow;
 
 import java.io.IOException;
 import java.nio.channels.Channels;
@@ -27,7 +27,7 @@ import tech.ydb.query.result.QueryResultPart;
  *
  * @author Aleksandr Gorshenin
  */
-public class ArrayPartsHandlerTest {
+public class ArrowPartsHandlerTest {
     private RootAllocator allocator;
 
     @Before
@@ -42,7 +42,7 @@ public class ArrayPartsHandlerTest {
 
     @Test
     public void wrongDataTest() throws IOException {
-        ArrayPartsHandler unexpected = new ArrayPartsHandler(allocator) {
+        ArrowPartsHandler unexpected = new ArrowPartsHandler(allocator) {
             @Override
             public void onNextPart(QueryResultPart part) {
                 throw new AssertionError("Must not be called");

@@ -1,4 +1,4 @@
-package tech.ydb.query.result.array;
+package tech.ydb.query.result.arrow;
 
 import java.util.List;
 
@@ -17,21 +17,21 @@ import tech.ydb.table.values.Type;
  * @author Aleksandr Gorshenin
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
-public class ArrayQueryResultPart extends QueryResultPart  {
-    private final ArrayResultSetReader resultSetReader;
+public class ArrowQueryResultPart extends QueryResultPart  {
+    private final ArrowResultSetReader resultSetReader;
 
-    public ArrayQueryResultPart(long index, VectorSchemaRoot vsr, List<ValueProtos.Column> columns, boolean truncated) {
+    public ArrowQueryResultPart(long index, VectorSchemaRoot vsr, List<ValueProtos.Column> columns, boolean truncated) {
         super(index, null);
 
-        ArrayValueReader<?>[] readers = new ArrayValueReader<?>[columns.size()];
+        ArrowValueReader<?>[] readers = new ArrowValueReader<?>[columns.size()];
         for (int idx = 0; idx < columns.size(); idx += 1) {
             ValueProtos.Column column = columns.get(idx);
             Type type = validateType(column.getType());
             boolean optional = column.getType().hasOptionalType();
-            readers[idx] = ArrayValueReader.createReader(vsr.getVector(column.getName()), type, optional);
+            readers[idx] = ArrowValueReader.createReader(vsr.getVector(column.getName()), type, optional);
         }
 
-        this.resultSetReader = new ArrayResultSetReader(vsr, readers, truncated);
+        this.resultSetReader = new ArrowResultSetReader(vsr, readers, truncated);
     }
 
     @Override

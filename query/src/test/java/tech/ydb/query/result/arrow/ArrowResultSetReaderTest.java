@@ -1,4 +1,4 @@
-package tech.ydb.query.result.array;
+package tech.ydb.query.result.arrow;
 
 import org.apache.arrow.memory.RootAllocator;
 import org.apache.arrow.vector.BigIntVector;
@@ -18,7 +18,7 @@ import tech.ydb.table.values.PrimitiveType;
  *
  * @author Aleksandr Gorshenin
  */
-public class ArrayResultSetReaderTest {
+public class ArrowResultSetReaderTest {
     private RootAllocator allocator;
 
     @Before
@@ -47,9 +47,9 @@ public class ArrayResultSetReaderTest {
         BigIntVector col2 = new BigIntVector("col2", FieldType.nullable(new ArrowType.Int(64, true)), allocator);
 
         try (VectorSchemaRoot vsr = VectorSchemaRoot.of(col1, col2)) {
-            ArrayValueReader<?> r1 = ArrayValueReader.createReader(col1, PrimitiveType.Int32, true);
-            ArrayValueReader<?> r2 = ArrayValueReader.createReader(col2, PrimitiveType.Int64, true);
-            ArrayResultSetReader rs = new ArrayResultSetReader(vsr, new ArrayValueReader<?>[] { r2, r1 }, true);
+            ArrowValueReader<?> r1 = ArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
+            ArrowValueReader<?> r2 = ArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
+            ArrowResultSetReader rs = new ArrowResultSetReader(vsr, new ArrowValueReader<?>[] { r2, r1 }, true);
 
             Assert.assertTrue(rs.isTruncated());
             Assert.assertEquals(2, rs.getColumnCount());
@@ -95,9 +95,9 @@ public class ArrayResultSetReaderTest {
         try (VectorSchemaRoot vsr = VectorSchemaRoot.of(col1, col2)) {
             vsr.setRowCount(3);
 
-            ArrayValueReader<?> r1 = ArrayValueReader.createReader(col1, PrimitiveType.Int32, true);
-            ArrayValueReader<?> r2 = ArrayValueReader.createReader(col2, PrimitiveType.Int64, true);
-            ArrayResultSetReader rs = new ArrayResultSetReader(vsr, new ArrayValueReader<?>[] { r1, r2 }, false);
+            ArrowValueReader<?> r1 = ArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
+            ArrowValueReader<?> r2 = ArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
+            ArrowResultSetReader rs = new ArrowResultSetReader(vsr, new ArrowValueReader<?>[] { r1, r2 }, false);
 
             Assert.assertFalse(rs.isTruncated());
             Assert.assertEquals(3, rs.getRowCount());
@@ -153,9 +153,9 @@ public class ArrayResultSetReaderTest {
         try (VectorSchemaRoot vsr = VectorSchemaRoot.of(col1, col2)) {
             vsr.setRowCount(3);
 
-            ArrayValueReader<?> r1 = ArrayValueReader.createReader(col1, PrimitiveType.Int32, true);
-            ArrayValueReader<?> r2 = ArrayValueReader.createReader(col2, PrimitiveType.Int64, true);
-            ArrayResultSetReader rs = new ArrayResultSetReader(vsr, new ArrayValueReader<?>[] { r1, r2 }, false);
+            ArrowValueReader<?> r1 = ArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
+            ArrowValueReader<?> r2 = ArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
+            ArrowResultSetReader rs = new ArrowResultSetReader(vsr, new ArrowValueReader<?>[] { r1, r2 }, false);
 
             Assert.assertFalse(rs.isTruncated());
             Assert.assertEquals(3, rs.getRowCount());

@@ -1,4 +1,4 @@
-package tech.ydb.query.result.array;
+package tech.ydb.query.result.arrow;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,10 +23,10 @@ import tech.ydb.query.result.QueryResultPart;
  * @author Aleksandr Gorshenin
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
-public abstract class ArrayPartsHandler implements QueryStream.PartsHandler {
+public abstract class ArrowPartsHandler implements QueryStream.PartsHandler {
     private final RootAllocator allocator;
 
-    public ArrayPartsHandler(RootAllocator allocator) {
+    public ArrowPartsHandler(RootAllocator allocator) {
         this.allocator = allocator;
     }
 
@@ -42,7 +42,7 @@ public abstract class ArrayPartsHandler implements QueryStream.PartsHandler {
             Schema schema = readApacheArrowSchema(rs.getArrowFormatMeta().getSchema());
             try (VectorSchemaRoot vsr = VectorSchemaRoot.create(schema, allocator)) {
                 loadApacheArrowVector(vsr, rs.getData());
-                onNextPart(new ArrayQueryResultPart(index, vsr, rs.getColumnsList(), rs.getTruncated()));
+                onNextPart(new ArrowQueryResultPart(index, vsr, rs.getColumnsList(), rs.getTruncated()));
             }
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read ApacheArrow vector", ex);
