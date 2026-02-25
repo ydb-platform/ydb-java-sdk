@@ -34,12 +34,7 @@
             <artifactId>arrow-vector</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.apache.arrow</groupId>
-            <artifactId>arrow-memory-netty</artifactId>
-            <optional>true</optional>
-        </dependency>
-        
+
 	<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -53,6 +48,11 @@
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.arrow</groupId>
+            <artifactId>arrow-memory-netty</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
