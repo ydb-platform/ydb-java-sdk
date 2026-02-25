@@ -42,7 +42,7 @@ public class ArrowPartsHandlerTest {
 
     @Test
     public void wrongDataTest() throws IOException {
-        ArrowPartsHandler unexpected = new ArrowPartsHandler(allocator) {
+        ApacheArrowPartsHandler unexpected = new ApacheArrowPartsHandler(allocator) {
             @Override
             public void onNextPart(QueryResultPart part) {
                 throw new AssertionError("Must not be called");

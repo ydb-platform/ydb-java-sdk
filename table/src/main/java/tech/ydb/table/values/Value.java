@@ -33,7 +33,8 @@ public interface Value<T extends Type> extends Serializable, Comparable<Value<?>
     }
 
     /**
-     * @deprecated Use {{@link #asStruct()}} instead
+     * @deprecated Use {@link #asStruct()} instead
+     * @return current value as  {@link StructValue}
      */
     @Deprecated
     default StructValue asStuct() {

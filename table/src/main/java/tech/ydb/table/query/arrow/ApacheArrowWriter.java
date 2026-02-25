@@ -1,4 +1,4 @@
-package tech.ydb.table.query;
+package tech.ydb.table.query.arrow;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -32,6 +32,8 @@ import org.apache.arrow.vector.VarBinaryVector;
 import org.apache.arrow.vector.VarCharVector;
 import org.apache.arrow.vector.VectorSchemaRoot;
 import org.apache.arrow.vector.VectorUnloader;
+import org.apache.arrow.vector.compression.CompressionCodec;
+import org.apache.arrow.vector.compression.NoCompressionCodec;
 import org.apache.arrow.vector.ipc.WriteChannel;
 import org.apache.arrow.vector.ipc.message.ArrowRecordBatch;
 import org.apache.arrow.vector.ipc.message.MessageSerializer;
@@ -39,6 +41,7 @@ import org.apache.arrow.vector.types.FloatingPointPrecision;
 import org.apache.arrow.vector.types.TimeUnit;
 import org.apache.arrow.vector.types.pojo.ArrowType;
 import org.apache.arrow.vector.types.pojo.Field;
+import org.apache.arrow.vector.types.pojo.FieldType;
 
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.DecimalValue;
@@ -53,7 +56,12 @@ import tech.ydb.table.values.proto.ProtoValue;
 public class ApacheArrowWriter implements AutoCloseable {
     public interface Batch {
         Row writeNextRow();
-        BulkUpsertArrowData buildBatch() throws IOException;
+
+        ApacheArrowData buildBatch(CompressionCodec codec) throws IOException;
+
+        default ApacheArrowData buildBatch() throws IOException {
+            return buildBatch(NoCompressionCodec.INSTANCE);
+        }
     }
 
     public interface Row {
@@ -133,9 +141,9 @@ public class ApacheArrowWriter implements AutoCloseable {
         }
 
         @Override
-        public BulkUpsertArrowData buildBatch() throws IOException {
+        public ApacheArrowData buildBatch(CompressionCodec codec) throws IOException {
             vsr.setRowCount(rowIndex);
-            return new BulkUpsertArrowData(serializeSchema(), serializeBatch());
+            return new ApacheArrowData(serializeSchema(), serializeBatch(codec));
         }
 
         private ByteString serializeSchema() throws IOException {
@@ -147,10 +155,10 @@ public class ApacheArrowWriter implements AutoCloseable {
             }
         }
 
-        private ByteString serializeBatch() throws IOException {
+        private ByteString serializeBatch(CompressionCodec codec) throws IOException {
             try (ByteString.Output out = ByteString.newOutput()) {
                 try (WriteChannel channel = new WriteChannel(Channels.newChannel(out))) {
-                    VectorUnloader loader = new VectorUnloader(vsr);
+                    VectorUnloader loader = new VectorUnloader(vsr, true, codec, true);
                     try (ArrowRecordBatch batch = loader.getRecordBatch()) {
                         MessageSerializer.serialize(channel, batch);
                         return out.toByteString();
@@ -326,15 +334,8 @@ public class ApacheArrowWriter implements AutoCloseable {
             return new IllegalStateException("cannot call " + method + ", actual type: " + type);
         }
 
-        public abstract void allocateNew(int estimated);
-
-        void writeNull(int rowIndex) {
-            if (field.isNullable()) {
-                vector.setNull(rowIndex);
-            } else {
-                throw error("writeNull");
-            }
-        }
+        abstract void allocateNew(int estimated);
+        abstract void writeNull(int rowIndex);
 
         void writeBool(int rowIndex, boolean value) {
             throw error("writeBool");
@@ -451,6 +452,15 @@ public class ApacheArrowWriter implements AutoCloseable {
         public void allocateNew(int estimated) {
             vector.allocateNew(estimated);
         }
+
+        @Override
+        void writeNull(int rowIndex) {
+            if (field.isNullable()) {
+                vector.setNull(rowIndex);
+            } else {
+                throw error("writeNull");
+            }
+        }
     }
 
     private static class VariableWidthColumn<T extends BaseVariableWidthVector> extends Column<T> {
@@ -462,6 +472,15 @@ public class ApacheArrowWriter implements AutoCloseable {
         @Override
         public void allocateNew(int estimated) {
             vector.allocateNew(estimated);
+        }
+
+        @Override
+        void writeNull(int rowIndex) {
+            if (field.isNullable()) {
+                vector.setNull(rowIndex);
+            } else {
+                throw error("writeNull");
+            }
         }
     }
 
@@ -766,7 +785,7 @@ public class ApacheArrowWriter implements AutoCloseable {
                 return createColumnVector(allocator, type.unwrapOptional(), t -> Field.nullable(name, t));
             }
 
-            return createColumnVector(allocator, type, t -> Field.notNullable(name, t));
+            return createColumnVector(allocator, type, t -> new Field(name, new FieldType(false, t, null, null), null));
         }
     }
 

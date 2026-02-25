@@ -23,10 +23,10 @@ import tech.ydb.query.result.QueryResultPart;
  * @author Aleksandr Gorshenin
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
-public abstract class ArrowPartsHandler implements QueryStream.PartsHandler {
+public abstract class ApacheArrowPartsHandler implements QueryStream.PartsHandler {
     private final RootAllocator allocator;
 
-    public ArrowPartsHandler(RootAllocator allocator) {
+    public ApacheArrowPartsHandler(RootAllocator allocator) {
         this.allocator = allocator;
     }
 
@@ -42,18 +42,22 @@ public abstract class ArrowPartsHandler implements QueryStream.PartsHandler {
             Schema schema = readApacheArrowSchema(rs.getArrowFormatMeta().getSchema());
             try (VectorSchemaRoot vsr = VectorSchemaRoot.create(schema, allocator)) {
                 loadApacheArrowVector(vsr, rs.getData());
-                onNextPart(new ArrowQueryResultPart(index, vsr, rs.getColumnsList(), rs.getTruncated()));
+                onNextPart(new ApacheArrowQueryResultPart(index, vsr, rs.getColumnsList(), rs.getTruncated()));
             }
         } catch (IOException ex) {
             throw new RuntimeException("Cannot read ApacheArrow vector", ex);
         }
     }
 
+    protected VectorLoader createLoader(VectorSchemaRoot vsr) {
+        return new VectorLoader(vsr);
+    }
+
     private void loadApacheArrowVector(VectorSchemaRoot vsr, ByteString bytes) throws IOException {
         try (InputStream is = bytes.newInput()) {
             try (ReadChannel channel = new ReadChannel(Channels.newChannel(is))) {
                 try (ArrowRecordBatch batch = MessageSerializer.deserializeRecordBatch(channel, allocator)) {
-                    VectorLoader loader = new VectorLoader(vsr);
+                    VectorLoader loader = createLoader(vsr);
                     loader.load(batch);
                 }
             }

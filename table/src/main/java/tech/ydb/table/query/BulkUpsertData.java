@@ -9,14 +9,21 @@ import tech.ydb.table.values.ListValue;
  *
  * @author Aleksandr Gorshenin
  */
-public interface BulkUpsertData {
-    void applyToRequest(YdbTable.BulkUpsertRequest.Builder builder);
+public class BulkUpsertData {
+    private final ValueProtos.TypedValue rows;
 
-    static BulkUpsertData fromRows(ListValue list) {
-        return new BulkUpsertProtoData(list);
+    public BulkUpsertData(ListValue rows) {
+        this.rows = ValueProtos.TypedValue.newBuilder()
+                .setType(rows.getType().toPb())
+                .setValue(rows.toPb())
+                .build();
     }
 
-    static BulkUpsertData fromProto(ValueProtos.TypedValue rows) {
-        return new BulkUpsertProtoData(rows);
+    public BulkUpsertData(ValueProtos.TypedValue rows) {
+        this.rows = rows;
+    }
+
+    public void applyToRequest(YdbTable.BulkUpsertRequest.Builder builder) {
+        builder.setRows(rows);
     }
 }

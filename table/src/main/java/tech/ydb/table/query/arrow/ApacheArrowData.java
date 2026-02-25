@@ -1,19 +1,22 @@
-package tech.ydb.table.query;
+package tech.ydb.table.query.arrow;
 
 import com.google.protobuf.ByteString;
 
+import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.formats.YdbFormats;
 import tech.ydb.proto.table.YdbTable;
+import tech.ydb.table.query.BulkUpsertData;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class BulkUpsertArrowData implements BulkUpsertData {
+public class ApacheArrowData extends BulkUpsertData {
     private final ByteString schema;
     private final ByteString data;
 
-    public BulkUpsertArrowData(ByteString schema, ByteString data) {
+    public ApacheArrowData(ByteString schema, ByteString data) {
+        super((ValueProtos.TypedValue) null);
         this.schema = schema;
         this.data = data;
     }

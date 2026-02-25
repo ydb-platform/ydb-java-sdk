@@ -26,6 +26,7 @@ import org.apache.arrow.vector.complex.ListVector;
 import org.apache.arrow.vector.types.FloatingPointPrecision;
 import org.apache.arrow.vector.types.pojo.ArrowType;
 import org.apache.arrow.vector.types.pojo.Field;
+import org.apache.arrow.vector.types.pojo.FieldType;
 import org.apache.arrow.vector.util.Text;
 import org.junit.After;
 import org.junit.Assert;
@@ -66,19 +67,20 @@ public class ArrowValueReaderTest {
         try (ListVector vector = ListVector.empty("testList", allocator)) {
             assertIllegalStateException(
                     "Unsupported ApacheArrow vector type: class org.apache.arrow.vector.complex.ListVector",
-                    () -> ArrowValueReader.createReader(vector, ListType.of(PrimitiveType.Int32), false)
+                    () -> ApacheArrowValueReader.createReader(vector, ListType.of(PrimitiveType.Int32), false)
             );
         }
     }
 
     @Test
     public void fieldVectorTest() {
-        try (UInt1Vector vector = new UInt1Vector(Field.notNullable("test", new ArrowType.Int(8, false)), allocator)) {
+        Field field = new Field("test", new FieldType(false, new ArrowType.Int(8, false), null, null), null);
+        try (UInt1Vector vector = new UInt1Vector(field, allocator)) {
             vector.allocateNew(1);
             vector.set(0, 0);
 
             // not null reader
-            ArrowValueReader<?> reader = ArrowValueReader.createReader(vector, PrimitiveType.Bool, false);
+            ApacheArrowValueReader<?> reader = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, false);
 
             Assert.assertEquals(false, reader.getBool());
             Assert.assertEquals(PrimitiveValue.newBool(false), (PrimitiveValue) reader.getValue());
@@ -154,7 +156,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 123);
 
-            ArrowValueReader<?> reader = ArrowValueReader.createReader(vector, PrimitiveType.Uint16, true);
+            ApacheArrowValueReader<?> reader = ApacheArrowValueReader.createReader(vector, PrimitiveType.Uint16, true);
             Assert.assertEquals(true, reader.isOptionalItemPresent());
             Assert.assertEquals(123, reader.getUint16());
             Assert.assertEquals(PrimitiveValue.newUint16(123).makeOptional(), (OptionalValue) reader.getValue());
@@ -173,7 +175,7 @@ public class ArrowValueReaderTest {
             vector.set(2, 1);
 
             // not null reader
-            ArrowValueReader<?> reader = ArrowValueReader.createReader(vector, PrimitiveType.Bool, false);
+            ApacheArrowValueReader<?> reader = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, false);
             reader.setRowIndex(0);
             assertIllegalStateException("cannot call isOptionalItemPresent, actual type: Bool",
                     reader::isOptionalItemPresent);
@@ -199,7 +201,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals("true", reader.toString());
 
             // nullable reader
-            ArrowValueReader<?> reader2 = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> reader2 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             reader2.setRowIndex(0);
             Assert.assertEquals(true, reader2.isOptionalItemPresent());
             Assert.assertEquals(false, reader2.getBool());
@@ -227,23 +229,24 @@ public class ArrowValueReaderTest {
 
     @Test
     public void uint1VectorTest() {
-        try (UInt1Vector vector = new UInt1Vector(Field.notNullable("test", new ArrowType.Int(8, false)), allocator)) {
+        Field field = new Field("test", new FieldType(false, new ArrowType.Int(8, false), null, null), null);
+        try (UInt1Vector vector = new UInt1Vector(field, allocator)) {
             vector.allocateNew(1);
             vector.set(0, 123);
 
-            ArrowValueReader<?> bool = ArrowValueReader.createReader(vector, PrimitiveType.Bool, false);
+            ApacheArrowValueReader<?> bool = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, false);
             assertIllegalStateException("cannot call getUint8, actual type: Bool", bool::getUint8);
             Assert.assertEquals(true, bool.getBool());
             Assert.assertEquals(PrimitiveValue.newBool(true), (PrimitiveValue) bool.getValue());
             Assert.assertEquals("true", bool.toString());
 
-            ArrowValueReader<?> uint8 = ArrowValueReader.createReader(vector, PrimitiveType.Uint8, false);
+            ApacheArrowValueReader<?> uint8 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Uint8, false);
             assertIllegalStateException("cannot call getBool, actual type: Uint8", uint8::getBool);
             Assert.assertEquals(123, uint8.getUint8());
             Assert.assertEquals(PrimitiveValue.newUint8(123), (PrimitiveValue) uint8.getValue());
             Assert.assertEquals("123", uint8.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Int8, false);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Int8, false);
             assertIllegalStateException("cannot call getBool, actual type: Int8", wrong::getBool);
             assertIllegalStateException("cannot call getUint8, actual type: Int8", wrong::getUint8);
             assertIllegalStateException("cannot call getValue, actual type: Int8", wrong::getValue);
@@ -257,7 +260,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 123);
 
-            ArrowValueReader<?> uint16 = ArrowValueReader.createReader(vector, PrimitiveType.Uint16, true);
+            ApacheArrowValueReader<?> uint16 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Uint16, true);
             Assert.assertEquals(123, uint16.getUint16());
             assertIllegalStateException("cannot call getDate, actual type: Uint16?", uint16::getDate);
             Assert.assertEquals(PrimitiveValue.newUint16(123).makeOptional(), (OptionalValue) uint16.getValue());
@@ -265,7 +268,7 @@ public class ArrowValueReaderTest {
             Assert.assertNotNull(uint16.getOptionalItem());
             Assert.assertEquals(PrimitiveValue.newUint16(123), (PrimitiveValue) uint16.getOptionalItem().getValue());
 
-            ArrowValueReader<?> date = ArrowValueReader.createReader(vector, PrimitiveType.Date, true);
+            ApacheArrowValueReader<?> date = ApacheArrowValueReader.createReader(vector, PrimitiveType.Date, true);
             assertIllegalStateException("cannot call getUint16, actual type: Date?", date::getUint16);
             Assert.assertEquals(LocalDate.ofEpochDay(123), date.getDate());
             Assert.assertEquals(PrimitiveValue.newDate(123).makeOptional(), (OptionalValue) date.getValue());
@@ -273,7 +276,7 @@ public class ArrowValueReaderTest {
             Assert.assertNotNull(date.getOptionalItem());
             Assert.assertEquals(PrimitiveValue.newDate(123), (PrimitiveValue) date.getOptionalItem().getValue());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Int8, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Int8, true);
             assertIllegalStateException("cannot call getDate, actual type: Int8?", wrong::getDate);
             assertIllegalStateException("cannot call getUint16, actual type: Int8?", wrong::getUint16);
             assertIllegalStateException("cannot call getValue, actual type: Int8?", wrong::getValue);
@@ -287,7 +290,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 1234567);
 
-            ArrowValueReader<?> uint32 = ArrowValueReader.createReader(vector, PrimitiveType.Uint32, true);
+            ApacheArrowValueReader<?> uint32 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Uint32, true);
             Assert.assertEquals(1234567, uint32.getUint32());
             assertIllegalStateException("cannot call getDatetime, actual type: Uint32?", uint32::getDatetime);
             Assert.assertEquals(PrimitiveValue.newUint32(1234567).makeOptional(), (OptionalValue) uint32.getValue());
@@ -295,7 +298,7 @@ public class ArrowValueReaderTest {
             Assert.assertNotNull(uint32.getOptionalItem());
             Assert.assertEquals(PrimitiveValue.newUint32(1234567), (PrimitiveValue) uint32.getOptionalItem().getValue());
 
-            ArrowValueReader<?> datetime = ArrowValueReader.createReader(vector, PrimitiveType.Datetime, true);
+            ApacheArrowValueReader<?> datetime = ApacheArrowValueReader.createReader(vector, PrimitiveType.Datetime, true);
             assertIllegalStateException("cannot call getUint32, actual type: Datetime?", datetime::getUint32);
             Assert.assertEquals(LocalDateTime.ofEpochSecond(1234567, 0, ZoneOffset.UTC), datetime.getDatetime());
             Assert.assertEquals(PrimitiveValue.newDatetime(1234567).makeOptional(), (OptionalValue) datetime.getValue());
@@ -303,7 +306,7 @@ public class ArrowValueReaderTest {
             Assert.assertNotNull(datetime.getOptionalItem());
             Assert.assertEquals(PrimitiveValue.newDatetime(1234567), (PrimitiveValue) datetime.getOptionalItem().getValue());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getUint32, actual type: Bool?", wrong::getUint32);
             assertIllegalStateException("cannot call getDatetime, actual type: Bool?", wrong::getDatetime);
             assertIllegalStateException("cannot call getValue, actual type: Bool?", wrong::getValue);
@@ -317,7 +320,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 0x1234567812345L);
 
-            ArrowValueReader<?> uint64 = ArrowValueReader.createReader(vector, PrimitiveType.Uint64, true);
+            ApacheArrowValueReader<?> uint64 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Uint64, true);
             Assert.assertEquals(0x1234567812345L, uint64.getUint64());
             assertIllegalStateException("cannot call getTimestamp, actual type: Uint64?", uint64::getTimestamp);
             Assert.assertEquals(PrimitiveValue.newUint64(0x1234567812345L).makeOptional(),
@@ -327,7 +330,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newUint64(0x1234567812345L),
                     (PrimitiveValue) uint64.getOptionalItem().getValue());
 
-            ArrowValueReader<?> timestamp = ArrowValueReader.createReader(vector, PrimitiveType.Timestamp, true);
+            ApacheArrowValueReader<?> timestamp = ApacheArrowValueReader.createReader(vector, PrimitiveType.Timestamp, true);
             assertIllegalStateException("cannot call getUint64, actual type: Timestamp?", timestamp::getUint64);
             Assert.assertEquals(Instant.ofEpochSecond(320255972L, 942661000), timestamp.getTimestamp());
             Assert.assertEquals(PrimitiveValue.newTimestamp(0x1234567812345L).makeOptional(),
@@ -337,7 +340,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newTimestamp(0x1234567812345L),
                     (PrimitiveValue) timestamp.getOptionalItem().getValue());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getUint64, actual type: Bool?", wrong::getUint64);
             assertIllegalStateException("cannot call getTimestamp, actual type: Bool?", wrong::getTimestamp);
             assertIllegalStateException("cannot call getValue, actual type: Bool?", wrong::getValue);
@@ -351,7 +354,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 123);
 
-            ArrowValueReader<?> int8 = ArrowValueReader.createReader(vector, PrimitiveType.Int8, true);
+            ApacheArrowValueReader<?> int8 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Int8, true);
             assertIllegalStateException("cannot call getBool, actual type: Int8?", int8::getBool);
             Assert.assertEquals(123, int8.getInt8());
             Assert.assertEquals(PrimitiveValue.newInt8((byte) 123).makeOptional(), (OptionalValue) int8.getValue());
@@ -359,7 +362,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newInt8((byte) 123), (PrimitiveValue) int8.getOptionalItem().getValue());
             Assert.assertEquals("Some[123]", int8.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getInt8, actual type: Bool?", wrong::getInt8);
             assertIllegalStateException("cannot call getValue, actual type: Bool?", wrong::getValue);
             Assert.assertEquals("Some[Unreadable TinyIntVector[Bool]]", wrong.toString());
@@ -372,7 +375,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 12345);
 
-            ArrowValueReader<?> int16 = ArrowValueReader.createReader(vector, PrimitiveType.Int16, true);
+            ApacheArrowValueReader<?> int16 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Int16, true);
             assertIllegalStateException("cannot call getBool, actual type: Int16?", int16::getBool);
             Assert.assertEquals(12345, int16.getInt16());
             Assert.assertEquals(PrimitiveValue.newInt16((short) 12345).makeOptional(), (OptionalValue) int16.getValue());
@@ -380,7 +383,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newInt16((short) 12345), (PrimitiveValue) int16.getOptionalItem().getValue());
             Assert.assertEquals("Some[12345]", int16.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getInt16, actual type: Bool?", wrong::getInt16);
             assertIllegalStateException("cannot call getValue, actual type: Bool?", wrong::getValue);
             Assert.assertEquals("Some[Unreadable SmallIntVector[Bool]]", wrong.toString());
@@ -393,7 +396,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 12345);
 
-            ArrowValueReader<?> int32 = ArrowValueReader.createReader(vector, PrimitiveType.Int32, true);
+            ApacheArrowValueReader<?> int32 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Int32, true);
             Assert.assertEquals(12345, int32.getInt32());
             assertIllegalStateException("cannot call getDate32, actual type: Int32?", int32::getDate32);
             Assert.assertEquals(PrimitiveValue.newInt32(12345).makeOptional(), (OptionalValue) int32.getValue());
@@ -401,7 +404,7 @@ public class ArrowValueReaderTest {
             Assert.assertNotNull(int32.getOptionalItem());
             Assert.assertEquals(PrimitiveValue.newInt32(12345), (PrimitiveValue) int32.getOptionalItem().getValue());
 
-            ArrowValueReader<?> date32 = ArrowValueReader.createReader(vector, PrimitiveType.Date32, true);
+            ApacheArrowValueReader<?> date32 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Date32, true);
             assertIllegalStateException("cannot call getInt32, actual type: Date32?", date32::getInt32);
             Assert.assertEquals(LocalDate.ofEpochDay(12345), date32.getDate32());
             Assert.assertEquals(PrimitiveValue.newDate32(12345).makeOptional(), (OptionalValue) date32.getValue());
@@ -409,7 +412,7 @@ public class ArrowValueReaderTest {
             Assert.assertNotNull(date32.getOptionalItem());
             Assert.assertEquals(PrimitiveValue.newDate32(12345), (PrimitiveValue) date32.getOptionalItem().getValue());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Int8, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Int8, true);
             assertIllegalStateException("cannot call getDate32, actual type: Int8?", wrong::getDate32);
             assertIllegalStateException("cannot call getInt32, actual type: Int8?", wrong::getInt32);
             assertIllegalStateException("cannot call getValue, actual type: Int8?", wrong::getValue);
@@ -423,7 +426,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 0x1234567812345L);
 
-            ArrowValueReader<?> int64 = ArrowValueReader.createReader(vector, PrimitiveType.Int64, true);
+            ApacheArrowValueReader<?> int64 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Int64, true);
             Assert.assertEquals(0x1234567812345L, int64.getInt64());
             assertIllegalStateException("cannot call getDatetime64, actual type: Int64?", int64::getDatetime64);
             assertIllegalStateException("cannot call getTimestamp64, actual type: Int64?", int64::getTimestamp64);
@@ -436,7 +439,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newInt64(0x1234567812345L),
                     (PrimitiveValue) int64.getOptionalItem().getValue());
 
-            ArrowValueReader<?> dt64 = ArrowValueReader.createReader(vector, PrimitiveType.Datetime64, true);
+            ApacheArrowValueReader<?> dt64 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Datetime64, true);
             assertIllegalStateException("cannot call getInt64, actual type: Datetime64?", dt64::getInt64);
             Assert.assertEquals(LocalDateTime.ofEpochSecond(0x1234567812345L, 0, ZoneOffset.UTC), dt64.getDatetime64());
             assertIllegalStateException("cannot call getTimestamp64, actual type: Datetime64?", dt64::getTimestamp64);
@@ -449,7 +452,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newDatetime64(0x1234567812345L),
                     (PrimitiveValue) dt64.getOptionalItem().getValue());
 
-            ArrowValueReader<?> tm64 = ArrowValueReader.createReader(vector, PrimitiveType.Timestamp64, true);
+            ApacheArrowValueReader<?> tm64 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Timestamp64, true);
             assertIllegalStateException("cannot call getInt64, actual type: Timestamp64?", tm64::getInt64);
             assertIllegalStateException("cannot call getDatetime64, actual type: Timestamp64?", tm64::getDatetime64);
             Assert.assertEquals(Instant.ofEpochSecond(320255972L, 942661000), tm64.getTimestamp64());
@@ -462,7 +465,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newTimestamp64(0x1234567812345L),
                     (PrimitiveValue) tm64.getOptionalItem().getValue());
 
-            ArrowValueReader<?> inter = ArrowValueReader.createReader(vector, PrimitiveType.Interval, true);
+            ApacheArrowValueReader<?> inter = ApacheArrowValueReader.createReader(vector, PrimitiveType.Interval, true);
             assertIllegalStateException("cannot call getInt64, actual type: Interval?", inter::getInt64);
             assertIllegalStateException("cannot call getDatetime64, actual type: Interval?", inter::getDatetime64);
             assertIllegalStateException("cannot call getTimestamp64, actual type: Interval?", inter::getTimestamp64);
@@ -475,7 +478,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newInterval(0x1234567812345L),
                     (PrimitiveValue) inter.getOptionalItem().getValue());
 
-            ArrowValueReader<?> inter64 = ArrowValueReader.createReader(vector, PrimitiveType.Interval64, true);
+            ApacheArrowValueReader<?> inter64 = ApacheArrowValueReader.createReader(vector, PrimitiveType.Interval64, true);
             assertIllegalStateException("cannot call getInt64, actual type: Interval64?", inter64::getInt64);
             assertIllegalStateException("cannot call getDatetime64, actual type: Interval64?", inter64::getDatetime64);
             assertIllegalStateException("cannot call getTimestamp64, actual type: Interval64?", inter64::getTimestamp64);
@@ -488,7 +491,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newInterval64(0x1234567812345L),
                     (PrimitiveValue) inter64.getOptionalItem().getValue());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getInt64, actual type: Bool?", wrong::getInt64);
             assertIllegalStateException("cannot call getDatetime64, actual type: Bool?", wrong::getDatetime64);
             assertIllegalStateException("cannot call getTimestamp64, actual type: Bool?", wrong::getTimestamp64);
@@ -506,7 +509,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 0.1234f);
 
-            ArrowValueReader<?> flt = ArrowValueReader.createReader(vector, PrimitiveType.Float, true);
+            ApacheArrowValueReader<?> flt = ApacheArrowValueReader.createReader(vector, PrimitiveType.Float, true);
             assertIllegalStateException("cannot call getDouble, actual type: Float?", flt::getDouble);
             Assert.assertEquals(0.1234f, flt.getFloat(), 1e-6f);
             Assert.assertEquals(PrimitiveValue.newFloat(0.1234f).makeOptional(), (OptionalValue) flt.getValue());
@@ -514,7 +517,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newFloat(0.1234f), (PrimitiveValue) flt.getOptionalItem().getValue());
             Assert.assertEquals("Some[0.1234]", flt.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Double, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Double, true);
             assertIllegalStateException("cannot call getFloat, actual type: Double?", wrong::getFloat);
             assertIllegalStateException("cannot call getValue, actual type: Double?", wrong::getValue);
             Assert.assertEquals("Some[Unreadable Float4Vector[Double]]", wrong.toString());
@@ -528,7 +531,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.set(0, 123456.1234d);
 
-            ArrowValueReader<?> dbl = ArrowValueReader.createReader(vector, PrimitiveType.Double, true);
+            ApacheArrowValueReader<?> dbl = ApacheArrowValueReader.createReader(vector, PrimitiveType.Double, true);
             assertIllegalStateException("cannot call getFloat, actual type: Double?", dbl::getFloat);
             Assert.assertEquals(123456.1234d, dbl.getDouble(), 1e-6f);
             Assert.assertEquals(PrimitiveValue.newDouble(123456.1234d).makeOptional(), (OptionalValue) dbl.getValue());
@@ -536,7 +539,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newDouble(123456.1234d), (PrimitiveValue) dbl.getOptionalItem().getValue());
             Assert.assertEquals("Some[123456.1234]", dbl.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Float, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Float, true);
             assertIllegalStateException("cannot call getDouble, actual type: Float?", wrong::getDouble);
             assertIllegalStateException("cannot call getValue, actual type: Float?", wrong::getValue);
             Assert.assertEquals("Some[Unreadable Float8Vector[Float]]", wrong.toString());
@@ -549,7 +552,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.setSafe(0, new Text("[1,2,3]"));
 
-            ArrowValueReader<?> text = ArrowValueReader.createReader(vector, PrimitiveType.Text, true);
+            ApacheArrowValueReader<?> text = ApacheArrowValueReader.createReader(vector, PrimitiveType.Text, true);
             Assert.assertEquals("[1,2,3]", text.getText());
             assertIllegalStateException("cannot call getJson, actual type: Text?", text::getJson);
             assertIllegalStateException("cannot call getJsonDocument, actual type: Text?", text::getJsonDocument);
@@ -558,7 +561,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newText("[1,2,3]"), (PrimitiveValue) text.getOptionalItem().getValue());
             Assert.assertEquals("Some[[1,2,3]]", text.toString());
 
-            ArrowValueReader<?> json = ArrowValueReader.createReader(vector, PrimitiveType.Json, true);
+            ApacheArrowValueReader<?> json = ApacheArrowValueReader.createReader(vector, PrimitiveType.Json, true);
             assertIllegalStateException("cannot call getText, actual type: Json?", json::getText);
             Assert.assertEquals("[1,2,3]", json.getJson());
             assertIllegalStateException("cannot call getJsonDocument, actual type: Json?", json::getJsonDocument);
@@ -567,7 +570,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newJson("[1,2,3]"), (PrimitiveValue) json.getOptionalItem().getValue());
             Assert.assertEquals("Some[[1,2,3]]", json.toString());
 
-            ArrowValueReader<?> jsonDoc = ArrowValueReader.createReader(vector, PrimitiveType.JsonDocument, true);
+            ApacheArrowValueReader<?> jsonDoc = ApacheArrowValueReader.createReader(vector, PrimitiveType.JsonDocument, true);
             assertIllegalStateException("cannot call getText, actual type: JsonDocument?", jsonDoc::getText);
             assertIllegalStateException("cannot call getJson, actual type: JsonDocument?", jsonDoc::getJson);
             Assert.assertEquals("[1,2,3]", jsonDoc.getJsonDocument());
@@ -576,7 +579,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newJsonDocument("[1,2,3]"), (PrimitiveValue) jsonDoc.getOptionalItem().getValue());
             Assert.assertEquals("Some[[1,2,3]]", jsonDoc.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getText, actual type: Bool?", wrong::getText);
             assertIllegalStateException("cannot call getJson, actual type: Bool?", wrong::getJson);
             assertIllegalStateException("cannot call getJsonDocument, actual type: Bool?", wrong::getJsonDocument);
@@ -592,7 +595,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.setSafe(0, value);
 
-            ArrowValueReader<?> bytes = ArrowValueReader.createReader(vector, PrimitiveType.Bytes, true);
+            ApacheArrowValueReader<?> bytes = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bytes, true);
             Assert.assertArrayEquals(value, bytes.getBytes());
             Assert.assertEquals("@AB", bytes.getBytesAsString(StandardCharsets.UTF_8));
             assertIllegalStateException("cannot call getYson, actual type: Bytes?", bytes::getYson);
@@ -601,7 +604,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newBytes(value), (PrimitiveValue) bytes.getOptionalItem().getValue());
             Assert.assertEquals("Some[404142]", bytes.toString());
 
-            ArrowValueReader<?> yson = ArrowValueReader.createReader(vector, PrimitiveType.Yson, true);
+            ApacheArrowValueReader<?> yson = ApacheArrowValueReader.createReader(vector, PrimitiveType.Yson, true);
             assertIllegalStateException("cannot call getBytes, actual type: Yson?", yson::getBytes);
             assertIllegalStateException("cannot call getBytesAsString, actual type: Yson?",
                     () -> yson.getBytesAsString(StandardCharsets.UTF_8));
@@ -611,7 +614,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newYson(value), (PrimitiveValue) yson.getOptionalItem().getValue());
             Assert.assertEquals("Some[404142]", yson.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getBytes, actual type: Bool?", wrong::getBytes);
             assertIllegalStateException("cannot call getBytesAsString, actual type: Bool?",
                     () -> wrong.getBytesAsString(StandardCharsets.UTF_8));
@@ -633,7 +636,7 @@ public class ArrowValueReaderTest {
             vector.allocateNew(1);
             vector.setSafe(0, value);
 
-            ArrowValueReader<?> uuid = ArrowValueReader.createReader(vector, PrimitiveType.Uuid, true);
+            ApacheArrowValueReader<?> uuid = ApacheArrowValueReader.createReader(vector, PrimitiveType.Uuid, true);
             Assert.assertEquals(uuidValue, uuid.getUuid());
             assertIllegalStateException("cannot call getDecimal, actual type: Uuid?", uuid::getDecimal);
             Assert.assertEquals(PrimitiveValue.newUuid(uuidValue).makeOptional(), (OptionalValue) uuid.getValue());
@@ -641,7 +644,7 @@ public class ArrowValueReaderTest {
             Assert.assertEquals(PrimitiveValue.newUuid(uuidValue), (PrimitiveValue) uuid.getOptionalItem().getValue());
             Assert.assertEquals("Some[21436587-0000-0000-0000-000000000000]", uuid.toString());
 
-            ArrowValueReader<?> decimal = ArrowValueReader.createReader(vector, DecimalType.getDefault(), true);
+            ApacheArrowValueReader<?> decimal = ApacheArrowValueReader.createReader(vector, DecimalType.getDefault(), true);
             assertIllegalStateException("cannot call getUuid, actual type: Decimal(22, 9)?", decimal::getUuid);
             Assert.assertEquals(DecimalType.getDefault().newValueUnscaled(0x21436587L), decimal.getDecimal());
             Assert.assertEquals(DecimalType.getDefault().newValueUnscaled(0x21436587L).makeOptional(),
@@ -651,7 +654,7 @@ public class ArrowValueReaderTest {
                     (DecimalValue) decimal.getOptionalItem().getValue());
             Assert.assertEquals("Some[0.558065031]", decimal.toString());
 
-            ArrowValueReader<?> decimal10 = ArrowValueReader.createReader(vector, DecimalType.of(10), true);
+            ApacheArrowValueReader<?> decimal10 = ApacheArrowValueReader.createReader(vector, DecimalType.of(10), true);
             assertIllegalStateException("cannot call getUuid, actual type: Decimal(10, 0)?", decimal10::getUuid);
             Assert.assertEquals(DecimalType.of(10).newValueUnscaled(0x21436587L), decimal10.getDecimal());
             Assert.assertEquals(DecimalType.of(10).newValueUnscaled(0x21436587L).makeOptional(),
@@ -661,7 +664,7 @@ public class ArrowValueReaderTest {
                     (DecimalValue) decimal10.getOptionalItem().getValue());
             Assert.assertEquals("Some[558065031]", decimal10.toString());
 
-            ArrowValueReader<?> wrong = ArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
+            ApacheArrowValueReader<?> wrong = ApacheArrowValueReader.createReader(vector, PrimitiveType.Bool, true);
             assertIllegalStateException("cannot call getUuid, actual type: Bool?", wrong::getUuid);
             assertIllegalStateException("cannot call getDecimal, actual type: Bool?", wrong::getDecimal);
             assertIllegalStateException("cannot call getValue, actual type: Bool?", wrong::getValue);

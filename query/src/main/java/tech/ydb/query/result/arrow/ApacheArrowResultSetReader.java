@@ -15,14 +15,14 @@ import tech.ydb.table.values.Type;
  * @author Aleksandr Gorshenin
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
-public class ArrowResultSetReader implements ResultSetReader {
+public class ApacheArrowResultSetReader implements ResultSetReader {
     private final boolean isTruncated;
     private final VectorSchemaRoot vsr;
-    private final ArrowValueReader<?>[] readers;
+    private final ApacheArrowValueReader<?>[] readers;
     private final Map<String, Integer> columnIndexes;
     private int rowIndex = -1; // before first
 
-    public ArrowResultSetReader(VectorSchemaRoot vsr, ArrowValueReader<?>[] readers, boolean isTruncated) {
+    public ApacheArrowResultSetReader(VectorSchemaRoot vsr, ApacheArrowValueReader<?>[] readers, boolean isTruncated) {
         this.vsr = vsr;
         this.readers = readers;
         this.columnIndexes = Maps.newHashMapWithExpectedSize(readers.length);
@@ -100,7 +100,7 @@ public class ArrowResultSetReader implements ResultSetReader {
         if (index < 0 || index >= readers.length) {
             throw new IllegalArgumentException("Column index: " + index + ", columns count: " + readers.length);
         }
-        ArrowValueReader<?> reader = readers[index];
+        ApacheArrowValueReader<?> reader = readers[index];
         reader.setRowIndex(rowIndex);
         return reader;
     }

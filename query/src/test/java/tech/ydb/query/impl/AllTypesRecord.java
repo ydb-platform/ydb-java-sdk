@@ -19,7 +19,7 @@ import com.google.common.hash.Hashing;
 import org.junit.Assert;
 
 import tech.ydb.table.description.TableDescription;
-import tech.ydb.table.query.ApacheArrowWriter;
+import tech.ydb.table.query.arrow.ApacheArrowWriter;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.result.ValueReader;
 import tech.ydb.table.values.DecimalType;

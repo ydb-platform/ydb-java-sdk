@@ -2,6 +2,9 @@ package tech.ydb.query.settings;
 
 import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.query.QueryStream;
+import tech.ydb.query.result.arrow.ApacheArrowCompressedPartsHandler;
+import tech.ydb.query.result.arrow.ApacheArrowPartsHandler;
 
 /**
  *
@@ -10,7 +13,7 @@ import tech.ydb.core.settings.BaseRequestSettings;
 public class ExecuteQuerySettings extends BaseRequestSettings {
     private final QueryExecMode execMode;
     private final QueryStatsMode statsMode;
-    private final boolean useApacheArrowFormat;
+    private final ApacheArrowFormat apacheArrowFormat;
     private final boolean concurrentResultSets;
     private final String resourcePool;
     private final GrpcFlowControl flowControl;
@@ -20,7 +23,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         super(builder);
         this.execMode = builder.execMode;
         this.statsMode = builder.statsMode;
-        this.useApacheArrowFormat = builder.useApacheArrowFormat;
+        this.apacheArrowFormat = builder.apacheArrowFormat;
         this.concurrentResultSets = builder.concurrentResultSets;
         this.resourcePool = builder.resourcePool;
         this.flowControl = builder.flowControl;
@@ -35,8 +38,8 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
         return this.statsMode;
     }
 
-    public boolean isUseApacheArrowFormat() {
-        return this.useApacheArrowFormat;
+    public ApacheArrowFormat getApacheArrowFormat() {
+        return this.apacheArrowFormat;
     }
 
     public boolean isConcurrentResultSets() {
@@ -66,7 +69,7 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
     public static class Builder extends BaseBuilder<Builder> {
         private QueryExecMode execMode = QueryExecMode.EXECUTE;
         private QueryStatsMode statsMode = QueryStatsMode.NONE;
-        private boolean useApacheArrowFormat = false;
+        private ApacheArrowFormat apacheArrowFormat = null;
         private boolean concurrentResultSets = false;
         private String resourcePool = null;
         private GrpcFlowControl flowControl = null;
@@ -82,8 +85,27 @@ public class ExecuteQuerySettings extends BaseRequestSettings {
             return this;
         }
 
+        /**
+         * Use Apache Arrow format for query result set parts. <br> If this option is used application has to implement
+         * {@link QueryStream.PartsHandler#onNextRawPart(long, tech.ydb.proto.ValueProtos.ResultSet)} or use helper
+         * {@link ApacheArrowPartsHandler} for query result parts processing
+         *
+         * @return this builder
+         */
         public Builder useApacheArrowFormat() {
-            this.useApacheArrowFormat = true;
+            return useApacheArrowFormat(ApacheArrowFormat.noCompression());
+        }
+
+        /**
+         * If {@link #useApacheArrowFormat() } used, application can configure various options for Apache Arrow format,
+         * like compression codec. If custom codec was configured, application may use
+         * {@link ApacheArrowCompressedPartsHandler} for data reading and processing
+         *
+         * @param format Apache arrow format
+         * @return this builder
+         */
+        public Builder useApacheArrowFormat(ApacheArrowFormat format) {
+            this.apacheArrowFormat = format;
             return this;
         }
 

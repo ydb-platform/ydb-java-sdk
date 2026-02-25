@@ -99,7 +99,7 @@ public class ReadTableTest {
         }).collect(Collectors.toList());
 
         retryCtx.supplyStatus(session -> session.executeBulkUpsert(tablePath,
-                BulkUpsertData.fromProto(ProtoValue.toTypedValue(ListType.of(batchType).newValue(batchData)))
+                new BulkUpsertData(ProtoValue.toTypedValue(ListType.of(batchType).newValue(batchData)))
         )).join().expectSuccess("bulk upsert problem in table " + tablePath);
     }
 
