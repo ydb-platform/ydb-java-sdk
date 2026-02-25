@@ -27,6 +27,8 @@ import tech.ydb.query.QueryStream;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.result.arrow.ArrowPartsHandler;
 import tech.ydb.query.result.arrow.ArrowQueryResultPart;
+import tech.ydb.query.result.arrow.CompressedArrowPartsHandler;
+import tech.ydb.query.settings.ApacheArrowFormatMode;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableColumn;
@@ -197,7 +199,7 @@ public class ApacheArrowTest {
     }
 
     @Test
-    public void readApacheArrowDataShardsDataTest() throws Throwable {
+    public void readApacheArrowDataShardsTest() throws Throwable {
         BatchAssert ba = new BatchAssert(ROW_TABLE, ROW_BATCH);
         String query = selectTableYql(ROW_TABLE_NAME);
         ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder().useApacheArrowFormat().build();
@@ -217,7 +219,30 @@ public class ApacheArrowTest {
     }
 
     @Test
-    public void readApacheArrowColumnShardsDataTest() throws Throwable {
+    public void readApacheArrowLz4DataShardsTest() throws Throwable {
+        BatchAssert ba = new BatchAssert(ROW_TABLE, ROW_BATCH);
+        String query = selectTableYql(ROW_TABLE_NAME);
+        ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                .useApacheArrowFormat()
+                .withApacheArrowFormatMode(ApacheArrowFormatMode.lz4Frame())
+                .build();
+
+        try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
+            assertStatusOK(stream.execute(new CompressedArrowPartsHandler(allocator) {
+                @Override
+                public void onNextPart(QueryResultPart part) {
+                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertEquals(0, part.getResultSetIndex());
+                    ba.assertResultSetReader(part.getResultSetReader());
+                }
+            }).join().getStatus());
+            ba.assertFinish();
+        }
+    }
+
+    @Test
+    public void readApacheArrowColumnShardsTest() throws Throwable {
         BatchAssert ba = new BatchAssert(COLUMN_TABLE, COLUMN_BATCH);
         String query = selectTableYql(COLUMN_TABLE_NAME);
         ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder().useApacheArrowFormat().build();
@@ -237,7 +262,53 @@ public class ApacheArrowTest {
     }
 
     @Test
-    public void copyTableTest() throws Throwable {
+    public void readApacheArrowZstdColumnShardsTest() throws Throwable {
+        BatchAssert ba = new BatchAssert(COLUMN_TABLE, COLUMN_BATCH);
+        String query = selectTableYql(COLUMN_TABLE_NAME);
+        ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                .useApacheArrowFormat()
+                .withApacheArrowFormatMode(ApacheArrowFormatMode.zstd())
+                .build();
+
+        try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
+            assertStatusOK(stream.execute(new CompressedArrowPartsHandler(allocator) {
+                @Override
+                public void onNextPart(QueryResultPart part) {
+                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertEquals(0, part.getResultSetIndex());
+                    ba.assertResultSetReader(part.getResultSetReader());
+                }
+            }).join().getStatus());
+            ba.assertFinish();
+        }
+    }
+
+    @Test
+    public void readApacheArrowZstd9ColumnShardsDataTest() throws Throwable {
+        BatchAssert ba = new BatchAssert(COLUMN_TABLE, COLUMN_BATCH);
+        String query = selectTableYql(COLUMN_TABLE_NAME);
+        ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                .useApacheArrowFormat()
+                .withApacheArrowFormatMode(ApacheArrowFormatMode.zstd(9))
+                .build();
+
+        try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
+            assertStatusOK(stream.execute(new CompressedArrowPartsHandler(allocator) {
+                @Override
+                public void onNextPart(QueryResultPart part) {
+                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertEquals(0, part.getResultSetIndex());
+                    ba.assertResultSetReader(part.getResultSetReader());
+                }
+            }).join().getStatus());
+            ba.assertFinish();
+        }
+    }
+
+    @Test
+    public void binaryCopyTableTest() throws Throwable {
         BatchAssert ba = new BatchAssert(ROW_TABLE, ROW_BATCH);
 
         String newTablePath = tablePath(ROW_TABLE_NAME + "_copy");
@@ -260,6 +331,51 @@ public class ApacheArrowTest {
                     Assert.assertTrue(rs.hasArrowFormatMeta());
                     ByteString schema = rs.getArrowFormatMeta().getSchema();
                     ApacheArrowData data = new ApacheArrowData(schema, rs.getData());
+
+                    retryCtx.supplyStatus(session -> session.executeBulkUpsert(newTablePath, data))
+                            .join().expectSuccess("cannot execute bulk upsert");
+                }
+            }).join().getStatus());
+
+            // check data in the copied table
+            assertStatusOK(session
+                    .createQuery(selectTableYql(newTablePath), TxMode.SNAPSHOT_RO)
+                    .execute(part -> ba.assertResultSetReader(part.getResultSetReader()))
+                    .join().getStatus());
+            ba.assertFinish();
+        } finally {
+            dropTable(newTablePath);
+        }
+    }
+
+    @Test
+    public void binaryLz4CopyTableTest() throws Throwable {
+        BatchAssert ba = new BatchAssert(COLUMN_TABLE, COLUMN_BATCH);
+
+        String newTablePath = tablePath(COLUMN_TABLE_NAME + "_lz4_copy");
+        retryCtx.supplyStatus(session -> session.createTable(newTablePath, COLUMN_TABLE)).join()
+                .expectSuccess("cannot create table " + newTablePath);
+
+        try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            // binary copy COLUMN_TABLE to newTableName
+            String query = selectTableYql(COLUMN_TABLE_NAME);
+            ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
+                    .useApacheArrowFormat()
+                    .withApacheArrowFormatMode(ApacheArrowFormatMode.lz4Frame())
+                    .build();
+            QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
+            assertStatusOK(stream.execute(new QueryStream.PartsHandler() {
+                @Override
+                public void onNextPart(QueryResultPart part) {
+                    // not used
+                }
+
+                @Override
+                public void onNextRawPart(long index, ValueProtos.ResultSet rs) {
+                    Assert.assertTrue(rs.hasArrowFormatMeta());
+                    ByteString schema = rs.getArrowFormatMeta().getSchema();
+                    ApacheArrowData data = new ApacheArrowData(schema, rs.getData());
+
                     retryCtx.supplyStatus(session -> session.executeBulkUpsert(newTablePath, data))
                             .join().expectSuccess("cannot execute bulk upsert");
                 }

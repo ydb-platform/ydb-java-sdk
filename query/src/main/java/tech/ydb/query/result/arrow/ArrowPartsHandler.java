@@ -49,11 +49,15 @@ public abstract class ArrowPartsHandler implements QueryStream.PartsHandler {
         }
     }
 
+    protected VectorLoader createLoader(VectorSchemaRoot vsr) {
+        return new VectorLoader(vsr);
+    }
+
     private void loadApacheArrowVector(VectorSchemaRoot vsr, ByteString bytes) throws IOException {
         try (InputStream is = bytes.newInput()) {
             try (ReadChannel channel = new ReadChannel(Channels.newChannel(is))) {
                 try (ArrowRecordBatch batch = MessageSerializer.deserializeRecordBatch(channel, allocator)) {
-                    VectorLoader loader = new VectorLoader(vsr);
+                    VectorLoader loader = createLoader(vsr);
                     loader.load(batch);
                 }
             }
