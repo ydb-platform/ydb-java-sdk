@@ -47,9 +47,9 @@ public class ArrowResultSetReaderTest {
         BigIntVector col2 = new BigIntVector("col2", FieldType.nullable(new ArrowType.Int(64, true)), allocator);
 
         try (VectorSchemaRoot vsr = VectorSchemaRoot.of(col1, col2)) {
-            ArrowValueReader<?> r1 = ArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
-            ArrowValueReader<?> r2 = ArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
-            ArrowResultSetReader rs = new ArrowResultSetReader(vsr, new ArrowValueReader<?>[] { r2, r1 }, true);
+            ApacheArrowValueReader<?> r1 = ApacheArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
+            ApacheArrowValueReader<?> r2 = ApacheArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
+            ApacheArrowResultSetReader rs = new ApacheArrowResultSetReader(vsr, new ApacheArrowValueReader<?>[] { r2, r1 }, true);
 
             Assert.assertTrue(rs.isTruncated());
             Assert.assertEquals(2, rs.getColumnCount());
@@ -95,9 +95,9 @@ public class ArrowResultSetReaderTest {
         try (VectorSchemaRoot vsr = VectorSchemaRoot.of(col1, col2)) {
             vsr.setRowCount(3);
 
-            ArrowValueReader<?> r1 = ArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
-            ArrowValueReader<?> r2 = ArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
-            ArrowResultSetReader rs = new ArrowResultSetReader(vsr, new ArrowValueReader<?>[] { r1, r2 }, false);
+            ApacheArrowValueReader<?> r1 = ApacheArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
+            ApacheArrowValueReader<?> r2 = ApacheArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
+            ApacheArrowResultSetReader rs = new ApacheArrowResultSetReader(vsr, new ApacheArrowValueReader<?>[] { r1, r2 }, false);
 
             Assert.assertFalse(rs.isTruncated());
             Assert.assertEquals(3, rs.getRowCount());
@@ -153,9 +153,9 @@ public class ArrowResultSetReaderTest {
         try (VectorSchemaRoot vsr = VectorSchemaRoot.of(col1, col2)) {
             vsr.setRowCount(3);
 
-            ArrowValueReader<?> r1 = ArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
-            ArrowValueReader<?> r2 = ArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
-            ArrowResultSetReader rs = new ArrowResultSetReader(vsr, new ArrowValueReader<?>[] { r1, r2 }, false);
+            ApacheArrowValueReader<?> r1 = ApacheArrowValueReader.createReader(col1, PrimitiveType.Int32, true);
+            ApacheArrowValueReader<?> r2 = ApacheArrowValueReader.createReader(col2, PrimitiveType.Int64, true);
+            ApacheArrowResultSetReader rs = new ApacheArrowResultSetReader(vsr, new ApacheArrowValueReader<?>[] { r1, r2 }, false);
 
             Assert.assertFalse(rs.isTruncated());
             Assert.assertEquals(3, rs.getRowCount());

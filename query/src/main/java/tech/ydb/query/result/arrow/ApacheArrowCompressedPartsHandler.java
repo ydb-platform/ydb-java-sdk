@@ -11,8 +11,8 @@ import org.apache.arrow.vector.VectorSchemaRoot;
  * @author Aleksandr Gorshenin
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
-public abstract class CompressedArrowPartsHandler extends ArrowPartsHandler {
-    public CompressedArrowPartsHandler(RootAllocator allocator) {
+public abstract class ApacheArrowCompressedPartsHandler extends ApacheArrowPartsHandler {
+    public ApacheArrowCompressedPartsHandler(RootAllocator allocator) {
         super(allocator);
     }
 

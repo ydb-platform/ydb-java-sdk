@@ -17,21 +17,22 @@ import tech.ydb.table.values.Type;
  * @author Aleksandr Gorshenin
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
-public class ArrowQueryResultPart extends QueryResultPart  {
-    private final ArrowResultSetReader resultSetReader;
+public class ApacheArrowQueryResultPart extends QueryResultPart  {
+    private final ApacheArrowResultSetReader resultSetReader;
 
-    public ArrowQueryResultPart(long index, VectorSchemaRoot vsr, List<ValueProtos.Column> columns, boolean truncated) {
+    public ApacheArrowQueryResultPart(long index, VectorSchemaRoot vsr, List<ValueProtos.Column> columns,
+            boolean isTruncated) {
         super(index, null);
 
-        ArrowValueReader<?>[] readers = new ArrowValueReader<?>[columns.size()];
+        ApacheArrowValueReader<?>[] readers = new ApacheArrowValueReader<?>[columns.size()];
         for (int idx = 0; idx < columns.size(); idx += 1) {
             ValueProtos.Column column = columns.get(idx);
             Type type = validateType(column.getType());
             boolean optional = column.getType().hasOptionalType();
-            readers[idx] = ArrowValueReader.createReader(vsr.getVector(column.getName()), type, optional);
+            readers[idx] = ApacheArrowValueReader.createReader(vsr.getVector(column.getName()), type, optional);
         }
 
-        this.resultSetReader = new ArrowResultSetReader(vsr, readers, truncated);
+        this.resultSetReader = new ApacheArrowResultSetReader(vsr, readers, isTruncated);
     }
 
     @Override

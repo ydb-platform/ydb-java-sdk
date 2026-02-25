@@ -25,10 +25,10 @@ import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.result.QueryResultPart;
-import tech.ydb.query.result.arrow.ArrowPartsHandler;
-import tech.ydb.query.result.arrow.ArrowQueryResultPart;
-import tech.ydb.query.result.arrow.CompressedArrowPartsHandler;
-import tech.ydb.query.settings.ApacheArrowFormatMode;
+import tech.ydb.query.result.arrow.ApacheArrowCompressedPartsHandler;
+import tech.ydb.query.result.arrow.ApacheArrowPartsHandler;
+import tech.ydb.query.result.arrow.ApacheArrowQueryResultPart;
+import tech.ydb.query.settings.ApacheArrowFormat;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.TableColumn;
@@ -167,10 +167,10 @@ public class ApacheArrowTest {
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             // Execute query without ApacheArrow (or if server doesn't support it)
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO);
-            assertStatusOK(stream.execute(new ArrowPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ApacheArrowPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertFalse(part instanceof ArrowQueryResultPart);
+                    Assert.assertFalse(part instanceof ApacheArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -189,7 +189,7 @@ public class ApacheArrowTest {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
 
             assertIllegalStateExceptionFuture("Unsupported type for ApacheArrow reader: type_id: TZ_TIMESTAMP\n",
-                    stream.execute(new ArrowPartsHandler(allocator) {
+                    stream.execute(new ApacheArrowPartsHandler(allocator) {
                         @Override
                         public void onNextPart(QueryResultPart part) {
                             // not called
@@ -206,10 +206,10 @@ public class ApacheArrowTest {
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new ArrowPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ApacheArrowPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertTrue(part instanceof ApacheArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -223,16 +223,15 @@ public class ApacheArrowTest {
         BatchAssert ba = new BatchAssert(ROW_TABLE, ROW_BATCH);
         String query = selectTableYql(ROW_TABLE_NAME);
         ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
-                .useApacheArrowFormat()
-                .withApacheArrowFormatMode(ApacheArrowFormatMode.lz4Frame())
+                .useApacheArrowFormat(ApacheArrowFormat.lz4Frame())
                 .build();
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new CompressedArrowPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ApacheArrowCompressedPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertTrue(part instanceof ApacheArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -249,10 +248,10 @@ public class ApacheArrowTest {
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new ArrowPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ApacheArrowPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertTrue(part instanceof ApacheArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -266,16 +265,15 @@ public class ApacheArrowTest {
         BatchAssert ba = new BatchAssert(COLUMN_TABLE, COLUMN_BATCH);
         String query = selectTableYql(COLUMN_TABLE_NAME);
         ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
-                .useApacheArrowFormat()
-                .withApacheArrowFormatMode(ApacheArrowFormatMode.zstd())
+                .useApacheArrowFormat(ApacheArrowFormat.zstd())
                 .build();
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new CompressedArrowPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ApacheArrowCompressedPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertTrue(part instanceof ApacheArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -289,16 +287,15 @@ public class ApacheArrowTest {
         BatchAssert ba = new BatchAssert(COLUMN_TABLE, COLUMN_BATCH);
         String query = selectTableYql(COLUMN_TABLE_NAME);
         ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
-                .useApacheArrowFormat()
-                .withApacheArrowFormatMode(ApacheArrowFormatMode.zstd(9))
+                .useApacheArrowFormat(ApacheArrowFormat.zstd(9))
                 .build();
 
         try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
-            assertStatusOK(stream.execute(new CompressedArrowPartsHandler(allocator) {
+            assertStatusOK(stream.execute(new ApacheArrowCompressedPartsHandler(allocator) {
                 @Override
                 public void onNextPart(QueryResultPart part) {
-                    Assert.assertTrue(part instanceof ArrowQueryResultPart);
+                    Assert.assertTrue(part instanceof ApacheArrowQueryResultPart);
                     Assert.assertEquals(0, part.getResultSetIndex());
                     ba.assertResultSetReader(part.getResultSetReader());
                 }
@@ -360,8 +357,7 @@ public class ApacheArrowTest {
             // binary copy COLUMN_TABLE to newTableName
             String query = selectTableYql(COLUMN_TABLE_NAME);
             ExecuteQuerySettings settings = ExecuteQuerySettings.newBuilder()
-                    .useApacheArrowFormat()
-                    .withApacheArrowFormatMode(ApacheArrowFormatMode.lz4Frame())
+                    .useApacheArrowFormat(ApacheArrowFormat.lz4Frame())
                     .build();
             QueryStream stream = session.createQuery(query, TxMode.SNAPSHOT_RO, Params.empty(), settings);
             assertStatusOK(stream.execute(new QueryStream.PartsHandler() {

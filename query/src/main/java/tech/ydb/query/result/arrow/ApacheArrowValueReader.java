@@ -45,13 +45,13 @@ import tech.ydb.table.values.Value;
  * @param <T> type of FieldVector
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
-public abstract class ArrowValueReader<T extends FieldVector> implements ValueReader {
+public abstract class ApacheArrowValueReader<T extends FieldVector> implements ValueReader {
     protected final Type type;
     protected final boolean isNullable;
     protected final T vector;
     protected int rowIndex;
 
-    protected ArrowValueReader(T vector, Type type, boolean isNullable) {
+    protected ApacheArrowValueReader(T vector, Type type, boolean isNullable) {
         this.vector = vector;
         this.type = type;
         this.isNullable = isNullable;
@@ -62,7 +62,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         return new IllegalStateException("cannot call " + method + ", actual type: " + getType());
     }
 
-    protected abstract ArrowValueReader<T> toNotNull();
+    protected abstract ApacheArrowValueReader<T> toNotNull();
     protected abstract Value<?> getNotNullValue();
     protected abstract String getNotNullValueAsString();
 
@@ -102,7 +102,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         if (vector.isNull(rowIndex)) {
             return null;
         }
-        ArrowValueReader<T> notNull = toNotNull();
+        ApacheArrowValueReader<T> notNull = toNotNull();
         notNull.setRowIndex(rowIndex);
         return notNull;
     }
@@ -348,7 +348,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         throw error("getVariantItem");
     }
 
-    private static class UInt1VectorReader extends ArrowValueReader<UInt1Vector> {
+    private static class UInt1VectorReader extends ApacheArrowValueReader<UInt1Vector> {
         UInt1VectorReader(UInt1Vector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -398,7 +398,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class UInt2VectorReader extends ArrowValueReader<UInt2Vector> {
+    private static class UInt2VectorReader extends ApacheArrowValueReader<UInt2Vector> {
         UInt2VectorReader(UInt2Vector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -448,7 +448,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class UInt4VectorReader extends ArrowValueReader<UInt4Vector> {
+    private static class UInt4VectorReader extends ApacheArrowValueReader<UInt4Vector> {
         UInt4VectorReader(UInt4Vector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -497,7 +497,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class UInt8VectorReader extends ArrowValueReader<UInt8Vector> {
+    private static class UInt8VectorReader extends ApacheArrowValueReader<UInt8Vector> {
         UInt8VectorReader(UInt8Vector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -549,7 +549,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class TinyIntVectorReader extends ArrowValueReader<TinyIntVector> {
+    private static class TinyIntVectorReader extends ApacheArrowValueReader<TinyIntVector> {
         TinyIntVectorReader(TinyIntVector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -584,7 +584,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class SmallIntVectorReader extends ArrowValueReader<SmallIntVector> {
+    private static class SmallIntVectorReader extends ApacheArrowValueReader<SmallIntVector> {
         SmallIntVectorReader(SmallIntVector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -619,7 +619,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class IntVectorReader extends ArrowValueReader<IntVector> {
+    private static class IntVectorReader extends ApacheArrowValueReader<IntVector> {
         IntVectorReader(IntVector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -668,7 +668,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class BigIntVectorReader extends ArrowValueReader<BigIntVector> {
+    private static class BigIntVectorReader extends ApacheArrowValueReader<BigIntVector> {
         BigIntVectorReader(BigIntVector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -762,7 +762,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class FloatVectorReader extends ArrowValueReader<Float4Vector> {
+    private static class FloatVectorReader extends ApacheArrowValueReader<Float4Vector> {
         FloatVectorReader(Float4Vector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -797,7 +797,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class DoubleVectorReader extends ArrowValueReader<Float8Vector> {
+    private static class DoubleVectorReader extends ApacheArrowValueReader<Float8Vector> {
         DoubleVectorReader(Float8Vector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -832,7 +832,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class VarCharVectorReader extends ArrowValueReader<VarCharVector> {
+    private static class VarCharVectorReader extends ApacheArrowValueReader<VarCharVector> {
         VarCharVectorReader(VarCharVector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -895,7 +895,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class VarBinaryVectorReader extends ArrowValueReader<VarBinaryVector> {
+    private static class VarBinaryVectorReader extends ApacheArrowValueReader<VarBinaryVector> {
         VarBinaryVectorReader(VarBinaryVector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -952,7 +952,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    private static class FixedSizeBinaryVectorReader extends ArrowValueReader<FixedSizeBinaryVector> {
+    private static class FixedSizeBinaryVectorReader extends ApacheArrowValueReader<FixedSizeBinaryVector> {
         FixedSizeBinaryVectorReader(FixedSizeBinaryVector vector, Type type, boolean isNullable) {
             super(vector, type, isNullable);
         }
@@ -1013,7 +1013,7 @@ public abstract class ArrowValueReader<T extends FieldVector> implements ValueRe
         }
     }
 
-    public static ArrowValueReader<?> createReader(FieldVector vector, Type type, boolean optional) {
+    public static ApacheArrowValueReader<?> createReader(FieldVector vector, Type type, boolean optional) {
         switch (vector.getClass().getSimpleName()) {
             case "UInt1Vector": return new UInt1VectorReader((UInt1Vector) vector, type, optional);
             case "UInt2Vector": return new UInt2VectorReader((UInt2Vector) vector, type, optional);

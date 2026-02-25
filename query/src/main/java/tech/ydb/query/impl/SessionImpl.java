@@ -34,7 +34,7 @@ import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryStats;
-import tech.ydb.query.settings.ApacheArrowFormatMode;
+import tech.ydb.query.settings.ApacheArrowFormat;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.BeginTransactionSettings;
 import tech.ydb.query.settings.CommitTransactionSettings;
@@ -206,7 +206,7 @@ abstract class SessionImpl implements QuerySession {
         }
     }
 
-    private static YdbFormats.ArrowFormatSettings mapApacheArrowFormat(ApacheArrowFormatMode mode) {
+    private static YdbFormats.ArrowFormatSettings mapApacheArrowFormat(ApacheArrowFormat mode) {
         YdbFormats.ArrowFormatSettings.CompressionCodec.Builder codecBuilder = YdbFormats.ArrowFormatSettings
                 .CompressionCodec.newBuilder();
 
@@ -230,15 +230,10 @@ abstract class SessionImpl implements QuerySession {
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
             String query, YdbQuery.TransactionControl tx, Params prms, ExecuteQuerySettings settings
     ) {
-        ValueProtos.ResultSet.Format format = settings.isUseApacheArrowFormat() ?
-                ValueProtos.ResultSet.Format.FORMAT_ARROW :
-                ValueProtos.ResultSet.Format.FORMAT_VALUE;
-
         YdbQuery.ExecuteQueryRequest.Builder request = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(sessionId)
                 .setExecMode(mapExecMode(settings.getExecMode()))
                 .setStatsMode(mapStatsMode(settings.getStatsMode()))
-                .setResultSetFormat(format)
                 .setConcurrentResultSets(settings.isConcurrentResultSets())
                 .setQueryContent(YdbQuery.QueryContent.newBuilder()
                         .setSyntax(YdbQuery.Syntax.SYNTAX_YQL_V1)
@@ -247,8 +242,9 @@ abstract class SessionImpl implements QuerySession {
                 )
                 .putAllParameters(prms.toPb());
 
-        if (settings.isUseApacheArrowFormat() && settings.getApacheArrowFormatMode() != null) {
-            request.setArrowFormatSettings(mapApacheArrowFormat(settings.getApacheArrowFormatMode()));
+        if (settings.getApacheArrowFormat() != null) {
+            request.setResultSetFormat(ValueProtos.ResultSet.Format.FORMAT_ARROW)
+                    .setArrowFormatSettings(mapApacheArrowFormat(settings.getApacheArrowFormat()));
         }
 
         String resourcePool = settings.getResourcePool();
