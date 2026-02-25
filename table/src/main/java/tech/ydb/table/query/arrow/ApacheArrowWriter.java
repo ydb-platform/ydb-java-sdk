@@ -39,6 +39,7 @@ import org.apache.arrow.vector.types.FloatingPointPrecision;
 import org.apache.arrow.vector.types.TimeUnit;
 import org.apache.arrow.vector.types.pojo.ArrowType;
 import org.apache.arrow.vector.types.pojo.Field;
+import org.apache.arrow.vector.types.pojo.FieldType;
 
 import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.DecimalValue;
@@ -327,15 +328,8 @@ public class ApacheArrowWriter implements AutoCloseable {
             return new IllegalStateException("cannot call " + method + ", actual type: " + type);
         }
 
-        public abstract void allocateNew(int estimated);
-
-        void writeNull(int rowIndex) {
-            if (field.isNullable()) {
-                vector.setNull(rowIndex);
-            } else {
-                throw error("writeNull");
-            }
-        }
+        abstract void allocateNew(int estimated);
+        abstract void writeNull(int rowIndex);
 
         void writeBool(int rowIndex, boolean value) {
             throw error("writeBool");
@@ -452,6 +446,15 @@ public class ApacheArrowWriter implements AutoCloseable {
         public void allocateNew(int estimated) {
             vector.allocateNew(estimated);
         }
+
+        @Override
+        void writeNull(int rowIndex) {
+            if (field.isNullable()) {
+                vector.setNull(rowIndex);
+            } else {
+                throw error("writeNull");
+            }
+        }
     }
 
     private static class VariableWidthColumn<T extends BaseVariableWidthVector> extends Column<T> {
@@ -463,6 +466,15 @@ public class ApacheArrowWriter implements AutoCloseable {
         @Override
         public void allocateNew(int estimated) {
             vector.allocateNew(estimated);
+        }
+
+        @Override
+        void writeNull(int rowIndex) {
+            if (field.isNullable()) {
+                vector.setNull(rowIndex);
+            } else {
+                throw error("writeNull");
+            }
         }
     }
 
@@ -767,7 +779,7 @@ public class ApacheArrowWriter implements AutoCloseable {
                 return createColumnVector(allocator, type.unwrapOptional(), t -> Field.nullable(name, t));
             }
 
-            return createColumnVector(allocator, type, t -> Field.notNullable(name, t));
+            return createColumnVector(allocator, type, t -> new Field(name, new FieldType(false, t, null, null), null));
         }
     }
 

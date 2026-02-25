@@ -1,8 +1,5 @@
 package tech.ydb.table.query.arrow;
 
-import tech.ydb.table.query.arrow.ApacheArrowData;
-import tech.ydb.table.query.arrow.ApacheArrowWriter;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.channels.Channels;

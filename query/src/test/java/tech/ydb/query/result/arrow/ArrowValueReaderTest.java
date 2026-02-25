@@ -26,6 +26,7 @@ import org.apache.arrow.vector.complex.ListVector;
 import org.apache.arrow.vector.types.FloatingPointPrecision;
 import org.apache.arrow.vector.types.pojo.ArrowType;
 import org.apache.arrow.vector.types.pojo.Field;
+import org.apache.arrow.vector.types.pojo.FieldType;
 import org.apache.arrow.vector.util.Text;
 import org.junit.After;
 import org.junit.Assert;
@@ -73,7 +74,8 @@ public class ArrowValueReaderTest {
 
     @Test
     public void fieldVectorTest() {
-        try (UInt1Vector vector = new UInt1Vector(Field.notNullable("test", new ArrowType.Int(8, false)), allocator)) {
+        Field field = new Field("test", new FieldType(false, new ArrowType.Int(8, false), null, null), null);
+        try (UInt1Vector vector = new UInt1Vector(field, allocator)) {
             vector.allocateNew(1);
             vector.set(0, 0);
 
@@ -227,7 +229,8 @@ public class ArrowValueReaderTest {
 
     @Test
     public void uint1VectorTest() {
-        try (UInt1Vector vector = new UInt1Vector(Field.notNullable("test", new ArrowType.Int(8, false)), allocator)) {
+        Field field = new Field("test", new FieldType(false, new ArrowType.Int(8, false), null, null), null);
+        try (UInt1Vector vector = new UInt1Vector(field, allocator)) {
             vector.allocateNew(1);
             vector.set(0, 123);
 
