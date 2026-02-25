@@ -45,7 +45,7 @@ public class Consumer {
         this.readFrom = ProtobufUtils.protoToInstant(consumer.getReadFrom());
         this.supportedCodecs = new ArrayList<>(consumer.getSupportedCodecs().getCodecsList());
         this.attributes = consumer.getAttributesMap();
-        this.stats = new ConsumerStats(consumer.getConsumerStats());
+        this.stats = consumer.hasConsumerStats() ? new ConsumerStats(consumer.getConsumerStats()) : null;
         this.availabilityPeriod = consumer.hasAvailabilityPeriod() ?
                 ProtobufUtils.protoToDuration(consumer.getAvailabilityPeriod()) : null;
     }

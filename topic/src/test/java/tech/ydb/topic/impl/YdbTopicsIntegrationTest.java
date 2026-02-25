@@ -315,8 +315,7 @@ public class YdbTopicsIntegrationTest {
         Assert.assertNotNull(withStats.getTopicStats());
 
         for (Consumer consumer: withoutStats.getConsumers()) {
-            // TODO: fix it, must be null
-            Assert.assertNotNull(consumer.getStats());
+            Assert.assertNull(consumer.getStats());
             Assert.assertNull(consumer.getAvailabilityPeriod());
         }
         for (Consumer consumer: withStats.getConsumers()) {
@@ -325,8 +324,7 @@ public class YdbTopicsIntegrationTest {
         }
 
         for (PartitionInfo partition: withoutStats.getPartitions()) {
-            // TODO: fix it, must be null
-            Assert.assertNotNull(partition.getPartitionStats());
+            Assert.assertNull(partition.getPartitionStats());
         }
         for (PartitionInfo partition: withStats.getPartitions()) {
             Assert.assertNotNull(partition.getPartitionStats());
