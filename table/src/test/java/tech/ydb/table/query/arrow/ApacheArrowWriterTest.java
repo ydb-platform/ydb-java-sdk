@@ -11,11 +11,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.google.protobuf.ByteString;
+import org.apache.arrow.compression.CommonsCompressionFactory;
 import org.apache.arrow.memory.RootAllocator;
 import org.apache.arrow.vector.IntVector;
 import org.apache.arrow.vector.VarCharVector;
 import org.apache.arrow.vector.VectorLoader;
 import org.apache.arrow.vector.VectorSchemaRoot;
+import org.apache.arrow.vector.compression.CompressionCodec;
+import org.apache.arrow.vector.compression.CompressionUtil;
 import org.apache.arrow.vector.ipc.ReadChannel;
 import org.apache.arrow.vector.ipc.message.ArrowRecordBatch;
 import org.apache.arrow.vector.ipc.message.MessageSerializer;
@@ -57,6 +60,24 @@ public class ApacheArrowWriterTest {
     @AfterClass
     public static void cleanAllocator() {
         allocator.close();
+    }
+
+    @Test
+    public void zstdCompressionTest() throws IOException {
+        String value = "01234567890123456789012345678901234567890123456789012345678901234567890123456789";
+
+        try (ApacheArrowWriter writer = ApacheArrowWriter.newSchema().addColumn("text", PrimitiveType.Text)
+                .createWriter(allocator)) {
+            ApacheArrowWriter.Batch batch = writer.createNewBatch(1);
+            batch.writeNextRow().writeText("text", value);
+
+            CompressionCodec codec = CommonsCompressionFactory.INSTANCE.createCodec(CompressionUtil.CodecType.LZ4_FRAME);
+            ApacheArrowData uncompressed = batch.buildBatch();
+            ApacheArrowData compressed = batch.buildBatch(codec);
+
+            Assert.assertEquals(uncompressed.getSchema(), compressed.getSchema());
+            Assert.assertNotEquals(uncompressed.getData(), compressed.getData());
+        }
     }
 
     @Test

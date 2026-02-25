@@ -32,6 +32,8 @@ import org.apache.arrow.vector.VarBinaryVector;
 import org.apache.arrow.vector.VarCharVector;
 import org.apache.arrow.vector.VectorSchemaRoot;
 import org.apache.arrow.vector.VectorUnloader;
+import org.apache.arrow.vector.compression.CompressionCodec;
+import org.apache.arrow.vector.compression.NoCompressionCodec;
 import org.apache.arrow.vector.ipc.WriteChannel;
 import org.apache.arrow.vector.ipc.message.ArrowRecordBatch;
 import org.apache.arrow.vector.ipc.message.MessageSerializer;
@@ -55,7 +57,11 @@ public class ApacheArrowWriter implements AutoCloseable {
     public interface Batch {
         Row writeNextRow();
 
-        ApacheArrowData buildBatch() throws IOException;
+        ApacheArrowData buildBatch(CompressionCodec codec) throws IOException;
+
+        default ApacheArrowData buildBatch() throws IOException {
+            return buildBatch(NoCompressionCodec.INSTANCE);
+        }
     }
 
     public interface Row {
@@ -135,9 +141,9 @@ public class ApacheArrowWriter implements AutoCloseable {
         }
 
         @Override
-        public ApacheArrowData buildBatch() throws IOException {
+        public ApacheArrowData buildBatch(CompressionCodec codec) throws IOException {
             vsr.setRowCount(rowIndex);
-            return new ApacheArrowData(serializeSchema(), serializeBatch());
+            return new ApacheArrowData(serializeSchema(), serializeBatch(codec));
         }
 
         private ByteString serializeSchema() throws IOException {
@@ -149,10 +155,10 @@ public class ApacheArrowWriter implements AutoCloseable {
             }
         }
 
-        private ByteString serializeBatch() throws IOException {
+        private ByteString serializeBatch(CompressionCodec codec) throws IOException {
             try (ByteString.Output out = ByteString.newOutput()) {
                 try (WriteChannel channel = new WriteChannel(Channels.newChannel(out))) {
-                    VectorUnloader loader = new VectorUnloader(vsr);
+                    VectorUnloader loader = new VectorUnloader(vsr, true, codec, true);
                     try (ArrowRecordBatch batch = loader.getRecordBatch()) {
                         MessageSerializer.serialize(channel, batch);
                         return out.toByteString();
