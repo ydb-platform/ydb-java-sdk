@@ -8,7 +8,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
-import tech.ydb.observability.YdbTracing;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -35,9 +34,7 @@ public class PooledTableClient implements TableClient {
 
     @Override
     public CompletableFuture<Result<Session>> createSession(Duration timeout) {
-        return YdbTracing.global().traceAsync("CreateSession", null, null,
-                () -> pool.acquire(timeout)
-        );
+        return pool.acquire(timeout);
     }
 
     @Override

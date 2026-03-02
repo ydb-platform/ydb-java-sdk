@@ -60,12 +60,6 @@
             <artifactId>arrow-compression</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>tech.ydb</groupId>
-            <artifactId>ydb-sdk-observability</artifactId>
-            <version>${project.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

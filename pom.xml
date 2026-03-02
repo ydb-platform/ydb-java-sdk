@@ -29,7 +29,6 @@
         <module>tests/junit4-support</module>
         <module>tests/junit5-support</module>
         <module>auth-providers/oauth2-provider</module>
-        <module>observability</module>
     </modules>
 
     <properties>

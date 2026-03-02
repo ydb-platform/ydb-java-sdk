@@ -6,7 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
-import tech.ydb.observability.YdbTracing;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.rpc.TableRpc;
@@ -28,14 +27,10 @@ public class SimpleTableClient implements SessionSupplier {
 
     @Override
     public CompletableFuture<Result<Session>> createSession(Duration duration) {
-        return YdbTracing.global().traceAsync("CreateSession", null, null,
-                () -> {
-                    CreateSessionSettings settings = new CreateSessionSettings()
-                            .setTimeout(duration);
-                    return BaseSession.createSessionId(tableRpc, settings, false)
-                            .thenApply(response -> response.map(SimpleSession::new));
-                }
-        );
+        CreateSessionSettings settings = new CreateSessionSettings()
+                .setTimeout(duration);
+        return BaseSession.createSessionId(tableRpc, settings, false)
+                .thenApply(response -> response.map(SimpleSession::new));
     }
 
     @Override

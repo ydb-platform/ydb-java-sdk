@@ -4,8 +4,9 @@ import java.util.Objects;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
-import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.trace.StatusCode;
 
+import tech.ydb.core.Status;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
 import tech.ydb.core.tracing.Tracer;
@@ -57,29 +58,31 @@ public final class OpenTelemetryTracer implements Tracer {
 
         @Override
         public String getId() {
-            return span.getSpanContext().getSpanId();
+            return "00-" + span.getSpanContext().getTraceId() + "-" + span.getSpanContext().getSpanId() + "01";
         }
 
         @Override
         public void setAttribute(String key, String value) {
-            if (key != null && value != null) {
-                span.setAttribute(AttributeKey.stringKey(key), value);
-            }
+            span.setAttribute(key, value);
         }
 
         @Override
         public void setAttribute(String key, long value) {
-            if (key != null) {
-                span.setAttribute(AttributeKey.longKey(key), value);
-            }
+            span.setAttribute(key, value);
         }
 
         @Override
-        public Span recordException(Throwable error) {
-            if (error != null) {
-                span.recordException(error);
-            }
-            return this;
+        public void setError(Status status) {
+            span.setAttribute("db.response.status_code", status.getCode().toString());
+            span.setAttribute("error.type", status.getCode().isTransportError() ? "transport_error" : "ydb_error");
+
+            span.setStatus(StatusCode.ERROR, status.toString());
+        }
+
+        @Override
+        public void setError(Throwable error) {
+            span.setAttribute("error.type", error.getClass().getName());
+            span.setStatus(StatusCode.ERROR, error.getMessage());
         }
 
         @Override

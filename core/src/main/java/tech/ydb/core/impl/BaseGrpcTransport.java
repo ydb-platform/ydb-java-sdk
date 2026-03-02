@@ -214,7 +214,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             Metadata metadata = makeMetadataFromSettings(settings, endpoint);
             GrpcFlowControl flowCtrl = settings.getFlowControl();
-            return new ReadWriteStreamCall<>(traceId, endpoint.getHostAndPort(), call, flowCtrl, metadata, getAuthCallOptions(), hdlr);
+            return new ReadWriteStreamCall<>(
+                    traceId, endpoint.getHostAndPort(), call, flowCtrl, metadata, getAuthCallOptions(), hdlr
+            );
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadWriteStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -251,8 +253,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
             settings.getClientCapabilities().forEach(name -> metadata.put(YdbHeaders.YDB_CLIENT_CAPABILITIES, name));
         }
 
-        if (settings.getSpan() != null) {
-            Span span = settings.getSpan();
+        Span span = settings.getSpan();
+        if (span != null) {
             span.setAttribute("db.system.name", "ydb");
             span.setAttribute("db.namespace", getDatabase());
             span.setAttribute("server.address", serverEndpoint.getHost());

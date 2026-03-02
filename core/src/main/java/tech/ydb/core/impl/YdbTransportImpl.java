@@ -1,7 +1,5 @@
 package tech.ydb.core.impl;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
@@ -10,7 +8,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
 import com.google.common.base.Strings;
-import com.google.common.net.HostAndPort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +50,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.channelFactory = builder.getManagedChannelFactory();
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(discoveryEndpoint),
+        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(serverEndpoint),
                 channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);

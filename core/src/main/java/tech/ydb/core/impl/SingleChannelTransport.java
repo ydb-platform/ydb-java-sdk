@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.impl.auth.AuthCallOptions;
-import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 
@@ -34,7 +33,9 @@ public class SingleChannelTransport extends BaseGrpcTransport {
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.channel = new GrpcChannel(serverEndpoint, channelFactory);
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(serverEndpoint), channelFactory, builder);
+        this.callOptions = new AuthCallOptions(
+                scheduler, Collections.singletonList(serverEndpoint), channelFactory, builder
+        );
     }
 
     @Override
