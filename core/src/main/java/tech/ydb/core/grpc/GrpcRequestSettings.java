@@ -9,8 +9,9 @@ import java.util.function.Consumer;
 import io.grpc.Metadata;
 
 import tech.ydb.core.impl.call.GrpcFlows;
-import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Span;
+
+import javax.annotation.Nullable;
 
 /**
  * @author Nikolay Perfilov
@@ -86,6 +87,7 @@ public class GrpcRequestSettings {
         return flowControl;
     }
 
+    @Nullable
     public Span getSpan() {
         return span;
     }
@@ -101,7 +103,7 @@ public class GrpcRequestSettings {
         private Consumer<Metadata> trailersHandler = null;
         private BooleanSupplier pessimizationHook = null;
         private GrpcFlowControl flowControl = GrpcFlows.SIMPLE_FLOW;
-        private Span span = NoopTracer;
+        private Span span = null;
 
         /**
          * Returns a new {@code Builder} with a deadline, based on the running Java Virtual Machine's

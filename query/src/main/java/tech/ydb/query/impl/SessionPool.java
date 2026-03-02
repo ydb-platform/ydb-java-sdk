@@ -22,7 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
-import tech.ydb.core.tracing.DbSpanFactory;
+import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -155,7 +155,7 @@ class SessionPool implements AutoCloseable {
 
     private class PooledQuerySession extends SessionImpl {
         private final GrpcReadStream<Status> attachStream;
-        private final DbSpanFactory.OperationSpan createSpan;
+        private final Span createSpan;
 
         private volatile Instant lastActive;
         private volatile boolean isStarted = false;
@@ -165,7 +165,7 @@ class SessionPool implements AutoCloseable {
         PooledQuerySession(
                 QueryServiceRpc rpc,
                 YdbQuery.CreateSessionResponse response,
-                DbSpanFactory.OperationSpan createSpan
+                Span createSpan
         ) {
             super(rpc, response);
             this.lastActive = clock.instant();
@@ -203,7 +203,7 @@ class SessionPool implements AutoCloseable {
                 if (!status.isSuccess()) {
                     logger.warn("QuerySession[{}] attach message {}", getId(), status);
                     future.complete(Result.fail(status));
-                    createSpan.finishStatus(status);
+                    finishSpanByStatus(createSpan, status);
                     clean();
                     return;
                 }
@@ -211,7 +211,7 @@ class SessionPool implements AutoCloseable {
                 if (future.complete(ok)) {
                     logger.debug("QuerySession[{}] attach message {}", getId(), status);
                     isStarted = true;
-                    createSpan.finishStatus(status);
+                    finishSpanByStatus(createSpan, status);
                     return;
                 }
 
@@ -219,7 +219,7 @@ class SessionPool implements AutoCloseable {
             }).whenComplete((status, th) -> {
                 if (th != null) {
                     logger.debug("QuerySession[{}] finished with exception", getId(), th);
-                    createSpan.finishError(th);
+                    finishSpanByError(createSpan, th);
                 }
 
                 if (status != null) {
@@ -228,7 +228,7 @@ class SessionPool implements AutoCloseable {
                     } else {
                         logger.warn("QuerySession[{}] finished with status {}", getId(), status);
                     }
-                    createSpan.finishStatus(status);
+                    finishSpanByStatus(createSpan, status);
                 }
             }).thenRun(this::clean);
 
@@ -287,11 +287,7 @@ class SessionPool implements AutoCloseable {
             Context ctx = Context.ROOT.fork();
             Context previous = ctx.attach();
             try {
-                DbSpanFactory.OperationSpan createSpan = rpc.startSpan(
-                        "CreateSession",
-                        CREATE_SETTINGS.getTraceId(),
-                        null
-                );
+                Span createSpan = rpc.startSpan("ydb.CreateSession");
                 stats.requested.increment();
                 return SessionImpl
                         .createSession(rpc, CREATE_SETTINGS, true, createSpan)
@@ -306,7 +302,7 @@ class SessionPool implements AutoCloseable {
                         .thenApply(Result::getValue)
                         .whenComplete((v, th) -> {
                             if (th != null) {
-                                createSpan.finishError(FutureTools.unwrapCompletionException(th));
+                                finishSpanByError(createSpan, FutureTools.unwrapCompletionException(th));
                             }
                         });
             } finally {
@@ -476,6 +472,37 @@ class SessionPool implements AutoCloseable {
             if (f != null && !f.isDone()) {
                 f.complete(Result.fail(EXPIRE));
             }
+        }
+    }
+
+    private static void finishSpanByStatus(Span span, Status status) {
+        if (span == null) {
+            return;
+        }
+        if (status != null && !status.isSuccess()) {
+            span.setAttribute("db.response.status_code", status.getCode().getCode());
+            span.setAttribute("error.type", status.getCode().name());
+            span.recordException(new RuntimeException(status.toString()));
+        }
+        try {
+            span.end();
+        } catch (Exception ignored) {
+            // Span implementation should not throw on close.
+        }
+    }
+
+    private static void finishSpanByError(Span span, Throwable error) {
+        if (span == null) {
+            return;
+        }
+        if (error != null) {
+            span.setAttribute("error.type", error.getClass().getName());
+            span.recordException(error);
+        }
+        try {
+            span.end();
+        } catch (Exception ignored) {
+            // Span implementation should not throw on close.
         }
     }
 }

@@ -26,16 +26,15 @@ public class SingleChannelTransport extends BaseGrpcTransport {
     private final ScheduledExecutorService scheduler;
 
     public SingleChannelTransport(GrpcTransportBuilder builder) {
+        super(builder);
         ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
-        EndpointRecord endpoint = YdbTransportImpl.getDiscoveryEndpoint(builder);
 
-        logger.info("creating single channel transport with endpoint {}", endpoint);
+        logger.info("creating single channel transport with endpoint {}", serverEndpoint);
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
-        this.channel = new GrpcChannel(endpoint, channelFactory);
-
+        this.channel = new GrpcChannel(serverEndpoint, channelFactory);
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(endpoint), channelFactory, builder);
+        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(serverEndpoint), channelFactory, builder);
     }
 
     @Override

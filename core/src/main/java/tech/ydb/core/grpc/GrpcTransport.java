@@ -43,19 +43,7 @@ public interface GrpcTransport extends AutoCloseable {
     ScheduledExecutorService getScheduler();
 
     default Tracer getTracer() {
-        return NoopTracer.getInstance();
-    }
-
-    default String getServerAddress() {
-        return "ydb.server";
-    }
-
-    default int getServerPort() {
-        return 2135;
-    }
-
-    default String getTransportScheme() {
-        return "grpc";
+        return NoopTracer.INSTANCE;
     }
 
     @Override

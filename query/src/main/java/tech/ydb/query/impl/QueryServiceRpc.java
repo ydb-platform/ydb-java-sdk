@@ -7,7 +7,9 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.StatusExtractor;
-import tech.ydb.core.tracing.DbSpanFactory;
+import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanKind;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.OperationProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.query.v1.QueryServiceGrpc;
@@ -48,15 +50,15 @@ class QueryServiceRpc {
     );
 
     private final GrpcTransport transport;
-    private final DbSpanFactory trace;
+    private final Tracer trace;
 
     QueryServiceRpc(GrpcTransport transport) {
         this.transport = transport;
-        this.trace = new DbSpanFactory(transport);
+        this.trace = transport.getTracer();
     }
 
-    DbSpanFactory.OperationSpan startSpan(String operationName, String traceId, String sessionId) {
-        return trace.startClientSpan(operationName, traceId, sessionId);
+    Span startSpan(String spanName) {
+        return trace.startSpan(spanName, SpanKind.CLIENT);
     }
 
     public CompletableFuture<Result<YdbQuery.CreateSessionResponse>> createSession(
