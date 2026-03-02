@@ -1,6 +1,5 @@
 package tech.ydb.table.values;
 
-import java.io.Serializable;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.time.Instant;
@@ -10,7 +9,6 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -20,7 +18,10 @@ import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 
 import tech.ydb.proto.ValueProtos;
+import tech.ydb.table.utils.Hex;
+import tech.ydb.table.utils.LittleEndian;
 import tech.ydb.table.values.proto.ProtoValue;
+
 
 
 /**
@@ -96,7 +97,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public String getText() {
-        throw new IllegalStateException("expected Utf8, but was " + getClass().getSimpleName());
+        throw new IllegalStateException("expected Text, but was " + getClass().getSimpleName());
     }
 
     public byte[] getYson() {
@@ -228,15 +229,25 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newBytes(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value.clone());
+        if (value.length == 0) {
+            return Bytes.EMPTY_BYTES;
+        }
+        return new Bytes(PrimitiveType.Bytes, ByteString.copyFrom(value), value);
     }
 
     public static PrimitiveValue newBytes(ByteString value) {
-        return value.isEmpty() ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
+        if (value.isEmpty()) {
+            return Bytes.EMPTY_BYTES;
+        }
+
+        return new Bytes(PrimitiveType.Bytes, value);
     }
 
     public static PrimitiveValue newBytesOwn(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_STRING : new Bytes(PrimitiveType.Bytes, value);
+        if (value.length == 0) {
+            return Bytes.EMPTY_BYTES;
+        }
+        return new Bytes(PrimitiveType.Bytes, UnsafeByteOperations.unsafeWrap(value), value);
     }
 
     public static PrimitiveValue newText(String value) {
@@ -244,15 +255,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     public static PrimitiveValue newYson(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value.clone());
+        if (value.length == 0) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, ByteString.copyFrom(value), value);
     }
 
     public static PrimitiveValue newYson(ByteString value) {
-        return value.isEmpty() ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
+        if (value.isEmpty()) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, value);
     }
 
     public static PrimitiveValue newYsonOwn(byte[] value) {
-        return value.length == 0 ? Bytes.EMPTY_YSON : new Bytes(PrimitiveType.Yson, value);
+        if (value.length == 0) {
+            return Bytes.EMPTY_YSON;
+        }
+        return new Bytes(PrimitiveType.Yson, UnsafeByteOperations.unsafeWrap(value), value);
     }
 
     public static PrimitiveValue newJson(String value) {
@@ -421,6 +441,117 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         if (expected != actual) {
             throw new IllegalStateException("types mismatch, expected " + expected + ", but was " + actual);
         }
+    }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!getType().equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
+        }
+
+        PrimitiveValue otherValue = (PrimitiveValue) other;
+
+        // Compare based on the actual primitive type
+        switch (getType()) {
+            case Bool:
+                return Boolean.compare(getBool(), otherValue.getBool());
+            case Int8:
+                return Byte.compare(getInt8(), otherValue.getInt8());
+            case Uint8:
+                return Integer.compare(getUint8(), otherValue.getUint8());
+            case Int16:
+                return Short.compare(getInt16(), otherValue.getInt16());
+            case Uint16:
+                return Integer.compare(getUint16(), otherValue.getUint16());
+            case Int32:
+                return Integer.compare(getInt32(), otherValue.getInt32());
+            case Uint32:
+                return Long.compare(getUint32(), otherValue.getUint32());
+            case Int64:
+                return Long.compare(getInt64(), otherValue.getInt64());
+            case Uint64:
+                return Long.compareUnsigned(getUint64(), otherValue.getUint64());
+            case Float:
+                return Float.compare(getFloat(), otherValue.getFloat());
+            case Double:
+                return Double.compare(getDouble(), otherValue.getDouble());
+            case Bytes:
+                return compareArrays(getBytesUnsafe(), otherValue.getBytesUnsafe());
+            case Yson:
+                return compareArrays(getYsonUnsafe(), otherValue.getYsonUnsafe());
+            case Text:
+                return getText().compareTo(otherValue.getText());
+            case Json:
+                return getJson().compareTo(otherValue.getJson());
+            case JsonDocument:
+                return getJsonDocument().compareTo(otherValue.getJsonDocument());
+            case Uuid:
+                return compareUUID(this, otherValue);
+            case Date:
+                return getDate().compareTo(otherValue.getDate());
+            case Date32:
+                return getDate32().compareTo(otherValue.getDate32());
+            case Datetime:
+                return getDatetime().compareTo(otherValue.getDatetime());
+            case Datetime64:
+                return getDatetime64().compareTo(otherValue.getDatetime64());
+            case Timestamp:
+                return getTimestamp().compareTo(otherValue.getTimestamp());
+            case Timestamp64:
+                return getTimestamp64().compareTo(otherValue.getTimestamp64());
+            case Interval:
+                return getInterval().compareTo(otherValue.getInterval());
+            case Interval64:
+                return getInterval64().compareTo(otherValue.getInterval64());
+            case TzDate:
+                return getTzDate().compareTo(otherValue.getTzDate());
+            case TzDatetime:
+                return getTzDatetime().compareTo(otherValue.getTzDatetime());
+            case TzTimestamp:
+                return getTzTimestamp().compareTo(otherValue.getTzTimestamp());
+            default:
+                throw new UnsupportedOperationException("Comparison not supported for type: " + getType());
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private static int compareUUID(PrimitiveValue a, PrimitiveValue b) {
+        long ah = LittleEndian.bswap(a.getUuidHigh());
+        long bh = LittleEndian.bswap(b.getUuidHigh());
+        long al = LittleEndian.bswap(a.getUuidLow());
+        long bl = LittleEndian.bswap(b.getUuidLow());
+
+        return (al != bl) ? Long.compareUnsigned(al, bl) : Long.compareUnsigned(ah, bh);
+    }
+
+    private static int compareArrays(byte[] a, byte[] b) {
+        if (a == b) {
+            return 0;
+        }
+
+        int i = 0;
+        int len = Math.min(a.length, b.length);
+        while (i < len && a[i] == b[i]) {
+            i++;
+        }
+
+        if (i < len) {
+            return Byte.compare(a[i], b[i]);
+        }
+
+        return a.length - b.length;
     }
 
     // -- implementations --
@@ -948,21 +1079,24 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
     }
 
     private static final class Bytes extends PrimitiveValue {
-        private static final Bytes EMPTY_STRING = new Bytes(PrimitiveType.Bytes, new byte[0]);
-        private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, new byte[0]);
+        private static final int OUTPUT_LIMIT = 50;
+        private static final Bytes EMPTY_BYTES = new Bytes(PrimitiveType.Bytes, ByteString.EMPTY);
+        private static final Bytes EMPTY_YSON = new Bytes(PrimitiveType.Yson, ByteString.EMPTY);
         private static final long serialVersionUID = 1523630543323446576L;
 
         private final PrimitiveType type;
-        private final Serializable value;
+        private final ByteString value;
 
-        private Bytes(PrimitiveType type, byte[] value) {
-            this.type = type;
-            this.value = value;
-        }
+        private transient byte[] cached;
 
         private Bytes(PrimitiveType type, ByteString value) {
+            this(type, value, null);
+        }
+
+        private Bytes(PrimitiveType type, ByteString value, byte[] cached) {
             this.type = type;
             this.value = value;
+            this.cached = cached;
         }
 
         @Override
@@ -970,34 +1104,47 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             return type;
         }
 
+        private byte[] getCachedBytes() {
+            if (cached == null) {
+                cached = value.toByteArray();
+            }
+            return cached;
+        }
+
         @Override
         public byte[] getBytes() {
-            return getBytes(PrimitiveType.Bytes);
+            checkType(PrimitiveType.Bytes, type);
+            return value.toByteArray();
         }
 
         @Override
         public byte[] getBytesUnsafe() {
-            return getBytesUnsafe(PrimitiveType.Bytes);
+            checkType(PrimitiveType.Bytes, type);
+            return getCachedBytes();
         }
 
         @Override
         public ByteString getBytesAsByteString() {
-            return getByteString(PrimitiveType.Bytes);
+            checkType(PrimitiveType.Bytes, type);
+            return value;
         }
 
         @Override
         public byte[] getYson() {
-            return getBytes(PrimitiveType.Yson);
+            checkType(PrimitiveType.Yson, type);
+            return value.toByteArray();
         }
 
         @Override
         public byte[] getYsonUnsafe() {
-            return getBytesUnsafe(PrimitiveType.Yson);
+            checkType(PrimitiveType.Yson, type);
+            return getCachedBytes();
         }
 
         @Override
         public ByteString getYsonBytes() {
-            return getByteString(PrimitiveType.Yson);
+            checkType(PrimitiveType.Yson, type);
+            return value;
         }
 
         @Override
@@ -1014,109 +1161,40 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
             if (type != that.type) {
                 return false;
             }
-
-            if (value instanceof byte[]) {
-                if (that.value instanceof byte[]) {
-                    return Arrays.equals((byte[]) value, (byte[]) that.value);
-                }
-                return that.value.equals(UnsafeByteOperations.unsafeWrap((byte[]) value));
-            }
-
-            if (that.value instanceof byte[]) {
-                return value.equals(UnsafeByteOperations.unsafeWrap((byte[]) that.value));
-            }
             return value.equals(that.value);
         }
 
         @Override
         public int hashCode() {
-            int result = type.hashCode();
-
-            if (value instanceof byte[]) {
-                for (byte b : (byte[]) value) {
-                    result = 31 * result + b;
-                }
-            } else {
-                ByteString v = (ByteString) this.value;
-                for (int i = 0; i < v.size(); i++) {
-                    byte b = v.byteAt(i);
-                    result = 31 * result + b;
-                }
-            }
-
-            return result;
+            return 31 * type.hashCode() + value.hashCode();
         }
 
         @Override
         public String toString() {
-            final int length = (value instanceof byte[])
-                    ? ((byte[]) value).length
-                    : ((ByteString) value).size();
-
-            if (length == 0) {
-                return "\"\"";
+            if (value.isEmpty()) {
+                return type.name() + "[len=0]";
             }
 
-            // bytes are escaped as \nnn (octal value)
-            StringBuilder sb = new StringBuilder(length * 4 + 2);
-            sb.append('\"');
+            StringBuilder sb = new StringBuilder();
+            sb.append(type.name());
+            sb.append("[len=");
+            sb.append(value.size());
+            sb.append(" content=");
 
-            if (value instanceof byte[]) {
-                for (byte b : (byte[]) value) {
-                    encodeAsOctal(sb, b);
-                }
+            if (value.size() <= OUTPUT_LIMIT) {
+                Hex.toHex(value, sb);
             } else {
-                ByteString bytes = (ByteString) this.value;
-                for (int i = 0; i < bytes.size(); i++) {
-                    encodeAsOctal(sb, bytes.byteAt(i));
-                }
+                Hex.toHex(value.substring(0, OUTPUT_LIMIT - 3), sb);
+                sb.append("...");
             }
-            sb.append('\"');
-            return sb.toString();
-        }
 
-        private static void encodeAsOctal(StringBuilder sb, byte b) {
-            final int i = Byte.toUnsignedInt(b);
-            sb.append('\\');
-            if (i < 64) {
-                sb.append('0');
-                if (i < 8) {
-                    sb.append('0');
-                }
-            }
-            sb.append(Integer.toString(i, 8));
+            sb.append("]");
+            return sb.toString();
         }
 
         @Override
         public ValueProtos.Value toPb() {
-            return ProtoValue.fromBytes(getByteString(type));
-        }
-
-        private byte[] getBytes(PrimitiveType expected) {
-            checkType(expected, type);
-
-            if (value instanceof byte[]) {
-                return ((byte[]) value).clone();
-            }
-            return ((ByteString) value).toByteArray();
-        }
-
-        private byte[] getBytesUnsafe(PrimitiveType expected) {
-            checkType(expected, type);
-
-            if (value instanceof byte[]) {
-                return (byte[]) value;
-            }
-            return ((ByteString) value).toByteArray();
-        }
-
-        private ByteString getByteString(PrimitiveType expected) {
-            checkType(expected, type);
-
-            if (value instanceof byte[]) {
-                return UnsafeByteOperations.unsafeWrap((byte[]) value);
-            }
-            return (ByteString) value;
+            return ProtoValue.fromBytes(value);
         }
     }
 

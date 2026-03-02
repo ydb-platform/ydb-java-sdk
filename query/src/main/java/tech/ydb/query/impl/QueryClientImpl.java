@@ -17,7 +17,7 @@ import tech.ydb.table.SessionPoolStats;
  *
  * @author Aleksandr Gorshenin
  */
-public class QueryClientImpl implements  QueryClient {
+public class QueryClientImpl implements QueryClient {
     private final SessionPool pool;
     private final ScheduledExecutorService scheduler;
 

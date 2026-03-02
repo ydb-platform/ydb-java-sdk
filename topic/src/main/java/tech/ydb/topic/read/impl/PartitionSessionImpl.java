@@ -278,7 +278,5 @@ public abstract class PartitionSessionImpl {
         } finally {
             commitFuturesLock.unlock();
         }
-
-        readingQueue.forEach(Batch::complete);
     }
 }

@@ -53,12 +53,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.channelFactory = builder.getManagedChannelFactory();
         this.scheduler = builder.getSchedulerFactory().get();
-        this.callOptions = new AuthCallOptions(
-                scheduler,
-                Collections.singletonList(serverEndpoint),
-                channelFactory,
-                builder
-        );
+        this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(discoveryEndpoint),
+                channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
         this.discovery = new YdbDiscovery(new DiscoveryHandler(), scheduler, database, discoveryTimeout);

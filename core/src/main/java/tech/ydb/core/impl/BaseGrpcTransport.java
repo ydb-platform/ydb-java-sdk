@@ -240,6 +240,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     private Metadata makeMetadataFromSettings(GrpcRequestSettings settings, EndpointRecord endpoint) {
         Metadata metadata = new Metadata();
+        String token = getAuthCallOptions().getToken();
+        if (token != null) {
+            metadata.put(YdbHeaders.AUTH_TICKET, token);
+        }
         if (settings.getTraceId() != null) {
             metadata.put(YdbHeaders.TRACE_ID, settings.getTraceId());
         }
@@ -308,7 +312,9 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         @Override
         public void accept(io.grpc.Status status, Metadata trailers) {
             // Usually CANCELLED is received when ClientCall is canceled on client side
-            if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED) {
+            if (!status.isOk() && status.getCode() != io.grpc.Status.Code.CANCELLED
+                    && status.getCode() != io.grpc.Status.Code.DEADLINE_EXCEEDED
+                    && status.getCode() != io.grpc.Status.Code.RESOURCE_EXHAUSTED) {
                 pessimizeEndpoint(channel.getEndpoint(), "by grpc code " + status.getCode());
             }
 

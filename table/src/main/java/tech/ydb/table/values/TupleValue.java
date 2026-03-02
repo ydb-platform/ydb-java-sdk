@@ -145,4 +145,34 @@ public class TupleValue implements Value<TupleType> {
         }
         return new TupleValue(TupleType.ofOwn(types), items);
     }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!type.equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + type + " with " + other.getType());
+        }
+
+        TupleValue otherTuple = (TupleValue) other;
+
+        for (int i = 0; i < getType().getElementsCount(); i++) {
+            int itemComparison = items[i].compareTo(otherTuple.items[i]);
+            if (itemComparison != 0) {
+                return itemComparison;
+            }
+        }
+
+        return 0;
+    }
 }

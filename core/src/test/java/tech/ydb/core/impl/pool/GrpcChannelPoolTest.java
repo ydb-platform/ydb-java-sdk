@@ -22,7 +22,6 @@ public class GrpcChannelPoolTest {
 
     @Before
     public void setUp() {
-        Mockito.when(factoryMock.getConnectTimeoutMs()).thenReturn(500l); // timeout for ready watcher
         Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt(), Mockito.isNull()))
                 .then((args) -> ManagedChannelMock.good());
     }

@@ -26,9 +26,8 @@ abstract class AbstractValueReader implements ValueReader {
     protected abstract ValueProtos.Value getProtoValue();
     protected abstract void setProtoValue(ValueProtos.Value value);
 
-    private RuntimeException error(String methodName) {
-        throw new IllegalStateException("cannot call " + methodName + ", actual type: " + ProtoType.toString(
-            getProtoType()));
+    private RuntimeException error(String method) {
+        throw new IllegalStateException("cannot call " + method + ", actual type: " + getType());
     }
 
     @Override
@@ -121,6 +120,7 @@ abstract class AbstractValueReader implements ValueReader {
         throw error("getDate32");
     }
 
+    @Override
     public LocalDateTime getDatetime64() {
         throw error("getDatetime64");
     }
@@ -130,6 +130,7 @@ abstract class AbstractValueReader implements ValueReader {
         throw error("getTimestamp64");
     }
 
+    @Override
     public Duration getInterval64() {
         throw error("getInterval64");
     }

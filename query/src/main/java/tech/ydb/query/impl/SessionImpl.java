@@ -30,12 +30,15 @@ import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
+import tech.ydb.proto.ValueProtos;
+import tech.ydb.proto.formats.YdbFormats;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryStats;
+import tech.ydb.query.settings.ApacheArrowFormat;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.BeginTransactionSettings;
 import tech.ydb.query.settings.CommitTransactionSettings;
@@ -215,6 +218,27 @@ abstract class SessionImpl implements QuerySession {
         }
     }
 
+    private static YdbFormats.ArrowFormatSettings mapApacheArrowFormat(ApacheArrowFormat mode) {
+        YdbFormats.ArrowFormatSettings.CompressionCodec.Builder codecBuilder = YdbFormats.ArrowFormatSettings
+                .CompressionCodec.newBuilder();
+
+        switch (mode.getCodec()) {
+            case ZSTD:
+                codecBuilder.setType(YdbFormats.ArrowFormatSettings.CompressionCodec.Type.TYPE_ZSTD)
+                        .setLevel(mode.getCompressionLevel());
+                break;
+            case LZ4_FRAME:
+                codecBuilder.setType(YdbFormats.ArrowFormatSettings.CompressionCodec.Type.TYPE_LZ4_FRAME);
+                break;
+            case NONE:
+            default:
+                codecBuilder.setType(YdbFormats.ArrowFormatSettings.CompressionCodec.Type.TYPE_NONE);
+                break;
+        }
+
+        return YdbFormats.ArrowFormatSettings.newBuilder().setCompressionCodec(codecBuilder).build();
+    }
+
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
             String query,
             YdbQuery.TransactionControl tx,
@@ -234,6 +258,11 @@ abstract class SessionImpl implements QuerySession {
                         .build()
                 )
                 .putAllParameters(prms.toPb());
+
+        if (settings.getApacheArrowFormat() != null) {
+            request.setResultSetFormat(ValueProtos.ResultSet.Format.FORMAT_ARROW)
+                    .setArrowFormatSettings(mapApacheArrowFormat(settings.getApacheArrowFormat()));
+        }
 
         String resourcePool = settings.getResourcePool();
         if (resourcePool != null && !resourcePool.isEmpty()) {

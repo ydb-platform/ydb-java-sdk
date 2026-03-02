@@ -13,6 +13,8 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.locks.ReentrantLock;
 
+import javax.annotation.Nonnull;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,6 +26,7 @@ import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
@@ -58,13 +61,21 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     // Every writing stream has a sequential number (for debug purposes)
     private final AtomicLong sessionSeqNumberCounter = new AtomicLong(0);
 
+    /**
+     * Register for custom codec. User can specify custom codec which is local to TopicClient
+     */
+    private final CodecRegistry codecRegistry;
+
     private Boolean isSeqNoProvided = null;
     private int currentInFlightCount = 0;
     private long availableSizeBytes;
     // Future for flush method
     private CompletableFuture<WriteAck> lastAcceptedMessageFuture;
 
-    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor) {
+    public WriterImpl(TopicRpc topicRpc,
+                      WriterSettings settings,
+                      Executor compressionExecutor,
+                      @Nonnull CodecRegistry codecRegistry) {
         super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
         this.topicRpc = topicRpc;
         this.settings = settings;
@@ -72,6 +83,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         this.availableSizeBytes = settings.getMaxSendBufferMemorySize();
         this.maxSendBufferMemorySize = settings.getMaxSendBufferMemorySize();
         this.compressionExecutor = compressionExecutor;
+        this.codecRegistry = codecRegistry;
         String message = "Writer" +
                 " (generated id " + id + ")" +
                 " created for topic \"" + settings.getTopicPath() + "\"" +
@@ -171,7 +183,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             moveEncodedMessagesToSendingQueue();
         } else {
             CompletableFuture
-                    .runAsync(() -> message.encode(id, settings.getCodec()), compressionExecutor)
+                    .runAsync(() -> message.encode(id, settings.getCodec(), codecRegistry), compressionExecutor)
                     .whenComplete((res, th) -> moveEncodedMessagesToSendingQueue());
         }
     }
