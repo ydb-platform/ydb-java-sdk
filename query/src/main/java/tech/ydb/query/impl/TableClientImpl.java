@@ -15,8 +15,6 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.tracing.Span;
-import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.table.YdbTable;
@@ -25,10 +23,8 @@ import tech.ydb.query.QueryStream;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryResultPart;
 import tech.ydb.query.result.QueryStats;
-import tech.ydb.query.settings.CommitTransactionSettings;
 import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.QueryStatsMode;
-import tech.ydb.query.settings.RollbackTransactionSettings;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -37,11 +33,7 @@ import tech.ydb.table.query.DataQueryResult;
 import tech.ydb.table.query.Params;
 import tech.ydb.table.rpc.TableRpc;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
-import tech.ydb.table.settings.BeginTxSettings;
-import tech.ydb.table.settings.CommitTxSettings;
 import tech.ydb.table.settings.ExecuteDataQuerySettings;
-import tech.ydb.table.settings.RollbackTxSettings;
-import tech.ydb.table.transaction.TableTransaction;
 
 /**
  *
@@ -59,11 +51,6 @@ public class TableClientImpl implements TableClient {
     @Override
     public ScheduledExecutorService getScheduler() {
         return proxy.getScheduler();
-    }
-
-    @Override
-    public Tracer getTracer() {
-        return proxy.getTracer();
     }
 
     @Override
@@ -91,9 +78,6 @@ public class TableClientImpl implements TableClient {
             }
             if (tc.getBeginTx().hasSnapshotReadOnly()) {
                 return TxControl.txModeCtrl(TxMode.SNAPSHOT_RO, tc.getCommitTx());
-            }
-            if (tc.getBeginTx().hasSnapshotReadWrite()) {
-                return TxControl.txModeCtrl(TxMode.SNAPSHOT_RW, tc.getCommitTx());
             }
             if (tc.getBeginTx().hasStaleReadOnly()) {
                 return TxControl.txModeCtrl(TxMode.STALE_RO, tc.getCommitTx());
@@ -131,10 +115,8 @@ public class TableClientImpl implements TableClient {
             final AtomicReference<String> txRef = new AtomicReference<>("");
             final List<Issue> issues = new ArrayList<>();
             final List<ValueProtos.ResultSet> results = new ArrayList<>();
-            Span span = querySession.startSpan("ydb.ExecuteQuery");
 
-            QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs, span),
-                    span) {
+            QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs, null), null) {
                 @Override
                 void handleTxMeta(String txID) {
                     txRef.set(txID);
@@ -148,8 +130,7 @@ public class TableClientImpl implements TableClient {
                 }
 
                 @Override
-                public void onNextPart(QueryResultPart part) {
-                } // not used
+                public void onNextPart(QueryResultPart part) { } // not used
 
                 @Override
                 public void onNextRawPart(long index, ValueProtos.ResultSet rs) {
@@ -190,95 +171,6 @@ public class TableClientImpl implements TableClient {
                     querySession.updateSessionState(unexpected.getStatus());
                 }
                 th = th.getCause();
-            }
-        }
-
-        @Override
-        public TableTransaction createNewTransaction(TxMode txMode) {
-            return new TracedTableTransaction(super.createNewTransaction(txMode));
-        }
-
-        @Override
-        public CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode, BeginTxSettings settings) {
-            return super.beginTransaction(txMode, settings)
-                    .thenApply(result -> result.map(TracedTableTransaction::new));
-        }
-
-        @Override
-        protected CompletableFuture<Status> commitTransactionInternal(String txId, CommitTxSettings settings) {
-            Span span = querySession.startSpan("ydb.Commit");
-            CommitTransactionSettings querySettings = CommitTransactionSettings.newBuilder()
-                    .withTraceId(settings.getTraceId())
-                    .withRequestTimeout(settings.getTimeoutDuration())
-                    .build();
-            return Span.endOnStatus(span, querySession.commitById(txId, querySettings, span));
-        }
-
-        @Override
-        protected CompletableFuture<Status> rollbackTransactionInternal(String txId, RollbackTxSettings settings) {
-            Span span = querySession.startSpan("ydb.Rollback");
-            RollbackTransactionSettings querySettings = RollbackTransactionSettings.newBuilder()
-                    .withTraceId(settings.getTraceId())
-                    .withRequestTimeout(settings.getTimeoutDuration())
-                    .build();
-            return Span.endOnStatus(span, querySession.rollbackById(txId, querySettings, span));
-        }
-
-        private final class TracedTableTransaction implements TableTransaction {
-            private final TableTransaction delegate;
-
-            private TracedTableTransaction(TableTransaction delegate) {
-                this.delegate = delegate;
-            }
-
-            @Override
-            public Session getSession() {
-                return TableSession.this;
-            }
-
-            @Override
-            public CompletableFuture<Result<DataQueryResult>> executeDataQuery(
-                    String query, boolean commitAtEnd, Params params, ExecuteDataQuerySettings settings
-            ) {
-                return delegate.executeDataQuery(query, commitAtEnd, params, settings);
-            }
-
-            @Override
-            public CompletableFuture<Status> commit(CommitTxSettings settings) {
-                String txId = delegate.getId();
-                if (txId == null) {
-                    return delegate.commit(settings);
-                }
-                return TableSession.this.commitTransaction(txId, settings);
-            }
-
-            @Override
-            public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
-                String txId = delegate.getId();
-                if (txId == null) {
-                    return delegate.rollback(settings);
-                }
-                return rollbackTransactionInternal(txId, settings);
-            }
-
-            @Override
-            public String getId() {
-                return delegate.getId();
-            }
-
-            @Override
-            public TxMode getTxMode() {
-                return delegate.getTxMode();
-            }
-
-            @Override
-            public String getSessionId() {
-                return delegate.getSessionId();
-            }
-
-            @Override
-            public CompletableFuture<Status> getStatusFuture() {
-                return delegate.getStatusFuture();
             }
         }
 
