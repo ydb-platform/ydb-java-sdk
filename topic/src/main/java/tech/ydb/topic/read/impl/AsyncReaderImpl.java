@@ -137,32 +137,32 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                              PartitionSession partitionSession, Runnable confirmCallback) {
+    protected CompletableFuture<Void> handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
+                                                                 PartitionSession partitionSession, Runnable confirmCallback) {
         final long committedOffset = request.getCommittedOffset();
         final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(partitionSession, committedOffset,
                 confirmCallback);
-        handlerExecutor.execute(() -> {
+        return CompletableFuture.runAsync(() -> {
             try {
                 eventHandler.onStopPartitionSession(event);
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onStopPartitionSession");
                 throw th;
             }
-        });
+        }, handlerExecutor);
     }
 
     @Override
-    protected void handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession) {
+    protected CompletableFuture<Void> handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession) {
         final PartitionSessionClosedEvent event = new PartitionSessionClosedEventImpl(partitionSession);
-        handlerExecutor.execute(() -> {
+        return CompletableFuture.runAsync(() -> {
             try {
                 eventHandler.onPartitionSessionClosed(event);
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onPartitionSessionClosed");
                 throw th;
             }
-        });
+        }, handlerExecutor);
     }
 
     protected CompletableFuture<Void> handleReaderClosed() {
