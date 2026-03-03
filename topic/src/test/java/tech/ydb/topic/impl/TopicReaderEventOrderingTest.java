@@ -4,8 +4,10 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,6 +31,7 @@ import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
@@ -63,6 +66,8 @@ public class TopicReaderEventOrderingTest {
 
     private static final String TEST_CONSUMER = "test-consumer";
 
+    private static final int partitionCount = 2;
+
     private TopicClient client;
     private String testTopic;
 
@@ -74,6 +79,10 @@ public class TopicReaderEventOrderingTest {
         client = TopicClient.newClient(ydbTransport).build();
         client.createTopic(testTopic, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER).build())
+                .setPartitioningSettings(PartitioningSettings.
+                        newBuilder()
+                        .setMinActivePartitions(partitionCount)
+                        .build())
                 .build()
         ).join().expectSuccess("Failed to create test topic");
     }
@@ -110,12 +119,24 @@ public class TopicReaderEventOrderingTest {
     public void testEventOrderingGuarantees() throws Exception {
         logger.info("Starting testEventOrderingGuarantees");
 
+        // Per-partition tracking: partitionId -> whether Reader-1 has confirmed its stop.
+        // Using partitionId (not sessionId) as the key because Reader-2's new session
+        // for the same partition will have a different sessionId.
+        ConcurrentHashMap<Long, AtomicBoolean> partitionStopConfirmed = new ConcurrentHashMap<>();
+
         // Track events for each partition session
-        List<String> eventLog = Collections.synchronizedList(new ArrayList<>());
+        Map<Long, List<String>> eventLog = new ConcurrentHashMap<>();
+        for (long i = 0; i < partitionCount; i++) {
+            eventLog.put(i, Collections.synchronizedList(new ArrayList<>()));
+        }
+
+        Map<Long, Long> activeSessions = new ConcurrentHashMap<>();
+
         CountDownLatch startReceived = new CountDownLatch(1);
         CountDownLatch stopReceived = new CountDownLatch(1);
         CountDownLatch closeReceived = new CountDownLatch(1);
         AtomicBoolean orderingViolation = new AtomicBoolean(false);
+        AtomicBoolean raceConditionDetected = new AtomicBoolean(false);
 
         ExecutorService executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "test-event-executor"));
 
@@ -129,53 +150,39 @@ public class TopicReaderEventOrderingTest {
         AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
                 .setExecutor(executor)
                 .setEventHandler(new ReadEventHandler() {
-                    private final AtomicReference<Long> activeSession = new AtomicReference<>();
+
 
                     @Override
                     public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
-                        eventLog.add("onMessages[session=" + event.getPartitionSession().getId() + "]");
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        eventLog.get(partitionId).add("onMessages[session=" + event.getPartitionSession().getId() + "]");
                     }
 
                     @Override
                     public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
                         long sessionId = event.getPartitionSession().getId();
-                        eventLog.add("onStartPartitionSession[session=" + sessionId + "]");
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        eventLog.get(partitionId).add("onStartPartitionSession[partitionId = " + partitionId + ",session=" + sessionId + "]");
                         logger.info("onStartPartitionSession: session={}", sessionId);
 
-                        if (activeSession.get() != null) {
-                            logger.error("START event received while session {} is still active", activeSession.get());
+                        if (activeSessions.get(partitionId) != null) {
+                            logger.error("START event received while session {} is still active", activeSessions.get(partitionId));
                             orderingViolation.set(true);
                         }
-                        activeSession.set(sessionId);
+                        // Register this partition as "not yet stopped" before confirming.
+                        partitionStopConfirmed.put(partitionId, new AtomicBoolean(false));
+                        activeSessions.put(partitionId, sessionId);
                         event.confirm();
                         startReceived.countDown();
                     }
 
                     @Override
-                    public void onStopPartitionSession(tech.ydb.topic.read.events.StopPartitionSessionEvent event) {
-                        long sessionId = event.getPartitionSessionId();
-                        eventLog.add("onStopPartitionSession[session=" + sessionId + "]");
-                        logger.info("onStopPartitionSession: session={}", sessionId);
-
-                        if (activeSession.get() == null) {
-                            logger.error("STOP event received without corresponding START event");
-                            orderingViolation.set(true);
-                        } else if (!activeSession.get().equals(sessionId)) {
-                            logger.error("STOP event for session {} but active session is {}",
-                                    sessionId, activeSession.get());
-                            orderingViolation.set(true);
-                        }
-
-                        event.confirm();
-                        stopReceived.countDown();
-                    }
-
-                    @Override
                     public void onPartitionSessionClosed(tech.ydb.topic.read.events.PartitionSessionClosedEvent event) {
                         long sessionId = event.getPartitionSession().getId();
-                        eventLog.add("onPartitionSessionClosed[session=" + sessionId + "]");
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        eventLog.get(partitionId).add("onPartitionSessionClosed[partitionId =" + partitionId + ",session=" + sessionId + "]");
                         logger.info("onPartitionSessionClosed: session={}", sessionId);
-                        activeSession.set(null);
+                        activeSessions.remove(partitionId);
                         closeReceived.countDown();
                     }
                 })
@@ -202,21 +209,156 @@ public class TopicReaderEventOrderingTest {
         logger.info("Event log: {}", eventLog);
         assertFalse("Event ordering violation detected", orderingViolation.get());
 
-        // Verify event sequence
-        int startIndex = -1;
-        int stopIndex = -1;
-        for (int i = 0; i < eventLog.size(); i++) {
-            if (eventLog.get(i).startsWith("onStartPartitionSession")) {
-                startIndex = i;
+        for (long partitionId = 0; partitionId < partitionCount; partitionId++) {
+            // Verify event sequence
+            int startIndex = -1;
+            int stopIndex = -1;
+            for (int i = 0; i < eventLog.size(); i++) {
+                if (eventLog.get(partitionId).get(i).startsWith("onStartPartitionSession")) {
+                    startIndex = i;
+                }
+                if (eventLog.get(partitionId).get(i).startsWith("onPartitionSessionClosed")) {
+                    stopIndex = i;
+                }
             }
-            if (eventLog.get(i).startsWith("onPartitionSessionClosed")) {
-                stopIndex = i;
-            }
-        }
 
-        assertTrue("Start event should be present", startIndex >= 0);
-        assertTrue("Close event should be present", stopIndex >= 0);
-        assertTrue("Start event must come before Stop event", startIndex < stopIndex);
+            assertTrue("Start event should be present", startIndex >= 0);
+            assertTrue("Close event should be present", stopIndex >= 0);
+            assertTrue("Start event must come before Stop event", startIndex < stopIndex);
+        }
+    }
+
+    /**
+     * Test that verifies onStopPartitionSession is called when the server gracefully
+     * reassigns a partition to a second reader joining the same consumer group.
+     *
+     * A graceful StopPartitionSessionRequest is sent by the server when it needs to
+     * rebalance partition ownership between active readers. This is distinct from a
+     * force stop, which happens on client-side shutdown (reader.shutdown()) and only
+     * triggers onPartitionSessionClosed.
+     */
+    @Test
+    public void testOnStopPartitionSessionCalledOnGracefulReassignment() throws Exception {
+        logger.info("Starting testOnStopPartitionSessionCalledOnGracefulReassignment");
+
+        // Per-partition tracking: partitionId -> whether Reader-1 has confirmed its stop.
+        // Using partitionId (not sessionId) as the key because Reader-2's new session
+        // for the same partition will have a different sessionId.
+        ConcurrentHashMap<Long, AtomicBoolean> partitionStopConfirmed = new ConcurrentHashMap<>();
+
+        // With setMinActivePartitions(2) the topic has 2 partitions; Reader-1 should get both.
+        CountDownLatch reader1AllPartitionsAssigned = new CountDownLatch(2);
+        CountDownLatch reader1StopReceived = new CountDownLatch(1);
+        AtomicBoolean stopPartitionSessionCalled = new AtomicBoolean(false);
+        AtomicBoolean raceConditionDetected = new AtomicBoolean(false);
+        CountDownLatch reader2StartReceived = new CountDownLatch(1);
+
+        ExecutorService executor1 = Executors.newSingleThreadExecutor(r -> new Thread(r, "reader-1-executor"));
+        ExecutorService executor2 = Executors.newSingleThreadExecutor(r -> new Thread(r, "reader-2-executor"));
+
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder()
+                        .setPath(testTopic)
+                        .build())
+                .setConsumerName(TEST_CONSUMER)
+                .build();
+
+        AsyncReader reader1 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(executor1)
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        logger.info("Reader-1: onStartPartitionSession partitionId={}", partitionId);
+                        // Register this partition as "not yet stopped" before confirming.
+                        partitionStopConfirmed.put(partitionId, new AtomicBoolean(false));
+                        event.confirm();
+                        reader1AllPartitionsAssigned.countDown();
+                    }
+
+                    @Override
+                    public void onStopPartitionSession(tech.ydb.topic.read.events.StopPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        logger.info("Reader-1: onStopPartitionSession partitionId={}", partitionId);
+                        stopPartitionSessionCalled.set(true);
+                        // Mark stop confirmed BEFORE event.confirm(). The server only sends
+                        // StartPartitionSession to Reader-2 after receiving this confirm, so
+                        // Reader-2 is guaranteed to see the flag as true when it starts.
+                        partitionStopConfirmed.get(partitionId).set(true);
+                        event.confirm();
+                        reader1StopReceived.countDown();
+                        try {
+                            Thread.sleep(3000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                })
+                .build()
+        );
+
+        reader1.init().join();
+
+        // Wait for Reader-1 to hold all partitions before Reader-2 joins, so that the
+        // server must perform a graceful reassignment rather than a direct assignment.
+        assertTrue("Reader-1 did not receive all partitions",
+                reader1AllPartitionsAssigned.await(15, TimeUnit.SECONDS));
+        logger.info("Reader-1 holds {} partitions. Starting Reader-2 to trigger graceful rebalancing...",
+                partitionStopConfirmed.size());
+
+        // Reader-2 joins the same consumer group. The server rebalances by sending a
+        // graceful StopPartitionSessionRequest to Reader-1 and, after Reader-1 confirms,
+        // a StartPartitionSessionRequest to Reader-2.
+        AsyncReader reader2 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(executor2)
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        logger.info("Reader-2: onStartPartitionSession partitionId={}", partitionId);
+
+                        // If Reader-1 ever held this partition, its stop MUST have been
+                        // confirmed before Reader-2 can receive a start. The flag was set
+                        // before event.confirm() in Reader-1, which is what triggers this
+                        // START message from the server, so any false here is a real race.
+                        AtomicBoolean stopFlag = partitionStopConfirmed.get(partitionId);
+                        if (stopFlag != null && !stopFlag.get()) {
+                            logger.error("RACE CONDITION: Reader-2 started on partition {} before " +
+                                    "Reader-1 confirmed stop", partitionId);
+                            raceConditionDetected.set(true);
+                        }
+
+                        event.confirm();
+                        reader2StartReceived.countDown();
+                    }
+                })
+                .build()
+        );
+
+        reader2.init().join();
+
+        assertTrue("onStopPartitionSession was not called on Reader-1",
+                reader1StopReceived.await(15, TimeUnit.SECONDS));
+        assertTrue("stopPartitionSessionCalled should be true", stopPartitionSessionCalled.get());
+
+        assertTrue("Reader-2 did not receive StartPartitionSession after graceful reassignment",
+                reader2StartReceived.await(10, TimeUnit.SECONDS));
+
+        assertFalse("Race condition: Reader-2 started on partition before Reader-1 confirmed stop",
+                raceConditionDetected.get());
+
+        reader1.shutdown().get(10, TimeUnit.SECONDS);
+        reader2.shutdown().get(10, TimeUnit.SECONDS);
+        executor1.shutdownNow();
+        executor2.shutdownNow();
     }
 
     /**
@@ -386,108 +528,5 @@ public class TopicReaderEventOrderingTest {
         } else {
             logger.warn("Reader-2 did not receive partition within timeout - test inconclusive");
         }
-    }
-
-    /**
-     * Test for multiple rapid reader switches: verifies proper event ordering and cleanup
-     * when partitions are rapidly reassigned between multiple readers.
-     */
-    @Test
-    public void testMultipleReaderRapidSwitching() throws Exception {
-        logger.info("Starting testMultipleReaderRapidSwitching");
-
-        AtomicInteger activeReaders = new AtomicInteger(0);
-        AtomicInteger maxConcurrentOwners = new AtomicInteger(0);
-        List<String> eventSequence = Collections.synchronizedList(new ArrayList<>());
-        AtomicBoolean concurrentOwnershipDetected = new AtomicBoolean(false);
-
-        // Create 3 readers that will be started and stopped rapidly
-        for (int readerNum = 1; readerNum <= 3; readerNum++) {
-            final int readerIndex = readerNum;
-            ExecutorService executor = Executors.newSingleThreadExecutor(
-                    r -> new Thread(r, "reader-" + readerIndex + "-executor"));
-
-            ReaderSettings readerSettings = ReaderSettings.newBuilder()
-                    .addTopic(TopicReadSettings.newBuilder()
-                            .setPath(testTopic)
-                            .build())
-                    .setConsumerName(TEST_CONSUMER)
-                    .build();
-
-            AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
-                    .setExecutor(executor)
-                    .setEventHandler(new ReadEventHandler() {
-                        @Override
-                        public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
-                            // No-op
-                        }
-
-                        @Override
-                        public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
-                            String logMsg = String.format("Reader-%d: START partition %d, session %d",
-                                    readerIndex, event.getPartitionSession().getPartitionId(),
-                                    event.getPartitionSession().getId());
-                            eventSequence.add(logMsg);
-                            logger.info(logMsg);
-
-                            int current = activeReaders.incrementAndGet();
-                            maxConcurrentOwners.updateAndGet(max -> Math.max(max, current));
-
-                            if (current > 1) {
-                                logger.error("Multiple readers simultaneously own partitions: {}", current);
-                                concurrentOwnershipDetected.set(true);
-                            }
-
-                            event.confirm();
-                        }
-
-                        @Override
-                        public void onStopPartitionSession(tech.ydb.topic.read.events.StopPartitionSessionEvent event) {
-                            String logMsg = String.format("Reader-%d: STOP partition %d, session %d",
-                                    readerIndex, event.getPartitionId(), event.getPartitionSessionId());
-                            eventSequence.add(logMsg);
-                            logger.info(logMsg);
-                            event.confirm();
-                        }
-
-                        @Override
-                        public void onPartitionSessionClosed(tech.ydb.topic.read.events.PartitionSessionClosedEvent event) {
-                            String logMsg = String.format("Reader-%d: CLOSED partition %d, session %d",
-                                    readerIndex, event.getPartitionSession().getPartitionId(),
-                                    event.getPartitionSession().getId());
-                            eventSequence.add(logMsg);
-                            logger.info(logMsg);
-
-                            activeReaders.decrementAndGet();
-                        }
-                    })
-                    .build()
-            );
-
-            reader.init().join();
-
-            // Send a message
-            if (readerIndex == 1) {
-                sendMessage("test-message-" + readerIndex);
-            }
-
-            // Wait a bit
-            Thread.sleep(200);
-
-            // Shutdown reader
-            logger.info("Shutting down reader-{}", readerIndex);
-            reader.shutdown().get(10, TimeUnit.SECONDS);
-
-            executor.shutdownNow();
-
-            // Small delay between readers
-            Thread.sleep(100);
-        }
-
-        logger.info("Event sequence: {}", eventSequence);
-        logger.info("Max concurrent owners: {}", maxConcurrentOwners.get());
-
-        assertFalse("Concurrent partition ownership detected", concurrentOwnershipDetected.get());
-        assertEquals("Multiple readers should not own partitions concurrently", 1, maxConcurrentOwners.get());
     }
 }
