@@ -4,7 +4,6 @@ import java.util.Objects;
 
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
-
 import io.opentelemetry.api.trace.StatusCode;
 
 import tech.ydb.core.Status;
