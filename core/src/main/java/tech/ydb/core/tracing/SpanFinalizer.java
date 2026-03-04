@@ -1,5 +1,7 @@
 package tech.ydb.core.tracing;
 
+import java.util.function.BiConsumer;
+
 import tech.ydb.core.Status;
 
 /**
@@ -14,7 +16,7 @@ public final class SpanFinalizer {
             return;
         }
 
-        if (!status.isSuccess()) {
+        if (status != null && !status.isSuccess()) {
             span.setError(status);
         }
 
@@ -31,5 +33,19 @@ public final class SpanFinalizer {
         }
 
         span.end();
+    }
+
+    public static BiConsumer<Status, Throwable> whenComplete(Span span) {
+        return (status, error) -> {
+            if (span == null) {
+                return;
+            }
+
+            if (error != null) {
+                finishByError(span, error);
+                return;
+            }
+            finishByStatus(span, status);
+        };
     }
 }

@@ -203,7 +203,7 @@ public class TableClientImpl implements TableClient {
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return finishBySpan(querySession.commitById(txId, querySettings, span), span);
+            return querySession.commitById(txId, querySettings, span).whenComplete(SpanFinalizer.whenComplete(span));
         }
 
         @Override
@@ -213,17 +213,7 @@ public class TableClientImpl implements TableClient {
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return finishBySpan(querySession.rollbackById(txId, querySettings, span), span);
-        }
-
-        private CompletableFuture<Status> finishBySpan(CompletableFuture<Status> future, Span span) {
-            return future.whenComplete((status, th) -> {
-                if (th != null) {
-                    SpanFinalizer.finishByError(span, th);
-                    return;
-                }
-                SpanFinalizer.finishByStatus(span, status);
-            });
+            return querySession.rollbackById(txId, querySettings, span).whenComplete(SpanFinalizer.whenComplete(span));
         }
 
         private final class TracedTableTransaction implements TableTransaction {
