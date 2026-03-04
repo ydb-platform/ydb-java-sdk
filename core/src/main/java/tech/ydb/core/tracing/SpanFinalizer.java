@@ -3,6 +3,7 @@ package tech.ydb.core.tracing;
 import java.util.function.BiConsumer;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.utils.FutureTools;
 
 /**
  * Shared helpers to finish spans for status/exception outcomes.
@@ -29,7 +30,7 @@ public final class SpanFinalizer {
         }
 
         if (error != null) {
-            span.setError(error);
+            span.setError(FutureTools.unwrapCompletionException(error));
         }
 
         span.end();
