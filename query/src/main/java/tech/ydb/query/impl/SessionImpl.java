@@ -180,6 +180,10 @@ abstract class SessionImpl implements QuerySession {
         return makeOptions(settings, null);
     }
 
+    Span startSpan(String spanName) {
+        return rpc.startSpan(spanName);
+    }
+
     private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings, Span span) {
         String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
         return GrpcRequestSettings.newBuilder()
@@ -242,6 +246,22 @@ abstract class SessionImpl implements QuerySession {
         }
 
         return YdbFormats.ArrowFormatSettings.newBuilder().setCompressionCodec(codecBuilder).build();
+    }
+
+    CompletableFuture<Status> commitById(String txId, CommitTransactionSettings settings, Span span) {
+        YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
+                .setSessionId(sessionId)
+                .setTxId(txId)
+                .build();
+        return rpc.commitTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus);
+    }
+
+    CompletableFuture<Status> rollbackById(String txId, RollbackTransactionSettings settings, Span span) {
+        YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
+                .setSessionId(sessionId)
+                .setTxId(txId)
+                .build();
+        return rpc.rollbackTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus);
     }
 
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
