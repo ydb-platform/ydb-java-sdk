@@ -191,10 +191,14 @@ abstract class SessionImpl implements QuerySession {
 
     private static YdbQuery.ExecMode mapExecMode(QueryExecMode mode) {
         switch (mode) {
-            case EXECUTE: return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
-            case EXPLAIN: return YdbQuery.ExecMode.EXEC_MODE_EXPLAIN;
-            case PARSE: return YdbQuery.ExecMode.EXEC_MODE_PARSE;
-            case VALIDATE: return YdbQuery.ExecMode.EXEC_MODE_VALIDATE;
+            case EXECUTE:
+                return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
+            case EXPLAIN:
+                return YdbQuery.ExecMode.EXEC_MODE_EXPLAIN;
+            case PARSE:
+                return YdbQuery.ExecMode.EXEC_MODE_PARSE;
+            case VALIDATE:
+                return YdbQuery.ExecMode.EXEC_MODE_VALIDATE;
 
             case UNSPECIFIED:
             default:
@@ -204,10 +208,14 @@ abstract class SessionImpl implements QuerySession {
 
     private static YdbQuery.StatsMode mapStatsMode(QueryStatsMode mode) {
         switch (mode) {
-            case NONE: return YdbQuery.StatsMode.STATS_MODE_NONE;
-            case BASIC: return YdbQuery.StatsMode.STATS_MODE_BASIC;
-            case FULL: return YdbQuery.StatsMode.STATS_MODE_FULL;
-            case PROFILE: return YdbQuery.StatsMode.STATS_MODE_PROFILE;
+            case NONE:
+                return YdbQuery.StatsMode.STATS_MODE_NONE;
+            case BASIC:
+                return YdbQuery.StatsMode.STATS_MODE_BASIC;
+            case FULL:
+                return YdbQuery.StatsMode.STATS_MODE_FULL;
+            case PROFILE:
+                return YdbQuery.StatsMode.STATS_MODE_PROFILE;
 
             case UNSPECIFIED:
             default:
@@ -350,15 +358,6 @@ abstract class SessionImpl implements QuerySession {
         abstract void handleTxMeta(String txId);
 
         void handleCompletion(Status status, Throwable th) {
-            if (operationSpan == null) {
-                return;
-            }
-            if (th != null) {
-                SpanFinalizer.finishByError(operationSpan, th);
-                return;
-            }
-
-            SpanFinalizer.finishByStatus(operationSpan, status);
         }
 
         @Override
@@ -366,51 +365,54 @@ abstract class SessionImpl implements QuerySession {
             final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
             final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
             return grpcStream.start(msg -> {
-                if (isTraceEnabled) {
-                    logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
-                }
-                Issue[] issues = Issue.fromPb(msg.getIssuesList());
-                Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
+                        if (isTraceEnabled) {
+                            logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
+                        }
+                        Issue[] issues = Issue.fromPb(msg.getIssuesList());
+                        Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
 
-                updateSessionState(status);
+                        updateSessionState(status);
 
-                if (!status.isSuccess()) {
-                    handleTxMeta(null);
-                    operationStatus.update(status);
-                    return;
-                }
+                        if (!status.isSuccess()) {
+                            handleTxMeta(null);
+                            operationStatus.update(status);
+                            return;
+                        }
 
-                if (msg.hasTxMeta()) {
-                    handleTxMeta(msg.getTxMeta().getId());
-                }
-                if (issues.length > 0) {
-                    if (handler != null) {
-                        handler.onIssues(issues);
-                    } else {
-                        logger.trace("{} lost issues message", SessionImpl.this);
-                    }
-                }
-                if (msg.hasExecStats()) {
-                    stats.update(new QueryStats(msg.getExecStats()));
-                }
+                        if (msg.hasTxMeta()) {
+                            handleTxMeta(msg.getTxMeta().getId());
+                        }
+                        if (issues.length > 0) {
+                            if (handler != null) {
+                                handler.onIssues(issues);
+                            } else {
+                                logger.trace("{} lost issues message", SessionImpl.this);
+                            }
+                        }
+                        if (msg.hasExecStats()) {
+                            stats.update(new QueryStats(msg.getExecStats()));
+                        }
 
-                if (msg.hasResultSet()) {
-                    long index = msg.getResultSetIndex();
-                    if (handler != null) {
-                        handler.onNextRawPart(index, msg.getResultSet());
-                    } else {
-                        logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
-                    }
-                }
-            }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
-                updateSessionState(streamStatus);
-                Status status = operationStatus.orElse(streamStatus);
-                if (status.isSuccess()) {
-                    return Result.success(new QueryInfo(stats.get()), streamStatus);
-                } else {
-                    return Result.fail(status);
-                }
-            });
+                        if (msg.hasResultSet()) {
+                            long index = msg.getResultSetIndex();
+                            if (handler != null) {
+                                handler.onNextRawPart(index, msg.getResultSet());
+                            } else {
+                                logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
+                            }
+                        }
+                    })
+                    .whenComplete(this::handleCompletion)
+                    .whenComplete(SpanFinalizer.whenComplete(operationSpan))
+                    .thenApply(streamStatus -> {
+                        updateSessionState(streamStatus);
+                        Status status = operationStatus.orElse(streamStatus);
+                        if (status.isSuccess()) {
+                            return Result.success(new QueryInfo(stats.get()), streamStatus);
+                        } else {
+                            return Result.fail(status);
+                        }
+                    });
         }
 
         @Override
@@ -459,7 +461,6 @@ abstract class SessionImpl implements QuerySession {
 
                 @Override
                 void handleCompletion(Status status, Throwable th) {
-                    super.handleCompletion(status, th);
                     if (th != null) {
                         currentStatusFuture.completeExceptionally(
                                 new RuntimeException("Query on transaction failed with exception ", th));

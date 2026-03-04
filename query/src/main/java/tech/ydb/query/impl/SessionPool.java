@@ -468,5 +468,4 @@ class SessionPool implements AutoCloseable {
             }
         }
     }
-
 }
