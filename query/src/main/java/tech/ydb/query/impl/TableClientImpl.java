@@ -192,7 +192,8 @@ public class TableClientImpl implements TableClient {
 
         @Override
         public CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode, BeginTxSettings settings) {
-            return super.beginTransaction(txMode, settings).thenApply(result -> result.map(TracedTableTransaction::new));
+            return super.beginTransaction(txMode, settings)
+                    .thenApply(result -> result.map(TracedTableTransaction::new));
         }
 
         @Override
