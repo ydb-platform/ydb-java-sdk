@@ -1,5 +1,22 @@
 package tech.ydb.topic.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -16,25 +33,13 @@ import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.SyncReader;
+import tech.ydb.topic.read.impl.MessageDecoder;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.SyncWriter;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 
 /**
@@ -87,7 +92,7 @@ public class YdbTopicsCodecIntegrationTest {
         queueOfMessages.clear();
     }
 
-    /**
+    /*
      * Ability to use custom codec with write and read
      * This positive test checks that we can read and write in one topic
      * <p>
@@ -114,7 +119,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * This test checks that in one client we can make arbitrary codecs which don't disturb each other
      * <p>
      * STEPS
@@ -151,7 +156,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC2, client1);
     }
 
-    /**
+    /*
      * This test checks that different client don't exchange CodecRegistry with each other
      * <p>
      * STEPS
@@ -192,7 +197,7 @@ public class YdbTopicsCodecIntegrationTest {
         client2.close();
     }
 
-    /**
+    /*
      * This test checks that overwrite existing codec with not backward compatibility will give an error
      * <p>
      * STEPS
@@ -224,7 +229,7 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
 
-    /**
+    /*
      * Test checks that we can write in one TopicUsing differentCodecs
      * <p>
      * STEPS
@@ -259,7 +264,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * In this test we verify that decode failed when code not found but after specify correct codec
      * Messages reads again and will be decoded
      * <p>
@@ -275,19 +280,29 @@ public class YdbTopicsCodecIntegrationTest {
      */
     @Test
     public void readShouldFailIfWithNotRegisteredCodec() throws ExecutionException, InterruptedException, TimeoutException {
-        client1 = createClient();
-        TopicClient client2 = createClient();
-        createTopic(client1, TEST_TOPIC1);
+        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(MessageDecoder.class);
+        Level level = silenceLogger.getLevel();
 
-        Codec codec1 = new CustomCodec(1, 10113);
+        try {
+            // temporary disable logging
+            Configurator.setLevel(silenceLogger, Level.OFF);
 
-        client1.registerCodec(codec1);
-        writeData(10113, TEST_TOPIC1, client1);
+            client1 = createClient();
+            TopicClient client2 = createClient();
+            createTopic(client1, TEST_TOPIC1);
 
-        readDataWithError(TEST_TOPIC1, client2);
+            Codec codec1 = new CustomCodec(1, 10113);
 
-        client2.registerCodec(codec1);
-        readData(TEST_TOPIC1, client2);
+            client1.registerCodec(codec1);
+            writeData(10113, TEST_TOPIC1, client1);
+
+            readDataWithError(TEST_TOPIC1, client2);
+
+            client2.registerCodec(codec1);
+            readData(TEST_TOPIC1, client2);
+        } finally {
+            Configurator.setLevel(silenceLogger, level);
+        }
     }
 
     /**
@@ -322,7 +337,7 @@ public class YdbTopicsCodecIntegrationTest {
         Assert.assertEquals("Unsupported codec: " + 10000, e.getCause().getMessage());
     }
 
-    /**
+    /*
      * Test checks that we can write and read using RAW Codec
      * <p>
      * 1. Create client1
@@ -340,7 +355,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * The test checks that we can rewrite the predefined RAW codec.
      * Please note that modifying a RAW codec is highly unusual and potentially risky.
      * You take full responsibility for any consequences that may result.
@@ -367,7 +382,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * Test checks that we can write and read using GZIP Codec
      * <p>
      * 1. Create client1
@@ -385,7 +400,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * The test checks that we can rewrite the predefined Gzip codec.
      * <p>
      * 1. Create client1
@@ -408,7 +423,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * Test checks that we can write and read using Lzop Codec
      * <p>
      * 1. Create client1
@@ -426,7 +441,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * The test checks that we can rewrite the predefined Lzop codec.
      * <p>
      * 1. Create client1
@@ -449,7 +464,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * Test checks that we can write and read using Zstd Codec
      * <p>
      * 1. Create client1
@@ -467,7 +482,7 @@ public class YdbTopicsCodecIntegrationTest {
         readData(TEST_TOPIC1, client1);
     }
 
-    /**
+    /*
      * The test checks that we can rewrite the predefined Lzop codec.
      * <p>
      * 1. Create client1
@@ -491,7 +506,8 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
     private TopicClient createClient() {
-        TopicClient topicClient = TopicClient.newClient(ydbTransport).build();
+        TopicClient topicClient = TopicClient.newClient(ydbTransport)
+                .build();
         clientToClose.add(topicClient);
         return topicClient;
     }

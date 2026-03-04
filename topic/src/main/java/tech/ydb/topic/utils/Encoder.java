@@ -90,10 +90,10 @@ public class Encoder {
         return codec.decode(byteArrayInputStream);
     }
 
-    private static @Nonnull Codec getCodec(int codecId, @Nonnull CodecRegistry codecRegistry) {
+    private static @Nonnull Codec getCodec(int codecId, @Nonnull CodecRegistry codecRegistry) throws IOException {
         Codec codec = codecRegistry.getCodec(codecId);
         if (codec == null) {
-            throw new RuntimeException("Unsupported codec: " + codecId);
+            throw new IOException("Unsupported codec: " + codecId);
         }
         return codec;
     }
