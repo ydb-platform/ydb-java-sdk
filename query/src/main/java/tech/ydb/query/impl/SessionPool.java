@@ -23,6 +23,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanFinalizer;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -155,22 +156,16 @@ class SessionPool implements AutoCloseable {
 
     private class PooledQuerySession extends SessionImpl {
         private final GrpcReadStream<Status> attachStream;
-        private final Span createSpan;
 
         private volatile Instant lastActive;
         private volatile boolean isStarted = false;
         private volatile boolean isBroken = false;
         private volatile boolean isStopped = false;
 
-        PooledQuerySession(
-                QueryServiceRpc rpc,
-                YdbQuery.CreateSessionResponse response,
-                Span createSpan
-        ) {
+        PooledQuerySession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
             super(rpc, response);
             this.lastActive = clock.instant();
             this.attachStream = attach(ATTACH_SETTINGS);
-            this.createSpan = createSpan;
             stats.created.increment();
         }
 
@@ -179,12 +174,12 @@ class SessionPool implements AutoCloseable {
             this.lastActive = clock.instant();
             boolean isStatusBroken =
                     status.getCode() == StatusCode.BAD_SESSION ||
-                            status.getCode() == StatusCode.SESSION_BUSY ||
-                            status.getCode() == StatusCode.INTERNAL_ERROR ||
-                            status.getCode() == StatusCode.CLIENT_DEADLINE_EXCEEDED ||
-                            status.getCode() == StatusCode.CLIENT_DEADLINE_EXPIRED ||
-                            status.getCode() == StatusCode.CLIENT_CANCELLED ||
-                            status.getCode() == StatusCode.TRANSPORT_UNAVAILABLE;
+                    status.getCode() == StatusCode.SESSION_BUSY ||
+                    status.getCode() == StatusCode.INTERNAL_ERROR ||
+                    status.getCode() == StatusCode.CLIENT_DEADLINE_EXCEEDED ||
+                    status.getCode() == StatusCode.CLIENT_DEADLINE_EXPIRED ||
+                    status.getCode() == StatusCode.CLIENT_CANCELLED ||
+                    status.getCode() == StatusCode.TRANSPORT_UNAVAILABLE;
             if (isStatusBroken) {
                 logger.warn("QuerySession[{}] broken with status {}", getId(), status);
             }
@@ -277,7 +272,6 @@ class SessionPool implements AutoCloseable {
         }
 
         @Override
-        @SuppressWarnings("resource")
         public CompletableFuture<PooledQuerySession> create() {
             // Execute createSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();
@@ -289,20 +283,20 @@ class SessionPool implements AutoCloseable {
                         .createSession(rpc, CREATE_SETTINGS, true, createSpan)
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
-                                finishSpanByStatus(createSpan, r.getStatus());
+                                SpanFinalizer.finishByStatus(createSpan, r.getStatus());
                                 stats.failed.increment();
                                 throw new UnexpectedResultException("create session problem", r.getStatus());
                             }
-                            PooledQuerySession session = new PooledQuerySession(rpc, r.getValue(), createSpan);
+                            PooledQuerySession session = new PooledQuerySession(rpc, r.getValue());
                             return session.start();
                         })
                         .whenComplete((result, th) -> {
                             if (th != null) {
-                                finishSpanByError(createSpan, FutureTools.unwrapCompletionException(th));
+                                SpanFinalizer.finishByError(createSpan, FutureTools.unwrapCompletionException(th));
                                 return;
                             }
 
-                            finishSpanByStatus(createSpan, result.getStatus());
+                            SpanFinalizer.finishByStatus(createSpan, result.getStatus());
                         })
                         .thenApply(Result::getValue);
             } finally {
@@ -475,27 +469,4 @@ class SessionPool implements AutoCloseable {
         }
     }
 
-    private static void finishSpanByStatus(Span span, Status status) {
-        if (span == null) {
-            return;
-        }
-
-        if (!status.isSuccess()) {
-            span.setError(status);
-        }
-
-        span.end();
-    }
-
-    private static void finishSpanByError(Span span, Throwable error) {
-        if (span == null) {
-            return;
-        }
-
-        if (error != null) {
-            span.setError(error);
-        }
-
-        span.end();
-    }
 }

@@ -27,6 +27,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanFinalizer;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.ValueProtos;
@@ -181,26 +182,19 @@ abstract class SessionImpl implements QuerySession {
 
     private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings, Span span) {
         String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
-        GrpcRequestSettings.Builder builder = GrpcRequestSettings.newBuilder()
+        return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withPreferredNodeID((int) nodeID)
-                .withTraceId(traceId);
-        if (span != null) {
-            builder.withSpan(span);
-        }
-        return builder;
+                .withTraceId(traceId)
+                .withSpan(span);
     }
 
     private static YdbQuery.ExecMode mapExecMode(QueryExecMode mode) {
         switch (mode) {
-            case EXECUTE:
-                return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
-            case EXPLAIN:
-                return YdbQuery.ExecMode.EXEC_MODE_EXPLAIN;
-            case PARSE:
-                return YdbQuery.ExecMode.EXEC_MODE_PARSE;
-            case VALIDATE:
-                return YdbQuery.ExecMode.EXEC_MODE_VALIDATE;
+            case EXECUTE: return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
+            case EXPLAIN: return YdbQuery.ExecMode.EXEC_MODE_EXPLAIN;
+            case PARSE: return YdbQuery.ExecMode.EXEC_MODE_PARSE;
+            case VALIDATE: return YdbQuery.ExecMode.EXEC_MODE_VALIDATE;
 
             case UNSPECIFIED:
             default:
@@ -210,14 +204,10 @@ abstract class SessionImpl implements QuerySession {
 
     private static YdbQuery.StatsMode mapStatsMode(QueryStatsMode mode) {
         switch (mode) {
-            case NONE:
-                return YdbQuery.StatsMode.STATS_MODE_NONE;
-            case BASIC:
-                return YdbQuery.StatsMode.STATS_MODE_BASIC;
-            case FULL:
-                return YdbQuery.StatsMode.STATS_MODE_FULL;
-            case PROFILE:
-                return YdbQuery.StatsMode.STATS_MODE_PROFILE;
+            case NONE: return YdbQuery.StatsMode.STATS_MODE_NONE;
+            case BASIC: return YdbQuery.StatsMode.STATS_MODE_BASIC;
+            case FULL: return YdbQuery.StatsMode.STATS_MODE_FULL;
+            case PROFILE: return YdbQuery.StatsMode.STATS_MODE_PROFILE;
 
             case UNSPECIFIED:
             default:
@@ -337,7 +327,7 @@ abstract class SessionImpl implements QuerySession {
         return rpc.createSession(request, grpcSettingsBuilder.build()).thenApply(result -> {
             pessimizationHook.set(result.getStatus().getCode() == StatusCode.OVERLOADED);
             if (!result.isSuccess()) {
-                finishSpanByStatus(createSpan, result.getStatus());
+                SpanFinalizer.finishByStatus(createSpan, result.getStatus());
             }
             return CREATE_SESSION.apply(result);
         });
@@ -364,11 +354,11 @@ abstract class SessionImpl implements QuerySession {
                 return;
             }
             if (th != null) {
-                finishSpanByError(operationSpan, th);
+                SpanFinalizer.finishByError(operationSpan, th);
                 return;
             }
 
-            finishSpanByStatus(operationSpan, status);
+            SpanFinalizer.finishByStatus(operationSpan, status);
         }
 
         @Override
@@ -504,7 +494,7 @@ abstract class SessionImpl implements QuerySession {
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 Result<QueryInfo> res = Result.success(new QueryInfo(null), Status.of(StatusCode.SUCCESS, issue));
-                finishSpanByStatus(commitSpan, res.getStatus());
+                SpanFinalizer.finishByStatus(commitSpan, res.getStatus());
                 return CompletableFuture.completedFuture(res);
             }
 
@@ -527,10 +517,10 @@ abstract class SessionImpl implements QuerySession {
                         if (th != null) {
                             currentStatusFuture.completeExceptionally(
                                     new RuntimeException("Transaction commit failed with exception", th));
-                            finishSpanByError(commitSpan, th);
+                            SpanFinalizer.finishByError(commitSpan, th);
                             return;
                         }
-                        finishSpanByStatus(commitSpan, status.getStatus());
+                        SpanFinalizer.finishByStatus(commitSpan, status.getStatus());
                     }));
         }
 
@@ -543,7 +533,7 @@ abstract class SessionImpl implements QuerySession {
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 Status status = Status.of(StatusCode.SUCCESS, issue);
-                finishSpanByStatus(rollbackSpan, status);
+                SpanFinalizer.finishByStatus(rollbackSpan, status);
                 return CompletableFuture.completedFuture(status);
             }
 
@@ -565,35 +555,11 @@ abstract class SessionImpl implements QuerySession {
                                 .of(StatusCode.ABORTED)
                                 .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR)));
                         if (th != null) {
-                            finishSpanByError(rollbackSpan, th);
+                            SpanFinalizer.finishByError(rollbackSpan, th);
                             return;
                         }
-                        finishSpanByStatus(rollbackSpan, status);
+                        SpanFinalizer.finishByStatus(rollbackSpan, status);
                     });
         }
-    }
-
-    private static void finishSpanByStatus(Span span, Status status) {
-        if (span == null) {
-            return;
-        }
-
-        if (status != null && !status.isSuccess()) {
-            span.setError(status);
-        }
-
-        span.end();
-    }
-
-    private static void finishSpanByError(Span span, Throwable error) {
-        if (span == null) {
-            return;
-        }
-
-        if (error != null) {
-            span.setError(error);
-        }
-
-        span.end();
     }
 }

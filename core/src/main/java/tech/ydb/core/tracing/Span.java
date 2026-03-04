@@ -9,10 +9,14 @@ public interface Span {
 
     String getId();
 
-    /** Sets a string attribute on the span (ignored by Noop implementation). */
+    /**
+     * Sets a string attribute on the span (ignored by Noop implementation).
+     */
     void setAttribute(String key, String value);
 
-    /** Sets a long attribute on the span (ignored by Noop implementation). */
+    /**
+     * Sets a long attribute on the span (ignored by Noop implementation).
+     */
     void setAttribute(String key, long value);
 
     /**
