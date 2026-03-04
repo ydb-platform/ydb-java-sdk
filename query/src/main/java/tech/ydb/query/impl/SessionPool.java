@@ -292,7 +292,7 @@ class SessionPool implements AutoCloseable {
                         })
                         .whenComplete((result, th) -> {
                             if (th != null) {
-                                SpanFinalizer.finishByError(createSpan, FutureTools.unwrapCompletionException(th));
+                                SpanFinalizer.finishByError(createSpan, th);
                                 return;
                             }
 

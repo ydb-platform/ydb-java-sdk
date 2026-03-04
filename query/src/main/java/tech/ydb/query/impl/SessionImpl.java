@@ -366,7 +366,8 @@ abstract class SessionImpl implements QuerySession {
             final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
             return grpcStream.start(msg -> {
                         if (isTraceEnabled) {
-                            logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
+                            logger.trace("{} got stream message {}", SessionImpl.this,
+                                    TextFormat.shortDebugString(msg));
                         }
                         Issue[] issues = Issue.fromPb(msg.getIssuesList());
                         Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
