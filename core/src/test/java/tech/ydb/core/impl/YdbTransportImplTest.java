@@ -3,6 +3,8 @@ package tech.ydb.core.impl;
 
 import java.time.Duration;
 import java.time.ZoneId;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -14,6 +16,7 @@ import javax.annotation.Nonnull;
 
 import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
+import io.grpc.Metadata;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -25,9 +28,13 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.core.operation.OperationBinder;
+import tech.ydb.core.tracing.NoopTracer;
+import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
@@ -232,6 +239,142 @@ public class YdbTransportImplTest {
         YdbSchedulerFactory.shutdownScheduler(custom);
     }
 
+    @Test
+    public void defaultTracerFactoryTest() {
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.discovery("self", new EndpointRecord("node", 2136)));
+
+        GrpcTransport transport = GrpcTransport.forEndpoint("grpc://mocked:2136", "/local")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .build();
+
+        Tracer tracer = transport.getTracer();
+        Assert.assertNotNull(tracer);
+        Assert.assertSame(NoopTracer.getInstance(), tracer);
+
+        transport.close();
+
+        Assert.assertSame(tracer, transport.getTracer());
+    }
+
+    @Test
+    public void customTracerTest() {
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.discovery("self", new EndpointRecord("node", 2136)));
+
+        Tracer customTracer = Mockito.mock(Tracer.class);
+        GrpcTransport transport = GrpcTransport.forEndpoint("grpc://mocked:2136", "/local")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .withTracer(customTracer)
+                .build();
+
+        Assert.assertSame(customTracer, transport.getTracer());
+
+        transport.close();
+
+        Assert.assertSame(customTracer, transport.getTracer());
+    }
+
+    @Test
+    public void spanAttributesAndTraceparentAreSetInMetadata() {
+        EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a", null);
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.discovery("self", endpoint));
+
+        Metadata[] captured = new Metadata[1];
+        MockedCall.WhoAmICall whoAmICall = new MockedCall.WhoAmICall(Runnable::run) {
+            @Override
+            public void start(Listener<DiscoveryProtos.WhoAmIResponse> listener, Metadata headers) {
+                captured[0] = headers;
+                super.start(listener, headers);
+            }
+
+            @Override
+            protected void complete(Listener<DiscoveryProtos.WhoAmIResponse> listener) {
+                listener.onClose(io.grpc.Status.OK, new Metadata());
+            }
+        };
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenReturn(whoAmICall);
+        Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenReturn(whoAmICall);
+
+        GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .build();
+
+        RecordingSpan span = new RecordingSpan("00-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa-bbbbbbbbbbbbbbbb-01");
+        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                .withTraceId("test-trace-id")
+                .withSpan(span)
+                .build();
+
+        transport.unaryCall(
+                DiscoveryServiceGrpc.getWhoAmIMethod(),
+                settings,
+                DiscoveryProtos.WhoAmIRequest.newBuilder().build()
+        ).join();
+
+        Assert.assertEquals("ydb", span.stringAttrs.get("db.system.name"));
+        Assert.assertEquals("/local", span.stringAttrs.get("db.namespace"));
+        Assert.assertEquals("mocked", span.stringAttrs.get("server.address"));
+        Assert.assertEquals(Long.valueOf(2136), span.longAttrs.get("server.port"));
+        Assert.assertEquals("node", span.stringAttrs.get("network.peer.address"));
+        Assert.assertEquals(Long.valueOf(2136), span.longAttrs.get("network.peer.port"));
+        Assert.assertEquals(Long.valueOf(42), span.longAttrs.get("ydb.node.id"));
+        Assert.assertEquals("dc-a", span.stringAttrs.get("ydb.node.dc"));
+
+        Assert.assertNotNull(captured[0]);
+        Assert.assertEquals(span.id, captured[0].get(YdbHeaders.TRACEPARENT));
+
+        transport.close();
+    }
+
+    @Test
+    public void noSpanDoesNotSetTraceparentHeader() {
+        EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a", null);
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.discovery("self", endpoint));
+
+        Metadata[] captured = new Metadata[1];
+        MockedCall.WhoAmICall whoAmICall = new MockedCall.WhoAmICall(Runnable::run) {
+            @Override
+            public void start(Listener<DiscoveryProtos.WhoAmIResponse> listener, Metadata headers) {
+                captured[0] = headers;
+                super.start(listener, headers);
+            }
+
+            @Override
+            protected void complete(Listener<DiscoveryProtos.WhoAmIResponse> listener) {
+                listener.onClose(io.grpc.Status.OK, new Metadata());
+            }
+        };
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenReturn(whoAmICall);
+        Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenReturn(whoAmICall);
+
+        GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .build();
+
+        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                .withTraceId("test-trace-id-without-span")
+                .build();
+
+        transport.unaryCall(
+                DiscoveryServiceGrpc.getWhoAmIMethod(),
+                settings,
+                DiscoveryProtos.WhoAmIRequest.newBuilder().build()
+        ).join();
+
+        Assert.assertNotNull(captured[0]);
+        Assert.assertNull(captured[0].get(YdbHeaders.TRACEPARENT));
+        Assert.assertEquals("test-trace-id-without-span", captured[0].get(YdbHeaders.TRACE_ID));
+
+        transport.close();
+    }
+
     public static class Ticker implements Executor {
         private final Queue<Runnable> tasks = new ConcurrentLinkedQueue<>();
 
@@ -250,6 +393,46 @@ public class YdbTransportImplTest {
         public Ticker noTasks() {
             Assert.assertTrue("Executor have extra tasks", tasks.isEmpty());
             return this;
+        }
+    }
+
+    private static final class RecordingSpan implements Span {
+        private final String id;
+        private final Map<String, String> stringAttrs = new HashMap<>();
+        private final Map<String, Long> longAttrs = new HashMap<>();
+
+        private RecordingSpan(String id) {
+            this.id = id;
+        }
+
+        @Override
+        public String getId() {
+            return id;
+        }
+
+        @Override
+        public void setAttribute(String key, String value) {
+            stringAttrs.put(key, value);
+        }
+
+        @Override
+        public void setAttribute(String key, long value) {
+            longAttrs.put(key, value);
+        }
+
+        @Override
+        public void setError(tech.ydb.core.Status status) {
+            // not needed in this test
+        }
+
+        @Override
+        public void setError(Throwable error) {
+            // not needed in this test
+        }
+
+        @Override
+        public void end() {
+            // not needed in this test
         }
     }
 }
