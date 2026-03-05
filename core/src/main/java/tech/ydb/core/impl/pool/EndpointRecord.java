@@ -27,7 +27,7 @@ public class EndpointRecord {
     }
 
     public EndpointRecord(String host, int port) {
-        this(host, port, 0, null, null);
+        this(host, port, 0, "Unknown", null);
     }
 
     public String getHost() {

@@ -283,7 +283,6 @@ class SessionPool implements AutoCloseable {
                         .createSession(rpc, CREATE_SETTINGS, true, createSpan)
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
-                                SpanFinalizer.finishByStatus(createSpan, r.getStatus());
                                 stats.failed.increment();
                                 throw new UnexpectedResultException("create session problem", r.getStatus());
                             }
@@ -292,7 +291,15 @@ class SessionPool implements AutoCloseable {
                         })
                         .whenComplete((result, th) -> {
                             if (th != null) {
-                                SpanFinalizer.finishByError(createSpan, th);
+                                Throwable error = FutureTools.unwrapCompletionException(th);
+                                if (error instanceof UnexpectedResultException) {
+                                    SpanFinalizer.finishByStatus(
+                                            createSpan,
+                                            ((UnexpectedResultException) error).getStatus()
+                                    );
+                                } else {
+                                    SpanFinalizer.finishByError(createSpan, error);
+                                }
                                 return;
                             }
 
