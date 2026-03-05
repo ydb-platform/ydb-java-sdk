@@ -1,5 +1,7 @@
 package tech.ydb.topic.impl;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Assert;
@@ -15,12 +17,14 @@ import tech.ydb.topic.read.impl.OffsetsRangeImpl;
  */
 public class DisjointOffsetRangeSetTest {
 
+    private OffsetsRange range(long start, long end) {
+        return new OffsetsRangeImpl(start, end);
+    }
+
     @Test
     public void testRangesSimple() {
         DisjointOffsetRangeSet ranges = new DisjointOffsetRangeSet();
-        ranges.add(new OffsetsRangeImpl(0, 1));
-        ranges.add(new OffsetsRangeImpl(1, 2));
-        ranges.add(new OffsetsRangeImpl(3, 4));
+        ranges.add(Arrays.asList(range(0, 1), range(1, 2), range(3, 4)));
         List<OffsetsRange> rangesResult = ranges.getRangesAndClear();
         Assert.assertEquals(2, rangesResult.size());
         Assert.assertEquals(0, rangesResult.get(0).getStart());
@@ -40,16 +44,14 @@ public class DisjointOffsetRangeSetTest {
     public void testReuseRangeSet() {
         DisjointOffsetRangeSet ranges = new DisjointOffsetRangeSet();
 
-        ranges.add(new OffsetsRangeImpl(30, 40));
-        ranges.add(new OffsetsRangeImpl(10, 20));
-        ranges.add(new OffsetsRangeImpl(0, 9));
-        assertException(() -> ranges.add(new OffsetsRangeImpl(8, 11)), "[8,11)", "[0,9)");
-        assertException(() -> ranges.add(new OffsetsRangeImpl(8, 10)), "[8,10)", "[0,9)");
-        assertException(() -> ranges.add(new OffsetsRangeImpl(9, 11)), "[9,11)", "[10,20)");
-        assertException(() -> ranges.add(new OffsetsRangeImpl(25, 31)), "[25,31)", "[30,40)");
-        assertException(() -> ranges.add(new OffsetsRangeImpl(31, 100)), "[31,100)", "[30,40)");
-        assertException(() -> ranges.add(new OffsetsRangeImpl(25, 100)), "[25,100)", "[30,40)");
-        ranges.add(new OffsetsRangeImpl(9, 10));
+        ranges.add(Arrays.asList(range(30, 40), range(10, 20), range(0, 9)));
+        assertException(() -> ranges.add(Collections.singletonList(range(8, 11))), "[8,11)", "[0,9)");
+        assertException(() -> ranges.add(Collections.singletonList(range(8, 10))), "[8,10)", "[0,9)");
+        assertException(() -> ranges.add(Collections.singletonList(range(9, 11))), "[9,11)", "[10,20)");
+        assertException(() -> ranges.add(Collections.singletonList(range(25, 31))), "[25,31)", "[30,40)");
+        assertException(() -> ranges.add(Collections.singletonList(range(31, 100))), "[31,100)", "[30,40)");
+        assertException(() -> ranges.add(Collections.singletonList(range(25, 100))), "[25,100)", "[30,40)");
+        ranges.add(Collections.singletonList(range(9, 10)));
         List<OffsetsRange> firstResult = ranges.getRangesAndClear();
         Assert.assertEquals(2, firstResult.size());
         Assert.assertEquals(0, firstResult.get(0).getStart());
@@ -59,9 +61,9 @@ public class DisjointOffsetRangeSetTest {
 
         Assert.assertTrue(ranges.getRangesAndClear().isEmpty());
 
-        ranges.add(new OffsetsRangeImpl(0, 9));
-        ranges.add(new OffsetsRangeImpl(10, 19));
-        ranges.add(new OffsetsRangeImpl(20, 30));
+        ranges.add(Collections.singletonList(range(0, 9)));
+        ranges.add(Collections.singletonList(range(10, 19)));
+        ranges.add(Collections.singletonList(range(20, 30)));
         List<OffsetsRange> secondResult = ranges.getRangesAndClear();
         Assert.assertEquals(3, secondResult.size());
         Assert.assertEquals(0, secondResult.get(0).getStart());
@@ -71,9 +73,9 @@ public class DisjointOffsetRangeSetTest {
         Assert.assertEquals(20, secondResult.get(2).getStart());
         Assert.assertEquals(30, secondResult.get(2).getEnd());
 
-        ranges.add(new OffsetsRangeImpl(39, 40));
-        ranges.add(new OffsetsRangeImpl(30, 39));
-        ranges.add(new OffsetsRangeImpl(40, 50));
+        ranges.add(Collections.singletonList(range(39, 40)));
+        ranges.add(Collections.singletonList(range(30, 39)));
+        ranges.add(Collections.singletonList(range(40, 50)));
         List<OffsetsRange> thirdResult = ranges.getRangesAndClear();
         Assert.assertEquals(1, thirdResult.size());
         Assert.assertEquals(30, thirdResult.get(0).getStart());
