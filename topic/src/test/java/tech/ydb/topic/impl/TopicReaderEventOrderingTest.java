@@ -51,6 +51,8 @@ import static org.junit.Assert.assertTrue;
  * 2. Session Close Race Condition: Server reader sessions should not be closed before onPartitionSessionClosed
  *    and onReaderClosed callbacks complete execution. This prevents partitions from being reassigned to other
  *    readers before the original reader has finished cleaning up its resources.
+ *
+ * @author Evgeny Kuvardin
  */
 public class TopicReaderEventOrderingTest {
     private static final Logger logger = LoggerFactory.getLogger(TopicReaderEventOrderingTest.class);
