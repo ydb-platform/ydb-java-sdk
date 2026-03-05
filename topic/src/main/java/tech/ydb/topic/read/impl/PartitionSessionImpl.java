@@ -58,8 +58,8 @@ public abstract class PartitionSessionImpl {
                 request.getPartitionOffsets().getStart(), request.getPartitionOffsets().getEnd());
     }
 
-    public abstract void commitRanges(List<OffsetsRange> rangeWrapper);
-    public abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
+    abstract void commitRanges(List<OffsetsRange> rangeWrapper);
+    abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
 
     public PartitionSession getSessionId() {
         return sessionId;
@@ -122,60 +122,37 @@ public abstract class PartitionSessionImpl {
         return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 
-    // Commit single offset range with result future
-    public CompletableFuture<Void> commitOffsetRange(OffsetsRange rangeToCommit) {
-        CompletableFuture<Void> resultFuture = new CompletableFuture<>();
+    private void registerCommitFuture(OffsetsRange range, CompletableFuture<Void> resultFuture) {
         commitFuturesLock.lock();
-
         try {
             if (isWorking.get()) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("[{}] Offset range [{}, {}) is requested to be committed. Last committed offset is" +
-                                    " {} (commit lag is {})", fullId, rangeToCommit.getStart(), rangeToCommit.getEnd(),
-                            lastCommittedOffset, rangeToCommit.getStart() - lastCommittedOffset);
+                    logger.debug("[{}] Offset {} is requested to be committed. "
+                            + "Last committed offset is {} (commit lag is {})",
+                            fullId, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
                 }
-                commitFutures.put(rangeToCommit.getEnd(), resultFuture);
+                commitFutures.put(range.getEnd(), resultFuture);
             } else {
                 logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session " +
-                        "is already closed", fullId, rangeToCommit.getStart(), rangeToCommit.getEnd());
+                        "is already closed", fullId, range.getStart(), range.getEnd());
                 resultFuture.completeExceptionally(new RuntimeException("" + sessionId + " is already closed"));
-                return resultFuture;
             }
         } finally {
             commitFuturesLock.unlock();
         }
+    }
+
+    public void commit(OffsetsRange range, CompletableFuture<Void> resultFuture) {
+        if (resultFuture != null) {
+            registerCommitFuture(range, resultFuture);
+        }
         List<OffsetsRange> rangeWrapper = new ArrayList<>(1);
-        rangeWrapper.add(rangeToCommit);
+        rangeWrapper.add(range);
         commitRanges(rangeWrapper);
-        return resultFuture;
     }
 
-    // Bulk commit without result future
-    public void commitOffsetRanges(List<OffsetsRange> rangesToCommit) {
-        if (isWorking.get()) {
-            if (logger.isDebugEnabled()) {
-                StringBuilder message = new StringBuilder("[").append(fullId)
-                        .append("] Sending CommitRequest with offset ranges ");
-                addRangesToString(message, rangesToCommit);
-                logger.debug(message.toString());
-            }
-            commitRanges(rangesToCommit);
-        } else if (logger.isInfoEnabled()) {
-            StringBuilder message = new StringBuilder("[").append(fullId).append("] Offset ranges ");
-            addRangesToString(message, rangesToCommit);
-            message.append(" are requested to be committed, but partition session is already closed");
-            logger.info(message.toString());
-        }
-    }
-
-    private static void addRangesToString(StringBuilder stringBuilder, List<OffsetsRange> ranges) {
-        for (int i = 0; i < ranges.size(); i++) {
-            if (i > 0) {
-                stringBuilder.append(", ");
-            }
-            OffsetsRange range = ranges.get(i);
-            stringBuilder.append("[").append(range.getStart()).append(",").append(range.getEnd()).append(")");
-        }
+    public void commit(List<OffsetsRange> ranges) {
+        commitRanges(ranges);
     }
 
     public void handleCommitResponse(long committedOffset) {

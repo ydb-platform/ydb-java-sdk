@@ -9,24 +9,25 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.impl.CommitterImpl;
 import tech.ydb.topic.read.impl.PartitionSessionImpl;
 
 /**
  * @author Nikolay Perfilov
  */
 public class DataReceivedEventImpl implements DataReceivedEvent {
+    private final PartitionSessionImpl session;
     private final List<Message> messages;
-    private final PartitionSessionImpl partitionSession;
     private final OffsetsRange offsetsToCommit;
-    private final CommitterImpl committer;
 
-    public DataReceivedEventImpl(PartitionSessionImpl partitionSession, List<Message> messages,
-                                 OffsetsRange offsetsToCommit) {
+    public DataReceivedEventImpl(PartitionSessionImpl session, List<Message> messages, OffsetsRange offsetsToCommit) {
+        this.session = session;
         this.messages = messages;
-        this.partitionSession = partitionSession;
         this.offsetsToCommit = offsetsToCommit;
-        this.committer = new CommitterImpl(partitionSession, messages.size(), offsetsToCommit);
+    }
+
+    @Override
+    public PartitionSession getPartitionSession() {
+        return session.getSessionId();
     }
 
     @Override
@@ -36,24 +37,17 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
 
     @Override
     public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(partitionSession.getSessionId(), Collections.singletonList(offsetsToCommit));
-    }
-
-    @Override
-    public PartitionSession getPartitionSession() {
-        return partitionSession.getSessionId();
+        return new PartitionOffsets(session.getSessionId(), Collections.singletonList(offsetsToCommit));
     }
 
     public PartitionSessionImpl getPartitionSessionImpl() {
-        return partitionSession;
+        return session;
     }
 
     @Override
     public CompletableFuture<Void> commit() {
-        return committer.commitImpl(false);
-    }
-
-    public OffsetsRange getOffsetsToCommit() {
-        return offsetsToCommit;
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        session.commit(offsetsToCommit, future);
+        return future;
     }
 }
