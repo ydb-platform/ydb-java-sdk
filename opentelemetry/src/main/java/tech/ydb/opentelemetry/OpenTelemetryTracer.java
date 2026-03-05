@@ -58,7 +58,7 @@ public final class OpenTelemetryTracer implements Tracer {
 
         @Override
         public String getId() {
-            return "00-" + span.getSpanContext().getTraceId() + "-" + span.getSpanContext().getSpanId() + "01";
+            return "00-" + span.getSpanContext().getTraceId() + "-" + span.getSpanContext().getSpanId() + "-01";
         }
 
         @Override
