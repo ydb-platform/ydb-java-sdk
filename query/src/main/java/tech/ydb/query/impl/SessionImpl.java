@@ -354,9 +354,6 @@ abstract class SessionImpl implements QuerySession {
 
         return rpc.createSession(request, grpcSettingsBuilder.build()).thenApply(result -> {
             pessimizationHook.set(result.getStatus().getCode() == StatusCode.OVERLOADED);
-            if (!result.isSuccess()) {
-                SpanFinalizer.finishByStatus(createSpan, result.getStatus());
-            }
             return CREATE_SESSION.apply(result);
         });
     }
