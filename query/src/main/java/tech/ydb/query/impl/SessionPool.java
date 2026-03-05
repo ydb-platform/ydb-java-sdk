@@ -22,6 +22,8 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanFinalizer;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -60,7 +62,7 @@ class SessionPool implements AutoCloseable {
     private final StatsImpl stats = new StatsImpl();
 
     SessionPool(Clock clock, QueryServiceRpc rpc, ScheduledExecutorService scheduler, int minSize, int maxSize,
-            Duration idleDuration) {
+                Duration idleDuration) {
         this.minSize = minSize;
 
         this.clock = clock;
@@ -275,15 +277,33 @@ class SessionPool implements AutoCloseable {
             Context ctx = Context.ROOT.fork();
             Context previous = ctx.attach();
             try {
+                Span createSpan = rpc.startSpan("ydb.CreateSession");
                 stats.requested.increment();
                 return SessionImpl
-                        .createSession(rpc, CREATE_SETTINGS, true)
+                        .createSession(rpc, CREATE_SETTINGS, true, createSpan)
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
                                 stats.failed.increment();
                                 throw new UnexpectedResultException("create session problem", r.getStatus());
                             }
-                            return new PooledQuerySession(rpc, r.getValue()).start();
+                            PooledQuerySession session = new PooledQuerySession(rpc, r.getValue());
+                            return session.start();
+                        })
+                        .whenComplete((result, th) -> {
+                            if (th != null) {
+                                Throwable error = FutureTools.unwrapCompletionException(th);
+                                if (error instanceof UnexpectedResultException) {
+                                    SpanFinalizer.finishByStatus(
+                                            createSpan,
+                                            ((UnexpectedResultException) error).getStatus()
+                                    );
+                                } else {
+                                    SpanFinalizer.finishByError(createSpan, error);
+                                }
+                                return;
+                            }
+
+                            SpanFinalizer.finishByStatus(createSpan, result.getStatus());
                         })
                         .thenApply(Result::getValue);
             } finally {

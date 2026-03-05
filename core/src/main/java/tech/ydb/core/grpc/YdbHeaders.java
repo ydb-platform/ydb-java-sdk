@@ -15,6 +15,9 @@ public class YdbHeaders {
     public static final Metadata.Key<String> TRACE_ID =
         Metadata.Key.of("x-ydb-trace-id", Metadata.ASCII_STRING_MARSHALLER);
 
+    public static final Metadata.Key<String> TRACEPARENT =
+            Metadata.Key.of("traceparent", Metadata.ASCII_STRING_MARSHALLER);
+
     public static final Metadata.Key<String> BUILD_INFO =
         Metadata.Key.of("x-ydb-sdk-build-info", Metadata.ASCII_STRING_MARSHALLER);
 
