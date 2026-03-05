@@ -58,6 +58,6 @@ public class OffsetsRangeImpl implements OffsetsRange {
 
     @Override
     public String toString() {
-        return "range[" + start + "," + end + ")";
+        return "[" + start + "," + end + ")";
     }
 }

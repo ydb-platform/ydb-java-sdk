@@ -1,6 +1,7 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,14 +129,14 @@ public abstract class PartitionSessionImpl {
         try {
             if (isWorking.get()) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("[{}] Offset {} is requested to be committed. "
+                    logger.debug("[{}] Offset range {} is requested to be committed. "
                             + "Last committed offset is {} (commit lag is {})",
                             fullId, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
                 }
                 commitFutures.put(range.getEnd(), resultFuture);
             } else {
-                logger.info("[{}] Offset range [{}, {}) is requested to be committed, but partition session " +
-                        "is already closed", fullId, range.getStart(), range.getEnd());
+                logger.info("[{}] Offset range {} is requested to be committed, but partition session " +
+                        "is already closed", fullId, range);
                 resultFuture.completeExceptionally(new RuntimeException("" + sessionId + " is already closed"));
             }
         } finally {
@@ -146,13 +148,18 @@ public abstract class PartitionSessionImpl {
         if (resultFuture != null) {
             registerCommitFuture(range, resultFuture);
         }
-        List<OffsetsRange> rangeWrapper = new ArrayList<>(1);
-        rangeWrapper.add(range);
-        commitRanges(rangeWrapper);
+
+        commit(Collections.singletonList(range));
     }
 
     public void commit(List<OffsetsRange> ranges) {
-        commitRanges(ranges);
+        if (isWorking.get()) {
+            commitRanges(ranges);
+            return;
+        }
+
+        logger.info("[{}] Offset ranges {} are requested to be committed, but partition session is already closed",
+                fullId, ranges.stream().map(OffsetsRange::toString).collect(Collectors.joining(",")));
     }
 
     public void handleCommitResponse(long committedOffset) {
