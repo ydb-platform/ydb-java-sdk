@@ -14,6 +14,10 @@ public interface Tracer {
 
     /**
      * Creates a new {@link Span} for the given span name.
+     *
+     * @param spanName logical span name (for example, ydb.ExecuteQuery)
+     * @param spanKind span kind that defines operation role
+     * @return created span instance, or null if implementation does not create spans
      */
     @Nullable
     Span startSpan(String spanName, SpanKind spanKind);
