@@ -109,17 +109,13 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     }
 
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
-
     protected abstract void handleSessionStarted(String sessionId);
-
     protected abstract void handleCommitResponse(long committedOffset, PartitionSession partitionSession);
-
     protected abstract void handleStartPartitionSessionRequest(
             YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
             PartitionSession partitionSession,
             Consumer<StartPartitionSessionSettings> confirmCallback);
-
-    protected abstract CompletableFuture<Void> handleStopPartitionSession(
+    protected abstract void handleStopPartitionSession(
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
             PartitionSession partitionSession,
             Runnable confirmCallback);
@@ -224,7 +220,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
         private final MessageDecoder decoder;
         private final Map<Long, PartitionSessionImpl> partitionSessions = new ConcurrentHashMap<>();
-
         private ReadSessionImpl(Executor decompressionExecutor) {
             super(topicRpc, id + '.' + seqNumberCounter.incrementAndGet());
             this.decoder = new MessageDecoder(settings.getMaxMemoryUsageBytes(), decompressionExecutor);
@@ -380,13 +375,11 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             partitionSessions.values().forEach(partitionSession ->
                     closeFutures.add(closePartitionSession(partitionSession))
             );
-            // Wait for all partition session close callbacks to complete before proceeding
+
             if (!closeFutures.isEmpty()) {
-                for (int i = 0; i < closeFutures.size(); i++) {
-                    CompletableFuture<Void> z = closeFutures.get(i);
-                    z.join();
+                for (CompletableFuture<Void> closeFuture : closeFutures) {
+                    closeFuture.join();
                 }
-            //    CompletableFuture.allOf(closeFutures.toArray(new CompletableFuture[0])).join();
             }
             partitionSessions.clear();
         }
@@ -445,7 +438,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 if (partitionSession != null) {
                     logger.info("[{}] Received graceful StopPartitionSessionRequest", partitionSession.getFullId());
                     handleStopPartitionSession(request, partitionSession.getSessionId(),
-                            () -> sendStopPartitionSessionResponse(request.getPartitionSessionId())).join();
+                            () -> sendStopPartitionSessionResponse(request.getPartitionSessionId()));
                 } else {
                     logger.error("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
                             "but have no such partition session active", streamId, request.getPartitionSessionId());

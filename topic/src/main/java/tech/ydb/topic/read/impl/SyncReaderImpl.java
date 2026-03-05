@@ -187,16 +187,15 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected CompletableFuture<Void> handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                                                 PartitionSession partitionSession, Runnable confirmCallback) {
+    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
+                                              PartitionSession partitionSession, Runnable confirmCallback) {
         confirmCallback.run();
-        return null;
     }
 
     @Override
     protected CompletableFuture<Void> handleClosePartitionSession(PartitionSession partitionSession) {
         logger.debug("ClosePartitionSession event received. Ignoring.");
-        return null;
+        return CompletableFuture.completedFuture(null);
     }
 
     @Override

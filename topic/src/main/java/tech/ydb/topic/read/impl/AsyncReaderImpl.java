@@ -137,19 +137,19 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected CompletableFuture<Void> handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                                                 PartitionSession partitionSession, Runnable confirmCallback) {
+    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
+                                              PartitionSession partitionSession, Runnable confirmCallback) {
         final long committedOffset = request.getCommittedOffset();
         final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(partitionSession, committedOffset,
                 confirmCallback);
-        return CompletableFuture.runAsync(() -> {
+        handlerExecutor.execute(() -> {
             try {
                 eventHandler.onStopPartitionSession(event);
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onStopPartitionSession");
                 throw th;
             }
-        }, handlerExecutor);
+        });
     }
 
     @Override

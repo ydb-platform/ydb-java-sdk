@@ -1,9 +1,7 @@
 package tech.ydb.topic.impl;
 
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,7 +12,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.After;
@@ -40,11 +37,9 @@ import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.SyncWriter;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Test to verify event ordering guarantees and session close race conditions in Topic API.
@@ -56,8 +51,6 @@ import static org.junit.Assert.fail;
  * 2. Session Close Race Condition: Server reader sessions should not be closed before onPartitionSessionClosed
  *    and onReaderClosed callbacks complete execution. This prevents partitions from being reassigned to other
  *    readers before the original reader has finished cleaning up its resources.
- *
- * @author Generated Test
  */
 public class TopicReaderEventOrderingTest {
     private static final Logger logger = LoggerFactory.getLogger(TopicReaderEventOrderingTest.class);
@@ -67,7 +60,7 @@ public class TopicReaderEventOrderingTest {
 
     private static final String TEST_CONSUMER = "test-consumer";
 
-    private static final int partitionCount = 1;
+    private static final int partitionCount = 2;
 
     private TopicClient client;
     private String testTopic;
@@ -100,7 +93,7 @@ public class TopicReaderEventOrderingTest {
         }
     }
 
-    private void sendMessage(String data) throws Exception {
+    private void sendMessage(String data) {
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath(testTopic)
                 .setProducerId("test-producer")
@@ -206,7 +199,7 @@ public class TopicReaderEventOrderingTest {
             int startIndex = -1;
             int stopIndex = -1;
             for (int i = 0; i < eventLog.get(partitionId).size(); i++) {
-                if (startIndex == - 1 && eventLog.get(partitionId).get(i).startsWith("onStartPartitionSession")) {
+                if (startIndex == -1 && eventLog.get(partitionId).get(i).startsWith("onStartPartitionSession")) {
                     startIndex = i;
                 }
                 if (stopIndex == -1 && eventLog.get(partitionId).get(i).startsWith("onPartitionSessionClosed")) {
@@ -257,7 +250,6 @@ public class TopicReaderEventOrderingTest {
                 .setEventHandler(new ReadEventHandler() {
                     @Override
                     public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
-                        // No-op
                     }
 
                     @Override
