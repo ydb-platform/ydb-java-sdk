@@ -55,4 +55,9 @@ public class OffsetsRangeImpl implements OffsetsRange {
     public int hashCode() {
         return Objects.hash(start, end);
     }
+
+    @Override
+    public String toString() {
+        return "[" + start + "," + end + ")";
+    }
 }

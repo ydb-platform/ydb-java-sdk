@@ -21,7 +21,7 @@ import tech.ydb.topic.read.PartitionSession;
  * @author Nikolay Perfilov
  */
 public class MessageImpl implements Message {
-    private byte[] data;
+    private final PartitionSessionImpl session;
     private final long uncompressedSize;
     private final long offset;
     private final long seqNo;
@@ -29,15 +29,15 @@ public class MessageImpl implements Message {
     private final Instant createdAt;
     private final String messageGroupId;
     private final BatchMeta batchMeta;
-    private final PartitionSessionImpl partitionSession;
     private final List<MetadataItem> metadataItems;
     private final OffsetsRange offsetsToCommit;
-    private final CommitterImpl committer;
+
+    private byte[] data;
     private IOException exception = null;
 
     public MessageImpl(PartitionSessionImpl session, BatchMeta meta, long commitOffsetFrom,
             YdbTopic.StreamReadMessage.ReadResponse.MessageData msg) {
-        this.data = msg.getData().toByteArray();
+        this.session = session;
         this.uncompressedSize = msg.getUncompressedSize();
         this.offset = msg.getOffset();
         this.seqNo = msg.getSeqNo();
@@ -47,11 +47,10 @@ public class MessageImpl implements Message {
         this.metadataItems = msg.getMetadataItemsList().stream()
                 .map(metadataItem -> new MetadataItem(metadataItem.getKey(), metadataItem.getValue().toByteArray()))
                 .collect(Collectors.toList());
-
         this.batchMeta = meta;
-        this.partitionSession = session;
         this.offsetsToCommit = new OffsetsRangeImpl(commitOffsetFrom, offset + 1);
-        this.committer = new CommitterImpl(partitionSession, 1, offsetsToCommit);
+
+        this.data = msg.getData().toByteArray();
     }
 
     @Override
@@ -116,11 +115,11 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionSession getPartitionSession() {
-        return partitionSession.getSessionId();
+        return session.getSessionId();
     }
 
     public PartitionSessionImpl getPartitionSessionImpl() {
-        return partitionSession;
+        return session;
     }
 
     @Override
@@ -130,15 +129,13 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(partitionSession.getSessionId(), Collections.singletonList(offsetsToCommit));
+        return new PartitionOffsets(session.getSessionId(), Collections.singletonList(offsetsToCommit));
     }
 
     @Override
     public CompletableFuture<Void> commit() {
-        return committer.commitImpl(false);
-    }
-
-    public OffsetsRange getOffsetsToCommit() {
-        return offsetsToCommit;
+        CompletableFuture<Void> future = new CompletableFuture<>();
+        session.commit(offsetsToCommit, future);
+        return future;
     }
 }

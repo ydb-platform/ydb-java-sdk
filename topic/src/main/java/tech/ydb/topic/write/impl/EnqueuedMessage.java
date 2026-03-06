@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.topic.description.Codec;
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.utils.Encoder;
@@ -63,11 +63,11 @@ public class EnqueuedMessage {
         return compressError;
     }
 
-    public void encode(String writeId, Codec codec) {
+    public void encode(String writeId, int codec, CodecRegistry codecRegistry) {
         logger.trace("[{}] Started encoding message", writeId);
 
         try {
-            bytes = Encoder.encode(codec, bytes);
+            bytes = Encoder.encode(codec, bytes, codecRegistry);
             isReady = true;
             logger.trace("[{}] Successfully finished encoding message", writeId);
         } catch (Throwable ex) {

@@ -9,6 +9,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nullable;
+
 import com.google.protobuf.TextFormat;
 import io.grpc.Context;
 import org.slf4j.Logger;
@@ -24,14 +26,18 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
+import tech.ydb.proto.ValueProtos;
+import tech.ydb.proto.formats.YdbFormats;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryStream;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.result.QueryStats;
+import tech.ydb.query.settings.ApacheArrowFormat;
 import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.BeginTransactionSettings;
 import tech.ydb.query.settings.CommitTransactionSettings;
@@ -170,19 +176,32 @@ abstract class SessionImpl implements QuerySession {
     }
 
     private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings) {
+        return makeOptions(settings, null);
+    }
+
+    Span startSpan(String spanName) {
+        return rpc.startSpan(spanName);
+    }
+
+    private GrpcRequestSettings.Builder makeOptions(BaseRequestSettings settings, Span span) {
         String traceId = settings.getTraceId() == null ? UUID.randomUUID().toString() : settings.getTraceId();
         return GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withPreferredNodeID((int) nodeID)
-                .withTraceId(traceId);
+                .withTraceId(traceId)
+                .withSpan(span);
     }
 
     private static YdbQuery.ExecMode mapExecMode(QueryExecMode mode) {
         switch (mode) {
-            case EXECUTE: return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
-            case EXPLAIN: return YdbQuery.ExecMode.EXEC_MODE_EXPLAIN;
-            case PARSE: return YdbQuery.ExecMode.EXEC_MODE_PARSE;
-            case VALIDATE: return YdbQuery.ExecMode.EXEC_MODE_VALIDATE;
+            case EXECUTE:
+                return YdbQuery.ExecMode.EXEC_MODE_EXECUTE;
+            case EXPLAIN:
+                return YdbQuery.ExecMode.EXEC_MODE_EXPLAIN;
+            case PARSE:
+                return YdbQuery.ExecMode.EXEC_MODE_PARSE;
+            case VALIDATE:
+                return YdbQuery.ExecMode.EXEC_MODE_VALIDATE;
 
             case UNSPECIFIED:
             default:
@@ -192,10 +211,14 @@ abstract class SessionImpl implements QuerySession {
 
     private static YdbQuery.StatsMode mapStatsMode(QueryStatsMode mode) {
         switch (mode) {
-            case NONE: return YdbQuery.StatsMode.STATS_MODE_NONE;
-            case BASIC: return YdbQuery.StatsMode.STATS_MODE_BASIC;
-            case FULL: return YdbQuery.StatsMode.STATS_MODE_FULL;
-            case PROFILE: return YdbQuery.StatsMode.STATS_MODE_PROFILE;
+            case NONE:
+                return YdbQuery.StatsMode.STATS_MODE_NONE;
+            case BASIC:
+                return YdbQuery.StatsMode.STATS_MODE_BASIC;
+            case FULL:
+                return YdbQuery.StatsMode.STATS_MODE_FULL;
+            case PROFILE:
+                return YdbQuery.StatsMode.STATS_MODE_PROFILE;
 
             case UNSPECIFIED:
             default:
@@ -203,8 +226,50 @@ abstract class SessionImpl implements QuerySession {
         }
     }
 
+    private static YdbFormats.ArrowFormatSettings mapApacheArrowFormat(ApacheArrowFormat mode) {
+        YdbFormats.ArrowFormatSettings.CompressionCodec.Builder codecBuilder = YdbFormats.ArrowFormatSettings
+                .CompressionCodec.newBuilder();
+
+        switch (mode.getCodec()) {
+            case ZSTD:
+                codecBuilder.setType(YdbFormats.ArrowFormatSettings.CompressionCodec.Type.TYPE_ZSTD)
+                        .setLevel(mode.getCompressionLevel());
+                break;
+            case LZ4_FRAME:
+                codecBuilder.setType(YdbFormats.ArrowFormatSettings.CompressionCodec.Type.TYPE_LZ4_FRAME);
+                break;
+            case NONE:
+            default:
+                codecBuilder.setType(YdbFormats.ArrowFormatSettings.CompressionCodec.Type.TYPE_NONE);
+                break;
+        }
+
+        return YdbFormats.ArrowFormatSettings.newBuilder().setCompressionCodec(codecBuilder).build();
+    }
+
+    CompletableFuture<Status> commitById(String txId, CommitTransactionSettings settings, Span span) {
+        YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
+                .setSessionId(sessionId)
+                .setTxId(txId)
+                .build();
+        return rpc.commitTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus);
+    }
+
+    CompletableFuture<Status> rollbackById(String txId, RollbackTransactionSettings settings, Span span) {
+        YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
+                .setSessionId(sessionId)
+                .setTxId(txId)
+                .build();
+        return rpc.rollbackTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus);
+    }
+
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
-            String query, YdbQuery.TransactionControl tx, Params prms, ExecuteQuerySettings settings
+            String query,
+            YdbQuery.TransactionControl tx,
+            Params prms,
+            ExecuteQuerySettings settings,
+            @Nullable
+            Span span
     ) {
         YdbQuery.ExecuteQueryRequest.Builder request = YdbQuery.ExecuteQueryRequest.newBuilder()
                 .setSessionId(sessionId)
@@ -217,6 +282,11 @@ abstract class SessionImpl implements QuerySession {
                         .build()
                 )
                 .putAllParameters(prms.toPb());
+
+        if (settings.getApacheArrowFormat() != null) {
+            request.setResultSetFormat(ValueProtos.ResultSet.Format.FORMAT_ARROW)
+                    .setArrowFormatSettings(mapApacheArrowFormat(settings.getApacheArrowFormat()));
+        }
 
         String resourcePool = settings.getResourcePool();
         if (resourcePool != null && !resourcePool.isEmpty()) {
@@ -231,7 +301,7 @@ abstract class SessionImpl implements QuerySession {
             request.setTxControl(tx);
         }
 
-        GrpcRequestSettings.Builder options = makeOptions(settings);
+        GrpcRequestSettings.Builder options = makeOptions(settings, span);
         if (settings.getGrpcFlowControl() != null) {
             options = options.withFlowControl(settings.getGrpcFlowControl());
         }
@@ -242,7 +312,8 @@ abstract class SessionImpl implements QuerySession {
     @Override
     public QueryStream createQuery(String query, TxMode tx, Params prms, ExecuteQuerySettings settings) {
         YdbQuery.TransactionControl tc = TxControl.txModeCtrl(tx, true);
-        return new StreamImpl(createGrpcStream(query, tc, prms, settings)) {
+        Span span = rpc.startSpan("ydb.ExecuteQuery");
+        return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
             @Override
             void handleTxMeta(String txID) {
                 if (txID != null && !txID.isEmpty()) {
@@ -263,7 +334,8 @@ abstract class SessionImpl implements QuerySession {
     static CompletableFuture<Result<YdbQuery.CreateSessionResponse>> createSession(
             QueryServiceRpc rpc,
             CreateSessionSettings settings,
-            boolean useServerBalancer) {
+            boolean useServerBalancer,
+            Span createSpan) {
         YdbQuery.CreateSessionRequest request = YdbQuery.CreateSessionRequest.newBuilder()
                 .build();
 
@@ -273,7 +345,8 @@ abstract class SessionImpl implements QuerySession {
         GrpcRequestSettings.Builder grpcSettingsBuilder = GrpcRequestSettings.newBuilder()
                 .withDeadline(settings.getRequestTimeout())
                 .withPessimizationHook(pessimizationHook::get)
-                .withTraceId(traceId);
+                .withTraceId(traceId)
+                .withSpan(createSpan);
         if (useServerBalancer) {
             grpcSettingsBuilder.addClientCapability(SERVER_BALANCER_HINT);
         }
@@ -286,19 +359,24 @@ abstract class SessionImpl implements QuerySession {
 
     abstract class StreamImpl implements QueryStream {
         private final GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream;
+        @Nullable
+        private final Span span;
 
-        StreamImpl(GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream) {
+        StreamImpl(GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream, @Nullable Span operationSpan) {
             this.grpcStream = grpcStream;
+            this.span = operationSpan;
         }
 
         abstract void handleTxMeta(String txId);
-        void handleCompletion(Status status, Throwable th) { }
+
+        void handleCompletion(Status status, Throwable th) {
+        }
 
         @Override
         public CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler) {
             final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
             final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
-            return grpcStream.start(msg -> {
+            return Span.endOnResult(span, grpcStream.start(msg -> {
                 if (isTraceEnabled) {
                     logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
                 }
@@ -343,7 +421,8 @@ abstract class SessionImpl implements QuerySession {
                 } else {
                     return Result.fail(status);
                 }
-            });
+            })
+            );
         }
 
         @Override
@@ -380,7 +459,8 @@ abstract class SessionImpl implements QuerySession {
                     ? TxControl.txIdCtrl(currentId, commitAtEnd)
                     : TxControl.txModeCtrl(txMode, commitAtEnd);
 
-            return new StreamImpl(createGrpcStream(query, tc, prms, settings)) {
+            Span span = rpc.startSpan("ydb.ExecuteQuery");
+            return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
                 @Override
                 void handleTxMeta(String txID) {
                     String newId = txID == null || txID.isEmpty() ? null : txID;
@@ -388,6 +468,7 @@ abstract class SessionImpl implements QuerySession {
                         logger.warn("{} lost transaction meta id {}", SessionImpl.this, newId);
                     }
                 }
+
                 @Override
                 void handleCompletion(Status status, Throwable th) {
                     if (th != null) {
@@ -418,19 +499,21 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings) {
+            Span span = rpc.startSpan("ydb.Commit");
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
-            final String transactionId = txId.get();
+            String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 Result<QueryInfo> res = Result.success(new QueryInfo(null), Status.of(StatusCode.SUCCESS, issue));
-                return CompletableFuture.completedFuture(res);
+                return Span.endOnResult(span, CompletableFuture.completedFuture(res));
             }
 
             YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
                     .setSessionId(sessionId)
                     .setTxId(transactionId)
                     .build();
-            return rpc.commitTransaction(request, makeOptions(settings).build())
+
+            return Span.endOnResult(span, rpc.commitTransaction(request, makeOptions(settings, span).build()))
                     .thenApply(res -> {
                         Status status = res.getStatus();
                         currentStatusFuture.complete(status);
@@ -450,19 +533,21 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Status> rollback(RollbackTransactionSettings settings) {
+            Span span = rpc.startSpan("ydb.Rollback");
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
-            final String transactionId = txId.get();
+            String transactionId = txId.get();
 
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
-                return CompletableFuture.completedFuture(Status.of(StatusCode.SUCCESS, issue));
+                Status status = Status.of(StatusCode.SUCCESS, issue);
+                return Span.endOnStatus(span, CompletableFuture.completedFuture(status));
             }
 
             YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
                     .setSessionId(sessionId)
                     .setTxId(transactionId)
                     .build();
-            return rpc.rollbackTransaction(request, makeOptions(settings).build())
+            return Span.endOnResult(span, rpc.rollbackTransaction(request, makeOptions(settings, span).build()))
                     .thenApply(result -> {
                         updateSessionState(result.getStatus());
                         if (!txId.compareAndSet(transactionId, null)) {
@@ -471,9 +556,11 @@ abstract class SessionImpl implements QuerySession {
                         }
                         return result.getStatus();
                     })
-                    .whenComplete((status, th) -> currentStatusFuture.complete(Status
-                            .of(StatusCode.ABORTED)
-                            .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR))));
+                    .whenComplete((status, th) -> {
+                        currentStatusFuture.complete(Status
+                                .of(StatusCode.ABORTED)
+                                .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR)));
+                    });
         }
     }
 }

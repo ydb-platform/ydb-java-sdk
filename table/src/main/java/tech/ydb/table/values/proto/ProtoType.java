@@ -481,7 +481,6 @@ public class ProtoType {
         }
     }
 
-
     private static PrimitiveType primitiveTypeFromPb(ValueProtos.Type dataType) {
         switch (dataType.getTypeId()) {
             case BOOL: return PrimitiveType.Bool;
@@ -516,10 +515,5 @@ public class ProtoType {
             default:
                 throw new IllegalStateException("unknown PrimitiveType: " + dataType.getTypeId());
         }
-    }
-
-    public static String toString(ValueProtos.Type type) {
-        // TODO: implement it
-        return type.toString();
     }
 }

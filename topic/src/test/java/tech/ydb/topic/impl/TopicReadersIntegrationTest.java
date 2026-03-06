@@ -6,6 +6,10 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.config.Configurator;
+import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
@@ -18,6 +22,7 @@ import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.read.AsyncReader;
+import tech.ydb.topic.read.impl.PartitionSessionImpl;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -31,7 +36,7 @@ import tech.ydb.topic.write.SyncWriter;
  * @author Aleksandr Gorshenin
  */
 public class TopicReadersIntegrationTest {
-    private final static Logger logger = LoggerFactory.getLogger(YdbTopicsIntegrationTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(YdbTopicsIntegrationTest.class);
 
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
@@ -78,6 +83,9 @@ public class TopicReadersIntegrationTest {
 
     @Test
     public void singleThreadExecutorTest() throws Exception {
+        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(PartitionSessionImpl.class);
+        Level level = silenceLogger.getLevel();
+
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder()
                         .setPath(TEST_TOPIC)
@@ -85,30 +93,37 @@ public class TopicReadersIntegrationTest {
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
-        Semaphore messageCount = new Semaphore(0);
-        CompletableFuture<Boolean> processing = new CompletableFuture<>();
+        try {
+            // temporary disable logging
+            Configurator.setLevel(silenceLogger, Level.OFF);
 
-        ExecutorService executor = Executors.newSingleThreadExecutor((r) -> new Thread(r, "test-executor"));
-        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
-                .setExecutor(executor)
-                .setEventHandler((event) -> {
-                    messageCount.release();
-                    processing.join();
-                }).build()
-        );
+            Semaphore messageCount = new Semaphore(0);
+            CompletableFuture<Boolean> processing = new CompletableFuture<>();
 
-        reader.init().join();
+            ExecutorService executor = Executors.newSingleThreadExecutor((r) -> new Thread(r, "test-executor"));
+            AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                    .setExecutor(executor)
+                    .setEventHandler((event) -> {
+                        messageCount.release();
+                        processing.join();
+                    }).build()
+            );
 
-        sendMessages(Message.of("test".getBytes()));
+            reader.init().join();
 
-        // wait for message committing
-        messageCount.acquireUninterruptibly();
+            sendMessages(Message.of("test".getBytes()));
 
-        // stop reader
-        CompletableFuture<Void> f = reader.shutdown();
-        processing.completeExceptionally(new RuntimeException("shutdown"));
-        f.get(5, TimeUnit.SECONDS);
+            // wait for message committing
+            messageCount.acquireUninterruptibly();
 
-        executor.shutdownNow();
+            // stop reader
+            CompletableFuture<Void> f = reader.shutdown();
+            processing.completeExceptionally(new RuntimeException("shutdown"));
+            f.get(5, TimeUnit.SECONDS);
+
+            executor.shutdownNow();
+        } finally {
+            Configurator.setLevel(silenceLogger, level);
+        }
     }
 }

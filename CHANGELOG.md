@@ -1,3 +1,23 @@
+## 2.4.0 ##
+* Core: Upgrade to grpc-java v1.68.3
+* Core: Upgrade to use slf4j2
+* Core: Removed thread lock on the waiting of channel ready
+* Core: Removed node pessimization on ResourceExhausted & DeadlineExceeded
+* Core: Fixed deadlock on sync token updating
+* Table: Fixed ResultSetReader inconsistency with next()/setRowIndex()
+* Table: Updated PrimitiveValue.Bytes implementation
+* Table: Added support of ApacheArrow for executeBulkUpsert
+* Table: Added support of comparability to Value
+* Topic: Added support of custom codecs
+* Query: Removed @Experimental annotation on QueryClient
+* Query: Added ScriptClient with support of long-life scripts
+* Query: Added support of ApacheArrow for query execution
+* Tests: Updated testcontainers to 2.0.3
+
+## 2.3.31 ##
+* Topic: Added support of availabilityPeriod to topic consumer
+* Topic: Added preferReady option to topic's control plane methods
+
 ## 2.3.30 ##
 * Core: Added support of YDB custom headers
 * Core: Added support for external scheduler usage

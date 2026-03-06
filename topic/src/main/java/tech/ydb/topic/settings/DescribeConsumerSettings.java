@@ -1,12 +1,10 @@
 package tech.ydb.topic.settings;
 
-import tech.ydb.core.settings.OperationSettings;
-
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class DescribeConsumerSettings extends OperationSettings {
+public class DescribeConsumerSettings extends TopicClientOperationSettings {
     private final boolean includeStats;
     private final boolean includeLocation;
 
@@ -28,7 +26,7 @@ public class DescribeConsumerSettings extends OperationSettings {
         return new Builder();
     }
 
-    public static class Builder extends OperationBuilder<Builder> {
+    public static class Builder extends TopicClientOperationBuilder<Builder> {
         private boolean includeStats = false;
         private boolean includeLocation = false;
 

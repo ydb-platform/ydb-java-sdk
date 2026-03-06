@@ -35,8 +35,6 @@ public class EndpointPoolTest {
 
     private AutoCloseable mocks;
     private final MockedStatic<ThreadLocalRandom> threadLocalStaticMock = Mockito.mockStatic(ThreadLocalRandom.class);
-    private final MockedStatic<Ticker> tickerStaticMock = Mockito.mockStatic(Ticker.class);
-    private final MockedStatic<SocketFactory> socketFactoryStaticMock = Mockito.mockStatic(SocketFactory.class);
 
     private final Socket socket = Mockito.mock(Socket.class);
     private final SocketFactory socketFactory = Mockito.mock(SocketFactory.class);
@@ -46,15 +44,12 @@ public class EndpointPoolTest {
     public void setUp() throws IOException {
         mocks = MockitoAnnotations.openMocks(this);
         threadLocalStaticMock.when(ThreadLocalRandom::current).thenReturn(random);
-        socketFactoryStaticMock.when(SocketFactory::getDefault).thenReturn(socketFactory);
         Mockito.doNothing().when(socket).connect(Mockito.any(SocketAddress.class));
         Mockito.when(socketFactory.createSocket()).thenReturn(socket);
     }
 
     @After
     public void tearDown() throws Exception {
-        socketFactoryStaticMock.close();
-        tickerStaticMock.close();
         threadLocalStaticMock.close();
         mocks.close();
     }
@@ -546,37 +541,45 @@ public class EndpointPoolTest {
                 83, 125
         );
 
-        tickerStaticMock.when(Ticker::systemTicker).thenReturn(testTicker);
+        MockedStatic<Ticker> tickerStaticMock = Mockito.mockStatic(Ticker.class);
+        MockedStatic<SocketFactory> socketFactoryStaticMock = Mockito.mockStatic(SocketFactory.class);
+        try {
+            socketFactoryStaticMock.when(SocketFactory::getDefault).thenReturn(socketFactory);
+            tickerStaticMock.when(Ticker::systemTicker).thenReturn(testTicker);
 
-        EndpointPool pool = new EndpointPool(detectLocalDC());
-        check(pool).records(0).knownNodes(0).needToReDiscovery(false);
+            EndpointPool pool = new EndpointPool(detectLocalDC());
+            check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        int p1 = 1234;
-        int p2 = 1235;
-        int p3 = 1236;
+            int p1 = 1234;
+            int p2 = 1235;
+            int p3 = 1236;
 
-        pool.setNewState("DC", list(
-                endpoint(1, "127.0.0.1", p1, "DC1"),
-                endpoint(2, "127.0.0.2", p2, "DC2"),
-                endpoint(3, "127.0.0.3", p3, "DC3")
-        ));
+            pool.setNewState("DC", list(
+                    endpoint(1, "127.0.0.1", p1, "DC1"),
+                    endpoint(2, "127.0.0.2", p2, "DC2"),
+                    endpoint(3, "127.0.0.3", p3, "DC3")
+            ));
 
-        check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
+            check(pool).records(3).knownNodes(3).needToReDiscovery(false).bestEndpointsCount(1);
 
-        check(pool.getEndpoint(EMPTY, empty())).hostname("127.0.0.2").nodeID(2).port(p2); // detect local dc
-        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
-        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
-        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
-        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
-        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
+            check(pool.getEndpoint(EMPTY, empty())).hostname("127.0.0.2").nodeID(2).port(p2); // detect local dc
+            check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
+            check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
+            check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
+            check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
+            check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("127.0.0.2").nodeID(2).port(p2); // random from local dc
 
-        pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(2)), "");
-        check(pool.getEndpoint(EMPTY, empty())).hostname("127.0.0.1").nodeID(1).port(p1); // new local dc
-        check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
-        check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
-        check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
-        check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
-        check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
+            pool.pessimizeEndpoint(pool.getEndpoint(EMPTY, nodeId(2)), "");
+            check(pool.getEndpoint(EMPTY, empty())).hostname("127.0.0.1").nodeID(1).port(p1); // new local dc
+            check(pool.getEndpoint(EMPTY, nodeId(0))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
+            check(pool.getEndpoint(EMPTY, nodeId(1))).hostname("127.0.0.1").nodeID(1).port(p1);
+            check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("127.0.0.2").nodeID(2).port(p2); // local dc
+            check(pool.getEndpoint(EMPTY, nodeId(3))).hostname("127.0.0.3").nodeID(3).port(p3);
+            check(pool.getEndpoint(EMPTY, nodeId(4))).hostname("127.0.0.1").nodeID(1).port(p1); // random from local dc
+        } finally {
+            socketFactoryStaticMock.close();
+            tickerStaticMock.close();
+        }
     }
 
     private static class PoolChecker {

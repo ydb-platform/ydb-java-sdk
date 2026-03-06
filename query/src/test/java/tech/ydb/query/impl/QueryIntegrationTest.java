@@ -488,7 +488,9 @@ public class QueryIntegrationTest {
                     Assert.assertTrue(result.getStatus().getIssues().length == 0);
 
                     QueryReader reader = result.getValue();
-                    Assert.assertEquals(1, reader.getIssueList().size());
+//                    TODO: https://github.com/ydb-platform/ydb/issues/33399
+//                    Assert.assertEquals(1, reader.getIssueList().size());
+                    Assert.assertFalse(reader.getIssueList().isEmpty());
                     Assert.assertEquals("#1060 Execution (S_WARNING)\n  1:1 - 1:1: "
                             + "#2503 Given predicate is not suitable for used index: idx_value (S_WARNING)",
                             reader.getIssueList().get(0).toString()
@@ -598,8 +600,8 @@ public class QueryIntegrationTest {
                 Assert.assertFalse(result.isSuccess());
                 Assert.assertEquals(StatusCode.PRECONDITION_FAILED, result.getStatus().getCode());
                 Issue issue =  Issue.of(2012,
-//                        "Constraint violated. Table: `" + ydbTransport.getDatabase() + "/" + TEST_TABLE + "`.",
-                        "Conflict with existing key.",
+                        "Constraint violated. Table: `" + ydbTransport.getDatabase() + "/" + TEST_TABLE + "`.",
+//                        "Conflict with existing key.",
                         Issue.Severity.ERROR
                 );
                 Assert.assertArrayEquals(new Issue[] { issue }, result.getStatus().getIssues());

@@ -1,11 +1,9 @@
 package tech.ydb.topic.settings;
 
-import tech.ydb.core.settings.OperationSettings;
-
 /**
  * @author Nikolay Perfilov
  */
-public class CommitOffsetSettings extends OperationSettings {
+public class CommitOffsetSettings extends TopicClientOperationSettings {
     private final long partitionId;
     private final String consumer;
     private final long offset;
@@ -42,7 +40,7 @@ public class CommitOffsetSettings extends OperationSettings {
     /*
      * BUILDER
      */
-    public static class Builder extends OperationBuilder<Builder> {
+    public static class Builder extends TopicClientOperationBuilder<Builder> {
         private long partitionId = -1;
         private String consumer = null;
         private long offset = 0;

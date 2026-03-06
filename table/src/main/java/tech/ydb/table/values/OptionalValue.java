@@ -96,4 +96,28 @@ public class OptionalValue implements Value<OptionalType> {
 
         return ProtoValue.optional();
     }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (optional.value == null) {
+                if (value == null) {
+                    return 0;
+                }
+                throw new NullPointerException("Cannot compare value " + value + " with NULL");
+            }
+            return compareTo(optional.value);
+        }
+
+        if (value == null) {
+            throw new NullPointerException("Cannot compare NULL with value " + other);
+        }
+
+        return value.compareTo(other);
+    }
 }

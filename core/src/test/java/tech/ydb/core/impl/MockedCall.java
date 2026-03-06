@@ -119,7 +119,7 @@ public abstract class MockedCall<ResT, RespT> extends ClientCall<ResT, RespT> {
             b.setPort(e.getPort());
             b.setNodeId(e.getNodeId());
             if (e.getLocation() != null) {
-                b.setLocation(b.getLocation());
+                b.setLocation(e.getLocation());
             }
 
             builder.addEndpoints(b.build());

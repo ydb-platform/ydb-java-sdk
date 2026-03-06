@@ -26,6 +26,8 @@ import tech.ydb.core.impl.YdbTransportImpl;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
 import tech.ydb.core.impl.pool.ChannelFactoryLoader;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.tracing.NoopTracer;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.Version;
 
 
@@ -81,11 +83,11 @@ public class GrpcTransportBuilder {
     private Executor callExecutor = MoreExecutors.directExecutor();
     private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
     private long readTimeoutMillis = 0;
-    private long connectTimeoutMillis = 30_000;
     private long discoveryTimeoutMillis = 60_000;
     private boolean useDefaultGrpcResolver = false;
     private GrpcCompression compression = GrpcCompression.NO_COMPRESSION;
     private InitMode initMode = InitMode.SYNC;
+    private Tracer tracer = NoopTracer.getInstance();
 
     /**
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
@@ -161,8 +163,9 @@ public class GrpcTransportBuilder {
         return readTimeoutMillis;
     }
 
+    @Deprecated
     public long getConnectTimeoutMillis() {
-        return connectTimeoutMillis;
+        return 10_000;
     }
 
     public long getDiscoveryTimeoutMillis() {
@@ -187,6 +190,10 @@ public class GrpcTransportBuilder {
 
     public boolean useDefaultGrpcResolver() {
         return useDefaultGrpcResolver;
+    }
+
+    public Tracer getTracer() {
+        return tracer;
     }
 
     public ManagedChannelFactory getManagedChannelFactory() {
@@ -335,15 +342,13 @@ public class GrpcTransportBuilder {
         return this;
     }
 
+    @Deprecated
     public GrpcTransportBuilder withConnectTimeout(Duration timeout) {
-        this.connectTimeoutMillis = timeout.toMillis();
-        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
         return this;
     }
 
+    @Deprecated
     public GrpcTransportBuilder withConnectTimeout(long timeout, TimeUnit unit) {
-        this.connectTimeoutMillis = unit.toMillis(timeout);
-        Preconditions.checkArgument(connectTimeoutMillis > 0, "connectTimeoutMillis must be greater than 0");
         return this;
     }
 
@@ -405,6 +410,17 @@ public class GrpcTransportBuilder {
     public GrpcTransportBuilder withScheduler(ScheduledExecutorService scheduler) {
         Objects.requireNonNull(scheduler, "scheduler is null");
         this.schedulerFactory = () -> YdbSchedulerFactory.wrapExternal(scheduler);
+        return this;
+    }
+
+    /**
+     * Configures tracing implementation used by higher-level SDK operations.
+     *
+     * @param tracer tracing facade implementation
+     * @return this builder instance
+     */
+    public GrpcTransportBuilder withTracer(Tracer tracer) {
+        this.tracer = Objects.requireNonNull(tracer, "tracer is null");
         return this;
     }
 

@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.utils.Encoder;
 
 /**
@@ -16,16 +17,17 @@ import tech.ydb.topic.utils.Encoder;
  * @author Aleksandr Gorshenin
  */
 public class MessageDecoder {
-    // TODO: Backward compatibility
-    private static final Logger logger = LoggerFactory.getLogger(PartitionSessionImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageDecoder.class);
 
     private final AtomicLong availableBufferSize;
     private final Executor decompressionExecutor;
+    private final CodecRegistry codecRegistry;
     private final Queue<DecodeTask> decodingQueue = new ConcurrentLinkedQueue<>();
 
-    public MessageDecoder(long maxBufferSize, Executor decompressionExecutor) {
+    public MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
         this.availableBufferSize = new AtomicLong(maxBufferSize);
         this.decompressionExecutor = decompressionExecutor;
+        this.codecRegistry = codecRegistry;
     }
 
     public void decode(String fullId, Batch batch, Runnable readyHandler) {
@@ -76,7 +78,7 @@ public class MessageDecoder {
         return 2 * compressed;
     }
 
-    private static class DecodeTask implements Runnable {
+    private class DecodeTask implements Runnable {
         private final String fullId;
         private final Batch batch;
         private final Runnable readyHandler;
@@ -99,7 +101,7 @@ public class MessageDecoder {
 
             batch.getMessages().forEach(message -> {
                 try {
-                    message.setData(Encoder.decode(batch.getCodec(), message.getData()));
+                    message.setData(Encoder.decode(batch.getCodec(), message.getData(), codecRegistry));
                 } catch (IOException exception) {
                     message.setException(exception);
                     logger.warn("[{}] Exception was thrown while decoding a message: ", fullId, exception);

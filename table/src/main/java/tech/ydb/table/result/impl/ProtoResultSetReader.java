@@ -15,75 +15,78 @@ import tech.ydb.table.values.Type;
  */
 final class ProtoResultSetReader implements ResultSetReader {
 
-    private final ValueProtos.ResultSet resultSet;
-    private final Map<String, Integer> columnIndexes; // TODO: use better data structure
-    private final AbstractValueReader[] columnReaders;
+    private final ValueProtos.ResultSet rs;
+    private final Map<String, Integer> columnIndexes;
+    private final AbstractValueReader[] readers;
 
-    private int rowIndex;
-    private ValueProtos.Value currentRow;
+    private int rowIndex = -1; // before first
+    private ValueProtos.Value currentRow = null;
 
     ProtoResultSetReader(ValueProtos.ResultSet resultSet) {
-        this.resultSet = resultSet;
+        this.rs = resultSet;
         this.columnIndexes = Maps.newHashMapWithExpectedSize(resultSet.getColumnsCount());
-        this.columnReaders = new AbstractValueReader[resultSet.getColumnsCount()];
+        this.readers = new AbstractValueReader[resultSet.getColumnsCount()];
 
         for (int i = 0; i < resultSet.getColumnsCount(); i++) {
             ValueProtos.Column columnMeta = resultSet.getColumns(i);
             this.columnIndexes.put(columnMeta.getName(), i);
-            this.columnReaders[i] = ProtoValueReaders.forTypeImpl(columnMeta.getType());
+            this.readers[i] = ProtoValueReaders.forTypeImpl(columnMeta.getType());
         }
     }
 
     @Override
     public boolean isTruncated() {
-        return resultSet.getTruncated();
+        return rs.getTruncated();
     }
 
-    /**
-     * Returns number of columns.
-     */
     @Override
     public int getColumnCount() {
-        return resultSet.getColumnsCount();
+        return rs.getColumnsCount();
     }
 
-    /**
-     * Returns number of rows.
-     */
     @Override
     public int getRowCount() {
-        return resultSet.getRowsCount();
+        return rs.getRowsCount();
     }
 
     @Override
     public void setRowIndex(int index) {
-        if (index < 0 || index >= resultSet.getRowsCount()) {
+        if (index <= -1) {
+            rowIndex = -1; // before first
             currentRow = null;
-        } else {
-            rowIndex = index;
-            currentRow = resultSet.getRows(index);
+            return;
         }
+
+        if (index >= rs.getRowsCount()) {
+            rowIndex = rs.getRowsCount(); // after last
+            currentRow = null;
+            return;
+        }
+
+        rowIndex = index;
+        currentRow = rs.getRows(rowIndex);
     }
 
-    /**
-     * Set iterator to the next table row.
-     *
-     * On success tryNextRow will reset all column parsers to the values in next row.
-     * Column parsers are invalid before the first TryNextRow call.
-     */
     @Override
     public boolean next() {
-        if (rowIndex >= resultSet.getRowsCount()) {
+        rowIndex++;
+
+        if (rowIndex >= rs.getRowsCount()) {
+            rowIndex = rs.getRowsCount(); // after last
             currentRow = null;
             return false;
         }
-        currentRow = resultSet.getRows(rowIndex++);
+
+        currentRow = rs.getRows(rowIndex);
         return true;
     }
 
     @Override
     public String getColumnName(int index) {
-        return resultSet.getColumns(index).getName();
+        if (index < 0 || index >= rs.getColumnsCount()) {
+            throw new IllegalArgumentException("Column index: " + index + ", columns count: " + readers.length);
+        }
+        return rs.getColumns(index).getName();
     }
 
     @Override
@@ -95,34 +98,36 @@ final class ProtoResultSetReader implements ResultSetReader {
     @Override
     public ValueReader getColumn(int index) {
         if (currentRow == null) {
-            throw new IllegalStateException("empty result set or next() was never called");
+            throw new IllegalStateException("ResultSetReader not positioned properly, perhaps you need to call next.");
         }
-        AbstractValueReader reader = columnReaders[index];
+        if (index < 0 || index >= readers.length) {
+            throw new IllegalArgumentException("Column index: " + index + ", columns count: " + readers.length);
+        }
+        AbstractValueReader reader = readers[index];
         reader.setProtoValue(currentRow.getItems(index));
         return reader;
     }
 
     @Override
     public ValueReader getColumn(String name) {
-        int index = columnIndex(name);
+        Integer index = columnIndexes.get(name);
+        if (index == null) {
+            throw new IllegalArgumentException("Unknown column '" + name + "'");
+        }
         return getColumn(index);
     }
 
     @Override
     public Type getColumnType(int index) {
-        AbstractValueReader reader = columnReaders[index];
+        if (index < 0 || index >= readers.length) {
+            throw new IllegalArgumentException("Column index: " + index + ", columns count: " + readers.length);
+        }
+        AbstractValueReader reader = readers[index];
         return reader.getType();
     }
 
-    private int columnIndex(String name) {
-        Integer index = columnIndexes.get(name);
-        if (index == null) {
-            throw new IllegalArgumentException("unknown column '" + name + "'");
-        }
-        return index;
-    }
-
+    @Deprecated
     ValueProtos.ResultSet getResultSet() {
-        return resultSet;
+        return rs;
     }
 }

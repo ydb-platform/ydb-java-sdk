@@ -8,7 +8,7 @@ import tech.ydb.proto.ValueProtos;
  * @author Sergey Polovko
  * @param <T> type of value
  */
-public interface Value<T extends Type> extends Serializable {
+public interface Value<T extends Type> extends Serializable, Comparable<Value<?>> {
 
     Value<?>[] EMPTY_ARRAY = {};
 
@@ -33,7 +33,8 @@ public interface Value<T extends Type> extends Serializable {
     }
 
     /**
-     * @deprecated Use {{@link #asStruct()}} instead
+     * @deprecated Use {@link #asStruct()} instead
+     * @return current value as  {@link StructValue}
      */
     @Deprecated
     default StructValue asStuct() {

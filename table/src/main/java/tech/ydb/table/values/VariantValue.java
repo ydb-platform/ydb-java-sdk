@@ -70,4 +70,33 @@ public class VariantValue implements Value<VariantType> {
         builder.setVariantIndex(typeIndex);
         return builder.build();
     }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!getType().equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
+        }
+
+        VariantValue variant = (VariantValue) other;
+
+        // Compare type indices first
+        int indexComparison = Integer.compare(typeIndex, variant.typeIndex);
+        if (indexComparison != 0) {
+            return indexComparison;
+        }
+
+        return item.compareTo(variant.item);
+    }
 }

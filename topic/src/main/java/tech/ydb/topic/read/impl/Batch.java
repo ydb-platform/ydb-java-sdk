@@ -37,7 +37,7 @@ public class Batch {
         return readFuture;
     }
 
-    public Codec getCodec() {
+    public int getCodec() {
         return meta.getCodec();
     }
 
