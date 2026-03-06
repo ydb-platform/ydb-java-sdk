@@ -1,6 +1,5 @@
 package tech.ydb.topic.read.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -11,22 +10,20 @@ import tech.ydb.topic.description.Codec;
  */
 public class Batch {
     private final BatchMeta meta;
-    private final List<MessageImpl> messages = new ArrayList<>();
+    private final List<MessageImpl> messages;
+
     // Completes when batch is read
     private final CompletableFuture<Void> readFuture = new CompletableFuture<>();
     private volatile boolean isReady = false;
 
-    public Batch(BatchMeta meta) {
+    public Batch(BatchMeta meta, List<MessageImpl> messages) {
         this.meta = meta;
+        this.messages = messages;
         this.isReady = meta.getCodec() == Codec.RAW;
     }
 
     public List<MessageImpl> getMessages() {
         return messages;
-    }
-
-    public void addMessage(MessageImpl message) {
-        messages.add(message);
     }
 
     public void complete() {
@@ -47,13 +44,5 @@ public class Batch {
 
     public void markAsReady() {
         this.isReady = true;
-    }
-
-    long getFirstCommitOffsetFrom() {
-        return messages.get(0).getCommitOffsetFrom();
-    }
-
-    long getLastOffset() {
-        return messages.get(messages.size() - 1).getOffset();
     }
 }

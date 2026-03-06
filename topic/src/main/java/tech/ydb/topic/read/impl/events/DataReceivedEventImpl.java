@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl.events;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -9,6 +10,8 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.read.impl.MessageImpl;
+import tech.ydb.topic.read.impl.OffsetsRangeImpl;
 import tech.ydb.topic.read.impl.PartitionSessionImpl;
 
 /**
@@ -19,10 +22,13 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
     private final List<Message> messages;
     private final OffsetsRange offsetsToCommit;
 
-    public DataReceivedEventImpl(PartitionSessionImpl session, List<Message> messages, OffsetsRange offsetsToCommit) {
+    public DataReceivedEventImpl(PartitionSessionImpl session, List<MessageImpl> messages) {
         this.session = session;
-        this.messages = messages;
-        this.offsetsToCommit = offsetsToCommit;
+        this.messages = new ArrayList<>(messages);
+        this.offsetsToCommit = new OffsetsRangeImpl(
+                messages.get(0).getCommitFromOffset(),
+                messages.get(messages.size() - 1).getCommitToOffset()
+        );
     }
 
     @Override

@@ -6,7 +6,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
@@ -31,11 +30,9 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
 import tech.ydb.topic.read.impl.events.SessionStartedEvent;
-import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
-import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
@@ -122,17 +119,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
-                                                      PartitionSession partitionSession,
-                                                      Consumer<StartPartitionSessionSettings> confirmCallback) {
+    protected void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
         handlerExecutor.execute(() -> {
-            YdbTopic.OffsetsRange offsetsRange = request.getPartitionOffsets();
-            StartPartitionSessionEvent event = new StartPartitionSessionEventImpl(
-                    partitionSession,
-                    request.getCommittedOffset(),
-                    new OffsetsRangeImpl(offsetsRange.getStart(), offsetsRange.getEnd()),
-                    confirmCallback
-            );
             try {
                 eventHandler.onStartPartitionSession(event);
             } catch (Throwable th) {
