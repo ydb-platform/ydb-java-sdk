@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.OffsetsRange;
-import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
@@ -85,8 +84,6 @@ public abstract class PartitionSessionImpl {
         }
         List<CompletableFuture<Void>> batchFutures = new LinkedList<>();
         batches.forEach(batch -> {
-            BatchMeta batchMeta = new BatchMeta(batch);
-            Batch newBatch = new Batch(batchMeta);
             List<YdbTopic.StreamReadMessage.ReadResponse.MessageData> batchMessages = batch.getMessageDataList();
             if (!batchMessages.isEmpty()) {
                 if (logger.isDebugEnabled()) {
@@ -96,22 +93,26 @@ public abstract class PartitionSessionImpl {
             } else {
                 logger.error("[{}] Received empty batch. This shouldn't happen", fullId);
             }
-            batchMessages.forEach(messageData -> {
-                long commitOffsetFrom = lastReadOffset;
-                long messageOffset = messageData.getOffset();
-                long newReadOffset = messageOffset + 1;
-                if (newReadOffset > lastReadOffset) {
-                    lastReadOffset = newReadOffset;
+
+            BatchMeta meta = new BatchMeta(batch);
+
+            List<MessageImpl> messages = new ArrayList<>();
+            for (YdbTopic.StreamReadMessage.ReadResponse.MessageData msg: batchMessages) {
+                messages.add(new MessageImpl(this, meta, lastReadOffset, msg));
+
+                if (msg.getOffset() + 1 > lastReadOffset) {
+                    lastReadOffset = msg.getOffset() + 1;
                     if (logger.isTraceEnabled()) {
                         logger.trace("[{}] Received a message with offset {}. lastReadOffset is now {}", fullId,
-                                messageOffset, lastReadOffset);
+                                msg.getOffset(), lastReadOffset);
                     }
                 } else {
                     logger.error("[{}] Received a message with offset {} which is less than last read offset {} ",
-                            fullId, messageOffset, lastReadOffset);
+                            fullId, msg.getOffset(), lastReadOffset);
                 }
-                newBatch.addMessage(new MessageImpl(this, batchMeta, commitOffsetFrom, messageData));
-            });
+            }
+
+            Batch newBatch = new Batch(meta, messages);
             batchFutures.add(newBatch.getReadFuture());
 
             readingQueue.offer(newBatch);
@@ -195,9 +196,7 @@ public abstract class PartitionSessionImpl {
             next = readingQueue.poll();
 
             batchesToRead.add(next);
-            List<Message> messagesToRead = new ArrayList<>(next.getMessages());
-            long commitFrom = next.getFirstCommitOffsetFrom();
-            long commitTo = next.getLastOffset() + 1;
+            List<MessageImpl> messagesToRead = new ArrayList<>(next.getMessages());
 
             int batchSize = messagesToRead.size();
             while (maxBatchSize <= 0 || batchSize < maxBatchSize) {
@@ -214,12 +213,10 @@ public abstract class PartitionSessionImpl {
                 batchesToRead.add(next);
                 messagesToRead.addAll(next.getMessages());
                 batchSize += next.getMessages().size();
-                commitTo = next.getLastOffset() + 1;
             }
 
             // Should be called maximum in 1 thread at a time
-            OffsetsRange offsetsToCommit = new OffsetsRangeImpl(commitFrom, commitTo);
-            DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead, offsetsToCommit);
+            DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
                                 "to be called...", fullId, messagesToRead.size(),
