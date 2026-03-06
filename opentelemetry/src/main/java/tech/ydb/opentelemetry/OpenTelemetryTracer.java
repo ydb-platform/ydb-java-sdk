@@ -72,17 +72,21 @@ public final class OpenTelemetryTracer implements Tracer {
         }
 
         @Override
-        public void setError(Status status) {
-            span.setAttribute("db.response.status_code", status.getCode().toString());
-            span.setAttribute("error.type", status.getCode().isTransportError() ? "transport_error" : "ydb_error");
-
-            span.setStatus(StatusCode.ERROR, status.toString());
-        }
-
-        @Override
-        public void setError(Throwable error) {
-            span.setAttribute("error.type", error.getClass().getName());
-            span.setStatus(StatusCode.ERROR, error.getMessage());
+        public void setStatus(Status status, Throwable error) {
+            if (status != null) {
+                if (status.isSuccess()) {
+                    span.setStatus(StatusCode.OK);
+                } else {
+                    tech.ydb.core.StatusCode code = status.getCode();
+                    span.setAttribute("db.response.status_code", code.toString());
+                    span.setAttribute("error.type", code.isTransportError() ? "transport_error" : "ydb_error");
+                    span.setStatus(StatusCode.ERROR, status.toString());
+                }
+            }
+            if (error != null) {
+                span.setAttribute("error.type", error.getClass().getName());
+                span.setStatus(StatusCode.ERROR, error.getMessage());
+            }
         }
 
         @Override

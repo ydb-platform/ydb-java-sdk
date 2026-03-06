@@ -23,7 +23,6 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.tracing.Span;
-import tech.ydb.core.tracing.SpanFinalizer;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -279,8 +278,7 @@ class SessionPool implements AutoCloseable {
             try {
                 Span createSpan = rpc.startSpan("ydb.CreateSession");
                 stats.requested.increment();
-                return SessionImpl
-                        .createSession(rpc, CREATE_SETTINGS, true, createSpan)
+                return Span.endOnResult(createSpan, SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan))
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
                                 stats.failed.increment();
@@ -288,24 +286,7 @@ class SessionPool implements AutoCloseable {
                             }
                             PooledQuerySession session = new PooledQuerySession(rpc, r.getValue());
                             return session.start();
-                        })
-                        .whenComplete((result, th) -> {
-                            if (th != null) {
-                                Throwable error = FutureTools.unwrapCompletionException(th);
-                                if (error instanceof UnexpectedResultException) {
-                                    SpanFinalizer.finishByStatus(
-                                            createSpan,
-                                            ((UnexpectedResultException) error).getStatus()
-                                    );
-                                } else {
-                                    SpanFinalizer.finishByError(createSpan, error);
-                                }
-                                return;
-                            }
-
-                            SpanFinalizer.finishByStatus(createSpan, result.getStatus());
-                        })
-                        .thenApply(Result::getValue);
+                        }).thenApply(Result::getValue);
             } finally {
                 ctx.detach(previous);
             }

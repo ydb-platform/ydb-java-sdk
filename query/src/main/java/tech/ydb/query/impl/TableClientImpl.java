@@ -16,7 +16,6 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.tracing.Span;
-import tech.ydb.core.tracing.SpanFinalizer;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.table.YdbTable;
@@ -197,23 +196,23 @@ public class TableClientImpl implements TableClient {
         }
 
         @Override
-        public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
+        protected CompletableFuture<Status> commitTransactionInternal(String txId, CommitTxSettings settings) {
             Span span = querySession.startSpan("ydb.Commit");
             CommitTransactionSettings querySettings = CommitTransactionSettings.newBuilder()
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return querySession.commitById(txId, querySettings, span).whenComplete(SpanFinalizer.whenComplete(span));
+            return Span.endOnStatus(span, querySession.commitById(txId, querySettings, span));
         }
 
         @Override
-        public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
+        protected CompletableFuture<Status> rollbackTransactionInternal(String txId, RollbackTxSettings settings) {
             Span span = querySession.startSpan("ydb.Rollback");
             RollbackTransactionSettings querySettings = RollbackTransactionSettings.newBuilder()
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return querySession.rollbackById(txId, querySettings, span).whenComplete(SpanFinalizer.whenComplete(span));
+            return Span.endOnStatus(span, querySession.rollbackById(txId, querySettings, span));
         }
 
         private final class TracedTableTransaction implements TableTransaction {
@@ -250,7 +249,7 @@ public class TableClientImpl implements TableClient {
                 if (txId == null) {
                     return delegate.rollback(settings);
                 }
-                return TableSession.this.rollbackTransaction(txId, settings);
+                return rollbackTransactionInternal(txId, settings);
             }
 
             @Override

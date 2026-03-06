@@ -1,8 +1,12 @@
 package tech.ydb.core.tracing;
 
+import java.util.concurrent.CompletableFuture;
+
 import javax.annotation.Nullable;
 
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.utils.FutureTools;
 
 /**
  * A span represents a timed operation.
@@ -28,18 +32,32 @@ public interface Span {
     void setAttribute(String key, long value);
 
     /**
-     * Sets span status to error with human-readable message.
+     * Sets span status (success or error) with human-readable message.
      *
-     * @param status operation status used to map error attributes
+     * @param status operation status used to map span attributes
+     * @param error operation exception used to map span attributes
      */
-    void setError(Status status);
-
-    /**
-     * Sets span status to error from exception.
-     *
-     * @param error exception used to map error attributes
-     */
-    void setError(Throwable error);
+    void setStatus(Status status, Throwable error);
 
     void end();
+
+    static CompletableFuture<Status> endOnStatus(Span span, CompletableFuture<Status> future) {
+        if (span != null) {
+            future.whenComplete((status, th) -> {
+                span.setStatus(status, FutureTools.unwrapCompletionException(th));
+                span.end();
+            });
+        }
+        return future;
+    }
+
+    static <T> CompletableFuture<Result<T>> endOnResult(Span span, CompletableFuture<Result<T>> future) {
+        if (span != null) {
+            future.whenComplete((result, th) -> {
+                span.setStatus(result != null ? result.getStatus() : null, FutureTools.unwrapCompletionException(th));
+                span.end();
+            });
+        }
+        return future;
+    }
 }
