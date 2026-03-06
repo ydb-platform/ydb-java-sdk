@@ -126,7 +126,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
             PartitionSession partitionSession,
             Runnable confirmCallback);
-    protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
+
+    protected abstract CompletableFuture<Void> handleClosePartitionSession(PartitionSession partitionSession);
 
     @Override
     protected void onStreamReconnect() {
@@ -377,13 +378,23 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         }
 
         private void closePartitionSessions() {
-            partitionSessions.values().forEach(this::closePartitionSession);
+            List<CompletableFuture<Void>> closeFutures = new ArrayList<>();
+            partitionSessions.values().forEach(partitionSession ->
+                    closeFutures.add(closePartitionSession(partitionSession))
+            );
+
+            if (!closeFutures.isEmpty()) {
+                for (CompletableFuture<Void> closeFuture : closeFutures) {
+                    closeFuture.join();
+                }
+            }
             partitionSessions.clear();
         }
 
-        private void closePartitionSession(PartitionSessionImpl partitionSession) {
+
+        private CompletableFuture<Void> closePartitionSession(PartitionSessionImpl partitionSession) {
             partitionSession.shutdown();
-            handleClosePartitionSession(partitionSession.getSessionId());
+            return handleClosePartitionSession(partitionSession.getSessionId());
         }
 
         private void onInitResponse(YdbTopic.StreamReadMessage.InitResponse response) {
@@ -447,7 +458,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 PartitionSessionImpl partitionSession = partitionSessions.remove(request.getPartitionSessionId());
                 if (partitionSession != null) {
                     logger.info("[{}] Received force StopPartitionSessionRequest", partitionSession.getFullId());
-                    closePartitionSession(partitionSession);
+                    closePartitionSession(partitionSession).join();
                 } else {
                     logger.info("[{}] Received force StopPartitionSessionRequest for partition session {}, " +
                             "but have no such partition session running", streamId, request.getPartitionSessionId());
