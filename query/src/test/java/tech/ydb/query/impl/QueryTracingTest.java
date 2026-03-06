@@ -76,11 +76,10 @@ public class QueryTracingTest {
 
     @Test
     public void createSessionSpanIsRecorded() {
-        try (QuerySession ignored = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
-            // no-op
+        try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            Assert.assertNotNull(session.getId());
+            Assert.assertEquals(1, tracer.countClosedSpan("ydb.CreateSession"));
         }
-
-        Assert.assertEquals(1, tracer.countClosedSpan("ydb.CreateSession"));
     }
 
     @Test
@@ -160,7 +159,7 @@ public class QueryTracingTest {
     }
 
     private static final class RecordingTracer implements Tracer {
-        private final List<RecordingSpan> spans = Collections.synchronizedList(new ArrayList<RecordingSpan>());
+        private final List<RecordingSpan> spans = Collections.synchronizedList(new ArrayList<>());
 
         @Override
         public Span startSpan(String spanName, SpanKind spanKind) {
@@ -212,12 +211,7 @@ public class QueryTracingTest {
         }
 
         @Override
-        public void setError(Status status) {
-            // not needed for this test
-        }
-
-        @Override
-        public void setError(Throwable error) {
+        public void setStatus(Status status, Throwable error) {
             // not needed for this test
         }
 

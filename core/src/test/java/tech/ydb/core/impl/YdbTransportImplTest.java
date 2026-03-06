@@ -421,12 +421,7 @@ public class YdbTransportImplTest {
         }
 
         @Override
-        public void setError(tech.ydb.core.Status status) {
-            // not needed in this test
-        }
-
-        @Override
-        public void setError(Throwable error) {
+        public void setStatus(tech.ydb.core.Status status, Throwable error) {
             // not needed in this test
         }
 
