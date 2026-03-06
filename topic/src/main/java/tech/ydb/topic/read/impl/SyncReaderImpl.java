@@ -10,7 +10,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -26,9 +25,9 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.ReceiveSettings;
-import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
@@ -182,10 +181,8 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
-                                                      PartitionSession partitionSession,
-                                                      Consumer<StartPartitionSessionSettings> confirmCallback) {
-        confirmCallback.accept(null);
+    protected void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
+        event.confirm();
     }
 
     @Override

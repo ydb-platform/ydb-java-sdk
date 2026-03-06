@@ -11,7 +11,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 
@@ -33,6 +33,8 @@ import tech.ydb.topic.impl.GrpcStreamRetrier;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.read.events.StartPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
@@ -118,10 +120,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
     protected abstract void handleSessionStarted(String sessionId);
     protected abstract void handleCommitResponse(long committedOffset, PartitionSession partitionSession);
-    protected abstract void handleStartPartitionSessionRequest(
-            YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
-            PartitionSession partitionSession,
-            Consumer<StartPartitionSessionSettings> confirmCallback);
+    protected abstract void handleStartPartitionSessionRequest(StartPartitionSessionEvent event);
     protected abstract void handleStopPartitionSession(
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
             PartitionSession partitionSession,
@@ -283,42 +282,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .build());
         }
 
-        private void sendStartPartitionSessionResponse(PartitionSessionImpl partitionSession,
-                                                         StartPartitionSessionSettings startSettings) {
-            if (!isWorking.get()) {
-                logger.info("[{}] Need to send StartPartitionSessionResponse, but reading session is already closed",
-                        partitionSession.getFullId());
-                return;
-            }
-            if (!partitionSessions.containsKey(partitionSession.getSessionId().getId())) {
-                logger.info("[{}] Need to send StartPartitionSessionResponse, but have no such active partition " +
-                        "session anymore", partitionSession.getFullId());
-                return;
-            }
-            YdbTopic.StreamReadMessage.StartPartitionSessionResponse.Builder responseBuilder =
-                    YdbTopic.StreamReadMessage.StartPartitionSessionResponse.newBuilder()
-                            .setPartitionSessionId(partitionSession.getSessionId().getId());
-            Long userDefinedReadOffset = null;
-            Long userDefinedCommitOffset = null;
-            if (startSettings != null) {
-                userDefinedReadOffset = startSettings.getReadOffset();
-                if (userDefinedReadOffset != null) {
-                    responseBuilder.setReadOffset(userDefinedReadOffset);
-                    partitionSession.setLastReadOffset(userDefinedReadOffset);
-                }
-                userDefinedCommitOffset = startSettings.getCommitOffset();
-                if (userDefinedCommitOffset != null) {
-                    responseBuilder.setCommitOffset(userDefinedCommitOffset);
-                    partitionSession.setLastCommittedOffset(userDefinedCommitOffset);
-                }
-            }
-            logger.info("[{}] Sending StartPartitionSessionResponse with readOffset {} and commitOffset {}",
-                    partitionSession.getFullId(), userDefinedReadOffset, userDefinedCommitOffset);
-            send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
-                    .setStartPartitionSessionResponse(responseBuilder.build())
-                    .build());
-        }
-
         private void sendStopPartitionSessionResponse(long partitionSessionId) {
             if (!isWorking.get()) {
                 logger.info("[{}] Need to send StopPartitionSessionResponse for partition session {}, " +
@@ -341,13 +304,13 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                     .build());
         }
 
-        private void sendCommitOffsetRequest(long partitionSessionId, long partitionId,
-                                       List<OffsetsRange> rangesToCommit) {
+        private void sendCommitOffsetRequest(PartitionSession session, List<OffsetsRange> rangesToCommit) {
             if (!isWorking.get()) {
                 if (logger.isInfoEnabled()) {
                     StringBuilder message = new StringBuilder("[").append(streamId)
-                            .append("] Need to send CommitRequest for partition session ").append(partitionSessionId)
-                            .append(" (partition ").append(partitionId).append(") with offset ranges ");
+                            .append("] Need to send CommitRequest for ")
+                            .append(session.toString())
+                            .append(" with offset ranges ");
                     for (int i = 0; i < rangesToCommit.size(); i++) {
                         if (i > 0) {
                             message.append(", ");
@@ -361,19 +324,21 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
                 return;
             }
 
-            YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset.Builder builder =
-            YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset.newBuilder()
-                    .setPartitionSessionId(partitionSessionId);
-            rangesToCommit.forEach(range -> {
-                builder.addOffsets(YdbTopic.OffsetsRange.newBuilder()
-                        .setStart(range.getStart())
-                        .setEnd(range.getEnd()));
-            });
-            send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
+            YdbTopic.StreamReadMessage.FromClient req = YdbTopic.StreamReadMessage.FromClient.newBuilder()
                     .setCommitOffsetRequest(YdbTopic.StreamReadMessage.CommitOffsetRequest.newBuilder()
-                            .addCommitOffsets(builder))
-                    .build());
-
+                            .addCommitOffsets(YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset
+                                    .newBuilder()
+                                    .setPartitionSessionId(session.getId())
+                                    .addAllOffsets(
+                                            rangesToCommit.stream().map(r -> YdbTopic.OffsetsRange.newBuilder()
+                                                .setStart(r.getStart())
+                                                .setEnd(r.getEnd())
+                                                .build()
+                                            ).collect(Collectors.toList())
+                                    ).build())
+                            .build())
+                    .build();
+            send(req);
         }
 
         private void closePartitionSessions() {
@@ -399,33 +364,71 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             sendReadRequest();
         }
 
-        private void onStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request) {
-            long partitionSessionId = request.getPartitionSession().getPartitionSessionId();
-            long partitionId = request.getPartitionSession().getPartitionId();
-            String fullId = streamId + '/' + partitionSessionId + "-p" + partitionId;
-            logger.info("[{}] Received StartPartitionSessionRequest for Topic \"{}\" and Consumer \"{}\". " +
-                            "Partition session {} (partition {}) with committedOffset {} and partitionOffsets [{}-{})",
-                    fullId, request.getPartitionSession().getPath(), consumerName,
-                    partitionSessionId, partitionId, request.getCommittedOffset(),
-                    request.getPartitionOffsets().getStart(), request.getPartitionOffsets().getEnd());
+        private void onStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
+            PartitionSession ps = new PartitionSession(
+                    req.getPartitionSession().getPartitionSessionId(),
+                    req.getPartitionSession().getPartitionId(),
+                    req.getPartitionSession().getPath()
+            );
+            long committedOffset = req.getCommittedOffset();
+            OffsetsRange offsets = new OffsetsRangeImpl(
+                    req.getPartitionOffsets().getStart(),
+                    req.getPartitionOffsets().getEnd()
+            );
 
-            PartitionSessionImpl partSession = new PartitionSessionImpl(request, fullId, settings.getMaxBatchSize(),
-                    consumerName, decoder) {
+            String debugId = streamId + '/' + ps.getId() + "-p" + ps.getPartitionId();
+            logger.info("[{}] Received StartPartitionSessionRequest for {} and consumer \"{}\" with committedOffset {}"
+                    + " and partitionOffsets {}", debugId, ps, consumerName, committedOffset, offsets);
+
+            handleStartPartitionSessionRequest(new StartPartitionSessionEventImpl(ps, committedOffset, offsets) {
                 @Override
-                public void commitRanges(List<OffsetsRange> offsets) {
-                    sendCommitOffsetRequest(partitionSessionId, partitionId, offsets);
+                public void confirm(StartPartitionSessionSettings confrimOptions) {
+                    if (!isWorking.get()) {
+                        logger.info("[{}] Need to send StartPartitionSessionResponse, but reading session is "
+                                + "already closed", debugId);
+                        return;
+                    }
+
+                    long readFrom = committedOffset;
+                    long commmitFrom = committedOffset;
+
+                    YdbTopic.StreamReadMessage.StartPartitionSessionResponse.Builder response =
+                            YdbTopic.StreamReadMessage.StartPartitionSessionResponse.newBuilder()
+                                    .setPartitionSessionId(ps.getId());
+                    if (confrimOptions != null) {
+                        if (confrimOptions.getReadOffset() != null) {
+                            readFrom = confrimOptions.getReadOffset();
+                            response = response.setReadOffset(readFrom);
+                        }
+                        if (confrimOptions.getCommitOffset() != null) {
+                            commmitFrom = confrimOptions.getCommitOffset();
+                            response = response.setCommitOffset(commmitFrom);
+                        }
+                    }
+
+                    partitionSessions.put(ps.getId(), new PartitionSessionImpl(ps, debugId,
+                           settings.getMaxBatchSize(), readFrom, commmitFrom, decoder) {
+                        @Override
+                        public void commitRanges(List<OffsetsRange> offsets) {
+                            sendCommitOffsetRequest(ps, offsets);
+                        }
+
+                        @Override
+                        public CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
+                            return ReaderImpl.this.handleDataReceivedEvent(event);
+                        }
+                    });
+
+                    logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset "
+                            + "{} and commitOffset {}", debugId, ps, consumerName, readFrom, commmitFrom);
+
+                    send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
+                            .setStartPartitionSessionResponse(response.build())
+                            .build());
                 }
+            });
 
-                @Override
-                public CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-                    return ReaderImpl.this.handleDataReceivedEvent(event);
-                }
-            };
 
-            partitionSessions.put(partSession.getSessionId().getId(), partSession);
-
-            handleStartPartitionSessionRequest(request, partSession.getSessionId(),
-                    (settings) -> sendStartPartitionSessionResponse(partSession, settings));
         }
 
         protected void onStopPartitionSessionRequest(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request) {

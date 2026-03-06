@@ -28,6 +28,6 @@ public class PartitionSession {
 
     @Override
     public String toString() {
-        return "Partition session " + id + " (partition " + partitionId + ") for " + path;
+        return "Partition session " + id + " (partition " + partitionId + ") for topic \"" + path + "\"";
     }
 }
