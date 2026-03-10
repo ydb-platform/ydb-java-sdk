@@ -57,6 +57,10 @@ public abstract class TxControl<Self extends TxControl<?>> {
         return TxSnapshotRo.WITH_COMMIT;
     }
 
+    public static TxSnapshotRw snapshotRw() {
+        return TxSnapshotRw.WITH_COMMIT;
+    }
+
     public static TxStaleRo staleRo() {
         return TxStaleRo.WITH_COMMIT;
     }
@@ -192,6 +196,32 @@ public abstract class TxControl<Self extends TxControl<?>> {
 
         @Override
         public TxSnapshotRo setCommitTx(boolean commitTx) {
+            if (commitTx == isCommitTx()) {
+                return this;
+            }
+
+            return commitTx ? WITH_COMMIT : WITHOUT_COMMIT;
+        }
+    }
+
+    /**
+     * TX SNAPSHOT READ-WRITE
+     */
+    public static final class TxSnapshotRw extends TxControl<TxSnapshotRw> {
+
+        private static final TxSnapshotRw WITH_COMMIT = new TxSnapshotRw(true);
+        private static final TxSnapshotRw WITHOUT_COMMIT = new TxSnapshotRw(false);
+
+        TxSnapshotRw(boolean commitTx) {
+            super(commitTx, TransactionSettings.newBuilder()
+                    .setSnapshotReadWrite(YdbTable.SnapshotRWModeSettings
+                            .newBuilder().build()
+                    ).build()
+            );
+        }
+
+        @Override
+        public TxSnapshotRw setCommitTx(boolean commitTx) {
             if (commitTx == isCommitTx()) {
                 return this;
             }
