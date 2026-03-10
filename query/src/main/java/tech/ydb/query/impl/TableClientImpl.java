@@ -86,6 +86,9 @@ public class TableClientImpl implements TableClient {
             if (tc.getBeginTx().hasSnapshotReadOnly()) {
                 return TxControl.txModeCtrl(TxMode.SNAPSHOT_RO, tc.getCommitTx());
             }
+            if (tc.getBeginTx().hasSnapshotReadWrite()) {
+                return TxControl.txModeCtrl(TxMode.SNAPSHOT_RW, tc.getCommitTx());
+            }
             if (tc.getBeginTx().hasStaleReadOnly()) {
                 return TxControl.txModeCtrl(TxMode.STALE_RO, tc.getCommitTx());
             }
