@@ -111,7 +111,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                 currentBatch.future.complete(null);
             }
             if (receiveSettings.getTransaction() != null) {
-                Status updateStatus = sendUpdateOffsetsInTransaction(receiveSettings.getTransaction(),
+                Status updateStatus = updateOffsetsInTransaction(receiveSettings.getTransaction(),
                         Collections.singletonMap(result.getPartitionSession().getPath(),
                                 Collections.singletonList(result.getPartitionOffsets())),
                         UpdateOffsetsInTransactionSettings.newBuilder().build())

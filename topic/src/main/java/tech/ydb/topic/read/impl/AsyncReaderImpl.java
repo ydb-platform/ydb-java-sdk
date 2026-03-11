@@ -71,13 +71,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     public CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction,
-                                                                Map<String, List<PartitionOffsets>> offsets,
-                                                                UpdateOffsetsInTransactionSettings settings) {
-        if (!transaction.isActive()) {
-            throw new IllegalArgumentException("Transaction is not active. " +
-                    "Can only read topic messages in already running transactions from other services");
-        }
-        return sendUpdateOffsetsInTransaction(transaction, offsets, settings);
+            Map<String, List<PartitionOffsets>> offsets, UpdateOffsetsInTransactionSettings settings) {
+        return super.updateOffsetsInTransaction(transaction, offsets, settings);
     }
 
     @Override
