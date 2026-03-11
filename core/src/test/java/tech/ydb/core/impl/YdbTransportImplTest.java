@@ -34,6 +34,7 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanScope;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
@@ -411,6 +412,11 @@ public class YdbTransportImplTest {
         }
 
         @Override
+        public boolean isValid() {
+            return true;
+        }
+
+        @Override
         public void setAttribute(String key, String value) {
             stringAttrs.put(key, value);
         }
@@ -418,11 +424,6 @@ public class YdbTransportImplTest {
         @Override
         public void setAttribute(String key, long value) {
             longAttrs.put(key, value);
-        }
-
-        @Override
-        public void setStatus(tech.ydb.core.Status status, Throwable error) {
-            // not needed in this test
         }
 
         @Override

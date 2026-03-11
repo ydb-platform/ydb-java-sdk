@@ -254,7 +254,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         }
 
         Span span = settings.getSpan();
-        if (span != null) {
+
+        if (span.isValid()) {
             span.setAttribute("db.system.name", "ydb");
             span.setAttribute("db.namespace", getDatabase());
             span.setAttribute("server.address", serverEndpoint.getHost());

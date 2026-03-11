@@ -30,7 +30,6 @@ import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.Version;
 
-
 /**
  *
  * @author Aleksandr Gorshenin

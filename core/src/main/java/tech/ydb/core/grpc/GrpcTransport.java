@@ -43,7 +43,7 @@ public interface GrpcTransport extends AutoCloseable {
     ScheduledExecutorService getScheduler();
 
     default Tracer getTracer() {
-        return NoopTracer.INSTANCE;
+        return NoopTracer.getInstance();
     }
 
     @Override

@@ -16,6 +16,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.ValueProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.table.YdbTable;
@@ -58,6 +59,11 @@ public class TableClientImpl implements TableClient {
     @Override
     public ScheduledExecutorService getScheduler() {
         return proxy.getScheduler();
+    }
+
+    @Override
+    public Tracer getTracer() {
+        return proxy.getTracer();
     }
 
     @Override
