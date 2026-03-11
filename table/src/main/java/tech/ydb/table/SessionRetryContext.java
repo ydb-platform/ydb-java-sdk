@@ -20,6 +20,10 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.tracing.Scope;
+import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanKind;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.FutureTools;
 
 
@@ -28,6 +32,10 @@ import tech.ydb.core.utils.FutureTools;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
+    private static final String EXECUTE_SPAN_NAME = "ydb.Execute";
+    private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.ExecuteWithRetry";
+    private static final String RETRY_ATTEMPT_ATTR = "ydb.retry.attempt";
+    private static final String RETRY_SLEEP_MS_ATTR = "ydb.retry.sleep_ms";
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -66,14 +74,14 @@ public class SessionRetryContext {
     }
 
     public <T> CompletableFuture<Result<T>> supplyResult(SessionRetryHandler h,
-            Function<Session, CompletableFuture<Result<T>>> fn) {
+                                                         Function<Session, CompletableFuture<Result<T>>> fn) {
         RetryableResultTask<T> task = new RetryableResultTask<>(h, fn);
         task.requestSession();
         return task.getFuture();
     }
 
     public CompletableFuture<Status> supplyStatus(SessionRetryHandler h,
-            Function<Session, CompletableFuture<Status>> fn) {
+                                                  Function<Session, CompletableFuture<Status>> fn) {
         RetryableStatusTask task = new RetryableStatusTask(h, fn);
         task.requestSession();
         return task.getFuture();
@@ -147,17 +155,24 @@ public class SessionRetryContext {
         private final Function<Session, CompletableFuture<R>> fn;
         private final long createTimestamp = Instant.now().toEpochMilli();
         private final SessionRetryHandler handler;
+        private final Tracer tracer;
+        private final Span executeSpan;
+        private Span retrySpan = Span.NOOP;
 
         BaseRetryableTask(SessionRetryHandler h, Function<Session, CompletableFuture<R>> fn) {
             this.fn = fn;
             this.handler = h;
+            this.tracer = sessionSupplier.getTracer();
+            this.executeSpan = tracer.startSpan(EXECUTE_SPAN_NAME, SpanKind.INTERNAL);
+            this.promise.whenComplete(this::finishExecuteSpan);
         }
 
         CompletableFuture<R> getFuture() {
             return promise;
         }
 
-        abstract StatusCode toStatusCode(R result);
+        abstract Status toStatus(R result);
+
         abstract R toFailedResult(Result<Session> sessionResult);
 
         private long ms() {
@@ -169,13 +184,17 @@ public class SessionRetryContext {
         public void run() {
             if (promise.isCancelled()) {
                 handler.onCancel(SessionRetryContext.this, retryNumber.get(), ms());
+                finishRetrySpan(null, null);
                 return;
             }
             executor.execute(this::requestSession);
         }
 
         public void requestSession() {
-            CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.createSession(sessionCreationTimeout);
+            try (Scope ignored = executeSpan.makeCurrent()) {
+                retrySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
+            }
+            CompletableFuture<Result<Session>> sessionFuture = createSessionWithRetrySpanParent();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
                 acceptSession(sessionFuture.join());
@@ -193,33 +212,39 @@ public class SessionRetryContext {
 
         private void acceptSession(@Nonnull Result<Session> sessionResult) {
             if (!sessionResult.isSuccess()) {
-                handleError(sessionResult.getStatus().getCode(), toFailedResult(sessionResult));
+                handleError(sessionResult.getStatus(), toFailedResult(sessionResult));
                 return;
             }
 
             final Session session = sessionResult.getValue();
             try {
-                fn.apply(session).whenComplete((fnResult, fnException) -> {
-                    try {
-                        session.close();
+                try (Scope ignored = retrySpan.makeCurrent()) {
+                    fn.apply(session).whenComplete((fnResult, fnException) -> {
+                        try {
+                            try (Scope ignored1 = retrySpan.makeCurrent()) {
+                                session.close();
 
-                        if (fnException != null) {
-                            handleException(fnException);
-                            return;
-                        }
+                                if (fnException != null) {
+                                    handleException(fnException);
+                                    return;
+                                }
 
-                        StatusCode statusCode = toStatusCode(fnResult);
-                        if (statusCode == StatusCode.SUCCESS) {
-                            handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
-                            promise.complete(fnResult);
-                        } else {
-                            handleError(statusCode, fnResult);
+                                Status status = toStatus(fnResult);
+                                if (status.isSuccess()) {
+                                    handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
+                                    finishRetrySpan(status, null);
+                                    promise.complete(fnResult);
+                                } else {
+                                    handleError(status, fnResult);
+                                }
+                            }
+                        } catch (Throwable unexpected) {
+                            handler.onError(SessionRetryContext.this, unexpected, retryNumber.get(), ms());
+                            finishRetrySpan(null, unexpected);
+                            promise.completeExceptionally(unexpected);
                         }
-                    } catch (Throwable unexpected) {
-                        handler.onError(SessionRetryContext.this, unexpected, retryNumber.get(), ms());
-                        promise.completeExceptionally(unexpected);
-                    }
-                });
+                    });
+                }
             } catch (RuntimeException ex) {
                 session.close();
                 handleException(ex);
@@ -233,21 +258,26 @@ public class SessionRetryContext {
             sessionSupplier.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
-        private void handleError(@Nonnull StatusCode code, R result) {
-            // Check retrayable status
+        private void handleError(@Nonnull Status status, R result) {
+            StatusCode code = status.getCode();
             if (!canRetry(code)) {
                 handler.onError(SessionRetryContext.this, code, retryNumber.get(), ms());
+                finishRetrySpan(status, null);
                 promise.complete(result);
                 return;
             }
 
+            int failedAttempt = retryNumber.get();
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(code, retry);
                 handler.onRetry(SessionRetryContext.this, code, retry, next, ms());
+                recordRetrySchedule(failedAttempt, next);
+                finishRetrySpan(status, null);
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, code, maxRetries, ms());
+                finishRetrySpan(status, null);
                 promise.complete(result);
             }
         }
@@ -256,19 +286,48 @@ public class SessionRetryContext {
             // Check retrayable execption
             if (!canRetry(ex)) {
                 handler.onError(SessionRetryContext.this, ex, retryNumber.get(), ms());
+                finishRetrySpan(null, ex);
                 promise.completeExceptionally(ex);
                 return;
             }
 
+            int failedAttempt = retryNumber.get();
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(ex, retry);
                 handler.onRetry(SessionRetryContext.this, ex, retry, next, ms());
+                recordRetrySchedule(failedAttempt, next);
+                finishRetrySpan(null, ex);
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, ex, maxRetries, ms());
+                finishRetrySpan(null, ex);
                 promise.completeExceptionally(ex);
             }
+        }
+
+        private CompletableFuture<Result<Session>> createSessionWithRetrySpanParent() {
+            try (Scope ignored = retrySpan.makeCurrent()) {
+                return sessionSupplier.createSession(sessionCreationTimeout);
+            }
+        }
+
+        private void recordRetrySchedule(int failedAttempt, long nextDelayMillis) {
+            retrySpan.setAttribute(RETRY_ATTEMPT_ATTR, failedAttempt);
+            retrySpan.setAttribute(RETRY_SLEEP_MS_ATTR, nextDelayMillis);
+        }
+
+        private void finishRetrySpan(Status status, Throwable throwable) {
+            retrySpan.setStatus(status, throwable);
+            retrySpan.end();
+            retrySpan = Span.NOOP;
+        }
+
+        private void finishExecuteSpan(R result, Throwable throwable) {
+            Throwable unwrapped = FutureTools.unwrapCompletionException(throwable);
+            Status status = toStatus(result);
+            executeSpan.setStatus(status, unwrapped);
+            executeSpan.end();
         }
     }
 
@@ -281,8 +340,8 @@ public class SessionRetryContext {
         }
 
         @Override
-        StatusCode toStatusCode(Result<T> result) {
-            return result.getStatus().getCode();
+        Status toStatus(Result<T> result) {
+            return result.getStatus();
         }
 
         @Override
@@ -300,8 +359,8 @@ public class SessionRetryContext {
         }
 
         @Override
-        StatusCode toStatusCode(Status status) {
-            return status.getCode();
+        Status toStatus(Status status) {
+            return status;
         }
 
         @Override

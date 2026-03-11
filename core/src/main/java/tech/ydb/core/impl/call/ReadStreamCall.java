@@ -19,6 +19,8 @@ import tech.ydb.core.grpc.GrpcFlowControl;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.tracing.Scope;
+import tech.ydb.core.tracing.Span;
 
 /**
  *
@@ -34,6 +36,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
     private final ClientCall<ReqT, RespT> call;
     private final Lock callLock = new ReentrantLock();
     private final GrpcStatusHandler statusConsumer;
+    private final Span callSpan;
     private final ReqT request;
     private final Metadata headers;
     private final GrpcFlowControl.Call flow;
@@ -43,13 +46,14 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
     private Observer<RespT> consumer;
 
     public ReadStreamCall(String traceId, String endpoint, ClientCall<ReqT, RespT> call, GrpcFlowControl flowCtrl,
-            ReqT req, Metadata headers, GrpcStatusHandler statusHandler) {
+                          ReqT req, Metadata headers, GrpcStatusHandler statusHandler, Span callSpan) {
         this.traceId = traceId;
         this.endpoint = endpoint;
         this.call = call;
         this.request = req;
         this.headers = headers;
         this.statusConsumer = statusHandler;
+        this.callSpan = callSpan;
         this.flow = flowCtrl.newCall(this::nextRequest);
     }
 
@@ -111,42 +115,45 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
 
     @Override
     public void onMessage(RespT message) {
-        try {
-            if (logger.isTraceEnabled()) {
-                logger.trace("ReadStreamCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) message));
-            }
-            consumer.onNext(message);
-            flow.onMessageRead();
-        } catch (Exception ex) {
-            statusFuture.completeExceptionally(ex);
-
+        try (Scope ignored = callSpan.makeCurrent()) {
             try {
-                callLock.lock();
-                try {
-                    call.cancel("Canceled by exception from observer", ex);
-                } finally {
-                    callLock.unlock();
+                if (logger.isTraceEnabled()) {
+                    logger.trace("ReadStreamCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) message));
                 }
-            } catch (Throwable th) {
-                logger.error("ReadStreamCall[{}] got exception while canceling", traceId, th);
+                consumer.onNext(message);
+                flow.onMessageRead();
+            } catch (Exception ex) {
+                statusFuture.completeExceptionally(ex);
+
+                try {
+                    callLock.lock();
+                    try {
+                        call.cancel("Canceled by exception from observer", ex);
+                    } finally {
+                        callLock.unlock();
+                    }
+                } catch (Throwable th) {
+                    logger.error("ReadStreamCall[{}] got exception while canceling", traceId, th);
+                }
             }
         }
     }
 
     @Override
     public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
-        if (logger.isTraceEnabled()) {
-            logger.trace("ReadStreamCall[{}] closed with status {}", traceId, status);
+        try (Scope ignored = callSpan.restoreContext()) {
+            if (logger.isTraceEnabled()) {
+                logger.trace("ReadStreamCall[{}] closed with status {}", traceId, status);
+            }
+
+            statusConsumer.accept(status, trailers);
+
+            if (status.isOk()) {
+                statusFuture.complete(Status.SUCCESS);
+            } else {
+                statusFuture.complete(GrpcStatuses.toStatus(status, endpoint));
+            }
+            statusConsumer.postComplete();
         }
-
-        statusConsumer.accept(status, trailers);
-
-        if (status.isOk()) {
-            statusFuture.complete(Status.SUCCESS);
-        } else {
-            statusFuture.complete(GrpcStatuses.toStatus(status, endpoint));
-        }
-
-        statusConsumer.postComplete();
     }
 }

@@ -19,8 +19,8 @@ public class SpanTest {
 
         CompletableFuture<Status> future = new CompletableFuture<>();
 
-        Assert.assertSame(future, Span.endOnStatus(null, future));
-        Assert.assertSame(future, Span.endOnStatus(span, future));
+        Assert.assertSame(future, Span.endOnStatus(Span.NOOP, future));
+        Assert.assertNotSame(future, Span.endOnStatus(span, future));
 
         Assert.assertFalse(span.ended);
         Assert.assertNull(span.statusError);
@@ -40,7 +40,7 @@ public class SpanTest {
 
         CompletableFuture<Result<String>> future = new CompletableFuture<>();
 
-        Assert.assertSame(future, Span.endOnResult(span, future));
+        Assert.assertNotSame(future, Span.endOnResult(span, future));
 
         Assert.assertFalse(span.ended);
         Assert.assertNull(span.statusError);
@@ -60,8 +60,8 @@ public class SpanTest {
 
         CompletableFuture<Result<String>> future = new CompletableFuture<>();
 
-        Assert.assertSame(future, Span.endOnResult(null, future));
-        Assert.assertSame(future, Span.endOnResult(span, future));
+        Assert.assertSame(future, Span.endOnResult(Span.NOOP, future));
+        Assert.assertNotSame(future, Span.endOnResult(span, future));
 
         Assert.assertFalse(span.ended);
         Assert.assertNull(span.statusError);
@@ -80,18 +80,8 @@ public class SpanTest {
         private boolean ended;
 
         @Override
-        public String getId() {
-            return "test-span";
-        }
-
-        @Override
-        public void setAttribute(String key, String value) {
-            // not needed in this test
-        }
-
-        @Override
-        public void setAttribute(String key, long value) {
-            // not needed in this test
+        public boolean isValid() {
+            return true;
         }
 
         @Override

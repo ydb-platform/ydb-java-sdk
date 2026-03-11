@@ -330,7 +330,7 @@ abstract class SessionImpl implements QuerySession {
     @Override
     public QueryStream createQuery(String query, TxMode tx, Params prms, ExecuteQuerySettings settings) {
         YdbQuery.TransactionControl tc = TxControl.txModeCtrl(tx, true);
-        Span span = rpc.startSpan("ydb.ExecuteQuery");
+        Span span = startSpan("ydb.ExecuteQuery");
         return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
             @Override
             void handleTxMeta(String txID) {
@@ -377,10 +377,9 @@ abstract class SessionImpl implements QuerySession {
 
     abstract class StreamImpl implements QueryStream {
         private final GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream;
-        @Nullable
         private final Span span;
 
-        StreamImpl(GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream, @Nullable Span operationSpan) {
+        StreamImpl(GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream, Span operationSpan) {
             this.grpcStream = grpcStream;
             this.span = operationSpan;
         }
@@ -395,51 +394,52 @@ abstract class SessionImpl implements QuerySession {
             final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
             final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
             return Span.endOnResult(span, grpcStream.start(msg -> {
-                if (isTraceEnabled) {
-                    logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
-                }
-                Issue[] issues = Issue.fromPb(msg.getIssuesList());
-                Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
+                        if (isTraceEnabled) {
+                            logger.trace("{} got stream message {}",
+                                    SessionImpl.this, TextFormat.shortDebugString(msg));
+                        }
+                        Issue[] issues = Issue.fromPb(msg.getIssuesList());
+                        Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
 
-                updateSessionState(status);
+                        updateSessionState(status);
 
-                if (!status.isSuccess()) {
-                    handleTxMeta(null);
-                    operationStatus.update(status);
-                    return;
-                }
+                        if (!status.isSuccess()) {
+                            handleTxMeta(null);
+                            operationStatus.update(status);
+                            return;
+                        }
 
-                if (msg.hasTxMeta()) {
-                    handleTxMeta(msg.getTxMeta().getId());
-                }
-                if (issues.length > 0) {
-                    if (handler != null) {
-                        handler.onIssues(issues);
-                    } else {
-                        logger.trace("{} lost issues message", SessionImpl.this);
-                    }
-                }
-                if (msg.hasExecStats()) {
-                    stats.update(new QueryStats(msg.getExecStats()));
-                }
+                        if (msg.hasTxMeta()) {
+                            handleTxMeta(msg.getTxMeta().getId());
+                        }
+                        if (issues.length > 0) {
+                            if (handler != null) {
+                                handler.onIssues(issues);
+                            } else {
+                                logger.trace("{} lost issues message", SessionImpl.this);
+                            }
+                        }
+                        if (msg.hasExecStats()) {
+                            stats.update(new QueryStats(msg.getExecStats()));
+                        }
 
-                if (msg.hasResultSet()) {
-                    long index = msg.getResultSetIndex();
-                    if (handler != null) {
-                        handler.onNextRawPart(index, msg.getResultSet());
-                    } else {
-                        logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
-                    }
-                }
-            }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
-                updateSessionState(streamStatus);
-                Status status = operationStatus.orElse(streamStatus);
-                if (status.isSuccess()) {
-                    return Result.success(new QueryInfo(stats.get()), streamStatus);
-                } else {
-                    return Result.fail(status);
-                }
-            })
+                        if (msg.hasResultSet()) {
+                            long index = msg.getResultSetIndex();
+                            if (handler != null) {
+                                handler.onNextRawPart(index, msg.getResultSet());
+                            } else {
+                                logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
+                            }
+                        }
+                    }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
+                        updateSessionState(streamStatus);
+                        Status status = operationStatus.orElse(streamStatus);
+                        if (status.isSuccess()) {
+                            return Result.success(new QueryInfo(stats.get()), streamStatus);
+                        } else {
+                            return Result.fail(status);
+                        }
+                    })
             );
         }
 
@@ -477,7 +477,7 @@ abstract class SessionImpl implements QuerySession {
                     ? TxControl.txIdCtrl(currentId, commitAtEnd)
                     : TxControl.txModeCtrl(txMode, commitAtEnd);
 
-            Span span = rpc.startSpan("ydb.ExecuteQuery");
+            Span span = startSpan("ydb.ExecuteQuery");
             return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
                 @Override
                 void handleTxMeta(String txID) {
@@ -517,7 +517,7 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings) {
-            Span span = rpc.startSpan("ydb.Commit");
+            Span span = startSpan("ydb.Commit");
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             String transactionId = txId.get();
             if (transactionId == null) {
@@ -551,7 +551,7 @@ abstract class SessionImpl implements QuerySession {
 
         @Override
         public CompletableFuture<Status> rollback(RollbackTransactionSettings settings) {
-            Span span = rpc.startSpan("ydb.Rollback");
+            Span span = startSpan("ydb.Rollback");
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             String transactionId = txId.get();
 
