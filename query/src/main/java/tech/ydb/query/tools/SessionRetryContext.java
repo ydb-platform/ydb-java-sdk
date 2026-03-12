@@ -221,8 +221,8 @@ public class SessionRetryContext {
 
                         Status status = toStatus(fnResult);
                         if (status.isSuccess()) {
-                            promise.complete(fnResult);
                             finishRetrySpan(status, null);
+                            promise.complete(fnResult);
                         } else {
                             handleError(status, fnResult);
                         }

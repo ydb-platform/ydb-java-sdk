@@ -264,8 +264,8 @@ public class SessionRetryContext {
                         Status status = toStatus(fnResult);
                         if (status.isSuccess()) {
                             handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
-                            promise.complete(fnResult);
                             finishRetrySpan(status, null);
+                            promise.complete(fnResult);
                         } else {
                             handleError(status, fnResult);
                         }
