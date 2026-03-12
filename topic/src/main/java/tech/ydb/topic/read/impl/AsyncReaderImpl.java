@@ -19,9 +19,7 @@ import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
@@ -98,12 +96,10 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleCommitResponse(long committedOffset, PartitionSession partitionSession) {
+    protected void handleCommitResponse(long committedOffset, PartitionSession partition) {
         handlerExecutor.execute(() -> {
-            CommitOffsetAcknowledgementEvent event = new CommitOffsetAcknowledgementEventImpl(partitionSession,
-                    committedOffset);
             try {
-                eventHandler.onCommitResponse(event);
+                eventHandler.onCommitResponse(new CommitOffsetAcknowledgementEventImpl(partition, committedOffset));
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onCommitResponse");
                 throw th;
@@ -136,11 +132,10 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession) {
-        final PartitionSessionClosedEvent event = new PartitionSessionClosedEventImpl(partitionSession);
+    protected void handleClosePartitionSession(PartitionSession partition) {
         handlerExecutor.execute(() -> {
             try {
-                eventHandler.onPartitionSessionClosed(event);
+                eventHandler.onPartitionSessionClosed(new PartitionSessionClosedEventImpl(partition));
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onPartitionSessionClosed");
                 throw th;

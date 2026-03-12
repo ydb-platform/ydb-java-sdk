@@ -9,19 +9,19 @@ import tech.ydb.topic.read.events.StartPartitionSessionEvent;
  * @author Nikolay Perfilov
  */
 public abstract class StartPartitionSessionEventImpl implements StartPartitionSessionEvent {
-    private final PartitionSession sessionId;
+    private final PartitionSession partition;
     private final long committedOffset;
     private final OffsetsRange partitionOffsets;
 
-    public StartPartitionSessionEventImpl(PartitionSession sessionId, long committedOffset, OffsetsRange offsets) {
-        this.sessionId = sessionId;
+    public StartPartitionSessionEventImpl(PartitionSession partition, long committedOffset, OffsetsRange offsets) {
+        this.partition = partition;
         this.committedOffset = committedOffset;
         this.partitionOffsets = offsets;
     }
 
     @Override
     public PartitionSession getPartitionSession() {
-        return sessionId;
+        return partition;
     }
 
     @Override

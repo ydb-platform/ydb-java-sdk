@@ -63,10 +63,10 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
     protected abstract void handleSessionStarted(String sessionId);
-    protected abstract void handleCommitResponse(long committedOffset, PartitionSession partitionSession);
+    protected abstract void handleCommitResponse(long committedOffset, PartitionSession partition);
     protected abstract void handleStartPartitionSessionRequest(StartPartitionSessionEvent event);
     protected abstract void handleStopPartitionSession(StopPartitionSessionEvent event);
-    protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
+    protected abstract void handleClosePartitionSession(PartitionSession partition);
 
     @Override
     protected Logger getLogger() {
