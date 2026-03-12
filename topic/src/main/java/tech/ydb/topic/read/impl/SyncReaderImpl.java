@@ -195,8 +195,9 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected void handleClosePartitionSession(PartitionSession partitionSession) {
+    protected CompletableFuture<Void> handleClosePartitionSession(PartitionSession partitionSession) {
         logger.debug("ClosePartitionSession event received. Ignoring.");
+        return CompletableFuture.completedFuture(null);
     }
 
     @Override
