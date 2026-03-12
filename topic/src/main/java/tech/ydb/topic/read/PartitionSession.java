@@ -28,7 +28,7 @@ public class PartitionSession {
 
     @Override
     public int hashCode() {
-        return (path.hashCode() * 31 + (int) id) * 31 + (int) partitionId;
+        return (path.hashCode() * 31 + Long.hashCode(id)) * 31 + Long.hashCode(partitionId);
     }
 
     @Override

@@ -302,7 +302,7 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                 logger.warn("[{}] Received PartitionData for unknown(most likely already closed) PartitionSessionId={}",
                         streamId, psid);
                 // TODO: release memory buffer
-                return;
+                continue;
             }
 
             // Completes when all messages from a batch are read by user

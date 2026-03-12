@@ -54,8 +54,10 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
         String consumerName = settings.getConsumerName();
         String readerName = settings.getReaderName();
+
         logger.info("Reader{} (generated id {}) created for topic(s) {} and {}",
                 readerName != null ? (" '" + readerName + "'") : "",
+                id,
                 settings.getTopics().stream().map(t -> "\"" + t.getPath() + "\"").collect(Collectors.joining(", ")),
                 consumerName != null ? (" consumer \"" + consumerName + "\"") : "without a consumer"
         );
@@ -97,6 +99,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     void onSessionStarted(String sessionId) {
         sessionReady.complete(null);
+        reconnectCounter.set(0);
+        handleSessionStarted(sessionId);
     }
 
     protected CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction,
@@ -111,7 +115,9 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
 
     @Override
     protected void onShutdown(String reason) {
-        session.shutdown();
+        if (session != null) {
+            session.shutdown();
+        }
         sessionReady.completeExceptionally(new RuntimeException(reason));
         if (defaultDecompressionExecutorService != null) {
             defaultDecompressionExecutorService.shutdown();

@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -53,11 +54,19 @@ public class TopicReadersIntegrationTest {
 
     private static TopicClient client;
 
+    @BeforeClass
+    public static void initClient() {
+        client = TopicClient.newClient(ydbTransport).build();
+    }
+
+    @AfterClass
+    public static void closeClient() {
+        client.close();
+    }
+
     @Before
     public void initTopic() throws Exception {
-        logger.info("Create test table  {} ...", TEST_TOPIC);
-
-        client = TopicClient.newClient(ydbTransport).build();
+        logger.info("Create test topic  {} ...", TEST_TOPIC);
         client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
                 .build()
@@ -84,11 +93,6 @@ public class TopicReadersIntegrationTest {
     public void dropTopic() {
         logger.info("Drop test topic {} ...", TEST_TOPIC);
         client.dropTopic(TEST_TOPIC).join().expectSuccess("can't drop test topic");
-    }
-
-    @AfterClass
-    public static void closeClient() {
-        client.close();
     }
 
     @Test
