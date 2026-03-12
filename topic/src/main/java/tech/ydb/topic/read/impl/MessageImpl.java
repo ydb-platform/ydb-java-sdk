@@ -21,7 +21,7 @@ import tech.ydb.topic.read.PartitionSession;
  * @author Nikolay Perfilov
  */
 public class MessageImpl implements Message {
-    private final PartitionSessionImpl session;
+    private final ReadPartitionSession session;
     private final long uncompressedSize;
     private final long commitOffset;
     private final long offset;
@@ -34,7 +34,7 @@ public class MessageImpl implements Message {
     private byte[] data;
     private IOException exception = null;
 
-    public MessageImpl(PartitionSessionImpl session, BatchMeta meta, long commitFromOffset,
+    public MessageImpl(ReadPartitionSession session, BatchMeta meta, long commitFromOffset,
             YdbTopic.StreamReadMessage.ReadResponse.MessageData msg) {
         this.session = session;
         this.uncompressedSize = msg.getUncompressedSize();
@@ -117,10 +117,10 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionSession getPartitionSession() {
-        return session.getSessionId();
+        return session.getPartition();
     }
 
-    public PartitionSessionImpl getPartitionSessionImpl() {
+    public ReadPartitionSession getPartitionSessionImpl() {
         return session;
     }
 
@@ -132,7 +132,7 @@ public class MessageImpl implements Message {
     @Override
     public PartitionOffsets getPartitionOffsets() {
         OffsetsRange range = new OffsetsRangeImpl(getCommitFromOffset(), getCommitToOffset());
-        return new PartitionOffsets(session.getSessionId(), Collections.singletonList(range));
+        return new PartitionOffsets(session.getPartition(), Collections.singletonList(range));
     }
 
     @Override

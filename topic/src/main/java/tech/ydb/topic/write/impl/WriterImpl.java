@@ -383,9 +383,8 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
                     logger.debug("[{}] Can't send data: current session is not yet initialized", streamId);
                     return;
                 }
-                if (!isWorking.get()) {
-                    logger.debug("[{}] Can't send data: current session has been already stopped",
-                            streamId);
+                if (isStopped()) {
+                    logger.debug("[{}] Can't send data: current session has been already stopped", streamId);
                     return;
                 }
                 Queue<EnqueuedMessage> messages;

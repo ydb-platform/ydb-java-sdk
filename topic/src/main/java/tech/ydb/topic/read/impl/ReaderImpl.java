@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
-import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
@@ -24,6 +23,7 @@ import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
+import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
@@ -65,10 +65,7 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     protected abstract void handleSessionStarted(String sessionId);
     protected abstract void handleCommitResponse(long committedOffset, PartitionSession partitionSession);
     protected abstract void handleStartPartitionSessionRequest(StartPartitionSessionEvent event);
-    protected abstract void handleStopPartitionSession(
-            YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-            PartitionSession partitionSession,
-            Runnable confirmCallback);
+    protected abstract void handleStopPartitionSession(StopPartitionSessionEvent event);
     protected abstract void handleClosePartitionSession(PartitionSession partitionSession);
 
     @Override

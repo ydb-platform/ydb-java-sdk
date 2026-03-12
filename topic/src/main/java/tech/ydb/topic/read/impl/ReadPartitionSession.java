@@ -26,11 +26,11 @@ import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 /**
  * @author Nikolay Perfilov
  */
-public abstract class PartitionSessionImpl {
-    private static final Logger logger = LoggerFactory.getLogger(PartitionSessionImpl.class);
+public abstract class ReadPartitionSession {
+    private static final Logger logger = LoggerFactory.getLogger(ReadPartitionSession.class);
 
-    private final String debugId;
-    private final PartitionSession sessionId;
+    private final String id;
+    private final PartitionSession partition;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final int maxBatchSize;
     private final MessageDecoder decoder;
@@ -44,26 +44,26 @@ public abstract class PartitionSessionImpl {
     private long nextMessageOffset;
     private long lastCommittedOffset;
 
-    PartitionSessionImpl(PartitionSession sessionId, String debugId, int maxBatchSize, long readFrom, long commitFrom,
+    ReadPartitionSession(String id, PartitionSession partition, int maxBatchSize, long readFrom, long commitFrom,
             MessageDecoder decoder) {
-        this.sessionId = sessionId;
-        this.debugId = debugId;
+        this.id = id;
+        this.partition = partition;
         this.maxBatchSize = maxBatchSize;
         this.decoder = decoder;
         this.nextMessageOffset = readFrom;
         this.lastCommittedOffset = commitFrom;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public PartitionSession getPartition() {
+        return partition;
+    }
+
     abstract void commitRanges(List<OffsetsRange> rangeWrapper);
     abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
-
-    public PartitionSession getSessionId() {
-        return sessionId;
-    }
-
-    public String getFullId() {
-        return debugId;
-    }
 
     public CompletableFuture<Void> addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
         if (!isWorking.get()) {
@@ -72,7 +72,7 @@ public abstract class PartitionSessionImpl {
         List<CompletableFuture<Void>> batchFutures = new LinkedList<>();
         for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch: batchList) {
             if (batch.getMessageDataCount() == 0) {
-                logger.error("[{}] Received empty batch. This shouldn't happen", debugId);
+                logger.error("[{}] Received empty batch. This shouldn't happen", id);
                 return CompletableFuture.completedFuture(null);
             }
 
@@ -86,7 +86,7 @@ public abstract class PartitionSessionImpl {
             }
 
             if (logger.isDebugEnabled()) {
-                logger.debug("[{}] Received a batch of {} messages (offsets {} - {})", debugId, messages.size(),
+                logger.debug("[{}] Received a batch of {} messages (offsets {} - {})", id, messages.size(),
                         messages.get(0).getOffset(), messages.get(messages.size() - 1).getOffset());
             }
 
@@ -95,7 +95,7 @@ public abstract class PartitionSessionImpl {
 
             readingQueue.offer(newBatch);
             if (!newBatch.isReady()) {
-                decoder.decode(debugId, newBatch, this::sendDataToReadersIfNeeded);
+                decoder.decode(id, newBatch, this::sendDataToReadersIfNeeded);
             }
         }
 
@@ -110,13 +110,13 @@ public abstract class PartitionSessionImpl {
                 if (logger.isDebugEnabled()) {
                     logger.debug("[{}] Offset range {} is requested to be committed. "
                             + "Last committed offset is {} (commit lag is {})",
-                            debugId, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
+                            id, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
                 }
                 commitFutures.put(range.getEnd(), resultFuture);
             } else {
                 logger.info("[{}] Offset range {} is requested to be committed, but partition session " +
-                        "is already closed", debugId, range);
-                resultFuture.completeExceptionally(new RuntimeException("" + sessionId + " is already closed"));
+                        "is already closed", id, range);
+                resultFuture.completeExceptionally(new RuntimeException("" + partition + " is already closed"));
             }
         } finally {
             commitFuturesLock.unlock();
@@ -138,19 +138,19 @@ public abstract class PartitionSessionImpl {
         }
 
         logger.info("[{}] Offset ranges {} are requested to be committed, but partition session is already closed",
-                debugId, ranges.stream().map(OffsetsRange::toString).collect(Collectors.joining(",")));
+                id, ranges.stream().map(OffsetsRange::toString).collect(Collectors.joining(",")));
     }
 
     public void handleCommitResponse(long committedOffset) {
         if (committedOffset <= lastCommittedOffset) {
             logger.error("[{}] Commit response received. Committed offset: {} which is less than previous " +
-                    "committed offset: {}.", debugId, committedOffset, lastCommittedOffset);
+                    "committed offset: {}.", id, committedOffset, lastCommittedOffset);
             return;
         }
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
         if (logger.isDebugEnabled()) {
             logger.debug("[{}] Commit response received. Committed offset: {}. Previous committed offset: {} " +
-                            "(diff is {} message(s)). Completing {} commit futures", debugId, committedOffset,
+                            "(diff is {} message(s)). Completing {} commit futures", id, committedOffset,
                     lastCommittedOffset, committedOffset - lastCommittedOffset, futuresToComplete.size());
         }
         lastCommittedOffset = committedOffset;
@@ -197,19 +197,19 @@ public abstract class PartitionSessionImpl {
             DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
-                                "to be called...", debugId, messagesToRead.size(),
+                                "to be called...", id, messagesToRead.size(),
                                     messagesToRead.get(0).getOffset(),
                                     messagesToRead.get(messagesToRead.size() - 1).getOffset());
             }
             handleDataReceivedEvent(event).whenComplete((res, th) -> {
                 if (th != null) {
                     logger.error("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) finished"
-                            + " with error: ", debugId, messagesToRead.size(),
+                            + " with error: ", id, messagesToRead.size(),
                             messagesToRead.get(0).getOffset(),
                             messagesToRead.get(messagesToRead.size() - 1).getOffset(), th);
                 } else if (logger.isDebugEnabled()) {
                     logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
-                            + "successfully finished", debugId, messagesToRead.size(),
+                            + "successfully finished", id, messagesToRead.size(),
                             messagesToRead.get(0).getOffset(),
                             messagesToRead.get(messagesToRead.size() - 1).getOffset());
                 }
@@ -219,7 +219,7 @@ public abstract class PartitionSessionImpl {
             });
         } else {
             if (logger.isTraceEnabled()) {
-                logger.trace("[{}] No need to send data to readers: reading is already being performed", debugId);
+                logger.trace("[{}] No need to send data to readers: reading is already being performed", id);
             }
         }
     }
@@ -229,10 +229,10 @@ public abstract class PartitionSessionImpl {
 
         try {
             isWorking.set(false);
-            logger.info("[{}] Partition session for {} is shutting down. Failing {} commit futures...", debugId,
-                    sessionId.getPath(), commitFutures.size());
+            logger.info("[{}] Partition session for {} is shutting down. Failing {} commit futures...", id,
+                    partition.getPath(), commitFutures.size());
             commitFutures.values().forEach(f -> f.completeExceptionally(
-                    new RuntimeException("" + sessionId + " is closed")
+                    new RuntimeException("" + partition + " is closed")
             ));
         } finally {
             commitFuturesLock.unlock();

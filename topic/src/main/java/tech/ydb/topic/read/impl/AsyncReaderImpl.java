@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
-import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.AsyncReader;
@@ -30,7 +29,6 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
 import tech.ydb.topic.read.impl.events.SessionStartedEvent;
-import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
@@ -126,11 +124,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                              PartitionSession partitionSession, Runnable confirmCallback) {
-        final long committedOffset = request.getCommittedOffset();
-        final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(partitionSession, committedOffset,
-                confirmCallback);
+    protected void handleStopPartitionSession(StopPartitionSessionEvent event) {
         handlerExecutor.execute(() -> {
             try {
                 eventHandler.onStopPartitionSession(event);

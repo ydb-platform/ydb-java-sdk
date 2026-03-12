@@ -19,8 +19,8 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 public abstract class SessionBase<R, W> implements Session {
 
     protected final GrpcReadWriteStream<R, W> streamConnection;
-    protected final AtomicBoolean isWorking = new AtomicBoolean(true);
     protected final String streamId;
+    private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final ReentrantLock lock = new ReentrantLock();
     private String token;
 
@@ -32,6 +32,10 @@ public abstract class SessionBase<R, W> implements Session {
 
     public String getStreamId() {
         return streamId;
+    }
+
+    public boolean isStopped() {
+        return !isWorking.get();
     }
 
     protected abstract Logger getLogger();

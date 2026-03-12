@@ -28,7 +28,7 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
-import tech.ydb.topic.read.impl.PartitionSessionImpl;
+import tech.ydb.topic.read.impl.ReadPartitionSession;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -93,7 +93,7 @@ public class TopicReadersIntegrationTest {
 
     @Test
     public void singleThreadExecutorTest() throws Exception {
-        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(PartitionSessionImpl.class);
+        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(ReadPartitionSession.class);
         Level level = silenceLogger.getLevel();
 
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
