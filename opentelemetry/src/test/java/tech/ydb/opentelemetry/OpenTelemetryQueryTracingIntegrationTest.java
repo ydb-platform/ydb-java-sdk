@@ -29,6 +29,7 @@ import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
@@ -311,6 +312,88 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         Assert.assertTrue("CreateSession span must be child of ExecuteWithRetry", createSessionChildren >= 1);
         Assert.assertTrue("ExecuteQuery span must be child of ExecuteWithRetry", executeQueryChildren >= 1);
         Assert.assertTrue("Commit span must be child of ExecuteWithRetry", commitChildren >= 1);
+    }
+
+    @Test
+    public void nonRetryableExceptionProducesErrorRetrySpan() {
+        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
+                .maxRetries(5)
+                .backoffSlot(Duration.ofMillis(1))
+                .fastBackoffSlot(Duration.ofMillis(1))
+                .build();
+
+        RuntimeException thrown;
+        try {
+            retryContext.supplyStatus(session -> {
+                throw new IllegalStateException("boom");
+            }).join();
+            throw new AssertionError("Exception expected");
+        } catch (RuntimeException ex) {
+            thrown = ex;
+        }
+
+        Assert.assertNotNull(thrown.getCause());
+        Assert.assertTrue(thrown.getCause() instanceof IllegalStateException);
+        assertSpanOK("ydb.CreateSession", 1);
+        assertSpanOK("ydb.ExecuteQuery", 0);
+
+        List<SpanData> spans = spanExporter.getFinishedSpanItems();
+        int retrySpans = 0;
+        int errorRetrySpans = 0;
+        for (SpanData span : spans) {
+            if (!"ydb.ExecuteWithRetry".equals(span.getName())) {
+                continue;
+            }
+            retrySpans++;
+            if (io.opentelemetry.api.trace.StatusCode.ERROR.equals(span.getStatus().getStatusCode())) {
+                errorRetrySpans++;
+                Assert.assertEquals(IllegalStateException.class.getName(),
+                        span.getAttributes().get(ERROR_TYPE));
+            }
+        }
+        Assert.assertEquals(1, retrySpans);
+        Assert.assertEquals(1, errorRetrySpans);
+    }
+
+    @Test
+    public void retryableUnexpectedResultExceptionRetriesAndSetsErrorType() {
+        AtomicInteger attempt = new AtomicInteger();
+        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
+                .maxRetries(5)
+                .backoffSlot(Duration.ofMillis(1))
+                .fastBackoffSlot(Duration.ofMillis(1))
+                .build();
+
+        Status status = retryContext.supplyStatus(session -> {
+            if (attempt.getAndIncrement() == 0) {
+                throw new UnexpectedResultException("retryable", Status.of(StatusCode.OVERLOADED));
+            }
+            return session.createQuery("SELECT 1", TxMode.NONE).execute().thenApply(Result::getStatus);
+        }).join();
+        status.expectSuccess();
+
+        assertSpanOK("ydb.ExecuteQuery", 1);
+
+        List<SpanData> spans = spanExporter.getFinishedSpanItems();
+        int retrySpans = 0;
+        int errorRetrySpans = 0;
+        int okRetrySpans = 0;
+        for (SpanData span : spans) {
+            if (!"ydb.ExecuteWithRetry".equals(span.getName())) {
+                continue;
+            }
+            retrySpans++;
+            if (io.opentelemetry.api.trace.StatusCode.ERROR.equals(span.getStatus().getStatusCode())) {
+                errorRetrySpans++;
+                Assert.assertEquals("ydb_error", span.getAttributes().get(ERROR_TYPE));
+                Assert.assertEquals(StatusCode.OVERLOADED.toString(), span.getAttributes().get(STATUS_CODE));
+            } else if (io.opentelemetry.api.trace.StatusCode.OK.equals(span.getStatus().getStatusCode())) {
+                okRetrySpans++;
+            }
+        }
+        Assert.assertEquals(2, retrySpans);
+        Assert.assertEquals(1, errorRetrySpans);
+        Assert.assertEquals(1, okRetrySpans);
     }
 
     @Test

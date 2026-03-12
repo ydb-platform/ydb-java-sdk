@@ -8,6 +8,7 @@ import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.context.Scope;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
 import tech.ydb.core.tracing.SpanScope;
@@ -100,7 +101,13 @@ public final class OpenTelemetryTracer implements Tracer {
                 }
             }
             if (error != null) {
-                span.setAttribute("error.type", error.getClass().getName());
+                if (error instanceof UnexpectedResultException) {
+                    tech.ydb.core.StatusCode code = ((UnexpectedResultException) error).getStatus().getCode();
+                    span.setAttribute("db.response.status_code", code.toString());
+                    span.setAttribute("error.type", code.isTransportError() ? "transport_error" : "ydb_error");
+                } else {
+                    span.setAttribute("error.type", error.getClass().getName());
+                }
                 span.setStatus(StatusCode.ERROR, error.getMessage());
             }
         }
