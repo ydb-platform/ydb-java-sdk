@@ -7,7 +7,7 @@ package tech.ydb.core.tracing;
  * singletons, no allocations per call (except caller code).
  */
 public final class NoopTracer implements Tracer {
-    public static final NoopTracer INSTANCE = new NoopTracer();
+    private static final NoopTracer INSTANCE = new NoopTracer();
 
     private NoopTracer() {
     }
@@ -18,6 +18,6 @@ public final class NoopTracer implements Tracer {
 
     @Override
     public Span startSpan(String spanName, SpanKind spanKind) {
-        return null;
+        return Span.NOOP;
     }
 }

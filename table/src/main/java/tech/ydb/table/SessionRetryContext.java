@@ -7,6 +7,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -16,11 +17,50 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanKind;
+import tech.ydb.core.tracing.SpanScope;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.FutureTools;
+import tech.ydb.proto.ValueProtos;
+import tech.ydb.table.description.TableDescription;
+import tech.ydb.table.description.TableOptionDescription;
+import tech.ydb.table.query.BulkUpsertData;
+import tech.ydb.table.query.DataQuery;
+import tech.ydb.table.query.DataQueryResult;
+import tech.ydb.table.query.ExplainDataQueryResult;
+import tech.ydb.table.query.Params;
+import tech.ydb.table.query.ReadRowsResult;
+import tech.ydb.table.query.ReadTablePart;
+import tech.ydb.table.settings.AlterTableSettings;
+import tech.ydb.table.settings.BeginTxSettings;
+import tech.ydb.table.settings.BulkUpsertSettings;
+import tech.ydb.table.settings.CommitTxSettings;
+import tech.ydb.table.settings.CopyTableSettings;
+import tech.ydb.table.settings.CopyTablesSettings;
+import tech.ydb.table.settings.CreateTableSettings;
+import tech.ydb.table.settings.DescribeTableOptionsSettings;
+import tech.ydb.table.settings.DescribeTableSettings;
+import tech.ydb.table.settings.DropTableSettings;
+import tech.ydb.table.settings.ExecuteDataQuerySettings;
+import tech.ydb.table.settings.ExecuteScanQuerySettings;
+import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
+import tech.ydb.table.settings.ExplainDataQuerySettings;
+import tech.ydb.table.settings.KeepAliveSessionSettings;
+import tech.ydb.table.settings.PrepareDataQuerySettings;
+import tech.ydb.table.settings.ReadRowsSettings;
+import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.settings.RenameTablesSettings;
+import tech.ydb.table.settings.RollbackTxSettings;
+import tech.ydb.table.transaction.TableTransaction;
+import tech.ydb.table.transaction.Transaction;
+import tech.ydb.table.transaction.TxControl;
 
 
 /**
@@ -28,6 +68,9 @@ import tech.ydb.core.utils.FutureTools;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
+    private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.ExecuteWithRetry";
+    private static final String RETRY_ATTEMPT_ATTR = "ydb.retry.attempt";
+    private static final String RETRY_SLEEP_MS_ATTR = "ydb.retry.sleep_ms";
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -143,21 +186,27 @@ public class SessionRetryContext {
      */
     private abstract class BaseRetryableTask<R> implements Runnable {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
+        private final AtomicBoolean spanFinished = new AtomicBoolean(true);
         private final AtomicInteger retryNumber = new AtomicInteger();
         private final Function<Session, CompletableFuture<R>> fn;
         private final long createTimestamp = Instant.now().toEpochMilli();
         private final SessionRetryHandler handler;
+        private final Tracer tracer;
+        private final Span parentSpan;
+        private Span retrySpan = Span.NOOP;
 
         BaseRetryableTask(SessionRetryHandler h, Function<Session, CompletableFuture<R>> fn) {
             this.fn = fn;
             this.handler = h;
+            this.tracer = sessionSupplier.getTracer();
+            this.parentSpan = tracer.currentSpan();
         }
 
         CompletableFuture<R> getFuture() {
             return promise;
         }
 
-        abstract StatusCode toStatusCode(R result);
+        abstract Status toStatus(R result);
         abstract R toFailedResult(Result<Session> sessionResult);
 
         private long ms() {
@@ -169,13 +218,15 @@ public class SessionRetryContext {
         public void run() {
             if (promise.isCancelled()) {
                 handler.onCancel(SessionRetryContext.this, retryNumber.get(), ms());
+                finishRetrySpan(null, null);
                 return;
             }
             executor.execute(this::requestSession);
         }
 
         public void requestSession() {
-            CompletableFuture<Result<Session>> sessionFuture = sessionSupplier.createSession(sessionCreationTimeout);
+            startRetrySpan();
+            CompletableFuture<Result<Session>> sessionFuture = createSessionWithRetrySpanParent();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
                 acceptSession(sessionFuture.join());
@@ -193,13 +244,15 @@ public class SessionRetryContext {
 
         private void acceptSession(@Nonnull Result<Session> sessionResult) {
             if (!sessionResult.isSuccess()) {
-                handleError(sessionResult.getStatus().getCode(), toFailedResult(sessionResult));
+                handleError(sessionResult.getStatus(), toFailedResult(sessionResult));
                 return;
             }
 
             final Session session = sessionResult.getValue();
+            final Session tracedSession = retrySpan.isValid()
+                    ? new TracedSession(session, retrySpan) : session;
             try {
-                fn.apply(session).whenComplete((fnResult, fnException) -> {
+                fn.apply(tracedSession).whenComplete((fnResult, fnException) -> {
                     try {
                         session.close();
 
@@ -208,15 +261,17 @@ public class SessionRetryContext {
                             return;
                         }
 
-                        StatusCode statusCode = toStatusCode(fnResult);
-                        if (statusCode == StatusCode.SUCCESS) {
+                        Status status = toStatus(fnResult);
+                        if (status.isSuccess()) {
                             handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
+                            finishRetrySpan(status, null);
                             promise.complete(fnResult);
                         } else {
-                            handleError(statusCode, fnResult);
+                            handleError(status, fnResult);
                         }
                     } catch (Throwable unexpected) {
                         handler.onError(SessionRetryContext.this, unexpected, retryNumber.get(), ms());
+                        finishRetrySpan(null, unexpected);
                         promise.completeExceptionally(unexpected);
                     }
                 });
@@ -233,21 +288,26 @@ public class SessionRetryContext {
             sessionSupplier.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
-        private void handleError(@Nonnull StatusCode code, R result) {
-            // Check retrayable status
+        private void handleError(@Nonnull Status status, R result) {
+            StatusCode code = status.getCode();
             if (!canRetry(code)) {
                 handler.onError(SessionRetryContext.this, code, retryNumber.get(), ms());
+                finishRetrySpan(status, null);
                 promise.complete(result);
                 return;
             }
 
+            int failedAttempt = retryNumber.get();
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(code, retry);
                 handler.onRetry(SessionRetryContext.this, code, retry, next, ms());
+                recordRetrySchedule(failedAttempt, next);
+                finishRetrySpan(status, null);
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, code, maxRetries, ms());
+                finishRetrySpan(status, null);
                 promise.complete(result);
             }
         }
@@ -256,19 +316,55 @@ public class SessionRetryContext {
             // Check retrayable execption
             if (!canRetry(ex)) {
                 handler.onError(SessionRetryContext.this, ex, retryNumber.get(), ms());
+                finishRetrySpan(null, ex);
                 promise.completeExceptionally(ex);
                 return;
             }
 
+            int failedAttempt = retryNumber.get();
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(ex, retry);
                 handler.onRetry(SessionRetryContext.this, ex, retry, next, ms());
+                recordRetrySchedule(failedAttempt, next);
+                finishRetrySpan(null, ex);
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, ex, maxRetries, ms());
+                finishRetrySpan(null, ex);
                 promise.completeExceptionally(ex);
             }
+        }
+
+        private CompletableFuture<Result<Session>> createSessionWithRetrySpanParent() {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return sessionSupplier.createSession(sessionCreationTimeout);
+            }
+        }
+
+        private void startRetrySpan() {
+            if (!spanFinished.get()) {
+                return;
+            }
+            try (SpanScope ignored = parentSpan.makeCurrent()) {
+                retrySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
+            }
+            spanFinished.set(false);
+            retrySpan.setAttribute(RETRY_ATTEMPT_ATTR, retryNumber.get());
+        }
+
+        private void recordRetrySchedule(int failedAttempt, long nextDelayMillis) {
+            retrySpan.setAttribute(RETRY_ATTEMPT_ATTR, failedAttempt);
+            retrySpan.setAttribute(RETRY_SLEEP_MS_ATTR, nextDelayMillis);
+        }
+
+        private void finishRetrySpan(Status status, Throwable throwable) {
+            if (!spanFinished.compareAndSet(false, true)) {
+                return;
+            }
+            retrySpan.setStatus(status, throwable);
+            retrySpan.end();
+            retrySpan = Span.NOOP;
         }
     }
 
@@ -281,8 +377,8 @@ public class SessionRetryContext {
         }
 
         @Override
-        StatusCode toStatusCode(Result<T> result) {
-            return result.getStatus().getCode();
+        Status toStatus(Result<T> result) {
+            return result.getStatus();
         }
 
         @Override
@@ -300,8 +396,8 @@ public class SessionRetryContext {
         }
 
         @Override
-        StatusCode toStatusCode(Status status) {
-            return status.getCode();
+        Status toStatus(Status status) {
+            return status;
         }
 
         @Override
@@ -379,6 +475,287 @@ public class SessionRetryContext {
 
         public SessionRetryContext build() {
             return new SessionRetryContext(this);
+        }
+    }
+
+    /**
+     * Wraps Session to propagate retry span as parent for all RPC spans within a retry attempt.
+     */
+    private static final class TracedSession implements Session {
+        private final Session delegate;
+        private final Span retrySpan;
+
+        TracedSession(Session delegate, Span retrySpan) {
+            this.delegate = delegate;
+            this.retrySpan = retrySpan;
+        }
+
+        @Override
+        public String getId() {
+            return delegate.getId();
+        }
+
+        @Override
+        public void close() {
+            delegate.close();
+        }
+
+        @Override
+        public CompletableFuture<Status> createTable(String path, TableDescription tableDescriptions,
+                CreateTableSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.createTable(path, tableDescriptions, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> dropTable(String path, DropTableSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.dropTable(path, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> alterTable(String path, AlterTableSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.alterTable(path, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> copyTable(String src, String dst, CopyTableSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.copyTable(src, dst, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> copyTables(CopyTablesSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.copyTables(settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> renameTables(RenameTablesSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.renameTables(settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<TableDescription>> describeTable(String path,
+                DescribeTableSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.describeTable(path, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<DataQuery>> prepareDataQuery(String query,
+                PrepareDataQuerySettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.prepareDataQuery(query, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, TxControl<?> txControl,
+                Params params, ExecuteDataQuerySettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.executeDataQuery(query, txControl, params, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<ReadRowsResult>> readRows(String pathToTable, ReadRowsSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.readRows(pathToTable, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> executeSchemeQuery(String query, ExecuteSchemeQuerySettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.executeSchemeQuery(query, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<ExplainDataQueryResult>> explainDataQuery(String query,
+                ExplainDataQuerySettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.explainDataQuery(query, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<TableOptionDescription>> describeTableOptions(
+                DescribeTableOptionsSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.describeTableOptions(settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<Transaction>> beginTransaction(Transaction.Mode transactionMode,
+                BeginTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.beginTransaction(transactionMode, settings)
+                        .thenApply(r -> r.map(tx -> new TracedTransaction(tx, retrySpan)));
+            }
+        }
+
+        @Override
+        public TableTransaction createNewTransaction(TxMode txMode) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return new TracedTableTransaction(delegate.createNewTransaction(txMode), retrySpan);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<TableTransaction>> beginTransaction(TxMode txMode,
+                BeginTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.beginTransaction(txMode, settings)
+                        .thenApply(r -> r.map(tx -> new TracedTableTransaction(tx, retrySpan)));
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> commitTransaction(String txId, CommitTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.commitTransaction(txId, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> rollbackTransaction(String txId, RollbackTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.rollbackTransaction(txId, settings);
+            }
+        }
+
+        @Override
+        public GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.executeReadTable(tablePath, settings);
+            }
+        }
+
+        @Override
+        public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
+                ExecuteScanQuerySettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.executeScanQueryRaw(query, params, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Result<State>> keepAlive(KeepAliveSessionSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.keepAlive(settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> executeBulkUpsert(String tablePath, BulkUpsertData data,
+                BulkUpsertSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.executeBulkUpsert(tablePath, data, settings);
+            }
+        }
+    }
+
+    /**
+     * Wraps TableTransaction to propagate retry span as parent for commit/rollback/query spans.
+     */
+    private static final class TracedTableTransaction implements TableTransaction {
+        private final TableTransaction delegate;
+        private final Span retrySpan;
+
+        TracedTableTransaction(TableTransaction delegate, Span retrySpan) {
+            this.delegate = delegate;
+            this.retrySpan = retrySpan;
+        }
+
+        @Override
+        public Session getSession() {
+            return delegate.getSession();
+        }
+
+        @Override
+        public String getId() {
+            return delegate.getId();
+        }
+
+        @Override
+        public TxMode getTxMode() {
+            return delegate.getTxMode();
+        }
+
+        @Override
+        public String getSessionId() {
+            return delegate.getSessionId();
+        }
+
+        @Override
+        public CompletableFuture<Status> getStatusFuture() {
+            return delegate.getStatusFuture();
+        }
+
+        @Override
+        public CompletableFuture<Result<DataQueryResult>> executeDataQuery(String query, boolean commitAtEnd,
+                Params params, ExecuteDataQuerySettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.executeDataQuery(query, commitAtEnd, params, settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> commit(CommitTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.commit(settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.rollback(settings);
+            }
+        }
+    }
+
+    /**
+     * Wraps legacy Transaction to propagate retry span as parent for commit/rollback spans.
+     */
+    private static final class TracedTransaction implements Transaction {
+        private final Transaction delegate;
+        private final Span retrySpan;
+
+        TracedTransaction(Transaction delegate, Span retrySpan) {
+            this.delegate = delegate;
+            this.retrySpan = retrySpan;
+        }
+
+        @Override
+        public String getId() {
+            return delegate.getId();
+        }
+
+        @Override
+        public CompletableFuture<Status> commit(CommitTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.commit(settings);
+            }
+        }
+
+        @Override
+        public CompletableFuture<Status> rollback(RollbackTxSettings settings) {
+            try (SpanScope ignored = retrySpan.makeCurrent()) {
+                return delegate.rollback(settings);
+            }
         }
     }
 }

@@ -7,6 +7,8 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.tracing.NoopTracer;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.YdbTable.AlterTableRequest;
 import tech.ydb.proto.table.YdbTable.BeginTransactionRequest;
@@ -49,6 +51,10 @@ public interface TableRpc extends AutoCloseable {
     String getDatabase();
 
     ScheduledExecutorService getScheduler();
+
+    default Tracer getTracer() {
+        return NoopTracer.getInstance();
+    }
 
     @Override
     void close();
