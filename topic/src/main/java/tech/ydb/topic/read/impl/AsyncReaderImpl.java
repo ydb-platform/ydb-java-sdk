@@ -6,7 +6,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 
@@ -15,15 +14,12 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
-import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
@@ -31,11 +27,8 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
 import tech.ydb.topic.read.impl.events.SessionStartedEvent;
-import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
-import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
-import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
@@ -74,13 +67,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     public CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction,
-                                                                Map<String, List<PartitionOffsets>> offsets,
-                                                                UpdateOffsetsInTransactionSettings settings) {
-        if (!transaction.isActive()) {
-            throw new IllegalArgumentException("Transaction is not active. " +
-                    "Can only read topic messages in already running transactions from other services");
-        }
-        return sendUpdateOffsetsInTransaction(transaction, offsets, settings);
+            Map<String, List<PartitionOffsets>> offsets, UpdateOffsetsInTransactionSettings settings) {
+        return super.updateOffsetsInTransaction(transaction, offsets, settings);
     }
 
     @Override
@@ -108,12 +96,10 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleCommitResponse(long committedOffset, PartitionSession partitionSession) {
+    protected void handleCommitResponse(long committedOffset, PartitionSession partition) {
         handlerExecutor.execute(() -> {
-            CommitOffsetAcknowledgementEvent event = new CommitOffsetAcknowledgementEventImpl(partitionSession,
-                    committedOffset);
             try {
-                eventHandler.onCommitResponse(event);
+                eventHandler.onCommitResponse(new CommitOffsetAcknowledgementEventImpl(partition, committedOffset));
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onCommitResponse");
                 throw th;
@@ -122,17 +108,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
-                                                      PartitionSession partitionSession,
-                                                      Consumer<StartPartitionSessionSettings> confirmCallback) {
+    protected void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
         handlerExecutor.execute(() -> {
-            YdbTopic.OffsetsRange offsetsRange = request.getPartitionOffsets();
-            StartPartitionSessionEvent event = new StartPartitionSessionEventImpl(
-                    partitionSession,
-                    request.getCommittedOffset(),
-                    new OffsetsRangeImpl(offsetsRange.getStart(), offsetsRange.getEnd()),
-                    confirmCallback
-            );
             try {
                 eventHandler.onStartPartitionSession(event);
             } catch (Throwable th) {
@@ -143,11 +120,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                              PartitionSession partitionSession, Runnable confirmCallback) {
-        final long committedOffset = request.getCommittedOffset();
-        final StopPartitionSessionEvent event = new StopPartitionSessionEventImpl(partitionSession, committedOffset,
-                confirmCallback);
+    protected void handleStopPartitionSession(StopPartitionSessionEvent event) {
         handlerExecutor.execute(() -> {
             try {
                 eventHandler.onStopPartitionSession(event);
@@ -159,11 +132,10 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleClosePartitionSession(tech.ydb.topic.read.PartitionSession partitionSession) {
-        final PartitionSessionClosedEvent event = new PartitionSessionClosedEventImpl(partitionSession);
+    protected void handleClosePartitionSession(PartitionSession partition) {
         handlerExecutor.execute(() -> {
             try {
-                eventHandler.onPartitionSessionClosed(event);
+                eventHandler.onPartitionSessionClosed(new PartitionSessionClosedEventImpl(partition));
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onPartitionSessionClosed");
                 throw th;

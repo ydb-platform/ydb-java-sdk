@@ -21,34 +21,32 @@ import tech.ydb.topic.read.PartitionSession;
  * @author Nikolay Perfilov
  */
 public class MessageImpl implements Message {
-    private final PartitionSessionImpl session;
+    private final ReadPartitionSession session;
     private final long uncompressedSize;
+    private final long commitOffset;
     private final long offset;
     private final long seqNo;
-    private final long commitOffsetFrom;
     private final Instant createdAt;
     private final String messageGroupId;
     private final BatchMeta batchMeta;
     private final List<MetadataItem> metadataItems;
-    private final OffsetsRange offsetsToCommit;
 
     private byte[] data;
     private IOException exception = null;
 
-    public MessageImpl(PartitionSessionImpl session, BatchMeta meta, long commitOffsetFrom,
+    public MessageImpl(ReadPartitionSession session, BatchMeta meta, long commitFromOffset,
             YdbTopic.StreamReadMessage.ReadResponse.MessageData msg) {
         this.session = session;
         this.uncompressedSize = msg.getUncompressedSize();
+        this.commitOffset = commitFromOffset;
         this.offset = msg.getOffset();
         this.seqNo = msg.getSeqNo();
-        this.commitOffsetFrom = commitOffsetFrom;
         this.createdAt = ProtobufUtils.protoToInstant(msg.getCreatedAt());
         this.messageGroupId = msg.getMessageGroupId();
         this.metadataItems = msg.getMetadataItemsList().stream()
                 .map(metadataItem -> new MetadataItem(metadataItem.getKey(), metadataItem.getValue().toByteArray()))
                 .collect(Collectors.toList());
         this.batchMeta = meta;
-        this.offsetsToCommit = new OffsetsRangeImpl(commitOffsetFrom, offset + 1);
 
         this.data = msg.getData().toByteArray();
     }
@@ -64,6 +62,14 @@ public class MessageImpl implements Message {
 
     public long getUncompressedSize() {
         return uncompressedSize;
+    }
+
+    public long getCommitFromOffset() {
+        return commitOffset;
+    }
+
+    public long getCommitToOffset() {
+        return offset + 1;
     }
 
     public void setData(byte[] data) {
@@ -82,10 +88,6 @@ public class MessageImpl implements Message {
     @Override
     public long getSeqNo() {
         return seqNo;
-    }
-
-    public long getCommitOffsetFrom() {
-        return commitOffsetFrom;
     }
 
     @Override
@@ -115,10 +117,10 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionSession getPartitionSession() {
-        return session.getSessionId();
+        return session.getPartition();
     }
 
-    public PartitionSessionImpl getPartitionSessionImpl() {
+    public ReadPartitionSession getPartitionSessionImpl() {
         return session;
     }
 
@@ -129,13 +131,15 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(session.getSessionId(), Collections.singletonList(offsetsToCommit));
+        OffsetsRange range = new OffsetsRangeImpl(getCommitFromOffset(), getCommitToOffset());
+        return new PartitionOffsets(session.getPartition(), Collections.singletonList(range));
     }
 
     @Override
     public CompletableFuture<Void> commit() {
         CompletableFuture<Void> future = new CompletableFuture<>();
-        session.commit(offsetsToCommit, future);
+        OffsetsRange range = new OffsetsRangeImpl(getCommitFromOffset(), getCommitToOffset());
+        session.commit(range, future);
         return future;
     }
 }

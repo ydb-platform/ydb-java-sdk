@@ -10,7 +10,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.function.Consumer;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -19,16 +18,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
-import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.read.events.StartPartitionSessionEvent;
+import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.ReceiveSettings;
-import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 
 /**
@@ -112,7 +111,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                 currentBatch.future.complete(null);
             }
             if (receiveSettings.getTransaction() != null) {
-                Status updateStatus = sendUpdateOffsetsInTransaction(receiveSettings.getTransaction(),
+                Status updateStatus = updateOffsetsInTransaction(receiveSettings.getTransaction(),
                         Collections.singletonMap(result.getPartitionSession().getPath(),
                                 Collections.singletonList(result.getPartitionOffsets())),
                         UpdateOffsetsInTransactionSettings.newBuilder().build())
@@ -182,20 +181,19 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected void handleStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest request,
-                                                      PartitionSession partitionSession,
-                                                      Consumer<StartPartitionSessionSettings> confirmCallback) {
-        confirmCallback.accept(null);
+    protected void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
+        event.confirm();
     }
 
     @Override
-    protected void handleStopPartitionSession(YdbTopic.StreamReadMessage.StopPartitionSessionRequest request,
-                                              PartitionSession partitionSession, Runnable confirmCallback) {
-        confirmCallback.run();
+    protected void handleStopPartitionSession(StopPartitionSessionEvent event) {
+        // TODO: wait for all commits
+        event.confirm();
     }
 
     @Override
-    protected void handleClosePartitionSession(PartitionSession partitionSession) {
+    protected void handleClosePartitionSession(PartitionSession partition) {
+        // TODO: clean reading queue
         logger.debug("ClosePartitionSession event received. Ignoring.");
     }
 
