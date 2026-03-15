@@ -102,7 +102,14 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
         sessions.values().forEach(ReadPartitionSession::shutdown);
         sessions.clear();
 
-        partitions.values().forEach(reader::handleClosePartitionSession);
+        List<CompletableFuture<Void>> closeFutures = new ArrayList<>();
+
+        partitions.values().forEach(partitionSession ->
+                closeFutures.add(reader.handleClosePartitionSession(partitionSession))
+        );
+
+        CompletableFuture.allOf(closeFutures.toArray(new CompletableFuture[0])).join();
+
         partitions.clear();
     }
 
