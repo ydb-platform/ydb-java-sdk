@@ -17,18 +17,18 @@ import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 public class DeferredCommitterImpl implements DeferredCommitter {
     private static final Logger logger = LoggerFactory.getLogger(DeferredCommitterImpl.class);
 
-    private final Map<PartitionSessionImpl, DisjointOffsetRangeSet> rangesBySession = new ConcurrentHashMap<>();
+    private final Map<ReadPartitionSession, DisjointOffsetRangeSet> rangesBySession = new ConcurrentHashMap<>();
 
-    private RuntimeException wrapExceptionWithSession(PartitionSessionImpl session, RuntimeException ex) {
-        String errorMessage = "[" + session.getFullId() + "] Error adding new offset range to " +
-                "DeferredCommitter for " + session.getSessionId() + ": " + ex.getMessage();
+    private RuntimeException wrapExceptionWithSession(ReadPartitionSession session, RuntimeException ex) {
+        String errorMessage = "[" + session.getId() + "] Error adding new offset range to " +
+                "DeferredCommitter for " + session.getPartition() + ": " + ex.getMessage();
         logger.error(errorMessage);
         return new RuntimeException(errorMessage, ex);
     }
 
     @Override
     public void add(Message message) {
-        PartitionSessionImpl session = ((MessageImpl) message).getPartitionSessionImpl();
+        ReadPartitionSession session = ((MessageImpl) message).getPartitionSessionImpl();
         DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(session, s -> new DisjointOffsetRangeSet());
         try {
             range.add(message.getPartitionOffsets().getOffsets());
@@ -39,7 +39,7 @@ public class DeferredCommitterImpl implements DeferredCommitter {
 
     @Override
     public void add(DataReceivedEvent event) {
-        PartitionSessionImpl session = ((DataReceivedEventImpl) event).getPartitionSessionImpl();
+        ReadPartitionSession session = ((DataReceivedEventImpl) event).getPartitionSessionImpl();
         DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(session, s -> new DisjointOffsetRangeSet());
         try {
             range.add(event.getPartitionOffsets().getOffsets());

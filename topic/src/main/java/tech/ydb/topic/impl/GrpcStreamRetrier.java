@@ -125,7 +125,7 @@ public abstract class GrpcStreamRetrier {
         });
     }
 
-    protected void onSessionClosed(Status status, Throwable th) {
+    public void onSessionClosed(Status status, Throwable th) {
         getLogger().info("[{}] onSessionClosed called", id);
 
         if (th != null) {

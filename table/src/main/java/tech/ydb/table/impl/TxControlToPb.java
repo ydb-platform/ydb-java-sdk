@@ -12,8 +12,12 @@ public class TxControlToPb {
             .setSerializableReadWrite(YdbTable.SerializableModeSettings.getDefaultInstance())
             .build();
 
-    private static final YdbTable.TransactionSettings TS_SNAPSHOT = YdbTable.TransactionSettings.newBuilder()
+    private static final YdbTable.TransactionSettings TS_SNAPSHOT_RO = YdbTable.TransactionSettings.newBuilder()
             .setSnapshotReadOnly(YdbTable.SnapshotModeSettings.getDefaultInstance())
+            .build();
+
+    private static final YdbTable.TransactionSettings TS_SNAPSHOT_RW = YdbTable.TransactionSettings.newBuilder()
+            .setSnapshotReadWrite(YdbTable.SnapshotRWModeSettings.getDefaultInstance())
             .build();
 
     private static final YdbTable.TransactionSettings TS_STALE = YdbTable.TransactionSettings.newBuilder()
@@ -54,7 +58,9 @@ public class TxControlToPb {
             case SERIALIZABLE_RW:
                 return TS_SERIALIZABLE;
             case SNAPSHOT_RO:
-                return TS_SNAPSHOT;
+                return TS_SNAPSHOT_RO;
+            case SNAPSHOT_RW:
+                return TS_SNAPSHOT_RW;
             case STALE_RO:
                 return TS_STALE;
             case ONLINE_RO:
@@ -63,7 +69,6 @@ public class TxControlToPb {
                 return TS_ONLINE_INCONSISTENT;
 
             case NONE:
-            case SNAPSHOT_RW:
             default:
                 throw new IllegalArgumentException("Tx mode " + tx + " is not supported in TableService");
         }

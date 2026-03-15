@@ -6,26 +6,23 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 /**
  * @author Nikolay Perfilov
  */
-public class StopPartitionSessionEventImpl implements StopPartitionSessionEvent {
-    private final PartitionSession partitionSession;
+public abstract class StopPartitionSessionEventImpl implements StopPartitionSessionEvent {
+    private final PartitionSession partition;
     private final long committedOffset;
-    private final Runnable confirmCallback;
 
-    public StopPartitionSessionEventImpl(PartitionSession partitionSession, long committedOffset,
-                                         Runnable confirmCallback) {
-        this.partitionSession = partitionSession;
+    public StopPartitionSessionEventImpl(PartitionSession partition, long committedOffset) {
+        this.partition = partition;
         this.committedOffset = committedOffset;
-        this.confirmCallback = confirmCallback;
     }
 
     @Override
     public PartitionSession getPartitionSession() {
-        return partitionSession;
+        return partition;
     }
 
     @Override
     public long getPartitionSessionId() {
-        return partitionSession.getId();
+        return partition.getId();
     }
 
     @Override
@@ -35,11 +32,6 @@ public class StopPartitionSessionEventImpl implements StopPartitionSessionEvent 
 
     @Override
     public Long getPartitionId() {
-        return partitionSession.getPartitionId();
-    }
-
-    @Override
-    public void confirm() {
-        confirmCallback.run();
+        return partition.getPartitionId();
     }
 }
