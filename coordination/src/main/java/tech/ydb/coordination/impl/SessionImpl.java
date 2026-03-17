@@ -121,7 +121,7 @@ class SessionImpl implements CoordinationSession {
 
     private CompletableFuture<Result<Long>> connectToSession(Stream stream, long sessionID) {
         // start new stream
-        stream.startStream().whenCompleteAsync((status, th) -> {
+        stream.getFinishedFuture().whenCompleteAsync((status, th) -> {
             // this handler is executed when stream finishes
             // we have some action to do here
 
