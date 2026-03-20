@@ -110,8 +110,8 @@ public class ApacheArrowTest {
         allocator = new RootAllocator();
         client = QueryClient.newClient(YDB).build();
 
-        initTable(tablePath(ROW_TABLE_NAME), AllTypesRecord.createTableDescription(false), ROW_BATCH);
-        initTable(tablePath(COLUMN_TABLE_NAME), AllTypesRecord.createTableDescription(true), COLUMN_BATCH);
+        initTable(tablePath(ROW_TABLE_NAME), ROW_TABLE, ROW_BATCH);
+        initTable(tablePath(COLUMN_TABLE_NAME), COLUMN_TABLE, COLUMN_BATCH);
     }
 
     @AfterClass

@@ -13,6 +13,7 @@ import org.apache.arrow.memory.RootAllocator;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import tech.ydb.core.grpc.GrpcReadStream;
@@ -22,12 +23,14 @@ import tech.ydb.table.description.TableDescription;
 import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.query.BulkUpsertData;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.query.arrow.ApacheArrowData;
 import tech.ydb.table.query.arrow.ApacheArrowWriter;
 import tech.ydb.table.result.ResultSetReader;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.settings.ExecuteScanQuerySettings;
 import tech.ydb.table.settings.ExecuteSchemeQuerySettings;
 import tech.ydb.table.values.ListValue;
+import tech.ydb.table.values.PrimitiveType;
 import tech.ydb.table.values.PrimitiveValue;
 import tech.ydb.test.junit4.GrpcTransportRule;
 
@@ -161,10 +164,56 @@ public class BulkUpsertTest {
     }
 
     @Test
+    @Ignore("https://github.com/ydb-platform/ydb/issues/36331")
+    public void writeApacheArrowEmptyStringToDataShardTest() {
+        // Create table
+        TableDescription table = TableDescription.newBuilder()
+                .addNullableColumn("id", PrimitiveType.Int32)
+                .addNullableColumn("text", PrimitiveType.Text)
+                .setPrimaryKey("id")
+                .build();
+
+        createTable(table);
+
+        ApacheArrowWriter.Schema schema = ApacheArrowWriter.newSchema()
+                .addNullableColumn("id", PrimitiveType.Int32)
+                .addNullableColumn("text", PrimitiveType.Text);
+
+        try (BufferAllocator allocator = new RootAllocator()) {
+            try (ApacheArrowWriter writer = schema.createWriter(allocator)) {
+                // create batch with estimated size
+                ApacheArrowWriter.Batch batch = writer.createNewBatch(1);
+                ApacheArrowWriter.Row row = batch.writeNextRow();
+                row.writeInt32("id", 1);
+                row.writeText("text", "");
+                ApacheArrowData data = batch.buildBatch();
+                bulkUpsert(data);
+            } catch (IOException ex) {
+                throw new AssertionError("Cannot serialize apache arrow", ex);
+            }
+        }
+
+        retryCtx.supplyStatus(session -> {
+            GrpcReadStream<ResultSetReader> stream = session.executeScanQuery(
+                    "SELECT * FROM `" + TEST_TABLE + "`;",
+                    Params.empty(),
+                    ExecuteScanQuerySettings.newBuilder().build()
+            );
+
+            return stream.start((rs) -> {
+                Assert.assertTrue(rs.next());
+                Assert.assertEquals(1, rs.getColumn("id").getInt32());
+                Assert.assertEquals("", rs.getColumn("text").getText());
+                Assert.assertFalse(rs.next());
+            });
+        }).join().expectSuccess("cannot read table");
+    }
+
+    @Test
     public void writeApacheArrowToDataShardTest() {
         // Create table
         TableDescription table = AllTypesRecord.createTableDescription(false);
-        retryCtx.supplyStatus(s -> s.createTable(tablePath(), table)).join().expectSuccess("Cannot create table");
+        createTable(table);
 
         Set<String> columnNames = table.getColumns().stream().map(TableColumn::getName).collect(Collectors.toSet());
 
@@ -210,7 +259,7 @@ public class BulkUpsertTest {
     public void writeApacheArrowToColumnShardTest() {
         // Create table
         TableDescription table = AllTypesRecord.createTableDescription(true);
-        retryCtx.supplyStatus(s -> s.createTable(tablePath(), table)).join().expectSuccess("Cannot create table");
+        createTable(table);
 
         Set<String> columnNames = table.getColumns().stream().map(TableColumn::getName).collect(Collectors.toSet());
 
