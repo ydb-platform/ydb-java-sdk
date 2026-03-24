@@ -45,6 +45,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
 
     private Observer<RespT> consumer;
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     public ReadStreamCall(String traceId, String endpoint, ClientCall<ReqT, RespT> call, GrpcFlowControl flowCtrl,
                           ReqT req, Metadata headers, GrpcStatusHandler statusHandler, Span callSpan) {
         this.traceId = traceId;
