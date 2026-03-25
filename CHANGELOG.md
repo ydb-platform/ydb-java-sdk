@@ -1,4 +1,5 @@
 ## 2.4.0 ##
+**API breaking change: tech.ydb.topic.decription.Codec became interface**
 * Core: Upgrade to grpc-java v1.68.3
 * Core: Upgrade to use slf4j2
 * Core: Removed thread lock on the waiting of channel ready
