@@ -30,8 +30,8 @@ public class MessageDecoder {
         this.codecRegistry = codecRegistry;
     }
 
-    public void decode(String fullId, Batch batch, Runnable readyHandler) {
-        decodingQueue.offer(new DecodeTask(fullId, batch, readyHandler));
+    public void decode(String traceID, Batch batch, Runnable readyHandler) {
+        decodingQueue.offer(new DecodeTask(traceID, batch, readyHandler));
         tryToDecodeNextBatch();
     }
 
@@ -79,12 +79,12 @@ public class MessageDecoder {
     }
 
     private class DecodeTask implements Runnable {
-        private final String fullId;
+        private final String traceID;
         private final Batch batch;
         private final Runnable readyHandler;
 
         DecodeTask(String fullId, Batch batch, Runnable readyHandler) {
-            this.fullId = fullId;
+            this.traceID = fullId;
             this.batch = batch;
             this.readyHandler = readyHandler;
         }
@@ -96,7 +96,7 @@ public class MessageDecoder {
         @Override
         public void run() {
             if (logger.isTraceEnabled()) {
-                logger.trace("[{}] Started decoding batch", fullId);
+                logger.trace("[{}] Started decoding batch", traceID);
             }
 
             batch.getMessages().forEach(message -> {
@@ -104,13 +104,13 @@ public class MessageDecoder {
                     message.setData(Encoder.decode(batch.getCodec(), message.getData(), codecRegistry));
                 } catch (IOException exception) {
                     message.setException(exception);
-                    logger.warn("[{}] Exception was thrown while decoding a message: ", fullId, exception);
+                    logger.warn("[{}] Exception was thrown while decoding a message: ", traceID, exception);
                 }
             });
             batch.markAsReady();
 
             if (logger.isTraceEnabled()) {
-                logger.trace("[{}] Finished decoding batch", fullId);
+                logger.trace("[{}] Finished decoding batch", traceID);
             }
 
             readyHandler.run();

@@ -175,9 +175,9 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                 req.getPartitionOffsets().getEnd()
         );
 
-        String sid = streamId + '/' + psid + "-p" + pid;
+        String traceID = streamId + '/' + psid + "-p" + pid;
         logger.info("[{}] Received StartPartitionSessionRequest for {} and consumer \"{}\" with committedOffset {}"
-                + " and partitionOffsets {}", sid, partition, consumerName, committed, offsets);
+                + " and partitionOffsets {}", traceID, partition, consumerName, committed, offsets);
 
         partitions.put(psid, partition);
 
@@ -186,14 +186,14 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
             public void confirm(StartPartitionSessionSettings options) {
                 if (isStopped()) {
                     logger.info("[{}] Need to send StartPartitionSessionResponse, but reading session is "
-                            + "already closed", sid);
+                            + "already closed", traceID);
                     return;
                 }
 
                 PartitionSession partition = partitions.get(psid);
                 if (partition == null) {
                     logger.info("[{}] Need to send StartPartitionSessionResponse, but have no such active partition "
-                            + "session anymore", sid);
+                            + "session anymore", traceID);
                     return;
                 }
 
@@ -208,7 +208,7 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                     }
                 }
 
-                sessions.put(psid, new ReadPartitionSession(sid, partition, maxBatchSize, read, commit, decoder) {
+                sessions.put(psid, new ReadPartitionSession(traceID, partition, maxBatchSize, read, commit, decoder) {
                     @Override
                     public void commitRanges(List<OffsetsRange> offsets) {
                         sendCommitOffsetRequest(partition, offsets);
@@ -221,7 +221,7 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                 });
 
                 logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset "
-                        + "{} and commitOffset {}", sid, pid, consumerName, read, commit);
+                        + "{} and commitOffset {}", traceID, partition, consumerName, read, commit);
                 send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                         .setStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionResponse
                                 .newBuilder()
@@ -244,10 +244,10 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                 return;
             }
 
-            ReadPartitionSession session = sessions.remove(psid);
-            if (session != null) {
-                logger.info("[{}] Received force StopPartitionSessionRequest for {} ", session.getId());
-                session.shutdown();
+            ReadPartitionSession rps = sessions.remove(psid);
+            if (rps != null) {
+                logger.info("[{}] Received force StopPartitionSessionRequest for {} ", streamId, rps.getPartition());
+                rps.shutdown();
             }
             return;
         }

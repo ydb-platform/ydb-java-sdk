@@ -20,7 +20,7 @@ public class DeferredCommitterImpl implements DeferredCommitter {
     private final Map<ReadPartitionSession, DisjointOffsetRangeSet> rangesBySession = new ConcurrentHashMap<>();
 
     private RuntimeException wrapExceptionWithSession(ReadPartitionSession session, RuntimeException ex) {
-        String errorMessage = "[" + session.getId() + "] Error adding new offset range to " +
+        String errorMessage = "" + session + " Error adding new offset range to " +
                 "DeferredCommitter for " + session.getPartition() + ": " + ex.getMessage();
         logger.error(errorMessage);
         return new RuntimeException(errorMessage, ex);

@@ -29,7 +29,7 @@ import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 public abstract class ReadPartitionSession {
     private static final Logger logger = LoggerFactory.getLogger(ReadPartitionSession.class);
 
-    private final String id;
+    private final String traceID;
     private final PartitionSession partition;
     private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final int maxBatchSize;
@@ -44,9 +44,9 @@ public abstract class ReadPartitionSession {
     private long nextMessageOffset;
     private long lastCommittedOffset;
 
-    ReadPartitionSession(String id, PartitionSession partition, int maxBatchSize, long readFrom, long commitFrom,
+    ReadPartitionSession(String traceID, PartitionSession partition, int maxBatchSize, long readFrom, long commitFrom,
             MessageDecoder decoder) {
-        this.id = id;
+        this.traceID = traceID;
         this.partition = partition;
         this.maxBatchSize = maxBatchSize;
         this.decoder = decoder;
@@ -54,8 +54,9 @@ public abstract class ReadPartitionSession {
         this.lastCommittedOffset = commitFrom;
     }
 
-    public String getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "[" + traceID + "]";
     }
 
     public PartitionSession getPartition() {
@@ -72,7 +73,7 @@ public abstract class ReadPartitionSession {
         List<CompletableFuture<Void>> batchFutures = new LinkedList<>();
         for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch: batchList) {
             if (batch.getMessageDataCount() == 0) {
-                logger.error("[{}] Received empty batch. This shouldn't happen", id);
+                logger.error("{} Received empty batch. This shouldn't happen", this);
                 return CompletableFuture.completedFuture(null);
             }
 
@@ -86,7 +87,7 @@ public abstract class ReadPartitionSession {
             }
 
             if (logger.isDebugEnabled()) {
-                logger.debug("[{}] Received a batch of {} messages (offsets {} - {})", id, messages.size(),
+                logger.debug("[{}] Received a batch of {} messages (offsets {} - {})", traceID, messages.size(),
                         messages.get(0).getOffset(), messages.get(messages.size() - 1).getOffset());
             }
 
@@ -95,7 +96,7 @@ public abstract class ReadPartitionSession {
 
             readingQueue.offer(newBatch);
             if (!newBatch.isReady()) {
-                decoder.decode(id, newBatch, this::sendDataToReadersIfNeeded);
+                decoder.decode(traceID, newBatch, this::sendDataToReadersIfNeeded);
             }
         }
 
@@ -108,14 +109,14 @@ public abstract class ReadPartitionSession {
         try {
             if (isWorking.get()) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("[{}] Offset range {} is requested to be committed. "
+                    logger.debug("{} Offset range {} is requested to be committed. "
                             + "Last committed offset is {} (commit lag is {})",
-                            id, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
+                            this, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
                 }
                 commitFutures.put(range.getEnd(), resultFuture);
             } else {
-                logger.info("[{}] Offset range {} is requested to be committed, but partition session " +
-                        "is already closed", id, range);
+                logger.info("{} Offset range {} is requested to be committed, but partition session " +
+                        "is already closed", this, range);
                 resultFuture.completeExceptionally(new RuntimeException("" + partition + " is already closed"));
             }
         } finally {
@@ -137,20 +138,20 @@ public abstract class ReadPartitionSession {
             return;
         }
 
-        logger.info("[{}] Offset ranges {} are requested to be committed, but partition session is already closed",
-                id, ranges.stream().map(OffsetsRange::toString).collect(Collectors.joining(",")));
+        logger.info("{} Offset ranges {} are requested to be committed, but partition session is already closed",
+                this, ranges.stream().map(OffsetsRange::toString).collect(Collectors.joining(",")));
     }
 
     public void handleCommitResponse(long committedOffset) {
         if (committedOffset <= lastCommittedOffset) {
-            logger.error("[{}] Commit response received. Committed offset: {} which is less than previous " +
-                    "committed offset: {}.", id, committedOffset, lastCommittedOffset);
+            logger.error("{} Commit response received. Committed offset: {} which is less than previous " +
+                    "committed offset: {}.", this, committedOffset, lastCommittedOffset);
             return;
         }
         Map<Long, CompletableFuture<Void>> futuresToComplete = commitFutures.headMap(committedOffset, true);
         if (logger.isDebugEnabled()) {
-            logger.debug("[{}] Commit response received. Committed offset: {}. Previous committed offset: {} " +
-                            "(diff is {} message(s)). Completing {} commit futures", id, committedOffset,
+            logger.debug("{} Commit response received. Committed offset: {}. Previous committed offset: {} " +
+                            "(diff is {} message(s)). Completing {} commit futures", this, committedOffset,
                     lastCommittedOffset, committedOffset - lastCommittedOffset, futuresToComplete.size());
         }
         lastCommittedOffset = committedOffset;
@@ -197,19 +198,19 @@ public abstract class ReadPartitionSession {
             DataReceivedEvent event = new DataReceivedEventImpl(this, messagesToRead);
             if (logger.isDebugEnabled()) {
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
-                                "to be called...", id, messagesToRead.size(),
+                                "to be called...", traceID, messagesToRead.size(),
                                     messagesToRead.get(0).getOffset(),
                                     messagesToRead.get(messagesToRead.size() - 1).getOffset());
             }
             handleDataReceivedEvent(event).whenComplete((res, th) -> {
                 if (th != null) {
                     logger.error("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) finished"
-                            + " with error: ", id, messagesToRead.size(),
+                            + " with error: ", traceID, messagesToRead.size(),
                             messagesToRead.get(0).getOffset(),
                             messagesToRead.get(messagesToRead.size() - 1).getOffset(), th);
                 } else if (logger.isDebugEnabled()) {
                     logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
-                            + "successfully finished", id, messagesToRead.size(),
+                            + "successfully finished", traceID, messagesToRead.size(),
                             messagesToRead.get(0).getOffset(),
                             messagesToRead.get(messagesToRead.size() - 1).getOffset());
                 }
@@ -219,7 +220,7 @@ public abstract class ReadPartitionSession {
             });
         } else {
             if (logger.isTraceEnabled()) {
-                logger.trace("[{}] No need to send data to readers: reading is already being performed", id);
+                logger.trace("{} No need to send data to readers: reading is already being performed", this);
             }
         }
     }
@@ -229,7 +230,7 @@ public abstract class ReadPartitionSession {
 
         try {
             isWorking.set(false);
-            logger.info("[{}] Partition session for {} is shutting down. Failing {} commit futures...", id,
+            logger.info("{} Partition session for {} is shutting down. Failing {} commit futures...", this,
                     partition.getPath(), commitFutures.size());
             commitFutures.values().forEach(f -> f.completeExceptionally(
                     new RuntimeException("" + partition + " is closed")
