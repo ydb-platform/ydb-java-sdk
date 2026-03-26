@@ -73,6 +73,7 @@ public interface Message {
     /**
      * @return Partition offsets of this message
      */
+    @Deprecated
     PartitionOffsets getPartitionOffsets();
 
     /**

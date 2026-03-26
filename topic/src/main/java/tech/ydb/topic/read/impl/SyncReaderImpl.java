@@ -21,6 +21,7 @@ import tech.ydb.core.Status;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
@@ -111,11 +112,16 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                 currentBatch.future.complete(null);
             }
             if (receiveSettings.getTransaction() != null) {
-                Status updateStatus = updateOffsetsInTransaction(receiveSettings.getTransaction(),
-                        Collections.singletonMap(result.getPartitionSession().getPath(),
-                                Collections.singletonList(result.getPartitionOffsets())),
-                        UpdateOffsetsInTransactionSettings.newBuilder().build())
-                        .join();
+                // TODO: Implement batching for message committing
+                List<PartitionOffsets> offsets = Collections.singletonList(new PartitionOffsets(
+                        result.getPartitionSession(),
+                        Collections.singletonList(result.getRangeToCommit())
+                ));
+                Status updateStatus = updateOffsetsInTransaction(
+                        receiveSettings.getTransaction(),
+                        Collections.singletonMap(result.getPartitionSession().getPath(), offsets),
+                        UpdateOffsetsInTransactionSettings.newBuilder().build()
+                ).join();
                 if (!updateStatus.isSuccess()) {
                     throw new RuntimeException("Couldn't add message offset " + result.getOffset() + " to transaction "
                             + receiveSettings.getTransaction().getId() + ": " + updateStatus);

@@ -41,6 +41,7 @@ public interface DataReceivedEvent {
      *
      * @return Partition offsets of this message
      */
+    @Deprecated
     PartitionOffsets getPartitionOffsets();
 
     /**
