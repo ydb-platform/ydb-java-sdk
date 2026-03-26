@@ -44,6 +44,7 @@
         <testcontainers.version>2.0.3</testcontainers.version>
         <!-- last version with JDK8 compability -->
         <apache.arrow.version>17.0.0</apache.arrow.version>
+        <maven-revapi-plugin.version>0.15.1</maven-revapi-plugin.version>
     </properties>
 
     <licenses>
@@ -183,6 +184,42 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.revapi</groupId>
+                <artifactId>revapi-maven-plugin</artifactId>
+                <version>${maven-revapi-plugin.version}</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.revapi</groupId>
+                        <artifactId>revapi-java</artifactId>
+                        <version>0.28.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.revapi</groupId>
+                        <artifactId>revapi-reporter-text</artifactId>
+                        <version>${maven-revapi-plugin.version}</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <analysisConfiguration>
+                        <revapi.filter>
+                            <archives>
+                                <include>
+                                    <item>tech.ydb.*</item>
+                                </include>
+                            </archives>
+                        </revapi.filter>
+                        <revapi.reporter.text>
+                            <minSeverity>BREAKING</minSeverity>
+                            <minCriticality>documented</minCriticality>
+                            <output>changes.txt</output>
+                            <template>/config/revapi-report-template.ftl</template>
+                            <append>true</append>
+                            <keepEmptyFile>true</keepEmptyFile>
+                        </revapi.reporter.text>
+                    </analysisConfiguration>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
