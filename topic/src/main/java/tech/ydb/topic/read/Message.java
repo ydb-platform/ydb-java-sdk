@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.description.MetadataItem;
+import tech.ydb.topic.description.OffsetsRange;
 
 /**
  * @author Nikolay Perfilov
@@ -53,6 +54,13 @@ public interface Message {
     Instant getWrittenAt();
 
     /**
+     * Returns message offsets range for committing
+     *
+     * @return Message offsets range for committing
+     */
+    OffsetsRange getRangeToCommit();
+
+    /**
      * @return message metadata items
      */
     List<MetadataItem> getMetadataItems();
@@ -65,6 +73,7 @@ public interface Message {
     /**
      * @return Partition offsets of this message
      */
+    @Deprecated
     PartitionOffsets getPartitionOffsets();
 
     /**
@@ -75,6 +84,15 @@ public interface Message {
      *
      * @return CompletableFuture that will be completed when commit confirmation from server will be received
      */
-    CompletableFuture<Void> commit();
+    default CompletableFuture<Void> commit() {
+        return getCommitter().commit(getRangeToCommit());
+    }
 
+    /**
+     * The committer for this message. The committer is linked to the current partition reading session and is active
+     * when this session is alive. The commits on nonactive committer will return failed {@link CompletableFuture }
+     *
+     * @return committer instance for this message
+     */
+    MessageCommitter getCommitter();
 }

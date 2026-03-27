@@ -13,7 +13,9 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +57,9 @@ public class YdbTopicsIntegrationTest {
 
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
+
+    @Rule
+    public final Timeout timeout = new Timeout(10, TimeUnit.SECONDS);
 
     private final static String TEST_TOPIC = "integration_test_topic";
     private final static String TEST_OTHER_TOPIC = "integration_test_other_topic";

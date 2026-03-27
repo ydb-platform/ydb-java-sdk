@@ -1,39 +1,42 @@
 package tech.ydb.topic.read.impl.events;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.MessageCommitter;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.impl.MessageImpl;
-import tech.ydb.topic.read.impl.OffsetsRangeImpl;
-import tech.ydb.topic.read.impl.ReadPartitionSession;
 
 /**
  * @author Nikolay Perfilov
  */
 public class DataReceivedEventImpl implements DataReceivedEvent {
-    private final ReadPartitionSession session;
+    private final PartitionSession session;
+    private final MessageCommitter committer;
     private final List<Message> messages;
-    private final OffsetsRange offsetsToCommit;
+    private final OffsetsRange offsetRange;
 
-    public DataReceivedEventImpl(ReadPartitionSession session, List<MessageImpl> messages) {
+    public DataReceivedEventImpl(PartitionSession session, MessageCommitter committer, List<Message> messages) {
         this.session = session;
-        this.messages = new ArrayList<>(messages);
-        this.offsetsToCommit = new OffsetsRangeImpl(
-                messages.get(0).getCommitFromOffset(),
-                messages.get(messages.size() - 1).getCommitToOffset()
+        this.committer = committer;
+        this.messages = messages;
+        this.offsetRange = OffsetsRange.of(
+                messages.get(0).getRangeToCommit().getStart(),
+                messages.get(messages.size() - 1).getRangeToCommit().getEnd()
         );
     }
 
     @Override
+    public OffsetsRange getRangeToCommit() {
+        return offsetRange;
+    }
+
+    @Override
     public PartitionSession getPartitionSession() {
-        return session.getPartition();
+        return session;
     }
 
     @Override
@@ -42,18 +45,13 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
     }
 
     @Override
-    public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(session.getPartition(), Collections.singletonList(offsetsToCommit));
-    }
-
-    public ReadPartitionSession getPartitionSessionImpl() {
-        return session;
+    public MessageCommitter getCommitter() {
+        return committer;
     }
 
     @Override
-    public CompletableFuture<Void> commit() {
-        CompletableFuture<Void> future = new CompletableFuture<>();
-        session.commit(offsetsToCommit, future);
-        return future;
+    @Deprecated
+    public PartitionOffsets getPartitionOffsets() {
+        return new PartitionOffsets(session, Collections.singletonList(offsetRange));
     }
 }

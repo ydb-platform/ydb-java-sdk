@@ -3,7 +3,9 @@ package tech.ydb.topic.read.events;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.MessageCommitter;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 
@@ -28,10 +30,18 @@ public interface DataReceivedEvent {
     PartitionSession getPartitionSession();
 
     /**
+     * Returns offsets range for committing of this event
+     *
+     * @return Offsets range for committing of this event
+     */
+    OffsetsRange getRangeToCommit();
+
+    /**
      * Returns partition offsets of this message
      *
      * @return Partition offsets of this message
      */
+    @Deprecated
     PartitionOffsets getPartitionOffsets();
 
     /**
@@ -42,6 +52,15 @@ public interface DataReceivedEvent {
      *
      * @return a CompletableFuture that will be completed when commit confirmation from server will be received
      */
-    CompletableFuture<Void> commit();
+    default CompletableFuture<Void> commit() {
+        return getCommitter().commit(getRangeToCommit());
+    }
 
+    /**
+     * The committer for this event. The committer is linked to the current partition reading session and is active
+     * when this session is alive. The commits on nonactive committer will return failed {@link CompletableFuture }
+     *
+     * @return committer instance for this message
+     */
+    MessageCommitter getCommitter();
 }
