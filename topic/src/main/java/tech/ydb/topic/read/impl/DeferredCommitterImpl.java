@@ -6,7 +6,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.MessageCommitter;
@@ -32,7 +31,7 @@ public class DeferredCommitterImpl implements DeferredCommitter {
         MessageCommitter committer = message.getCommitter();
         DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(committer, s -> new DisjointOffsetRangeSet());
         try {
-            range.add(OffsetsRange.of(message.getOffset()));
+            range.add(message.getRangeToCommit());
         } catch (RuntimeException exception) {
             throw wrapExceptionWithSession(message.getPartitionSession(), exception);
         }

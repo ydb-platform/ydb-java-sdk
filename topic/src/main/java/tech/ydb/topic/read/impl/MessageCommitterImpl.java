@@ -66,16 +66,15 @@ class MessageCommitterImpl implements MessageCommitter {
         logger.debug("{} Offset range {} is requested to be committed. Last committed offset is {} (commit lag is {})",
                 session, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
 
-        if (!session.commitOffsets(Collections.singletonList(range))) {
-            logger.info("{} Offset range {} is requested to be committed, but partition session is already stopped",
-                    session, range);
-            future.completeExceptionally(partitionIsClosedException());
-            return future;
-        }
-
         commitFuturesLock.lock();
         try {
-            commitFutures.put(range.getEnd(), future);
+            if (session.commitOffsets(Collections.singletonList(range))) {
+                commitFutures.put(range.getEnd(), future);
+            } else {
+                logger.info("{} Offset range {} is requested to be committed, but partition session is already stopped",
+                        session, range);
+                future.completeExceptionally(partitionIsClosedException());
+            }
         } finally {
             commitFuturesLock.unlock();
         }

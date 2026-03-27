@@ -83,8 +83,8 @@ public class MessageDecoder {
         private final Batch batch;
         private final Runnable readyHandler;
 
-        DecodeTask(String fullId, Batch batch, Runnable readyHandler) {
-            this.traceID = fullId;
+        DecodeTask(String traceID, Batch batch, Runnable readyHandler) {
+            this.traceID = traceID;
             this.batch = batch;
             this.readyHandler = readyHandler;
         }

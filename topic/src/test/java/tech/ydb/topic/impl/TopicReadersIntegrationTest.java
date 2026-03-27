@@ -251,7 +251,7 @@ public class TopicReadersIntegrationTest {
     }
 
     @Test
-    @Ignore // Don't work
+    @Ignore("Disabled: readRetentionedTopicTest is currently freezing when emulating topic retention; ")
     public void readRetentionedTopicTest() throws Exception {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
@@ -268,7 +268,7 @@ public class TopicReadersIntegrationTest {
                         Assert.assertEquals(0, event.getPartitionOffsets().getStart());
                         Assert.assertEquals(6, event.getPartitionOffsets().getEnd());
 
-                        // emulate topic retention - skip first 2 message but don't commmit them
+                        // emulate topic retention - skip first 2 message but don't commit them
                         event.confirm(StartPartitionSessionSettings.newBuilder()
                                 .setReadOffset(2L)
                                 .build());
