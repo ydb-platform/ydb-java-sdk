@@ -144,11 +144,16 @@ abstract class SessionImpl implements QuerySession {
         YdbQuery.AttachSessionRequest request = YdbQuery.AttachSessionRequest.newBuilder()
                 .setSessionId(sessionId)
                 .build();
-        // Execute attachSession call outside current context to avoid cancellation and deadline propogation
+        // Execute attachSession call outside current context to avoid cancellation and deadline propagation
         Context ctx = Context.ROOT.fork();
         Context previous = ctx.attach();
         try {
-            GrpcRequestSettings grpcSettings = makeOptions(settings).disableDeadline().build();
+            AtomicBoolean pessimizationHook = new AtomicBoolean(false);
+
+            GrpcRequestSettings grpcSettings = makeOptions(settings)
+                    .withPessimizationHook(pessimizationHook::get)
+                    .disableDeadline()
+                    .build();
             GrpcReadStream<YdbQuery.SessionState> origin = rpc.attachSession(request, grpcSettings);
             return new GrpcReadStream<Status>() {
                 @Override
@@ -161,6 +166,19 @@ abstract class SessionImpl implements QuerySession {
                         StatusCode code = StatusCode.fromProto(message.getStatus());
                         Status status = Status.of(code, Issue.fromPb(message.getIssuesList()));
                         updateSessionState(status);
+                        // The hint is sent by the server with a success status.
+                        switch (message.getSessionHintCase()) {
+                            case NODE_SHUTDOWN:
+                                pessimizationHook.set(nodeID != 0);
+                                updateSessionState(Status.of(StatusCode.BAD_SESSION));
+                                break;
+                            case SESSION_SHUTDOWN:
+                                updateSessionState(Status.of(StatusCode.BAD_SESSION));
+                                break;
+                            default:
+                                break;
+                        }
+
                         observer.onNext(status);
                     });
                 }
