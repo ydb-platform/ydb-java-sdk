@@ -52,11 +52,19 @@ public class GrpcStreamMock implements GrpcReadWriteStream<SessionResponse, Sess
 
     @Override
     public void sendNext(SessionRequest message) {
+        // Emulate GrpcReadWriteStream behaviour
+        if (observer == null) {
+            throw new NullPointerException("send message before start");
+        }
         requests.offer(message);
     }
 
     @Override
     public void close() {
+        // Emulate GrpcReadWriteStream behaviour
+        if (observer == null) {
+            throw new NullPointerException("close stream before start");
+        }
         isClosed = true;
     }
 

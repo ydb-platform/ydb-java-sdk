@@ -53,7 +53,7 @@ public class StreamTest {
         Assert.assertFalse(grpc.isCanceled());
         Assert.assertFalse(grpc.hasNextRequest());
 
-        CompletableFuture<Status> finished = stream.startStream();
+        CompletableFuture<Status> finished = stream.getFinishedFuture();
         CompletableFuture<Result<Long>> connected = stream.sendSessionStart(0, "demo", Duration.ZERO, ByteString.EMPTY);
 
         Assert.assertFalse(grpc.isClosed());
