@@ -239,7 +239,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
                 Assert.assertEquals(appSpan.getSpanContext().getSpanId(), span.getParentSpanId());
             }
-            if ("ydb.ExecuteWithRetry".equals(span.getName())) {
+            if ("ydb.Retry".equals(span.getName())) {
                 retrySpansCount++;
                 retrySpanIds.add(span.getSpanId());
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
@@ -253,13 +253,13 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         Assert.assertNotNull(executeSpanId);
         Assert.assertEquals(2, retrySpansCount);
         for (SpanData span : spans) {
-            if ("ydb.ExecuteWithRetry".equals(span.getName())) {
+            if ("ydb.Retry".equals(span.getName())) {
                 Assert.assertEquals(executeSpanId, span.getParentSpanId());
             }
         }
         Assert.assertNotNull("Retry should produce query rpc span", querySpan);
         Assert.assertEquals(appSpan.getSpanContext().getTraceId(), querySpan.getTraceId());
-        Assert.assertTrue("RPC span parent must be ExecuteWithRetry span",
+        Assert.assertTrue("RPC span parent must be Retry span",
                 retrySpanIds.contains(querySpan.getParentSpanId()));
     }
 
@@ -307,7 +307,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
                 Assert.assertEquals(appSpan.getSpanContext().getSpanId(), span.getParentSpanId());
             }
-            if ("ydb.ExecuteWithRetry".equals(span.getName())) {
+            if ("ydb.Retry".equals(span.getName())) {
                 retrySpanIds.add(span.getSpanId());
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
             }
@@ -315,7 +315,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         Assert.assertEquals(1, executeSpansCount);
         Assert.assertNotNull(executeSpanId);
         for (SpanData span : spans) {
-            if ("ydb.ExecuteWithRetry".equals(span.getName())) {
+            if ("ydb.Retry".equals(span.getName())) {
                 Assert.assertEquals(executeSpanId, span.getParentSpanId());
             }
         }
@@ -337,9 +337,9 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             }
         }
 
-        Assert.assertTrue("CreateSession span must be child of ExecuteWithRetry", createSessionChildren >= 1);
-        Assert.assertTrue("ExecuteQuery span must be child of ExecuteWithRetry", executeQueryChildren >= 1);
-        Assert.assertTrue("Commit span must be child of ExecuteWithRetry", commitChildren >= 1);
+        Assert.assertTrue("CreateSession span must be child of Retry", createSessionChildren >= 1);
+        Assert.assertTrue("ExecuteQuery span must be child of Retry", executeQueryChildren >= 1);
+        Assert.assertTrue("Commit span must be child of Retry", commitChildren >= 1);
     }
 
     @Test
@@ -377,7 +377,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                     errorExecuteSpans++;
                 }
             }
-            if (!"ydb.ExecuteWithRetry".equals(span.getName())) {
+            if (!"ydb.Retry".equals(span.getName())) {
                 continue;
             }
             retrySpans++;
@@ -425,7 +425,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                     okExecuteSpans++;
                 }
             }
-            if (!"ydb.ExecuteWithRetry".equals(span.getName())) {
+            if (!"ydb.Retry".equals(span.getName())) {
                 continue;
             }
             retrySpans++;

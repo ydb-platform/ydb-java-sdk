@@ -204,14 +204,14 @@ public class QueryTracingTest {
             appParent.end();
         }
 
-        Assert.assertEquals(3, tracer.countClosedSpan("ydb.ExecuteWithRetry"));
+        Assert.assertEquals(3, tracer.countClosedSpan("ydb.Retry"));
         Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Execute", "app.parent.retry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteWithRetry", "ydb.Execute"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 0));
-        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 1));
-        Assert.assertEquals(0, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 2));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Retry", "ydb.Execute"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Retry"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Retry"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 0));
+        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 1));
+        Assert.assertEquals(0, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 2));
     }
 
     @Test
@@ -233,13 +233,13 @@ public class QueryTracingTest {
         }
 
         Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Execute", "app.parent.createSession.retry"));
-        Assert.assertEquals(3, tracer.countClosedSpan("ydb.ExecuteWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteWithRetry", "ydb.Execute"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 0));
-        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 1));
-        Assert.assertEquals(0, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 2));
+        Assert.assertEquals(3, tracer.countClosedSpan("ydb.Retry"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Retry", "ydb.Execute"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Retry"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Retry"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 0));
+        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 1));
+        Assert.assertEquals(0, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 2));
     }
 
     @Test
@@ -268,14 +268,14 @@ public class QueryTracingTest {
         }
 
         Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Execute", "app.parent.commit.retry"));
-        Assert.assertEquals(3, tracer.countClosedSpan("ydb.ExecuteWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteWithRetry", "ydb.Execute"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Commit", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 0));
-        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 1));
-        Assert.assertEquals(0, tracer.countClosedSpanWithLongAttribute("ydb.ExecuteWithRetry", "ydb.retry.attempt", 2));
+        Assert.assertEquals(3, tracer.countClosedSpan("ydb.Retry"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Retry", "ydb.Execute"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Retry"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Retry"));
+        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Commit", "ydb.Retry"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 0));
+        Assert.assertEquals(1, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 1));
+        Assert.assertEquals(0, tracer.countClosedSpanWithLongAttribute("ydb.Retry", "ydb.retry.attempt", 2));
     }
 
     @Test
@@ -304,12 +304,12 @@ public class QueryTracingTest {
             appParent.end();
         }
 
-        Assert.assertEquals(2, tracer.countClosedSpan("ydb.ExecuteWithRetry"));
+        Assert.assertEquals(2, tracer.countClosedSpan("ydb.Retry"));
         Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Execute", "app.parent.table.retry"));
-        Assert.assertEquals(2, tracer.countClosedSpanWithParent("ydb.ExecuteWithRetry", "ydb.Execute"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Commit", "ydb.ExecuteWithRetry"));
+        Assert.assertEquals(2, tracer.countClosedSpanWithParent("ydb.Retry", "ydb.Execute"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Retry"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Retry"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Commit", "ydb.Retry"));
     }
 
     @Test
@@ -334,12 +334,12 @@ public class QueryTracingTest {
         Assert.assertTrue(thrown.getCause() instanceof IllegalStateException);
         Assert.assertEquals(1,
                 tracer.countClosedSpanWithErrorType("ydb.Execute", IllegalStateException.class.getName()));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteWithRetry", "ydb.Execute"));
-        Assert.assertEquals(1, tracer.countClosedSpan("ydb.ExecuteWithRetry"));
+        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Retry", "ydb.Execute"));
+        Assert.assertEquals(1, tracer.countClosedSpan("ydb.Retry"));
         Assert.assertEquals(1,
-                tracer.countClosedSpanWithErrorType("ydb.ExecuteWithRetry", IllegalStateException.class.getName()));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.ExecuteWithRetry"));
-        Assert.assertEquals(0, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.ExecuteWithRetry"));
+                tracer.countClosedSpanWithErrorType("ydb.Retry", IllegalStateException.class.getName()));
+        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Retry"));
+        Assert.assertEquals(0, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Retry"));
     }
 
     @Test
@@ -360,11 +360,11 @@ public class QueryTracingTest {
         status.expectSuccess();
 
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.Execute"));
-        Assert.assertEquals(2, tracer.countClosedSpanWithParent("ydb.ExecuteWithRetry", "ydb.Execute"));
-        Assert.assertEquals(2, tracer.countClosedSpan("ydb.ExecuteWithRetry"));
+        Assert.assertEquals(2, tracer.countClosedSpanWithParent("ydb.Retry", "ydb.Execute"));
+        Assert.assertEquals(2, tracer.countClosedSpan("ydb.Retry"));
         Assert.assertEquals(1,
-                tracer.countClosedSpanWithErrorType("ydb.ExecuteWithRetry", UnexpectedResultException.class.getName()));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.ExecuteWithRetry"));
+                tracer.countClosedSpanWithErrorType("ydb.Retry", UnexpectedResultException.class.getName()));
+        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Retry"));
     }
 
     private static final class RecordingTracer implements Tracer {

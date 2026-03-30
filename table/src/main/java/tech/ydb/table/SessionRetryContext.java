@@ -33,7 +33,7 @@ import tech.ydb.core.utils.FutureTools;
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
     private static final String EXECUTE_SPAN_NAME = "ydb.Execute";
-    private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.ExecuteWithRetry";
+    private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.Retry";
     private static final String RETRY_ATTEMPT_ATTR = "ydb.retry.attempt";
     private static final String RETRY_SLEEP_MS_ATTR = "ydb.retry.sleep_ms";
 
