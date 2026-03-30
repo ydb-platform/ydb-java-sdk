@@ -2,11 +2,16 @@ package tech.ydb.opentelemetry;
 
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.StatusCode;
+import io.opentelemetry.context.Context;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
 import tech.ydb.core.tracing.Tracer;
@@ -36,10 +41,21 @@ public final class OpenTelemetryTracer implements Tracer {
 
     @Override
     public Span startSpan(String spanName, SpanKind spanKind) {
+        Context parentContext = Context.current();
         io.opentelemetry.api.trace.Span span = tracer.spanBuilder(spanName)
+                .setParent(parentContext)
                 .setSpanKind(mapSpanKind(spanKind))
                 .startSpan();
-        return new OtelSpan(span);
+        return new OtelSpan(span, parentContext);
+    }
+
+    @Override
+    public Span currentSpan() {
+        io.opentelemetry.api.trace.Span current = io.opentelemetry.api.trace.Span.current();
+        if (!current.getSpanContext().isValid()) {
+            return Span.NOOP;
+        }
+        return new OtelSpan(current, Context.current());
     }
 
     private static io.opentelemetry.api.trace.SpanKind mapSpanKind(SpanKind kind) {
@@ -51,9 +67,11 @@ public final class OpenTelemetryTracer implements Tracer {
 
     private static final class OtelSpan implements Span {
         private final io.opentelemetry.api.trace.Span span;
+        private final Context capturedContext;
 
-        private OtelSpan(io.opentelemetry.api.trace.Span span) {
+        private OtelSpan(io.opentelemetry.api.trace.Span span, Context capturedContext) {
             this.span = span;
+            this.capturedContext = capturedContext;
         }
 
         @Override
@@ -62,7 +80,12 @@ public final class OpenTelemetryTracer implements Tracer {
         }
 
         @Override
-        public void setAttribute(String key, String value) {
+        public boolean isValid() {
+            return span.getSpanContext().isValid();
+        }
+
+        @Override
+        public void setAttribute(String key, @Nullable String value) {
             span.setAttribute(key, value);
         }
 
@@ -72,7 +95,7 @@ public final class OpenTelemetryTracer implements Tracer {
         }
 
         @Override
-        public void setStatus(Status status, Throwable error) {
+        public void setStatus(@Nullable Status status, @Nullable Throwable error) {
             if (status != null) {
                 if (status.isSuccess()) {
                     span.setStatus(StatusCode.OK);
@@ -84,9 +107,27 @@ public final class OpenTelemetryTracer implements Tracer {
                 }
             }
             if (error != null) {
-                span.setAttribute("error.type", error.getClass().getName());
+                if (error instanceof UnexpectedResultException) {
+                    tech.ydb.core.StatusCode code = ((UnexpectedResultException) error).getStatus().getCode();
+                    span.setAttribute("db.response.status_code", code.toString());
+                    span.setAttribute("error.type", code.isTransportError() ? "transport_error" : "ydb_error");
+                } else {
+                    span.setAttribute("error.type", error.getClass().getName());
+                }
                 span.setStatus(StatusCode.ERROR, error.getMessage());
             }
+        }
+
+        @Override
+        public Scope makeCurrent() {
+            io.opentelemetry.context.Scope scope = span.makeCurrent();
+            return scope::close;
+        }
+
+        @Override
+        public Scope restoreContext() {
+            io.opentelemetry.context.Scope scope = capturedContext.makeCurrent();
+            return scope::close;
         }
 
         @Override

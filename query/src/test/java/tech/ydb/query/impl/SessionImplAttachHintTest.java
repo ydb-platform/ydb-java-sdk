@@ -35,7 +35,7 @@ public class SessionImplAttachHintTest {
     private static final GrpcTransport DUMMY_TRANSPORT = mock(GrpcTransport.class);
 
     static {
-        when(DUMMY_TRANSPORT.getTracer()).thenReturn(NoopTracer.INSTANCE);
+        when(DUMMY_TRANSPORT.getTracer()).thenReturn(NoopTracer.getInstance());
     }
 
     @Test

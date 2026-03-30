@@ -14,6 +14,7 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.operation.StatusExtractor;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.table.YdbTable;
 import tech.ydb.proto.table.v1.TableServiceGrpc;
 import tech.ydb.table.rpc.TableRpc;
@@ -244,6 +245,11 @@ public final class GrpcTableRpc implements TableRpc {
     @Override
     public ScheduledExecutorService getScheduler() {
         return transport.getScheduler();
+    }
+
+    @Override
+    public Tracer getTracer() {
+        return transport.getTracer();
     }
 
     @Override
