@@ -411,6 +411,11 @@ public class YdbTransportImplTest {
         }
 
         @Override
+        public boolean isValid() {
+            return true;
+        }
+
+        @Override
         public void setAttribute(String key, String value) {
             stringAttrs.put(key, value);
         }
@@ -418,11 +423,6 @@ public class YdbTransportImplTest {
         @Override
         public void setAttribute(String key, long value) {
             longAttrs.put(key, value);
-        }
-
-        @Override
-        public void setStatus(tech.ydb.core.Status status, Throwable error) {
-            // not needed in this test
         }
 
         @Override

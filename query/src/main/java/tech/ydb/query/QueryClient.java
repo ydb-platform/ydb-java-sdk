@@ -8,6 +8,8 @@ import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.tracing.NoopTracer;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.query.impl.QueryClientImpl;
 import tech.ydb.query.impl.TableClientImpl;
 import tech.ydb.table.SessionPoolStats;
@@ -37,6 +39,10 @@ public interface QueryClient extends AutoCloseable {
 
     ScheduledExecutorService getScheduler();
 
+    default Tracer getTracer() {
+        return NoopTracer.getInstance();
+    }
+
     SessionPoolStats getSessionPoolStats();
 
     @Override
@@ -44,6 +50,7 @@ public interface QueryClient extends AutoCloseable {
 
     interface Builder {
         Builder sessionPoolMinSize(int minSize);
+
         Builder sessionPoolMaxSize(int maxSize);
 
         Builder sessionMaxIdleTime(Duration duration);

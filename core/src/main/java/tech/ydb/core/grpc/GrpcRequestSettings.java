@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
-
 import io.grpc.Metadata;
 
 import tech.ydb.core.impl.call.GrpcFlows;
@@ -87,7 +85,6 @@ public class GrpcRequestSettings {
         return flowControl;
     }
 
-    @Nullable
     public Span getSpan() {
         return span;
     }
@@ -103,7 +100,7 @@ public class GrpcRequestSettings {
         private Consumer<Metadata> trailersHandler = null;
         private BooleanSupplier pessimizationHook = null;
         private GrpcFlowControl flowControl = GrpcFlows.SIMPLE_FLOW;
-        private Span span = null;
+        private Span span = Span.NOOP;
 
         /**
          * Returns a new {@code Builder} with a deadline, based on the running Java Virtual Machine's
@@ -185,7 +182,7 @@ public class GrpcRequestSettings {
         }
 
         public Builder withSpan(Span span) {
-            this.span = span;
+            this.span = span == null ? Span.NOOP : span;
             return this;
         }
 

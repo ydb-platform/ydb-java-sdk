@@ -20,8 +20,9 @@ public class NoopTracerTest {
     public void spanTest() {
         Tracer tracer = NoopTracer.getInstance();
 
-        Assert.assertNull(tracer.startSpan("test", SpanKind.CLIENT));
-        Assert.assertNull(tracer.startSpan("test", SpanKind.INTERNAL));
-        Assert.assertNull(tracer.startSpan(null, null));
+        Assert.assertSame(Span.NOOP, tracer.startSpan("test", SpanKind.CLIENT));
+        Assert.assertSame(Span.NOOP, tracer.startSpan("test", SpanKind.INTERNAL));
+        Assert.assertSame(Span.NOOP, tracer.startSpan(null, null));
+        Assert.assertSame(Span.NOOP, tracer.currentSpan());
     }
 }
