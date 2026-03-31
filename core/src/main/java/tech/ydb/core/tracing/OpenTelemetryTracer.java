@@ -1,4 +1,4 @@
-package tech.ydb.opentelemetry;
+package tech.ydb.core.tracing;
 
 import java.util.Objects;
 
@@ -11,10 +11,6 @@ import io.opentelemetry.context.Context;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.tracing.Scope;
-import tech.ydb.core.tracing.Span;
-import tech.ydb.core.tracing.SpanKind;
-import tech.ydb.core.tracing.Tracer;
 
 public final class OpenTelemetryTracer implements Tracer {
     private static final String DEFAULT_SCOPE = "tech.ydb.sdk";

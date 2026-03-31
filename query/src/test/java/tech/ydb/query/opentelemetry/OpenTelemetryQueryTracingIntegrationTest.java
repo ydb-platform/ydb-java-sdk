@@ -1,4 +1,4 @@
-package tech.ydb.opentelemetry;
+package tech.ydb.query.opentelemetry;
 
 import java.time.Duration;
 import java.util.HashSet;
@@ -31,6 +31,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.tracing.OpenTelemetryTracer;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryTransaction;

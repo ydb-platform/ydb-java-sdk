@@ -24,6 +24,18 @@
             <groupId>tech.ydb</groupId>
             <artifactId>ydb-auth-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+            <version>${opentelemetry.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-context</artifactId>
+            <version>${opentelemetry.version}</version>
+            <optional>true</optional>
+        </dependency>
 
         <!-- Netty is used only for special helper NettyChannelFactory -->
         <dependency>
