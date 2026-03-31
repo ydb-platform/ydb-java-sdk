@@ -230,7 +230,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             start(this::processMessage).whenComplete(this::closeDueToError);
 
             YdbTopic.StreamReadMessage.InitRequest.Builder initRequestBuilder = YdbTopic.StreamReadMessage.InitRequest
-                    .newBuilder();
+                    .newBuilder()
+                    .setPartitionMaxInFlightBytes(settings.getPartitionMaxInFlightBytes());
             if (settings.getConsumerName() != null) {
                 initRequestBuilder.setConsumer(settings.getConsumerName());
             }
@@ -254,7 +255,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             if (readerName != null && !readerName.isEmpty()) {
                 initRequestBuilder.setReaderName(readerName);
             }
-
             send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                     .setInitRequest(initRequestBuilder)
                     .build());
