@@ -1,3 +1,8 @@
+## 2.3.32 ##
+* Topic: Added support of availabilityPeriod to AlterConsumerSettings
+* Topic: Added partitionMaxInFlightBytes option to ReaderSettings
+* Coordination: Fixed NPE on session stoping before connect
+
 ## 2.3.31 ##
 * Topic: Added support of availabilityPeriod to topic consumer
 * Topic: Added preferReady option to topic's control plane methods
