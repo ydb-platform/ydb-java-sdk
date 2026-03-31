@@ -250,6 +250,11 @@ public class TopicClientImpl implements TopicClient {
                     alterConsumerBuilder.setSetSupportedCodecs(toProto(consumerSupportedCodecs));
                 }
 
+                Duration availabilityPeriod = alterConsumer.getAvailabilityPeriod();
+                if (availabilityPeriod != null) {
+                    alterConsumerBuilder.setSetAvailabilityPeriod(ProtobufUtils.durationToProto(availabilityPeriod));
+                }
+
                 Map<String, String> consumerAttributes = alterConsumer.getAlterAttributes();
                 if (!consumerAttributes.isEmpty()) {
                     alterConsumerBuilder.putAllAlterAttributes(consumerAttributes);
