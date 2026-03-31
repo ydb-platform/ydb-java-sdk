@@ -22,7 +22,6 @@
         <module>scheme</module>
         <module>topic</module>
         <module>query</module>
-        <module>opentelemetry</module>
         <module>coordination</module>
         <module>export</module>
         <module>tests/common</module>
@@ -44,6 +43,7 @@
         <testcontainers.version>2.0.3</testcontainers.version>
         <!-- last version with JDK8 compability -->
         <apache.arrow.version>17.0.0</apache.arrow.version>
+        <opentelemetry.version>1.59.0</opentelemetry.version>
     </properties>
 
     <licenses>
