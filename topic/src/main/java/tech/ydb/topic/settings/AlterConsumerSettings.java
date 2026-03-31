@@ -1,5 +1,6 @@
 package tech.ydb.topic.settings;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import java.util.Set;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.SupportedCodecs;
 
 /**
@@ -22,6 +24,9 @@ public class AlterConsumerSettings {
     private final Instant readFrom;
     @Nullable
     private final SupportedCodecs supportedCodecs;
+    @Nullable
+    private final Duration availabilityPeriod;
+
     private final Map<String, String> alterAttributes;
     private final Set<String> dropAttributes;
 
@@ -32,6 +37,7 @@ public class AlterConsumerSettings {
         this.supportedCodecs = builder.supportedCodecs;
         this.alterAttributes = builder.alterAttributes;
         this.dropAttributes = builder.dropAttributes;
+        this.availabilityPeriod = builder.availabilityPeriod;
     }
 
     public static Builder newBuilder() {
@@ -57,6 +63,11 @@ public class AlterConsumerSettings {
         return supportedCodecs;
     }
 
+    @Nullable
+    public Duration getAvailabilityPeriod() {
+        return availabilityPeriod;
+    }
+
     public Map<String, String> getAlterAttributes() {
         return alterAttributes;
     }
@@ -73,6 +84,7 @@ public class AlterConsumerSettings {
         private Boolean important = null;
         private Instant readFrom = null;
         private SupportedCodecs supportedCodecs = null;
+        private Duration availabilityPeriod = null;
         private Map<String, String> alterAttributes = new HashMap<>();
         private Set<String> dropAttributes = new HashSet<>();
 
@@ -93,6 +105,20 @@ public class AlterConsumerSettings {
          */
         public Builder setImportant(boolean important) {
             this.important = important;
+            return this;
+        }
+
+        /**
+         * Configure <code>availabilityPeriod</code> for this consumer.
+         * <br>
+         * Option <code>availabilityPeriod</code> is not compatible with <code>important</code> option
+         *
+         * @see Consumer#getAvailabilityPeriod()
+         * @param period - availability period value
+         * @return settings builder
+         */
+        public Builder setAvailabilityPeriod(Duration period) {
+            this.availabilityPeriod = period;
             return this;
         }
 
