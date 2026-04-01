@@ -17,7 +17,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
@@ -251,7 +250,6 @@ public class TopicReadersIntegrationTest {
     }
 
     @Test
-    @Ignore("Disabled: readRetentionedTopicTest is currently freezing when emulating topic retention; ")
     public void readRetentionedTopicTest() throws Exception {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())

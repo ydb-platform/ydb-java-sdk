@@ -38,15 +38,14 @@ public abstract class ReadPartitionSession {
     private final Queue<Batch> readingQueue = new ConcurrentLinkedQueue<>();
     private final AtomicBoolean isReadingNow = new AtomicBoolean();
 
-    ReadPartitionSession(String traceID, ReadSession session, PartitionSession partition, long readOffset,
-            long committedOffset) {
+    ReadPartitionSession(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
         this.maxBatchSize = session.getMaxBatchSize();
         this.decoder = session.getMessageDecoder();
-        this.committer = new MessageCommitterImpl(this, committedOffset);
-        this.lastReadOffset = readOffset;
+        this.committer = new MessageCommitterImpl(this, lastCommittedOffset);
+        this.lastReadOffset = lastCommittedOffset;
     }
 
     @Override

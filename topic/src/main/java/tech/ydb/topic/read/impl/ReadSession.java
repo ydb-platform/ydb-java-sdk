@@ -204,18 +204,18 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                     return;
                 }
 
-                long read = committed;
-                long commit = committed;
+                long readFrom = committed;
+                long commitTo = committed;
                 if (options != null) {
                     if (options.getReadOffset() != null) {
-                        read = options.getReadOffset();
+                        readFrom = options.getReadOffset();
                     }
                     if (options.getCommitOffset() != null) {
-                        commit = options.getCommitOffset();
+                        commitTo = options.getCommitOffset();
                     }
                 }
 
-                partSessions.put(psid, new ReadPartitionSession(traceID, ReadSession.this, partition, read, commit) {
+                partSessions.put(psid, new ReadPartitionSession(traceID, ReadSession.this, partition, commitTo) {
                     @Override
                     public CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
                         return reader.handleDataReceivedEvent(event);
@@ -223,13 +223,13 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                 });
 
                 logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset "
-                        + "{} and commitOffset {}", traceID, partition, consumerName, read, commit);
+                        + "{} and commitOffset {}", traceID, partition, consumerName, readFrom, commitTo);
                 send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                         .setStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionResponse
                                 .newBuilder()
                                 .setPartitionSessionId(psid)
-                                .setReadOffset(read)
-                                .setCommitOffset(commit)
+                                .setReadOffset(readFrom)
+                                .setCommitOffset(commitTo)
                                 .build()
                         ).build());
             }
