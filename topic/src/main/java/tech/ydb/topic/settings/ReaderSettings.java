@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.ImmutableList;
 
 import tech.ydb.core.Status;
+import tech.ydb.topic.read.events.DataReceivedEvent;
 
 /**
  * @author Nikolay Perfilov
@@ -23,6 +24,7 @@ public class ReaderSettings {
     private final List<TopicReadSettings> topics;
     private final long maxMemoryUsageBytes;
     private final int maxBatchSize;
+    private final long partitionMaxInFlightBytes;
     private final Executor decompressionExecutor;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
@@ -33,6 +35,7 @@ public class ReaderSettings {
         this.topics = ImmutableList.copyOf(builder.topics);
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
         this.maxBatchSize = builder.maxBatchSize;
+        this.partitionMaxInFlightBytes = builder.partitionMaxInFlightBytes;
         this.decompressionExecutor = builder.decompressionExecutor;
         this.errorsHandler = builder.errorsHandler;
     }
@@ -62,6 +65,10 @@ public class ReaderSettings {
         return maxMemoryUsageBytes;
     }
 
+    public long getPartitionMaxInFlightBytes() {
+        return partitionMaxInFlightBytes;
+    }
+
     public int getMaxBatchSize() {
         return maxBatchSize;
     }
@@ -84,6 +91,7 @@ public class ReaderSettings {
         private String readerName = null;
         private List<TopicReadSettings> topics = new ArrayList<>();
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
+        private long partitionMaxInFlightBytes = 0;
         private int maxBatchSize = 0;
         private Executor decompressionExecutor = null;
         private BiConsumer<Status, Throwable> errorsHandler = null;
@@ -118,6 +126,7 @@ public class ReaderSettings {
 
         /**
          * Set reader name for debug purposes
+         * @param readerName custom reader name
          * @return settings builder
          */
         public Builder setReaderName(String readerName) {
@@ -140,8 +149,27 @@ public class ReaderSettings {
             return this;
         }
 
+        /**
+         * Set the maximum count of messages for the one {@link DataReceivedEvent }. Default value is {@code 0} that
+         * means no-limit mode, every next {@link DataReceivedEvent } will have all messages available to read
+         *
+         * @param maxBatchSize maximum count of messages in one event
+         * @return settings builder
+         */
         public Builder setMaxBatchSize(int maxBatchSize) {
             this.maxBatchSize = maxBatchSize;
+            return this;
+        }
+
+        /**
+         * Configure limit for messages allowed to read to internal buffer from one partition.
+         * Default value is {@code 0} that turns off this limit.
+         *
+         * @param maxInFlightBytes maximum size of messages in bytes
+         * @return settings builder
+         */
+        public Builder setPartitionMaxInFlightBytes(long maxInFlightBytes) {
+            this.partitionMaxInFlightBytes = maxInFlightBytes;
             return this;
         }
 

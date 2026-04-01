@@ -27,7 +27,7 @@ import tech.ydb.proto.coordination.SessionResponse;
  *
  * @author Aleksandr Gorshenin
  */
-class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
+class Stream {
     private static final int SHUTDOWN_TIMEOUT_MS = 1000;
     private static final Logger logger = LoggerFactory.getLogger(Stream.class);
 
@@ -43,10 +43,7 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         this.stream = rpc.createSession(GrpcRequestSettings.newBuilder()
                 .disableDeadline()
                 .build());
-    }
-
-    public CompletableFuture<Status> startStream() {
-        stream.start(this).whenComplete((status, th) -> {
+        stream.start(this::onNext).whenComplete((status, th) -> {
             if (th != null) {
                 startFuture.completeExceptionally(th);
                 stopFuture.completeExceptionally(th);
@@ -56,7 +53,9 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
                 stopFuture.complete(status);
             }
         });
+    }
 
+    public CompletableFuture<Status> getFinishedFuture() {
         return stopFuture;
     }
 
@@ -93,7 +92,6 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
                 SessionRequest.SessionStop.newBuilder().build()
         ).build();
 
-
         logger.trace("stream {} send session stop msg", hashCode());
         stream.sendNext(stopMsg);
 
@@ -121,7 +119,6 @@ class Stream implements GrpcReadWriteStream.Observer<SessionResponse> {
         }
     }
 
-    @Override
     public void onNext(SessionResponse resp) {
         if (resp.hasFailure()) {
             onFail(resp.getFailure());

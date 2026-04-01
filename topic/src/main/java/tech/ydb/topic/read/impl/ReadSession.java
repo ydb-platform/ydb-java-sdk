@@ -514,6 +514,8 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
         List<TopicReadSettings> topics = settings.getTopics();
 
         YdbTopic.StreamReadMessage.InitRequest.Builder builder = YdbTopic.StreamReadMessage.InitRequest.newBuilder();
+
+        builder.setPartitionMaxInFlightBytes(settings.getPartitionMaxInFlightBytes());
         if (consumerName != null && !consumerName.isEmpty()) {
             builder.setConsumer(consumerName);
         }
