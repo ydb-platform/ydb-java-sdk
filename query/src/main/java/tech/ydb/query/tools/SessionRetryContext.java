@@ -174,7 +174,7 @@ public class SessionRetryContext {
         }
 
         public void requestSession() {
-            try (Scope ignored = executeSpan.makeCurrent()) {
+            try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
                 retrySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
             }
             CompletableFuture<Result<QuerySession>> sessionFuture = createSessionWithRetrySpanParent();
@@ -201,10 +201,10 @@ public class SessionRetryContext {
 
             final QuerySession session = sessionResult.getValue();
             try {
-                try (Scope ignored = retrySpan.makeCurrent()) {
+                try (@SuppressWarnings("unused") Scope ignored = retrySpan.makeCurrent()) {
                     fn.apply(session).whenComplete((fnResult, fnException) -> {
                         try {
-                            try (Scope ignored1 = retrySpan.makeCurrent()) {
+                            try (@SuppressWarnings("unused") Scope ignored1 = retrySpan.makeCurrent()) {
                                 session.close();
 
                                 if (fnException != null) {
@@ -282,7 +282,7 @@ public class SessionRetryContext {
         }
 
         private CompletableFuture<Result<QuerySession>> createSessionWithRetrySpanParent() {
-            try (Scope ignored = retrySpan.makeCurrent()) {
+            try (@SuppressWarnings("unused") Scope ignored = retrySpan.makeCurrent()) {
                 return queryClient.createSession(sessionCreationTimeout);
             }
         }
