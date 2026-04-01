@@ -168,6 +168,8 @@
                         <arg>-Xlint:-processing</arg>
                         <!-- Silence warnning "source value 8 is obsolete and will be removed in a future release" -->
                         <arg>-Xlint:-options</arg>
+                        <!-- Silence warnning "auto-closeable resource ignored is never referenced in body of corresponding try statement" -->
+                        <arg>-Xlint:-try</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>

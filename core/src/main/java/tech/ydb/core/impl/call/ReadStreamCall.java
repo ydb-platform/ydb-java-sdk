@@ -116,7 +116,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
 
     @Override
     public void onMessage(RespT message) {
-        try (Scope ignored = callSpan.makeCurrent()) {
+        try (@SuppressWarnings("unused") Scope ignored = callSpan.makeCurrent()) {
             try {
                 if (logger.isTraceEnabled()) {
                     logger.trace("ReadStreamCall[{}] <-- {}", traceId, TextFormat.shortDebugString((Message) message));
