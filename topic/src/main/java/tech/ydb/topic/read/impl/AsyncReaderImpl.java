@@ -132,15 +132,15 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected void handleClosePartitionSession(PartitionSession partition) {
-        handlerExecutor.execute(() -> {
+    protected CompletableFuture<Void> handleClosePartitionSession(PartitionSession partition) {
+        return CompletableFuture.runAsync(() -> {
             try {
                 eventHandler.onPartitionSessionClosed(new PartitionSessionClosedEventImpl(partition));
             } catch (Throwable th) {
                 logUserThrowableAndStopWorking(th, "onPartitionSessionClosed");
                 throw th;
             }
-        });
+        }, handlerExecutor);
     }
 
     protected CompletableFuture<Void> handleReaderClosed() {
