@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -71,17 +70,11 @@ public class TopicWritersIntegrationTest {
         writer.send(Message.of(msg1));
         writer.send(Message.of(msg1));
         writer.send(Message.of(msg1));
-        writer.flush();
+        writer.send(Message.of(msg2)); // this message is more that buffset limit
+        writer.send(Message.of(msg1));
+        writer.send(Message.of(msg1));
+        writer.send(Message.of(msg1));
 
-        IllegalArgumentException ex = Assert.assertThrows(IllegalArgumentException.class,
-                () -> writer.send(Message.of(msg2))
-        );
-        Assert.assertEquals("Rejecting a message of 1001 bytes: not enough space in message queue. "
-                + "The maximum size of buffer is 1000 bytes", ex.getMessage());
-
-        writer.send(Message.of(msg1));
-        writer.send(Message.of(msg1));
-        writer.send(Message.of(msg1));
         writer.flush();
         writer.shutdown(10, TimeUnit.SECONDS);
     }

@@ -13,14 +13,13 @@ import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
+import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.SyncWriter;
 
 /**
  * @author Nikolay Perfilov
  */
 public class SyncWriterImpl extends WriterImpl implements SyncWriter {
-    //private static final Logger logger = LoggerFactory.getLogger(SyncWriterImpl.class);
-
     public SyncWriterImpl(TopicRpc topicRpc,
                           WriterSettings settings,
                           Executor compressionExecutor,
@@ -40,13 +39,21 @@ public class SyncWriterImpl extends WriterImpl implements SyncWriter {
 
     @Override
     public void send(Message message, SendSettings sendSettings) {
-        sendImpl(message, sendSettings, false).join();
+        try {
+            blockingSend(message, sendSettings);
+        } catch (InterruptedException | QueueOverflowException ex) {
+            throw new RuntimeException("Cannot send a message", ex);
+        }
     }
 
     @Override
     public void send(Message message, SendSettings sendSettings, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
-        sendImpl(message, sendSettings, false).get(timeout, unit);
+        try {
+            blockingSend(message, sendSettings, timeout, unit);
+        } catch (QueueOverflowException ex) {
+            throw new RuntimeException("Cannot send a message", ex);
+        }
     }
 
     @Override

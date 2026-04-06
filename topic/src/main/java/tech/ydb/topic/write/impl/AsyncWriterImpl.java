@@ -1,7 +1,6 @@
 package tech.ydb.topic.write.impl;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
@@ -35,20 +34,12 @@ public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
 
     @Override
     public CompletableFuture<WriteAck> send(Message message, SendSettings settings) throws QueueOverflowException {
-        try {
-            return sendImpl(message, settings, true).join();
-        } catch (CompletionException e) {
-            if (e.getCause() instanceof QueueOverflowException) {
-                throw (QueueOverflowException) e.getCause();
-            } else {
-                throw new RuntimeException(e);
-            }
-        }
+        return nonblockingSend(message, settings);
     }
 
     @Override
     public CompletableFuture<WriteAck> send(Message message) throws QueueOverflowException {
-        return send(message, null);
+        return nonblockingSend(message, null);
     }
 
     @Override

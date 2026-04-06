@@ -21,8 +21,9 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,6 +53,9 @@ public class YdbTopicsCodecIntegrationTest {
 
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
+
+    @Rule
+    public final Timeout timeout = new Timeout(10, TimeUnit.SECONDS);
 
     private final static String TEST_TOPIC1 = "integration_test_custom_codec_topic1";
     private final static String TEST_TOPIC2 = "integration_test_custom_codec_topic2";
@@ -314,27 +318,25 @@ public class YdbTopicsCodecIntegrationTest {
      * 4. Try to write with reserved codec 10000 -> get error
      * 5. Try to write with custom unregister codec 20000 -> get error
      */
-    @Ignore
     @Test
     public void writeWithReservedNotExistedCodec() {
         client1 = createClient();
         createTopic(client1, TEST_TOPIC1);
 
-        Exception e = Assert.assertThrows(RuntimeException.class, () -> writeData(7, TEST_TOPIC1, client1));
-        Assert.assertTrue(e.getMessage().contains("Unsupported codec: " + 7));
+        Exception e = Assert.assertThrows(IllegalArgumentException.class, () -> writeData(7, TEST_TOPIC1, client1));
+        Assert.assertEquals("Unsupported codec: " + 7, e.getMessage());
     }
 
     /**
      * Create one more defect. Test failed for unknown reason. Seems RuntimeException produce some weird behaviour
      */
-    @Ignore
     @Test
     public void writeWithCustomCodec10000() {
         client1 = createClient();
         createTopic(client1, TEST_TOPIC1);
 
-        Exception e = Assert.assertThrows(Exception.class, () -> writeData(10000, TEST_TOPIC1, client1));
-        Assert.assertEquals("Unsupported codec: " + 10000, e.getCause().getMessage());
+        Exception e = Assert.assertThrows(IllegalArgumentException.class, () -> writeData(10000, TEST_TOPIC1, client1));
+        Assert.assertEquals("Unsupported codec: " + 10000, e.getMessage());
     }
 
     /*
