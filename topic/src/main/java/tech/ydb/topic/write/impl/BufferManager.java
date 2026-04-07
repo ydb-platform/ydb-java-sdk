@@ -50,9 +50,10 @@ public class BufferManager {
 
     public void tryAcquire(int messageSize) throws QueueOverflowException {
         if (!countAvailable.tryAcquire()) {
-            logger.warn("[{}] Rejecting a message due to reaching message queue in-flight limit of {}", id,
-                    maxCount);
-            throw new QueueOverflowException("Message queue in-flight limit of " + maxCount + " reached");
+            String errorMessage = "[" + id + "] Rejecting a message due to reaching message queue in-flight limit of "
+                    + maxCount;
+            logger.warn(errorMessage);
+            throw new QueueOverflowException(errorMessage);
         }
 
         if (!bytesAvailable.tryAcquire(messageSize)) {
@@ -70,9 +71,10 @@ public class BufferManager {
             QueueOverflowException, TimeoutException {
         long expireAt = System.nanoTime() + unit.toNanos(timeout);
         if (!countAvailable.tryAcquire(timeout, unit)) {
-            logger.warn("[{}] Rejecting a message due to reaching message queue in-flight limit of {}", id,
-                    maxCount);
-            throw new QueueOverflowException("Message queue in-flight limit of " + maxSize + " reached");
+            String errorMessage = "[" + id + "] Rejecting a message due to reaching message queue in-flight limit of "
+                    + maxCount;
+            logger.warn(errorMessage);
+            throw new TimeoutException(errorMessage);
         }
 
         try {
