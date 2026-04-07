@@ -16,9 +16,9 @@ public class EnqueuedMessage {
 
     private volatile ByteString data = null;
     private volatile Throwable encodingProblem = null;
-    private volatile int bufferSize;
+    private volatile long bufferSize;
 
-    public EnqueuedMessage(MessageMeta meta, int bufferSize) {
+    public EnqueuedMessage(MessageMeta meta, long bufferSize) {
         this.meta = meta;
         this.data = null;
         this.bufferSize = bufferSize;
@@ -48,11 +48,11 @@ public class EnqueuedMessage {
         return encodingProblem != null;
     }
 
-    public int getBufferSize() {
+    public long getBufferSize() {
         return bufferSize;
     }
 
-    public void setData(ByteString data, int updatedSize) {
+    public void setData(ByteString data, long updatedSize) {
         this.bufferSize = updatedSize;
         this.data = data;
         this.encodingProblem = null;
