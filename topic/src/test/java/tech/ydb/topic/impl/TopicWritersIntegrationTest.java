@@ -70,7 +70,7 @@ public class TopicWritersIntegrationTest {
         writer.send(Message.of(msg1));
         writer.send(Message.of(msg1));
         writer.send(Message.of(msg1));
-        writer.send(Message.of(msg2)); // this message is more that buffset limit
+        writer.send(Message.of(msg2)); // this message is more than buffer limit
         writer.send(Message.of(msg1));
         writer.send(Message.of(msg1));
         writer.send(Message.of(msg1));

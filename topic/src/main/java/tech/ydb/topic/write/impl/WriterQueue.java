@@ -170,6 +170,7 @@ public class WriterQueue {
 
     private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, int msgSize) {
         EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), msgSize);
+        lastAcceptedMessage = msg;
         queue.add(msg);
 
         if (codec.getId() == Codec.RAW) {
@@ -185,14 +186,14 @@ public class WriterQueue {
         } catch (Throwable ex) {
             logger.warn("[{}] Message wasn't sent because of processing error", id, ex);
             msg.setError(ex);
+            readyNotify.run();
         }
 
-        lastAcceptedMessage = msg;
         return msg.getAckFuture();
     }
 
     private void encode(byte[] data, int msgSize, EnqueuedMessage msg) {
-        logger.info("[{}] Started encoding message", id);
+        logger.trace("[{}] Started encoding message", id);
         try (ByteString.Output encoded = ByteString.newOutput()) {
             try (OutputStream os = codec.encode(encoded)) {
                 os.write(data, 0, data.length);

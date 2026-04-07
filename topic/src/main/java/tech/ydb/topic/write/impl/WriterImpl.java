@@ -295,7 +295,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
             }
 
             // Unknown type of write ack
-            return null;
+            return new WriteAck(ack.getSeqNo(), null, null, statistics);
         }
 
         private void closeDueToError(Status status, Throwable th) {

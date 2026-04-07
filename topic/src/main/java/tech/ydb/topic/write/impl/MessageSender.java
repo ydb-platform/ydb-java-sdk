@@ -20,7 +20,7 @@ import tech.ydb.proto.topic.YdbTopic;
 public class MessageSender {
     private static final Logger logger = LoggerFactory.getLogger(MessageSender.class);
 
-    private static final int MAX_GRPC_MESSAGE_SIZE = 64_000_000;
+    private static final int MAX_REQUEST_SIZE = 60_000_000;
 
     private static final int REQUEST_OVERHEAD;
     private static final int MESSAGE_OVERHEAD;
@@ -101,10 +101,9 @@ public class MessageSender {
             currentTransaction = messageTx;
         }
 
-
         YdbTopic.StreamWriteMessage.WriteRequest.MessageData pb = message.getPb();
         long sizeWithCurrentMessage = getCurrentRequestSize() + pb.getSerializedSize() + MESSAGE_OVERHEAD;
-        if (sizeWithCurrentMessage > MAX_GRPC_MESSAGE_SIZE) {
+        if (sizeWithCurrentMessage > MAX_REQUEST_SIZE) {
             flush();
         }
 

@@ -40,14 +40,19 @@ public class BufferManager {
 
     public void acquire(int messageSize) throws InterruptedException, QueueOverflowException {
         countAvailable.acquire();
-        bytesAvailable.acquire(messageSize);
+        try {
+            bytesAvailable.acquire(messageSize);
+        } catch (InterruptedException ex) {
+            countAvailable.release();
+            throw ex;
+        }
     }
 
     public void tryAcquire(int messageSize) throws QueueOverflowException {
         if (!countAvailable.tryAcquire()) {
             logger.warn("[{}] Rejecting a message due to reaching message queue in-flight limit of {}", id,
                     maxCount);
-            throw new QueueOverflowException("Message queue in-flight limit of " + maxSize + " reached");
+            throw new QueueOverflowException("Message queue in-flight limit of " + maxCount + " reached");
         }
 
         if (!bytesAvailable.tryAcquire(messageSize)) {
@@ -63,21 +68,30 @@ public class BufferManager {
 
     public void tryAcquire(int messageSize, long timeout, TimeUnit unit) throws InterruptedException,
             QueueOverflowException, TimeoutException {
+        long expireAt = System.nanoTime() + unit.toNanos(timeout);
         if (!countAvailable.tryAcquire(timeout, unit)) {
             logger.warn("[{}] Rejecting a message due to reaching message queue in-flight limit of {}", id,
                     maxCount);
             throw new QueueOverflowException("Message queue in-flight limit of " + maxSize + " reached");
         }
 
-        if (!bytesAvailable.tryAcquire(messageSize, timeout, unit)) {
+        try {
+            // negative timeout is allowed for tryAcquire
+            long timeout2 = unit.convert(expireAt - System.nanoTime(), TimeUnit.NANOSECONDS);
+            if (!bytesAvailable.tryAcquire(messageSize, timeout2, unit)) {
+                countAvailable.release();
+                int size = maxCount - countAvailable.availablePermits();
+                String errorMessage = "[" + id + "] Rejecting a message of " + messageSize +
+                        " bytes: not enough space in message queue. Buffer currently has " + size +
+                        " messages with " + bytesAvailable.availablePermits() + " / " + maxSize + " bytes available";
+                logger.warn(errorMessage);
+                throw new TimeoutException(errorMessage);
+            }
+        } catch (InterruptedException ex) {
             countAvailable.release();
-            int size = maxCount - countAvailable.availablePermits();
-            String errorMessage = "[" + id + "] Rejecting a message of " + messageSize +
-                    " bytes: not enough space in message queue. Buffer currently has " + size +
-                    " messages with " + bytesAvailable.availablePermits() + " / " + maxSize + " bytes available";
-            logger.warn(errorMessage);
-            throw new TimeoutException(errorMessage);
+            throw ex;
         }
+
     }
 
     public void releaseMessage(int messageSize) {
