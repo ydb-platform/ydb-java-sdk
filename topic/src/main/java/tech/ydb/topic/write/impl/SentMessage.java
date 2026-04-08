@@ -16,7 +16,7 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class SentMessage {
     private final long seqNo;
-    private final int bufferSize;
+    private final long bufferSize;
     private final YdbTransaction tx;
     private final YdbTopic.StreamWriteMessage.WriteRequest.MessageData pb;
     private final CompletableFuture<WriteAck> ackFuture;
@@ -33,7 +33,7 @@ public class SentMessage {
         return seqNo;
     }
 
-    public int getBufferSize() {
+    public long getBufferSize() {
         return bufferSize;
     }
 

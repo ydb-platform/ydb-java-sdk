@@ -149,26 +149,26 @@ public class WriterQueue {
 
     CompletableFuture<WriteAck> enqueue(Message message, YdbTransaction tx) throws QueueOverflowException,
             InterruptedException {
-        int msgSize = Math.min(message.getData().length, buffer.getMaxSize());
+        long msgSize = Math.min(message.getData().length, buffer.getMaxSize());
         buffer.acquire(msgSize);
         return accept(message, tx, msgSize);
     }
 
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx) throws QueueOverflowException {
-        int msgSize = Math.min(message.getData().length, buffer.getMaxSize());
+        long msgSize = Math.min(message.getData().length, buffer.getMaxSize());
         buffer.tryAcquire(msgSize);
         return accept(message, tx, msgSize);
     }
 
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
-        int msgSize = Math.min(message.getData().length, buffer.getMaxSize());
+        long msgSize = Math.min(message.getData().length, buffer.getMaxSize());
         buffer.tryAcquire(msgSize, timeout, unit);
         return accept(message, tx, msgSize);
     }
 
 
-    private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, int msgSize) {
+    private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, long msgSize) {
         EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), msgSize);
         lastAcceptedMessage = msg;
         queue.add(msg);
@@ -192,7 +192,7 @@ public class WriterQueue {
         return msg.getAckFuture();
     }
 
-    private void encode(byte[] data, int msgSize, EnqueuedMessage msg) {
+    private void encode(byte[] data, long msgSize, EnqueuedMessage msg) {
         logger.trace("[{}] Started encoding message", id);
         try (ByteString.Output encoded = ByteString.newOutput()) {
             try (OutputStream os = codec.encode(encoded)) {
@@ -201,10 +201,10 @@ public class WriterQueue {
 
             logger.trace("[{}] Message compressed from {} to {} bytes", id, msgSize, encoded.size());
 
-            int bufferSize = msgSize;
+            long bufferSize = msgSize;
             if (msgSize > encoded.size()) { // if compressed lenght is less than uncompression - update buffer size
                 bufferSize = encoded.size();
-                buffer.releaseSize(msgSize - bufferSize);
+                buffer.updateMessageSize(msgSize, bufferSize);
             }
 
             msg.setData(encoded.toByteString(), bufferSize);
