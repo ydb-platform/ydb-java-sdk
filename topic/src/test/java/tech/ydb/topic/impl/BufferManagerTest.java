@@ -28,13 +28,13 @@ public class BufferManagerTest {
     }
 
     private static void assertOverflow(String msg, ThrowingRunnable runnable) {
-        QueueOverflowException ex = Assert.assertThrows("Must be throwed QueueOverflowException",
+        QueueOverflowException ex = Assert.assertThrows("Must be thrown QueueOverflowException",
                 QueueOverflowException.class, runnable);
         Assert.assertEquals(msg, ex.getMessage());
     }
 
     private static void assertTimeout(String msg, ThrowingRunnable runnable) {
-        TimeoutException ex = Assert.assertThrows("Must be throwed TimeoutException", TimeoutException.class, runnable);
+        TimeoutException ex = Assert.assertThrows("Must be thrown TimeoutException", TimeoutException.class, runnable);
         Assert.assertEquals(msg, ex.getMessage());
     }
 
@@ -55,9 +55,10 @@ public class BufferManagerTest {
         });
         t.start();
         Assert.assertTrue(started.await(1, TimeUnit.SECONDS));
-        Thread.sleep(50);
-        t.interrupt();
-        t.join(1000);
+        while (t.isAlive()) {
+            t.interrupt();
+            t.join(100);
+        }
 
         Assert.assertTrue(interrupted.get());
     }
@@ -180,7 +181,7 @@ public class BufferManagerTest {
 
         IllegalArgumentException ex = Assert.assertThrows(IllegalArgumentException.class,
                 () -> manager(0x20000000000L, 1000000)); // 2024 GB
-        Assert.assertEquals("Writer buffer size must be less 1024 GB", ex.getMessage());
+        Assert.assertEquals("Writer buffer size must be less than 1024 GB", ex.getMessage());
     }
 
     @Test

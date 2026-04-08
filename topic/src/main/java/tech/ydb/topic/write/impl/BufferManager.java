@@ -65,7 +65,7 @@ public class BufferManager {
         if (!blocksAvailable.tryAcquire(messageBlocks)) {
             countAvailable.release();
             int count = maxCount - countAvailable.availablePermits();
-            int size = blocksAvailable.availablePermits() << blockBitsCount;
+            long size = ((long) blocksAvailable.availablePermits()) << blockBitsCount;
             String errorMessage = "[" + id + "] Rejecting a message of " + messageSize +
                     " bytes: not enough space in message queue. Buffer currently has " + count +
                     " messages with " + size + " / " + bufferMaxSize + " bytes available";
@@ -91,7 +91,7 @@ public class BufferManager {
             if (!blocksAvailable.tryAcquire(messageBlocks, timeout2, unit)) {
                 countAvailable.release();
                 int count = maxCount - countAvailable.availablePermits();
-                int size = blocksAvailable.availablePermits() << blockBitsCount;
+                long size = ((long) blocksAvailable.availablePermits()) << blockBitsCount;
                 String errorMessage = "[" + id + "] Rejecting a message of " + messageSize +
                         " bytes: not enough space in message queue. Buffer currently has " + count +
                         " messages with " + size + " / " + bufferMaxSize + " bytes available";
@@ -125,7 +125,7 @@ public class BufferManager {
             blocksCount = blocksCount >>> 1;
 
             if (bits > 10) {
-                throw new IllegalArgumentException("Writer buffer size must be less 1024 GB");
+                throw new IllegalArgumentException("Writer buffer size must be less than 1024 GB");
             }
         }
         return bits;
