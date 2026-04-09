@@ -18,32 +18,33 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
+public class AsyncWriterImpl implements AsyncWriter {
+    private final WriterImpl impl;
 
     public AsyncWriterImpl(TopicRpc topicRpc,
                            WriterSettings settings,
                            Executor compressionExecutor,
                            @Nonnull CodecRegistry codecRegistry) {
-        super(topicRpc, settings, compressionExecutor, codecRegistry);
+        this.impl = new WriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override
     public CompletableFuture<InitResult> init() {
-        return initImpl();
+        return impl.init();
     }
 
     @Override
     public CompletableFuture<WriteAck> send(Message message, SendSettings settings) throws QueueOverflowException {
-        return nonblockingSend(message, settings);
+        return impl.nonblockingSend(message, settings);
     }
 
     @Override
     public CompletableFuture<WriteAck> send(Message message) throws QueueOverflowException {
-        return nonblockingSend(message, null);
+        return impl.nonblockingSend(message, null);
     }
 
     @Override
     public CompletableFuture<Void> shutdown() {
-        return shutdownImpl();
+        return impl.shutdown();
     }
 }

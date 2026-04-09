@@ -28,7 +28,7 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public abstract class WriterImpl extends GrpcStreamRetrier {
+public class WriterImpl extends GrpcStreamRetrier {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
     private final WriterQueue writeQueue;
@@ -65,7 +65,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         return "Writer";
     }
 
-    protected CompletableFuture<InitResult> initImpl() {
+    public CompletableFuture<InitResult> init() {
         logger.info("[{}] initImpl called", id);
         if (initResultFutureRef.compareAndSet(null, new CompletableFuture<>())) {
             session = sessionFactory.createNextSession();
@@ -76,7 +76,11 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
         return initResultFutureRef.get();
     }
 
-    protected CompletableFuture<Void> flushImpl() {
+    public CompletableFuture<Void> shutdown() {
+        return shutdownImpl("");
+    }
+
+    public CompletableFuture<Void> flush() {
         return writeQueue.flush();
     }
 
@@ -149,7 +153,7 @@ public abstract class WriterImpl extends GrpcStreamRetrier {
     }
 
     private void sendDataRequest() {
-        if (!session.isStarted()) {
+        if (session == null || !session.isStarted()) {
             logger.debug("[{}] Can't send data: current session is not yet initialized", id);
             return;
         }

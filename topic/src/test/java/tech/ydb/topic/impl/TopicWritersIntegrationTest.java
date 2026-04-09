@@ -1,9 +1,13 @@
 package tech.ydb.topic.impl;
 
 import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.Test;
@@ -11,12 +15,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.utils.FutureTools;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.Message;
+import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.write.WriteAck;
 
 /**
  *
@@ -77,5 +85,41 @@ public class TopicWritersIntegrationTest {
 
         writer.flush();
         writer.shutdown(10, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void lazyInitTest() throws Exception {
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setProducerId(TEST_PRODUCER1)
+                .build();
+
+        AsyncWriter writer = client.createAsyncWriter(settings);
+
+        CountDownLatch latch = new CountDownLatch(1);
+        CompletableFuture<WriteAck> lastMessage = CompletableFuture.supplyAsync(() -> {
+            ThreadLocalRandom rnd = ThreadLocalRandom.current();
+            try {
+                CompletableFuture<WriteAck> ack = FutureTools.failedFuture(new RuntimeException("not started"));
+                for (int idx = 0; idx < 100; idx++) {
+                    byte[] msg = new byte[1000];
+                    rnd.nextBytes(msg);
+                    ack = writer.send(Message.of(msg));
+                }
+                latch.countDown();
+                return ack.join();
+            } catch (QueueOverflowException ex) {
+                latch.countDown();
+                throw new RuntimeException(ex);
+            }
+        });
+
+        latch.await(10, TimeUnit.SECONDS);
+        writer.init();
+
+        WriteAck ack = lastMessage.get(10, TimeUnit.SECONDS);
+        Assert.assertEquals(WriteAck.State.WRITTEN, ack.getState());
+
+        writer.shutdown().join();
     }
 }
