@@ -214,7 +214,7 @@ public class SessionRetryContext {
 
                                 Status status = toStatus(fnResult);
                                 if (status.isSuccess()) {
-                                    finishSpans(fnResult, null);
+                                    finishSpans(status, null);
                                     promise.complete(fnResult);
                                 } else {
                                     handleError(status, fnResult);
@@ -242,7 +242,7 @@ public class SessionRetryContext {
         private void handleError(@Nonnull Status status, R result) {
             // Check retrayable status
             if (!canRetry(status.getCode())) {
-                finishSpans(result, null);
+                finishSpans(status, null);
                 promise.complete(result);
                 return;
             }
@@ -255,7 +255,7 @@ public class SessionRetryContext {
                 finishRetrySpan(status, null);
                 scheduleNext(next);
             } else {
-                finishSpans(result, null);
+                finishSpans(status, null);
                 promise.complete(result);
             }
         }
@@ -298,12 +298,9 @@ public class SessionRetryContext {
             retrySpan = Span.NOOP;
         }
 
-        private void finishSpans(@Nullable R result, Throwable throwable) {
-            Status status = result != null ? toStatus(result) : null;
+        private void finishSpans(@Nullable Status status, Throwable throwable) {
             Throwable unwrapped = FutureTools.unwrapCompletionException(throwable);
-            retrySpan.setStatus(status, throwable);
-            retrySpan.end();
-            retrySpan = Span.NOOP;
+            finishRetrySpan(status, throwable);
             executeSpan.setStatus(status, unwrapped);
             executeSpan.end();
         }
