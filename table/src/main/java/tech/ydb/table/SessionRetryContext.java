@@ -11,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.base.Preconditions;
@@ -164,7 +165,6 @@ public class SessionRetryContext {
             this.handler = h;
             this.tracer = sessionSupplier.getTracer();
             this.executeSpan = tracer.startSpan(EXECUTE_SPAN_NAME, SpanKind.INTERNAL);
-            this.promise.whenComplete(this::finishExecuteSpan);
         }
 
         CompletableFuture<R> getFuture() {
@@ -232,7 +232,7 @@ public class SessionRetryContext {
                                 Status status = toStatus(fnResult);
                                 if (status.isSuccess()) {
                                     handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
-                                    finishRetrySpan(status, null);
+                                    finishSpans(status, null);
                                     promise.complete(fnResult);
                                 } else {
                                     handleError(status, fnResult);
@@ -240,7 +240,7 @@ public class SessionRetryContext {
                             }
                         } catch (Throwable unexpected) {
                             handler.onError(SessionRetryContext.this, unexpected, retryNumber.get(), ms());
-                            finishRetrySpan(null, unexpected);
+                            finishSpans(null, unexpected);
                             promise.completeExceptionally(unexpected);
                         }
                     });
@@ -262,7 +262,7 @@ public class SessionRetryContext {
             StatusCode code = status.getCode();
             if (!canRetry(code)) {
                 handler.onError(SessionRetryContext.this, code, retryNumber.get(), ms());
-                finishRetrySpan(status, null);
+                finishSpans(status, null);
                 promise.complete(result);
                 return;
             }
@@ -277,7 +277,7 @@ public class SessionRetryContext {
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, code, maxRetries, ms());
-                finishRetrySpan(status, null);
+                finishSpans(status, null);
                 promise.complete(result);
             }
         }
@@ -286,7 +286,7 @@ public class SessionRetryContext {
             // Check retrayable execption
             if (!canRetry(ex)) {
                 handler.onError(SessionRetryContext.this, ex, retryNumber.get(), ms());
-                finishRetrySpan(null, ex);
+                finishSpans(null, ex);
                 promise.completeExceptionally(ex);
                 return;
             }
@@ -301,7 +301,7 @@ public class SessionRetryContext {
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, ex, maxRetries, ms());
-                finishRetrySpan(null, ex);
+                finishSpans(null, ex);
                 promise.completeExceptionally(ex);
             }
         }
@@ -323,9 +323,9 @@ public class SessionRetryContext {
             retrySpan = Span.NOOP;
         }
 
-        private void finishExecuteSpan(R result, Throwable throwable) {
+        private void finishSpans(@Nullable Status status, Throwable throwable) {
             Throwable unwrapped = FutureTools.unwrapCompletionException(throwable);
-            Status status = toStatus(result);
+            finishRetrySpan(status, throwable);
             executeSpan.setStatus(status, unwrapped);
             executeSpan.end();
         }
