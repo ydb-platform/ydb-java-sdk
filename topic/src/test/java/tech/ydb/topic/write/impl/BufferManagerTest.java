@@ -1,4 +1,4 @@
-package tech.ydb.topic.impl;
+package tech.ydb.topic.write.impl;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -11,7 +11,6 @@ import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.QueueOverflowException;
-import tech.ydb.topic.write.impl.BufferManager;
 
 /**
  * @author Aleksandr Gorshenin
