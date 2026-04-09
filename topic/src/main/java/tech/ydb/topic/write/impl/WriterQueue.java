@@ -113,11 +113,11 @@ public class WriterQueue {
         return null;
     }
 
-    void confirmAck(long seqNo, WriteAck ack) {
+    void confirmAck(WriteAck ack) {
         Iterator<SentMessage> it = sent.iterator();
         while (it.hasNext()) {
             SentMessage msg = it.next();
-            if (msg.getSeqNo() > seqNo) {
+            if (msg.getSeqNo() > ack.getSeqNo()) {
                 return;
             }
 

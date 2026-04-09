@@ -107,7 +107,7 @@ public class WriterQueueTest {
         Assert.assertFalse(f2.isDone());
         Assert.assertFalse(f3.isDone());
 
-        q.confirmAck(lastSeqNo, new WriteAck(3, null, null, null));
+        q.confirmAck(new WriteAck(lastSeqNo, null, null, null));
 
         Assert.assertTrue(f1.isDone());
         Assert.assertTrue(f2.isDone());
@@ -210,7 +210,7 @@ public class WriterQueueTest {
         long lastSeqNo = assertSendAll(q, 3);
 
         Assert.assertFalse(flushFuture.isDone());
-        q.confirmAck(lastSeqNo, new WriteAck(lastSeqNo, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(lastSeqNo, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(flushFuture.isDone());
         Assert.assertFalse(flushFuture.isCompletedExceptionally());
@@ -234,7 +234,7 @@ public class WriterQueueTest {
                 () -> q.tryEnqueue(smallMsg(30), null));
 
         Assert.assertEquals(20, assertSendAll(q, 2));
-        q.confirmAck(10, new WriteAck(10, null, null, null)); // free one message
+        q.confirmAck(new WriteAck(10, null, null, null)); // free one message
 
         q.tryEnqueue(smallMsg(30), null); // success
         assertOverflow("[test] Rejecting a message of 5 bytes: not enough space in message queue. "
@@ -242,7 +242,7 @@ public class WriterQueueTest {
                 () -> q.tryEnqueue(smallMsg(40), null));
 
         Assert.assertEquals(30, assertSendAll(q, 1));
-        q.confirmAck(30, new WriteAck(30, null, null, null)); // free one message
+        q.confirmAck(new WriteAck(30, null, null, null)); // free one message
     }
 
     @Test
@@ -270,9 +270,9 @@ public class WriterQueueTest {
         Assert.assertFalse(f4.isDone());
         Assert.assertTrue(f5.isCompletedExceptionally());
 
-        q.confirmAck(10, new WriteAck(10, null, null, null));
-        q.confirmAck(20, new WriteAck(20, null, null, null));
-        q.confirmAck(30, new WriteAck(30, null, null, null));
+        q.confirmAck(new WriteAck(10, null, null, null));
+        q.confirmAck(new WriteAck(20, null, null, null));
+        q.confirmAck(new WriteAck(30, null, null, null));
 
         Assert.assertTrue(f1.isDone());
         Assert.assertTrue(f2.isDone());
@@ -301,7 +301,7 @@ public class WriterQueueTest {
         long lastSeqNo = assertSendAll(q, 5);
         Assert.assertEquals(50, lastSeqNo);
 
-        q.confirmAck(10, new WriteAck(10, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(10, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(f1.isDone());
         Assert.assertEquals(WriteAck.State.WRITTEN, f1.join().getState());
@@ -324,8 +324,8 @@ public class WriterQueueTest {
         Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f2.join().getState());
         Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f3.join().getState());
 
-        q.confirmAck(40, new WriteAck(40, WriteAck.State.WRITTEN, null, null));
-        q.confirmAck(50, new WriteAck(50, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(40, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(50, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(f4.isDone());
         Assert.assertTrue(f5.isDone());

@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
 import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
@@ -51,15 +52,12 @@ public class MessageSender {
     private final int codecCode;
     private final List<YdbTopic.StreamWriteMessage.WriteRequest.MessageData> messages = new ArrayList<>();
     private final AtomicInteger messagesPbSize = new AtomicInteger(0);
+    private final Consumer<YdbTopic.StreamWriteMessage.FromClient> session;
 
-    private volatile WriteSession session;
     private volatile YdbTransaction currentTransaction = null;
 
-    public MessageSender(int codecCode) {
+    public MessageSender(int codecCode, Consumer<YdbTopic.StreamWriteMessage.FromClient> session) {
         this.codecCode = codecCode;
-    }
-
-    public void setSession(WriteSession session) {
         this.session = session;
     }
 
@@ -89,7 +87,7 @@ public class MessageSender {
                     fromClient.getSerializedSize());
         }
 
-        session.send(fromClient);
+        session.accept(fromClient);
         messages.clear();
         messagesPbSize.set(0);
     }
