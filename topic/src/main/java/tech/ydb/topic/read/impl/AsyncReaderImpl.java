@@ -16,6 +16,7 @@ import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
@@ -41,6 +42,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     private final Executor handlerExecutor;
     private final ExecutorService defaultHandlerExecutorService;
     private final ReadEventHandler eventHandler;
+    private final SerialExecutor controlEventsExecutor;
 
     public AsyncReaderImpl(TopicRpc topicRpc,
                            ReaderSettings settings,
@@ -58,6 +60,8 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
             this.defaultHandlerExecutorService = Executors.newFixedThreadPool(DEFAULT_HANDLER_THREAD_COUNT);
             this.handlerExecutor = defaultHandlerExecutorService;
         }
+
+        this.controlEventsExecutor = new SerialExecutor(handlerExecutor);
     }
 
     @Override
@@ -73,7 +77,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected void handleSessionStarted(String sessionId) {
-        handlerExecutor.execute(() -> {
+        controlEventsExecutor.execute(() -> {
             try {
                 eventHandler.onSessionStarted(new SessionStartedEvent(sessionId));
             } catch (Throwable th) {
@@ -109,7 +113,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
-        handlerExecutor.execute(() -> {
+        controlEventsExecutor.execute(() -> {
             try {
                 eventHandler.onStartPartitionSession(event);
             } catch (Throwable th) {
@@ -121,7 +125,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected void handleStopPartitionSession(StopPartitionSessionEvent event) {
-        handlerExecutor.execute(() -> {
+        controlEventsExecutor.execute(() -> {
             try {
                 eventHandler.onStopPartitionSession(event);
             } catch (Throwable th) {
@@ -133,7 +137,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
 
     @Override
     protected void handleClosePartitionSession(PartitionSession partition) {
-        handlerExecutor.execute(() -> {
+        controlEventsExecutor.execute(() -> {
             try {
                 eventHandler.onPartitionSessionClosed(new PartitionSessionClosedEventImpl(partition));
             } catch (Throwable th) {
@@ -151,7 +155,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
                 logUserThrowableAndStopWorking(th, "onReaderClosed");
                 throw th;
             }
-        }, handlerExecutor);
+        }, controlEventsExecutor);
     }
 
     @Override
