@@ -130,7 +130,7 @@ public class WriterQueue {
     Iterator<SentMessage> updateSeqNo(long newSeqNo) {
         lastSeqNo.set(newSeqNo);
 
-        WriteAck lostAck = new WriteAck(newSeqNo, WriteAck.State.WRITTEN, null, null);
+        WriteAck lostAck = new WriteAck(newSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
         // complete all messages with lost acks
         Iterator<SentMessage> it = sent.iterator();
         while (it.hasNext()) {
