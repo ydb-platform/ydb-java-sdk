@@ -128,9 +128,7 @@ public abstract class GrpcStreamRetrier {
     public void onSessionClosed(Status status, Throwable th) {
         getLogger().info("[{}] onSessionClosed called", id);
 
-        if (th != null) {
-            getLogger().error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
-        } else {
+        if (status != null) {
             if (status.isSuccess()) {
                 if (isStopped.get()) {
                     getLogger().info("[{}] {} stream session closed successfully", id, getStreamName());
@@ -142,6 +140,8 @@ public abstract class GrpcStreamRetrier {
             } else {
                 getLogger().warn("[{}] Error in {} stream session: {}", id, getStreamName(), status);
             }
+        } else {
+            getLogger().error("[{}] Exception in {} stream session: ", id, getStreamName(), th);
         }
 
         if (errorsHandler != null) {

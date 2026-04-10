@@ -132,7 +132,9 @@ public class WriterImpl extends GrpcStreamRetrier {
 
     @Override
     protected void onShutdown(String reason) {
-        session.shutdown();
+        if (session != null) {
+            session.shutdown();
+        }
         if (initResultFutureRef.get() != null && !initResultFutureRef.get().isDone()) {
             initResultFutureRef.get().completeExceptionally(new RuntimeException(reason));
         }
