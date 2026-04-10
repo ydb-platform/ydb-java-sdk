@@ -26,7 +26,7 @@ public class SerialExecutor implements Executor, Runnable {
         this(executor, false);
     }
 
-    public SerialExecutor(Executor executor, boolean skipAllowed) {
+    SerialExecutor(Executor executor, boolean skipAllowed) {
         this.executor = executor;
         this.skipAllowed = skipAllowed;
     }

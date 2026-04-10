@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -23,6 +24,32 @@ public class SerialExecutorTest {
 
     private static class IntHolder {
         private volatile int value;
+    }
+
+    @Test
+    public void serialRunnableTest() throws InterruptedException {
+        IntHolder value = new IntHolder();
+        Semaphore semaphore = new Semaphore(0);
+        AtomicInteger conficts = new AtomicInteger(0);
+
+        SerialRunnable sr = new SerialRunnable(() -> {
+            conficts.addAndGet(value.value);
+            value.value = 1;
+            semaphore.acquireUninterruptibly();
+            value.value = 0;
+        });
+
+        ExecutorService pool = Executors.newCachedThreadPool();
+        for (int idx = 0; idx < 8; idx++) {
+            pool.execute(sr);
+        }
+
+        while (semaphore.hasQueuedThreads()) {
+            semaphore.release();
+        }
+
+        awaitPool(pool);
+        Assert.assertEquals(0, conficts.get());
     }
 
     @Test
