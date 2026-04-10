@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -18,6 +17,7 @@ import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.impl.SerialRunnable;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.InitResult;
@@ -33,8 +33,9 @@ public class WriterImpl extends GrpcStreamRetrier {
 
     private final WriterQueue writeQueue;
     private final WriteSessionFactory sessionFactory;
+    private final SerialRunnable sendTask = new SerialRunnable(new SendTaskImpl());
+
     private final AtomicReference<CompletableFuture<InitResult>> initResultFutureRef = new AtomicReference<>(null);
-    private final AtomicBoolean writeRequestInProgress = new AtomicBoolean();
 
     private volatile WriteSession session = null;
     private Boolean isSeqNoProvided = null;
@@ -44,7 +45,8 @@ public class WriterImpl extends GrpcStreamRetrier {
                       Executor compressionExecutor,
                       @Nonnull CodecRegistry codecRegistry) {
         super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
-        this.writeQueue = new WriterQueue(id, settings, codecRegistry, compressionExecutor, this::sendDataRequest);
+
+        this.writeQueue = new WriterQueue(id, settings, codecRegistry, compressionExecutor, sendTask);
         this.sessionFactory = new WriteSessionFactory(topicRpc, settings);
 
         String message = "Writer" +
@@ -147,34 +149,22 @@ public class WriterImpl extends GrpcStreamRetrier {
         if (initResultFutureRef.get() != null) {
             initResultFutureRef.get().complete(new InitResult(lastSeqNo));
         }
-        sendDataRequest();
+        sendTask.run();
     }
 
     void onAck(WriteAck ack) {
         writeQueue.confirmAck(ack);
     }
 
-    private void sendDataRequest() {
-        if (session == null || !session.isStarted()) {
-            logger.debug("[{}] Can't send data: current session is not yet initialized", id);
-            return;
-        }
-
-        boolean hasMore = true; // TODO: Replace by SerialExecutor
-        while (hasMore) {
-            if (!writeRequestInProgress.compareAndSet(false, true)) {
-                logger.debug("[{}] Send request is already in progress", id);
+    private class SendTaskImpl implements Runnable {
+        @Override
+        public void run() {
+            if (session == null || !session.isStarted()) {
+                logger.debug("[{}] Can't send data: current session is not yet initialized", id);
                 return;
             }
 
-            try {
-                session.sendAll(writeQueue::nextMessageToSend);
-            } finally {
-                if (!writeRequestInProgress.compareAndSet(true, false)) {
-                    logger.error("[{}] Couldn't turn off writeRequestInProgress. Should not happen", id);
-                }
-            }
-            hasMore = writeQueue.hasMore();
+            session.sendAll(writeQueue::nextMessageToSend);
         }
     }
 
