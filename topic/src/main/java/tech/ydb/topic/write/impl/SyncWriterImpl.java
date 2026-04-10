@@ -19,28 +19,30 @@ import tech.ydb.topic.write.SyncWriter;
 /**
  * @author Nikolay Perfilov
  */
-public class SyncWriterImpl extends WriterImpl implements SyncWriter {
+public class SyncWriterImpl implements SyncWriter {
+    private final WriterImpl impl;
+
     public SyncWriterImpl(TopicRpc topicRpc,
                           WriterSettings settings,
                           Executor compressionExecutor,
                           @Nonnull CodecRegistry codecRegistry) {
-        super(topicRpc, settings, compressionExecutor, codecRegistry);
+        this.impl = new WriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override
     public void init() {
-        initImpl();
+        impl.init();
     }
 
     @Override
     public InitResult initAndWait() {
-        return initImpl().join();
+        return impl.init().join();
     }
 
     @Override
     public void send(Message message, SendSettings sendSettings) {
         try {
-            blockingSend(message, sendSettings);
+            impl.blockingSend(message, sendSettings);
         } catch (InterruptedException | QueueOverflowException ex) {
             throw new RuntimeException("Cannot send a message", ex);
         }
@@ -50,7 +52,7 @@ public class SyncWriterImpl extends WriterImpl implements SyncWriter {
     public void send(Message message, SendSettings sendSettings, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
         try {
-            blockingSend(message, sendSettings, timeout, unit);
+            impl.blockingSend(message, sendSettings, timeout, unit);
         } catch (QueueOverflowException ex) {
             throw new RuntimeException("Cannot send a message", ex);
         }
@@ -58,12 +60,12 @@ public class SyncWriterImpl extends WriterImpl implements SyncWriter {
 
     @Override
     public void flush() {
-        flushImpl().join();
+        impl.flush().join();
     }
 
     @Override
     public void shutdown(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
             TimeoutException {
-        shutdownImpl().get(timeout, unit);
+        impl.shutdown().get(timeout, unit);
     }
 }
