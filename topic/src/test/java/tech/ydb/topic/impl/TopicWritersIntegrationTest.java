@@ -31,7 +31,7 @@ import tech.ydb.topic.write.WriteAck;
  * @author Aleksandr Gorshenin
  */
 public class TopicWritersIntegrationTest {
-    private final static Logger logger = LoggerFactory.getLogger(YdbTopicsIntegrationTest.class);
+    private final static Logger logger = LoggerFactory.getLogger(TopicWritersIntegrationTest.class);
 
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();

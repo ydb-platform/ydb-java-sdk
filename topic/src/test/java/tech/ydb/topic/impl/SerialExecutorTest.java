@@ -5,7 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,14 +29,17 @@ public class SerialExecutorTest {
     @Test
     public void serialRunnableTest() throws InterruptedException {
         IntHolder value = new IntHolder();
-        Semaphore semaphore = new Semaphore(0);
-        AtomicInteger conficts = new AtomicInteger(0);
+        AtomicInteger conflicts = new AtomicInteger(0);
 
         SerialRunnable sr = new SerialRunnable(() -> {
-            conficts.addAndGet(value.value);
-            value.value = 1;
-            semaphore.acquireUninterruptibly();
-            value.value = 0;
+            conflicts.addAndGet(value.value);
+            value.value++;
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+                // nothing
+            }
+            value.value--;
         });
 
         ExecutorService pool = Executors.newCachedThreadPool();
@@ -44,12 +47,8 @@ public class SerialExecutorTest {
             pool.execute(sr);
         }
 
-        while (semaphore.hasQueuedThreads()) {
-            semaphore.release();
-        }
-
         awaitPool(pool);
-        Assert.assertEquals(0, conficts.get());
+        Assert.assertEquals(0, conflicts.get());
     }
 
     @Test
@@ -117,6 +116,57 @@ public class SerialExecutorTest {
     }
 
     @Test
+    public void wrongExecuterTest() throws InterruptedException {
+        AtomicInteger value = new AtomicInteger();
+        ExecutorService pool = Executors.newCachedThreadPool();
+
+        SerialExecutor se = new SerialExecutor(pool);
+
+        Assert.assertEquals(0, value.get());
+
+        se.execute(value::incrementAndGet);
+        se.execute(value::incrementAndGet);
+
+        awaitPool(pool);
+        Assert.assertEquals(2, value.get());
+
+        Exception ex = Assert.assertThrows(RejectedExecutionException.class, () -> se.execute(value::incrementAndGet));
+        Assert.assertTrue(ex.getMessage().contains("rejected from java.util.concurrent.ThreadPoolExecutor"));
+    }
+
+    @Test
+    public void wrongTaskTest() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(4);
+        Queue<Throwable> problems = new ConcurrentLinkedQueue<>();
+        ExecutorService pool = Executors.newCachedThreadPool((task) -> {
+            Thread t = new Thread(task);
+            t.setUncaughtExceptionHandler((th, ex) -> problems.add(ex));
+            return t;
+        });
+
+        SerialExecutor se = new SerialExecutor(pool);
+
+        se.execute(latch::countDown);
+        se.execute(latch::countDown);
+
+        // SerialExecute is exception-safe
+        se.execute(() -> {
+            throw new RuntimeException("error");
+        });
+
+        se.execute(latch::countDown);
+        se.execute(latch::countDown);
+
+        Assert.assertTrue("All tasks must be executed", latch.await(10, TimeUnit.SECONDS));
+
+        awaitPool(pool);
+        Assert.assertEquals(1, problems.size());
+        Throwable p1 = problems.poll();
+        Assert.assertTrue(p1 instanceof RuntimeException);
+        Assert.assertEquals("error", p1.getMessage());
+    }
+
+    @Test
     public void concurrentStressTest() throws InterruptedException {
         IntHolder count = new IntHolder();
         CountDownLatch latch = new CountDownLatch(8);
@@ -128,14 +178,13 @@ public class SerialExecutorTest {
                 for (int idx = 0; idx < 100; idx++) {
                     se.execute(() -> {
                         count.value++; // not atomic action
-                        throw new RuntimeException("error"); // SerialExecute is exception-safe
                     });
                 }
                 latch.countDown();
             });
         }
 
-        latch.await(10, TimeUnit.SECONDS);
+        Assert.assertTrue("Producer threads did not finish in time", latch.await(10, TimeUnit.SECONDS));
         awaitPool(pool);
         Assert.assertEquals(800, count.value);
     }

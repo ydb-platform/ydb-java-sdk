@@ -39,32 +39,43 @@ public class SerialExecutor implements Executor, Runnable {
 
         tasksCount.incrementAndGet();
         tasks.offer(task);
+        tryRun();
+    }
+
+    private void tryRun() {
         if (isExecuted.compareAndSet(false, true)) {
-            executor.execute(this);
+            try {
+                executor.execute(this);
+            } catch (RuntimeException ex) {
+                logger.error("SerialExecutor cannot execute task", ex);
+                isExecuted.set(false);
+                throw ex;
+            }
         }
     }
 
     @Override
     public void run() {
-        while (!tasks.isEmpty()) {
-            Iterator<Runnable> it = tasks.iterator();
-            while (it.hasNext()) {
-                tasksCount.decrementAndGet();
-                Runnable task = it.next();
-                it.remove();
-                try {
+        try {
+            while (!tasks.isEmpty()) {
+                Iterator<Runnable> it = tasks.iterator();
+                while (it.hasNext()) {
+                    tasksCount.decrementAndGet();
+                    Runnable task = it.next();
+                    it.remove();
                     task.run();
-                } catch (RuntimeException ex) {
-                    logger.error("SerialExecutor problem", ex);
                 }
             }
-        }
+        } catch (RuntimeException ex) {
+            logger.error("SerialExecutor problem", ex);
+            throw ex;
+        } finally {
+            isExecuted.set(false);
 
-        isExecuted.set(false);
-
-        // Repeat if new task appears before isExecuted reseting
-        if (tasksCount.get() > 0 && isExecuted.compareAndSet(false, true)) {
-            executor.execute(this);
+            // Repeat if new task appears before isExecuted resetting
+            if (tasksCount.get() > 0) {
+                tryRun();
+            }
         }
     }
 }
