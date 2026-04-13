@@ -1,129 +1,125 @@
 package tech.ydb.topic.impl;
 
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import com.google.protobuf.Message;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
-public class TopicRetryableStream<R, W> {
-    private static final Logger logger = LoggerFactory.getLogger(TopicRetryableStream.class);
-
-    public interface Handler<R, W> {
-        TopicStream<R, W> createNewStream(String id);
-        W buildInitRequest();
-
-        void onRetry(Status status);
-        void onStop(Status status);
-
-        void onNext(R message);
-    }
-
-    private static final int ID_LENGTH = 6;
-    private static final char[] ID_ALPHABET = "abcdefghijklmnopqrstuvwxyzABSDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-            .toCharArray();
-
-    private final String id;
-    private final Handler<R, W> handler;
-
-    private final RetryConfig config;
+public abstract class TopicRetryableStream<R extends Message, W extends Message> {
+    private final Logger logger;
+    private final String debugId;
+    private final RetryConfig retryConfig;
     private final ScheduledExecutorService scheduler;
 
-    private final AtomicReference<TopicStream<R, W>> streamRef = new AtomicReference<>();
+    private final AtomicReference<TopicStream<R, W>> realStream = new AtomicReference<>();
     private final AtomicInteger streamCount = new AtomicInteger(0);
     private final RetryState state = new RetryState();
 
-    public TopicRetryableStream(String id, RetryConfig retryConfig, ScheduledExecutorService scheduler,
-            Handler<R, W> handler) {
-        this.id = id == null ? generateRandomId(ID_LENGTH) : id;
-        this.handler = handler;
-        this.config = retryConfig;
+    public TopicRetryableStream(Logger logger, String debugId, RetryConfig config, ScheduledExecutorService scheduler) {
+        this.debugId = debugId;
+        this.logger = logger;
+        this.retryConfig = config;
         this.scheduler = scheduler;
     }
 
-    public void start() {
-        String streamID = id + '.' + streamCount.incrementAndGet();
-        TopicStream<R, W> stream = handler.createNewStream(streamID);
+    @Override
+    public String toString() {
+        return "Session[" + debugId + "]";
+    }
 
-        if (!streamRef.compareAndSet(null, stream)) {
-            logger.warn("[{}] Double start of stream retrier, skippingdouble start", id);
+    protected abstract TopicStream<R, W> createNewStream(String debugId);
+    protected abstract W getInitRequest();
+
+    protected abstract void onNext(R message);
+
+    protected abstract void onRetry(Status status);
+    protected abstract void onClose(Status status);
+
+    public void start() {
+        String streamID = debugId + '.' + streamCount.incrementAndGet();
+        TopicStream<R, W> stream = createNewStream(streamID);
+
+        if (!realStream.compareAndSet(null, stream)) {
+            logger.warn("{} double start of stream, skipping", this);
             stream.close();
             return;
         }
 
-        stream.start(handler.buildInitRequest(), handler::onNext).whenComplete((status, th) -> {
+        stream.start(getInitRequest(), this::onNext).whenComplete((status, th) -> {
             if (status != null) {
-                onStop(stream, status, config.getStatusRetryPolicy(status));
+                onStreamStop(stream, status, retryConfig.getStatusRetryPolicy(status));
             }
             if (th != null) {
-                onStop(stream, Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th), config.getThrowableRetryPolicy(th));
+                Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
+                onStreamStop(stream, wrapped, retryConfig.getThrowableRetryPolicy(th));
             }
         });
     }
 
-    public void resetRetries() {
+    protected void resetRetries() {
         state.reset();
     }
 
-    public void close() {
-        TopicStream<R, W> stream = streamRef.getAndSet(null);
-        if (stream != null) {
-            stream.close();
-        }
-    }
-
     public void send(W msg) {
-        TopicStream<R, W> stream = streamRef.get();
+        TopicStream<R, W> stream = realStream.get();
         if (stream == null) {
-            logger.warn("[{}] send message before stream is ready", id);
+            logger.warn("{} send message before stream is ready", this);
             return;
         }
         stream.send(msg);
     }
 
-    private void onStop(TopicStream<R, W> stream, Status status, RetryPolicy policy) {
-        if (!streamRef.compareAndSet(stream, null)) { // stream was already closed
+    public void close() {
+        TopicStream<R, W> stream = realStream.getAndSet(null);
+        if (stream != null) {
+            stream.close();
+        }
+    }
+
+    private void onStreamStop(TopicStream<R, W> stream, Status status, RetryPolicy policy) {
+        if (!realStream.compareAndSet(stream, null)) { // stream was already closed (usally with success)
+            onClose(status);
             return;
         }
 
         if (policy == null) {
-            logger.warn("[{}] stream stopped by non-retryable status {}", id, status);
-            handler.onStop(status);
+            logger.warn("{} stopped by non-retryable status {}", this, status);
+            onClose(status);
             return;
         }
 
         long nextRetryMs = state.nextRetryMs(policy);
 
         if (nextRetryMs < 0) {
-            logger.warn("[{}] stream stopped by retry policy {}", id, status);
-            handler.onStop(status);
+            logger.warn("{} stopped by retry policy {}", this, status);
+            onClose(status);
             return;
         }
 
         if (nextRetryMs == 0) { // retry immediatelly
-            logger.warn("[{}] stream retry #{}. Retry immediatelly...", id, state.retryNumber());
-            handler.onRetry(status);
+            logger.warn("{} retry #{}. Retry immediatelly...", this, state.retryNumber());
+            onRetry(status);
             start();
             return;
         }
 
         // retry scheduling
-        logger.warn("[{}] stream retry #{}. Scheduling reconnect in {}ms...", id, state.retryNumber(), nextRetryMs);
-        handler.onRetry(status);
+        logger.warn("{} retry #{}. Scheduling reconnect in {}ms...", debugId, state.retryNumber(), nextRetryMs);
+        onRetry(status);
 
         try {
             scheduler.schedule(this::start, nextRetryMs, TimeUnit.MILLISECONDS);
         } catch (Exception ex) {
-            logger.error("[{}] stream cannot schedule reconnect, stopping", id, ex);
-            handler.onStop(status);
+            logger.error("{} cannot schedule reconnect, stopping", debugId, ex);
+            onClose(status);
         }
     }
 
@@ -146,13 +142,5 @@ public class TopicRetryableStream<R, W> {
         public void reset() {
             count.set(0);
         }
-    }
-
-    private static String generateRandomId(int length) {
-        return ThreadLocalRandom.current().ints(0, ID_ALPHABET.length)
-                .limit(length)
-                .map(charId -> ID_ALPHABET[charId])
-                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
-                .toString();
     }
 }
