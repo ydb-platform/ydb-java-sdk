@@ -2,6 +2,7 @@ package tech.ydb.topic.impl;
 
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 
@@ -23,49 +24,51 @@ public abstract class TopicStream<R, W> {
         this.token = stream.authToken();
     }
 
-    @Override
-    public String toString() {
-        return "Stream[" + id + "]";
-    }
-
     protected abstract W updateTokenMessage(String token);
-    protected abstract void handleMessage(R message);
+    protected abstract Status parseMessageStatus(R message);
 
-    protected void start() {
-        logger.info("{} is about to start", this);
-        stream.start((R msg) -> {
-            handleMessage(msg);
+    public CompletableFuture<Status> start(W initReq, Consumer<R> messageHandler) {
+        this.logger.debug("[{}] is about to start", id);
+        this.stream.start((R msg) -> {
+            Status messageStatus = parseMessageStatus(msg);
+            if (messageStatus.isSuccess()) {
+                messageHandler.accept(msg);
+            } else {
+                logger.warn("[{}] stopped by getting status {}", this, messageStatus);
+                if (streamStatus.complete(messageStatus)) {
+                    stream.close();
+                }
+            }
         }).whenComplete((st, th) -> {
             Status status = st != null ? st : Status.of(StatusCode.INTERNAL_ERROR, th);
-            logger.info("{} finished with status {}", this, st);
+            logger.debug("{} finished with status {}", id, st);
             streamStatus.complete(status);
         });
-    }
 
-    public void fail(Status error) {
-        logger.warn("{} stopped with problem {}", this, error);
-        if (streamStatus.complete(error)) {
-            stream.close();
+        if (!streamStatus.isDone()) {
+            stream.sendNext(initReq);
         }
+
+        return streamStatus;
     }
 
-    public void stop() {
-        logger.info("{} stop", this);
+    public void close() {
+        logger.info("[{}] closed by app", id);
         if (!streamStatus.isDone()) {
             stream.close();
         }
     }
 
     public void send(W request) {
-        if (streamStatus.isDone()) {
-            logger.trace("{} is already closed. This message is NOT sent:\n{}", this, request);
+        if (streamStatus != null) {
+            logger.warn("[{}] is already closed. This message is NOT sent:\n{}", id, request);
             return;
         }
 
         String currentToken = stream.authToken();
         if (!Objects.equals(token, currentToken)) {
             token = currentToken;
-            logger.info("{} sends new token", id);
+            logger.info("[{}] sends new token", id);
             stream.sendNext(updateTokenMessage(token));
         }
 
