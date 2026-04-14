@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class DebugTools {
     private static final int ID_LENGTH = 6;
-    private static final char[] ID_ALPHABET = "abcdefghijklmnopqrstuvwxyzABSDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+    private static final char[] ID_ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
             .toCharArray();
 
     private DebugTools() { }

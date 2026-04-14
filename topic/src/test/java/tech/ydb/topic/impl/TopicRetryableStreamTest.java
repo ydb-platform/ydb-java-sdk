@@ -20,7 +20,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 
 public class TopicRetryableStreamTest {
-    private static final Logger logger = LoggerFactory.getLogger(TopicStreamTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(TopicRetryableStreamTest.class);
     private static final Empty EMPTY = Empty.getDefaultInstance();
 
     /**
@@ -141,6 +141,27 @@ public class TopicRetryableStreamTest {
         Mockito.verify(h1.grpc).start(Mockito.any());
         Mockito.verify(h2.grpc, Mockito.never()).start(Mockito.any()); // h2 was never started
         Mockito.verify(h2.grpc).close();                               // h2 was closed immediately
+    }
+
+    @Test
+    public void doubleCloseTest() {
+        StreamHandle h1 = new StreamHandle();
+        TestStream retryable = new TestStream(Arrays.asList(h1), RetryConfig.noRetries(), mockScheduler());
+
+        retryable.start();
+
+        retryable.close();
+        retryable.close();
+
+        Mockito.verify(h1.grpc).start(Mockito.any());
+        Mockito.verify(h1.grpc).close();
+    }
+
+    @Test
+    public void startAfterCloseTest() {
+        TestStream retryable = new TestStream(Arrays.asList(), RetryConfig.noRetries(), mockScheduler());
+        retryable.close();
+        retryable.start(); // nothing
     }
 
     @Test

@@ -41,8 +41,8 @@ public abstract class TopicStream<R extends Message, W extends Message> {
                 }
             }
         }).whenComplete((st, th) -> {
-            Status status = st != null ? st : Status.of(StatusCode.INTERNAL_ERROR, th);
-            logger.debug("[{}] finished with status {}", debugId, st);
+            Status status = st != null ? st : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
+            logger.debug("[{}] finished with status {}", debugId, status);
             streamStatus.complete(status);
         });
 
@@ -62,7 +62,7 @@ public abstract class TopicStream<R extends Message, W extends Message> {
 
     public void send(W req) {
         if (streamStatus.isDone()) {
-            logger.warn("[{}] is already closed. Next message with type {} was NOT sent:", debugId,
+            logger.warn("[{}] is already closed. Next message with type {} was NOT sent", debugId,
                     req.getDescriptorForType().getName());
             return;
         }
