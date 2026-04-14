@@ -85,7 +85,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
     }
 
     private void onStreamStop(TopicStream<R, W> stream, Status status, RetryPolicy policy) {
-        if (!realStream.compareAndSet(stream, null)) { // stream was already closed (usally with success)
+        if (!realStream.compareAndSet(stream, null)) { // stream was already closed (usually with success)
             onClose(status);
             return;
         }

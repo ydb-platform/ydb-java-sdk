@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 import com.google.protobuf.Message;
-import com.google.protobuf.TextFormat;
 import org.slf4j.Logger;
 
 import tech.ydb.core.Status;
@@ -63,7 +62,8 @@ public abstract class TopicStream<R extends Message, W extends Message> {
 
     public void send(W req) {
         if (streamStatus.isDone()) {
-            logger.warn("[{}] is already closed. This message is NOT sent:\n{}", debugId, TextFormat.shortDebugString(req));
+            logger.warn("[{}] is already closed. Next message with type {} was NOT sent:", debugId,
+                    req.getDescriptorForType().getName());
             return;
         }
 
