@@ -43,7 +43,7 @@ public class SerialExecutor implements Executor, Runnable {
     }
 
     private void tryRun() {
-        if (isExecuted.compareAndSet(false, true)) {
+        if (!tasks.isEmpty() && isExecuted.compareAndSet(false, true)) {
             try {
                 executor.execute(this);
             } catch (RuntimeException ex) {

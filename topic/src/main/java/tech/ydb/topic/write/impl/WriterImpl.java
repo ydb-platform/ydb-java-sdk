@@ -142,10 +142,13 @@ public class WriterImpl extends GrpcStreamRetrier {
         }
     }
 
-    void onInit(String streamId, long lastSeqNo) {
+    void onInit(long lastSeqNo) {
         reconnectCounter.set(0);
         Iterator<SentMessage> resend = writeQueue.updateSeqNo(lastSeqNo);
         session.sendAll(() -> resend.hasNext() ? resend.next() : null);
+    }
+
+    void onStart(long lastSeqNo) {
         if (initResultFutureRef.get() != null) {
             initResultFutureRef.get().complete(new InitResult(lastSeqNo));
         }

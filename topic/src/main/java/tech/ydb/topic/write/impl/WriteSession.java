@@ -81,10 +81,11 @@ public final class WriteSession extends SessionBase<FromServer, FromClient> {
 
     private void onInitResponse(YdbTopic.StreamWriteMessage.InitResponse response) {
         long lastSeqNo = response.getLastSeqNo();
+        writer.onInit(lastSeqNo);
         sessionId = response.getSessionId();
         logger.info("[{}] Session with id {} (partition {}) initialized for topic \"{}\", lastSeqNo {}",
                 streamId, sessionId, response.getPartitionId(), initRequest.getPath(), lastSeqNo);
-        writer.onInit(streamId, lastSeqNo);
+        writer.onStart(lastSeqNo);
     }
 
     // Shouldn't be called more than once at a time due to grpc guarantees

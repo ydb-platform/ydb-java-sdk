@@ -136,11 +136,14 @@ public class SerialExecutorTest {
 
     @Test
     public void wrongTaskTest() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(4);
+        CountDownLatch latch = new CountDownLatch(5);
         Queue<Throwable> problems = new ConcurrentLinkedQueue<>();
         ExecutorService pool = Executors.newCachedThreadPool((task) -> {
             Thread t = new Thread(task);
-            t.setUncaughtExceptionHandler((th, ex) -> problems.add(ex));
+            t.setUncaughtExceptionHandler((th, ex) -> {
+                problems.add(ex);
+                latch.countDown();
+            });
             return t;
         });
 
