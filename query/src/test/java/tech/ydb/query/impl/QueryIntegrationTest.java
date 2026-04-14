@@ -9,6 +9,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -194,7 +196,7 @@ public class QueryIntegrationTest {
     }
 
     @Test
-    public void testCancelStream() {
+    public void testCancelStream() throws InterruptedException {
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             QuerySession s1 = client.createSession(Duration.ofSeconds(5)).join().getValue();
             String id = s1.getId();
@@ -208,14 +210,23 @@ public class QueryIntegrationTest {
 
             try (QuerySession s3 = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
                 Assert.assertEquals(id, s3.getId());
-                final QueryStream query = s3.createQuery("SELECT 2 + 2;", TxMode.SNAPSHOT_RO);
-                final CompletableFuture<Void> stop = new CompletableFuture<>();
+                QueryStream query = s3.createQuery("SELECT 2 + 2; SELECT 2 + 3;", TxMode.SNAPSHOT_RO);
+                CountDownLatch latch1 = new CountDownLatch(1);
+                CountDownLatch latch2 = new CountDownLatch(1);
                 CompletableFuture<Result<QueryInfo>> future = query.execute(part -> {
-                    stop.join();
-                    printQuerySetPart(part);
+                    try {
+                        latch1.countDown();
+                        printQuerySetPart(part);
+                        latch2.await(1, TimeUnit.SECONDS);
+                    } catch (InterruptedException ex) {
+                        // nothing
+                    }
                 });
-                query.cancel();
-                stop.complete(null);
+
+                latch1.await(1, TimeUnit.SECONDS);
+                query.cancel(); // cancel stream while first resultset is processing
+                latch2.countDown();
+
                 Result<QueryInfo> result = future.join();
                 Assert.assertEquals(StatusCode.CLIENT_CANCELLED, result.getStatus().getCode());
             }
