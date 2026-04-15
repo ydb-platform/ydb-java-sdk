@@ -4,6 +4,8 @@ import java.util.concurrent.CompletableFuture;
 
 import javax.annotation.Nullable;
 
+import io.grpc.ExperimentalApi;
+
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.utils.FutureTools;
@@ -11,6 +13,7 @@ import tech.ydb.core.utils.FutureTools;
 /**
  * A span represents a timed operation.
  */
+@ExperimentalApi("YDB Tracer is experimental and API may change without notice")
 public interface Span {
     Span NOOP = new Span() {
     };

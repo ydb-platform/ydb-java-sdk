@@ -1,5 +1,7 @@
 package tech.ydb.core.tracing;
 
+import io.grpc.ExperimentalApi;
+
 /**
  * Minimal span kind model.
  *
@@ -11,6 +13,7 @@ package tech.ydb.core.tracing;
  *
  * <p>OTel mapping (in otel-impl): SpanKind.CLIENT / SpanKind.INTERNAL.
  */
+@ExperimentalApi("YDB Tracer is experimental and API may change without notice")
 public enum SpanKind {
     INTERNAL,
     CLIENT

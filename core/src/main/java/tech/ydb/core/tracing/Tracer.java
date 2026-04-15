@@ -1,5 +1,7 @@
 package tech.ydb.core.tracing;
 
+import io.grpc.ExperimentalApi;
+
 /**
  * Tracer is an entry point to create spans.
  *
@@ -8,6 +10,7 @@ package tech.ydb.core.tracing;
  *
  * <p>Implementations must be thread-safe unless stated otherwise.
  */
+@ExperimentalApi("YDB Tracer is experimental and API may change without notice")
 public interface Tracer {
 
     /**
