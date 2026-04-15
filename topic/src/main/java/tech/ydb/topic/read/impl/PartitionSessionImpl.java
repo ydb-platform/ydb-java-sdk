@@ -207,7 +207,9 @@ public abstract class PartitionSessionImpl {
             if (next == null || !next.isReady()) {
                 isReadingNow.set(false);
                 if ((next != null && next.isReady()) || (next == null && !readingQueue.isEmpty())) {
-                    // Initial condition has changed => there is a race with another sendDataToReadersIfNeeded call => need to recheck
+                    // Initial condition has changed
+                    // => there is a race with another sendDataToReadersIfNeeded call
+                    // => need to recheck
                     sendDataToReadersIfNeeded();
                 }
                 return;
