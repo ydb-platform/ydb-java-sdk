@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import javax.annotation.Nullable;
 
+import io.grpc.ExperimentalApi;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.trace.StatusCode;
@@ -12,6 +13,7 @@ import io.opentelemetry.context.Context;
 import tech.ydb.core.Status;
 import tech.ydb.core.UnexpectedResultException;
 
+@ExperimentalApi("YDB Tracer is experimental and API may change without notice")
 public final class OpenTelemetryTracer implements Tracer {
     private static final String DEFAULT_SCOPE = "tech.ydb.sdk";
 
