@@ -234,13 +234,13 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         int retrySpansCount = 0;
 
         for (SpanData span : spans) {
-            if ("ydb.Execute".equals(span.getName())) {
+            if ("ydb.RunWithRetry".equals(span.getName())) {
                 executeSpansCount++;
                 executeSpanId = span.getSpanId();
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
                 Assert.assertEquals(appSpan.getSpanContext().getSpanId(), span.getParentSpanId());
             }
-            if ("ydb.Retry".equals(span.getName())) {
+            if ("ydb.Try".equals(span.getName())) {
                 retrySpansCount++;
                 retrySpanIds.add(span.getSpanId());
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
@@ -254,7 +254,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         Assert.assertNotNull(executeSpanId);
         Assert.assertEquals(2, retrySpansCount);
         for (SpanData span : spans) {
-            if ("ydb.Retry".equals(span.getName())) {
+            if ("ydb.Try".equals(span.getName())) {
                 Assert.assertEquals(executeSpanId, span.getParentSpanId());
             }
         }
@@ -302,13 +302,13 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         Set<String> retrySpanIds = new HashSet<>();
 
         for (SpanData span : spans) {
-            if ("ydb.Execute".equals(span.getName())) {
+            if ("ydb.RunWithRetry".equals(span.getName())) {
                 executeSpansCount++;
                 executeSpanId = span.getSpanId();
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
                 Assert.assertEquals(appSpan.getSpanContext().getSpanId(), span.getParentSpanId());
             }
-            if ("ydb.Retry".equals(span.getName())) {
+            if ("ydb.Try".equals(span.getName())) {
                 retrySpanIds.add(span.getSpanId());
                 Assert.assertEquals(appSpan.getSpanContext().getTraceId(), span.getTraceId());
             }
@@ -316,7 +316,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         Assert.assertEquals(1, executeSpansCount);
         Assert.assertNotNull(executeSpanId);
         for (SpanData span : spans) {
-            if ("ydb.Retry".equals(span.getName())) {
+            if ("ydb.Try".equals(span.getName())) {
                 Assert.assertEquals(executeSpanId, span.getParentSpanId());
             }
         }
@@ -372,13 +372,13 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         int retrySpans = 0;
         int errorRetrySpans = 0;
         for (SpanData span : spans) {
-            if ("ydb.Execute".equals(span.getName())) {
+            if ("ydb.RunWithRetry".equals(span.getName())) {
                 executeSpans++;
                 if (io.opentelemetry.api.trace.StatusCode.ERROR.equals(span.getStatus().getStatusCode())) {
                     errorExecuteSpans++;
                 }
             }
-            if (!"ydb.Retry".equals(span.getName())) {
+            if (!"ydb.Try".equals(span.getName())) {
                 continue;
             }
             retrySpans++;
@@ -420,13 +420,13 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         int errorRetrySpans = 0;
         int okRetrySpans = 0;
         for (SpanData span : spans) {
-            if ("ydb.Execute".equals(span.getName())) {
+            if ("ydb.RunWithRetry".equals(span.getName())) {
                 executeSpans++;
                 if (io.opentelemetry.api.trace.StatusCode.OK.equals(span.getStatus().getStatusCode())) {
                     okExecuteSpans++;
                 }
             }
-            if (!"ydb.Retry".equals(span.getName())) {
+            if (!"ydb.Try".equals(span.getName())) {
                 continue;
             }
             retrySpans++;
