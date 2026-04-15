@@ -443,22 +443,6 @@ public class QueryTracingTest {
             return count;
         }
 
-        int countClosedSpanWithLongAttribute(String spanName, String key, long value) {
-            int count = 0;
-            synchronized (spans) {
-                for (RecordingSpan span : spans) {
-                    Long attr = span.longAttributes.get(key);
-                    if (span.closed
-                            && span.name.equals(spanName)
-                            && attr != null
-                            && attr == value) {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
         int countClosedSpanWithAttribute(String spanName, String key) {
             int count = 0;
             synchronized (spans) {
