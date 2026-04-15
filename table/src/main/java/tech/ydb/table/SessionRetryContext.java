@@ -3,6 +3,7 @@ package tech.ydb.table;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
@@ -33,10 +34,9 @@ import tech.ydb.core.utils.FutureTools;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
-    private static final String EXECUTE_SPAN_NAME = "ydb.Execute";
-    private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.Retry";
-    private static final String RETRY_ATTEMPT_ATTR = "ydb.retry.attempt";
-    private static final String RETRY_SLEEP_MS_ATTR = "ydb.retry.sleep_ms";
+    private static final String EXECUTE_SPAN_NAME = "ydb.RunWithRetry";
+    private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.Try";
+    private static final String RETRY_BACKOFF_MS_ATTR = "ydb.retry.backoff_ms";
 
     private final SessionSupplier sessionSupplier;
     private final Executor executor;
@@ -158,13 +158,17 @@ public class SessionRetryContext {
         private final SessionRetryHandler handler;
         private final Tracer tracer;
         private final Span executeSpan;
-        private Span retrySpan = Span.NOOP;
+        private Span trySpan;
 
         BaseRetryableTask(SessionRetryHandler h, Function<Session, CompletableFuture<R>> fn) {
             this.fn = fn;
             this.handler = h;
             this.tracer = sessionSupplier.getTracer();
             this.executeSpan = tracer.startSpan(EXECUTE_SPAN_NAME, SpanKind.INTERNAL);
+
+            try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
+                this.trySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
+            }
         }
 
         CompletableFuture<R> getFuture() {
@@ -184,16 +188,13 @@ public class SessionRetryContext {
         public void run() {
             if (promise.isCancelled()) {
                 handler.onCancel(SessionRetryContext.this, retryNumber.get(), ms());
-                finishRetrySpan(null, null);
+                finishOnCancel();
                 return;
             }
             executor.execute(this::requestSession);
         }
 
         public void requestSession() {
-            try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
-                retrySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
-            }
             CompletableFuture<Result<Session>> sessionFuture = createSessionWithRetrySpanParent();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
@@ -218,10 +219,10 @@ public class SessionRetryContext {
 
             final Session session = sessionResult.getValue();
             try {
-                try (@SuppressWarnings("unused") Scope ignored = retrySpan.makeCurrent()) {
+                try (@SuppressWarnings("unused") Scope ignored = trySpan.makeCurrent()) {
                     fn.apply(session).whenComplete((fnResult, fnException) -> {
                         try {
-                            try (@SuppressWarnings("unused") Scope ignored1 = retrySpan.makeCurrent()) {
+                            try (@SuppressWarnings("unused") Scope ignored1 = trySpan.makeCurrent()) {
                                 session.close();
 
                                 if (fnException != null) {
@@ -253,9 +254,14 @@ public class SessionRetryContext {
 
         private void scheduleNext(long delayMillis) {
             if (promise.isCancelled()) {
+                finishOnCancel();
                 return;
             }
             sessionSupplier.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
+        }
+
+        private void finishOnCancel() {
+            finishSpans(null, new CancellationException("RunWithRetry was cancelled"));
         }
 
         private void handleError(@Nonnull Status status, R result) {
@@ -267,13 +273,12 @@ public class SessionRetryContext {
                 return;
             }
 
-            int failedAttempt = retryNumber.get();
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(code, retry);
                 handler.onRetry(SessionRetryContext.this, code, retry, next, ms());
-                recordRetrySchedule(failedAttempt, next);
-                finishRetrySpan(status, null);
+                finishTrySpan(status, null);
+                startNextRetrySpan(next);
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, code, maxRetries, ms());
@@ -291,13 +296,12 @@ public class SessionRetryContext {
                 return;
             }
 
-            int failedAttempt = retryNumber.get();
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(ex, retry);
                 handler.onRetry(SessionRetryContext.this, ex, retry, next, ms());
-                recordRetrySchedule(failedAttempt, next);
-                finishRetrySpan(null, ex);
+                finishTrySpan(null, ex);
+                startNextRetrySpan(next);
                 scheduleNext(next);
             } else {
                 handler.onLimit(SessionRetryContext.this, ex, maxRetries, ms());
@@ -306,26 +310,28 @@ public class SessionRetryContext {
             }
         }
 
+        private void startNextRetrySpan(long backoffMs) {
+            try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
+                trySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
+            }
+            trySpan.setAttribute(RETRY_BACKOFF_MS_ATTR, backoffMs);
+        }
+
         private CompletableFuture<Result<Session>> createSessionWithRetrySpanParent() {
-            try (@SuppressWarnings("unused") Scope ignored = retrySpan.makeCurrent()) {
+            try (@SuppressWarnings("unused") Scope ignored = trySpan.makeCurrent()) {
                 return sessionSupplier.createSession(sessionCreationTimeout);
             }
         }
 
-        private void recordRetrySchedule(int failedAttempt, long nextDelayMillis) {
-            retrySpan.setAttribute(RETRY_ATTEMPT_ATTR, failedAttempt);
-            retrySpan.setAttribute(RETRY_SLEEP_MS_ATTR, nextDelayMillis);
-        }
-
-        private void finishRetrySpan(Status status, Throwable throwable) {
-            retrySpan.setStatus(status, throwable);
-            retrySpan.end();
-            retrySpan = Span.NOOP;
+        private void finishTrySpan(Status status, Throwable throwable) {
+            trySpan.setStatus(status, throwable);
+            trySpan.end();
+            trySpan = Span.NOOP;
         }
 
         private void finishSpans(@Nullable Status status, Throwable throwable) {
             Throwable unwrapped = FutureTools.unwrapCompletionException(throwable);
-            finishRetrySpan(status, throwable);
+            finishTrySpan(status, throwable);
             executeSpan.setStatus(status, unwrapped);
             executeSpan.end();
         }
