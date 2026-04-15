@@ -365,9 +365,9 @@ public class QueryTracingTest {
 
     @Test
     public void contextCancelClosesRunWithRetrySpan() throws InterruptedException {
-        grpcInterceptor.failExecuteQuery(StatusCodesProtos.StatusIds.StatusCode.OVERLOADED, Integer.MAX_VALUE);
+        grpcInterceptor.failExecuteQuery(StatusCodesProtos.StatusIds.StatusCode.OVERLOADED, 50);
         SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
-                .maxRetries(100)
+                .maxRetries(50)
                 .backoffSlot(Duration.ofMillis(5))
                 .fastBackoffSlot(Duration.ofMillis(5))
                 .build();
