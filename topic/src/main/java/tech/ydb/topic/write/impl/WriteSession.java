@@ -5,62 +5,51 @@ import java.util.function.Supplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.Issue;
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
 import tech.ydb.core.utils.ProtobufUtils;
-import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.impl.SessionBase;
+import tech.ydb.topic.impl.TopicRetryableStream;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.WriteAck;
 
 /**
  * @author Nikolay Perfilov
  */
-public final class WriteSession extends SessionBase<FromServer, FromClient> {
+public final class WriteSession extends TopicRetryableStream<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
 
-    private final WriterImpl writer;
+    public interface Listener {
+        void onAck(WriteAck ack);
+
+        void onStart(long lastSeqNo, String sessionId);
+        void onStop(Status status);
+
+        void onClose(Status status);
+    }
+
+    private final Listener listener;
+    private final StreamFactory streamFactory;
     private final MessageSender sender;
-    private final YdbTopic.StreamWriteMessage.InitRequest initRequest;
 
-    private volatile String sessionId = null;
-    private volatile Status finishStatus = null;
-
-    public WriteSession(WriterImpl writer, TopicRpc rpc, String streamId, WriterSettings settings) {
-        super(rpc.writeSession(streamId), streamId);
-        this.writer = writer;
-        this.initRequest = buildInitRequest(settings);
-        this.sender = new MessageSender(settings.getCodec(), this::safeSend);
+    public WriteSession(String id, TopicRpc rpc, WriterSettings settings, Listener controller) {
+        super(logger, id, RetryConfig.retryForever(), rpc.getScheduler());
+        this.listener = controller;
+        this.streamFactory = new StreamFactory(rpc, settings);
+        this.sender = new MessageSender(settings.getCodec(), this::send);
     }
 
     @Override
-    protected Logger getLogger() {
-        return logger;
-    }
-
-    public boolean isStarted() {
-        return sessionId != null;
+    protected WriteStream createNewStream(String id) {
+        return streamFactory.createNewStream(id);
     }
 
     @Override
-    protected void sendUpdateTokenRequest(String token) {
-        streamConnection.sendNext(YdbTopic.StreamWriteMessage.FromClient.newBuilder()
-                .setUpdateTokenRequest(YdbTopic.UpdateTokenRequest.newBuilder()
-                        .setToken(token)
-                        .build())
-                .build()
-        );
-    }
-
-    private void safeSend(YdbTopic.StreamWriteMessage.FromClient msg) {
-        if (finishStatus == null) {
-            send(msg);
-        }
+    protected FromClient getInitRequest() {
+        return streamFactory.initRequest();
     }
 
     public void sendAll(Supplier<SentMessage> generator) {
@@ -72,26 +61,19 @@ public final class WriteSession extends SessionBase<FromServer, FromClient> {
         sender.flush();
     }
 
-    @Override
-    public void startAndInitialize() {
-        logger.debug("[{}] Session startAndInitialize called", streamId);
-        start(this::processMessage).whenComplete(this::closeDueToError);
-        safeSend(YdbTopic.StreamWriteMessage.FromClient.newBuilder().setInitRequest(initRequest).build());
-    }
-
     private void onInitResponse(YdbTopic.StreamWriteMessage.InitResponse response) {
         long lastSeqNo = response.getLastSeqNo();
-        writer.onInit(lastSeqNo);
-        sessionId = response.getSessionId();
+        String sessionId = response.getSessionId();
+        resetRetries();
         logger.info("[{}] Session with id {} (partition {}) initialized for topic \"{}\", lastSeqNo {}",
-                streamId, sessionId, response.getPartitionId(), initRequest.getPath(), lastSeqNo);
-        writer.onStart(lastSeqNo);
+                debugId, sessionId, response.getPartitionId(), streamFactory.topicPath, lastSeqNo);
+        listener.onStart(lastSeqNo, sessionId);
     }
 
     // Shouldn't be called more than once at a time due to grpc guarantees
     private void onWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse response) {
         List<YdbTopic.StreamWriteMessage.WriteResponse.WriteAck> acks = response.getAcksList();
-        logger.debug("[{}] Received WriteResponse with {} WriteAcks", streamId, acks.size());
+        logger.debug("[{}] Received WriteResponse with {} WriteAcks", debugId, acks.size());
         WriteAck.Statistics statistics = null;
         if (response.getWriteStatistics() != null) {
             YdbTopic.StreamWriteMessage.WriteResponse.WriteStatistics src = response.getWriteStatistics();
@@ -105,31 +87,12 @@ public final class WriteSession extends SessionBase<FromServer, FromClient> {
         }
 
         for (YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack : acks) {
-            writer.onAck(mapAck(statistics, ack));
-        }
-    }
-
-    private void processMessage(YdbTopic.StreamWriteMessage.FromServer message) {
-        if (message.getStatus() != StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
-            Status status = Status.of(StatusCode.fromProto(message.getStatus()),
-                    Issue.fromPb(message.getIssuesList()));
-            logger.warn("[{}] Got non-success status in processMessage method: {}", streamId, status);
-            closeDueToError(status, null);
-            return;
-        }
-        if (message.hasInitResponse()) {
-            onInitResponse(message.getInitResponse());
-        } else if (message.hasWriteResponse()) {
-            onWriteResponse(message.getWriteResponse());
-        } else if (message.hasUpdateTokenResponse()) {
-            logger.debug("[{}] got update token response", streamId);
-        } else {
-            logger.warn("[{}] got unknown type message", streamId);
+            listener.onAck(mapAck(statistics, ack));
         }
     }
 
     WriteAck mapAck(WriteAck.Statistics statistics, YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
-        logger.debug("[{}] Received WriteAck with seqNo {} and status {}", streamId, ack.getSeqNo(),
+        logger.debug("[{}] Received WriteAck with seqNo {} and status {}", debugId, ack.getSeqNo(),
                 ack.getMessageWriteStatusCase());
         if (ack.hasSkipped()) {
             return new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null, statistics);
@@ -146,39 +109,69 @@ public final class WriteSession extends SessionBase<FromServer, FromClient> {
         return new WriteAck(ack.getSeqNo(), null, null, statistics);
     }
 
-    private void closeDueToError(Status status, Throwable th) {
-        finishStatus = status != null ? status : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-        logger.info("[{}] Session {} closeDueToError called", streamId, sessionId);
-        if (shutdown()) {
-            // Signal writer to retry
-            writer.onSessionClosed(status, th);
-        }
+    @Override
+    public void onRetry(Status status) {
+        logger.warn("[{}] Session onRetry with status {} called", debugId, status);
+        listener.onStop(status);
     }
 
     @Override
-    protected void onStop() {
-        logger.debug("[{}] Session {} onStop called", streamId, sessionId);
+    public void onClose(Status status) {
+        logger.debug("[{}] Session onStop with status {} called", debugId, status);
+        listener.onClose(status);
     }
 
-    private static YdbTopic.StreamWriteMessage.InitRequest buildInitRequest(WriterSettings settings) {
-        YdbTopic.StreamWriteMessage.InitRequest.Builder req = YdbTopic.StreamWriteMessage.InitRequest
-                .newBuilder()
-                .setPath(settings.getTopicPath());
-        String producerId = settings.getProducerId();
-        if (producerId != null) {
-            req.setProducerId(producerId);
+    @Override
+    public void onNext(YdbTopic.StreamWriteMessage.FromServer message) {
+        if (message.hasInitResponse()) {
+            onInitResponse(message.getInitResponse());
+        } else if (message.hasWriteResponse()) {
+            onWriteResponse(message.getWriteResponse());
+        } else if (message.hasUpdateTokenResponse()) {
+            logger.debug("[{}] got update token response", debugId);
+        } else {
+            logger.warn("[{}] got unknown type message", debugId);
         }
-        String messageGroupId = settings.getMessageGroupId();
-        Long partitionId = settings.getPartitionId();
-        if (messageGroupId != null) {
-            if (partitionId != null) {
-                throw new IllegalArgumentException("Both MessageGroupId and PartitionId are set in WriterSettings");
+    }
+
+    private class StreamFactory {
+        private final String topicPath;
+        private final TopicRpc rpc;
+        private final YdbTopic.StreamWriteMessage.InitRequest initRequest;
+
+        StreamFactory(TopicRpc rpc, WriterSettings settings) {
+            this.rpc = rpc;
+            this.topicPath = settings.getTopicPath();
+
+            YdbTopic.StreamWriteMessage.InitRequest.Builder req = YdbTopic.StreamWriteMessage.InitRequest
+                    .newBuilder()
+                    .setPath(topicPath);
+            String producerId = settings.getProducerId();
+            if (producerId != null) {
+                req.setProducerId(producerId);
             }
-            req.setMessageGroupId(messageGroupId);
-        } else if (partitionId != null) {
-            req.setPartitionId(partitionId);
+            String messageGroupId = settings.getMessageGroupId();
+            Long partitionId = settings.getPartitionId();
+            if (messageGroupId != null) {
+                if (partitionId != null) {
+                    throw new IllegalArgumentException("Both MessageGroupId and PartitionId are set in WriterSettings");
+                }
+                req.setMessageGroupId(messageGroupId);
+            } else if (partitionId != null) {
+                req.setPartitionId(partitionId);
+            }
+
+            this.initRequest = req.build();
         }
 
-        return req.build();
+        public WriteStream createNewStream(String id) {
+            return new WriteStream(id, rpc);
+        }
+
+        public YdbTopic.StreamWriteMessage.FromClient initRequest() {
+            return YdbTopic.StreamWriteMessage.FromClient.newBuilder()
+                    .setInitRequest(initRequest)
+                    .build();
+        }
     }
 }

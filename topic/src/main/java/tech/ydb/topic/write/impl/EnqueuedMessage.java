@@ -15,7 +15,7 @@ public class EnqueuedMessage {
     private final CompletableFuture<WriteAck> ackFuture = new CompletableFuture<>();
 
     private volatile ByteString data = null;
-    private volatile Throwable encodingProblem = null;
+    private volatile Throwable problem = null;
     private volatile long bufferSize;
 
     public EnqueuedMessage(MessageMeta meta, long bufferSize) {
@@ -33,7 +33,7 @@ public class EnqueuedMessage {
     }
 
     public Throwable getProblem() {
-        return encodingProblem;
+        return problem;
     }
 
     public CompletableFuture<WriteAck> getAckFuture() {
@@ -45,7 +45,7 @@ public class EnqueuedMessage {
     }
 
     public boolean hasProblem() {
-        return encodingProblem != null;
+        return problem != null;
     }
 
     public long getBufferSize() {
@@ -55,10 +55,10 @@ public class EnqueuedMessage {
     public void setData(ByteString data, long updatedSize) {
         this.bufferSize = updatedSize;
         this.data = data;
-        this.encodingProblem = null;
+        this.problem = null;
     }
 
     public void setError(Throwable ex) {
-        this.encodingProblem = ex;
+        this.problem = ex;
     }
 }

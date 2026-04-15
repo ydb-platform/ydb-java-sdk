@@ -5,8 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nonnull;
 
@@ -14,9 +12,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
+import tech.ydb.core.Status;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.impl.GrpcStreamRetrier;
+import tech.ydb.topic.impl.DebugTools;
 import tech.ydb.topic.impl.SerialRunnable;
 import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
@@ -28,58 +28,41 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public class WriterImpl extends GrpcStreamRetrier {
+public class WriterImpl {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
+    private final String debugId;
     private final WriterQueue writeQueue;
-    private final WriteSessionFactory sessionFactory;
-    private final SerialRunnable sendTask = new SerialRunnable(new SendTaskImpl());
+    private final WriteSession stream;
+    private final Runnable sendTask = new SerialRunnable(new SendTask());
 
-    private final AtomicReference<CompletableFuture<InitResult>> initResultFutureRef = new AtomicReference<>(null);
+    private final CompletableFuture<InitResult> initFuture = new CompletableFuture<>();
+    private final CompletableFuture<Status> shutdownFuture = new CompletableFuture<>();
 
-    private volatile WriteSession session = null;
+    private volatile boolean isReady = false;
     private Boolean isSeqNoProvided = null;
 
     public WriterImpl(TopicRpc topicRpc,
                       WriterSettings settings,
                       Executor compressionExecutor,
                       @Nonnull CodecRegistry codecRegistry) {
-        super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
+        this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
+        this.stream = new WriteSession(debugId, topicRpc, settings, new ListenerImpl());
+        this.writeQueue = new WriterQueue(debugId, settings, codecRegistry, compressionExecutor, sendTask);
 
-        this.writeQueue = new WriterQueue(id, settings, codecRegistry, compressionExecutor, sendTask);
-        this.sessionFactory = new WriteSessionFactory(topicRpc, settings);
-
-        String message = "Writer" +
-                " (generated id " + id + ")" +
-                " created for topic \"" + settings.getTopicPath() + "\"" +
-                " with producerId \"" + settings.getProducerId() + "\"" +
-                " and messageGroupId \"" + settings.getMessageGroupId() + "\"";
-        logger.info(message);
-    }
-
-    @Override
-    protected Logger getLogger() {
-        return logger;
-    }
-
-    @Override
-    protected String getStreamName() {
-        return "Writer";
+        logger.info("Writer with id {} created for topic \"{}\" with producerId \"{}\" and messageGroupId \"{}\"",
+                debugId, settings.getTopicPath(), settings.getProducerId(), settings.getMessageGroupId());
     }
 
     public CompletableFuture<InitResult> init() {
-        logger.info("[{}] initImpl called", id);
-        if (initResultFutureRef.compareAndSet(null, new CompletableFuture<>())) {
-            session = sessionFactory.createNextSession();
-            session.startAndInitialize();
-        } else {
-            logger.warn("[{}] Init is called on this writer more than once. Nothing is done", id);
-        }
-        return initResultFutureRef.get();
+        logger.info("[{}] start called", debugId);
+        stream.start();
+        return initFuture;
     }
 
     public CompletableFuture<Void> shutdown() {
-        return shutdownImpl("");
+        stream.close();
+        return shutdownFuture.thenApply(s -> null);
     }
 
     public CompletableFuture<Void> flush() {
@@ -87,7 +70,7 @@ public class WriterImpl extends GrpcStreamRetrier {
     }
 
     private Message validate(Message message) {
-        if (isStopped.get()) {
+        if (shutdownFuture.isDone()) {
             throw new RuntimeException("Writer is already stopped");
         }
         if (isSeqNoProvided != null) {
@@ -126,64 +109,44 @@ public class WriterImpl extends GrpcStreamRetrier {
         return writeQueue.tryEnqueue(validate(msg), getTx(settings));
     }
 
-    @Override
-    protected void onStreamReconnect() {
-        session = sessionFactory.createNextSession();
-        session.startAndInitialize();
-    }
-
-    @Override
-    protected void onShutdown(String reason) {
-        if (session != null) {
-            session.shutdown();
+    private class ListenerImpl implements WriteSession.Listener {
+        @Override
+        public void onStart(long lastSeqNo, String sessionId) {
+            // resend all sent messages in writing queue
+            Iterator<SentMessage> resend = writeQueue.updateSeqNo(lastSeqNo);
+            stream.sendAll(() -> resend.hasNext() ? resend.next() : null);
+            isReady = true;
+            initFuture.complete(new InitResult(lastSeqNo));
+            sendTask.run();
         }
-        if (initResultFutureRef.get() != null && !initResultFutureRef.get().isDone()) {
-            initResultFutureRef.get().completeExceptionally(new RuntimeException(reason));
+
+        @Override
+        public void onStop(Status status) {
+            isReady = false;
+        }
+
+        @Override
+        public void onAck(WriteAck ack) {
+            writeQueue.confirmAck(ack);
+        }
+
+        @Override
+        public void onClose(Status status) {
+            initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
+            shutdownFuture.complete(status);
+            writeQueue.close(status);
         }
     }
 
-    void onInit(long lastSeqNo) {
-        reconnectCounter.set(0);
-        Iterator<SentMessage> resend = writeQueue.updateSeqNo(lastSeqNo);
-        session.sendAll(() -> resend.hasNext() ? resend.next() : null);
-    }
-
-    void onStart(long lastSeqNo) {
-        if (initResultFutureRef.get() != null) {
-            initResultFutureRef.get().complete(new InitResult(lastSeqNo));
-        }
-        sendTask.run();
-    }
-
-    void onAck(WriteAck ack) {
-        writeQueue.confirmAck(ack);
-    }
-
-    private class SendTaskImpl implements Runnable {
+    private class SendTask implements Runnable {
         @Override
         public void run() {
-            if (session == null || !session.isStarted()) {
-                logger.debug("[{}] Can't send data: current session is not yet initialized", id);
+            if (!isReady) {
+                logger.debug("[{}] Can't send data: current session is not ready yet", debugId);
                 return;
             }
 
-            session.sendAll(writeQueue::nextMessageToSend);
-        }
-    }
-
-    private class WriteSessionFactory {
-        private final TopicRpc rpc;
-        private final WriterSettings settings;
-        private final AtomicLong sessionCounter = new AtomicLong(0);
-
-        WriteSessionFactory(TopicRpc rpc, WriterSettings settings) {
-            this.rpc = rpc;
-            this.settings = settings;
-        }
-
-        public WriteSession createNextSession() {
-            String streamID = id + '.' + sessionCounter.incrementAndGet();
-            return new WriteSession(WriterImpl.this, rpc, streamID, settings);
+            stream.sendAll(writeQueue::nextMessageToSend);
         }
     }
 }

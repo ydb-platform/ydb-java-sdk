@@ -26,6 +26,8 @@ public class BufferManager {
     private final Semaphore blocksAvailable;
     private final Semaphore countAvailable;
 
+    private volatile RuntimeException closed = null;
+
     public BufferManager(String id, WriterSettings settings) {
         this.id = id;
 
@@ -42,14 +44,34 @@ public class BufferManager {
         return bufferMaxSize;
     }
 
+    public void close(RuntimeException ex) {
+        this.closed = ex;
+        // release all waiters
+        this.blocksAvailable.release(calculateBlocksCount(bufferMaxSize, blockBitsCount));
+        this.countAvailable.release(maxCount);
+    }
+
     public void acquire(long messageSize) throws InterruptedException, QueueOverflowException {
         countAvailable.acquire();
+
+        if (closed != null) {
+            countAvailable.release();
+            throw closed;
+        }
+
+        int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
+
         try {
-            int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
             blocksAvailable.acquire(messageBlocks);
         } catch (InterruptedException ex) {
             countAvailable.release();
             throw ex;
+        }
+
+        if (closed != null) {
+            blocksAvailable.release(messageBlocks);
+            countAvailable.release();
+            throw closed;
         }
     }
 
@@ -59,6 +81,11 @@ public class BufferManager {
                     + maxCount;
             logger.warn(errorMessage);
             throw new QueueOverflowException(errorMessage);
+        }
+
+        if (closed != null) {
+            countAvailable.release();
+            throw closed;
         }
 
         int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
@@ -72,6 +99,12 @@ public class BufferManager {
             logger.warn(errorMessage);
             throw new QueueOverflowException(errorMessage);
         }
+
+        if (closed != null) {
+            blocksAvailable.release(messageBlocks);
+            countAvailable.release();
+            throw closed;
+        }
     }
 
     public void tryAcquire(long messageSize, long timeout, TimeUnit unit) throws InterruptedException,
@@ -84,10 +117,16 @@ public class BufferManager {
             throw new TimeoutException(errorMessage);
         }
 
+        if (closed != null) {
+            countAvailable.release();
+            throw closed;
+        }
+
+        int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
+
         try {
             // negative timeout is allowed for tryAcquire
             long timeout2 = unit.convert(expireAt - System.nanoTime(), TimeUnit.NANOSECONDS);
-            int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
             if (!blocksAvailable.tryAcquire(messageBlocks, timeout2, unit)) {
                 countAvailable.release();
                 int count = maxCount - countAvailable.availablePermits();
@@ -103,6 +142,11 @@ public class BufferManager {
             throw ex;
         }
 
+        if (closed != null) {
+            blocksAvailable.release(messageBlocks);
+            countAvailable.release();
+            throw closed;
+        }
     }
 
     public void releaseMessage(long messageSize) {
