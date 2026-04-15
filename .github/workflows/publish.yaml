@@ -38,13 +38,13 @@ jobs:
           endsWith(env.AUTH_API_VERSION, 'SNAPSHOT') ||
           endsWith(env.BOM_AUTH_API_VERSION, 'SNAPSHOT') ||
           endsWith(env.BOM_YC_AUTH_VERSION, 'SNAPSHOT')
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: core.setFailed('SNAPSHOT version cannot be published')
 
       - name: Fail workflow if SDK version is not equal to tag name
         if: format('v{0}', env.SDK_VERSION) != github.ref_name
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           script: core.setFailed('Release name must be equal to project version')
 
