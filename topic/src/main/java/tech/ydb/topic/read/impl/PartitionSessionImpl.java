@@ -206,6 +206,10 @@ public abstract class PartitionSessionImpl {
             Batch next = readingQueue.peek();
             if (next == null || !next.isReady()) {
                 isReadingNow.set(false);
+                if ((next != null && next.isReady()) || (next == null && !readingQueue.isEmpty())) {
+                    // Initial condition has changed => there is a race with another sendDataToReadersIfNeeded call => need to recheck
+                    sendDataToReadersIfNeeded();
+                }
                 return;
             }
             next = readingQueue.poll();
