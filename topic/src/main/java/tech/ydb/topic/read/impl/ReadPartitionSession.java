@@ -169,6 +169,9 @@ public abstract class ReadPartitionSession {
             Batch next = readingQueue.peek();
             if (next == null || !next.isReady()) {
                 isReadingNow.set(false);
+                if (next != null && next.isReady()) {
+                    sendDataToReadersIfNeeded();
+                }
                 return;
             }
             next = readingQueue.poll();
