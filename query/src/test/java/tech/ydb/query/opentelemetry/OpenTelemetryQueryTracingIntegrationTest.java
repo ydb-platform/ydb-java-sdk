@@ -17,7 +17,6 @@ import io.opentelemetry.sdk.testing.exporter.InMemorySpanExporter;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.data.SpanData;
 import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor;
-import io.opentelemetry.sdk.common.CompletableResultCode;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -99,15 +98,12 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         queryClient.close();
     }
 
-    /** Flush ended spans to the in-memory exporter before reading them in assertions. */
-    private static void awaitTracerFlush() {
-        CompletableResultCode done = tracerProvider.forceFlush();
-        done.join(30, TimeUnit.SECONDS);
-        Assert.assertTrue("OpenTelemetry forceFlush failed", done.isSuccess());
-    }
-
+    /**
+     * Finished spans for assertions. {@link SimpleSpanProcessor} exports to {@link InMemorySpanExporter}
+     * synchronously from {@code Span.end()}, so {@link SdkTracerProvider#forceFlush()} is unnecessary here
+     * and was flaky under load (timeouts / non-success completion codes).
+     */
     private static List<SpanData> exportedSpans() {
-        awaitTracerFlush();
         return spanExporter.getFinishedSpanItems();
     }
 
@@ -121,7 +117,6 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             List<SpanData> spans = spanExporter.getFinishedSpanItems();
             boolean hasOuter = spans.stream().anyMatch(s -> "ydb.RunWithRetry".equals(s.getName()));
             if (hasOuter) {
-                awaitTracerFlush();
                 return spanExporter.getFinishedSpanItems();
             }
             try {
@@ -542,11 +537,9 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 assertBaseAttributes(span);
             }
             if (count == expectedCount) {
-                awaitTracerFlush();
                 return;
             }
             if (System.currentTimeMillis() >= deadlineMs) {
-                awaitTracerFlush();
                 Assert.assertEquals("Unexpected count of span  " + spanName, expectedCount, count);
                 return;
             }
@@ -574,11 +567,9 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 assertBaseAttributes(span);
             }
             if (count == expectedCount) {
-                awaitTracerFlush();
                 return;
             }
             if (System.currentTimeMillis() >= deadlineMs) {
-                awaitTracerFlush();
                 Assert.assertEquals("Unexpected count of span  " + spanName, expectedCount, count);
                 return;
             }
