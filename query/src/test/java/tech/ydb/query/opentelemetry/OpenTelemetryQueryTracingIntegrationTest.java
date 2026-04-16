@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.opentelemetry.api.OpenTelemetry;
@@ -95,6 +96,37 @@ public class OpenTelemetryQueryTracingIntegrationTest {
     @After
     public void closeClients() {
         queryClient.close();
+    }
+
+    /**
+     * Finished spans for assertions. {@link SimpleSpanProcessor} exports to {@link InMemorySpanExporter}
+     * synchronously from {@code Span.end()}, so {@link SdkTracerProvider#forceFlush()} is unnecessary here
+     * and was flaky under load (timeouts / non-success completion codes).
+     */
+    private static List<SpanData> exportedSpans() {
+        return spanExporter.getFinishedSpanItems();
+    }
+
+    /**
+     * After {@code CompletableFuture#join()} the outer {@code ydb.RunWithRetry} span may not be
+     * ended/exported yet; poll until it appears (or timeout) before counting it in assertions.
+     */
+    private List<SpanData> exportedSpansWhenRunWithRetryPresent() {
+        long deadlineMs = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(30);
+        while (System.currentTimeMillis() < deadlineMs) {
+            List<SpanData> spans = spanExporter.getFinishedSpanItems();
+            boolean hasOuter = spans.stream().anyMatch(s -> "ydb.RunWithRetry".equals(s.getName()));
+            if (hasOuter) {
+                return spanExporter.getFinishedSpanItems();
+            }
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new AssertionError(e);
+            }
+        }
+        return exportedSpans();
     }
 
     @Test
@@ -188,7 +220,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 appSpan.end();
             }
 
-            List<SpanData> spans = spanExporter.getFinishedSpanItems();
+            List<SpanData> spans = exportedSpans();
             SpanData sdkSpan = null;
             for (SpanData span : spans) {
                 if ("ydb.ExecuteQuery".equals(span.getName())) {
@@ -226,7 +258,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             appSpan.end();
         }
 
-        List<SpanData> spans = spanExporter.getFinishedSpanItems();
+        List<SpanData> spans = exportedSpans();
         SpanData querySpan = null;
         String executeSpanId = null;
         Set<String> retrySpanIds = new HashSet<>();
@@ -296,7 +328,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         assertSpanOK("ydb.ExecuteQuery", 1);
         assertSpanOK("ydb.Commit", 1);
 
-        List<SpanData> spans = spanExporter.getFinishedSpanItems();
+        List<SpanData> spans = exportedSpansWhenRunWithRetryPresent();
         String executeSpanId = null;
         int executeSpansCount = 0;
         Set<String> retrySpanIds = new HashSet<>();
@@ -366,7 +398,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
         assertSpanOK("ydb.CreateSession", 1);
         assertSpanOK("ydb.ExecuteQuery", 0);
 
-        List<SpanData> spans = spanExporter.getFinishedSpanItems();
+        List<SpanData> spans = exportedSpansWhenRunWithRetryPresent();
         int executeSpans = 0;
         int errorExecuteSpans = 0;
         int retrySpans = 0;
@@ -413,7 +445,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
 
         assertSpanOK("ydb.ExecuteQuery", 1);
 
-        List<SpanData> spans = spanExporter.getFinishedSpanItems();
+        List<SpanData> spans = exportedSpansWhenRunWithRetryPresent();
         int executeSpans = 0;
         int okExecuteSpans = 0;
         int retrySpans = 0;
@@ -463,7 +495,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             appSpan.end();
         }
 
-        List<SpanData> spans = spanExporter.getFinishedSpanItems();
+        List<SpanData> spans = exportedSpans();
         int matched = 0;
         for (SpanData span : spans) {
             if (!span.getName().startsWith("ydb.")) {
@@ -487,35 +519,66 @@ public class OpenTelemetryQueryTracingIntegrationTest {
     }
 
     private void assertSpanError(String spanName, int expectedCount, Status status) {
+        long deadlineMs = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(30);
         int count = 0;
-        List<SpanData> spans = spanExporter.getFinishedSpanItems();
-        for (SpanData span : spans) {
-            if (!spanName.equals(span.getName())) {
-                continue;
+        while (true) {
+            List<SpanData> spans = spanExporter.getFinishedSpanItems();
+            count = 0;
+            for (SpanData span : spans) {
+                if (!spanName.equals(span.getName())) {
+                    continue;
+                }
+                count++;
+
+                Assert.assertEquals(status.getCode().toString(), span.getAttributes().get(STATUS_CODE));
+                Assert.assertEquals("ydb_error", span.getAttributes().get(ERROR_TYPE));
+                Assert.assertEquals(io.opentelemetry.api.trace.StatusCode.ERROR, span.getStatus().getStatusCode());
+
+                assertBaseAttributes(span);
             }
-            count++;
-
-            Assert.assertEquals(status.getCode().toString(), span.getAttributes().get(STATUS_CODE));
-            Assert.assertEquals("ydb_error", span.getAttributes().get(ERROR_TYPE));
-            Assert.assertEquals(io.opentelemetry.api.trace.StatusCode.ERROR, span.getStatus().getStatusCode());
-
-            assertBaseAttributes(span);
-            return;
+            if (count == expectedCount) {
+                return;
+            }
+            if (System.currentTimeMillis() >= deadlineMs) {
+                Assert.assertEquals("Unexpected count of span  " + spanName, expectedCount, count);
+                return;
+            }
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new AssertionError(e);
+            }
         }
-        Assert.assertEquals("Unexpected count of span  " + spanName, count, expectedCount);
     }
 
     private void assertSpanOK(String spanName, int expectedCount) {
+        long deadlineMs = System.currentTimeMillis() + TimeUnit.SECONDS.toMillis(30);
         int count = 0;
-        List<SpanData> spans = spanExporter.getFinishedSpanItems();
-        for (SpanData span : spans) {
-            if (!spanName.equals(span.getName())) {
-                continue;
+        while (true) {
+            List<SpanData> spans = spanExporter.getFinishedSpanItems();
+            count = 0;
+            for (SpanData span : spans) {
+                if (!spanName.equals(span.getName())) {
+                    continue;
+                }
+                count++;
+                Assert.assertEquals(io.opentelemetry.api.trace.StatusCode.OK, span.getStatus().getStatusCode());
+                assertBaseAttributes(span);
             }
-            count++;
-            Assert.assertEquals(io.opentelemetry.api.trace.StatusCode.OK, span.getStatus().getStatusCode());
-            assertBaseAttributes(span);
+            if (count == expectedCount) {
+                return;
+            }
+            if (System.currentTimeMillis() >= deadlineMs) {
+                Assert.assertEquals("Unexpected count of span  " + spanName, expectedCount, count);
+                return;
+            }
+            try {
+                Thread.sleep(5);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new AssertionError(e);
+            }
         }
-        Assert.assertEquals("Unexpected count of span  " + spanName, expectedCount, count);
     }
 }

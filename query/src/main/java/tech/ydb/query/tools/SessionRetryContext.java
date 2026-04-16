@@ -215,8 +215,11 @@ public class SessionRetryContext {
 
                                 Status status = toStatus(fnResult);
                                 if (status.isSuccess()) {
-                                    finishSpans(status, null);
-                                    promise.complete(fnResult);
+                                    if (promise.complete(fnResult)) {
+                                        finishSpans(status, null);
+                                    } else {
+                                        finishOnCancel();
+                                    }
                                 } else {
                                     handleError(status, fnResult);
                                 }
