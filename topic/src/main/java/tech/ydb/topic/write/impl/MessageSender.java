@@ -49,6 +49,7 @@ public class MessageSender {
                 REQUEST_OVERHEAD);
     }
 
+    private final String debugId;
     private final int codecCode;
     private final List<YdbTopic.StreamWriteMessage.WriteRequest.MessageData> messages = new ArrayList<>();
     private final AtomicInteger messagesPbSize = new AtomicInteger(0);
@@ -56,7 +57,8 @@ public class MessageSender {
 
     private volatile YdbTransaction currentTransaction = null;
 
-    public MessageSender(int codecCode, Consumer<YdbTopic.StreamWriteMessage.FromClient> session) {
+    public MessageSender(String debugId, int codecCode, Consumer<YdbTopic.StreamWriteMessage.FromClient> session) {
+        this.debugId = debugId;
         this.codecCode = codecCode;
         this.session = session;
     }
@@ -80,12 +82,15 @@ public class MessageSender {
                 .setWriteRequest(req.build())
                 .build();
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Predicted request size: {} = {}(request overhead) + {}(all MessageData protos) " +
+        if (logger.isTraceEnabled()) {
+            logger.trace("Predicted request size: {} = {}(request overhead) + {}(all MessageData protos) " +
                             "+ {}(message overheads) Actual request size: {} bytes", getCurrentRequestSize(),
                     REQUEST_OVERHEAD, messagesPbSize, MESSAGE_OVERHEAD * messages.size(),
                     fromClient.getSerializedSize());
         }
+
+        logger.debug("[{}] write {} messages with seq numbers {}-{}", debugId, messages.size(),
+                messages.get(0).getSeqNo(), messages.get(messages.size() - 1).getSeqNo());
 
         session.accept(fromClient);
         messages.clear();

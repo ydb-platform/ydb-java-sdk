@@ -1,11 +1,11 @@
 package tech.ydb.topic.write.impl;
 import java.util.List;
+import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
@@ -34,12 +34,14 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     private final Listener listener;
     private final StreamFactory streamFactory;
     private final MessageSender sender;
+    private final BiConsumer<Status, Throwable> errorsHandler;
 
-    public WriteSession(String id, TopicRpc rpc, WriterSettings settings, Listener controller) {
-        super(logger, id, RetryConfig.retryForever(), rpc.getScheduler());
+    public WriteSession(String debugId, TopicRpc rpc, WriterSettings settings, Listener controller) {
+        super(logger, debugId, settings.getRetryConfig(), rpc.getScheduler());
         this.listener = controller;
         this.streamFactory = new StreamFactory(rpc, settings);
-        this.sender = new MessageSender(settings.getCodec(), this::send);
+        this.sender = new MessageSender(debugId, settings.getCodec(), this::send);
+        this.errorsHandler = settings.getErrorsHandler();
     }
 
     @Override
@@ -113,12 +115,18 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     public void onRetry(Status status) {
         logger.warn("[{}] Session onRetry with status {} called", debugId, status);
         listener.onStop(status);
+        if (errorsHandler != null) {
+            errorsHandler.accept(status, null);
+        }
     }
 
     @Override
     public void onClose(Status status) {
         logger.debug("[{}] Session onStop with status {} called", debugId, status);
         listener.onClose(status);
+        if (errorsHandler != null && !status.isSuccess()) {
+            errorsHandler.accept(status, null);
+        }
     }
 
     @Override

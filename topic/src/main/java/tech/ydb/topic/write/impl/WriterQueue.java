@@ -108,7 +108,7 @@ public class WriterQueue {
             }
 
             SentMessage sentMsg = new SentMessage(next, seqNo);
-            logger.trace("[{}] prepare sent message with seqNo {}", debugId, seqNo);
+            logger.debug("[{}] prepare sent message with seqNo {}", debugId, seqNo);
             sent.offer(sentMsg);
             return sentMsg;
         }
@@ -155,10 +155,12 @@ public class WriterQueue {
     }
 
     Iterator<SentMessage> updateSeqNo(long newSeqNo) {
-        lastSeqNo.set(newSeqNo);
+        if (newSeqNo > lastSeqNo.get()) {
+            lastSeqNo.set(newSeqNo);
+        }
 
-        WriteAck lostAck = new WriteAck(newSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
         // complete all messages with lost acks
+        WriteAck lostAck = new WriteAck(newSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
         Iterator<SentMessage> it = sent.iterator();
         while (it.hasNext()) {
             SentMessage msg = it.next();

@@ -132,6 +132,7 @@ public class WriterImpl {
 
         @Override
         public void onClose(Status status) {
+            isReady = false;
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
             shutdownFuture.complete(status);
             writeQueue.close(status);
