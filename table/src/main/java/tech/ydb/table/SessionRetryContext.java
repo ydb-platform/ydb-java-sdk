@@ -232,9 +232,13 @@ public class SessionRetryContext {
 
                                 Status status = toStatus(fnResult);
                                 if (status.isSuccess()) {
-                                    handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
-                                    finishSpans(status, null);
-                                    promise.complete(fnResult);
+                                    if (promise.complete(fnResult)) {
+                                        handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
+                                        finishSpans(status, null);
+                                    } else if (promise.isCancelled()) {
+                                        handler.onCancel(SessionRetryContext.this, retryNumber.get(), ms());
+                                        finishOnCancel();
+                                    }
                                 } else {
                                     handleError(status, fnResult);
                                 }
