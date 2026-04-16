@@ -123,7 +123,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 Thread.sleep(5);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                Assert.fail(e.toString());
+                throw new AssertionError(e);
             }
         }
         return exportedSpans();
@@ -547,7 +547,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 Thread.sleep(5);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                Assert.fail(e.toString());
+                throw new AssertionError(e);
             }
         }
     }
@@ -577,7 +577,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 Thread.sleep(5);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
-                Assert.fail(e.toString());
+                throw new AssertionError(e);
             }
         }
     }
