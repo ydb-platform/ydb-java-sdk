@@ -217,7 +217,7 @@ public class SessionRetryContext {
                                 if (status.isSuccess()) {
                                     if (promise.complete(fnResult)) {
                                         finishSpans(status, null);
-                                    } else if (promise.isCancelled()) {
+                                    } else {
                                         finishOnCancel();
                                     }
                                 } else {

@@ -235,7 +235,7 @@ public class SessionRetryContext {
                                     if (promise.complete(fnResult)) {
                                         handler.onSuccess(SessionRetryContext.this, retryNumber.get(), ms());
                                         finishSpans(status, null);
-                                    } else if (promise.isCancelled()) {
+                                    } else {
                                         handler.onCancel(SessionRetryContext.this, retryNumber.get(), ms());
                                         finishOnCancel();
                                     }
