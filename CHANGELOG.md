@@ -15,6 +15,9 @@
 * Query: Added support of ApacheArrow for query execution
 * Tests: Updated testcontainers to 2.0.3
 
+## 2.3.33 ##
+* Topic: Fixed race between decoder and function that publishes messages to user
+
 ## 2.3.32 ##
 * Topic: Added support of availabilityPeriod to AlterConsumerSettings
 * Topic: Added partitionMaxInFlightBytes option to ReaderSettings
