@@ -7,6 +7,7 @@ import java.util.concurrent.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Status;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.QueueOverflowException;
 
@@ -18,7 +19,7 @@ public class BufferManager {
     // use logger from WriterImpl
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
-    private final String id;
+    private final String debugId;
     private final long bufferMaxSize;
     private final int maxCount;
     private final int blockBitsCount;
@@ -26,10 +27,10 @@ public class BufferManager {
     private final Semaphore blocksAvailable;
     private final Semaphore countAvailable;
 
-    private volatile RuntimeException closed = null;
+    private volatile Status closed = null;
 
     public BufferManager(String id, WriterSettings settings) {
-        this.id = id;
+        this.debugId = id;
 
         this.maxCount = settings.getMaxSendBufferMessagesCount();
         this.bufferMaxSize = settings.getMaxSendBufferMemorySize();
@@ -44,19 +45,23 @@ public class BufferManager {
         return bufferMaxSize;
     }
 
-    public void close(RuntimeException ex) {
-        this.closed = ex;
+    public void close(Status status) {
+        this.closed = status;
         // release all waiters
         this.blocksAvailable.release(calculateBlocksCount(bufferMaxSize, blockBitsCount));
         this.countAvailable.release(maxCount);
     }
 
     public void acquire(long messageSize) throws InterruptedException, QueueOverflowException {
+        if (closed != null) {
+            throw new IllegalStateException("Writer was closed with status " + closed);
+        }
+
         countAvailable.acquire();
 
         if (closed != null) {
             countAvailable.release();
-            throw closed;
+            throw new IllegalStateException("Writer was closed with status " + closed);
         }
 
         int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
@@ -71,21 +76,25 @@ public class BufferManager {
         if (closed != null) {
             blocksAvailable.release(messageBlocks);
             countAvailable.release();
-            throw closed;
+            throw new IllegalStateException("Writer was closed with status " + closed);
         }
     }
 
     public void tryAcquire(long messageSize) throws QueueOverflowException {
+        if (closed != null) {
+            throw new IllegalStateException("Writer was closed with status " + closed);
+        }
+
         if (!countAvailable.tryAcquire()) {
-            String errorMessage = "[" + id + "] Rejecting a message due to reaching message queue in-flight limit of "
+            String errorMsg = "[" + debugId + "] Rejecting a message due to reaching message queue in-flight limit of "
                     + maxCount;
-            logger.warn(errorMessage);
-            throw new QueueOverflowException(errorMessage);
+            logger.warn(errorMsg);
+            throw new QueueOverflowException(errorMsg);
         }
 
         if (closed != null) {
             countAvailable.release();
-            throw closed;
+            throw new IllegalStateException("Writer was closed with status " + closed);
         }
 
         int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
@@ -93,49 +102,53 @@ public class BufferManager {
             countAvailable.release();
             int count = maxCount - countAvailable.availablePermits();
             long size = ((long) blocksAvailable.availablePermits()) << blockBitsCount;
-            String errorMessage = "[" + id + "] Rejecting a message of " + messageSize +
+            String errorMsg = "[" + debugId + "] Rejecting a message of " + messageSize +
                     " bytes: not enough space in message queue. Buffer currently has " + count +
                     " messages with " + size + " / " + bufferMaxSize + " bytes available";
-            logger.warn(errorMessage);
-            throw new QueueOverflowException(errorMessage);
+            logger.warn(errorMsg);
+            throw new QueueOverflowException(errorMsg);
         }
 
         if (closed != null) {
             blocksAvailable.release(messageBlocks);
             countAvailable.release();
-            throw closed;
+            throw new IllegalStateException("Writer was closed with status " + closed);
         }
     }
 
     public void tryAcquire(long messageSize, long timeout, TimeUnit unit) throws InterruptedException,
             QueueOverflowException, TimeoutException {
+        if (closed != null) {
+            throw new IllegalStateException("Writer was closed with status " + closed);
+        }
+
         long expireAt = System.nanoTime() + unit.toNanos(timeout);
         if (!countAvailable.tryAcquire(timeout, unit)) {
-            String errorMessage = "[" + id + "] Rejecting a message due to reaching message queue in-flight limit of "
+            String errorMsg = "[" + debugId + "] Rejecting a message due to reaching message queue in-flight limit of "
                     + maxCount;
-            logger.warn(errorMessage);
-            throw new TimeoutException(errorMessage);
+            logger.warn(errorMsg);
+            throw new TimeoutException(errorMsg);
         }
 
         if (closed != null) {
             countAvailable.release();
-            throw closed;
+            throw new IllegalStateException("Writer was closed with status " + closed);
         }
 
         int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
 
         try {
             // negative timeout is allowed for tryAcquire
-            long timeout2 = unit.convert(expireAt - System.nanoTime(), TimeUnit.NANOSECONDS);
-            if (!blocksAvailable.tryAcquire(messageBlocks, timeout2, unit)) {
+            long timeout2 = expireAt - System.nanoTime();
+            if (!blocksAvailable.tryAcquire(messageBlocks, timeout2, TimeUnit.NANOSECONDS)) {
                 countAvailable.release();
                 int count = maxCount - countAvailable.availablePermits();
                 long size = ((long) blocksAvailable.availablePermits()) << blockBitsCount;
-                String errorMessage = "[" + id + "] Rejecting a message of " + messageSize +
+                String errorMsg = "[" + debugId + "] Rejecting a message of " + messageSize +
                         " bytes: not enough space in message queue. Buffer currently has " + count +
                         " messages with " + size + " / " + bufferMaxSize + " bytes available";
-                logger.warn(errorMessage);
-                throw new TimeoutException(errorMessage);
+                logger.warn(errorMsg);
+                throw new TimeoutException(errorMsg);
             }
         } catch (InterruptedException ex) {
             countAvailable.release();
@@ -145,7 +158,7 @@ public class BufferManager {
         if (closed != null) {
             blocksAvailable.release(messageBlocks);
             countAvailable.release();
-            throw closed;
+            throw new IllegalStateException("Writer was closed with status " + closed);
         }
     }
 

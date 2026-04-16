@@ -130,7 +130,7 @@ public class WriterQueue {
     }
 
     void close(Status status) {
-        buffer.close(new RuntimeException("Writer was closed with status " + status));
+        buffer.close(status);
 
         while (!queue.isEmpty()) {
             RuntimeException ex = new RuntimeException("Message sending was cancelled with status " + status);
