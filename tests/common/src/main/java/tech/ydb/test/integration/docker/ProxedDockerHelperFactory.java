@@ -88,6 +88,7 @@ public class ProxedDockerHelperFactory extends YdbHelperFactory {
                 server.close();
                 channel.shutdownNow();
 
+                System.err.println("DOCKER LOGS\n" + container.getLogs());
                 if (env.dockerReuse() && TestcontainersConfiguration.getInstance().environmentSupportsReuse()) {
                     return;
                 }
