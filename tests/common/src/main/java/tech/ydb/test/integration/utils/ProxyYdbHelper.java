@@ -25,6 +25,11 @@ public abstract class ProxyYdbHelper implements YdbHelper {
     }
 
     @Override
+    public GrpcTransport createTransport(TransportCustomizer customizer) {
+        return checked().createTransport(customizer);
+    }
+
+    @Override
     public String endpoint() {
         return checked().endpoint();
     }
