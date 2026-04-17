@@ -258,7 +258,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             appSpan.end();
         }
 
-        List<SpanData> spans = exportedSpans();
+        List<SpanData> spans = exportedSpansWhenRunWithRetryPresent();
         SpanData querySpan = null;
         String executeSpanId = null;
         Set<String> retrySpanIds = new HashSet<>();
