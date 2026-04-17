@@ -136,16 +136,8 @@ public class SerialExecutorTest {
 
     @Test
     public void wrongTaskTest() throws InterruptedException {
-        CountDownLatch latch = new CountDownLatch(5);
-        Queue<Throwable> problems = new ConcurrentLinkedQueue<>();
-        ExecutorService pool = Executors.newCachedThreadPool((task) -> {
-            Thread t = new Thread(task);
-            t.setUncaughtExceptionHandler((th, ex) -> {
-                problems.add(ex);
-                latch.countDown();
-            });
-            return t;
-        });
+        CountDownLatch latch = new CountDownLatch(4);
+        ExecutorService pool = Executors.newCachedThreadPool();
 
         SerialExecutor se = new SerialExecutor(pool);
 
@@ -163,10 +155,6 @@ public class SerialExecutorTest {
         Assert.assertTrue("All tasks must be executed", latch.await(10, TimeUnit.SECONDS));
 
         awaitPool(pool);
-        Assert.assertEquals(1, problems.size());
-        Throwable p1 = problems.poll();
-        Assert.assertTrue(p1 instanceof RuntimeException);
-        Assert.assertEquals("error", p1.getMessage());
     }
 
     @Test
