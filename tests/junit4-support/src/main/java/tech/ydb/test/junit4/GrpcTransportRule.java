@@ -22,19 +22,26 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
     private static final Logger logger = LoggerFactory.getLogger(GrpcTransportRule.class);
 
     private final AtomicReference<GrpcTransport> proxy;
+    private final YdbHelper.TransportCustomizer customizer;
     private final boolean skipOnUnavailable;
 
-    private GrpcTransportRule(AtomicReference<GrpcTransport> proxy, boolean skipOnUnavailable) {
+    private GrpcTransportRule(AtomicReference<GrpcTransport> proxy, YdbHelper.TransportCustomizer customizer,
+            boolean skipOnUnavailable) {
         this.proxy = proxy;
+        this.customizer = customizer;
         this.skipOnUnavailable = skipOnUnavailable;
     }
 
     public GrpcTransportRule() {
-        this(new AtomicReference<>(), true);
+        this(new AtomicReference<>(), null, true);
+    }
+
+    public GrpcTransportRule withGrpcTransportCustomizer(YdbHelper.TransportCustomizer customizer) {
+        return new GrpcTransportRule(proxy, customizer, skipOnUnavailable);
     }
 
     public GrpcTransportRule failIfUnavailable() {
-        return new GrpcTransportRule(proxy, false);
+        return new GrpcTransportRule(proxy, customizer, false);
     }
 
     @Override
@@ -60,7 +67,7 @@ public class GrpcTransportRule extends ProxyGrpcTransport implements TestRule {
 
                 logger.debug("create ydb helper for test {}", path);
                 try (YdbHelper helper = factory.createHelper()) {
-                    try (GrpcTransport transport = helper.createTransport()) {
+                    try (GrpcTransport transport = helper.createTransport(customizer)) {
                         proxy.set(transport);
                         base.evaluate();
                         proxy.set(null);
