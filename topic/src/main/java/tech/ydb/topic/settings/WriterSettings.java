@@ -2,6 +2,7 @@ package tech.ydb.topic.settings;
 
 import java.util.function.BiConsumer;
 
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.topic.description.Codec;
 
@@ -20,6 +21,7 @@ public class WriterSettings {
     private final int codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
+    private final RetryConfig retryConfig;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
     private WriterSettings(Builder builder) {
@@ -31,6 +33,7 @@ public class WriterSettings {
         this.codec = builder.codec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
+        this.retryConfig = builder.retryConfig;
         this.errorsHandler = builder.errorsHandler;
     }
 
@@ -56,6 +59,10 @@ public class WriterSettings {
 
     public BiConsumer<Status, Throwable> getErrorsHandler() {
         return errorsHandler;
+    }
+
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
     }
 
     public Long getPartitionId() {
@@ -86,6 +93,7 @@ public class WriterSettings {
         private int codec = Codec.GZIP;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
+        private RetryConfig retryConfig = TopicRetryConfig.FOREVER;
         private BiConsumer<Status, Throwable> errorsHandler = null;
 
         /**
@@ -180,6 +188,11 @@ public class WriterSettings {
 
         public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
             this.errorsHandler = handler;
+            return this;
+        }
+
+        public Builder setRetryConfig(RetryConfig config) {
+            this.retryConfig = config;
             return this;
         }
 
