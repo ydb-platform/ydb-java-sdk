@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -17,12 +16,10 @@ public class DisjointOffsetRangeSet {
     private final NavigableMap<Long, OffsetsRangeImpl> ranges = new TreeMap<>();
     private final ReentrantLock rangesLock = new ReentrantLock();
 
-    public void add(Collection<OffsetsRange> ranges) {
+    public void add(OffsetsRange range) {
         rangesLock.lock();
         try {
-            for (OffsetsRange range: ranges) {
-                addImpl(range);
-            }
+            addImpl(range);
         } finally {
             rangesLock.unlock();
         }

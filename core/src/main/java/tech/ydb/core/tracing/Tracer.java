@@ -1,6 +1,6 @@
 package tech.ydb.core.tracing;
 
-import javax.annotation.Nullable;
+import io.grpc.ExperimentalApi;
 
 /**
  * Tracer is an entry point to create spans.
@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
  *
  * <p>Implementations must be thread-safe unless stated otherwise.
  */
+@ExperimentalApi("YDB Tracer is experimental and API may change without notice")
 public interface Tracer {
 
     /**
@@ -17,8 +18,16 @@ public interface Tracer {
      *
      * @param spanName logical span name (for example, ydb.ExecuteQuery)
      * @param spanKind span kind that defines operation role
-     * @return created span instance, or null if implementation does not create spans
+     * @return created span instance
      */
-    @Nullable
     Span startSpan(String spanName, SpanKind spanKind);
+
+    /**
+     * Returns the currently active span.
+     *
+     * @return active span or {@link Span#NOOP} when unavailable
+     */
+    default Span currentSpan() {
+        return Span.NOOP;
+    }
 }

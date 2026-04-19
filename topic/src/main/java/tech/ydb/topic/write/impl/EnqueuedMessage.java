@@ -1,114 +1,64 @@
 package tech.ydb.topic.write.impl;
 
-import java.time.Instant;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
-import com.google.protobuf.UnsafeByteOperations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.protobuf.ByteString;
 
-import tech.ydb.common.transaction.YdbTransaction;
-import tech.ydb.core.utils.ProtobufUtils;
-import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.description.MetadataItem;
-import tech.ydb.topic.settings.SendSettings;
-import tech.ydb.topic.utils.Encoder;
-import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.WriteAck;
 
+/**
+ *
+ * @author Aleksandr Gorshenin
+ */
 public class EnqueuedMessage {
+    private final MessageMeta meta;
+    private final CompletableFuture<WriteAck> ackFuture = new CompletableFuture<>();
 
-    // use logger from WriterImpl
-    private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
+    private volatile ByteString data = null;
+    private volatile Throwable encodingProblem = null;
+    private volatile long bufferSize;
 
-    private Long seqNo;
-    private byte[] bytes;
-    private final long originLength;
-    private final Instant createdAt;
-    private final List<MetadataItem> items;
+    public EnqueuedMessage(MessageMeta meta, long bufferSize) {
+        this.meta = meta;
+        this.data = null;
+        this.bufferSize = bufferSize;
+    }
 
-    private final CompletableFuture<WriteAck> future = new CompletableFuture<>();
-    private final YdbTransaction transaction;
+    public MessageMeta getMeta() {
+        return meta;
+    }
 
-    private volatile boolean isReady = false;
-    private volatile Throwable compressError = null;
+    public ByteString getData() {
+        return data;
+    }
 
-    public EnqueuedMessage(Message message, SendSettings sendSettings, boolean noCompression) {
-        this.bytes = message.getData();
-        this.createdAt = message.getCreateTimestamp();
-        this.items = message.getMetadataItems();
-        this.seqNo = message.getSeqNo();
+    public Throwable getProblem() {
+        return encodingProblem;
+    }
 
-        this.originLength = bytes.length;
-        this.transaction = sendSettings != null ? sendSettings.getTransaction() : null;
-        this.isReady = noCompression;
+    public CompletableFuture<WriteAck> getAckFuture() {
+        return ackFuture;
     }
 
     public boolean isReady() {
-        return isReady;
+        return data != null;
     }
 
-    public long getOriginalSize() {
-        return originLength;
+    public boolean hasProblem() {
+        return encodingProblem != null;
     }
 
-    public long getSize() {
-        return bytes.length;
+    public long getBufferSize() {
+        return bufferSize;
     }
 
-    public Throwable getCompressError() {
-        return compressError;
+    public void setData(ByteString data, long updatedSize) {
+        this.bufferSize = updatedSize;
+        this.data = data;
+        this.encodingProblem = null;
     }
 
-    public void encode(String writeId, int codec, CodecRegistry codecRegistry) {
-        logger.trace("[{}] Started encoding message", writeId);
-
-        try {
-            bytes = Encoder.encode(codec, bytes, codecRegistry);
-            isReady = true;
-            logger.trace("[{}] Successfully finished encoding message", writeId);
-        } catch (Throwable ex) {
-            logger.error("[{}] Exception while encoding message: ", writeId, ex);
-            compressError = ex;
-            isReady = true;
-            future.completeExceptionally(ex);
-        }
-    }
-
-    public CompletableFuture<WriteAck> getFuture() {
-        return future;
-    }
-
-    public Long getSeqNo() {
-        return seqNo;
-    }
-
-    public YdbTransaction getTransaction() {
-        return transaction;
-    }
-
-    long updateSeqNo(long lastSeqNo) {
-        if (seqNo == null) {
-            seqNo = lastSeqNo + 1;
-            return seqNo;
-        }
-        return Math.max(lastSeqNo, seqNo);
-    }
-
-    YdbTopic.StreamWriteMessage.WriteRequest.MessageData toMessageData() {
-        return YdbTopic.StreamWriteMessage.WriteRequest.MessageData.newBuilder()
-                        .setSeqNo(seqNo)
-                        .setData(UnsafeByteOperations.unsafeWrap(bytes))
-                        .setCreatedAt(ProtobufUtils.instantToProto(createdAt))
-                        .setUncompressedSize(originLength)
-                        .addAllMetadataItems(items.stream().map(it -> YdbTopic.MetadataItem.newBuilder()
-                            .setKey(it.getKey())
-                            .setValue(UnsafeByteOperations.unsafeWrap(it.getValue()))
-                            .build()
-                        ).collect(Collectors.toList()))
-                .build();
+    public void setError(Throwable ex) {
+        this.encodingProblem = ex;
     }
 }

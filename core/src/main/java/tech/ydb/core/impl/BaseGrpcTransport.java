@@ -132,7 +132,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                         traceId, method.getFullMethodName(), endpoint.getHostAndPort());
             }
             Metadata metadata = makeMetadataFromSettings(settings, endpoint);
-            return new UnaryCall<>(traceId, endpoint.getHostAndPort(), call, handler).startCall(request, metadata);
+            return new UnaryCall<>(traceId, endpoint.getHostAndPort(), call, handler, settings.getSpan())
+                    .startCall(request, metadata);
         } catch (UnexpectedResultException ex) {
             logger.warn("UnaryCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
@@ -173,7 +174,8 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
             Metadata metadata = makeMetadataFromSettings(settings, endpoint);
             GrpcFlowControl flowCtrl = settings.getFlowControl();
-            return new ReadStreamCall<>(traceId, endpoint.getHostAndPort(), call, flowCtrl, request, metadata, handler);
+            return new ReadStreamCall<>(traceId, endpoint.getHostAndPort(), call, flowCtrl, request, metadata, handler,
+                    settings.getSpan());
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
@@ -254,7 +256,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         }
 
         Span span = settings.getSpan();
-        if (span != null) {
+        if (span.isValid()) {
             span.setAttribute("db.system.name", "ydb");
             span.setAttribute("db.namespace", getDatabase());
             span.setAttribute("server.address", serverEndpoint.getHost());

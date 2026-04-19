@@ -111,6 +111,7 @@ class SessionImpl implements CoordinationSession {
         final Stream stream = new Stream(rpc);
         if (!updateState(local, makeConnectionState(local, stream))) {
             logger.warn("{} cannot be connected with state {}", this, local.getState());
+            stream.cancelStream();
             return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_REQUEST));
         }
 
@@ -120,8 +121,8 @@ class SessionImpl implements CoordinationSession {
     }
 
     private CompletableFuture<Result<Long>> connectToSession(Stream stream, long sessionID) {
-        // start new stream
-        stream.startStream().whenCompleteAsync((status, th) -> {
+        // attach completion handler to the stream
+        stream.getFinishedFuture().whenCompleteAsync((status, th) -> {
             // this handler is executed when stream finishes
             // we have some action to do here
 

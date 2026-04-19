@@ -1,7 +1,6 @@
 package tech.ydb.topic.write.impl;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 import java.util.concurrent.Executor;
 
 import javax.annotation.Nonnull;
@@ -19,40 +18,33 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public class AsyncWriterImpl extends WriterImpl implements AsyncWriter {
+public class AsyncWriterImpl implements AsyncWriter {
+    private final WriterImpl impl;
 
     public AsyncWriterImpl(TopicRpc topicRpc,
                            WriterSettings settings,
                            Executor compressionExecutor,
                            @Nonnull CodecRegistry codecRegistry) {
-        super(topicRpc, settings, compressionExecutor, codecRegistry);
+        this.impl = new WriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override
     public CompletableFuture<InitResult> init() {
-        return initImpl();
+        return impl.init();
     }
 
     @Override
     public CompletableFuture<WriteAck> send(Message message, SendSettings settings) throws QueueOverflowException {
-        try {
-            return sendImpl(message, settings, true).join();
-        } catch (CompletionException e) {
-            if (e.getCause() instanceof QueueOverflowException) {
-                throw (QueueOverflowException) e.getCause();
-            } else {
-                throw new RuntimeException(e);
-            }
-        }
+        return impl.nonblockingSend(message, settings);
     }
 
     @Override
     public CompletableFuture<WriteAck> send(Message message) throws QueueOverflowException {
-        return send(message, null);
+        return impl.nonblockingSend(message, null);
     }
 
     @Override
     public CompletableFuture<Void> shutdown() {
-        return shutdownImpl();
+        return impl.shutdown();
     }
 }

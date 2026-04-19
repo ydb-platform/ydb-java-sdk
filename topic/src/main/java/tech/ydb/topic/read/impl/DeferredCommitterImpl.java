@@ -8,8 +8,9 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.MessageCommitter;
+import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 
 /**
  * @author Nikolay Perfilov
@@ -17,41 +18,40 @@ import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 public class DeferredCommitterImpl implements DeferredCommitter {
     private static final Logger logger = LoggerFactory.getLogger(DeferredCommitterImpl.class);
 
-    private final Map<ReadPartitionSession, DisjointOffsetRangeSet> rangesBySession = new ConcurrentHashMap<>();
+    private final Map<MessageCommitter, DisjointOffsetRangeSet> rangesBySession = new ConcurrentHashMap<>();
 
-    private RuntimeException wrapExceptionWithSession(ReadPartitionSession session, RuntimeException ex) {
-        String errorMessage = "[" + session.getId() + "] Error adding new offset range to " +
-                "DeferredCommitter for " + session.getPartition() + ": " + ex.getMessage();
-        logger.error(errorMessage);
-        return new RuntimeException(errorMessage, ex);
+    private RuntimeException wrapExceptionWithSession(PartitionSession session, RuntimeException ex) {
+        String msg = "Error adding new offset range to DeferredCommitter for " + session + ": " + ex.getMessage();
+        logger.error(msg);
+        return new RuntimeException(msg, ex);
     }
 
     @Override
     public void add(Message message) {
-        ReadPartitionSession session = ((MessageImpl) message).getPartitionSessionImpl();
-        DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(session, s -> new DisjointOffsetRangeSet());
+        MessageCommitter committer = message.getCommitter();
+        DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(committer, s -> new DisjointOffsetRangeSet());
         try {
-            range.add(message.getPartitionOffsets().getOffsets());
+            range.add(message.getRangeToCommit());
         } catch (RuntimeException exception) {
-            throw wrapExceptionWithSession(session, exception);
+            throw wrapExceptionWithSession(message.getPartitionSession(), exception);
         }
     }
 
     @Override
     public void add(DataReceivedEvent event) {
-        ReadPartitionSession session = ((DataReceivedEventImpl) event).getPartitionSessionImpl();
-        DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(session, s -> new DisjointOffsetRangeSet());
+        MessageCommitter committer = event.getCommitter();
+        DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(committer, s -> new DisjointOffsetRangeSet());
         try {
-            range.add(event.getPartitionOffsets().getOffsets());
+            range.add(event.getRangeToCommit());
         } catch (RuntimeException exception) {
-            throw wrapExceptionWithSession(session, exception);
+            throw wrapExceptionWithSession(event.getPartitionSession(), exception);
         }
     }
 
     @Override
     public void commit() {
-        rangesBySession.forEach((session, ranges) -> {
-            session.commit(ranges.getRangesAndClear());
+        rangesBySession.forEach((committer, ranges) -> {
+            committer.commitRanges(ranges.getRangesAndClear());
         });
     }
 }

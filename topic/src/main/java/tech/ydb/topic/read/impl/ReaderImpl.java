@@ -136,7 +136,6 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
             this.settings = settings;
             this.decompressor = decompressor;
             this.codecRegistry = codecRegistry;
-
         }
 
         public ReadSession createNextSession() {

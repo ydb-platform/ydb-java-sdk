@@ -18,30 +18,30 @@ jobs:
 
     steps:
       - name: Checkout YDB Java SDK
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: sdk
 
       - name: Checkout YDB YC Auth provider
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ydb-platform/ydb-java-yc
           path: yc
 
       - name: Checkout YDB JDBC Driver
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ydb-platform/ydb-jdbc-driver
           path: jdbc
 
       - name: Checkout YDB Java Examples
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ydb-platform/ydb-java-examples
           path: examples
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: 17
           distribution: 'temurin'
@@ -82,24 +82,24 @@ jobs:
 
     steps:
       - name: Checkout YDB Java SDK
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: sdk
 
       - name: Checkout YDB YC Auth provider
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ydb-platform/ydb-java-yc
           path: yc
 
       - name: Checkout YDB JDBC Driver
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ydb-platform/ydb-jdbc-driver
           path: jdbc
 
       - name: Set up Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           java-version: ${{ matrix.java }}
           distribution: 'temurin'
@@ -141,7 +141,7 @@ jobs:
         run: mvn $MAVEN_ARGS -Dydb.sdk.version=$SDK_VERSION install
 
       - name: Checkout YDB Java Examples
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: ydb-platform/ydb-java-examples
           path: examples

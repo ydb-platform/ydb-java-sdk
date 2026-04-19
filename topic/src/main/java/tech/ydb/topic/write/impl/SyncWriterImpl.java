@@ -13,50 +13,59 @@ import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
+import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.SyncWriter;
 
 /**
  * @author Nikolay Perfilov
  */
-public class SyncWriterImpl extends WriterImpl implements SyncWriter {
-    //private static final Logger logger = LoggerFactory.getLogger(SyncWriterImpl.class);
+public class SyncWriterImpl implements SyncWriter {
+    private final WriterImpl impl;
 
     public SyncWriterImpl(TopicRpc topicRpc,
                           WriterSettings settings,
                           Executor compressionExecutor,
                           @Nonnull CodecRegistry codecRegistry) {
-        super(topicRpc, settings, compressionExecutor, codecRegistry);
+        this.impl = new WriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
     }
 
     @Override
     public void init() {
-        initImpl();
+        impl.init();
     }
 
     @Override
     public InitResult initAndWait() {
-        return initImpl().join();
+        return impl.init().join();
     }
 
     @Override
     public void send(Message message, SendSettings sendSettings) {
-        sendImpl(message, sendSettings, false).join();
+        try {
+            impl.blockingSend(message, sendSettings);
+        } catch (InterruptedException | QueueOverflowException ex) {
+            throw new RuntimeException("Cannot send a message", ex);
+        }
     }
 
     @Override
     public void send(Message message, SendSettings sendSettings, long timeout, TimeUnit unit)
             throws InterruptedException, ExecutionException, TimeoutException {
-        sendImpl(message, sendSettings, false).get(timeout, unit);
+        try {
+            impl.blockingSend(message, sendSettings, timeout, unit);
+        } catch (QueueOverflowException ex) {
+            throw new RuntimeException("Cannot send a message", ex);
+        }
     }
 
     @Override
     public void flush() {
-        flushImpl().join();
+        impl.flush().join();
     }
 
     @Override
     public void shutdown(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException,
             TimeoutException {
-        shutdownImpl().get(timeout, unit);
+        impl.shutdown().get(timeout, unit);
     }
 }

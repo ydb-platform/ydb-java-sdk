@@ -73,6 +73,10 @@ After that you can specify the SDK modules that your project needs in the depend
 </dependencies>
 ```
 
+## Versioning Policy
+
+YDB Java SDK comply to guidelines from [SemVer2.0.0](https://semver.org/) with several [exceptions](VERSIONING.md).
+
 ## Examples ##
 
 #### Using Maven ####

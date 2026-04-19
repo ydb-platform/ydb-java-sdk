@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.table.SessionPoolStats;
@@ -20,6 +21,7 @@ import tech.ydb.table.SessionPoolStats;
 public class QueryClientImpl implements QueryClient {
     private final SessionPool pool;
     private final ScheduledExecutorService scheduler;
+    private final Tracer tracer;
 
     public QueryClientImpl(Builder builder) {
         this.pool = new SessionPool(
@@ -31,6 +33,7 @@ public class QueryClientImpl implements QueryClient {
                 builder.sessionPoolIdleDuration
         );
         this.scheduler = builder.transport.getScheduler();
+        this.tracer = builder.transport.getTracer();
     }
 
     @Override
@@ -41,6 +44,11 @@ public class QueryClientImpl implements QueryClient {
     @Override
     public ScheduledExecutorService getScheduler() {
         return scheduler;
+    }
+
+    @Override
+    public Tracer getTracer() {
+        return tracer;
     }
 
     public void updatePoolMaxSize(int maxSize) {

@@ -6,7 +6,7 @@ import java.nio.channels.Channels;
 
 import com.google.protobuf.ByteString;
 import io.grpc.ExperimentalApi;
-import org.apache.arrow.memory.RootAllocator;
+import org.apache.arrow.memory.BufferAllocator;
 import org.apache.arrow.vector.VectorLoader;
 import org.apache.arrow.vector.VectorSchemaRoot;
 import org.apache.arrow.vector.ipc.ReadChannel;
@@ -24,9 +24,9 @@ import tech.ydb.query.result.QueryResultPart;
  */
 @ExperimentalApi("ApacheArrow support is experimental and API may change without notice")
 public abstract class ApacheArrowPartsHandler implements QueryStream.PartsHandler {
-    private final RootAllocator allocator;
+    private final BufferAllocator allocator;
 
-    public ApacheArrowPartsHandler(RootAllocator allocator) {
+    public ApacheArrowPartsHandler(BufferAllocator allocator) {
         this.allocator = allocator;
     }
 

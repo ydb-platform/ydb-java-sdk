@@ -17,7 +17,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,9 @@ public class TopicReadersIntegrationTest {
 
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
+
+    @Rule
+    public final Timeout timeout = new Timeout(10, TimeUnit.SECONDS);
 
     private final static String TEST_TOPIC = "topic_readers_test";
 
@@ -223,6 +228,47 @@ public class TopicReadersIntegrationTest {
                         event.confirm(StartPartitionSessionSettings.newBuilder()
                                 .setReadOffset(2L)
                                 .setCommitOffset(2L)
+                                .build());
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        event.commit().join();
+                        for (Message msg : event.getMessages()) {
+                            Assert.assertEquals(msg.getOffset(), 2 + counter.get());
+                            long read = counter.incrementAndGet();
+                            if (new String(msg.getData()).equals("stop")) {
+                                result.complete(read);
+                            }
+                        }
+                    }
+                }).build());
+
+        reader.init().join();
+        Assert.assertEquals(Long.valueOf(4), result.join());
+        reader.shutdown().join();
+    }
+
+    @Test
+    public void readRetentionedTopicTest() throws Exception {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        AtomicLong counter = new AtomicLong();
+        CompletableFuture<Long> result = new CompletableFuture<>();
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onStartPartitionSession(StartPartitionSessionEvent event) {
+                        Assert.assertEquals(0, event.getCommittedOffset());
+                        Assert.assertEquals(0, event.getPartitionOffsets().getStart());
+                        Assert.assertEquals(6, event.getPartitionOffsets().getEnd());
+
+                        // emulate topic retention - skip first 2 message but don't commit them
+                        event.confirm(StartPartitionSessionSettings.newBuilder()
+                                .setReadOffset(2L)
                                 .build());
                     }
 

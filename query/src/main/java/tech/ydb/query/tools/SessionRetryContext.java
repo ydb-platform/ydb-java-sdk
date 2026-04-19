@@ -2,6 +2,7 @@ package tech.ydb.query.tools;
 
 import java.time.Duration;
 import java.util.Objects;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadLocalRandom;
@@ -10,6 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 import com.google.common.base.Preconditions;
@@ -19,6 +21,10 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.tracing.Scope;
+import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanKind;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
@@ -29,6 +35,9 @@ import tech.ydb.query.QuerySession;
  */
 @ParametersAreNonnullByDefault
 public class SessionRetryContext {
+    private static final String EXECUTE_SPAN_NAME = "ydb.RunWithRetry";
+    private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.Try";
+    private static final String RETRY_BACKOFF_MS_ATTR = "ydb.retry.backoff_ms";
 
     private final QueryClient queryClient;
     private final Executor executor;
@@ -136,29 +145,40 @@ public class SessionRetryContext {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
         private final AtomicInteger retryNumber = new AtomicInteger();
         private final Function<QuerySession, CompletableFuture<R>> fn;
+        private final Tracer tracer;
+        private final Span executeSpan;
+        private Span trySpan;
 
         BaseRetryableTask(Function<QuerySession, CompletableFuture<R>> fn) {
             this.fn = fn;
+            this.tracer = queryClient.getTracer();
+            this.executeSpan = tracer.startSpan(EXECUTE_SPAN_NAME, SpanKind.INTERNAL);
+
+            try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
+                this.trySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
+            }
         }
 
         CompletableFuture<R> getFuture() {
             return promise;
         }
 
-        abstract StatusCode toStatusCode(R result);
+        abstract Status toStatus(R result);
+
         abstract R toFailedResult(Result<QuerySession> sessionResult);
 
         // called on timer expiration
         @Override
         public void run() {
             if (promise.isCancelled()) {
+                finishOnCancel();
                 return;
             }
             executor.execute(this::requestSession);
         }
 
         public void requestSession() {
-            CompletableFuture<Result<QuerySession>> sessionFuture = queryClient.createSession(sessionCreationTimeout);
+            CompletableFuture<Result<QuerySession>> sessionFuture = createSessionWithRetrySpanParent();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
                 acceptSession(sessionFuture.join());
@@ -176,31 +196,40 @@ public class SessionRetryContext {
 
         private void acceptSession(@Nonnull Result<QuerySession> sessionResult) {
             if (!sessionResult.isSuccess()) {
-                handleError(sessionResult.getStatus().getCode(), toFailedResult(sessionResult));
+                handleError(sessionResult.getStatus(), toFailedResult(sessionResult));
                 return;
             }
 
             final QuerySession session = sessionResult.getValue();
             try {
-                fn.apply(session).whenComplete((fnResult, fnException) -> {
-                    try {
-                        session.close();
+                try (@SuppressWarnings("unused") Scope ignored = trySpan.makeCurrent()) {
+                    fn.apply(session).whenComplete((fnResult, fnException) -> {
+                        try {
+                            try (@SuppressWarnings("unused") Scope ignored1 = trySpan.makeCurrent()) {
+                                session.close();
 
-                        if (fnException != null) {
-                            handleException(fnException);
-                            return;
-                        }
+                                if (fnException != null) {
+                                    handleException(fnException);
+                                    return;
+                                }
 
-                        StatusCode statusCode = toStatusCode(fnResult);
-                        if (statusCode == StatusCode.SUCCESS) {
-                            promise.complete(fnResult);
-                        } else {
-                            handleError(statusCode, fnResult);
+                                Status status = toStatus(fnResult);
+                                if (status.isSuccess()) {
+                                    if (promise.complete(fnResult)) {
+                                        finishSpans(status, null);
+                                    } else {
+                                        finishOnCancel();
+                                    }
+                                } else {
+                                    handleError(status, fnResult);
+                                }
+                            }
+                        } catch (Throwable unexpected) {
+                            finishSpans(null, unexpected);
+                            promise.completeExceptionally(unexpected);
                         }
-                    } catch (Throwable unexpected) {
-                        promise.completeExceptionally(unexpected);
-                    }
-                });
+                    });
+                }
             } catch (RuntimeException ex) {
                 session.close();
                 handleException(ex);
@@ -209,23 +238,32 @@ public class SessionRetryContext {
 
         private void scheduleNext(long delayMillis) {
             if (promise.isCancelled()) {
+                finishOnCancel();
                 return;
             }
             queryClient.getScheduler().schedule(this, delayMillis, TimeUnit.MILLISECONDS);
         }
 
-        private void handleError(@Nonnull StatusCode code, R result) {
+        private void finishOnCancel() {
+            finishSpans(null, new CancellationException("RunWithRetry was cancelled"));
+        }
+
+        private void handleError(@Nonnull Status status, R result) {
             // Check retrayable status
-            if (!canRetry(code)) {
+            if (!canRetry(status.getCode())) {
+                finishSpans(status, null);
                 promise.complete(result);
                 return;
             }
 
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
-                long next = backoffTimeMillis(code, retry);
+                long next = backoffTimeMillis(status.getCode(), retry);
+                finishTrySpan(status, null);
+                startNextRetrySpan(next);
                 scheduleNext(next);
             } else {
+                finishSpans(status, null);
                 promise.complete(result);
             }
         }
@@ -233,6 +271,7 @@ public class SessionRetryContext {
         private void handleException(@Nonnull Throwable ex) {
             // Check retrayable execption
             if (!canRetry(ex)) {
+                finishSpans(null, ex);
                 promise.completeExceptionally(ex);
                 return;
             }
@@ -240,10 +279,39 @@ public class SessionRetryContext {
             int retry = retryNumber.incrementAndGet();
             if (retry <= maxRetries) {
                 long next = backoffTimeMillis(ex, retry);
+                finishTrySpan(null, ex);
+                startNextRetrySpan(next);
                 scheduleNext(next);
             } else {
+                finishSpans(null, ex);
                 promise.completeExceptionally(ex);
             }
+        }
+
+        private void startNextRetrySpan(long backoffMs) {
+            try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
+                trySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
+            }
+            trySpan.setAttribute(RETRY_BACKOFF_MS_ATTR, backoffMs);
+        }
+
+        private CompletableFuture<Result<QuerySession>> createSessionWithRetrySpanParent() {
+            try (@SuppressWarnings("unused") Scope ignored = trySpan.makeCurrent()) {
+                return queryClient.createSession(sessionCreationTimeout);
+            }
+        }
+
+        private void finishTrySpan(Status status, Throwable throwable) {
+            trySpan.setStatus(status, throwable);
+            trySpan.end();
+            trySpan = Span.NOOP;
+        }
+
+        private void finishSpans(@Nullable Status status, Throwable throwable) {
+            Throwable unwrapped = FutureTools.unwrapCompletionException(throwable);
+            finishTrySpan(status, throwable);
+            executeSpan.setStatus(status, unwrapped);
+            executeSpan.end();
         }
     }
 
@@ -256,8 +324,8 @@ public class SessionRetryContext {
         }
 
         @Override
-        StatusCode toStatusCode(Result<T> result) {
-            return result.getStatus().getCode();
+        Status toStatus(Result<T> result) {
+            return result.getStatus();
         }
 
         @Override
@@ -275,8 +343,8 @@ public class SessionRetryContext {
         }
 
         @Override
-        StatusCode toStatusCode(Status status) {
-            return status.getCode();
+        Status toStatus(Status status) {
+            return status;
         }
 
         @Override

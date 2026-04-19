@@ -29,13 +29,22 @@ public class ExternalHelperFactory extends YdbHelperFactory {
         return new YdbHelper() {
             @Override
             public GrpcTransport createTransport() {
+                return createTransport(null);
+            }
+
+            @Override
+            public GrpcTransport createTransport(TransportCustomizer customizer) {
                 GrpcTransportBuilder builder = GrpcTransport.forEndpoint(endpoint(), database());
 
                 if (authToken() != null) {
-                    builder.withAuthProvider(new TokenAuthProvider(authToken()));
+                    builder = builder.withAuthProvider(new TokenAuthProvider(authToken()));
                 }
                 if (useTls()) {
-                    builder.withSecureConnection(pemCert());
+                    builder = builder.withSecureConnection(pemCert());
+                }
+
+                if (customizer != null) {
+                    builder = customizer.apply(builder);
                 }
 
                 return builder.build();

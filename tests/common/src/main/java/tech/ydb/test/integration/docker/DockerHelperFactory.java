@@ -35,9 +35,17 @@ public class DockerHelperFactory extends YdbHelperFactory {
         return new YdbHelper() {
             @Override
             public GrpcTransport createTransport() {
+                return createTransport(null);
+            }
+
+            @Override
+            public GrpcTransport createTransport(TransportCustomizer customiser) {
                 GrpcTransportBuilder builder = GrpcTransport.forEndpoint(endpoint(), container.database());
                 if (env.ydbUseTls()) {
-                    builder.withSecureConnection(container.pemCert());
+                    builder = builder.withSecureConnection(container.pemCert());
+                }
+                if (customiser != null) {
+                    builder = customiser.apply(builder);
                 }
                 return builder.build();
             }

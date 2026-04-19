@@ -16,6 +16,9 @@
         <Logger name="tech.ydb.topic" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="tech.ydb.topic.impl.SerialExecutor" level="off" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
 
         <!-- https://www.testcontainers.org/supported_docker_environment/logging_config/ -->
         <Logger name="org.testcontainers" level="warn" />

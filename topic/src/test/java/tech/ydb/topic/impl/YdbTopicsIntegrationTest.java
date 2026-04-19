@@ -1,6 +1,7 @@
 package tech.ydb.topic.impl;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -13,7 +14,9 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
 import org.junit.FixMethodOrder;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.Timeout;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +26,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
+import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.PartitionInfo;
 import tech.ydb.topic.description.TopicDescription;
 import tech.ydb.topic.read.AsyncReader;
@@ -31,6 +35,7 @@ import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.AbstractReadEventHandler;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.settings.AlterAutoPartitioningWriteStrategySettings;
+import tech.ydb.topic.settings.AlterConsumerSettings;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.AutoPartitioningStrategy;
@@ -55,6 +60,9 @@ public class YdbTopicsIntegrationTest {
 
     @ClassRule
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
+
+    @Rule
+    public final Timeout timeout = new Timeout(10, TimeUnit.SECONDS);
 
     private final static String TEST_TOPIC = "integration_test_topic";
     private final static String TEST_OTHER_TOPIC = "integration_test_other_topic";
@@ -329,10 +337,10 @@ public class YdbTopicsIntegrationTest {
         for (PartitionInfo partition: withStats.getPartitions()) {
             Assert.assertNotNull(partition.getPartitionStats());
         }
-   }
+    }
 
     @Test
-    public void step10_invalidConsumerTest() {
+    public void step10_invalidAddConsumerTest() {
         AlterTopicSettings settings = AlterTopicSettings.newBuilder()
                 .addAddConsumer(Consumer.newBuilder()
                         .setName("WRONG_CONSUMER")
@@ -345,5 +353,41 @@ public class YdbTopicsIntegrationTest {
         Status status = client.alterTopic(TEST_TOPIC, settings).join();
         Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
         Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
+    }
+
+    @Test
+    public void step11_invalidAlterConsumerTest() {
+        AlterTopicSettings settings = AlterTopicSettings.newBuilder()
+                .addAlterConsumer(AlterConsumerSettings.newBuilder()
+                        .setName(TEST_CONSUMER2)
+                        // important and availability_period are incompatible
+                        .setImportant(true)
+                        .setAvailabilityPeriod(Duration.ofMinutes(5))
+                        .build()
+                ).build();
+
+        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
+        Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
+    }
+
+    @Test
+    public void step12_alterConsumerTest() {
+        AlterTopicSettings settings = AlterTopicSettings.newBuilder()
+                .addAlterConsumer(AlterConsumerSettings.newBuilder()
+                        .setName(TEST_CONSUMER2)
+                        .setReadFrom(Instant.EPOCH.plusSeconds(10))
+                        .setAvailabilityPeriod(Duration.ofMinutes(5))
+                        .build()
+                ).build();
+
+        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Assert.assertTrue("Alter must be OK, but got status " + status, status.isSuccess());
+
+        ConsumerDescription description = client.describeConsumer(TEST_TOPIC, TEST_CONSUMER2).join().getValue();
+
+        Assert.assertEquals(TEST_CONSUMER2, description.getConsumer().getName());
+        Assert.assertEquals(Instant.EPOCH.plusSeconds(10), description.getConsumer().getReadFrom());
+        Assert.assertEquals(Duration.ofMinutes(5), description.getConsumer().getAvailabilityPeriod());
    }
 }

@@ -1,4 +1,5 @@
 ## 2.4.0 ##
+**API breaking change: tech.ydb.topic.decription.Codec became interface**
 * Core: Upgrade to grpc-java v1.68.3
 * Core: Upgrade to use slf4j2
 * Core: Removed thread lock on the waiting of channel ready
@@ -13,6 +14,14 @@
 * Query: Added ScriptClient with support of long-life scripts
 * Query: Added support of ApacheArrow for query execution
 * Tests: Updated testcontainers to 2.0.3
+
+## 2.3.33 ##
+* Topic: Fixed race between decoder and function that publishes messages to user
+
+## 2.3.32 ##
+* Topic: Added support of availabilityPeriod to AlterConsumerSettings
+* Topic: Added partitionMaxInFlightBytes option to ReaderSettings
+* Coordination: Fixed NPE on session stoping before connect
 
 ## 2.3.31 ##
 * Topic: Added support of availabilityPeriod to topic consumer
