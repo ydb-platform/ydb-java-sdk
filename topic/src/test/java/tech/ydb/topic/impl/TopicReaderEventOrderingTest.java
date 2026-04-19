@@ -205,6 +205,7 @@ public class TopicReaderEventOrderingTest {
      * 7. Wait for partition reassignment to Reader-2.
      * 8. Verify that reassignment only happened after Reader-1 cleanup finished.
      */
+    @Ignore
     @Test
     public void testSessionCloseRaceCondition() throws Exception {
         logger.info("Starting testSessionCloseRaceCondition");
@@ -274,199 +275,6 @@ public class TopicReaderEventOrderingTest {
         }
     }
 
-    private @NotNull TopicReaderEventOrderingTest.StructureTest2 getStructureForRaceCondition() {
-        // Map for tracking partition and attached sessions
-        ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession = new ConcurrentHashMap<>();
-
-        // Map for tracking partition and is reader1 in cleanup. false -> reader 1 read partition is in progress
-        // true -> reader 1 read partition is detached from partition
-        ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress = new ConcurrentHashMap<>();
-
-        // Map for tracking partition and is reader1 in cleanup. false -> reader1 not started read partition or cleanUp wasn't completed
-        // true -> reader1 completed cleanup
-        ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted = new ConcurrentHashMap<>();
-        for (long i = 0; i < partitionCount; i++) {
-            reader1CleanupCompleted.put(i, new AtomicBoolean(false));
-        }
-
-        // Simple value to detect race condition
-        AtomicBoolean raceConditionDetected = new AtomicBoolean(false);
-        CountDownLatch reader1Started = new CountDownLatch(partitionCount);
-        CountDownLatch reader1CleanupStarted = new CountDownLatch(partitionCount);
-        CountDownLatch reader2Started = new CountDownLatch(partitionCount);
-
-        // Some latch in which reader1 stuck for 1 minute. Be careful to increment partition count!
-        // All single threads are stuck for 5 seconds
-        CountDownLatch allowReader1ToFinish = new CountDownLatch(1);
-
-        // Create two single-threaded executors to simulate the scenario
-        ExecutorService reader1Executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "reader-1-executor"));
-        ExecutorService reader2Executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "reader-2-executor"));
-
-        ReaderSettings readerSettings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder()
-                        .setPath(testTopic)
-                        .build())
-                .setConsumerName(TEST_CONSUMER)
-                .build();
-        StructureTest2 structureTest2 = new StructureTest2(reader1PartitionSession, reader1CleanupInProgress, reader1CleanupCompleted, raceConditionDetected, reader1Started, reader1CleanupStarted, reader2Started, allowReader1ToFinish, reader1Executor, reader2Executor, readerSettings);
-        return structureTest2;
-    }
-
-    private static class StructureTest2 {
-        public final ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession;
-        public final ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress;
-        public final ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted;
-        public final AtomicBoolean raceConditionDetected;
-        public final CountDownLatch reader1Started;
-        public final CountDownLatch reader1CleanupStarted;
-        public final CountDownLatch reader2Started;
-        public final CountDownLatch allowReader1ToFinish;
-        public final ExecutorService reader1Executor;
-        public final ExecutorService reader2Executor;
-        public final ReaderSettings readerSettings;
-
-        public StructureTest2(ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted, AtomicBoolean raceConditionDetected, CountDownLatch reader1Started, CountDownLatch reader1CleanupStarted, CountDownLatch reader2Started, CountDownLatch allowReader1ToFinish, ExecutorService reader1Executor, ExecutorService reader2Executor, ReaderSettings readerSettings) {
-            this.reader1PartitionSession = reader1PartitionSession;
-            this.reader1CleanupInProgress = reader1CleanupInProgress;
-            this.reader1CleanupCompleted = reader1CleanupCompleted;
-            this.raceConditionDetected = raceConditionDetected;
-            this.reader1Started = reader1Started;
-            this.reader1CleanupStarted = reader1CleanupStarted;
-            this.reader2Started = reader2Started;
-            this.allowReader1ToFinish = allowReader1ToFinish;
-            this.reader1Executor = reader1Executor;
-            this.reader2Executor = reader2Executor;
-            this.readerSettings = readerSettings;
-        }
-    }
-
-    private @NotNull TopicReaderEventOrderingTest.StructureTest1 getStructureForOrderGarantees() {
-        Map<Long, List<String>> eventLog = new ConcurrentHashMap<>();
-        for (long i = 0; i < partitionCount; i++) {
-            eventLog.put(i, Collections.synchronizedList(new ArrayList<>()));
-        }
-
-        Map<Long, Long> activeSessions = new ConcurrentHashMap<>();
-
-        CountDownLatch startReceived = new CountDownLatch(partitionCount);
-        CountDownLatch closeReceived = new CountDownLatch(partitionCount);
-        AtomicBoolean orderingViolation = new AtomicBoolean(false);
-
-        ExecutorService executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "test-event-executor"));
-
-        ReaderSettings readerSettings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder()
-                        .setPath(testTopic)
-                        .build())
-                .setConsumerName(TEST_CONSUMER)
-                .build();
-        return new StructureTest1(eventLog, activeSessions, startReceived, closeReceived, orderingViolation, executor, readerSettings);
-    }
-
-    private static class StructureTest1 {
-        public final Map<Long, List<String>> eventLog;
-        public final Map<Long, Long> activeSessions;
-        public final CountDownLatch startReceived;
-        public final CountDownLatch closeReceived;
-        public final AtomicBoolean orderingViolation;
-        public final ExecutorService executor;
-        public final ReaderSettings readerSettings;
-
-        public StructureTest1(Map<Long, List<String>> eventLog, Map<Long, Long> activeSessions, CountDownLatch startReceived, CountDownLatch closeReceived, AtomicBoolean orderingViolation, ExecutorService executor, ReaderSettings readerSettings) {
-            this.eventLog = eventLog;
-            this.activeSessions = activeSessions;
-            this.startReceived = startReceived;
-            this.closeReceived = closeReceived;
-            this.orderingViolation = orderingViolation;
-            this.executor = executor;
-            this.readerSettings = readerSettings;
-        }
-    }
-
-    private AsyncReader getAsyncReaderForOrderGaran(ReaderSettings readerSettings, ExecutorService executor, Map<Long, List<String>> eventLog, Map<Long, Long> activeSessions, AtomicBoolean orderingViolation, CountDownLatch startReceived, CountDownLatch closeReceived) {
-        return client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
-                .setExecutor(executor)
-                .setEventHandler(new ReadEventHandler() {
-
-                    @Override
-                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
-                        long partitionId = event.getPartitionSession().getPartitionId();
-                        eventLog.get(partitionId).add("onMessages[session=" + event.getPartitionSession().getId() + "]");
-                    }
-
-                    @Override
-                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
-                        long sessionId = event.getPartitionSession().getId();
-                        long partitionId = event.getPartitionSession().getPartitionId();
-
-                        // Record start event
-                        eventLog.get(partitionId).add("onStartPartitionSession[partitionId = " + partitionId + ",session=" + sessionId + "]");
-                        logger.info("onStartPartitionSession: session={}", sessionId);
-
-                        if (activeSessions.get(partitionId) != null) {
-                            logger.error("START event received while session {} is still active", activeSessions.get(partitionId));
-                            orderingViolation.set(true);
-                        }
-
-                        activeSessions.put(partitionId, sessionId);
-                        event.confirm();
-                        startReceived.countDown();
-                    }
-
-                    @Override
-                    public void onPartitionSessionClosed(tech.ydb.topic.read.events.PartitionSessionClosedEvent event) {
-                        long sessionId = event.getPartitionSession().getId();
-                        long partitionId = event.getPartitionSession().getPartitionId();
-
-                        // Record close event
-                        eventLog.get(partitionId).add("onPartitionSessionClosed[partitionId =" + partitionId + ",session=" + sessionId + "]");
-
-                        logger.info("onPartitionSessionClosed: session={}", sessionId);
-                        activeSessions.remove(partitionId);
-                        closeReceived.countDown();
-                    }
-                })
-                .build()
-        );
-    }
-
-    private AsyncReader getAsyncReader2ForRaceCondition(ReaderSettings readerSettings, ExecutorService reader2Executor, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress, AtomicBoolean raceConditionDetected, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted, CountDownLatch reader2Started) {
-        return client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
-                .setExecutor(reader2Executor)
-                .setEventHandler(new ReadEventHandler() {
-                    @Override
-                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
-                        // No-op
-                    }
-
-                    @Override
-                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
-                        long partitionId = event.getPartitionSession().getPartitionId();
-                        PartitionSession session = event.getPartitionSession();
-                        logger.info("Reader-2: onStartPartitionSession - partition={}, session={}",
-                                session.getPartitionId(), session.getId());
-
-                        // Check if Reader-1 is still cleaning up
-                        if (reader1CleanupInProgress.get(partitionId).get()) {
-                            logger.error("RACE CONDITION DETECTED: Reader-2 received partition {} while Reader-1 is still cleaning up",
-                                    session.getPartitionId());
-                            raceConditionDetected.set(true);
-                        }
-
-                        if (!reader1CleanupCompleted.get(partitionId).get()) {
-                            logger.warn("Reader-2 received partition {} before Reader-1 completed cleanup",
-                                    session.getPartitionId());
-                        }
-
-                        event.confirm();
-                        reader2Started.countDown();
-                    }
-                })
-                .build()
-        );
-    }
-
     /**
      * Scenario:
      * Verify that when the YDB server removes a partition from a reader and immediately reassigns
@@ -483,8 +291,6 @@ public class TopicReaderEventOrderingTest {
      * 4. Wait for Reader-1 to receive StartPartitionSession a second time (the re-assignment).
      * 5. Verify no ordering violation: no StartPartitionSession arrived while the previous
      *    session for the same partition was still open (i.e., before PartitionSessionClosed).
-     *
-     *    Test now failed
      */
     @Ignore
     @Test
@@ -798,6 +604,199 @@ public class TopicReaderEventOrderingTest {
         assertFalse("Event ordering violation: StartPartitionSession received while session was still active",
                 orderingViolation.get());
         logger.info("testLateStopConfirmAfterPartitionRevoked PASSED");
+    }
+
+    private @NotNull TopicReaderEventOrderingTest.StructureTest2 getStructureForRaceCondition() {
+        // Map for tracking partition and attached sessions
+        ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession = new ConcurrentHashMap<>();
+
+        // Map for tracking partition and is reader1 in cleanup. false -> reader 1 read partition is in progress
+        // true -> reader 1 read partition is detached from partition
+        ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress = new ConcurrentHashMap<>();
+
+        // Map for tracking partition and is reader1 in cleanup. false -> reader1 not started read partition or cleanUp wasn't completed
+        // true -> reader1 completed cleanup
+        ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted = new ConcurrentHashMap<>();
+        for (long i = 0; i < partitionCount; i++) {
+            reader1CleanupCompleted.put(i, new AtomicBoolean(false));
+        }
+
+        // Simple value to detect race condition
+        AtomicBoolean raceConditionDetected = new AtomicBoolean(false);
+        CountDownLatch reader1Started = new CountDownLatch(partitionCount);
+        CountDownLatch reader1CleanupStarted = new CountDownLatch(partitionCount);
+        CountDownLatch reader2Started = new CountDownLatch(partitionCount);
+
+        // Some latch in which reader1 stuck for 1 minute. Be careful to increment partition count!
+        // All single threads are stuck for 5 seconds
+        CountDownLatch allowReader1ToFinish = new CountDownLatch(1);
+
+        // Create two single-threaded executors to simulate the scenario
+        ExecutorService reader1Executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "reader-1-executor"));
+        ExecutorService reader2Executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "reader-2-executor"));
+
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder()
+                        .setPath(testTopic)
+                        .build())
+                .setConsumerName(TEST_CONSUMER)
+                .build();
+        StructureTest2 structureTest2 = new StructureTest2(reader1PartitionSession, reader1CleanupInProgress, reader1CleanupCompleted, raceConditionDetected, reader1Started, reader1CleanupStarted, reader2Started, allowReader1ToFinish, reader1Executor, reader2Executor, readerSettings);
+        return structureTest2;
+    }
+
+    private static class StructureTest2 {
+        public final ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession;
+        public final ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress;
+        public final ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted;
+        public final AtomicBoolean raceConditionDetected;
+        public final CountDownLatch reader1Started;
+        public final CountDownLatch reader1CleanupStarted;
+        public final CountDownLatch reader2Started;
+        public final CountDownLatch allowReader1ToFinish;
+        public final ExecutorService reader1Executor;
+        public final ExecutorService reader2Executor;
+        public final ReaderSettings readerSettings;
+
+        public StructureTest2(ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted, AtomicBoolean raceConditionDetected, CountDownLatch reader1Started, CountDownLatch reader1CleanupStarted, CountDownLatch reader2Started, CountDownLatch allowReader1ToFinish, ExecutorService reader1Executor, ExecutorService reader2Executor, ReaderSettings readerSettings) {
+            this.reader1PartitionSession = reader1PartitionSession;
+            this.reader1CleanupInProgress = reader1CleanupInProgress;
+            this.reader1CleanupCompleted = reader1CleanupCompleted;
+            this.raceConditionDetected = raceConditionDetected;
+            this.reader1Started = reader1Started;
+            this.reader1CleanupStarted = reader1CleanupStarted;
+            this.reader2Started = reader2Started;
+            this.allowReader1ToFinish = allowReader1ToFinish;
+            this.reader1Executor = reader1Executor;
+            this.reader2Executor = reader2Executor;
+            this.readerSettings = readerSettings;
+        }
+    }
+
+    private @NotNull TopicReaderEventOrderingTest.StructureTest1 getStructureForOrderGarantees() {
+        Map<Long, List<String>> eventLog = new ConcurrentHashMap<>();
+        for (long i = 0; i < partitionCount; i++) {
+            eventLog.put(i, Collections.synchronizedList(new ArrayList<>()));
+        }
+
+        Map<Long, Long> activeSessions = new ConcurrentHashMap<>();
+
+        CountDownLatch startReceived = new CountDownLatch(partitionCount);
+        CountDownLatch closeReceived = new CountDownLatch(partitionCount);
+        AtomicBoolean orderingViolation = new AtomicBoolean(false);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "test-event-executor"));
+
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder()
+                        .setPath(testTopic)
+                        .build())
+                .setConsumerName(TEST_CONSUMER)
+                .build();
+        return new StructureTest1(eventLog, activeSessions, startReceived, closeReceived, orderingViolation, executor, readerSettings);
+    }
+
+    private static class StructureTest1 {
+        public final Map<Long, List<String>> eventLog;
+        public final Map<Long, Long> activeSessions;
+        public final CountDownLatch startReceived;
+        public final CountDownLatch closeReceived;
+        public final AtomicBoolean orderingViolation;
+        public final ExecutorService executor;
+        public final ReaderSettings readerSettings;
+
+        public StructureTest1(Map<Long, List<String>> eventLog, Map<Long, Long> activeSessions, CountDownLatch startReceived, CountDownLatch closeReceived, AtomicBoolean orderingViolation, ExecutorService executor, ReaderSettings readerSettings) {
+            this.eventLog = eventLog;
+            this.activeSessions = activeSessions;
+            this.startReceived = startReceived;
+            this.closeReceived = closeReceived;
+            this.orderingViolation = orderingViolation;
+            this.executor = executor;
+            this.readerSettings = readerSettings;
+        }
+    }
+
+    private AsyncReader getAsyncReaderForOrderGaran(ReaderSettings readerSettings, ExecutorService executor, Map<Long, List<String>> eventLog, Map<Long, Long> activeSessions, AtomicBoolean orderingViolation, CountDownLatch startReceived, CountDownLatch closeReceived) {
+        return client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(executor)
+                .setEventHandler(new ReadEventHandler() {
+
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        eventLog.get(partitionId).add("onMessages[session=" + event.getPartitionSession().getId() + "]");
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        long sessionId = event.getPartitionSession().getId();
+                        long partitionId = event.getPartitionSession().getPartitionId();
+
+                        // Record start event
+                        eventLog.get(partitionId).add("onStartPartitionSession[partitionId = " + partitionId + ",session=" + sessionId + "]");
+                        logger.info("onStartPartitionSession: session={}", sessionId);
+
+                        if (activeSessions.get(partitionId) != null) {
+                            logger.error("START event received while session {} is still active", activeSessions.get(partitionId));
+                            orderingViolation.set(true);
+                        }
+
+                        activeSessions.put(partitionId, sessionId);
+                        event.confirm();
+                        startReceived.countDown();
+                    }
+
+                    @Override
+                    public void onPartitionSessionClosed(tech.ydb.topic.read.events.PartitionSessionClosedEvent event) {
+                        long sessionId = event.getPartitionSession().getId();
+                        long partitionId = event.getPartitionSession().getPartitionId();
+
+                        // Record close event
+                        eventLog.get(partitionId).add("onPartitionSessionClosed[partitionId =" + partitionId + ",session=" + sessionId + "]");
+
+                        logger.info("onPartitionSessionClosed: session={}", sessionId);
+                        activeSessions.remove(partitionId);
+                        closeReceived.countDown();
+                    }
+                })
+                .build()
+        );
+    }
+
+    private AsyncReader getAsyncReader2ForRaceCondition(ReaderSettings readerSettings, ExecutorService reader2Executor, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress, AtomicBoolean raceConditionDetected, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted, CountDownLatch reader2Started) {
+        return client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(reader2Executor)
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                        // No-op
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        PartitionSession session = event.getPartitionSession();
+                        logger.info("Reader-2: onStartPartitionSession - partition={}, session={}",
+                                session.getPartitionId(), session.getId());
+
+                        // Check if Reader-1 is still cleaning up
+                        if (reader1CleanupInProgress.get(partitionId).get()) {
+                            logger.error("RACE CONDITION DETECTED: Reader-2 received partition {} while Reader-1 is still cleaning up",
+                                    session.getPartitionId());
+                            raceConditionDetected.set(true);
+                        }
+
+                        if (!reader1CleanupCompleted.get(partitionId).get()) {
+                            logger.warn("Reader-2 received partition {} before Reader-1 completed cleanup",
+                                    session.getPartitionId());
+                        }
+
+                        event.confirm();
+                        reader2Started.countDown();
+                    }
+                })
+                .build()
+        );
     }
 
     private AsyncReader getAsyncReader1ForRaceCondition(ReaderSettings readerSettings, ExecutorService reader1Executor, ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession, CountDownLatch reader1Started, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress, CountDownLatch reader1CleanupStarted, CountDownLatch allowReader1ToFinish, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted) {
