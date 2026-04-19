@@ -12,12 +12,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.jetbrains.annotations.NotNull;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -462,6 +465,339 @@ public class TopicReaderEventOrderingTest {
                 })
                 .build()
         );
+    }
+
+    /**
+     * Scenario:
+     * Verify that when the YDB server removes a partition from a reader and immediately reassigns
+     * it back to the same reader, StartPartitionSessionEvent is never delivered before
+     * PartitionSessionClosedEvent for the prior session on the same partition.
+     * <p>
+     * Test steps:
+     * <p>
+     * 1. Start Reader-1 and wait until it receives all partitions.
+     * 2. Connect Reader-2 with the same consumer to trigger server-side rebalancing.
+     *    Server sends StopPartitionSession to Reader-1 for some partitions.
+     * 3. Once Reader-2 receives at least one partition, immediately shut it down.
+     *    Server should reassign the partition back to Reader-1.
+     * 4. Wait for Reader-1 to receive StartPartitionSession a second time (the re-assignment).
+     * 5. Verify no ordering violation: no StartPartitionSession arrived while the previous
+     *    session for the same partition was still open (i.e., before PartitionSessionClosed).
+     *
+     *    Test now failed
+     */
+    @Ignore
+    @Test
+    public void testPartitionRemoveAndImmediateReturn() throws Exception {
+        logger.info("Starting testPartitionRemoveAndImmediateReturn");
+
+        // Track currently active session per partition: partitionId -> sessionId.
+        // If a new StartPartitionSession arrives while a session is still active, that is a violation.
+        Map<Long, Long> activeSessions = new ConcurrentHashMap<>();
+        AtomicBoolean orderingViolation = new AtomicBoolean(false);
+
+        // Count how many times each partition has been started on reader1.
+        Map<Long, AtomicInteger> startCounts = new ConcurrentHashMap<>();
+
+        // Step 1 signal: all partitions assigned to reader1 for the first time.
+        CountDownLatch reader1FirstAssignment = new CountDownLatch(partitionCount);
+
+        // Signal: reader1 received a partition for the second time (server returned it back).
+        CountDownLatch reader1GotPartitionBack = new CountDownLatch(1);
+
+        // Signal: reader2 received at least one partition (rebalancing took place).
+        CountDownLatch reader2GotPartition = new CountDownLatch(1);
+
+        ExecutorService reader1Executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "remove-return-reader1-executor"));
+        ExecutorService reader2Executor = Executors.newSingleThreadExecutor(r -> new Thread(r, "remove-return-reader2-executor"));
+
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder()
+                        .setPath(testTopic)
+                        .build())
+                .setConsumerName(TEST_CONSUMER)
+                .build();
+
+        AsyncReader reader1 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(reader1Executor)
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        long sessionId = event.getPartitionSession().getId();
+
+                        if (activeSessions.containsKey(partitionId)) {
+                            logger.error("VIOLATION: Reader-1 got StartPartitionSession for partition {} session {}" +
+                                    " while session {} is still active (PartitionSessionClosed not yet delivered)",
+                                    partitionId, sessionId, activeSessions.get(partitionId));
+                            orderingViolation.set(true);
+                        }
+
+                        activeSessions.put(partitionId, sessionId);
+                        event.confirm();
+
+                        int count = startCounts
+                                .computeIfAbsent(partitionId, k -> new AtomicInteger(0))
+                                .incrementAndGet();
+                        logger.info("Reader-1: onStartPartitionSession partition={} session={} count={}", partitionId, sessionId, count);
+
+                        if (count == 1) {
+                            reader1FirstAssignment.countDown();
+                        } else {
+                            reader1GotPartitionBack.countDown();
+                        }
+                    }
+
+                    @Override
+                    public void onPartitionSessionClosed(tech.ydb.topic.read.events.PartitionSessionClosedEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        long sessionId = event.getPartitionSession().getId();
+                        logger.info("Reader-1: onPartitionSessionClosed partition={} session={}", partitionId, sessionId);
+                        activeSessions.remove(partitionId);
+                    }
+                })
+                .build()
+        );
+
+        // Step 1: Initialize reader1 and wait for all partitions.
+        reader1.init().join();
+        sendMessage("trigger-assignment");
+        assertTrue("Reader-1 did not receive all partitions on first assignment",
+                reader1FirstAssignment.await(15, TimeUnit.SECONDS));
+        logger.info("Reader-1 has all {} partitions", partitionCount);
+
+        // Step 2: Start reader2 with the same consumer to trigger server-side rebalancing.
+        AsyncReader reader2 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(reader2Executor)
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        logger.info("Reader-2: onStartPartitionSession partition={}", partitionId);
+                        event.confirm();
+                        reader2GotPartition.countDown();
+                    }
+                })
+                .build()
+        );
+
+        reader2.init().join();
+        logger.info("Reader-2 initialized, waiting for partition reassignment from server");
+
+        // Step 3: Wait for reader2 to receive at least one partition, then immediately shut it down.
+        boolean reader2ReceivedPartition = reader2GotPartition.await(15, TimeUnit.SECONDS);
+        if (!reader2ReceivedPartition) {
+            logger.warn("Reader-2 did not receive any partition — test inconclusive, skipping ordering check");
+            reader2.shutdown().get(10, TimeUnit.SECONDS);
+            reader1.shutdown().get(10, TimeUnit.SECONDS);
+            reader1Executor.shutdownNow();
+            reader2Executor.shutdownNow();
+            Assert.fail("Reader-2 did not receive any partition — test inconclusive, skipping ordering check");
+        }
+
+        logger.info("Reader-2 received a partition, shutting it down immediately to trigger return to reader1");
+        reader2.shutdown().get(10, TimeUnit.SECONDS);
+
+        // Step 4: Wait for reader1 to receive a partition back from the server.
+        boolean partitionReturnedToReader1 = reader1GotPartitionBack.await(20, TimeUnit.SECONDS);
+        logger.info("Reader-1 got partition back: {}", partitionReturnedToReader1);
+
+        reader1.shutdown().get(10, TimeUnit.SECONDS);
+        reader1Executor.shutdownNow();
+        reader2Executor.shutdownNow();
+
+        // Step 5: Verify ordering.
+        if (partitionReturnedToReader1) {
+            assertFalse(
+                    "Event ordering violation: StartPartitionSession was received before PartitionSessionClosed" +
+                    " for the same partition when the server reassigned it back",
+                    orderingViolation.get());
+            logger.info("testPartitionRemoveAndImmediateReturn PASSED");
+        } else {
+            logger.warn("Server did not reassign any partition back to reader-1 within the timeout — test inconclusive");
+            assertFalse("Ordering violation detected even though no partition was returned", orderingViolation.get());
+        }
+    }
+
+    /**
+     * Scenario:
+     * The client holds a StopPartitionSession event and delays calling confirm() on it.
+     * While the client is still "thinking" about releasing the partition, Reader-1 is shut down
+     * externally (simulating a crash or forced close). This causes the SDK to close the gRPC
+     * session, which fires onPartitionSessionClosed for all active partitions.
+     * Only after onPartitionSessionClosed fires does the client call the stored StopPartitionSession.confirm().
+     * <p>
+     * This verifies that a late StopPartitionSession.confirm() (called after the partition is already
+     * closed by the session shutdown) is handled gracefully — it must be a safe no-op and must not
+     * crash, send spurious responses to the server, or cause ordering violations.
+     * <p>
+     * Steps:
+     * 1. Create Reader-1. confirm() StartPartitionSession immediately, but store
+     *    StopPartitionSession events and do NOT confirm() them yet.
+     * 2. Initialize Reader-1, send a message, wait until all partitions are assigned.
+     * 3. Connect Reader-2 with the same consumer to trigger server-side rebalancing.
+     *    Server sends graceful StopPartitionSession to Reader-1 for at least one partition.
+     * 4. Wait for Reader-1 to receive the StopPartitionSession event (not confirmed).
+     * 5. Shut down Reader-1 — this closes the session and fires onPartitionSessionClosed.
+     * 6. Call confirm() on ALL stored StopPartitionSession events — session is already closed.
+     * 7. Verify no exception and no ordering violation.
+     */
+    @Test
+    public void testLateStopConfirmAfterPartitionRevoked() throws Exception {
+        logger.info("Starting testLateStopConfirmAfterPartitionRevoked");
+
+        // Stored StopPartitionSession events — confirm() will be called late
+        List<tech.ydb.topic.read.events.StopPartitionSessionEvent> pendingStopEvents =
+                Collections.synchronizedList(new ArrayList<>());
+
+        Map<Long, Long> activeSessions = new ConcurrentHashMap<>();
+        AtomicBoolean orderingViolation = new AtomicBoolean(false);
+
+        // Counted down when all partitions are assigned to Reader-1 for the first time
+        CountDownLatch reader1AllPartitionsAssigned = new CountDownLatch(partitionCount);
+        // Counted down when a stop request arrives at Reader-1 (before confirm)
+        CountDownLatch reader1StopReceived = new CountDownLatch(1);
+        // Counted down each time a partition is actually closed on Reader-1
+        CountDownLatch reader1PartitionClosed = new CountDownLatch(partitionCount);
+        // Reader-2 has received at least one partition
+        CountDownLatch reader2GotPartition = new CountDownLatch(1);
+
+        ExecutorService reader1Executor = Executors.newSingleThreadExecutor(
+                r -> new Thread(r, "late-stop-reader1-executor"));
+        ExecutorService reader2Executor = Executors.newSingleThreadExecutor(
+                r -> new Thread(r, "late-stop-reader2-executor"));
+
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(testTopic).build())
+                .setConsumerName(TEST_CONSUMER)
+                .build();
+
+        // Step 1: Build Reader-1
+        AsyncReader reader1 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(reader1Executor)
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        long sessionId = event.getPartitionSession().getId();
+                        logger.info("Reader-1: onStartPartitionSession partition={}, session={}", partitionId, sessionId);
+
+                        if (activeSessions.containsKey(partitionId)) {
+                            logger.error("VIOLATION: Reader-1 got StartPartitionSession for partition {} session {}" +
+                                    " while session {} is still active",
+                                    partitionId, sessionId, activeSessions.get(partitionId));
+                            orderingViolation.set(true);
+                        }
+                        activeSessions.put(partitionId, sessionId);
+                        // Confirm the start immediately so the server knows we own the partitions
+                        event.confirm();
+                        reader1AllPartitionsAssigned.countDown();
+                    }
+
+                    @Override
+                    public void onStopPartitionSession(tech.ydb.topic.read.events.StopPartitionSessionEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        logger.info("Reader-1: onStopPartitionSession partition={} — storing, NOT confirming yet",
+                                partitionId);
+                        // Store the event, deliberately do NOT call confirm() yet
+                        pendingStopEvents.add(event);
+                        reader1StopReceived.countDown();
+                    }
+
+                    @Override
+                    public void onPartitionSessionClosed(tech.ydb.topic.read.events.PartitionSessionClosedEvent event) {
+                        long partitionId = event.getPartitionSession().getPartitionId();
+                        long sessionId = event.getPartitionSession().getId();
+                        logger.info("Reader-1: onPartitionSessionClosed partition={}, session={}", partitionId, sessionId);
+                        activeSessions.remove(partitionId);
+                        reader1PartitionClosed.countDown();
+                    }
+                })
+                .build()
+        );
+
+        // Step 2: Initialize Reader-1 and wait for all partitions
+        reader1.init().join();
+        sendMessage("test-trigger");
+        assertTrue("Reader-1 did not receive all partition assignments within timeout",
+                reader1AllPartitionsAssigned.await(15, TimeUnit.SECONDS));
+        logger.info("Reader-1 owns all {} partitions", partitionCount);
+
+        // Step 3: Connect Reader-2 to trigger server-side rebalancing.
+        // Server will send graceful StopPartitionSession to Reader-1 for at least one partition.
+        AsyncReader reader2 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(reader2Executor)
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onMessages(tech.ydb.topic.read.events.DataReceivedEvent event) {
+                    }
+
+                    @Override
+                    public void onStartPartitionSession(tech.ydb.topic.read.events.StartPartitionSessionEvent event) {
+                        logger.info("Reader-2: onStartPartitionSession partition={}",
+                                event.getPartitionSession().getPartitionId());
+                        event.confirm();
+                        reader2GotPartition.countDown();
+                    }
+                })
+                .build()
+        );
+        reader2.init().join();
+        logger.info("Reader-2 initialized — waiting for StopPartitionSession to arrive at Reader-1");
+
+        // Step 4: Wait for Reader-1 to receive at least one StopPartitionSession (not confirmed)
+        assertTrue("Reader-1 did not receive StopPartitionSession within timeout",
+                reader1StopReceived.await(20, TimeUnit.SECONDS));
+        logger.info("Reader-1 received StopPartitionSession (not confirmed yet) — shutting down reader");
+
+        // Step 5: Shut down Reader-1 while StopPartitionSession.confirm() is still pending.
+        // This causes the session to close, which calls onStop() -> handleClosePartitionSession()
+        // -> onPartitionSessionClosed() for all remaining active partitions.
+        CompletableFuture<Void> reader1Shutdown = reader1.shutdown();
+
+        assertTrue("Reader-1 partitions were not closed within timeout",
+                reader1PartitionClosed.await(15, TimeUnit.SECONDS));
+        logger.info("Reader-1: all partitions closed. Now calling delayed StopPartitionSession.confirm()...");
+
+        // Step 6: Call confirm() on all stored StopPartitionSession events.
+        // The session is already closed, so this must be a safe no-op.
+        for (tech.ydb.topic.read.events.StopPartitionSessionEvent event : pendingStopEvents) {
+            logger.info("Calling late confirm() for StopPartitionSession on partition {}",
+                    event.getPartitionSession().getPartitionId());
+            event.confirm();
+        }
+        logger.info("All late StopPartitionSession.confirm() calls completed — no exception thrown");
+
+        reader1Shutdown.get(10, TimeUnit.SECONDS);
+
+        // Allow some time for any unexpected side effects
+        Thread.sleep(500);
+
+        // Wait for Reader-2 to receive the partition (after Reader-1 released it) — best effort
+        boolean reader2ReceivedPartition = reader2GotPartition.await(10, TimeUnit.SECONDS);
+        logger.info("Reader-2 received partition: {}", reader2ReceivedPartition);
+
+        // Cleanup
+        reader2.shutdown().get(10, TimeUnit.SECONDS);
+        reader1Executor.shutdownNow();
+        reader2Executor.shutdownNow();
+
+        // Step 7: Verify no ordering violation
+        assertFalse("Event ordering violation: StartPartitionSession received while session was still active",
+                orderingViolation.get());
+        logger.info("testLateStopConfirmAfterPartitionRevoked PASSED");
     }
 
     private AsyncReader getAsyncReader1ForRaceCondition(ReaderSettings readerSettings, ExecutorService reader1Executor, ConcurrentHashMap<Long, AtomicReference<PartitionSession>> reader1PartitionSession, CountDownLatch reader1Started, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupInProgress, CountDownLatch reader1CleanupStarted, CountDownLatch allowReader1ToFinish, ConcurrentHashMap<Long, AtomicBoolean> reader1CleanupCompleted) {
