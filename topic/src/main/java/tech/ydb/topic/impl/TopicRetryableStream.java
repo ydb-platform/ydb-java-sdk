@@ -49,7 +49,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         TopicStream<R, W> stream = createNewStream(streamID);
 
         if (!realStream.compareAndSet(null, stream)) {
-            logger.warn("{} double start of stream, skipping", this);
+            logger.warn("[{}] double start of stream, skipping", debugId);
             stream.close();
             return;
         }

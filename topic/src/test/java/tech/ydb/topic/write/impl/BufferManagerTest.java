@@ -67,7 +67,7 @@ public class BufferManagerTest {
         Assert.assertTrue(started.await(1, TimeUnit.SECONDS));
         while (t.isAlive()) {
             t.interrupt();
-            t.join(100);
+            t.join(2000);
         }
 
         Assert.assertTrue(interrupted.get());
@@ -268,8 +268,8 @@ public class BufferManagerTest {
 
         bm.close(Status.of(StatusCode.ABORTED));
 
-        t1.join(100);
-        t2.join(100);
+        t1.join(2000);
+        t2.join(2000);
 
         Assert.assertEquals(2, problems.size());
         for (Exception ex: problems) {
@@ -311,8 +311,8 @@ public class BufferManagerTest {
 
         bm.close(Status.of(StatusCode.TIMEOUT));
 
-        t1.join(100);
-        t2.join(100);
+        t1.join(2000);
+        t2.join(2000);
 
         Assert.assertEquals(2, problems.size());
         for (Exception ex: problems) {

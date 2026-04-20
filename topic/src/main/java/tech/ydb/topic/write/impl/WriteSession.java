@@ -122,7 +122,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
 
     @Override
     public void onClose(Status status) {
-        logger.debug("[{}] Session onStop with status {} called", debugId, status);
+        logger.debug("[{}] Session onClose with status {} called", debugId, status);
         listener.onClose(status);
         if (errorsHandler != null && !status.isSuccess()) {
             errorsHandler.accept(status, null);

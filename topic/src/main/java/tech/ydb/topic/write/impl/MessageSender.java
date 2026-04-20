@@ -67,7 +67,7 @@ public class MessageSender {
         return REQUEST_OVERHEAD + messagesPbSize.get() + MESSAGE_OVERHEAD * messages.size();
     }
 
-    public void sendWriteRequest() {
+    private void sendWriteRequest() {
         YdbTopic.StreamWriteMessage.WriteRequest.Builder req = YdbTopic.StreamWriteMessage.WriteRequest.newBuilder();
         if (currentTransaction != null) {
             req.setTx(YdbTopic.TransactionIdentity.newBuilder()

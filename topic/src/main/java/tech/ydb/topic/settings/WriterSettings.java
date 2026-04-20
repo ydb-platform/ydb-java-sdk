@@ -191,7 +191,26 @@ public class WriterSettings {
             return this;
         }
 
+        /**
+         * Set retry configuration for the writer's underlying stream connection.
+         * Controls how the writer reconnects when the stream is interrupted.
+         * <p>
+         * The default value is {@link TopicRetryConfig#FOREVER}, which retries any disconnection
+         * indefinitely with exponential backoff (up to ~65 seconds between attempts).
+         * <p>
+         * Use {@link TopicRetryConfig#NEVER} to disable retries and surface errors immediately
+         * via the errors handler set by {@link #setErrorsHandler}.
+         *
+         * @param config retry configuration, must not be {@code null}
+         * @return this builder
+         * @throws NullPointerException if {@code config} is {@code null}
+         * @see TopicRetryConfig#FOREVER
+         * @see TopicRetryConfig#NEVER
+         */
         public Builder setRetryConfig(RetryConfig config) {
+            if (config == null) {
+                throw new NullPointerException("RetryConfig must be not null");
+            }
             this.retryConfig = config;
             return this;
         }
