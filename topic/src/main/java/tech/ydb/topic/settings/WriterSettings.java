@@ -209,7 +209,7 @@ public class WriterSettings {
          */
         public Builder setRetryConfig(RetryConfig config) {
             if (config == null) {
-                throw new NullPointerException("RetryConfig must be not null");
+                throw new NullPointerException("RetryConfig must not be null");
             }
             this.retryConfig = config;
             return this;

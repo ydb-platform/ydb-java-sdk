@@ -34,7 +34,7 @@ import tech.ydb.topic.write.WriteAck;
  * @author Aleksandr Gorshenin
  */
 public class WriterImplTest {
-    private static final RetryConfig IMMEDIATELLY_FOREVER = status -> (number, elapsed) -> 0;
+    private static final RetryConfig IMMEDIATELY_FOREVER = status -> (number, elapsed) -> 0;
 
     private static TopicRpc mockRpc(StreamMock first, StreamMock... rest) {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
@@ -264,7 +264,7 @@ public class WriterImplTest {
     public void retryResendsPendingMessagesTest() throws Exception {
         StreamMock s1 = new StreamMock();
         StreamMock s2 = new StreamMock();
-        WriterImpl writer = createWriter(mockRpc(s1, s2), IMMEDIATELLY_FOREVER);
+        WriterImpl writer = createWriter(mockRpc(s1, s2), IMMEDIATELY_FOREVER);
 
         writer.init();
         s1.sendInitResponse(0L);
@@ -293,57 +293,6 @@ public class WriterImplTest {
         Assert.assertFalse(m2.isDone());
     }
 
-    /*
-    @Test
-    public void testSendAndAck() throws Exception {
-        StreamMock s = new StreamMock();
-        WriterImpl writer = createWriter(mockRpc(s));
-        writer.init();
-        s.sendInitResponse(0L);
-
-        CompletableFuture<WriteAck> ackFuture = writer.nonblockingSend(Message.of("hello".getBytes()), null);
-        Assert.assertFalse(ackFuture.isDone());
-
-        s.sendAckResponse(1L, 100L);
-
-        Assert.assertTrue(ackFuture.isDone());
-        WriteAck ack = ackFuture.get();
-        Assert.assertEquals(1L, ack.getSeqNo());
-        Assert.assertEquals(WriteAck.State.WRITTEN, ack.getState());
-        Assert.assertEquals(100L, ack.getDetails().getOffset());
-    }
-
-    @Test
-    public void testShutdown() throws Exception {
-        StreamMock s = new StreamMock();
-        WriterImpl writer = createWriter(mockRpc(s));
-        writer.init();
-        s.sendInitResponse(0L);
-
-        CompletableFuture<Void> shutdownFuture = writer.shutdown();
-        Assert.assertFalse(shutdownFuture.isDone());
-        Assert.assertTrue(s.isClosed);
-
-        s.close(Status.SUCCESS);
-        Assert.assertTrue(shutdownFuture.isDone());
-    }
-
-    @Test
-    public void testSendAfterShutdown() throws Exception {
-        StreamMock s = new StreamMock();
-        WriterImpl writer = createWriter(mockRpc(s));
-        writer.init();
-        s.sendInitResponse(0L);
-
-        CompletableFuture<Void> shutdown = writer.shutdown();
-        s.close(Status.SUCCESS);
-        shutdown.join();
-
-        RuntimeException ex = Assert.assertThrows(RuntimeException.class,
-                () -> writer.nonblockingSend(Message.of("data".getBytes()), null));
-        Assert.assertEquals("Writer is already stopped", ex.getMessage());
-    }
-*/
     private static class StreamMock implements GrpcReadWriteStream<FromServer, FromClient> {
         private final CompletableFuture<Status> future = new CompletableFuture<>();
         private final List<FromClient> messages = new ArrayList<>();

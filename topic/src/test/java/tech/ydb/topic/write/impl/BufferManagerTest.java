@@ -261,6 +261,8 @@ public class BufferManagerTest {
                 problems.add(ex);
             }
         });
+        t1.setDaemon(true);
+        t2.setDaemon(true);
         t1.start();
         t2.start();
 
@@ -271,8 +273,11 @@ public class BufferManagerTest {
         t1.join(2000);
         t2.join(2000);
 
+        Assert.assertFalse("Thread t1 must be finished", t1.isAlive());
+        Assert.assertFalse("Thread t2 must be finished", t2.isAlive());
+
         Assert.assertEquals(2, problems.size());
-        for (Exception ex: problems) {
+        for (Exception ex : problems) {
             Assert.assertTrue("Unexpected " + ex.getClass(), ex instanceof IllegalStateException);
             Assert.assertEquals("Writer was closed with status Status{code = ABORTED(code=400040)}", ex.getMessage());
         }
@@ -304,6 +309,8 @@ public class BufferManagerTest {
                 problems.add(ex);
             }
         });
+        t1.setDaemon(true);
+        t2.setDaemon(true);
         t1.start();
         t2.start();
 
@@ -314,8 +321,11 @@ public class BufferManagerTest {
         t1.join(2000);
         t2.join(2000);
 
+        Assert.assertFalse("Thread t1 must be finished", t1.isAlive());
+        Assert.assertFalse("Thread t2 must be finished", t2.isAlive());
+
         Assert.assertEquals(2, problems.size());
-        for (Exception ex: problems) {
+        for (Exception ex : problems) {
             Assert.assertTrue("Unexpected " + ex.getClass(), ex instanceof IllegalStateException);
             Assert.assertEquals("Writer was closed with status Status{code = TIMEOUT(code=400090)}", ex.getMessage());
         }
