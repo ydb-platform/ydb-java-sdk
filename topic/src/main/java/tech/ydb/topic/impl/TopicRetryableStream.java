@@ -79,12 +79,15 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         stream.send(msg);
     }
 
-    public void close() {
+    public boolean close() {
         isClosed = true;
         TopicStream<R, W> stream = realStream.getAndSet(null);
-        if (stream != null) {
-            stream.close();
+        if (stream == null) {
+            return false;
         }
+
+        stream.close();
+        return true;
     }
 
     private void onStreamStop(Status status, RetryPolicy policy) {

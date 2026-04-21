@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
+import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.topic.TopicRpc;
@@ -37,9 +38,11 @@ public class WriterImpl {
     private final Runnable sendTask = new SerialRunnable(new SendTask());
 
     private final CompletableFuture<InitResult> initFuture = new CompletableFuture<>();
-    private final CompletableFuture<Status> shutdownFuture = new CompletableFuture<>();
+    private final CompletableFuture<Void> shutdownFuture = new CompletableFuture<>();
 
+    private volatile boolean isClosed = false;
     private volatile boolean isReady = false;
+
     private Boolean isSeqNoProvided = null;
 
     public WriterImpl(TopicRpc topicRpc,
@@ -55,14 +58,24 @@ public class WriterImpl {
     }
 
     public CompletableFuture<InitResult> init() {
+        if (isClosed) {
+            throw new IllegalStateException("Writer is already stopped");
+        }
         logger.info("[{}] start called", debugId);
         stream.start();
         return initFuture;
     }
 
     public CompletableFuture<Void> shutdown() {
-        stream.close();
-        return shutdownFuture.thenApply(s -> null);
+        isClosed = true;
+        if (!stream.close() && !isReady) {
+            // implicit closing because stream will never call onClose
+            Status status = Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO));
+            initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
+            shutdownFuture.complete(null);
+            writeQueue.close(status);
+        }
+        return shutdownFuture;
     }
 
     public CompletableFuture<Void> flush() {
@@ -70,17 +83,17 @@ public class WriterImpl {
     }
 
     private Message validate(Message message) {
-        if (shutdownFuture.isDone()) {
-            throw new RuntimeException("Writer is already stopped");
+        if (isClosed) {
+            throw new IllegalStateException("Writer is already stopped");
         }
         if (isSeqNoProvided != null) {
             if (message.getSeqNo() != null && !isSeqNoProvided) {
-                throw new RuntimeException(
+                throw new IllegalArgumentException(
                         "SeqNo was provided for a message after it had not been provided for another message. " +
                                 "SeqNo should either be provided for all messages or none of them.");
             }
             if (message.getSeqNo() == null && isSeqNoProvided) {
-                throw new RuntimeException(
+                throw new IllegalArgumentException(
                         "SeqNo was not provided for a message after it had been provided for another message. " +
                                 "SeqNo should either be provided for all messages or none of them.");
             }
@@ -132,9 +145,10 @@ public class WriterImpl {
 
         @Override
         public void onClose(Status status) {
+            isClosed = true;
             isReady = false;
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
-            shutdownFuture.complete(status);
+            shutdownFuture.complete(null);
             writeQueue.close(status);
         }
     }
