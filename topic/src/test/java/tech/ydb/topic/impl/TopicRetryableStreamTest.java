@@ -140,7 +140,7 @@ public class TopicRetryableStreamTest {
 
         Mockito.verify(h1.grpc).start(Mockito.any());
         Mockito.verify(h2.grpc, Mockito.never()).start(Mockito.any()); // h2 was never started
-        Mockito.verify(h2.grpc).close();                               // h2 was closed immediately
+        Mockito.verify(h2.grpc, Mockito.never()).close();              // h2 was never closed
     }
 
     @Test

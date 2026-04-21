@@ -50,7 +50,6 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
 
         if (!realStream.compareAndSet(null, stream)) {
             logger.warn("[{}] double start of stream, skipping", debugId);
-            stream.close();
             return;
         }
 

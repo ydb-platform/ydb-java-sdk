@@ -2,6 +2,7 @@ package tech.ydb.topic;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
@@ -177,6 +178,26 @@ public class TopicWritersIntegrationTest {
         writer.shutdown().join();
 
         assertTopicContent(written);
+    }
+
+    @Test
+    public void doubleInitTest() throws Exception {
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setProducerId(TEST_PRODUCER1)
+                .build();
+
+        AsyncWriter writer = client.createAsyncWriter(settings);
+
+        writer.init();
+        writer.init();
+
+        byte[] msg = "hello".getBytes();
+        writer.send(Message.of(msg)).join();
+
+        writer.shutdown().join();
+
+        assertTopicContent(Collections.singletonList(msg));
     }
 
     @Test
