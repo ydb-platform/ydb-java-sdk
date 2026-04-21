@@ -5,6 +5,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.annotation.Nonnull;
 
@@ -39,8 +40,8 @@ public class WriterImpl {
 
     private final CompletableFuture<InitResult> initFuture = new CompletableFuture<>();
     private final CompletableFuture<Void> shutdownFuture = new CompletableFuture<>();
+    private final AtomicBoolean isClosed = new AtomicBoolean(false);
 
-    private volatile boolean isClosed = false;
     private volatile boolean isReady = false;
 
     private Boolean isSeqNoProvided = null;
@@ -58,7 +59,7 @@ public class WriterImpl {
     }
 
     public CompletableFuture<InitResult> init() {
-        if (isClosed) {
+        if (isClosed.get()) {
             throw new IllegalStateException("Writer is already stopped");
         }
         logger.info("[{}] start called", debugId);
@@ -67,14 +68,18 @@ public class WriterImpl {
     }
 
     public CompletableFuture<Void> shutdown() {
-        isClosed = true;
-        if (!stream.close() && !isReady) {
+        if (!isClosed.compareAndSet(false, true)) {
+            return shutdownFuture;
+        }
+
+        if (!stream.close()) {
             // implicit closing because stream will never call onClose
             Status status = Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO));
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
             shutdownFuture.complete(null);
             writeQueue.close(status);
         }
+
         return shutdownFuture;
     }
 
@@ -83,7 +88,7 @@ public class WriterImpl {
     }
 
     private Message validate(Message message) {
-        if (isClosed) {
+        if (isClosed.get()) {
             throw new IllegalStateException("Writer is already stopped");
         }
         if (isSeqNoProvided != null) {
@@ -145,7 +150,7 @@ public class WriterImpl {
 
         @Override
         public void onClose(Status status) {
-            isClosed = true;
+            isClosed.set(true);
             isReady = false;
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
             shutdownFuture.complete(null);
