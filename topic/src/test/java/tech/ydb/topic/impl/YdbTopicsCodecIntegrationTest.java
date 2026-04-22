@@ -13,10 +13,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -39,8 +35,10 @@ import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.utils.HideLoggersRule;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.utils.HideLoggers;
 
 
 /**
@@ -56,6 +54,9 @@ public class YdbTopicsCodecIntegrationTest {
 
     @Rule
     public final Timeout timeout = new Timeout(10, TimeUnit.SECONDS);
+
+    @Rule
+    public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     private final static String TEST_TOPIC1 = "integration_test_custom_codec_topic1";
     private final static String TEST_TOPIC2 = "integration_test_custom_codec_topic2";
@@ -283,30 +284,21 @@ public class YdbTopicsCodecIntegrationTest {
      *
      */
     @Test
+    @HideLoggers({ MessageDecoder.class })
     public void readShouldFailIfWithNotRegisteredCodec() throws ExecutionException, InterruptedException, TimeoutException {
-        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(MessageDecoder.class);
-        Level level = silenceLogger.getLevel();
+        client1 = createClient();
+        TopicClient client2 = createClient();
+        createTopic(client1, TEST_TOPIC1);
 
-        try {
-            // temporary disable logging
-            Configurator.setLevel(silenceLogger, Level.OFF);
+        Codec codec1 = new CustomCodec(1, 10113);
 
-            client1 = createClient();
-            TopicClient client2 = createClient();
-            createTopic(client1, TEST_TOPIC1);
+        client1.registerCodec(codec1);
+        writeData(10113, TEST_TOPIC1, client1);
 
-            Codec codec1 = new CustomCodec(1, 10113);
+        readDataWithError(TEST_TOPIC1, client2);
 
-            client1.registerCodec(codec1);
-            writeData(10113, TEST_TOPIC1, client1);
-
-            readDataWithError(TEST_TOPIC1, client2);
-
-            client2.registerCodec(codec1);
-            readData(TEST_TOPIC1, client2);
-        } finally {
-            Configurator.setLevel(silenceLogger, level);
-        }
+        client2.registerCodec(codec1);
+        readData(TEST_TOPIC1, client2);
     }
 
     /**

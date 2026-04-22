@@ -8,17 +8,16 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.utils.HideLoggers;
+import tech.ydb.topic.utils.HideLoggersRule;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.WriteAck;
@@ -28,6 +27,9 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class WriterQueueTest {
     private static final Message SMALL_MSG = Message.of(new byte[] { 0x00, 0x01, 0x02, 0x03, 0x05 });
+
+    @Rule
+    public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     private static Message smallMsg(int seqNo) {
         return Message.newBuilder().setData(SMALL_MSG.getData()).setSeqNo(seqNo).build();
@@ -115,85 +117,69 @@ public class WriterQueueTest {
     }
 
     @Test
+    @HideLoggers({ WriterImpl.class })
     public void testGzipNullCompressor() throws Exception {
-        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(WriterImpl.class);
-        Level level = silenceLogger.getLevel();
-        try {
-            // temporary disable logging
-            Configurator.setLevel(silenceLogger, Level.ERROR);
+        WriterQueue q = new WriterQueue("test", gzipSettings(), new CodecRegistry(), null, () -> {});
 
-            WriterQueue q = new WriterQueue("test", gzipSettings(), new CodecRegistry(), null, () -> {});
+        CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f3 = q.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
 
-            CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
-            CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
-            CompletableFuture<WriteAck> f3 = q.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
+        Assert.assertFalse(f1.isDone());
+        Assert.assertFalse(f2.isDone());
+        Assert.assertFalse(f3.isDone());
 
-            Assert.assertFalse(f1.isDone());
-            Assert.assertFalse(f2.isDone());
-            Assert.assertFalse(f3.isDone());
+        Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
 
-            Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
-
-            Assert.assertTrue(f1.isCompletedExceptionally());
-            Assert.assertTrue(f2.isCompletedExceptionally());
-            Assert.assertTrue(f3.isCompletedExceptionally());
-        } finally {
-            Configurator.setLevel(silenceLogger, level);
-        }
+        Assert.assertTrue(f1.isCompletedExceptionally());
+        Assert.assertTrue(f2.isCompletedExceptionally());
+        Assert.assertTrue(f3.isCompletedExceptionally());
     }
 
     @Test
+    @HideLoggers({ WriterImpl.class })
     public void testWrongCodec() throws Exception {
-        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(WriterImpl.class);
-        Level level = silenceLogger.getLevel();
-        try {
-            // temporary disable logging
-            Configurator.setLevel(silenceLogger, Level.ERROR);
+        // Codec that always throws on encode
+        Codec failingCodec = new Codec() {
+            @Override
+            public int getId() {
+                return 9001;
+            }
 
-            // Codec that always throws on encode
-            Codec failingCodec = new Codec() {
-                @Override
-                public int getId() {
-                    return 9001;
-                }
+            @Override
+            public InputStream decode(InputStream in) {
+                throw new UnsupportedOperationException();
+            }
 
-                @Override
-                public InputStream decode(InputStream in) {
-                    throw new UnsupportedOperationException();
-                }
+            @Override
+            public OutputStream encode(OutputStream out) throws IOException {
+                throw new IOException("Simulated encoding failure");
+            }
+        };
 
-                @Override
-                public OutputStream encode(OutputStream out) throws IOException {
-                    throw new IOException("Simulated encoding failure");
-                }
-            };
+        AtomicInteger notify = new AtomicInteger();
+        CodecRegistry registry = new CodecRegistry();
+        registry.registerCodec(failingCodec);
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test")
+                .setCodec(failingCodec.getId())
+                .build();
 
-            AtomicInteger notify = new AtomicInteger();
-            CodecRegistry registry = new CodecRegistry();
-            registry.registerCodec(failingCodec);
-            WriterSettings settings = WriterSettings.newBuilder()
-                    .setTopicPath("/test")
-                    .setCodec(failingCodec.getId())
-                    .build();
+        WriterQueue q = new WriterQueue("test", settings, registry, Runnable::run, notify::incrementAndGet);
 
-            WriterQueue q = new WriterQueue("test", settings, registry, Runnable::run, notify::incrementAndGet);
+        CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f3 = q.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
 
-            CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
-            CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
-            CompletableFuture<WriteAck> f3 = q.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
+        Assert.assertFalse(f1.isDone());
+        Assert.assertFalse(f2.isDone());
+        Assert.assertFalse(f3.isDone());
 
-            Assert.assertFalse(f1.isDone());
-            Assert.assertFalse(f2.isDone());
-            Assert.assertFalse(f3.isDone());
+        Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
 
-            Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
-
-            Assert.assertTrue(f1.isCompletedExceptionally());
-            Assert.assertTrue(f2.isCompletedExceptionally());
-            Assert.assertTrue(f3.isCompletedExceptionally());
-        } finally {
-            Configurator.setLevel(silenceLogger, level);
-        }
+        Assert.assertTrue(f1.isCompletedExceptionally());
+        Assert.assertTrue(f2.isCompletedExceptionally());
+        Assert.assertTrue(f3.isCompletedExceptionally());
     }
 
     @Test

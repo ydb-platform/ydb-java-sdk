@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 import com.google.protobuf.Empty;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -18,10 +19,15 @@ import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.topic.utils.HideLoggers;
+import tech.ydb.topic.utils.HideLoggersRule;
 
 public class TopicRetryableStreamTest {
     private static final Logger logger = LoggerFactory.getLogger(TopicRetryableStreamTest.class);
     private static final Empty EMPTY = Empty.getDefaultInstance();
+
+    @Rule
+    public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     /**
      * Pairs a mock GrpcReadWriteStream with a concrete TopicStream backed by it.
@@ -257,6 +263,7 @@ public class TopicRetryableStreamTest {
     }
 
     @Test
+    @HideLoggers({TopicRetryableStreamTest.class})
     public void closeOnWrongSchedulerTest() {
         StreamHandle h = new StreamHandle();
         long delayMs = 500L;
