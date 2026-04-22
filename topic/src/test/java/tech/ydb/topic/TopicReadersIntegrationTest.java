@@ -1,4 +1,8 @@
-package tech.ydb.topic.impl;
+package tech.ydb.topic;
+
+
+
+import tech.ydb.topic.YdbTopicsIntegrationTest;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
