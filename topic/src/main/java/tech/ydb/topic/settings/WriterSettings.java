@@ -2,6 +2,7 @@ package tech.ydb.topic.settings;
 
 import java.util.function.BiConsumer;
 
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.topic.description.Codec;
 
@@ -20,6 +21,7 @@ public class WriterSettings {
     private final int codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
+    private final RetryConfig retryConfig;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
     private WriterSettings(Builder builder) {
@@ -31,6 +33,7 @@ public class WriterSettings {
         this.codec = builder.codec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
+        this.retryConfig = builder.retryConfig;
         this.errorsHandler = builder.errorsHandler;
     }
 
@@ -56,6 +59,10 @@ public class WriterSettings {
 
     public BiConsumer<Status, Throwable> getErrorsHandler() {
         return errorsHandler;
+    }
+
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
     }
 
     public Long getPartitionId() {
@@ -86,6 +93,7 @@ public class WriterSettings {
         private int codec = Codec.GZIP;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
+        private RetryConfig retryConfig = TopicRetryConfig.FOREVER;
         private BiConsumer<Status, Throwable> errorsHandler = null;
 
         /**
@@ -180,6 +188,30 @@ public class WriterSettings {
 
         public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
             this.errorsHandler = handler;
+            return this;
+        }
+
+        /**
+         * Set retry configuration for the writer's underlying stream connection.
+         * Controls how the writer reconnects when the stream is interrupted.
+         * <p>
+         * The default value is {@link TopicRetryConfig#FOREVER}, which retries any disconnection
+         * indefinitely with exponential backoff (up to ~65 seconds between attempts).
+         * <p>
+         * Use {@link TopicRetryConfig#NEVER} to disable retries and surface errors immediately
+         * via the errors handler set by {@link #setErrorsHandler}.
+         *
+         * @param config retry configuration, must not be {@code null}
+         * @return this builder
+         * @throws NullPointerException if {@code config} is {@code null}
+         * @see TopicRetryConfig#FOREVER
+         * @see TopicRetryConfig#NEVER
+         */
+        public Builder setRetryConfig(RetryConfig config) {
+            if (config == null) {
+                throw new NullPointerException("RetryConfig must not be null");
+            }
+            this.retryConfig = config;
             return this;
         }
 

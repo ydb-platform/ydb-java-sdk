@@ -1,5 +1,7 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -9,6 +11,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.QueueOverflowException;
 
@@ -37,6 +41,12 @@ public class BufferManagerTest {
         Assert.assertEquals(msg, ex.getMessage());
     }
 
+    private static void assertIllegalState(String msg, ThrowingRunnable runnable) {
+        IllegalStateException ex = Assert.assertThrows("Must be thrown IllegalStateException",
+                IllegalStateException.class, runnable);
+        Assert.assertEquals(msg, ex.getMessage());
+    }
+
     private static void assertInterrupted(ThrowingRunnable runnable) throws InterruptedException {
         // Now try to acquire more bytes in a separate thread — it will block
         AtomicBoolean interrupted = new AtomicBoolean(false);
@@ -53,10 +63,11 @@ public class BufferManagerTest {
             }
         });
         t.start();
+
         Assert.assertTrue(started.await(1, TimeUnit.SECONDS));
         while (t.isAlive()) {
             t.interrupt();
-            t.join(100);
+            t.join(2000);
         }
 
         Assert.assertTrue(interrupted.get());
@@ -67,8 +78,6 @@ public class BufferManagerTest {
         BufferManager bm = manager(1024, 10);
         Assert.assertEquals(1024, bm.getMaxSize());
     }
-
-    // --- acquire / release ---
 
     @Test
     public void testAcquireAndRelease() throws Exception {
@@ -210,5 +219,115 @@ public class BufferManagerTest {
         bm.releaseMessage(1);
         bm.releaseMessage(1);
         bm.releaseMessage(1);
+    }
+
+    @Test
+    public void testClosedBuffer() {
+        BufferManager bm = manager(100, 3);
+
+        bm.close(Status.SUCCESS);
+
+        assertIllegalState("Writer was closed with status Status{code = SUCCESS}",
+                () -> bm.acquire(1));
+        assertIllegalState("Writer was closed with status Status{code = SUCCESS}",
+                () -> bm.tryAcquire(1));
+        assertIllegalState("Writer was closed with status Status{code = SUCCESS}",
+                () -> bm.tryAcquire(1, 1, TimeUnit.SECONDS));
+    }
+
+    @Test
+    public void testReleaseCountOnBufferClosing() throws InterruptedException, QueueOverflowException {
+        BufferManager bm = manager(100, 3);
+
+        bm.acquire(10);
+        bm.acquire(10);
+        bm.acquire(10);
+
+        CountDownLatch started = new CountDownLatch(2);
+        Queue<Exception> problems = new ConcurrentLinkedQueue<>();
+        Thread t1 = new Thread(() -> {
+            try {
+                started.countDown();
+                bm.acquire(10);
+            } catch (InterruptedException | QueueOverflowException | RuntimeException ex) {
+                problems.add(ex);
+            }
+        });
+        Thread t2 = new Thread(() -> {
+            try {
+                started.countDown();
+                bm.tryAcquire(10, 1, TimeUnit.MINUTES);
+            } catch (InterruptedException | QueueOverflowException | TimeoutException | RuntimeException ex) {
+                problems.add(ex);
+            }
+        });
+        t1.setDaemon(true);
+        t2.setDaemon(true);
+        t1.start();
+        t2.start();
+
+        Assert.assertTrue(started.await(1, TimeUnit.SECONDS));
+
+        bm.close(Status.of(StatusCode.ABORTED));
+
+        t1.join(2000);
+        t2.join(2000);
+
+        Assert.assertFalse("Thread t1 must be finished", t1.isAlive());
+        Assert.assertFalse("Thread t2 must be finished", t2.isAlive());
+
+        Assert.assertEquals(2, problems.size());
+        for (Exception ex : problems) {
+            Assert.assertTrue("Unexpected " + ex.getClass(), ex instanceof IllegalStateException);
+            Assert.assertEquals("Writer was closed with status Status{code = ABORTED(code=400040)}", ex.getMessage());
+        }
+    }
+
+    @Test
+    public void testReleaseSizeOnBufferClosing() throws InterruptedException, QueueOverflowException {
+        BufferManager bm = manager(70, 5);
+
+        bm.acquire(20);
+        bm.acquire(20);
+        bm.acquire(20);
+
+        CountDownLatch started = new CountDownLatch(2);
+        Queue<Exception> problems = new ConcurrentLinkedQueue<>();
+        Thread t1 = new Thread(() -> {
+            try {
+                started.countDown();
+                bm.acquire(70);
+            } catch (InterruptedException | QueueOverflowException | RuntimeException ex) {
+                problems.add(ex);
+            }
+        });
+        Thread t2 = new Thread(() -> {
+            try {
+                started.countDown();
+                bm.tryAcquire(70, 1, TimeUnit.MINUTES);
+            } catch (InterruptedException | QueueOverflowException | TimeoutException | RuntimeException ex) {
+                problems.add(ex);
+            }
+        });
+        t1.setDaemon(true);
+        t2.setDaemon(true);
+        t1.start();
+        t2.start();
+
+        Assert.assertTrue(started.await(1, TimeUnit.SECONDS));
+
+        bm.close(Status.of(StatusCode.TIMEOUT));
+
+        t1.join(2000);
+        t2.join(2000);
+
+        Assert.assertFalse("Thread t1 must be finished", t1.isAlive());
+        Assert.assertFalse("Thread t2 must be finished", t2.isAlive());
+
+        Assert.assertEquals(2, problems.size());
+        for (Exception ex : problems) {
+            Assert.assertTrue("Unexpected " + ex.getClass(), ex instanceof IllegalStateException);
+            Assert.assertEquals("Writer was closed with status Status{code = TIMEOUT(code=400090)}", ex.getMessage());
+        }
     }
 }

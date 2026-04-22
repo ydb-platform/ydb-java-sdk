@@ -18,6 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
+import tech.ydb.core.Status;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.WriterSettings;
@@ -32,7 +33,7 @@ import tech.ydb.topic.write.WriteAck;
 public class WriterQueue {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
-    private final String id;
+    private final String debugId;
     private final BufferManager buffer;
     private final Codec codec;
     private final Executor compressionExecutor;
@@ -48,10 +49,10 @@ public class WriterQueue {
     // Future for flush method
     private volatile EnqueuedMessage lastAcceptedMessage = null;
 
-    public WriterQueue(String id, WriterSettings settings, CodecRegistry codecRegistry, Executor compressionExecutor,
-            Runnable readyNotify) {
-        this.id = id;
-        this.buffer = new BufferManager(id, settings);
+    public WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
+            Executor compressionExecutor, Runnable readyNotify) {
+        this.debugId = debugId;
+        this.buffer = new BufferManager(debugId, settings);
 
         this.codec = codecRegistry.getCodec(settings.getCodec());
         if (codec == null) {
@@ -96,7 +97,7 @@ public class WriterQueue {
             if (userSeqNo != null) {
                 if (userSeqNo < seqNo) {
                     buffer.releaseMessage(next.getBufferSize());
-                    String error = "[" + id + "] Message wasn't sent because seqNo " + userSeqNo
+                    String error = "[" + debugId + "] Message wasn't sent because seqNo " + userSeqNo
                             + " is less than current seqNo " + seqNo;
                     logger.warn(error);
                     next.getAckFuture().completeExceptionally(new IllegalArgumentException(error));
@@ -107,7 +108,7 @@ public class WriterQueue {
             }
 
             SentMessage sentMsg = new SentMessage(next, seqNo);
-            logger.trace("[{}] prepare sent message with seqNo {}", id, seqNo);
+            logger.debug("[{}] prepare sent message with seqNo {}", debugId, seqNo);
             sent.offer(sentMsg);
             return sentMsg;
         }
@@ -128,11 +129,38 @@ public class WriterQueue {
         }
     }
 
-    Iterator<SentMessage> updateSeqNo(long newSeqNo) {
-        lastSeqNo.set(newSeqNo);
+    void close(Status status) {
+        buffer.close(status);
 
-        WriteAck lostAck = new WriteAck(newSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
+        while (!queue.isEmpty()) {
+            RuntimeException ex = new RuntimeException("Message sending was cancelled with status " + status);
+            Iterator<EnqueuedMessage> it = queue.iterator();
+            while (it.hasNext()) {
+                EnqueuedMessage next = it.next();
+                next.setError(ex);
+                next.getAckFuture().completeExceptionally(ex);
+                it.remove();
+            }
+        }
+
+        while (!sent.isEmpty()) {
+            RuntimeException ex = new RuntimeException("Message had been sent but the writer was stopped with status " +
+                    status);
+            Iterator<SentMessage> it = sent.iterator();
+            while (it.hasNext()) {
+                it.next().getAckFuture().completeExceptionally(ex);
+                it.remove();
+            }
+        }
+    }
+
+    Iterator<SentMessage> updateSeqNo(long newSeqNo) {
+        if (newSeqNo > lastSeqNo.get()) {
+            lastSeqNo.set(newSeqNo);
+        }
+
         // complete all messages with lost acks
+        WriteAck lostAck = new WriteAck(newSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
         Iterator<SentMessage> it = sent.iterator();
         while (it.hasNext()) {
             SentMessage msg = it.next();
@@ -185,7 +213,7 @@ public class WriterQueue {
         try {
             compressionExecutor.execute(() -> encode(message.getData(), msgSize, msg));
         } catch (Throwable ex) {
-            logger.warn("[{}] Message wasn't sent because of processing error", id, ex);
+            logger.warn("[{}] Message wasn't sent because of processing error", debugId, ex);
             msg.setError(ex);
             readyNotify.run();
         }
@@ -194,13 +222,17 @@ public class WriterQueue {
     }
 
     private void encode(byte[] data, long msgSize, EnqueuedMessage msg) {
-        logger.trace("[{}] Started encoding message", id);
+        if (msg.hasProblem()) {
+            return;
+        }
+
+        logger.trace("[{}] Started encoding message", debugId);
         try (ByteString.Output encoded = ByteString.newOutput()) {
             try (OutputStream os = codec.encode(encoded)) {
                 os.write(data, 0, data.length);
             }
 
-            logger.trace("[{}] Message compressed from {} to {} bytes", id, msgSize, encoded.size());
+            logger.trace("[{}] Message compressed from {} to {} bytes", debugId, msgSize, encoded.size());
 
             long bufferSize = msgSize;
             if (msgSize > encoded.size()) { // if compressed lenght is less than uncompression - update buffer size
@@ -210,13 +242,9 @@ public class WriterQueue {
 
             msg.setData(encoded.toByteString(), bufferSize);
         } catch (Throwable ex) {
-            logger.warn("[{}] Message wasn't sent because of encoding error", id, ex);
+            logger.warn("[{}] Message wasn't sent because of encoding error", debugId, ex);
             msg.setError(ex);
         }
         readyNotify.run();
-    }
-
-    boolean hasMore() {
-        return queue.peek() != null && queue.peek().isReady();
     }
 }

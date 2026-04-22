@@ -14,8 +14,8 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
 public abstract class TopicRetryableStream<R extends Message, W extends Message> {
+    protected final String debugId;
     private final Logger logger;
-    private final String debugId;
     private final RetryConfig retryConfig;
     private final ScheduledExecutorService scheduler;
 
@@ -30,11 +30,6 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         this.logger = logger;
         this.retryConfig = config;
         this.scheduler = scheduler;
-    }
-
-    @Override
-    public String toString() {
-        return "Session[" + debugId + "]";
     }
 
     protected abstract TopicStream<R, W> createNewStream(String debugId);
@@ -54,8 +49,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         TopicStream<R, W> stream = createNewStream(streamID);
 
         if (!realStream.compareAndSet(null, stream)) {
-            logger.warn("{} double start of stream, skipping", this);
-            stream.close();
+            logger.warn("[{}] double start of stream, skipping", debugId);
             return;
         }
 
@@ -78,18 +72,21 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
     public void send(W msg) {
         TopicStream<R, W> stream = realStream.get();
         if (stream == null) {
-            logger.warn("{} send message before stream is ready", this);
+            logger.warn("[{}] send message before stream is ready", debugId);
             return;
         }
         stream.send(msg);
     }
 
-    public void close() {
+    public boolean close() {
         isClosed = true;
         TopicStream<R, W> stream = realStream.getAndSet(null);
-        if (stream != null) {
-            stream.close();
+        if (stream == null) {
+            return false;
         }
+
+        stream.close();
+        return true;
     }
 
     private void onStreamStop(Status status, RetryPolicy policy) {
@@ -99,7 +96,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         }
 
         if (policy == null) {
-            logger.warn("{} stopped by non-retryable status {}", this, status);
+            logger.warn("[{}] stopped by non-retryable status {}", debugId, status);
             onClose(status);
             return;
         }
@@ -107,26 +104,26 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         long nextRetryMs = state.nextRetryMs(policy);
 
         if (nextRetryMs < 0) {
-            logger.warn("{} stopped after retry policy evaluation for status {}", this, status);
+            logger.warn("[{}] stopped after retry policy evaluation for status {}", debugId, status);
             onClose(status);
             return;
         }
 
         if (nextRetryMs == 0) { // retry immediately
-            logger.warn("{} retry #{}. Retry immediately...", this, state.retryNumber());
+            logger.warn("[{}] retry #{}. Retry immediately...", debugId, state.retryNumber());
             onRetry(status);
             start();
             return;
         }
 
         // retry scheduling
-        logger.warn("{} retry #{}. Scheduling reconnect in {}ms...", debugId, state.retryNumber(), nextRetryMs);
+        logger.warn("[{}] retry #{}. Scheduling reconnect in {}ms...", debugId, state.retryNumber(), nextRetryMs);
         onRetry(status);
 
         try {
             scheduler.schedule(this::start, nextRetryMs, TimeUnit.MILLISECONDS);
         } catch (Exception ex) {
-            logger.error("{} cannot schedule reconnect, stopping", debugId, ex);
+            logger.error("[{}] cannot schedule reconnect, stopping", debugId, ex);
             onClose(status);
         }
     }
