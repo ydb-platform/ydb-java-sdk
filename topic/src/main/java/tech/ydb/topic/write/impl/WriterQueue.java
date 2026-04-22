@@ -108,7 +108,7 @@ public class WriterQueue {
             }
 
             SentMessage sentMsg = new SentMessage(next, seqNo);
-            logger.debug("[{}] prepare sent message with seqNo {}", debugId, seqNo);
+            logger.trace("[{}] prepare sent message with seqNo {}", debugId, seqNo);
             sent.offer(sentMsg);
             return sentMsg;
         }

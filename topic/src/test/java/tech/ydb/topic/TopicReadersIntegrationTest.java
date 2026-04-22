@@ -1,4 +1,8 @@
-package tech.ydb.topic.impl;
+package tech.ydb.topic;
+
+
+
+import tech.ydb.topic.YdbTopicsIntegrationTest;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
@@ -7,10 +11,6 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.config.Configurator;
-import org.apache.logging.log4j.spi.ExtendedLogger;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -31,14 +31,17 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
-import tech.ydb.topic.read.impl.ReadPartitionSession;
+import tech.ydb.topic.read.impl.AsyncReaderImpl;
+import tech.ydb.topic.read.impl.ReaderImpl;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.utils.HideLoggersRule;
 import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.utils.HideLoggers;
 
 /**
  *
@@ -52,6 +55,9 @@ public class TopicReadersIntegrationTest {
 
     @Rule
     public final Timeout timeout = new Timeout(10, TimeUnit.SECONDS);
+
+    @Rule
+    public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     private final static String TEST_TOPIC = "topic_readers_test";
 
@@ -101,10 +107,8 @@ public class TopicReadersIntegrationTest {
     }
 
     @Test
+    @HideLoggers({ ReaderImpl.class, AsyncReaderImpl.class })
     public void singleThreadExecutorTest() throws Exception {
-        ExtendedLogger silenceLogger = LogManager.getContext(true).getLogger(ReadPartitionSession.class);
-        Level level = silenceLogger.getLevel();
-
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder()
                         .setPath(TEST_TOPIC)
@@ -112,36 +116,29 @@ public class TopicReadersIntegrationTest {
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
-        try {
-            // temporary disable logging
-            Configurator.setLevel(silenceLogger, Level.OFF);
+        Semaphore messageCount = new Semaphore(0);
+        CompletableFuture<Boolean> processing = new CompletableFuture<>();
 
-            Semaphore messageCount = new Semaphore(0);
-            CompletableFuture<Boolean> processing = new CompletableFuture<>();
+        ExecutorService executor = Executors.newSingleThreadExecutor((r) -> new Thread(r, "test-executor"));
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(executor)
+                .setEventHandler((event) -> {
+                    messageCount.release();
+                    processing.join();
+                }).build()
+        );
 
-            ExecutorService executor = Executors.newSingleThreadExecutor((r) -> new Thread(r, "test-executor"));
-            AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
-                    .setExecutor(executor)
-                    .setEventHandler((event) -> {
-                        messageCount.release();
-                        processing.join();
-                    }).build()
-            );
+        reader.init().join();
 
-            reader.init().join();
+        // wait for message committing
+        messageCount.acquireUninterruptibly();
 
-            // wait for message committing
-            messageCount.acquireUninterruptibly();
+        // stop reader
+        CompletableFuture<Void> f = reader.shutdown();
+        processing.completeExceptionally(new RuntimeException("shutdown"));
+        f.get(5, TimeUnit.SECONDS);
 
-            // stop reader
-            CompletableFuture<Void> f = reader.shutdown();
-            processing.completeExceptionally(new RuntimeException("shutdown"));
-            f.get(5, TimeUnit.SECONDS);
-
-            executor.shutdownNow();
-        } finally {
-            Configurator.setLevel(silenceLogger, level);
-        }
+        executor.shutdownNow();
     }
 
     @Test

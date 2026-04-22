@@ -10,7 +10,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+
+import tech.ydb.topic.utils.HideLoggers;
+import tech.ydb.topic.utils.HideLoggersRule;
 
 
 /**
@@ -25,6 +29,9 @@ public class SerialExecutorTest {
     private static class IntHolder {
         private volatile int value;
     }
+
+    @Rule
+    public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     @Test
     public void serialRunnableTest() throws InterruptedException {
@@ -116,6 +123,7 @@ public class SerialExecutorTest {
     }
 
     @Test
+    @HideLoggers({ SerialExecutor.class })
     public void wrongExecuterTest() throws InterruptedException {
         AtomicInteger value = new AtomicInteger();
         ExecutorService pool = Executors.newCachedThreadPool();
@@ -135,6 +143,7 @@ public class SerialExecutorTest {
     }
 
     @Test
+    @HideLoggers({ SerialExecutor.class })
     public void wrongTaskTest() throws InterruptedException {
         CountDownLatch latch = new CountDownLatch(4);
         ExecutorService pool = Executors.newCachedThreadPool();

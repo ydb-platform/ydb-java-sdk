@@ -94,7 +94,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     }
 
     WriteAck mapAck(WriteAck.Statistics statistics, YdbTopic.StreamWriteMessage.WriteResponse.WriteAck ack) {
-        logger.debug("[{}] Received WriteAck with seqNo {} and status {}", debugId, ack.getSeqNo(),
+        logger.trace("[{}] Received WriteAck with seqNo {} and status {}", debugId, ack.getSeqNo(),
                 ack.getMessageWriteStatusCase());
         if (ack.hasSkipped()) {
             return new WriteAck(ack.getSeqNo(), WriteAck.State.ALREADY_WRITTEN, null, statistics);
@@ -122,7 +122,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
 
     @Override
     public void onClose(Status status) {
-        logger.debug("[{}] Session onClose with status {} called", debugId, status);
+        logger.info("[{}] Session closed with status {}", debugId, status);
         listener.onClose(status);
         if (errorsHandler != null && !status.isSuccess()) {
             errorsHandler.accept(status, null);

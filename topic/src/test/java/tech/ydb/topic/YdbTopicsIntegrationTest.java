@@ -1,4 +1,4 @@
-package tech.ydb.topic.impl;
+package tech.ydb.topic;
 
 import java.time.Duration;
 import java.time.Instant;
