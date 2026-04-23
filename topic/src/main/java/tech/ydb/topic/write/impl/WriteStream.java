@@ -10,13 +10,13 @@ import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.proto.topic.YdbTopic.UpdateTokenRequest;
 import tech.ydb.topic.TopicRpc;
-import tech.ydb.topic.impl.TopicStream;
+import tech.ydb.topic.impl.TopicStreamBase;
 
 /**
  *
  * @author Aleksandr Gorshenin
  */
-public class WriteStream extends TopicStream<FromServer, FromClient> {
+public class WriteStream extends TopicStreamBase<FromServer, FromClient> implements WriteSession.Stream {
     private static final Logger logger = LoggerFactory.getLogger(WriteStream.class);
 
     public WriteStream(String id, TopicRpc rpc) {

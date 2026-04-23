@@ -13,6 +13,7 @@ import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.impl.TopicRetryableStream;
+import tech.ydb.topic.impl.TopicStream;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.WriteAck;
 
@@ -20,6 +21,8 @@ import tech.ydb.topic.write.WriteAck;
  * @author Nikolay Perfilov
  */
 public final class WriteSession extends TopicRetryableStream<FromServer, FromClient> {
+    interface Stream extends TopicStream<FromServer, FromClient> { }
+
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
 
     public interface Listener {
@@ -45,7 +48,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     }
 
     @Override
-    protected WriteStream createNewStream(String id) {
+    protected Stream createNewStream(String id) {
         return streamFactory.createNewStream(id);
     }
 
@@ -142,7 +145,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
         }
     }
 
-    private class StreamFactory {
+    private static class StreamFactory {
         private final String topicPath;
         private final TopicRpc rpc;
         private final YdbTopic.StreamWriteMessage.InitRequest initRequest;
@@ -172,7 +175,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
             this.initRequest = req.build();
         }
 
-        public WriteStream createNewStream(String id) {
+        public Stream createNewStream(String id) {
             return new WriteStream(id, rpc);
         }
 
