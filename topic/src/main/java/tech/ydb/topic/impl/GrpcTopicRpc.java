@@ -13,6 +13,22 @@ import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.proto.topic.YdbTopic.AlterTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.AlterTopicResponse;
+import tech.ydb.proto.topic.YdbTopic.CommitOffsetRequest;
+import tech.ydb.proto.topic.YdbTopic.CreateTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.DescribeConsumerRequest;
+import tech.ydb.proto.topic.YdbTopic.DescribeConsumerResponse;
+import tech.ydb.proto.topic.YdbTopic.DescribeConsumerResult;
+import tech.ydb.proto.topic.YdbTopic.DescribeTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.DescribeTopicResponse;
+import tech.ydb.proto.topic.YdbTopic.DescribeTopicResult;
+import tech.ydb.proto.topic.YdbTopic.DropTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.DropTopicResponse;
+import tech.ydb.proto.topic.YdbTopic.StreamReadMessage;
+import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage;
+import tech.ydb.proto.topic.YdbTopic.UpdateOffsetsInTransactionRequest;
+import tech.ydb.proto.topic.YdbTopic.UpdateOffsetsInTransactionResponse;
 import tech.ydb.proto.topic.v1.TopicServiceGrpc;
 import tech.ydb.topic.TopicRpc;
 
@@ -33,77 +49,80 @@ public final class GrpcTopicRpc implements TopicRpc {
     }
 
     @Override
-    public CompletableFuture<Status> createTopic(YdbTopic.CreateTopicRequest request, GrpcRequestSettings settings) {
+    public CompletableFuture<Status> createTopic(CreateTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getCreateTopicMethod(), settings, request)
                 .thenApply(OperationBinder.bindSync(YdbTopic.CreateTopicResponse::getOperation));
     }
 
     @Override
-    public CompletableFuture<Status> alterTopic(YdbTopic.AlterTopicRequest request, GrpcRequestSettings settings) {
+    public CompletableFuture<Status> alterTopic(AlterTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getAlterTopicMethod(), settings, request)
-                .thenApply(OperationBinder.bindSync(YdbTopic.AlterTopicResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(AlterTopicResponse::getOperation));
     }
 
     @Override
-    public CompletableFuture<Result<YdbTopic.DescribeTopicResult>> describeTopic(YdbTopic.DescribeTopicRequest request,
+    public CompletableFuture<Result<DescribeTopicResult>> describeTopic(DescribeTopicRequest request,
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDescribeTopicMethod(), settings, request)
-                .thenApply(OperationBinder.bindSync(
-                        YdbTopic.DescribeTopicResponse::getOperation, YdbTopic.DescribeTopicResult.class)
-                );
+                .thenApply(OperationBinder.bindSync(DescribeTopicResponse::getOperation, DescribeTopicResult.class));
     }
 
     @Override
-    public CompletableFuture<Result<YdbTopic.DescribeConsumerResult>> describeConsumer(
-            YdbTopic.DescribeConsumerRequest request, GrpcRequestSettings settings
-    ) {
+    public CompletableFuture<Result<DescribeConsumerResult>> describeConsumer(DescribeConsumerRequest request,
+            GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDescribeConsumerMethod(), settings, request)
-                .thenApply(OperationBinder.bindSync(
-                        YdbTopic.DescribeConsumerResponse::getOperation, YdbTopic.DescribeConsumerResult.class)
-                );
+                .thenApply(OperationBinder.bindSync(DescribeConsumerResponse::getOperation,
+                        DescribeConsumerResult.class));
     }
 
     @Override
-    public CompletableFuture<Status> dropTopic(YdbTopic.DropTopicRequest request, GrpcRequestSettings settings) {
+    public CompletableFuture<Status> dropTopic(DropTopicRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getDropTopicMethod(), settings, request)
-                .thenApply(OperationBinder.bindSync(YdbTopic.DropTopicResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(DropTopicResponse::getOperation));
     }
 
     @Override
-    public CompletableFuture<Status> commitOffset(YdbTopic.CommitOffsetRequest request, GrpcRequestSettings settings) {
+    public CompletableFuture<Status> commitOffset(CommitOffsetRequest request, GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getCommitOffsetMethod(), settings, request)
                 .thenApply(OperationBinder.bindSync(YdbTopic.CommitOffsetResponse::getOperation));
     }
 
     @Override
-    public CompletableFuture<Status> updateOffsetsInTransaction(YdbTopic.UpdateOffsetsInTransactionRequest request,
+    public CompletableFuture<Status> updateOffsetsInTransaction(UpdateOffsetsInTransactionRequest request,
             GrpcRequestSettings settings) {
         return transport
                 .unaryCall(TopicServiceGrpc.getUpdateOffsetsInTransactionMethod(), settings, request)
-                .thenApply(OperationBinder.bindSync(YdbTopic.UpdateOffsetsInTransactionResponse::getOperation));
+                .thenApply(OperationBinder.bindSync(UpdateOffsetsInTransactionResponse::getOperation));
     }
 
     @Override
-    public GrpcReadWriteStream<YdbTopic.StreamWriteMessage.FromServer, YdbTopic.StreamWriteMessage.FromClient>
-            writeSession(String streamId) {
-        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
-                .withTraceId(streamId)
-                .disableDeadline()
-                .build();
-        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamWriteMethod(), settings);
+    public GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(String id) {
+        return writeSession(id, null);
     }
 
     @Override
-    public GrpcReadWriteStream<YdbTopic.StreamReadMessage.FromServer, YdbTopic.StreamReadMessage.FromClient>
-            readSession(String streamId) {
+    public GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(
+            String id, Integer directWriteNodeId) {
+        GrpcRequestSettings.Builder settings = GrpcRequestSettings.newBuilder()
+                .withTraceId(id)
+                .disableDeadline();
+        if (directWriteNodeId != null) {
+            settings = settings.withDirectMode(true).withPreferredNodeID(directWriteNodeId);
+        }
+        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamWriteMethod(), settings.build());
+    }
+
+
+    @Override
+    public GrpcReadWriteStream<StreamReadMessage.FromServer, StreamReadMessage.FromClient> readSession(String id) {
         GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
-                .withTraceId(streamId)
+                .withTraceId(id)
                 .disableDeadline()
                 .build();
         return transport.readWriteStreamCall(TopicServiceGrpc.getStreamReadMethod(), settings);

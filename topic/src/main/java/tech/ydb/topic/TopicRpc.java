@@ -7,7 +7,17 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.proto.topic.YdbTopic;
+import tech.ydb.proto.topic.YdbTopic.AlterTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.CommitOffsetRequest;
+import tech.ydb.proto.topic.YdbTopic.CreateTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.DescribeConsumerRequest;
+import tech.ydb.proto.topic.YdbTopic.DescribeConsumerResult;
+import tech.ydb.proto.topic.YdbTopic.DescribeTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.DescribeTopicResult;
+import tech.ydb.proto.topic.YdbTopic.DropTopicRequest;
+import tech.ydb.proto.topic.YdbTopic.StreamReadMessage;
+import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage;
+import tech.ydb.proto.topic.YdbTopic.UpdateOffsetsInTransactionRequest;
 
 
 /**
@@ -21,7 +31,7 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
-    CompletableFuture<Status> createTopic(YdbTopic.CreateTopicRequest request, GrpcRequestSettings settings);
+    CompletableFuture<Status> createTopic(CreateTopicRequest request, GrpcRequestSettings settings);
 
     /**
      * Alter topic.
@@ -29,7 +39,7 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
-    CompletableFuture<Status> alterTopic(YdbTopic.AlterTopicRequest request, GrpcRequestSettings settings);
+    CompletableFuture<Status> alterTopic(AlterTopicRequest request, GrpcRequestSettings settings);
 
     /**
      * Drop topic.
@@ -37,7 +47,7 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with status of operation
      */
-    CompletableFuture<Status> dropTopic(YdbTopic.DropTopicRequest request, GrpcRequestSettings settings);
+    CompletableFuture<Status> dropTopic(DropTopicRequest request, GrpcRequestSettings settings);
 
     /**
      * Describe topic.
@@ -45,8 +55,8 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
-    CompletableFuture<Result<YdbTopic.DescribeTopicResult>> describeTopic(YdbTopic.DescribeTopicRequest request,
-                                                                          GrpcRequestSettings settings);
+    CompletableFuture<Result<DescribeTopicResult>> describeTopic(DescribeTopicRequest request,
+            GrpcRequestSettings settings);
 
     /**
      * Describe consumer.
@@ -54,8 +64,8 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
-    CompletableFuture<Result<YdbTopic.DescribeConsumerResult>> describeConsumer(
-            YdbTopic.DescribeConsumerRequest request, GrpcRequestSettings settings
+    CompletableFuture<Result<DescribeConsumerResult>> describeConsumer(
+            DescribeConsumerRequest request, GrpcRequestSettings settings
     );
 
     /**
@@ -64,7 +74,7 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
-    CompletableFuture<Status> commitOffset(YdbTopic.CommitOffsetRequest request, GrpcRequestSettings settings);
+    CompletableFuture<Status> commitOffset(CommitOffsetRequest request, GrpcRequestSettings settings);
 
     /**
      * Updates offsets in transaction.
@@ -72,16 +82,17 @@ public interface TopicRpc {
      * @param settings rpc call settings
      * @return completable future with result of operation
      */
-    CompletableFuture<Status> updateOffsetsInTransaction(YdbTopic.UpdateOffsetsInTransactionRequest request,
+    CompletableFuture<Status> updateOffsetsInTransaction(UpdateOffsetsInTransactionRequest request,
                                                          GrpcRequestSettings settings);
 
-    GrpcReadWriteStream<YdbTopic.StreamWriteMessage.FromServer, YdbTopic.StreamWriteMessage.FromClient> writeSession(
-            String traceId
-    );
+    GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(String traceId);
 
-    GrpcReadWriteStream<YdbTopic.StreamReadMessage.FromServer, YdbTopic.StreamReadMessage.FromClient> readSession(
-            String traceId
-    );
+    default GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(
+            String traceId, Integer directWriteNodeId) {
+        return writeSession(traceId);
+    }
+
+    GrpcReadWriteStream<StreamReadMessage.FromServer, StreamReadMessage.FromClient> readSession(String traceId);
 
     ScheduledExecutorService getScheduler();
 }
