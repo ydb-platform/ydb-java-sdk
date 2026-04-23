@@ -18,6 +18,8 @@ public class WriterSettings {
     private final String producerId;
     private final String messageGroupId;
     private final Long partitionId;
+    private final boolean useDirectWrite;
+
     private final int codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
@@ -30,6 +32,7 @@ public class WriterSettings {
         this.producerId = builder.producerId;
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
+        this.useDirectWrite = builder.useDirectWrite;
         this.codec = builder.codec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
@@ -55,6 +58,10 @@ public class WriterSettings {
 
     public String getMessageGroupId() {
         return messageGroupId;
+    }
+
+    public boolean getUseDirectWrite() {
+        return useDirectWrite;
     }
 
     public BiConsumer<Status, Throwable> getErrorsHandler() {
@@ -90,6 +97,7 @@ public class WriterSettings {
         private String producerId = null;
         private String messageGroupId = null;
         private Long partitionId = null;
+        private boolean useDirectWrite = false;
         private int codec = Codec.GZIP;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
@@ -150,6 +158,11 @@ public class WriterSettings {
          */
         public Builder setPartitionId(long partitionId) {
             this.partitionId = partitionId;
+            return this;
+        }
+
+        public Builder setDirectWrite(boolean enabled) {
+            this.useDirectWrite = enabled;
             return this;
         }
 

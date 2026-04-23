@@ -6,10 +6,10 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.proto.topic.YdbTopic.UpdateTokenRequest;
-import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.impl.TopicStreamBase;
 import tech.ydb.topic.impl.TopicStreamFail;
 
@@ -20,8 +20,8 @@ import tech.ydb.topic.impl.TopicStreamFail;
 public class WriteStream extends TopicStreamBase<FromServer, FromClient> implements WriteSession.Stream {
     private static final Logger logger = LoggerFactory.getLogger(WriteStream.class);
 
-    public WriteStream(String id, TopicRpc rpc) {
-        super(logger, id, rpc.writeSession(id));
+    public WriteStream(String id, GrpcReadWriteStream<FromServer, FromClient> stream) {
+        super(logger, id, stream);
     }
 
     @Override

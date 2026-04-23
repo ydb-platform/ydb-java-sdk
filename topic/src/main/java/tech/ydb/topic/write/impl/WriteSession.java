@@ -42,7 +42,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     public WriteSession(String debugId, TopicRpc rpc, WriterSettings settings, Listener controller) {
         super(logger, debugId, settings.getRetryConfig(), rpc.getScheduler());
         this.listener = controller;
-        this.streamFactory = new WriteStreamFactory(rpc, settings);
+        this.streamFactory = WriteStreamFactory.of(rpc, settings);
         this.sender = new MessageSender(debugId, settings.getCodec(), this::send);
         this.errorsHandler = settings.getErrorsHandler();
     }
