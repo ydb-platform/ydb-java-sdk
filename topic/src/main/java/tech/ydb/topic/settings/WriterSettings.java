@@ -4,6 +4,7 @@ import java.util.function.BiConsumer;
 
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
+import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Codec;
 
 /**
@@ -60,7 +61,7 @@ public class WriterSettings {
         return messageGroupId;
     }
 
-    public boolean getUseDirectWrite() {
+    public boolean isDirectWrite() {
         return useDirectWrite;
     }
 
@@ -161,6 +162,34 @@ public class WriterSettings {
             return this;
         }
 
+        /**
+         * Enable or disable direct write mode, where the writer connects to the specific YDB node that owns the target
+         * partition rather than routing through a proxy.
+         * <p>
+         * When enabled, the writer resolves the target node before opening the write stream:
+         * <ul>
+         * <li>If {@link #setPartitionId} is set, the node is resolved via
+         * {@link TopicClient#describeTopic(java.lang.String) describeTopic}.
+         * <li>If {@link #setProducerId} is set (and no explicit partition), the partition is resolved first via a
+         * probe write stream, then the node is resolved via
+         * {@link TopicClient#describeTopic(java.lang.String) describeTopic}.
+         * </ul>
+         * Direct write reduces write latency by eliminating the proxy hop at the cost of an extra RPC on
+         * (re)connection.
+         * <p>
+         * <b>Warning:</b> direct write requires a direct network link from the client to the YDB nodes. If the client
+         * can only reach a YDB proxy (e.g. in cloud environments where nodes are not publicly accessible), enabling
+         * this mode will cause connection failures. Use it only when the client has direct network access to all YDB
+         * nodes in the cluster.
+         * <p>
+         * Direct write requires either {@link #setPartitionId} or {@link #setProducerId} to be set; otherwise
+         * {@link TopicClient#createSyncWriter(tech.ydb.topic.settings.WriterSettings) createSyncWriter} and
+         * {@link TopicClient#createAsyncWriter(tech.ydb.topic.settings.WriterSettings) createAsyncWriter} will throw
+         * {@link IllegalArgumentException}.
+         *
+         * @param enabled {@code true} to enable direct write
+         * @return this builder
+         */
         public Builder setDirectWrite(boolean enabled) {
             this.useDirectWrite = enabled;
             return this;

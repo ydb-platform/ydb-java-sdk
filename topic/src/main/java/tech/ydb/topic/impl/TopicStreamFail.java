@@ -1,6 +1,5 @@
 package tech.ydb.topic.impl;
 
-
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 

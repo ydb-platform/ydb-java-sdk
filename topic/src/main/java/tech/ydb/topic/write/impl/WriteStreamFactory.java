@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 
+import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ import tech.ydb.topic.settings.WriterSettings;
  * @author Aleksandr Gorshenin
  */
 public class WriteStreamFactory {
-    private final static Logger logger = LoggerFactory.getLogger(WriteStreamFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(WriteStreamFactory.class);
 
     private final String topicPath;
     private final StreamWriteMessage.InitRequest initRequest;
@@ -76,7 +77,7 @@ public class WriteStreamFactory {
         logger.info("[{}] describe topic {} to look up node for partition {}", id, topicPath, partitionId);
         Result<DescribeTopicResult> describeTopic = rpc.describeTopic(
                 DescribeTopicRequest.newBuilder().setIncludeLocation(true).setPath(topicPath).build(),
-                GrpcRequestSettings.newBuilder().build()
+                GrpcRequestSettings.newBuilder().withDeadline(Duration.ofMinutes(1)).build()
         ).join();
 
         if (!describeTopic.isSuccess()) {
@@ -152,7 +153,7 @@ public class WriteStreamFactory {
     }
 
     public static WriteStreamFactory of(TopicRpc rpc, WriterSettings settings) {
-        if (!settings.getUseDirectWrite()) {
+        if (!settings.isDirectWrite()) {
             return new WriteStreamFactory(rpc, settings);
         }
 
