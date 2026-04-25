@@ -52,6 +52,10 @@ public interface GrpcTransport extends AutoCloseable {
         return NoopMeter.INSTANCE;
     }
 
+    default Meter getMeter() {
+        return NoopMeter.INSTANCE;
+    }
+
     @Override
     void close();
 

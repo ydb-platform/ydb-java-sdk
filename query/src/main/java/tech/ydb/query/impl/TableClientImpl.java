@@ -124,9 +124,10 @@ public class TableClientImpl implements TableClient {
             final List<Issue> issues = new ArrayList<>();
             final List<ValueProtos.ResultSet> results = new ArrayList<>();
             Span span = querySession.startSpan("ydb.ExecuteQuery");
+            final long startNanos = System.nanoTime();
 
             QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs, span),
-                    span) {
+                    span, startNanos, "ydb.ExecuteQuery") {
                 @Override
                 void handleTxMeta(String txID) {
                     txRef.set(txID);
