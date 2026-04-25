@@ -88,8 +88,8 @@ public interface TopicRpc {
     GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(String traceId);
 
     default GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(
-            String traceId, Integer directWriteNodeId) {
-        return writeSession(traceId);
+            GrpcRequestSettings settings) {
+        return writeSession(settings.getTraceId());
     }
 
     GrpcReadWriteStream<StreamReadMessage.FromServer, StreamReadMessage.FromClient> readSession(String traceId);

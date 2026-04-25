@@ -103,19 +103,17 @@ public final class GrpcTopicRpc implements TopicRpc {
 
     @Override
     public GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(String id) {
-        return writeSession(id, null);
+        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                .withTraceId(id)
+                .disableDeadline()
+                .build();
+        return writeSession(settings);
     }
 
     @Override
     public GrpcReadWriteStream<StreamWriteMessage.FromServer, StreamWriteMessage.FromClient> writeSession(
-            String id, Integer directWriteNodeId) {
-        GrpcRequestSettings.Builder settings = GrpcRequestSettings.newBuilder()
-                .withTraceId(id)
-                .disableDeadline();
-        if (directWriteNodeId != null) {
-            settings = settings.withDirectMode(true).withPreferredNodeID(directWriteNodeId);
-        }
-        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamWriteMethod(), settings.build());
+            GrpcRequestSettings settings) {
+        return transport.readWriteStreamCall(TopicServiceGrpc.getStreamWriteMethod(), settings);
     }
 
 

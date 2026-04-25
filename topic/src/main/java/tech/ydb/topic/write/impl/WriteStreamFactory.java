@@ -102,7 +102,11 @@ public class WriteStreamFactory {
 
         // create one-shot stream to detect partitionID for this producer
         logger.info("[{}] create probe stream for topic {} with producer {}", id, topicPath, producerId);
-        GrpcReadWriteStream<FromServer, FromClient> stream = rpc.writeSession(id);
+        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                .withTraceId(id + "-probe")
+                .withDeadline(Duration.ofMinutes(1))
+                .build();
+        GrpcReadWriteStream<FromServer, FromClient> stream = rpc.writeSession(settings);
 
         CompletableFuture<Status> streamFuture = stream.start(resp -> {
             if (resp.getStatus() != StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
@@ -115,13 +119,13 @@ public class WriteStreamFactory {
 
             if (resp.hasInitResponse()) {
                 long pid = resp.getInitResponse().getPartitionId();
-                logger.warn("[{}] probe stream to topic {} with producer {} has partition {}", id, topicPath,
+                logger.info("[{}] probe stream to topic {} with producer {} has partition {}", id, topicPath,
                         producerId, pid);
                 partitionId.complete(Result.success(pid));
                 return;
             }
 
-            logger.warn("[{}] probe stream to topic {} with producer {} got unexpexted message {}", id, topicPath,
+            logger.warn("[{}] probe stream to topic {} with producer {} got unexpected message {}", id, topicPath,
                     producerId, resp.getClass().getName());
 
             Issue issue = Issue.of("Unexpected message from stream with producer " + producerId, Issue.Severity.ERROR);
@@ -139,7 +143,7 @@ public class WriteStreamFactory {
                 Status status = st != null ? st : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
                 if (!partitionId.isDone()) {
                     logger.warn("[{}] probe stream to topic {} with producer {} failed with status {}", id, topicPath,
-                        producerId, streamFuture.join());
+                        producerId, status);
                     partitionId.complete(Result.fail(status));
                 }
             });
@@ -183,7 +187,13 @@ public class WriteStreamFactory {
                 return new WriteStream.Fail(id, nodeId.getStatus());
             }
 
-            return new WriteStream(id, rpc.writeSession(id, nodeId.getValue()));
+            GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                    .withTraceId(id)
+                    .disableDeadline()
+                    .withDirectMode(true)
+                    .withPreferredNodeID(nodeId.getValue())
+                    .build();
+            return new WriteStream(id, rpc.writeSession(settings));
         }
     }
 
@@ -207,7 +217,13 @@ public class WriteStreamFactory {
                 return new WriteStream.Fail(id, nodeId.getStatus());
             }
 
-            return new WriteStream(id, rpc.writeSession(id, nodeId.getValue()));
+            GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                    .withTraceId(id)
+                    .disableDeadline()
+                    .withDirectMode(true)
+                    .withPreferredNodeID(nodeId.getValue())
+                    .build();
+            return new WriteStream(id, rpc.writeSession(settings));
         }
     }
 }

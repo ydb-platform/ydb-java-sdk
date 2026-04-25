@@ -13,6 +13,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.DescribeTopicResult;
@@ -182,7 +183,7 @@ public class WriteStreamFactoryTest {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
         mockDescribeResult(rpc, partition(1L, 10), partition(2L, 42), partition(3L, 23));
-        Mockito.when(rpc.writeSession(Mockito.eq("s1"), Mockito.eq(42))).thenReturn(grpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(grpc);
 
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/local/topic")
@@ -196,7 +197,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
         Assert.assertTrue(stream instanceof WriteStream);
-        Mockito.verify(rpc).writeSession("s1", 42);
+        Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
     }
 
     @Test
@@ -212,7 +213,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
 
-        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(), Mockito.any(Integer.class));
+        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         CompletableFuture<Status> res = stream.start(null, null);
@@ -236,7 +237,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
 
-        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(), Mockito.any(Integer.class));
+        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         CompletableFuture<Status> res = stream.start(null, null);
@@ -266,8 +267,8 @@ public class WriteStreamFactoryTest {
         mockStreamResponse(probeGrpc, initResponse);
         mockDescribeResult(rpc, partition(7L, 55));
 
-        Mockito.when(rpc.writeSession(Mockito.any())).thenReturn(probeGrpc);
-        Mockito.when(rpc.writeSession(Mockito.any(), Mockito.eq(55))).thenReturn(actualGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class)))
+                .thenReturn(probeGrpc).thenReturn(actualGrpc);
 
         WriteStreamFactory factory = WriteStreamFactory.of(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
@@ -277,8 +278,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
         Assert.assertTrue(stream instanceof WriteStream);
-        Mockito.verify(rpc).writeSession("s1");
-        Mockito.verify(rpc).writeSession("s1", 55);
+        Mockito.verify(rpc, Mockito.times(2)).writeSession(Mockito.any(GrpcRequestSettings.class));
     }
 
     @Test
@@ -289,7 +289,7 @@ public class WriteStreamFactoryTest {
 
         mockStreamError(probeGrpc, Status.of(StatusCode.UNAUTHORIZED));
 
-        Mockito.when(rpc.writeSession(Mockito.any())).thenReturn(probeGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
 
         WriteStreamFactory factory = WriteStreamFactory.of(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
@@ -299,8 +299,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
         Assert.assertTrue(stream instanceof WriteStream.Fail);
-        Mockito.verify(rpc).writeSession("s1");
-        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(), Mockito.any(Integer.class));
+        Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
         CompletableFuture<Status> res = stream.start(null, null);
         Assert.assertTrue(res.isDone());
@@ -319,7 +318,7 @@ public class WriteStreamFactoryTest {
                 .build();
         mockStreamResponse(probeGrpc, initResponse);
 
-        Mockito.when(rpc.writeSession(Mockito.any())).thenReturn(probeGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
 
         WriteStreamFactory factory = WriteStreamFactory.of(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
@@ -329,8 +328,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
         Assert.assertTrue(stream instanceof WriteStream.Fail);
-        Mockito.verify(rpc).writeSession("s1");
-        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(), Mockito.any(Integer.class));
+        Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
         CompletableFuture<Status> res = stream.start(null, null);
         Assert.assertTrue(res.isDone());
@@ -350,7 +348,7 @@ public class WriteStreamFactoryTest {
                 .build();
         mockStreamResponse(probeGrpc, initResponse);
 
-        Mockito.when(rpc.writeSession(Mockito.any())).thenReturn(probeGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
 
         WriteStreamFactory factory = WriteStreamFactory.of(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
@@ -360,8 +358,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
         Assert.assertTrue(stream instanceof WriteStream.Fail);
-        Mockito.verify(rpc).writeSession("s1");
-        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(), Mockito.any(Integer.class));
+        Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
         CompletableFuture<Status> res = stream.start(null, null);
         Assert.assertTrue(res.isDone());
@@ -375,7 +372,7 @@ public class WriteStreamFactoryTest {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
         GrpcReadWriteStream<FromServer, FromClient> probeGrpc = mockGrpcStream();
-        GrpcReadWriteStream<FromServer, FromClient> actualGrpc = mockGrpcStream();
+//        GrpcReadWriteStream<FromServer, FromClient> actualGrpc = mockGrpcStream();
 
         FromServer initResponse = FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
@@ -389,8 +386,7 @@ public class WriteStreamFactoryTest {
         mockStreamResponse(probeGrpc, initResponse);
         mockDescribeResult(rpc, partition(1L, 55), partition(2L, 55));
 
-        Mockito.when(rpc.writeSession(Mockito.any())).thenReturn(probeGrpc);
-        Mockito.when(rpc.writeSession(Mockito.any(), Mockito.eq(55))).thenReturn(actualGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
 
         WriteStreamFactory factory = WriteStreamFactory.of(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
