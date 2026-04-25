@@ -312,7 +312,15 @@ class SessionPool implements AutoCloseable {
                         })
                         .whenComplete((result, th) -> {
                             if (th != null) {
-                                SpanFinalizer.finishByError(createSpan, th);
+                                Throwable error = FutureTools.unwrapCompletionException(th);
+                                if (error instanceof UnexpectedResultException) {
+                                    SpanFinalizer.finishByStatus(
+                                            createSpan,
+                                            ((UnexpectedResultException) error).getStatus()
+                                    );
+                                } else {
+                                    SpanFinalizer.finishByError(createSpan, error);
+                                }
                                 return;
                             }
 
