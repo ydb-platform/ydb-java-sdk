@@ -294,7 +294,9 @@ abstract class SessionImpl implements QuerySession {
     public QueryStream createQuery(String query, TxMode tx, Params prms, ExecuteQuerySettings settings) {
         YdbQuery.TransactionControl tc = TxControl.txModeCtrl(tx, true);
         Span span = rpc.startSpan("ydb.ExecuteQuery");
-        return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
+        long startNanos = System.nanoTime();
+
+        return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span, startNanos, "ydb.ExecuteQuery") {
             @Override
             void handleTxMeta(String txID) {
                 if (txID != null && !txID.isEmpty()) {
@@ -345,14 +347,18 @@ abstract class SessionImpl implements QuerySession {
         private final GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream;
         @Nullable
         private final Span operationSpan;
+        private final long startNanos;
+        private final String operationName;
 
         StreamImpl(
                 GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream,
                 @Nullable
-                Span operationSpan
+                Span operationSpan, long startNanos, String operationName
         ) {
             this.grpcStream = grpcStream;
             this.operationSpan = operationSpan;
+            this.startNanos = startNanos;
+            this.operationName = operationName;
         }
 
         abstract void handleTxMeta(String txId);
@@ -408,6 +414,8 @@ abstract class SessionImpl implements QuerySession {
                     .thenApply(streamStatus -> {
                         updateSessionState(streamStatus);
                         Status status = operationStatus.orElse(streamStatus);
+                        long elapsed = System.nanoTime() - startNanos;
+                        rpc.getMeter().recordOperation(operationName, elapsed, status);
                         if (status.isSuccess()) {
                             return Result.success(new QueryInfo(stats.get()), streamStatus);
                         } else {
@@ -451,7 +459,9 @@ abstract class SessionImpl implements QuerySession {
                     : TxControl.txModeCtrl(txMode, commitAtEnd);
 
             Span span = rpc.startSpan("ydb.ExecuteQuery");
-            return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
+            long startNanos = System.nanoTime();
+
+            return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span, startNanos, "ydb.ExecuteQuery") {
                 @Override
                 void handleTxMeta(String txID) {
                     String newId = txID == null || txID.isEmpty() ? null : txID;
@@ -474,7 +484,7 @@ abstract class SessionImpl implements QuerySession {
                         currentStatusFuture.complete(Status
                                 .of(StatusCode.ABORTED)
                                 .withIssues(Issue.of("Query on transaction failed with status "
-                                        + status, Issue.Severity.ERROR)));
+                                                     + status, Issue.Severity.ERROR)));
                     }
                 }
 
@@ -491,6 +501,8 @@ abstract class SessionImpl implements QuerySession {
         @Override
         public CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings) {
             final Span commitSpan = rpc.startSpan("ydb.Commit");
+            final long startNanos = System.nanoTime();
+
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             final String transactionId = txId.get();
             if (transactionId == null) {
@@ -523,12 +535,18 @@ abstract class SessionImpl implements QuerySession {
                             return;
                         }
                         SpanFinalizer.finishByStatus(commitSpan, status.getStatus());
-                    }));
+                    })).whenComplete((status, th) -> {                                    // добавить
+                        long elapsed = System.nanoTime() - startNanos;
+                        Status finalStatus = status != null ? status.getStatus() : Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
+                        rpc.getMeter().recordOperation("ydb.Commit", elapsed, finalStatus);
+                    });
         }
 
         @Override
         public CompletableFuture<Status> rollback(RollbackTransactionSettings settings) {
             final Span rollbackSpan = rpc.startSpan("ydb.Rollback");
+            final long startNanos = System.nanoTime();
+
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             final String transactionId = txId.get();
 
@@ -561,6 +579,10 @@ abstract class SessionImpl implements QuerySession {
                             return;
                         }
                         SpanFinalizer.finishByStatus(rollbackSpan, status);
+                    }).whenComplete((status, th) -> {
+                        long elapsed = System.nanoTime() - startNanos;
+                        Status finalStatus = status != null ? status : Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
+                        rpc.getMeter().recordOperation("ydb.Rollback", elapsed, finalStatus);
                     });
         }
     }

@@ -22,6 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.metrics.SessionPoolObserver;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanFinalizer;
 import tech.ydb.core.utils.FutureTools;
@@ -79,6 +80,23 @@ class SessionPool implements AutoCloseable {
                 minSize,
                 maxSize,
                 cleaner.periodMillis);
+
+        rpc.getMeter().registerSessionPool("default", new SessionPoolObserver() {
+            @Override
+            public int getIdleCount() {
+                return queue.getIdleCount();
+            }
+
+            @Override
+            public int getUsedCount() {
+                return queue.getUsedCount();
+            }
+
+            @Override
+            public int getPendingCount() {
+                return queue.getPendingCount();
+            }
+        });
     }
 
     public void updateMaxSize(int maxSize) {
@@ -278,6 +296,8 @@ class SessionPool implements AutoCloseable {
             Context previous = ctx.attach();
             try {
                 Span createSpan = rpc.startSpan("ydb.CreateSession");
+                long startNanos = System.nanoTime();
+
                 stats.requested.increment();
                 return SessionImpl
                         .createSession(rpc, CREATE_SETTINGS, true, createSpan)
@@ -297,6 +317,12 @@ class SessionPool implements AutoCloseable {
                             }
 
                             SpanFinalizer.finishByStatus(createSpan, result.getStatus());
+                        })
+                        .whenComplete((status, th) -> {
+                            long elapsed = System.nanoTime() - startNanos;
+                            Status finalStatus = status != null ? status.getStatus() : Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
+                            rpc.getMeter().recordOperation("ydb.CreateSession", elapsed, finalStatus);
+                            rpc.getMeter().recordSessionCreateTime("default", elapsed);
                         })
                         .thenApply(Result::getValue);
             } finally {

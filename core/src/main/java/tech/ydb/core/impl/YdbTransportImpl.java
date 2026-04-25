@@ -21,6 +21,7 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Tracer;
 
 /**
@@ -37,6 +38,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private final GrpcChannelPool channelPool;
     private final YdbDiscovery discovery;
     private final Tracer tracer;
+    private final Meter meter;
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         super(builder);
@@ -45,6 +47,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.tracer = builder.getTracer();
+        this.meter = builder.getMeter();
 
         logger.info("Create YDB transport with endpoint {} and {}", serverEndpoint, balancingSettings);
 
@@ -122,6 +125,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     @Override
     public Tracer getTracer() {
         return tracer;
+    }
+
+    @Override
+    public Meter getMeter() {
+        return meter;
     }
 
     @Override

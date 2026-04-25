@@ -6,6 +6,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
@@ -51,14 +52,20 @@ class QueryServiceRpc {
 
     private final GrpcTransport transport;
     private final Tracer trace;
+    private final Meter meter;
 
     QueryServiceRpc(GrpcTransport transport) {
         this.transport = transport;
         this.trace = transport.getTracer();
+        this.meter = transport.getMeter();
     }
 
     Span startSpan(String spanName) {
         return trace.startSpan(spanName, SpanKind.CLIENT);
+    }
+
+    Meter getMeter() {
+        return meter;
     }
 
     public CompletableFuture<Result<YdbQuery.CreateSessionResponse>> createSession(
