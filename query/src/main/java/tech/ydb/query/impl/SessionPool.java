@@ -22,6 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.metrics.SessionPoolObserver;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
@@ -78,6 +79,23 @@ class SessionPool implements AutoCloseable {
                 minSize,
                 maxSize,
                 cleaner.periodMillis);
+
+        rpc.getMeter().registerSessionPool("default", new SessionPoolObserver() {
+            @Override
+            public int getIdleCount() {
+                return queue.getIdleCount();
+            }
+
+            @Override
+            public int getUsedCount() {
+                return queue.getUsedCount();
+            }
+
+            @Override
+            public int getPendingCount() {
+                return queue.getPendingCount();
+            }
+        });
     }
 
     public void updateMaxSize(int maxSize) {
@@ -277,8 +295,16 @@ class SessionPool implements AutoCloseable {
             Context previous = ctx.attach();
             try {
                 Span createSpan = rpc.startSpan("ydb.CreateSession");
+                long startNanos = System.nanoTime();
+
                 stats.requested.increment();
                 return Span.endOnResult(createSpan, SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan))
+                        .whenComplete((status, th) -> {
+                            long elapsed = System.nanoTime() - startNanos;
+                            Status finalStatus = status != null ? status.getStatus() : Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
+                            rpc.getMeter().recordOperation("ydb.CreateSession", elapsed, finalStatus);
+                            rpc.getMeter().recordSessionCreateTime("default", elapsed);
+                        })
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
                                 stats.failed.increment();
@@ -400,17 +426,17 @@ class SessionPool implements AutoCloseable {
         @Override
         public String toString() {
             return "SessionPoolStats{minSize=" + getMinSize()
-                    + ", maxSize=" + getMaxSize()
-                    + ", idleCount=" + getIdleCount()
-                    + ", acquiredCount=" + getAcquiredCount()
-                    + ", pendingAcquireCount=" + getPendingAcquireCount()
-                    + ", acquiredTotal=" + getAcquiredTotal()
-                    + ", releasedTotal=" + getReleasedTotal()
-                    + ", requestsTotal=" + getRequestedTotal()
-                    + ", createdTotal=" + getCreatedTotal()
-                    + ", failedTotal=" + getFailedTotal()
-                    + ", deletedTotal=" + getDeletedTotal()
-                    + "}";
+                   + ", maxSize=" + getMaxSize()
+                   + ", idleCount=" + getIdleCount()
+                   + ", acquiredCount=" + getAcquiredCount()
+                   + ", pendingAcquireCount=" + getPendingAcquireCount()
+                   + ", acquiredTotal=" + getAcquiredTotal()
+                   + ", releasedTotal=" + getReleasedTotal()
+                   + ", requestsTotal=" + getRequestedTotal()
+                   + ", createdTotal=" + getCreatedTotal()
+                   + ", failedTotal=" + getFailedTotal()
+                   + ", deletedTotal=" + getDeletedTotal()
+                   + "}";
         }
     }
 

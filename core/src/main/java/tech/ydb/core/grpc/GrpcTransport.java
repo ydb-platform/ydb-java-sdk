@@ -12,6 +12,8 @@ import com.google.common.net.HostAndPort;
 import io.grpc.MethodDescriptor;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.metrics.NoopMeter;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.URITools;
@@ -44,6 +46,10 @@ public interface GrpcTransport extends AutoCloseable {
 
     default Tracer getTracer() {
         return NoopTracer.getInstance();
+    }
+
+    default Meter getMeter() {
+        return NoopMeter.getInstance();
     }
 
     @Override
@@ -86,7 +92,7 @@ public interface GrpcTransport extends AutoCloseable {
             scheme = uri.getScheme();
         } catch (URISyntaxException | RuntimeException e) {
             throw new IllegalArgumentException("Failed to parse connection string '" + connectionString +
-                    "'. Expected format: [<protocol>://]<host>[:<port>]/?database=<database-path>", e);
+                                               "'. Expected format: [<protocol>://]<host>[:<port>]/?database=<database-path>", e);
         }
         GrpcTransportBuilder builder = new GrpcTransportBuilder(endpoint, null, database);
         if (scheme.equals("grpcs")) {
