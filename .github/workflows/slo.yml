@@ -1,0 +1,172 @@
+name: SLO
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+  pull_request:
+    types: [opened, reopened, synchronize, labeled]
+    branches:
+      - master
+      - develop
+
+  workflow_dispatch:
+    inputs:
+      github_issue:
+        description: "GitHub issue number where the SLO results will be reported"
+        required: true
+      baseline_ref:
+        description: "Baseline commit/branch/tag to compare against (leave empty to auto-detect merge-base with master)"
+        required: false
+      slo_workload_duration_seconds:
+        description: "Duration of the SLO workload in seconds"
+        required: false
+        default: "600"
+      slo_workload_read_max_rps:
+        description: "Maximum read RPS for the SLO workload"
+        required: false
+        default: "1000"
+      slo_workload_write_max_rps:
+        description: "Maximum write RPS for the SLO workload"
+        required: false
+        default: "100"
+      examples_ref:
+        description: "Branch/tag/SHA of ydb-java-examples to use for the workload sources"
+        required: false
+        default: "master"
+
+jobs:
+  ydb-slo-action:
+    if: contains(github.event.pull_request.labels.*.name, 'SLO') || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+
+    name: Run YDB SLO Tests
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk:
+          - name: java-query-kv
+            command: ""
+
+    concurrency:
+      group: slo-${{ github.ref }}-${{ matrix.sdk.name }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Install dependencies
+        run: |
+          set -euxo pipefail
+          YQ_VERSION=v4.48.2
+          BUILDX_VERSION=0.30.1
+          COMPOSE_VERSION=2.40.3
+
+          sudo curl -L "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" \
+            -o /usr/local/bin/yq
+          sudo chmod +x /usr/local/bin/yq
+
+          sudo mkdir -p /usr/local/lib/docker/cli-plugins
+
+          sudo curl -fLo /usr/local/lib/docker/cli-plugins/docker-buildx \
+            "https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-amd64"
+          sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+
+          sudo curl -fLo /usr/local/lib/docker/cli-plugins/docker-compose \
+            "https://github.com/docker/compose/releases/download/v${COMPOSE_VERSION}/docker-compose-linux-x86_64"
+          sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+          yq --version
+          docker --version
+          docker buildx version
+          docker compose version
+
+      - name: Checkout current SDK version
+        uses: actions/checkout@v5
+        with:
+          path: sdk-current
+          fetch-depth: 0
+
+      - name: Determine baseline commit
+        id: baseline
+        working-directory: sdk-current
+        run: |
+          set -euo pipefail
+          if [[ -n "${{ inputs.baseline_ref }}" ]]; then
+            BASELINE="${{ inputs.baseline_ref }}"
+          else
+            BASELINE=$(git merge-base HEAD origin/master)
+          fi
+          echo "sha=${BASELINE}" >> "$GITHUB_OUTPUT"
+
+          if git merge-base --is-ancestor "${BASELINE}" origin/master && \
+             [ "$(git rev-parse origin/master)" = "${BASELINE}" ]; then
+            BASELINE_REF="master"
+          else
+            BRANCH=$(git branch -r --contains "${BASELINE}" | grep -v HEAD | head -1 | sed 's|.*/||' || echo "")
+            if [ -n "${BRANCH}" ]; then
+              BASELINE_REF="${BRANCH}@${BASELINE:0:7}"
+            else
+              BASELINE_REF="${BASELINE:0:7}"
+            fi
+          fi
+          echo "ref=${BASELINE_REF}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout baseline SDK version
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.baseline.outputs.sha }}
+          path: sdk-baseline
+          fetch-depth: 1
+
+      - name: Checkout ydb-java-examples
+        uses: actions/checkout@v5
+        with:
+          repository: ydb-platform/ydb-java-examples
+          ref: ${{ inputs.examples_ref || 'master' }}
+          path: examples
+
+      - name: Build current workload image
+        run: |
+          set -euxo pipefail
+          chmod +x sdk-current/.github/scripts/build-slo-image.sh
+          sdk-current/.github/scripts/build-slo-image.sh \
+            --sdk      "${GITHUB_WORKSPACE}/sdk-current" \
+            --examples "${GITHUB_WORKSPACE}/examples" \
+            --tag      ydb-app-current
+
+      - name: Build baseline workload image
+        run: |
+          set -euxo pipefail
+          # Reuse the build script from the current checkout — it doesn't
+          # depend on SDK contents, only on the layout it produces.
+          sdk-current/.github/scripts/build-slo-image.sh \
+            --sdk      "${GITHUB_WORKSPACE}/sdk-baseline" \
+            --examples "${GITHUB_WORKSPACE}/examples" \
+            --tag      ydb-app-baseline \
+            --fallback-image ydb-app-current
+
+      - name: Run SLO Tests
+        uses: ydb-platform/ydb-slo-action/init@v2
+        timeout-minutes: 30
+        with:
+          github_issue: ${{ github.event.inputs.github_issue }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workload_name: ${{ matrix.sdk.name }}
+          workload_duration: ${{ inputs.slo_workload_duration_seconds || '600' }}
+          workload_current_ref: ${{ github.head_ref || github.ref_name }}
+          workload_current_image: ydb-app-current
+          workload_current_command: >-
+            ${{ matrix.sdk.command }}
+            --read-rps ${{ inputs.slo_workload_read_max_rps || '1000' }}
+            --write-rps ${{ inputs.slo_workload_write_max_rps || '100' }}
+          workload_baseline_ref: ${{ steps.baseline.outputs.ref }}
+          workload_baseline_image: ydb-app-baseline
+          workload_baseline_command: >-
+            ${{ matrix.sdk.command }}
+            --read-rps ${{ inputs.slo_workload_read_max_rps || '1000' }}
+            --write-rps ${{ inputs.slo_workload_write_max_rps || '100' }}
