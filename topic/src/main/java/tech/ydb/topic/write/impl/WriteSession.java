@@ -13,6 +13,7 @@ import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.impl.TopicRetryableStream;
+import tech.ydb.topic.impl.TopicStream;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.WriteAck;
 
@@ -20,6 +21,8 @@ import tech.ydb.topic.write.WriteAck;
  * @author Nikolay Perfilov
  */
 public final class WriteSession extends TopicRetryableStream<FromServer, FromClient> {
+    public interface Stream extends TopicStream<FromServer, FromClient> { }
+
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
 
     public interface Listener {
@@ -32,20 +35,20 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     }
 
     private final Listener listener;
-    private final StreamFactory streamFactory;
+    private final WriteStreamFactory streamFactory;
     private final MessageSender sender;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
     public WriteSession(String debugId, TopicRpc rpc, WriterSettings settings, Listener controller) {
         super(logger, debugId, settings.getRetryConfig(), rpc.getScheduler());
         this.listener = controller;
-        this.streamFactory = new StreamFactory(rpc, settings);
+        this.streamFactory = WriteStreamFactory.of(rpc, settings);
         this.sender = new MessageSender(debugId, settings.getCodec(), this::send);
         this.errorsHandler = settings.getErrorsHandler();
     }
 
     @Override
-    protected WriteStream createNewStream(String id) {
+    protected Stream createNewStream(String id) {
         return streamFactory.createNewStream(id);
     }
 
@@ -68,7 +71,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
         String sessionId = response.getSessionId();
         resetRetries();
         logger.info("[{}] Session with id {} (partition {}) initialized for topic \"{}\", lastSeqNo {}",
-                debugId, sessionId, response.getPartitionId(), streamFactory.topicPath, lastSeqNo);
+                debugId, sessionId, response.getPartitionId(), streamFactory.getTopicPath(), lastSeqNo);
         listener.onStart(lastSeqNo, sessionId);
     }
 
@@ -139,47 +142,6 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
             logger.debug("[{}] got update token response", debugId);
         } else {
             logger.warn("[{}] got unknown type message", debugId);
-        }
-    }
-
-    private class StreamFactory {
-        private final String topicPath;
-        private final TopicRpc rpc;
-        private final YdbTopic.StreamWriteMessage.InitRequest initRequest;
-
-        StreamFactory(TopicRpc rpc, WriterSettings settings) {
-            this.rpc = rpc;
-            this.topicPath = settings.getTopicPath();
-
-            YdbTopic.StreamWriteMessage.InitRequest.Builder req = YdbTopic.StreamWriteMessage.InitRequest
-                    .newBuilder()
-                    .setPath(topicPath);
-            String producerId = settings.getProducerId();
-            if (producerId != null) {
-                req.setProducerId(producerId);
-            }
-            String messageGroupId = settings.getMessageGroupId();
-            Long partitionId = settings.getPartitionId();
-            if (messageGroupId != null) {
-                if (partitionId != null) {
-                    throw new IllegalArgumentException("Both MessageGroupId and PartitionId are set in WriterSettings");
-                }
-                req.setMessageGroupId(messageGroupId);
-            } else if (partitionId != null) {
-                req.setPartitionId(partitionId);
-            }
-
-            this.initRequest = req.build();
-        }
-
-        public WriteStream createNewStream(String id) {
-            return new WriteStream(id, rpc);
-        }
-
-        public YdbTopic.StreamWriteMessage.FromClient initRequest() {
-            return YdbTopic.StreamWriteMessage.FromClient.newBuilder()
-                    .setInitRequest(initRequest)
-                    .build();
         }
     }
 }

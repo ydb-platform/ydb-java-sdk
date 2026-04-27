@@ -39,7 +39,7 @@ public class WriterImplTest {
     private static TopicRpc mockRpc(StreamMock first, StreamMock... rest) {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.writeSession(Mockito.any())).thenReturn(first, rest);
+        Mockito.when(rpc.writeSession(Mockito.any(String.class))).thenReturn(first, rest);
         return rpc;
     }
 

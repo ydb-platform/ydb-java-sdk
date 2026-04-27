@@ -38,9 +38,9 @@ public class TopicRetryableStreamTest {
         private final GrpcReadWriteStream<Empty, Empty> grpc = Mockito.mock(GrpcReadWriteStream.class);
 
         private final CompletableFuture<Status> grpcFuture = new CompletableFuture<>();
-        private final TopicStream<Empty, Empty> stream;
+        private final TopicStreamBase<Empty, Empty> stream;
 
-        StreamHandle(TopicStream<Empty, Empty> mocked) {
+        StreamHandle(TopicStreamBase<Empty, Empty> mocked) {
             this.stream = mocked;
             Mockito.when(mocked.start(Mockito.any(), Mockito.any())).thenReturn(grpcFuture);
         }
@@ -49,7 +49,7 @@ public class TopicRetryableStreamTest {
             Mockito.when(grpc.authToken()).thenReturn("token");
             Mockito.when(grpc.start(Mockito.any())).thenReturn(grpcFuture);
 
-            stream = new TopicStream<Empty, Empty>(logger, "inner", grpc) {
+            stream = new TopicStreamBase<Empty, Empty>(logger, "inner", grpc) {
                 @Override
                 protected Empty updateTokenMessage(String token) {
                     return EMPTY;
@@ -205,7 +205,7 @@ public class TopicRetryableStreamTest {
     @Test
     public void noRetriesExceptionStatusTest() {
         @SuppressWarnings("unchecked")
-        StreamHandle h = new StreamHandle(Mockito.mock(TopicStream.class));
+        StreamHandle h = new StreamHandle(Mockito.mock(TopicStreamBase.class));
         TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
 
         retryable.start();

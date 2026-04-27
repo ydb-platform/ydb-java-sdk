@@ -4,6 +4,7 @@ import java.util.function.BiConsumer;
 
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
+import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Codec;
 
 /**
@@ -18,6 +19,8 @@ public class WriterSettings {
     private final String producerId;
     private final String messageGroupId;
     private final Long partitionId;
+    private final boolean useDirectWrite;
+
     private final int codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
@@ -30,6 +33,7 @@ public class WriterSettings {
         this.producerId = builder.producerId;
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
+        this.useDirectWrite = builder.useDirectWrite;
         this.codec = builder.codec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
@@ -55,6 +59,10 @@ public class WriterSettings {
 
     public String getMessageGroupId() {
         return messageGroupId;
+    }
+
+    public boolean isDirectWrite() {
+        return useDirectWrite;
     }
 
     public BiConsumer<Status, Throwable> getErrorsHandler() {
@@ -90,6 +98,7 @@ public class WriterSettings {
         private String producerId = null;
         private String messageGroupId = null;
         private Long partitionId = null;
+        private boolean useDirectWrite = false;
         private int codec = Codec.GZIP;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
@@ -150,6 +159,39 @@ public class WriterSettings {
          */
         public Builder setPartitionId(long partitionId) {
             this.partitionId = partitionId;
+            return this;
+        }
+
+        /**
+         * Enable or disable direct write mode, where the writer connects to the specific YDB node that owns the target
+         * partition rather than routing through a proxy.
+         * <p>
+         * When enabled, the writer resolves the target node before opening the write stream:
+         * <ul>
+         * <li>If {@link #setPartitionId} is set, the node is resolved via
+         * {@link TopicClient#describeTopic(java.lang.String) describeTopic}.
+         * <li>If {@link #setProducerId} is set (and no explicit partition), the partition is resolved first via a
+         * probe write stream, then the node is resolved via
+         * {@link TopicClient#describeTopic(java.lang.String) describeTopic}.
+         * </ul>
+         * Direct write reduces write latency by eliminating the proxy hop at the cost of an extra RPC on
+         * (re)connection.
+         * <p>
+         * <b>Warning:</b> direct write requires a direct network link from the client to the YDB nodes. If the client
+         * can only reach a YDB proxy (e.g. in cloud environments where nodes are not publicly accessible), enabling
+         * this mode will cause connection failures. Use it only when the client has direct network access to all YDB
+         * nodes in the cluster.
+         * <p>
+         * Direct write requires either {@link #setPartitionId} or {@link #setProducerId} to be set; otherwise
+         * {@link TopicClient#createSyncWriter(tech.ydb.topic.settings.WriterSettings) createSyncWriter} and
+         * {@link TopicClient#createAsyncWriter(tech.ydb.topic.settings.WriterSettings) createAsyncWriter} will throw
+         * {@link IllegalArgumentException}.
+         *
+         * @param enabled {@code true} to enable direct write
+         * @return this builder
+         */
+        public Builder setDirectWrite(boolean enabled) {
+            this.useDirectWrite = enabled;
             return this;
         }
 

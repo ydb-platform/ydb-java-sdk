@@ -24,7 +24,7 @@ public class TopicStreamTest {
 
     private interface MockedStream extends GrpcReadWriteStream<StringValue, StringValue> { }
 
-    private static class TestStream extends TopicStream<StringValue, StringValue> {
+    private static class TestStream extends TopicStreamBase<StringValue, StringValue> {
         TestStream(MockedStream mock) {
             super(logger, "test", mock);
         }
