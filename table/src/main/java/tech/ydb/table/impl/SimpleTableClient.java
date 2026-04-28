@@ -6,7 +6,6 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.tracing.Tracer;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionSupplier;
 import tech.ydb.table.rpc.TableRpc;
@@ -37,11 +36,6 @@ public class SimpleTableClient implements SessionSupplier {
     @Override
     public ScheduledExecutorService getScheduler() {
         return tableRpc.getScheduler();
-    }
-
-    @Override
-    public Tracer getTracer() {
-        return tableRpc.getTracer();
     }
 
     public static Builder newClient(TableRpc rpc) {

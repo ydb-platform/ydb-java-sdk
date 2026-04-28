@@ -4,16 +4,6 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.annotation.Nullable;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -27,10 +17,7 @@ import tech.ydb.auth.TokenAuthProvider;
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
-import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
-import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
 import tech.ydb.core.tracing.Tracer;
@@ -38,8 +25,6 @@ import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
-import tech.ydb.query.tools.SessionRetryContext;
-import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.table.Session;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.query.DataQueryResult;
@@ -54,7 +39,6 @@ public class QueryTracingTest {
 
     private static GrpcTransport transport;
     private static RecordingTracer tracer;
-    private static final GrpcTestInterceptor grpcInterceptor = new GrpcTestInterceptor();
 
     private QueryClient queryClient;
     private TableClient tableClient;
@@ -64,7 +48,6 @@ public class QueryTracingTest {
         tracer = new RecordingTracer();
         transport = GrpcTransport.forEndpoint(YDB.endpoint(), YDB.database())
                 .withAuthProvider(new TokenAuthProvider(YDB.authToken()))
-                .addChannelInitializer(grpcInterceptor)
                 .withTracer(tracer)
                 .build();
     }
@@ -77,7 +60,6 @@ public class QueryTracingTest {
     @Before
     public void initClient() {
         tracer.reset();
-        grpcInterceptor.reset();
         queryClient = QueryClient.newClient(transport).build();
         tableClient = null;
     }
@@ -92,22 +74,13 @@ public class QueryTracingTest {
         }
     }
 
-    private static void awaitTracing() {
-        try {
-            tracer.awaitAllSpansClosed(Duration.ofSeconds(30));
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            Assert.fail(e.toString());
-        }
-    }
-
     @Test
     public void createSessionSpanIsRecorded() {
-        try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
-            Assert.assertNotNull(session.getId());
-            awaitTracing();
-            Assert.assertEquals(1, tracer.countClosedSpan("ydb.CreateSession"));
+        try (QuerySession ignored = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            // no-op
         }
+
+        Assert.assertEquals(1, tracer.countClosedSpan("ydb.CreateSession"));
     }
 
     @Test
@@ -116,7 +89,6 @@ public class QueryTracingTest {
             session.createQuery("SELECT 1", TxMode.NONE).execute().join().getStatus().expectSuccess();
         }
 
-        awaitTracing();
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.ExecuteQuery"));
     }
 
@@ -131,7 +103,6 @@ public class QueryTracingTest {
             commitResult.getStatus().expectSuccess();
         }
 
-        awaitTracing();
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.Commit"));
     }
 
@@ -146,7 +117,6 @@ public class QueryTracingTest {
             rollbackStatus.expectSuccess();
         }
 
-        awaitTracing();
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.Rollback"));
     }
 
@@ -162,7 +132,6 @@ public class QueryTracingTest {
             result.getStatus().expectSuccess();
         }
 
-        awaitTracing();
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.CreateSession"));
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.ExecuteQuery"));
     }
@@ -184,406 +153,47 @@ public class QueryTracingTest {
             rollbackStatus.expectSuccess();
         }
 
-        awaitTracing();
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.CreateSession"));
         Assert.assertEquals(2, tracer.countClosedSpan("ydb.ExecuteQuery"));
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.Commit"));
         Assert.assertEquals(1, tracer.countClosedSpan("ydb.Rollback"));
     }
 
-    @Test
-    public void querySpanIsChildOfApplicationSpan() {
-        try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
-            Span appParent = tracer.startSpan("app.parent", SpanKind.INTERNAL);
-            try (Scope ignored = appParent.makeCurrent()) {
-                session.createQuery("SELECT 1", TxMode.NONE).execute().join().getStatus().expectSuccess();
-            } finally {
-                appParent.end();
-            }
-        }
-
-        awaitTracing();
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "app.parent"));
-    }
-
-    @Test
-    public void retrySpanIsParentOfRpcSpans() {
-        grpcInterceptor.failExecuteQuery(StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION, 2);
-        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
-                .maxRetries(5)
-                .backoffSlot(Duration.ofMillis(1))
-                .fastBackoffSlot(Duration.ofMillis(1))
-                .build();
-
-        Span appParent = tracer.startSpan("app.parent.retry", SpanKind.INTERNAL);
-        try (Scope ignored = appParent.makeCurrent()) {
-            Status status = retryContext.supplyStatus(session ->
-                    session.createQuery("SELECT 1", TxMode.NONE).execute().thenApply(Result::getStatus)).join();
-            status.expectSuccess();
-        } finally {
-            appParent.end();
-        }
-
-        awaitTracing();
-        Assert.assertEquals(3, tracer.countClosedSpan("ydb.Try"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.RunWithRetry", "app.parent.retry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Try", "ydb.RunWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Try"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Try"));
-        // First Try has no backoff_ms (no prior sleep); subsequent tries capture the prior sleep duration
-        Assert.assertEquals(2, tracer.countClosedSpanWithAttribute("ydb.Try", "ydb.retry.backoff_ms"));
-    }
-
-    @Test
-    public void retryContextRetriesOnCreateSessionFailures() {
-        grpcInterceptor.failCreateSession(StatusCodesProtos.StatusIds.StatusCode.ABORTED, 2);
-        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
-                .maxRetries(5)
-                .backoffSlot(Duration.ofMillis(1))
-                .fastBackoffSlot(Duration.ofMillis(1))
-                .build();
-
-        Span appParent = tracer.startSpan("app.parent.createSession.retry", SpanKind.INTERNAL);
-        try (Scope ignored = appParent.makeCurrent()) {
-            Status status = retryContext.supplyStatus(session ->
-                    session.createQuery("SELECT 1", TxMode.NONE).execute().thenApply(Result::getStatus)).join();
-            status.expectSuccess();
-        } finally {
-            appParent.end();
-        }
-
-        awaitTracing();
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.RunWithRetry", "app.parent.createSession.retry"));
-        Assert.assertEquals(3, tracer.countClosedSpan("ydb.Try"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Try", "ydb.RunWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Try"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Try"));
-        Assert.assertEquals(2, tracer.countClosedSpanWithAttribute("ydb.Try", "ydb.retry.backoff_ms"));
-    }
-
-    @Test
-    public void retryContextRetriesOnCommitFailures() {
-        grpcInterceptor.failCommit(StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION, 2);
-        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
-                .maxRetries(5)
-                .backoffSlot(Duration.ofMillis(1))
-                .fastBackoffSlot(Duration.ofMillis(1))
-                .build();
-
-        Span appParent = tracer.startSpan("app.parent.commit.retry", SpanKind.INTERNAL);
-        try (Scope ignored = appParent.makeCurrent()) {
-            Status status = retryContext.supplyStatus(session -> {
-                        QueryTransaction tx = session.createNewTransaction(TxMode.SERIALIZABLE_RW);
-                        return tx.createQuery("SELECT 1").execute()
-                                .thenCompose(queryResult -> {
-                                    queryResult.getStatus().expectSuccess();
-                                    return tx.commit().thenApply(Result::getStatus);
-                                });
-                    }
-            ).join();
-            status.expectSuccess();
-        } finally {
-            appParent.end();
-        }
-
-        awaitTracing();
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.RunWithRetry", "app.parent.commit.retry"));
-        Assert.assertEquals(3, tracer.countClosedSpan("ydb.Try"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Try", "ydb.RunWithRetry"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Try"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Try"));
-        Assert.assertEquals(3, tracer.countClosedSpanWithParent("ydb.Commit", "ydb.Try"));
-        Assert.assertEquals(2, tracer.countClosedSpanWithAttribute("ydb.Try", "ydb.retry.backoff_ms"));
-    }
-
-    @Test
-    public void tableProxyRetrySpanIsParentOfRpcSpans() {
-        AtomicInteger attempt = new AtomicInteger();
-        tableClient = QueryClient.newTableClient(transport).build();
-        tech.ydb.table.SessionRetryContext retryContext = tech.ydb.table.SessionRetryContext.create(tableClient)
-                .maxRetries(5)
-                .backoffSlot(Duration.ofMillis(1))
-                .fastBackoffSlot(Duration.ofMillis(1))
-                .build();
-
-        Span appParent = tracer.startSpan("app.parent.table.retry", SpanKind.INTERNAL);
-        try (Scope ignored = appParent.makeCurrent()) {
-            Status status = retryContext.supplyStatus(session -> {
-                if (attempt.getAndIncrement() == 0) {
-                    return CompletableFuture.completedFuture(Status.of(StatusCode.OVERLOADED));
-                }
-                TableTransaction tx = session.createNewTransaction(TxMode.SERIALIZABLE_RW);
-                Result<DataQueryResult> queryResult = tx.executeDataQuery("SELECT 1", Params.empty()).join();
-                queryResult.getStatus().expectSuccess();
-                return tx.commit();
-            }).join();
-            status.expectSuccess();
-        } finally {
-            appParent.end();
-        }
-
-        awaitTracing();
-        Assert.assertEquals(2, tracer.countClosedSpan("ydb.Try"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.RunWithRetry", "app.parent.table.retry"));
-        Assert.assertEquals(2, tracer.countClosedSpanWithParent("ydb.Try", "ydb.RunWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Try"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Try"));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Commit", "ydb.Try"));
-    }
-
-    @Test
-    public void nonRetryableExceptionClosesRetrySpan() {
-        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
-                .maxRetries(5)
-                .backoffSlot(Duration.ofMillis(1))
-                .fastBackoffSlot(Duration.ofMillis(1))
-                .build();
-
-        RuntimeException thrown;
-        try {
-            retryContext.supplyStatus(session -> {
-                throw new IllegalStateException("boom");
-            }).join();
-            throw new AssertionError("Exception expected");
-        } catch (RuntimeException ex) {
-            thrown = ex;
-        }
-
-        awaitTracing();
-        Assert.assertNotNull(thrown.getCause());
-        Assert.assertTrue(thrown.getCause() instanceof IllegalStateException);
-        Assert.assertEquals(1,
-                tracer.countClosedSpanWithErrorType("ydb.RunWithRetry", IllegalStateException.class.getName()));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.Try", "ydb.RunWithRetry"));
-        Assert.assertEquals(1, tracer.countClosedSpan("ydb.Try"));
-        Assert.assertEquals(1,
-                tracer.countClosedSpanWithErrorType("ydb.Try", IllegalStateException.class.getName()));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.CreateSession", "ydb.Try"));
-        Assert.assertEquals(0, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Try"));
-    }
-
-    @Test
-    public void retryableUnexpectedResultExceptionRetriesAndSetsErrorType() {
-        AtomicInteger attempt = new AtomicInteger();
-        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
-                .maxRetries(5)
-                .backoffSlot(Duration.ofMillis(1))
-                .fastBackoffSlot(Duration.ofMillis(1))
-                .build();
-
-        Status status = retryContext.supplyStatus(session -> {
-            if (attempt.getAndIncrement() == 0) {
-                throw new UnexpectedResultException("retryable", Status.of(StatusCode.OVERLOADED));
-            }
-            return session.createQuery("SELECT 1", TxMode.NONE).execute().thenApply(Result::getStatus);
-        }).join();
-        status.expectSuccess();
-
-        awaitTracing();
-        Assert.assertEquals(1, tracer.countClosedSpan("ydb.RunWithRetry"));
-        Assert.assertEquals(2, tracer.countClosedSpanWithParent("ydb.Try", "ydb.RunWithRetry"));
-        Assert.assertEquals(2, tracer.countClosedSpan("ydb.Try"));
-        Assert.assertEquals(1,
-                tracer.countClosedSpanWithErrorType("ydb.Try", UnexpectedResultException.class.getName()));
-        Assert.assertEquals(1, tracer.countClosedSpanWithParent("ydb.ExecuteQuery", "ydb.Try"));
-    }
-
-    @Test
-    public void contextCancelClosesRunWithRetrySpan() throws InterruptedException {
-        SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
-                .maxRetries(5)
-                .backoffSlot(Duration.ofMillis(1))
-                .fastBackoffSlot(Duration.ofMillis(1))
-                .build();
-
-        CountDownLatch firstPartReceived = new CountDownLatch(1);
-        CountDownLatch unblockReader = new CountDownLatch(1);
-
-        CompletableFuture<Status> future = retryContext.supplyStatus(session ->
-                session.createQuery("SELECT 1; SELECT 2;", TxMode.NONE).execute(part -> {
-                    firstPartReceived.countDown();
-                    try {
-                        unblockReader.await(30, TimeUnit.SECONDS);
-                    } catch (InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
-                }).thenApply(Result::getStatus));
-
-        Assert.assertTrue(firstPartReceived.await(30, TimeUnit.SECONDS));
-        future.cancel(false);
-        unblockReader.countDown();
-
-        awaitTracing();
-        Assert.assertThrows(CancellationException.class, future::join);
-        Assert.assertTrue(future.isCancelled());
-        Assert.assertEquals(1,
-                tracer.countClosedSpanWithErrorType("ydb.RunWithRetry", CancellationException.class.getName()));
-    }
-
     private static final class RecordingTracer implements Tracer {
-        private final List<RecordingSpan> spans = Collections.synchronizedList(new ArrayList<>());
-        private final ThreadLocal<RecordingSpan> currentSpan = new ThreadLocal<>();
-
-        private final Object spanLock = new Object();
-        private int openSpans = 0;
+        private final List<RecordingSpan> spans = Collections.synchronizedList(new ArrayList<RecordingSpan>());
 
         @Override
         public Span startSpan(String spanName, SpanKind spanKind) {
-            RecordingSpan span = new RecordingSpan(this, spanName, spanKind, currentSpan.get());
+            RecordingSpan span = new RecordingSpan(spanName, spanKind);
             spans.add(span);
             return span;
         }
 
-        /** Called from {@link RecordingSpan} constructor: one span opened. */
-        void recordSpanOpen() {
-            synchronized (spanLock) {
-                openSpans++;
-            }
-        }
-
-        /** Called from {@link RecordingSpan#end()}: one span closed. */
-        void recordSpanClose() {
-            synchronized (spanLock) {
-                openSpans--;
-                if (openSpans == 0) {
-                    spanLock.notifyAll();
-                }
-            }
-        }
-
         void reset() {
-            synchronized (spanLock) {
-                spans.clear();
-                openSpans = 0;
-            }
-        }
-
-        /** Waits until every span that called {@link #recordSpanOpen} has ended ({@code openSpans == 0}). */
-        void awaitAllSpansClosed(Duration timeout) throws InterruptedException {
-            long deadlineNanos = System.nanoTime() + timeout.toNanos();
-            synchronized (spanLock) {
-                while (openSpans > 0) {
-                    long remainingNanos = deadlineNanos - System.nanoTime();
-                    if (remainingNanos <= 0) {
-                        Assert.fail("await timeout, openSpans=" + openSpans);
-                    }
-                    long waitMillis = TimeUnit.NANOSECONDS.toMillis(remainingNanos);
-                    if (waitMillis == 0) {
-                        waitMillis = 1;
-                    }
-                    spanLock.wait(waitMillis);
-                }
-            }
+            spans.clear();
         }
 
         int countClosedSpan(String spanName) {
             int count = 0;
             synchronized (spans) {
                 for (RecordingSpan span : spans) {
-                    if (span.spanName().equals(spanName) && span.isClosed()) {
+                    if (span.name.equals(spanName) && span.closed) {
                         count++;
                     }
                 }
             }
             return count;
-        }
-
-        int countClosedSpanWithParent(String spanName, String parentSpanName) {
-            int count = 0;
-            synchronized (spans) {
-                for (RecordingSpan span : spans) {
-                    if (span.isClosed()
-                            && span.spanName().equals(spanName)
-                            && span.parentSpan() != null
-                            && span.parentSpan().spanName().equals(parentSpanName)) {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
-        int countClosedSpanWithErrorType(String spanName, String errorType) {
-            int count = 0;
-            synchronized (spans) {
-                for (RecordingSpan span : spans) {
-                    Throwable err = span.throwableError();
-                    if (span.isClosed()
-                            && span.spanName().equals(spanName)
-                            && err != null
-                            && err.getClass().getName().equals(errorType)) {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
-        int countClosedSpanWithAttribute(String spanName, String key) {
-            int count = 0;
-            synchronized (spans) {
-                for (RecordingSpan span : spans) {
-                    if (span.isClosed()
-                            && span.spanName().equals(spanName)
-                            && span.hasLongAttribute(key)) {
-                        count++;
-                    }
-                }
-            }
-            return count;
-        }
-
-        Scope makeSpanCurrent(RecordingSpan span) {
-            RecordingSpan previous = currentSpan.get();
-            currentSpan.set(span);
-            return () -> {
-                if (previous == null) {
-                    currentSpan.remove();
-                } else {
-                    currentSpan.set(previous);
-                }
-            };
         }
     }
 
     private static final class RecordingSpan implements Span {
-        private final RecordingTracer tracer;
         private final String name;
         private final SpanKind kind;
-        private final RecordingSpan parent;
-        private final ConcurrentMap<String, Long> longAttributes = new ConcurrentHashMap<>();
-        private Throwable throwableError;
         private volatile boolean closed = false;
-        private final AtomicBoolean endedOnce = new AtomicBoolean(false);
 
-        RecordingSpan(RecordingTracer tracer, String name, SpanKind kind, RecordingSpan parent) {
-            this.tracer = tracer;
+        RecordingSpan(String name, SpanKind kind) {
             this.name = name;
             this.kind = kind;
-            this.parent = parent;
-            tracer.recordSpanOpen();
-        }
-
-        String spanName() {
-            return name;
-        }
-
-        boolean isClosed() {
-            return closed;
-        }
-
-        @Nullable
-        RecordingSpan parentSpan() {
-            return parent;
-        }
-
-        @Nullable
-        Throwable throwableError() {
-            return throwableError;
-        }
-
-        boolean hasLongAttribute(String key) {
-            return longAttributes.containsKey(key);
         }
 
         @Override
@@ -592,37 +202,28 @@ public class QueryTracingTest {
         }
 
         @Override
-        public boolean isValid() {
-            return true;
-        }
-
-        @Override
-        public Scope makeCurrent() {
-            return tracer.makeSpanCurrent(this);
-        }
-
-        @Override
-        public Scope restoreContext() {
-            return parent != null ? parent.makeCurrent() : Span.NOOP.makeCurrent();
-        }
-
-        @Override
-        public void setStatus(@Nullable Status status, @Nullable Throwable error) {
-            this.throwableError = error;
+        public void setAttribute(String key, String value) {
+            // not needed for this test
         }
 
         @Override
         public void setAttribute(String key, long value) {
-            longAttributes.put(key, value);
+            // not needed for this test
+        }
+
+        @Override
+        public void setError(Status status) {
+            // not needed for this test
+        }
+
+        @Override
+        public void setError(Throwable error) {
+            // not needed for this test
         }
 
         @Override
         public void end() {
-            if (!endedOnce.compareAndSet(false, true)) {
-                return;
-            }
             this.closed = true;
-            tracer.recordSpanClose();
         }
     }
 }

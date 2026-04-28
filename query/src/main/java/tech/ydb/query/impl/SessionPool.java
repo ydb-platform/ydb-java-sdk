@@ -22,7 +22,9 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.metrics.SessionPoolObserver;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanFinalizer;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -78,6 +80,23 @@ class SessionPool implements AutoCloseable {
                 minSize,
                 maxSize,
                 cleaner.periodMillis);
+
+        rpc.getMeter().registerSessionPool("default", new SessionPoolObserver() {
+            @Override
+            public int getIdleCount() {
+                return queue.getIdleCount();
+            }
+
+            @Override
+            public int getUsedCount() {
+                return queue.getUsedCount();
+            }
+
+            @Override
+            public int getPendingCount() {
+                return queue.getPendingCount();
+            }
+        });
     }
 
     public void updateMaxSize(int maxSize) {
@@ -277,16 +296,43 @@ class SessionPool implements AutoCloseable {
             Context previous = ctx.attach();
             try {
                 Span createSpan = rpc.startSpan("ydb.CreateSession");
+                long startNanos = System.nanoTime();
+
                 stats.requested.increment();
-                return Span.endOnResult(createSpan, SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan))
+                return SessionImpl
+                        .createSession(rpc, CREATE_SETTINGS, true, createSpan)
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
+                                SpanFinalizer.finishByStatus(createSpan, r.getStatus());
                                 stats.failed.increment();
                                 throw new UnexpectedResultException("create session problem", r.getStatus());
                             }
                             PooledQuerySession session = new PooledQuerySession(rpc, r.getValue());
                             return session.start();
-                        }).thenApply(Result::getValue);
+                        })
+                        .whenComplete((result, th) -> {
+                            if (th != null) {
+                                Throwable error = FutureTools.unwrapCompletionException(th);
+                                if (error instanceof UnexpectedResultException) {
+                                    SpanFinalizer.finishByStatus(
+                                            createSpan,
+                                            ((UnexpectedResultException) error).getStatus()
+                                    );
+                                } else {
+                                    SpanFinalizer.finishByError(createSpan, error);
+                                }
+                                return;
+                            }
+
+                            SpanFinalizer.finishByStatus(createSpan, result.getStatus());
+                        })
+                        .whenComplete((status, th) -> {
+                            long elapsed = System.nanoTime() - startNanos;
+                            Status finalStatus = status != null ? status.getStatus() : Status.of(StatusCode.CLIENT_INTERNAL_ERROR);
+                            rpc.getMeter().recordOperation("ydb.CreateSession", elapsed, finalStatus);
+                            rpc.getMeter().recordSessionCreateTime("default", elapsed);
+                        })
+                        .thenApply(Result::getValue);
             } finally {
                 ctx.detach(previous);
             }

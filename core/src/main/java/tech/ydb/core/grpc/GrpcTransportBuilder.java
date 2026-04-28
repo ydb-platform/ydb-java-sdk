@@ -26,6 +26,8 @@ import tech.ydb.core.impl.YdbTransportImpl;
 import tech.ydb.core.impl.auth.GrpcAuthRpc;
 import tech.ydb.core.impl.pool.ChannelFactoryLoader;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.metrics.NoopMeter;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.Version;
@@ -87,6 +89,7 @@ public class GrpcTransportBuilder {
     private GrpcCompression compression = GrpcCompression.NO_COMPRESSION;
     private InitMode initMode = InitMode.SYNC;
     private Tracer tracer = NoopTracer.getInstance();
+    private Meter meter = NoopMeter.getInstance();
 
     /**
      * can cause leaks https://github.com/grpc/grpc-java/issues/9340
@@ -193,6 +196,10 @@ public class GrpcTransportBuilder {
 
     public Tracer getTracer() {
         return tracer;
+    }
+
+    public Meter getMeter() {
+        return meter;
     }
 
     public ManagedChannelFactory getManagedChannelFactory() {
@@ -420,6 +427,11 @@ public class GrpcTransportBuilder {
      */
     public GrpcTransportBuilder withTracer(Tracer tracer) {
         this.tracer = Objects.requireNonNull(tracer, "tracer is null");
+        return this;
+    }
+
+    public GrpcTransportBuilder withMeter(Meter meter) {
+        this.meter = Objects.requireNonNull(meter, "meter is null");
         return this;
     }
 
