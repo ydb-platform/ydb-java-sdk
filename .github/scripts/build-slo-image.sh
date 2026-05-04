@@ -109,18 +109,36 @@ echo "  tag:               $tag"
 copy_tree() {
     local src="$1"
     local dst="$2"
-    if cp -al "$src" "$dst" 2>/dev/null; then
+    mkdir -p "$dst"
+    # The "/." suffix on src and "/" on dst asks cp to copy CONTENTS of src
+    # into dst, regardless of whether dst pre-existed. Without this, partial
+    # hardlink failures can leave dst partially populated and the fallback
+    # then nests src inside dst (dst/src/...) instead of overwriting.
+    if cp -al "$src"/. "$dst"/ 2>/dev/null; then
         return 0
     fi
-    cp -a "$src" "$dst"
+    cp -a "$src"/. "$dst"/
 }
 
 copy_tree "$sdk_dir" "$context_dir/ydb-java-sdk"
 copy_tree "$examples_dir" "$context_dir/ydb-java-examples"
 
-# Drop any leftover .git directories from the build context so we don't ship
-# them into image layers and don't confuse Maven plugins that probe for git.
-find "$context_dir" -maxdepth 3 -type d -name '.git' -prune -exec rm -rf {} +
+# Drop .git from each copied tree so it doesn't ship into image layers or
+# confuse Maven plugins that probe for git metadata.
+rm -rf "$context_dir/ydb-java-sdk/.git" "$context_dir/ydb-java-examples/.git"
+
+# Fail fast with a clear message if the layout is wrong (e.g. because of a
+# silent copy failure on the runner).
+for required in \
+    "$context_dir/ydb-java-sdk/pom.xml" \
+    "$context_dir/ydb-java-examples/slo/Dockerfile"
+do
+    [[ -f "$required" ]] || die "Build context missing required file: $required"
+done
+
+echo "Build context layout:"
+ls -la "$context_dir"
+echo "  ydb-java-sdk: $(ls -1 "$context_dir/ydb-java-sdk" | wc -l) entries"
 
 set +e
 docker build \
