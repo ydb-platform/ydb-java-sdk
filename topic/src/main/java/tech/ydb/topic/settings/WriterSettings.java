@@ -242,12 +242,15 @@ public class WriterSettings {
          * <p>
          * Use {@link TopicRetryConfig#NEVER} to disable retries and surface errors immediately
          * via the errors handler set by {@link #setErrorsHandler}.
+         * Use {@link TopicRetryConfig#STANDARD} to retry only transient errors and treat
+         * permanent status codes (e.g. {@code UNAUTHORIZED}, {@code BAD_REQUEST}) as terminal.
          *
          * @param config retry configuration, must not be {@code null}
          * @return this builder
          * @throws NullPointerException if {@code config} is {@code null}
          * @see TopicRetryConfig#FOREVER
          * @see TopicRetryConfig#NEVER
+         * @see TopicRetryConfig#STANDARD
          */
         public Builder setRetryConfig(RetryConfig config) {
             if (config == null) {

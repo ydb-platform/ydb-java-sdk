@@ -45,6 +45,6 @@ public class AsyncWriterImpl implements AsyncWriter {
 
     @Override
     public CompletableFuture<Void> shutdown() {
-        return impl.shutdown();
+        return impl.shutdown().thenApply(status -> null);
     }
 }

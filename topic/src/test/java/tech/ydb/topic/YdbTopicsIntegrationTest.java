@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
-import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.PartitionInfo;

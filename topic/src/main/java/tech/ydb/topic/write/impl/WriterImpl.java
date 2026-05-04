@@ -39,7 +39,7 @@ public class WriterImpl {
     private final Runnable sendTask = new SerialRunnable(new SendTask());
 
     private final CompletableFuture<InitResult> initFuture = new CompletableFuture<>();
-    private final CompletableFuture<Void> shutdownFuture = new CompletableFuture<>();
+    private final CompletableFuture<Status> shutdownFuture = new CompletableFuture<>();
     private final AtomicBoolean isClosed = new AtomicBoolean(false);
 
     private volatile boolean isReady = false;
@@ -59,15 +59,13 @@ public class WriterImpl {
     }
 
     public CompletableFuture<InitResult> init() {
-        if (isClosed.get()) {
-            throw new IllegalStateException("Writer is already stopped");
-        }
+        ensureNotClosed();
         logger.info("[{}] start called", debugId);
         stream.start();
         return initFuture;
     }
 
-    public CompletableFuture<Void> shutdown() {
+    public CompletableFuture<Status> shutdown() {
         if (!isClosed.compareAndSet(false, true)) {
             return shutdownFuture;
         }
@@ -76,7 +74,7 @@ public class WriterImpl {
             // implicit closing because stream will never call onClose
             Status status = Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO));
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
-            shutdownFuture.complete(null);
+            shutdownFuture.complete(status);
             writeQueue.close(status);
         }
 
@@ -87,10 +85,18 @@ public class WriterImpl {
         return writeQueue.flush();
     }
 
-    private Message validate(Message message) {
+    private void ensureNotClosed() {
         if (isClosed.get()) {
-            throw new IllegalStateException("Writer is already stopped");
+            String msg = "Writer is already stopped";
+            if (shutdownFuture.isDone()) {
+                msg += " with " + shutdownFuture.join();
+            }
+            throw new IllegalStateException(msg);
         }
+    }
+
+    private Message validate(Message message) {
+        ensureNotClosed();
         if (isSeqNoProvided != null) {
             if (message.getSeqNo() != null && !isSeqNoProvided) {
                 throw new IllegalArgumentException(
@@ -153,7 +159,7 @@ public class WriterImpl {
             isClosed.set(true);
             isReady = false;
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
-            shutdownFuture.complete(null);
+            shutdownFuture.complete(status);
             writeQueue.close(status);
         }
     }

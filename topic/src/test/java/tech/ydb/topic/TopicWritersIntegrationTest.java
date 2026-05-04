@@ -28,6 +28,7 @@ import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
+import tech.ydb.topic.settings.TopicRetryConfig;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.Message;
@@ -255,5 +256,48 @@ public class TopicWritersIntegrationTest {
 
         Assert.assertEquals(expectedErrors, realErrors);
         assertTopicContent(written);
+    }
+
+    @Test
+    public void sameProducerConflictTest() throws Exception {
+        CountDownLatch closed = new CountDownLatch(1);
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setProducerId(TEST_PRODUCER1)
+                .setRetryConfig(TopicRetryConfig.STANDARD)
+                .setErrorsHandler((t, u) -> { closed.countDown(); })
+                .build();
+
+        SyncWriter writer1 = client.createSyncWriter(settings);
+        writer1.initAndWait();
+
+        byte[] msg1 = new byte[1000];
+        byte[] msg2 = new byte[1001];
+        Arrays.fill(msg1, (byte) 0x10);
+        Arrays.fill(msg2, (byte) 0x11);
+
+        writer1.send(Message.of(msg1));
+        writer1.send(Message.of(msg2));
+        writer1.flush();
+
+        SyncWriter writer2 = client.createSyncWriter(settings); // writer1 will be closed with error
+        writer2.initAndWait();
+
+        writer2.send(Message.of(msg1));
+        writer2.send(Message.of(msg2));
+        writer2.flush();
+
+        closed.await(1, TimeUnit.MINUTES); // wait to close writer1
+
+        Exception ex = Assert.assertThrows(IllegalStateException.class, () -> writer1.send(Message.of(msg1)));
+        Assert.assertTrue(ex.getMessage().startsWith(
+                "Writer is already stopped with Status{code = BAD_REQUEST(code=400010), issues = "
+        ));
+
+        writer1.flush(); // no IllegalStateException
+        writer1.shutdown(10, TimeUnit.SECONDS);  // no IllegalStateException
+
+        writer2.shutdown(10, TimeUnit.SECONDS);
     }
 }

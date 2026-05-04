@@ -129,7 +129,7 @@ public class WriterImplTest {
         Assert.assertFalse(m1.isDone());
         Assert.assertFalse(m2.isDone());
 
-        CompletableFuture<Void> closeFuture = writer.shutdown();
+        CompletableFuture<Status> closeFuture = writer.shutdown();
 
         Assert.assertTrue(closeFuture.isDone());
         Assert.assertTrue(m1.isDone());
@@ -137,18 +137,18 @@ public class WriterImplTest {
 
         Assert.assertSame(closeFuture, writer.shutdown());
 
-        assertIllegalState("Writer is already stopped", writer::init);
-        assertIllegalState("Writer is already stopped", () -> writer.blockingSend(MSG1, null));
-        assertIllegalState("Writer is already stopped", () -> writer.blockingSend(MSG1, null, 1, TimeUnit.SECONDS));
-        assertIllegalState("Writer is already stopped", () -> writer.nonblockingSend(MSG1, null));
+        String expected = "Status{code = SUCCESS, issues = [Closed by client (S_INFO)]}";
+        assertIllegalState("Writer is already stopped with " + expected, writer::init);
+        assertIllegalState("Writer is already stopped with " + expected, () -> writer.blockingSend(MSG1, null));
+        assertIllegalState("Writer is already stopped with " + expected, () -> writer.blockingSend(MSG1, null, 1,
+                TimeUnit.SECONDS));
+        assertIllegalState("Writer is already stopped with " + expected, () -> writer.nonblockingSend(MSG1, null));
 
         Assert.assertTrue(m1.isCompletedExceptionally());
         Assert.assertTrue(m2.isCompletedExceptionally());
 
-        assertRuntimeException("Message sending was cancelled with status Status{code = SUCCESS, "
-                + "issues = [Closed by client (S_INFO)]}", futureGet(m1));
-        assertRuntimeException("Message sending was cancelled with status Status{code = SUCCESS, "
-                + "issues = [Closed by client (S_INFO)]}", futureGet(m2));
+        assertRuntimeException("Message sending was cancelled with " + expected, futureGet(m1));
+        assertRuntimeException("Message sending was cancelled with " + expected, futureGet(m2));
 
         Assert.assertNull(s.observer);
         Assert.assertFalse(s.isClosed);
@@ -173,9 +173,9 @@ public class WriterImplTest {
         Assert.assertTrue(m1.isCompletedExceptionally());
         Assert.assertTrue(m2.isCompletedExceptionally());
 
-        assertRuntimeException("Message had been sent but the writer was stopped with status Status{code = SUCCESS}",
+        assertRuntimeException("Message had been sent but the writer was stopped with Status{code = SUCCESS}",
                 futureGet(m1));
-        assertRuntimeException("Message had been sent but the writer was stopped with status Status{code = SUCCESS}",
+        assertRuntimeException("Message had been sent but the writer was stopped with Status{code = SUCCESS}",
                 futureGet(m2));
     }
 
@@ -196,9 +196,11 @@ public class WriterImplTest {
 
         s.close(Status.of(StatusCode.SCHEME_ERROR));
 
-        assertIllegalState("Writer is already stopped", () -> writer.blockingSend(MSG1, null));
-        assertIllegalState("Writer is already stopped", () -> writer.blockingSend(MSG1, null, 1, TimeUnit.SECONDS));
-        assertIllegalState("Writer is already stopped", () -> writer.nonblockingSend(MSG1, null));
+        String expected = " with Status{code = SCHEME_ERROR(code=400070)}";
+        assertIllegalState("Writer is already stopped" + expected, () -> writer.blockingSend(MSG1, null));
+        assertIllegalState("Writer is already stopped" + expected, () -> writer.blockingSend(MSG1, null, 1,
+                TimeUnit.SECONDS));
+        assertIllegalState("Writer is already stopped" + expected, () -> writer.nonblockingSend(MSG1, null));
 
         Assert.assertTrue(initFuture.isCompletedExceptionally());
         Assert.assertTrue(m1.isCompletedExceptionally());
@@ -206,7 +208,7 @@ public class WriterImplTest {
         Assert.assertTrue(flushFuture.isDone());
         Assert.assertFalse(flushFuture.isCompletedExceptionally());
 
-        CompletableFuture<Void> shutdownFuture = writer.shutdown();
+        CompletableFuture<Status> shutdownFuture = writer.shutdown();
 
         Assert.assertTrue(shutdownFuture.isDone());
         Assert.assertFalse(shutdownFuture.isCompletedExceptionally());
@@ -214,10 +216,8 @@ public class WriterImplTest {
         Assert.assertTrue(m1.isCompletedExceptionally());
         Assert.assertTrue(m2.isCompletedExceptionally());
 
-        assertRuntimeException("Message sending was cancelled with status Status{code = SCHEME_ERROR(code=400070)}",
-                futureGet(m1));
-        assertRuntimeException("Message sending was cancelled with status Status{code = SCHEME_ERROR(code=400070)}",
-                futureGet(m2));
+        assertRuntimeException("Message sending was cancelled" + expected, futureGet(m1));
+        assertRuntimeException("Message sending was cancelled" + expected, futureGet(m2));
 
         Assert.assertNotNull(s.observer);
         Assert.assertFalse(s.isClosed); // stream was closed itself

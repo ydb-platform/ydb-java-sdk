@@ -1,9 +1,12 @@
 package tech.ydb.topic.settings;
 
+import java.util.EnumSet;
+
 import tech.ydb.common.retry.ExponentialBackoffRetry;
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 
 /**
  * Predefined {@link RetryConfig} instances for topic writers and readers.
@@ -38,6 +41,26 @@ public class TopicRetryConfig {
      * Use this when you need full control over reconnection logic in application code.
      */
     public static final RetryConfig NEVER = status -> null;
+
+    private static final EnumSet<StatusCode> NON_RETRYABLE = EnumSet.of(
+            StatusCode.SCHEME_ERROR,
+            StatusCode.BAD_REQUEST,
+            StatusCode.UNAUTHORIZED,
+            StatusCode.PRECONDITION_FAILED,
+            StatusCode.UNSUPPORTED,
+            StatusCode.ALREADY_EXISTS,
+            StatusCode.NOT_FOUND,
+            StatusCode.EXTERNAL_ERROR,
+            StatusCode.CLIENT_UNAUTHENTICATED,
+            StatusCode.CLIENT_CALL_UNIMPLEMENTED
+    );
+
+    /**
+     * Retry transient stream disconnections indefinitely with exponential backoff,
+     * but treat permanent errors as terminal.
+     */
+    public static final RetryConfig STANDARD = st -> NON_RETRYABLE.contains(st.getCode()) ? null : DEFAULT_BACKOFF;
+
 
     private TopicRetryConfig() { }
 }

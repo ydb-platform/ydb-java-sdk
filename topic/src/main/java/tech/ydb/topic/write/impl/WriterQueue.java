@@ -133,7 +133,7 @@ public class WriterQueue {
         buffer.close(status);
 
         while (!queue.isEmpty()) {
-            RuntimeException ex = new RuntimeException("Message sending was cancelled with status " + status);
+            RuntimeException ex = new RuntimeException("Message sending was cancelled with " + status);
             Iterator<EnqueuedMessage> it = queue.iterator();
             while (it.hasNext()) {
                 EnqueuedMessage next = it.next();
@@ -144,7 +144,7 @@ public class WriterQueue {
         }
 
         while (!sent.isEmpty()) {
-            RuntimeException ex = new RuntimeException("Message had been sent but the writer was stopped with status " +
+            RuntimeException ex = new RuntimeException("Message had been sent but the writer was stopped with " +
                     status);
             Iterator<SentMessage> it = sent.iterator();
             while (it.hasNext()) {
