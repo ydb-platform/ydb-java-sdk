@@ -1,3 +1,19 @@
+## 2.4.1 ##
+* Core: added experimental support of OTel tracing
+* Table: added support of SNAPSHOT_RW isolation level
+* Query: fixed wrong type in ApacheArrowPartsHandler
+* Query: session attach stream handles NodeShutdown and SessionShutdown hints
+* Tests: added customization of GrpcTransport to JUnit4 & JUnit5 support
+* Topic: replaced CommitterImpl by MessageCommitter
+* Topic: updated read partition session implementation
+* Topic: fixed commit hanging if commitOffset < readOffset
+* Topic: new topic writers implementation
+* Topic: replaced workinInProgress by SerialExecutor
+* Topic: added TopicRetryableStream with support of RetryPolicy
+* Topic: added support of RetryConfig to topic writers
+* Topic: added support of direct write mode
+* Topic: fixed CodecRegistry initialization without zstd-jni or lzo-core
+
 ## 2.4.0 ##
 **API breaking change: tech.ydb.topic.decription.Codec became interface**
 * Core: Upgrade to grpc-java v1.68.3
