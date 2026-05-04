@@ -2,41 +2,14 @@ name: SLO
 
 on:
   pull_request:
-    types: [labeled]
-
-  workflow_dispatch:
-    inputs:
-      github_issue:
-        description: "GitHub issue number where the SLO results will be reported"
-        required: true
-      baseline_ref:
-        description: "Baseline commit/branch/tag to compare against (leave empty to auto-detect merge-base with master)"
-        required: false
-      slo_workload_duration_seconds:
-        description: "Duration of the SLO workload in seconds"
-        required: false
-        default: "600"
-      slo_workload_read_max_rps:
-        description: "Maximum read RPS for the SLO workload"
-        required: false
-        default: "1000"
-      slo_workload_write_max_rps:
-        description: "Maximum write RPS for the SLO workload"
-        required: false
-        default: "100"
-      examples_ref:
-        description: "Branch/tag/SHA of ydb-java-examples to use for the workload sources"
-        required: false
-        default: "master"
+    types: [opened, reopened, synchronize, labeled]
 
 jobs:
   ydb-slo-action:
-    if: >-
-      (github.event_name == 'pull_request' && github.event.label.name == 'SLO')
-      || github.event_name == 'workflow_dispatch'
+    if: contains(github.event.pull_request.labels.*.name, 'SLO')
 
     name: Run YDB SLO Tests
-    runs-on: ubuntu-latest
+    runs-on: large-runner-java-sdk
 
     permissions:
       contents: read
