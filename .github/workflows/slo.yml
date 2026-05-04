@@ -1,16 +1,8 @@
 name: SLO
 
 on:
-  push:
-    branches:
-      - master
-      - develop
-
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
-    branches:
-      - master
-      - develop
+    types: [labeled]
 
   workflow_dispatch:
     inputs:
@@ -39,7 +31,9 @@ on:
 
 jobs:
   ydb-slo-action:
-    if: contains(github.event.pull_request.labels.*.name, 'SLO') || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+    if: >-
+      (github.event_name == 'pull_request' && github.event.label.name == 'SLO')
+      || github.event_name == 'workflow_dispatch'
 
     name: Run YDB SLO Tests
     runs-on: ubuntu-latest
@@ -66,8 +60,8 @@ jobs:
           BUILDX_VERSION=0.30.1
           COMPOSE_VERSION=2.40.3
 
-          sudo curl -L "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64" \
-            -o /usr/local/bin/yq
+          sudo curl -fLo /usr/local/bin/yq \
+            "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
           sudo chmod +x /usr/local/bin/yq
 
           sudo mkdir -p /usr/local/lib/docker/cli-plugins
@@ -94,10 +88,12 @@ jobs:
       - name: Determine baseline commit
         id: baseline
         working-directory: sdk-current
+        env:
+          INPUT_BASELINE_REF: ${{ inputs.baseline_ref }}
         run: |
           set -euo pipefail
-          if [[ -n "${{ inputs.baseline_ref }}" ]]; then
-            BASELINE="${{ inputs.baseline_ref }}"
+          if [[ -n "${INPUT_BASELINE_REF}" ]]; then
+            BASELINE="${INPUT_BASELINE_REF}"
           else
             BASELINE=$(git merge-base HEAD origin/master)
           fi
@@ -154,7 +150,7 @@ jobs:
         uses: ydb-platform/ydb-slo-action/init@v2
         timeout-minutes: 30
         with:
-          github_issue: ${{ github.event.inputs.github_issue }}
+          github_issue: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.github_issue || github.event.pull_request.number }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workload_name: ${{ matrix.sdk.name }}
           workload_duration: ${{ inputs.slo_workload_duration_seconds || '600' }}
@@ -170,3 +166,16 @@ jobs:
             ${{ matrix.sdk.command }}
             --read-rps ${{ inputs.slo_workload_read_max_rps || '1000' }}
             --write-rps ${{ inputs.slo_workload_write_max_rps || '100' }}
+
+      - name: Publish SLO report
+        if: always()
+        uses: ydb-platform/ydb-slo-action/report@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_run_id: ${{ github.run_id }}
+
+      - name: Remove SLO label
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh pr edit "${{ github.event.pull_request.number }}" --remove-label SLO --repo "$GITHUB_REPOSITORY"
