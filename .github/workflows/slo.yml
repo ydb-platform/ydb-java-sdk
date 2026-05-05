@@ -127,28 +127,3 @@ jobs:
           workload_baseline_ref: ${{ steps.baseline.outputs.ref }}
           workload_baseline_image: ydb-app-baseline
           workload_baseline_command: ${{ matrix.sdk.command }} --read-rps 1000 --write-rps 100
-
-      - name: Publish SLO report
-        if: always()
-        uses: ydb-platform/ydb-slo-action/report@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_run_id: ${{ github.run_id }}
-
-      - name: Remove SLO label
-        if: always() && github.event_name == 'pull_request'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-        run: |
-          set -euo pipefail
-          STATUS=$(curl -sS -X DELETE \
-            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
-            -H "Accept: application/vnd.github+json" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/labels/SLO" \
-            -o /dev/null -w "%{http_code}")
-          case "${STATUS}" in
-            200|404) echo "SLO label remove: HTTP ${STATUS}" ;;
-            *)       echo "Failed to remove SLO label: HTTP ${STATUS}" >&2; exit 1 ;;
-          esac
