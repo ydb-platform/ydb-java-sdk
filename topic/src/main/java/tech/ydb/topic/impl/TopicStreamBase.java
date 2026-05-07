@@ -73,7 +73,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
         String currentToken = stream.authToken();
         if (!Objects.equals(token, currentToken)) {
             token = currentToken;
-            logger.info("{} sends new token", this);
+            logger.info("[{}] sends new token", debugId);
             stream.sendNext(updateTokenMessage(token));
         }
 

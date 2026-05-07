@@ -14,7 +14,7 @@ import tech.ydb.topic.write.WriteAck;
  *
  * @author Aleksandr Gorshenin
  */
-public class SentMessage {
+public class SentMessage implements WriterQueue.EncodedMsg {
     private final long seqNo;
     private final long bufferSize;
     private final YdbTransaction tx;
@@ -33,12 +33,24 @@ public class SentMessage {
         return seqNo;
     }
 
+    @Override
+    public SentMessage getSentMessage() {
+        return this;
+    }
+
+    @Override
     public long getBufferSize() {
         return bufferSize;
     }
 
-    public CompletableFuture<WriteAck> getAckFuture() {
-        return ackFuture;
+    @Override
+    public void confirm(WriteAck ack) {
+        this.ackFuture.complete(ack);
+    }
+
+    @Override
+    public void close(RuntimeException ex) {
+        this.ackFuture.completeExceptionally(ex);
     }
 
     public YdbTransaction getTx() {

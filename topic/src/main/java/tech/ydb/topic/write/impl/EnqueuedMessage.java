@@ -44,10 +44,6 @@ public class EnqueuedMessage {
         return data != null;
     }
 
-    public boolean hasProblem() {
-        return problem != null;
-    }
-
     public long getBufferSize() {
         return bufferSize;
     }

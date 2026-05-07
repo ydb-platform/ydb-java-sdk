@@ -3,7 +3,7 @@ package tech.ydb.topic.write.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -130,6 +130,7 @@ public class WriterQueueTest {
         Assert.assertFalse(f3.isDone());
 
         Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
+        q.confirmAck(null);
 
         Assert.assertTrue(f1.isCompletedExceptionally());
         Assert.assertTrue(f2.isCompletedExceptionally());
@@ -176,6 +177,7 @@ public class WriterQueueTest {
         Assert.assertFalse(f3.isDone());
 
         Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
+        q.confirmAck(null);
 
         Assert.assertTrue(f1.isCompletedExceptionally());
         Assert.assertTrue(f2.isCompletedExceptionally());
@@ -237,9 +239,9 @@ public class WriterQueueTest {
 
         CompletableFuture<WriteAck> f1 = q.enqueue(smallMsg(10), null); // OK
         CompletableFuture<WriteAck> f2 = q.enqueue(smallMsg(20), null); // OK
-        CompletableFuture<WriteAck> f3 = q.enqueue(smallMsg(20), null); // Fail
+        CompletableFuture<WriteAck> f3 = q.enqueue(smallMsg(20), null); // Skip
         CompletableFuture<WriteAck> f4 = q.enqueue(smallMsg(30), null); // OK
-        CompletableFuture<WriteAck> f5 = q.enqueue(smallMsg(11), null); // Fail
+        CompletableFuture<WriteAck> f5 = q.enqueue(smallMsg(11), null); // Skip
 
         Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
@@ -252,25 +254,33 @@ public class WriterQueueTest {
 
         Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
-        Assert.assertTrue(f3.isCompletedExceptionally());
+        Assert.assertFalse(f3.isDone());
         Assert.assertFalse(f4.isDone());
-        Assert.assertTrue(f5.isCompletedExceptionally());
+        Assert.assertFalse(f5.isDone());
 
-        q.confirmAck(new WriteAck(10, null, null, null));
-        q.confirmAck(new WriteAck(20, null, null, null));
-        q.confirmAck(new WriteAck(30, null, null, null));
+        q.confirmAck(new WriteAck(10, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(20, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(30, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(f1.isDone());
         Assert.assertTrue(f2.isDone());
+        Assert.assertTrue(f3.isDone());
         Assert.assertTrue(f4.isDone());
+        Assert.assertTrue(f5.isDone());
+
+        Assert.assertEquals(WriteAck.State.WRITTEN, f1.join().getState());
+        Assert.assertEquals(WriteAck.State.WRITTEN, f2.join().getState());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f3.join().getState());
+        Assert.assertEquals(WriteAck.State.WRITTEN, f4.join().getState());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f5.join().getState());
     }
 
     @Test
     public void testLostAcks() throws Exception {
         WriterQueue q = rawQueue(new AtomicInteger());
 
-        Iterator<SentMessage> before = q.updateSeqNo(0);
-        Assert.assertFalse(before.hasNext());
+        List<SentMessage> before = q.updateSeqNo(0);
+        Assert.assertTrue(before.isEmpty());
 
         CompletableFuture<WriteAck> f1 = q.enqueue(smallMsg(10), null);
         CompletableFuture<WriteAck> f2 = q.enqueue(smallMsg(20), null);
@@ -297,13 +307,11 @@ public class WriterQueueTest {
         Assert.assertFalse(f5.isDone());
 
         // lost others acks and reconnect with new lastSeqNo
-        Iterator<SentMessage> retry = q.updateSeqNo(30);
+        List<SentMessage> retry = q.updateSeqNo(30);
 
-        Assert.assertTrue(retry.hasNext());
-        Assert.assertEquals(40, retry.next().getSeqNo());
-        Assert.assertTrue(retry.hasNext());
-        Assert.assertEquals(50, retry.next().getSeqNo());
-        Assert.assertFalse(retry.hasNext());
+        Assert.assertEquals(2, retry.size());
+        Assert.assertEquals(40, retry.get(0).getSeqNo());
+        Assert.assertEquals(50, retry.get(1).getSeqNo());
 
         Assert.assertTrue(f2.isDone());
         Assert.assertTrue(f3.isDone());
