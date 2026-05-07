@@ -38,7 +38,6 @@ public class SentMessage implements WriterQueue.EncodedMsg {
         return this;
     }
 
-    @Override
     public long getBufferSize() {
         return bufferSize;
     }

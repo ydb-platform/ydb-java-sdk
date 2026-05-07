@@ -178,7 +178,6 @@ public class WriterImpl {
                 send.add(msg);
             }
             stream.sendAll(send);
-            writeQueue.confirmAck(null);
         }
     }
 }

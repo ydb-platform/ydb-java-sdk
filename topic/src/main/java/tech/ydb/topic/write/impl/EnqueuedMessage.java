@@ -62,7 +62,8 @@ public class EnqueuedMessage {
     }
 
     public void close(Throwable problem) {
-        ackFuture.completeExceptionally(problem);
-        isReady = true;
+        this.problem = problem;
+        this.ackFuture.completeExceptionally(problem);
+        this.isReady = true;
     }
 }

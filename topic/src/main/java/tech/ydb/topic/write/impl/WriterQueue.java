@@ -34,7 +34,6 @@ import tech.ydb.topic.write.WriteAck;
 public class WriterQueue {
     interface EncodedMsg {
         SentMessage getSentMessage();
-        long getBufferSize();
         void confirm(WriteAck ack);
         void close(RuntimeException ex);
     }
@@ -85,20 +84,19 @@ public class WriterQueue {
         while (it.hasNext()) {
             EnqueuedMessage next = it.next();
 
-            Throwable problem = next.getProblem();
-            if (problem != null) {
-                it.remove();
-
-                logger.warn("[{}] Message wasn't sent because encoding problem {}", debugId, problem);
-                sent.offer(new ProblemMsg(next.getBufferSize(), problem, next.getAckFuture()));
-                continue;
-            }
-
             if (!next.isReady()) {
                 break;
             }
 
             it.remove();
+
+            Throwable problem = next.getProblem();
+            if (problem != null) {
+                logger.warn("[{}] Message wasn't sent because encoding problem {}", debugId, problem);
+                buffer.releaseMessage(next.getBufferSize());
+                sent.add(new ProblemMsg(next, problem));
+                continue;
+            }
 
             // Calculate seqNo
             long actualSeqNo = lastSeqNo + 1;
@@ -108,7 +106,8 @@ public class WriterQueue {
                     logger.warn("[{}] Message wasn't sent because seqNo {} is less than current seqNo {}", debugId,
                             userSeqNo, actualSeqNo);
                     WriteAck skipAck = new WriteAck(userSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
-                    sent.offer(new SkippedMsg(next.getBufferSize(), skipAck, next.getAckFuture()));
+                    buffer.releaseMessage(next.getBufferSize());
+                    sent.offer(new SkippedMsg(next, skipAck));
                     continue;
                 }
                 actualSeqNo = userSeqNo;
@@ -120,6 +119,18 @@ public class WriterQueue {
             sent.offer(sentMsg);
             return sentMsg;
         }
+
+        // clean problem messages which could not be completed by confirmAck
+        Iterator<EncodedMsg> sentIt = sent.iterator();
+        while (sentIt.hasNext()) {
+            EncodedMsg msg = sentIt.next();
+            if (msg.getSentMessage() != null) {
+                break;
+            }
+            sentIt.remove();
+            msg.confirm(null);
+        }
+
         return null;
     }
 
@@ -130,17 +141,16 @@ public class WriterQueue {
             SentMessage sentMsg = msg.getSentMessage();
             if (sentMsg == null) { // error message which wasn't sent
                 sentIt.remove();
-                buffer.releaseMessage(msg.getBufferSize());
                 msg.confirm(ack);
                 continue;
             }
 
-            if (ack == null || sentMsg.getSeqNo() > ack.getSeqNo()) {
+            if (sentMsg.getSeqNo() > ack.getSeqNo()) {
                 return;
             }
 
             sentIt.remove();
-            buffer.releaseMessage(msg.getBufferSize());
+            buffer.releaseMessage(sentMsg.getBufferSize());
             msg.confirm(ack);
         }
     }
@@ -184,9 +194,13 @@ public class WriterQueue {
             }
 
             it.remove();
-            long seqNo = sentMsg != null ? sentMsg.getSeqNo() : newSeqNo;
-            WriteAck lostAck = new WriteAck(seqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
-            buffer.releaseMessage(msg.getBufferSize());
+
+            long lostSeqNo = newSeqNo;
+            if (sentMsg != null) {
+                buffer.releaseMessage(sentMsg.getBufferSize());
+                lostSeqNo = sentMsg.getSeqNo();
+            }
+            WriteAck lostAck = new WriteAck(lostSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
             msg.confirm(lostAck);
         }
 
@@ -273,14 +287,12 @@ public class WriterQueue {
     }
 
     private class SkippedMsg implements EncodedMsg {
-        private final long bufferSize;
-        private final WriteAck ack;
         private final CompletableFuture<WriteAck> ackFuture;
+        private final WriteAck ack;
 
-        SkippedMsg(long bufferSize, WriteAck ack, CompletableFuture<WriteAck> ackFuture) {
-            this.bufferSize = bufferSize;
+        SkippedMsg(EnqueuedMessage msg, WriteAck ack) {
             this.ack = ack;
-            this.ackFuture = ackFuture;
+            this.ackFuture = msg.getAckFuture();
         }
 
         @Override
@@ -288,10 +300,6 @@ public class WriterQueue {
             return null;
         }
 
-        @Override
-        public long getBufferSize() {
-            return bufferSize;
-        }
 
         @Override
         public void confirm(WriteAck ignored) {
@@ -305,24 +313,17 @@ public class WriterQueue {
     }
 
     private class ProblemMsg implements EncodedMsg {
-        private final long bufferSize;
-        private final Throwable problem;
         private final CompletableFuture<WriteAck> ackFuture;
+        private final Throwable problem;
 
-        ProblemMsg(long bufferSize, Throwable problem, CompletableFuture<WriteAck> ackFuture) {
-            this.bufferSize = bufferSize;
+        ProblemMsg(EnqueuedMessage msg, Throwable problem) {
+            this.ackFuture = msg.getAckFuture();
             this.problem = problem;
-            this.ackFuture = ackFuture;
         }
 
         @Override
         public SentMessage getSentMessage() {
             return null;
-        }
-
-        @Override
-        public long getBufferSize() {
-            return bufferSize;
         }
 
         @Override

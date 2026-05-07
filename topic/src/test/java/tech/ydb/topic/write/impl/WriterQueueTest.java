@@ -130,7 +130,6 @@ public class WriterQueueTest {
         Assert.assertFalse(f3.isDone());
 
         Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
-        q.confirmAck(null);
 
         Assert.assertTrue(f1.isCompletedExceptionally());
         Assert.assertTrue(f2.isCompletedExceptionally());
@@ -177,7 +176,6 @@ public class WriterQueueTest {
         Assert.assertFalse(f3.isDone());
 
         Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
-        q.confirmAck(null);
 
         Assert.assertTrue(f1.isCompletedExceptionally());
         Assert.assertTrue(f2.isCompletedExceptionally());
