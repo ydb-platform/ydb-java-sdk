@@ -32,7 +32,7 @@ import tech.ydb.topic.write.WriteAck;
  * @author Aleksandr Gorshenin
  */
 public class WriterQueue {
-    public interface EncodedMsg {
+    interface EncodedMsg {
         SentMessage getSentMessage();
         long getBufferSize();
         void confirm(WriteAck ack);
@@ -153,8 +153,7 @@ public class WriterQueue {
             Iterator<EnqueuedMessage> it = queue.iterator();
             while (it.hasNext()) {
                 EnqueuedMessage next = it.next();
-                next.setError(ex);
-                next.getAckFuture().completeExceptionally(ex);
+                next.close(ex);
                 it.remove();
             }
         }
@@ -176,7 +175,6 @@ public class WriterQueue {
         }
 
         // complete all messages with lost acks
-        WriteAck lostAck = new WriteAck(newSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
         Iterator<EncodedMsg> it = sent.iterator();
         while (it.hasNext()) {
             EncodedMsg msg = it.next();
@@ -186,6 +184,8 @@ public class WriterQueue {
             }
 
             it.remove();
+            long seqNo = sentMsg != null ? sentMsg.getSeqNo() : newSeqNo;
+            WriteAck lostAck = new WriteAck(seqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
             buffer.releaseMessage(msg.getBufferSize());
             msg.confirm(lostAck);
         }
@@ -228,7 +228,7 @@ public class WriterQueue {
 
         if (codec.getId() == Codec.RAW) {
             // fast track without compression
-            msg.setData(UnsafeByteOperations.unsafeWrap(message.getData()), msgSize);
+            msg.completeWithData(UnsafeByteOperations.unsafeWrap(message.getData()), msgSize);
             readyNotify.run();
             return msg.getAckFuture();
         }
@@ -238,7 +238,7 @@ public class WriterQueue {
             compressionExecutor.execute(() -> encode(message.getData(), msgSize, msg));
         } catch (Throwable ex) {
             logger.warn("[{}] Message wasn't sent because of processing error", debugId, ex);
-            msg.setError(ex);
+            msg.completeWithProblem(ex);
             readyNotify.run();
         }
 
@@ -246,7 +246,7 @@ public class WriterQueue {
     }
 
     private void encode(byte[] data, long msgSize, EnqueuedMessage msg) {
-        if (msg.getProblem() != null) {
+        if (msg.isReady()) {
             return;
         }
 
@@ -264,10 +264,10 @@ public class WriterQueue {
                 buffer.updateMessageSize(msgSize, bufferSize);
             }
 
-            msg.setData(encoded.toByteString(), bufferSize);
+            msg.completeWithData(encoded.toByteString(), bufferSize);
         } catch (Throwable ex) {
             logger.warn("[{}] Message wasn't sent because of encoding error", debugId, ex);
-            msg.setError(ex);
+            msg.completeWithProblem(ex);
         }
         readyNotify.run();
     }

@@ -17,6 +17,7 @@ public class EnqueuedMessage {
     private volatile ByteString data = null;
     private volatile Throwable problem = null;
     private volatile long bufferSize;
+    private volatile boolean isReady = false;
 
     public EnqueuedMessage(MessageMeta meta, long bufferSize) {
         this.meta = meta;
@@ -41,20 +42,27 @@ public class EnqueuedMessage {
     }
 
     public boolean isReady() {
-        return data != null;
+        return isReady;
     }
 
     public long getBufferSize() {
         return bufferSize;
     }
 
-    public void setData(ByteString data, long updatedSize) {
+    public void completeWithData(ByteString data, long updatedSize) {
         this.bufferSize = updatedSize;
         this.data = data;
         this.problem = null;
+        this.isReady = true;
     }
 
-    public void setError(Throwable ex) {
-        this.problem = ex;
+    public void completeWithProblem(Throwable problem) {
+        this.problem = problem;
+        this.isReady = true;
+    }
+
+    public void close(Throwable problem) {
+        ackFuture.completeExceptionally(problem);
+        isReady = true;
     }
 }
