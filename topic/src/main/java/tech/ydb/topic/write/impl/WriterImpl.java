@@ -1,6 +1,7 @@
 package tech.ydb.topic.write.impl;
 
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
@@ -118,17 +119,17 @@ public class WriterImpl {
         return sendSettings != null ? sendSettings.getTransaction() : null;
     }
 
-    protected CompletableFuture<WriteAck> blockingSend(Message msg, SendSettings settings)
+    public CompletableFuture<WriteAck> blockingSend(Message msg, SendSettings settings)
             throws QueueOverflowException, InterruptedException {
         return writeQueue.enqueue(validate(msg), getTx(settings));
     }
 
-    protected CompletableFuture<WriteAck> blockingSend(Message msg, SendSettings settings, long timeout, TimeUnit unit)
+    public CompletableFuture<WriteAck> blockingSend(Message msg, SendSettings settings, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
         return writeQueue.tryEnqueue(validate(msg), getTx(settings), timeout, unit);
     }
 
-    protected CompletableFuture<WriteAck> nonblockingSend(Message msg, SendSettings settings)
+    public CompletableFuture<WriteAck> nonblockingSend(Message msg, SendSettings settings)
             throws QueueOverflowException {
         return writeQueue.tryEnqueue(validate(msg), getTx(settings));
     }
@@ -137,8 +138,8 @@ public class WriterImpl {
         @Override
         public void onStart(long lastSeqNo, String sessionId) {
             // resend all sent messages in writing queue
-            Iterator<SentMessage> resend = writeQueue.updateSeqNo(lastSeqNo);
-            stream.sendAll(() -> resend.hasNext() ? resend.next() : null);
+            List<SentMessage> resend = writeQueue.updateSeqNo(lastSeqNo);
+            stream.sendAll(resend);
             isReady = true;
             initFuture.complete(new InitResult(lastSeqNo));
             sendTask.run();
@@ -172,7 +173,11 @@ public class WriterImpl {
                 return;
             }
 
-            stream.sendAll(writeQueue::nextMessageToSend);
+            List<SentMessage> send = new ArrayList<>();
+            for (SentMessage msg = writeQueue.nextMessageToSend(); msg != null; msg = writeQueue.nextMessageToSend()) {
+                send.add(msg);
+            }
+            stream.sendAll(send);
         }
     }
 }

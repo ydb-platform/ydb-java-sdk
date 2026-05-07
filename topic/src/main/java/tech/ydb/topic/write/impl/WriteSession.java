@@ -1,7 +1,6 @@
 package tech.ydb.topic.write.impl;
 import java.util.List;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,11 +56,9 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
         return streamFactory.initRequest();
     }
 
-    public void sendAll(Supplier<SentMessage> generator) {
-        SentMessage next = generator.get();
-        while (next != null) {
-            sender.sendMessage(next);
-            next = generator.get();
+    public void sendAll(List<SentMessage> list) {
+        for (SentMessage msg: list) {
+            sender.sendMessage(msg);
         }
         sender.flush();
     }

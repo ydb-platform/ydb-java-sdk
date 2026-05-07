@@ -300,4 +300,65 @@ public class TopicWritersIntegrationTest {
 
         writer2.shutdown(10, TimeUnit.SECONDS);
     }
+
+    @Test
+    public void idempotentWriterTest() throws Exception {
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setProducerId(TEST_PRODUCER1)
+                .build();
+
+        AsyncWriter writer1 = client.createAsyncWriter(settings);
+        writer1.init().join();
+
+        byte[] msg1 = new byte[1000];
+        byte[] msg2 = new byte[1001];
+        Arrays.fill(msg1, (byte) 0x10);
+        Arrays.fill(msg2, (byte) 0x11);
+
+        List<Long> order1 = new ArrayList<>();
+        CompletableFuture<WriteAck> ack1 = writer1.send(Message.newBuilder().setData(msg1).setSeqNo(10).build())
+                .whenComplete((ack, th) -> order1.add(ack.getSeqNo()));
+        CompletableFuture<WriteAck> ack2 = writer1.send(Message.newBuilder().setData(msg2).setSeqNo(50).build())
+                .whenComplete((ack, th) -> order1.add(ack.getSeqNo()));
+        CompletableFuture<WriteAck> ack3 = writer1.send(Message.newBuilder().setData(msg2).setSeqNo(40).build())
+                .whenComplete((ack, th) -> order1.add(ack.getSeqNo()));
+
+        Assert.assertEquals(WriteAck.State.WRITTEN, ack1.join().getState());
+        Assert.assertEquals(WriteAck.State.WRITTEN, ack2.join().getState());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack3.join().getState());
+        Assert.assertEquals(10, ack1.join().getSeqNo());
+        Assert.assertEquals(50, ack2.join().getSeqNo());
+        Assert.assertEquals(40, ack3.join().getSeqNo());
+
+        Assert.assertEquals(Arrays.asList(10L, 50L, 40L), order1);
+
+        writer1.shutdown().join();
+
+        AsyncWriter writer2 = client.createAsyncWriter(settings);
+
+        List<Long> order2 = new ArrayList<>();
+        CompletableFuture<WriteAck> ack4 = writer2.send(Message.newBuilder().setData(msg1).setSeqNo(10).build())
+                .whenComplete((ack, th) -> order2.add(ack.getSeqNo()));
+        CompletableFuture<WriteAck> ack5 = writer2.send(Message.newBuilder().setData(msg2).setSeqNo(20).build())
+                .whenComplete((ack, th) -> order2.add(ack.getSeqNo()));
+        writer2.init().join();
+        CompletableFuture<WriteAck> ack6 = writer2.send(Message.newBuilder().setData(msg2).setSeqNo(40).build())
+                .whenComplete((ack, th) -> order2.add(ack.getSeqNo()));
+        CompletableFuture<WriteAck> ack7 = writer2.send(Message.newBuilder().setData(msg1).setSeqNo(30).build())
+                .whenComplete((ack, th) -> order2.add(ack.getSeqNo()));
+
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack4.join().getState());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack5.join().getState());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack6.join().getState());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack7.join().getState());
+        Assert.assertEquals(10, ack4.join().getSeqNo());
+        Assert.assertEquals(20, ack5.join().getSeqNo());
+        Assert.assertEquals(40, ack6.join().getSeqNo());
+        Assert.assertEquals(30, ack7.join().getSeqNo());
+
+        Assert.assertEquals(Arrays.asList(10L, 20L, 40L, 30L), order2);
+
+        writer2.shutdown().join();
+    }
 }
