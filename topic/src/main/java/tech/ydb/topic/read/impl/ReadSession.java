@@ -251,6 +251,8 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                 logger.info("[{}] Received force StopPartitionSessionRequest for {} ", streamId, rps.getPartition());
                 rps.stop();
             }
+
+            reader.handleClosePartitionSession(partition);
             return;
         }
 

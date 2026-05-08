@@ -40,9 +40,15 @@
             <artifactId>zstd-jni</artifactId>
             <version>1.5.7-2</version>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>tech.ydb</groupId>
+            <artifactId>ydb-sdk-table</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
