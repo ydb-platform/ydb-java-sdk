@@ -1,9 +1,5 @@
 package tech.ydb.topic;
 
-
-
-import tech.ydb.topic.YdbTopicsIntegrationTest;
-
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -24,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.test.junit4.GrpcTransportRule;
-import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.Message;
@@ -39,9 +34,9 @@ import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.utils.HideLoggers;
 import tech.ydb.topic.utils.HideLoggersRule;
 import tech.ydb.topic.write.SyncWriter;
-import tech.ydb.topic.utils.HideLoggers;
 
 /**
  *
