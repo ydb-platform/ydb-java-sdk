@@ -116,6 +116,7 @@ abstract class StatefulSession extends BaseSession {
 
             // and if we found it state switch to broken status
             if (broken) {
+                logger.debug("{} broken by status code {}", this, code);
                 return new State(Status.BROKEN, lastActive, now);
             }
 
@@ -125,6 +126,7 @@ abstract class StatefulSession extends BaseSession {
 
             if (status == Status.ACTIVE) {
                 if (shutdownHint) {
+                    logger.debug("{} broken by shutdown hint", this);
                     return new State(Status.NEED_SHUTDOWN, now);
                 }
                 return new State(status, now);

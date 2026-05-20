@@ -85,7 +85,7 @@ public class SessionPool implements AutoCloseable {
     }
 
     public CompletableFuture<Result<Session>> acquire(Duration timeout) {
-        logger.debug("acquire session with timeout {}", timeout);
+        logger.trace("acquire session with timeout {}", timeout);
 
         CompletableFuture<Result<Session>> future = new CompletableFuture<>();
 
@@ -131,7 +131,7 @@ public class SessionPool implements AutoCloseable {
 
     private boolean validateSession(ClosableSession session, CompletableFuture<Result<Session>> future) {
         if (session.state().switchToActive(clock.instant())) {
-            logger.debug("session {} accepted", session.getId());
+            logger.trace("session {} accepted", session.getId());
             if (future.complete(Result.success(session))) {
                 stats.acquired.increment();
             } else {
@@ -261,6 +261,7 @@ public class SessionPool implements AutoCloseable {
 
                 if (!state.lastActive().isAfter(idleToRemove) && queue.getTotalCount() > minSize) {
                     coldIterator.remove();
+                    logger.debug("session {} was deleted by idle timeout", session.getId());
                     continue;
                 }
 

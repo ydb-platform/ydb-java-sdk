@@ -252,7 +252,7 @@ class SessionPool implements AutoCloseable {
 
         @Override
         public void close() {
-            logger.trace("QuerySession[{}] closed with broke status {}", getId(), isBroken);
+            logger.trace("QuerySession[{}] closed with broken status {}", getId(), isBroken);
 
             stats.released.increment();
             if (isBroken || isStopped) {
@@ -328,6 +328,7 @@ class SessionPool implements AutoCloseable {
                 PooledQuerySession session = coldIterator.next();
                 if (!session.getLastActive().isAfter(idleToRemove) && queue.getTotalCount() > minSize) {
                     coldIterator.remove();
+                    logger.debug("QuerySession[{}] was deleted by idle timeout", session.getId());
                 }
             }
         }
