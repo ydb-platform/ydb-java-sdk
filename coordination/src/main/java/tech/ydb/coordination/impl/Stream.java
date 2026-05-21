@@ -38,7 +38,7 @@ class Stream {
 
     private final Map<Long, StreamMsg<?>> messages = new ConcurrentHashMap<>();
 
-    Stream(Rpc rpc) {
+    Stream(Rpc rpc, Duration connectTimeout) {
         this.scheduler = rpc.getScheduler();
         this.stream = rpc.createSession(GrpcRequestSettings.newBuilder()
                 .disableDeadline()
@@ -53,6 +53,19 @@ class Stream {
                 stopFuture.complete(status);
             }
         });
+
+        // Guard against a half-open TCP connection where the gRPC stream never delivers
+        // SessionStarted. Without this timeout the reconnect loop stalls indefinitely,
+        // keeping CompletableFutures for pending operations (e.g. acquireEphemeralSemaphore)
+        // unresolved even after the application-level acquire timeout has expired.
+        scheduler.schedule(() -> {
+            if (startFuture.isDone()) {
+                return;
+            }
+            logger.warn("stream {} connect timeout after {} ms, cancelling", hashCode(), connectTimeout.toMillis());
+            stream.cancel();
+            startFuture.complete(Result.fail(Status.of(StatusCode.TIMEOUT)));
+        }, connectTimeout.toMillis(), TimeUnit.MILLISECONDS);
     }
 
     public CompletableFuture<Status> getFinishedFuture() {
