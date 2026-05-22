@@ -28,7 +28,7 @@ public class StreamIntegrationTest {
 
     @Test
     public void stopBeforeStartTest() {
-        Stream stream = new Stream(RPC, java.time.Duration.ofSeconds(5));
+        Stream stream = new Stream(RPC);
         Status stopped = stream.stop().join();
 
         Assert.assertEquals(StatusCode.CLIENT_GRPC_ERROR, stopped.getCode());

@@ -38,6 +38,10 @@ class Stream {
 
     private final Map<Long, StreamMsg<?>> messages = new ConcurrentHashMap<>();
 
+    Stream(Rpc rpc) {
+        this(rpc, Duration.ofSeconds(5));
+    }
+
     Stream(Rpc rpc, Duration connectTimeout) {
         this.scheduler = rpc.getScheduler();
         this.stream = rpc.createSession(GrpcRequestSettings.newBuilder()
