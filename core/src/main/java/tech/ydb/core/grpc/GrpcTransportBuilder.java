@@ -127,6 +127,11 @@ public class GrpcTransportBuilder {
         return database;
     }
 
+    @Deprecated
+    public String getVersionString() {
+        return getBuildInfo();
+    }
+
     public String getBuildInfo() {
         return buildInfo;
     }
@@ -434,6 +439,7 @@ public class GrpcTransportBuilder {
      * @return this builder instance
      */
     public GrpcTransportBuilder withExtraBuildInfo(String extraBuildInfo) {
+        Objects.requireNonNull(extraBuildInfo, "extraBuildInfo is null");
         this.buildInfo = this.buildInfo + ";" + extraBuildInfo;
         return this;
     }
