@@ -13,7 +13,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tech.ydb.core.grpc.BalancingSettings;
-import tech.ydb.core.timer.TestTicker;
 
 /**
  * @author Kirill

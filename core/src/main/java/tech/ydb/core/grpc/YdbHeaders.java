@@ -41,7 +41,7 @@ public class YdbHeaders {
     public static ClientInterceptor createMetadataInterceptor(GrpcTransportBuilder builder) {
         Metadata extraHeaders = new Metadata();
         extraHeaders.put(YdbHeaders.DATABASE, builder.getDatabase());
-        extraHeaders.put(YdbHeaders.BUILD_INFO, builder.getVersionString());
+        extraHeaders.put(YdbHeaders.BUILD_INFO, builder.getBuildInfo());
         String appName = builder.getApplicationName();
         if (appName != null) {
             extraHeaders.put(YdbHeaders.APPLICATION_NAME, appName);
