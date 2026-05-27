@@ -160,6 +160,21 @@ public class DefaultChannelFactoryTest {
     }
 
     @Test
+    public void customBuildInfoTest() {
+        GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
+                .withExtraBuildInfo("driver/1.0.0")
+                .withExtraBuildInfo("test-app/1.0.0");
+        ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
+
+        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
+
+        String version = "ydb-java-sdk/" + Version.getVersion().get();
+        Metadata metadata = metadataCapture.getValue();
+        Assert.assertEquals(version + ";driver/1.0.0;test-app/1.0.0", metadata.get(YdbHeaders.BUILD_INFO));
+    }
+
+    @Test
     public void customChannelInitializer() {
         GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
                 .withUseDefaultGrpcResolver(true);

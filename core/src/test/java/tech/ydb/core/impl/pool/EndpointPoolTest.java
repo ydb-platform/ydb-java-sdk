@@ -24,7 +24,6 @@ import org.mockito.MockitoAnnotations;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.timer.TestTicker;
 
 /**
  * @author Aleksandr Gorshenin
