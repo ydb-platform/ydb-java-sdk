@@ -8,6 +8,7 @@ import java.util.concurrent.Executor;
 import org.junit.Assert;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.proto.coordination.SessionRequest;
 import tech.ydb.proto.coordination.SessionResponse;
@@ -75,6 +76,10 @@ public class GrpcStreamMock implements GrpcReadWriteStream<SessionResponse, Sess
 
     public void closeConnectionOK() {
         executor.execute(() -> finish.complete(Status.SUCCESS));
+    }
+
+    public void closeConnectionCancelled() {
+        executor.execute(() -> finish.complete(Status.of(StatusCode.CLIENT_CANCELLED)));
     }
 
     public boolean hasNextRequest() {

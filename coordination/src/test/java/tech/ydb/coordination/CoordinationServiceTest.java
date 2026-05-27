@@ -19,6 +19,7 @@ import tech.ydb.coordination.description.SemaphoreChangedEvent;
 import tech.ydb.coordination.description.SemaphoreDescription;
 import tech.ydb.coordination.description.SemaphoreWatcher;
 import tech.ydb.coordination.settings.CoordinationNodeSettings;
+import tech.ydb.coordination.settings.CoordinationSessionSettings;
 import tech.ydb.coordination.settings.DescribeSemaphoreMode;
 import tech.ydb.coordination.settings.WatchSemaphoreMode;
 import tech.ydb.core.Result;
@@ -383,6 +384,29 @@ public class CoordinationServiceTest {
         logger.info("stop sessions");
         session1.close();
         session2.close();
+        logger.info("drop node");
+        CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
+    }
+
+    @Test
+    public void invalidConnectTimeoutTest() {
+        String nodePath = "test-sessions/timeout-test";
+        logger.info("create node");
+        CLIENT.createNode(nodePath).join().expectSuccess("creating of node failed");
+        logger.info("create sessions");
+
+        CoordinationSession session1 = CLIENT.createSession(nodePath, CoordinationSessionSettings.newBuilder()
+                .withConnectTimeout(Duration.ofSeconds(-5))
+                .build());
+
+        logger.info("connect sessions");
+        Status status = session1.connect().join();
+        // expected  Status{code = BAD_REQUEST(code=400010), issues = [Session timeout is out of range (S_FATAL)]}
+        Assert.assertEquals(StatusCode.BAD_REQUEST, status.getCode());
+
+        logger.info("stop sessions");
+        session1.close();
+
         logger.info("drop node");
         CLIENT.dropNode(nodePath).join().expectSuccess("removing of node failed");
     }
