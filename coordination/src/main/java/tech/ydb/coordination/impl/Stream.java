@@ -28,7 +28,7 @@ import tech.ydb.proto.coordination.SessionResponse;
  * @author Aleksandr Gorshenin
  */
 class Stream {
-    private static final int SHUTDOWN_TIMEOUT_MS = 1000;
+    private static final int STREAM_CANCEL_TIMOUT_MS = 1000;
     private static final Logger logger = LoggerFactory.getLogger(Stream.class);
 
     private final ScheduledExecutorService scheduler;
@@ -39,10 +39,6 @@ class Stream {
     private final Map<Long, StreamMsg<?>> messages = new ConcurrentHashMap<>();
 
     Stream(Rpc rpc) {
-        this(rpc, Duration.ofSeconds(5));
-    }
-
-    Stream(Rpc rpc, Duration connectTimeout) {
         this.scheduler = rpc.getScheduler();
         this.stream = rpc.createSession(GrpcRequestSettings.newBuilder()
                 .disableDeadline()
@@ -57,19 +53,6 @@ class Stream {
                 stopFuture.complete(status);
             }
         });
-
-        // Guard against a half-open TCP connection where the gRPC stream never delivers
-        // SessionStarted. Without this timeout the reconnect loop stalls indefinitely,
-        // keeping CompletableFutures for pending operations (e.g. acquireEphemeralSemaphore)
-        // unresolved even after the application-level acquire timeout has expired.
-        scheduler.schedule(() -> {
-            if (startFuture.isDone()) {
-                return;
-            }
-            logger.warn("stream {} connect timeout after {} ms, cancelling", hashCode(), connectTimeout.toMillis());
-            stream.cancel();
-            startFuture.complete(Result.fail(Status.of(StatusCode.TIMEOUT)));
-        }, connectTimeout.toMillis(), TimeUnit.MILLISECONDS);
     }
 
     public CompletableFuture<Status> getFinishedFuture() {
@@ -80,23 +63,41 @@ class Stream {
         return messages.values();
     }
 
-    public void cancelStream() {
-        logger.trace("stream {} cancel stream", hashCode());
-        stream.cancel();
+    public void closeStream() {
+        stream.close();
+        startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)));
     }
 
-    public CompletableFuture<Result<Long>> sendSessionStart(long reqId, String node, Duration timeout, ByteString key) {
+    private void cancelStream() {
+        logger.warn("stream {} canceled", hashCode());
+        stream.cancel();
+        startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)));
+        stopFuture.complete(Status.of(StatusCode.CLIENT_CANCELLED));
+    }
+
+    public CompletableFuture<Result<Long>> sendSessionStart(long sid, String node, Duration timeout, ByteString key) {
         SessionRequest startMsg = SessionRequest.newBuilder().setSessionStart(
                 SessionRequest.SessionStart.newBuilder()
-                        .setSessionId(reqId)
+                        .setSessionId(sid)
                         .setPath(node)
                         .setTimeoutMillis(timeout.toMillis())
                         .setProtectionKey(key)
                         .build()
         ).build();
 
-        logger.trace("stream {} send session start msg {}", hashCode(), reqId);
+        logger.trace("stream {} send session start msg {}", hashCode(), sid);
         stream.sendNext(startMsg);
+
+        // schedule cancellation of grpc-stream
+        // if server doesn't confirm stream by onSessionStarted message - this timer cancels grpc stream
+        long cancelTimeout = Math.max(timeout.toMillis(), STREAM_CANCEL_TIMOUT_MS);
+        final Future<?> timer = scheduler.schedule(this::cancelStream, cancelTimeout, TimeUnit.MILLISECONDS);
+        startFuture.whenComplete((st, ex) -> {
+            if (!timer.isDone()) {
+                timer.cancel(true);
+            }
+        });
+
         return startFuture;
     }
 
@@ -114,7 +115,7 @@ class Stream {
 
         // schedule cancellation of grpc-stream
         // if server doesn't close stream by stop message - this timer cancels grpc stream
-        final Future<?> timer = scheduler.schedule(this::cancelStream, SHUTDOWN_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+        final Future<?> timer = scheduler.schedule(this::cancelStream, STREAM_CANCEL_TIMOUT_MS, TimeUnit.MILLISECONDS);
         stopFuture.whenComplete((st, ex) -> {
             if (!timer.isDone()) {
                 timer.cancel(true);

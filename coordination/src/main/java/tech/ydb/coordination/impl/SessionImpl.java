@@ -108,10 +108,10 @@ class SessionImpl implements CoordinationSession {
     public CompletableFuture<Status> connect() {
         SessionState local = state.get();
         // create new stream to connect
-        final Stream stream = new Stream(rpc, connectTimeout);
+        final Stream stream = new Stream(rpc);
         if (!updateState(local, makeConnectionState(local, stream))) {
             logger.warn("{} cannot be connected with state {}", this, local.getState());
-            stream.cancelStream();
+            stream.closeStream();
             return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_REQUEST));
         }
 
@@ -214,7 +214,7 @@ class SessionImpl implements CoordinationSession {
             return;
         }
 
-        Stream stream = new Stream(rpc, connectTimeout);
+        Stream stream = new Stream(rpc);
         if (!updateState(local, makeConnectionState(local, stream))) {
             logger.warn("{} cannot be reconnected with state {}", this, state.get().getState());
             completeMessagesWithBadSession(messagesToRetry);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.google.protobuf.ByteString;
 import org.junit.Assert;
@@ -12,6 +13,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import tech.ydb.core.Result;
@@ -39,12 +41,12 @@ public class StreamTest {
             grpcMocks.add(mock);
             return mock;
         });
+
+        Assert.assertTrue(grpcMocks.isEmpty());
     }
 
     @Test
     public void baseConnectTest() {
-        Assert.assertTrue(grpcMocks.isEmpty());
-
         Stream stream = new Stream(rpc);
         Assert.assertEquals(1, grpcMocks.size());
         GrpcStreamMock grpc = grpcMocks.get(0);
@@ -104,5 +106,52 @@ public class StreamTest {
         Assert.assertTrue(finished.isDone());
         Assert.assertTrue(grpc.isClosed());
         Assert.assertFalse(grpc.isCanceled());
+    }
+
+    @Test
+    public void closeWithoutStartTest() {
+        Assert.assertTrue(grpcMocks.isEmpty());
+
+        Stream stream = new Stream(rpc);
+        Assert.assertEquals(1, grpcMocks.size());
+        GrpcStreamMock grpc = grpcMocks.get(0);
+
+        Assert.assertFalse(grpc.isClosed());
+        Assert.assertFalse(grpc.isCanceled());
+        Assert.assertFalse(grpc.hasNextRequest());
+
+        stream.closeStream();
+
+        Assert.assertTrue(grpc.isClosed());
+        Assert.assertFalse(grpc.isCanceled());
+        Assert.assertFalse(grpc.hasNextRequest());
+    }
+
+    @Test
+    public void connectTimeoutTest() {
+        Assert.assertTrue(grpcMocks.isEmpty());
+
+        Stream stream = new Stream(rpc);
+        Assert.assertEquals(1, grpcMocks.size());
+        GrpcStreamMock grpc = grpcMocks.get(0);
+
+        CompletableFuture<Result<Long>> start = stream.sendSessionStart(0, "/test", Duration.ofMillis(100), ByteString.EMPTY);
+
+        Assert.assertFalse(start.isDone());
+        Assert.assertTrue(grpc.hasNextRequest());
+
+        ArgumentCaptor<Runnable> task = ArgumentCaptor.forClass(Runnable.class);
+        ArgumentCaptor<Long> taskTimeout = ArgumentCaptor.forClass(Long.class);
+        ArgumentCaptor<TimeUnit> taskUnit = ArgumentCaptor.forClass(TimeUnit.class);
+        Mockito.verify(scheduler, Mockito.times(1)).schedule(task.capture(), taskTimeout.capture(), taskUnit.capture());
+
+        Assert.assertEquals(1000L, taskTimeout.getValue().longValue()); // use STREAM_CANCEL_TIMOUT_MS
+        Assert.assertEquals(TimeUnit.MILLISECONDS, taskUnit.getValue());
+
+        task.getValue().run();
+
+        Assert.assertFalse(grpc.isClosed());
+        Assert.assertTrue(grpc.isCanceled());
+        Assert.assertTrue(grpc.hasNextRequest());
     }
 }

@@ -62,12 +62,6 @@ class SessionState {
         }
     }
 
-    public void cancel() {
-        if (stream != null) {
-            stream.cancelStream();
-        }
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Session{state=").append(getState()).append(", id=").append(sessionID);
