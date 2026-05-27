@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import com.google.protobuf.ByteString;
@@ -18,6 +19,7 @@ import org.mockito.Mockito;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.proto.coordination.SessionRequest;
 
 /**
@@ -33,6 +35,7 @@ public class StreamTest {
     public final Timeout timeout = Timeout.seconds(10);
 
     @Before
+    @SuppressWarnings("unchecked")
     public void beforeEach() {
         Mockito.when(rpc.getScheduler()).thenReturn(scheduler);
         Mockito.when(rpc.getDatabase()).thenReturn("/mocked");
@@ -41,6 +44,9 @@ public class StreamTest {
             grpcMocks.add(mock);
             return mock;
         });
+
+        Mockito.when(scheduler.schedule(Mockito.any(Runnable.class), Mockito.anyLong(), Mockito.any()))
+                .thenReturn(Mockito.mock(ScheduledFuture.class));
 
         Assert.assertTrue(grpcMocks.isEmpty());
     }
@@ -145,7 +151,7 @@ public class StreamTest {
         ArgumentCaptor<TimeUnit> taskUnit = ArgumentCaptor.forClass(TimeUnit.class);
         Mockito.verify(scheduler, Mockito.times(1)).schedule(task.capture(), taskTimeout.capture(), taskUnit.capture());
 
-        Assert.assertEquals(1000L, taskTimeout.getValue().longValue()); // use STREAM_CANCEL_TIMOUT_MS
+        Assert.assertEquals(1000L, taskTimeout.getValue().longValue()); // use STREAM_CANCEL_TIMEOUT_MS
         Assert.assertEquals(TimeUnit.MILLISECONDS, taskUnit.getValue());
 
         task.getValue().run();
@@ -153,5 +159,10 @@ public class StreamTest {
         Assert.assertFalse(grpc.isClosed());
         Assert.assertTrue(grpc.isCanceled());
         Assert.assertTrue(grpc.hasNextRequest());
+        grpc.closeConnectionCancelled();
+
+        Assert.assertTrue(start.isDone());
+        Assert.assertEquals(StatusCode.CLIENT_CANCELLED, start.join().getStatus().getCode());
+        Assert.assertEquals(StatusCode.CLIENT_CANCELLED, stream.stop().join().getCode());
     }
 }

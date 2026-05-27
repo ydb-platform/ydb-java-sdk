@@ -28,7 +28,7 @@ import tech.ydb.proto.coordination.SessionResponse;
  * @author Aleksandr Gorshenin
  */
 class Stream {
-    private static final int STREAM_CANCEL_TIMOUT_MS = 1000;
+    private static final int STREAM_CANCEL_TIMEOUT_MS = 1000;
     private static final Logger logger = LoggerFactory.getLogger(Stream.class);
 
     private final ScheduledExecutorService scheduler;
@@ -64,15 +64,18 @@ class Stream {
     }
 
     public void closeStream() {
-        stream.close();
-        startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)));
+        if (startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)))) {
+            stream.close();
+        }
     }
 
     private void cancelStream() {
-        logger.warn("stream {} canceled", hashCode());
-        stream.cancel();
-        startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)));
-        stopFuture.complete(Status.of(StatusCode.CLIENT_CANCELLED));
+        boolean wasNotStarted = startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)));
+        boolean wasNotStopped = stopFuture.complete(Status.of(StatusCode.CLIENT_CANCELLED));
+        if (wasNotStarted || wasNotStopped) {
+            logger.warn("stream {} canceled", hashCode());
+            stream.cancel();
+        }
     }
 
     public CompletableFuture<Result<Long>> sendSessionStart(long sid, String node, Duration timeout, ByteString key) {
@@ -90,7 +93,7 @@ class Stream {
 
         // schedule cancellation of grpc-stream
         // if server doesn't confirm stream by onSessionStarted message - this timer cancels grpc stream
-        long cancelTimeout = Math.max(timeout.toMillis(), STREAM_CANCEL_TIMOUT_MS);
+        long cancelTimeout = Math.max(timeout.toMillis(), STREAM_CANCEL_TIMEOUT_MS);
         final Future<?> timer = scheduler.schedule(this::cancelStream, cancelTimeout, TimeUnit.MILLISECONDS);
         startFuture.whenComplete((st, ex) -> {
             if (!timer.isDone()) {
@@ -115,7 +118,7 @@ class Stream {
 
         // schedule cancellation of grpc-stream
         // if server doesn't close stream by stop message - this timer cancels grpc stream
-        final Future<?> timer = scheduler.schedule(this::cancelStream, STREAM_CANCEL_TIMOUT_MS, TimeUnit.MILLISECONDS);
+        final Future<?> timer = scheduler.schedule(this::cancelStream, STREAM_CANCEL_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         stopFuture.whenComplete((st, ex) -> {
             if (!timer.isDone()) {
                 timer.cancel(true);

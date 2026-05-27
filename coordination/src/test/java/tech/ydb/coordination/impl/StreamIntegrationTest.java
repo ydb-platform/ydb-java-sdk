@@ -1,7 +1,10 @@
 package tech.ydb.coordination.impl;
 
+import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
+import com.google.protobuf.ByteString;
 import org.junit.Assert;
 import org.junit.ClassRule;
 import org.junit.Rule;
@@ -9,6 +12,7 @@ import org.junit.Test;
 import org.junit.rules.Timeout;
 
 import tech.ydb.core.Issue;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.test.junit4.GrpcTransportRule;
@@ -37,5 +41,21 @@ public class StreamIntegrationTest {
         Issue issue = stopped.getIssues()[0];
         Assert.assertTrue(issue.getMessage().startsWith("gRPC error: (INVALID_ARGUMENT) on"));
         Assert.assertTrue(issue.getMessage().endsWith("First message must be a SessionStart"));
+    }
+
+    @Test
+    public void closeWithoutStartTest() {
+        Stream stream = new Stream(RPC);
+
+        stream.closeStream();
+
+        CompletableFuture<Result<Long>> start = stream.sendSessionStart(0, "test", Duration.ZERO, ByteString.EMPTY);
+        Assert.assertTrue(start.isDone());
+        Assert.assertEquals(StatusCode.CLIENT_CANCELLED, start.join().getStatus().getCode());
+
+        CompletableFuture<Status> stop = stream.stop();
+        Assert.assertEquals(StatusCode.CLIENT_CANCELLED, stop.join().getCode());
+
+        stream.closeStream(); // no-op
     }
 }
