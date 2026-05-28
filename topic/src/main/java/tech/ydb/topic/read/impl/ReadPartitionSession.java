@@ -74,6 +74,14 @@ public abstract class ReadPartitionSession {
     public void stop() {
         isStopped = true;
         committer.failPendingCommits();
+        // Drain any batches that were buffered but not yet delivered to the user.
+        // Their read futures are part of CompletableFuture.allOf(batchReadFutures)
+        // in ReadSession#onReadResponse; if they never complete, the SDK stops
+        // sending ReadRequests and the whole read session stalls.
+        Batch pending;
+        while ((pending = readingQueue.poll()) != null) {
+            pending.complete();
+        }
         logger.info("{} stopped", this);
     }
 
@@ -114,7 +122,14 @@ public abstract class ReadPartitionSession {
             batchFutures.add(newBatch.getReadFuture());
 
             readingQueue.offer(newBatch);
-            if (!newBatch.isReady()) {
+            if (isStopped) {
+                // stop() may have raced with this addBatches call. Its drain might
+                // have already happened (and missed this batch), so explicitly
+                // complete the batch to keep flow control alive. complete() is
+                // idempotent if stop() also dequeued it.
+                readingQueue.remove(newBatch);
+                newBatch.complete();
+            } else if (!newBatch.isReady()) {
                 decoder.decode(traceID, newBatch, this::sendDataToReadersIfNeeded);
             }
         }
