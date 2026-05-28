@@ -1,3 +1,8 @@
+## 2.4.4 ##
+* Topic: fixed ReadPartitionSession closing
+* Core: added method to customize x-build-info
+* Coordination: added timeout for session init waiting
+
 ## 2.4.3 ##
 * Topic: fixed lost onPartitionSessionClosed event
 
