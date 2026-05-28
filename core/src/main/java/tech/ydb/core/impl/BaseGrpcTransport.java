@@ -65,6 +65,11 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
         this.serverEndpoint = serverEndpoint;
     }
 
+    @Override
+    public String getEndpoint() {
+        return serverEndpoint == null ? "" : serverEndpoint.getHost() + ":" + serverEndpoint.getPort();
+    }
+
     protected abstract AuthCallOptions getAuthCallOptions();
 
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);

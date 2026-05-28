@@ -6,6 +6,9 @@ import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.DoubleHistogram;
+import tech.ydb.core.metrics.LongCounter;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
@@ -51,14 +54,54 @@ class QueryServiceRpc {
 
     private final GrpcTransport transport;
     private final Tracer trace;
+    private final Meter meter;
+    private final String database;
+    private final String endpoint;
+    private final DoubleHistogram operationDuration;
+    private final LongCounter operationFailed;
 
     QueryServiceRpc(GrpcTransport transport) {
+        this(transport, Meter.NOOP);
+    }
+
+    QueryServiceRpc(GrpcTransport transport, Meter meter) {
         this.transport = transport;
         this.trace = transport.getTracer();
+        this.meter = meter;
+        this.database = transport.getDatabase();
+        this.endpoint = transport.getEndpoint();
+        this.operationDuration = meter.createHistogram(
+                "ydb.client.operation.duration",
+                "s",
+                "Duration of a single client operation attempt (ExecuteQuery, Commit, Rollback).");
+        this.operationFailed = meter.createCounter(
+                "ydb.client.operation.failed",
+                "{operation}",
+                "Number of failed client operation attempts.");
     }
 
     Span startSpan(String spanName) {
         return trace.startSpan(spanName, SpanKind.CLIENT);
+    }
+
+    Meter getMeter() {
+        return meter;
+    }
+
+    String getDatabase() {
+        return database;
+    }
+
+    String getEndpoint() {
+        return endpoint;
+    }
+
+    DoubleHistogram operationDuration() {
+        return operationDuration;
+    }
+
+    LongCounter operationFailed() {
+        return operationFailed;
     }
 
     public CompletableFuture<Result<YdbQuery.CreateSessionResponse>> createSession(

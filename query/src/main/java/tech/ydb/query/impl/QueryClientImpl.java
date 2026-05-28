@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
@@ -24,13 +25,17 @@ public class QueryClientImpl implements QueryClient {
     private final Tracer tracer;
 
     public QueryClientImpl(Builder builder) {
+        String poolName = builder.sessionPoolName != null
+                ? builder.sessionPoolName
+                : defaultPoolName(builder.transport);
         this.pool = new SessionPool(
                 Clock.systemUTC(),
-                new QueryServiceRpc(builder.transport),
+                new QueryServiceRpc(builder.transport, builder.meter),
                 builder.transport.getScheduler(),
                 builder.sessionPoolMinSize,
                 builder.sessionPoolMaxSize,
-                builder.sessionPoolIdleDuration
+                builder.sessionPoolIdleDuration,
+                poolName
         );
         this.scheduler = builder.transport.getScheduler();
         this.tracer = builder.transport.getTracer();
@@ -69,6 +74,18 @@ public class QueryClientImpl implements QueryClient {
         return new Builder(transport);
     }
 
+    private static String defaultPoolName(GrpcTransport transport) {
+        String endpoint = transport.getEndpoint();
+        String database = transport.getDatabase();
+        if (endpoint == null || endpoint.isEmpty()) {
+            return database;
+        }
+        if (database == null || database.isEmpty()) {
+            return endpoint;
+        }
+        return database.startsWith("/") ? endpoint + database : endpoint + "/" + database;
+    }
+
     public static class Builder implements QueryClient.Builder {
         private static final Duration MAX_DURATION = Duration.ofMinutes(30);
         private static final Duration MIN_DURATION = Duration.ofSeconds(1);
@@ -77,6 +94,8 @@ public class QueryClientImpl implements QueryClient {
         private int sessionPoolMinSize = 0;
         private int sessionPoolMaxSize = 50;
         private Duration sessionPoolIdleDuration = Duration.ofMinutes(5);
+        private String sessionPoolName = null;
+        private Meter meter = Meter.NOOP;
 
         Builder(GrpcTransport transport) {
             Preconditions.checkArgument(transport != null, "transport is null");
@@ -123,6 +142,21 @@ public class QueryClientImpl implements QueryClient {
                 prettyDuration(duration), prettyDuration(MAX_DURATION));
 
             this.sessionPoolIdleDuration = duration;
+            return this;
+        }
+
+        @Override
+        public Builder sessionPoolName(String poolName) {
+            Preconditions.checkArgument(poolName != null && !poolName.isEmpty(),
+                    "sessionPoolName must be a non-empty string");
+            this.sessionPoolName = poolName;
+            return this;
+        }
+
+        @Override
+        public Builder withMeter(Meter meter) {
+            Preconditions.checkArgument(meter != null, "meter is null");
+            this.meter = meter;
             return this;
         }
 

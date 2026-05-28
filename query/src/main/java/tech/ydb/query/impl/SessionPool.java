@@ -22,7 +22,12 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.metrics.DoubleHistogram;
+import tech.ydb.core.metrics.LongCounter;
+import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.metrics.MetricAttributes;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.utils.DiagnosticCall;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -40,6 +45,9 @@ import tech.ydb.table.impl.pool.WaitingQueue;
 class SessionPool implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(SessionPool.class);
 
+    private static final String POOL_NAME_ATTR = "ydb.query.session.pool.name";
+    private static final String SESSION_STATE_ATTR = "ydb.query.session.state";
+
     private static final CreateSessionSettings CREATE_SETTINGS = CreateSessionSettings.newBuilder()
             .withRequestTimeout(Duration.ofSeconds(300))
             .withOperationTimeout(Duration.ofSeconds(299))
@@ -54,19 +62,66 @@ class SessionPool implements AutoCloseable {
             .build();
 
     private final int minSize;
+    private final String poolName;
     private final Clock clock;
     private final ScheduledExecutorService scheduler;
     private final WaitingQueue<PooledQuerySession> queue;
     private final ScheduledFuture<?> cleanerFuture;
     private final StatsImpl stats = new StatsImpl();
 
+    private final LongCounter pendingRequests;
+    private final LongCounter sessionTimeouts;
+    private final DoubleHistogram sessionCreateTime;
+    private final DoubleHistogram operationDuration;
+    private final LongCounter operationFailed;
+
     SessionPool(Clock clock, QueryServiceRpc rpc, ScheduledExecutorService scheduler, int minSize, int maxSize,
-                Duration idleDuration) {
+                Duration idleDuration, String poolName) {
         this.minSize = minSize;
+        this.poolName = poolName;
 
         this.clock = clock;
         this.scheduler = scheduler;
         this.queue = new WaitingQueue<>(new Handler(rpc), maxSize);
+
+        Meter meter = rpc.getMeter();
+        this.pendingRequests = meter.createCounter(
+                "ydb.query.session.pending_requests",
+                "{request}",
+                "Number of session-acquire requests that had to wait for a free session.");
+        this.sessionTimeouts = meter.createCounter(
+                "ydb.query.session.timeouts",
+                "{timeout}",
+                "Number of session-acquire timeouts.");
+        this.sessionCreateTime = meter.createHistogram(
+                "ydb.query.session.create_time",
+                "s",
+                "Time spent creating a new session.");
+        this.operationDuration = rpc.operationDuration();
+        this.operationFailed = rpc.operationFailed();
+
+        meter.createLongGauge(
+                "ydb.query.session.count",
+                "{session}",
+                "Current number of sessions in the pool by state.",
+                m -> {
+                    m.record(queue.getIdleCount(),
+                            POOL_NAME_ATTR, poolName,
+                            SESSION_STATE_ATTR, "idle");
+                    m.record(queue.getUsedCount(),
+                            POOL_NAME_ATTR, poolName,
+                            SESSION_STATE_ATTR, "used");
+                });
+        meter.createLongGauge(
+                "ydb.query.session.min",
+                "{session}",
+                "Configured minimum size of the session pool.",
+                m -> m.record(minSize, POOL_NAME_ATTR, poolName));
+        meter.createLongGauge(
+                "ydb.query.session.max",
+                "{session}",
+                "Configured maximum size of the session pool.",
+                m -> m.record(queue.getTotalLimit(), POOL_NAME_ATTR, poolName));
 
         CleanerTask cleaner = new CleanerTask(idleDuration);
         this.cleanerFuture = scheduler.scheduleAtFixedRate(
@@ -74,7 +129,8 @@ class SessionPool implements AutoCloseable {
                 cleaner.periodMillis / 2,
                 cleaner.periodMillis,
                 TimeUnit.MILLISECONDS);
-        logger.info("init QuerySession pool, min size = {}, max size = {}, keep alive period = {}",
+        logger.info("init QuerySession pool '{}', min size = {}, max size = {}, keep alive period = {}",
+                poolName,
                 minSize,
                 maxSize,
                 cleaner.periodMillis);
@@ -102,8 +158,9 @@ class SessionPool implements AutoCloseable {
 
         // If next session is not ready - add timeout canceler
         if (!pollNext(future)) {
+            pendingRequests.add(1L, POOL_NAME_ATTR, poolName);
             future.whenComplete(new Canceller(scheduler.schedule(
-                    new Timeout(future),
+                    new Timeout(future, sessionTimeouts, poolName),
                     timeout.toMillis(),
                     TimeUnit.MILLISECONDS)
             ));
@@ -277,8 +334,21 @@ class SessionPool implements AutoCloseable {
             Context previous = ctx.attach();
             try {
                 Span createSpan = rpc.startSpan("ydb.CreateSession");
+                long startNanos = System.nanoTime();
                 stats.requested.increment();
-                return Span.endOnResult(createSpan, SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan))
+                return DiagnosticCall.endOnResult(
+                                "CreateSession",
+                                createSpan,
+                                startNanos,
+                                operationDuration,
+                                operationFailed,
+                                SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan),
+                                MetricAttributes.DATABASE, rpc.getDatabase(),
+                                MetricAttributes.ENDPOINT, rpc.getEndpoint())
+                        .whenComplete((r, th) -> {
+                            double seconds = (System.nanoTime() - startNanos) / 1_000_000_000.0;
+                            sessionCreateTime.record(seconds, POOL_NAME_ATTR, poolName);
+                        })
                         .thenCompose(r -> {
                             if (!r.isSuccess()) {
                                 stats.failed.increment();
@@ -444,15 +514,19 @@ class SessionPool implements AutoCloseable {
         );
 
         private final CompletableFuture<Result<QuerySession>> f;
+        private final LongCounter sessionTimeouts;
+        private final String poolName;
 
-        Timeout(CompletableFuture<Result<QuerySession>> f) {
+        Timeout(CompletableFuture<Result<QuerySession>> f, LongCounter sessionTimeouts, String poolName) {
             this.f = f;
+            this.sessionTimeouts = sessionTimeouts;
+            this.poolName = poolName;
         }
 
         @Override
         public void run() {
-            if (f != null && !f.isDone()) {
-                f.complete(Result.fail(EXPIRE));
+            if (f != null && !f.isDone() && f.complete(Result.fail(EXPIRE))) {
+                sessionTimeouts.add(1L, POOL_NAME_ATTR, poolName);
             }
         }
     }

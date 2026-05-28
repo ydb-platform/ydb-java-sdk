@@ -8,6 +8,7 @@ import javax.annotation.WillNotClose;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.query.impl.QueryClientImpl;
@@ -54,6 +55,10 @@ public interface QueryClient extends AutoCloseable {
         Builder sessionPoolMaxSize(int maxSize);
 
         Builder sessionMaxIdleTime(Duration duration);
+
+        Builder sessionPoolName(String poolName);
+
+        Builder withMeter(Meter meter);
 
         QueryClient build();
     }

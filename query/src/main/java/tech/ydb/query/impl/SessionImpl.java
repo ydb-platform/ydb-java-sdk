@@ -24,9 +24,13 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.metrics.DoubleHistogram;
+import tech.ydb.core.metrics.LongCounter;
+import tech.ydb.core.metrics.MetricAttributes;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.utils.DiagnosticCall;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.ValueProtos;
@@ -75,6 +79,10 @@ abstract class SessionImpl implements QuerySession {
     private final long nodeID;
     private final boolean isTraceEnabled;
     private final AtomicReference<TransactionImpl> transaction;
+    private final String database;
+    private final String endpoint;
+    private final DoubleHistogram operationDuration;
+    private final LongCounter operationFailed;
 
     SessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
         this.rpc = rpc;
@@ -82,6 +90,42 @@ abstract class SessionImpl implements QuerySession {
         this.nodeID = getNodeBySessionId(response.getSessionId(), response.getNodeId());
         this.isTraceEnabled = logger.isTraceEnabled();
         this.transaction = new AtomicReference<>(new TransactionImpl(TxMode.SERIALIZABLE_RW, null));
+        this.database = rpc.getDatabase();
+        this.endpoint = rpc.getEndpoint();
+        this.operationDuration = rpc.operationDuration();
+        this.operationFailed = rpc.operationFailed();
+    }
+
+    private <T> CompletableFuture<Result<T>> endOperationOnResult(
+            String operationName,
+            Span span,
+            long startNanos,
+            CompletableFuture<Result<T>> future) {
+        return DiagnosticCall.endOnResult(
+                operationName,
+                span,
+                startNanos,
+                operationDuration,
+                operationFailed,
+                future,
+                MetricAttributes.DATABASE, database,
+                MetricAttributes.ENDPOINT, endpoint);
+    }
+
+    private CompletableFuture<Status> endOperationOnStatus(
+            String operationName,
+            Span span,
+            long startNanos,
+            CompletableFuture<Status> future) {
+        return DiagnosticCall.endOnStatus(
+                operationName,
+                span,
+                startNanos,
+                operationDuration,
+                operationFailed,
+                future,
+                MetricAttributes.DATABASE, database,
+                MetricAttributes.ENDPOINT, endpoint);
     }
 
     private static Long getNodeBySessionId(String sessionId, long defaultValue) {
@@ -266,19 +310,23 @@ abstract class SessionImpl implements QuerySession {
     }
 
     CompletableFuture<Status> commitById(String txId, CommitTransactionSettings settings, Span span) {
+        long startNanos = System.nanoTime();
         YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
                 .setSessionId(sessionId)
                 .setTxId(txId)
                 .build();
-        return rpc.commitTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus);
+        return endOperationOnStatus("Commit", span, startNanos,
+                rpc.commitTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus));
     }
 
     CompletableFuture<Status> rollbackById(String txId, RollbackTransactionSettings settings, Span span) {
+        long startNanos = System.nanoTime();
         YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
                 .setSessionId(sessionId)
                 .setTxId(txId)
                 .build();
-        return rpc.rollbackTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus);
+        return endOperationOnStatus("Rollback", span, startNanos,
+                rpc.rollbackTransaction(request, makeOptions(settings, span).build()).thenApply(Result::getStatus));
     }
 
     GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> createGrpcStream(
@@ -331,7 +379,8 @@ abstract class SessionImpl implements QuerySession {
     public QueryStream createQuery(String query, TxMode tx, Params prms, ExecuteQuerySettings settings) {
         YdbQuery.TransactionControl tc = TxControl.txModeCtrl(tx, true);
         Span span = startSpan("ydb.ExecuteQuery");
-        return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
+        long startNanos = System.nanoTime();
+        return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span, startNanos) {
             @Override
             void handleTxMeta(String txID) {
                 if (txID != null && !txID.isEmpty()) {
@@ -376,12 +425,17 @@ abstract class SessionImpl implements QuerySession {
     }
 
     abstract class StreamImpl implements QueryStream {
+        private static final String OPERATION_NAME = "ExecuteQuery";
+
         private final GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream;
         private final Span span;
+        private final long startNanos;
 
-        StreamImpl(GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream, Span operationSpan) {
+        StreamImpl(GrpcReadStream<YdbQuery.ExecuteQueryResponsePart> grpcStream, Span operationSpan,
+                   long startNanos) {
             this.grpcStream = grpcStream;
             this.span = operationSpan;
+            this.startNanos = startNanos;
         }
 
         abstract void handleTxMeta(String txId);
@@ -393,7 +447,7 @@ abstract class SessionImpl implements QuerySession {
         public CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler) {
             final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
             final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
-            return Span.endOnResult(span, grpcStream.start(msg -> {
+            return endOperationOnResult(OPERATION_NAME, span, startNanos, grpcStream.start(msg -> {
                         if (isTraceEnabled) {
                             logger.trace("{} got stream message {}",
                                     SessionImpl.this, TextFormat.shortDebugString(msg));
@@ -434,11 +488,10 @@ abstract class SessionImpl implements QuerySession {
                     }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
                         updateSessionState(streamStatus);
                         Status status = operationStatus.orElse(streamStatus);
-                        if (status.isSuccess()) {
-                            return Result.success(new QueryInfo(stats.get()), streamStatus);
-                        } else {
+                        if (!status.isSuccess()) {
                             return Result.fail(status);
                         }
+                        return Result.success(new QueryInfo(stats.get()), streamStatus);
                     })
             );
         }
@@ -478,7 +531,8 @@ abstract class SessionImpl implements QuerySession {
                     : TxControl.txModeCtrl(txMode, commitAtEnd);
 
             Span span = startSpan("ydb.ExecuteQuery");
-            return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
+            long startNanos = System.nanoTime();
+            return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span, startNanos) {
                 @Override
                 void handleTxMeta(String txID) {
                     String newId = txID == null || txID.isEmpty() ? null : txID;
@@ -518,12 +572,13 @@ abstract class SessionImpl implements QuerySession {
         @Override
         public CompletableFuture<Result<QueryInfo>> commit(CommitTransactionSettings settings) {
             Span span = startSpan("ydb.Commit");
+            long startNanos = System.nanoTime();
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             String transactionId = txId.get();
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 Result<QueryInfo> res = Result.success(new QueryInfo(null), Status.of(StatusCode.SUCCESS, issue));
-                return Span.endOnResult(span, CompletableFuture.completedFuture(res));
+                return endOperationOnResult("Commit", span, startNanos, CompletableFuture.completedFuture(res));
             }
 
             YdbQuery.CommitTransactionRequest request = YdbQuery.CommitTransactionRequest.newBuilder()
@@ -531,17 +586,19 @@ abstract class SessionImpl implements QuerySession {
                     .setTxId(transactionId)
                     .build();
 
-            return Span.endOnResult(span, rpc.commitTransaction(request, makeOptions(settings, span).build()))
+            return endOperationOnResult("Commit", span, startNanos,
+                    rpc.commitTransaction(request, makeOptions(settings, span).build()))
                     .thenApply(res -> {
                         Status status = res.getStatus();
                         currentStatusFuture.complete(status);
                         updateSessionState(status);
                         if (!txId.compareAndSet(transactionId, null)) {
-                            logger.warn("{} lost commit response for transaction {}", SessionImpl.this, transactionId);
+                            logger.warn("{} lost commit response for transaction {}",
+                                    SessionImpl.this, transactionId);
                         }
                         // TODO: CommitTransactionResponse must contain exec_stats
                         return res.map(resp -> new QueryInfo(null));
-                    }).whenComplete(((status, th) -> {
+                    }).whenComplete(((res, th) -> {
                         if (th != null) {
                             currentStatusFuture.completeExceptionally(
                                     new RuntimeException("Transaction commit failed with exception", th));
@@ -552,20 +609,22 @@ abstract class SessionImpl implements QuerySession {
         @Override
         public CompletableFuture<Status> rollback(RollbackTransactionSettings settings) {
             Span span = startSpan("ydb.Rollback");
+            long startNanos = System.nanoTime();
             CompletableFuture<Status> currentStatusFuture = statusFuture.getAndSet(new CompletableFuture<>());
             String transactionId = txId.get();
 
             if (transactionId == null) {
                 Issue issue = Issue.of("Transaction is not started", Issue.Severity.WARNING);
                 Status status = Status.of(StatusCode.SUCCESS, issue);
-                return Span.endOnStatus(span, CompletableFuture.completedFuture(status));
+                return endOperationOnStatus("Rollback", span, startNanos, CompletableFuture.completedFuture(status));
             }
 
             YdbQuery.RollbackTransactionRequest request = YdbQuery.RollbackTransactionRequest.newBuilder()
                     .setSessionId(sessionId)
                     .setTxId(transactionId)
                     .build();
-            return Span.endOnResult(span, rpc.rollbackTransaction(request, makeOptions(settings, span).build()))
+            return endOperationOnResult("Rollback", span, startNanos,
+                    rpc.rollbackTransaction(request, makeOptions(settings, span).build()))
                     .thenApply(result -> {
                         updateSessionState(result.getStatus());
                         if (!txId.compareAndSet(transactionId, null)) {

@@ -47,6 +47,10 @@ public interface TableClient extends SessionSupplier, AutoCloseable {
 
         Builder sessionMaxIdleTime(Duration duration);
 
+        default Builder withMeter(tech.ydb.core.metrics.Meter meter) {
+            return this;
+        }
+
         TableClient build();
     }
 }

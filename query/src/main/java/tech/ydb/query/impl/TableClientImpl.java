@@ -132,9 +132,10 @@ public class TableClientImpl implements TableClient {
             final List<Issue> issues = new ArrayList<>();
             final List<ValueProtos.ResultSet> results = new ArrayList<>();
             Span span = querySession.startSpan("ydb.ExecuteQuery");
+            long startNanos = System.nanoTime();
 
             QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs, span),
-                    span) {
+                    span, startNanos) {
                 @Override
                 void handleTxMeta(String txID) {
                     txRef.set(txID);
@@ -211,7 +212,7 @@ public class TableClientImpl implements TableClient {
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return Span.endOnStatus(span, querySession.commitById(txId, querySettings, span));
+            return querySession.commitById(txId, querySettings, span);
         }
 
         @Override
@@ -221,7 +222,7 @@ public class TableClientImpl implements TableClient {
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return Span.endOnStatus(span, querySession.rollbackById(txId, querySettings, span));
+            return querySession.rollbackById(txId, querySettings, span);
         }
 
         private final class TracedTableTransaction implements TableTransaction {
@@ -322,6 +323,12 @@ public class TableClientImpl implements TableClient {
         @Override
         public Builder sessionMaxIdleTime(Duration duration) {
             query.sessionMaxIdleTime(duration);
+            return this;
+        }
+
+        @Override
+        public Builder withMeter(tech.ydb.core.metrics.Meter meter) {
+            query.withMeter(meter);
             return this;
         }
 
