@@ -74,6 +74,10 @@ public abstract class ReadPartitionSession {
     public void stop() {
         isStopped = true;
         committer.failPendingCommits();
+        // complete all read futures
+        for (Batch batch: readingQueue) {
+            batch.complete();
+        }
         logger.info("{} stopped", this);
     }
 
@@ -120,6 +124,10 @@ public abstract class ReadPartitionSession {
         }
 
         sendDataToReadersIfNeeded();
+
+        if (isStopped) {
+            return CompletableFuture.completedFuture(null);
+        }
         return CompletableFuture.allOf(batchFutures.toArray(new CompletableFuture<?>[0]));
     }
 

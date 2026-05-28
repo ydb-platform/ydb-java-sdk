@@ -52,8 +52,6 @@ public abstract class SessionBase<R, W> implements Session {
             return streamConnection.start(message -> {
                 if (getLogger().isTraceEnabled()) {
                     getLogger().trace("[{}] Message received:\n{}", streamId, message);
-                } else {
-                    getLogger().debug("[{}] Message received", streamId);
                 }
 
                 if (isWorking.get()) {
@@ -88,8 +86,6 @@ public abstract class SessionBase<R, W> implements Session {
 
             if (getLogger().isTraceEnabled()) {
                 getLogger().trace("[{}] Sending request:\n{}", streamId, request);
-            } else {
-                getLogger().debug("[{}] Sending request", streamId);
             }
             streamConnection.sendNext(request);
         } finally {
