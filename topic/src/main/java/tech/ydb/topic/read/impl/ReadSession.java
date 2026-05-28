@@ -296,7 +296,7 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
 
     private void onReadResponse(YdbTopic.StreamReadMessage.ReadResponse response) {
         final long responseBytesSize = response.getBytesSize();
-        logger.trace("[{}] Received ReadResponse of {} bytes", streamId, responseBytesSize);
+        logger.debug("[{}] Received ReadResponse of {} bytes", streamId, responseBytesSize);
         List<CompletableFuture<Void>> batchReadFutures = new ArrayList<>();
 
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
@@ -365,7 +365,7 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
             logger.debug("[{}] processMessage called, but read session is already closed", streamId);
             return;
         }
-        logger.debug("[{}] processMessage called", streamId);
+        logger.trace("[{}] processMessage called", streamId);
         if (message.getStatus() != StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
             Status status = Status.of(StatusCode.fromProto(message.getStatus()),
                     Issue.fromPb(message.getIssuesList()));
