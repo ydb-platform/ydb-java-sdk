@@ -260,7 +260,7 @@ public class TopicWritersIntegrationTest {
     }
 
     @Test
-    @Ignore("Backwards is crashing on new versions of the YDB server.")
+    @Ignore("temporarily disabled")
     public void sameProducerConflictTest() throws Exception {
         CountDownLatch closed = new CountDownLatch(1);
 
