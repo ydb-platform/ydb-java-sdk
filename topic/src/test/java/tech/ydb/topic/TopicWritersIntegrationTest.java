@@ -15,6 +15,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -259,6 +260,7 @@ public class TopicWritersIntegrationTest {
     }
 
     @Test
+    @Ignore("Backwards is crashing on new versions of the YDB server.")
     public void sameProducerConflictTest() throws Exception {
         CountDownLatch closed = new CountDownLatch(1);
 
