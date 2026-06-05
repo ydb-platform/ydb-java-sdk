@@ -8,6 +8,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
 import tech.ydb.table.TableClient;
@@ -28,7 +29,9 @@ public class PooledTableClient implements TableClient {
                 Clock.systemUTC(),
                 builder.tableRpc,
                 builder.keepQueryText,
-                builder.sessionPoolOptions
+                builder.sessionPoolOptions,
+                builder.meter,
+                builder.poolName
         );
     }
 
@@ -69,6 +72,8 @@ public class PooledTableClient implements TableClient {
         private final TableRpc tableRpc;
         private boolean keepQueryText = true;
         private SessionPoolOptions sessionPoolOptions = SessionPoolOptions.DEFAULT;
+        private Meter meter = Meter.NOOP;
+        private String poolName = "default";
 
         protected Builder(TableRpc tableRpc) {
             Preconditions.checkArgument(tableRpc != null, "table rpc is null");
@@ -127,6 +132,16 @@ public class PooledTableClient implements TableClient {
                 prettyDuration(duration), prettyDuration(MAX_DURATION));
 
             this.sessionPoolOptions = sessionPoolOptions.withMaxIdleTimeMillis(duration.toMillis());
+            return this;
+        }
+
+        @Override
+        public Builder withMeter(Meter meter, String poolName) {
+            Preconditions.checkArgument(meter != null, "meter is null");
+            Preconditions.checkArgument(poolName != null && !poolName.isEmpty(),
+                    "poolName must be a non-empty string when a Meter is provided");
+            this.meter = meter;
+            this.poolName = poolName;
             return this;
         }
 

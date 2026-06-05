@@ -46,6 +46,11 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j2-impl</artifactId>
             <scope>test</scope>
@@ -85,9 +90,29 @@
                 <jdk>[9,)</jdk>
             </activation>
             <properties>
-                <!-- Hide warnings on JDK later 8 -->
-                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
+                <!-- Hide warnings on JDK later 8; allow Mockito agent self-attach on JDK 21+ -->
+                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED -XX:+EnableDynamicAgentLoading</argLine>
             </properties>
+        </profile>
+        <profile>
+            <id>jdk8-build</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+
+            <properties>
+                <!-- Downgrade Mockito to 4 version -->
+                <mockito.version>4.11.0</mockito.version>
+            </properties>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-inline</artifactId>
+                    <version>${mockito.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>

@@ -22,6 +22,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.table.Session;
 import tech.ydb.table.SessionPoolStats;
@@ -48,13 +49,20 @@ public class SessionPool implements AutoCloseable {
     private final ScheduledFuture<?> keepAliveFuture;
 
     private final StatsImpl stats = new StatsImpl();
+    private final PoolMetrics metrics;
 
     public SessionPool(Clock clock, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options) {
+        this(clock, rpc, keepQueryText, options, Meter.NOOP, "default");
+    }
+
+    public SessionPool(Clock clock, TableRpc rpc, boolean keepQueryText, SessionPoolOptions options,
+                       Meter meter, String poolName) {
         this.minSize = options.getMinSize();
 
         this.clock = clock;
         this.scheduler = rpc.getScheduler();
         this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
+        this.metrics = new PoolMetrics(meter, "table", poolName, queue, this.minSize);
 
         KeepAliveTask keepAlive = new KeepAliveTask(options);
         this.keepAliveFuture = scheduler.scheduleAtFixedRate(
@@ -134,6 +142,7 @@ public class SessionPool implements AutoCloseable {
             logger.trace("session {} accepted", session.getId());
             if (future.complete(Result.success(session))) {
                 stats.acquired.increment();
+                metrics.onSessionAcquired();
             } else {
                 // Future is already completed
                 logger.debug("session future already canceled, return session to the pool");
@@ -158,6 +167,7 @@ public class SessionPool implements AutoCloseable {
         @Override
         public void close() {
             stats.released.increment();
+            metrics.onSessionReleased();
             if (state().switchToIdle(clock.instant())) {
                 logger.debug("session {} release", getId());
                 queue.release(this);
@@ -184,13 +194,19 @@ public class SessionPool implements AutoCloseable {
             Context previous = ctx.attach();
             try {
                 stats.requested.increment();
+                metrics.onSessionRequested();
+                long startNanos = System.nanoTime();
                 return BaseSession
                         .createSessionId(tableRpc, CREATE_SETTINGS, true)
                         .thenApply(response -> {
+                            metrics.onCreateTime(System.nanoTime() - startNanos);
+
                             if (!response.isSuccess()) {
                                 stats.failed.increment();
+                                metrics.onSessionFailed(response.getStatus());
                                 throw new UnexpectedResultException("create session problem", response.getStatus());
                             }
+                            metrics.onSessionCreated();
                             return new ClosableSession(response.getValue(), tableRpc, keepQueryText);
                         });
             } finally {
@@ -201,6 +217,7 @@ public class SessionPool implements AutoCloseable {
         @Override
         public void destroy(ClosableSession session) {
             stats.deleted.increment();
+            metrics.onSessionDeleted();
             // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();
             Context previous = ctx.attach();
