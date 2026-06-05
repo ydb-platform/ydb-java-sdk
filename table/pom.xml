@@ -1,7 +1,7 @@
 <project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -35,7 +35,7 @@
             <optional>true</optional>
         </dependency>
 
-	<dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -91,7 +91,7 @@
             </activation>
             <properties>
                 <!-- Hide warnings on JDK later 8; allow Mockito agent self-attach on JDK 21+ -->
-                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED -XX:+EnableDynamicAgentLoading</argLine>
+                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
             </properties>
         </profile>
         <profile>

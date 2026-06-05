@@ -84,7 +84,9 @@
                     <environmentVariables>
                         <TESTCONTAINERS_REUSE_ENABLE>true</TESTCONTAINERS_REUSE_ENABLE>
                         <YDB_DOCKER_IMAGE>ydbplatform/local-ydb:trunk</YDB_DOCKER_IMAGE>
-                        <YDB_DOCKER_FEATURE_FLAGS>enable_columnshard_bool,enable_resource_pools,enable_arrow_result_set_format</YDB_DOCKER_FEATURE_FLAGS>
+                        <YDB_DOCKER_FEATURE_FLAGS>
+                            enable_columnshard_bool,enable_resource_pools,enable_arrow_result_set_format
+                        </YDB_DOCKER_FEATURE_FLAGS>
                     </environmentVariables>
                 </configuration>
             </plugin>
@@ -98,7 +100,7 @@
             </activation>
             <properties>
                 <!-- Hide warnings on JDK later 8; allow Mockito agent self-attach on JDK 21+ -->
-                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED -XX:+EnableDynamicAgentLoading</argLine>
+                <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
             </properties>
         </profile>
         <profile>
