@@ -100,6 +100,7 @@
             </activation>
             <properties>
                 <!-- Hide warnings on JDK later 8; allow Mockito agent self-attach on JDK 21+ -->
+                <!-- Required for Apache Arrow result set format: opens java.nio for direct memory access on JDK 9+ -->
                 <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
             </properties>
         </profile>
