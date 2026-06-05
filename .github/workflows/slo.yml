@@ -2,7 +2,7 @@ name: SLO
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize, labeled]
+    type: [labeled]
 
 jobs:
   ydb-slo-action:
@@ -128,38 +128,32 @@ jobs:
           workload_baseline_image: ydb-app-baseline
           workload_baseline_command: ${{ matrix.sdk.command }} --read-rps 1000 --write-rps 100
 
-  publish-slo-report:
-    needs: ydb-slo-action
-    runs-on: ubuntu-latest
-    name: Publish YDB SLO Report
-    permissions:
-      checks: write
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Publish YDB SLO Report
-        uses: ydb-platform/ydb-slo-action/report@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_run_id: ${{ github.event.workflow_run.id }}
-
-  remove-slo-label:
-    needs: ydb-slo-action
-    runs-on: ubuntu-latest
-    name: Remove SLO Label
-    permissions:
-      contents: read
-      pull-requests: write
-    steps:
-      - name: Checkout current SDK version
-        uses: actions/checkout@v5
-
-      - name: Remove SLO label from PR
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PRS: ${{ toJSON(github.event.workflow_run.pull_requests) }}
-          REPO: ${{ github.event.workflow_run.repository.full_name }}
-        run: |
-          set -euo pipefail
-          PR=$(jq -r '.[0].number' <<<"$PRS")
-          gh pr edit "$PR" --repo "$REPO" --remove-label SLO
+#  publish-slo-report:
+#    needs: ydb-slo-action
+#    runs-on: ubuntu-latest
+#    name: Publish YDB SLO Report
+#    permissions:
+#      issues: write
+#      checks: write
+#      contents: read
+#      pull-requests: write
+#    steps:
+#      - name: Checkout current SDK version
+#        uses: actions/checkout@v5
+#
+#      - name: Publish YDB SLO Report
+#        uses: ydb-platform/ydb-slo-action/report@v2
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          github_run_id: ${{ github.event.workflow_run.id }}
+#
+#      - name: Remove SLO label from PR
+#        env:
+#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          PRS: ${{ toJSON(github.event.workflow_run.pull_requests) }}
+#          REPO: ${{ github.event.workflow_run.repository.full_name }}
+#        run: |
+#          set -euo pipefail
+#          PR=$(jq -r '.[0].number' <<<"$PRS")
+#          gh pr edit "$PR" --repo "$REPO" --remove-label SLO
+#
