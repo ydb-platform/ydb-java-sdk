@@ -150,6 +150,9 @@ jobs:
     permissions:
       pull-requests: write
     steps:
+      - name: Checkout current SDK version
+        uses: actions/checkout@v5
+
       - name: Remove SLO label from PR
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
