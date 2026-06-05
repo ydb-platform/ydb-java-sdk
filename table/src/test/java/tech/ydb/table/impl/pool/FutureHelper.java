@@ -64,7 +64,11 @@ public class FutureHelper {
             Throwable reason = ex.getCause();
             Assert.assertEquals("Completion exception message", message, reason.getMessage());
         } catch (CancellationException ex) {
-            Assert.assertEquals("Exception message", message, ex.getMessage());
+            if (ex.getCause() != null) {
+                Assert.assertEquals("Exception message", message, ex.getCause().getMessage());
+            } else {
+                Assert.assertEquals("Exception message", message, ex.getMessage());
+            }
         } catch (InterruptedException ex) {
             Assert.assertNotNull("Test interrupted", ex);
         }

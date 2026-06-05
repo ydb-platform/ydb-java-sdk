@@ -260,9 +260,6 @@
             <id>jdk8-bootstrap</id>
             <activation>
                 <jdk>[9,)</jdk>
-                <property>
-                    <name>argLine</name>
-                </property>
             </activation>
             <properties>
                 <argLine></argLine>
@@ -281,7 +278,7 @@
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
                             <!-- Hides warnings of mockito and jacoco usage in tests on JDK 21+ -->
-                            <argLine>${argLine} -XX:+EnableDynamicAgentLoading</argLine>
+                            <argLine>@{argLine} -XX:+EnableDynamicAgentLoading</argLine>
                         </configuration>
                     </plugin>
                 </plugins>
