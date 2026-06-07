@@ -326,6 +326,12 @@ public class TableClientImpl implements TableClient {
         }
 
         @Override
+        public Builder withMeter(tech.ydb.core.metrics.Meter meter, String poolName) {
+            query.withMeter(meter, poolName);
+            return this;
+        }
+
+        @Override
         public TableClientImpl build() {
             return new TableClientImpl(this);
         }

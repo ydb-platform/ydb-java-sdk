@@ -1,7 +1,7 @@
 <project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -35,7 +35,7 @@
             <optional>true</optional>
         </dependency>
 
-	<dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
@@ -43,6 +43,11 @@
         <dependency>
             <groupId>tech.ydb.test</groupId>
             <artifactId>ydb-junit4-support</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -85,9 +90,30 @@
                 <jdk>[9,)</jdk>
             </activation>
             <properties>
-                <!-- Hide warnings on JDK later 8 -->
+                <!-- Hide warnings on JDK later 8; allow Mockito agent self-attach on JDK 21+ -->
+                <!-- Required for Apache Arrow result set format: opens java.nio for direct memory access on JDK 9+ -->
                 <argLine>--add-opens=java.base/java.nio=ALL-UNNAMED</argLine>
             </properties>
+        </profile>
+        <profile>
+            <id>jdk8-build</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+
+            <properties>
+                <!-- Downgrade Mockito to 4 version -->
+                <mockito.version>4.11.0</mockito.version>
+            </properties>
+
+            <dependencies>
+                <dependency>
+                    <groupId>org.mockito</groupId>
+                    <artifactId>mockito-inline</artifactId>
+                    <version>${mockito.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
         </profile>
     </profiles>
 </project>

@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
@@ -24,13 +25,16 @@ public class QueryClientImpl implements QueryClient {
     private final Tracer tracer;
 
     public QueryClientImpl(Builder builder) {
+        String poolName = builder.sessionPoolName != null ? builder.sessionPoolName : builder.transport.getDatabase();
         this.pool = new SessionPool(
                 Clock.systemUTC(),
                 new QueryServiceRpc(builder.transport),
                 builder.transport.getScheduler(),
                 builder.sessionPoolMinSize,
                 builder.sessionPoolMaxSize,
-                builder.sessionPoolIdleDuration
+                builder.sessionPoolIdleDuration,
+                builder.meter,
+                poolName
         );
         this.scheduler = builder.transport.getScheduler();
         this.tracer = builder.transport.getTracer();
@@ -77,6 +81,8 @@ public class QueryClientImpl implements QueryClient {
         private int sessionPoolMinSize = 0;
         private int sessionPoolMaxSize = 50;
         private Duration sessionPoolIdleDuration = Duration.ofMinutes(5);
+        private String sessionPoolName = null;
+        private Meter meter = Meter.NOOP;
 
         Builder(GrpcTransport transport) {
             Preconditions.checkArgument(transport != null, "transport is null");
@@ -92,9 +98,9 @@ public class QueryClientImpl implements QueryClient {
         public Builder sessionPoolMinSize(int minSize) {
             Preconditions.checkArgument(minSize >= 0, "sessionPoolMinSize(%s) is negative", minSize);
             Preconditions.checkArgument(
-                minSize <= sessionPoolMaxSize,
-                "sessionPoolMinSize(%s) is greater than sessionPoolMaxSize(%s)",
-                minSize, sessionPoolMaxSize);
+                    minSize <= sessionPoolMaxSize,
+                    "sessionPoolMinSize(%s) is greater than sessionPoolMaxSize(%s)",
+                    minSize, sessionPoolMaxSize);
             this.sessionPoolMinSize = minSize;
             return this;
         }
@@ -103,9 +109,9 @@ public class QueryClientImpl implements QueryClient {
         public Builder sessionPoolMaxSize(int maxSize) {
             Preconditions.checkArgument(maxSize > 0, "sessionPoolMaxSize(%s) is negative or zero", maxSize);
             Preconditions.checkArgument(
-                sessionPoolMinSize <= maxSize,
-                "sessionPoolMinSize(%s) is greater than sessionPoolMaxSize(%s)",
-                sessionPoolMinSize, maxSize);
+                    sessionPoolMinSize <= maxSize,
+                    "sessionPoolMinSize(%s) is greater than sessionPoolMaxSize(%s)",
+                    sessionPoolMinSize, maxSize);
             this.sessionPoolMaxSize = maxSize;
             return this;
         }
@@ -116,13 +122,23 @@ public class QueryClientImpl implements QueryClient {
                     "sessionMaxIdleTime(%s) is negative", prettyDuration(duration));
 
             Preconditions.checkArgument(duration.compareTo(MIN_DURATION) >= 0,
-                "sessionMaxIdleTime(%s) is less than minimal duration %s",
-                prettyDuration(duration), prettyDuration(MIN_DURATION));
+                    "sessionMaxIdleTime(%s) is less than minimal duration %s",
+                    prettyDuration(duration), prettyDuration(MIN_DURATION));
             Preconditions.checkArgument(duration.compareTo(MAX_DURATION) <= 0,
-                "sessionMaxIdleTime(%s) is greater than maximal duration %s",
-                prettyDuration(duration), prettyDuration(MAX_DURATION));
+                    "sessionMaxIdleTime(%s) is greater than maximal duration %s",
+                    prettyDuration(duration), prettyDuration(MAX_DURATION));
 
             this.sessionPoolIdleDuration = duration;
+            return this;
+        }
+
+        @Override
+        public Builder withMeter(Meter meter, String poolName) {
+            Preconditions.checkArgument(meter != null, "meter is null");
+            Preconditions.checkArgument(poolName != null && !poolName.isEmpty(),
+                    "poolName must be a non-empty string when a Meter is provided");
+            this.meter = meter;
+            this.sessionPoolName = poolName;
             return this;
         }
 
