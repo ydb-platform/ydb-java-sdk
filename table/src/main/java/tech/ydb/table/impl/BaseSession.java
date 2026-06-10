@@ -348,23 +348,26 @@ public abstract class BaseSession implements Session {
     }
 
     private static YdbTable.ColumnFamily buildColumnFamily(ColumnFamily family) {
-        YdbTable.ColumnFamily.Compression compression;
+        YdbTable.ColumnFamily.Builder builder = YdbTable.ColumnFamily.newBuilder()
+                .setName(family.getName());
         switch (family.getCompression()) {
             case COMPRESSION_NONE:
-                compression = YdbTable.ColumnFamily.Compression.COMPRESSION_NONE;
+                builder = builder.setCompression(YdbTable.ColumnFamily.Compression.COMPRESSION_NONE);
                 break;
             case COMPRESSION_LZ4:
-                compression = YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4;
+                builder = builder.setCompression(YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4);
                 break;
             default:
-                compression = YdbTable.ColumnFamily.Compression.COMPRESSION_UNSPECIFIED;
+                // Nothing
+                break;
         }
 
-        return YdbTable.ColumnFamily.newBuilder()
-                .setCompression(compression)
-                .setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()))
-                .setName(family.getName())
-                .build();
+        StoragePool data = family.getData();
+        if (data != null && data.getMedia() != null && !data.getMedia().isEmpty()) {
+            builder.setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()));
+        }
+
+        return builder.build();
     }
 
     private static YdbTable.TtlSettings buildTtlSettings(TableTtl ttl) {
@@ -441,9 +444,7 @@ public abstract class BaseSession implements Session {
         }
 
         for (ColumnFamily family : description.getColumnFamilies()) {
-            if (!"default".equals(family.getName())) {
-                request.addColumnFamilies(buildColumnFamily(family));
-            }
+            request.addColumnFamilies(buildColumnFamily(family));
         }
 
         for (TableColumn column : description.getColumns()) {
