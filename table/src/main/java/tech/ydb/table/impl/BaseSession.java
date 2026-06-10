@@ -350,16 +350,18 @@ public abstract class BaseSession implements Session {
     private static YdbTable.ColumnFamily buildColumnFamily(ColumnFamily family) {
         YdbTable.ColumnFamily.Builder builder = YdbTable.ColumnFamily.newBuilder()
                 .setName(family.getName());
-        switch (family.getCompression()) {
-            case COMPRESSION_NONE:
-                builder = builder.setCompression(YdbTable.ColumnFamily.Compression.COMPRESSION_NONE);
-                break;
-            case COMPRESSION_LZ4:
-                builder = builder.setCompression(YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4);
-                break;
-            default:
-                // Nothing
-                break;
+        if (family.getCompression() != null) {
+            switch (family.getCompression()) {
+                case COMPRESSION_NONE:
+                    builder = builder.setCompression(YdbTable.ColumnFamily.Compression.COMPRESSION_NONE);
+                    break;
+                case COMPRESSION_LZ4:
+                    builder = builder.setCompression(YdbTable.ColumnFamily.Compression.COMPRESSION_LZ4);
+                    break;
+                default:
+                    // Nothing
+                    break;
+            }
         }
 
         StoragePool data = family.getData();
