@@ -77,6 +77,9 @@ public class GrpcTransportBuilder {
     private final List<Consumer<? super ManagedChannelBuilder<?>>> channelInitializers = new ArrayList<>();
     private Supplier<ScheduledExecutorService> schedulerFactory = YdbSchedulerFactory::createScheduler;
     private String localDc;
+    private String buildInfo = Version.getVersion().map(version -> "ydb-java-sdk/" + version)
+            .orElse(Version.UNKNOWN_VERSION);
+
     private BalancingSettings balancingSettings;
     private Executor callExecutor = MoreExecutors.directExecutor();
     private AuthRpcProvider<? super GrpcAuthRpc> authProvider = NopAuthProvider.INSTANCE;
@@ -123,10 +126,13 @@ public class GrpcTransportBuilder {
         return database;
     }
 
+    @Deprecated
     public String getVersionString() {
-        return Version.getVersion()
-                .map(version -> "ydb-java-sdk/" + version)
-                .orElse(Version.UNKNOWN_VERSION);
+        return getBuildInfo();
+    }
+
+    public String getBuildInfo() {
+        return buildInfo;
     }
 
     public String getApplicationName() {
@@ -405,6 +411,21 @@ public class GrpcTransportBuilder {
     public GrpcTransportBuilder withScheduler(ScheduledExecutorService scheduler) {
         Objects.requireNonNull(scheduler, "scheduler is null");
         this.schedulerFactory = () -> YdbSchedulerFactory.wrapExternal(scheduler);
+        return this;
+    }
+
+    /**
+     * Appends an extra build info string to the SDK build info reported to the server via the
+     * {@code x-ydb-sdk-build-info} header. The provided value is concatenated to the existing build info using
+     * a semicolon separator and is typically used to identify higher-level libraries or integrations built on top
+     * of the SDK (for example, {@code "ydb-jdbc-driver/2.4.0"}).
+     *
+     * @param extraBuildInfo additional build info to append to the SDK build info
+     * @return this builder instance
+     */
+    public GrpcTransportBuilder withExtraBuildInfo(String extraBuildInfo) {
+        Objects.requireNonNull(extraBuildInfo, "extraBuildInfo is null");
+        this.buildInfo = this.buildInfo + ";" + extraBuildInfo;
         return this;
     }
 
