@@ -366,7 +366,7 @@ public abstract class BaseSession implements Session {
 
         StoragePool data = family.getData();
         if (data != null && data.getMedia() != null && !data.getMedia().isEmpty()) {
-            builder.setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()));
+            builder.setData(YdbTable.StoragePool.newBuilder().setMedia(data.getMedia()));
         }
 
         return builder.build();
