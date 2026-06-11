@@ -43,6 +43,10 @@
 * Query: Added support of ApacheArrow for query execution
 * Tests: Updated testcontainers to 2.0.3
 
+## 2.3.34 ##
+* Table: Fixed StoragePool mapping for CreateTable
+* Core: Added method to customize x-build-info
+
 ## 2.3.33 ##
 * Topic: Fixed race between decoder and function that publishes messages to user
 

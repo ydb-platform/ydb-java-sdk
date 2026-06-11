@@ -73,6 +73,4 @@ public class FutureHelper {
             Assert.assertNotNull("Test interrupted", ex);
         }
     }
-
-
 }
