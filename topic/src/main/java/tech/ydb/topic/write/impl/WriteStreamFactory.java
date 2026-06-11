@@ -1,23 +1,9 @@
 package tech.ydb.topic.write.impl;
 
-import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.Issue;
-import tech.ydb.core.Result;
-import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
-import tech.ydb.core.grpc.GrpcReadWriteStream;
-import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.proto.StatusCodesProtos;
-import tech.ydb.proto.topic.YdbTopic.DescribeTopicRequest;
-import tech.ydb.proto.topic.YdbTopic.DescribeTopicResult;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
-import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.settings.WriterSettings;
 
@@ -26,15 +12,13 @@ import tech.ydb.topic.settings.WriterSettings;
  * @author Aleksandr Gorshenin
  */
 public class WriteStreamFactory {
-    private static final Logger logger = LoggerFactory.getLogger(WriteStreamFactory.class);
-
-    private final String topicPath;
+    protected final String topicPath;
     protected final TopicRpc rpc;
     protected final String producerId;
     protected final String messageGroupId;
     protected final Long partitionId;
 
-    private WriteStreamFactory(TopicRpc rpc, WriterSettings settings) {
+    public WriteStreamFactory(TopicRpc rpc, WriterSettings settings) {
         this.rpc = rpc;
         this.topicPath = settings.getTopicPath();
 
@@ -71,156 +55,5 @@ public class WriteStreamFactory {
     public WriteSession.Stream createNewStream(String id) {
         FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
         return new WriteStream(id, rpc.writeSession(id), init);
-    }
-
-    protected Result<Integer> lookupNodeId(String id, long partitionId) {
-        logger.info("[{}] describe topic {} to look up node for partition {}", id, topicPath, partitionId);
-        Result<DescribeTopicResult> describeTopic = rpc.describeTopic(
-                DescribeTopicRequest.newBuilder().setIncludeLocation(true).setPath(topicPath).build(),
-                GrpcRequestSettings.newBuilder().withDeadline(Duration.ofMinutes(1)).build()
-        ).join();
-
-        if (!describeTopic.isSuccess()) {
-            logger.warn("[{}] describe topic {} failed with status {}", id, topicPath, describeTopic.getStatus());
-            return Result.fail(describeTopic.getStatus());
-        }
-
-        // lookup for nodeID
-        for (DescribeTopicResult.PartitionInfo partition : describeTopic.getValue().getPartitionsList()) {
-            if (partition.getPartitionId() == partitionId) {
-                return Result.success(partition.getPartitionLocation().getNodeId());
-            }
-        }
-
-        logger.warn("[{}] topic {} doesn't have partition {}, direct writing failed", id, topicPath, partitionId);
-        Issue issue = Issue.of("Cannot find partition " + partitionId, Issue.Severity.ERROR);
-        return Result.fail(Status.of(StatusCode.BAD_REQUEST, issue));
-    }
-
-    protected Result<Long> lookupPartitionId(String id, String producerId) {
-        CompletableFuture<Result<Long>> pidFuture = new CompletableFuture<>();
-
-        // create one-shot stream to detect partitionID for this producer
-        logger.info("[{}] create probe stream for topic {} with producer {}", id, topicPath, producerId);
-        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
-                .withTraceId(id + "-probe")
-                .withDeadline(Duration.ofMinutes(1))
-                .build();
-        GrpcReadWriteStream<FromServer, FromClient> stream = rpc.writeSession(settings);
-
-        CompletableFuture<Status> streamFuture = stream.start(resp -> {
-            if (resp.getStatus() != StatusCodesProtos.StatusIds.StatusCode.SUCCESS) {
-                Status status = Status.of(StatusCode.fromProto(resp.getStatus()), Issue.fromPb(resp.getIssuesList()));
-                logger.warn("[{}] probe stream to topic {} with producer {} got error {}", id, topicPath,
-                        producerId, status);
-                pidFuture.complete(Result.fail(status));
-                return;
-            }
-
-            if (resp.hasInitResponse()) {
-                long pid = resp.getInitResponse().getPartitionId();
-                logger.info("[{}] probe stream to topic {} with producer {} has partition {}", id, topicPath,
-                        producerId, pid);
-                pidFuture.complete(Result.success(pid));
-                return;
-            }
-
-            logger.warn("[{}] probe stream to topic {} with producer {} got unexpected message {}", id, topicPath,
-                    producerId, resp.getClass().getName());
-
-            Issue issue = Issue.of("Unexpected message from stream with producer " + producerId, Issue.Severity.ERROR);
-            pidFuture.complete(Result.fail(Status.of(StatusCode.BAD_REQUEST, issue)));
-        });
-
-        if (streamFuture.isDone()) {
-            logger.warn("[{}] probe stream to topic {} with producer {} failed with status {}", id, topicPath,
-                    producerId, streamFuture.join());
-            return Result.fail(streamFuture.join());
-        }
-
-        try {
-            streamFuture.whenComplete((st, th) -> {
-                Status status = st != null ? st : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-                if (!pidFuture.isDone()) {
-                    logger.warn("[{}] probe stream to topic {} with producer {} failed with status {}", id, topicPath,
-                        producerId, status);
-                    pidFuture.complete(Result.fail(status));
-                }
-            });
-            FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
-            stream.sendNext(init);
-            return pidFuture.join();
-        } finally {
-            if (!streamFuture.isDone()) {
-                stream.close();
-            }
-        }
-    }
-
-    public static WriteStreamFactory of(TopicRpc rpc, WriterSettings settings) {
-        if (!settings.isDirectWrite()) {
-            return new WriteStreamFactory(rpc, settings);
-        }
-
-        if (settings.getPartitionId() != null) {
-            return new DirectWriteByPartitionId(rpc, settings);
-        }
-
-        if (settings.getProducerId() != null) {
-            return new DirectWriteByProducerId(rpc, settings);
-        }
-
-        throw new IllegalArgumentException("Direct writing requires PartitionId or ProducerId in WriterSettings");
-    }
-
-    private static class DirectWriteByPartitionId extends WriteStreamFactory {
-        private DirectWriteByPartitionId(TopicRpc rpc, WriterSettings settings) {
-            super(rpc, settings);
-        }
-
-        @Override
-        public WriteSession.Stream createNewStream(String id) {
-            Result<Integer> nodeId = lookupNodeId(id, partitionId);
-            if (!nodeId.isSuccess()) {
-                return new WriteStream.Fail(id, nodeId.getStatus());
-            }
-
-            GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
-                    .withTraceId(id)
-                    .disableDeadline()
-                    .withDirectMode(true)
-                    .withPreferredNodeID(nodeId.getValue())
-                    .build();
-            FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
-            return new WriteStream(id, rpc.writeSession(settings), init);
-        }
-    }
-
-    private static class DirectWriteByProducerId extends WriteStreamFactory {
-        private DirectWriteByProducerId(TopicRpc rpc, WriterSettings settings) {
-            super(rpc, settings);
-        }
-
-        @Override
-        public WriteSession.Stream createNewStream(String id) {
-            Result<Long> partId = lookupPartitionId(id, producerId);
-            if (!partId.isSuccess()) {
-                return new WriteStream.Fail(id, partId.getStatus());
-            }
-
-            Result<Integer> nodeId = lookupNodeId(id, partId.getValue());
-            if (!nodeId.isSuccess()) {
-                return new WriteStream.Fail(id, nodeId.getStatus());
-            }
-
-            GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
-                    .withTraceId(id)
-                    .disableDeadline()
-                    .withDirectMode(true)
-                    .withPreferredNodeID(nodeId.getValue())
-                    .build();
-            FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
-            return new WriteStream(id, rpc.writeSession(settings), init);
-        }
     }
 }
