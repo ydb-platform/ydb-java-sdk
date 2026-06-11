@@ -15,13 +15,15 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     private final Logger logger;
     private final String debugId;
     private final GrpcReadWriteStream<R, W> stream;
+    private final W initRequest;
     private final CompletableFuture<Status> streamStatus = new CompletableFuture<>();
     private volatile String token;
 
-    public TopicStreamBase(Logger logger, String debugId, GrpcReadWriteStream<R, W> stream) {
+    public TopicStreamBase(Logger logger, String debugId, GrpcReadWriteStream<R, W> stream, W initRequest) {
         this.logger = logger;
         this.debugId = debugId;
         this.stream = stream;
+        this.initRequest = initRequest;
         this.token = stream.authToken();
     }
 
@@ -29,7 +31,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     protected abstract Status parseMessageStatus(R message);
 
     @Override
-    public CompletableFuture<Status> start(W initReq, Consumer<R> messageHandler) {
+    public CompletableFuture<Status> start(Consumer<R> messageHandler) {
         this.logger.debug("[{}] is about to start", debugId);
         this.stream.start((R msg) -> {
             Status messageStatus = parseMessageStatus(msg);
@@ -48,7 +50,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
         });
 
         if (!streamStatus.isDone()) {
-            stream.sendNext(initReq);
+            stream.sendNext(initRequest);
         }
 
         return streamStatus;

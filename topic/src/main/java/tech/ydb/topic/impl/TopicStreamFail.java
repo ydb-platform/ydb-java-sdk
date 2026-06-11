@@ -21,7 +21,7 @@ public class TopicStreamFail<R extends Message, W extends Message> implements To
     }
 
     @Override
-    public CompletableFuture<Status> start(W initReq, Consumer<R> messageHandler) {
+    public CompletableFuture<Status> start(Consumer<R> messageHandler) {
         return CompletableFuture.completedFuture(status);
     }
 

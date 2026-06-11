@@ -13,7 +13,6 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.proto.StatusCodesProtos;
-import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.DescribeTopicRequest;
 import tech.ydb.proto.topic.YdbTopic.DescribeTopicResult;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage;
@@ -30,17 +29,29 @@ public class WriteStreamFactory {
     private static final Logger logger = LoggerFactory.getLogger(WriteStreamFactory.class);
 
     private final String topicPath;
-    private final StreamWriteMessage.InitRequest initRequest;
     protected final TopicRpc rpc;
+    protected final String producerId;
+    protected final String messageGroupId;
+    protected final Long partitionId;
 
     private WriteStreamFactory(TopicRpc rpc, WriterSettings settings) {
         this.rpc = rpc;
         this.topicPath = settings.getTopicPath();
 
-        String producerId = settings.getProducerId();
-        String messageGroupId = settings.getMessageGroupId();
-        Long partitionId = settings.getPartitionId();
+        this.producerId = settings.getProducerId();
+        this.messageGroupId = settings.getMessageGroupId();
+        this.partitionId = settings.getPartitionId();
 
+        if (messageGroupId != null && partitionId != null) {
+            throw new IllegalArgumentException("Both MessageGroupId and PartitionId are set in WriterSettings");
+        }
+    }
+
+    public String getTopicPath() {
+        return topicPath;
+    }
+
+    public StreamWriteMessage.InitRequest buildInitRequest() {
         StreamWriteMessage.InitRequest.Builder req = StreamWriteMessage.InitRequest.newBuilder()
                 .setPath(topicPath);
 
@@ -48,29 +59,18 @@ public class WriteStreamFactory {
             req.setProducerId(producerId);
         }
         if (messageGroupId != null) {
-            if (partitionId != null) {
-                throw new IllegalArgumentException("Both MessageGroupId and PartitionId are set in WriterSettings");
-            }
             req.setMessageGroupId(messageGroupId);
-        } else if (partitionId != null) {
+        }
+        if (partitionId != null) {
             req.setPartitionId(partitionId);
         }
 
-        this.initRequest = req.build();
-    }
-
-    public String getTopicPath() {
-        return topicPath;
+        return req.build();
     }
 
     public WriteSession.Stream createNewStream(String id) {
-        return new WriteStream(id, rpc.writeSession(id));
-    }
-
-    public YdbTopic.StreamWriteMessage.FromClient initRequest() {
-        return YdbTopic.StreamWriteMessage.FromClient.newBuilder()
-                .setInitRequest(initRequest)
-                .build();
+        FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
+        return new WriteStream(id, rpc.writeSession(id), init);
     }
 
     protected Result<Integer> lookupNodeId(String id, long partitionId) {
@@ -98,7 +98,7 @@ public class WriteStreamFactory {
     }
 
     protected Result<Long> lookupPartitionId(String id, String producerId) {
-        CompletableFuture<Result<Long>> partitionId = new CompletableFuture<>();
+        CompletableFuture<Result<Long>> pidFuture = new CompletableFuture<>();
 
         // create one-shot stream to detect partitionID for this producer
         logger.info("[{}] create probe stream for topic {} with producer {}", id, topicPath, producerId);
@@ -113,7 +113,7 @@ public class WriteStreamFactory {
                 Status status = Status.of(StatusCode.fromProto(resp.getStatus()), Issue.fromPb(resp.getIssuesList()));
                 logger.warn("[{}] probe stream to topic {} with producer {} got error {}", id, topicPath,
                         producerId, status);
-                partitionId.complete(Result.fail(status));
+                pidFuture.complete(Result.fail(status));
                 return;
             }
 
@@ -121,7 +121,7 @@ public class WriteStreamFactory {
                 long pid = resp.getInitResponse().getPartitionId();
                 logger.info("[{}] probe stream to topic {} with producer {} has partition {}", id, topicPath,
                         producerId, pid);
-                partitionId.complete(Result.success(pid));
+                pidFuture.complete(Result.success(pid));
                 return;
             }
 
@@ -129,7 +129,7 @@ public class WriteStreamFactory {
                     producerId, resp.getClass().getName());
 
             Issue issue = Issue.of("Unexpected message from stream with producer " + producerId, Issue.Severity.ERROR);
-            partitionId.complete(Result.fail(Status.of(StatusCode.BAD_REQUEST, issue)));
+            pidFuture.complete(Result.fail(Status.of(StatusCode.BAD_REQUEST, issue)));
         });
 
         if (streamFuture.isDone()) {
@@ -141,14 +141,15 @@ public class WriteStreamFactory {
         try {
             streamFuture.whenComplete((st, th) -> {
                 Status status = st != null ? st : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-                if (!partitionId.isDone()) {
+                if (!pidFuture.isDone()) {
                     logger.warn("[{}] probe stream to topic {} with producer {} failed with status {}", id, topicPath,
                         producerId, status);
-                    partitionId.complete(Result.fail(status));
+                    pidFuture.complete(Result.fail(status));
                 }
             });
-            stream.sendNext(initRequest());
-            return partitionId.join();
+            FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
+            stream.sendNext(init);
+            return pidFuture.join();
         } finally {
             if (!streamFuture.isDone()) {
                 stream.close();
@@ -162,22 +163,19 @@ public class WriteStreamFactory {
         }
 
         if (settings.getPartitionId() != null) {
-            return new DirectWriteByPartitionId(rpc, settings, settings.getPartitionId());
+            return new DirectWriteByPartitionId(rpc, settings);
         }
 
         if (settings.getProducerId() != null) {
-            return new DirectWriteByProducerId(rpc, settings, settings.getProducerId());
+            return new DirectWriteByProducerId(rpc, settings);
         }
 
         throw new IllegalArgumentException("Direct writing requires PartitionId or ProducerId in WriterSettings");
     }
 
     private static class DirectWriteByPartitionId extends WriteStreamFactory {
-        private final long partitionId;
-
-        private DirectWriteByPartitionId(TopicRpc rpc, WriterSettings settings, long partitionId) {
+        private DirectWriteByPartitionId(TopicRpc rpc, WriterSettings settings) {
             super(rpc, settings);
-            this.partitionId = partitionId;
         }
 
         @Override
@@ -193,26 +191,24 @@ public class WriteStreamFactory {
                     .withDirectMode(true)
                     .withPreferredNodeID(nodeId.getValue())
                     .build();
-            return new WriteStream(id, rpc.writeSession(settings));
+            FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
+            return new WriteStream(id, rpc.writeSession(settings), init);
         }
     }
 
     private static class DirectWriteByProducerId extends WriteStreamFactory {
-        private final String producerId;
-
-        private DirectWriteByProducerId(TopicRpc rpc, WriterSettings settings, String producerId) {
+        private DirectWriteByProducerId(TopicRpc rpc, WriterSettings settings) {
             super(rpc, settings);
-            this.producerId = producerId;
         }
 
         @Override
         public WriteSession.Stream createNewStream(String id) {
-            Result<Long> partitionId = lookupPartitionId(id, producerId);
-            if (!partitionId.isSuccess()) {
-                return new WriteStream.Fail(id, partitionId.getStatus());
+            Result<Long> partId = lookupPartitionId(id, producerId);
+            if (!partId.isSuccess()) {
+                return new WriteStream.Fail(id, partId.getStatus());
             }
 
-            Result<Integer> nodeId = lookupNodeId(id, partitionId.getValue());
+            Result<Integer> nodeId = lookupNodeId(id, partId.getValue());
             if (!nodeId.isSuccess()) {
                 return new WriteStream.Fail(id, nodeId.getStatus());
             }
@@ -223,7 +219,8 @@ public class WriteStreamFactory {
                     .withDirectMode(true)
                     .withPreferredNodeID(nodeId.getValue())
                     .build();
-            return new WriteStream(id, rpc.writeSession(settings));
+            FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
+            return new WriteStream(id, rpc.writeSession(settings), init);
         }
     }
 }

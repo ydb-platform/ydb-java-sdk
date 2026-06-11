@@ -99,8 +99,7 @@ public class WriteStreamFactoryTest {
                 .setTopicPath("/test/topic")
                 .build());
 
-        YdbTopic.StreamWriteMessage.InitRequest req = factory.initRequest()
-                .getInitRequest();
+        YdbTopic.StreamWriteMessage.InitRequest req = factory.buildInitRequest();
         Assert.assertEquals("/test/topic", req.getPath());
         Assert.assertEquals("", req.getProducerId());
         Assert.assertFalse(req.hasMessageGroupId());
@@ -115,8 +114,7 @@ public class WriteStreamFactoryTest {
                 .setProducerId("producer")
                 .build());
 
-        YdbTopic.StreamWriteMessage.InitRequest req = factory.initRequest()
-                .getInitRequest();
+        YdbTopic.StreamWriteMessage.InitRequest req = factory.buildInitRequest();
         Assert.assertEquals("/test/topic", req.getPath());
         Assert.assertEquals("producer", req.getProducerId());
         Assert.assertFalse(req.hasMessageGroupId());
@@ -132,8 +130,7 @@ public class WriteStreamFactoryTest {
                 .setMessageGroupId("producer")
                 .build());
 
-        YdbTopic.StreamWriteMessage.InitRequest req = factory.initRequest()
-                .getInitRequest();
+        YdbTopic.StreamWriteMessage.InitRequest req = factory.buildInitRequest();
         Assert.assertEquals("/test/topic", req.getPath());
         Assert.assertEquals("producer", req.getProducerId());
         Assert.assertEquals("producer", req.getMessageGroupId());
@@ -148,7 +145,7 @@ public class WriteStreamFactoryTest {
                 .setPartitionId(5L)
                 .build());
 
-        YdbTopic.StreamWriteMessage.InitRequest req = factory.initRequest().getInitRequest();
+        YdbTopic.StreamWriteMessage.InitRequest req = factory.buildInitRequest();
         Assert.assertEquals(5L, req.getPartitionId());
         Assert.assertFalse(req.hasMessageGroupId());
     }
@@ -216,7 +213,7 @@ public class WriteStreamFactoryTest {
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
         Assert.assertTrue(stream instanceof WriteStream.Fail);
-        CompletableFuture<Status> res = stream.start(null, null);
+        CompletableFuture<Status> res = stream.start(null);
         Assert.assertTrue(res.isDone());
         Assert.assertEquals(Status.of(StatusCode.UNAVAILABLE), res.join());
 
@@ -240,7 +237,7 @@ public class WriteStreamFactoryTest {
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
         Assert.assertTrue(stream instanceof WriteStream.Fail);
-        CompletableFuture<Status> res = stream.start(null, null);
+        CompletableFuture<Status> res = stream.start(null);
         Assert.assertTrue(res.isDone());
         Status expected = Status.of(StatusCode.BAD_REQUEST, Issue.of("Cannot find partition 3", Issue.Severity.ERROR));
         Assert.assertEquals(expected, res.join());
@@ -301,7 +298,7 @@ public class WriteStreamFactoryTest {
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null, null);
+        CompletableFuture<Status> res = stream.start(null);
         Assert.assertTrue(res.isDone());
         Assert.assertEquals(Status.of(StatusCode.UNAUTHORIZED), res.join());
         stream.close(); // no effect
@@ -330,7 +327,7 @@ public class WriteStreamFactoryTest {
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null, null);
+        CompletableFuture<Status> res = stream.start(null);
         Assert.assertTrue(res.isDone());
         Assert.assertEquals(Status.of(StatusCode.INTERNAL_ERROR), res.join());
         stream.close(); // no effect
@@ -360,7 +357,7 @@ public class WriteStreamFactoryTest {
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null, null);
+        CompletableFuture<Status> res = stream.start(null);
         Assert.assertTrue(res.isDone());
         Issue issue = Issue.of("Unexpected message from stream with producer producer-1", Issue.Severity.ERROR);
         Assert.assertEquals(Status.of(StatusCode.BAD_REQUEST, issue), res.join());
@@ -396,7 +393,7 @@ public class WriteStreamFactoryTest {
 
         WriteSession.Stream stream = factory.createNewStream("s1");
         Assert.assertTrue(stream instanceof WriteStream.Fail);
-        CompletableFuture<Status> res = stream.start(null, null);
+        CompletableFuture<Status> res = stream.start(null);
         Assert.assertTrue(res.isDone());
         Status expected = Status.of(StatusCode.BAD_REQUEST, Issue.of("Cannot find partition 5", Issue.Severity.ERROR));
         Assert.assertEquals(expected, res.join());

@@ -51,11 +51,6 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
         return streamFactory.createNewStream(id);
     }
 
-    @Override
-    protected FromClient getInitRequest() {
-        return streamFactory.initRequest();
-    }
-
     public void sendAll(List<SentMessage> list) {
         for (SentMessage msg: list) {
             sender.sendMessage(msg);

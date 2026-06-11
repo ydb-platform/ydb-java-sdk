@@ -42,14 +42,14 @@ public class TopicRetryableStreamTest {
 
         StreamHandle(TopicStreamBase<Empty, Empty> mocked) {
             this.stream = mocked;
-            Mockito.when(mocked.start(Mockito.any(), Mockito.any())).thenReturn(grpcFuture);
+            Mockito.when(mocked.start(Mockito.any())).thenReturn(grpcFuture);
         }
 
         StreamHandle() {
             Mockito.when(grpc.authToken()).thenReturn("token");
             Mockito.when(grpc.start(Mockito.any())).thenReturn(grpcFuture);
 
-            stream = new TopicStreamBase<Empty, Empty>(logger, "inner", grpc) {
+            stream = new TopicStreamBase<Empty, Empty>(logger, "inner", grpc, EMPTY) {
                 @Override
                 protected Empty updateTokenMessage(String token) {
                     return EMPTY;
@@ -87,11 +87,6 @@ public class TopicRetryableStreamTest {
         @Override
         protected TopicStream<Empty, Empty> createNewStream(String debugId) {
             return handles.get(handleIndex++).stream;
-        }
-
-        @Override
-        protected Empty getInitRequest() {
-            return EMPTY;
         }
 
         @Override
