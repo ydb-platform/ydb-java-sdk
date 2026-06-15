@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
-import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.impl.TopicRetryableStream;
 import tech.ydb.topic.impl.TopicStream;
 import tech.ydb.topic.settings.WriterSettings;
@@ -38,10 +38,11 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     private final MessageSender sender;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
-    public WriteSession(String debugId, TopicRpc rpc, WriterSettings settings, Listener controller) {
-        super(logger, debugId, settings.getRetryConfig(), rpc.getScheduler());
+    public WriteSession(String debugId, WriteStreamFactory factory, WriterSettings settings,
+            ScheduledExecutorService scheduler, Listener controller) {
+        super(logger, debugId, settings.getRetryConfig(), scheduler);
         this.listener = controller;
-        this.streamFactory = WriteStreamFactory.of(rpc, settings);
+        this.streamFactory = factory;
         this.sender = new MessageSender(debugId, settings.getCodec(), this::send);
         this.errorsHandler = settings.getErrorsHandler();
     }
@@ -49,11 +50,6 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     @Override
     protected Stream createNewStream(String id) {
         return streamFactory.createNewStream(id);
-    }
-
-    @Override
-    protected FromClient getInitRequest() {
-        return streamFactory.initRequest();
     }
 
     public void sendAll(List<SentMessage> list) {

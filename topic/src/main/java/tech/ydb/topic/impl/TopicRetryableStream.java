@@ -33,7 +33,6 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
     }
 
     protected abstract TopicStream<R, W> createNewStream(String debugId);
-    protected abstract W getInitRequest();
 
     protected abstract void onNext(R message);
 
@@ -53,7 +52,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
             return;
         }
 
-        stream.start(getInitRequest(), this::onNext).whenComplete((status, th) -> {
+        stream.start(this::onNext).whenComplete((status, th) -> {
             realStream.compareAndSet(stream, null);
             if (status != null) {
                 onStreamStop(status, retryConfig.getStatusRetryPolicy(status));

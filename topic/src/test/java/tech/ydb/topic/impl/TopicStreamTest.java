@@ -26,7 +26,7 @@ public class TopicStreamTest {
 
     private static class TestStream extends TopicStreamBase<StringValue, StringValue> {
         TestStream(MockedStream mock) {
-            super(logger, "test", mock);
+            super(logger, "test", mock, msg("init"));
         }
 
         @Override
@@ -65,7 +65,7 @@ public class TopicStreamTest {
         List<StringValue> received = new ArrayList<>();
 
         TestStream stream = new TestStream(mock);
-        CompletableFuture<Status> result = stream.start(msg("init"), received::add);
+        CompletableFuture<Status> result = stream.start(received::add);
         Mockito.verify(mock).start(observer.capture());
 
         stream.send(msg("s1"));
@@ -104,7 +104,7 @@ public class TopicStreamTest {
         MockedStream mock = buildMockedStream("token", status);
 
         TestStream stream = new TestStream(mock);
-        stream.start(msg("init-req"), msg -> {});
+        stream.start(msg -> {});
 
         Mockito.verify(mock).start(Mockito.any());
         stream.send(msg("s1"));
@@ -123,7 +123,7 @@ public class TopicStreamTest {
         List<StringValue> received = new ArrayList<>();
 
         TestStream stream = new TestStream(mock);
-        CompletableFuture<Status> result = stream.start(msg("init"), received::add);
+        CompletableFuture<Status> result = stream.start(received::add);
 
         Mockito.verify(mock).start(observer.capture());
 
@@ -153,7 +153,7 @@ public class TopicStreamTest {
         Mockito.when(mock.start(Mockito.any())).thenReturn(streamFuture);
 
         TestStream stream = new TestStream(mock);
-        stream.start(msg("init"), msg -> {});
+        stream.start(msg -> {});
 
         Mockito.verify(mock).start(Mockito.any());
 

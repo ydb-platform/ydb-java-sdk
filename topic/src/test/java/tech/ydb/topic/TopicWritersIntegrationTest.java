@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
@@ -21,17 +22,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.TopicRetryConfig;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.AsyncWriter;
+import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.SyncWriter;
@@ -54,6 +58,7 @@ public class TopicWritersIntegrationTest {
 
     private final static String TEST_PRODUCER1 = "producer";
     private final static String TEST_CONSUMER1 = "consumer";
+    private final static int PARTITIONS_COUNT = 1;
 
     private static TopicClient client;
 
@@ -74,6 +79,10 @@ public class TopicWritersIntegrationTest {
         logger.info("Create test topic  {} ...", TEST_TOPIC);
         client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
+                .setPartitioningSettings(PartitioningSettings.newBuilder()
+                        .setMaxActivePartitions(PARTITIONS_COUNT)
+                        .setMinActivePartitions(PARTITIONS_COUNT)
+                        .build())
                 .build())
                 .join().expectSuccess("can't create a new topic");
     }
@@ -362,5 +371,46 @@ public class TopicWritersIntegrationTest {
         Assert.assertEquals(Arrays.asList(10L, 20L, 40L, 30L), order2);
 
         writer2.shutdown().join();
+    }
+
+    @Test
+    public void wrongDirectWriteTest() throws Exception {
+        CountDownLatch closed = new CountDownLatch(1);
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setDirectWrite(true)
+                .setPartitionId(PARTITIONS_COUNT + 1) // Invalid partition
+                .setRetryConfig(TopicRetryConfig.STANDARD)
+                .setErrorsHandler((t, u) -> { closed.countDown(); })
+                .build();
+
+        AsyncWriter writer = client.createAsyncWriter(settings);
+        CompletableFuture<WriteAck> f1 = writer.send(Message.of(new byte[] { 0x00 }));
+        CompletableFuture<InitResult> f2 = writer.init();
+
+        Assert.assertTrue(closed.await(5, TimeUnit.SECONDS));
+
+        CompletableFuture<Void> f3 = writer.shutdown();
+
+        Assert.assertTrue(f1.isCompletedExceptionally());
+        Assert.assertTrue(f2.isCompletedExceptionally());
+        Assert.assertFalse(f3.isCompletedExceptionally());
+
+        Exception ex1 = Assert.assertThrows(CompletionException.class, f1::join);
+        Exception ex2 = Assert.assertThrows(CompletionException.class, f2::join);
+
+        Assert.assertTrue(ex1.getCause() instanceof RuntimeException);
+        Assert.assertTrue(ex2.getCause() instanceof UnexpectedResultException);
+
+        String reason = "Cannot find partition " + (PARTITIONS_COUNT + 1) + " (S_ERROR)";
+        Assert.assertEquals(
+                "Message sending was cancelled with Status{code = BAD_REQUEST(code=400010), issues = [" + reason + "]}",
+                ex1.getCause().getMessage()
+        );
+        Assert.assertEquals(
+                "Cannot init write session, code: BAD_REQUEST, issues: [" + reason + "]",
+                ex2.getCause().getMessage()
+        );
     }
 }

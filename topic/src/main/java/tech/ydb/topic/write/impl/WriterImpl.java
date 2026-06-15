@@ -47,12 +47,15 @@ public class WriterImpl {
 
     private Boolean isSeqNoProvided = null;
 
-    public WriterImpl(TopicRpc topicRpc,
-                      WriterSettings settings,
-                      Executor compressionExecutor,
-                      @Nonnull CodecRegistry codecRegistry) {
+    public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor,
+            @Nonnull CodecRegistry codecRegistry) {
+        this(topicRpc, defaultFactory(topicRpc, settings), settings, compressionExecutor, codecRegistry);
+    }
+
+    public WriterImpl(TopicRpc topicRpc, WriteStreamFactory factory, WriterSettings settings,
+            Executor compressionExecutor, @Nonnull CodecRegistry codecRegistry) {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
-        this.stream = new WriteSession(debugId, topicRpc, settings, new ListenerImpl());
+        this.stream = new WriteSession(debugId, factory, settings, topicRpc.getScheduler(), new ListenerImpl());
         this.writeQueue = new WriterQueue(debugId, settings, codecRegistry, compressionExecutor, sendTask);
 
         logger.info("Writer with id {} created for topic \"{}\" with producerId \"{}\" and messageGroupId \"{}\"",
@@ -179,5 +182,12 @@ public class WriterImpl {
             }
             stream.sendAll(send);
         }
+    }
+
+    private static WriteStreamFactory defaultFactory(TopicRpc topicRpc, WriterSettings settings) {
+        if (settings.isDirectWrite()) {
+            return new WriteStreamDirectFactory(topicRpc, settings);
+        }
+        return new WriteStreamFactory(topicRpc, settings);
     }
 }
