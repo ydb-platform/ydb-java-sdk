@@ -62,7 +62,7 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
             req.setProducerId(producerId);
         }
 
-        FromClient init = FromClient.newBuilder().setInitRequest(req).build();
+        FromClient init = FromClient.newBuilder().setInitRequest(req.build()).build();
         GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
                 .withTraceId(id)
                 .disableDeadline()
@@ -89,7 +89,7 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
         for (YdbTopic.DescribeTopicResult.PartitionInfo partition : describeTopic.getValue().getPartitionsList()) {
             if (partition.getPartitionId() == targetPartitionId) {
                 if (!partition.hasPartitionLocation()) {
-                    logger.warn("[{}] partition {} has no valid location info", id, partitionId);
+                    logger.warn("[{}] partition {} has no valid location info", id, targetPartitionId);
                     Issue issue = Issue.of("Partition " + targetPartitionId + " has no location", Issue.Severity.ERROR);
                     return Result.fail(Status.of(StatusCode.BAD_REQUEST, issue));
                 }

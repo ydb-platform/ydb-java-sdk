@@ -69,7 +69,7 @@ public class WriteStreamDirectFactoryTest {
             }).when(grpc).sendNext(Mockito.any());
         }
 
-        public void closeImmediatelly(Status status) {
+        public void closeImmediately(Status status) {
             result.complete(status);
         }
 
@@ -283,7 +283,7 @@ public class WriteStreamDirectFactoryTest {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
         MockedStream probe = new MockedStream();
-        probe.closeImmediatelly(Status.of(StatusCode.UNAUTHORIZED));
+        probe.closeImmediately(Status.of(StatusCode.UNAUTHORIZED));
         Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
 
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
