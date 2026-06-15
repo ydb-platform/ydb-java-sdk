@@ -1,3 +1,9 @@
+## 2.4.5 ##
+* Topic: fixed topic's direct write implementation
+* Topic: fixed deadlock between MessageCommitter/SessionBase
+* Table: fixed StoragePool mapping for CreateTable
+* Core: added experimental support of OTel metrics
+
 ## 2.4.4 ##
 * Topic: fixed ReadPartitionSession closing
 * Core: added method to customize x-build-info
