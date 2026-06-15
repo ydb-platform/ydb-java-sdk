@@ -62,21 +62,32 @@ class MessageCommitterImpl implements MessageCommitter {
 
     @Override
     public CompletableFuture<Void> commit(OffsetsRange range) {
-        CompletableFuture<Void> future = new CompletableFuture<>();
         logger.debug("{} Offset range {} is requested to be committed. Last committed offset is {} (commit lag is {})",
                 session, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
 
+        CompletableFuture<Void> future;
         commitFuturesLock.lock();
         try {
-            if (session.commitOffsets(Collections.singletonList(range))) {
+            future = commitFutures.get(range.getEnd());
+            if (future == null) {
+                future = new CompletableFuture<>();
                 commitFutures.put(range.getEnd(), future);
-            } else {
-                logger.info("{} Offset range {} is requested to be committed, but partition session is already stopped",
-                        session, range);
-                future.completeExceptionally(partitionIsClosedException());
             }
         } finally {
             commitFuturesLock.unlock();
+        }
+
+        if (!session.commitOffsets(Collections.singletonList(range))) {
+            logger.info("{} Offset range {} is requested to be committed, but partition session is already stopped",
+                    session, range);
+            future.completeExceptionally(partitionIsClosedException());
+
+            commitFuturesLock.lock();
+            try {
+                commitFutures.remove(range.getEnd());
+            } finally {
+                commitFuturesLock.unlock();
+            }
         }
 
         return future;
