@@ -28,31 +28,57 @@ import tech.ydb.topic.settings.WriterSettings;
  * @author Aleksandr Gorshenin {@literal <alexandr268@ydb.tech>}
  */
 public class WriteStreamDirectFactoryTest {
-    private static GrpcReadWriteStream<FromServer, FromClient> mockGrpcStream() {
+    private static class MockedStream {
         @SuppressWarnings("unchecked")
-        GrpcReadWriteStream<FromServer, FromClient> grpc = Mockito.mock(GrpcReadWriteStream.class);
-        Mockito.when(grpc.authToken()).thenReturn("");
-        Mockito.when(grpc.start(Mockito.any())).thenReturn(new CompletableFuture<>());
-        return grpc;
-    }
+        private final GrpcReadWriteStream<FromServer, FromClient> grpc = Mockito.mock(GrpcReadWriteStream.class);
+        @SuppressWarnings("unchecked")
+        private final ArgumentCaptor<GrpcReadStream.Observer<FromServer>> observer = ArgumentCaptor
+                .forClass(GrpcReadStream.Observer.class);
 
-    private static void mockStreamError(GrpcReadWriteStream<FromServer, FromClient> mock, Status error) {
-        Mockito.when(mock.start(Mockito.any())).thenReturn(CompletableFuture.completedFuture(error));
-    }
+        private final CompletableFuture<Status> result = new CompletableFuture<>();
+        private final ArgumentCaptor<FromClient> msg = ArgumentCaptor.forClass(FromClient.class);
 
-    private static void mockStreamResponse(GrpcReadWriteStream<FromServer, FromClient> mock, FromServer response) {
-        CompletableFuture<Status> result = new CompletableFuture<>();
+        public MockedStream() {
+            Mockito.when(grpc.authToken()).thenReturn("");
+            Mockito.when(grpc.start(observer.capture())).thenReturn(result);
+        }
 
-        Mockito.when(mock.start(Mockito.any())).thenAnswer(iom -> {
-            GrpcReadStream.Observer<FromServer> obs = iom.getArgument(0);
-            obs.onNext(response);
-            return result;
-        }).thenReturn(result);
+        public FromClient verifyNextMsg() {
+            Mockito.verify(grpc).sendNext(msg.capture());
+            return msg.getValue();
+        }
 
-        Mockito.doAnswer((iom) -> {
-            result.complete(Status.SUCCESS);
-            return null;
-        }).when(mock).close();
+        public void responseWith(FromServer response) {
+            Mockito.doAnswer((iom) -> {
+                observer.getValue().onNext(response);
+                return null;
+            }).when(grpc).sendNext(Mockito.any());
+        }
+
+        public void responseWith(Status status) {
+            Mockito.doAnswer((iom) -> {
+                result.complete(status);
+                return null;
+            }).when(grpc).sendNext(Mockito.any());
+        }
+
+        public void responseWith(Exception ex) {
+            Mockito.doAnswer((iom) -> {
+                result.completeExceptionally(ex);
+                return null;
+            }).when(grpc).sendNext(Mockito.any());
+        }
+
+        public void closeImmediatelly(Status status) {
+            result.complete(status);
+        }
+
+        public void fail(FromServer response) {
+            Mockito.doAnswer((iom) -> {
+                observer.getValue().onNext(response);
+                return null;
+            }).when(grpc).sendNext(Mockito.any());
+        }
     }
 
     private static YdbTopic.DescribeTopicResult.PartitionInfo partition(long partitionId, int nodeId, long generation) {
@@ -94,11 +120,11 @@ public class WriteStreamDirectFactoryTest {
 
     @Test
     public void directWriteByPartitionIdTest() {
-        GrpcReadWriteStream<FromServer, FromClient> grpc = mockGrpcStream();
+        MockedStream mocked = new MockedStream();
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
         mockDescribeResult(rpc, partition(1L, 10, 3L), partition(2L, 42, 1L), partition(3L, 23, 2L));
-        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(grpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(mocked.grpc);
 
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/local/topic")
@@ -120,14 +146,13 @@ public class WriteStreamDirectFactoryTest {
 
         stream.start(null);
 
-        ArgumentCaptor<FromClient> msg = ArgumentCaptor.forClass(FromClient.class);
-        Mockito.verify(grpc).sendNext(msg.capture());
-        Assert.assertTrue(msg.getValue().hasInitRequest());
-        Assert.assertEquals("/local/topic", msg.getValue().getInitRequest().getPath());
-        Assert.assertFalse(msg.getValue().getInitRequest().hasPartitionId());
-        Assert.assertEquals("", msg.getValue().getInitRequest().getProducerId());
-        Assert.assertEquals(2L, msg.getValue().getInitRequest().getPartitionWithGeneration().getPartitionId());
-        Assert.assertEquals(1L, msg.getValue().getInitRequest().getPartitionWithGeneration().getGeneration());
+        FromClient msg = mocked.verifyNextMsg();
+        Assert.assertTrue(msg.hasInitRequest());
+        Assert.assertEquals("/local/topic", msg.getInitRequest().getPath());
+        Assert.assertFalse(msg.getInitRequest().hasPartitionId());
+        Assert.assertEquals("", msg.getInitRequest().getProducerId());
+        Assert.assertEquals(2L, msg.getInitRequest().getPartitionWithGeneration().getPartitionId());
+        Assert.assertEquals(1L, msg.getInitRequest().getPartitionWithGeneration().getGeneration());
     }
 
     @Test
@@ -179,30 +204,57 @@ public class WriteStreamDirectFactoryTest {
     }
 
     @Test
+    public void directWriteByPartitionIdTestPartitionHasNoLocationTest() {
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+
+        mockDescribeResult(rpc, YdbTopic.DescribeTopicResult.PartitionInfo.newBuilder()
+                .setPartitionId(3L)
+                .build());
+
+        WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
+                .setTopicPath("/test/topic")
+                .setPartitionId(3L)
+                .setDirectWrite(true)
+                .build());
+
+        WriteSession.Stream stream = factory.createNewStream("s1");
+
+        Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
+
+        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        CompletableFuture<Status> res = stream.start(null);
+        Assert.assertTrue(res.isDone());
+        Status expected = Status.of(StatusCode.BAD_REQUEST, Issue.of("Partition 3 has no location", Issue.Severity.ERROR));
+        Assert.assertEquals(expected, res.join());
+
+        stream.close(); // no effect
+    }
+
+    @Test
     public void directWriteByProducerIdTest() {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
-        GrpcReadWriteStream<FromServer, FromClient> probeGrpc = mockGrpcStream();
-        GrpcReadWriteStream<FromServer, FromClient> actualGrpc = mockGrpcStream();
+        MockedStream probe = new MockedStream();
+        MockedStream actual = new MockedStream();
 
-        FromServer initResponse = FromServer.newBuilder()
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class)))
+                .thenReturn(probe.grpc).thenReturn(actual.grpc);
+
+        mockDescribeResult(rpc, partition(7L, 55, 3L));
+
+        probe.responseWith(FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .setInitResponse(InitResponse.newBuilder()
                         .setLastSeqNo(0)
                         .setPartitionId(7L)
                         .setSessionId("session")
                         .build())
-                .build();
-
-        mockStreamResponse(probeGrpc, initResponse);
-        mockDescribeResult(rpc, partition(7L, 55, 3L));
-
-        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class)))
-                .thenReturn(probeGrpc).thenReturn(actualGrpc);
+                .build());
 
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
                 .setProducerId("producer-1")
+                .setMessageGroupId("producer-1")
                 .setDirectWrite(true)
                 .build());
 
@@ -216,25 +268,23 @@ public class WriteStreamDirectFactoryTest {
 
         stream.start(null);
 
-        ArgumentCaptor<FromClient> msg = ArgumentCaptor.forClass(FromClient.class);
-        Mockito.verify(actualGrpc).sendNext(msg.capture());
-        Assert.assertTrue(msg.getValue().hasInitRequest());
-        Assert.assertEquals("/test/topic", msg.getValue().getInitRequest().getPath());
-        Assert.assertFalse(msg.getValue().getInitRequest().hasPartitionId());
-        Assert.assertEquals("producer-1", msg.getValue().getInitRequest().getProducerId());
-        Assert.assertEquals(7L, msg.getValue().getInitRequest().getPartitionWithGeneration().getPartitionId());
-        Assert.assertEquals(3L, msg.getValue().getInitRequest().getPartitionWithGeneration().getGeneration());
+        FromClient msg = actual.verifyNextMsg();
+        Assert.assertTrue(msg.hasInitRequest());
+        Assert.assertEquals("/test/topic", msg.getInitRequest().getPath());
+        Assert.assertFalse(msg.getInitRequest().hasPartitionId());
+        Assert.assertEquals("producer-1", msg.getInitRequest().getProducerId());
+        Assert.assertEquals("", msg.getInitRequest().getMessageGroupId()); // never used for direct-write
+        Assert.assertEquals(7L, msg.getInitRequest().getPartitionWithGeneration().getPartitionId());
+        Assert.assertEquals(3L, msg.getInitRequest().getPartitionWithGeneration().getGeneration());
     }
 
     @Test
     public void directWriteByProducerIdProbeFailTest() {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
-        GrpcReadWriteStream<FromServer, FromClient> probeGrpc = mockGrpcStream();
-
-        mockStreamError(probeGrpc, Status.of(StatusCode.UNAUTHORIZED));
-
-        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
+        MockedStream probe = new MockedStream();
+        probe.closeImmediatelly(Status.of(StatusCode.UNAUTHORIZED));
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
 
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
@@ -253,17 +303,66 @@ public class WriteStreamDirectFactoryTest {
     }
 
     @Test
+    public void directWriteByProducerIdProbeFailOnSendTest() {
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+
+        MockedStream probe = new MockedStream();
+        probe.responseWith(Status.of(StatusCode.PRECONDITION_FAILED));
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
+
+        WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
+                .setTopicPath("/test/topic")
+                .setProducerId("producer-1")
+                .setDirectWrite(true)
+                .build());
+
+        WriteSession.Stream stream = factory.createNewStream("s1");
+        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
+
+        CompletableFuture<Status> res = stream.start(null);
+        Assert.assertTrue(res.isDone());
+        Assert.assertEquals(Status.of(StatusCode.PRECONDITION_FAILED), res.join());
+        stream.close(); // no effect
+    }
+
+    @Test
+    public void directWriteByProducerIdProbeExceptionOnSendTest() {
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+
+        MockedStream probe = new MockedStream();
+        probe.responseWith(new RuntimeException("something went wrong"));
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
+
+        WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
+                .setTopicPath("/test/topic")
+                .setProducerId("producer-1")
+                .setDirectWrite(true)
+                .build());
+
+        WriteSession.Stream stream = factory.createNewStream("s1");
+        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
+
+        CompletableFuture<Status> res = stream.start(null);
+        Assert.assertTrue(res.isDone());
+        Status status = res.join();
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, status.getCode());
+        Assert.assertNotNull(status.getCause());
+        Assert.assertEquals("something went wrong", status.getCause().getMessage());
+        stream.close(); // no effect
+    }
+
+    @Test
     public void directWriteByProducerIdProbeWrongResponseTest() {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
-        GrpcReadWriteStream<FromServer, FromClient> probeGrpc = mockGrpcStream();
-
-        FromServer initResponse = FromServer.newBuilder()
+        MockedStream probe = new MockedStream();
+        probe.responseWith(FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.INTERNAL_ERROR)
-                .build();
-        mockStreamResponse(probeGrpc, initResponse);
+                .build());
 
-        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
 
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
@@ -285,15 +384,13 @@ public class WriteStreamDirectFactoryTest {
     public void directWriteByProducerIdProbeUnexpectedResponseTest() {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
-        GrpcReadWriteStream<FromServer, FromClient> probeGrpc = mockGrpcStream();
-
-        FromServer initResponse = FromServer.newBuilder()
+        MockedStream probe = new MockedStream();
+        probe.responseWith(FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .setUpdateTokenResponse(YdbTopic.UpdateTokenResponse.newBuilder().build())
-                .build();
-        mockStreamResponse(probeGrpc, initResponse);
+                .build());
 
-        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
 
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
@@ -316,21 +413,19 @@ public class WriteStreamDirectFactoryTest {
     public void directWriteByProducerIdPartitionNotFoundTest() {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
 
-        GrpcReadWriteStream<FromServer, FromClient> probeGrpc = mockGrpcStream();
-
-        FromServer initResponse = FromServer.newBuilder()
+        MockedStream probe = new MockedStream();
+        probe.responseWith(FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .setInitResponse(InitResponse.newBuilder()
                         .setLastSeqNo(0)
                         .setPartitionId(5L)
                         .setSessionId("session")
                         .build())
-                .build();
+                .build());
 
-        mockStreamResponse(probeGrpc, initResponse);
         mockDescribeResult(rpc, partition(1L, 55, 8L), partition(2L, 55, 7L));
 
-        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probeGrpc);
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
 
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
                 .setTopicPath("/test/topic")
