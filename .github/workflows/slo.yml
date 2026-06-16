@@ -98,8 +98,8 @@ jobs:
           set -euxo pipefail
           chmod +x sdk-current/.github/scripts/build-slo-image.sh
           sdk-current/.github/scripts/build-slo-image.sh \
-            --sdk      "${GITHUB_WORKSPACE}/sdk-current" \
-            --examples "${GITHUB_WORKSPACE}/examples" \
+            --sdk      sdk-current \
+            --examples examples \
             --tag      ydb-app-current
 
       - name: Build baseline workload image
@@ -108,8 +108,8 @@ jobs:
           # Reuse the build script from the current checkout — it doesn't
           # depend on SDK contents, only on the layout it produces.
           sdk-current/.github/scripts/build-slo-image.sh \
-            --sdk      "${GITHUB_WORKSPACE}/sdk-baseline" \
-            --examples "${GITHUB_WORKSPACE}/examples" \
+            --sdk      sdk-baseline \
+            --examples examples \
             --tag      ydb-app-baseline \
             --fallback-image ydb-app-current
 

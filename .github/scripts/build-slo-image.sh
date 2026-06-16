@@ -5,7 +5,7 @@
 # The script assembles a temporary build context containing two checkouts
 # side by side — the SDK source tree and the ydb-java-examples checkout —
 # and feeds that context to `docker build` using the Dockerfile shipped
-# inside `ydb-java-examples/slo/`.
+# inside `ydb-java-examples/slo-workload/query/`.
 #
 # The Dockerfile takes care of building the SDK from source, installing it
 # into an in-image local Maven repository, and then building the workload
@@ -32,7 +32,8 @@ Usage:
 Options:
   --sdk             Path to the ydb-java-sdk checkout to build against.
   --examples        Path to the ydb-java-examples checkout that owns the
-                    SLO workload sources (must contain slo/Dockerfile).
+                    SLO workload sources (must contain
+                    slo-workload/query/Dockerfile).
   --tag             Docker tag to assign to the built image
                     (e.g. ydb-app-current).
   --fallback-image  If the initial Docker build fails, tag this image as
@@ -91,7 +92,7 @@ fi
 sdk_dir="$(cd "$sdk_dir" && pwd)"
 examples_dir="$(cd "$examples_dir" && pwd)"
 
-dockerfile="${examples_dir}/slo/Dockerfile"
+dockerfile="${examples_dir}/slo-workload/query/Dockerfile"
 [[ -f "$dockerfile" ]] || die "Dockerfile not found: $dockerfile"
 
 # Assemble a build context that contains the two checkouts side by side.
@@ -131,7 +132,7 @@ rm -rf "$context_dir/ydb-java-sdk/.git" "$context_dir/ydb-java-examples/.git"
 # silent copy failure on the runner).
 for required in \
     "$context_dir/ydb-java-sdk/pom.xml" \
-    "$context_dir/ydb-java-examples/slo/Dockerfile"
+    "$context_dir/ydb-java-examples/slo-workload/query/Dockerfile"
 do
     [[ -f "$required" ]] || die "Build context missing required file: $required"
 done
