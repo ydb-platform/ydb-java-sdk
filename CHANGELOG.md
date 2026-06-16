@@ -1,3 +1,6 @@
+## 2.4.6 ##
+* Topic: fixed reading without consumer
+
 ## 2.4.5 ##
 * Topic: fixed topic's direct write implementation
 * Topic: fixed deadlock between MessageCommitter/SessionBase
