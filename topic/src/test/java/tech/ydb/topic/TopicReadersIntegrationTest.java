@@ -1,9 +1,10 @@
 package tech.ydb.topic;
 
+import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -111,14 +112,14 @@ public class TopicReadersIntegrationTest {
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
-        Semaphore messageCount = new Semaphore(0);
+        CountDownLatch read = new CountDownLatch(1);
         CompletableFuture<Boolean> processing = new CompletableFuture<>();
 
         ExecutorService executor = Executors.newSingleThreadExecutor((r) -> new Thread(r, "test-executor"));
         AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
                 .setExecutor(executor)
                 .setEventHandler((event) -> {
-                    messageCount.release();
+                    read.countDown();
                     processing.join();
                 }).build()
         );
@@ -126,38 +127,88 @@ public class TopicReadersIntegrationTest {
         reader.init().join();
 
         // wait for message committing
-        messageCount.acquireUninterruptibly();
+        Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
 
         // stop reader
-        CompletableFuture<Void> f = reader.shutdown();
+        CompletableFuture<Void> shutdown = reader.shutdown();
         processing.completeExceptionally(new RuntimeException("shutdown"));
-        f.get(5, TimeUnit.SECONDS);
+        shutdown.get(5, TimeUnit.SECONDS);
 
         executor.shutdownNow();
     }
 
     @Test
-    public void readAllTest() {
+    public void readAllTest() throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
                 .build();
 
-        AtomicLong counter = new AtomicLong();
-        CompletableFuture<Long> result = new CompletableFuture<>();
+        AtomicLong offset = new AtomicLong();
+        CountDownLatch read = new CountDownLatch(6);
         AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
                 .setEventHandler((DataReceivedEvent event) -> {
             for (Message msg: event.getMessages()) {
-                Assert.assertEquals(msg.getOffset(), counter.get());
-                long read = counter.incrementAndGet();
-                if (new String(msg.getData()).equals("stop")) {
-                    result.complete(read);
-                }
+                Assert.assertEquals(offset.getAndIncrement(), msg.getOffset());
+                read.countDown();
             }
         }).build());
 
         reader.init().join();
-        Assert.assertEquals(Long.valueOf(6), result.join());
+        Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
+        Assert.assertEquals(6, offset.get());
+        reader.shutdown().join();
+    }
+
+    @Test
+    public void readAllByPartitionIdTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder()
+                        .setPath(TEST_TOPIC)
+                        .setPartitionIds(Arrays.asList(0L))
+                        .build())
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        AtomicLong offset = new AtomicLong();
+        CountDownLatch read = new CountDownLatch(6);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler((DataReceivedEvent event) -> {
+            for (Message msg: event.getMessages()) {
+                Assert.assertEquals(offset.getAndIncrement(), msg.getOffset());
+                read.countDown();
+            }
+        }).build());
+
+        reader.init().join();
+        Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
+        Assert.assertEquals(6, offset.get());
+        reader.shutdown().join();
+    }
+
+    @Test
+    public void readAllWithoutConsumerTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder()
+                        .setPath(TEST_TOPIC)
+                        .setPartitionIds(Arrays.asList(0L))
+                        .build())
+                .withoutConsumer()
+                .build();
+
+        AtomicLong offset = new AtomicLong();
+        CountDownLatch read = new CountDownLatch(6);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler((DataReceivedEvent event) -> {
+            for (Message msg: event.getMessages()) {
+                Assert.assertEquals(offset.getAndIncrement(), msg.getOffset());
+                read.countDown();
+            }
+        }).build());
+
+        reader.init().join();
+        Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
+        Assert.assertEquals(6, offset.get());
         reader.shutdown().join();
     }
 

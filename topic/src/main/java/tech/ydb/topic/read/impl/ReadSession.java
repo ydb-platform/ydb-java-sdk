@@ -206,12 +206,19 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
 
                 long readFrom = committed;
                 long commitTo = committed;
+
+                YdbTopic.StreamReadMessage.StartPartitionSessionResponse.Builder resp = YdbTopic.StreamReadMessage
+                        .StartPartitionSessionResponse.newBuilder()
+                        .setPartitionSessionId(psid);
+
                 if (options != null) {
                     if (options.getReadOffset() != null) {
                         readFrom = options.getReadOffset();
+                        resp.setReadOffset(readFrom);
                     }
                     if (options.getCommitOffset() != null) {
                         commitTo = options.getCommitOffset();
+                        resp.setCommitOffset(commitTo);
                     }
                 }
 
@@ -225,13 +232,8 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                 logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset "
                         + "{} and commitOffset {}", traceID, partition, consumerName, readFrom, commitTo);
                 send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
-                        .setStartPartitionSessionResponse(YdbTopic.StreamReadMessage.StartPartitionSessionResponse
-                                .newBuilder()
-                                .setPartitionSessionId(psid)
-                                .setReadOffset(readFrom)
-                                .setCommitOffset(commitTo)
-                                .build()
-                        ).build());
+                        .setStartPartitionSessionResponse(resp.build())
+                        .build());
             }
         });
     }
