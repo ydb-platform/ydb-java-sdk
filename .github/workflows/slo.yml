@@ -17,12 +17,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sdk:
+        workload:
           - name: java-query-kv
-            command: ""
+            module: query
+          - name: java-jdbc-kv
+            module: jdbc
+          - name: java-spring-data-jdbc-kv
+            module: spring-data-jdbc
+          - name: java-spring-data-jpa-kv
+            module: spring-data-jpa
 
     concurrency:
-      group: slo-${{ github.ref }}-${{ matrix.sdk.name }}
+      group: slo-${{ github.ref }}-${{ matrix.workload.name }}
       cancel-in-progress: true
 
     steps:
@@ -98,20 +104,20 @@ jobs:
           set -euxo pipefail
           chmod +x sdk-current/.github/scripts/build-slo-image.sh
           sdk-current/.github/scripts/build-slo-image.sh \
-            --sdk      "${GITHUB_WORKSPACE}/sdk-current" \
-            --examples "${GITHUB_WORKSPACE}/examples" \
-            --tag      ydb-app-current
+            --sdk sdk-current \
+            --examples examples \
+            --workload ${{ matrix.workload.module }} \
+            --tag "ydb-app-current-${{ matrix.workload.module }}"
 
       - name: Build baseline workload image
         run: |
           set -euxo pipefail
-          # Reuse the build script from the current checkout — it doesn't
-          # depend on SDK contents, only on the layout it produces.
           sdk-current/.github/scripts/build-slo-image.sh \
-            --sdk      "${GITHUB_WORKSPACE}/sdk-baseline" \
-            --examples "${GITHUB_WORKSPACE}/examples" \
-            --tag      ydb-app-baseline \
-            --fallback-image ydb-app-current
+            --sdk sdk-baseline \
+            --examples examples \
+            --workload ${{ matrix.workload.module }} \
+            --tag "ydb-app-baseline-${{ matrix.workload.module }}" \
+            --fallback-image "ydb-app-current-${{ matrix.workload.module }}"
 
       - name: Run SLO Tests
         uses: ydb-platform/ydb-slo-action/init@v2
@@ -119,41 +125,41 @@ jobs:
         with:
           github_issue: ${{ github.event.pull_request.number }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          workload_name: ${{ matrix.sdk.name }}
+          workload_name: ${{ matrix.workload.name }}
           workload_duration: "600"
           workload_current_ref: ${{ github.head_ref || github.ref_name }}
-          workload_current_image: ydb-app-current
-          workload_current_command: ${{ matrix.sdk.command }} --read-rps 1000 --write-rps 100
+          workload_current_image: ydb-app-current-${{ matrix.workload.module }}
+          workload_current_command: --read-rps 1000 --write-rps 100
           workload_baseline_ref: ${{ steps.baseline.outputs.ref }}
-          workload_baseline_image: ydb-app-baseline
-          workload_baseline_command: ${{ matrix.sdk.command }} --read-rps 1000 --write-rps 100
+          workload_baseline_image: ydb-app-baseline-${{ matrix.workload.module }}
+          workload_baseline_command: --read-rps 1000 --write-rps 100
 
-#  publish-slo-report:
-#    needs: ydb-slo-action
-#    runs-on: ubuntu-latest
-#    name: Publish YDB SLO Report
-#    permissions:
-#      issues: write
-#      checks: write
-#      contents: read
-#      pull-requests: write
-#    steps:
-#      - name: Checkout current SDK version
-#        uses: actions/checkout@v5
-#
-#      - name: Publish YDB SLO Report
-#        uses: ydb-platform/ydb-slo-action/report@v2
-#        with:
-#          github_token: ${{ secrets.GITHUB_TOKEN }}
-#          github_run_id: ${{ github.event.workflow_run.id }}
-#
-#      - name: Remove SLO label from PR
-#        env:
-#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          PRS: ${{ toJSON(github.event.workflow_run.pull_requests) }}
-#          REPO: ${{ github.event.workflow_run.repository.full_name }}
-#        run: |
-#          set -euo pipefail
-#          PR=$(jq -r '.[0].number' <<<"$PRS")
-#          gh pr edit "$PR" --repo "$REPO" --remove-label SLO
-#
+  publish-slo-report:
+    needs: ydb-slo-action
+    if: ${{ always() && !cancelled() }}
+
+    name: Publish YDB SLO Report
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+
+    steps:
+      - name: Publish YDB SLO Report
+        uses: ydb-platform/ydb-slo-action/report@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_run_id: ${{ github.run_id }}
+          github_issue: ${{ github.event.pull_request.number }}
+
+      - name: Remove SLO label from PR
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh pr edit "${{ github.event.pull_request.number }}" \
+            --repo "${{ github.repository }}" \
+            --remove-label SLO
