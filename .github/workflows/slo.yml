@@ -99,43 +99,25 @@ jobs:
           ref: master
           path: examples
 
-      - name: Checkout ydb-jdbc-driver
-        if: matrix.workload.module != 'query'
-        uses: actions/checkout@v5
-        with:
-          repository: ydb-platform/ydb-jdbc-driver
-          ref: master
-          path: jdbc-driver
-
       - name: Build current workload image
         run: |
           set -euxo pipefail
           chmod +x sdk-current/.github/scripts/build-slo-image.sh
-          args=(
-            --sdk sdk-current
-            --examples examples
-            --workload ${{ matrix.workload.module }}
+          sdk-current/.github/scripts/build-slo-image.sh \
+            --sdk sdk-current \
+            --examples examples \
+            --workload ${{ matrix.workload.module }} \
             --tag "ydb-app-current-${{ matrix.workload.module }}"
-          )
-          if [ "${{ matrix.workload.module }}" != "query" ]; then
-            args+=(--jdbc jdbc-driver)
-          fi
-          sdk-current/.github/scripts/build-slo-image.sh "${args[@]}"
 
       - name: Build baseline workload image
         run: |
           set -euxo pipefail
-          args=(
-            --sdk sdk-baseline
-            --examples examples
-            --workload ${{ matrix.workload.module }}
-            --tag "ydb-app-baseline-${{ matrix.workload.module }}"
+          sdk-current/.github/scripts/build-slo-image.sh \
+            --sdk sdk-baseline \
+            --examples examples \
+            --workload ${{ matrix.workload.module }} \
+            --tag "ydb-app-baseline-${{ matrix.workload.module }}" \
             --fallback-image "ydb-app-current-${{ matrix.workload.module }}"
-          )
-          if [ "${{ matrix.workload.module }}" != "query" ]; then
-            args+=(--jdbc jdbc-driver)
-          fi
-          sdk-current/.github/scripts/build-slo-image.sh "${args[@]}"
 
       - name: Run SLO Tests
         uses: ydb-platform/ydb-slo-action/init@v2

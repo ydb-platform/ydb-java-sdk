@@ -10,7 +10,6 @@ Usage:
     --examples <path> \
     --workload <query|jdbc|spring-data-jdbc|spring-data-jpa> \
     --tag <docker-tag> \
-    [--jdbc <path>] \
     [--fallback-image <docker-tag>]
 
 Options:
@@ -18,7 +17,6 @@ Options:
   --examples        Path to the ydb-java-examples checkout.
   --workload        SLO workload module to build.
   --tag             Docker tag to assign to the built image.
-  --jdbc            Path to ydb-jdbc-driver (required for JDBC workloads).
   --fallback-image  If the initial Docker build fails, tag this image as
                     --tag and exit successfully.
 EOF
@@ -33,7 +31,6 @@ sdk_dir=""
 examples_dir=""
 workload=""
 tag=""
-jdbc_dir=""
 fallback_image=""
 
 while [[ $# -gt 0 ]]; do
@@ -52,10 +49,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --tag)
             tag="${2:-}"
-            shift 2
-            ;;
-        --jdbc)
-            jdbc_dir="${2:-}"
             shift 2
             ;;
         --fallback-image)
@@ -77,31 +70,41 @@ if [[ -z "$sdk_dir" || -z "$examples_dir" || -z "$workload" || -z "$tag" ]]; the
     die "Incomplete argument set"
 fi
 
+workload_module=""
+workload_jar=""
+copy_libs="false"
+
 case "$workload" in
-    query|jdbc|spring-data-jdbc|spring-data-jpa)
+    query)
+        workload_module="slo-workload/query"
+        workload_jar="ydb-slo-query-workload.jar"
+        copy_libs="true"
+        ;;
+    jdbc)
+        workload_module="slo-workload/jdbc"
+        workload_jar="ydb-slo-jdbc-workload.jar"
+        copy_libs="true"
+        ;;
+    spring-data-jdbc)
+        workload_module="slo-workload/spring-data-jdbc"
+        workload_jar="ydb-slo-spring-data-jdbc-workload.jar"
+        ;;
+    spring-data-jpa)
+        workload_module="slo-workload/spring-data-jpa"
+        workload_jar="ydb-slo-spring-data-jpa-workload.jar"
         ;;
     *)
         die "Unsupported workload: $workload"
         ;;
 esac
 
-if [[ "$workload" != "query" && -z "$jdbc_dir" ]]; then
-    die "--jdbc is required for workload ${workload}"
-fi
-
 [[ -d "$sdk_dir" ]] || die "--sdk does not exist: $sdk_dir"
 [[ -d "$examples_dir" ]] || die "--examples does not exist: $examples_dir"
-if [[ -n "$jdbc_dir" ]]; then
-    [[ -d "$jdbc_dir" ]] || die "--jdbc does not exist: $jdbc_dir"
-fi
 
 sdk_dir="$(cd "$sdk_dir" && pwd)"
 examples_dir="$(cd "$examples_dir" && pwd)"
-if [[ -n "$jdbc_dir" ]]; then
-    jdbc_dir="$(cd "$jdbc_dir" && pwd)"
-fi
 
-dockerfile="${examples_dir}/slo-workload/${workload}/Dockerfile"
+dockerfile="${examples_dir}/slo-workload/docker/Dockerfile.sdk"
 [[ -f "$dockerfile" ]] || die "Dockerfile not found: $dockerfile"
 
 context_dir="$(mktemp -d)"
@@ -112,9 +115,6 @@ echo "  ydb-java-sdk:      $sdk_dir"
 echo "  ydb-java-examples: $examples_dir"
 echo "  workload:          $workload"
 echo "  tag:               $tag"
-if [[ -n "$jdbc_dir" ]]; then
-    echo "  ydb-jdbc-driver: $jdbc_dir"
-fi
 
 copy_tree() {
     local src="$1"
@@ -128,31 +128,22 @@ copy_tree() {
 
 copy_tree "$sdk_dir" "$context_dir/ydb-java-sdk"
 copy_tree "$examples_dir" "$context_dir/ydb-java-examples"
-if [[ -n "$jdbc_dir" ]]; then
-    copy_tree "$jdbc_dir" "$context_dir/ydb-jdbc-driver"
-else
-    mkdir -p "$context_dir/ydb-jdbc-driver"
-fi
 
-rm -rf "$context_dir/ydb-java-sdk/.git" \
-       "$context_dir/ydb-java-examples/.git" \
-       "$context_dir/ydb-jdbc-driver/.git"
+rm -rf "$context_dir/ydb-java-sdk/.git" "$context_dir/ydb-java-examples/.git"
 
 for required in \
     "$context_dir/ydb-java-sdk/pom.xml" \
-    "$context_dir/ydb-java-examples/slo-workload/${workload}/Dockerfile"
+    "$context_dir/ydb-java-examples/slo-workload/docker/Dockerfile.sdk"
 do
     [[ -f "$required" ]] || die "Build context missing required file: $required"
 done
 
-if [[ "$workload" != "query" ]]; then
-    [[ -f "$context_dir/ydb-jdbc-driver/pom.xml" ]] \
-        || die "Build context missing required file: $context_dir/ydb-jdbc-driver/pom.xml"
-fi
-
 set +e
 docker build \
     --platform linux/amd64 \
+    --build-arg "WORKLOAD_MODULE=${workload_module}" \
+    --build-arg "WORKLOAD_JAR=${workload_jar}" \
+    --build-arg "COPY_LIBS=${copy_libs}" \
     -t "$tag" \
     -f "$dockerfile" \
     "$context_dir"
