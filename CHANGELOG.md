@@ -1,3 +1,57 @@
+## 2.4.6 ##
+* Topic: fixed reading without consumer
+
+## 2.4.5 ##
+* Topic: fixed topic's direct write implementation
+* Topic: fixed deadlock between MessageCommitter/SessionBase
+* Table: fixed StoragePool mapping for CreateTable
+* Core: added experimental support of OTel metrics
+
+## 2.4.4 ##
+* Topic: fixed ReadPartitionSession closing
+* Core: added method to customize x-build-info
+* Coordination: added timeout for session init waiting
+
+## 2.4.3 ##
+* Topic: fixed lost onPartitionSessionClosed event
+
+## 2.4.2 ##
+* Topic: fixed idempotent writer behaviour
+* Core: update BouncyCastle version
+
+## 2.4.1 ##
+* Core: added experimental support of OTel tracing
+* Table: added support of SNAPSHOT_RW isolation level
+* Query: fixed wrong type in ApacheArrowPartsHandler
+* Query: session attach stream handles NodeShutdown and SessionShutdown hints
+* Tests: added customization of GrpcTransport to JUnit4 & JUnit5 support
+* Topic: replaced CommitterImpl by MessageCommitter
+* Topic: updated read partition session implementation
+* Topic: fixed commit hanging if commitOffset < readOffset
+* Topic: new topic writers implementation
+* Topic: replaced workinInProgress by SerialExecutor
+* Topic: added TopicRetryableStream with support of RetryPolicy
+* Topic: added support of RetryConfig to topic writers
+* Topic: added support of direct write mode
+* Topic: fixed CodecRegistry initialization without zstd-jni or lzo-core
+
+## 2.4.0 ##
+**API breaking change: tech.ydb.topic.decription.Codec became interface**
+* Core: Upgrade to grpc-java v1.68.3
+* Core: Upgrade to use slf4j2
+* Core: Removed thread lock on the waiting of channel ready
+* Core: Removed node pessimization on ResourceExhausted & DeadlineExceeded
+* Core: Fixed deadlock on sync token updating
+* Table: Fixed ResultSetReader inconsistency with next()/setRowIndex()
+* Table: Updated PrimitiveValue.Bytes implementation
+* Table: Added support of ApacheArrow for executeBulkUpsert
+* Table: Added support of comparability to Value
+* Topic: Added support of custom codecs
+* Query: Removed @Experimental annotation on QueryClient
+* Query: Added ScriptClient with support of long-life scripts
+* Query: Added support of ApacheArrow for query execution
+* Tests: Updated testcontainers to 2.0.3
+
 ## 2.3.35 ##
 * Query: Fixed transaction id resetting
 

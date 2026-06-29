@@ -9,6 +9,7 @@ import java.util.function.Consumer;
 import io.grpc.Metadata;
 
 import tech.ydb.core.impl.call.GrpcFlows;
+import tech.ydb.core.tracing.Span;
 
 /**
  * @author Nikolay Perfilov
@@ -24,6 +25,7 @@ public class GrpcRequestSettings {
     private final Consumer<Metadata> trailersHandler;
     private final BooleanSupplier pessimizationHook;
     private final GrpcFlowControl flowControl;
+    private final Span span;
 
     private GrpcRequestSettings(Builder builder) {
         this.deadlineAfter = builder.deadlineAfter;
@@ -36,6 +38,7 @@ public class GrpcRequestSettings {
         this.trailersHandler = builder.trailersHandler;
         this.pessimizationHook = builder.pessimizationHook;
         this.flowControl = builder.flowControl;
+        this.span = builder.span;
     }
 
     public static Builder newBuilder() {
@@ -82,6 +85,10 @@ public class GrpcRequestSettings {
         return flowControl;
     }
 
+    public Span getSpan() {
+        return span;
+    }
+
     public static final class Builder {
         private long deadlineAfter = 0L;
         private boolean preferReadyChannel = false;
@@ -93,6 +100,7 @@ public class GrpcRequestSettings {
         private Consumer<Metadata> trailersHandler = null;
         private BooleanSupplier pessimizationHook = null;
         private GrpcFlowControl flowControl = GrpcFlows.SIMPLE_FLOW;
+        private Span span = Span.NOOP;
 
         /**
          * Returns a new {@code Builder} with a deadline, based on the running Java Virtual Machine's
@@ -170,6 +178,11 @@ public class GrpcRequestSettings {
 
         public Builder withPessimizationHook(BooleanSupplier pessimizationHook) {
             this.pessimizationHook = pessimizationHook;
+            return this;
+        }
+
+        public Builder withSpan(Span span) {
+            this.span = span == null ? Span.NOOP : span;
             return this;
         }
 

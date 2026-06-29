@@ -44,10 +44,6 @@ public class AuthCallOptions implements AutoCloseable {
             authIdentity = null;
         }
 
-        if (authIdentity != null) {
-            options = options.withCallCredentials(new YdbCallCredentials(authIdentity));
-        }
-
         if (builder.getCallExecutor() != null && builder.getCallExecutor() != MoreExecutors.directExecutor()) {
             options = options.withExecutor(builder.getCallExecutor());
         }
@@ -78,6 +74,7 @@ public class AuthCallOptions implements AutoCloseable {
         if (readTimeoutMillis > 0) {
             return callOptions.withDeadlineAfter(readTimeoutMillis, TimeUnit.MILLISECONDS);
         }
+
         return callOptions;
     }
 }

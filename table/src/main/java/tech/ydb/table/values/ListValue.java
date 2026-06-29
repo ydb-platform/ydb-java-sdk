@@ -113,4 +113,35 @@ public class ListValue implements Value<ListType> {
         }
         return builder.build();
     }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!(other instanceof ListValue)) {
+            throw new IllegalArgumentException("Cannot compare value " + type + " with " + other.getType());
+        }
+
+        ListValue list = (ListValue) other;
+
+        int minLength = Math.min(items.length, list.items.length);
+        for (int i = 0; i < minLength; i++) {
+            int itemComparison = items[i].compareTo(list.items[i]);
+            if (itemComparison != 0) {
+                return itemComparison;
+            }
+        }
+
+        return Integer.compare(items.length, list.items.length);
+    }
 }

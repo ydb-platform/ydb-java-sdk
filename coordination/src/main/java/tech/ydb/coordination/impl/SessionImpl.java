@@ -111,7 +111,7 @@ class SessionImpl implements CoordinationSession {
         final Stream stream = new Stream(rpc);
         if (!updateState(local, makeConnectionState(local, stream))) {
             logger.warn("{} cannot be connected with state {}", this, local.getState());
-            stream.cancelStream();
+            stream.closeStream();
             return CompletableFuture.completedFuture(Status.of(StatusCode.BAD_REQUEST));
         }
 

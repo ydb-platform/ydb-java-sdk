@@ -980,9 +980,11 @@ public class ProtoValue {
         @Override
         public String getUuidString() {
             long hiBe = LittleEndian.bswap(high);
-            return
-                    digits(low, 8) + "-" + digits(low >>> 32, 4) + "-" + digits(low >>> 48, 4) + "-" +
-                            digits(hiBe >> 48, 4) + "-" + digits(hiBe, 12);
+            return digits(low, 8) + "-" +
+                    digits(low >>> 32, 4) + "-" +
+                    digits(low >>> 48, 4) + "-" +
+                    digits(hiBe >> 48, 4) + "-" +
+                    digits(hiBe, 12);
         }
 
         @Override

@@ -6,10 +6,11 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import javax.annotation.WillNotClose;
 
-import io.grpc.ExperimentalApi;
-
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.tracing.NoopTracer;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.query.impl.QueryClientImpl;
 import tech.ydb.query.impl.TableClientImpl;
 import tech.ydb.table.SessionPoolStats;
@@ -19,7 +20,6 @@ import tech.ydb.table.TableClient;
  *
  * @author Aleksandr Gorshenin
  */
-@ExperimentalApi("QueryService is experimental and API may change without notice")
 public interface QueryClient extends AutoCloseable {
     static Builder newClient(@WillNotClose GrpcTransport transport) {
         return QueryClientImpl.newClient(transport);
@@ -40,6 +40,10 @@ public interface QueryClient extends AutoCloseable {
 
     ScheduledExecutorService getScheduler();
 
+    default Tracer getTracer() {
+        return NoopTracer.getInstance();
+    }
+
     SessionPoolStats getSessionPoolStats();
 
     @Override
@@ -47,9 +51,12 @@ public interface QueryClient extends AutoCloseable {
 
     interface Builder {
         Builder sessionPoolMinSize(int minSize);
+
         Builder sessionPoolMaxSize(int maxSize);
 
         Builder sessionMaxIdleTime(Duration duration);
+
+        Builder withMeter(Meter meter, String poolName);
 
         QueryClient build();
     }

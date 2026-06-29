@@ -19,8 +19,8 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 public abstract class SessionBase<R, W> implements Session {
 
     protected final GrpcReadWriteStream<R, W> streamConnection;
-    protected final AtomicBoolean isWorking = new AtomicBoolean(true);
     protected final String streamId;
+    private final AtomicBoolean isWorking = new AtomicBoolean(true);
     private final ReentrantLock lock = new ReentrantLock();
     private String token;
 
@@ -32,6 +32,10 @@ public abstract class SessionBase<R, W> implements Session {
 
     public String getStreamId() {
         return streamId;
+    }
+
+    public boolean isStopped() {
+        return !isWorking.get();
     }
 
     protected abstract Logger getLogger();
@@ -48,8 +52,6 @@ public abstract class SessionBase<R, W> implements Session {
             return streamConnection.start(message -> {
                 if (getLogger().isTraceEnabled()) {
                     getLogger().trace("[{}] Message received:\n{}", streamId, message);
-                } else {
-                    getLogger().debug("[{}] Message received", streamId);
                 }
 
                 if (isWorking.get()) {
@@ -84,8 +86,6 @@ public abstract class SessionBase<R, W> implements Session {
 
             if (getLogger().isTraceEnabled()) {
                 getLogger().trace("[{}] Sending request:\n{}", streamId, request);
-            } else {
-                getLogger().debug("[{}] Sending request", streamId);
             }
             streamConnection.sendNext(request);
         } finally {

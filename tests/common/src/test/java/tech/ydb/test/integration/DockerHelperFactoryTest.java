@@ -147,7 +147,7 @@ public class DockerHelperFactoryTest {
             Assert.assertNull("check helper auth token", helper.authToken());
             Assert.assertArrayEquals("check helper database", container.pemCert, helper.pemCert());
 
-            try (GrpcTransport transport = helper.createTransport()) {
+            try (GrpcTransport transport = helper.createTransport(builder -> builder.withApplicationName("test-app"))) {
                 Assert.assertEquals("/local", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }

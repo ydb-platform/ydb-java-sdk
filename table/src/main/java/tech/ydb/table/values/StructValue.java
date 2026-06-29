@@ -134,6 +134,35 @@ public class StructValue implements Value<StructType> {
         return builder.build();
     }
 
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!type.equals(other.getType())) {
+            throw new IllegalArgumentException("Cannot compare value " + type + " with " + other.getType());
+        }
+
+        StructValue struct = (StructValue) other;
+        for (int i = 0; i < type.getMembersCount(); i++) {
+            int memberComparison = members[i].compareTo(struct.members[i]);
+            if (memberComparison != 0) {
+                return memberComparison;
+            }
+        }
+
+        return 0;
+    }
+
     private static StructValue newStruct(String[] names, Value<?>[] values) {
         Arrays2.sortBothByFirst(names, values);
         final Type[] types = new Type[values.length];

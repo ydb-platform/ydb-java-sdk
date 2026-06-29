@@ -1,18 +1,16 @@
 package tech.ydb.topic.read.impl;
 
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.MessageCommitter;
+import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 
 /**
  * @author Nikolay Perfilov
@@ -20,66 +18,40 @@ import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 public class DeferredCommitterImpl implements DeferredCommitter {
     private static final Logger logger = LoggerFactory.getLogger(DeferredCommitterImpl.class);
 
-    private final Map<PartitionSessionImpl, PartitionRanges> rangesByPartition = new ConcurrentHashMap<>();
+    private final Map<MessageCommitter, DisjointOffsetRangeSet> rangesBySession = new ConcurrentHashMap<>();
 
-    private static class PartitionRanges {
-        private final PartitionSessionImpl partitionSession;
-        private final DisjointOffsetRangeSet ranges = new DisjointOffsetRangeSet();
-        private final ReentrantLock rangesLock = new ReentrantLock();
-
-        private PartitionRanges(PartitionSessionImpl partitionSession) {
-            this.partitionSession = partitionSession;
-        }
-
-        private void add(OffsetsRange offsetRange) {
-            try {
-                rangesLock.lock();
-
-                try {
-                    ranges.add(offsetRange);
-                } finally {
-                    rangesLock.unlock();
-                }
-            } catch (RuntimeException exception) {
-                String errorMessage = "[" + partitionSession.getFullId() + "] Error adding new offset range to " +
-                        "DeferredCommitter for " + partitionSession.getSessionId() + ": " + exception.getMessage();
-                logger.error(errorMessage);
-                throw new RuntimeException(errorMessage, exception);
-            }
-        }
-
-        private void commit() {
-            List<OffsetsRange> rangesToCommit;
-            rangesLock.lock();
-            try {
-                rangesToCommit = ranges.getRangesAndClear();
-            } finally {
-                rangesLock.unlock();
-            }
-            partitionSession.commitOffsetRanges(rangesToCommit);
-        }
+    private RuntimeException wrapExceptionWithSession(PartitionSession session, RuntimeException ex) {
+        String msg = "Error adding new offset range to DeferredCommitter for " + session + ": " + ex.getMessage();
+        logger.error(msg);
+        return new RuntimeException(msg, ex);
     }
 
     @Override
     public void add(Message message) {
-        MessageImpl messageImpl = (MessageImpl) message;
-        PartitionRanges partitionRanges = rangesByPartition
-                .computeIfAbsent(messageImpl.getPartitionSessionImpl(), PartitionRanges::new);
-        partitionRanges.add(messageImpl.getOffsetsToCommit());
+        MessageCommitter committer = message.getCommitter();
+        DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(committer, s -> new DisjointOffsetRangeSet());
+        try {
+            range.add(message.getRangeToCommit());
+        } catch (RuntimeException exception) {
+            throw wrapExceptionWithSession(message.getPartitionSession(), exception);
+        }
     }
 
     @Override
     public void add(DataReceivedEvent event) {
-        DataReceivedEventImpl eventImpl = (DataReceivedEventImpl) event;
-        PartitionRanges partitionRanges = rangesByPartition
-                .computeIfAbsent(eventImpl.getPartitionSessionImpl(), PartitionRanges::new);
-        partitionRanges.add(eventImpl.getOffsetsToCommit());
+        MessageCommitter committer = event.getCommitter();
+        DisjointOffsetRangeSet range = rangesBySession.computeIfAbsent(committer, s -> new DisjointOffsetRangeSet());
+        try {
+            range.add(event.getRangeToCommit());
+        } catch (RuntimeException exception) {
+            throw wrapExceptionWithSession(event.getPartitionSession(), exception);
+        }
     }
 
     @Override
     public void commit() {
-        rangesByPartition.forEach((session, partitionRanges) -> {
-            partitionRanges.commit();
+        rangesBySession.forEach((committer, ranges) -> {
+            committer.commitRanges(ranges.getRangesAndClear());
         });
     }
 }

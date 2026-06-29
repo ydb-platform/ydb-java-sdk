@@ -82,12 +82,12 @@ public final class VariantType implements Type {
     public String toString() {
         StringBuilder sb = new StringBuilder(128);
         sb.append("Variant<");
-        int count = getItemsCount();
+        int count = itemTypes.length;
         for (int i = 0; i < count; i++) {
-            sb.append(getItemType(i)).append(", ");
-        }
-        if (count != 0) {
-            sb.setLength(sb.length() - 1); // cut last comma
+            sb.append(itemTypes[i]);
+            if (i < count - 1) {
+                sb.append(", ");
+            }
         }
         sb.append('>');
         return sb.toString();

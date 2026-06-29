@@ -34,7 +34,11 @@ public class GrpcTransportExtension extends ProxyGrpcTransport implements AfterA
     }
 
     public GrpcTransportExtension() {
-        this(new Holder(), true);
+        this(new Holder(null), true);
+    }
+
+    public GrpcTransportExtension withGrpcTransportCustomizer(YdbHelper.TransportCustomizer customizer) {
+        return new GrpcTransportExtension(new Holder(customizer), skipOnUnavailable);
     }
 
     public GrpcTransportExtension failIfUnavailable() {
@@ -82,10 +86,15 @@ public class GrpcTransportExtension extends ProxyGrpcTransport implements AfterA
 
     private static class Holder {
         private final Lock holderLock = new ReentrantLock();
+        private final YdbHelper.TransportCustomizer customizer;
 
         private YdbHelper helper = null;
         private GrpcTransport transport = null;
         private ExtensionContext context = null;
+
+        Holder(YdbHelper.TransportCustomizer customizer) {
+            this.customizer = customizer;
+        }
 
         public void before(ExtensionContext ec) {
             holderLock.lock();
@@ -107,7 +116,7 @@ public class GrpcTransportExtension extends ProxyGrpcTransport implements AfterA
                     }
 
                     logger.debug("create ydb helper for path {}", path);
-                    transport = helper.createTransport();
+                    transport = helper.createTransport(customizer);
                 }
             } finally {
                 holderLock.unlock();

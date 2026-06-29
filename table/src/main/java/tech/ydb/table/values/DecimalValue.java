@@ -269,6 +269,36 @@ public class DecimalValue implements Value<DecimalType> {
         return ProtoValue.fromDecimal(high, low);
     }
 
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                throw new NullPointerException("Cannot compare value " + this + " with NULL");
+            }
+            return compareTo(optional.get());
+        }
+
+        if (!(other instanceof DecimalValue)) {
+            throw new IllegalArgumentException("Cannot compare DecimalValue with " + other.getClass().getSimpleName());
+        }
+
+        DecimalValue decimal = (DecimalValue) other;
+
+        // Fast way to compare decimals with the same scale or with special values
+        boolean isSpecial = isNan() || isInf() || isNegativeInf();
+        boolean otherIsSpecial = decimal.isNan() || decimal.isInf() || decimal.isNegativeInf();
+        if (isSpecial || otherIsSpecial || (getType().getScale() == decimal.getType().getScale())) {
+            return high != decimal.high ? Long.compare(high, decimal.high) : Long.compare(low, decimal.low);
+        }
+
+        return toBigDecimal().compareTo(decimal.toBigDecimal());
+    }
+
     /**
      * Write long to a big-endian buffer.
      */

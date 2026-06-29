@@ -73,7 +73,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.PRIMITIVE, TEXT_TYPE)
                 .hasTextValue(NOT_NULL);
         checkIllegalStateException("value reader is not optional", valueReader::isOptionalItemPresent)
-                .hasInMessage("cannot call isOptionalItemPresent, actual type: type_id: UTF8");
+                .hasInMessage("cannot call isOptionalItemPresent, actual type: Text");
 
         Value<?> value = valueReader.getValue();
         check("value", value).isNotNull()
@@ -84,7 +84,7 @@ public class OptionalReaderTest {
         checkCastException("value is not optional", value::asOptional)
                 .hasOneOfMessage("PrimitiveValue$Text cannot be cast ", "PrimitiveValue$Text incompatible with");
 
-        Assert.assertEquals("optional item equals value", value, optional.asOptional().get());
+        Assert.assertEquals("optional item equals value", (Value) value, optional.asOptional().get());
     }
 
     @Test
@@ -105,7 +105,7 @@ public class OptionalReaderTest {
         check("empty optional reader", optionalReader).isNotNull()
                 .hasNotOptionalItemPresent()
                 .hasType(Type.Kind.OPTIONAL, OPTIONAL_TYPE)
-                .hasTextValue(""); // grpc protobuf return empty string instead of null
+                .hasTextValue(null);
 
         Value<?> optional = optionalReader.getValue();
         check("empty optional value", optional).isNotNull()
@@ -139,9 +139,8 @@ public class OptionalReaderTest {
         ValueReader optionalReader = reader.getColumn(0);
         check("empty optional reader", optionalReader).isNotNull()
                 .hasNotOptionalItemPresent()
-                .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE);
-        checkIllegalStateException("double optional reader hasn't text", optionalReader::getText)
-                .hasInMessage("cannot call getText, actual type: optional_type");
+                .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE)
+                .hasTextValue(null);
 
         Value<?> optional = optionalReader.getValue();
         check("empty optional value", optional).isNotNull()
@@ -179,9 +178,8 @@ public class OptionalReaderTest {
         ValueReader optionalReader = reader.getColumn(0);
         check("double optional reader", optionalReader).isNotNull()
                 .hasOptionalItemPresent()
-                .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE);
-        checkIllegalStateException("double optional reader hasn't text", optionalReader::getText)
-                .hasInMessage("cannot call getText, actual type: optional_type");
+                .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE)
+                .hasTextValue(null);
 
         Value<?> optional = optionalReader.getValue();
         check("double optional value", optional).isNotNull()
@@ -196,7 +194,7 @@ public class OptionalReaderTest {
         check("inner optional reader", innerOptionalReader).isNotNull()
                 .hasNotOptionalItemPresent()
                 .hasType(Type.Kind.OPTIONAL, OPTIONAL_TYPE)
-                .hasTextValue(""); // grpc protobuf return empty string instead of null
+                .hasTextValue(null);
 
         Value<?> innerOptional = innerOptionalReader.getValue();
         check("inner optional value", innerOptional).isNotNull()
@@ -234,9 +232,8 @@ public class OptionalReaderTest {
         ValueReader optionalReader = reader.getColumn(0);
         check("double optional reader", optionalReader).isNotNull()
                 .hasOptionalItemPresent()
-                .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE);
-        checkIllegalStateException("double optional reader hasn't text", optionalReader::getText)
-                .hasInMessage("cannot call getText, actual type: optional_type");
+                .hasType(Type.Kind.OPTIONAL, DOUBLE_TYPE)
+                .hasTextValue(NOT_NULL);
 
         Value<?> optional = optionalReader.getValue();
         check("double optional value", optional).isNotNull()
@@ -267,7 +264,7 @@ public class OptionalReaderTest {
                 .hasType(Type.Kind.PRIMITIVE, TEXT_TYPE)
                 .hasTextValue(NOT_NULL);
         checkIllegalStateException("inner value reader is not optional", valueReader::isOptionalItemPresent)
-                .hasInMessage("cannot call isOptionalItemPresent, actual type: type_id: UTF8");
+                .hasInMessage("cannot call isOptionalItemPresent, actual type: Text");
 
         Value<?> value = valueReader.getValue();
         check("inner value", value).isNotNull()
@@ -278,7 +275,7 @@ public class OptionalReaderTest {
         checkCastException("inner value is not optional", value::asOptional)
                 .hasOneOfMessage("PrimitiveValue$Text cannot be cast ", "PrimitiveValue$Text incompatible with");
 
-        Assert.assertEquals("inner optional item equals inner value", value, innerOptional.asOptional().get());
+        Assert.assertEquals("inner optional item equals inner value", (Value) value, innerOptional.asOptional().get());
     }
 
     private ReaderChecker check(String name, ValueReader reader) {

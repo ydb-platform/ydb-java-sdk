@@ -2,7 +2,9 @@ package tech.ydb.topic.settings;
 
 import java.util.function.BiConsumer;
 
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
+import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Codec;
 
 /**
@@ -17,9 +19,12 @@ public class WriterSettings {
     private final String producerId;
     private final String messageGroupId;
     private final Long partitionId;
-    private final Codec codec;
+    private final boolean useDirectWrite;
+
+    private final int codec;
     private final long maxSendBufferMemorySize;
     private final int maxSendBufferMessagesCount;
+    private final RetryConfig retryConfig;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
     private WriterSettings(Builder builder) {
@@ -28,9 +33,11 @@ public class WriterSettings {
         this.producerId = builder.producerId;
         this.messageGroupId = builder.messageGroupId;
         this.partitionId = builder.partitionId;
+        this.useDirectWrite = builder.useDirectWrite;
         this.codec = builder.codec;
         this.maxSendBufferMemorySize = builder.maxSendBufferMemorySize;
         this.maxSendBufferMessagesCount = builder.maxSendBufferMessagesCount;
+        this.retryConfig = builder.retryConfig;
         this.errorsHandler = builder.errorsHandler;
     }
 
@@ -54,15 +61,23 @@ public class WriterSettings {
         return messageGroupId;
     }
 
+    public boolean isDirectWrite() {
+        return useDirectWrite;
+    }
+
     public BiConsumer<Status, Throwable> getErrorsHandler() {
         return errorsHandler;
+    }
+
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
     }
 
     public Long getPartitionId() {
         return partitionId;
     }
 
-    public Codec getCodec() {
+    public int getCodec() {
         return codec;
     }
 
@@ -83,9 +98,11 @@ public class WriterSettings {
         private String producerId = null;
         private String messageGroupId = null;
         private Long partitionId = null;
-        private Codec codec = Codec.GZIP;
+        private boolean useDirectWrite = false;
+        private int codec = Codec.GZIP;
         private long maxSendBufferMemorySize = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private int maxSendBufferMessagesCount = MAX_IN_FLIGHT_COUNT_DEFAULT;
+        private RetryConfig retryConfig = TopicRetryConfig.FOREVER;
         private BiConsumer<Status, Throwable> errorsHandler = null;
 
         /**
@@ -146,11 +163,44 @@ public class WriterSettings {
         }
 
         /**
+         * Enable or disable direct write mode, where the writer connects to the specific YDB node that owns the target
+         * partition rather than routing through a proxy.
+         * <p>
+         * When enabled, the writer resolves the target node before opening the write stream:
+         * <ul>
+         * <li>If {@link #setPartitionId} is set, the node is resolved via
+         * {@link TopicClient#describeTopic(java.lang.String) describeTopic}.
+         * <li>If {@link #setProducerId} is set (and no explicit partition), the partition is resolved first via a
+         * probe write stream, then the node is resolved via
+         * {@link TopicClient#describeTopic(java.lang.String) describeTopic}.
+         * </ul>
+         * Direct write reduces write latency by eliminating the proxy hop at the cost of an extra RPC on
+         * (re)connection.
+         * <p>
+         * <b>Warning:</b> direct write requires a direct network link from the client to the YDB nodes. If the client
+         * can only reach a YDB proxy (e.g. in cloud environments where nodes are not publicly accessible), enabling
+         * this mode will cause connection failures. Use it only when the client has direct network access to all YDB
+         * nodes in the cluster.
+         * <p>
+         * Direct write requires either {@link #setPartitionId} or {@link #setProducerId} to be set; otherwise
+         * {@link TopicClient#createSyncWriter(tech.ydb.topic.settings.WriterSettings) createSyncWriter} and
+         * {@link TopicClient#createAsyncWriter(tech.ydb.topic.settings.WriterSettings) createAsyncWriter} will throw
+         * {@link IllegalArgumentException}.
+         *
+         * @param enabled {@code true} to enable direct write
+         * @return this builder
+         */
+        public Builder setDirectWrite(boolean enabled) {
+            this.useDirectWrite = enabled;
+            return this;
+        }
+
+        /**
          * Set codec to use for data compression prior to write
          * @param codec  compression codec
          * @return settings builder
          */
-        public Builder setCodec(Codec codec) {
+        public Builder setCodec(int codec) {
             this.codec = codec;
             return this;
         }
@@ -180,6 +230,33 @@ public class WriterSettings {
 
         public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
             this.errorsHandler = handler;
+            return this;
+        }
+
+        /**
+         * Set retry configuration for the writer's underlying stream connection.
+         * Controls how the writer reconnects when the stream is interrupted.
+         * <p>
+         * The default value is {@link TopicRetryConfig#FOREVER}, which retries any disconnection
+         * indefinitely with exponential backoff (up to ~65 seconds between attempts).
+         * <p>
+         * Use {@link TopicRetryConfig#NEVER} to disable retries and surface errors immediately
+         * via the errors handler set by {@link #setErrorsHandler}.
+         * Use {@link TopicRetryConfig#STANDARD} to retry only transient errors and treat
+         * permanent status codes (e.g. {@code UNAUTHORIZED}, {@code BAD_REQUEST}) as terminal.
+         *
+         * @param config retry configuration, must not be {@code null}
+         * @return this builder
+         * @throws NullPointerException if {@code config} is {@code null}
+         * @see TopicRetryConfig#FOREVER
+         * @see TopicRetryConfig#NEVER
+         * @see TopicRetryConfig#STANDARD
+         */
+        public Builder setRetryConfig(RetryConfig config) {
+            if (config == null) {
+                throw new NullPointerException("RetryConfig must not be null");
+            }
+            this.retryConfig = config;
             return this;
         }
 

@@ -29,6 +29,7 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
             String database,
             EndpointRecord endpoint,
             ManagedChannelFactory channelFactory) {
+        super(endpoint);
         this.scheduler = scheduler;
         this.callOptions = callOptions;
         this.database = database;

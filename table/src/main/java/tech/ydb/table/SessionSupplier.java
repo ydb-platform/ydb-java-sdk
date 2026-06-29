@@ -5,6 +5,8 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
+import tech.ydb.core.tracing.NoopTracer;
+import tech.ydb.core.tracing.Tracer;
 
 
 /**
@@ -26,4 +28,7 @@ public interface SessionSupplier {
      */
     ScheduledExecutorService getScheduler();
 
+    default Tracer getTracer() {
+        return NoopTracer.getInstance();
+    }
 }

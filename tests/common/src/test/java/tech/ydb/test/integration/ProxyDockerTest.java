@@ -52,6 +52,28 @@ public class ProxyDockerTest {
                 Assert.assertNull(helper.pemCert());
                 Assert.assertFalse(helper.useTls());
             }
+
+            try (GrpcTransport transport = helper.createTransport(builder -> builder.withApplicationName("proxed"))) {
+                GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().build();
+                SchemeOperationProtos.DescribePathRequest request = SchemeOperationProtos.DescribePathRequest
+                        .newBuilder()
+                        .setPath(helper.database())
+                        .build();
+
+                SchemeOperationProtos.DescribePathResponse response = transport.unaryCall(
+                        SchemeServiceGrpc.getDescribePathMethod(), settings, request
+                ).join().getValue();
+
+                Assert.assertTrue(response.getOperation().getReady());
+
+                SchemeOperationProtos.DescribePathResult result = response.getOperation().getResult()
+                        .unpack(SchemeOperationProtos.DescribePathResult.class);
+
+                Assert.assertEquals(helper.database(), "/" + result.getSelf().getName());
+                Assert.assertNull(helper.authToken());
+                Assert.assertNull(helper.pemCert());
+                Assert.assertFalse(helper.useTls());
+            }
         }
     }
 }

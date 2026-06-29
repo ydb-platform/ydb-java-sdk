@@ -28,7 +28,7 @@ import tech.ydb.proto.coordination.SessionResponse;
  * @author Aleksandr Gorshenin
  */
 class Stream {
-    private static final int SHUTDOWN_TIMEOUT_MS = 1000;
+    private static final int STREAM_CANCEL_TIMEOUT_MS = 1000;
     private static final Logger logger = LoggerFactory.getLogger(Stream.class);
 
     private final ScheduledExecutorService scheduler;
@@ -63,23 +63,44 @@ class Stream {
         return messages.values();
     }
 
-    public void cancelStream() {
-        logger.trace("stream {} cancel stream", hashCode());
-        stream.cancel();
+    public void closeStream() {
+        if (startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)))) {
+            stream.close();
+        }
     }
 
-    public CompletableFuture<Result<Long>> sendSessionStart(long reqId, String node, Duration timeout, ByteString key) {
+    private void cancelStream() {
+        boolean wasNotStarted = startFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_CANCELLED)));
+        boolean wasNotStopped = stopFuture.complete(Status.of(StatusCode.CLIENT_CANCELLED));
+        if (wasNotStarted || wasNotStopped) {
+            logger.warn("stream {} canceled", hashCode());
+            stream.cancel();
+        }
+    }
+
+    public CompletableFuture<Result<Long>> sendSessionStart(long sid, String node, Duration timeout, ByteString key) {
         SessionRequest startMsg = SessionRequest.newBuilder().setSessionStart(
                 SessionRequest.SessionStart.newBuilder()
-                        .setSessionId(reqId)
+                        .setSessionId(sid)
                         .setPath(node)
                         .setTimeoutMillis(timeout.toMillis())
                         .setProtectionKey(key)
                         .build()
         ).build();
 
-        logger.trace("stream {} send session start msg {}", hashCode(), reqId);
+        logger.trace("stream {} send session start msg {}", hashCode(), sid);
         stream.sendNext(startMsg);
+
+        // schedule cancellation of grpc-stream
+        // if server doesn't confirm stream by onSessionStarted message - this timer cancels grpc stream
+        long cancelTimeout = Math.max(timeout.toMillis(), STREAM_CANCEL_TIMEOUT_MS);
+        final Future<?> timer = scheduler.schedule(this::cancelStream, cancelTimeout, TimeUnit.MILLISECONDS);
+        startFuture.whenComplete((st, ex) -> {
+            if (!timer.isDone()) {
+                timer.cancel(true);
+            }
+        });
+
         return startFuture;
     }
 
@@ -97,7 +118,7 @@ class Stream {
 
         // schedule cancellation of grpc-stream
         // if server doesn't close stream by stop message - this timer cancels grpc stream
-        final Future<?> timer = scheduler.schedule(this::cancelStream, SHUTDOWN_TIMEOUT_MS, TimeUnit.MILLISECONDS);
+        final Future<?> timer = scheduler.schedule(this::cancelStream, STREAM_CANCEL_TIMEOUT_MS, TimeUnit.MILLISECONDS);
         stopFuture.whenComplete((st, ex) -> {
             if (!timer.isDone()) {
                 timer.cancel(true);

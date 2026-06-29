@@ -138,6 +138,11 @@ public class YdbHelperFactoryTest {
                 Assert.assertEquals("/token", transport.getDatabase());
                 Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
             }
+
+            try (GrpcTransport transport = helper.createTransport(builder -> builder.withApplicationName("test"))) {
+                Assert.assertEquals("/token", transport.getDatabase());
+                Assert.assertTrue(transport.unaryCall(null, null, null).join().isSuccess());
+            }
         }
     }
 

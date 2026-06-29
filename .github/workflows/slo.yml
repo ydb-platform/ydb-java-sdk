@@ -1,0 +1,159 @@
+name: SLO
+
+on:
+  pull_request:
+    type: [labeled]
+
+jobs:
+  ydb-slo-action:
+    if: contains(github.event.pull_request.labels.*.name, 'SLO')
+
+    name: Run YDB SLO Tests
+    runs-on: large-runner-java-sdk
+
+    permissions:
+      contents: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk:
+          - name: java-query-kv
+            command: ""
+
+    concurrency:
+      group: slo-${{ github.ref }}-${{ matrix.sdk.name }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Install dependencies
+        run: |
+          set -euxo pipefail
+          YQ_VERSION=v4.48.2
+          BUILDX_VERSION=0.30.1
+          COMPOSE_VERSION=2.40.3
+
+          sudo curl -fLo /usr/local/bin/yq \
+            "https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_amd64"
+          sudo chmod +x /usr/local/bin/yq
+
+          sudo mkdir -p /usr/local/lib/docker/cli-plugins
+
+          sudo curl -fLo /usr/local/lib/docker/cli-plugins/docker-buildx \
+            "https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-amd64"
+          sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-buildx
+
+          sudo curl -fLo /usr/local/lib/docker/cli-plugins/docker-compose \
+            "https://github.com/docker/compose/releases/download/v${COMPOSE_VERSION}/docker-compose-linux-x86_64"
+          sudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
+
+          yq --version
+          docker --version
+          docker buildx version
+          docker compose version
+
+      - name: Checkout current SDK version
+        uses: actions/checkout@v5
+        with:
+          path: sdk-current
+          fetch-depth: 0
+
+      - name: Determine baseline commit
+        id: baseline
+        working-directory: sdk-current
+        run: |
+          set -euo pipefail
+          BASELINE=$(git merge-base HEAD origin/master)
+          echo "sha=${BASELINE}" >> "$GITHUB_OUTPUT"
+
+          if git merge-base --is-ancestor "${BASELINE}" origin/master && \
+             [ "$(git rev-parse origin/master)" = "${BASELINE}" ]; then
+            BASELINE_REF="master"
+          else
+            BRANCH=$(git branch -r --contains "${BASELINE}" | grep -v HEAD | head -1 | sed 's|.*/||' || echo "")
+            if [ -n "${BRANCH}" ]; then
+              BASELINE_REF="${BRANCH}@${BASELINE:0:7}"
+            else
+              BASELINE_REF="${BASELINE:0:7}"
+            fi
+          fi
+          echo "ref=${BASELINE_REF}" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout baseline SDK version
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ steps.baseline.outputs.sha }}
+          path: sdk-baseline
+          fetch-depth: 1
+
+      - name: Checkout ydb-java-examples
+        uses: actions/checkout@v5
+        with:
+          repository: ydb-platform/ydb-java-examples
+          ref: master
+          path: examples
+
+      - name: Build current workload image
+        run: |
+          set -euxo pipefail
+          chmod +x sdk-current/.github/scripts/build-slo-image.sh
+          sdk-current/.github/scripts/build-slo-image.sh \
+            --sdk      "${GITHUB_WORKSPACE}/sdk-current" \
+            --examples "${GITHUB_WORKSPACE}/examples" \
+            --tag      ydb-app-current
+
+      - name: Build baseline workload image
+        run: |
+          set -euxo pipefail
+          # Reuse the build script from the current checkout — it doesn't
+          # depend on SDK contents, only on the layout it produces.
+          sdk-current/.github/scripts/build-slo-image.sh \
+            --sdk      "${GITHUB_WORKSPACE}/sdk-baseline" \
+            --examples "${GITHUB_WORKSPACE}/examples" \
+            --tag      ydb-app-baseline \
+            --fallback-image ydb-app-current
+
+      - name: Run SLO Tests
+        uses: ydb-platform/ydb-slo-action/init@v2
+        timeout-minutes: 30
+        with:
+          github_issue: ${{ github.event.pull_request.number }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          workload_name: ${{ matrix.sdk.name }}
+          workload_duration: "600"
+          workload_current_ref: ${{ github.head_ref || github.ref_name }}
+          workload_current_image: ydb-app-current
+          workload_current_command: ${{ matrix.sdk.command }} --read-rps 1000 --write-rps 100
+          workload_baseline_ref: ${{ steps.baseline.outputs.ref }}
+          workload_baseline_image: ydb-app-baseline
+          workload_baseline_command: ${{ matrix.sdk.command }} --read-rps 1000 --write-rps 100
+
+#  publish-slo-report:
+#    needs: ydb-slo-action
+#    runs-on: ubuntu-latest
+#    name: Publish YDB SLO Report
+#    permissions:
+#      issues: write
+#      checks: write
+#      contents: read
+#      pull-requests: write
+#    steps:
+#      - name: Checkout current SDK version
+#        uses: actions/checkout@v5
+#
+#      - name: Publish YDB SLO Report
+#        uses: ydb-platform/ydb-slo-action/report@v2
+#        with:
+#          github_token: ${{ secrets.GITHUB_TOKEN }}
+#          github_run_id: ${{ github.event.workflow_run.id }}
+#
+#      - name: Remove SLO label from PR
+#        env:
+#          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          PRS: ${{ toJSON(github.event.workflow_run.pull_requests) }}
+#          REPO: ${{ github.event.workflow_run.repository.full_name }}
+#        run: |
+#          set -euo pipefail
+#          PR=$(jq -r '.[0].number' <<<"$PRS")
+#          gh pr edit "$PR" --repo "$REPO" --remove-label SLO
+#

@@ -5,7 +5,6 @@ import java.util.Map;
 
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.topic.description.Codec;
 
 /**
  * @author Nikolay Perfilov
@@ -13,13 +12,13 @@ import tech.ydb.topic.description.Codec;
 public class BatchMeta {
     private final String producerId;
     private final Map<String, String> writeSessionMeta;
-    private final Codec codec;
+    private final int codec;
     private final Instant writtenAt;
 
     public BatchMeta(YdbTopic.StreamReadMessage.ReadResponse.Batch batch) {
         this.producerId = batch.getProducerId();
         this.writeSessionMeta = batch.getWriteSessionMetaMap();
-        this.codec = tech.ydb.topic.utils.ProtoUtils.codecFromProto(batch.getCodec());
+        this.codec = batch.getCodec();
         this.writtenAt = ProtobufUtils.protoToInstant(batch.getWrittenAt());
     }
 
@@ -31,7 +30,7 @@ public class BatchMeta {
         return writeSessionMeta;
     }
 
-    public Codec getCodec() {
+    public int getCodec() {
         return codec;
     }
 

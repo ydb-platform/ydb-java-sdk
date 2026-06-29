@@ -24,6 +24,11 @@ public class GrpcTransportMock implements AutoCloseable {
         staticGrpcTransport.when(() -> GrpcTransport.forEndpoint(Mockito.any(), Mockito.any()))
                 .thenReturn(builderMock);
 
+        Mockito.when(builderMock.withAuthProvider(Mockito.any())).thenReturn(builderMock);
+        Mockito.when(builderMock.withApplicationName(Mockito.any())).thenReturn(builderMock);
+        Mockito.when(builderMock.withSecureConnection(Mockito.any())).thenReturn(builderMock);
+        Mockito.when(builderMock.withSecureConnection()).thenReturn(builderMock);
+
         Mockito.when(builderMock.build()).thenReturn(transportMock);
 
         Mockito.when(transportMock.getDatabase()).thenReturn(database);

@@ -1,33 +1,27 @@
 package tech.ydb.topic.read.impl.events;
 
-import java.util.function.Consumer;
 
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
-import tech.ydb.topic.settings.StartPartitionSessionSettings;
 
 /**
  * @author Nikolay Perfilov
  */
-public class StartPartitionSessionEventImpl implements StartPartitionSessionEvent {
-    private final PartitionSession partitionSession;
+public abstract class StartPartitionSessionEventImpl implements StartPartitionSessionEvent {
+    private final PartitionSession partition;
     private final long committedOffset;
     private final OffsetsRange partitionOffsets;
-    private final Consumer<StartPartitionSessionSettings> confirmCallback;
 
-    public StartPartitionSessionEventImpl(PartitionSession partitionSession, long committedOffset,
-                                          OffsetsRange partitionOffsets,
-                                          Consumer<StartPartitionSessionSettings> confirmCallback) {
-        this.partitionSession = partitionSession;
+    public StartPartitionSessionEventImpl(PartitionSession partition, long committedOffset, OffsetsRange offsets) {
+        this.partition = partition;
         this.committedOffset = committedOffset;
-        this.partitionOffsets = partitionOffsets;
-        this.confirmCallback = confirmCallback;
+        this.partitionOffsets = offsets;
     }
 
     @Override
     public PartitionSession getPartitionSession() {
-        return partitionSession;
+        return partition;
     }
 
     @Override
@@ -42,11 +36,6 @@ public class StartPartitionSessionEventImpl implements StartPartitionSessionEven
 
     @Override
     public void confirm() {
-        confirmCallback.accept(null);
-    }
-
-    @Override
-    public void confirm(StartPartitionSessionSettings settings) {
-        confirmCallback.accept(settings);
+        confirm(null);
     }
 }

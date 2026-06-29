@@ -37,6 +37,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
     private final ScheduledExecutorService scheduler;
 
     public MultiChannelTransport(GrpcTransportBuilder builder, List<HostAndPort> hosts) {
+        super(builder);
         ManagedChannelFactory channelFactory = builder.getManagedChannelFactory();
 
         logger.info("creating multi channel transport with hosts {}", Objects.requireNonNull(hosts));
@@ -45,7 +46,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         this.scheduler = builder.getSchedulerFactory().get();
 
         this.endpoints = hosts.stream()
-                .map(host -> new EndpointRecord(host.getHost(), host.getPortOrDefault(YdbTransportImpl.DEFAULT_PORT)))
+                .map(host -> new EndpointRecord(host.getHost(), host.getPortOrDefault(DEFAULT_PORT)))
                 .collect(Collectors.toList());
 
         this.callOptions = new AuthCallOptions(scheduler, endpoints, channelFactory, builder);

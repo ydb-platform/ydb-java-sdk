@@ -5,7 +5,6 @@ import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 import tech.ydb.core.utils.ProtobufUtils;
@@ -14,6 +13,7 @@ import tech.ydb.topic.description.MetadataItem;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.MessageCommitter;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 
@@ -21,37 +21,37 @@ import tech.ydb.topic.read.PartitionSession;
  * @author Nikolay Perfilov
  */
 public class MessageImpl implements Message {
-    private byte[] data;
-    private final long uncompressedSize;
+    private final PartitionSession session;
+    private final MessageCommitter committer;
     private final long offset;
+    private final OffsetsRange commitRange;
+
+    private final long uncompressedSize;
     private final long seqNo;
-    private final long commitOffsetFrom;
     private final Instant createdAt;
     private final String messageGroupId;
     private final BatchMeta batchMeta;
-    private final PartitionSessionImpl partitionSession;
     private final List<MetadataItem> metadataItems;
-    private final OffsetsRange offsetsToCommit;
-    private final CommitterImpl committer;
+
+    private byte[] data;
     private IOException exception = null;
 
-    public MessageImpl(PartitionSessionImpl session, BatchMeta meta, long commitOffsetFrom,
+    public MessageImpl(PartitionSession session, MessageCommitter committer, BatchMeta meta, OffsetsRange commitRange,
             YdbTopic.StreamReadMessage.ReadResponse.MessageData msg) {
-        this.data = msg.getData().toByteArray();
+        this.session = session;
+        this.committer = committer;
         this.uncompressedSize = msg.getUncompressedSize();
         this.offset = msg.getOffset();
+        this.commitRange = commitRange;
         this.seqNo = msg.getSeqNo();
-        this.commitOffsetFrom = commitOffsetFrom;
         this.createdAt = ProtobufUtils.protoToInstant(msg.getCreatedAt());
         this.messageGroupId = msg.getMessageGroupId();
         this.metadataItems = msg.getMetadataItemsList().stream()
                 .map(metadataItem -> new MetadataItem(metadataItem.getKey(), metadataItem.getValue().toByteArray()))
                 .collect(Collectors.toList());
-
         this.batchMeta = meta;
-        this.partitionSession = session;
-        this.offsetsToCommit = new OffsetsRangeImpl(commitOffsetFrom, offset + 1);
-        this.committer = new CommitterImpl(partitionSession, 1, offsetsToCommit);
+
+        this.data = msg.getData().toByteArray();
     }
 
     @Override
@@ -81,12 +81,13 @@ public class MessageImpl implements Message {
     }
 
     @Override
-    public long getSeqNo() {
-        return seqNo;
+    public OffsetsRange getRangeToCommit() {
+        return commitRange;
     }
 
-    public long getCommitOffsetFrom() {
-        return commitOffsetFrom;
+    @Override
+    public long getSeqNo() {
+        return seqNo;
     }
 
     @Override
@@ -116,11 +117,7 @@ public class MessageImpl implements Message {
 
     @Override
     public PartitionSession getPartitionSession() {
-        return partitionSession.getSessionId();
-    }
-
-    public PartitionSessionImpl getPartitionSessionImpl() {
-        return partitionSession;
+        return session;
     }
 
     @Override
@@ -129,16 +126,13 @@ public class MessageImpl implements Message {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(partitionSession.getSessionId(), Collections.singletonList(offsetsToCommit));
+        return new PartitionOffsets(session, Collections.singletonList(commitRange));
     }
 
     @Override
-    public CompletableFuture<Void> commit() {
-        return committer.commitImpl(false);
-    }
-
-    public OffsetsRange getOffsetsToCommit() {
-        return offsetsToCommit;
+    public MessageCommitter getCommitter() {
+        return committer;
     }
 }

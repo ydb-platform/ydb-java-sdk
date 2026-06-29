@@ -366,7 +366,7 @@ public abstract class BaseSession implements Session {
 
         StoragePool data = family.getData();
         if (data != null && data.getMedia() != null && !data.getMedia().isEmpty()) {
-            builder.setData(YdbTable.StoragePool.newBuilder().setMedia(family.getData().getMedia()));
+            builder.setData(YdbTable.StoragePool.newBuilder().setMedia(data.getMedia()));
         }
 
         return builder.build();
@@ -1363,7 +1363,7 @@ public abstract class BaseSession implements Session {
         };
     }
 
-    private CompletableFuture<Status> commitTransactionInternal(String txId, CommitTxSettings settings) {
+    protected CompletableFuture<Status> commitTransactionInternal(String txId, CommitTxSettings settings) {
         YdbTable.CommitTransactionRequest request = YdbTable.CommitTransactionRequest.newBuilder()
                 .setSessionId(id)
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))
@@ -1379,7 +1379,7 @@ public abstract class BaseSession implements Session {
         return commitTransactionInternal(txId, settings);
     }
 
-    private CompletableFuture<Status> rollbackTransactionInternal(String txId, RollbackTxSettings settings) {
+    protected CompletableFuture<Status> rollbackTransactionInternal(String txId, RollbackTxSettings settings) {
         YdbTable.RollbackTransactionRequest request = YdbTable.RollbackTransactionRequest.newBuilder()
                 .setSessionId(id)
                 .setOperationParams(Operation.buildParams(settings.toOperationSettings()))

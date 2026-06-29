@@ -18,6 +18,8 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcStatuses;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.tracing.Scope;
+import tech.ydb.core.tracing.Span;
 import tech.ydb.proto.auth.YdbAuth;
 
 /**
@@ -39,15 +41,18 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
     private final String endpoint;
     private final ClientCall<ReqT, RespT> call;
     private final GrpcStatusHandler statusConsumer;
+    private final Span callSpan;
 
     private final CompletableFuture<Result<RespT>> future = new CompletableFuture<>();
     private final AtomicReference<RespT> value = new AtomicReference<>();
 
-    public UnaryCall(String traceId, String endpoint, ClientCall<ReqT, RespT> call, GrpcStatusHandler statusConsumer) {
+    public UnaryCall(String traceId, String endpoint, ClientCall<ReqT, RespT> call,
+                     GrpcStatusHandler statusConsumer, Span callSpan) {
         this.traceId = traceId;
         this.endpoint = endpoint;
         this.call = call;
         this.statusConsumer = statusConsumer;
+        this.callSpan = callSpan;
     }
 
     public CompletableFuture<Result<RespT>> startCall(ReqT request, Metadata headers) {
@@ -91,23 +96,25 @@ public class UnaryCall<ReqT, RespT> extends ClientCall.Listener<RespT> {
 
     @Override
     public void onClose(io.grpc.Status status, @Nullable Metadata trailers) {
-        statusConsumer.accept(status, trailers);
-        if (logger.isTraceEnabled()) {
-            logger.trace("UnaryCall[{}] closed with status {}", traceId, status);
-        }
-
-        if (status.isOk()) {
-            RespT snapshotValue = value.get();
-
-            if (snapshotValue == null) {
-                future.complete(Result.fail(NO_VALUE));
-            } else {
-                future.complete(Result.success(snapshotValue));
+        try (Scope ignored = callSpan.restoreContext()) {
+            statusConsumer.accept(status, trailers);
+            if (logger.isTraceEnabled()) {
+                logger.trace("UnaryCall[{}] closed with status {}", traceId, status);
             }
-        } else {
-            future.complete(GrpcStatuses.toResult(status, endpoint));
-        }
 
-        statusConsumer.postComplete();
+            if (status.isOk()) {
+                RespT snapshotValue = value.get();
+
+                if (snapshotValue == null) {
+                    future.complete(Result.fail(NO_VALUE));
+                } else {
+                    future.complete(Result.success(snapshotValue));
+                }
+            } else {
+                future.complete(GrpcStatuses.toResult(status, endpoint));
+            }
+
+            statusConsumer.postComplete();
+        }
     }
 }

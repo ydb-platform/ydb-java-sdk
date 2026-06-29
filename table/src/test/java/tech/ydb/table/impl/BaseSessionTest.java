@@ -1,6 +1,7 @@
 package tech.ydb.table.impl;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import tech.ydb.table.description.ColumnFamily;
 
@@ -20,6 +21,7 @@ public class BaseSessionTest {
      * {@link BaseSession#mapDescribeTable(tech.ydb.core.Result, tech.ydb.table.settings.DescribeTableSettings)}
      * need to be updated as well.
      */
+    @Test
     public void columnFamilyTest() {
         Assert.assertArrayEquals(new ColumnFamily.Compression[] {
             ColumnFamily.Compression.COMPRESSION_NONE,

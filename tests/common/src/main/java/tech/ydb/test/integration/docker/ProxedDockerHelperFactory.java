@@ -8,6 +8,7 @@ import io.grpc.ManagedChannel;
 import org.testcontainers.utility.TestcontainersConfiguration;
 
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.test.integration.YdbEnvironment;
 import tech.ydb.test.integration.YdbHelper;
 import tech.ydb.test.integration.YdbHelperFactory;
@@ -42,7 +43,16 @@ public class ProxedDockerHelperFactory extends YdbHelperFactory {
         return new YdbHelper() {
             @Override
             public GrpcTransport createTransport() {
-                return GrpcTransport.forEndpoint(endpoint(), container.database()).build();
+                return createTransport(null);
+            }
+
+            @Override
+            public GrpcTransport createTransport(TransportCustomizer customizer) {
+                GrpcTransportBuilder builder = GrpcTransport.forEndpoint(endpoint(), container.database());
+                if (customizer != null) {
+                    builder = customizer.apply(builder);
+                }
+                return builder.build();
             }
 
             @Override

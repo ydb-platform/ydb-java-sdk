@@ -2,31 +2,41 @@ package tech.ydb.topic.read.impl.events;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.MessageCommitter;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.impl.CommitterImpl;
-import tech.ydb.topic.read.impl.PartitionSessionImpl;
 
 /**
  * @author Nikolay Perfilov
  */
 public class DataReceivedEventImpl implements DataReceivedEvent {
+    private final PartitionSession session;
+    private final MessageCommitter committer;
     private final List<Message> messages;
-    private final PartitionSessionImpl partitionSession;
-    private final OffsetsRange offsetsToCommit;
-    private final CommitterImpl committer;
+    private final OffsetsRange offsetRange;
 
-    public DataReceivedEventImpl(PartitionSessionImpl partitionSession, List<Message> messages,
-                                 OffsetsRange offsetsToCommit) {
+    public DataReceivedEventImpl(PartitionSession session, MessageCommitter committer, List<Message> messages) {
+        this.session = session;
+        this.committer = committer;
         this.messages = messages;
-        this.partitionSession = partitionSession;
-        this.offsetsToCommit = offsetsToCommit;
-        this.committer = new CommitterImpl(partitionSession, messages.size(), offsetsToCommit);
+        this.offsetRange = OffsetsRange.of(
+                messages.get(0).getRangeToCommit().getStart(),
+                messages.get(messages.size() - 1).getRangeToCommit().getEnd()
+        );
+    }
+
+    @Override
+    public OffsetsRange getRangeToCommit() {
+        return offsetRange;
+    }
+
+    @Override
+    public PartitionSession getPartitionSession() {
+        return session;
     }
 
     @Override
@@ -35,25 +45,13 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
     }
 
     @Override
+    public MessageCommitter getCommitter() {
+        return committer;
+    }
+
+    @Override
+    @Deprecated
     public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(partitionSession.getSessionId(), Collections.singletonList(offsetsToCommit));
-    }
-
-    @Override
-    public PartitionSession getPartitionSession() {
-        return partitionSession.getSessionId();
-    }
-
-    public PartitionSessionImpl getPartitionSessionImpl() {
-        return partitionSession;
-    }
-
-    @Override
-    public CompletableFuture<Void> commit() {
-        return committer.commitImpl(false);
-    }
-
-    public OffsetsRange getOffsetsToCommit() {
-        return offsetsToCommit;
+        return new PartitionOffsets(session, Collections.singletonList(offsetRange));
     }
 }

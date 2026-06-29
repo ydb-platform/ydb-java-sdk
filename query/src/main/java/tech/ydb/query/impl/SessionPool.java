@@ -22,6 +22,8 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -29,6 +31,7 @@ import tech.ydb.query.settings.AttachSessionSettings;
 import tech.ydb.query.settings.CreateSessionSettings;
 import tech.ydb.query.settings.DeleteSessionSettings;
 import tech.ydb.table.SessionPoolStats;
+import tech.ydb.table.impl.pool.PoolMetrics;
 import tech.ydb.table.impl.pool.WaitingQueue;
 
 
@@ -58,14 +61,16 @@ class SessionPool implements AutoCloseable {
     private final WaitingQueue<PooledQuerySession> queue;
     private final ScheduledFuture<?> cleanerFuture;
     private final StatsImpl stats = new StatsImpl();
+    private final PoolMetrics metrics;
 
+    @SuppressWarnings("checkstyle:ParameterNumber")
     SessionPool(Clock clock, QueryServiceRpc rpc, ScheduledExecutorService scheduler, int minSize, int maxSize,
-            Duration idleDuration) {
+                Duration idleDuration, Meter meter, String poolName) {
         this.minSize = minSize;
-
         this.clock = clock;
         this.scheduler = scheduler;
         this.queue = new WaitingQueue<>(new Handler(rpc), maxSize);
+        this.metrics = new PoolMetrics(meter, "query", poolName, queue, minSize);
 
         CleanerTask cleaner = new CleanerTask(idleDuration);
         this.cleanerFuture = scheduler.scheduleAtFixedRate(
@@ -149,6 +154,7 @@ class SessionPool implements AutoCloseable {
         }
 
         stats.acquired.increment();
+        metrics.onSessionAcquired();
         return true;
     }
 
@@ -251,9 +257,10 @@ class SessionPool implements AutoCloseable {
 
         @Override
         public void close() {
-            logger.trace("QuerySession[{}] closed with broke status {}", getId(), isBroken);
+            logger.trace("QuerySession[{}] closed with broken status {}", getId(), isBroken);
 
             stats.released.increment();
+            metrics.onSessionReleased();
             if (isBroken || isStopped) {
                 queue.delete(this);
             } else {
@@ -275,15 +282,22 @@ class SessionPool implements AutoCloseable {
             Context ctx = Context.ROOT.fork();
             Context previous = ctx.attach();
             try {
+                Span createSpan = rpc.startSpan("ydb.CreateSession");
+                long startNanos = System.nanoTime();
                 stats.requested.increment();
-                return SessionImpl
-                        .createSession(rpc, CREATE_SETTINGS, true)
+                metrics.onSessionRequested();
+                return Span.endOnResult(createSpan, SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan))
                         .thenCompose(r -> {
+                            metrics.onCreateTime(System.nanoTime() - startNanos);
+
                             if (!r.isSuccess()) {
                                 stats.failed.increment();
+                                metrics.onSessionFailed(r.getStatus());
                                 throw new UnexpectedResultException("create session problem", r.getStatus());
                             }
-                            return new PooledQuerySession(rpc, r.getValue()).start();
+                            metrics.onSessionCreated();
+                            PooledQuerySession session = new PooledQuerySession(rpc, r.getValue());
+                            return session.start();
                         })
                         .thenApply(Result::getValue);
             } finally {
@@ -294,6 +308,7 @@ class SessionPool implements AutoCloseable {
         @Override
         public void destroy(PooledQuerySession session) {
             stats.deleted.increment();
+            metrics.onSessionDeleted();
 
             // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();
@@ -327,6 +342,7 @@ class SessionPool implements AutoCloseable {
                 PooledQuerySession session = coldIterator.next();
                 if (!session.getLastActive().isAfter(idleToRemove) && queue.getTotalCount() > minSize) {
                     coldIterator.remove();
+                    logger.debug("QuerySession[{}] was deleted by idle timeout", session.getId());
                 }
             }
         }

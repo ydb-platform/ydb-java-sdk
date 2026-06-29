@@ -1,11 +1,11 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
+import java.util.concurrent.locks.ReentrantLock;
 
 import tech.ydb.topic.description.OffsetsRange;
 
@@ -14,8 +14,18 @@ import tech.ydb.topic.description.OffsetsRange;
  */
 public class DisjointOffsetRangeSet {
     private final NavigableMap<Long, OffsetsRangeImpl> ranges = new TreeMap<>();
+    private final ReentrantLock rangesLock = new ReentrantLock();
 
-    public void add(OffsetsRange rangeToCommit) {
+    public void add(OffsetsRange range) {
+        rangesLock.lock();
+        try {
+            addImpl(range);
+        } finally {
+            rangesLock.unlock();
+        }
+    }
+
+    private void addImpl(OffsetsRange rangeToCommit) {
         Map.Entry<Long, OffsetsRangeImpl> floorEntry = ranges.floorEntry(rangeToCommit.getStart());
         if (floorEntry != null && floorEntry.getValue().getEnd() > rangeToCommit.getStart()) {
             throwClashesException(floorEntry.getValue(), rangeToCommit);
@@ -48,10 +58,14 @@ public class DisjointOffsetRangeSet {
     }
 
     public List<OffsetsRange> getRangesAndClear() {
-        Collection<OffsetsRangeImpl> values = ranges.values();
-        List<OffsetsRange> result = new ArrayList<>(values);
-        values.clear();
-        return result;
+        rangesLock.lock();
+        try {
+            return new ArrayList<>(ranges.values());
+        } finally {
+            ranges.clear();
+            rangesLock.unlock();
+        }
+
     }
 
     private void throwClashesException(OffsetsRangeImpl existingRange, OffsetsRange newRange) {

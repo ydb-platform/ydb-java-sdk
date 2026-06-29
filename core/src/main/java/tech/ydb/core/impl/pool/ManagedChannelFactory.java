@@ -14,6 +14,4 @@ public interface ManagedChannelFactory {
     }
 
     ManagedChannel newManagedChannel(String host, int port, String authority);
-
-    long getConnectTimeoutMs();
 }

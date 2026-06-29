@@ -1,10 +1,13 @@
 package tech.ydb.topic.description;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableList;
+
+import tech.ydb.proto.topic.YdbTopic;
 
 /**
  * @author Nikolay Perfilov
@@ -16,12 +19,12 @@ public class PartitionInfo {
     private final List<Long> parentPartitionIds;
     private final PartitionStats partitionStats;
 
-    private PartitionInfo(Builder builder) {
-        this.partitionId = builder.partitionId;
-        this.active = builder.active;
-        this.childPartitionIds = ImmutableList.copyOf(builder.childPartitionIds);
-        this.parentPartitionIds = ImmutableList.copyOf(builder.parentPartitionIds);
-        this.partitionStats = builder.partitionStats;
+    public PartitionInfo(YdbTopic.DescribeTopicResult.PartitionInfo info) {
+        this.partitionId = info.getPartitionId();
+        this.active = info.getActive();
+        this.childPartitionIds = ImmutableList.copyOf(info.getChildPartitionIdsList());
+        this.parentPartitionIds = ImmutableList.copyOf(info.getParentPartitionIdsList());
+        this.partitionStats = info.hasPartitionStats() ? new PartitionStats(info.getPartitionStats()) : null;
     }
 
     public long getPartitionId() {
@@ -40,52 +43,9 @@ public class PartitionInfo {
         return parentPartitionIds;
     }
 
+    @Nullable
     public PartitionStats getPartitionStats() {
         return partitionStats;
-    }
-
-    public static Builder newBuilder() {
-        return new Builder();
-    }
-
-    /**
-     * BUILDER
-     */
-    public static class Builder {
-        private long partitionId;
-        private boolean active;
-        private List<Long> childPartitionIds = new ArrayList<>();
-        private List<Long> parentPartitionIds = new ArrayList<>();
-        private PartitionStats partitionStats;
-
-        public Builder setPartitionId(long partitionId) {
-            this.partitionId = partitionId;
-            return this;
-        }
-
-        public Builder setActive(boolean active) {
-            this.active = active;
-            return this;
-        }
-
-        public Builder setChildPartitionIds(List<Long> childPartitionIds) {
-            this.childPartitionIds = childPartitionIds;
-            return this;
-        }
-
-        public Builder setParentPartitionIds(List<Long> parentPartitionIds) {
-            this.parentPartitionIds = parentPartitionIds;
-            return this;
-        }
-
-        public Builder setPartitionStats(PartitionStats partitionStats) {
-            this.partitionStats = partitionStats;
-            return this;
-        }
-
-        public PartitionInfo build() {
-            return new PartitionInfo(this);
-        }
     }
 
     @Override

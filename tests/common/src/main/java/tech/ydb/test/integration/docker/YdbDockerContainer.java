@@ -4,9 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collections;
 import java.util.UUID;
 
+import org.apache.commons.io.IOUtils;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
-import org.testcontainers.shaded.org.apache.commons.io.IOUtils;
 import org.testcontainers.utility.ResourceReaper;
 
 import tech.ydb.core.impl.pool.EndpointRecord;

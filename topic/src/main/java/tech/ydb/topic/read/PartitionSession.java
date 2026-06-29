@@ -27,7 +27,24 @@ public class PartitionSession {
     }
 
     @Override
+    public int hashCode() {
+        return (path.hashCode() * 31 + Long.hashCode(id)) * 31 + Long.hashCode(partitionId);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof PartitionSession)) {
+            return false;
+        }
+        PartitionSession o = (PartitionSession) obj;
+        return id == o.id && partitionId == o.partitionId && path.equals(o.path);
+    }
+
+    @Override
     public String toString() {
-        return "Partition session " + id + " (partition " + partitionId + ") for " + path;
+        return "Partition session " + id + " (partition " + partitionId + ") for topic \"" + path + "\"";
     }
 }

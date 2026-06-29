@@ -16,6 +16,7 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
  *
  * @author Nikolay Perfilov
  */
+@Deprecated
 public interface TransactionMessageAccumulator extends MessageAccumulator {
     CompletableFuture<Status> updateOffsetsInTransaction(YdbTransaction transaction,
                                                          UpdateOffsetsInTransactionSettings settings);

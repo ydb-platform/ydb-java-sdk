@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-final class TestExampleData {
+public final class TestExampleData {
     public static class Series {
         private final long seriesID;
         private final String title;

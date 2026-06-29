@@ -19,16 +19,6 @@ public class VoidValue implements Value<VoidType> {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o == this;
-    }
-
-    @Override
-    public int hashCode() {
-        return 1987;
-    }
-
-    @Override
     public String toString() {
         return "Void";
     }
@@ -41,5 +31,27 @@ public class VoidValue implements Value<VoidType> {
     @Override
     public ValueProtos.Value toPb() {
         return ProtoValue.voidValue();
+    }
+
+    @Override
+    public int compareTo(Value<?> other) {
+        if (other == null) {
+            throw new NullPointerException("Cannot compare with null value");
+        }
+
+        if (other instanceof OptionalValue) {
+            OptionalValue optional = (OptionalValue) other;
+            if (!optional.isPresent()) {
+                return 0;
+            }
+            return compareTo(optional.get());
+        }
+
+        if (other instanceof VoidValue || other instanceof NullValue) {
+            // All VoidValue and NullValue  are equal
+            return 0;
+        }
+
+        throw new IllegalArgumentException("Cannot compare value " + getType() + " with " + other.getType());
     }
 }
