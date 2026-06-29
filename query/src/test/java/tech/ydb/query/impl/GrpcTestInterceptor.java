@@ -1,14 +1,11 @@
 package tech.ydb.query.impl;
 
+import java.util.Arrays;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.Consumer;
-import java.util.function.Supplier;
 
-import javax.annotation.Nullable;
-
-import io.grpc.Attributes;
 import io.grpc.CallOptions;
 import io.grpc.Channel;
 import io.grpc.ClientCall;
@@ -17,45 +14,49 @@ import io.grpc.ManagedChannelBuilder;
 import io.grpc.Metadata;
 import io.grpc.MethodDescriptor;
 import io.grpc.Status;
+
+import tech.ydb.core.StatusCode;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.proto.query.v1.QueryServiceGrpc;
 
-/**
- *
- * @author Aleksandr Gorshenin
- */
 public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, ClientInterceptor {
-    private volatile Queue<Status> overrideQueue = new ConcurrentLinkedQueue<>();
-    private volatile Queue<ScriptedResponse> scriptedResponses = new ConcurrentLinkedQueue<>();
+    private static final Queue<StatusCode> CREATE_SESSION = new ConcurrentLinkedQueue<>();
+    private static final Queue<StatusCode> EXECUTE_QUERY = new ConcurrentLinkedQueue<>();
+    private static final Queue<StatusCode> COMMIT_TX = new ConcurrentLinkedQueue<>();
+    private static final Queue<Status> GRPC_CALLS = new ConcurrentLinkedQueue<>();
 
-    public void reset() {
-        overrideQueue = new ConcurrentLinkedQueue<>();
-        scriptedResponses = new ConcurrentLinkedQueue<>();
+    public static void reset() {
+        CREATE_SESSION.clear();
+        EXECUTE_QUERY.clear();
+        COMMIT_TX.clear();
+        GRPC_CALLS.clear();
     }
 
-    public void addOverrideStatus(Status status) {
-        overrideQueue.add(status);
+    public static void nextGrpcCall(Status status) {
+        GRPC_CALLS.add(status);
     }
 
-    public void failCreateSession(StatusCodesProtos.StatusIds.StatusCode statusCode, int attempts) {
-        addScriptedResponse(QueryServiceGrpc.getCreateSessionMethod(),
-                () -> YdbQuery.CreateSessionResponse.newBuilder().setStatus(statusCode).build(), attempts);
+    public static void nextCreateSession(StatusCode... codes) {
+        CREATE_SESSION.addAll(Arrays.asList(codes));
     }
 
-    public void failExecuteQuery(StatusCodesProtos.StatusIds.StatusCode statusCode, int attempts) {
-        addScriptedResponse(QueryServiceGrpc.getExecuteQueryMethod(),
-                () -> YdbQuery.ExecuteQueryResponsePart.newBuilder().setStatus(statusCode).build(), attempts);
+    public static void nextExecuteQuery(StatusCode... codes) {
+        EXECUTE_QUERY.addAll(Arrays.asList(codes));
     }
 
-    public void failCommit(StatusCodesProtos.StatusIds.StatusCode statusCode, int attempts) {
-        addScriptedResponse(QueryServiceGrpc.getCommitTransactionMethod(),
-                () -> YdbQuery.CommitTransactionResponse.newBuilder().setStatus(statusCode).build(), attempts);
+    public static void nextCommitTx(StatusCode... codes) {
+        COMMIT_TX.addAll(Arrays.asList(codes));
     }
 
-    private void addScriptedResponse(MethodDescriptor<?, ?> method, Supplier<Object> messageFactory, int attempts) {
-        for (int i = 0; i < attempts; i++) {
-            scriptedResponses.add(new ScriptedResponse(method, messageFactory));
+    private static StatusCodesProtos.StatusIds.StatusCode toPb(StatusCode code) {
+        switch (code) {
+            case ABORTED: return StatusCodesProtos.StatusIds.StatusCode.ABORTED;
+            case BAD_SESSION: return StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION;
+            case BAD_REQUEST: return StatusCodesProtos.StatusIds.StatusCode.BAD_REQUEST;
+            case UNDETERMINED: return StatusCodesProtos.StatusIds.StatusCode.UNDETERMINED;
+            default:
+                throw new IllegalArgumentException("Cannot map code " + code);
         }
     }
 
@@ -66,35 +67,49 @@ public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, 
 
     @Override
     @SuppressWarnings("unchecked")
-    public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(
-            MethodDescriptor<ReqT, RespT> method, CallOptions callOptions, Channel next) {
-        ScriptedResponse scripted = scriptedResponses.peek();
-        if (scripted != null && scripted.method == method) {
-            scriptedResponses.poll();
-            return new ErrorCall<>((RespT) scripted.messageFactory.get());
+    public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> method,
+            CallOptions callOptions, Channel next) {
+        Status grpc = GRPC_CALLS.poll();
+        if (grpc != null) {
+            return new FailCall<>(grpc);
         }
-        return new ProxyClientCall<>(next, overrideQueue.poll(), method, callOptions);
+
+        if (method == QueryServiceGrpc.getCreateSessionMethod()) {
+            StatusCode status = CREATE_SESSION.poll();
+            if (status != null && status != StatusCode.SUCCESS) {
+                RespT resp = (RespT) YdbQuery.CreateSessionResponse.newBuilder().setStatus(toPb(status)).build();
+                return new ErrorCall<>(resp);
+            }
+        }
+
+        if (method == QueryServiceGrpc.getExecuteQueryMethod()) {
+            StatusCode status = EXECUTE_QUERY.poll();
+            if (status != null && status != StatusCode.SUCCESS) {
+                RespT resp = (RespT) YdbQuery.ExecuteQueryResponsePart.newBuilder().setStatus(toPb(status)).build();
+                return new ErrorCall<>(resp);
+            }
+        }
+
+        if (method == QueryServiceGrpc.getCommitTransactionMethod()) {
+            StatusCode status = COMMIT_TX.poll();
+            if (status != null && status != StatusCode.SUCCESS) {
+                RespT resp = (RespT) YdbQuery.CommitTransactionResponse.newBuilder().setStatus(toPb(status)).build();
+                return new ErrorCall<>(resp);
+            }
+        }
+
+        return next.newCall(method, callOptions);
     }
 
-    private static final class ScriptedResponse {
-        private final MethodDescriptor<?, ?> method;
-        private final Supplier<Object> messageFactory;
-
-        private ScriptedResponse(MethodDescriptor<?, ?> method, Supplier<Object> messageFactory) {
-            this.method = method;
-            this.messageFactory = messageFactory;
-        }
-    }
-
-    private static final class ErrorCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
+    private static class ErrorCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
         private final RespT errorMsg;
 
-        private ErrorCall(RespT errorMsg) {
+        public ErrorCall(RespT errorMsg) {
             this.errorMsg = errorMsg;
         }
 
         @Override
-        public void start(Listener<RespT> listener, Metadata headers) {
+        public void start(ClientCall.Listener<RespT> listener, Metadata headers) {
             ForkJoinPool.commonPool().execute(() -> {
                 listener.onMessage(errorMsg);
                 listener.onClose(Status.OK, new Metadata());
@@ -114,83 +129,30 @@ public class GrpcTestInterceptor implements Consumer<ManagedChannelBuilder<?>>, 
         public void sendMessage(ReqT message) { }
     }
 
-    private static class ProxyClientCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
-        private final ClientCall<ReqT, RespT> delegate;
-        private final Status overriden;
+    private static class FailCall<ReqT, RespT> extends ClientCall<ReqT, RespT> {
+        private final Status code;
 
-        private ProxyClientCall(Channel channel, Status overriden, MethodDescriptor<ReqT, RespT> method,
-                CallOptions callOptions) {
-            this.delegate = channel.newCall(method, callOptions);
-            this.overriden = overriden;
-        }
-
-        @Override
-        public void request(int numMessages) {
-            delegate.request(numMessages);
-        }
-
-        @Override
-        public void cancel(@Nullable String message, @Nullable Throwable cause) {
-            delegate.cancel(message, cause);
-        }
-
-        @Override
-        public void halfClose() {
-            delegate.halfClose();
-        }
-
-        @Override
-        public void setMessageCompression(boolean enabled) {
-            delegate.setMessageCompression(enabled);
-        }
-
-        @Override
-        public boolean isReady() {
-            return delegate.isReady();
-        }
-
-        @Override
-        public Attributes getAttributes() {
-            return delegate.getAttributes();
+        public FailCall(Status code) {
+            this.code = code;
         }
 
         @Override
         public void start(ClientCall.Listener<RespT> listener, Metadata headers) {
-            delegate.start(new ProxyListener(listener), headers);
+            ForkJoinPool.commonPool().execute(() -> {
+                listener.onClose(code, new Metadata());
+            });
         }
 
         @Override
-        public void sendMessage(ReqT message) {
-            delegate.sendMessage(message);
-        }
+        public void request(int numMessages) { }
 
-        private class ProxyListener extends ClientCall.Listener<RespT> {
-            private final ClientCall.Listener<RespT> delegate;
+        @Override
+        public void cancel(String message, Throwable cause) { }
 
-            public ProxyListener(ClientCall.Listener<RespT> delegate) {
-                this.delegate = delegate;
-            }
+        @Override
+        public void halfClose() { }
 
-
-            @Override
-            public void onHeaders(Metadata headers) {
-                delegate.onHeaders(headers);
-            }
-
-            @Override
-            public void onMessage(RespT message) {
-                delegate.onMessage(message);
-            }
-
-            @Override
-            public void onClose(Status status, Metadata trailers) {
-                delegate.onClose(overriden != null ? overriden : status, trailers);
-            }
-
-            @Override
-            public void onReady() {
-                delegate.onReady();
-            }
-        }
+        @Override
+        public void sendMessage(ReqT message) { }
     }
 }

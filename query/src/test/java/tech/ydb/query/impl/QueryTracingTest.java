@@ -39,7 +39,6 @@ import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.query.tools.SessionRetryContext;
-import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.table.Session;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.query.DataQueryResult;
@@ -54,7 +53,6 @@ public class QueryTracingTest {
 
     private static GrpcTransport transport;
     private static RecordingTracer tracer;
-    private static final GrpcTestInterceptor grpcInterceptor = new GrpcTestInterceptor();
 
     private QueryClient queryClient;
     private TableClient tableClient;
@@ -64,7 +62,7 @@ public class QueryTracingTest {
         tracer = new RecordingTracer();
         transport = GrpcTransport.forEndpoint(YDB.endpoint(), YDB.database())
                 .withAuthProvider(new TokenAuthProvider(YDB.authToken()))
-                .addChannelInitializer(grpcInterceptor)
+                .addChannelInitializer(new GrpcTestInterceptor())
                 .withTracer(tracer)
                 .build();
     }
@@ -76,8 +74,8 @@ public class QueryTracingTest {
 
     @Before
     public void initClient() {
+        GrpcTestInterceptor.reset();
         tracer.reset();
-        grpcInterceptor.reset();
         queryClient = QueryClient.newClient(transport).build();
         tableClient = null;
     }
@@ -195,7 +193,7 @@ public class QueryTracingTest {
     public void querySpanIsChildOfApplicationSpan() {
         try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
             Span appParent = tracer.startSpan("app.parent", SpanKind.INTERNAL);
-            try (Scope ignored = appParent.makeCurrent()) {
+            try (@SuppressWarnings("unused") Scope ignored = appParent.makeCurrent()) {
                 session.createQuery("SELECT 1", TxMode.NONE).execute().join().getStatus().expectSuccess();
             } finally {
                 appParent.end();
@@ -208,7 +206,7 @@ public class QueryTracingTest {
 
     @Test
     public void retrySpanIsParentOfRpcSpans() {
-        grpcInterceptor.failExecuteQuery(StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION, 2);
+        GrpcTestInterceptor.nextExecuteQuery(StatusCode.BAD_SESSION, StatusCode.BAD_SESSION);
         SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
                 .maxRetries(5)
                 .backoffSlot(Duration.ofMillis(1))
@@ -216,7 +214,7 @@ public class QueryTracingTest {
                 .build();
 
         Span appParent = tracer.startSpan("app.parent.retry", SpanKind.INTERNAL);
-        try (Scope ignored = appParent.makeCurrent()) {
+        try (@SuppressWarnings("unused") Scope ignored = appParent.makeCurrent()) {
             Status status = retryContext.supplyStatus(session ->
                     session.createQuery("SELECT 1", TxMode.NONE).execute().thenApply(Result::getStatus)).join();
             status.expectSuccess();
@@ -236,7 +234,7 @@ public class QueryTracingTest {
 
     @Test
     public void retryContextRetriesOnCreateSessionFailures() {
-        grpcInterceptor.failCreateSession(StatusCodesProtos.StatusIds.StatusCode.ABORTED, 2);
+        GrpcTestInterceptor.nextCreateSession(StatusCode.ABORTED, StatusCode.ABORTED);
         SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
                 .maxRetries(5)
                 .backoffSlot(Duration.ofMillis(1))
@@ -244,7 +242,7 @@ public class QueryTracingTest {
                 .build();
 
         Span appParent = tracer.startSpan("app.parent.createSession.retry", SpanKind.INTERNAL);
-        try (Scope ignored = appParent.makeCurrent()) {
+        try (@SuppressWarnings("unused") Scope ignored = appParent.makeCurrent()) {
             Status status = retryContext.supplyStatus(session ->
                     session.createQuery("SELECT 1", TxMode.NONE).execute().thenApply(Result::getStatus)).join();
             status.expectSuccess();
@@ -263,7 +261,7 @@ public class QueryTracingTest {
 
     @Test
     public void retryContextRetriesOnCommitFailures() {
-        grpcInterceptor.failCommit(StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION, 2);
+        GrpcTestInterceptor.nextCommitTx(StatusCode.BAD_SESSION, StatusCode.BAD_SESSION);
         SessionRetryContext retryContext = SessionRetryContext.create(queryClient)
                 .maxRetries(5)
                 .backoffSlot(Duration.ofMillis(1))
@@ -271,7 +269,7 @@ public class QueryTracingTest {
                 .build();
 
         Span appParent = tracer.startSpan("app.parent.commit.retry", SpanKind.INTERNAL);
-        try (Scope ignored = appParent.makeCurrent()) {
+        try (@SuppressWarnings("unused") Scope ignored = appParent.makeCurrent()) {
             Status status = retryContext.supplyStatus(session -> {
                         QueryTransaction tx = session.createNewTransaction(TxMode.SERIALIZABLE_RW);
                         return tx.createQuery("SELECT 1").execute()

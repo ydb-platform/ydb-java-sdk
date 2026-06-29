@@ -17,6 +17,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
+import tech.ydb.query.QueryTransaction;
 import tech.ydb.query.result.QueryInfo;
 import tech.ydb.test.junit4.YdbHelperRule;
 
@@ -29,8 +30,6 @@ public class QueryClientTest {
     @ClassRule
     public static final YdbHelperRule YDB = new YdbHelperRule();
 
-    private static final GrpcTestInterceptor grpcInterceptor = new GrpcTestInterceptor();
-
     private static GrpcTransport transport;
 
     private static QueryClient queryClient;
@@ -39,7 +38,7 @@ public class QueryClientTest {
     public static void initTransport() {
         transport = GrpcTransport.forEndpoint(YDB.endpoint(), YDB.database())
                 .withAuthProvider(new TokenAuthProvider(YDB.authToken()))
-                .addChannelInitializer(grpcInterceptor)
+                .addChannelInitializer(new GrpcTestInterceptor())
                 .build();
     }
 
@@ -50,7 +49,7 @@ public class QueryClientTest {
 
     @Before
     public void initTableClient() {
-        grpcInterceptor.reset();
+        GrpcTestInterceptor.reset();
         queryClient = QueryClient.newClient(transport).build();
     }
 
@@ -94,7 +93,7 @@ public class QueryClientTest {
         QuerySession s1 = getSession();
         String id1 = s1.getId();
 
-        grpcInterceptor.addOverrideStatus(io.grpc.Status.UNAVAILABLE);
+        GrpcTestInterceptor.nextGrpcCall(io.grpc.Status.UNAVAILABLE);
 
         Result<QueryInfo> res = s1.createQuery("SELECT 1 + 2", TxMode.NONE).execute().join();
         Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, res.getStatus().getCode());
@@ -115,6 +114,62 @@ public class QueryClientTest {
 
         try (QuerySession s3 = getSession()) {
             Assert.assertEquals(id2, s3.getId());
+        }
+    }
+
+    @Test
+    public void transactionFailTest() {
+        try (QuerySession s1 = getSession()) {
+            QueryTransaction t1 = s1.createNewTransaction(TxMode.SNAPSHOT_RO);
+
+            Assert.assertFalse(t1.isActive());
+
+            Result<QueryInfo> res1 = t1.createQuery("SELECT 1 + 2").execute().join();
+            Assert.assertTrue(res1.isSuccess());
+
+            Assert.assertTrue(t1.isActive());
+            String id1 = t1.getId();
+
+            Result<QueryInfo> res2 = t1.createQuery("SELECT 1 + 3").execute().join();
+            Assert.assertTrue(res2.isSuccess());
+
+            Assert.assertTrue(t1.isActive());
+            Assert.assertEquals(id1, t1.getId());
+
+            GrpcTestInterceptor.nextExecuteQuery(StatusCode.ABORTED);
+
+            Result<QueryInfo> res3 = t1.createQuery("SELECT 1 + 4").execute().join();
+            Assert.assertEquals(StatusCode.ABORTED, res3.getStatus().getCode());
+
+            Assert.assertFalse(t1.isActive());
+        }
+    }
+
+    @Test
+    public void transactionErrorTest() {
+        try (QuerySession s1 = getSession()) {
+            QueryTransaction t1 = s1.createNewTransaction(TxMode.SNAPSHOT_RO);
+
+            Assert.assertFalse(t1.isActive());
+
+            Result<QueryInfo> res1 = t1.createQuery("SELECT 1 + 2").execute().join();
+            Assert.assertTrue(res1.isSuccess());
+
+            Assert.assertTrue(t1.isActive());
+            String id1 = t1.getId();
+
+            Result<QueryInfo> res2 = t1.createQuery("SELECT 1 + 3").execute().join();
+            Assert.assertTrue(res2.isSuccess());
+
+            Assert.assertTrue(t1.isActive());
+            Assert.assertEquals(id1, t1.getId());
+
+            GrpcTestInterceptor.nextGrpcCall(io.grpc.Status.UNAVAILABLE);
+
+            Result<QueryInfo> res3 = t1.createQuery("SELECT 1 + 4").execute().join();
+            Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, res3.getStatus().getCode());
+
+            Assert.assertFalse(t1.isActive());
         }
     }
 }

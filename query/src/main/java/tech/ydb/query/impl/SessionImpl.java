@@ -498,6 +498,9 @@ abstract class SessionImpl implements QuerySession {
                             currentStatusFuture.complete(Status.SUCCESS);
                         }
                     } else {
+                        if (txId.compareAndSet(currentId, null)) {
+                            logger.warn("{} transaction with id {} was failed", SessionImpl.this, currentId);
+                        }
                         currentStatusFuture.complete(Status
                                 .of(StatusCode.ABORTED)
                                 .withIssues(Issue.of("Query on transaction failed with status "
