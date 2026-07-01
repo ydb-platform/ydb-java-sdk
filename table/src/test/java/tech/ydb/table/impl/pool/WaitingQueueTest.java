@@ -775,4 +775,333 @@ public class WaitingQueueTest extends FutureHelper {
 
         queue.close();
     }
+
+    @Test
+    public void testUpdateLimitsSingleArg() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 20);
+
+        Assert.assertEquals("Initial max size", 2, queue.getTotalLimit());
+        Assert.assertEquals("Initial waiting limit", 20, queue.getWaitingLimit());
+
+        queue.updateLimits(5);
+
+        Assert.assertEquals("Updated max size", 5, queue.getTotalLimit());
+        Assert.assertEquals("Updated waiting limit uses factor",
+                5 * WaitingQueue.WAITINGS_LIMIT_FACTOR, queue.getWaitingLimit());
+
+        queue.close();
+    }
+
+    @Test
+    public void testUpdateLimitsTriggersWaitingAcquire() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 5);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        rs.completeNext();
+        Resource r1 = pendingIsReady(f1);
+
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w2 = pendingFuture(acquire(queue));
+
+        check(queue).waitingsCount(2);
+
+        queue.release(r1);
+
+        Resource r2 = pendingIsReady(w1);
+        check(queue).waitingsCount(1);
+
+        queue.release(r2);
+
+        Resource r3 = pendingIsReady(w2);
+        check(queue).waitingsCount(0);
+
+        queue.delete(r3);
+        queue.close();
+
+        check(queue).queueSize(0).idleSize(0).waitingsCount(0);
+    }
+
+    @Test
+    public void testReleaseDestroysWhenOverflowed() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 5);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+
+        rs.completeNext().completeNext();
+
+        Resource r1 = pendingIsReady(f1);
+        Resource r2 = pendingIsReady(f2);
+
+        check(queue).queueSize(2).idleSize(0);
+
+        queue.updateLimits(1, 5);
+
+        queue.release(r1);
+
+        check(queue).queueSize(1).idleSize(0);
+
+        queue.release(r2);
+
+        check(queue).queueSize(1).idleSize(1);
+
+        queue.close();
+
+        check(queue).queueSize(0).idleSize(0);
+    }
+
+    @Test
+    public void testGetUsedCount() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 3, 5);
+
+        Assert.assertEquals("Initially no used", 0, queue.getUsedCount());
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+
+        Assert.assertEquals("Before completion", 0, queue.getUsedCount());
+
+        rs.completeNext().completeNext();
+
+        Resource r1 = pendingIsReady(f1);
+        Resource r2 = pendingIsReady(f2);
+
+        Assert.assertEquals("Two used resources", 2, queue.getUsedCount());
+
+        queue.release(r1);
+
+        Assert.assertEquals("One used after release", 1, queue.getUsedCount());
+
+        queue.release(r2);
+        queue.close();
+    }
+
+    @Test
+    public void testGetPendingCount() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 3, 5);
+
+        Assert.assertEquals("Initially no pending", 0, queue.getPendingCount());
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
+
+        Assert.assertEquals("Three pending requests", 3, queue.getPendingCount());
+
+        rs.completeNext();
+
+        Assert.assertEquals("Two pending after one completes", 2, queue.getPendingCount());
+
+        Resource r1 = pendingIsReady(f1);
+
+        rs.completeNext().completeNext();
+        pendingIsReady(f2);
+        pendingIsReady(f3);
+
+        Assert.assertEquals("No pending after all complete", 0, queue.getPendingCount());
+
+        queue.release(r1);
+        queue.close();
+    }
+
+    @Test
+    public void testTryToPollIdleWithAlreadyCompletedFuture() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 5);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        rs.completeNext();
+        Resource r1 = pendingIsReady(f1);
+
+        queue.release(r1);
+
+        check(queue).queueSize(1).idleSize(1);
+
+        CompletableFuture<Resource> doneFuture = new CompletableFuture<>();
+        doneFuture.completeExceptionally(new RuntimeException("pre-completed"));
+
+        queue.acquire(doneFuture);
+
+        // tryToPollIdle returns false (safeAcquireObject fails on pre-completed future),
+        // so tryToCreateNewPending is called, creating a new pending request
+        check(queue).queueSize(2).idleSize(1);
+
+        Assert.assertTrue("Pre-completed future remains done", doneFuture.isDone());
+
+        // Complete the pending request - it will go to idle since doneFuture is already done
+        rs.completeNext();
+        Resource r2 = pendingIsReady(f1);
+
+        // The doneFuture should have been completed with the resource from the pending
+        // But since doneFuture is already done, the resource goes to idle
+        check(queue).queueSize(2).idleSize(2);
+
+        // Acquire the idle resources normally
+        Resource r3 = readyFuture(acquire(queue));
+        Resource r4 = readyFuture(acquire(queue));
+
+        queue.delete(r3);
+        queue.delete(r4);
+        queue.close();
+    }
+
+    @Test
+    public void testClearWithIdleObjects() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 3, 5);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
+
+        rs.completeNext().completeNext().completeNext();
+
+        Resource r1 = pendingIsReady(f1);
+        Resource r2 = pendingIsReady(f2);
+        Resource r3 = pendingIsReady(f3);
+
+        queue.release(r1);
+        queue.release(r2);
+        queue.release(r3);
+
+        check(queue).queueSize(3).idleSize(3);
+
+        queue.close();
+
+        check(queue).queueSize(0).idleSize(0);
+        check(rs).activeCount(0);
+    }
+
+    @Test
+    public void testUpdateLimitsWithWaitingAndShrink() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 3, 10);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f3 = pendingFuture(acquire(queue));
+
+        rs.completeNext().completeNext().completeNext();
+
+        Resource r1 = pendingIsReady(f1);
+        Resource r2 = pendingIsReady(f2);
+        Resource r3 = pendingIsReady(f3);
+
+        queue.release(r1);
+        queue.release(r2);
+        queue.release(r3);
+
+        check(queue).queueSize(3).idleSize(3);
+
+        queue.updateLimits(2, 5);
+
+        check(queue).queueSize(3).idleSize(3);
+
+        queue.acquire(new CompletableFuture<>());
+
+        check(queue).queueSize(3);
+
+        queue.close();
+    }
+
+    @Test
+    public void testGetUsedCountWithPendingAndWaiting() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 3);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w2 = pendingFuture(acquire(queue));
+
+        Assert.assertEquals("No used before pending completes", 0, queue.getUsedCount());
+        Assert.assertEquals("One pending", 1, queue.getPendingCount());
+
+        rs.completeNext();
+
+        Assert.assertEquals("One used after pending completes", 1, queue.getUsedCount());
+        Assert.assertEquals("No pending", 0, queue.getPendingCount());
+
+        Resource r1 = pendingIsReady(f1);
+
+        queue.release(r1);
+
+        Resource r2 = pendingIsReady(w1);
+
+        Assert.assertEquals("One used for waiting", 1, queue.getUsedCount());
+
+        queue.release(r2);
+
+        Resource r3 = pendingIsReady(w2);
+
+        Assert.assertEquals("One used for second waiting", 1, queue.getUsedCount());
+
+        queue.delete(r3);
+        queue.close();
+    }
+
+    @Test
+    public void testUpdateLimitsCreatesPendingForWaiting() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 5);
+
+        // Acquire one resource (pending)
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        rs.completeNext();
+        Resource r1 = pendingIsReady(f1);
+
+        // Acquire another - this goes to waiting since queue is full
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(1);
+        check(rs).requestsCount(0); // No new pending created yet
+
+        // Increase limits - this should trigger checkNextWaitingAcquire()
+        // which should create a new pending for w1
+        queue.updateLimits(2, 5);
+
+        // A new pending request should have been created for w1
+        check(rs).requestsCount(1);
+
+        // Complete the pending and w1 should resolve
+        rs.completeNext();
+        Resource r2 = pendingIsReady(w1);
+
+        queue.delete(r1);
+        queue.delete(r2);
+        queue.close();
+    }
+
+    @Test
+    public void testReleaseDestroysHandlerWhenOverflowed() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 5);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> f2 = pendingFuture(acquire(queue));
+
+        rs.completeNext().completeNext();
+
+        Resource r1 = pendingIsReady(f1);
+        Resource r2 = pendingIsReady(f2);
+
+        check(rs).activeCount(2);
+
+        // Shrink limits so queue is overflowed
+        queue.updateLimits(1, 5);
+
+        // Release r1 - since queueSize(2) > maxSize(1), handler.destroy(r1) should be called
+        queue.release(r1);
+
+        // Verify destroy was called on the handler (r1 removed from active set)
+        check(rs).activeCount(1);
+        check(queue).queueSize(1).idleSize(0);
+
+        queue.release(r2);
+        queue.close();
+    }
 }
