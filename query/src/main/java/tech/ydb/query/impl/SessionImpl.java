@@ -432,7 +432,7 @@ abstract class SessionImpl implements QuerySession {
                             }
                         }
                     }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
-                        updateSessionState(streamStatus);
+//                        updateSessionState(streamStatus);
                         Status status = operationStatus.orElse(streamStatus);
                         if (status.isSuccess()) {
                             return Result.success(new QueryInfo(stats.get()), streamStatus);
