@@ -2,17 +2,25 @@ name: SLO
 
 on:
   pull_request:
-    type: [labeled]
+    types: [opened, reopened, synchronize, labeled]
+
+permissions:
+  contents: read
+  pull-requests: write
+  checks: write
 
 jobs:
   ydb-slo-action:
-    if: contains(github.event.pull_request.labels.*.name, 'SLO')
+    # On `labeled` events run only when the `SLO` label itself was just added —
+    # otherwise any unrelated label change would spawn a fresh run that cancels
+    # the in-progress one via `cancel-in-progress`. For the other trigger types
+    # keep gating on the `SLO` label being present.
+    if: >-
+      (github.event.action == 'labeled' && github.event.label.name == 'SLO') ||
+      (github.event.action != 'labeled' && contains(github.event.pull_request.labels.*.name, 'SLO'))
 
     name: Run YDB SLO Tests
     runs-on: large-runner-java-sdk
-
-    permissions:
-      contents: read
 
     strategy:
       fail-fast: false
@@ -133,32 +141,3 @@ jobs:
           workload_baseline_ref: ${{ steps.baseline.outputs.ref }}
           workload_baseline_image: ydb-app-baseline-${{ matrix.workload.module }}
           workload_baseline_command: --read-rps 1000 --write-rps 100
-
-  publish-slo-report:
-    needs: ydb-slo-action
-
-    name: Publish YDB SLO Report
-    runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      pull-requests: write
-      checks: write
-
-    steps:
-      - name: Publish YDB SLO Report
-        uses: ydb-platform/ydb-slo-action/report@v2
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          github_run_id: ${{ github.run_id }}
-          github_issue: ${{ github.event.pull_request.number }}
-
-      - name: Remove SLO label from PR
-        if: github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          gh pr edit "${{ github.event.pull_request.number }}" \
-            --repo "${{ github.repository }}" \
-            --remove-label SLO
