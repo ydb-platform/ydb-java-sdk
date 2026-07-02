@@ -775,4 +775,46 @@ public class WaitingQueueTest extends FutureHelper {
 
         queue.close();
     }
+
+    @Test
+    public void alreadyCompletedFutureTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 5);
+
+        CompletableFuture<Resource> f1 = pendingFuture(acquire(queue));
+        rs.completeNext();
+        Resource r1 = pendingIsReady(f1);
+
+        queue.release(r1);
+
+        check(queue).queueSize(1).idleSize(1);
+
+        CompletableFuture<Resource> doneFuture1 = new CompletableFuture<>();
+        doneFuture1.completeExceptionally(new RuntimeException("pre-completed"));
+
+        queue.acquire(doneFuture1);
+
+        // safeAcquireObject fails on pre-completed future, nothing is changed
+        check(queue).queueSize(1).idleSize(1);
+
+        Assert.assertTrue("Pre-completed future remains done", doneFuture1.isDone());
+
+        // Acquire the idle resources normally
+        Resource r2 = readyFuture(acquire(queue));
+        Assert.assertSame(r1, r2);
+
+        CompletableFuture<Resource> doneFuture2 = new CompletableFuture<>();
+        queue.acquire(doneFuture2);
+        // doneFuture2 is not done yet, so pool creates pending request
+        check(queue).queueSize(2).idleSize(0);
+
+        doneFuture2.completeExceptionally(new RuntimeException("pre-completed2"));
+
+        // dontFuture2 is already done, so just moves a new resource to idle
+        rs.completeNext();
+        check(queue).queueSize(2).idleSize(1);
+
+        queue.delete(r2);
+        queue.close();
+    }
 }

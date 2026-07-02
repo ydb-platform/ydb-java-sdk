@@ -207,7 +207,6 @@ public class WaitingQueue<T> implements AutoCloseable {
 
         if (!safeAcquireObject(acquire, next)) {
             idle.offerFirst(next);
-            return false;
         }
 
         return true;
