@@ -136,7 +136,6 @@ jobs:
 
   publish-slo-report:
     needs: ydb-slo-action
-    if: ${{ always() && !cancelled() }}
 
     name: Publish YDB SLO Report
     runs-on: ubuntu-latest
