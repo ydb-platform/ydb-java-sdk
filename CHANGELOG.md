@@ -1,3 +1,7 @@
+## 2.4.7 ##
+* Query: fixed transaction id resetting
+* Table: fixed processing of canceled future in WaitingQueue
+
 ## 2.4.6 ##
 * Topic: fixed reading without consumer
 
