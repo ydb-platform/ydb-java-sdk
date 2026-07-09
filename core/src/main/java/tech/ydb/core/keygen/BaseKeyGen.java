@@ -53,7 +53,7 @@ class BaseKeyGen {
      * @return Prefix mask to be applied
      */
     public long getPrefixMask() {
-        return Holder.prefixMasks[maskPos];
+        return Holder.PREFIX_MASKS[maskPos];
     }
 
     /**
@@ -62,9 +62,9 @@ class BaseKeyGen {
      * @return Random value to be used as a prefix.
      */
     public long nextPrefix() {
-        final SecureRandom ng = Holder.numberGenerator;
+        final SecureRandom sr = Holder.SR;
         byte[] data = new byte[8];
-        ng.nextBytes(data);
+        sr.nextBytes(data);
         long lsb = 0;
         for (int i = 0; i < 8; i++) {
             lsb = (lsb << 8) | (data[i] & 0xff);
@@ -73,7 +73,7 @@ class BaseKeyGen {
     }
 
     protected final long update(long msb, long prefix, Instant instant) {
-        long tsMask = Holder.timestampMasks[maskPos];
+        long tsMask = Holder.TS_MASKS[maskPos];
         long tsCode = getTimestampCode(instant);
         tsCode = tsCode << (TIMESTAMP_FIELD_LOW_BIT - maskPos);
         long bits;
@@ -81,7 +81,7 @@ class BaseKeyGen {
             bits = msb & ~tsMask;
             bits |= tsCode & tsMask;
         } else {
-            long prefixMask = Holder.prefixMasks[maskPos];
+            long prefixMask = Holder.PREFIX_MASKS[maskPos];
             bits = msb & ~(prefixMask | tsMask);
             bits |= (prefix & prefixMask) | (tsCode & tsMask);
         }
@@ -152,22 +152,22 @@ class BaseKeyGen {
      */
     static class Holder {
 
-        static final SecureRandom numberGenerator = new SecureRandom();
+        static final SecureRandom SR = new SecureRandom();
 
-        static final long prefixMasks[];
-        static final long timestampMasks[];
+        static final long[] PREFIX_MASKS;
+        static final long[] TS_MASKS;
 
         static {
-            long pf[] = new long[32];
-            long ts[] = new long[32];
+            long[] pf = new long[32];
+            long[] ts = new long[32];
             pf[0] = 0x8000000000000000L;
             ts[0] = (((1L << TIMESTAMP_BITS) - 1) << TIMESTAMP_FIELD_LOW_BIT);
             for (int i = 1; i < 32; ++i) {
                 pf[i] = pf[i - 1] | (1L << (63 - i));
                 ts[i] = (ts[i - 1] >>> 1);
             }
-            prefixMasks = pf;
-            timestampMasks = ts;
+            PREFIX_MASKS = pf;
+            TS_MASKS = ts;
         }
     }
 }

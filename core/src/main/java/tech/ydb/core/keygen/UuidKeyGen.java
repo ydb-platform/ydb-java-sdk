@@ -69,9 +69,9 @@ public class UuidKeyGen extends BaseKeyGen {
      * @return Random UUID with the embedded prefix, timestamp code and suffix.
      */
     public UUID nextValue(long prefix, Instant instant) {
-        SecureRandom ng = Holder.numberGenerator;
+        SecureRandom sr = Holder.SR;
         byte[] data = new byte[16];
-        ng.nextBytes(data);
+        sr.nextBytes(data);
 
         data[6] &= 0x0f;
         data[6] |= (byte) 0x80;

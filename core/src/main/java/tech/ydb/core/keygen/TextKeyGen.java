@@ -48,9 +48,9 @@ public class TextKeyGen extends BaseKeyGen {
      * @return Base64 encoded ID with the embedded prefix and timestamp.
      */
     public String nextValue(long prefix, Instant instant) {
-        SecureRandom ng = Holder.numberGenerator;
+        SecureRandom sr = Holder.SR;
         byte[] data = new byte[16];
-        ng.nextBytes(data);
+        sr.nextBytes(data);
 
         long msb = 0;
         for (int i = 0; i < 8; i++) {
