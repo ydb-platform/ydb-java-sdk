@@ -108,14 +108,16 @@ class BaseKeyGen {
     /**
      * YDB uses GUID (Microsoft-style) mixed-endian format.
      *
-     * xxxxxxxx 0 1 2 3x 4 5 6 7 <br/>
-     * xINPUT: 01020304 05060708 090a0b0c 0d0e0f10 <br/>
+     * <pre>
+     * xxxxxxxx 0 1 2 3x 4 5 6 7
+     * INPUT:  01020304 05060708 090a0b0c 0d0e0f10
      * OUTPUT: 04030201 06050807 090a0b0c 0d0e0f10
+     * </pre>
      *
      * This function puts the bytes of MSB in the proper order.
      *
-     * @param v
-     * @return
+     * @param v MSB value in standard big-endian long representation
+     * @return MSB value with byte order adjusted for YDB GUID storage
      */
     public static long reorder(long v) {
         long b0 = (v >>> 56) & 0xffL;
