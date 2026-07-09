@@ -107,7 +107,7 @@ public class UuidKeyGenTest {
             seen.add(generator.nextPrefix());
         }
 
-        Assert.assertTrue("Expected multiple distinct prefixes", seen.size() > 1);
+        Assert.assertTrue("Expected multiple distinct prefixes", seen.size() > 90);
     }
 
     @Test

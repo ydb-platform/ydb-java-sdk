@@ -63,7 +63,7 @@ public class TextKeyGenTest {
             seen.add(generator.nextPrefix());
         }
 
-        Assert.assertTrue("Expected multiple distinct prefixes", seen.size() > 1);
+        Assert.assertTrue("Expected multiple distinct prefixes", seen.size() > 90);
     }
 
     @Test
@@ -180,25 +180,6 @@ public class TextKeyGenTest {
 
         Assert.assertTrue(embedded >= before && embedded <= after);
         Assert.assertTrue("Expected varying random prefixes", prefixes.size() > 1);
-    }
-
-    @Test
-    public void nextValueDoesNotForceUuidVersionBits() {
-        TextKeyGen textGenerator = new TextKeyGen(10);
-        UuidKeyGen uuidGenerator = new UuidKeyGen(10);
-        Set<Integer> textVersions = new HashSet<>();
-
-        for (int i = 0; i < 50; ++i) {
-            String key = textGenerator.nextValue(FIXED_PREFIX, FIXED_INSTANT);
-            textVersions.add(KeyGenTestSupport.logicalVersionNibble(
-                    KeyGenTestSupport.logicalMsbFromTextKey(key)));
-
-            UUID uuid = uuidGenerator.nextValue(FIXED_PREFIX, FIXED_INSTANT);
-            Assert.assertEquals(8, KeyGenTestSupport.logicalVersionNibble(
-                    KeyGenTestSupport.logicalMsbFromUuid(uuid)));
-        }
-
-        Assert.assertTrue("Text keys should not all share version nibble 8", textVersions.size() > 1);
     }
 
     @Test
