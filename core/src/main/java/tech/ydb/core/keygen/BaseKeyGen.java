@@ -132,6 +132,15 @@ class BaseKeyGen {
                 | (b5 << 24) | (b4 << 16) | (b7 << 8) | b6;
     }
 
+    public static long updateVersion(long msb) {
+        return (msb & ~0xF000L) | 0x8000L;
+    }
+
+    public static long updateVariant(long lsb) {
+        return (lsb & 0x3FFFFFFFFFFFFFFFL)
+                | 0x8000000000000000L;
+    }
+
     /**
      * Convert a UUID value to a base64 text representation.
      *

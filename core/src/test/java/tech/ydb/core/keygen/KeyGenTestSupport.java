@@ -51,7 +51,7 @@ final class KeyGenTestSupport {
     }
 
     static int logicalVersionNibble(long logicalMsb) {
-        return (int) ((logicalMsb >> 12) & 0x0f);
+        return (int) ((logicalMsb >>> 4) & 0x0f);
     }
 
     static int logicalVariantBits(long logicalLsb) {

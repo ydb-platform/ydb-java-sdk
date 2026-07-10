@@ -73,11 +73,6 @@ public class UuidKeyGen extends BaseKeyGen {
         byte[] data = new byte[16];
         sr.nextBytes(data);
 
-        data[6] &= 0x0f;
-        data[6] |= (byte) 0x80;
-        data[8] &= 0x3f;
-        data[8] |= (byte) 0x80;
-
         long msb = 0;
         long lsb = 0;
         for (int i = 0; i < 8; i++) {
@@ -88,7 +83,10 @@ public class UuidKeyGen extends BaseKeyGen {
         }
 
         msb = update(msb, prefix, instant);
-        return new UUID(reorder(msb), lsb);
+        msb = reorder(msb);
+        msb = updateVersion(msb);
+        lsb = updateVariant(lsb);
+        return new UUID(msb, lsb);
     }
 
     /**
