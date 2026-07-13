@@ -12,7 +12,7 @@ import java.util.UUID;
  *
  * @author zinal
  */
-class BaseKeyGen {
+public class BaseKeyGen {
 
     /**
      * Bit width of the embedded second-precision timestamp field.
