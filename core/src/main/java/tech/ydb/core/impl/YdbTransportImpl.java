@@ -40,13 +40,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private final YdbDiscovery discovery;
     private final Tracer tracer;
 
-    // x-ydb-sdk-build-info reporting is split by request kind:
-    //   - regular requests carry only the base chain (ydb-java-sdk/<ver> plus any withExtraBuildInfo tokens),
-    //     exactly as before observability was introduced;
-    //   - the discovery request additionally carries the observability adoption chains, so the telemetry
-    //     footprint is reported once per discovery round instead of on every request.
-    // Tracing adoption is known at build time (a non-noop Tracer was configured); metrics adoption becomes
-    // known only later, when a higher-level client is wired with a real Meter, hence the volatile flag.
     private final String baseBuildInfo;
     private final boolean tracingChainEnabled;
     private volatile boolean metricsChainEnabled;
@@ -145,7 +138,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     @Override
     protected String getBuildInfo() {
-        // Regular requests report only the base chain; observability chains ride the discovery request.
         return baseBuildInfo;
     }
 
