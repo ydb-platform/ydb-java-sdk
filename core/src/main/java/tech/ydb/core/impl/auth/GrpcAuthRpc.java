@@ -19,13 +19,15 @@ public class GrpcAuthRpc {
     private final ScheduledExecutorService scheduler;
     private final String database;
     private final ManagedChannelFactory channelFactory;
+    private final String buildInfo;
     private final AtomicInteger endpointIdx = new AtomicInteger();
 
     public GrpcAuthRpc(
             List<EndpointRecord> endpoints,
             ScheduledExecutorService scheduler,
             String database,
-            ManagedChannelFactory channelFactory) {
+            ManagedChannelFactory channelFactory,
+            String buildInfo) {
         if (endpoints == null || endpoints.isEmpty()) {
             throw new IllegalStateException("Empty endpoints list for auth rpc");
         }
@@ -33,6 +35,7 @@ public class GrpcAuthRpc {
         this.scheduler = scheduler;
         this.database = database;
         this.channelFactory = channelFactory;
+        this.buildInfo = buildInfo;
     }
 
     public ExecutorService getExecutor() {
@@ -55,13 +58,15 @@ public class GrpcAuthRpc {
     }
 
     public GrpcTransport createTransport() {
-        // For auth provider we use transport without auth (with default CallOptions)
+        // For auth provider we use transport without auth (with default CallOptions).
+        // Auth requests report only the base build-info chain, matching regular (non-discovery) requests.
         return new FixedCallOptionsTransport(
                 scheduler,
                 new AuthCallOptions(),
                 database,
                 endpoints.get(endpointIdx.get()),
-                channelFactory
+                channelFactory,
+                () -> buildInfo
         );
     }
 

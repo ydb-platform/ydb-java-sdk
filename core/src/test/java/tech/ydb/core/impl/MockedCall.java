@@ -15,6 +15,7 @@ import tech.ydb.proto.discovery.DiscoveryProtos;
 
 public abstract class MockedCall<ResT, RespT> extends ClientCall<ResT, RespT> {
     private final Executor executor;
+    private volatile Metadata lastHeaders;
 
     protected MockedCall(Executor executor) {
         this.executor = executor;
@@ -22,8 +23,17 @@ public abstract class MockedCall<ResT, RespT> extends ClientCall<ResT, RespT> {
 
     protected abstract void complete(Listener<RespT> listener);
 
+    /**
+     * Returns the request headers captured on the most recent {@link #start} call, or {@code null} if the
+     * call has not been started yet. Handy for asserting per-request metadata such as x-ydb-sdk-build-info.
+     */
+    public Metadata getLastHeaders() {
+        return lastHeaders;
+    }
+
     @Override
     public void start(Listener<RespT> listener, Metadata headers) {
+        this.lastHeaders = headers;
         executor.execute(() -> complete(listener));
     }
 

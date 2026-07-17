@@ -15,6 +15,7 @@ import tech.ydb.table.TableClient;
 import tech.ydb.table.impl.pool.SessionPool;
 import tech.ydb.table.impl.pool.SessionPoolOptions;
 import tech.ydb.table.rpc.TableRpc;
+import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 
 /**
  * @author Aleksandr Gorshenin
@@ -142,6 +143,9 @@ public class PooledTableClient implements TableClient {
                     "poolName must be a non-empty string when a Meter is provided");
             this.meter = meter;
             this.poolName = poolName;
+            if (meter != Meter.NOOP) {
+                GrpcTableRpc.enableMetricsChain(tableRpc);
+            }
             return this;
         }
 

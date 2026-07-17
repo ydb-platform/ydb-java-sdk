@@ -29,7 +29,9 @@ import org.mockito.MockitoAnnotations;
 
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.grpc.Observability;
 import tech.ydb.core.grpc.YdbHeaders;
+import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.Version;
 
 /**
@@ -107,7 +109,8 @@ public class DefaultChannelFactoryTest {
 
         Metadata metadata = metadataCapture.getValue();
         Assert.assertEquals("/Root", metadata.get(YdbHeaders.DATABASE));
-        Assert.assertEquals("ydb-java-sdk/" + Version.getVersion().get(), metadata.get(YdbHeaders.BUILD_INFO));
+        // BUILD_INFO is discovery-only; the channel-level interceptor must not attach it on the request path.
+        Assert.assertNull(metadata.get(YdbHeaders.BUILD_INFO));
         Assert.assertNull(metadata.get(YdbHeaders.APPLICATION_NAME));
         Assert.assertNull(metadata.get(YdbHeaders.CLIENT_PROCESS_ID));
     }
@@ -149,7 +152,7 @@ public class DefaultChannelFactoryTest {
 
         Metadata metadata = metadataCapture.getValue();
         Assert.assertEquals("/Root", metadata.get(YdbHeaders.DATABASE));
-        Assert.assertEquals("ydb-java-sdk/" + Version.getVersion().get(), metadata.get(YdbHeaders.BUILD_INFO));
+        Assert.assertNull(metadata.get(YdbHeaders.BUILD_INFO));
         Assert.assertEquals("test-application", metadata.get(YdbHeaders.APPLICATION_NAME));
         Assert.assertEquals("client-hostname", metadata.get(YdbHeaders.CLIENT_PROCESS_ID));
     }
@@ -166,7 +169,27 @@ public class DefaultChannelFactoryTest {
 
         String version = "ydb-java-sdk/" + Version.getVersion().get();
         Metadata metadata = metadataCapture.getValue();
-        Assert.assertEquals(version + ";driver/1.0.0;test-app/1.0.0", metadata.get(YdbHeaders.BUILD_INFO));
+        Assert.assertNull(metadata.get(YdbHeaders.BUILD_INFO));
+        Assert.assertEquals(version + ";driver/1.0.0;test-app/1.0.0", builder.getBuildInfo());
+    }
+
+    @Test
+    public void tracerDoesNotLeakObservabilityChainIntoBaseBuildInfo() {
+        // Observability chains must ride the discovery request only, never the base build-info that is
+        // reported on every request. Configuring a tracer must therefore leave the base build-info intact.
+        Tracer tracer = Mockito.mock(Tracer.class);
+        GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
+                .withTracer(tracer);
+        ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
+
+        Assert.assertSame(channelMock, factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
+        channelStaticMock.verify(FOR_ADDRESS, Mockito.times(1));
+
+        String version = "ydb-java-sdk/" + Version.getVersion().get();
+        Metadata metadata = metadataCapture.getValue();
+        Assert.assertNull(metadata.get(YdbHeaders.BUILD_INFO));
+        Assert.assertEquals(version, builder.getBuildInfo());
+        Assert.assertFalse(builder.getBuildInfo().contains(Observability.TRACING_CHAIN_TOKEN));
     }
 
     @Test

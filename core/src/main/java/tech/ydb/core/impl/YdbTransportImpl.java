@@ -15,12 +15,14 @@ import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
+import tech.ydb.core.grpc.Observability;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointPool;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Tracer;
 
 /**
@@ -38,6 +40,17 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     private final YdbDiscovery discovery;
     private final Tracer tracer;
 
+    // x-ydb-sdk-build-info reporting is split by request kind:
+    //   - regular requests carry only the base chain (ydb-java-sdk/<ver> plus any withExtraBuildInfo tokens),
+    //     exactly as before observability was introduced;
+    //   - the discovery request additionally carries the observability adoption chains, so the telemetry
+    //     footprint is reported once per discovery round instead of on every request.
+    // Tracing adoption is known at build time (a non-noop Tracer was configured); metrics adoption becomes
+    // known only later, when a higher-level client is wired with a real Meter, hence the volatile flag.
+    private final String baseBuildInfo;
+    private final boolean tracingChainEnabled;
+    private volatile boolean metricsChainEnabled;
+
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         super(builder);
         BalancingSettings balancingSettings = getBalancingSettings(builder);
@@ -45,6 +58,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.tracer = builder.getTracer();
+        this.baseBuildInfo = builder.getBuildInfo();
+        this.tracingChainEnabled = tracer != NoopTracer.getInstance();
 
         logger.info("Create YDB transport with endpoint {} and {}", serverEndpoint, balancingSettings);
 
@@ -124,6 +139,20 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         return tracer;
     }
 
+    void enableMetricsChain() {
+        this.metricsChainEnabled = true;
+    }
+
+    @Override
+    protected String getBuildInfo() {
+        // Regular requests report only the base chain; observability chains ride the discovery request.
+        return baseBuildInfo;
+    }
+
+    private String discoveryBuildInfo() {
+        return Observability.appendChains(baseBuildInfo, tracingChainEnabled, metricsChainEnabled);
+    }
+
     @Override
     public AuthCallOptions getAuthCallOptions() {
         return callOptions;
@@ -167,7 +196,14 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         @Override
         public GrpcTransport createDiscoveryTransport() {
-            return new FixedCallOptionsTransport(scheduler, callOptions, database, serverEndpoint, channelFactory);
+            return new FixedCallOptionsTransport(
+                    scheduler,
+                    callOptions,
+                    database,
+                    serverEndpoint,
+                    channelFactory,
+                    YdbTransportImpl.this::discoveryBuildInfo
+            );
         }
     }
 }

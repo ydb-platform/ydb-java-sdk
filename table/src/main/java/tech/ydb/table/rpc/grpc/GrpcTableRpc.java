@@ -12,6 +12,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.BuildInfoChainSupport;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.tracing.Tracer;
@@ -250,6 +251,13 @@ public final class GrpcTableRpc implements TableRpc {
     @Override
     public Tracer getTracer() {
         return transport.getTracer();
+    }
+
+    public static void enableMetricsChain(TableRpc tableRpc) {
+        if (tableRpc instanceof GrpcTableRpc) {
+            GrpcTableRpc grpc = (GrpcTableRpc) tableRpc;
+            BuildInfoChainSupport.enableMetricsChain(grpc.transport);
+        }
     }
 
     @Override

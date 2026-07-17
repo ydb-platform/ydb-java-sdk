@@ -28,6 +28,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.Observability;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -35,6 +36,7 @@ import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.Tracer;
+import tech.ydb.core.utils.Version;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
@@ -273,6 +275,62 @@ public class YdbTransportImplTest {
         transport.close();
 
         Assert.assertSame(customTracer, transport.getTracer());
+    }
+
+    @Test
+    public void tracingChainRidesDiscoveryRequestOnly() {
+        MockedCall.DiscoveryCall discoveryCall =
+                MockedCall.discovery(testScheduler, "self", new EndpointRecord("node", 2136));
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(discoveryCall);
+
+        MockedCall.WhoAmICall whoAmICall = MockedCall.whoAmICall(testScheduler, "i am node");
+        Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenReturn(whoAmICall);
+
+        GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .withTracer(Mockito.mock(Tracer.class))
+                .build();
+
+        Assert.assertTrue(whoAmI(transport).join().isSuccess());
+
+        String base = "ydb-java-sdk/" + Version.getVersion().get();
+        // The discovery request reports the tracing adoption chain ...
+        Assert.assertEquals(base + ";" + Observability.TRACING_CHAIN_TOKEN,
+                discoveryCall.getLastHeaders().get(YdbHeaders.BUILD_INFO));
+        // ... while a regular request reports only the base chain.
+        Assert.assertEquals(base, whoAmICall.getLastHeaders().get(YdbHeaders.BUILD_INFO));
+
+        transport.close();
+    }
+
+    @Test
+    public void metricsChainAppearsOnDiscoveryAfterMeterEnabled() {
+        MockedScheduler scheduler = new MockedScheduler(MockedClock.create(ZoneId.of("UTC")));
+
+        MockedCall.DiscoveryCall discoveryCall =
+                MockedCall.discovery("self", new EndpointRecord("node", 2136));
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(discoveryCall);
+
+        @SuppressWarnings("deprecation")
+        GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withSchedulerFactory(() -> scheduler)
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .buildAsync(null);
+
+        // Metrics adoption becomes known only after a client is wired with a real Meter, i.e. after build().
+        BuildInfoChainSupport.enableMetricsChain(transport);
+
+        // The next discovery round must pick up the metrics adoption chain.
+        scheduler.runNextTask();
+
+        String base = "ydb-java-sdk/" + Version.getVersion().get();
+        Assert.assertEquals(base + ";" + Observability.METRICS_CHAIN_TOKEN,
+                discoveryCall.getLastHeaders().get(YdbHeaders.BUILD_INFO));
+
+        transport.close();
     }
 
     @Test

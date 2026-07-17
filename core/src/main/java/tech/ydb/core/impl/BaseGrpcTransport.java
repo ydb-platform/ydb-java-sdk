@@ -69,6 +69,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
 
+    protected String getBuildInfo() {
+        return null;
+    }
+
     protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {
         // nothing to pessimize
     }
@@ -244,6 +248,10 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     private Metadata makeMetadataFromSettings(GrpcRequestSettings settings, EndpointRecord endpoint) {
         Metadata metadata = new Metadata();
+        String buildInfo = getBuildInfo();
+        if (buildInfo != null) {
+            metadata.put(YdbHeaders.BUILD_INFO, buildInfo);
+        }
         String token = getAuthCallOptions().getToken();
         if (token != null) {
             metadata.put(YdbHeaders.AUTH_TICKET, token);

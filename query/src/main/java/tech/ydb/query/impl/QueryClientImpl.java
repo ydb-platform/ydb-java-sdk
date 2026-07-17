@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 
 import tech.ydb.core.Result;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.BuildInfoChainSupport;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.query.QueryClient;
@@ -139,6 +140,9 @@ public class QueryClientImpl implements QueryClient {
                     "poolName must be a non-empty string when a Meter is provided");
             this.meter = meter;
             this.sessionPoolName = poolName;
+            if (meter != Meter.NOOP) {
+                BuildInfoChainSupport.enableMetricsChain(transport);
+            }
             return this;
         }
 
