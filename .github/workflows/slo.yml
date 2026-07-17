@@ -128,7 +128,7 @@ jobs:
             --fallback-image "ydb-app-current-${{ matrix.workload.module }}"
 
       - name: Run SLO Tests
-        uses: ydb-platform/ydb-slo-action/init@v2
+        uses: ydb-platform/ydb-slo-action/init@fix/report-data-classic-script
         timeout-minutes: 30
         with:
           github_issue: ${{ github.event.pull_request.number }}
