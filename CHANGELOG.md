@@ -1,3 +1,8 @@
+## 2.4.8 ##
+* Query: added support of READ_COMMITTED_RW
+* Table: added utility to generate UUID keys
+* Core: added observability for Tracer and Meter usage
+
 ## 2.4.7 ##
 * Query: fixed transaction id resetting
 * Table: fixed processing of canceled future in WaitingQueue
