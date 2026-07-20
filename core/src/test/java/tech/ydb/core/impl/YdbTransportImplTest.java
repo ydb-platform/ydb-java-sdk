@@ -70,6 +70,7 @@ public class YdbTransportImplTest {
     @After
     public void shutdown() {
         testScheduler.shutdown();
+        Observability.reset();
     }
 
     private CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> whoAmI(GrpcTransport transport) {
@@ -269,9 +270,11 @@ public class YdbTransportImplTest {
         Assert.assertNotNull(discoveryCall.getLastCallMetadata());
         Assert.assertNotNull(whoAmICall.getLastCallMetadata());
 
-        // Only discovery calle use traced build info
+        // Only discovery calls use traced build info
         Assert.assertEquals(traced, discoveryCall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
         Assert.assertEquals(custom, whoAmICall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
+
+        transport.close();
     }
 
     @Test

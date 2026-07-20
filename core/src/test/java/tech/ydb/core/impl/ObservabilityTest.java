@@ -1,5 +1,6 @@
 package tech.ydb.core.impl;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -15,10 +16,13 @@ import tech.ydb.core.tracing.SpanKind;
 public class ObservabilityTest {
     private static final String BASE = "ydb-java-sdk/1.2.3";
 
+    @After
+    public void reset() {
+        Observability.reset();
+    }
+
     @Test
     public void baseTest() {
-        Observability.reset();
-
         Assert.assertEquals(BASE, Observability.getDiscoveryBuildInfo(BASE));
 
         // noop implementations ignored

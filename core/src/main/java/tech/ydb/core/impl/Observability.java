@@ -21,11 +21,15 @@ public final class Observability {
     }
 
     public static void reportTracingUsage(Tracer tracer) {
-        isTracingEnabled = isTracingEnabled || (tracer != NoopTracer.getInstance());
+        if (tracer != NoopTracer.getInstance()) {
+            isTracingEnabled = true;
+        }
     }
 
     public static void reportMetricsUsage(Meter meter) {
-        isMetricsEnabled = isMetricsEnabled || (meter != Meter.NOOP);
+        if (meter != Meter.NOOP) {
+            isMetricsEnabled = true;
+        }
     }
 
     static String getDiscoveryBuildInfo(String base) {
