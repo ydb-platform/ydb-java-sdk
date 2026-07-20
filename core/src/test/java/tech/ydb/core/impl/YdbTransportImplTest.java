@@ -16,7 +16,6 @@ import javax.annotation.Nonnull;
 
 import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
-import io.grpc.Metadata;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,6 +34,7 @@ import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.Tracer;
+import tech.ydb.core.utils.Version;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
@@ -240,6 +240,35 @@ public class YdbTransportImplTest {
     }
 
     @Test
+    public void buildInfoTest() {
+        MockedCall.DiscoveryCall discoveryCall = MockedCall.discovery("self", new EndpointRecord("node", 2136));
+        MockedCall.WhoAmICall whoAmICall = MockedCall.whoAmICall("i am node");
+
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(discoveryCall);
+        Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenReturn(whoAmICall);
+
+        GrpcTransport transport = GrpcTransport.forEndpoint("grpc://mocked:2136", "/Root")
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .withExtraBuildInfo("driver/1.0.0")
+                .withExtraBuildInfo("test-app/1.0.0")
+                .build();
+
+        String sdk = "ydb-java-sdk/" + Version.getVersion().get();
+        String customVersion = sdk + ";driver/1.0.0;test-app/1.0.0";
+
+        Result<DiscoveryProtos.WhoAmIResult> call = whoAmI(transport).join();
+
+        Assert.assertTrue(call.isSuccess());
+        Assert.assertNotNull(discoveryCall.getLastCallMetadata());
+        Assert.assertNotNull(whoAmICall.getLastCallMetadata());
+
+        Assert.assertEquals(customVersion, discoveryCall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
+        Assert.assertEquals(customVersion, whoAmICall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
+    }
+
+    @Test
     public void defaultTracerFactoryTest() {
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
                 .thenReturn(MockedCall.discovery("self", new EndpointRecord("node", 2136)));
@@ -278,24 +307,10 @@ public class YdbTransportImplTest {
     @Test
     public void spanAttributesAndTraceparentAreSetInMetadata() {
         EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a", null);
+        MockedCall.WhoAmICall whoAmICall = MockedCall.whoAmICall("i am node");
+
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
                 .thenReturn(MockedCall.discovery("self", endpoint));
-
-        Metadata[] captured = new Metadata[1];
-        MockedCall.WhoAmICall whoAmICall = new MockedCall.WhoAmICall(Runnable::run) {
-            @Override
-            public void start(Listener<DiscoveryProtos.WhoAmIResponse> listener, Metadata headers) {
-                captured[0] = headers;
-                super.start(listener, headers);
-            }
-
-            @Override
-            protected void complete(Listener<DiscoveryProtos.WhoAmIResponse> listener) {
-                listener.onClose(io.grpc.Status.OK, new Metadata());
-            }
-        };
-        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
-                .thenReturn(whoAmICall);
         Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
                 .thenReturn(whoAmICall);
 
@@ -324,8 +339,8 @@ public class YdbTransportImplTest {
         Assert.assertEquals(Long.valueOf(42), span.longAttrs.get("ydb.node.id"));
         Assert.assertEquals("dc-a", span.stringAttrs.get("ydb.node.dc"));
 
-        Assert.assertNotNull(captured[0]);
-        Assert.assertEquals(span.id, captured[0].get(YdbHeaders.TRACEPARENT));
+        Assert.assertNotNull(whoAmICall.getLastCallMetadata());
+        Assert.assertEquals(span.id, whoAmICall.getLastCallMetadata().get(YdbHeaders.TRACEPARENT));
 
         transport.close();
     }
@@ -333,24 +348,10 @@ public class YdbTransportImplTest {
     @Test
     public void noSpanDoesNotSetTraceparentHeader() {
         EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a", null);
+        MockedCall.WhoAmICall whoAmICall = MockedCall.whoAmICall("i am node");
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
                 .thenReturn(MockedCall.discovery("self", endpoint));
 
-        Metadata[] captured = new Metadata[1];
-        MockedCall.WhoAmICall whoAmICall = new MockedCall.WhoAmICall(Runnable::run) {
-            @Override
-            public void start(Listener<DiscoveryProtos.WhoAmIResponse> listener, Metadata headers) {
-                captured[0] = headers;
-                super.start(listener, headers);
-            }
-
-            @Override
-            protected void complete(Listener<DiscoveryProtos.WhoAmIResponse> listener) {
-                listener.onClose(io.grpc.Status.OK, new Metadata());
-            }
-        };
-        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
-                .thenReturn(whoAmICall);
         Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
                 .thenReturn(whoAmICall);
 
@@ -368,9 +369,9 @@ public class YdbTransportImplTest {
                 DiscoveryProtos.WhoAmIRequest.newBuilder().build()
         ).join();
 
-        Assert.assertNotNull(captured[0]);
-        Assert.assertNull(captured[0].get(YdbHeaders.TRACEPARENT));
-        Assert.assertEquals("test-trace-id-without-span", captured[0].get(YdbHeaders.TRACE_ID));
+        Assert.assertNotNull(whoAmICall.getLastCallMetadata());
+        Assert.assertNull(whoAmICall.getLastCallMetadata().get(YdbHeaders.TRACEPARENT));
+        Assert.assertEquals("test-trace-id-without-span", whoAmICall.getLastCallMetadata().get(YdbHeaders.TRACE_ID));
 
         transport.close();
     }

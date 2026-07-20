@@ -18,6 +18,7 @@ public class GrpcAuthRpc {
     private final List<EndpointRecord> endpoints;
     private final ScheduledExecutorService scheduler;
     private final String database;
+    private final String buildInfo;
     private final ManagedChannelFactory channelFactory;
     private final AtomicInteger endpointIdx = new AtomicInteger();
 
@@ -25,6 +26,7 @@ public class GrpcAuthRpc {
             List<EndpointRecord> endpoints,
             ScheduledExecutorService scheduler,
             String database,
+            String buildInfo,
             ManagedChannelFactory channelFactory) {
         if (endpoints == null || endpoints.isEmpty()) {
             throw new IllegalStateException("Empty endpoints list for auth rpc");
@@ -32,6 +34,7 @@ public class GrpcAuthRpc {
         this.endpoints = endpoints;
         this.scheduler = scheduler;
         this.database = database;
+        this.buildInfo = buildInfo;
         this.channelFactory = channelFactory;
     }
 
@@ -60,6 +63,7 @@ public class GrpcAuthRpc {
                 scheduler,
                 new AuthCallOptions(),
                 database,
+                buildInfo,
                 endpoints.get(endpointIdx.get()),
                 channelFactory
         );
