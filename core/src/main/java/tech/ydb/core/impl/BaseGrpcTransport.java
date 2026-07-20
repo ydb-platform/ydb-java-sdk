@@ -56,13 +56,15 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
     private final AtomicBoolean isClosed = new AtomicBoolean(false);
 
     protected final EndpointRecord serverEndpoint;
+    private final String buildInfo;
 
     protected BaseGrpcTransport(GrpcTransportBuilder builder) {
-        this.serverEndpoint = getDiscoveryEndpoint(builder);
+        this(getDiscoveryEndpoint(builder), builder.getBuildInfo());
     }
 
-    protected BaseGrpcTransport(EndpointRecord serverEndpoint) {
+    protected BaseGrpcTransport(EndpointRecord serverEndpoint, String buildInfo) {
         this.serverEndpoint = serverEndpoint;
+        this.buildInfo = buildInfo;
     }
 
     protected abstract AuthCallOptions getAuthCallOptions();
@@ -244,6 +246,7 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     private Metadata makeMetadataFromSettings(GrpcRequestSettings settings, EndpointRecord endpoint) {
         Metadata metadata = new Metadata();
+        metadata.put(YdbHeaders.BUILD_INFO, buildInfo);
         String token = getAuthCallOptions().getToken();
         if (token != null) {
             metadata.put(YdbHeaders.AUTH_TICKET, token);

@@ -2,9 +2,6 @@ package tech.ydb.core.impl;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointRecord;
@@ -16,8 +13,6 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
  * @author Aleksandr Gorshenin
  */
 public class FixedCallOptionsTransport extends BaseGrpcTransport {
-    private static final Logger logger = LoggerFactory.getLogger(FixedCallOptionsTransport.class);
-
     private final ScheduledExecutorService scheduler;
     private final AuthCallOptions callOptions;
     private final String database;
@@ -27,9 +22,10 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
             ScheduledExecutorService scheduler,
             AuthCallOptions callOptions,
             String database,
+            String buildInfo,
             EndpointRecord endpoint,
             ManagedChannelFactory channelFactory) {
-        super(endpoint);
+        super(endpoint, buildInfo);
         this.scheduler = scheduler;
         this.callOptions = callOptions;
         this.database = database;

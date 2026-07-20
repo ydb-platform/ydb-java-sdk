@@ -45,6 +45,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.tracer = builder.getTracer();
+        Observability.reportTracingUsage(this.tracer);
 
         logger.info("Create YDB transport with endpoint {} and {}", serverEndpoint, balancingSettings);
 
@@ -54,7 +55,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
                 channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(balancingSettings);
-        this.discovery = new YdbDiscovery(new DiscoveryHandler(), scheduler, database, discoveryTimeout);
+        DiscoveryHandler handler = new DiscoveryHandler(builder.getBuildInfo());
+        this.discovery = new YdbDiscovery(handler, scheduler, database, discoveryTimeout);
     }
 
     public void start(GrpcTransportBuilder.InitMode mode) {
@@ -149,6 +151,12 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     }
 
     private class DiscoveryHandler implements YdbDiscovery.Handler {
+        private final String baseBuildInfo;
+
+        DiscoveryHandler(String buildInfo) {
+            this.baseBuildInfo = buildInfo;
+        }
+
         @Override
         public Instant instant() {
             return Instant.now();
@@ -167,7 +175,10 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         @Override
         public GrpcTransport createDiscoveryTransport() {
-            return new FixedCallOptionsTransport(scheduler, callOptions, database, serverEndpoint, channelFactory);
+            String buildInfo = Observability.getDiscoveryBuildInfo(baseBuildInfo);
+            return new FixedCallOptionsTransport(
+                    scheduler, callOptions, database, buildInfo, serverEndpoint, channelFactory
+            );
         }
     }
 }

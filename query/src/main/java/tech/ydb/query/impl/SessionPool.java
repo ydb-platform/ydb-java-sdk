@@ -22,6 +22,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
+import tech.ydb.core.impl.Observability;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.FutureTools;
@@ -71,6 +72,7 @@ class SessionPool implements AutoCloseable {
         this.scheduler = scheduler;
         this.queue = new WaitingQueue<>(new Handler(rpc), maxSize);
         this.metrics = new PoolMetrics(meter, "query", poolName, queue, minSize);
+        Observability.reportMetricsUsage(meter);
 
         CleanerTask cleaner = new CleanerTask(idleDuration);
         this.cleanerFuture = scheduler.scheduleAtFixedRate(

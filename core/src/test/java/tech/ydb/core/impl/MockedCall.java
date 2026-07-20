@@ -15,6 +15,7 @@ import tech.ydb.proto.discovery.DiscoveryProtos;
 
 public abstract class MockedCall<ResT, RespT> extends ClientCall<ResT, RespT> {
     private final Executor executor;
+    private volatile Metadata lastMetadata = null;
 
     protected MockedCall(Executor executor) {
         this.executor = executor;
@@ -22,8 +23,13 @@ public abstract class MockedCall<ResT, RespT> extends ClientCall<ResT, RespT> {
 
     protected abstract void complete(Listener<RespT> listener);
 
+    public Metadata getLastCallMetadata() {
+        return lastMetadata;
+    }
+
     @Override
     public void start(Listener<RespT> listener, Metadata headers) {
+        lastMetadata = headers;
         executor.execute(() -> complete(listener));
     }
 
