@@ -22,6 +22,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.impl.Observability;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.table.Session;
@@ -63,6 +64,7 @@ public class SessionPool implements AutoCloseable {
         this.scheduler = rpc.getScheduler();
         this.queue = new WaitingQueue<>(new Handler(rpc, keepQueryText), options.getMaxSize());
         this.metrics = new PoolMetrics(meter, "table", poolName, queue, this.minSize);
+        Observability.reportMetricsUsage(meter);
 
         KeepAliveTask keepAlive = new KeepAliveTask(options);
         this.keepAliveFuture = scheduler.scheduleAtFixedRate(

@@ -45,6 +45,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
         this.tracer = builder.getTracer();
+        Observability.reportTracingUsage(this.tracer);
 
         logger.info("Create YDB transport with endpoint {} and {}", serverEndpoint, balancingSettings);
 
@@ -174,7 +175,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
         @Override
         public GrpcTransport createDiscoveryTransport() {
-            String buildInfo = baseBuildInfo;
+            String buildInfo = Observability.getDiscoveryBuildInfo(baseBuildInfo);
             return new FixedCallOptionsTransport(
                     scheduler, callOptions, database, buildInfo, serverEndpoint, channelFactory
             );

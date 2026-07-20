@@ -33,6 +33,7 @@ import tech.ydb.core.impl.pool.ManagedChannelFactory;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Span;
+import tech.ydb.core.tracing.SpanKind;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.Version;
 import tech.ydb.proto.discovery.DiscoveryProtos;
@@ -241,6 +242,9 @@ public class YdbTransportImplTest {
 
     @Test
     public void buildInfoTest() {
+        Observability.reset();
+        Observability.reportTracingUsage((String spanName, SpanKind spanKind) -> Span.NOOP);
+
         MockedCall.DiscoveryCall discoveryCall = MockedCall.discovery("self", new EndpointRecord("node", 2136));
         MockedCall.WhoAmICall whoAmICall = MockedCall.whoAmICall("i am node");
 
@@ -256,7 +260,8 @@ public class YdbTransportImplTest {
                 .build();
 
         String sdk = "ydb-java-sdk/" + Version.getVersion().get();
-        String customVersion = sdk + ";driver/1.0.0;test-app/1.0.0";
+        String custom = sdk + ";driver/1.0.0;test-app/1.0.0";
+        String traced = custom + ";ydb-sdk-tracing/0.1.0";
 
         Result<DiscoveryProtos.WhoAmIResult> call = whoAmI(transport).join();
 
@@ -264,8 +269,9 @@ public class YdbTransportImplTest {
         Assert.assertNotNull(discoveryCall.getLastCallMetadata());
         Assert.assertNotNull(whoAmICall.getLastCallMetadata());
 
-        Assert.assertEquals(customVersion, discoveryCall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
-        Assert.assertEquals(customVersion, whoAmICall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
+        // Only discovery calle use traced build info
+        Assert.assertEquals(traced, discoveryCall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
+        Assert.assertEquals(custom, whoAmICall.getLastCallMetadata().get(YdbHeaders.BUILD_INFO));
     }
 
     @Test
