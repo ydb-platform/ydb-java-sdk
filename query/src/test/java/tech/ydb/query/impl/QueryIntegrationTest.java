@@ -626,4 +626,49 @@ public class QueryIntegrationTest {
             }
         }
     }
+
+    @Test
+    @Ignore // disable while READ_COMMITTED is not supported
+    public void testReadCommittedStatement() {
+        String selectQuery = "SELECT * FROM `" + TEST_TABLE + "` ORDR BY id";
+        String insertQuery = "DECLARE $id AS Int32; DECLARE $name AS Text; "
+                + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id, $name)";
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            QuerySession session1 = client.createSession(Duration.ofSeconds(5)).join().getValue();
+            QuerySession session2 = client.createSession(Duration.ofSeconds(5)).join().getValue();
+
+            try {
+                QueryTransaction tx1 = session1.createNewTransaction(TxMode.READ_COMMITTED_RW);
+                QueryTransaction tx2 = session2.createNewTransaction(TxMode.READ_COMMITTED_RW);
+
+                Result<QueryReader> s1 = QueryReader.readFrom(tx1.createQuery(selectQuery)).join();
+                Result<QueryReader> s2 = QueryReader.readFrom(tx2.createQuery(selectQuery)).join();
+
+                Assert.assertTrue("Cannot read with " + s1, s1.isSuccess());
+                Assert.assertTrue("Cannot read with " + s1, s2.isSuccess());
+
+                Params prms1 = Params.of("$id", PrimitiveValue.newInt32(1), "$name", PrimitiveValue.newText("value1"));
+                Params prms2 = Params.of("$id", PrimitiveValue.newInt32(2), "$name", PrimitiveValue.newText("value2"));
+
+                Result<QueryInfo> i1 = tx1.createQuery(insertQuery, prms1).execute().join();
+                Result<QueryInfo> i2 = tx2.createQuery(insertQuery, prms2).execute().join();
+
+                Assert.assertTrue("Cannot insert with " + i1, i1.isSuccess());
+                Assert.assertTrue("Cannot insert with " + i2, i2.isSuccess());
+
+                Result<QueryInfo> c1 = tx1.commit().join();
+                Result<QueryInfo> c2 = tx2.commit().join();
+
+                Assert.assertTrue("Cannot commit with " + c1, c1.isSuccess());
+                Assert.assertTrue("Cannot commit with " + c2, c2.isSuccess());
+           } finally {
+                session1.close();
+                session2.close();
+                try (QuerySession session = client.createSession(SESSION_TIMEOUT).join().getValue()) {
+                    session.createQuery("DELETE FROM " + TEST_TABLE, TxMode.SERIALIZABLE_RW).execute()
+                            .join().getStatus().expectSuccess();
+                }
+            }
+        }
+    }
 }

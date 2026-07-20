@@ -20,6 +20,10 @@ class TxControl {
             .setSnapshotReadWrite(YdbQuery.SnapshotRWModeSettings.getDefaultInstance())
             .build();
 
+    private static final YdbQuery.TransactionSettings TS_READ_COMMITTED_RW = YdbQuery.TransactionSettings.newBuilder()
+            .setReadCommittedReadWrite(YdbQuery.ReadCommittedRWModeSettings.getDefaultInstance())
+            .build();
+
     private static final YdbQuery.TransactionSettings TS_STALE = YdbQuery.TransactionSettings.newBuilder()
             .setStaleReadOnly(YdbQuery.StaleModeSettings.getDefaultInstance())
             .build();
@@ -61,6 +65,8 @@ class TxControl {
                 return TS_SNAPSHOT;
             case SNAPSHOT_RW:
                 return TS_SNAPSHOT_RW;
+            case READ_COMMITTED_RW:
+                return TS_READ_COMMITTED_RW;
             case STALE_RO:
                 return TS_STALE;
             case ONLINE_RO:

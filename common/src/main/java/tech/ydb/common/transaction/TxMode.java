@@ -10,8 +10,9 @@ public enum TxMode {
     SERIALIZABLE_RW,
     SNAPSHOT_RO,
     SNAPSHOT_RW,
-    STALE_RO,
+    READ_COMMITTED_RW,
 
+    STALE_RO,
     ONLINE_RO,
     ONLINE_INCONSISTENT_RO
 }
