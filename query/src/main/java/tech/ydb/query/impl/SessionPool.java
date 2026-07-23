@@ -24,6 +24,7 @@ import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.impl.Observability;
 import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.proto.query.YdbQuery;
@@ -288,20 +289,25 @@ class SessionPool implements AutoCloseable {
                 long startNanos = System.nanoTime();
                 stats.requested.increment();
                 metrics.onSessionRequested();
-                return Span.endOnResult(createSpan, SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan))
-                        .thenCompose(r -> {
-                            metrics.onCreateTime(System.nanoTime() - startNanos);
+                try (Scope ignored = createSpan.makeCurrent()) {
+                    return Span.endOnResult(
+                            createSpan,
+                            SessionImpl.createSession(rpc, CREATE_SETTINGS, true, createSpan)
+                    )
+                            .thenCompose(r -> {
+                                metrics.onCreateTime(System.nanoTime() - startNanos);
 
-                            if (!r.isSuccess()) {
-                                stats.failed.increment();
-                                metrics.onSessionFailed(r.getStatus());
-                                throw new UnexpectedResultException("create session problem", r.getStatus());
-                            }
-                            metrics.onSessionCreated();
-                            PooledQuerySession session = new PooledQuerySession(rpc, r.getValue());
-                            return session.start();
-                        })
-                        .thenApply(Result::getValue);
+                                if (!r.isSuccess()) {
+                                    stats.failed.increment();
+                                    metrics.onSessionFailed(r.getStatus());
+                                    throw new UnexpectedResultException("create session problem", r.getStatus());
+                                }
+                                metrics.onSessionCreated();
+                                PooledQuerySession session = new PooledQuerySession(rpc, r.getValue());
+                                return session.start();
+                            })
+                            .thenApply(Result::getValue);
+                }
             } finally {
                 ctx.detach(previous);
             }
