@@ -37,6 +37,7 @@ import tech.ydb.core.impl.call.ReadWriteStreamCall;
 import tech.ydb.core.impl.call.UnaryCall;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
+import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 
 /**
@@ -124,16 +125,19 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 return CompletableFuture.completedFuture(deadlineExpiredResult(method, settings));
             }
 
-            ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
-            ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
+            // Make SDK span current so gRPC ClientInterceptors nest under it at newCall.
+            try (Scope ignored = settings.getSpan().makeCurrent()) {
+                ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+                ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
-            if (logger.isTraceEnabled()) {
-                logger.trace("UnaryCall[{}] with method {} and endpoint {} created",
-                        traceId, method.getFullMethodName(), endpoint.getHostAndPort());
+                if (logger.isTraceEnabled()) {
+                    logger.trace("UnaryCall[{}] with method {} and endpoint {} created",
+                            traceId, method.getFullMethodName(), endpoint.getHostAndPort());
+                }
+                Metadata metadata = makeMetadataFromSettings(settings, endpoint);
+                return new UnaryCall<>(traceId, endpoint.getHostAndPort(), call, handler, settings.getSpan())
+                        .startCall(request, metadata);
             }
-            Metadata metadata = makeMetadataFromSettings(settings, endpoint);
-            return new UnaryCall<>(traceId, endpoint.getHostAndPort(), call, handler, settings.getSpan())
-                    .startCall(request, metadata);
         } catch (UnexpectedResultException ex) {
             logger.warn("UnaryCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return CompletableFuture.completedFuture(Result.fail(ex));
@@ -163,19 +167,22 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
                 return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
 
-            ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
-            ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
+            // Make SDK span current so gRPC ClientInterceptors nest under it at newCall.
+            try (Scope ignored = settings.getSpan().makeCurrent()) {
+                ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
+                ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
 
-            if (logger.isTraceEnabled()) {
-                logger.trace("ReadStreamCall[{}] with method {} and endpoint {} created",
-                        traceId, method.getFullMethodName(), endpoint.getHostAndPort()
-                );
+                if (logger.isTraceEnabled()) {
+                    logger.trace("ReadStreamCall[{}] with method {} and endpoint {} created",
+                            traceId, method.getFullMethodName(), endpoint.getHostAndPort()
+                    );
+                }
+
+                Metadata metadata = makeMetadataFromSettings(settings, endpoint);
+                GrpcFlowControl flowCtrl = settings.getFlowControl();
+                return new ReadStreamCall<>(traceId, endpoint.getHostAndPort(), call, flowCtrl, request, metadata,
+                        handler, settings.getSpan());
             }
-
-            Metadata metadata = makeMetadataFromSettings(settings, endpoint);
-            GrpcFlowControl flowCtrl = settings.getFlowControl();
-            return new ReadStreamCall<>(traceId, endpoint.getHostAndPort(), call, flowCtrl, request, metadata, handler,
-                    settings.getSpan());
         } catch (UnexpectedResultException ex) {
             logger.warn("ReadStreamCall[{}] got unexpected status {}", traceId, ex.getStatus());
             return new EmptyStream<>(ex.getStatus());
