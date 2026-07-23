@@ -286,26 +286,9 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 }
             }
         }
-        Assert.assertTrue("Expected at least one " + sdkSpanName + ", spans=" + summarizeSpans(spans), sdkCount >= 1);
-        Assert.assertEquals("Each " + sdkSpanName + " must have nested " + grpcSpanName
-                + " interceptor span, spans=" + summarizeSpans(spans), sdkCount, nestedCount);
-    }
-
-    private static String summarizeSpans(List<SpanData> spans) {
-        StringBuilder sb = new StringBuilder("[");
-        for (int i = 0; i < spans.size(); i++) {
-            SpanData span = spans.get(i);
-            if (i > 0) {
-                sb.append(", ");
-            }
-            sb.append(span.getName())
-                    .append("(id=")
-                    .append(span.getSpanId())
-                    .append(", parent=")
-                    .append(span.getParentSpanId())
-                    .append(')');
-        }
-        return sb.append(']').toString();
+        Assert.assertTrue("Expected at least one " + sdkSpanName, sdkCount >= 1);
+        Assert.assertEquals("Each " + sdkSpanName + " must have nested " + grpcSpanName + " interceptor span",
+                sdkCount, nestedCount);
     }
 
     @Test
