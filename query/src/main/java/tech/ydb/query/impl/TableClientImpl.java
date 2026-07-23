@@ -15,6 +15,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.proto.ValueProtos;
@@ -136,49 +137,54 @@ public class TableClientImpl implements TableClient {
             final List<ValueProtos.ResultSet> results = new ArrayList<>();
             Span span = querySession.startSpan("ydb.ExecuteQuery");
 
-            QueryStream stream = querySession.new StreamImpl(querySession.createGrpcStream(query, tc, prms, qs, span),
-                    span) {
-                @Override
-                void handleTxMeta(String txID) {
-                    txRef.set(txID);
-                }
-            };
-
-            CompletableFuture<Result<QueryInfo>> future = stream.execute(new QueryStream.PartsHandler() {
-                @Override
-                public void onIssues(Issue[] issueArr) {
-                    issues.addAll(Arrays.asList(issueArr));
-                }
-
-                @Override
-                public void onNextPart(QueryResultPart part) {
-                } // not used
-
-                @Override
-                public void onNextRawPart(long index, ValueProtos.ResultSet rs) {
-                    int idx = (int) index;
-                    while (results.size() <= idx) {
-                        results.add(null);
+            try (Scope ignored = span.makeCurrent()) {
+                QueryStream stream = querySession.new StreamImpl(
+                        querySession.createGrpcStream(query, tc, prms, qs, span),
+                        span
+                ) {
+                    @Override
+                    void handleTxMeta(String txID) {
+                        txRef.set(txID);
                     }
-                    if (results.get(idx) == null) {
-                        results.set(idx, rs);
-                    } else {
-                        results.set(idx, results.get(idx).toBuilder().addAllRows(rs.getRowsList()).build());
+                };
+
+                CompletableFuture<Result<QueryInfo>> future = stream.execute(new QueryStream.PartsHandler() {
+                    @Override
+                    public void onIssues(Issue[] issueArr) {
+                        issues.addAll(Arrays.asList(issueArr));
                     }
-                }
-            });
+
+                    @Override
+                    public void onNextPart(QueryResultPart part) {
+                    } // not used
+
+                    @Override
+                    public void onNextRawPart(long index, ValueProtos.ResultSet rs) {
+                        int idx = (int) index;
+                        while (results.size() <= idx) {
+                            results.add(null);
+                        }
+                        if (results.get(idx) == null) {
+                            results.set(idx, rs);
+                        } else {
+                            results.set(idx, results.get(idx).toBuilder().addAllRows(rs.getRowsList()).build());
+                        }
+                    }
+                });
 
 
-            return future.thenApply(res -> {
-                if (!res.isSuccess()) {
-                    return res.map(v -> null);
-                }
-                QueryStats stats = res.getValue().getStats();
-                String txId = txRef.get();
-                Status status = res.getStatus().withIssues(issues.toArray(new Issue[0]));
-                DataQueryResult value = new DataQueryResult(txId, results, stats != null ? stats.toProtobuf() : null);
-                return Result.success(value, status);
-            });
+                return future.thenApply(res -> {
+                    if (!res.isSuccess()) {
+                        return res.map(v -> null);
+                    }
+                    QueryStats stats = res.getValue().getStats();
+                    String txId = txRef.get();
+                    Status status = res.getStatus().withIssues(issues.toArray(new Issue[0]));
+                    DataQueryResult value = new DataQueryResult(
+                            txId, results, stats != null ? stats.toProtobuf() : null);
+                    return Result.success(value, status);
+                });
+            }
         }
 
         @Override
@@ -214,7 +220,9 @@ public class TableClientImpl implements TableClient {
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return Span.endOnStatus(span, querySession.commitById(txId, querySettings, span));
+            try (Scope ignored = span.makeCurrent()) {
+                return Span.endOnStatus(span, querySession.commitById(txId, querySettings, span));
+            }
         }
 
         @Override
@@ -224,7 +232,9 @@ public class TableClientImpl implements TableClient {
                     .withTraceId(settings.getTraceId())
                     .withRequestTimeout(settings.getTimeoutDuration())
                     .build();
-            return Span.endOnStatus(span, querySession.rollbackById(txId, querySettings, span));
+            try (Scope ignored = span.makeCurrent()) {
+                return Span.endOnStatus(span, querySession.rollbackById(txId, querySettings, span));
+            }
         }
 
         private final class TracedTableTransaction implements TableTransaction {

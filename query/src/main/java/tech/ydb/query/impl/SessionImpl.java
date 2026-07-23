@@ -26,6 +26,7 @@ import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.operation.StatusExtractor;
 import tech.ydb.core.settings.BaseRequestSettings;
+import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.URITools;
 import tech.ydb.core.utils.UpdatableOptional;
@@ -126,10 +127,14 @@ abstract class SessionImpl implements QuerySession {
                 .setTxSettings(TxControl.txSettings(tx))
                 .build();
 
-        return rpc.beginTransaction(request, makeOptions(settings).build()).thenApply(result -> {
-            updateSessionState(result.getStatus());
-            return result.map(resp -> updateTransaction(new TransactionImpl(tx, resp.getTxMeta().getId())));
-        });
+        Span span = startSpan("ydb.BeginTransaction");
+        try (Scope ignored = span.makeCurrent()) {
+            return Span.endOnResult(span, rpc.beginTransaction(request, makeOptions(settings, span).build()))
+                    .thenApply(result -> {
+                        updateSessionState(result.getStatus());
+                        return result.map(resp -> updateTransaction(new TransactionImpl(tx, resp.getTxMeta().getId())));
+                    });
+        }
     }
 
     private QueryTransaction updateTransaction(TransactionImpl newTx) {
@@ -331,14 +336,16 @@ abstract class SessionImpl implements QuerySession {
     public QueryStream createQuery(String query, TxMode tx, Params prms, ExecuteQuerySettings settings) {
         YdbQuery.TransactionControl tc = TxControl.txModeCtrl(tx, true);
         Span span = startSpan("ydb.ExecuteQuery");
-        return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
-            @Override
-            void handleTxMeta(String txID) {
-                if (txID != null && !txID.isEmpty()) {
-                    logger.warn("{} got unexpected transaction id {}", SessionImpl.this, txID);
+        try (Scope ignored = span.makeCurrent()) {
+            return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
+                @Override
+                void handleTxMeta(String txID) {
+                    if (txID != null && !txID.isEmpty()) {
+                        logger.warn("{} got unexpected transaction id {}", SessionImpl.this, txID);
+                    }
                 }
-            }
-        };
+            };
+        }
     }
 
     public CompletableFuture<Result<YdbQuery.DeleteSessionResponse>> delete(DeleteSessionSettings settings) {
@@ -478,44 +485,46 @@ abstract class SessionImpl implements QuerySession {
                     : TxControl.txModeCtrl(txMode, commitAtEnd);
 
             Span span = startSpan("ydb.ExecuteQuery");
-            return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
-                @Override
-                void handleTxMeta(String txID) {
-                    String newId = txID == null || txID.isEmpty() ? null : txID;
-                    if (!txId.compareAndSet(currentId, newId)) {
-                        logger.warn("{} lost transaction meta id {}", SessionImpl.this, newId);
-                    }
-                }
-
-                @Override
-                void handleCompletion(Status status, Throwable th) {
-                    if (th != null) {
-                        currentStatusFuture.completeExceptionally(
-                                new RuntimeException("Query on transaction failed with exception ", th));
-                    }
-                    if (status.isSuccess()) {
-                        if (commitAtEnd) {
-                            currentStatusFuture.complete(Status.SUCCESS);
+            try (Scope ignored = span.makeCurrent()) {
+                return new StreamImpl(createGrpcStream(query, tc, prms, settings, span), span) {
+                    @Override
+                    void handleTxMeta(String txID) {
+                        String newId = txID == null || txID.isEmpty() ? null : txID;
+                        if (!txId.compareAndSet(currentId, newId)) {
+                            logger.warn("{} lost transaction meta id {}", SessionImpl.this, newId);
                         }
-                    } else {
+                    }
+
+                    @Override
+                    void handleCompletion(Status status, Throwable th) {
+                        if (th != null) {
+                            currentStatusFuture.completeExceptionally(
+                                    new RuntimeException("Query on transaction failed with exception ", th));
+                        }
+                        if (status.isSuccess()) {
+                            if (commitAtEnd) {
+                                currentStatusFuture.complete(Status.SUCCESS);
+                            }
+                        } else {
+                            if (txId.compareAndSet(currentId, null)) {
+                                logger.warn("{} transaction with id {} was failed", SessionImpl.this, currentId);
+                            }
+                            currentStatusFuture.complete(Status
+                                    .of(StatusCode.ABORTED)
+                                    .withIssues(Issue.of("Query on transaction failed with status "
+                                            + status, Issue.Severity.ERROR)));
+                        }
+                    }
+
+                    @Override
+                    public void cancel() {
+                        super.cancel();
                         if (txId.compareAndSet(currentId, null)) {
-                            logger.warn("{} transaction with id {} was failed", SessionImpl.this, currentId);
+                            logger.warn("{} transaction with id {} was cancelled", SessionImpl.this, currentId);
                         }
-                        currentStatusFuture.complete(Status
-                                .of(StatusCode.ABORTED)
-                                .withIssues(Issue.of("Query on transaction failed with status "
-                                        + status, Issue.Severity.ERROR)));
                     }
-                }
-
-                @Override
-                public void cancel() {
-                    super.cancel();
-                    if (txId.compareAndSet(currentId, null)) {
-                        logger.warn("{} transaction with id {} was cancelled", SessionImpl.this, currentId);
-                    }
-                }
-            };
+                };
+            }
         }
 
         @Override
@@ -534,22 +543,25 @@ abstract class SessionImpl implements QuerySession {
                     .setTxId(transactionId)
                     .build();
 
-            return Span.endOnResult(span, rpc.commitTransaction(request, makeOptions(settings, span).build()))
-                    .thenApply(res -> {
-                        Status status = res.getStatus();
-                        currentStatusFuture.complete(status);
-                        updateSessionState(status);
-                        if (!txId.compareAndSet(transactionId, null)) {
-                            logger.warn("{} lost commit response for transaction {}", SessionImpl.this, transactionId);
-                        }
-                        // TODO: CommitTransactionResponse must contain exec_stats
-                        return res.map(resp -> new QueryInfo(null));
-                    }).whenComplete(((status, th) -> {
-                        if (th != null) {
-                            currentStatusFuture.completeExceptionally(
-                                    new RuntimeException("Transaction commit failed with exception", th));
-                        }
-                    }));
+            try (Scope ignored = span.makeCurrent()) {
+                return Span.endOnResult(span, rpc.commitTransaction(request, makeOptions(settings, span).build()))
+                        .thenApply(res -> {
+                            Status status = res.getStatus();
+                            currentStatusFuture.complete(status);
+                            updateSessionState(status);
+                            if (!txId.compareAndSet(transactionId, null)) {
+                                logger.warn("{} lost commit response for transaction {}", SessionImpl.this,
+                                        transactionId);
+                            }
+                            // TODO: CommitTransactionResponse must contain exec_stats
+                            return res.map(resp -> new QueryInfo(null));
+                        }).whenComplete(((status, th) -> {
+                            if (th != null) {
+                                currentStatusFuture.completeExceptionally(
+                                        new RuntimeException("Transaction commit failed with exception", th));
+                            }
+                        }));
+            }
         }
 
         @Override
@@ -568,20 +580,22 @@ abstract class SessionImpl implements QuerySession {
                     .setSessionId(sessionId)
                     .setTxId(transactionId)
                     .build();
-            return Span.endOnResult(span, rpc.rollbackTransaction(request, makeOptions(settings, span).build()))
-                    .thenApply(result -> {
-                        updateSessionState(result.getStatus());
-                        if (!txId.compareAndSet(transactionId, null)) {
-                            logger.warn("{} lost rollback response for transaction {}", SessionImpl.this,
-                                    transactionId);
-                        }
-                        return result.getStatus();
-                    })
-                    .whenComplete((status, th) -> {
-                        currentStatusFuture.complete(Status
-                                .of(StatusCode.ABORTED)
-                                .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR)));
-                    });
+            try (Scope ignored = span.makeCurrent()) {
+                return Span.endOnResult(span, rpc.rollbackTransaction(request, makeOptions(settings, span).build()))
+                        .thenApply(result -> {
+                            updateSessionState(result.getStatus());
+                            if (!txId.compareAndSet(transactionId, null)) {
+                                logger.warn("{} lost rollback response for transaction {}", SessionImpl.this,
+                                        transactionId);
+                            }
+                            return result.getStatus();
+                        })
+                        .whenComplete((status, th) -> {
+                            currentStatusFuture.complete(Status
+                                    .of(StatusCode.ABORTED)
+                                    .withIssues(Issue.of("Transaction was rolled back", Issue.Severity.ERROR)));
+                        });
+            }
         }
     }
 }
