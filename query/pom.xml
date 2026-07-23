@@ -49,12 +49,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-grpc-1.6</artifactId>
-            <version>${opentelemetry.instrumentation.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
