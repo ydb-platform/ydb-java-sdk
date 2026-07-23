@@ -12,6 +12,7 @@ import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.trace.Tracer;
 import io.opentelemetry.context.Scope;
+import io.opentelemetry.instrumentation.grpc.v1_6.GrpcTelemetry;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.testing.exporter.InMemorySpanExporter;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
@@ -33,6 +34,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.tracing.OpenTelemetryTracer;
+import tech.ydb.proto.query.v1.QueryServiceGrpc;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
 import tech.ydb.query.QueryTransaction;
@@ -74,9 +76,11 @@ public class OpenTelemetryQueryTracingIntegrationTest {
                 .setTracerProvider(tracerProvider)
                 .build();
         appTracer = openTelemetry.getTracer("test.app");
+        GrpcTelemetry grpcTelemetry = GrpcTelemetry.create(openTelemetry);
         transport = GrpcTransport.forEndpoint(YDB.endpoint(), YDB.database())
                 .withAuthProvider(new TokenAuthProvider(YDB.authToken()))
                 .withTracer(OpenTelemetryTracer.fromOpenTelemetry(openTelemetry))
+                .addChannelInitializer(builder -> builder.intercept(grpcTelemetry.createClientInterceptor()))
                 .build();
     }
 
@@ -140,6 +144,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             session.createQuery("SELECT 1", TxMode.NONE).execute().join().getStatus().expectSuccess();
 
             assertSpanOK("ydb.ExecuteQuery", 1);
+            assertSpanOK("ydb.BeginTransaction", 0);
             assertSpanOK("ydb.Commit", 0);
             assertSpanOK("ydb.Rollback", 0);
 
@@ -147,6 +152,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             txCommit.getStatus().expectSuccess();
 
             assertSpanOK("ydb.ExecuteQuery", 1);
+            assertSpanOK("ydb.BeginTransaction", 1);
             assertSpanOK("ydb.Commit", 0);
             assertSpanOK("ydb.Rollback", 0);
 
@@ -156,6 +162,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             commitResult.getStatus().expectSuccess();
 
             assertSpanOK("ydb.ExecuteQuery", 2);
+            assertSpanOK("ydb.BeginTransaction", 1);
             assertSpanOK("ydb.Commit", 1);
             assertSpanOK("ydb.Rollback", 0);
 
@@ -169,6 +176,7 @@ public class OpenTelemetryQueryTracingIntegrationTest {
 
         assertSpanOK("ydb.CreateSession", 1);
         assertSpanOK("ydb.ExecuteQuery", 3);
+        assertSpanOK("ydb.BeginTransaction", 2);
         assertSpanOK("ydb.Commit", 1);
         assertSpanOK("ydb.Rollback", 1);
     }
@@ -233,6 +241,71 @@ public class OpenTelemetryQueryTracingIntegrationTest {
             Assert.assertEquals(appSpan.getSpanContext().getTraceId(), sdkSpan.getTraceId());
             Assert.assertEquals(appSpan.getSpanContext().getSpanId(), sdkSpan.getParentSpanId());
         }
+    }
+
+    @Test
+    public void grpcInterceptorSpansNestUnderSdkSpans() {
+        try (QuerySession session = queryClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
+            session.createQuery("SELECT 1", TxMode.NONE).execute().join().getStatus().expectSuccess();
+
+            Result<QueryTransaction> txCommit = session.beginTransaction(TxMode.SERIALIZABLE_RW).join();
+            txCommit.getStatus().expectSuccess();
+            txCommit.getValue().commit().join().getStatus().expectSuccess();
+
+            Result<QueryTransaction> txRollback = session.beginTransaction(TxMode.SERIALIZABLE_RW).join();
+            txRollback.getStatus().expectSuccess();
+            txRollback.getValue().rollback().join().expectSuccess();
+        }
+
+        List<SpanData> spans = exportedSpans();
+        assertGrpcInterceptorChildOf("ydb.CreateSession",
+                QueryServiceGrpc.getCreateSessionMethod().getFullMethodName(), spans);
+        assertGrpcInterceptorChildOf("ydb.ExecuteQuery",
+                QueryServiceGrpc.getExecuteQueryMethod().getFullMethodName(), spans);
+        assertGrpcInterceptorChildOf("ydb.BeginTransaction",
+                QueryServiceGrpc.getBeginTransactionMethod().getFullMethodName(), spans);
+        assertGrpcInterceptorChildOf("ydb.Commit",
+                QueryServiceGrpc.getCommitTransactionMethod().getFullMethodName(), spans);
+        assertGrpcInterceptorChildOf("ydb.Rollback",
+                QueryServiceGrpc.getRollbackTransactionMethod().getFullMethodName(), spans);
+    }
+
+    private static void assertGrpcInterceptorChildOf(String sdkSpanName, String grpcSpanName, List<SpanData> spans) {
+        int sdkCount = 0;
+        int nestedCount = 0;
+        for (SpanData sdkSpan : spans) {
+            if (!sdkSpanName.equals(sdkSpan.getName())) {
+                continue;
+            }
+            sdkCount++;
+            for (SpanData grpcSpan : spans) {
+                if (grpcSpanName.equals(grpcSpan.getName())
+                        && sdkSpan.getSpanId().equals(grpcSpan.getParentSpanId())) {
+                    nestedCount++;
+                    Assert.assertEquals(sdkSpan.getTraceId(), grpcSpan.getTraceId());
+                }
+            }
+        }
+        Assert.assertTrue("Expected at least one " + sdkSpanName + ", spans=" + summarizeSpans(spans), sdkCount >= 1);
+        Assert.assertEquals("Each " + sdkSpanName + " must have nested " + grpcSpanName
+                + " interceptor span, spans=" + summarizeSpans(spans), sdkCount, nestedCount);
+    }
+
+    private static String summarizeSpans(List<SpanData> spans) {
+        StringBuilder sb = new StringBuilder("[");
+        for (int i = 0; i < spans.size(); i++) {
+            SpanData span = spans.get(i);
+            if (i > 0) {
+                sb.append(", ");
+            }
+            sb.append(span.getName())
+                    .append("(id=")
+                    .append(span.getSpanId())
+                    .append(", parent=")
+                    .append(span.getParentSpanId())
+                    .append(')');
+        }
+        return sb.append(']').toString();
     }
 
     @Test
