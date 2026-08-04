@@ -1,5 +1,7 @@
 package tech.ydb.core;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -215,6 +217,35 @@ public class ResultTest {
 
         Assert.assertSame(Issue.EMPTY_ARRAY, r.getStatus().getIssues());
         Assert.assertEquals(expectedValue, r.getValue());
+    }
+
+    @Test
+    public void errorMapResultFutureKeepsFailedResult() {
+        Throwable cause = new RuntimeException("some exception");
+        Result<Void> error = Result.error("error message", cause);
+
+        CompletableFuture<Result<String>> mapped = error.mapResultFuture(
+                v -> CompletableFuture.completedFuture(Result.success("must not be called"))
+        );
+
+        // failures are reported as a failed result, exactly like Fail and Unexpected do
+        Assert.assertTrue(mapped.isDone());
+        Assert.assertFalse(mapped.isCompletedExceptionally());
+        Assert.assertEquals(error, mapped.join());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, mapped.join().getStatus().getCode());
+        Assert.assertEquals(cause, mapped.join().getStatus().getCause());
+    }
+
+    @Test
+    public void errorWithoutCauseMapResultFuture() {
+        Result<Void> error = Result.error("error message", null);
+
+        CompletableFuture<Result<String>> mapped = error.mapResultFuture(
+                v -> CompletableFuture.completedFuture(Result.success("must not be called"))
+        );
+
+        Assert.assertFalse(mapped.isCompletedExceptionally());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, mapped.join().getStatus().getCode());
     }
 
     private static <T> void assertFail(Result<?> r, StatusCode code, Throwable cause) {
