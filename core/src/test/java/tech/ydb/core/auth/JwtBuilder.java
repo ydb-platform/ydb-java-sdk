@@ -20,7 +20,8 @@ public class JwtBuilder {
         sb.append("\"iss\":\"").append("MOCK").append("\"");
         sb.append("}");
         
-        String base64 = Base64.getEncoder().encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
+        String base64 = Base64.getUrlEncoder().withoutPadding()
+                .encodeToString(sb.toString().getBytes(StandardCharsets.UTF_8));
         
         return PREFIX + base64;
     }

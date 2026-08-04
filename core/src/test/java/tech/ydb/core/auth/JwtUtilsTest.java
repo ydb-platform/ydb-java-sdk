@@ -24,4 +24,21 @@ public class JwtUtilsTest {
         Assert.assertEquals(Instant.ofEpochSecond(1726544488), JwtUtils.extractExpireAt(jwt2, Instant.EPOCH));
         Assert.assertEquals(Instant.ofEpochSecond(1726544488), JwtUtils.extractExpireAt(jwt3, Instant.EPOCH));
     }
+
+    @Test
+    public void parseBase64UrlPayloadTest() {
+        // JWT payloads use the base64url alphabet, so they may contain '-' and '_' instead of '+' and '/'
+        // { "alg": "HS256", "typ": "JWT" }.{ "sub": "a?b>c", "aud": "x?y?z", "exp": 1726544488 }
+        String jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
+                + ".eyJzdWIiOiJhP2I-YyIsImF1ZCI6Ing_eT96IiwiZXhwIjoxNzI2NTQ0NDg4fQ";
+
+        Assert.assertEquals(Instant.ofEpochSecond(1726544488), JwtUtils.extractExpireAt(jwt, Instant.EPOCH));
+    }
+
+    @Test
+    public void unparsablePayloadReturnsDefaultTest() {
+        String jwt = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.!not-a-base64-payload!";
+
+        Assert.assertEquals(Instant.EPOCH, JwtUtils.extractExpireAt(jwt, Instant.EPOCH));
+    }
 }
