@@ -62,6 +62,14 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
                 onStreamStop(wrapped, retryConfig.getThrowableRetryPolicy(th));
             }
         });
+
+        // close() may have run between the isClosed check above and the publication of this stream. In
+        // that case it found an empty slot, reported that there was nothing to close, and this stream
+        // would stay open forever.
+        if (isClosed && realStream.compareAndSet(stream, null)) {
+            logger.warn("[{}] stream was started concurrently with close, closing it", debugId);
+            stream.close();
+        }
     }
 
     protected void resetRetries() {

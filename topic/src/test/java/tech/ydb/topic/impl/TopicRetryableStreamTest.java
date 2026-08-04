@@ -22,6 +22,8 @@ import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.topic.utils.HideLoggers;
 import tech.ydb.topic.utils.HideLoggersRule;
 
+import static java.util.Collections.singletonList;
+
 public class TopicRetryableStreamTest {
     private static final Logger logger = LoggerFactory.getLogger(TopicRetryableStreamTest.class);
     private static final Empty EMPTY = Empty.getDefaultInstance();
@@ -163,6 +165,33 @@ public class TopicRetryableStreamTest {
         TestStream retryable = new TestStream(Arrays.asList(), RetryConfig.noRetries(), mockScheduler());
         Assert.assertFalse(retryable.close());
         retryable.start(); // nothing
+    }
+
+    @Test
+    public void closeWhileStartingTest() {
+        StreamHandle streamHandle = new StreamHandle();
+        List<Boolean> closeResults = new ArrayList<>();
+
+        // createNewStream runs exactly in the window between the isClosed check of start() and the
+        // publication of the new stream, so closing from there reproduces the interleaving where
+        // close() finds no stream to close while start() is about to open one
+        TestStream retryable = new TestStream(singletonList(streamHandle), RetryConfig.noRetries(), mockScheduler()) {
+            @Override
+            protected TopicStream<Empty, Empty> createNewStream(String debugId) {
+                TopicStream<Empty, Empty> created = super.createNewStream(debugId);
+                closeResults.add(close());
+                return created;
+            }
+        };
+
+        retryable.start();
+
+        Assert.assertEquals(singletonList(Boolean.FALSE), closeResults);
+        // the stream must not be left running after the retrier was closed
+        Mockito.verify(streamHandle.grpc).close();
+
+        streamHandle.complete(Status.SUCCESS);
+        Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
     }
 
     @Test
