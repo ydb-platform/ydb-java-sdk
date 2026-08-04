@@ -1,6 +1,7 @@
 package tech.ydb.core;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -146,7 +147,8 @@ public class Issue implements Serializable {
                 && Objects.equals(position, issue.position)
                 && Objects.equals(endPosition, issue.endPosition)
                 && Objects.equals(message, issue.message)
-                && severity == issue.severity;
+                && severity == issue.severity
+                && Arrays.equals(issues, issue.issues);
     }
 
     @Override
@@ -156,6 +158,7 @@ public class Issue implements Serializable {
         result = 31 * result + code;
         result = 31 * result + message.hashCode();
         result = 31 * result + severity.hashCode();
+        result = 31 * result + Arrays.hashCode(issues);
         return result;
     }
 

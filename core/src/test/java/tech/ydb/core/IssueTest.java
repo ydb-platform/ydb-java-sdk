@@ -1,8 +1,9 @@
 package tech.ydb.core;
 
-import tech.ydb.core.Issue.Position;
 import org.junit.Assert;
 import org.junit.Test;
+
+import tech.ydb.core.Issue.Position;
 
 
 /**
@@ -36,5 +37,30 @@ public class IssueTest {
             "  #3 message (S_WARNING)\n" +
             "  11:22: #4 message (S_WARNING)\n" +
             "  11:22 at file.cpp: #5 message (S_WARNING)", x.toString());
+    }
+
+    @Test
+    public void testEquals() {
+        Issue nested1 = Issue.of(1, "nested 1", Issue.Severity.WARNING);
+        Issue nested2 = Issue.of(2, "nested 2", Issue.Severity.WARNING);
+
+        Issue plain = Issue.of(7, "cause", Issue.Severity.FATAL);
+        Issue samePlain = Issue.of(7, "cause", Issue.Severity.FATAL);
+
+        Assert.assertEquals(plain, samePlain);
+        Assert.assertEquals(plain.hashCode(), samePlain.hashCode());
+        Assert.assertNotEquals(plain, Issue.of(8, "root cause", Issue.Severity.FATAL));
+        Assert.assertNotEquals(plain, null);
+
+        Issue withNested = Issue.of(Position.EMPTY, Position.EMPTY, 7, "cause", Issue.Severity.FATAL, nested1);
+        Issue withSameNested = Issue.of(Position.EMPTY, Position.EMPTY, 7, "cause", Issue.Severity.FATAL, nested1);
+        Issue withOtherNested = Issue.of(Position.EMPTY, Position.EMPTY, 7, "cause", Issue.Severity.FATAL, nested2);
+
+        Assert.assertEquals(withNested, withSameNested);
+        Assert.assertEquals(withNested.hashCode(), withSameNested.hashCode());
+
+        // issues differing only in their nested issues are different issues
+        Assert.assertNotEquals(withNested, withOtherNested);
+        Assert.assertNotEquals(withNested, plain);
     }
 }
