@@ -27,6 +27,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.grpc.GrpcTransportBuilder;
 import tech.ydb.core.grpc.YdbHeaders;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
@@ -181,6 +182,41 @@ public class YdbTransportImplTest {
         Assert.assertEquals("i am node", f2.join().getValue().getUser());
 
         Assert.assertTrue(isReady.isDone());
+    }
+
+    @Test(timeout = 30_000)
+    public void requestDeadlineLimitsWaitingForDiscovery() {
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.neverAnswer(testScheduler));
+
+        // deliberately much longer than the deadline of the request below
+        Duration discoveryTimeout = Duration.ofMinutes(10);
+
+        try (GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withInitMode(GrpcTransportBuilder.InitMode.ASYNC)
+                .withDiscoveryTimeout(discoveryTimeout)
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .build()
+        ) {
+
+            GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
+                    .withDeadline(Duration.ofMillis(200))
+                    .build();
+
+            long startedAt = System.nanoTime();
+            Result<DiscoveryProtos.WhoAmIResponse> result = transport
+                    .unaryCall(
+                            DiscoveryServiceGrpc.getWhoAmIMethod(),
+                            settings,
+                            DiscoveryProtos.WhoAmIRequest.newBuilder().build()
+                    )
+                    .join();
+            Duration elapsed = Duration.ofNanos(System.nanoTime() - startedAt);
+
+            Assert.assertFalse(result.isSuccess());
+            // the call must give up near its own deadline instead of waiting for the discovery timeout
+            Assert.assertTrue("discovery waiting took " + elapsed, elapsed.compareTo(discoveryTimeout) < 0);
+        }
     }
 
     @Test

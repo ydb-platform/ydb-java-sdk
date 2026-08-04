@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import com.google.common.base.Strings;
 import org.slf4j.Logger;
@@ -135,11 +136,14 @@ public class YdbTransportImpl extends BaseGrpcTransport {
     protected GrpcChannel getChannel(GrpcRequestSettings settings) {
         EndpointRecord endpoint = endpointPool.getEndpoint(channelPool.getReadyEndpoints(), settings);
         if (endpoint == null) {
-            long timeout = -1;
+            // negative value tells waitReady to use the default discovery timeout
+            long timeoutMs = -1;
             if (settings.getDeadlineAfter() != 0) {
-                timeout = settings.getDeadlineAfter() - System.nanoTime();
+                long leftNanos = settings.getDeadlineAfter() - System.nanoTime();
+                // an already expired deadline must not fall back to the default timeout
+                timeoutMs = Math.max(TimeUnit.NANOSECONDS.toMillis(leftNanos), 1);
             }
-            discovery.waitReady(timeout);
+            discovery.waitReady(timeoutMs);
             endpoint = endpointPool.getEndpoint(Collections.emptySet(), settings);
         }
         return channelPool.getChannel(endpoint);
