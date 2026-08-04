@@ -132,20 +132,26 @@ public abstract class ReadPartitionSession {
     }
 
     public void sendDataToReadersIfNeeded() {
-        if (isStopped) {
-            return;
-        }
+        while (!isStopped) {
+            if (!isReadingNow.compareAndSet(false, true)) {
+                logger.trace("[{}] No need to send data to readers: reading is already being performed", traceID);
 
-        if (isReadingNow.compareAndSet(false, true)) {
+                return;
+            }
+
             List<Batch> batchesToRead = new ArrayList<>();
 
             Batch next = readingQueue.peek();
             if (next == null || !next.isReady()) {
                 isReadingNow.set(false);
-                if (next != null && next.isReady()) {
-                    sendDataToReadersIfNeeded();
+                // The head of the queue may have become ready between the peek() above and the release
+                // of the flag. In that case the notification from the decoder thread hit the failed
+                // compareAndSet and was dropped, so the batch has to be picked up here.
+                Batch pending = readingQueue.peek();
+                if (pending == null || !pending.isReady()) {
+                    return;
                 }
-                return;
+                continue;
             }
             next = readingQueue.poll();
 
@@ -193,10 +199,7 @@ public abstract class ReadPartitionSession {
                 batchesToRead.forEach(Batch::complete);
                 sendDataToReadersIfNeeded();
             });
-        } else {
-            if (logger.isTraceEnabled()) {
-                logger.trace("[{}] No need to send data to readers: reading is already being performed", traceID);
-            }
+            return;
         }
     }
 }
