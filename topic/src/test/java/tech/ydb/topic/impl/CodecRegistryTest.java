@@ -1,15 +1,22 @@
 package tech.ydb.topic.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Unit tests for check simple logic for register custom codec
@@ -52,6 +59,68 @@ public class CodecRegistryTest {
         expectRegisterCodec(2, codec1, GzipCodec.getInstance());
         expectRegisterCodec(3, codec1, LzopCodec.getInstance());
         expectRegisterCodec(4, codec1, ZstdCodec.getInstance());
+    }
+
+    @Test(timeout = 60_000)
+    public void registerCustomCodecIsSafeForConcurrentUse() throws Exception {
+        int writerCount = 4;
+        int codecsPerWriter = 500;
+        int firstCodecId = 20000;
+
+        ExecutorService executor = Executors.newFixedThreadPool(writerCount + 1);
+
+        try {
+            CountDownLatch start = new CountDownLatch(1);
+            AtomicBoolean readersRun = new AtomicBoolean(true);
+            List<Future<?>> futures = new ArrayList<>();
+
+            for (int writer = 0; writer < writerCount; writer += 1) {
+                int base = firstCodecId + writer * codecsPerWriter;
+                futures.add(executor.submit(() -> {
+                    start.await();
+
+                    for (int idx = 0; idx < codecsPerWriter; idx += 1) {
+                        CodecTopic codec = new CodecTopic();
+                        codec.setCodecId(base + idx);
+                        registry.registerCodec(codec);
+                    }
+
+                    return null;
+                }));
+            }
+
+            futures.add(executor.submit(() -> {
+                start.await();
+
+                while (readersRun.get()) {
+                    registry.getCodec(Codec.RAW);
+                }
+
+                return null;
+            }));
+
+            start.countDown();
+
+            try {
+                for (int i = 0; i < writerCount; i += 1) {
+                    futures.get(i).get();
+                }
+
+                readersRun.set(false);
+                futures.get(writerCount).get();
+            } finally {
+                readersRun.set(false);
+            }
+        } finally {
+            executor.shutdownNow();
+        }
+
+        for (int codecId = firstCodecId; codecId < firstCodecId + writerCount * codecsPerWriter; codecId += 1) {
+            Assert.assertNotNull(
+                    "codec " + codecId + " was lost by a concurrent registration",
+                    registry.getCodec(codecId)
+            );
+        }
     }
 
     void expectRegisterCodec(int codecId, CodecTopic newCodec, Codec oldCodec) {

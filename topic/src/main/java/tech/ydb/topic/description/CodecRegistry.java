@@ -1,7 +1,7 @@
 package tech.ydb.topic.description;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,10 +17,11 @@ public class CodecRegistry {
 
     private static final Logger logger = LoggerFactory.getLogger(CodecRegistry.class);
 
-    final Map<Integer, Codec> customCodecMap;
+    // registerCodec may be called at any moment, while getCodec is used by the compression and the
+    // decompression threads of every reader and writer created from the same TopicClient
+    private final Map<Integer, Codec> customCodecMap = new ConcurrentHashMap<>();
 
     public CodecRegistry() {
-        customCodecMap = new HashMap<>();
         for (Codec codec: StandardCodecs.getAvailableCodecs()) {
             customCodecMap.put(codec.getId(), codec);
         }
