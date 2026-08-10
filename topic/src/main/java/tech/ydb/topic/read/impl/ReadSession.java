@@ -2,13 +2,11 @@ package tech.ydb.topic.read.impl;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -48,13 +46,9 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
     private final String consumerName;
     private final YdbTopic.StreamReadMessage.InitRequest initRequest;
 
-    private final long maxMemoryUsageBytes;
     private final int maxBatchSize;
     private final MessageDecoder decoder;
-
-    // Total size to request with next ReadRequest.
-    // Used to group several ReadResponses in one on high rps
-    private final AtomicLong sizeBytesToRequest = new AtomicLong(0);
+    private final BufferManager bufferManager;
 
     private final Map<Long, PartitionSession> partitions = new ConcurrentHashMap<>();
     private final Map<Long, ReadPartitionSession> partSessions = new ConcurrentHashMap<>();
@@ -64,9 +58,9 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
         this.reader = reader;
         this.rpc = rpc;
         this.decoder = decoder;
+        this.bufferManager = new BufferManager(id, settings.getMaxMemoryUsageBytes(), this::sendReadRequest);
 
         this.consumerName = settings.getConsumerName();
-        this.maxMemoryUsageBytes = settings.getMaxMemoryUsageBytes();
         this.maxBatchSize = settings.getMaxBatchSize();
         this.initRequest = buildInitRequest(settings);
     }
@@ -82,6 +76,10 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
 
     MessageDecoder getMessageDecoder() {
         return decoder;
+    }
+
+    BufferManager getBufferManager() {
+        return bufferManager;
     }
 
     @Override
@@ -111,6 +109,8 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
 
         partitions.values().forEach(reader::handleClosePartitionSession);
         partitions.clear();
+
+        decoder.stop();
     }
 
     protected void closeDueToError(Status status, Throwable th) {
@@ -121,18 +121,12 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
         }
     }
 
-    private void sendReadRequest() {
-        long currentSizeBytesToRequest = sizeBytesToRequest.getAndSet(0);
-        if (currentSizeBytesToRequest <= 0) {
-            logger.debug("[{}] Nothing to request in DataRequest. sizeBytesToRequest == {}", streamId,
-                    currentSizeBytesToRequest);
-            return;
-        }
-        logger.debug("[{}] Sending DataRequest with {} bytes", streamId, currentSizeBytesToRequest);
+    private void sendReadRequest(long sizeToRequest) {
+        logger.debug("[{}] Sending DataRequest with {} bytes", streamId, sizeToRequest);
 
         send(YdbTopic.StreamReadMessage.FromClient.newBuilder()
                 .setReadRequest(YdbTopic.StreamReadMessage.ReadRequest.newBuilder()
-                        .setBytesSize(currentSizeBytesToRequest)
+                        .setBytesSize(sizeToRequest)
                         .build())
                 .build());
     }
@@ -163,12 +157,8 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
     }
 
     private void onInitResponse(YdbTopic.StreamReadMessage.InitResponse response) {
-        String sessionId = response.getSessionId();
-
-        sizeBytesToRequest.set(maxMemoryUsageBytes);
-        logger.info("[{}] Session {} initialized. Requesting {} bytes...", streamId, sessionId, maxMemoryUsageBytes);
-        reader.onSessionStarted(sessionId);
-        sendReadRequest();
+        reader.onSessionStarted(response.getSessionId());
+        bufferManager.init(response.getSessionId());
     }
 
     private void onStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
@@ -252,6 +242,7 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
             if (rps != null) {
                 logger.info("[{}] Received force StopPartitionSessionRequest for {} ", streamId, rps.getPartition());
                 rps.stop();
+                bufferManager.releasePartition(psid);
             }
 
             reader.handleClosePartitionSession(partition);
@@ -292,46 +283,27 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                         session.stop();
                     }
                 }
+
+                bufferManager.releasePartition(psid);
             }
         });
     }
 
     private void onReadResponse(YdbTopic.StreamReadMessage.ReadResponse response) {
-        final long responseBytesSize = response.getBytesSize();
-        logger.debug("[{}] Received ReadResponse of {} bytes", streamId, responseBytesSize);
-        List<CompletableFuture<Void>> batchReadFutures = new ArrayList<>();
+        logger.debug("[{}] Received ReadResponse of {} bytes", streamId, response.getBytesSize());
+        bufferManager.allocate((int) response.getBytesSize(), response.getPartitionDataList());
 
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
             long psid = data.getPartitionSessionId();
-            ReadPartitionSession session = partSessions.get(data.getPartitionSessionId());
-            if (session == null) {
+            ReadPartitionSession session = partSessions.get(psid);
+            if (session == null || !session.addBatches(data.getBatchesList())) {
                 logger.warn("[{}] Received PartitionData for unknown(most likely already closed) PartitionSessionId={}",
                         streamId, psid);
-                // TODO: release memory buffer
-                continue;
+                bufferManager.releasePartition(psid);
             }
-
-            // Completes when all messages from a batch are read by user
-            batchReadFutures.add(session.addBatches(data.getBatchesList()));
         }
 
-        CompletableFuture.allOf(batchReadFutures.toArray(new CompletableFuture<?>[0]))
-                .whenComplete((res, th) -> {
-                    if (th != null) {
-                        logger.error("[{}] Exception while waiting for batches to be read:", streamId, th);
-                        return;
-                    }
-                    if (isStopped()) {
-                        logger.trace("[{}] Finished handling ReadResponse of {} bytes. Read session is already " +
-                                "closed -- no need to send ReadRequest", streamId, responseBytesSize);
-                        return;
-                    }
-
-                    logger.trace("[{}] Finished handling ReadResponse of {} bytes. Sending ReadRequest...",
-                            streamId, responseBytesSize);
-                    this.sizeBytesToRequest.addAndGet(responseBytesSize);
-                    sendReadRequest();
-                });
+        decoder.decodeNext();
     }
 
     protected void onCommitOffsetResponse(YdbTopic.StreamReadMessage.CommitOffsetResponse response) {

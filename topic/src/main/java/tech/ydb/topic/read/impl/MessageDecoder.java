@@ -1,119 +1,63 @@
 package tech.ydb.topic.read.impl;
 
-import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicLong;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.utils.Encoder;
+import tech.ydb.topic.impl.SerialRunnable;
 
 /**
  * Decodes message batches while limiting memory consumption for uncompressed data.
  * @author Aleksandr Gorshenin
  */
 public class MessageDecoder {
-    private static final Logger logger = LoggerFactory.getLogger(MessageDecoder.class);
+    private final AtomicLong totalAvailable;
 
-    private final AtomicLong availableBufferSize;
     private final Executor decompressionExecutor;
     private final CodecRegistry codecRegistry;
-    private final Queue<DecodeTask> decodingQueue = new ConcurrentLinkedQueue<>();
+    private final Queue<ReadPartitionDecoder.EncodedMessage> decodingQueue = new ConcurrentLinkedQueue<>();
+    private final SerialRunnable decodeNext = new SerialRunnable(new DecodeNext());
+    private volatile boolean isStopped = false;
 
     public MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
-        this.availableBufferSize = new AtomicLong(maxBufferSize);
+        this.totalAvailable = new AtomicLong(maxBufferSize);
         this.decompressionExecutor = decompressionExecutor;
         this.codecRegistry = codecRegistry;
     }
 
-    public void decode(String traceID, Batch batch, Runnable readyHandler) {
-        decodingQueue.offer(new DecodeTask(traceID, batch, readyHandler));
-        tryToDecodeNextBatch();
+    public void decodeNext() {
+        decodeNext.run();
     }
 
-    private void tryToDecodeNextBatch() {
-        if (availableBufferSize.get() <= 0) {
-            return;
-        }
+    public void stop() {
+        this.isStopped = true;
+    }
 
-        while (availableBufferSize.get() > 0) {
-            DecodeTask task = decodingQueue.poll();
-            if (task == null) {
-                return;
-            }
+    void add(ReadPartitionDecoder.EncodedMessage task) {
+        decodingQueue.add(task);
+    }
 
-            Batch batch = task.getBatch();
-            if (batch.getReadFuture().isDone()) { // session was closed, just skip decoding
-                continue;
-            }
-
-            long bufferSize = getUncompressedSize(batch);
-            availableBufferSize.addAndGet(-bufferSize);
-            batch.getReadFuture().whenComplete((v, th) -> {
-                availableBufferSize.addAndGet(bufferSize);
-                tryToDecodeNextBatch();
-            });
-
-            decompressionExecutor.execute(task);
+    void free(long bufferSize) {
+        if (bufferSize > 0) {
+            totalAvailable.addAndGet(bufferSize);
+            decodeNext.run();
         }
     }
 
-    private long getUncompressedSize(Batch batch) {
-        long uncompressed = 0;
-        long compressed = 0;
-        for (MessageImpl msg: batch.getMessages()) {
-            uncompressed += msg.getUncompressedSize();
-            compressed += msg.getData().length;
-        }
-
-        if (uncompressed > 0) {
-            return uncompressed;
-        }
-
-        // TODO: Implement moving average for compression level
-        return 2 * compressed;
-    }
-
-    private class DecodeTask implements Runnable {
-        private final String traceID;
-        private final Batch batch;
-        private final Runnable readyHandler;
-
-        DecodeTask(String traceID, Batch batch, Runnable readyHandler) {
-            this.traceID = traceID;
-            this.batch = batch;
-            this.readyHandler = readyHandler;
-        }
-
-        public Batch getBatch() {
-            return batch;
-        }
-
+    private final class DecodeNext implements Runnable {
         @Override
         public void run() {
-            if (logger.isTraceEnabled()) {
-                logger.trace("[{}] Started decoding batch", traceID);
-            }
-
-            batch.getMessages().forEach(message -> {
-                try {
-                    message.setData(Encoder.decode(batch.getCodec(), message.getData(), codecRegistry));
-                } catch (IOException exception) {
-                    message.setException(exception);
-                    logger.warn("[{}] Exception was thrown while decoding a message: ", traceID, exception);
+            while (!isStopped && totalAvailable.get() > 0) {
+                ReadPartitionDecoder.EncodedMessage next = decodingQueue.poll();
+                if (next == null) {
+                    return;
                 }
-            });
-            batch.markAsReady();
 
-            if (logger.isTraceEnabled()) {
-                logger.trace("[{}] Finished decoding batch", traceID);
+                totalAvailable.addAndGet(-next.allocate());
+                decompressionExecutor.execute(() -> next.decode(codecRegistry));
             }
-
-            readyHandler.run();
         }
     }
 }
