@@ -154,4 +154,21 @@ public class BufferManagerTest {
         bm.releasePartition(1L);
         Assert.assertEquals(100000L, requested.get());
     }
+
+    @Test
+    public void intOverflowTest() {
+        AtomicLong requested = new AtomicLong(0);
+        BufferManager bm = new BufferManager("trace-4", 1000, requested::addAndGet);
+
+        bm.allocate(100000, Arrays.asList(
+                partition(1, batch(1, 10000, 10000, 10000)),
+                partition(2, batch(1, 20000, 30000, 10000)),
+                partition(3, batch(1, 40000, 40000, 40000))
+        ));
+
+        bm.releasePartition(1L);
+        bm.releasePartition(2L);
+        bm.releasePartition(3L);
+        Assert.assertEquals(100000, requested.get());
+    }
 }

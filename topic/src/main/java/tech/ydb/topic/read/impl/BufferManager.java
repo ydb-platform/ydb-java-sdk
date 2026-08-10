@@ -131,17 +131,17 @@ public class BufferManager {
             return;
         }
 
-        int total = 0;
+        long total = 0;
         for (int v: buffer) {
             total += v;
         }
 
-        int currBuff = 0;
-        int currSum = 0;
+        long currBuff = 0;
+        long currSum = 0;
         for (int idx = 0; idx < buffer.length; idx += 1) {
             currSum += buffer[idx];
-            int newBuff = currSum * buffSize / total;
-            buffer[idx] = newBuff - currBuff;
+            long newBuff = currSum * buffSize / total;
+            buffer[idx] = (int) (newBuff - currBuff);
             currBuff = newBuff;
         }
     }

@@ -56,6 +56,11 @@ public abstract class ReadPartitionSession {
         return partition;
     }
 
+    @Override
+    public String toString() {
+        return "[" + traceID + "]";
+    }
+
     boolean commitOffsets(List<OffsetsRange> ranges) {
         if (isStopped) {
             logger.info("[{}] Offset ranges {} are requested to be committed, but partition session is already closed",
