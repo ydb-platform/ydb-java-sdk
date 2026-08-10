@@ -5,6 +5,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicLong;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.SerialRunnable;
 
@@ -13,6 +16,7 @@ import tech.ydb.topic.impl.SerialRunnable;
  * @author Aleksandr Gorshenin
  */
 public class MessageDecoder {
+    private static final Logger logger = LoggerFactory.getLogger(MessageDecoder.class);
     private final AtomicLong totalAvailable;
 
     private final Executor decompressionExecutor;
@@ -55,8 +59,15 @@ public class MessageDecoder {
                     return;
                 }
 
-                totalAvailable.addAndGet(-next.allocate());
-                decompressionExecutor.execute(() -> next.decode(codecRegistry));
+                long size = next.allocate();
+                totalAvailable.addAndGet(-size);
+                try {
+                    decompressionExecutor.execute(() -> next.decode(codecRegistry));
+                } catch (Throwable ex) {
+                    logger.error("Cannot execute decompression ", ex);
+                    next.setError(ex);
+                    totalAvailable.addAndGet(size);
+                }
             }
         }
     }

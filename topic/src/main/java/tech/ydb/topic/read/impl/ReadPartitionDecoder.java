@@ -25,7 +25,7 @@ import tech.ydb.topic.read.PartitionSession;
  * @author Aleksandr Gorshenin {@literal <alexandr268@ydb.tech>}
  */
 public class ReadPartitionDecoder {
-    private static final Logger logger = LoggerFactory.getLogger(ReaderImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageDecoder.class);
 
     private final String traceID;
     private final PartitionSession partition;
@@ -88,10 +88,7 @@ public class ReadPartitionDecoder {
     }
 
     private void release() {
-        long total = allocatedTotal.getAndSet(0);
-        if (total > 0) {
-            decoder.free(total);
-        }
+        decoder.free(allocatedTotal.getAndSet(0));
     }
 
     public class EncodedMessage extends MessageImpl  {
@@ -124,8 +121,15 @@ public class ReadPartitionDecoder {
             return isReady;
         }
 
+        public void setError(Throwable th) {
+            problem = new IOException("Decompression for " + getPartitionSession() + " error", th);
+            isReady = true;
+            readyHandler.run();
+        }
+
         public long allocate() {
             if (isStopped) {
+                problem = new IOException("" + getPartitionSession() + " is already closed");
                 isReady = true;
                 return 0;
             }
