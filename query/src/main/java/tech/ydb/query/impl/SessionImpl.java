@@ -75,14 +75,12 @@ abstract class SessionImpl implements QuerySession {
     private final QueryServiceRpc rpc;
     private final String sessionId;
     private final long nodeID;
-    private final boolean isTraceEnabled;
     private final AtomicReference<TransactionImpl> transaction;
 
     SessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
         this.rpc = rpc;
         this.sessionId = response.getSessionId();
         this.nodeID = getNodeBySessionId(response.getSessionId(), response.getNodeId());
-        this.isTraceEnabled = logger.isTraceEnabled();
         this.transaction = new AtomicReference<>(new TransactionImpl(TxMode.SERIALIZABLE_RW, null));
     }
 
@@ -442,10 +440,10 @@ abstract class SessionImpl implements QuerySession {
 
             @Override
             public void onNext(YdbQuery.ExecuteQueryResponsePart msg) {
-                if (isTraceEnabled) {
-                    logger.trace("{} got stream message {}",
-                            SessionImpl.this, TextFormat.shortDebugString(msg));
+                if (logger.isTraceEnabled()) {
+                    logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
                 }
+
                 Issue[] issues = Issue.fromPb(msg.getIssuesList());
                 Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
 
@@ -580,23 +578,30 @@ abstract class SessionImpl implements QuerySession {
                     .build();
 
             try (Scope ignored = span.makeCurrent()) {
-                return Span.endOnResult(span, rpc.commitTransaction(request, makeOptions(settings, span).build()))
-                        .thenApply(res -> {
-                            Status status = res.getStatus();
-                            currentStatusFuture.complete(status);
-                            updateSessionState(status);
-                            if (!txId.compareAndSet(transactionId, null)) {
-                                logger.warn("{} lost commit response for transaction {}", SessionImpl.this,
-                                        transactionId);
-                            }
-                            // TODO: CommitTransactionResponse must contain exec_stats
-                            return res.map(resp -> new QueryInfo(null));
-                        }).whenComplete(((status, th) -> {
-                            if (th != null) {
-                                currentStatusFuture.completeExceptionally(
-                                        new RuntimeException("Transaction commit failed with exception", th));
-                            }
-                        }));
+                GrpcRequestSettings options = makeOptions(settings, span).build();
+                CompletableFuture<Result<QueryInfo>> result = rpc.commitTransaction(request, options).thenApply(res -> {
+                    Status status = res.getStatus();
+                    currentStatusFuture.complete(status);
+                    updateSessionState(status);
+                    if (!txId.compareAndSet(transactionId, null)) {
+                        logger.warn("{} lost commit response for transaction {}", SessionImpl.this, transactionId);
+                    }
+
+                    return res.map(resp -> {
+                        VirtualTimestamp commit = null;
+                        if (resp.hasCommitTimestamp()) {
+                            CommonProtos.VirtualTimestamp vt = resp.getCommitTimestamp();
+                            commit = new VirtualTimestamp(vt.getPlanStep(), vt.getTxId());
+                        }
+                        return new QueryInfo(null, commit, null);
+                    });
+                }).whenComplete(((status, th) -> {
+                    if (th != null) {
+                        currentStatusFuture.completeExceptionally(
+                                new RuntimeException("Transaction commit failed with exception", th));
+                    }
+                }));
+                return Span.endOnResult(span, result);
             }
         }
 

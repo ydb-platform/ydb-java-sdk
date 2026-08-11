@@ -437,6 +437,7 @@ public class QueryIntegrationTest {
                         ExecuteQuerySettings.newBuilder().withStatsMode(QueryStatsMode.FULL).build()
                 ).execute(null).join().getValue();
                 Assert.assertTrue(info.hasStats());
+
                 logger.info("got stats {}", info.getStats());
 
                 Assert.assertFalse(info.hasSnapshotTimestamp());
@@ -534,6 +535,10 @@ public class QueryIntegrationTest {
 
                 Assert.assertTrue(result.isSuccess());
                 Assert.assertTrue(result.getStatus().getIssues().length == 0);
+
+                Assert.assertFalse(result.getValue().getQueryInfo().hasStats());
+                Assert.assertTrue(result.getValue().getQueryInfo().hasSnapshotTimestamp());
+                Assert.assertFalse(result.getValue().getQueryInfo().hasCommitTimestamp());
 
                 QueryReader reader = result.getValue();
                 Assert.assertEquals(3, reader.getResultSetCount());
