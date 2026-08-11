@@ -39,11 +39,19 @@ public class MessageDecoder {
         this.isStopped = true;
     }
 
+    long getTotalAvailable() {
+        return totalAvailable.get();
+    }
+
     void add(ReadPartitionDecoder.EncodedMessage task) {
         decodingQueue.add(task);
     }
 
     void free(long bufferSize) {
+        if (isStopped) {
+            return;
+        }
+
         if (bufferSize > 0) {
             totalAvailable.addAndGet(bufferSize);
             decodeNext.run();
@@ -66,7 +74,6 @@ public class MessageDecoder {
                 } catch (Throwable ex) {
                     logger.error("Cannot execute decompression ", ex);
                     next.setError(ex);
-                    totalAvailable.addAndGet(size);
                 }
             }
         }

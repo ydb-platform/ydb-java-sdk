@@ -95,6 +95,10 @@ public class MessageDecoderTest {
         Assert.assertArrayEquals(new byte[] {1, 2}, m1.getData());
         Assert.assertArrayEquals(new byte[] {3}, m2.getData());
         Assert.assertEquals(2, ready.get());
+
+        Assert.assertEquals(9800, decoder.getTotalAvailable());
+        partition.releaseRange(OffsetsRange.of(0, 10));
+        Assert.assertEquals(10000, decoder.getTotalAvailable());
     }
 
     @Test
@@ -117,9 +121,11 @@ public class MessageDecoderTest {
         Assert.assertFalse(m4.isReady());
         Assert.assertFalse(m5.isReady());
         Assert.assertEquals(0, ready.get());
+        Assert.assertEquals(100, decoder.getTotalAvailable());
 
         decoder.decodeNext();
 
+        Assert.assertEquals(-50, decoder.getTotalAvailable());
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
         Assert.assertTrue(m3.isReady());
@@ -136,11 +142,14 @@ public class MessageDecoderTest {
 
         p1.releaseRange(OffsetsRange.of(1)); // 40 is not enough to resume decoding
         p1.releaseRange(OffsetsRange.of(4)); // that offset is not decoded yet
+
+        Assert.assertEquals(-10, decoder.getTotalAvailable());
         Assert.assertFalse(m4.isReady());
         Assert.assertFalse(m5.isReady());
         Assert.assertEquals(3, ready.get());
 
         p1.releaseRange(OffsetsRange.of(2));
+        Assert.assertEquals(-30, decoder.getTotalAvailable());
         Assert.assertTrue(m4.isReady());
         Assert.assertFalse(m5.isReady());
         Assert.assertEquals(4, ready.get());
@@ -149,12 +158,19 @@ public class MessageDecoderTest {
         Assert.assertEquals(4, m4.getData()[0]);
 
         p1.releaseRange(OffsetsRange.of(0, 3)); // double release
+
+        Assert.assertEquals(-30, decoder.getTotalAvailable());
         Assert.assertFalse(m5.isReady());
         Assert.assertEquals(4, ready.get());
 
         p1.releaseRange(OffsetsRange.of(0, 5));
         Assert.assertTrue(m5.isReady());
         Assert.assertEquals(5, ready.get());
+
+        Assert.assertEquals(-20, decoder.getTotalAvailable());
+
+        p1.close();
+        Assert.assertEquals(100, decoder.getTotalAvailable());
     }
 
     @Test
@@ -175,8 +191,10 @@ public class MessageDecoderTest {
 
         Assert.assertEquals(0, r1.get());
         Assert.assertEquals(0, r2.get());
+        Assert.assertEquals(100, decoder.getTotalAvailable());
 
         decoder.decodeNext();
+        Assert.assertEquals(-50, decoder.getTotalAvailable());
 
         MessageImpl m6 = p1.decode(meta, OffsetsRange.of(4), gzipMsg(4, 10));
         MessageImpl m7 = p1.decode(meta, OffsetsRange.of(5), gzipMsg(5, 20));
@@ -184,6 +202,7 @@ public class MessageDecoderTest {
         MessageImpl m9 = p2.decode(meta, OffsetsRange.of(15), gzipMsg(15, 20));
 
         decoder.decodeNext();
+        Assert.assertEquals(-50, decoder.getTotalAvailable());
 
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
@@ -199,6 +218,7 @@ public class MessageDecoderTest {
         Assert.assertEquals(1, r2.get());
 
         p1.close();
+        Assert.assertEquals(0, decoder.getTotalAvailable());
 
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
@@ -216,6 +236,8 @@ public class MessageDecoderTest {
         p1.releaseRange(OffsetsRange.of(0, 100));
         p2.releaseRange(OffsetsRange.of(0, 100));
 
+        Assert.assertEquals(40, decoder.getTotalAvailable());
+
         Assert.assertTrue(m5.isReady());
         Assert.assertTrue(m6.isReady());
         Assert.assertTrue(m7.isReady());
@@ -224,7 +246,7 @@ public class MessageDecoderTest {
 
         Assert.assertEquals(2, r1.get()); // p1 is already stopped
         Assert.assertEquals(5, r2.get());
-}
+    }
 
     @Test
     public void decodeStopTest() {
@@ -239,20 +261,27 @@ public class MessageDecoderTest {
         MessageImpl m3 = partition.decode(meta, OffsetsRange.of(3), gzipMsg(3, 60));
 
         Assert.assertEquals(0, ready.get());
+        Assert.assertEquals(70, decoder.getTotalAvailable());
 
         decoder.decodeNext();
+
+        Assert.assertEquals(-20, decoder.getTotalAvailable());
         Assert.assertEquals(2, ready.get());
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
         Assert.assertFalse(m3.isReady());
 
         decoder.stop();
+        Assert.assertEquals(-20, decoder.getTotalAvailable());
+
         Assert.assertEquals(2, ready.get());
         Assert.assertFalse(m3.isReady());
 
         partition.releaseRange(OffsetsRange.of(0, 10));
         Assert.assertEquals(2, ready.get());
         Assert.assertFalse(m3.isReady());
+
+        Assert.assertEquals(-20, decoder.getTotalAvailable());
     }
 
     @Test
@@ -336,8 +365,11 @@ public class MessageDecoderTest {
         MessageImpl m5 = p1.decode(meta2, OffsetsRange.of(5), gzipMsg(5, 50));
         MessageImpl m6 = p1.decode(meta2, OffsetsRange.of(6), gzipMsg(6, 50));
 
+        Assert.assertEquals(200, decoder.getTotalAvailable());
+
         decoder.decodeNext();
 
+        Assert.assertEquals(0, decoder.getTotalAvailable());
         Assert.assertEquals(4, ready.get());
 
         Assert.assertTrue(m1.isReady());
@@ -353,6 +385,8 @@ public class MessageDecoderTest {
         assertDecompressionException("Not in GZIP format", m4::getData);
 
         p1.close();
+
+        Assert.assertEquals(200, decoder.getTotalAvailable());
 
         Assert.assertEquals(4, ready.get());
         Assert.assertTrue(m5.isReady());
@@ -378,9 +412,11 @@ public class MessageDecoderTest {
         BatchMeta meta = meta(Codec.GZIP);
         MessageImpl m1 = p1.decode(meta, OffsetsRange.of(5), gzipMsg(5, 50));
         MessageImpl m2 = p1.decode(meta, OffsetsRange.of(6), gzipMsg(6, 50));
+        Assert.assertEquals(200, decoder.getTotalAvailable());
 
         decoder.decodeNext();
 
+        Assert.assertEquals(200, decoder.getTotalAvailable());
         Assert.assertEquals(2, ready.get());
 
         Assert.assertTrue(m1.isReady());
@@ -390,5 +426,9 @@ public class MessageDecoderTest {
                 m1::getData);
         assertDecompressionException("Decompression for Partition session 1 (partition 1) for topic \"/topic\" error",
                 m2::getData);
+
+        Assert.assertEquals(200, decoder.getTotalAvailable());
+        p1.close();
+        Assert.assertEquals(200, decoder.getTotalAvailable());
     }
 }

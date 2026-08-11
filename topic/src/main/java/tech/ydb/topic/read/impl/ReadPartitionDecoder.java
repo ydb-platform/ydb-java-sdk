@@ -123,6 +123,7 @@ public class ReadPartitionDecoder {
 
         public void setError(Throwable th) {
             problem = new IOException("Decompression for " + getPartitionSession() + " error", th);
+            releaseRange(OffsetsRange.of(getOffset()));
             isReady = true;
             readyHandler.run();
         }
