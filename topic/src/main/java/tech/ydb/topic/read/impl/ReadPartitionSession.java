@@ -24,6 +24,7 @@ import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
  * @author Nikolay Perfilov
  */
 public abstract class ReadPartitionSession {
+
     private static final Logger logger = LoggerFactory.getLogger(ReaderImpl.class);
 
     private final String traceID;
@@ -89,7 +90,7 @@ public abstract class ReadPartitionSession {
             return false;
         }
 
-        for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch: batchList) {
+        for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch : batchList) {
             if (batch.getMessageDataCount() == 0) {
                 logger.error("[{}] Received empty batch. This shouldn't happen", traceID);
                 continue;
@@ -97,7 +98,7 @@ public abstract class ReadPartitionSession {
 
             BatchMeta meta = new BatchMeta(batch);
             List<MessageImpl> messages = new ArrayList<>(batch.getMessageDataCount());
-            for (YdbTopic.StreamReadMessage.ReadResponse.MessageData msg: batch.getMessageDataList()) {
+            for (YdbTopic.StreamReadMessage.ReadResponse.MessageData msg : batch.getMessageDataList()) {
                 if (lastReadOffset > msg.getOffset()) {
                     logger.error("[{}] Received a message with offset {} which is less than last read offset {} ",
                             traceID, msg.getOffset(), lastReadOffset);
@@ -137,7 +138,7 @@ public abstract class ReadPartitionSession {
             return;
         }
 
-         if (isReadingNow.compareAndSet(false, true)) {
+        if (isReadingNow.compareAndSet(false, true)) {
             Iterator<MessageImpl> it = readingQueue.iterator();
             if (!it.hasNext()) {
                 isReadingNow.set(false);
@@ -165,10 +166,10 @@ public abstract class ReadPartitionSession {
 
             // Should be called maximum in 1 thread at a time
             DataReceivedEvent event = new DataReceivedEventImpl(partition, committer, messagesToRead);
-            logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about " +
-                            "to be called...", traceID, messagesToRead.size(),
-                                messagesToRead.get(0).getOffset(),
-                                messagesToRead.get(messagesToRead.size() - 1).getOffset());
+            logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
+                    + "to be called...", traceID, messagesToRead.size(),
+                    messagesToRead.get(0).getOffset(),
+                    messagesToRead.get(messagesToRead.size() - 1).getOffset());
             handleDataReceivedEvent(event).whenComplete((res, th) -> {
                 if (th != null) {
                     logger.error("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) finished"
@@ -194,6 +195,7 @@ public abstract class ReadPartitionSession {
     }
 
     private class RawMessage extends MessageImpl {
+
         private final byte[] data;
 
         RawMessage(BatchMeta meta, OffsetsRange range, YdbTopic.StreamReadMessage.ReadResponse.MessageData msg) {

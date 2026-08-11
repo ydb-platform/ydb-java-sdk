@@ -447,7 +447,7 @@ public class TopicReadersIntegrationTest {
 
         reader.init().join();
         try {
-            Assert.assertTrue(read.await(10, TimeUnit.MINUTES));
+            Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
             Assert.assertEquals(1000, offsets[0].get());
             Assert.assertEquals(500, offsets[1].get());
             Assert.assertEquals(2100, offsets[2].get());

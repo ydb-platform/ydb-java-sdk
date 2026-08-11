@@ -157,12 +157,16 @@ public class ReadPartitionDecoder {
                 try (InputStream encoded = origin.newInput(); InputStream decoded = codec.decode(encoded)) {
                     data = ByteStreams.toByteArray(decoded);
                     logger.trace("[{}] Finished decoding batch", traceID);
-                    origin = null;
                 } catch (IOException ex) {
                     logger.warn("[{}] Exception was thrown while decoding a message: ", traceID, ex);
                     problem = ex;
                 }
             } finally {
+                if (problem == null) {
+                    origin = null;
+                } else {
+                    data = null;
+                }
                 isReady = true;
                 readyHandler.run();
             }
