@@ -438,6 +438,11 @@ public class QueryIntegrationTest {
                 ).execute(null).join().getValue();
                 Assert.assertTrue(info.hasStats());
                 logger.info("got stats {}", info.getStats());
+
+                Assert.assertFalse(info.hasSnapshotTimestamp());
+                Assert.assertFalse(info.hasCommitTimestamp());
+                Assert.assertNull(info.getSnapshotTimestamp());
+                Assert.assertNull(info.getCommitTimestamp());
             }
         }
     }
@@ -450,25 +455,6 @@ public class QueryIntegrationTest {
                         .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", TxMode.NONE)
                         .execute(this::printQuerySetPart);
                 createTable.join().getStatus().expectSuccess();
-
-
-                CompletableFuture<Result<QueryInfo>> dropTable = session
-                        .createQuery("DROP TABLE demo_table;", TxMode.NONE)
-                        .execute(this::printQuerySetPart);
-                dropTable.join().getStatus().expectSuccess();
-            }
-        }
-    }
-
-    @Test
-    public void testQueryStats() {
-        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
-            try (QuerySession session = client.createSession(Duration.ofSeconds(5)).join().getValue()) {
-                CompletableFuture<Result<QueryInfo>> createTable = session
-                        .createQuery("CREATE TABLE demo_table (id Int32, data Text, PRIMARY KEY(id));", TxMode.NONE)
-                        .execute(this::printQuerySetPart);
-                createTable.join().getStatus().expectSuccess();
-
 
                 CompletableFuture<Result<QueryInfo>> dropTable = session
                         .createQuery("DROP TABLE demo_table;", TxMode.NONE)
@@ -628,11 +614,10 @@ public class QueryIntegrationTest {
     }
 
     @Test
-    @Ignore // disable while READ_COMMITTED is not supported
     public void testReadCommittedStatement() {
-        String selectQuery = "SELECT * FROM `" + TEST_TABLE + "` ORDR BY id";
-        String insertQuery = "DECLARE $id AS Int32; DECLARE $name AS Text; "
-                + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id, $name)";
+        String selectQuery = "SELECT * FROM `" + TEST_TABLE + "` ORDER BY id";
+//        String insertQuery = "DECLARE $id AS Int32; DECLARE $name AS Text; "
+//                + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id, $name)";
         try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
             QuerySession session1 = client.createSession(Duration.ofSeconds(5)).join().getValue();
             QuerySession session2 = client.createSession(Duration.ofSeconds(5)).join().getValue();
@@ -644,6 +629,13 @@ public class QueryIntegrationTest {
                 Result<QueryReader> s1 = QueryReader.readFrom(tx1.createQuery(selectQuery)).join();
                 Result<QueryReader> s2 = QueryReader.readFrom(tx2.createQuery(selectQuery)).join();
 
+                // READ_COMMITTED is not supported yet
+                Status unsupported = Status.of(StatusCode.BAD_REQUEST,
+                        Issue.of("Read Committed isolation level is not supported.", Issue.Severity.ERROR)
+                );
+                Assert.assertEquals("Unexpected status " + s1, unsupported, s1.getStatus());
+                Assert.assertEquals("Unexpected status " + s2, unsupported, s2.getStatus());
+/*
                 Assert.assertTrue("Cannot read with " + s1, s1.isSuccess());
                 Assert.assertTrue("Cannot read with " + s1, s2.isSuccess());
 
@@ -661,7 +653,63 @@ public class QueryIntegrationTest {
 
                 Assert.assertTrue("Cannot commit with " + c1, c1.isSuccess());
                 Assert.assertTrue("Cannot commit with " + c2, c2.isSuccess());
+*/
            } finally {
+                session1.close();
+                session2.close();
+                try (QuerySession session = client.createSession(SESSION_TIMEOUT).join().getValue()) {
+                    session.createQuery("DELETE FROM " + TEST_TABLE, TxMode.SERIALIZABLE_RW).execute()
+                            .join().getStatus().expectSuccess();
+                }
+            }
+        }
+    }
+
+    @Test
+    public void testStrictSerializableStatement() {
+        String selectQuery = "SELECT * FROM `" + TEST_TABLE + "` ORDER BY id";
+//        String insertQuery = "DECLARE $id AS Int32; DECLARE $name AS Text; "
+//                + "INSERT INTO `" + TEST_TABLE + "` (id, name) VALUES ($id, $name)";
+        try (QueryClient client = QueryClient.newClient(ydbTransport).build()) {
+            QuerySession session1 = client.createSession(Duration.ofSeconds(5)).join().getValue();
+            QuerySession session2 = client.createSession(Duration.ofSeconds(5)).join().getValue();
+
+            try {
+                QueryTransaction tx1 = session1.createNewTransaction(TxMode.STRICT_SERIALIZABLE_RW);
+                QueryTransaction tx2 = session2.createNewTransaction(TxMode.STRICT_SERIALIZABLE_RW);
+
+                Result<QueryReader> s1 = QueryReader.readFrom(tx1.createQuery(selectQuery)).join();
+                Result<QueryReader> s2 = QueryReader.readFrom(tx2.createQuery(selectQuery)).join();
+
+                // STRICT_SERIALIZABLE is disabled now
+                Assert.assertEquals("Unexpected status " + s1, StatusCode.BAD_REQUEST, s1.getStatus().getCode());
+                Assert.assertEquals("Unexpected status " + s2, StatusCode.BAD_REQUEST, s2.getStatus().getCode());
+/*
+                Assert.assertTrue("Cannot read with " + s1, s1.isSuccess());
+                Assert.assertTrue("Cannot read with " + s1, s2.isSuccess());
+
+                Params prms1 = Params.of("$id", PrimitiveValue.newInt32(1), "$name", PrimitiveValue.newText("value1"));
+                Params prms2 = Params.of("$id", PrimitiveValue.newInt32(2), "$name", PrimitiveValue.newText("value2"));
+
+                Result<QueryInfo> i1 = tx1.createQuery(insertQuery, prms1).execute().join();
+                Result<QueryInfo> i2 = tx2.createQuery(insertQuery, prms2).execute().join();
+
+                Assert.assertTrue("Cannot insert with " + i1, i1.isSuccess());
+                Assert.assertTrue("Cannot insert with " + i2, i2.isSuccess());
+
+                Result<QueryInfo> c1 = tx1.commit().join();
+                Result<QueryInfo> c2 = tx2.commit().join();
+
+                Assert.assertTrue("Cannot commit with " + c1, c1.isSuccess());
+                Assert.assertTrue("Cannot commit with " + c2, c2.isSuccess());
+
+                Assert.assertTrue(c1.getValue().hasSnapshotTimestamp());
+                Assert.assertTrue(c1.getValue().hasCommitTimestamp());
+
+                Assert.assertTrue(c2.getValue().hasSnapshotTimestamp());
+                Assert.assertTrue(c2.getValue().hasCommitTimestamp());
+*/
+            } finally {
                 session1.close();
                 session2.close();
                 try (QuerySession session = client.createSession(SESSION_TIMEOUT).join().getValue()) {
