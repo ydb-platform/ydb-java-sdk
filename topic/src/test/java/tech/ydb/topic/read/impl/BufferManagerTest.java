@@ -85,7 +85,7 @@ public class BufferManagerTest {
         bm.releaseRange(4L, OffsetsRange.of(0, 100));
         r.assertCalls(1, 1234);
 
-        // partitial release more than 10% of buffer size - a new request
+        // partial release more than 10% of buffer size - a new request
         bm.releaseRange(1L, OffsetsRange.of(1, 3));
         r.assertCalls(2, 1234 + 350);
 
@@ -129,7 +129,7 @@ public class BufferManagerTest {
         bm.allocate(0, Arrays.asList(partition(1, batch(0, 100, 100), batch(2, 250), batch(6, 40, 5, 5), batch(20))));
         r.assertCalls(0, 0);
 
-        // releases has no effects
+        // releases have no effect
         bm.releaseRange(1L, OffsetsRange.of(1, 3));
         bm.releasePartition(1L);
         r.assertCalls(0, 0);

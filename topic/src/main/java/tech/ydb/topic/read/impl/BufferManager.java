@@ -116,7 +116,7 @@ public class BufferManager {
 
     private void release(long total) {
         long now = released.addAndGet(total);
-        if (now >= maxBufferSize / 10) { // threshhold
+        if (now >= maxBufferSize / 10) { // threshold
             long request = released.getAndSet(0);
             if (request > 0) {
                 requestFunc.accept(request);

@@ -104,13 +104,13 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
     protected void onStop() {
         logger.debug("[{}] Session onStop called", streamId);
 
+        decoder.stop();
+
         partSessions.values().forEach(ReadPartitionSession::stop);
         partSessions.clear();
 
         partitions.values().forEach(reader::handleClosePartitionSession);
         partitions.clear();
-
-        decoder.stop();
     }
 
     protected void closeDueToError(Status status, Throwable th) {

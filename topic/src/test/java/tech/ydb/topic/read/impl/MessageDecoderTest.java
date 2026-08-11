@@ -135,7 +135,7 @@ public class MessageDecoderTest {
         Assert.assertEquals(3, m3.getData()[0]);
 
         p1.releaseRange(OffsetsRange.of(1)); // 40 is not enough to resume decoding
-        p1.releaseRange(OffsetsRange.of(4)); // that offset is not decodec yet
+        p1.releaseRange(OffsetsRange.of(4)); // that offset is not decoded yet
         Assert.assertFalse(m4.isReady());
         Assert.assertFalse(m5.isReady());
         Assert.assertEquals(3, ready.get());
@@ -325,7 +325,7 @@ public class MessageDecoderTest {
         AtomicInteger ready = new AtomicInteger();
         ReadPartitionDecoder p1 = new ReadPartitionDecoder("p1", decoder, PS1, null, ready::incrementAndGet);
 
-        BatchMeta meta1 = meta(1244); // Uknown codec
+        BatchMeta meta1 = meta(1244); // Unknown codec
         MessageImpl m1 = p1.decode(meta1, OffsetsRange.of(1), rawMsg(1, 50, new byte[0]));
         MessageImpl m2 = p1.decode(meta1, OffsetsRange.of(2), rawMsg(2, 50, new byte[0]));
 

@@ -364,7 +364,7 @@ public class TopicReadersIntegrationTest {
                         Assert.assertEquals(0, event.getPartitionOffsets().getStart());
                         Assert.assertEquals(500, event.getPartitionOffsets().getEnd());
 
-                        // emulate topic retention - skip first 150 message but don't commit them
+                        // emulate topic retention - skip first 150 messages but don't commit them
                         event.confirm(StartPartitionSessionSettings.newBuilder()
                                 .setReadOffset(150L)
                                 .build());
