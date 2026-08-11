@@ -30,6 +30,9 @@ public class BufferManager {
     private final AtomicLong released = new AtomicLong(0);
     private final ConcurrentHashMap<Long, PartitionBuffer> partitions = new ConcurrentHashMap<>();
 
+    private final AtomicLong totalAllocated = new AtomicLong(0);
+    private final AtomicLong totalReleased = new AtomicLong(0);
+
     public BufferManager(String traceID, long maxBufferSize, Consumer<Long> requestFunc) {
         this.traceID = traceID;
         this.maxBufferSize = maxBufferSize;
@@ -43,7 +46,9 @@ public class BufferManager {
 
     // Has no reentrant thread safety
     public void allocate(long bufferSize, List<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataList) {
-        logger.trace("[{}] Received ReadResponse of {} bytes", traceID, bufferSize);
+        logger.debug("[{}] Received ReadResponse of {} bytes, {} allocated and {} released before",
+                traceID, bufferSize, totalAllocated.get(), totalReleased.get());
+        totalAllocated.addAndGet(bufferSize);
 
         // calculate message count
         int messagesCount = 0;
@@ -119,6 +124,7 @@ public class BufferManager {
         if (now >= maxBufferSize / 10) { // threshold
             long request = released.getAndSet(0);
             if (request > 0) {
+                totalReleased.addAndGet(request);
                 requestFunc.accept(request);
             }
         }

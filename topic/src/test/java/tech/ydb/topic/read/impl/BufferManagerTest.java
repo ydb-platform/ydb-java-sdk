@@ -106,7 +106,7 @@ public class BufferManagerTest {
     }
 
     @Test
-    @HideLoggers(ReaderImpl.class)
+    @HideLoggers(BufferManager.class)
     public void incorrectAllocateTest() {
         Resource r = new Resource();
         BufferManager bm = new BufferManager("trace-2", 20000, r);

@@ -73,7 +73,7 @@ public class MessageDecoderTest {
     }
 
     @Rule
-    public final HideLoggersRule hideLoggerRule = new HideLoggersRule();
+    public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     @Test
     public void rawDecodeTest() {
