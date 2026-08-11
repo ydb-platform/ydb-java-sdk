@@ -158,7 +158,7 @@ public class BufferManagerTest {
     @Test
     public void intOverflowTest() {
         AtomicLong requested = new AtomicLong(0);
-        BufferManager bm = new BufferManager("trace-4", 1000, requested::addAndGet);
+        BufferManager bm = new BufferManager("trace-5", 1000, requested::addAndGet);
 
         bm.allocate(100000, Arrays.asList(
                 partition(1, batch(1, 10000, 10000, 10000)),
@@ -169,6 +169,17 @@ public class BufferManagerTest {
         bm.releasePartition(1L);
         bm.releasePartition(2L);
         bm.releasePartition(3L);
+        Assert.assertEquals(100000, requested.get());
+    }
+
+    @Test
+    public void zeroMessagesTest() {
+        AtomicLong requested = new AtomicLong(0);
+        BufferManager bm = new BufferManager("trace-6", 1000, requested::addAndGet);
+
+        bm.allocate(100000, Arrays.asList(partition(1, batch(1, 0, 0, 0))));
+
+        bm.releasePartition(1L);
         Assert.assertEquals(100000, requested.get());
     }
 }

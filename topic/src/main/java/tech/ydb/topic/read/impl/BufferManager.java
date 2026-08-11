@@ -42,7 +42,7 @@ public class BufferManager {
     }
 
     // Has no reentrant thread safety
-    public void allocate(int bufferSize, List<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataList) {
+    public void allocate(long bufferSize, List<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataList) {
         logger.trace("[{}] Received ReadResponse of {} bytes", traceID, bufferSize);
 
         // calculate message count
@@ -124,8 +124,8 @@ public class BufferManager {
         }
     }
 
-    private static void recalcBuffer(int[] buffer, int buffSize) {
-        // corner cases
+    private static void recalcBuffer(int[] buffer, long buffSize) {
+        // buffSize guard
         if (buffSize == 0) {
             Arrays.fill(buffer, 0);
             return;
@@ -134,6 +134,13 @@ public class BufferManager {
         long total = 0;
         for (int v: buffer) {
             total += v;
+        }
+
+        // empty messages guard
+        if (total == 0) {
+            Arrays.fill(buffer, 0);
+            buffer[buffer.length - 1] = (int) buffSize;
+            return;
         }
 
         long currBuff = 0;

@@ -291,7 +291,7 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
 
     private void onReadResponse(YdbTopic.StreamReadMessage.ReadResponse response) {
         logger.debug("[{}] Received ReadResponse of {} bytes", streamId, response.getBytesSize());
-        bufferManager.allocate((int) response.getBytesSize(), response.getPartitionDataList());
+        bufferManager.allocate(response.getBytesSize(), response.getPartitionDataList());
 
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
             long psid = data.getPartitionSessionId();
