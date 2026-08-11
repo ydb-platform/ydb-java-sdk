@@ -141,12 +141,18 @@ public abstract class ReadPartitionSession {
             Iterator<MessageImpl> it = readingQueue.iterator();
             if (!it.hasNext()) {
                 isReadingNow.set(false);
+                if (!readingQueue.isEmpty()) {
+                    sendDataToReadersIfNeeded();
+                }
                 return;
             }
 
             MessageImpl next = it.next();
             if (!next.isReady()) {
                 isReadingNow.set(false);
+                if (next.isReady()) {
+                    sendDataToReadersIfNeeded();
+                }
                 return;
             }
 

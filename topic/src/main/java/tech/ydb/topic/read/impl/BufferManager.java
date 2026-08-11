@@ -20,8 +20,8 @@ import tech.ydb.topic.description.OffsetsRange;
  * @author Aleksandr Gorshenin {@literal <alexandr268@ydb.tech>}
  */
 public class BufferManager {
-    private static final Logger logger = LoggerFactory.getLogger(ReaderImpl.class);
-    private static final OffsetsRange ALL = OffsetsRange.of(Integer.MIN_VALUE, Integer.MAX_VALUE);
+    private static final Logger logger = LoggerFactory.getLogger(BufferManager.class);
+    private static final OffsetsRange ALL = OffsetsRange.of(Long.MIN_VALUE, Long.MAX_VALUE);
 
     private final String traceID;
     private final long maxBufferSize;
