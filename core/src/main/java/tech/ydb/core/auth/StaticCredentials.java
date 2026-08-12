@@ -117,26 +117,28 @@ public class StaticCredentials implements AuthRpcProvider<GrpcAuthRpc> {
             }
 
             rpc.getExecutor().submit(() -> {
-                try (GrpcTransport transport = rpc.createTransport()) {
-                    GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
-                            .withDeadline(Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS))
-                            .build();
+                GrpcTransport transport = rpc.createTransport();
+                GrpcRequestSettings grpcSettings = GrpcRequestSettings.newBuilder()
+                        .withDeadline(Duration.ofSeconds(LOGIN_TIMEOUT_SECONDS))
+                        .build();
 
-                    transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
-                            .thenApply(OperationBinder.bindSync(
-                                    YdbAuth.LoginResponse::getOperation,
-                                    YdbAuth.LoginResult.class
-                            ))
-                            .whenComplete((resp, th) -> {
+                transport.unaryCall(AuthServiceGrpc.getLoginMethod(), grpcSettings, request)
+                        .thenApply(OperationBinder.bindSync(
+                                YdbAuth.LoginResponse::getOperation,
+                                YdbAuth.LoginResult.class
+                        ))
+                        .whenComplete((resp, th) -> {
+                            try {
                                 if (resp != null) {
                                     handleResult(future, resp);
                                 }
                                 if (th != null) {
                                     handleException(future, th);
                                 }
-                            })
-                            .join();
-                }
+                            } finally {
+                                transport.close();
+                            }
+                        });
             });
         }
 

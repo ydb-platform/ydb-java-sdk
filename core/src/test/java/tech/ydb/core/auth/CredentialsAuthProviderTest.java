@@ -4,6 +4,7 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.protobuf.Any;
@@ -200,6 +201,39 @@ public class CredentialsAuthProviderTest {
         Assert.assertEquals(token2, identity.getToken());
 
         identity.close();
+    }
+
+    @Test
+    public void interruptedGetTokenDoesNotBreakIdentity() throws InterruptedException {
+        Mockito.when(clock.instant()).thenReturn(now);
+
+        CompletableFuture<Result<YdbAuth.LoginResponse>> result = new CompletableFuture<>();
+        Mockito.when(transport.unaryCall(Mockito.eq(AuthServiceGrpc.getLoginMethod()), Mockito.any(), Mockito.any()))
+                .thenReturn(result);
+
+        tech.ydb.auth.AuthIdentity identity = createAuth("user", "password");
+
+        AtomicReference<Throwable> caught = new AtomicReference<>();
+        Thread reader = new Thread(() -> {
+            try {
+                identity.getToken();
+            } catch (Throwable th) {
+                caught.set(th);
+            }
+        });
+
+        reader.start();
+        reader.interrupt();
+        reader.join();
+
+        Assert.assertNotNull("interrupted getToken must report a failure", caught.get());
+        Assert.assertEquals("authentication update was interrupted", caught.get().getMessage());
+
+        String token = JwtBuilder.create(now.plus(Duration.ofHours(2)), now);
+        result.complete(Result.success(responseOk(token)));
+
+        // the identity must recover once the login completes
+        Assert.assertEquals(token, identity.getToken());
     }
 
     private tech.ydb.auth.AuthIdentity createAuth(String login, String password) {
