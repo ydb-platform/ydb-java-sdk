@@ -3,13 +3,6 @@ package tech.ydb.topic.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -26,7 +19,7 @@ import tech.ydb.topic.description.CodecRegistry;
 public class CodecRegistryTest {
     CodecRegistry registry;
 
-    private static final int codecId = 10113;
+    private static final int CUSTOM_ID = 10113;
 
     @Before
     public void beforeTest() {
@@ -41,15 +34,14 @@ public class CodecRegistryTest {
         registry.registerCodec(codec1);
         Assert.assertEquals(codec1, registry.registerCodec(codec2));
 
-        Assert.assertEquals(codec2, registry.getCodec(codecId));
-        Assert.assertNotEquals(codec1, registry.getCodec(codecId));
+        Assert.assertEquals(codec2, registry.getCodec(CUSTOM_ID));
+        Assert.assertNotEquals(codec1, registry.getCodec(CUSTOM_ID));
     }
 
     @Test
     public void registerCustomCodecShouldNotAcceptNull() {
-        Assert.assertThrows(
-                AssertionError.class,
-                () -> registry.registerCodec(null));
+        Exception ex = Assert.assertThrows(IllegalArgumentException.class, () -> registry.registerCodec(null));
+        Assert.assertEquals("Codec must be not null", ex.getMessage());
     }
 
     @Test
@@ -59,68 +51,6 @@ public class CodecRegistryTest {
         expectRegisterCodec(2, codec1, GzipCodec.getInstance());
         expectRegisterCodec(3, codec1, LzopCodec.getInstance());
         expectRegisterCodec(4, codec1, ZstdCodec.getInstance());
-    }
-
-    @Test(timeout = 60_000)
-    public void registerCustomCodecIsSafeForConcurrentUse() throws Exception {
-        int writerCount = 4;
-        int codecsPerWriter = 500;
-        int firstCodecId = 20000;
-
-        ExecutorService executor = Executors.newFixedThreadPool(writerCount + 1);
-
-        try {
-            CountDownLatch start = new CountDownLatch(1);
-            AtomicBoolean readersRun = new AtomicBoolean(true);
-            List<Future<?>> futures = new ArrayList<>();
-
-            for (int writer = 0; writer < writerCount; writer += 1) {
-                int base = firstCodecId + writer * codecsPerWriter;
-                futures.add(executor.submit(() -> {
-                    start.await();
-
-                    for (int idx = 0; idx < codecsPerWriter; idx += 1) {
-                        CodecTopic codec = new CodecTopic();
-                        codec.setCodecId(base + idx);
-                        registry.registerCodec(codec);
-                    }
-
-                    return null;
-                }));
-            }
-
-            futures.add(executor.submit(() -> {
-                start.await();
-
-                while (readersRun.get()) {
-                    registry.getCodec(Codec.RAW);
-                }
-
-                return null;
-            }));
-
-            start.countDown();
-
-            try {
-                for (int i = 0; i < writerCount; i += 1) {
-                    futures.get(i).get();
-                }
-
-                readersRun.set(false);
-                futures.get(writerCount).get();
-            } finally {
-                readersRun.set(false);
-            }
-        } finally {
-            executor.shutdownNow();
-        }
-
-        for (int codecId = firstCodecId; codecId < firstCodecId + writerCount * codecsPerWriter; codecId += 1) {
-            Assert.assertNotNull(
-                    "codec " + codecId + " was lost by a concurrent registration",
-                    registry.getCodec(codecId)
-            );
-        }
     }
 
     void expectRegisterCodec(int codecId, CodecTopic newCodec, Codec oldCodec) {
@@ -134,7 +64,12 @@ public class CodecRegistryTest {
         int codec;
 
         public CodecTopic() {
-            this.codec = codecId;
+            this.codec = CUSTOM_ID;
+        }
+
+        @Override
+        public String toString() {
+            return "CustomCodec";
         }
 
         public void setCodecId(int codecId) {

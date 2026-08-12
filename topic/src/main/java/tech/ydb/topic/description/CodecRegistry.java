@@ -33,11 +33,12 @@ public class CodecRegistry {
      * @return previous implementation with associated codec
      */
     public Codec registerCodec(Codec codec) {
-        assert codec != null;
+        if (codec == null) {
+            throw new IllegalArgumentException("Codec must be not null");
+        }
         int codecId = codec.getId();
 
         Codec result = customCodecMap.put(codecId, codec);
-
         if (result != null) {
             logger.info(
                     "Replace codec which have already associated with this id. CodecId: {} Codec: {}",
