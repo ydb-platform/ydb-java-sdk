@@ -189,8 +189,7 @@ public class YdbTransportImplTest {
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
                 .thenReturn(MockedCall.neverAnswer(testScheduler));
 
-        // deliberately much longer than the deadline of the request below
-        Duration discoveryTimeout = Duration.ofMinutes(10);
+        Duration discoveryTimeout = Duration.ofSeconds(5);
 
         try (GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
                 .withInitMode(GrpcTransportBuilder.InitMode.ASYNC)
@@ -200,7 +199,7 @@ public class YdbTransportImplTest {
         ) {
 
             GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
-                    .withDeadline(Duration.ofMillis(200))
+                    .withDeadline(Duration.ofMillis(50))
                     .build();
 
             long startedAt = System.nanoTime();
