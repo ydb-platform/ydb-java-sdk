@@ -8,6 +8,8 @@ public enum TxMode {
     NONE,
 
     SERIALIZABLE_RW,
+    STRICT_SERIALIZABLE_RW,
+
     SNAPSHOT_RO,
     SNAPSHOT_RW,
     READ_COMMITTED_RW,

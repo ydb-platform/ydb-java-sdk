@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.TxMode;
+import tech.ydb.common.transaction.VirtualTimestamp;
 import tech.ydb.common.transaction.impl.YdbTransactionImpl;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Result;
@@ -29,8 +30,8 @@ import tech.ydb.core.settings.BaseRequestSettings;
 import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.utils.URITools;
-import tech.ydb.core.utils.UpdatableOptional;
 import tech.ydb.proto.ValueProtos;
+import tech.ydb.proto.common.CommonProtos;
 import tech.ydb.proto.formats.YdbFormats;
 import tech.ydb.proto.query.YdbQuery;
 import tech.ydb.query.QuerySession;
@@ -74,14 +75,12 @@ abstract class SessionImpl implements QuerySession {
     private final QueryServiceRpc rpc;
     private final String sessionId;
     private final long nodeID;
-    private final boolean isTraceEnabled;
     private final AtomicReference<TransactionImpl> transaction;
 
     SessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
         this.rpc = rpc;
         this.sessionId = response.getSessionId();
         this.nodeID = getNodeBySessionId(response.getSessionId(), response.getNodeId());
-        this.isTraceEnabled = logger.isTraceEnabled();
         this.transaction = new AtomicReference<>(new TransactionImpl(TxMode.SERIALIZABLE_RW, null));
     }
 
@@ -393,67 +392,102 @@ abstract class SessionImpl implements QuerySession {
 
         abstract void handleTxMeta(String txId);
 
-        void handleCompletion(Status status, Throwable th) {
-        }
+        void handleCompletion(Status status, Throwable th) { }
 
         @Override
         public CompletableFuture<Result<QueryInfo>> execute(PartsHandler handler) {
-            final UpdatableOptional<Status> operationStatus = new UpdatableOptional<>();
-            final UpdatableOptional<QueryStats> stats = new UpdatableOptional<>();
-            return Span.endOnResult(span, grpcStream.start(msg -> {
-                        if (isTraceEnabled) {
-                            logger.trace("{} got stream message {}",
-                                    SessionImpl.this, TextFormat.shortDebugString(msg));
-                        }
-                        Issue[] issues = Issue.fromPb(msg.getIssuesList());
-                        Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
-
-                        updateSessionState(status);
-
-                        if (!status.isSuccess()) {
-                            handleTxMeta(null);
-                            operationStatus.update(status);
-                            return;
-                        }
-
-                        if (msg.hasTxMeta()) {
-                            handleTxMeta(msg.getTxMeta().getId());
-                        }
-                        if (issues.length > 0) {
-                            if (handler != null) {
-                                handler.onIssues(issues);
-                            } else {
-                                logger.trace("{} lost issues message", SessionImpl.this);
-                            }
-                        }
-                        if (msg.hasExecStats()) {
-                            stats.update(new QueryStats(msg.getExecStats()));
-                        }
-
-                        if (msg.hasResultSet()) {
-                            long index = msg.getResultSetIndex();
-                            if (handler != null) {
-                                handler.onNextRawPart(index, msg.getResultSet());
-                            } else {
-                                logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
-                            }
-                        }
-                    }).whenComplete(this::handleCompletion).thenApply(streamStatus -> {
+            Observer observer = new Observer(handler);
+            CompletableFuture<Result<QueryInfo>> result = grpcStream.start(observer)
+                    .whenComplete(this::handleCompletion)
+                    .thenApply(streamStatus -> {
                         updateSessionState(streamStatus);
-                        Status status = operationStatus.orElse(streamStatus);
+                        Status status = observer.mergedStatus(streamStatus);
                         if (status.isSuccess()) {
-                            return Result.success(new QueryInfo(stats.get()), streamStatus);
+                            return Result.success(observer.buildQueryInfo(), status);
                         } else {
                             return Result.fail(status);
                         }
-                    })
-            );
+                    });
+
+            return Span.endOnResult(span, result);
         }
 
         @Override
         public void cancel() {
             updateSessionState(CANCELLED);
             grpcStream.cancel();
+        }
+
+        private class Observer implements GrpcReadStream.Observer<YdbQuery.ExecuteQueryResponsePart> {
+            private final PartsHandler handler;
+
+            private volatile Status queryStatus = null;
+            private volatile QueryStats stats = null;
+            private volatile VirtualTimestamp commitVt = null;
+            private volatile VirtualTimestamp snapshotVt = null;
+
+            Observer(PartsHandler handler) {
+                this.handler = handler;
+            }
+
+            public Status mergedStatus(Status streamStatus) {
+                return (streamStatus.isSuccess() && queryStatus != null) ? queryStatus : streamStatus;
+            }
+
+            public QueryInfo buildQueryInfo() {
+                return new QueryInfo(stats, commitVt, snapshotVt);
+            }
+
+            @Override
+            public void onNext(YdbQuery.ExecuteQueryResponsePart msg) {
+                if (logger.isTraceEnabled()) {
+                    logger.trace("{} got stream message {}", SessionImpl.this, TextFormat.shortDebugString(msg));
+                }
+
+                Issue[] issues = Issue.fromPb(msg.getIssuesList());
+                Status status = Status.of(StatusCode.fromProto(msg.getStatus()), issues);
+
+                updateSessionState(status);
+
+                if (!status.isSuccess()) {
+                    handleTxMeta(null);
+                    queryStatus = status;
+                    return;
+                }
+
+                if (msg.hasTxMeta()) {
+                    handleTxMeta(msg.getTxMeta().getId());
+                }
+                if (issues.length > 0) {
+                    if (handler != null) {
+                        handler.onIssues(issues);
+                    } else {
+                        logger.trace("{} lost issues message", SessionImpl.this);
+                    }
+                }
+                if (msg.hasExecStats()) {
+                    stats = new QueryStats(msg.getExecStats());
+                }
+
+                if (msg.hasCommitTimestamp()) {
+                    CommonProtos.VirtualTimestamp vt = msg.getCommitTimestamp();
+                    commitVt = new VirtualTimestamp(vt.getPlanStep(), vt.getTxId());
+                }
+
+                if (msg.hasSnapshotTimestamp()) {
+                    CommonProtos.VirtualTimestamp vt = msg.getSnapshotTimestamp();
+                    snapshotVt = new VirtualTimestamp(vt.getPlanStep(), vt.getTxId());
+                }
+
+                if (msg.hasResultSet()) {
+                    long index = msg.getResultSetIndex();
+                    if (handler != null) {
+                        handler.onNextRawPart(index, msg.getResultSet());
+                    } else {
+                        logger.trace("{} lost result set part with index {}", SessionImpl.this, index);
+                    }
+                }
+            }
         }
     }
 
@@ -544,23 +578,30 @@ abstract class SessionImpl implements QuerySession {
                     .build();
 
             try (Scope ignored = span.makeCurrent()) {
-                return Span.endOnResult(span, rpc.commitTransaction(request, makeOptions(settings, span).build()))
-                        .thenApply(res -> {
-                            Status status = res.getStatus();
-                            currentStatusFuture.complete(status);
-                            updateSessionState(status);
-                            if (!txId.compareAndSet(transactionId, null)) {
-                                logger.warn("{} lost commit response for transaction {}", SessionImpl.this,
-                                        transactionId);
-                            }
-                            // TODO: CommitTransactionResponse must contain exec_stats
-                            return res.map(resp -> new QueryInfo(null));
-                        }).whenComplete(((status, th) -> {
-                            if (th != null) {
-                                currentStatusFuture.completeExceptionally(
-                                        new RuntimeException("Transaction commit failed with exception", th));
-                            }
-                        }));
+                GrpcRequestSettings options = makeOptions(settings, span).build();
+                CompletableFuture<Result<QueryInfo>> result = rpc.commitTransaction(request, options).thenApply(res -> {
+                    Status status = res.getStatus();
+                    currentStatusFuture.complete(status);
+                    updateSessionState(status);
+                    if (!txId.compareAndSet(transactionId, null)) {
+                        logger.warn("{} lost commit response for transaction {}", SessionImpl.this, transactionId);
+                    }
+
+                    return res.map(resp -> {
+                        VirtualTimestamp commit = null;
+                        if (resp.hasCommitTimestamp()) {
+                            CommonProtos.VirtualTimestamp vt = resp.getCommitTimestamp();
+                            commit = new VirtualTimestamp(vt.getPlanStep(), vt.getTxId());
+                        }
+                        return new QueryInfo(null, commit, null);
+                    });
+                }).whenComplete(((status, th) -> {
+                    if (th != null) {
+                        currentStatusFuture.completeExceptionally(
+                                new RuntimeException("Transaction commit failed with exception", th));
+                    }
+                }));
+                return Span.endOnResult(span, result);
             }
         }
 
