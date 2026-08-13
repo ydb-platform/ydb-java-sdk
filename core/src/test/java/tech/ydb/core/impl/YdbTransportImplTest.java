@@ -8,9 +8,11 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nonnull;
 
@@ -184,37 +186,66 @@ public class YdbTransportImplTest {
         Assert.assertTrue(isReady.isDone());
     }
 
-    @Test(timeout = 30_000)
-    public void requestDeadlineLimitsWaitingForDiscovery() {
+    @Test
+    public void asyncWaitingForReadyTest() throws Exception {
+        CountDownLatch discoveryLatch = new CountDownLatch(1);
+        Queue<Runnable> lazyTasks = new ConcurrentLinkedQueue<>();
+        Executor lazyExecutor = (Runnable r) -> {
+            lazyTasks.add(r);
+            discoveryLatch.countDown();
+        };
+
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
-                .thenReturn(MockedCall.neverAnswer(testScheduler));
+                .thenReturn(MockedCall.discovery(lazyExecutor, "self", new EndpointRecord("node", 2136)));
+        Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenReturn(MockedCall.whoAmICall("i am node"));
 
         Duration discoveryTimeout = Duration.ofSeconds(5);
+        Duration callTimeout = Duration.ofMillis(50);
 
+        Assert.assertEquals(0, lazyTasks.size());
         try (GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
                 .withInitMode(GrpcTransportBuilder.InitMode.ASYNC)
                 .withDiscoveryTimeout(discoveryTimeout)
                 .withChannelFactoryBuilder(builder -> channelFactory)
                 .build()
         ) {
-
-            GrpcRequestSettings settings = GrpcRequestSettings.newBuilder()
-                    .withDeadline(Duration.ofMillis(50))
-                    .build();
+            Assert.assertTrue(discoveryLatch.await(1, TimeUnit.SECONDS));
+            Assert.assertEquals(1, lazyTasks.size()); // a discovery call
 
             long startedAt = System.nanoTime();
-            Result<DiscoveryProtos.WhoAmIResponse> result = transport
-                    .unaryCall(
+            CompletableFuture<Result<DiscoveryProtos.WhoAmIResponse>> call1 = CompletableFuture.supplyAsync(
+                    () ->transport.unaryCall(
                             DiscoveryServiceGrpc.getWhoAmIMethod(),
-                            settings,
+                            GrpcRequestSettings.newBuilder().withDeadline(callTimeout).build(),
                             DiscoveryProtos.WhoAmIRequest.newBuilder().build()
-                    )
-                    .join();
-            Duration elapsed = Duration.ofNanos(System.nanoTime() - startedAt);
+                    ).join(),
+                    testScheduler
+            );
 
-            Assert.assertFalse(result.isSuccess());
-            // the call must give up near its own deadline instead of waiting for the discovery timeout
-            Assert.assertTrue("discovery waiting took " + elapsed, elapsed.compareTo(discoveryTimeout) < 0);
+            Assert.assertFalse(call1.isDone());
+            Result<DiscoveryProtos.WhoAmIResponse> res1 = call1.get(5, TimeUnit.SECONDS);
+            Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, res1.getStatus().getCode());
+            Assert.assertEquals(1, lazyTasks.size()); // a new call wasn't executed
+
+            long nanos = System.nanoTime() - startedAt;
+            Assert.assertTrue(nanos >=  callTimeout.toNanos());
+            Assert.assertTrue(nanos < discoveryTimeout.toNanos());
+
+            CompletableFuture<Result<DiscoveryProtos.WhoAmIResponse>> call2 = CompletableFuture.supplyAsync(
+                    () ->transport.unaryCall(
+                            DiscoveryServiceGrpc.getWhoAmIMethod(),
+                            GrpcRequestSettings.newBuilder().build(),
+                            DiscoveryProtos.WhoAmIRequest.newBuilder().build()
+                    ).join(),
+                    testScheduler
+            );
+            Assert.assertFalse(call2.isDone());
+            Assert.assertEquals(1, lazyTasks.size()); // a new call wasn't executed
+
+            lazyTasks.poll().run(); // complete discovery
+            Result<DiscoveryProtos.WhoAmIResponse> res2 = call2.join();
+            Assert.assertTrue(res2.isSuccess());
         }
     }
 
