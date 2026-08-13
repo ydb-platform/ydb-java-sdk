@@ -1,5 +1,6 @@
 package tech.ydb.topic.description;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,16 +15,21 @@ import tech.ydb.topic.impl.StandardCodecs;
  * @author Evgeny Kuvardin
  **/
 public class CodecRegistry {
-
     private static final Logger logger = LoggerFactory.getLogger(CodecRegistry.class);
 
-    // registerCodec may be called at any moment, while getCodec is used by the compression and the
-    // decompression threads of every reader and writer created from the same TopicClient
-    private final Map<Integer, Codec> customCodecMap = new ConcurrentHashMap<>();
+    private final Map<Integer, Codec> codecMap = new ConcurrentHashMap<>();
 
     public CodecRegistry() {
-        for (Codec codec: StandardCodecs.getAvailableCodecs()) {
-            customCodecMap.put(codec.getId(), codec);
+        this(StandardCodecs.getAvailableCodecs());
+    }
+
+    public CodecRegistry(Collection<Codec> codecs) {
+        for (Codec codec: codecs) {
+            int id = codec.getId();
+            Codec old = codecMap.put(id, codec);
+            if (old != null) {
+                logger.info("Replace codec which have already associated with this id. CodecId: {} Codec: {}", id, old);
+            }
         }
     }
 
@@ -32,13 +38,14 @@ public class CodecRegistry {
      * @param codec codec implementation
      * @return previous implementation with associated codec
      */
+    @Deprecated
     public Codec registerCodec(Codec codec) {
         if (codec == null) {
             throw new IllegalArgumentException("Codec must be not null");
         }
         int codecId = codec.getId();
 
-        Codec result = customCodecMap.put(codecId, codec);
+        Codec result = codecMap.put(codecId, codec);
         if (result != null) {
             logger.info(
                     "Replace codec which have already associated with this id. CodecId: {} Codec: {}",
@@ -55,7 +62,6 @@ public class CodecRegistry {
      * @return codec implementation
      */
     public Codec getCodec(int codecId) {
-        return customCodecMap.get(codecId);
+        return codecMap.get(codecId);
     }
-
 }
