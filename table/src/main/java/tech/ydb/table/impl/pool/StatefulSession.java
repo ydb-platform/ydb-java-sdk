@@ -36,10 +36,15 @@ abstract class StatefulSession extends BaseSession {
         while (!state.compareAndSet(current, current.updated(clock.instant(), th, code, gracefulShutdown))) {
             current = state.get();
         }
+        if (state.get().needShutdown()) {
+            onSessionClosed(th, code, gracefulShutdown);
+        }
         if (logger.isTraceEnabled()) {
             logger.trace("{} updated => {}, {}", this, state.get().status, state.get().lastUpdate);
         }
     }
+
+    protected abstract void onSessionClosed(Throwable th, StatusCode code, boolean gracefulShutdown);
 
     public State state() {
         return state.get();
@@ -77,6 +82,7 @@ abstract class StatefulSession extends BaseSession {
         public Instant lastActive() {
             return this.lastActive;
         }
+
         public Instant lastUpdate() {
             return this.lastUpdate;
         }

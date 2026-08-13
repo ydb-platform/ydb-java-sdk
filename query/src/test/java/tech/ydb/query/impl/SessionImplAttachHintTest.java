@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tech.ydb.core.Status;
-import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -58,7 +57,7 @@ public class SessionImplAttachHintTest {
             Assert.assertNotNull(rpc.capturedSettings);
             Assert.assertNotNull(rpc.capturedSettings.getPessimizationHook());
             Assert.assertTrue(rpc.capturedSettings.getPessimizationHook().getAsBoolean());
-            Assert.assertEquals(StatusCode.BAD_SESSION, session.getLastSessionState().getCode());
+            Assert.assertEquals("node_shutdown", session.getCloseReason());
         }
     }
 
@@ -82,7 +81,7 @@ public class SessionImplAttachHintTest {
             Assert.assertNotNull(rpc.capturedSettings);
             Assert.assertNotNull(rpc.capturedSettings.getPessimizationHook());
             Assert.assertFalse(rpc.capturedSettings.getPessimizationHook().getAsBoolean());
-            Assert.assertEquals(StatusCode.BAD_SESSION, session.getLastSessionState().getCode());
+            Assert.assertEquals("node_shutdown", session.getCloseReason());
         }
     }
 
@@ -106,7 +105,7 @@ public class SessionImplAttachHintTest {
             Assert.assertNotNull(rpc.capturedSettings);
             Assert.assertNotNull(rpc.capturedSettings.getPessimizationHook());
             Assert.assertFalse(rpc.capturedSettings.getPessimizationHook().getAsBoolean());
-            Assert.assertEquals(StatusCode.BAD_SESSION, session.getLastSessionState().getCode());
+            Assert.assertEquals("session_shutdown", session.getCloseReason());
         }
     }
 
@@ -143,7 +142,7 @@ public class SessionImplAttachHintTest {
     }
 
     private static final class TestSession extends SessionImpl {
-        private final AtomicReference<Status> lastState = new AtomicReference<>();
+        private final AtomicReference<String> closeReason = new AtomicReference<>();
 
         TestSession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
             super(rpc, response);
@@ -151,11 +150,15 @@ public class SessionImplAttachHintTest {
 
         @Override
         public void updateSessionState(Status status) {
-            lastState.set(status);
         }
 
-        Status getLastSessionState() {
-            return lastState.get();
+        @Override
+        void closeSession(String reason) {
+            closeReason.set(reason);
+        }
+
+        String getCloseReason() {
+            return closeReason.get();
         }
 
         @Override

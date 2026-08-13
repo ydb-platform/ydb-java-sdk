@@ -31,18 +31,18 @@ public class ObservabilityTest {
         Assert.assertEquals(BASE, Observability.getDiscoveryBuildInfo(BASE));
 
         Observability.reportMetricsUsage(new Meter() { });
-        Assert.assertEquals(BASE + ";ydb-sdk-metrics/0.1.0", Observability.getDiscoveryBuildInfo(BASE));
+        Assert.assertEquals(BASE + ";ydb-sdk-metrics/0.2.0", Observability.getDiscoveryBuildInfo(BASE));
 
         Observability.reportTracingUsage((String spanName, SpanKind spanKind) -> Span.NOOP);
         Assert.assertEquals(
-                BASE + ";ydb-sdk-tracing/0.1.0;ydb-sdk-metrics/0.1.0",
+                BASE + ";ydb-sdk-tracing/0.1.0;ydb-sdk-metrics/0.2.0",
                 Observability.getDiscoveryBuildInfo(BASE)
         );
 
         Observability.reportMetricsUsage(Meter.NOOP);
         Observability.reportTracingUsage(NoopTracer.getInstance());
         Assert.assertEquals(
-                BASE + ";ydb-sdk-tracing/0.1.0;ydb-sdk-metrics/0.1.0",
+                BASE + ";ydb-sdk-tracing/0.1.0;ydb-sdk-metrics/0.2.0",
                 Observability.getDiscoveryBuildInfo(BASE)
         );
     }

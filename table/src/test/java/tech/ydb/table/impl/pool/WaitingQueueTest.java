@@ -43,7 +43,7 @@ public class WaitingQueueTest extends FutureHelper {
         }
 
         @Override
-        public void destroy(Resource object) {
+        public void destroy(Resource object, WaitingQueue.RemovalReason reason) {
             active.remove(object);
         }
 

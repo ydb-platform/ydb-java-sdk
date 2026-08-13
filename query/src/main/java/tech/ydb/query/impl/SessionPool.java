@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.BiConsumer;
 
@@ -163,11 +164,10 @@ class SessionPool implements AutoCloseable {
 
     private class PooledQuerySession extends SessionImpl {
         private final GrpcReadStream<Status> attachStream;
+        private final AtomicBoolean isBroken = new AtomicBoolean();
 
         private volatile Instant lastActive;
         private volatile boolean isStarted = false;
-        private volatile boolean isBroken = false;
-        private volatile boolean isStopped = false;
 
         PooledQuerySession(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
             super(rpc, response);
@@ -179,18 +179,41 @@ class SessionPool implements AutoCloseable {
         @Override
         public void updateSessionState(Status status) {
             this.lastActive = clock.instant();
-            boolean isStatusBroken =
-                    status.getCode() == StatusCode.BAD_SESSION ||
-                    status.getCode() == StatusCode.SESSION_BUSY ||
-                    status.getCode() == StatusCode.INTERNAL_ERROR ||
-                    status.getCode() == StatusCode.CLIENT_DEADLINE_EXCEEDED ||
-                    status.getCode() == StatusCode.CLIENT_DEADLINE_EXPIRED ||
-                    status.getCode() == StatusCode.CLIENT_CANCELLED ||
-                    status.getCode() == StatusCode.TRANSPORT_UNAVAILABLE;
-            if (isStatusBroken) {
-                logger.warn("QuerySession[{}] broken with status {}", getId(), status);
+            String reason;
+            switch (status.getCode()) {
+                case BAD_SESSION:
+                case SESSION_EXPIRED:
+                    reason = "bad_session";
+                    break;
+                case SESSION_BUSY:
+                    reason = "session_busy";
+                    break;
+                case INTERNAL_ERROR:
+                    reason = "internal_error";
+                    break;
+                case CLIENT_DEADLINE_EXCEEDED:
+                case CLIENT_DEADLINE_EXPIRED:
+                    reason = "client_timeout";
+                    break;
+                case CLIENT_CANCELLED:
+                    reason = "client_cancelled";
+                    break;
+                case TRANSPORT_UNAVAILABLE:
+                    reason = "transport_error";
+                    break;
+                default:
+                    return;
             }
-            isBroken = isBroken || isStatusBroken;
+
+            logger.warn("QuerySession[{}] broken with status {}", getId(), status);
+            closeSession(reason);
+        }
+
+        @Override
+        void closeSession(String reason) {
+            if (isStarted && isBroken.compareAndSet(false, true)) {
+                metrics.onSessionClosed(reason);
+            }
         }
 
         public Instant getLastActive() {
@@ -209,14 +232,16 @@ class SessionPool implements AutoCloseable {
                     return;
                 }
 
+                isStarted = true;
                 if (future.complete(ok)) {
                     logger.debug("QuerySession[{}] attach message {}", getId(), status);
-                    isStarted = true;
                     return;
                 }
 
                 logger.trace("QuerySession[{}] attach message {}", getId(), status);
             }).whenComplete((status, th) -> {
+                closeSession(status != null && status.isSuccess() ? "attach_closed" : "transport_error");
+
                 if (th != null) {
                     logger.debug("QuerySession[{}] finished with exception", getId(), th);
                 }
@@ -235,7 +260,6 @@ class SessionPool implements AutoCloseable {
 
         private void clean() {
             logger.debug("QuerySession[{}] attach stream is stopped", getId());
-            isStopped = true;
             if (!isStarted) {
                 destroy();
             }
@@ -260,11 +284,11 @@ class SessionPool implements AutoCloseable {
 
         @Override
         public void close() {
-            logger.trace("QuerySession[{}] closed with broken status {}", getId(), isBroken);
+            logger.trace("QuerySession[{}] closed with broken status {}", getId(), isBroken.get());
 
             stats.released.increment();
             metrics.onSessionReleased();
-            if (isBroken || isStopped) {
+            if (isBroken.get()) {
                 queue.delete(this);
             } else {
                 queue.release(this);
@@ -314,9 +338,9 @@ class SessionPool implements AutoCloseable {
         }
 
         @Override
-        public void destroy(PooledQuerySession session) {
+        public void destroy(PooledQuerySession session, WaitingQueue.RemovalReason reason) {
+            session.closeSession(reason.toString());
             stats.deleted.increment();
-            metrics.onSessionDeleted();
 
             // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();

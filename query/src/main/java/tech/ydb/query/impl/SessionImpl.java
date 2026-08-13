@@ -120,6 +120,8 @@ abstract class SessionImpl implements QuerySession {
 
     public abstract void updateSessionState(Status status);
 
+    abstract void closeSession(String reason);
+
     @Override
     public CompletableFuture<Result<QueryTransaction>> beginTransaction(TxMode tx, BeginTransactionSettings settings) {
         YdbQuery.BeginTransactionRequest request = YdbQuery.BeginTransactionRequest.newBuilder()
@@ -170,21 +172,20 @@ abstract class SessionImpl implements QuerySession {
                         }
                         StatusCode code = StatusCode.fromProto(message.getStatus());
                         Status status = Status.of(code, Issue.fromPb(message.getIssuesList()));
-                        updateSessionState(status);
+                        observer.onNext(status);
                         // The hint is sent by the server with a success status.
                         switch (message.getSessionHintCase()) {
                             case NODE_SHUTDOWN:
                                 pessimizationHook.set(nodeID != 0);
-                                updateSessionState(Status.of(StatusCode.BAD_SESSION));
+                                closeSession("node_shutdown");
                                 break;
                             case SESSION_SHUTDOWN:
-                                updateSessionState(Status.of(StatusCode.BAD_SESSION));
+                                closeSession("session_shutdown");
                                 break;
                             default:
+                                updateSessionState(status);
                                 break;
                         }
-
-                        observer.onNext(status);
                     });
                 }
 

@@ -29,9 +29,27 @@ import tech.ydb.core.UnexpectedResultException;
 public class WaitingQueue<T> implements AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(WaitingQueue.class);
 
+    public enum RemovalReason {
+        EXPLICIT("explicit"),
+        IDLE_TIMEOUT("pool_idle_timeout"),
+        POOL_RESIZE("pool_resize"),
+        POOL_CLOSE("pool_graceful_shutdown");
+
+        private final String value;
+
+        RemovalReason(String value) {
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return value;
+        }
+    }
+
     public interface Handler<T> {
         CompletableFuture<T> create();
-        void destroy(T object);
+        void destroy(T object, RemovalReason reason);
     }
 
     /** Limit of waiting requests = maxSize * constant */
@@ -112,7 +130,7 @@ public class WaitingQueue<T> implements AutoCloseable {
             // if queue is overflowed
             if (queueSize.get() > limits.maxSize) {
                 queueSize.decrementAndGet();
-                handler.destroy(object);
+                handler.destroy(object, RemovalReason.POOL_RESIZE);
                 return;
             }
 
@@ -135,7 +153,7 @@ public class WaitingQueue<T> implements AutoCloseable {
             return;
         }
         queueSize.decrementAndGet();
-        handler.destroy(object);
+        handler.destroy(object, RemovalReason.EXPLICIT);
 
         // After deleting one object we can try to create new pending if it needed
         checkNextWaitingAcquire();
@@ -185,7 +203,7 @@ public class WaitingQueue<T> implements AutoCloseable {
             acquire.completeExceptionally(new CancellationException("Queue is already closed"));
             if (used.remove(object, object)) {
                 queueSize.decrementAndGet();
-                handler.destroy(object);
+                handler.destroy(object, RemovalReason.POOL_CLOSE);
             }
             return true;
         }
@@ -299,7 +317,7 @@ public class WaitingQueue<T> implements AutoCloseable {
         T nextIdle = idle.poll();
         while (nextIdle != null) {
             queueSize.decrementAndGet();
-            handler.destroy(nextIdle);
+            handler.destroy(nextIdle, RemovalReason.POOL_CLOSE);
             nextIdle = idle.poll();
         }
     }
@@ -329,7 +347,7 @@ public class WaitingQueue<T> implements AutoCloseable {
             if (!pendingRequests.remove(pending, pending)) {
                 acquire.completeExceptionally(new CancellationException("Queue is already closed"));
                 if (object != null) {
-                    handler.destroy(object);
+                    handler.destroy(object, RemovalReason.POOL_CLOSE);
                 }
                 return;
             }
@@ -378,7 +396,7 @@ public class WaitingQueue<T> implements AutoCloseable {
                 return;
             }
             if (idle.removeLastOccurrence(lastRet)) {
-                handler.destroy(lastRet);
+                handler.destroy(lastRet, RemovalReason.IDLE_TIMEOUT);
                 lastRet = null;
                 queueSize.decrementAndGet();
                 checkNextWaitingAcquire();

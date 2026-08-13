@@ -9,6 +9,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.BiConsumer;
@@ -160,10 +161,33 @@ public class SessionPool implements AutoCloseable {
     }
 
     private class ClosableSession extends StatefulSession {
+        private final AtomicBoolean closedReported = new AtomicBoolean();
+
         ClosableSession(String id, TableRpc rpc, boolean keepQueryText) {
             super(id, clock, rpc, keepQueryText);
             logger.debug("session {} successful created", id);
             stats.created.increment();
+        }
+
+        @Override
+        protected void onSessionClosed(Throwable th, StatusCode code, boolean gracefulShutdown) {
+            if (th != null || code.isTransportError()) {
+                reportSessionClosed("transport_error");
+            } else if (code == StatusCode.BAD_SESSION || code == StatusCode.SESSION_EXPIRED) {
+                reportSessionClosed("bad_session");
+            } else if (code == StatusCode.SESSION_BUSY) {
+                reportSessionClosed("session_busy");
+            } else if (code == StatusCode.INTERNAL_ERROR) {
+                reportSessionClosed("internal_error");
+            } else if (gracefulShutdown) {
+                reportSessionClosed("session_shutdown");
+            }
+        }
+
+        private void reportSessionClosed(String reason) {
+            if (closedReported.compareAndSet(false, true)) {
+                metrics.onSessionClosed(reason);
+            }
         }
 
         @Override
@@ -217,9 +241,9 @@ public class SessionPool implements AutoCloseable {
         }
 
         @Override
-        public void destroy(ClosableSession session) {
+        public void destroy(ClosableSession session, WaitingQueue.RemovalReason reason) {
+            session.reportSessionClosed(reason.toString());
             stats.deleted.increment();
-            metrics.onSessionDeleted();
             // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();
             Context previous = ctx.attach();
@@ -436,4 +460,3 @@ public class SessionPool implements AutoCloseable {
         }
     }
 }
-

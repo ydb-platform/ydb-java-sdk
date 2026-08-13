@@ -17,11 +17,11 @@ public final class PoolMetrics {
     private final String statusKey;
 
     private final LongCounter created;
-    private final LongCounter deleted;
     private final LongCounter acquired;
     private final LongCounter released;
     private final LongCounter requested;
     private final LongCounter failed;
+    private final LongCounter closed;
     private final DoubleHistogram createTime;
 
     public PoolMetrics(Meter meter, String name, String poolName, WaitingQueue<?> queue, int minSize) {
@@ -34,11 +34,11 @@ public final class PoolMetrics {
         this.inUseAttrs = new Attr[]{poolNameAttr, Attr.of(prefix + "state", "in_use")};
 
         this.created = meter.createCounter(prefix + "created", UNIT, "Total successful session creations.");
-        this.deleted = meter.createCounter(prefix + "deleted", UNIT, "Total session deletions.");
         this.acquired = meter.createCounter(prefix + "acquired", UNIT, "Total session acquires from the pool.");
         this.released = meter.createCounter(prefix + "released", UNIT, "Total session releases back to the pool.");
         this.requested = meter.createCounter(prefix + "requested", UNIT, "Total CreateSession calls.");
         this.failed = meter.createCounter(prefix + "failed", UNIT, "Total failed session creations.");
+        this.closed = meter.createCounter(prefix + "closed", UNIT, "Total closed sessions.");
         this.createTime = meter.createHistogram(prefix + "create_time", "s", "Session creation cost.");
 
         meter.createLongGauge(prefix + "max", UNIT, "Configured MaxPoolSize",
@@ -67,10 +67,6 @@ public final class PoolMetrics {
         created.add(1L, poolAttrs);
     }
 
-    public void onSessionDeleted() {
-        deleted.add(1L, poolAttrs);
-    }
-
     public void onSessionAcquired() {
         acquired.add(1L, poolAttrs);
     }
@@ -80,6 +76,10 @@ public final class PoolMetrics {
     }
 
     public void onSessionFailed(Status status) {
-        failed.add(1L, new Attr[]{poolNameAttr, Attr.of(statusKey, status.getCode().name())});
+        failed.add(1L, poolNameAttr, Attr.of(statusKey, status.getCode().name()));
+    }
+
+    public void onSessionClosed(String reason) {
+        closed.add(1L, poolNameAttr, Attr.of("reason", reason));
     }
 }
