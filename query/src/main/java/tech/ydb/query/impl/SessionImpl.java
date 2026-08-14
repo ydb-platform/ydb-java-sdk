@@ -76,7 +76,7 @@ abstract class SessionImpl implements QuerySession {
     private final QueryServiceRpc rpc;
     private final String sessionId;
     private final long nodeID;
-    private final AtomicReference<PoolMetrics.Reason> firstProblem = new AtomicReference<>();
+    private final AtomicReference<PoolMetrics.Reason> firstProblem = new AtomicReference<>(PoolMetrics.Reason.UNKNOWN);
     private final AtomicReference<TransactionImpl> transaction;
 
     SessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
@@ -126,7 +126,7 @@ abstract class SessionImpl implements QuerySession {
     }
 
     void updateProblem(PoolMetrics.Reason reason) {
-        firstProblem.compareAndSet(null, reason);
+        firstProblem.compareAndSet(PoolMetrics.Reason.UNKNOWN, reason);
     }
 
     @Override

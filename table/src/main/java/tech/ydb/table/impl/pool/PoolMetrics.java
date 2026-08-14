@@ -1,5 +1,7 @@
 package tech.ydb.table.impl.pool;
 
+import javax.annotation.Nonnull;
+
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
@@ -53,7 +55,7 @@ public final class PoolMetrics {
                 case TRANSPORT_UNAVAILABLE:
                     return TRANSPORT_ERROR;
                 default:
-                    return code.isTransportError() ? TRANSPORT_ERROR : null;
+                    return code.isTransportError() ? TRANSPORT_ERROR : UNKNOWN;
             }
         }
     }
@@ -126,11 +128,11 @@ public final class PoolMetrics {
         released.add(1L, poolAttrs);
     }
 
-    public void onSessionFailed(Status status) {
+    public void onSessionFailed(@Nonnull Status status) {
         failed.add(1L, poolNameAttr, Attr.of(statusKey, status.getCode().name()));
     }
 
-    public void onSessionClosed(Reason reason) {
-        closed.add(1L, poolNameAttr, Attr.of("reason", reason != null ? reason.code : "unknown"));
+    public void onSessionClosed(@Nonnull Reason reason) {
+        closed.add(1L, poolNameAttr, Attr.of("reason", reason.code));
     }
 }

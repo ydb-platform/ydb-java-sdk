@@ -29,7 +29,7 @@ abstract class StatefulSession extends BaseSession {
         super(id, tableRpc, keepQueryText);
         this.clock = clock;
         this.state = new AtomicReference<>(new State(Status.IDLE, clock.instant()));
-        this.firstProblem = new AtomicReference<>(null);
+        this.firstProblem = new AtomicReference<>(PoolMetrics.Reason.UNKNOWN);
     }
 
     @Override
@@ -48,7 +48,7 @@ abstract class StatefulSession extends BaseSession {
     }
 
     void updateProblem(PoolMetrics.Reason reason) {
-        firstProblem.compareAndSet(null, reason);
+        firstProblem.compareAndSet(PoolMetrics.Reason.UNKNOWN, reason);
     }
 
     public State state() {
