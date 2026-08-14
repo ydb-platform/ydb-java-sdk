@@ -1,3 +1,8 @@
+## 2.4.9 ##
+* Query: Added support of StrictSerializable transaction level
+* Core: Make SDK tracer span current around gRPC newCall
+* Core: added attribute 'reason' to session 'closed' metric
+
 ## 2.4.8 ##
 * Query: added support of READ_COMMITTED_RW
 * Table: added utility to generate UUID keys
