@@ -12,7 +12,7 @@ import tech.ydb.core.tracing.Tracer;
  */
 public final class Observability {
     public static final String TRACING_CHAIN = ";ydb-sdk-tracing/0.1.0";
-    public static final String METRICS_CHAIN = ";ydb-sdk-metrics/0.1.0";
+    public static final String METRICS_CHAIN = ";ydb-sdk-metrics/0.2.0";
 
     private static volatile boolean isTracingEnabled = false;
     private static volatile boolean isMetricsEnabled = false;
