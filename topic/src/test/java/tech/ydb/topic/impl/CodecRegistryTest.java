@@ -27,6 +27,7 @@ public class CodecRegistryTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void registerCustomCodecShouldDoubleRegisterCodecAndReturnLastCodec() {
         Codec codec1 = new CodecTopic();
         Codec codec2 = new CodecTopic();
@@ -39,6 +40,7 @@ public class CodecRegistryTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void registerCustomCodecShouldNotAcceptNull() {
         Exception ex = Assert.assertThrows(IllegalArgumentException.class, () -> registry.registerCodec(null));
         Assert.assertEquals("Codec must be not null", ex.getMessage());
@@ -53,6 +55,7 @@ public class CodecRegistryTest {
         expectRegisterCodec(4, codec1, ZstdCodec.getInstance());
     }
 
+    @SuppressWarnings("deprecation")
     void expectRegisterCodec(int codecId, CodecTopic newCodec, Codec oldCodec) {
         newCodec.setCodecId(codecId);
         Codec codecOldPredefined = registry.registerCodec(newCodec);
