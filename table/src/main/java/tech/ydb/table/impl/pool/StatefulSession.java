@@ -23,11 +23,13 @@ abstract class StatefulSession extends BaseSession {
 
     private final Clock clock;
     private final AtomicReference<State> state;
+    private final AtomicReference<PoolMetrics.Reason> firstProblem;
 
     protected StatefulSession(String id, Clock clock, TableRpc tableRpc, boolean keepQueryText) {
         super(id, tableRpc, keepQueryText);
         this.clock = clock;
         this.state = new AtomicReference<>(new State(Status.IDLE, clock.instant()));
+        this.firstProblem = new AtomicReference<>(null);
     }
 
     @Override
@@ -39,6 +41,14 @@ abstract class StatefulSession extends BaseSession {
         if (logger.isTraceEnabled()) {
             logger.trace("{} updated => {}, {}", this, state.get().status, state.get().lastUpdate);
         }
+    }
+
+    PoolMetrics.Reason getProblem() {
+        return firstProblem.get();
+    }
+
+    void updateProblem(PoolMetrics.Reason reason) {
+        firstProblem.compareAndSet(null, reason);
     }
 
     public State state() {
@@ -117,6 +127,7 @@ abstract class StatefulSession extends BaseSession {
             // and if we found it state switch to broken status
             if (broken) {
                 logger.debug("{} broken by status code {}", this, code);
+                updateProblem(PoolMetrics.Reason.fromStatusCode(th, code));
                 return new State(Status.BROKEN, lastActive, now);
             }
 
@@ -127,6 +138,7 @@ abstract class StatefulSession extends BaseSession {
             if (status == Status.ACTIVE) {
                 if (shutdownHint) {
                     logger.debug("{} broken by shutdown hint", this);
+                    updateProblem(PoolMetrics.Reason.SESSION_SHUTDOWN);
                     return new State(Status.NEED_SHUTDOWN, now);
                 }
                 return new State(status, now);

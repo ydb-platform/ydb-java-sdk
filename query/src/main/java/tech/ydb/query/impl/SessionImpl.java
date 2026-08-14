@@ -49,6 +49,7 @@ import tech.ydb.query.settings.ExecuteQuerySettings;
 import tech.ydb.query.settings.QueryExecMode;
 import tech.ydb.query.settings.QueryStatsMode;
 import tech.ydb.query.settings.RollbackTransactionSettings;
+import tech.ydb.table.impl.pool.PoolMetrics;
 import tech.ydb.table.query.Params;
 
 /**
@@ -75,6 +76,7 @@ abstract class SessionImpl implements QuerySession {
     private final QueryServiceRpc rpc;
     private final String sessionId;
     private final long nodeID;
+    private final AtomicReference<PoolMetrics.Reason> firstProblem = new AtomicReference<>();
     private final AtomicReference<TransactionImpl> transaction;
 
     SessionImpl(QueryServiceRpc rpc, YdbQuery.CreateSessionResponse response) {
@@ -118,6 +120,14 @@ abstract class SessionImpl implements QuerySession {
     }
 
     public abstract void updateSessionState(Status status);
+
+    PoolMetrics.Reason getProblem() {
+        return firstProblem.get();
+    }
+
+    void updateProblem(PoolMetrics.Reason reason) {
+        firstProblem.compareAndSet(null, reason);
+    }
 
     @Override
     public CompletableFuture<Result<QueryTransaction>> beginTransaction(TxMode tx, BeginTransactionSettings settings) {
@@ -173,10 +183,12 @@ abstract class SessionImpl implements QuerySession {
                         // The hint is sent by the server with a success status.
                         switch (message.getSessionHintCase()) {
                             case NODE_SHUTDOWN:
+                                updateProblem(PoolMetrics.Reason.NODE_SHUTDOWN);
                                 pessimizationHook.set(nodeID != 0);
                                 updateSessionState(Status.of(StatusCode.BAD_SESSION));
                                 break;
                             case SESSION_SHUTDOWN:
+                                updateProblem(PoolMetrics.Reason.SESSION_SHUTDOWN);
                                 updateSessionState(Status.of(StatusCode.BAD_SESSION));
                                 break;
                             default:
@@ -405,6 +417,7 @@ abstract class SessionImpl implements QuerySession {
                         if (status.isSuccess()) {
                             return Result.success(observer.buildQueryInfo(), status);
                         } else {
+                            updateProblem(PoolMetrics.Reason.fromStatusCode(null, status.getCode()));
                             return Result.fail(status);
                         }
                     });

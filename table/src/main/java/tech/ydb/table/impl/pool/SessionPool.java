@@ -217,9 +217,15 @@ public class SessionPool implements AutoCloseable {
         }
 
         @Override
+        public void destroy(ClosableSession session, PoolMetrics.Reason reason) {
+            session.updateProblem(reason);
+            destroy(session);
+        }
+
+        @Override
         public void destroy(ClosableSession session) {
             stats.deleted.increment();
-            metrics.onSessionDeleted();
+            metrics.onSessionClosed(session.getProblem());
             // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();
             Context previous = ctx.attach();
