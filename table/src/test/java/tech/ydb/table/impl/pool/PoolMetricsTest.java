@@ -20,6 +20,8 @@ import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.table.Session;
+import tech.ydb.table.query.DataQueryResult;
+import tech.ydb.table.transaction.TxControl;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyDouble;
@@ -31,6 +33,7 @@ import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 public class PoolMetricsTest extends FutureHelper {
@@ -76,11 +79,11 @@ public class PoolMetricsTest extends FutureHelper {
         SessionPool pool = createPool(0, 2);
 
         verify(meter).createCounter(eq(PREFIX + "created"), eq("{session}"), anyString());
-        verify(meter).createCounter(eq(PREFIX + "deleted"), eq("{session}"), anyString());
         verify(meter).createCounter(eq(PREFIX + "acquired"), eq("{session}"), anyString());
         verify(meter).createCounter(eq(PREFIX + "released"), eq("{session}"), anyString());
         verify(meter).createCounter(eq(PREFIX + "requested"), eq("{session}"), anyString());
         verify(meter).createCounter(eq(PREFIX + "failed"), eq("{session}"), anyString());
+        verify(meter).createCounter(eq(PREFIX + "closed"), eq("{session}"), anyString());
         verify(meter).createHistogram(eq(PREFIX + "create_time"), eq("s"), anyString());
         verify(meter).createLongGauge(eq(PREFIX + "max"), eq("{session}"), anyString(), any());
         verify(meter).createLongGauge(eq(PREFIX + "min"), eq("{session}"), anyString(), any());
@@ -107,10 +110,61 @@ public class PoolMetricsTest extends FutureHelper {
         verify(counter("released")).add(eq(1L), argThat(poolName));
 
         pool.close();
-        verify(counter("deleted")).add(eq(1L), argThat(poolName));
+        verifyClosed("pool_graceful_shutdown");
         tableRpc.completeSessionDeleteRequests();
 
         verify(counter("failed"), never()).add(anyLong(), any());
+    }
+
+    @Test
+    public void gracefulShutdownRecordsClosedReason() {
+        SessionPool pool = createPool(0, 2);
+        CompletableFuture<Result<Session>> acquire = pendingFuture(pool.acquire(TIMEOUT));
+        tableRpc.nextCreateSession().completeSuccess();
+        Session session = futureIsReady(acquire).getValue();
+
+        CompletableFuture<Result<DataQueryResult>> query = session.executeDataQuery("SELECT 1", TxControl.onlineRo());
+        tableRpc.nextExecuteDataQuery().completeSuccessWithShutdownHook();
+        futureIsReady(query);
+        session.close();
+
+        verifyClosed("session_shutdown");
+        tableRpc.completeSessionDeleteRequests();
+        pool.close();
+    }
+
+    @Test
+    public void badSessionRecordsClosedReason() {
+        SessionPool pool = createPool(0, 2);
+        CompletableFuture<Result<Session>> acquire = pendingFuture(pool.acquire(TIMEOUT));
+        tableRpc.nextCreateSession().completeSuccess();
+        Session session = futureIsReady(acquire).getValue();
+
+        CompletableFuture<Result<DataQueryResult>> query = session.executeDataQuery("SELECT 1", TxControl.onlineRo());
+        tableRpc.nextExecuteDataQuery().completeBadSession();
+        futureIsReady(query);
+        session.close();
+
+        verifyClosed("bad_session");
+        tableRpc.completeSessionDeleteRequests();
+        pool.close();
+    }
+
+    @Test
+    public void internalErrorRecordsClosedReason() {
+        SessionPool pool = createPool(0, 2);
+        CompletableFuture<Result<Session>> acquire = pendingFuture(pool.acquire(TIMEOUT));
+        tableRpc.nextCreateSession().completeSuccess();
+        Session session = futureIsReady(acquire).getValue();
+
+        CompletableFuture<Result<DataQueryResult>> query = session.executeDataQuery("SELECT 1", TxControl.onlineRo());
+        tableRpc.nextExecuteDataQuery().completeInternalError();
+        futureIsReady(query);
+        session.close();
+
+        verifyClosed("internal_error");
+        tableRpc.completeSessionDeleteRequests();
+        pool.close();
     }
 
     @Test
@@ -178,6 +232,15 @@ public class PoolMetricsTest extends FutureHelper {
 
     private LongCounter counter(String shortName) {
         return counters.get(PREFIX + shortName);
+    }
+
+    private void verifyClosed(String reason) {
+        verify(counter("closed")).add(
+                eq(1L),
+                argThat(poolName),
+                argThat(a -> a.getKey().equals("reason") && a.getValue().equals(reason))
+        );
+        verifyNoMoreInteractions(counter("closed"));
     }
 
     private static boolean attr(Attr attr, String shortKey, String value) {
