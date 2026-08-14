@@ -131,6 +131,6 @@ public final class PoolMetrics {
     }
 
     public void onSessionClosed(Reason reason) {
-        closed.add(1L, poolNameAttr, Attr.of("reason", reason.code));
+        closed.add(1L, poolNameAttr, Attr.of("reason", reason != null ? reason.code : "unknown"));
     }
 }
