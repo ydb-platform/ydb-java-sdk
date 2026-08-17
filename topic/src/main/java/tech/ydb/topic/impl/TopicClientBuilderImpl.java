@@ -36,7 +36,7 @@ public class TopicClientBuilderImpl implements TopicClient.Builder {
     }
 
     @Override
-    public TopicClient.Builder registerCodec(Codec codec) {
+    public TopicClientBuilderImpl registerCodec(Codec codec) {
         if (codec == null) {
             throw new IllegalArgumentException("Codec must be not null");
         }

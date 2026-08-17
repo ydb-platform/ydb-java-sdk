@@ -184,6 +184,12 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
     @Test
+    public void nullCodecIsNotAllowedTest() {
+        Exception ex = Assert.assertThrows(IllegalArgumentException.class, () -> buildClient().registerCodec(null));
+        Assert.assertEquals("Codec must be not null", ex.getMessage());
+    }
+
+    @Test
     public void writeAndReadWithCustomCodecTest() throws Exception {
         Codec c1 = new XorCodec(0xFF, 10113);
         Codec c2 = new XorCodec(0x12, 10114);

@@ -24,7 +24,10 @@ public class CodecRegistry {
     }
 
     public CodecRegistry(Collection<Codec> codecs) {
-        for (Codec codec: codecs) {
+        for (Codec codec : codecs) {
+            if (codec == null) {
+                throw new IllegalArgumentException("Codec must be not null");
+            }
             int id = codec.getId();
             Codec old = codecMap.put(id, codec);
             if (old != null) {
