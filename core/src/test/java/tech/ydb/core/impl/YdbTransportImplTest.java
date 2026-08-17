@@ -187,6 +187,7 @@ public class YdbTransportImplTest {
     }
 
     @Test
+    @SuppressWarnings("SleepWhileInLoop")
     public void asyncWaitingForReadyTest() throws Exception {
         CountDownLatch discoveryLatch = new CountDownLatch(1);
         Queue<Runnable> lazyTasks = new ConcurrentLinkedQueue<>();
@@ -213,17 +214,25 @@ public class YdbTransportImplTest {
             Assert.assertTrue(discoveryLatch.await(1, TimeUnit.SECONDS));
             Assert.assertEquals(1, lazyTasks.size()); // a discovery call
 
+            // Timeouted call
             long startedAt = System.nanoTime();
-            CompletableFuture<Result<DiscoveryProtos.WhoAmIResponse>> call1 = CompletableFuture.supplyAsync(
-                    () ->transport.unaryCall(
-                            DiscoveryServiceGrpc.getWhoAmIMethod(),
-                            GrpcRequestSettings.newBuilder().withDeadline(callTimeout).build(),
-                            DiscoveryProtos.WhoAmIRequest.newBuilder().build()
-                    ).join(),
-                    testScheduler
-            );
+            CompletableFuture<Result<DiscoveryProtos.WhoAmIResponse>> call1 = new CompletableFuture<>();
+            Thread t1 = new Thread(() -> transport.unaryCall(
+                    DiscoveryServiceGrpc.getWhoAmIMethod(),
+                    GrpcRequestSettings.newBuilder().withDeadline(callTimeout).build(),
+                    DiscoveryProtos.WhoAmIRequest.newBuilder().build()
+            ).whenComplete((res, th) -> {
+                if (th != null) {
+                    call1.completeExceptionally(th);
+                } else {
+                    call1.complete(res);
+                }
+            }));
 
-            Assert.assertFalse(call1.isDone());
+            t1.start();
+            t1.join(100);
+
+            Assert.assertTrue(call1.isDone());
             Result<DiscoveryProtos.WhoAmIResponse> res1 = call1.get(5, TimeUnit.SECONDS);
             Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, res1.getStatus().getCode());
             Assert.assertEquals(1, lazyTasks.size()); // a new call wasn't executed
@@ -232,20 +241,63 @@ public class YdbTransportImplTest {
             Assert.assertTrue(nanos >=  callTimeout.toNanos());
             Assert.assertTrue(nanos < discoveryTimeout.toNanos());
 
-            CompletableFuture<Result<DiscoveryProtos.WhoAmIResponse>> call2 = CompletableFuture.supplyAsync(
-                    () ->transport.unaryCall(
-                            DiscoveryServiceGrpc.getWhoAmIMethod(),
-                            GrpcRequestSettings.newBuilder().build(),
-                            DiscoveryProtos.WhoAmIRequest.newBuilder().build()
-                    ).join(),
-                    testScheduler
-            );
-            Assert.assertFalse(call2.isDone());
+            // interrupted call
+            CompletableFuture<Result<DiscoveryProtos.WhoAmIResponse>> call2 = new CompletableFuture<>();
+            Thread t2 = new Thread(() -> transport.unaryCall(
+                    DiscoveryServiceGrpc.getWhoAmIMethod(),
+                    GrpcRequestSettings.newBuilder().build(),
+                    DiscoveryProtos.WhoAmIRequest.newBuilder().build()
+            ).whenComplete((res, th) -> {
+                if (th != null) {
+                    call2.completeExceptionally(th);
+                } else {
+                    call2.complete(res);
+                }
+            }));
+
+            t2.start();
+            while (t2.getState() != Thread.State.TIMED_WAITING) {
+                Thread.sleep(10);
+            }
+            t2.interrupt();
+            t2.join(100);
+
+            Assert.assertTrue(call2.isDone());
+            Result<DiscoveryProtos.WhoAmIResponse> res2 = call2.get(5, TimeUnit.SECONDS);
+            Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, res2.getStatus().getCode());
+            Assert.assertNotNull(res2.getStatus().getCause());
+            Assert.assertEquals("Discovery failed", res2.getStatus().getCause().getMessage());
+            Assert.assertNotNull(res2.getStatus().getCause().getCause());
+            Assert.assertNotNull("Discovery waiting interrupted", res2.getStatus().getCause().getCause().getMessage());
+
+            Assert.assertEquals(1, lazyTasks.size()); // a new call wasn't executed
+
+            // succesful call
+            CompletableFuture<Result<DiscoveryProtos.WhoAmIResponse>> call3 = new CompletableFuture<>();
+            Thread t3= new Thread(() -> transport.unaryCall(
+                    DiscoveryServiceGrpc.getWhoAmIMethod(),
+                    GrpcRequestSettings.newBuilder().build(),
+                    DiscoveryProtos.WhoAmIRequest.newBuilder().build()
+            ).whenComplete((res, th) -> {
+                if (th != null) {
+                    call3.completeExceptionally(th);
+                } else {
+                    call3.complete(res);
+                }
+            }));
+
+            t3.start();
+            while (t3.getState() != Thread.State.TIMED_WAITING) {
+                Thread.sleep(10);
+            }
+
+            Assert.assertFalse(call3.isDone());
             Assert.assertEquals(1, lazyTasks.size()); // a new call wasn't executed
 
             lazyTasks.poll().run(); // complete discovery
-            Result<DiscoveryProtos.WhoAmIResponse> res2 = call2.join();
-            Assert.assertTrue(res2.isSuccess());
+            t3.join(100);
+            Result<DiscoveryProtos.WhoAmIResponse> res3 = call3.join();
+            Assert.assertTrue(res3.isSuccess());
         }
     }
 
