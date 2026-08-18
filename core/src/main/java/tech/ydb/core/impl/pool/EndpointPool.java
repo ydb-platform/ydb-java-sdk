@@ -42,7 +42,8 @@ public final class EndpointPool {
     private Map<Integer, PriorityEndpoint> recordsByNodeId = new HashMap<>();
     private Map<String, PriorityEndpoint> recordsByEndpoint = new HashMap<>();
 
-    private boolean needToRunDiscovery = false;
+    // read by the discovery scheduler thread without the lock
+    private volatile boolean needToRunDiscovery = false;
     // Number of endpoints with best load factor (priority)
     private int bestEndpointsCount = -1;
 
@@ -163,18 +164,30 @@ public final class EndpointPool {
             return;
         }
 
-        PriorityEndpoint knownEndpoint = recordsByEndpoint.get(endpoint.getHostAndPort());
-        if (knownEndpoint == null) {
-            return;
-        }
-
-        if (knownEndpoint.isPessimized()) {
-            logger.trace("Endpoint {} is already pessimized", endpoint);
-            return;
+        // Fast path under the read lock: re-pessimizing an endpoint changes nothing but forces a full
+        // re-sort of the pool
+        recordsLock.readLock().lock();
+        try {
+            PriorityEndpoint knownEndpoint = recordsByEndpoint.get(endpoint.getHostAndPort());
+            if (knownEndpoint == null) {
+                return;
+            }
+            if (knownEndpoint.isPessimized()) {
+                logger.trace("Endpoint {} is already pessimized", endpoint);
+                return;
+            }
+        } finally {
+            recordsLock.readLock().unlock();
         }
 
         recordsLock.writeLock().lock();
         try {
+            // the pool state may have been replaced by setNewState between the two locks
+            PriorityEndpoint knownEndpoint = recordsByEndpoint.get(endpoint.getHostAndPort());
+            if (knownEndpoint == null || knownEndpoint.isPessimized() || records.isEmpty()) {
+                return;
+            }
+
             knownEndpoint.pessimize();
 
             records.sort(PriorityEndpoint.COMPARATOR);
