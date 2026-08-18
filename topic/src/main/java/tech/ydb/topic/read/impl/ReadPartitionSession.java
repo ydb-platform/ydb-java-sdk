@@ -92,7 +92,7 @@ public abstract class ReadPartitionSession {
         for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch: batchList) {
             if (batch.getMessageDataCount() == 0) {
                 logger.error("{} Received empty batch. This shouldn't happen", this);
-                return CompletableFuture.completedFuture(null);
+                continue;
             }
 
             BatchMeta meta = new BatchMeta(batch);
