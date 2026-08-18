@@ -86,8 +86,6 @@ public class PriorityPicker {
             String dc = entry.getKey();
             List<EndpointRecord> nodes = entry.getValue();
 
-            assert !nodes.isEmpty();
-
             Collections.shuffle(nodes);
 
             int nodeSize = Math.min(nodes.size(), DETECT_DC_NODE_SIZE);

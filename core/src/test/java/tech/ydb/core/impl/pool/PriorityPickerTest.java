@@ -71,6 +71,19 @@ public class PriorityPickerTest {
     }
 
     @Test
+    public void detectLocalDCWithEmptyLocationTest() {
+        // the endpoint a transport bootstraps with has no location until the first discovery completes
+        List<EndpointRecord> bootstrap = Collections.singletonList(new EndpointRecord("localhost", 2136, 0, "", null));
+        PriorityPicker picker = PriorityPicker.from(BalancingSettings.detectLocalDs(), null, bootstrap);
+
+        Assert.assertEquals(0, picker.getEndpointPriority("DC1"));
+        Assert.assertEquals(0, picker.getEndpointPriority(null));
+
+        Assert.assertNull(PriorityPicker.detectLocalDC(bootstrap, Ticker.systemTicker()));
+        Assert.assertNull(PriorityPicker.detectLocalDC(Collections.emptyList(), Ticker.systemTicker()));
+    }
+
+    @Test
     public void detectLocalDCTest() {
         TestTicker testTicker = new TestTicker(
                 9, 15,
