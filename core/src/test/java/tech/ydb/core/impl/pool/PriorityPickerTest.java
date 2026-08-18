@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import javax.net.ServerSocketFactory;
 
+import com.google.common.base.Ticker;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -54,6 +55,32 @@ public class PriorityPickerTest {
         Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("DC1"));
         Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("DC2"));
         Assert.assertEquals(0, ignoreSelfLocation.getEndpointPriority("DC3"));
+    }
+
+    @Test
+    public void detectLocalDCWithoutLocationsTest() {
+        // the endpoint a transport bootstraps with has no location until the first discovery completes
+        List<EndpointRecord> bootstrap = Collections.singletonList(new EndpointRecord("localhost", 2136));
+        PriorityPicker picker = PriorityPicker.from(BalancingSettings.detectLocalDs(), null, bootstrap);
+
+        Assert.assertEquals(0, picker.getEndpointPriority("DC1"));
+        Assert.assertEquals(0, picker.getEndpointPriority(null));
+
+        Assert.assertNull(PriorityPicker.detectLocalDC(bootstrap, Ticker.systemTicker()));
+        Assert.assertNull(PriorityPicker.detectLocalDC(Collections.emptyList(), Ticker.systemTicker()));
+    }
+
+    @Test
+    public void detectLocalDCWithEmptyLocationTest() {
+        // the endpoint a transport bootstraps with has no location until the first discovery completes
+        List<EndpointRecord> bootstrap = Collections.singletonList(new EndpointRecord("localhost", 2136, 0, "", null));
+        PriorityPicker picker = PriorityPicker.from(BalancingSettings.detectLocalDs(), null, bootstrap);
+
+        Assert.assertEquals(0, picker.getEndpointPriority("DC1"));
+        Assert.assertEquals(0, picker.getEndpointPriority(null));
+
+        Assert.assertNull(PriorityPicker.detectLocalDC(bootstrap, Ticker.systemTicker()));
+        Assert.assertNull(PriorityPicker.detectLocalDC(Collections.emptyList(), Ticker.systemTicker()));
     }
 
     @Test
