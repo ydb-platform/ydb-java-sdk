@@ -169,7 +169,10 @@ public interface TopicClient extends AutoCloseable {
      * Register custom codec implementation to TopicClient
      *
      * @param codec - custom implementation
+     * @deprecated registering a codec on an already built client mutates its shared state.
+     *             Use {@link Builder#registerCodec(Codec)} at client construction instead.
      */
+    @Deprecated
     void registerCodec(Codec codec);
 
 
@@ -198,5 +201,15 @@ public interface TopicClient extends AutoCloseable {
          */
         Builder setCompressionPoolThreadCount(Integer compressionPoolThreadCount);
 
+        /**
+         * Register a custom codec used to compress and decompress topic messages.
+         * A codec is identified by its {@link Codec#getId()}; registering a codec with the id of an already
+         * known codec (including the standard RAW/GZIP/ZSTD/LZOP codecs) replaces the previous implementation.
+         * Custom codec ids must be greater than 10000.
+         *
+         * @param codec  custom codec implementation
+         * @return settings builder
+         */
+        Builder registerCodec(Codec codec);
     }
 }

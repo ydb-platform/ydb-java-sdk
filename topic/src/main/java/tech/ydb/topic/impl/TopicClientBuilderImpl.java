@@ -1,9 +1,12 @@
 package tech.ydb.topic.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.Codec;
 
 
 /**
@@ -12,6 +15,7 @@ import tech.ydb.topic.TopicRpc;
 public class TopicClientBuilderImpl implements TopicClient.Builder {
 
     protected final TopicRpc topicRpc;
+    protected final List<Codec> codecs = new ArrayList<>(StandardCodecs.getAvailableCodecs());
     protected Integer compressionExecutorThreadCount;
     protected Executor compressionExecutor;
 
@@ -28,6 +32,15 @@ public class TopicClientBuilderImpl implements TopicClient.Builder {
     @Override
     public TopicClientBuilderImpl setCompressionExecutor(Executor compressionExecutor) {
         this.compressionExecutor = compressionExecutor;
+        return this;
+    }
+
+    @Override
+    public TopicClientBuilderImpl registerCodec(Codec codec) {
+        if (codec == null) {
+            throw new IllegalArgumentException("Codec must be not null");
+        }
+        this.codecs.add(codec);
         return this;
     }
 

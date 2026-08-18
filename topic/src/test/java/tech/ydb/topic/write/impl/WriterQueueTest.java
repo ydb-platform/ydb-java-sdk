@@ -3,6 +3,7 @@ package tech.ydb.topic.write.impl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -158,8 +159,7 @@ public class WriterQueueTest {
         };
 
         AtomicInteger notify = new AtomicInteger();
-        CodecRegistry registry = new CodecRegistry();
-        registry.registerCodec(failingCodec);
+        CodecRegistry registry = new CodecRegistry(Arrays.asList(failingCodec));
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/test")
                 .setCodec(failingCodec.getId())
