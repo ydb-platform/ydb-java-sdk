@@ -601,9 +601,13 @@ public class QueryIntegrationTest {
 
                 Assert.assertFalse(result.isSuccess());
                 Assert.assertEquals(StatusCode.PRECONDITION_FAILED, result.getStatus().getCode());
-                Issue issue =  Issue.of(2012,
+                Issue issue = Issue.of(
+                        Issue.Position.EMPTY,
+                        Issue.Position.EMPTY,
+                        2012,
                         "Constraint violated. Table: `" + ydbTransport.getDatabase() + "/" + TEST_TABLE + "`.",
-                        Issue.Severity.ERROR
+                        Issue.Severity.ERROR,
+                        Issue.of(2012, "Conflict with existing key.", Issue.Severity.ERROR)
                 );
                 Assert.assertArrayEquals(new Issue[] { issue }, result.getStatus().getIssues());
 
