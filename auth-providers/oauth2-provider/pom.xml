@@ -15,6 +15,10 @@
     <name>OAuth2 Authentication provider</name>
     <description>Provider for OAuth2 Token Exchange authentication</description>
 
+    <properties>
+        <jjwt.version>0.13.0</jjwt.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>tech.ydb</groupId>
@@ -24,19 +28,19 @@
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
-            <version>0.10.8</version>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
-            <version>0.10.8</version>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
-            <version>0.10.8</version>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <dependency>
