@@ -126,6 +126,16 @@ public class OAuth2TokenExchangeProviderTest {
     }
 
     @Test
+    public void supportedAlgorithmsTest() {
+        Assert.assertArrayEquals(new String[] {
+            "ES256", "ES384", "ES512",
+            "HS256", "HS384", "HS512",
+            "PS256", "PS384", "PS512",
+            "RS256", "RS384", "RS512",
+        }, OAuth2TokenExchangeProvider.getSupportedJwtAlgorithms());
+    }
+
+    @Test
     public void simpleTest() {
         mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token"));
 

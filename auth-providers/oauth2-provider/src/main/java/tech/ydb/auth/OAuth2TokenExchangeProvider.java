@@ -12,14 +12,9 @@ import java.lang.reflect.Type;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gson.Gson;
@@ -29,9 +24,6 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.MacAlgorithm;
-import io.jsonwebtoken.security.SignatureAlgorithm;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -59,21 +51,6 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
     private static final Logger logger = LoggerFactory.getLogger(OAuth2TokenExchangeProvider.class);
     private static final Gson GSON = new Gson();
 
-    private static final Map<String, MacAlgorithm> SUPPORTED_HMAC_ALGS = Arrays.asList(
-            Jwts.SIG.HS256, Jwts.SIG.HS384, Jwts.SIG.HS512
-    ).stream().collect(Collectors.toMap(MacAlgorithm::getId, Function.identity()));
-
-    private static final Map<String, SignatureAlgorithm> SUPPORTED_SIG_ALGS = Arrays.asList(
-            Jwts.SIG.RS256, Jwts.SIG.RS384, Jwts.SIG.RS512,
-            Jwts.SIG.PS256, Jwts.SIG.PS384, Jwts.SIG.PS512,
-            Jwts.SIG.ES256, Jwts.SIG.ES384, Jwts.SIG.ES512
-    ).stream().collect(Collectors.toMap(SignatureAlgorithm::getId, Function.identity()));
-
-    private static final String SUPPORTED_JWT_ALGS = Stream.concat(
-            SUPPORTED_HMAC_ALGS.keySet().stream(),
-            SUPPORTED_SIG_ALGS.keySet().stream()
-    ).sorted().map(code -> "\"" + code + "\"").collect(Collectors.joining(", "));
-
     private final Clock clock;
     private final String endpoint;
     private final String scope;
@@ -93,6 +70,10 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         this.timeoutSeconds = timeoutSeconds;
     }
 
+    public static String[] getSupportedJwtAlgorithms() {
+        return OAuth2TokenSource.getSupportedJwtAlgorithms();
+    }
+
     private static OAuth2TokenSource buildFixedTokenSourceFromConfig(TokenSourceJsonConfig cfg) {
         if (cfg.getToken() == null || cfg.getToken().isEmpty()
                 || cfg.getTokenType() == null || cfg.getTokenType().isEmpty()) {
@@ -109,25 +90,9 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             throw new RuntimeException("Key is required");
         }
 
-        String alg = cfg.getAlg().toUpperCase();
-
-        OAuth2TokenSource.JWTTokenBuilder builder = null;
-        if (SUPPORTED_HMAC_ALGS.containsKey(alg)) {
-            MacAlgorithm algorithm = SUPPORTED_HMAC_ALGS.get(alg);
-            builder = OAuth2TokenSource.withHmacPrivateKeyBase64(cfg.getPrivateKey(), algorithm);
-        }
-        if (SUPPORTED_SIG_ALGS.containsKey(alg)) {
-            SignatureAlgorithm algorithm = SUPPORTED_SIG_ALGS.get(alg);
-            builder = OAuth2TokenSource.withPrivateKeyPem(new StringReader(cfg.getPrivateKey()), algorithm);
-        }
-
-        if (builder == null) {
-            throw new RuntimeException(
-                String.format("Algorithm \"%s\" is not supported. Supported algorithms: %s",
-                cfg.getAlg(),
-                SUPPORTED_JWT_ALGS
-            ));
-        }
+        OAuth2TokenSource.JWTTokenBuilder builder = OAuth2TokenSource.isHMacSignature(cfg.getAlg())
+                ? OAuth2TokenSource.withHmacPrivateKeyBase64(cfg.getPrivateKey(), cfg.getAlg())
+                : OAuth2TokenSource.withPrivateKeyPem(new StringReader(cfg.getPrivateKey()), cfg.getAlg());
 
         if (cfg.getKeyId() != null) {
             builder.withKeyId(cfg.getKeyId());

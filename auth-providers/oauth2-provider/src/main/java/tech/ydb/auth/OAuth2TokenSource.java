@@ -9,11 +9,14 @@ import java.security.Key;
 import java.security.PrivateKey;
 import java.time.Clock;
 import java.time.Instant;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -33,6 +36,21 @@ import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
  * @author Aleksandr Gorshenin
  */
 public abstract class OAuth2TokenSource {
+    private static final Map<String, MacAlgorithm> SUPPORTED_HMAC_ALGS = Arrays.asList(
+            Jwts.SIG.HS256, Jwts.SIG.HS384, Jwts.SIG.HS512
+    ).stream().collect(Collectors.toMap(MacAlgorithm::getId, Function.identity()));
+
+    private static final Map<String, SignatureAlgorithm> SUPPORTED_SIG_ALGS = Arrays.asList(
+            Jwts.SIG.RS256, Jwts.SIG.RS384, Jwts.SIG.RS512,
+            Jwts.SIG.PS256, Jwts.SIG.PS384, Jwts.SIG.PS512,
+            Jwts.SIG.ES256, Jwts.SIG.ES384, Jwts.SIG.ES512
+    ).stream().collect(Collectors.toMap(SignatureAlgorithm::getId, Function.identity()));
+
+    private static final String ALG_LIST = Stream.concat(
+            SUPPORTED_HMAC_ALGS.keySet().stream(),
+            SUPPORTED_SIG_ALGS.keySet().stream()
+    ).sorted().map(code -> "\"" + code + "\"").collect(Collectors.joining(", "));
+
     public static final String ACCESS_TOKEN = "urn:ietf:params:oauth:token-type:access_token";
     public static final String JWT_TOKEN = "urn:ietf:params:oauth:token-type:jwt";
 
@@ -49,6 +67,13 @@ public abstract class OAuth2TokenSource {
         this.expireInSeconds = expireInSeconds;
     }
 
+    public static String[] getSupportedJwtAlgorithms() {
+        return Stream.concat(
+            SUPPORTED_HMAC_ALGS.keySet().stream(),
+            SUPPORTED_SIG_ALGS.keySet().stream()
+        ).sorted().toArray(String[]::new);
+    }
+
     public String getType() {
         return this.type;
     }
@@ -58,6 +83,10 @@ public abstract class OAuth2TokenSource {
     }
 
     public abstract String getToken();
+
+    public static boolean isHMacSignature(String alg) {
+        return SUPPORTED_HMAC_ALGS.containsKey(alg.toUpperCase().trim());
+    }
 
     public static OAuth2TokenSource fromValue(String token) {
         return fromValue(token, JWT_TOKEN);
@@ -90,7 +119,7 @@ public abstract class OAuth2TokenSource {
     }
 
     private static SecretKeySpec readSecretKeyBase64(String data, MacAlgorithm algorithm) {
-        String jcpName = "HmacSHA" + algorithm.getKeyBitLength();
+        String jcpName = "HmacSHA" + algorithm.getId().substring(2);
         byte[] key = Base64.getDecoder().decode(data);
         return new SecretKeySpec(key, jcpName);
     }
@@ -119,12 +148,26 @@ public abstract class OAuth2TokenSource {
         }
     }
 
-    public static JWTTokenBuilder withHmacPrivateKeyBase64(String data, MacAlgorithm algorithm) {
+    public static JWTTokenBuilder withHmacPrivateKeyBase64(String data, String alg) {
+        String name = alg.toUpperCase().trim();
+        if (!SUPPORTED_HMAC_ALGS.containsKey(name)) {
+            String msg = String.format("Algorithm \"%s\" is not supported. Supported algorithms: %s", alg, ALG_LIST);
+            throw new RuntimeException(msg);
+        }
+
+        MacAlgorithm algorithm = SUPPORTED_HMAC_ALGS.get(name);
         SecretKeySpec key = readSecretKeyBase64(data, algorithm);
         return new JWTTokenBuilder(jwt -> jwt.signWith(key, algorithm));
     }
 
-    public static JWTTokenBuilder withPrivateKeyPem(Reader data, SignatureAlgorithm algorithm) {
+    public static JWTTokenBuilder withPrivateKeyPem(Reader data, String alg) {
+        String name = alg.toUpperCase().trim();
+        if (!SUPPORTED_SIG_ALGS.containsKey(name)) {
+            String msg = String.format("Algorithm \"%s\" is not supported. Supported algorithms: %s", alg, ALG_LIST);
+            throw new RuntimeException(msg);
+        }
+
+        SignatureAlgorithm algorithm = SUPPORTED_SIG_ALGS.get(name);
         PrivateKey key = readPrivateKeyPemFile(data);
         return new JWTTokenBuilder(jwt -> jwt.signWith(key, algorithm));
     }
@@ -132,6 +175,22 @@ public abstract class OAuth2TokenSource {
     public static JWTTokenBuilder withPrivateKeyPem(Reader data) {
         PrivateKey key = readPrivateKeyPemFile(data);
         return new JWTTokenBuilder(jwt -> jwt.signWith(key));
+    }
+
+    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile) {
+        try {
+            return withPrivateKeyPem(new FileReader(privateKeyPemFile));
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to read key from " + privateKeyPemFile, e);
+        }
+    }
+
+    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile, String alg) {
+        try {
+            return withPrivateKeyPem(new FileReader(privateKeyPemFile), alg);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to read key from " + privateKeyPemFile, e);
+        }
     }
 
     public static JWTTokenBuilder fromKey(Key key) {
@@ -150,7 +209,6 @@ public abstract class OAuth2TokenSource {
         private String keyId = null;
 
         private final Map<String, Object> claims = new HashMap<>();
-
 
         private JWTTokenBuilder(Function<JwtBuilder, JwtBuilder> signingFunc) {
             this.signingFunc = signingFunc;
