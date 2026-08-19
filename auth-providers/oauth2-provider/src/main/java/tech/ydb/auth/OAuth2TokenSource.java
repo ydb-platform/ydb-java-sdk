@@ -13,6 +13,7 @@ import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import javax.crypto.spec.SecretKeySpec;
 
@@ -20,7 +21,8 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.MacAlgorithm;
+import io.jsonwebtoken.security.SignatureAlgorithm;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
@@ -87,19 +89,13 @@ public abstract class OAuth2TokenSource {
         };
     }
 
-    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile, String alg) {
-        try {
-            return withPrivateKeyPem(new FileReader(privateKeyPemFile), alg);
-        } catch (IOException e) {
-            throw new RuntimeException("Unable to read key from " + privateKeyPemFile, e);
-        }
+    private static SecretKeySpec readSecretKeyBase64(String data, MacAlgorithm algorithm) {
+        String jcpName = "HmacSHA" + algorithm.getKeyBitLength();
+        byte[] key = Base64.getDecoder().decode(data);
+        return new SecretKeySpec(key, jcpName);
     }
 
-    public static JWTTokenBuilder withPrivateKeyPemFile(File privateKeyPemFile) {
-        return withPrivateKeyPemFile(privateKeyPemFile, null);
-    }
-
-    public static JWTTokenBuilder withPrivateKeyPem(Reader data, String alg) {
+    private static PrivateKey readPrivateKeyPemFile(Reader data) {
         try (PEMParser parser = new PEMParser(new BufferedReader(data))) {
             Object parsed = parser.readObject();
             if (parsed == null) {
@@ -117,39 +113,33 @@ public abstract class OAuth2TokenSource {
             }
 
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
-            PrivateKey privateKey = converter.getPrivateKey(info);
-            return new JWTTokenBuilder(privateKey, alg != null ? alg.toUpperCase() : alg);
+            return converter.getPrivateKey(info);
         } catch (IOException e) {
             throw new RuntimeException(String.format("Unable to read key: %s", e.getMessage()), e);
         }
     }
 
-    public static JWTTokenBuilder withPrivateKeyPem(Reader data) {
-        return withPrivateKeyPem(data, null);
+    public static JWTTokenBuilder withHmacPrivateKeyBase64(String data, MacAlgorithm algorithm) {
+        SecretKeySpec key = readSecretKeyBase64(data, algorithm);
+        return new JWTTokenBuilder(jwt -> jwt.signWith(key, algorithm));
     }
 
-    public static JWTTokenBuilder withHmacPrivateKeyBase64(String data, String algorithm) {
-        algorithm = algorithm.toUpperCase();
-        String secretKeyAlg = algorithm;
-        if (algorithm.equals("HS256")) {
-            secretKeyAlg = "HmacSHA256";
-        } else if (algorithm.equals("HS384")) {
-            secretKeyAlg = "HmacSHA384";
-        } else if (algorithm.equals("HS512")) {
-            secretKeyAlg = "HmacSHA512";
-        }
-        byte[] bytes = Base64.getDecoder().decode(data);
-        return new JWTTokenBuilder(new SecretKeySpec(bytes, secretKeyAlg), algorithm);
+    public static JWTTokenBuilder withPrivateKeyPem(Reader data, SignatureAlgorithm algorithm) {
+        PrivateKey key = readPrivateKeyPemFile(data);
+        return new JWTTokenBuilder(jwt -> jwt.signWith(key, algorithm));
+    }
+
+    public static JWTTokenBuilder withPrivateKeyPem(Reader data) {
+        PrivateKey key = readPrivateKeyPemFile(data);
+        return new JWTTokenBuilder(jwt -> jwt.signWith(key));
     }
 
     public static JWTTokenBuilder fromKey(Key key) {
-        return new JWTTokenBuilder(key);
+        return new JWTTokenBuilder(jwt -> jwt.signWith(key));
     }
 
     public static class JWTTokenBuilder {
-        private final Key signingKey;
-        private final SignatureAlgorithm alg;
-
+        private final Function<JwtBuilder, JwtBuilder> signingFunc;
         private Clock clock = Clock.systemUTC();
         private int ttlSeconds = 60 * 60; // 1 hour by default
 
@@ -161,17 +151,9 @@ public abstract class OAuth2TokenSource {
 
         private final Map<String, Object> claims = new HashMap<>();
 
-        private JWTTokenBuilder(Key key, String alg) {
-            this.signingKey = key;
-            if (alg == null) {
-                this.alg = SignatureAlgorithm.forSigningKey(key);
-            } else {
-                this.alg = SignatureAlgorithm.forName(alg);
-            }
-        }
 
-        private JWTTokenBuilder(Key key) {
-            this(key, null);
+        private JWTTokenBuilder(Function<JwtBuilder, JwtBuilder> signingFunc) {
+            this.signingFunc = signingFunc;
         }
 
         @VisibleForTesting
@@ -222,32 +204,31 @@ public abstract class OAuth2TokenSource {
                     Instant issuedAt = clock.instant();
                     Instant expiration = issuedAt.plusSeconds(ttlSeconds);
 
-                    JwtBuilder jwt = Jwts.builder().addClaims(claims);
+                    JwtBuilder jwt = Jwts.builder().claims(claims);
 
                     if (issuer != null) {
-                        jwt = jwt.setIssuer(issuer);
+                        jwt = jwt.issuer(issuer);
                     }
                     if (subject != null) {
-                        jwt = jwt.setSubject(subject);
+                        jwt = jwt.subject(subject);
                     }
                     if (audience != null) {
-                        jwt = jwt.setAudience(audience);
+                        jwt = jwt.audience().add(audience).and();
                     }
                     if (id != null) {
-                        jwt = jwt.setId(id);
+                        jwt = jwt.id(id);
                     }
 
                     if (keyId != null) {
-                        jwt = jwt.setHeaderParam("kid", keyId);
+                        jwt = jwt.header().keyId(keyId).and();
                     }
 
-                    return jwt
-                            .setHeaderParam("alg", alg.name())
-                            .setHeaderParam("typ", "JWT")
-                            .setIssuedAt(Date.from(issuedAt))
-                            .setExpiration(Date.from(expiration))
-                            .signWith(signingKey, alg)
-                            .compact();
+                    // the "alg" header is written by the library itself on signing
+                    jwt = jwt.header().type("JWT").and()
+                            .issuedAt(Date.from(issuedAt))
+                            .expiration(Date.from(expiration));
+
+                    return signingFunc.apply(jwt).compact();
                 }
             };
         }

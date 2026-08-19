@@ -5,10 +5,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.Charset;
-import java.security.Key;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -17,7 +17,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Supplier;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtParserBuilder;
 import io.jsonwebtoken.Jwts;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -139,6 +140,42 @@ public class OAuth2TokenExchangeProviderTest {
                     .withHeader("Content-Type", "application/x-www-form-urlencoded")
                     .withBody(requestForm("Token1")),
                     VerificationTimes.exactly(1));
+        }
+    }
+
+    @Test
+    public void simpleConfigTest() throws IOException {
+        mockClient.when(HttpRequest.request().withMethod("POST")).respond(createResponse("test_token"));
+
+        String config = "{"
+                + "\"token-endpoint\": \"" + testEndpoint() + "\", "
+                + "\"actor-credentials\": {\"type\": \"FIXED\", \"token\": \"t\", \"token-type\": \"test-token-type\" }"
+                + "}";
+
+        File cfgFile = File.createTempFile("cfg", ".json");
+        try {
+            FileWriter writer = new FileWriter(cfgFile);
+            writer.write(config);
+            writer.close();
+            try (AuthIdentity identity = OAuth2AuthHelper.configFileIdentity(cfgFile.toPath(), authRpc)) {
+                // token is cached
+                Assert.assertEquals("Bearer test_token", identity.getToken());
+                Assert.assertEquals("Bearer test_token", identity.getToken());
+
+                String expected = String.join("&",
+                        "grant_type=" + OAuth2TokenExchangeProvider.GRANT_TYPE,
+                        "requested_token_type=" + OAuth2TokenSource.ACCESS_TOKEN,
+                        "actor_token=t",
+                        "actor_token_type=test-token-type"
+                ).replace(":", "%3A");
+
+                mockClient.verify(HttpRequest.request().withMethod("POST")
+                        .withHeader("Content-Type", "application/x-www-form-urlencoded")
+                        .withBody(expected),
+                        VerificationTimes.exactly(1));
+            }
+        } finally {
+            cfgFile.delete();
         }
     }
 
@@ -375,6 +412,7 @@ public class OAuth2TokenExchangeProviderTest {
             this.tokenType = tokenType;
         }
 
+        @Override
         public void check(String token, String tokenType) throws AssertionError, Exception {
             Assert.assertEquals(this.token, token);
             Assert.assertEquals(this.tokenType, tokenType);
@@ -412,32 +450,32 @@ public class OAuth2TokenExchangeProviderTest {
             this.ttlSeconds = ttlSeconds;
         }
 
+        @Override
         public void check(String token, String tokenType) throws AssertionError, Exception {
             Assert.assertEquals("urn:ietf:params:oauth:token-type:jwt", tokenType);
 
-            Jwt<?, Claims> parsed = Jwts.parser()
-                .setSigningKey(getKey())
-                .parseClaimsJws(token);
+            Jws<Claims> parsed = newParser().build().parseSignedClaims(token);
 
             Assert.assertEquals("JWT", parsed.getHeader().getType());
-            Assert.assertEquals(alg, parsed.getHeader().get("alg"));
-            Assert.assertEquals(kid, parsed.getHeader().get("kid"));
+            Assert.assertEquals(alg, parsed.getHeader().getAlgorithm());
+            Assert.assertEquals(kid, parsed.getHeader().getKeyId());
 
-            Assert.assertEquals(iss, parsed.getBody().getIssuer());
-            Assert.assertEquals(sub, parsed.getBody().getSubject());
-            Assert.assertEquals(aud, parsed.getBody().getAudience());
-            Assert.assertEquals(jti, parsed.getBody().getId());
+            Assert.assertEquals(iss, parsed.getPayload().getIssuer());
+            Assert.assertEquals(sub, parsed.getPayload().getSubject());
+            Assert.assertEquals(aud == null ? null : Collections.singleton(aud),
+                    parsed.getPayload().getAudience());
+            Assert.assertEquals(jti, parsed.getPayload().getId());
 
             Date now = new Date();
-            Assert.assertTrue(now.getTime() - parsed.getBody().getIssuedAt().getTime() < 600 * 1000); // getTime() is in milliseconds
-            Assert.assertEquals(ttlSeconds * 1000, parsed.getBody().getExpiration().getTime() - parsed.getBody().getIssuedAt().getTime());
+            Assert.assertTrue(now.getTime() - parsed.getPayload().getIssuedAt().getTime() < 600 * 1000); // getTime() is in milliseconds
+            Assert.assertEquals(ttlSeconds * 1000, parsed.getPayload().getExpiration().getTime() - parsed.getPayload().getIssuedAt().getTime());
         }
 
-        private Key getKey() {
+        private JwtParserBuilder newParser() {
             if (Objects.equals(alg, "HS256") || Objects.equals(alg, "HS384") || Objects.equals(alg, "HS512")) {
-                return OAuth2TokenTest.getHmacKey(alg, publicKey);
+                return Jwts.parser().verifyWith(OAuth2TokenTest.getHmacKey(alg, publicKey));
             }
-            return OAuth2TokenTest.getPublicKeyFromPem(publicKey);
+            return Jwts.parser().verifyWith(OAuth2TokenTest.getPublicKeyFromPem(publicKey));
         }
     }
 
@@ -544,9 +582,9 @@ public class OAuth2TokenExchangeProviderTest {
     private class FromConfigTestCase {
         private String cfg;
         private File cfgFile;
-        private RequestExpectationChecker requestChecker;
-        private String errorMessageOnCreate;
-        private String errorMessageOnGet;
+        private final RequestExpectationChecker requestChecker;
+        private final String errorMessageOnCreate;
+        private final String errorMessageOnGet;
 
         public FromConfigTestCase(String cfg, RequestExpectationChecker checker, String errorMessageOnCreate, String errorMessageOnGet) {
             this.cfg = cfg;
@@ -798,7 +836,7 @@ public class OAuth2TokenExchangeProviderTest {
                 ),
                 null,
                 null,
-                "ECDSA signing keys must be ECKey instances"
+                "Unable to compute ES512 signature"
             ),
             new FromConfigTestCase(
                 String.format(
