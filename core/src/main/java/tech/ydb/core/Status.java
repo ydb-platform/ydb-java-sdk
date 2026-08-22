@@ -140,14 +140,14 @@ public final class Status implements Serializable {
         if (Arrays.equals(this.issues, newIssues)) {
             return this;
         }
-        return new Status(this.code, this.consumedRu, newIssues, null);
+        return new Status(this.code, this.consumedRu, newIssues, this.cause);
     }
 
     public Status withConsumedRu(Double newConsumedRu) {
         if (Objects.equals(this.consumedRu, newConsumedRu)) {
             return this;
         }
-        return new Status(this.code, newConsumedRu, this.issues, null);
+        return new Status(this.code, newConsumedRu, this.issues, this.cause);
     }
 
     public Status withCause(Throwable cause) {
