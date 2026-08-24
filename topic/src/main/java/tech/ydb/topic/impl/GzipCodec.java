@@ -37,6 +37,13 @@ public class GzipCodec implements Codec {
     }
 
     @Override
+    public long getMaxEncodedSize(int inputSizeBytes) {
+        long size = inputSizeBytes;
+        // zlib's compressBound formula plus the GZIP header and trailer
+        return size + (size >>> 12) + (size >>> 14) + (size >>> 25) + 31;
+    }
+
+    @Override
     public InputStream decode(InputStream byteArrayInputStream) throws IOException {
         return new GZIPInputStream(byteArrayInputStream);
     }

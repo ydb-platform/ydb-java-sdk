@@ -16,6 +16,10 @@ import tech.ydb.topic.description.Codec;
  * Compression codec which implements the LZO algorithm
  */
 public class LzopCodec implements Codec {
+    private static final int BLOCK_SIZE = 256 * 1024;
+    private static final int HEADER_SIZE = 38;
+    private static final int BLOCK_OVERHEAD = 8;
+    private static final int END_MARKER_SIZE = 4;
 
     private static final LzopCodec INSTANCE = new LzopCodec();
 
@@ -38,6 +42,14 @@ public class LzopCodec implements Codec {
     @Override
     public int getId() {
         return Codec.LZOP;
+    }
+
+    @Override
+    public long getMaxEncodedSize(int inputSizeBytes) {
+        long size = inputSizeBytes;
+        // LzopOutputStream header and end marker, plus two length fields for each non-empty block
+        long blockCount = (size + BLOCK_SIZE - 1) / BLOCK_SIZE;
+        return size + HEADER_SIZE + blockCount * BLOCK_OVERHEAD + END_MARKER_SIZE;
     }
 
     @Override
