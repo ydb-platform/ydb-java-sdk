@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.github.luben.zstd.Zstd;
 import com.github.luben.zstd.ZstdInputStream;
 import com.github.luben.zstd.ZstdOutputStream;
 
@@ -35,6 +36,11 @@ public class ZstdBackwardCodec implements Codec {
     @Override
     public int getId() {
         return Codec.ZSTD;
+    }
+
+    @Override
+    public long getMaxEncodedSize(int inputSizeBytes) {
+        return Zstd.compressBound(inputSizeBytes);
     }
 
     @Override
