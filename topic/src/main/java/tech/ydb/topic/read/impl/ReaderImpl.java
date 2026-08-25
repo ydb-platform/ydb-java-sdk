@@ -63,7 +63,8 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
         );
     }
 
-    protected abstract CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event);
+    abstract Executor getDataHandlerExecutor();
+    protected abstract void handleDataReceivedEvent(ReadPartitionSession session, DataReceivedEvent event);
     protected abstract void handleSessionStarted(String sessionId);
     protected abstract void handleCommitResponse(long committedOffset, PartitionSession partition);
     protected abstract void handleStartPartitionSessionRequest(StartPartitionSessionEvent event);

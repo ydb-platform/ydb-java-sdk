@@ -3,10 +3,12 @@ package tech.ydb.topic.read.impl;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -37,10 +39,10 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
     private static final int POLL_INTERVAL_SECONDS = 5;
-    private final Queue<MessageBatchWrapper> batchesInQueue = new LinkedList<>();
+    private final Queue<MessageBatchWrapper> queue = new LinkedList<>();
     private final ReentrantLock queueLock = new ReentrantLock();
     private final Condition queueIsNotEmptyCondition = queueLock.newCondition();
-    private int currentMessageIndex = 0;
+
     private volatile String sessionId = null;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
@@ -48,13 +50,28 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     private static class MessageBatchWrapper {
-        private final List<Message> messages;
-        private final CompletableFuture<Void> future;
+        private final Iterator<Message> iter;
+        private final DataReceivedEvent event;
+        private final ReadPartitionSession session;
 
-        private MessageBatchWrapper(List<Message> messages, CompletableFuture<Void> future) {
-            this.messages = messages;
-            this.future = future;
+        private MessageBatchWrapper(DataReceivedEvent event, ReadPartitionSession session) {
+            this.event = event;
+            this.session = session;
+            this.iter = event.getMessages().iterator();
         }
+
+        boolean hasNext() {
+            return !session.isStopped() && iter.hasNext();
+        }
+
+        Message next() {
+            return hasNext() ? iter.next() : null;
+        }
+
+        void release() {
+            session.releaseRange(event.getRangeToCommit());
+        }
+
     }
 
     @Override
@@ -79,55 +96,58 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             throw new RuntimeException("Reader was stopped");
         }
 
+        long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
+        Instant deadline = Instant.now().plusMillis(millisToWait);
+
         queueLock.lock();
 
         try {
-            if (batchesInQueue.isEmpty()) {
-                long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
-                Instant deadline = Instant.now().plusMillis(millisToWait);
-                while (batchesInQueue.isEmpty()) {
+            while (true) {
+                while (queue.isEmpty()) {
                     millisToWait = Duration.between(Instant.now(), deadline).toMillis();
                     if (millisToWait <= 0) {
-                        break;
+                        logger.trace("Still no messages in queue. Returning null");
+                        return null;
                     }
 
                     logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
                     queueIsNotEmptyCondition.await(millisToWait, TimeUnit.MILLISECONDS);
+                    if (isStopped.get()) {
+                        throw new RuntimeException("Reader was stopped");
+                    }
                 }
 
-                if (batchesInQueue.isEmpty()) {
-                    logger.trace("Still no messages in queue. Returning null");
-                    return null;
+                MessageBatchWrapper batch = queue.peek();
+                if (!batch.hasNext()) {
+                    batch.release();
+                    queue.remove();
+                    continue;
                 }
-            }
 
-            logger.trace("Taking a message with index {} from batch", currentMessageIndex);
-            MessageBatchWrapper currentBatch = batchesInQueue.element();
-            Message result = currentBatch.messages.get(currentMessageIndex);
-            currentMessageIndex++;
-            if (currentMessageIndex >= currentBatch.messages.size()) {
-                logger.debug("Batch is read. signalling core reader impl");
-                batchesInQueue.remove();
-                currentMessageIndex = 0;
-                currentBatch.future.complete(null);
-            }
-            if (receiveSettings.getTransaction() != null) {
-                // TODO: Implement batching for message committing
-                List<PartitionOffsets> offsets = Collections.singletonList(new PartitionOffsets(
-                        result.getPartitionSession(),
-                        Collections.singletonList(result.getRangeToCommit())
-                ));
-                Status updateStatus = updateOffsetsInTransaction(
-                        receiveSettings.getTransaction(),
-                        Collections.singletonMap(result.getPartitionSession().getPath(), offsets),
-                        UpdateOffsetsInTransactionSettings.newBuilder().build()
-                ).join();
-                if (!updateStatus.isSuccess()) {
-                    throw new RuntimeException("Couldn't add message offset " + result.getOffset() + " to transaction "
-                            + receiveSettings.getTransaction().getId() + ": " + updateStatus);
+                Message result = batch.next();
+                if (receiveSettings.getTransaction() != null) {
+                    // TODO: Implement batching for message committing
+                    List<PartitionOffsets> offsets = Collections.singletonList(new PartitionOffsets(
+                            result.getPartitionSession(),
+                            Collections.singletonList(result.getRangeToCommit())
+                    ));
+                    Status updateStatus = updateOffsetsInTransaction(
+                            receiveSettings.getTransaction(),
+                            Collections.singletonMap(result.getPartitionSession().getPath(), offsets),
+                            UpdateOffsetsInTransactionSettings.newBuilder().build()
+                    ).join();
+                    if (!updateStatus.isSuccess()) {
+                        throw new RuntimeException("Couldn't add message offset " + result.getOffset()
+                                + " to transaction " + receiveSettings.getTransaction().getId() + ": " + updateStatus);
+                    }
                 }
+
+                if (!batch.hasNext()) {
+                    batch.release();
+                    queue.remove();
+                }
+                return result;
             }
-            return result;
         } finally {
             queueLock.unlock();
         }
@@ -148,29 +168,26 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     }
 
     @Override
-    protected CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-        // Completes when all messages from this event are read by user
-        final CompletableFuture<Void> resultFuture = new CompletableFuture<>();
+    Executor getDataHandlerExecutor() {
+        return Runnable::run;
+    }
 
-        if (isStopped.get()) {
-            resultFuture.completeExceptionally(new RuntimeException("Reader was stopped"));
-            return resultFuture;
-        }
-        if (event.getMessages().isEmpty()) {
-            resultFuture.completeExceptionally(new RuntimeException("Batch has no messages"));
-            return resultFuture;
+    @Override
+    protected void handleDataReceivedEvent(ReadPartitionSession session, DataReceivedEvent event) {
+        if (isStopped.get() || event.getMessages().isEmpty()) {
+            session.releaseRange(event.getRangeToCommit());
+            return;
         }
 
         queueLock.lock();
 
         try {
             logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
-            batchesInQueue.add(new MessageBatchWrapper(event.getMessages(), resultFuture));
+            queue.add(new MessageBatchWrapper(event, session));
             queueIsNotEmptyCondition.signal();
         } finally {
             queueLock.unlock();
         }
-        return resultFuture;
     }
 
     @Override
@@ -205,6 +222,15 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     public void shutdown() {
-        shutdownImpl().join();
+        CompletableFuture<Void> impl = shutdownImpl();
+
+        queueLock.lock();
+        try {
+            queueIsNotEmptyCondition.signal();
+        } finally {
+            queueLock.unlock();
+        }
+
+        impl.join();
     }
 }

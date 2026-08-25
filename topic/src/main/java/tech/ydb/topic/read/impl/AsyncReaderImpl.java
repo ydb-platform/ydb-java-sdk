@@ -76,6 +76,11 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
+    Executor getDataHandlerExecutor() {
+        return handlerExecutor;
+    }
+
+    @Override
     protected void handleSessionStarted(String sessionId) {
         controlEventsExecutor.execute(() -> {
             try {
@@ -88,15 +93,14 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                eventHandler.onMessages(event);
-            } catch (Throwable th) {
-                logUserThrowableAndStopWorking(th, "onMessages");
-                throw th;
-            }
-        }, handlerExecutor);
+    protected void handleDataReceivedEvent(ReadPartitionSession session, DataReceivedEvent event) {
+        try {
+            eventHandler.onMessages(event);
+            session.releaseRange(event.getRangeToCommit());
+        } catch (Throwable th) {
+            logUserThrowableAndStopWorking(th, "onMessages");
+            throw th;
+        }
     }
 
     @Override

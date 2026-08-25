@@ -23,13 +23,13 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.description.Consumer;
+import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
-import tech.ydb.topic.read.impl.ReaderImpl;
 import tech.ydb.topic.settings.CommitOffsetSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
@@ -132,7 +132,7 @@ public class TopicReadersIntegrationTest {
     }
 
     @Test
-    @HideLoggers({ ReaderImpl.class, AsyncReaderImpl.class })
+    @HideLoggers({ SerialExecutor.class, AsyncReaderImpl.class })
     public void singleThreadExecutorTest() throws Exception {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder()

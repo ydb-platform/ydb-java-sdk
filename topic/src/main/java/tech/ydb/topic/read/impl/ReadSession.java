@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executor;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -212,10 +213,12 @@ public final class ReadSession extends SessionBase<YdbTopic.StreamReadMessage.Fr
                     }
                 }
 
-                partSessions.put(psid, new ReadPartitionSession(traceID, ReadSession.this, partition, commitTo) {
+                ReadSession self = ReadSession.this;
+                Executor executor = reader.getDataHandlerExecutor();
+                partSessions.put(psid, new ReadPartitionSession(traceID, self, partition, executor, commitTo) {
                     @Override
-                    public CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-                        return reader.handleDataReceivedEvent(event);
+                    public void handleDataReceivedEvent(DataReceivedEvent event) {
+                        reader.handleDataReceivedEvent(this, event);
                     }
                 });
 
