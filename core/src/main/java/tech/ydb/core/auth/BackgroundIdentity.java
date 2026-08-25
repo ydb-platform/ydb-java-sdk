@@ -9,16 +9,11 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicReference;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
-    private static final Logger logger = LoggerFactory.getLogger(BackgroundIdentity.class);
-
     public interface Rpc extends AutoCloseable {
         class Token {
             private final String token;
@@ -89,10 +84,8 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
         try {
             return future.get(rpc.getTimeoutSeconds(), TimeUnit.SECONDS);
         } catch (ExecutionException | TimeoutException ex) {
-            logger.error("authentication update problem", ex);
             throw new RuntimeException("authentication update problem", ex);
         } catch (InterruptedException ex) {
-            logger.error("updating of authentication token was interrupted", ex);
             Thread.currentThread().interrupt();
             // returning null here would poison the state reference and break every following getToken()
             throw new RuntimeException("authentication update was interrupted", ex);
@@ -233,4 +226,3 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
         }
     }
 }
-

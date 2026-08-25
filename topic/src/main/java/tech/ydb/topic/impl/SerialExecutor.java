@@ -41,7 +41,6 @@ public class SerialExecutor implements Executor, Runnable {
             try {
                 executor.execute(this);
             } catch (RuntimeException ex) {
-                logger.error("SerialExecutor cannot execute task", ex);
                 isExecuted.set(false);
                 throw ex;
             }

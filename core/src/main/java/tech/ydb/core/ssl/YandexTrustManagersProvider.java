@@ -18,12 +18,8 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import com.google.common.io.ByteStreams;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 final class YandexTrustManagersProvider {
-    private static final Logger logger = LoggerFactory.getLogger(YandexTrustManagerFactory.class);
-
     private static final String CA_STORE = "certificates/YandexAllCAs.pkcs";
     private static final String CA_KEYPHRASE = "certificates/YandexAllCAs.password";
 
@@ -48,7 +44,6 @@ final class YandexTrustManagersProvider {
             trustManagers = allTrustManagers.toArray(new TrustManager[0]);
         } catch (NoSuchAlgorithmException | KeyStoreException | CertificateException | IOException e) {
             String msg = "Can't init yandex root CA setting";
-            logger.debug(msg, e);
             throw new RuntimeException(msg, e);
         }
     }
