@@ -182,4 +182,25 @@ public class BufferManagerTest {
         bm.releasePartition(1L);
         Assert.assertEquals(100000, requested.get());
     }
+
+    @Test
+    public void skippedOffsetsInBatchTest() {
+        AtomicLong requested = new AtomicLong(0);
+        BufferManager bm = new BufferManager("skipped-offsets", 100, requested::addAndGet);
+
+        ReadResponse.Batch batch = ReadResponse.Batch.newBuilder()
+                .addAllMessageData(Arrays.asList(msg(0, 100), msg(1, 100), msg(100, 100), msg(101, 100)))
+                .build();
+
+        bm.allocate(400, Arrays.asList(partition(1, batch)));
+
+        bm.releaseRange(1L, OffsetsRange.of(10, 100));
+        Assert.assertEquals(0, requested.get());
+
+        bm.releaseRange(1L, OffsetsRange.of(0, 50));
+        Assert.assertEquals(200, requested.get());
+
+        bm.releasePartition(1L);
+        Assert.assertEquals(400, requested.get());
+    }
 }

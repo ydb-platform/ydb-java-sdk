@@ -88,13 +88,20 @@ public class BufferManager {
                     continue;
                 }
 
-                long startOffset = batch.getMessageData(0).getOffset();
                 int[] batchSizes = new int[batch.getMessageDataCount()];
-                for (int idx = 0; idx < batch.getMessageDataCount(); idx++) {
-                    batchSizes[idx] = msgSize[msgIdx++];
+                long startOffset = -1;
+                int msgCount = 0;
+                for (YdbTopic.StreamReadMessage.ReadResponse.MessageData msg: batch.getMessageDataList()) {
+                    if (msg.getOffset() != startOffset + msgCount) { // batch with skipped offsets
+                        if (msgCount > 0) {
+                            part.add(new BatchBuffer(startOffset, batchSizes, msgCount));
+                        }
+                        startOffset = msg.getOffset();
+                        msgCount = 0;
+                    }
+                    batchSizes[msgCount++] = msgSize[msgIdx++];
                 }
-
-                part.add(new BatchBuffer(startOffset, batchSizes));
+                part.add(new BatchBuffer(startOffset, batchSizes, msgCount));
             }
 
             if (!partitions.containsKey(data.getPartitionSessionId())) {
@@ -194,11 +201,11 @@ public class BufferManager {
         private final AtomicInteger[] messages;
         private final AtomicLong total;
 
-        BatchBuffer(long startOffset, int[] messageSizes) {
+        BatchBuffer(long startOffset, int[] messageSizes, int messagesCount) {
             this.startOffset = startOffset;
-            this.messages = new AtomicInteger[messageSizes.length];
+            this.messages = new AtomicInteger[messagesCount];
             long totalSize = 0;
-            for (int idx = 0; idx < messageSizes.length; idx++) {
+            for (int idx = 0; idx < messagesCount; idx++) {
                 this.messages[idx] = new AtomicInteger(messageSizes[idx]);
                 totalSize += messageSizes[idx];
             }
