@@ -104,7 +104,7 @@ public class ReadPartitionDecoder {
             super(partition, committer, meta, range, msg);
             this.origin = msg.getData();
             this.codecCode = meta.getCodec();
-            this.uncompressedSize = msg.getUncompressedSize() > 0 ? msg.getUncompressedSize() : 2 * origin.size();
+            this.uncompressedSize = msg.getUncompressedSize() > 0 ? msg.getUncompressedSize() : 2L * origin.size();
         }
 
         @Override
@@ -161,6 +161,9 @@ public class ReadPartitionDecoder {
                 } catch (IOException ex) {
                     logger.warn("[{}] Exception was thrown while decoding a message: ", traceID, ex);
                     problem = ex;
+                } catch (RuntimeException ex) {
+                    logger.warn("[{}] RuntimeException was thrown while decoding a message: ", traceID, ex);
+                    problem = new IOException("Cannot decode message", ex);
                 }
             } finally {
                 if (problem == null) {

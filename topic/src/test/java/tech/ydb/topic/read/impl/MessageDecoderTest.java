@@ -2,7 +2,11 @@ package tech.ydb.topic.read.impl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
@@ -20,6 +24,7 @@ import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.ReadResponse;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
+import tech.ydb.topic.impl.StandardCodecs;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.utils.HideLoggers;
@@ -349,7 +354,25 @@ public class MessageDecoderTest {
     @Test
     @HideLoggers(MessageDecoder.class)
     public void decodeProblemsTest() {
-        MessageDecoder decoder = new MessageDecoder(200, Runnable::run, REGISTRY);
+        List<Codec> codecs = new ArrayList<>(StandardCodecs.getAvailableCodecs());
+        codecs.add(new Codec() {
+            @Override
+            public int getId() {
+                return 1300;
+            }
+
+            @Override
+            public InputStream decode(InputStream byteArrayInputStream) throws IOException {
+                throw new UnsupportedOperationException("Codec is not implemented");
+            }
+
+            @Override
+            public OutputStream encode(OutputStream byteArrayOutputStream) throws IOException {
+                throw new UnsupportedOperationException("Codec is not implemented");
+            }
+        });
+
+        MessageDecoder decoder = new MessageDecoder(300, Runnable::run, new CodecRegistry(codecs));
 
         AtomicInteger ready = new AtomicInteger();
         ReadPartitionDecoder p1 = new ReadPartitionDecoder("p1", decoder, PS1, null, ready::incrementAndGet);
@@ -358,43 +381,52 @@ public class MessageDecoderTest {
         MessageImpl m1 = p1.decode(meta1, OffsetsRange.of(1), rawMsg(1, 50, new byte[0]));
         MessageImpl m2 = p1.decode(meta1, OffsetsRange.of(2), rawMsg(2, 50, new byte[0]));
 
-        BatchMeta meta2 = meta(Codec.GZIP);
+        BatchMeta meta2 = meta(Codec.GZIP); // wrong messages
         MessageImpl m3 = p1.decode(meta2, OffsetsRange.of(3), rawMsg(3, 50, new byte[] { 0x1, 0x2 }));
         MessageImpl m4 = p1.decode(meta2, OffsetsRange.of(4), rawMsg(4, 50, new byte[] { 0x1, 0x2 }));
 
-        MessageImpl m5 = p1.decode(meta2, OffsetsRange.of(5), gzipMsg(5, 50));
-        MessageImpl m6 = p1.decode(meta2, OffsetsRange.of(6), gzipMsg(6, 50));
+        BatchMeta meta3 = meta(1300); // wrong codec
+        MessageImpl m5 = p1.decode(meta3, OffsetsRange.of(3), rawMsg(3, 50, new byte[0]));
+        MessageImpl m6 = p1.decode(meta3, OffsetsRange.of(4), rawMsg(4, 50, new byte[0]));
 
-        Assert.assertEquals(200, decoder.getTotalAvailable());
+        BatchMeta meta4 = meta(Codec.GZIP); // valid messages
+        MessageImpl m7 = p1.decode(meta4, OffsetsRange.of(5), gzipMsg(5, 50));
+        MessageImpl m8 = p1.decode(meta4, OffsetsRange.of(6), gzipMsg(6, 50));
+
+        Assert.assertEquals(300, decoder.getTotalAvailable());
 
         decoder.decodeNext();
 
         Assert.assertEquals(0, decoder.getTotalAvailable());
-        Assert.assertEquals(4, ready.get());
+        Assert.assertEquals(6, ready.get());
 
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
         Assert.assertTrue(m3.isReady());
         Assert.assertTrue(m4.isReady());
-        Assert.assertFalse(m5.isReady());
-        Assert.assertFalse(m6.isReady());
+        Assert.assertTrue(m5.isReady());
+        Assert.assertTrue(m6.isReady());
+        Assert.assertFalse(m7.isReady());
+        Assert.assertFalse(m8.isReady());
 
         assertDecompressionException("Codec 1244 is not registered", m1::getData);
         assertDecompressionException("Codec 1244 is not registered", m2::getData);
         assertDecompressionException("Not in GZIP format", m3::getData);
         assertDecompressionException("Not in GZIP format", m4::getData);
+        assertDecompressionException("Cannot decode message", m5::getData);
+        assertDecompressionException("Cannot decode message", m6::getData);
 
         p1.close();
 
-        Assert.assertEquals(200, decoder.getTotalAvailable());
+        Assert.assertEquals(300, decoder.getTotalAvailable());
 
-        Assert.assertEquals(4, ready.get());
-        Assert.assertTrue(m5.isReady());
-        Assert.assertTrue(m6.isReady());
+        Assert.assertEquals(6, ready.get());
+        Assert.assertTrue(m7.isReady());
+        Assert.assertTrue(m8.isReady());
         assertDecompressionException("Partition session 1 (partition 1) for topic \"/topic\" is already closed",
-                m5::getData);
+                m7::getData);
         assertDecompressionException("Partition session 1 (partition 1) for topic \"/topic\" is already closed",
-                m6::getData);
+                m8::getData);
     }
 
     @Test
