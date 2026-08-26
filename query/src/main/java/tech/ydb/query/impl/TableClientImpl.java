@@ -90,6 +90,9 @@ public class TableClientImpl implements TableClient {
             if (tc.getBeginTx().hasSerializableReadWrite()) {
                 return TxControl.txModeCtrl(TxMode.SERIALIZABLE_RW, tc.getCommitTx());
             }
+            if (tc.getBeginTx().hasStrictSerializableReadWrite()) {
+                return TxControl.txModeCtrl(TxMode.STRICT_SERIALIZABLE_RW, tc.getCommitTx());
+            }
             if (tc.getBeginTx().hasSnapshotReadOnly()) {
                 return TxControl.txModeCtrl(TxMode.SNAPSHOT_RO, tc.getCommitTx());
             }

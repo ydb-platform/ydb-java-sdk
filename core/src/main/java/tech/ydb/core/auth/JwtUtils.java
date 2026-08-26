@@ -60,13 +60,14 @@ class JwtUtils {
         }
 
         try {
-            String payload = new String(Base64.getDecoder().decode(parts[1]), StandardCharsets.UTF_8);
+            String payload = new String(Base64.getUrlDecoder().decode(parts[1]), StandardCharsets.UTF_8);
             JwtClaims claims = GSON.fromJson(payload, JwtClaims.class);
             if (claims != null && claims.getExpiredAt() != null) {
                 return Instant.ofEpochSecond(claims.getExpiredAt());
             }
         } catch (IllegalArgumentException | JsonSyntaxException ex) {
-            logger.error("can't get expire from jwt {}", jwt, ex);
+            // the JWT itself is a credential and must never be logged
+            logger.error("Can't get expire from JWT", ex);
         }
 
         return defaultValue;

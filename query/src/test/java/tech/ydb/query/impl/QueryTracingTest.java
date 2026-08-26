@@ -586,6 +586,12 @@ public class QueryTracingTest {
 
         @Override
         public String getId() {
+            // Transport reads TRACEPARENT via getId() on the call path; span must already be current.
+            Assert.assertSame(
+                    "Span must be current when getId() is called (missing makeCurrent?)",
+                    this,
+                    tracer.currentSpan.get()
+            );
             return name + ":" + kind;
         }
 

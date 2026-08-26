@@ -12,6 +12,10 @@ class TxControl {
             .setSerializableReadWrite(YdbQuery.SerializableModeSettings.getDefaultInstance())
             .build();
 
+    private static final YdbQuery.TransactionSettings TS_STRICT_SERIALIZABLE = YdbQuery.TransactionSettings.newBuilder()
+            .setStrictSerializableReadWrite(YdbQuery.StrictSerializableRWModeSettings.getDefaultInstance())
+            .build();
+
     private static final YdbQuery.TransactionSettings TS_SNAPSHOT = YdbQuery.TransactionSettings.newBuilder()
             .setSnapshotReadOnly(YdbQuery.SnapshotModeSettings.getDefaultInstance())
             .build();
@@ -61,6 +65,8 @@ class TxControl {
         switch (tx) {
             case SERIALIZABLE_RW:
                 return TS_SERIALIZABLE;
+            case STRICT_SERIALIZABLE_RW:
+                return TS_STRICT_SERIALIZABLE;
             case SNAPSHOT_RO:
                 return TS_SNAPSHOT;
             case SNAPSHOT_RW:

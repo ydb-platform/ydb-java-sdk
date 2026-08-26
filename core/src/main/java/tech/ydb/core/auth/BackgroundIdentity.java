@@ -2,6 +2,7 @@ package tech.ydb.core.auth;
 
 import java.time.Clock;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -72,6 +73,7 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
     }
 
     private State updateState(State current, State next) {
+        Objects.requireNonNull(next, "next state cannot be null");
         if (state.compareAndSet(current, next)) {
             next.init();
         }
@@ -92,7 +94,8 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
         } catch (InterruptedException ex) {
             logger.error("updating of authentication token was interrupted", ex);
             Thread.currentThread().interrupt();
-            return null;
+            // returning null here would poison the state reference and break every following getToken()
+            throw new RuntimeException("authentication update was interrupted", ex);
         }
     }
 

@@ -69,7 +69,7 @@ public class TopicClientImpl implements TopicClient {
 
     TopicClientImpl(TopicClientBuilderImpl builder) {
         this.topicRpc = builder.topicRpc;
-        this.codecRegistry = new CodecRegistry();
+        this.codecRegistry = new CodecRegistry(builder.codecs);
         if (builder.compressionExecutor != null) {
             this.defaultCompressionExecutorService = null;
             this.compressionExecutor = builder.compressionExecutor;
@@ -408,6 +408,7 @@ public class TopicClientImpl implements TopicClient {
     }
 
     @Override
+    @Deprecated
     public void registerCodec(Codec codec) {
         codecRegistry.registerCodec(codec);
     }

@@ -1,21 +1,24 @@
 package tech.ydb.auth;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringReader;
 import java.security.Key;
+import java.security.PublicKey;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.Date;
 
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.openssl.PEMKeyPair;
@@ -113,7 +116,7 @@ public class OAuth2TokenTest {
         }
     }
 
-    public static Key getPublicKeyFromPem(String pemContent) {
+    public static PublicKey getPublicKeyFromPem(String pemContent) {
         try (PEMParser parser = new PEMParser(new StringReader(pemContent))) {
             Object parsed = parser.readObject();
             if (parsed == null) {
@@ -132,20 +135,20 @@ public class OAuth2TokenTest {
         }
     }
 
-    public static Key getHmacKey(String alg, String base64Content) {
+    public static SecretKey getHmacKey(String alg, String base64Content) {
         byte[] bytes  = Base64.getDecoder().decode(base64Content);
-        SignatureAlgorithm signatureAlgorithm = null;
+        String jcaName = null;
         if (alg.equals("HS256")) {
-            signatureAlgorithm = SignatureAlgorithm.HS256;
+            jcaName = "HmacSHA256";
         }
         if (alg.equals("HS384")) {
-            signatureAlgorithm = SignatureAlgorithm.HS384;
+            jcaName = "HmacSHA384";
         }
         if (alg.equals("HS512")) {
-            signatureAlgorithm = SignatureAlgorithm.HS512;
+            jcaName = "HmacSHA512";
         }
-        Assert.assertNotNull(signatureAlgorithm);
-        return new SecretKeySpec(bytes, signatureAlgorithm.getJcaName());
+        Assert.assertNotNull(jcaName);
+        return new SecretKeySpec(bytes, jcaName);
     }
 
     @Test
@@ -170,15 +173,16 @@ public class OAuth2TokenTest {
             writer.write(TEST_RSA_PRIVATE_KEY);
         }
 
-        OAuth2TokenSource token = OAuth2TokenSource.withPrivateKeyPemFile(file).build();
+        OAuth2TokenSource token = OAuth2TokenSource.withPrivateKeyPem(new FileReader(file)).build();
         String jwt = token.getToken();
 
-        Jwt<?, Claims> parsed = Jwts.parser()
-                .setSigningKey(getPublicKeyFromPem(TEST_RSA_PUBLIC_KEY))
-                .parseClaimsJws(jwt);
+        Jws<Claims> parsed = Jwts.parser()
+                .verifyWith(getPublicKeyFromPem(TEST_RSA_PUBLIC_KEY))
+                .build()
+                .parseSignedClaims(jwt);
 
         Assert.assertEquals("JWT", parsed.getHeader().getType());
-        Assert.assertEquals("RS256", parsed.getHeader().get("alg"));
+        Assert.assertEquals("RS256", parsed.getHeader().getAlgorithm());
         file.delete();
     }
 
@@ -201,24 +205,25 @@ public class OAuth2TokenTest {
 
         String jwt = token.getToken();
 
-        Jwt<?, Claims> parsed = Jwts.parser()
-                .setClock(() -> Date.from(clock.instant()))
-                .setSigningKey(getPublicKeyFromPem(TEST_RSA_PUBLIC_KEY))
-                .parseClaimsJws(jwt);
+        Jws<Claims> parsed = Jwts.parser()
+                .clock(() -> Date.from(clock.instant()))
+                .verifyWith(getPublicKeyFromPem(TEST_RSA_PUBLIC_KEY))
+                .build()
+                .parseSignedClaims(jwt);
 
         Assert.assertEquals("JWT", parsed.getHeader().getType());
-        Assert.assertEquals("RS256", parsed.getHeader().get("alg"));
-        Assert.assertEquals("keyID", parsed.getHeader().get("kid"));
+        Assert.assertEquals("RS256", parsed.getHeader().getAlgorithm());
+        Assert.assertEquals("keyID", parsed.getHeader().getKeyId());
 
-        Assert.assertEquals("testAudience", parsed.getBody().getAudience());
-        Assert.assertEquals("junitIssuer", parsed.getBody().getIssuer());
-        Assert.assertEquals("test", parsed.getBody().getId());
-        Assert.assertEquals("subj", parsed.getBody().getSubject());
-        Assert.assertEquals("value1", parsed.getBody().get("c1", String.class));
-        Assert.assertEquals("value2", parsed.getBody().get("c2", String.class));
+        Assert.assertEquals(Collections.singleton("testAudience"), parsed.getPayload().getAudience());
+        Assert.assertEquals("junitIssuer", parsed.getPayload().getIssuer());
+        Assert.assertEquals("test", parsed.getPayload().getId());
+        Assert.assertEquals("subj", parsed.getPayload().getSubject());
+        Assert.assertEquals("value1", parsed.getPayload().get("c1", String.class));
+        Assert.assertEquals("value2", parsed.getPayload().get("c2", String.class));
 
-        Assert.assertEquals(Date.from(now), parsed.getBody().getIssuedAt());
-        Assert.assertEquals(Date.from(now.plusSeconds(20)), parsed.getBody().getExpiration());
+        Assert.assertEquals(Date.from(now), parsed.getPayload().getIssuedAt());
+        Assert.assertEquals(Date.from(now.plusSeconds(20)), parsed.getPayload().getExpiration());
     }
 
 }

@@ -189,6 +189,7 @@ class SessionPool implements AutoCloseable {
                     status.getCode() == StatusCode.TRANSPORT_UNAVAILABLE;
             if (isStatusBroken) {
                 logger.warn("QuerySession[{}] broken with status {}", getId(), status);
+                updateProblem(PoolMetrics.Reason.fromStatusCode(null, status.getCode()));
             }
             isBroken = isBroken || isStatusBroken;
         }
@@ -218,14 +219,17 @@ class SessionPool implements AutoCloseable {
                 logger.trace("QuerySession[{}] attach message {}", getId(), status);
             }).whenComplete((status, th) -> {
                 if (th != null) {
+                    updateProblem(PoolMetrics.Reason.fromStatusCode(th, null));
                     logger.debug("QuerySession[{}] finished with exception", getId(), th);
                 }
 
                 if (status != null) {
                     if (status.isSuccess()) {
                         logger.debug("QuerySession[{}] finished with status {}", getId(), status);
+                        updateProblem(PoolMetrics.Reason.ATTACH_CLOSED);
                     } else {
                         logger.warn("QuerySession[{}] finished with status {}", getId(), status);
+                        updateProblem(PoolMetrics.Reason.fromStatusCode(th, status.getCode()));
                     }
                 }
             }).thenRun(this::clean);
@@ -314,9 +318,15 @@ class SessionPool implements AutoCloseable {
         }
 
         @Override
+        public void destroy(PooledQuerySession session, PoolMetrics.Reason reason) {
+            session.updateProblem(reason);
+            destroy(session);
+        }
+
+        @Override
         public void destroy(PooledQuerySession session) {
             stats.deleted.increment();
-            metrics.onSessionDeleted();
+            metrics.onSessionClosed(session.getProblem());
 
             // Execute deleteSession call outside current context to avoid cancellation and deadline propogation
             Context ctx = Context.ROOT.fork();
