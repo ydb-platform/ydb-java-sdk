@@ -95,11 +95,14 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     @Override
     protected void handleDataReceivedEvent(ReadPartitionSession session, DataReceivedEvent event) {
         try {
+            int messagesCount = event.getMessages().size();
+            long offsetStart = event.getMessages().get(0).getOffset();
+            long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
+            logger.debug("{} DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
+                    + "to be called...", session, messagesCount, offsetStart, offsetEnd);
             eventHandler.onMessages(event);
             logger.debug("{} DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
-                    + "successfully finished", session, event.getMessages().size(),
-                    event.getMessages().get(0).getOffset(),
-                    event.getMessages().get(event.getMessages().size() - 1).getOffset());
+                    + "successfully finished", session, messagesCount, offsetStart, offsetEnd);
         } catch (Throwable th) {
             logUserThrowableAndStopWorking(th, "onMessages");
             throw th;

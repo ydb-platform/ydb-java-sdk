@@ -161,11 +161,6 @@ public abstract class ReadPartitionSession {
 
                 // Should be called maximum in 1 thread at a time
                 DataReceivedEvent event = new DataReceivedEventImpl(partition, committer, messagesToRead);
-                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
-                        + "to be called...", traceID, messagesToRead.size(),
-                        messagesToRead.get(0).getOffset(),
-                        messagesToRead.get(messagesToRead.size() - 1).getOffset());
-
                 handleDataReceivedEvent(event);
             }
         });
