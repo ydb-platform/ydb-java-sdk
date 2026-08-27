@@ -90,6 +90,33 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         initImpl().join();
     }
 
+    private MessageWrapper waitReadyMessage(long timeout, TimeUnit unit) throws InterruptedException {
+        long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
+        Instant deadline = Instant.now().plusMillis(millisToWait);
+
+        waitingLock.lock();
+        try {
+            MessageWrapper next = queue.poll();
+            while (next == null) {
+                millisToWait = Duration.between(Instant.now(), deadline).toMillis();
+                if (millisToWait <= 0) {
+                    logger.trace("Still no messages in queue. Returning null");
+                    return null;
+                }
+
+                logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
+                waitingCondition.await(millisToWait, TimeUnit.MILLISECONDS);
+                if (isStopped.get()) {
+                    throw new RuntimeException("Reader was stopped");
+                }
+                next = queue.poll();
+            }
+            return next;
+        } finally {
+            waitingLock.unlock();
+        }
+    }
+
     @Nullable
     public Message receiveInternal(ReceiveSettings receiveSettings, long timeout, TimeUnit unit)
             throws InterruptedException {
@@ -97,30 +124,15 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             throw new RuntimeException("Reader was stopped");
         }
 
-        long millisToWait = TimeUnit.MILLISECONDS.convert(timeout, unit);
-        Instant deadline = Instant.now().plusMillis(millisToWait);
-
         while (true) {
-            while (queue.isEmpty()) {
-                millisToWait = Duration.between(Instant.now(), deadline).toMillis();
-                if (millisToWait <= 0) {
-                    logger.trace("Still no messages in queue. Returning null");
+            MessageWrapper next = queue.poll();
+            if (next == null) {
+                next = waitReadyMessage(timeout, unit);
+                if (next == null) {
                     return null;
-                }
-
-                waitingLock.lock();
-                try {
-                    logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
-                    waitingCondition.await(millisToWait, TimeUnit.MILLISECONDS);
-                    if (isStopped.get()) {
-                        throw new RuntimeException("Reader was stopped");
-                    }
-                } finally {
-                    waitingLock.unlock();
                 }
             }
 
-            MessageWrapper next = queue.poll();
             if (!next.isActive()) {
                 next.release();
                 continue;
