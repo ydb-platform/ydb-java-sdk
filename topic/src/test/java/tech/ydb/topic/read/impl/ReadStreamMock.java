@@ -209,7 +209,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         public MessageAssert isStopPartition(long psid) {
             Assert.assertTrue("Msg is not stop partition response", msg.hasStopPartitionSessionResponse());
             YdbTopic.StreamReadMessage.StopPartitionSessionResponse resp = msg.getStopPartitionSessionResponse();
-            Assert.assertEquals("Stopt partition has incorrect id", psid, resp.getPartitionSessionId());
+            Assert.assertEquals("Stop partition has incorrect id", psid, resp.getPartitionSessionId());
             return this;
         }
     }
