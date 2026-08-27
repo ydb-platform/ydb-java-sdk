@@ -3,7 +3,6 @@ package tech.ydb.topic.read.impl;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
@@ -39,7 +39,7 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
     private static final int POLL_INTERVAL_SECONDS = 5;
-    private final Queue<MessageBatchWrapper> queue = new LinkedList<>();
+    private final Queue<MessageWrapper> queue = new LinkedList<>();
     private final ReentrantLock queueLock = new ReentrantLock();
     private final Condition queueIsNotEmptyCondition = queueLock.newCondition();
 
@@ -49,29 +49,30 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
         super(topicRpc, settings, codecRegistry);
     }
 
-    private static class MessageBatchWrapper {
-        private final Iterator<Message> iter;
-        private final DataReceivedEvent event;
+    private static class MessageWrapper {
+        private final Message msg;
         private final ReadPartitionSession session;
+        private final OffsetsRange rangeToRelease;
 
-        private MessageBatchWrapper(DataReceivedEvent event, ReadPartitionSession session) {
-            this.event = event;
+        private MessageWrapper(Message msg, ReadPartitionSession session, OffsetsRange rangeToRelease) {
+            this.msg = msg;
             this.session = session;
-            this.iter = event.getMessages().iterator();
+            this.rangeToRelease = rangeToRelease;
         }
 
-        boolean hasNext() {
-            return !session.isStopped() && iter.hasNext();
+        boolean isActive() {
+            return !session.isStopped();
         }
 
-        Message next() {
-            return hasNext() ? iter.next() : null;
+        Message getMessage() {
+            return msg;
         }
 
         void release() {
-            session.releaseRange(event.getRangeToCommit());
+            if (rangeToRelease != null) {
+                session.releaseRange(rangeToRelease);
+            }
         }
-
     }
 
     @Override
@@ -117,14 +118,13 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                     }
                 }
 
-                MessageBatchWrapper batch = queue.peek();
-                if (!batch.hasNext()) {
-                    batch.release();
-                    queue.remove();
+                MessageWrapper next = queue.poll();
+                if (!next.isActive()) {
+                    next.release();
                     continue;
                 }
 
-                Message result = batch.next();
+                Message result = next.getMessage();
                 if (receiveSettings.getTransaction() != null) {
                     // TODO: Implement batching for message committing
                     List<PartitionOffsets> offsets = Collections.singletonList(new PartitionOffsets(
@@ -142,10 +142,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                     }
                 }
 
-                if (!batch.hasNext()) {
-                    batch.release();
-                    queue.remove();
-                }
+                next.release();
                 return result;
             }
         } finally {
@@ -183,7 +180,13 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
         try {
             logger.debug("Putting a message batch into queue and notifying in case receive method is waiting");
-            queue.add(new MessageBatchWrapper(event, session));
+            for (Message msg: event.getMessages()) {
+                if (msg.getRangeToCommit().getEnd() == event.getRangeToCommit().getEnd()) { // last message in batch
+                    queue.add(new MessageWrapper(msg, session, event.getRangeToCommit()));
+                } else {
+                    queue.add(new MessageWrapper(msg, session, null));
+                }
+            }
             queueIsNotEmptyCondition.signal();
         } finally {
             queueLock.unlock();
