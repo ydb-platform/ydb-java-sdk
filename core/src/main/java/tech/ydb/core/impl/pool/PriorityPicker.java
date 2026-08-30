@@ -67,8 +67,12 @@ public class PriorityPicker {
 
     @VisibleForTesting
     static String detectLocalDC(List<EndpointRecord> endpoints, Ticker ticker) {
+        // Endpoints without a known location carry no information about datacenters. They must be
+        // filtered out because groupingBy rejects a null key - the endpoint the transport bootstraps
+        // with has no location until the first discovery completes.
         Map<String, List<EndpointRecord>> dcLocationToNodes = endpoints
                 .stream()
+                .filter(endpoint -> endpoint.getLocation() != null && !endpoint.getLocation().isEmpty())
                 .collect(Collectors.groupingBy(EndpointRecord::getLocation));
 
         if (dcLocationToNodes.size() < 2) {
@@ -81,8 +85,6 @@ public class PriorityPicker {
         for (Map.Entry<String, List<EndpointRecord>> entry : dcLocationToNodes.entrySet()) {
             String dc = entry.getKey();
             List<EndpointRecord> nodes = entry.getValue();
-
-            assert !nodes.isEmpty();
 
             Collections.shuffle(nodes);
 

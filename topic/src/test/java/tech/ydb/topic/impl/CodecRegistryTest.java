@@ -1,15 +1,16 @@
 package tech.ydb.topic.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.Arrays;
+import java.util.Collection;
+
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * Unit tests for check simple logic for register custom codec
@@ -17,59 +18,69 @@ import java.io.OutputStream;
  * @author Evgeny Kuvardin
  */
 public class CodecRegistryTest {
-    CodecRegistry registry;
+    @Test
+    public void standardCodecsTest() {
+        CodecRegistry registry = new CodecRegistry();
 
-    private static final int codecId = 10113;
-
-    @Before
-    public void beforeTest() {
-        registry = new CodecRegistry();
+        Assert.assertSame(RawCodec.getInstance(), registry.getCodec(Codec.RAW));
+        Assert.assertSame(GzipCodec.getInstance(), registry.getCodec(Codec.GZIP));
+        Assert.assertSame(LzopCodec.getInstance(), registry.getCodec(Codec.LZOP));
+        Assert.assertSame(ZstdCodec.getInstance(), registry.getCodec(Codec.ZSTD));
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void registerCustomCodecShouldDoubleRegisterCodecAndReturnLastCodec() {
-        Codec codec1 = new CodecTopic();
-        Codec codec2 = new CodecTopic();
+        CodecRegistry registry = new CodecRegistry();
+
+        Codec codec1 = new CodecTopic(10001);
+        Codec codec2 = new CodecTopic(10001);
 
         registry.registerCodec(codec1);
         Assert.assertEquals(codec1, registry.registerCodec(codec2));
 
-        Assert.assertEquals(codec2, registry.getCodec(codecId));
-        Assert.assertNotEquals(codec1, registry.getCodec(codecId));
+        Assert.assertEquals(codec2, registry.getCodec(10001));
+        Assert.assertNotEquals(codec1, registry.getCodec(10001));
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void registerCustomCodecShouldNotAcceptNull() {
-        Assert.assertThrows(
-                AssertionError.class,
-                () -> registry.registerCodec(null));
+        CodecRegistry registry = new CodecRegistry();
+        Exception ex = Assert.assertThrows(IllegalArgumentException.class, () -> registry.registerCodec(null));
+        Assert.assertEquals("Codec must be not null", ex.getMessage());
     }
 
     @Test
-    public void registerCustomCodecShouldRegisterAndOverrideAnyCodec() {
-        CodecTopic codec1 = new CodecTopic();
-        expectRegisterCodec(1, codec1, RawCodec.getInstance());
-        expectRegisterCodec(2, codec1, GzipCodec.getInstance());
-        expectRegisterCodec(3, codec1, LzopCodec.getInstance());
-        expectRegisterCodec(4, codec1, ZstdCodec.getInstance());
+    @SuppressWarnings("deprecation")
+    public void customCodecShouldNotAcceptNull() {
+        Collection<Codec> codecs = Arrays.asList(RawCodec.getInstance(), null);
+        Exception ex = Assert.assertThrows(IllegalArgumentException.class, () -> new CodecRegistry(codecs));
+        Assert.assertEquals("Codec must be not null", ex.getMessage());
     }
 
-    void expectRegisterCodec(int codecId, CodecTopic newCodec, Codec oldCodec) {
-        newCodec.setCodecId(codecId);
-        Codec codecOldPredefined = registry.registerCodec(newCodec);
-        Assert.assertSame(codecOldPredefined, oldCodec);
+    @Test
+    @SuppressWarnings("deprecation")
+    public void registerCustomCodecShouldRegisterAndOverrideAnyCodec() {
+        CodecRegistry registry = new CodecRegistry();
+
+        Assert.assertSame(RawCodec.getInstance(), registry.registerCodec(new CodecTopic(1)));
+        Assert.assertSame(GzipCodec.getInstance(), registry.registerCodec(new CodecTopic(2)));
+        Assert.assertSame(LzopCodec.getInstance(), registry.registerCodec(new CodecTopic(3)));
+        Assert.assertSame(ZstdCodec.getInstance(), registry.registerCodec(new CodecTopic(4)));
+
     }
 
     static class CodecTopic implements Codec {
+        private final int codec;
 
-        int codec;
-
-        public CodecTopic() {
+        public CodecTopic(int codecId) {
             this.codec = codecId;
         }
 
-        public void setCodecId(int codecId) {
-            this.codec = codecId;
+        @Override
+        public String toString() {
+            return "CustomCodec";
         }
 
         @Override

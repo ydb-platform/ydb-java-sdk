@@ -12,10 +12,7 @@ import java.lang.reflect.Type;
 import java.time.Clock;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 
@@ -53,12 +50,6 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
 
     private static final Logger logger = LoggerFactory.getLogger(OAuth2TokenExchangeProvider.class);
     private static final Gson GSON = new Gson();
-    private static final Set<String> SUPPORTED_JWT_ALGS = new HashSet<>(Arrays.asList(
-            "HS256", "HS384", "HS512",
-            "RS256", "RS384", "RS512",
-            "PS256", "PS384", "PS512",
-            "ES256", "ES384", "ES512"
-    ));
 
     private final Clock clock;
     private final String endpoint;
@@ -80,13 +71,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
     }
 
     public static String[] getSupportedJwtAlgorithms() {
-        String[] result = new String[SUPPORTED_JWT_ALGS.size()];
-        int i = 0;
-        for (String supportedJwtAlg : SUPPORTED_JWT_ALGS) {
-            result[i++] = supportedJwtAlg;
-        }
-        Arrays.sort(result);
-        return result;
+        return OAuth2TokenSource.getSupportedJwtAlgorithms();
     }
 
     private static OAuth2TokenSource buildFixedTokenSourceFromConfig(TokenSourceJsonConfig cfg) {
@@ -105,34 +90,9 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             throw new RuntimeException("Key is required");
         }
 
-        String alg = cfg.getAlg().toUpperCase();
-        if (!SUPPORTED_JWT_ALGS.contains(alg)) {
-            String[] supportedAlgs = getSupportedJwtAlgorithms();
-            StringBuilder lstMsg = new StringBuilder();
-            for (int i = 0; i < supportedAlgs.length; i++) {
-                if (lstMsg.length() > 0) {
-                    lstMsg.append(", ");
-                }
-                lstMsg.append("\"");
-                lstMsg.append(supportedAlgs[i]);
-                lstMsg.append("\"");
-            }
-            throw new RuntimeException(
-                String.format("Algorithm \"%s\" is not supported. Supported algorithms: %s",
-                cfg.getAlg(),
-                lstMsg
-            ));
-        }
-
-        boolean isHmac = "HS256".equals(alg)
-            || "HS384".equals(alg)
-            || "HS512".equals(alg);
-        OAuth2TokenSource.JWTTokenBuilder builder;
-        if (isHmac) {
-            builder = OAuth2TokenSource.withHmacPrivateKeyBase64(cfg.getPrivateKey(), alg);
-        } else {
-            builder = OAuth2TokenSource.withPrivateKeyPem(new StringReader(cfg.getPrivateKey()), alg);
-        }
+        OAuth2TokenSource.JWTTokenBuilder builder = OAuth2TokenSource.isHMacSignature(cfg.getAlg())
+                ? OAuth2TokenSource.withHmacPrivateKeyBase64(cfg.getPrivateKey(), cfg.getAlg())
+                : OAuth2TokenSource.withPrivateKeyPem(new StringReader(cfg.getPrivateKey()), cfg.getAlg());
 
         if (cfg.getKeyId() != null) {
             builder.withKeyId(cfg.getKeyId());
@@ -530,6 +490,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
     }
 
     private static class SingleStringOrArrayOfStringsJsonConfigDeserializer implements JsonDeserializer<String[]> {
+        @Override
         public String[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
             if (json.isJsonArray()) {
                 JsonArray arr = json.getAsJsonArray();
@@ -568,6 +529,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
             return (int) (parsed * multiplier);
         }
 
+        @Override
         public Integer deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
             String value = json.getAsJsonPrimitive().getAsString();
             if (value.endsWith("s")) {
@@ -596,6 +558,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
     }
 
+    @SuppressWarnings("FieldMayBeFinal")
     private static class TokenSourceJsonConfig {
         @SerializedName("type")
         private String type = null;
@@ -671,6 +634,7 @@ public class OAuth2TokenExchangeProvider implements AuthRpcProvider<GrpcAuthRpc>
         }
     }
 
+    @SuppressWarnings("FieldMayBeFinal")
     private static class JsonConfig {
         @SerializedName("token-endpoint")
         private String tokenEndpoint = null;

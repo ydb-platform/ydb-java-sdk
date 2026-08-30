@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 import com.google.protobuf.ByteString;
-import org.junit.Assert;
 import org.junit.Test;
 
 import tech.ydb.proto.topic.YdbTopic;
@@ -16,6 +14,8 @@ import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,7 +25,7 @@ public class ReadPartitionSessionTest {
      * same ReadResponse.
      */
     @Test(timeout = 30_000)
-    public void batchesAfterAnEmptyBatchAreStillRead() throws Exception {
+    public void batchesAfterAnEmptyBatchAreStillRead() {
         ReadSession session = mock(ReadSession.class);
         when(session.getMaxBatchSize()).thenReturn(0);
         when(session.getMessageDecoder()).thenReturn(new MessageDecoder(1024, Runnable::run, new CodecRegistry()));
@@ -33,20 +33,15 @@ public class ReadPartitionSessionTest {
         PartitionSession partition = new PartitionSession(1, 1, "/topic");
         List<Long> delivered = Collections.synchronizedList(new ArrayList<>());
 
-        ReadPartitionSession reader = new ReadPartitionSession("test", session, partition, 0) {
+        ReadPartitionSession reader = new ReadPartitionSession("test", session, partition, directExecutor(), 0) {
             @Override
-            CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
+            public void handleDataReceivedEvent(DataReceivedEvent event) {
                 event.getMessages().forEach(message -> delivered.add(message.getOffset()));
-                return CompletableFuture.completedFuture(null);
             }
         };
 
-        CompletableFuture<Void> batchesRead = reader.addBatches(
-                Arrays.asList(emptyProtoBatch(), rawProtoBatch(1), rawProtoBatch(2))
-        );
-
-        batchesRead.get();
-        Assert.assertEquals(Arrays.asList(1L, 2L), delivered);
+        reader.addBatches(Arrays.asList(emptyProtoBatch(), rawProtoBatch(1), rawProtoBatch(2)));
+        assertEquals(Arrays.asList(1L, 2L), delivered);
     }
 
     private static YdbTopic.StreamReadMessage.ReadResponse.Batch emptyProtoBatch() {

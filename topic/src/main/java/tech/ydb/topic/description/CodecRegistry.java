@@ -1,7 +1,8 @@
 package tech.ydb.topic.description;
 
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,15 +15,24 @@ import tech.ydb.topic.impl.StandardCodecs;
  * @author Evgeny Kuvardin
  **/
 public class CodecRegistry {
-
     private static final Logger logger = LoggerFactory.getLogger(CodecRegistry.class);
 
-    final Map<Integer, Codec> customCodecMap;
+    private final Map<Integer, Codec> codecMap = new ConcurrentHashMap<>();
 
     public CodecRegistry() {
-        customCodecMap = new HashMap<>();
-        for (Codec codec: StandardCodecs.getAvailableCodecs()) {
-            customCodecMap.put(codec.getId(), codec);
+        this(StandardCodecs.getAvailableCodecs());
+    }
+
+    public CodecRegistry(Collection<Codec> codecs) {
+        for (Codec codec : codecs) {
+            if (codec == null) {
+                throw new IllegalArgumentException("Codec must be not null");
+            }
+            int id = codec.getId();
+            Codec old = codecMap.put(id, codec);
+            if (old != null) {
+                logger.info("Replace codec which have already associated with this id. CodecId: {} Codec: {}", id, old);
+            }
         }
     }
 
@@ -31,12 +41,14 @@ public class CodecRegistry {
      * @param codec codec implementation
      * @return previous implementation with associated codec
      */
+    @Deprecated
     public Codec registerCodec(Codec codec) {
-        assert codec != null;
+        if (codec == null) {
+            throw new IllegalArgumentException("Codec must be not null");
+        }
         int codecId = codec.getId();
 
-        Codec result = customCodecMap.put(codecId, codec);
-
+        Codec result = codecMap.put(codecId, codec);
         if (result != null) {
             logger.info(
                     "Replace codec which have already associated with this id. CodecId: {} Codec: {}",
@@ -53,7 +65,6 @@ public class CodecRegistry {
      * @return codec implementation
      */
     public Codec getCodec(int codecId) {
-        return customCodecMap.get(codecId);
+        return codecMap.get(codecId);
     }
-
 }

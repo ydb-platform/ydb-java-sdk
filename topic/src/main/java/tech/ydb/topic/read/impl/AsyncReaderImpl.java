@@ -76,6 +76,11 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
+    Executor getDataHandlerExecutor() {
+        return handlerExecutor;
+    }
+
+    @Override
     protected void handleSessionStarted(String sessionId) {
         controlEventsExecutor.execute(() -> {
             try {
@@ -88,15 +93,22 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
     }
 
     @Override
-    protected CompletableFuture<Void> handleDataReceivedEvent(DataReceivedEvent event) {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                eventHandler.onMessages(event);
-            } catch (Throwable th) {
-                logUserThrowableAndStopWorking(th, "onMessages");
-                throw th;
-            }
-        }, handlerExecutor);
+    protected void handleDataReceivedEvent(ReadPartitionSession session, DataReceivedEvent event) {
+        try {
+            int messagesCount = event.getMessages().size();
+            long offsetStart = event.getMessages().get(0).getOffset();
+            long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
+            logger.debug("{} DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
+                    + "to be called...", session, messagesCount, offsetStart, offsetEnd);
+            eventHandler.onMessages(event);
+            logger.debug("{} DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
+                    + "successfully finished", session, messagesCount, offsetStart, offsetEnd);
+        } catch (Throwable th) {
+            logUserThrowableAndStopWorking(th, "onMessages");
+            throw th;
+        } finally {
+            session.releaseRange(event.getRangeToCommit());
+        }
     }
 
     @Override

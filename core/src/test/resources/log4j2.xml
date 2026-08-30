@@ -18,6 +18,9 @@
         </Logger>
         <Logger name="tech.ydb.core.impl.pool.GrpcChannel" level="error"  additivity="false">
         </Logger>
+        <Logger name="tech.ydb.core.auth.BackgroundIdentity" level="off" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
 
         <Root level="debug" >
             <AppenderRef ref="Console"/>

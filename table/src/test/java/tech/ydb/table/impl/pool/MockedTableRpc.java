@@ -28,6 +28,7 @@ import tech.ydb.table.TableRpcStub;
 public class MockedTableRpc extends TableRpcStub {
     private final static Status BAD_SESSION = Status.of(StatusCode.BAD_SESSION);
     private final static Status OVERLOADED = Status.of(StatusCode.OVERLOADED);
+    private final static Status INTERNAL_ERROR = Status.of(StatusCode.INTERNAL_ERROR);
     private final static Status TRANSPORT_UNAVAILABLE = Status.of(StatusCode.TRANSPORT_UNAVAILABLE);
 
     private final Clock clock;
@@ -228,6 +229,14 @@ public class MockedTableRpc extends TableRpcStub {
             }
 
             future.complete(Result.fail(OVERLOADED));
+        }
+
+        public void completeBadSession() {
+            future.complete(Result.fail(BAD_SESSION));
+        }
+
+        public void completeInternalError() {
+            future.complete(Result.fail(INTERNAL_ERROR));
         }
 
         public void completeTransportUnavailable() {

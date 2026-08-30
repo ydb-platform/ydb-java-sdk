@@ -1,3 +1,16 @@
+## 2.4.10 ##
+* OAuth2: updated jwt dependency version
+* Tests: removed direct dependency to jackson
+* Core: fixed priority picker null location
+* Topic: moved registerCodec method from TopicClient to TopicClient.Builder
+* Core: fixed discovery wait ready time units
+* Core: fixed background identity interrupt
+
+## 2.4.9 ##
+* Query: Added support of StrictSerializable transaction level
+* Core: Make SDK tracer span current around gRPC newCall
+* Core: added attribute 'reason' to session 'closed' metric
+
 ## 2.4.8 ##
 * Query: added support of READ_COMMITTED_RW
 * Table: added utility to generate UUID keys
