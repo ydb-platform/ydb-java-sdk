@@ -119,12 +119,13 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
         String traceId = settings.getTraceId();
         try {
-            GrpcChannel channel = getChannel(settings);
-            EndpointRecord endpoint = channel.getEndpoint();
             CallOptions options = prepareCallOptions(settings);
             if (options == null) {
                 return CompletableFuture.completedFuture(deadlineExpiredResult(method, settings));
             }
+
+            GrpcChannel channel = getChannel(settings);
+            EndpointRecord endpoint = channel.getEndpoint();
 
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
@@ -158,12 +159,13 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
         String traceId = settings.getTraceId();
         try {
-            GrpcChannel channel = getChannel(settings);
-            EndpointRecord endpoint = channel.getEndpoint();
             CallOptions options = prepareCallOptions(settings);
             if (options == null) {
                 return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
+
+            GrpcChannel channel = getChannel(settings);
+            EndpointRecord endpoint = channel.getEndpoint();
 
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler handler = new ChannelStatusHandler(channel, settings);
@@ -200,12 +202,13 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
         String traceId = settings.getTraceId();
         try {
-            GrpcChannel channel = getChannel(settings);
-            EndpointRecord endpoint = channel.getEndpoint();
             CallOptions options = prepareCallOptions(settings);
             if (options == null) {
                 return new EmptyStream<>(deadlineExpiredStatus(method, settings));
             }
+
+            GrpcChannel channel = getChannel(settings);
+            EndpointRecord endpoint = channel.getEndpoint();
 
             ClientCall<ReqT, RespT> call = channel.getReadyChannel().newCall(method, options);
             ChannelStatusHandler hdlr = new ChannelStatusHandler(channel, settings);
