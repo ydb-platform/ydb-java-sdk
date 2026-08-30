@@ -28,6 +28,10 @@ public class WaitingQueueTest extends FutureHelper {
         Resource(int id) {
             this.id = id;
         }
+
+        public int getId() {
+            return id;
+        }
     }
 
     private static class ResourceHandler implements WaitingQueue.Handler<Resource> {
@@ -572,6 +576,28 @@ public class WaitingQueueTest extends FutureHelper {
         queue.delete(r3);
         queue.close();
 
+        check(queue).queueSize(0).idleSize(0).waitingsCount(0);
+        check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
+    public void immediatellyCompletedWaitingsTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 9999);
+
+        @SuppressWarnings("unchecked")
+        CompletableFuture<Resource>[] wa = (CompletableFuture<Resource>[]) new CompletableFuture<?>[10000];
+        for (int idx = 0; idx < 10000; idx++) {
+            wa[idx] = new CompletableFuture<>();
+            queue.acquire(wa[idx]);
+            wa[idx].thenAccept(queue::release);
+        }
+
+        check(queue).queueSize(1).idleSize(0).waitingsCount(9999);
+        rs.completeNext(); // all 10000 acquires must be completed immediatelly
+        check(queue).queueSize(1).idleSize(1).waitingsCount(0);
+
+        queue.close();
         check(queue).queueSize(0).idleSize(0).waitingsCount(0);
         check(rs).requestsCount(0).activeCount(0);
     }
