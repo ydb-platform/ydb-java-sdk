@@ -60,6 +60,8 @@ public class WaitingQueue<T> implements AutoCloseable {
     /** Size of waiting acquires queue */
     private final AtomicInteger waitingAcqueireCount = new AtomicInteger();
 
+    private final ThreadLocal<T> localResource = new ThreadLocal<>();
+
     @VisibleForTesting
     WaitingQueue(Handler<T> handler, int maxSize, int waitingsLimit) {
         Preconditions.checkArgument(maxSize > 0, "WaitingQueue max size (%s) must be positive", maxSize);
@@ -110,8 +112,11 @@ public class WaitingQueue<T> implements AutoCloseable {
             return;
         }
 
+        boolean insideWaitingLoop = localResource.get() == object;
+        localResource.remove();
+
         // Try to complete waiting request
-        if (!tryToCompleteWaiting(object)) {
+        if (!insideWaitingLoop && !tryToCompleteWaiting(object)) {
             // if queue is overflowed
             if (queueSize.get() > limits.maxSize) {
                 queueSize.decrementAndGet();
@@ -256,8 +261,12 @@ public class WaitingQueue<T> implements AutoCloseable {
         while (next != null) {
             waitingAcqueireCount.decrementAndGet();
 
+            localResource.set(object);
             if (safeAcquireObject(next, object)) {
-                return true;
+                if (localResource.get() != null) {
+                    localResource.remove();
+                    return true;
+                }
             }
 
             next = waitingAcquires.poll();
