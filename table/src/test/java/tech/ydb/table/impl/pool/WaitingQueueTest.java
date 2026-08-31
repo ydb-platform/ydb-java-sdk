@@ -603,6 +603,55 @@ public class WaitingQueueTest extends FutureHelper {
     }
 
     @Test
+    public void immediatellyCompletedOtherTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 3);
+
+        CompletableFuture<Resource> r1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> r2 = pendingFuture(acquire(queue));
+        check(queue).queueSize(2).idleSize(0).waitingsCount(0);
+
+        rs.completeNext().completeNext();
+        Resource a = pendingIsReady(r1);
+        Resource b = pendingIsReady(r2);
+        check(queue).queueSize(2).idleSize(0).waitingsCount(0);
+
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w2 = pendingFuture(acquire(queue));
+        w1.thenAccept(ignored -> queue.release(b));
+        check(queue).queueSize(2).idleSize(0).waitingsCount(2);
+
+        queue.release(a);
+
+        Assert.assertSame(a, pendingIsReady(w1));
+        Assert.assertSame(b, pendingIsReady(w2));
+        check(queue).queueSize(2).idleSize(0).waitingsCount(0);
+    }
+
+    @Test
+    public void currentReleaseBeforeOtherMustNotBeLost() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 3);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> second = pendingFuture(acquire(queue));
+        rs.completeNext().completeNext();
+        Resource a = pendingIsReady(first);
+        Resource b = pendingIsReady(second);
+
+        CompletableFuture<Resource> waiting = pendingFuture(acquire(queue));
+        waiting.thenAccept(ignored -> {
+            queue.release(a);
+            queue.release(b);
+        });
+
+        queue.release(a);
+
+        Assert.assertSame(a, pendingIsReady(waiting));
+        check(queue).queueSize(2).idleSize(2).waitingsCount(0);
+    }
+
+    @Test
     public void checkWaitingAfterDeleteTest() {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 5);
