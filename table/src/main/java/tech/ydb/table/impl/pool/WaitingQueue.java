@@ -60,6 +60,8 @@ public class WaitingQueue<T> implements AutoCloseable {
     /** Size of waiting acquires queue */
     private final AtomicInteger waitingAcqueireCount = new AtomicInteger();
 
+    private final ThreadLocal<WaitingGuard> localGuard = new ThreadLocal<>();
+
     @VisibleForTesting
     WaitingQueue(Handler<T> handler, int maxSize, int waitingsLimit) {
         Preconditions.checkArgument(maxSize > 0, "WaitingQueue max size (%s) must be positive", maxSize);
@@ -107,6 +109,11 @@ public class WaitingQueue<T> implements AutoCloseable {
                 Exception stackTrace = new RuntimeException("Double release");
                 logger.warn("obj {} double release, possible pool leaks!!", object, stackTrace);
             }
+            return;
+        }
+
+        WaitingGuard guard = localGuard.get();
+        if (guard != null && !guard.isAllowed(object)) {
             return;
         }
 
@@ -252,18 +259,20 @@ public class WaitingQueue<T> implements AutoCloseable {
             return false;
         }
 
-        CompletableFuture<T> next = waitingAcquires.poll();
-        while (next != null) {
-            waitingAcqueireCount.decrementAndGet();
+        try (WaitingGuard guard = new WaitingGuard(object)) {
+            CompletableFuture<T> next = waitingAcquires.poll();
+            while (next != null) {
+                guard.init();
+                waitingAcqueireCount.decrementAndGet();
+                if (safeAcquireObject(next, object) && !guard.isBroken()) {
+                    return true;
+                }
 
-            if (safeAcquireObject(next, object)) {
-                return true;
+                next = waitingAcquires.poll();
             }
 
-            next = waitingAcquires.poll();
+            return false;
         }
-
-        return false;
     }
 
     private void checkNextWaitingAcquire() {
@@ -304,6 +313,39 @@ public class WaitingQueue<T> implements AutoCloseable {
             queueSize.decrementAndGet();
             handler.destroy(nextIdle, PoolMetrics.Reason.POOL_CLOSE);
             nextIdle = idle.poll();
+        }
+    }
+
+    private final class WaitingGuard implements AutoCloseable {
+        private final WaitingGuard prev;
+        private final Object obj;
+        private boolean isBroken = false;
+
+        WaitingGuard(Object obj) {
+            this.prev = localGuard.get();
+            this.obj = obj;
+        }
+
+        public void init() {
+            localGuard.set(this);
+            isBroken = false;
+        }
+
+        @Override
+        public void close() {
+            localGuard.set(prev);
+        }
+
+        private boolean isAllowed(Object object) {
+            if (object != obj) {
+                return true;
+            }
+            isBroken = true;
+            return false;
+        }
+
+        public boolean isBroken() {
+            return isBroken;
         }
     }
 
