@@ -28,6 +28,10 @@ public class WaitingQueueTest extends FutureHelper {
         Resource(int id) {
             this.id = id;
         }
+
+        public int getId() {
+            return id;
+        }
     }
 
     private static class ResourceHandler implements WaitingQueue.Handler<Resource> {
@@ -574,6 +578,77 @@ public class WaitingQueueTest extends FutureHelper {
 
         check(queue).queueSize(0).idleSize(0).waitingsCount(0);
         check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
+    public void immediatellyCompletedWaitingsTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 9999);
+
+        @SuppressWarnings("unchecked")
+        CompletableFuture<Resource>[] wa = (CompletableFuture<Resource>[]) new CompletableFuture<?>[10000];
+        for (int idx = 0; idx < 10000; idx++) {
+            wa[idx] = new CompletableFuture<>();
+            queue.acquire(wa[idx]);
+            wa[idx].thenAccept(queue::release);
+        }
+
+        check(queue).queueSize(1).idleSize(0).waitingsCount(9999);
+        rs.completeNext(); // all 10000 acquires must be completed immediatelly
+        check(queue).queueSize(1).idleSize(1).waitingsCount(0);
+
+        queue.close();
+        check(queue).queueSize(0).idleSize(0).waitingsCount(0);
+        check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
+    public void immediatellyCompletedOtherTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 3);
+
+        CompletableFuture<Resource> r1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> r2 = pendingFuture(acquire(queue));
+        check(queue).queueSize(2).idleSize(0).waitingsCount(0);
+
+        rs.completeNext().completeNext();
+        Resource a = pendingIsReady(r1);
+        Resource b = pendingIsReady(r2);
+        check(queue).queueSize(2).idleSize(0).waitingsCount(0);
+
+        CompletableFuture<Resource> w1 = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> w2 = pendingFuture(acquire(queue));
+        w1.thenAccept(ignored -> queue.release(b));
+        check(queue).queueSize(2).idleSize(0).waitingsCount(2);
+
+        queue.release(a);
+
+        Assert.assertSame(a, pendingIsReady(w1));
+        Assert.assertSame(b, pendingIsReady(w2));
+        check(queue).queueSize(2).idleSize(0).waitingsCount(0);
+    }
+
+    @Test
+    public void currentReleaseBeforeOtherMustNotBeLost() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 3);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> second = pendingFuture(acquire(queue));
+        rs.completeNext().completeNext();
+        Resource a = pendingIsReady(first);
+        Resource b = pendingIsReady(second);
+
+        CompletableFuture<Resource> waiting = pendingFuture(acquire(queue));
+        waiting.thenAccept(ignored -> {
+            queue.release(a);
+            queue.release(b);
+        });
+
+        queue.release(a);
+
+        Assert.assertSame(a, pendingIsReady(waiting));
+        check(queue).queueSize(2).idleSize(2).waitingsCount(0);
     }
 
     @Test

@@ -1,3 +1,6 @@
+## 2.4.11 ##
+* Table: fixed StackOverflow problem for the immediately released sessions
+
 ## 2.4.10 ##
 * OAuth2: updated jwt dependency version
 * Tests: removed direct dependency to jackson
