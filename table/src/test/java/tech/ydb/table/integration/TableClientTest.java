@@ -125,6 +125,7 @@ public class TableClientTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void sessionExecuteScanQueryTest() {
         ExecuteScanQuerySettings settings = ExecuteScanQuerySettings.newBuilder().build();
 

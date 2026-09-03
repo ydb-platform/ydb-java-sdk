@@ -76,6 +76,7 @@ public class BulkUpsertTest {
                 .join().expectSuccess("bulk upsert problem in table " + tablePath());
     }
 
+    @SuppressWarnings("deprecation")
     private static int readTable(long id1, BiConsumer<Integer, ResultSetReader> validator) {
         AtomicInteger count = new AtomicInteger();
 
@@ -165,6 +166,7 @@ public class BulkUpsertTest {
 
     @Test
     @Ignore("https://github.com/ydb-platform/ydb/issues/36331")
+    @SuppressWarnings("deprecation")
     public void writeApacheArrowEmptyStringToDataShardTest() {
         // Create table
         TableDescription table = TableDescription.newBuilder()

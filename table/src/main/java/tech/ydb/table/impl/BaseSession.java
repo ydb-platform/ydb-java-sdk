@@ -1330,6 +1330,7 @@ public abstract class BaseSession implements Session {
     }
 
     @Override
+    @Deprecated
     public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
                                                             ExecuteScanQuerySettings settings) {
         YdbTable.ExecuteScanQueryRequest req = YdbTable.ExecuteScanQueryRequest.newBuilder()
