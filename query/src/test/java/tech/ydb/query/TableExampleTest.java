@@ -307,6 +307,7 @@ public class TableExampleTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void step07_scanQueryWithParams() {
         String query
                 = "DECLARE $seriesId AS Uint64; "

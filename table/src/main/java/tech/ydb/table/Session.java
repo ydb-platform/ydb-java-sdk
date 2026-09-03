@@ -149,9 +149,17 @@ public interface Session extends AutoCloseable {
 
     GrpcReadStream<ReadTablePart> executeReadTable(String tablePath, ReadTableSettings settings);
 
+    /**
+     * @deprecated use QuerySession#createQuery of the query service (ydb-sdk-query) instead
+     */
+    @Deprecated
     GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params,
             ExecuteScanQuerySettings settings);
 
+    /**
+     * @deprecated use QuerySession#createQuery of the query service (ydb-sdk-query) instead
+     */
+    @Deprecated
     default GrpcReadStream<ResultSetReader> executeScanQuery(String query, Params params,
             ExecuteScanQuerySettings settings) {
         GrpcReadStream<ValueProtos.ResultSet> stream = executeScanQueryRaw(query, params, settings);

@@ -158,6 +158,7 @@ public class SessionStub implements Session {
     }
 
     @Override
+    @Deprecated
     public GrpcReadStream<ValueProtos.ResultSet> executeScanQueryRaw(String query, Params params, ExecuteScanQuerySettings settings) {
         throw new UnsupportedOperationException("executeScanQuery not implemented");
     }
