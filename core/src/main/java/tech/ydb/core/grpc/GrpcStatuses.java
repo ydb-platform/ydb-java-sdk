@@ -26,7 +26,7 @@ public final class GrpcStatuses {
             return Status.SUCCESS;
         }
         Issue message = Issue.of(getMessage(status, endpoint), Issue.Severity.ERROR);
-        StatusCode code = getStatusCode(status.getCode());
+        StatusCode code = getStatusCode(status);
         Throwable cause = status.getCause();
 
         if (cause == null) {
@@ -49,16 +49,29 @@ public final class GrpcStatuses {
         return message;
     }
 
-    private static StatusCode getStatusCode(io.grpc.Status.Code code) {
-        switch (code) {
+    private static StatusCode getStatusCode(io.grpc.Status status) {
+        switch (status.getCode()) {
             case UNAVAILABLE: return StatusCode.TRANSPORT_UNAVAILABLE;
             case UNAUTHENTICATED: return StatusCode.CLIENT_UNAUTHENTICATED;
             case CANCELLED: return StatusCode.CLIENT_CANCELLED;
             case UNIMPLEMENTED: return StatusCode.CLIENT_CALL_UNIMPLEMENTED;
             case DEADLINE_EXCEEDED: return StatusCode.CLIENT_DEADLINE_EXCEEDED;
-            case RESOURCE_EXHAUSTED: return StatusCode.CLIENT_RESOURCE_EXHAUSTED;
+            case RESOURCE_EXHAUSTED:
+                // A message that exceeds the gRPC size limit is a deterministic client-side error:
+                // retrying it with the same payload always fails identically. Map it to a non-retryable
+                // status so the caller fails fast instead of spinning through the retry budget.
+                // Other ResourceExhausted errors (e.g. quota or rate limiting) stay retryable.
+                if (isMessageLargerThanMax(status.getDescription())) {
+                    return StatusCode.BAD_REQUEST;
+                }
+                return StatusCode.CLIENT_RESOURCE_EXHAUSTED;
             default:
                 return StatusCode.CLIENT_GRPC_ERROR;
         }
+    }
+
+    private static boolean isMessageLargerThanMax(String description) {
+        return description != null && (description.contains("trying to send message larger than max")
+                || description.contains("received message larger than max"));
     }
 }
