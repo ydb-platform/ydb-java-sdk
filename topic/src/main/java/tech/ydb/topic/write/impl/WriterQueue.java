@@ -34,9 +34,12 @@ import tech.ydb.topic.write.WriteAck;
 public class WriterQueue {
     interface EncodedMsg {
         SentMessage getSentMessage();
+
         void confirm(WriteAck ack);
+
         void close(RuntimeException ex);
     }
+
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
 
     private final String debugId;
@@ -56,7 +59,7 @@ public class WriterQueue {
     private volatile EnqueuedMessage lastAcceptedMessage = null;
 
     public WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
-            Executor compressionExecutor, Runnable readyNotify) {
+                       Executor compressionExecutor, Runnable readyNotify) {
         this.debugId = debugId;
         this.buffer = new BufferManager(debugId, settings);
 
@@ -216,40 +219,46 @@ public class WriterQueue {
 
     CompletableFuture<WriteAck> enqueue(Message message, YdbTransaction tx) throws QueueOverflowException,
             InterruptedException {
-        long msgSize = Math.min(message.getData().length, buffer.getMaxSize());
-        buffer.acquire(msgSize);
-        return accept(message, tx, msgSize);
+        long reservedSizeBytes = reservationSizeBytes(message.getData().length);
+        buffer.acquire(reservedSizeBytes);
+        return accept(message, tx, reservedSizeBytes);
     }
 
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx) throws QueueOverflowException {
-        long msgSize = Math.min(message.getData().length, buffer.getMaxSize());
-        buffer.tryAcquire(msgSize);
-        return accept(message, tx, msgSize);
+        long reservedSizeBytes = reservationSizeBytes(message.getData().length);
+        buffer.tryAcquire(reservedSizeBytes);
+        return accept(message, tx, reservedSizeBytes);
     }
 
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
-        long msgSize = Math.min(message.getData().length, buffer.getMaxSize());
-        buffer.tryAcquire(msgSize, timeout, unit);
-        return accept(message, tx, msgSize);
+        long reservedSizeBytes = reservationSizeBytes(message.getData().length);
+        buffer.tryAcquire(reservedSizeBytes, timeout, unit);
+        return accept(message, tx, reservedSizeBytes);
     }
 
+    /**
+     * Calculates the buffer reservation required before encoding a message using the codec-provided size bound.
+     * The reservation is capped at the full buffer size to preserve support for a single oversized message.
+     */
+    private long reservationSizeBytes(int inputSizeBytes) {
+        return Math.min(codec.getMaxEncodedSize(inputSizeBytes), buffer.getMaxSize());
+    }
 
-    private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, long msgSize) {
-        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), msgSize);
+    private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, long reservedSizeBytes) {
+        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes);
         lastAcceptedMessage = msg;
         queue.add(msg);
 
         if (codec.getId() == Codec.RAW) {
             // fast track without compression
-            msg.completeWithData(UnsafeByteOperations.unsafeWrap(message.getData()), msgSize);
+            msg.completeWithData(UnsafeByteOperations.unsafeWrap(message.getData()), reservedSizeBytes);
             readyNotify.run();
             return msg.getAckFuture();
         }
 
-        // encode message
         try {
-            compressionExecutor.execute(() -> encode(message.getData(), msgSize, msg));
+            compressionExecutor.execute(() -> encode(message.getData(), reservedSizeBytes, msg));
         } catch (Throwable ex) {
             logger.warn("[{}] Message wasn't sent because of processing error", debugId, ex);
             msg.completeWithProblem(ex);
@@ -259,7 +268,7 @@ public class WriterQueue {
         return msg.getAckFuture();
     }
 
-    private void encode(byte[] data, long msgSize, EnqueuedMessage msg) {
+    private void encode(byte[] data, long reservedSize, EnqueuedMessage msg) {
         if (msg.isReady()) {
             return;
         }
@@ -270,15 +279,27 @@ public class WriterQueue {
                 os.write(data, 0, data.length);
             }
 
-            logger.trace("[{}] Message compressed from {} to {} bytes", debugId, msgSize, encoded.size());
-
-            long bufferSize = msgSize;
-            if (msgSize > encoded.size()) { // if compressed lenght is less than uncompression - update buffer size
-                bufferSize = encoded.size();
-                buffer.updateMessageSize(msgSize, bufferSize);
+            if (logger.isTraceEnabled()) {
+                logger.trace("[{}] Message compressed from {} to {} bytes", debugId, data.length, encoded.size());
             }
 
-            msg.completeWithData(encoded.toByteString(), bufferSize);
+            long bufferSizeBytes = Math.min(encoded.size(), buffer.getMaxSize());
+            ByteString encodedData = encoded.toByteString();
+            long updatedBufferSizeBytes = buffer.updateMessageSize(reservedSize, bufferSizeBytes);
+
+            if (updatedBufferSizeBytes < bufferSizeBytes) {
+                logger.warn(
+                        "[{}] Cannot fully reserve {} bytes for encoded message; reserving {} bytes. "
+                                + "Writer buffer size {} may be temporarily exceeded",
+                        debugId,
+                        bufferSizeBytes,
+                        updatedBufferSizeBytes,
+                        buffer.getMaxSize()
+                );
+            }
+
+            bufferSizeBytes = updatedBufferSizeBytes;
+            msg.completeWithData(encodedData, bufferSizeBytes);
         } catch (Throwable ex) {
             logger.warn("[{}] Message wasn't sent because of encoding error", debugId, ex);
             msg.completeWithProblem(ex);
@@ -286,7 +307,7 @@ public class WriterQueue {
         readyNotify.run();
     }
 
-    private class SkippedMsg implements EncodedMsg {
+    private static class SkippedMsg implements EncodedMsg {
         private final CompletableFuture<WriteAck> ackFuture;
         private final WriteAck ack;
 
@@ -312,7 +333,7 @@ public class WriterQueue {
         }
     }
 
-    private class ProblemMsg implements EncodedMsg {
+    private static class ProblemMsg implements EncodedMsg {
         private final CompletableFuture<WriteAck> ackFuture;
         private final Throwable problem;
 

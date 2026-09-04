@@ -1,10 +1,13 @@
 package tech.ydb.topic.write.impl;
 
+import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -23,11 +26,13 @@ import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.WriteAck;
 
+import static java.util.Collections.singletonList;
+
 /**
  * @author Aleksandr Gorshenin
  */
 public class WriterQueueTest {
-    private static final Message SMALL_MSG = Message.of(new byte[] { 0x00, 0x01, 0x02, 0x03, 0x05 });
+    private static final Message SMALL_MSG = Message.of(new byte[]{0x00, 0x01, 0x02, 0x03, 0x05});
 
     @Rule
     public final HideLoggersRule hideLogger = new HideLoggersRule();
@@ -35,6 +40,7 @@ public class WriterQueueTest {
     private static Message smallMsg(int seqNo) {
         return Message.newBuilder().setData(SMALL_MSG.getData()).setSeqNo(seqNo).build();
     }
+
     private static WriterSettings rawSettings() {
         return WriterSettings.newBuilder()
                 .setTopicPath("/test")
@@ -118,6 +124,116 @@ public class WriterQueueTest {
     }
 
     @Test
+    public void testCompressedExpansionIsAccounted() throws Exception {
+        Codec codec = expandingCodec(Codec.GZIP, 1);
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test")
+                .setCodec(codec.getId())
+                .setMaxSendBufferMemorySize(10)
+                .build();
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
+                Runnable::run, () -> {
+        });
+
+        writerQueue.tryEnqueue(SMALL_MSG, null);
+        assertOverflow(
+                "[test] Rejecting a message of 5 bytes: not enough space in message queue. "
+                        + "Buffer currently has 1 messages with 4 / 10 bytes available",
+                () -> writerQueue.tryEnqueue(SMALL_MSG, null)
+        );
+    }
+
+    @Test
+    public void testLzopFramingIsAccounted() throws Exception {
+        Queue<Runnable> encodingTasks = new ArrayDeque<>();
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test")
+                .setCodec(Codec.LZOP)
+                .setMaxSendBufferMemorySize(109)
+                .build();
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(), encodingTasks::add, () -> {
+        });
+
+        writerQueue.tryEnqueue(SMALL_MSG, null);
+        assertOverflow(
+                "[test] Rejecting a message of 55 bytes: not enough space in message queue. "
+                        + "Buffer currently has 1 messages with 54 / 109 bytes available",
+                () -> writerQueue.tryEnqueue(SMALL_MSG, null)
+        );
+    }
+
+    @Test
+    public void testBuiltInCodecSizeBoundsDoNotOverflow() {
+        CodecRegistry registry = new CodecRegistry();
+
+        Assert.assertTrue(registry.getCodec(Codec.GZIP).getMaxEncodedSize(Integer.MAX_VALUE) > Integer.MAX_VALUE);
+        Assert.assertTrue(registry.getCodec(Codec.LZOP).getMaxEncodedSize(Integer.MAX_VALUE) > Integer.MAX_VALUE);
+        Assert.assertTrue(registry.getCodec(Codec.ZSTD).getMaxEncodedSize(Integer.MAX_VALUE) > Integer.MAX_VALUE);
+    }
+
+    @Test
+    @HideLoggers({WriterImpl.class})
+    public void testEncodedMessageLargerThanBufferIsProcessed() throws Exception {
+        Codec codec = expandingCodec(9004, 6);
+        Queue<Runnable> encodingTasks = new ArrayDeque<>();
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test")
+                .setCodec(codec.getId())
+                .setMaxSendBufferMemorySize(10)
+                .build();
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
+                encodingTasks::add, () -> {
+        });
+
+        writerQueue.tryEnqueue(SMALL_MSG, null);
+        writerQueue.tryEnqueue(SMALL_MSG, null);
+
+        encodingTasks.remove().run();
+        SentMessage first = writerQueue.nextMessageToSend();
+        Assert.assertNotNull(first);
+        Assert.assertEquals(11, first.getPb().getData().size());
+        Assert.assertEquals(5, first.getBufferSize());
+        writerQueue.confirmAck(new WriteAck(first.getSeqNo(), WriteAck.State.WRITTEN, null, null));
+
+        encodingTasks.remove().run();
+        SentMessage second = writerQueue.nextMessageToSend();
+        Assert.assertNotNull(second);
+        Assert.assertEquals(11, second.getPb().getData().size());
+        Assert.assertEquals(10, second.getBufferSize());
+    }
+
+    @Test
+    @HideLoggers({WriterImpl.class})
+    public void testExpansionUsesAvailableCapacity() throws Exception {
+        Codec codec = expandingCodec(9005, 4);
+        Queue<Runnable> encodingTasks = new ArrayDeque<>();
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test")
+                .setCodec(codec.getId())
+                .setMaxSendBufferMemorySize(12)
+                .build();
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
+                encodingTasks::add, () -> {
+        });
+
+        writerQueue.tryEnqueue(SMALL_MSG, null);
+        writerQueue.tryEnqueue(SMALL_MSG, null);
+
+        encodingTasks.remove().run();
+        SentMessage first = writerQueue.nextMessageToSend();
+        Assert.assertNotNull(first);
+        Assert.assertEquals(9, first.getPb().getData().size());
+        Assert.assertEquals(7, first.getBufferSize());
+        writerQueue.confirmAck(new WriteAck(first.getSeqNo(), WriteAck.State.WRITTEN, null, null));
+
+        encodingTasks.remove().run();
+        SentMessage second = writerQueue.nextMessageToSend();
+        Assert.assertNotNull(second);
+        Assert.assertEquals(9, second.getPb().getData().size());
+        Assert.assertEquals(9, second.getBufferSize());
+    }
+
+    @Test
     @HideLoggers({ WriterImpl.class })
     public void testGzipNullCompressor() throws Exception {
         WriterQueue q = new WriterQueue("test", gzipSettings(), new CodecRegistry(), null, () -> {});
@@ -138,7 +254,7 @@ public class WriterQueueTest {
     }
 
     @Test
-    @HideLoggers({ WriterImpl.class })
+    @HideLoggers({WriterImpl.class})
     public void testWrongCodec() throws Exception {
         // Codec that always throws on encode
         Codec failingCodec = new Codec() {
@@ -216,7 +332,7 @@ public class WriterQueueTest {
         q.tryEnqueue(smallMsg(10), null); // success
         q.tryEnqueue(smallMsg(20), null); // success
         assertOverflow("[test] Rejecting a message of 5 bytes: not enough space in message queue. "
-                + "Buffer currently has 2 messages with 2 / 12 bytes available",
+                        + "Buffer currently has 2 messages with 2 / 12 bytes available",
                 () -> q.tryEnqueue(smallMsg(30), null));
 
         Assert.assertEquals(20, assertSendAll(q, 2));
@@ -224,7 +340,7 @@ public class WriterQueueTest {
 
         q.tryEnqueue(smallMsg(30), null); // success
         assertOverflow("[test] Rejecting a message of 5 bytes: not enough space in message queue. "
-                + "Buffer currently has 2 messages with 2 / 12 bytes available",
+                        + "Buffer currently has 2 messages with 2 / 12 bytes available",
                 () -> q.tryEnqueue(smallMsg(40), null));
 
         Assert.assertEquals(30, assertSendAll(q, 1));
@@ -340,5 +456,30 @@ public class WriterQueueTest {
         Assert.assertTrue(f5.isDone());
         Assert.assertEquals(WriteAck.State.WRITTEN, f4.join().getState());
         Assert.assertEquals(WriteAck.State.WRITTEN, f5.join().getState());
+    }
+
+    private static Codec expandingCodec(int id, int additionalBytes) {
+        return new Codec() {
+            @Override
+            public int getId() {
+                return id;
+            }
+
+            @Override
+            public InputStream decode(InputStream inputStream) {
+                return inputStream;
+            }
+
+            @Override
+            public OutputStream encode(OutputStream outputStream) {
+                return new FilterOutputStream(outputStream) {
+                    @Override
+                    public void close() throws IOException {
+                        out.write(new byte[additionalBytes]);
+                        super.close();
+                    }
+                };
+            }
+        };
     }
 }
