@@ -8,6 +8,7 @@ import javax.annotation.WillNotClose;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.ConsumerDescription;
 import tech.ydb.topic.description.TopicDescription;
@@ -200,6 +201,14 @@ public interface TopicClient extends AutoCloseable {
          * @return settings builder
          */
         Builder setCompressionPoolThreadCount(Integer compressionPoolThreadCount);
+
+        /**
+         * Enable client metrics using the supplied meter.
+         *
+         * @param meter meter used to create Topic client instruments
+         * @return settings builder
+         */
+        Builder withMeter(Meter meter);
 
         /**
          * Register a custom codec used to compress and decompress topic messages.
