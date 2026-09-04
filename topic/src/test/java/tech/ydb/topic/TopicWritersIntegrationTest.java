@@ -1,5 +1,6 @@
 package tech.ydb.topic;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -21,9 +22,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.FutureTools;
+import tech.ydb.table.Session;
+import tech.ydb.table.TableClient;
+import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.read.DeferredCommitter;
@@ -31,6 +36,7 @@ import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.TopicRetryConfig;
 import tech.ydb.topic.settings.WriterSettings;
@@ -412,5 +418,208 @@ public class TopicWritersIntegrationTest {
                 "Cannot init write session, code: BAD_REQUEST, issues: [" + reason + "]",
                 ex2.getCause().getMessage()
         );
+    }
+
+    @Test
+    public void txWriteTest() throws Exception {
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setProducerId(TEST_PRODUCER1)
+                .setRetryConfig(TopicRetryConfig.STANDARD)
+                .build();
+
+        byte[] msg1 = new byte[1000];
+        byte[] msg2 = new byte[1001];
+        byte[] msg3 = new byte[1002];
+        byte[] msg4 = new byte[1003];
+        Arrays.fill(msg1, (byte) 0x10);
+        Arrays.fill(msg2, (byte) 0x11);
+        Arrays.fill(msg3, (byte) 0x50);
+        Arrays.fill(msg4, (byte) 0x60);
+
+        SyncWriter writer = client.createSyncWriter(settings);
+        writer.initAndWait();
+
+        try (
+                TableClient table = TableClient.newClient(ydbTransport).build();
+                Session s1 = table.createSession(Duration.ofSeconds(5)).join().getValue();
+                Session s2 = table.createSession(Duration.ofSeconds(5)).join().getValue()) {
+
+            TableTransaction tx1 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+            TableTransaction tx2 = s2.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+
+            writer.send(
+                    Message.newBuilder().setData(msg1).setSeqNo(1).build(),
+                    SendSettings.newBuilder().setTransaction(tx1).build()
+            );
+            writer.send(
+                    Message.newBuilder().setData(msg2).setSeqNo(2).build(),
+                    SendSettings.newBuilder().setTransaction(tx2).build()
+            );
+            writer.send(
+                    Message.newBuilder().setData(msg3).setSeqNo(3).build(),
+                    SendSettings.newBuilder().setTransaction(tx1).build()
+            );
+            writer.send(
+                    Message.newBuilder().setData(msg4).setSeqNo(4).build(),
+                    SendSettings.newBuilder().setTransaction(tx2).build()
+            );
+
+            writer.flush();
+
+            tx2.commit().join().expectSuccess();
+            Assert.assertEquals(StatusCode.ABORTED, tx1.commit().join().getCode());
+
+            writer.send(
+                    Message.newBuilder().setData(msg1).setSeqNo(5).build()
+            );
+            writer.send(
+                    Message.newBuilder().setData(msg2).setSeqNo(6).build()
+            );
+
+            writer.flush();
+
+            TableTransaction tx3 = s2.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+
+            writer.send(
+                    Message.newBuilder().setData(msg3).setSeqNo(7).build(),
+                    SendSettings.newBuilder().setTransaction(tx3).build()
+            );
+            writer.send(
+                    Message.newBuilder().setData(msg4).setSeqNo(8).build(),
+                    SendSettings.newBuilder().setTransaction(tx3).build()
+            );
+
+            writer.flush();
+
+            tx3.commit().join().expectSuccess();
+            writer.shutdown(1, TimeUnit.SECONDS);
+        }
+
+        assertTopicContent(Arrays.asList(msg2, msg4, msg1, msg2, msg3, msg4));
+    }
+
+    @Test
+    public void invalidTxWriteTest() throws Exception {
+        List<StatusCode> realErrors = new ArrayList<>();
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setProducerId(TEST_PRODUCER1)
+                .setRetryConfig(TopicRetryConfig.STANDARD)
+                .setErrorsHandler((st, th) -> {
+                    if (st != null) {
+                        realErrors.add(st.getCode());
+                    }
+                    if (th != null) {
+                        realErrors.add(StatusCode.CLIENT_INTERNAL_ERROR);
+                    }
+                })
+                .build();
+
+        byte[] msg1 = new byte[1000];
+        byte[] msg2 = new byte[1001];
+        byte[] msg3 = new byte[1002];
+        byte[] msg4 = new byte[1003];
+        Arrays.fill(msg1, (byte) 0x10);
+        Arrays.fill(msg2, (byte) 0x11);
+        Arrays.fill(msg3, (byte) 0x50);
+        Arrays.fill(msg4, (byte) 0x60);
+
+        SyncWriter writer = client.createSyncWriter(settings);
+        writer.initAndWait();
+
+        try (
+                TableClient table = TableClient.newClient(ydbTransport).build();
+                Session s1 = table.createSession(Duration.ofSeconds(5)).join().getValue();
+                Session s2 = table.createSession(Duration.ofSeconds(5)).join().getValue()) {
+
+            TableTransaction tx1 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+            TableTransaction tx2 = s2.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+
+            writer.send(
+                    Message.newBuilder().setData(msg1).setSeqNo(1).build(),
+                    SendSettings.newBuilder().setTransaction(tx1).build()
+            );
+            writer.send(
+                    Message.newBuilder().setData(msg2).setSeqNo(2).build(),
+                    SendSettings.newBuilder().setTransaction(tx1).build()
+            );
+
+            tx2.rollback().join();
+
+            writer.send(
+                    Message.newBuilder().setData(msg3).setSeqNo(3).build(),
+                    SendSettings.newBuilder().setTransaction(tx2).build()
+            );
+            writer.send(
+                    Message.newBuilder().setData(msg4).setSeqNo(4).build(),
+                    SendSettings.newBuilder().setTransaction(tx2).build()
+            );
+
+            writer.flush();
+            writer.shutdown(1, TimeUnit.SECONDS);
+
+            tx1.commit().join().expectSuccess();
+            Assert.assertEquals(1, realErrors.size());
+            Assert.assertEquals(StatusCode.NOT_FOUND, realErrors.get(0));
+        }
+
+        assertTopicContent(Arrays.asList(msg1, msg2));
+    }
+
+    @Test
+    public void txRetryWriteTest() throws Exception {
+        List<StatusCode> realErrors = new ArrayList<>();
+        PROXY.unavailableOnAckWithSeqNo(2);
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(TEST_TOPIC)
+                .setProducerId(TEST_PRODUCER1)
+                .setRetryConfig(TopicRetryConfig.STANDARD)
+                .setErrorsHandler((st, th) -> {
+                    if (st != null) {
+                        realErrors.add(st.getCode());
+                    }
+                    if (th != null) {
+                        realErrors.add(StatusCode.CLIENT_INTERNAL_ERROR);
+                    }
+                })
+                .build();
+
+        byte[] msg1 = new byte[1000];
+        byte[] msg2 = new byte[1001];
+        Arrays.fill(msg1, (byte) 0x10);
+        Arrays.fill(msg2, (byte) 0x11);
+
+        AsyncWriter writer = client.createAsyncWriter(settings);
+        writer.init().join();
+
+        try (
+                TableClient table = TableClient.newClient(ydbTransport).build();
+                Session s1 = table.createSession(Duration.ofSeconds(5)).join().getValue()) {
+
+            TableTransaction tx1 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+
+            writer.send(
+                    Message.newBuilder().setData(msg1).setSeqNo(1).build(),
+                    SendSettings.newBuilder().setTransaction(tx1).build()
+            );
+            CompletableFuture<WriteAck> ack2 = writer.send(
+                    Message.newBuilder().setData(msg2).setSeqNo(2).build(),
+                    SendSettings.newBuilder().setTransaction(tx1).build()
+            );
+
+            Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack2.join().getState());
+
+            tx1.commit().join().expectSuccess();
+            Assert.assertEquals(1, realErrors.size());
+            Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, realErrors.get(0));
+
+            writer.shutdown().join();
+        }
+
+        assertTopicContent(Arrays.asList(msg1, msg2));
     }
 }
