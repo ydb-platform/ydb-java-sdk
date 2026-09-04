@@ -1,5 +1,6 @@
 package tech.ydb.topic;
 
+import java.time.Duration;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -13,14 +14,22 @@ import org.junit.ClassRule;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Status;
+import tech.ydb.table.Session;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.query.Params;
+import tech.ydb.table.result.ResultSetReader;
+import tech.ydb.table.settings.ReadTableSettings;
+import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.table.transaction.TxControl;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.read.AsyncReader;
+import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
@@ -37,6 +46,7 @@ import tech.ydb.topic.settings.TopicReadSettings;
  * @author Aleksandr Gorshenin
  */
 public class ChangefeedTopicTest {
+    private final static Logger logger = LoggerFactory.getLogger(ChangefeedTopicTest.class);
     private final static String TEST_TABLE = "changefeed_table";
     private final static String TEST_CHANGEFEED = "updates";
     private final static String TEST_CONSUMER = "consumer";
@@ -137,6 +147,79 @@ public class ChangefeedTopicTest {
 
         reader2.shutdown().join();
         handler2.assertEvents("INIT", "START", "DATA1", "CLOSED", "READER CLOSED");
+    }
+
+    @Test
+    public void changefeedTimestampTest() throws Exception {
+        SessionRetryContext retryCtx = SessionRetryContext.create(tableClient).build();
+        String tablePath = ydbTransport.getDatabase() + "/" + "timestamp_test";
+        String changefeedPath = tablePath + "/" + TEST_CHANGEFEED;
+
+        retryCtx.supplyStatus(s -> s.executeSchemeQuery(
+                "DROP TABLE IF EXISTS `" + tablePath + "`;"
+        )).join().expectSuccess("cannot drop table");
+
+        retryCtx.supplyStatus(s -> s.executeSchemeQuery(
+                "CREATE TABLE `" + tablePath + "` (id Uint32, value Text, PRIMARY KEY (id));"
+        )).join().expectSuccess("cannot create table");
+
+        retryCtx.supplyResult(s -> s.executeDataQuery(
+                "INSERT INTO `" + tablePath + "` (id, value) VALUES (1, '1'), (2, '2');",
+                TxControl.serializableRw(), Params.empty()
+        )).join().getStatus().expectSuccess("cannot insert data");
+
+        retryCtx.supplyStatus(s -> s.executeSchemeQuery(
+                "ALTER TABLE `" + tablePath + "` " + "ADD CHANGEFEED " + TEST_CHANGEFEED
+                + " WITH (FORMAT = 'JSON', MODE = 'NEW_IMAGE', VIRTUAL_TIMESTAMPS = true);"
+        )).join().expectSuccess("cannot alter table");
+
+        retryCtx.supplyStatus(s -> s.executeSchemeQuery(""
+                + "ALTER TOPIC `" + changefeedPath + "` ADD CONSUMER " + TEST_CONSUMER
+        )).join().expectSuccess("cannot alter changefeed");
+
+        Session txs = tableClient.createSession(Duration.ofSeconds(5)).join().getValue();
+        TableTransaction tx = txs.createNewTransaction(TxMode.SERIALIZABLE_RW);
+        tx.executeDataQuery("INSERT INTO `" + tablePath + "` (id, value) VALUES (3, '3'), (4, '4');").join()
+                .getStatus().expectSuccess();
+
+        ReaderSettings rs = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(changefeedPath).build())
+                .setConsumerName(TEST_CONSUMER)
+                .build();
+
+        CountDownLatch latch = new CountDownLatch(4);
+        AsyncReader reader1 = topicClient.createAsyncReader(rs, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onSessionStarted(SessionStartedEvent event) {
+                        try (Session s = tableClient.createSession(Duration.ofSeconds(5)).join().getValue()) {
+                            s.executeReadTable(tablePath, ReadTableSettings.newBuilder().build()).start(part -> {
+                                ResultSetReader rsr = part.getResultSetReader();
+                                while (rsr.next()) {
+                                    logger.info("read row {} -> [{}, {}]",
+                                            rsr.getColumn("id").getUint32(),
+                                            part.getVirtualTimestamp().getPlanStep(),
+                                            part.getVirtualTimestamp().getTxId()
+                                    );
+                                    latch.countDown();
+                                }
+                            }).join().expectSuccess();
+                        }
+                        tx.commit().join().expectSuccess();
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        for (Message msg : event.getMessages()) {
+                            logger.info("cdc read {}", new String(msg.getData()));
+                            latch.countDown();
+                        }
+                    }
+                }).build());
+
+        reader1.init().join();
+        Assert.assertTrue(latch.await(10, TimeUnit.SECONDS));
+        reader1.shutdown().join();
     }
 
     private static class TestHandler implements ReadEventHandler {
