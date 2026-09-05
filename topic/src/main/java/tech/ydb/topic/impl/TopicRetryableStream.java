@@ -1,5 +1,6 @@
 package tech.ydb.topic.impl;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,6 +13,7 @@ import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.utils.FutureTools;
 
 public abstract class TopicRetryableStream<R extends Message, W extends Message> {
     protected final String debugId;
@@ -32,7 +34,15 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         this.scheduler = scheduler;
     }
 
-    protected abstract TopicStream<R, W> createNewStream(String debugId);
+    /**
+     * Creates a new stream. Implementations must not block the calling thread: this method is invoked from the shared
+     * scheduler on every reconnect, and blocking there stalls discovery, session pools and timeouts of the whole
+     * transport.
+     *
+     * @param debugId identifier of the new stream for logging
+     * @return future with the new stream
+     */
+    protected abstract CompletableFuture<? extends TopicStream<R, W>> createNewStream(String debugId);
 
     protected abstract void onNext(R message);
 
@@ -45,10 +55,29 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         }
 
         String streamID = debugId + '.' + streamCount.incrementAndGet();
-        TopicStream<R, W> stream = createNewStream(streamID);
+        createNewStream(streamID).whenComplete((stream, throwable) -> {
+            if (throwable != null) {
+                // creation may be composed of several futures, so the error comes wrapped in a CompletionException
+                Throwable cause = FutureTools.unwrapCompletionException(throwable);
+                logger.warn("[{}] cannot create stream", debugId, cause);
+                Status errorStatus = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, cause);
+                onStreamStop(errorStatus, retryConfig.getThrowableRetryPolicy(cause));
+                return;
+            }
 
+            startStream(stream);
+        });
+    }
+
+    private void startStream(TopicStream<R, W> stream) {
         if (!realStream.compareAndSet(null, stream)) {
             logger.warn("[{}] double start of stream, skipping", debugId);
+            return;
+        }
+
+        // stream creation is asynchronous, so close() may have happened while it was in progress
+        if (isClosed && realStream.compareAndSet(stream, null)) {
+            logger.info("[{}] stream was closed while it was creating, skipping", debugId);
             return;
         }
 
