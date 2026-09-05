@@ -136,7 +136,7 @@ public class WriteStreamDirectFactoryTest {
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, settings);
         Assert.assertEquals("/local/topic", factory.getTopicPath());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream);
 
         ArgumentCaptor<GrpcRequestSettings> options = ArgumentCaptor.forClass(GrpcRequestSettings.class);
@@ -166,7 +166,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
 
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -190,7 +190,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
 
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -217,7 +217,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
 
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -258,7 +258,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream);
 
         ArgumentCaptor<GrpcRequestSettings> options = ArgumentCaptor.forClass(GrpcRequestSettings.class);
@@ -292,7 +292,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -316,7 +316,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -340,7 +340,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -370,7 +370,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -398,7 +398,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
@@ -433,7 +433,7 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1");
+        WriteSession.Stream stream = factory.createNewStream("s1").join();
         Assert.assertTrue(stream instanceof WriteStream.Fail);
         CompletableFuture<Status> res = stream.start(null);
         Assert.assertTrue(res.isDone());

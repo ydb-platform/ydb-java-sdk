@@ -1,5 +1,6 @@
 package tech.ydb.topic.write.impl;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.BiConsumer;
 
@@ -48,7 +49,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     }
 
     @Override
-    protected Stream createNewStream(String id) {
+    protected CompletableFuture<Stream> createNewStream(String id) {
         return streamFactory.createNewStream(id);
     }
 

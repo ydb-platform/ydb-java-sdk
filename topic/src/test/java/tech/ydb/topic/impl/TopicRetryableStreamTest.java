@@ -2,6 +2,7 @@ package tech.ydb.topic.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
@@ -79,14 +80,26 @@ public class TopicRetryableStreamTest {
         final List<Status> closeStatuses = new ArrayList<>();
         final List<Empty> receivedMessages = new ArrayList<>();
 
+        /** If set, the next createNewStream() returns this future instead of the next handle */
+        CompletableFuture<TopicStream<Empty, Empty>> pendingCreation = null;
+
         TestStream(List<StreamHandle> handles, RetryConfig retryConfig, ScheduledExecutorService scheduler) {
             super(logger, "test", retryConfig, scheduler);
             this.handles = handles;
         }
 
         @Override
-        protected TopicStream<Empty, Empty> createNewStream(String debugId) {
-            return handles.get(handleIndex++).stream;
+        protected CompletableFuture<TopicStream<Empty, Empty>> createNewStream(String debugId) {
+            if (pendingCreation != null) {
+                CompletableFuture<TopicStream<Empty, Empty>> future = pendingCreation;
+                pendingCreation = null;
+                return future;
+            }
+
+            StreamHandle handle = handles.get(handleIndex);
+            handleIndex++;
+
+            return CompletableFuture.completedFuture(handle.stream);
         }
 
         @Override
@@ -163,6 +176,63 @@ public class TopicRetryableStreamTest {
         TestStream retryable = new TestStream(Arrays.asList(), RetryConfig.noRetries(), mockScheduler());
         Assert.assertFalse(retryable.close());
         retryable.start(); // nothing
+    }
+
+    @Test
+    public void asyncStreamCreationTest() {
+        StreamHandle streamHandle = new StreamHandle();
+        TestStream retryable = new TestStream(Collections.emptyList(), RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<TopicStream<Empty, Empty>> creation = new CompletableFuture<>();
+        retryable.pendingCreation = creation;
+
+        retryable.start(); // must return without waiting for the creation future
+        Mockito.verify(streamHandle.grpc, Mockito.never()).start(Mockito.any());
+
+        retryable.send(EMPTY); // stream is not ready yet, message is skipped
+        Mockito.verify(streamHandle.grpc, Mockito.never()).sendNext(Mockito.any());
+
+        creation.complete(streamHandle.stream);
+
+        Mockito.verify(streamHandle.grpc).start(Mockito.any());
+        retryable.send(EMPTY);
+        Mockito.verify(streamHandle.grpc, Mockito.times(2)).sendNext(EMPTY); // init + sent request
+
+        Assert.assertTrue(retryable.close());
+        Mockito.verify(streamHandle.grpc).close();
+    }
+
+    @Test
+    public void closeWhileStreamIsCreatingTest() {
+        StreamHandle streamHandle = new StreamHandle();
+        TestStream retryable = new TestStream(Collections.emptyList(), RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<TopicStream<Empty, Empty>> creation = new CompletableFuture<>();
+        retryable.pendingCreation = creation;
+
+        retryable.start();
+        Assert.assertFalse(retryable.close()); // there is no stream to close yet
+
+        creation.complete(streamHandle.stream); // the created stream must not be started
+
+        Mockito.verify(streamHandle.grpc, Mockito.never()).start(Mockito.any());
+        Assert.assertFalse(retryable.close());
+    }
+
+    @Test
+    @HideLoggers({TopicRetryableStreamTest.class})
+    public void streamCreationFailedTest() {
+        TestStream retryable = new TestStream(Collections.emptyList(), RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<TopicStream<Empty, Empty>> creation = new CompletableFuture<>();
+        retryable.pendingCreation = creation;
+
+        retryable.start();
+        creation.completeExceptionally(new RuntimeException("cannot create stream"));
+
+        Assert.assertEquals(1, retryable.closeStatuses.size());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, retryable.closeStatuses.get(0).getCode());
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
     }
 
     @Test
