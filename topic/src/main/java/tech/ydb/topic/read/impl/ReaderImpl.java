@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.GrpcStreamRetrier;
@@ -36,12 +37,19 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     private static final int DEFAULT_DECOMPRESSION_THREAD_COUNT = 4;
     private final ExecutorService defaultDecompressionExecutorService;
     private final ReadSessionFactory sessionFactory;
+    private final ReaderMetrics metrics;
 
     private final CompletableFuture<Void> sessionReady = new CompletableFuture<>();
     private volatile ReadSession session = null;
 
     public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
+        this(topicRpc, settings, codecRegistry, Meter.NOOP);
+    }
+
+    public ReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry, Meter meter) {
         super(settings.getLogPrefix(), topicRpc.getScheduler(), settings.getErrorsHandler());
+
+        this.metrics = new ReaderMetrics(meter, settings.getConsumerName(), settings.getReaderName());
 
         Executor decompressionExecutor = settings.getDecompressionExecutor();
         if (decompressionExecutor != null) {
@@ -70,6 +78,10 @@ public abstract class ReaderImpl extends GrpcStreamRetrier {
     protected abstract void handleStartPartitionSessionRequest(StartPartitionSessionEvent event);
     protected abstract void handleStopPartitionSession(StopPartitionSessionEvent event);
     protected abstract void handleClosePartitionSession(PartitionSession partition);
+
+    final ReaderMetrics getMetrics() {
+        return metrics;
+    }
 
     @Override
     protected Logger getLogger() {
