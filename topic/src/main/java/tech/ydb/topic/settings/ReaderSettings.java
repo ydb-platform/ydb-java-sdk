@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
 
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 
@@ -26,6 +27,7 @@ public class ReaderSettings {
     private final int maxBatchSize;
     private final long partitionMaxInFlightBytes;
     private final Executor decompressionExecutor;
+    private final RetryConfig retryConfig;
     private final BiConsumer<Status, Throwable> errorsHandler;
 
     private ReaderSettings(Builder builder) {
@@ -37,6 +39,7 @@ public class ReaderSettings {
         this.maxBatchSize = builder.maxBatchSize;
         this.partitionMaxInFlightBytes = builder.partitionMaxInFlightBytes;
         this.decompressionExecutor = builder.decompressionExecutor;
+        this.retryConfig = builder.retryConfig;
         this.errorsHandler = builder.errorsHandler;
     }
 
@@ -59,6 +62,10 @@ public class ReaderSettings {
 
     public BiConsumer<Status, Throwable> getErrorsHandler() {
         return errorsHandler;
+    }
+
+    public RetryConfig getRetryConfig() {
+        return retryConfig;
     }
 
     public long getMaxMemoryUsageBytes() {
@@ -94,6 +101,7 @@ public class ReaderSettings {
         private long partitionMaxInFlightBytes = 0;
         private int maxBatchSize = 0;
         private Executor decompressionExecutor = null;
+        private RetryConfig retryConfig = TopicRetryConfig.FOREVER;
         private BiConsumer<Status, Throwable> errorsHandler = null;
 
         /**
@@ -175,6 +183,33 @@ public class ReaderSettings {
 
         public Builder setErrorsHandler(BiConsumer<Status, Throwable> handler) {
             this.errorsHandler = handler;
+            return this;
+        }
+
+        /**
+         * Set retry configuration for the reader's underlying stream connection.
+         * Controls how the reader reconnects when the stream is interrupted.
+         * <p>
+         * The default value is {@link TopicRetryConfig#FOREVER}, which retries any disconnection
+         * indefinitely with exponential backoff (up to ~65 seconds between attempts).
+         * <p>
+         * Use {@link TopicRetryConfig#NEVER} to disable retries and surface errors immediately
+         * via the errors handler set by {@link #setErrorsHandler}.
+         * Use {@link TopicRetryConfig#STANDARD} to retry only transient errors and treat
+         * permanent status codes (e.g. {@code UNAUTHORIZED}, {@code BAD_REQUEST}) as terminal.
+         *
+         * @param config retry configuration, must not be {@code null}
+         * @return this builder
+         * @throws NullPointerException if {@code config} is {@code null}
+         * @see TopicRetryConfig#FOREVER
+         * @see TopicRetryConfig#NEVER
+         * @see TopicRetryConfig#STANDARD
+         */
+        public Builder setRetryConfig(RetryConfig config) {
+            if (config == null) {
+                throw new NullPointerException("RetryConfig must not be null");
+            }
+            this.retryConfig = config;
             return this;
         }
 
