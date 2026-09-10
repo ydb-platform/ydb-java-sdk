@@ -19,7 +19,7 @@ import tech.ydb.topic.write.WriteAck;
 /**
  * @author Nikolay Perfilov
  */
-public final class WriteSession extends TopicRetryableStream<FromServer, FromClient> {
+public final class WriteSession extends TopicRetryableStream<FromServer, FromClient, WriteSession.Stream> {
     public interface Stream extends TopicStream<FromServer, FromClient> { }
 
     private static final Logger logger = LoggerFactory.getLogger(WriteSession.class);
@@ -108,7 +108,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     }
 
     @Override
-    public void onRetry(Status status) {
+    public void onRetry(Stream stream, Status status) {
         logger.warn("[{}] Session onRetry with status {} called", debugId, status);
         listener.onStop(status);
         if (errorsHandler != null) {
@@ -117,7 +117,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     }
 
     @Override
-    public void onClose(Status status) {
+    public void onClose(Stream stream, Status status) {
         logger.info("[{}] Session closed with status {}", debugId, status);
         listener.onClose(status);
         if (errorsHandler != null && !status.isSuccess()) {
@@ -126,7 +126,7 @@ public final class WriteSession extends TopicRetryableStream<FromServer, FromCli
     }
 
     @Override
-    public void onNext(YdbTopic.StreamWriteMessage.FromServer message) {
+    public void onNext(Stream stream, YdbTopic.StreamWriteMessage.FromServer message) {
         if (message.hasInitResponse()) {
             onInitResponse(message.getInitResponse());
         } else if (message.hasWriteResponse()) {
