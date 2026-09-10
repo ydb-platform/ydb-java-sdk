@@ -54,16 +54,15 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
         }
 
         stream.start(msg -> onNext(stream, msg)).whenComplete((status, th) -> {
-            S closed = realStream.getAndSet(null);
-            if (closed == null) {
+            if (!realStream.compareAndSet(stream, null)) {
                 return;
             }
             if (status != null) {
-                onStreamStop(closed, status, retryConfig.getStatusRetryPolicy(status));
+                onStreamStop(stream, status, retryConfig.getStatusRetryPolicy(status));
             }
             if (th != null) {
                 Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-                onStreamStop(closed, wrapped, retryConfig.getThrowableRetryPolicy(th));
+                onStreamStop(stream, wrapped, retryConfig.getThrowableRetryPolicy(th));
             }
         });
     }
@@ -143,6 +142,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
             scheduler.schedule(this::start, nextRetryMs, TimeUnit.MILLISECONDS);
         } catch (Exception ex) {
             logger.error("[{}] cannot schedule reconnect, stopping", debugId, ex);
+            isClosed = true;
             onClose(closed, status);
         }
     }

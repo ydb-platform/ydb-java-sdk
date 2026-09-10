@@ -305,8 +305,11 @@ public class TopicRetryableStreamTest {
         TestStream retryable = new TestStream(Arrays.asList(h), config, null);
 
         retryable.start();
+        Assert.assertFalse(retryable.isClosed());
+
         h.complete(Status.of(StatusCode.UNAVAILABLE));
 
+        Assert.assertTrue(retryable.isClosed());
         Assert.assertEquals(1, retryable.retryStatuses.size());
         Assert.assertEquals(1, retryable.closeStatuses.size());
     }
