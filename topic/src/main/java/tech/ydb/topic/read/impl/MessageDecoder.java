@@ -25,7 +25,11 @@ public class MessageDecoder {
     private final SerialRunnable decodeNext = new SerialRunnable(new DecodeNext());
     private volatile boolean isStopped = false;
 
-    public MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
+    public MessageDecoder(ReadConfig config) {
+        this(config.getMaxMemoryUsageBytes(), config.getDecompressor(), config.getCodecRegistry());
+    }
+
+    MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
         this.totalAvailable = new AtomicLong(maxBufferSize);
         this.decompressionExecutor = decompressionExecutor;
         this.codecRegistry = codecRegistry;
