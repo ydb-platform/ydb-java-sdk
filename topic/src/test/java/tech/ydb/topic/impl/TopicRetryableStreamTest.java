@@ -71,7 +71,7 @@ public class TopicRetryableStreamTest {
         }
     }
 
-    private static class TestStream extends TopicRetryableStream<Empty, Empty> {
+    private static class TestStream extends TopicRetryableStream<Empty, Empty, TopicStreamBase<Empty, Empty>> {
         private final List<StreamHandle> handles;
         private int handleIndex = 0;
 
@@ -85,22 +85,22 @@ public class TopicRetryableStreamTest {
         }
 
         @Override
-        protected TopicStream<Empty, Empty> createNewStream(String debugId) {
+        protected TopicStreamBase<Empty, Empty> createNewStream(String debugId) {
             return handles.get(handleIndex++).stream;
         }
 
         @Override
-        protected void onNext(Empty message) {
+        protected void onNext(TopicStreamBase<Empty, Empty> stream, Empty message) {
             receivedMessages.add(message);
         }
 
         @Override
-        protected void onRetry(Status status) {
+        protected void onRetry(TopicStreamBase<Empty, Empty> stream, Status status) {
             retryStatuses.add(status);
         }
 
         @Override
-        protected void onClose(Status status) {
+        protected void onClose(TopicStreamBase<Empty, Empty> stream, Status status) {
             closeStatuses.add(status);
         }
     }
@@ -115,12 +115,15 @@ public class TopicRetryableStreamTest {
         TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
 
         retryable.start();
+
         retryable.send(EMPTY);
 
         Mockito.verify(h.grpc).start(Mockito.any());
         Mockito.verify(h.grpc, Mockito.times(2)).sendNext(EMPTY); // init + sent request
 
+        Assert.assertFalse(retryable.isClosed());
         Assert.assertTrue(retryable.close());
+        Assert.assertTrue(retryable.isClosed());
 
         h.complete(Status.SUCCESS);
 
@@ -128,6 +131,32 @@ public class TopicRetryableStreamTest {
         Mockito.verify(h.grpc, Mockito.never()).cancel();
 
         Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
+    }
+
+    @Test
+    public void failStreamTest() {
+        StreamHandle h = new StreamHandle();
+        TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
+
+        retryable.start();
+
+        retryable.send(EMPTY);
+
+        Mockito.verify(h.grpc).start(Mockito.any());
+        Mockito.verify(h.grpc, Mockito.times(2)).sendNext(EMPTY); // init + sent request
+
+        Assert.assertFalse(retryable.isClosed());
+        retryable.fail(Status.of(StatusCode.ABORTED));
+        retryable.fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR)); // will be ignored
+
+        Assert.assertTrue(retryable.isClosed());
+        Assert.assertFalse(retryable.close());
+
+        Mockito.verify(h.grpc).close();
+        Mockito.verify(h.grpc, Mockito.never()).cancel();
+
+        h.complete(Status.SUCCESS);
+        Assert.assertEquals(Arrays.asList(Status.of(StatusCode.ABORTED)), retryable.closeStatuses);
     }
 
     @Test
@@ -152,6 +181,7 @@ public class TopicRetryableStreamTest {
         retryable.start();
 
         Assert.assertTrue(retryable.close());
+
         Assert.assertFalse(retryable.close());
 
         Mockito.verify(h1.grpc).start(Mockito.any());
@@ -205,10 +235,14 @@ public class TopicRetryableStreamTest {
 
         retryable.start();
         RuntimeException ex = new RuntimeException("fail");
+        Assert.assertFalse(retryable.isClosed());
         h.fail(ex);
+        Assert.assertTrue(retryable.isClosed());
 
         Assert.assertEquals(Arrays.asList(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, ex)), retryable.closeStatuses);
         Assert.assertTrue(retryable.retryStatuses.isEmpty());
+
+        Assert.assertFalse(retryable.close());
     }
 
     @Test
@@ -225,6 +259,7 @@ public class TopicRetryableStreamTest {
         RetryConfig config = status -> (retryCount, elapsed) -> (status.getCode() != StatusCode.BAD_REQUEST) ? 0 : -1;
 
         TestStream retryable = new TestStream(Arrays.asList(h1, h2, h3), config, mockScheduler());
+        Assert.assertFalse(retryable.isClosed());
 
         retryable.start();
 
@@ -232,15 +267,18 @@ public class TopicRetryableStreamTest {
 
         retryable.send(EMPTY);
         h1.complete(s1);
+        Assert.assertFalse(retryable.isClosed());
 
         Mockito.verify(h2.grpc).start(Mockito.any()); // second stream was started
         retryable.send(EMPTY);
         retryable.send(EMPTY);
         h2.complete(s2);
+        Assert.assertFalse(retryable.isClosed());
 
         Mockito.verify(h3.grpc).start(Mockito.any()); // third stream was started
         retryable.send(EMPTY);
         h3.complete(s3);
+        Assert.assertTrue(retryable.isClosed());
 
         Assert.assertFalse(retryable.close()); // no effect
 

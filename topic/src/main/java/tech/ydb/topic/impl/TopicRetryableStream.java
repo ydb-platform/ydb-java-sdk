@@ -13,13 +13,13 @@ import tech.ydb.common.retry.RetryPolicy;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 
-public abstract class TopicRetryableStream<R extends Message, W extends Message> {
+public abstract class TopicRetryableStream<R extends Message, W extends Message, S extends TopicStream<R, W>> {
     protected final String debugId;
     private final Logger logger;
     private final RetryConfig retryConfig;
     private final ScheduledExecutorService scheduler;
 
-    private final AtomicReference<TopicStream<R, W>> realStream = new AtomicReference<>();
+    private final AtomicReference<S> realStream = new AtomicReference<>();
     private final AtomicInteger streamCount = new AtomicInteger(0);
     private final RetryState state = new RetryState();
 
@@ -32,34 +32,38 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         this.scheduler = scheduler;
     }
 
-    protected abstract TopicStream<R, W> createNewStream(String debugId);
+    protected abstract S createNewStream(String debugId);
 
-    protected abstract void onNext(R message);
+    protected abstract void onNext(S stream, R message);
 
-    protected abstract void onRetry(Status status);
-    protected abstract void onClose(Status status);
+    protected abstract void onRetry(S stream, Status status);
+    protected abstract void onClose(S stream, Status status);
 
     public void start() {
         if (isClosed) {
+            logger.warn("[{}] double start of closed stream, ignored", debugId);
             return;
         }
 
         String streamID = debugId + '.' + streamCount.incrementAndGet();
-        TopicStream<R, W> stream = createNewStream(streamID);
+        S stream = createNewStream(streamID);
 
         if (!realStream.compareAndSet(null, stream)) {
             logger.warn("[{}] double start of stream, skipping", debugId);
             return;
         }
 
-        stream.start(this::onNext).whenComplete((status, th) -> {
-            realStream.compareAndSet(stream, null);
+        stream.start(msg -> onNext(stream, msg)).whenComplete((status, th) -> {
+            S closed = realStream.getAndSet(null);
+            if (closed == null) {
+                return;
+            }
             if (status != null) {
-                onStreamStop(status, retryConfig.getStatusRetryPolicy(status));
+                onStreamStop(closed, status, retryConfig.getStatusRetryPolicy(status));
             }
             if (th != null) {
                 Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-                onStreamStop(wrapped, retryConfig.getThrowableRetryPolicy(th));
+                onStreamStop(closed, wrapped, retryConfig.getThrowableRetryPolicy(th));
             }
         });
     }
@@ -68,8 +72,21 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
         state.reset();
     }
 
+    public boolean isClosed() {
+        return isClosed;
+    }
+
+    public void fail(Status status) {
+        S closed = realStream.getAndSet(null);
+        if (closed != null) {
+            logger.warn("[{}] failed by application-side error {}", debugId, status);
+            closed.close();
+            onStreamStop(closed, status, retryConfig.getStatusRetryPolicy(status));
+        }
+    }
+
     public void send(W msg) {
-        TopicStream<R, W> stream = realStream.get();
+        S stream = realStream.get();
         if (stream == null) {
             logger.warn("[{}] send message before stream is ready", debugId);
             return;
@@ -79,24 +96,26 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
 
     public boolean close() {
         isClosed = true;
-        TopicStream<R, W> stream = realStream.getAndSet(null);
+        S stream = realStream.getAndSet(null);
         if (stream == null) {
             return false;
         }
 
         stream.close();
+        onStreamStop(stream, Status.SUCCESS, null);
         return true;
     }
 
-    private void onStreamStop(Status status, RetryPolicy policy) {
+    private void onStreamStop(S closed, Status status, RetryPolicy policy) {
         if (isClosed) { // stream was already closed (usually with success)
-            onClose(status);
+            onClose(closed, status);
             return;
         }
 
         if (policy == null) {
             logger.warn("[{}] stopped by non-retryable status {}", debugId, status);
-            onClose(status);
+            isClosed = true;
+            onClose(closed, status);
             return;
         }
 
@@ -104,26 +123,27 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message>
 
         if (nextRetryMs < 0) {
             logger.warn("[{}] stopped after retry policy evaluation for status {}", debugId, status);
-            onClose(status);
+            isClosed = true;
+            onClose(closed, status);
             return;
         }
 
         if (nextRetryMs == 0) { // retry immediately
             logger.warn("[{}] retry #{}. Retry immediately...", debugId, state.retryNumber());
-            onRetry(status);
+            onRetry(closed, status);
             start();
             return;
         }
 
         // retry scheduling
         logger.warn("[{}] retry #{}. Scheduling reconnect in {}ms...", debugId, state.retryNumber(), nextRetryMs);
-        onRetry(status);
+        onRetry(closed, status);
 
         try {
             scheduler.schedule(this::start, nextRetryMs, TimeUnit.MILLISECONDS);
         } catch (Exception ex) {
             logger.error("[{}] cannot schedule reconnect, stopping", debugId, ex);
-            onClose(status);
+            onClose(closed, status);
         }
     }
 
