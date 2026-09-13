@@ -550,6 +550,10 @@ public abstract class BaseSession implements Session {
                     CommonProtos.FeatureFlag.Status.ENABLED : CommonProtos.FeatureFlag.Status.DISABLED);
         }
 
+        if (!description.getAttributes().isEmpty()) {
+            request.putAllAttributes(description.getAttributes());
+        }
+
         return rpc.createTable(request.build(), makeOptions(settings).build());
     }
 
@@ -626,6 +630,10 @@ public abstract class BaseSession implements Session {
                     .setSourceName(renameIndex.getSourceName())
                     .setDestinationName(renameIndex.getDestinationName())
                     .setReplaceDestination(renameIndex.isReplaceDestination()).build());
+        }
+
+        if (!settings.getAlterAttributes().isEmpty()) {
+            builder.putAllAlterAttributes(settings.getAlterAttributes());
         }
 
         return rpc.alterTable(builder.build(), makeOptions(settings).build());
@@ -975,6 +983,10 @@ public abstract class BaseSession implements Session {
                     pb.getVirtualTimestamps(),
                     ProtobufUtils.protoToDuration(pb.getResolvedTimestampsInterval())
             ));
+        }
+
+        if (!desc.getAttributesMap().isEmpty()) {
+            description.setAttributes(desc.getAttributesMap());
         }
 
         return Result.success(description.build());
