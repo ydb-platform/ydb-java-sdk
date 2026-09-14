@@ -115,8 +115,8 @@ public class TopicReadersIntegrationTest {
                 .build()
         ).join().expectSuccess("can't alter topic");
 
-        CompletableFuture<Void> f6 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, "p0", 140));
-        CompletableFuture<Void> f7 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, "p1", 400));
+        CompletableFuture<Void> f6 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, "p0", 860, 140));
+        CompletableFuture<Void> f7 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, "p1", 100, 400));
         CompletableFuture.allOf(f6, f7).join();
     }
 
@@ -159,25 +159,25 @@ public class TopicReadersIntegrationTest {
     }
 
     private static void writeToTopic(String topicPath, int partitionID, int count) {
-        writeToTopic(count, WriterSettings.newBuilder()
+        writeToTopic(0, count, WriterSettings.newBuilder()
                 .setTopicPath(topicPath)
                 .setProducerId("p" + partitionID)
                 .setPartitionId(partitionID)
                 .build());
     }
 
-    private static void writeToTopic(String topicPath, String producerId, int count) {
-        writeToTopic(count, WriterSettings.newBuilder()
+    private static void writeToTopic(String topicPath, String producerId, int startFrom, int count) {
+        writeToTopic(startFrom, count, WriterSettings.newBuilder()
                 .setTopicPath(topicPath)
                 .setProducerId(producerId)
                 .build());
     }
 
-    private static void writeToTopic(int count, WriterSettings settings) {
+    private static void writeToTopic(int startFrom, int count, WriterSettings settings) {
         SyncWriter writer = client.createSyncWriter(settings);
         writer.initAndWait();
         for (int idx = 1; idx <= count; idx++) {
-            byte[] msg = ("p" + settings.getProducerId() + "_msg" + idx).getBytes();
+            byte[] msg = ("p" + settings.getProducerId() + "_msg" + (startFrom + idx)).getBytes();
             byte[] data = new byte[100];
             System.arraycopy(msg, 0, data, 0, msg.length);
             writer.send(tech.ydb.topic.write.Message.of(data));
@@ -270,8 +270,12 @@ public class TopicReadersIntegrationTest {
         AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
                 .setEventHandler((DataReceivedEvent event) -> {
                     for (Message msg : event.getMessages()) {
-                        Assert.assertTrue(partitions.containsKey(msg.getProducerId()));
+                        String producer = msg.getProducerId();
+                        Assert.assertTrue(partitions.containsKey(producer));
                         partitions.put(msg.getProducerId(), 1L + partitions.get(msg.getProducerId()));
+                        Assert.assertEquals(100, msg.getData().length);
+                        String expected = "p" + producer + "_msg" + partitions.get(producer);
+                        Assert.assertEquals(expected, new String(Arrays.copyOf(msg.getData(), expected.length())));
                         read.countDown();
                     }
                     event.commit();

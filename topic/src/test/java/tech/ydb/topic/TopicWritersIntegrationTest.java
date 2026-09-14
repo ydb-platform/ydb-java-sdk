@@ -375,8 +375,8 @@ public class TopicWritersIntegrationTest {
         byte[] msg4 = new byte[1003];
         Arrays.fill(msg1, (byte) 0x10);
         Arrays.fill(msg2, (byte) 0x11);
-        Arrays.fill(msg2, (byte) 0x12);
-        Arrays.fill(msg3, (byte) 0x13);
+        Arrays.fill(msg3, (byte) 0x12);
+        Arrays.fill(msg4, (byte) 0x13);
 
         writer.send(Message.of(msg1));
         writer.send(Message.of(msg2));
@@ -576,8 +576,8 @@ public class TopicWritersIntegrationTest {
         byte[] msg4 = new byte[1003];
         Arrays.fill(msg1, (byte) 0x10);
         Arrays.fill(msg2, (byte) 0x11);
-        Arrays.fill(msg2, (byte) 0x12);
-        Arrays.fill(msg3, (byte) 0x13);
+        Arrays.fill(msg3, (byte) 0x12);
+        Arrays.fill(msg4, (byte) 0x13);
 
         SyncWriter writer = client.createSyncWriter(settings);
         writer.init();
@@ -733,6 +733,7 @@ public class TopicWritersIntegrationTest {
                 Assert.assertTrue("Expected " + code + ", but has nothing", it.hasNext());
                 Assert.assertEquals(code, it.next());
             }
+            Assert.assertFalse("Unexpected error code", it.hasNext());
         }
     }
 }
