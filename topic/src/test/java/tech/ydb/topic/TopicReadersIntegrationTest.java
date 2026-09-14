@@ -1,7 +1,11 @@
 package tech.ydb.topic;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -15,6 +19,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -23,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.description.Consumer;
+import tech.ydb.topic.description.ConsumerDescription;
+import tech.ydb.topic.description.ConsumerPartitionInfo;
 import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.Message;
@@ -30,8 +37,12 @@ import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
+import tech.ydb.topic.settings.AlterPartitioningSettings;
+import tech.ydb.topic.settings.AlterTopicSettings;
+import tech.ydb.topic.settings.AutoPartitioningStrategy;
 import tech.ydb.topic.settings.CommitOffsetSettings;
 import tech.ydb.topic.settings.CreateTopicSettings;
+import tech.ydb.topic.settings.DescribeConsumerSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -56,6 +67,7 @@ public class TopicReadersIntegrationTest {
     public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     private final static String TEST_TOPIC = "topic_readers_test";
+    private final static String SPLITTED_TOPIC = "topic_readers_splitted";
 
     private final static String TEST_CONSUMER1 = "consumer";
 
@@ -75,49 +87,97 @@ public class TopicReadersIntegrationTest {
                 .build()
         ).join().expectSuccess("can't create a new topic");
 
-        CompletableFuture<Void> f1 = CompletableFuture.runAsync(() -> writeToTopic(0, 1000));
-        CompletableFuture<Void> f2 = CompletableFuture.runAsync(() -> writeToTopic(1, 500));
-        CompletableFuture<Void> f3 = CompletableFuture.runAsync(() -> writeToTopic(2, 2100));
+        CompletableFuture<Void> f1 = CompletableFuture.runAsync(() -> writeToTopic(TEST_TOPIC, 0, 1000));
+        CompletableFuture<Void> f2 = CompletableFuture.runAsync(() -> writeToTopic(TEST_TOPIC, 1, 500));
+        CompletableFuture<Void> f3 = CompletableFuture.runAsync(() -> writeToTopic(TEST_TOPIC, 2, 2100));
 
         CompletableFuture.allOf(f1, f2, f3).join();
+
+        client.createTopic(SPLITTED_TOPIC, CreateTopicSettings.newBuilder()
+                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
+                .setPartitioningSettings(PartitioningSettings.newBuilder()
+                        .setAutoPartitioningStrategy(AutoPartitioningStrategy.PAUSED)
+                        .setMinActivePartitions(2)
+                        .setMaxActivePartitions(2)
+                        .build())
+                .build()
+        ).join().expectSuccess("can't create a new topic");
+
+        CompletableFuture<Void> f4 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, 0, 860));
+        CompletableFuture<Void> f5 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, 1, 100));
+        CompletableFuture.allOf(f4, f5).join();
+
+        client.alterTopic(SPLITTED_TOPIC, AlterTopicSettings.newBuilder()
+                .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
+                        .setMinActivePartitions(4)
+                        .setMaxActivePartitions(4)
+                        .build())
+                .build()
+        ).join().expectSuccess("can't alter topic");
+
+        CompletableFuture<Void> f6 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, "p0", 140));
+        CompletableFuture<Void> f7 = CompletableFuture.runAsync(() -> writeToTopic(SPLITTED_TOPIC, "p1", 400));
+        CompletableFuture.allOf(f6, f7).join();
     }
 
     @AfterClass
     public static void closeClient() {
         logger.info("Drop test topic {} ...", TEST_TOPIC);
         client.dropTopic(TEST_TOPIC).join();
+        client.dropTopic(SPLITTED_TOPIC).join();
         client.close();
     }
 
     @Before
     public void resetConsumer() {
-        CompletableFuture<Status> r1 = resetPartition(0);
-        CompletableFuture<Status> r2 = resetPartition(1);
-        CompletableFuture<Status> r3 = resetPartition(2);
-        r1.join().expectSuccess();
-        r2.join().expectSuccess();
-        r3.join().expectSuccess();
+        List<CompletableFuture<Status>> resets = new ArrayList<>();
+
+        DescribeConsumerSettings dc = DescribeConsumerSettings.newBuilder().withIncludeStats(true).build();
+        ConsumerDescription cd1 = client.describeConsumer(TEST_TOPIC, TEST_CONSUMER1, dc).join().getValue();
+        ConsumerDescription cd2 = client.describeConsumer(SPLITTED_TOPIC, TEST_CONSUMER1, dc).join().getValue();
+
+        for (ConsumerPartitionInfo p: cd1.getPartitions()) {
+            if (p.getConsumerStats().getCommittedOffset() > 0) {
+                resets.add(resetPartition(TEST_TOPIC, p.getPartitionId()));
+            }
+        }
+        for (ConsumerPartitionInfo p: cd2.getPartitions()) {
+            if (p.getConsumerStats().getCommittedOffset() > 0) {
+                resets.add(resetPartition(SPLITTED_TOPIC, p.getPartitionId()));
+            }
+        }
+
+        resets.forEach(f -> f.join().expectSuccess());
     }
 
-    private static CompletableFuture<Status> resetPartition(int partitionID) {
-        return client.commitOffset(TEST_TOPIC, CommitOffsetSettings.newBuilder()
+    private static CompletableFuture<Status> resetPartition(String topicPath, long partitionID) {
+        return client.commitOffset(topicPath, CommitOffsetSettings.newBuilder()
                 .setConsumer(TEST_CONSUMER1)
                 .setOffset(0)
                 .setPartitionId(partitionID)
                 .build());
     }
 
-    private static void writeToTopic(int partitionID, int count) {
-        WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
+    private static void writeToTopic(String topicPath, int partitionID, int count) {
+        writeToTopic(count, WriterSettings.newBuilder()
+                .setTopicPath(topicPath)
                 .setProducerId("p" + partitionID)
                 .setPartitionId(partitionID)
-                .build();
+                .build());
+    }
 
+    private static void writeToTopic(String topicPath, String producerId, int count) {
+        writeToTopic(count, WriterSettings.newBuilder()
+                .setTopicPath(topicPath)
+                .setProducerId(producerId)
+                .build());
+    }
+
+    private static void writeToTopic(int count, WriterSettings settings) {
         SyncWriter writer = client.createSyncWriter(settings);
         writer.initAndWait();
         for (int idx = 1; idx <= count; idx++) {
-            byte[] msg = ("p" + partitionID + "_msg" + idx).getBytes();
+            byte[] msg = ("p" + settings.getProducerId() + "_msg" + idx).getBytes();
             byte[] data = new byte[100];
             System.arraycopy(msg, 0, data, 0, msg.length);
             writer.send(tech.ydb.topic.write.Message.of(data));
@@ -190,6 +250,70 @@ public class TopicReadersIntegrationTest {
             Assert.assertEquals(1000, offsets[0].get());
             Assert.assertEquals(500, offsets[1].get());
             Assert.assertEquals(2100, offsets[2].get());
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    public void readAllSplittedTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(SPLITTED_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        Map<String, Long> partitions = new ConcurrentHashMap<>();
+        partitions.put("p0", 0L);
+        partitions.put("p1", 0L);
+
+        CountDownLatch read = new CountDownLatch(1500);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler((DataReceivedEvent event) -> {
+                    for (Message msg : event.getMessages()) {
+                        Assert.assertTrue(partitions.containsKey(msg.getProducerId()));
+                        partitions.put(msg.getProducerId(), 1L + partitions.get(msg.getProducerId()));
+                        read.countDown();
+                    }
+                    event.commit();
+                }).build());
+
+        reader.init().join();
+        try {
+            Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
+            Assert.assertEquals(Long.valueOf(1000), partitions.get("p0"));
+            Assert.assertEquals(Long.valueOf(500), partitions.get("p1"));
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    @Ignore // requires auto-partitioning supporr
+    public void readAllSplittedWithoutCommitTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(SPLITTED_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        Map<String, Long> partitions = new ConcurrentHashMap<>();
+        partitions.put("p0", 0L);
+        partitions.put("p1", 0L);
+
+        CountDownLatch read = new CountDownLatch(1500);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler((DataReceivedEvent event) -> {
+                    for (Message msg : event.getMessages()) {
+                        Assert.assertTrue(partitions.containsKey(msg.getProducerId()));
+                        partitions.put(msg.getProducerId(), 1L + partitions.get(msg.getProducerId()));
+                        read.countDown();
+                    }
+                }).build());
+
+        reader.init().join();
+        try {
+            Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
+            Assert.assertEquals(Long.valueOf(1000), partitions.get("p0"));
+            Assert.assertEquals(Long.valueOf(500), partitions.get("p1"));
         } finally {
             reader.shutdown().join();
         }
