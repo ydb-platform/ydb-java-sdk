@@ -1,11 +1,14 @@
 package tech.ydb.topic.write.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,6 +31,7 @@ import tech.ydb.topic.settings.TopicRetryConfig;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
+import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.WriteAck;
 
 /**
@@ -243,21 +247,78 @@ public class WriterImplTest {
     }
 
     @Test
+    public void withSeqNoIdempotencyTest() throws Exception {
+        StreamMock s = new StreamMock();
+        WriterImpl writer = createWriter(mockRpc(s));
+        writer.init();
+        s.sendInitResponse(0L);
+
+        byte[][] msgList = new byte[100][];
+        for (int idx = 0; idx < 100; idx++) {
+            msgList[idx] = new byte[idx * 3 + 1];
+            Arrays.fill(msgList[idx], (byte) idx);
+        }
+
+        AtomicInteger written = new AtomicInteger();
+        AtomicInteger failed = new AtomicInteger();
+        CountDownLatch latch = new CountDownLatch(1);
+
+        Runnable func = () -> {
+            try {
+                Assert.assertTrue(latch.await(1, TimeUnit.SECONDS));
+            } catch (InterruptedException ex) {
+                throw new AssertionError("cannot start a worker", ex);
+            }
+
+            for (int idx = 0; idx < 100; idx++) {
+                try {
+                    writer.blockingSend(Message.newBuilder().setData(msgList[idx]).setSeqNo(idx * 3 + 7).build(), null);
+                    written.incrementAndGet();
+                } catch (IllegalArgumentException ex) {
+                    Assert.assertEquals("SeqNo provided for a message is less or equal than SeqNo provided for "
+                            + "previous message. SeqNo must be strictly growing.", ex.getMessage());
+                    failed.incrementAndGet();
+                } catch (InterruptedException | QueueOverflowException ex) {
+                    throw new AssertionError("cannot write to queue", ex);
+                }
+            }
+        };
+        CompletableFuture<?>[] tasks = new CompletableFuture<?>[10];
+        for (int idx = 0; idx < 10; idx++) {
+            tasks[idx] = CompletableFuture.runAsync(func);
+        }
+        latch.countDown();
+        CompletableFuture.allOf(tasks).join();
+        Assert.assertEquals(100, written.get());
+        Assert.assertEquals(900, failed.get());
+    }
+
+    @Test
     public void withOutSeqNoConsistencyTest() throws Exception {
         StreamMock s = new StreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
         writer.init();
         s.sendInitResponse(0L);
 
+        // message with negotive seqNo must fail
+        Message msg0 = Message.newBuilder().setData("msg2".getBytes()).setSeqNo(0L).build();
+        assertRuntimeException("SeqNo provided for a message must be greater than zero.",
+                () -> writer.nonblockingSend(msg0, null));
+
         // first message with seqNo — establishes isSeqNoProvided = true
         Message msg1 = Message.newBuilder().setData("msg2".getBytes()).setSeqNo(1L).build();
         writer.nonblockingSend(msg1, null);
 
-        // second message WITHOUT seqNo must fail
+        // message WITHOUT seqNo must fail
         Message msg2 = Message.of("msg2".getBytes());
         assertRuntimeException("SeqNo was not provided for a message after it had been provided for another message. "
                 + "SeqNo should either be provided for all messages or none of them.",
                 () -> writer.nonblockingSend(msg2, null));
+
+        // message with negative seqNo must fail
+        Message msg3 = Message.newBuilder().setData("msg2".getBytes()).setSeqNo(-1L).build();
+        assertRuntimeException("SeqNo provided for a message must be greater than zero.",
+                () -> writer.nonblockingSend(msg3, null));
     }
 
     @Test

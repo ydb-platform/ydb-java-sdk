@@ -183,6 +183,66 @@ public class WriterQueueTest {
     }
 
     @Test
+    @HideLoggers({ WriterImpl.class })
+    public void badMsgBehindSentTest() throws Exception {
+        // codec that fails only for messages whose first byte is 0x7F
+        Codec selective = new Codec() {
+            @Override
+            public int getId() {
+                return 10001;
+            }
+
+            @Override
+            public InputStream decode(InputStream input) throws IOException {
+                throw new IOException("not supported");
+            }
+
+            @Override
+            public OutputStream encode(OutputStream output) throws IOException {
+                return new OutputStream() {
+                    @Override
+                    public void write(int b) throws IOException {
+                        if (b == 0x7F) {
+                            throw new IOException("bad message");
+                        }
+                        output.write(b);
+                    }
+                };
+            }
+        };
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test")
+                .setCodec(selective.getId())
+                .build();
+        AtomicInteger notify = new AtomicInteger();
+        CodecRegistry registry = new CodecRegistry(Arrays.asList(selective));
+        WriterQueue q = new WriterQueue("test", settings, registry, Runnable::run, notify::incrementAndGet);
+
+        CompletableFuture<WriteAck> good1 = q.enqueue(Message.of(new byte[] { 0x01 }), null);
+        CompletableFuture<WriteAck> bad = q.enqueue(Message.of(new byte[] { 0x7F }), null);
+        CompletableFuture<WriteAck> good2 = q.enqueue(Message.of(new byte[] { 0x02 }), null);
+
+        SentMessage s1 = q.nextMessageToSend();
+        Assert.assertNotNull(s1);
+        SentMessage s2 = q.nextMessageToSend();
+        Assert.assertNotNull(s2);
+        Assert.assertNull(q.nextMessageToSend());
+
+        Assert.assertFalse(good1.isDone());
+        Assert.assertFalse(good2.isDone());
+        Assert.assertFalse(bad.isDone());
+
+        // ack for the first message only -> sweep reaches the ProblemMsg
+        q.confirmAck(new WriteAck(s1.getSeqNo(), WriteAck.State.WRITTEN, null, null));
+
+        Assert.assertTrue(good1.isDone());
+        Assert.assertTrue(bad.isCompletedExceptionally());
+        Assert.assertFalse(good2.isDone());
+
+    }
+
+    @Test
     public void testFlushCompletesWhenMessageIsAcked() throws Exception {
         AtomicInteger notify = new AtomicInteger();
         WriterQueue q = rawQueue(notify);
@@ -235,12 +295,12 @@ public class WriterQueueTest {
     public void testIncorrectSeqNumbers() throws Exception {
         WriterQueue q = rawQueue(new AtomicInteger());
 
-        CompletableFuture<WriteAck> f1 = q.enqueue(smallMsg(10), null); // Skip
-        CompletableFuture<WriteAck> f2 = q.enqueue(smallMsg(20), null); // OK
-        CompletableFuture<WriteAck> f3 = q.enqueue(smallMsg(20), null); // Skip
-        CompletableFuture<WriteAck> f4 = q.enqueue(smallMsg(30), null); // OK
-        CompletableFuture<WriteAck> f5 = q.enqueue(smallMsg(11), null); // Skip
-        CompletableFuture<WriteAck> f6 = q.enqueue(smallMsg(40), null); // OK
+        CompletableFuture<WriteAck> f1 = q.enqueue(smallMsg(10), null);
+        CompletableFuture<WriteAck> f2 = q.enqueue(smallMsg(20), null);
+        CompletableFuture<WriteAck> f3 = q.enqueue(smallMsg(20), null);
+        CompletableFuture<WriteAck> f4 = q.enqueue(smallMsg(30), null);
+        CompletableFuture<WriteAck> f5 = q.enqueue(smallMsg(11), null);
+        CompletableFuture<WriteAck> f6 = q.enqueue(smallMsg(40), null);
 
         Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
@@ -249,43 +309,51 @@ public class WriterQueueTest {
         Assert.assertFalse(f5.isDone());
         Assert.assertFalse(f6.isDone());
 
-        long lastSeqNo = assertSendAll(q, 4); // only 4 messages will be sent
+        long lastSeqNo = assertSendAll(q, 6);
         Assert.assertEquals(40, lastSeqNo);
+        // all message must be resent
         List<SentMessage> resend = q.updateSeqNo(15);
 
-        Assert.assertEquals(3, resend.size());
-        Assert.assertEquals(20, resend.get(0).getSeqNo());
-        Assert.assertEquals(30, resend.get(1).getSeqNo());
-        Assert.assertEquals(40, resend.get(2).getSeqNo());
+        Assert.assertEquals(6, resend.size());
+        Assert.assertEquals(10, resend.get(0).getSeqNo());
+        Assert.assertEquals(20, resend.get(1).getSeqNo());
+        Assert.assertEquals(20, resend.get(2).getSeqNo());
+        Assert.assertEquals(30, resend.get(3).getSeqNo());
+        Assert.assertEquals(11, resend.get(4).getSeqNo());
+        Assert.assertEquals(40, resend.get(5).getSeqNo());
 
-        Assert.assertTrue(f1.isDone());
-        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f1.join().getState());
-        Assert.assertEquals(10, f1.join().getSeqNo());
-
+        Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
         Assert.assertFalse(f3.isDone());
         Assert.assertFalse(f4.isDone());
         Assert.assertFalse(f5.isDone());
         Assert.assertFalse(f6.isDone());
 
+        // all message must be confirmed
+        q.confirmAck(new WriteAck(10, WriteAck.State.ALREADY_WRITTEN, null, null));
         q.confirmAck(new WriteAck(20, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(20, WriteAck.State.ALREADY_WRITTEN, null, null)); // will be skipped
         q.confirmAck(new WriteAck(30, WriteAck.State.WRITTEN, null, null));
+        q.confirmAck(new WriteAck(11, WriteAck.State.ALREADY_WRITTEN, null, null)); // will be skipped
         q.confirmAck(new WriteAck(40, WriteAck.State.WRITTEN, null, null));
 
+        Assert.assertTrue(f1.isDone());
         Assert.assertTrue(f2.isDone());
         Assert.assertTrue(f3.isDone());
         Assert.assertTrue(f4.isDone());
         Assert.assertTrue(f5.isDone());
         Assert.assertTrue(f6.isDone());
 
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f1.join().getState());
+        Assert.assertEquals(10, f1.join().getSeqNo());
         Assert.assertEquals(WriteAck.State.WRITTEN, f2.join().getState());
         Assert.assertEquals(20, f2.join().getSeqNo());
-        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f3.join().getState());
+        Assert.assertEquals(WriteAck.State.WRITTEN, f3.join().getState());
         Assert.assertEquals(20, f3.join().getSeqNo());
         Assert.assertEquals(WriteAck.State.WRITTEN, f4.join().getState());
         Assert.assertEquals(30, f4.join().getSeqNo());
-        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f5.join().getState());
-        Assert.assertEquals(11, f5.join().getSeqNo());
+        Assert.assertEquals(WriteAck.State.WRITTEN, f5.join().getState());
+        Assert.assertEquals(30, f5.join().getSeqNo());
         Assert.assertEquals(WriteAck.State.WRITTEN, f6.join().getState());
         Assert.assertEquals(40, f6.join().getSeqNo());
     }
@@ -324,20 +392,29 @@ public class WriterQueueTest {
         // lost others acks and reconnect with new lastSeqNo
         List<SentMessage> retry = q.updateSeqNo(30);
 
-        Assert.assertEquals(2, retry.size());
-        Assert.assertEquals(40, retry.get(0).getSeqNo());
-        Assert.assertEquals(50, retry.get(1).getSeqNo());
+        // All messages without acks will be resent
+        Assert.assertEquals(4, retry.size());
+        Assert.assertEquals(20, retry.get(0).getSeqNo());
+        Assert.assertEquals(30, retry.get(1).getSeqNo());
+        Assert.assertEquals(40, retry.get(2).getSeqNo());
+        Assert.assertEquals(50, retry.get(3).getSeqNo());
 
-        Assert.assertTrue(f2.isDone());
-        Assert.assertTrue(f3.isDone());
-        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f2.join().getState());
-        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f3.join().getState());
+        Assert.assertFalse(f2.isDone());
+        Assert.assertFalse(f3.isDone());
+        Assert.assertFalse(f4.isDone());
+        Assert.assertFalse(f5.isDone());
 
+        q.confirmAck(new WriteAck(20, WriteAck.State.ALREADY_WRITTEN, null, null));
+        q.confirmAck(new WriteAck(30, WriteAck.State.ALREADY_WRITTEN, null, null));
         q.confirmAck(new WriteAck(40, WriteAck.State.WRITTEN, null, null));
         q.confirmAck(new WriteAck(50, WriteAck.State.WRITTEN, null, null));
 
+        Assert.assertTrue(f2.isDone());
+        Assert.assertTrue(f3.isDone());
         Assert.assertTrue(f4.isDone());
         Assert.assertTrue(f5.isDone());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f2.join().getState());
+        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, f3.join().getState());
         Assert.assertEquals(WriteAck.State.WRITTEN, f4.join().getState());
         Assert.assertEquals(WriteAck.State.WRITTEN, f5.join().getState());
     }
