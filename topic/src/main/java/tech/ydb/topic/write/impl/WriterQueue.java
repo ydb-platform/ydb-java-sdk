@@ -102,14 +102,6 @@ public class WriterQueue {
             long actualSeqNo = lastSeqNo + 1;
             Long userSeqNo = next.getMeta().getUserSeqNo();
             if (userSeqNo != null) {
-                if (userSeqNo < actualSeqNo) {
-                    logger.warn("[{}] Message wasn't sent because seqNo {} is less than current seqNo {}", debugId,
-                            userSeqNo, actualSeqNo);
-                    WriteAck skipAck = new WriteAck(userSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
-                    buffer.releaseMessage(next.getBufferSize());
-                    sent.offer(new SkippedMsg(next, skipAck));
-                    continue;
-                }
                 actualSeqNo = userSeqNo;
             }
 
@@ -182,26 +174,6 @@ public class WriterQueue {
     List<SentMessage> updateSeqNo(long newSeqNo) {
         if (newSeqNo > lastSeqNo) {
             lastSeqNo = newSeqNo;
-        }
-
-        // complete all messages with lost acks
-        Iterator<EncodedMsg> it = sent.iterator();
-        while (it.hasNext()) {
-            EncodedMsg msg = it.next();
-            SentMessage sentMsg = msg.getSentMessage();
-            if (sentMsg != null && sentMsg.getSeqNo() > newSeqNo) {
-                break;
-            }
-
-            it.remove();
-
-            long lostSeqNo = newSeqNo;
-            if (sentMsg != null) {
-                buffer.releaseMessage(sentMsg.getBufferSize());
-                lostSeqNo = sentMsg.getSeqNo();
-            }
-            WriteAck lostAck = new WriteAck(lostSeqNo, WriteAck.State.ALREADY_WRITTEN, null, null);
-            msg.confirm(lostAck);
         }
 
         List<SentMessage> resend = new ArrayList<>();
@@ -284,32 +256,6 @@ public class WriterQueue {
             msg.completeWithProblem(ex);
         }
         readyNotify.run();
-    }
-
-    private class SkippedMsg implements EncodedMsg {
-        private final CompletableFuture<WriteAck> ackFuture;
-        private final WriteAck ack;
-
-        SkippedMsg(EnqueuedMessage msg, WriteAck ack) {
-            this.ack = ack;
-            this.ackFuture = msg.getAckFuture();
-        }
-
-        @Override
-        public SentMessage getSentMessage() {
-            return null;
-        }
-
-
-        @Override
-        public void confirm(WriteAck ignored) {
-            ackFuture.complete(ack);
-        }
-
-        @Override
-        public void close(RuntimeException ex) {
-            ackFuture.completeExceptionally(ex);
-        }
     }
 
     private class ProblemMsg implements EncodedMsg {
