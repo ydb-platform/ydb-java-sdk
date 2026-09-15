@@ -19,6 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
@@ -46,7 +47,12 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private volatile String sessionId = null;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
-        super(topicRpc, settings, codecRegistry);
+        this(topicRpc, settings, codecRegistry, Meter.NOOP);
+    }
+
+    public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry,
+            Meter meter) {
+        super(topicRpc, settings, codecRegistry, meter);
     }
 
     private static class MessageWrapper {
@@ -157,6 +163,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             }
 
             next.release();
+            getMetrics().reportDelivered(1, result.getPartitionSession().getPath());
             return result;
         }
     }
