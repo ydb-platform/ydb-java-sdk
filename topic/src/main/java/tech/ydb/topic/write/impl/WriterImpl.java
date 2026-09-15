@@ -7,6 +7,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 
 import javax.annotation.Nonnull;
 
@@ -33,6 +34,7 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class WriterImpl {
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
+    private static final Long NO_SEQ_VALUE = Long.MIN_VALUE;
 
     private final String debugId;
     private final WriterQueue writeQueue;
@@ -42,10 +44,9 @@ public class WriterImpl {
     private final CompletableFuture<InitResult> initFuture = new CompletableFuture<>();
     private final CompletableFuture<Status> shutdownFuture = new CompletableFuture<>();
     private final AtomicBoolean isClosed = new AtomicBoolean(false);
+    private final AtomicReference<Long> lastProvidedSeqNo = new AtomicReference<>();
 
     private volatile boolean isReady = false;
-
-    private Boolean isSeqNoProvided = null;
 
     public WriterImpl(TopicRpc topicRpc, WriterSettings settings, Executor compressionExecutor,
             @Nonnull CodecRegistry codecRegistry) {
@@ -101,21 +102,52 @@ public class WriterImpl {
 
     private Message validate(Message message) {
         ensureNotClosed();
-        if (isSeqNoProvided != null) {
-            if (message.getSeqNo() != null && !isSeqNoProvided) {
+
+        Long userSeqNo = message.getSeqNo();
+        Long lastSeqNo = lastProvidedSeqNo.get();
+
+        if (userSeqNo == null) {
+            while (true) {
+                if (NO_SEQ_VALUE.equals(lastSeqNo)) {
+                    return message;
+                }
+
+                if (lastSeqNo != null) {
+                    throw new IllegalArgumentException(
+                            "SeqNo was not provided for a message after it had been provided for another message. " +
+                                    "SeqNo should either be provided for all messages or none of them.");
+                }
+
+                if (lastProvidedSeqNo.compareAndSet(lastSeqNo, NO_SEQ_VALUE)) {
+                    return message;
+                }
+
+                lastSeqNo = lastProvidedSeqNo.get();
+            }
+        }
+
+        if (userSeqNo <= 0) {
+            throw new IllegalArgumentException("SeqNo provided for a message must be greater than zero.");
+        }
+
+        while (true) {
+            if (NO_SEQ_VALUE.equals(lastSeqNo)) {
                 throw new IllegalArgumentException(
                         "SeqNo was provided for a message after it had not been provided for another message. " +
                                 "SeqNo should either be provided for all messages or none of them.");
             }
-            if (message.getSeqNo() == null && isSeqNoProvided) {
+
+            if (lastSeqNo != null && lastSeqNo >= userSeqNo) {
                 throw new IllegalArgumentException(
-                        "SeqNo was not provided for a message after it had been provided for another message. " +
-                                "SeqNo should either be provided for all messages or none of them.");
+                        "SeqNo provided for a message is less or equal than SeqNo provided for previous message. " +
+                                "SeqNo must be strictly growing.");
             }
-        } else {
-            isSeqNoProvided = message.getSeqNo() != null;
+            if (lastProvidedSeqNo.compareAndSet(lastSeqNo, userSeqNo)) {
+                return message;
+            }
+
+            lastSeqNo = lastProvidedSeqNo.get();
         }
-        return message;
     }
 
     private YdbTransaction getTx(SendSettings sendSettings) {

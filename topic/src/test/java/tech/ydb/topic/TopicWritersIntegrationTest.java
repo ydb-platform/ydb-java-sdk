@@ -4,12 +4,14 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
+import java.util.function.BiConsumer;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,12 +19,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.TxMode;
+import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.utils.FutureTools;
@@ -31,8 +33,10 @@ import tech.ydb.table.TableClient;
 import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.description.Consumer;
-import tech.ydb.topic.read.DeferredCommitter;
 import tech.ydb.topic.read.SyncReader;
+import tech.ydb.topic.settings.AlterPartitioningSettings;
+import tech.ydb.topic.settings.AlterTopicSettings;
+import tech.ydb.topic.settings.AutoPartitioningStrategy;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -60,13 +64,15 @@ public class TopicWritersIntegrationTest {
     public final static GrpcTransportRule ydbTransport = new GrpcTransportRule()
             .withGrpcTransportCustomizer(b -> b.addChannelInitializer(PROXY));
 
-    private final static String TEST_TOPIC = "topic_writers_test";
+    private final static String ONE_PART_TOPIC = "writers_test_topic_one";
+    private final static String AUTO_PART_TOPIC = "writers_test_topic_auto_parts";
 
-    private final static String TEST_PRODUCER1 = "producer";
-    private final static String TEST_CONSUMER1 = "consumer";
-    private final static int PARTITIONS_COUNT = 1;
+    private final static String TEST_PRODUCER = "producer";
+    private final static String TEST_CONSUMER = "consumer";
 
     private static TopicClient client;
+
+    private final List<String> topicsToDrop = new ArrayList<>();
 
     @BeforeClass
     public static void initClient() {
@@ -79,45 +85,74 @@ public class TopicWritersIntegrationTest {
     }
 
     @Before
-    public void initTopic() {
+    public void resetProxy() {
         PROXY.reset();
-
-        logger.info("Create test topic  {} ...", TEST_TOPIC);
-        client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
-                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
-                .setPartitioningSettings(PartitioningSettings.newBuilder()
-                        .setMaxActivePartitions(PARTITIONS_COUNT)
-                        .setMinActivePartitions(PARTITIONS_COUNT)
-                        .build())
-                .build())
-                .join().expectSuccess("can't create a new topic");
     }
 
     @After
-    public void dropTable() {
-        logger.info("Drop test topic {} ...", TEST_TOPIC);
-        client.dropTopic(TEST_TOPIC).join();
+    public void dropTopics() {
+        Iterator<String> it = topicsToDrop.iterator();
+        while (it.hasNext()) {
+            String topicPath = it.next();
+            logger.info("Drop test topic {} ...", topicPath);
+            client.dropTopic(topicPath).join();
+            it.remove();
+        }
     }
 
-    private void assertTopicContent(List<byte[]> messages) {
+    private void createTopicWithOnePartition() {
+        logger.info("Create test topic  {} ...", ONE_PART_TOPIC);
+        client.createTopic(ONE_PART_TOPIC, CreateTopicSettings.newBuilder()
+                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER).build())
+                .setPartitioningSettings(PartitioningSettings.newBuilder()
+                        .setMaxActivePartitions(1)
+                        .setMinActivePartitions(1)
+                        .build())
+                .build())
+                .join().expectSuccess("can't create a new topic");
+        topicsToDrop.add(ONE_PART_TOPIC);
+    }
+
+    private void createAutoPartitionedTopic() {
+        client.createTopic(AUTO_PART_TOPIC, CreateTopicSettings.newBuilder()
+                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER).build())
+                .setPartitioningSettings(PartitioningSettings.newBuilder()
+                        .setAutoPartitioningStrategy(AutoPartitioningStrategy.PAUSED)
+                        .setMaxActivePartitions(1)
+                        .setMinActivePartitions(1)
+                        .build())
+                .build())
+                .join().expectSuccess("can't create an auto partitioned topic");
+        topicsToDrop.add(AUTO_PART_TOPIC);
+    }
+
+    private void splitAutoPartitionedTopic() {
+        client.alterTopic(AUTO_PART_TOPIC, AlterTopicSettings.newBuilder()
+                .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
+                        .setMaxActivePartitions(2)
+                        .setMinActivePartitions(2)
+                        .build())
+                .build())
+                .join().expectSuccess("can't alter the auto partitioned topic");
+    }
+
+    private void assertTopicContent(String topicPath, List<byte[]> messages) {
         try {
             SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic(
-                    TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build()
-            ).setConsumerName(TEST_CONSUMER1).build());
+                    TopicReadSettings.newBuilder().setPath(topicPath).build()
+            ).setConsumerName(TEST_CONSUMER).build());
 
-            reader.initAndWait();
+            reader.init();
             int idx = 0;
-            DeferredCommitter committer = DeferredCommitter.newInstance();
             for (byte[] expected: messages) {
                 tech.ydb.topic.read.Message next = reader.receive(1, TimeUnit.SECONDS);
                 Assert.assertNotNull("Expected message " + idx, next);
                 Assert.assertArrayEquals("Unexpected content for message " + idx, expected, next.getData());
                 idx++;
 
-                committer.add(next);
+                next.commit();
             }
 
-            committer.commit();
             reader.shutdown();
         } catch (InterruptedException ex) {
             throw new AssertionError("Unexpected exception", ex);
@@ -126,9 +161,11 @@ public class TopicWritersIntegrationTest {
 
     @Test
     public void messageBufferOverflowTest() throws Exception {
+        createTopicWithOnePartition();
+
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .setMaxSendBufferMemorySize(1000)
                 .build();
 
@@ -154,14 +191,16 @@ public class TopicWritersIntegrationTest {
         writer.flush();
         writer.shutdown(10, TimeUnit.SECONDS);
 
-        assertTopicContent(Arrays.asList(msg1, msg1, msg1, msg2, msg1, msg2, msg2, msg2, msg1, msg1));
+        assertTopicContent(ONE_PART_TOPIC, Arrays.asList(msg1, msg1, msg1, msg2, msg1, msg2, msg2, msg2, msg1, msg1));
     }
 
     @Test
     public void lazyInitTest() throws Exception {
+        createTopicWithOnePartition();
+
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .build();
 
         AsyncWriter writer = client.createAsyncWriter(settings);
@@ -194,14 +233,16 @@ public class TopicWritersIntegrationTest {
 
         writer.shutdown().join();
 
-        assertTopicContent(written);
+        assertTopicContent(ONE_PART_TOPIC, written);
     }
 
     @Test
     public void doubleInitTest() throws Exception {
+        createTopicWithOnePartition();
+
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .build();
 
         AsyncWriter writer = client.createAsyncWriter(settings);
@@ -214,11 +255,13 @@ public class TopicWritersIntegrationTest {
 
         writer.shutdown().join();
 
-        assertTopicContent(Collections.singletonList(msg));
+        assertTopicContent(ONE_PART_TOPIC, Collections.singletonList(msg));
     }
 
     @Test
     public void defaultRetryPolicyWriter() throws Exception {
+        createTopicWithOnePartition();
+
         // errors pattern in order of processing
         PROXY.unavailableOnAckWithSeqNo(15);
         PROXY.badRequestOnInit(2);
@@ -229,7 +272,7 @@ public class TopicWritersIntegrationTest {
         PROXY.badRequestOnAckWithSeqNo(60);
         PROXY.unavailableOnAckWithSeqNo(90);
 
-        List<StatusCode> expectedErrors = Arrays.asList(
+        StatusCode[] expectedErrors = new StatusCode[] {
                 StatusCode.TRANSPORT_UNAVAILABLE,
                 StatusCode.BAD_REQUEST,
                 StatusCode.BAD_SESSION,
@@ -238,20 +281,13 @@ public class TopicWritersIntegrationTest {
                 StatusCode.TRANSPORT_UNAVAILABLE,
                 StatusCode.BAD_REQUEST,
                 StatusCode.TRANSPORT_UNAVAILABLE
-        );
+        };
 
-        List<StatusCode> realErrors = new ArrayList<>();
+        ErrorsHolder errorsHolder = new ErrorsHolder();
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
-                .setErrorsHandler((st, th) -> {
-                    if (st != null) {
-                        realErrors.add(st.getCode());
-                    }
-                    if (th != null) {
-                        realErrors.add(StatusCode.CLIENT_INTERNAL_ERROR);
-                    }
-                })
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
+                .setErrorsHandler(errorsHolder)
                 .build();
 
         SyncWriter writer = client.createSyncWriter(settings);
@@ -270,20 +306,25 @@ public class TopicWritersIntegrationTest {
 
         writer.shutdown(10, TimeUnit.SECONDS);
 
-        Assert.assertEquals(expectedErrors, realErrors);
-        assertTopicContent(written);
+        errorsHolder.assertCodes(expectedErrors);
+        assertTopicContent(ONE_PART_TOPIC, written);
     }
 
     @Test
-    @Ignore("temporarily disabled")
     public void sameProducerConflictTest() throws Exception {
+        createTopicWithOnePartition();
+
         CountDownLatch closed = new CountDownLatch(1);
+        List<Status> errors = new ArrayList<>();
 
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .setRetryConfig(TopicRetryConfig.STANDARD)
-                .setErrorsHandler((t, u) -> { closed.countDown(); })
+                .setErrorsHandler((status, th) -> {
+                    errors.add(status);
+                    closed.countDown();
+                })
                 .build();
 
         SyncWriter writer1 = client.createSyncWriter(settings);
@@ -298,31 +339,67 @@ public class TopicWritersIntegrationTest {
         writer1.send(Message.of(msg2));
         writer1.flush();
 
-        SyncWriter writer2 = client.createSyncWriter(settings); // writer1 will be closed with error
+        SyncWriter writer2 = client.createSyncWriter(settings);
         writer2.initAndWait();
 
         writer2.send(Message.of(msg1));
         writer2.send(Message.of(msg2));
         writer2.flush();
 
-        closed.await(1, TimeUnit.MINUTES); // wait to close writer1
+        Assert.assertTrue(closed.await(1, TimeUnit.MINUTES)); // wait to retry writer1
 
-        Exception ex = Assert.assertThrows(IllegalStateException.class, () -> writer1.send(Message.of(msg1)));
-        Assert.assertTrue(ex.getMessage().startsWith(
-                "Writer is already stopped with Status{code = BAD_REQUEST(code=400010), issues = "
-        ));
+        Assert.assertFalse(errors.isEmpty());
+        Assert.assertEquals(StatusCode.SESSION_EXPIRED, errors.get(0).getCode());
 
         writer1.flush(); // no IllegalStateException
         writer1.shutdown(10, TimeUnit.SECONDS);  // no IllegalStateException
-
         writer2.shutdown(10, TimeUnit.SECONDS);
     }
 
     @Test
-    public void idempotentWriterTest() throws Exception {
+    public void writeWithSplitsTest() throws Exception {
+        createAutoPartitionedTopic();
+
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(AUTO_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
+                .setRetryConfig(TopicRetryConfig.STANDARD)
+                .build();
+
+        SyncWriter writer = client.createSyncWriter(settings);
+        writer.init();
+
+        byte[] msg1 = new byte[1000];
+        byte[] msg2 = new byte[1001];
+        byte[] msg3 = new byte[1002];
+        byte[] msg4 = new byte[1003];
+        Arrays.fill(msg1, (byte) 0x10);
+        Arrays.fill(msg2, (byte) 0x11);
+        Arrays.fill(msg3, (byte) 0x12);
+        Arrays.fill(msg4, (byte) 0x13);
+
+        writer.send(Message.of(msg1));
+        writer.send(Message.of(msg2));
+        writer.flush();
+
+        splitAutoPartitionedTopic();
+
+        writer.send(Message.of(msg3));
+        writer.send(Message.of(msg4));
+        writer.flush();
+
+        writer.shutdown(10, TimeUnit.SECONDS);
+
+        assertTopicContent(AUTO_PART_TOPIC, Arrays.asList(msg1, msg2, msg3, msg4));
+    }
+
+    @Test
+    public void idempotentWriterTest() throws Exception {
+        createTopicWithOnePartition();
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .build();
 
         AsyncWriter writer1 = client.createAsyncWriter(settings);
@@ -338,17 +415,18 @@ public class TopicWritersIntegrationTest {
                 .whenComplete((ack, th) -> order1.add(ack.getSeqNo()));
         CompletableFuture<WriteAck> ack2 = writer1.send(Message.newBuilder().setData(msg2).setSeqNo(50).build())
                 .whenComplete((ack, th) -> order1.add(ack.getSeqNo()));
-        CompletableFuture<WriteAck> ack3 = writer1.send(Message.newBuilder().setData(msg2).setSeqNo(40).build())
-                .whenComplete((ack, th) -> order1.add(ack.getSeqNo()));
+        Exception ex1 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> writer1.send(Message.newBuilder().setData(msg2).setSeqNo(40).build())
+        );
+        Assert.assertEquals("SeqNo provided for a message is less or equal than SeqNo provided for previous message."
+                + " SeqNo must be strictly growing.", ex1.getMessage());
 
         Assert.assertEquals(WriteAck.State.WRITTEN, ack1.join().getState());
         Assert.assertEquals(WriteAck.State.WRITTEN, ack2.join().getState());
-        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack3.join().getState());
         Assert.assertEquals(10, ack1.join().getSeqNo());
         Assert.assertEquals(50, ack2.join().getSeqNo());
-        Assert.assertEquals(40, ack3.join().getSeqNo());
 
-        Assert.assertEquals(Arrays.asList(10L, 50L, 40L), order1);
+        Assert.assertEquals(Arrays.asList(10L, 50L), order1);
 
         writer1.shutdown().join();
 
@@ -362,31 +440,38 @@ public class TopicWritersIntegrationTest {
         writer2.init().join();
         CompletableFuture<WriteAck> ack6 = writer2.send(Message.newBuilder().setData(msg2).setSeqNo(40).build())
                 .whenComplete((ack, th) -> order2.add(ack.getSeqNo()));
-        CompletableFuture<WriteAck> ack7 = writer2.send(Message.newBuilder().setData(msg1).setSeqNo(30).build())
+        Exception ex2 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> writer2.send(Message.newBuilder().setData(msg2).setSeqNo(30).build())
+        );
+        Assert.assertEquals("SeqNo provided for a message is less or equal than SeqNo provided for previous message."
+                + " SeqNo must be strictly growing.", ex2.getMessage());
+        CompletableFuture<WriteAck> ack7 = writer2.send(Message.newBuilder().setData(msg1).setSeqNo(60).build())
                 .whenComplete((ack, th) -> order2.add(ack.getSeqNo()));
 
         Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack4.join().getState());
         Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack5.join().getState());
         Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack6.join().getState());
-        Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack7.join().getState());
+        Assert.assertEquals(WriteAck.State.WRITTEN, ack7.join().getState());
         Assert.assertEquals(10, ack4.join().getSeqNo());
         Assert.assertEquals(20, ack5.join().getSeqNo());
         Assert.assertEquals(40, ack6.join().getSeqNo());
-        Assert.assertEquals(30, ack7.join().getSeqNo());
+        Assert.assertEquals(60, ack7.join().getSeqNo());
 
-        Assert.assertEquals(Arrays.asList(10L, 20L, 40L, 30L), order2);
+        Assert.assertEquals(Arrays.asList(10L, 20L, 40L, 60L), order2);
 
         writer2.shutdown().join();
     }
 
     @Test
     public void wrongDirectWriteTest() throws Exception {
+        createTopicWithOnePartition();
+
         CountDownLatch closed = new CountDownLatch(1);
 
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
+                .setTopicPath(ONE_PART_TOPIC)
                 .setDirectWrite(true)
-                .setPartitionId(PARTITIONS_COUNT + 1) // Invalid partition
+                .setPartitionId(1) // Invalid partition
                 .setRetryConfig(TopicRetryConfig.STANDARD)
                 .setErrorsHandler((t, u) -> { closed.countDown(); })
                 .build();
@@ -409,7 +494,7 @@ public class TopicWritersIntegrationTest {
         Assert.assertTrue(ex1.getCause() instanceof RuntimeException);
         Assert.assertTrue(ex2.getCause() instanceof UnexpectedResultException);
 
-        String reason = "Cannot find partition " + (PARTITIONS_COUNT + 1) + " (S_ERROR)";
+        String reason = "Cannot find partition 1 (S_ERROR)";
         Assert.assertEquals(
                 "Message sending was cancelled with Status{code = BAD_REQUEST(code=400010), issues = [" + reason + "]}",
                 ex1.getCause().getMessage()
@@ -422,10 +507,11 @@ public class TopicWritersIntegrationTest {
 
     @Test
     public void txWriteTest() throws Exception {
+        createTopicWithOnePartition();
 
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .setRetryConfig(TopicRetryConfig.STANDARD)
                 .build();
 
@@ -441,55 +527,35 @@ public class TopicWritersIntegrationTest {
         SyncWriter writer = client.createSyncWriter(settings);
         writer.initAndWait();
 
-        try (
-                TableClient table = TableClient.newClient(ydbTransport).build();
+        try (TableClient table = TableClient.newClient(ydbTransport).build();
                 Session s1 = table.createSession(Duration.ofSeconds(5)).join().getValue();
                 Session s2 = table.createSession(Duration.ofSeconds(5)).join().getValue()) {
-
             TableTransaction tx1 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
             TableTransaction tx2 = s2.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
 
-            writer.send(
-                    Message.newBuilder().setData(msg1).setSeqNo(1).build(),
-                    SendSettings.newBuilder().setTransaction(tx1).build()
-            );
-            writer.send(
-                    Message.newBuilder().setData(msg2).setSeqNo(2).build(),
-                    SendSettings.newBuilder().setTransaction(tx2).build()
-            );
-            writer.send(
-                    Message.newBuilder().setData(msg3).setSeqNo(3).build(),
-                    SendSettings.newBuilder().setTransaction(tx1).build()
-            );
-            writer.send(
-                    Message.newBuilder().setData(msg4).setSeqNo(4).build(),
-                    SendSettings.newBuilder().setTransaction(tx2).build()
-            );
+            SendSettings ss1 = SendSettings.newBuilder().setTransaction(tx1).build();
+            SendSettings ss2 = SendSettings.newBuilder().setTransaction(tx2).build();
+
+            writer.send(Message.newBuilder().setData(msg1).setSeqNo(1).build(), ss1);
+            writer.send(Message.newBuilder().setData(msg2).setSeqNo(2).build(), ss2);
+            writer.send(Message.newBuilder().setData(msg3).setSeqNo(3).build(), ss1);
+            writer.send(Message.newBuilder().setData(msg4).setSeqNo(4).build(), ss2);
 
             writer.flush();
 
             tx2.commit().join().expectSuccess();
             Assert.assertEquals(StatusCode.ABORTED, tx1.commit().join().getCode());
 
-            writer.send(
-                    Message.newBuilder().setData(msg1).setSeqNo(5).build()
-            );
-            writer.send(
-                    Message.newBuilder().setData(msg2).setSeqNo(6).build()
-            );
+            writer.send(Message.newBuilder().setData(msg1).setSeqNo(5).build());
+            writer.send(Message.newBuilder().setData(msg2).setSeqNo(6).build());
 
             writer.flush();
 
             TableTransaction tx3 = s2.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+            SendSettings ss3 = SendSettings.newBuilder().setTransaction(tx3).build();
 
-            writer.send(
-                    Message.newBuilder().setData(msg3).setSeqNo(7).build(),
-                    SendSettings.newBuilder().setTransaction(tx3).build()
-            );
-            writer.send(
-                    Message.newBuilder().setData(msg4).setSeqNo(8).build(),
-                    SendSettings.newBuilder().setTransaction(tx3).build()
-            );
+            writer.send(Message.newBuilder().setData(msg3).setSeqNo(7).build(), ss3);
+            writer.send(Message.newBuilder().setData(msg4).setSeqNo(8).build(), ss3);
 
             writer.flush();
 
@@ -497,25 +563,74 @@ public class TopicWritersIntegrationTest {
             writer.shutdown(1, TimeUnit.SECONDS);
         }
 
-        assertTopicContent(Arrays.asList(msg2, msg4, msg1, msg2, msg3, msg4));
+        assertTopicContent(ONE_PART_TOPIC, Arrays.asList(msg2, msg4, msg1, msg2, msg3, msg4));
+    }
+
+    @Test
+    public void txWriteWithSplitsTest() throws Exception {
+        createAutoPartitionedTopic();
+
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath(AUTO_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
+                .setRetryConfig(TopicRetryConfig.STANDARD)
+                .build();
+
+        byte[] msg1 = new byte[1000];
+        byte[] msg2 = new byte[1001];
+        byte[] msg3 = new byte[1002];
+        byte[] msg4 = new byte[1003];
+        Arrays.fill(msg1, (byte) 0x10);
+        Arrays.fill(msg2, (byte) 0x11);
+        Arrays.fill(msg3, (byte) 0x12);
+        Arrays.fill(msg4, (byte) 0x13);
+
+        SyncWriter writer = client.createSyncWriter(settings);
+        writer.init();
+
+        try (TableClient table = TableClient.newClient(ydbTransport).build();
+                Session s1 = table.createSession(Duration.ofSeconds(5)).join().getValue()) {
+
+            TableTransaction tx1 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+            SendSettings ss1 = SendSettings.newBuilder().setTransaction(tx1).build();
+            writer.send(Message.of(msg1), ss1);
+            writer.send(Message.of(msg2), ss1);
+            writer.flush();
+            tx1.commit().join().expectSuccess();
+
+            splitAutoPartitionedTopic();
+
+            TableTransaction tx2 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+            SendSettings ss2 = SendSettings.newBuilder().setTransaction(tx2).build();
+            writer.send(Message.of(msg3), ss2);
+            writer.send(Message.of(msg4), ss2);
+            writer.flush();
+            Assert.assertEquals(StatusCode.ABORTED, tx2.commit().join().getCode());
+
+            TableTransaction tx3 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+            SendSettings ss3 = SendSettings.newBuilder().setTransaction(tx3).build();
+
+            writer.send(Message.of(msg4), ss3);
+            writer.send(Message.of(msg1), ss3);
+            writer.flush();
+            tx3.commit().join().expectSuccess();
+        } finally {
+            writer.shutdown(10, TimeUnit.SECONDS);
+        }
+
+        assertTopicContent(AUTO_PART_TOPIC, Arrays.asList(msg1, msg2, msg4, msg1));
     }
 
     @Test
     public void invalidTxWriteTest() throws Exception {
-        List<StatusCode> realErrors = new ArrayList<>();
+        createTopicWithOnePartition();
 
+        ErrorsHolder errorsHolder = new ErrorsHolder();
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .setRetryConfig(TopicRetryConfig.STANDARD)
-                .setErrorsHandler((st, th) -> {
-                    if (st != null) {
-                        realErrors.add(st.getCode());
-                    }
-                    if (th != null) {
-                        realErrors.add(StatusCode.CLIENT_INTERNAL_ERROR);
-                    }
-                })
+                .setErrorsHandler(errorsHolder)
                 .build();
 
         byte[] msg1 = new byte[1000];
@@ -530,62 +645,46 @@ public class TopicWritersIntegrationTest {
         SyncWriter writer = client.createSyncWriter(settings);
         writer.initAndWait();
 
-        try (
-                TableClient table = TableClient.newClient(ydbTransport).build();
+        try (TableClient table = TableClient.newClient(ydbTransport).build();
                 Session s1 = table.createSession(Duration.ofSeconds(5)).join().getValue();
                 Session s2 = table.createSession(Duration.ofSeconds(5)).join().getValue()) {
 
             TableTransaction tx1 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
             TableTransaction tx2 = s2.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
 
-            writer.send(
-                    Message.newBuilder().setData(msg1).setSeqNo(1).build(),
-                    SendSettings.newBuilder().setTransaction(tx1).build()
-            );
-            writer.send(
-                    Message.newBuilder().setData(msg2).setSeqNo(2).build(),
-                    SendSettings.newBuilder().setTransaction(tx1).build()
-            );
+            SendSettings ss1 = SendSettings.newBuilder().setTransaction(tx1).build();
+            SendSettings ss2 = SendSettings.newBuilder().setTransaction(tx2).build();
+
+            writer.send(Message.newBuilder().setData(msg1).setSeqNo(1).build(), ss1);
+            writer.send(Message.newBuilder().setData(msg2).setSeqNo(2).build(), ss1);
 
             tx2.rollback().join();
 
-            writer.send(
-                    Message.newBuilder().setData(msg3).setSeqNo(3).build(),
-                    SendSettings.newBuilder().setTransaction(tx2).build()
-            );
-            writer.send(
-                    Message.newBuilder().setData(msg4).setSeqNo(4).build(),
-                    SendSettings.newBuilder().setTransaction(tx2).build()
-            );
+            writer.send(Message.newBuilder().setData(msg3).setSeqNo(3).build(), ss2);
+            writer.send(Message.newBuilder().setData(msg4).setSeqNo(4).build(), ss2);
 
             writer.flush();
             writer.shutdown(1, TimeUnit.SECONDS);
 
             tx1.commit().join().expectSuccess();
-            Assert.assertEquals(1, realErrors.size());
-            Assert.assertEquals(StatusCode.NOT_FOUND, realErrors.get(0));
+            errorsHolder.assertCodes(StatusCode.NOT_FOUND);
         }
 
-        assertTopicContent(Arrays.asList(msg1, msg2));
+        assertTopicContent(ONE_PART_TOPIC, Arrays.asList(msg1, msg2));
     }
 
     @Test
     public void txRetryWriteTest() throws Exception {
-        List<StatusCode> realErrors = new ArrayList<>();
+        createTopicWithOnePartition();
+
         PROXY.unavailableOnAckWithSeqNo(2);
 
+        ErrorsHolder errorsHolder = new ErrorsHolder();
         WriterSettings settings = WriterSettings.newBuilder()
-                .setTopicPath(TEST_TOPIC)
-                .setProducerId(TEST_PRODUCER1)
+                .setTopicPath(ONE_PART_TOPIC)
+                .setProducerId(TEST_PRODUCER)
                 .setRetryConfig(TopicRetryConfig.STANDARD)
-                .setErrorsHandler((st, th) -> {
-                    if (st != null) {
-                        realErrors.add(st.getCode());
-                    }
-                    if (th != null) {
-                        realErrors.add(StatusCode.CLIENT_INTERNAL_ERROR);
-                    }
-                })
+                .setErrorsHandler(errorsHolder)
                 .build();
 
         byte[] msg1 = new byte[1000];
@@ -601,25 +700,46 @@ public class TopicWritersIntegrationTest {
                 Session s1 = table.createSession(Duration.ofSeconds(5)).join().getValue()) {
 
             TableTransaction tx1 = s1.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+            SendSettings ss1 = SendSettings.newBuilder().setTransaction(tx1).build();
 
-            writer.send(
-                    Message.newBuilder().setData(msg1).setSeqNo(1).build(),
-                    SendSettings.newBuilder().setTransaction(tx1).build()
-            );
-            CompletableFuture<WriteAck> ack2 = writer.send(
-                    Message.newBuilder().setData(msg2).setSeqNo(2).build(),
-                    SendSettings.newBuilder().setTransaction(tx1).build()
-            );
+            writer.send(Message.newBuilder().setData(msg1).setSeqNo(1).build(), ss1);
+            CompletableFuture<WriteAck> ack2 = writer.send(Message.newBuilder().setData(msg2).setSeqNo(2).build(), ss1);
 
             Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, ack2.join().getState());
 
             tx1.commit().join().expectSuccess();
-            Assert.assertEquals(1, realErrors.size());
-            Assert.assertEquals(StatusCode.TRANSPORT_UNAVAILABLE, realErrors.get(0));
+            errorsHolder.assertCodes(StatusCode.TRANSPORT_UNAVAILABLE);
 
             writer.shutdown().join();
         }
 
-        assertTopicContent(Arrays.asList(msg1, msg2));
+        assertTopicContent(ONE_PART_TOPIC, Arrays.asList(msg1, msg2));
+    }
+
+    private class ErrorsHolder implements BiConsumer<Status, Throwable> {
+        private final List<StatusCode> problems = new ArrayList<>();
+
+        @Override
+        public void accept(Status st, Throwable th) {
+            if (st != null) {
+                problems.add(st.getCode());
+            }
+            if (th != null) {
+                problems.add(StatusCode.CLIENT_INTERNAL_ERROR);
+            }
+        }
+
+        public void assertEmpty() {
+            Assert.assertTrue("No reties was expected", problems.isEmpty());
+        }
+
+        public void assertCodes(StatusCode... codes) {
+            Iterator<StatusCode> it = problems.iterator();
+            for (StatusCode code: codes) {
+                Assert.assertTrue("Expected " + code + ", but has nothing", it.hasNext());
+                Assert.assertEquals(code, it.next());
+            }
+            Assert.assertFalse("Unexpected error code", it.hasNext());
+        }
     }
 }
