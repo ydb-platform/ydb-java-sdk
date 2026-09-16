@@ -37,10 +37,11 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
  * @author Nikolay Perfilov
  */
 public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, ReadSession> {
-
-    public interface Releaser {
-        void releaseRange(PartitionSession partition, OffsetsRange range);
+    public interface PartitionControl {
+        boolean isActive();
+        void confirmRangeProcessed(OffsetsRange range);
     }
+
     public interface Handler {
         void handleSessionStarted(String sessionId);
 
@@ -48,7 +49,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         void handleStopPartitionSession(StopPartitionSessionEvent event);
         void handleClosePartitionSession(PartitionSession partition);
 
-        void handleDataReceivedEvent(Releaser releaser, DataReceivedEvent event);
+        void handleDataReceivedEvent(PartitionControl control, DataReceivedEvent event);
         void handleCommitResponse(long committedOffset, PartitionSession partition);
 
         void handleReaderClosed(Status status);

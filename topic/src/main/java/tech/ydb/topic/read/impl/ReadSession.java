@@ -36,21 +36,21 @@ import tech.ydb.topic.settings.StartPartitionSessionSettings;
  *
  * @author Aleksandr Gorshenin {@literal <alexandr268@ydb.tech>}
  */
-public class ReadSession extends TopicStreamBase<FromServer, FromClient> implements ReaderImpl.Releaser {
+public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(ReadSession.class);
 
     private final String debugId;
     private final ReadConfig config;
     private final MessageDecoder decoder;
     private final BufferManager bufferManager;
-    private final BiConsumer<ReaderImpl.Releaser, DataReceivedEvent> eventConsumer;
+    private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
 
     private final Map<Long, PartitionSession> partitions = new ConcurrentHashMap<>();
     private final Map<Long, ReadPartitionSession> readQueues = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
 
     public ReadSession(String id, GrpcReadWriteStream<FromServer, FromClient> stream, FromClient initReq,
-            BiConsumer<ReaderImpl.Releaser, DataReceivedEvent> eventConsumer, ReadConfig config) {
+            BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer, ReadConfig config) {
         super(logger, id, stream, initReq);
         this.debugId = id;
         this.config = config;
@@ -70,6 +70,22 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> impleme
         return Status.of(StatusCode.fromProto(message.getStatus()), Issue.fromPb(message.getIssuesList()));
     }
 
+    BufferManager getBufferManager() {
+        return bufferManager;
+    }
+
+    ReadConfig getConfig() {
+        return config;
+    }
+
+    MessageDecoder getDecoder() {
+        return decoder;
+    }
+
+    BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> getEventConsumer() {
+        return eventConsumer;
+    }
+
     public Set<PartitionSession> closeAll() {
         isClosed = true;
         decoder.stop();
@@ -83,24 +99,12 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> impleme
         return closed;
     }
 
-    @Override
-    public void releaseRange(PartitionSession partition, OffsetsRange range) {
-        bufferManager.releaseRange(partition.getId(), range);
-        ReadPartitionSession queue = readQueues.get(partition.getId());
-        if (queue != null) {
-            queue.releaseRange(range);
-        }
-    }
-
     public boolean commitOffsets(PartitionSession session, List<OffsetsRange> rangesToCommit) {
-        if (isClosed) {
-            logger.atInfo()
-                    .setMessage("[{}] Need to send CommitRequest for {} with offset ranges {}, "
-                            + "but reading session is already closed")
-                    .addArgument(debugId)
-                    .addArgument(session)
-                    .addArgument(() -> rangesToCommit.stream().map(Object::toString).collect(Collectors.joining(", ")))
-                    .log();
+        ReadPartitionSession partition = readQueues.get(session.getId());
+        if (isClosed || partition == null || !partition.isActive()) {
+            logger.info("[{}] Need to send CommitRequest for {} with offset ranges {}, "
+                    + "but reading partition session is already closed", debugId, session,
+                    rangesToCommit.stream().map(Object::toString).collect(Collectors.joining(", ")));
             return false;
         }
 
@@ -277,9 +281,8 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> impleme
                 }
             }
 
-            MessageCommitterImpl committer = new MessageCommitterImpl(traceID, ReadSession.this, partition, commitTo);
-            ReadPartitionSession queue = new ReadPartitionSession(traceID, config, partition, committer, decoder,
-                    event -> eventConsumer.accept(ReadSession.this, event), commitTo);
+            MessageCommitterImpl comm = new MessageCommitterImpl(traceID, ReadSession.this, partition, commitTo);
+            ReadPartitionSession queue = new ReadPartitionSession(traceID, ReadSession.this, partition, comm, commitTo);
             if (readQueues.putIfAbsent(psid, queue) != null) {
                 logger.warn("[{}] partition {} is already started", traceID, partition);
                 return;

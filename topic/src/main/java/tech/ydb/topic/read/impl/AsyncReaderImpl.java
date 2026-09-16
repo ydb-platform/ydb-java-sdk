@@ -26,7 +26,6 @@ import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
-import tech.ydb.topic.read.impl.ReaderImpl.Releaser;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
 import tech.ydb.topic.read.impl.events.SessionStartedEvent;
@@ -142,7 +141,7 @@ public class AsyncReaderImpl implements AsyncReader {
         }
 
         @Override
-        public void handleDataReceivedEvent(Releaser releaser, DataReceivedEvent event) {
+        public void handleDataReceivedEvent(ReaderImpl.PartitionControl control, DataReceivedEvent event) {
             try {
                 int messagesCount = event.getMessages().size();
                 long offsetStart = event.getMessages().get(0).getOffset();
@@ -156,7 +155,7 @@ public class AsyncReaderImpl implements AsyncReader {
                 failSession(th, "onMessages");
                 throw th;
             } finally {
-                releaser.releaseRange(event.getPartitionSession(), event.getRangeToCommit());
+                control.confirmRangeProcessed(event.getRangeToCommit());
             }
         }
 

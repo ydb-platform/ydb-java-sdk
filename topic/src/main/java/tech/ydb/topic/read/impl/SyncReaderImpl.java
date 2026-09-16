@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -22,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Status;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.DebugTools;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionOffsets;
@@ -50,7 +50,6 @@ public class SyncReaderImpl implements SyncReader {
     private final CompletableFuture<Void> initFuture = new CompletableFuture<>();
     private final CompletableFuture<Void> shutdownFuture = new CompletableFuture<>();
 
-    private final ConcurrentHashMap<PartitionSession, PartitionSession> activePartitions = new ConcurrentHashMap<>();
     private final Queue<MessageWrapper> queue = new ConcurrentLinkedQueue<>();
     private final ReentrantLock waitingLock = new ReentrantLock();
     private final Condition waitingCondition = waitingLock.newCondition();
@@ -172,7 +171,7 @@ public class SyncReaderImpl implements SyncReader {
                 }
             }
 
-            if (!activePartitions.containsKey(next.getPartition())) {
+            if (!next.isActive()) {
                 continue;
             }
 
@@ -212,12 +211,12 @@ public class SyncReaderImpl implements SyncReader {
         }
 
         @Override
-        public void handleDataReceivedEvent(ReaderImpl.Releaser releaser, DataReceivedEvent event) {
+        public void handleDataReceivedEvent(ReaderImpl.PartitionControl control, DataReceivedEvent event) {
             if (impl.isClosed()) {
                 return;
             }
             if (event.getMessages().isEmpty()) {
-                releaser.releaseRange(event.getPartitionSession(), event.getRangeToCommit());
+                control.confirmRangeProcessed(event.getRangeToCommit());
                 return;
             }
 
@@ -228,12 +227,11 @@ public class SyncReaderImpl implements SyncReader {
             logger.debug("{} Putting a batch into queueData with {} message(s) (offsets {}-{}) from {}",
                     debugId, messagesCount, offsetStart, offsetEnd, ps);
 
-            Runnable confirm = () -> releaser.releaseRange(ps, event.getRangeToCommit());
             for (Message msg: event.getMessages()) {
                 if (msg.getRangeToCommit().getEnd() == event.getRangeToCommit().getEnd()) { // last message in batch
-                    queue.offer(new MessageWrapper(ps, msg, confirm));
+                    queue.offer(new MessageWrapper(control, msg, event.getRangeToCommit()));
                 } else {
-                    queue.offer(new MessageWrapper(ps, msg, null));
+                    queue.offer(new MessageWrapper(control, msg, null));
                 }
             }
 
@@ -252,45 +250,43 @@ public class SyncReaderImpl implements SyncReader {
 
         @Override
         public void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
-            activePartitions.put(event.getPartitionSession(), event.getPartitionSession());
             event.confirm();
         }
 
         @Override
         public void handleStopPartitionSession(StopPartitionSessionEvent event) {
-            activePartitions.remove(event.getPartitionSession());
             // TODO: wait for all commits
             event.confirm();
         }
 
         @Override
         public void handleClosePartitionSession(PartitionSession partition) {
-            activePartitions.remove(partition);
+            // Nothing
         }
     }
 
     private static class MessageWrapper {
-        private final PartitionSession partition;
+        private final ReaderImpl.PartitionControl control;
         private final Message msg;
-        private final Runnable confirm;
+        private final OffsetsRange rangeToConfirm;
 
-        private MessageWrapper(PartitionSession partition, Message msg, Runnable confirm) {
-            this.partition = partition;
+        private MessageWrapper(ReaderImpl.PartitionControl control, Message msg, OffsetsRange rangeToConfirm) {
+            this.control = control;
             this.msg = msg;
-            this.confirm = confirm;
+            this.rangeToConfirm = rangeToConfirm;
         }
 
         Message getMessage() {
             return msg;
         }
 
-        PartitionSession getPartition() {
-            return partition;
+        boolean isActive() {
+            return control.isActive();
         }
 
         void confirm() {
-            if (confirm != null) {
-                confirm.run();
+            if (rangeToConfirm != null) {
+                control.confirmRangeProcessed(rangeToConfirm);
             }
         }
     }
