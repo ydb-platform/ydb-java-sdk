@@ -82,7 +82,11 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
     protected void onRetry(ReadSession stream, Status status) {
         logger.warn("[{}] paused by status {}", debugId, status);
         if (errorHandler != null) {
-            errorHandler.accept(status, null);
+            try {
+                errorHandler.accept(status, null);
+            } catch (RuntimeException ex) {
+                logger.error("[{}] errorHandler onRetry processing throws exception", debugId, ex);
+            }
         }
         stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
     }
@@ -95,6 +99,11 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             logger.info("[{}] closed by status {}", debugId, status);
         }
         if (errorHandler != null) {
+            try {
+                errorHandler.accept(status, null);
+            } catch (RuntimeException ex) {
+                logger.error("[{}] errorHandler onClose processing throws exception", debugId, ex);
+            }
             errorHandler.accept(status, null);
         }
         stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -21,6 +22,7 @@ import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromServer;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.description.OffsetsRange;
 
 /**
  *
@@ -33,8 +35,8 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
     private final Deque<FromClient> messages = new ArrayDeque<>();
     private final AtomicInteger partCounter = new AtomicInteger();
     private Observer<FromServer> observer = null;
-    private boolean isClosed = false;
-    private boolean isCanceled = false;
+    private final AtomicInteger isClosed = new AtomicInteger();
+    private final AtomicInteger isCanceled = new AtomicInteger();
 
     @Override
     public String authToken() {
@@ -48,7 +50,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
 
     @Override
     public void close() {
-        this.isClosed = true;
+        isClosed.incrementAndGet();
     }
 
     @Override
@@ -59,7 +61,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
 
     @Override
     public void cancel() {
-        this.isCanceled = true;
+        isCanceled.incrementAndGet();
     }
 
     public void closeStream(Status status) {
@@ -76,7 +78,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         observer.onNext(msg);
     }
 
-    public void responseStartPartition(String topicPath, long partitionID) {
+    public void responseStartPartition(String topicPath, long partitionID, long committedOffset) {
         FromServer msg = FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .setStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest.newBuilder()
@@ -85,6 +87,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
                                 .setPartitionId(partitionID)
                                 .setPartitionSessionId(partCounter.incrementAndGet())
                                 .build())
+                        .setCommittedOffset(committedOffset)
                         .build())
                 .build();
         observer.onNext(msg);
@@ -101,6 +104,10 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         observer.onNext(msg);
     }
 
+    public CommitAckResponse responseCommitAck() {
+        return new CommitAckResponse();
+    }
+
     public DataResponse responseData(long bytesSize) {
         return new DataResponse(bytesSize);
     }
@@ -110,11 +117,11 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
     }
 
     public void assertIsClosed() {
-        Assert.assertTrue("Read stream is closed", isClosed);
+        Assert.assertEquals("Read stream is closed", 1, isClosed.get());
     }
 
     public void assertIsCancelled() {
-        Assert.assertTrue("Read stream is cancelled", isCanceled);
+        Assert.assertEquals("Read stream is cancelled", 1, isCanceled.get());
     }
 
     public MessageAssert assertLastMessage() {
@@ -158,7 +165,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
                     batch.addMessageData(YdbTopic.StreamReadMessage.ReadResponse.MessageData.newBuilder()
                             .setUncompressedSize(msg.length)
                             .setData(encode(codec, msg))
-                            .setOffset(offset.incrementAndGet())
+                            .setOffset(offset.getAndIncrement())
                             .build());
                 }
                 part.addBatches(batch.build());
@@ -169,6 +176,32 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
                 data.addPartitionData(part.build());
                 return DataResponse.this;
             }
+        }
+    }
+
+    public class CommitAckResponse {
+        private final YdbTopic.StreamReadMessage.CommitOffsetResponse.Builder resp;
+
+        public CommitAckResponse() {
+            this.resp = YdbTopic.StreamReadMessage.CommitOffsetResponse.newBuilder();
+        }
+
+        public CommitAckResponse partition(long psid, long offset) {
+            resp.addPartitionsCommittedOffsets(
+                    YdbTopic.StreamReadMessage.CommitOffsetResponse.PartitionCommittedOffset.newBuilder()
+                                .setPartitionSessionId(psid)
+                                .setCommittedOffset(offset)
+                    .build()
+            );
+            return this;
+        }
+
+        public void send() {
+            FromServer msg = FromServer.newBuilder()
+                    .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                    .setCommitOffsetResponse(resp.build())
+                    .build();
+            observer.onNext(msg);
         }
     }
 
@@ -211,6 +244,41 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
             YdbTopic.StreamReadMessage.StopPartitionSessionResponse resp = msg.getStopPartitionSessionResponse();
             Assert.assertEquals("Stop partition has incorrect id", psid, resp.getPartitionSessionId());
             return this;
+        }
+
+        public CommitAssert isCommit(long count) {
+            Assert.assertTrue("Msg is not commit offset request", msg.hasCommitOffsetRequest());
+            YdbTopic.StreamReadMessage.CommitOffsetRequest resp = msg.getCommitOffsetRequest();
+            Assert.assertEquals("Commit offset request has incorrect size", count, resp.getCommitOffsetsCount());
+            return new CommitAssert(resp);
+        }
+
+        public class CommitAssert {
+            private final YdbTopic.StreamReadMessage.CommitOffsetRequest resp;
+
+            public CommitAssert(YdbTopic.StreamReadMessage.CommitOffsetRequest resp) {
+                this.resp = resp;
+            }
+
+            public CommitAssert hasPartitionOffset(long psid, OffsetsRange... expected) {
+                Assert.assertEquals("Commit offset request has no partition " + psid, 1,
+                        resp.getCommitOffsetsList().stream().filter(co -> co.getPartitionSessionId() == psid).count());
+
+                List<YdbTopic.OffsetsRange> committed = resp.getCommitOffsetsList().stream()
+                        .filter(co -> co.getPartitionSessionId() == psid).findFirst().get().getOffsetsList();
+
+                Assert.assertEquals("Commit offset request for " + psid + " has incorrect count",
+                        expected.length, committed.size());
+
+                for (int idx = 0; idx < expected.length; idx++) {
+                    YdbTopic.OffsetsRange c = committed.get(idx);
+                    OffsetsRange range = OffsetsRange.of(c.getStart(), c.getEnd());
+                    Assert.assertEquals("Incorrect commit offset for " + psid, expected[idx], range);
+                }
+
+                return this;
+            }
+
         }
     }
 

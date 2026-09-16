@@ -105,7 +105,10 @@ public class SyncReaderImpl implements SyncReader {
         shutdownFuture.complete(null);
 
         decompressor.close();
+        wakeUp();
+    }
 
+    private void wakeUp() {
         waitingLock.lock();
         try {
             waitingCondition.signalAll();
@@ -212,10 +215,10 @@ public class SyncReaderImpl implements SyncReader {
 
         @Override
         public void handleDataReceivedEvent(ReaderImpl.PartitionControl control, DataReceivedEvent event) {
-            if (impl.isClosed()) {
+            if (impl.isClosed()) { // never happens
                 return;
             }
-            if (event.getMessages().isEmpty()) {
+            if (event.getMessages().isEmpty()) {  // never happens
                 control.confirmRangeProcessed(event.getRangeToCommit());
                 return;
             }
@@ -235,12 +238,7 @@ public class SyncReaderImpl implements SyncReader {
                 }
             }
 
-            waitingLock.lock();
-            try {
-                waitingCondition.signalAll();
-            } finally {
-                waitingLock.unlock();
-            }
+            wakeUp();
         }
 
         @Override
