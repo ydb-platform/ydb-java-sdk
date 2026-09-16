@@ -98,13 +98,12 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         } else {
             logger.info("[{}] closed by status {}", debugId, status);
         }
-        if (errorHandler != null) {
+        if (errorHandler != null && !status.isSuccess()) {
             try {
                 errorHandler.accept(status, null);
             } catch (RuntimeException ex) {
                 logger.error("[{}] errorHandler onClose processing throws exception", debugId, ex);
             }
-            errorHandler.accept(status, null);
         }
         stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
         handler.handleReaderClosed(status);

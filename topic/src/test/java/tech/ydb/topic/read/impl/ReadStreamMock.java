@@ -116,6 +116,11 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         Assert.assertEquals("Read stream sent messages count", expectedCount, messages.size());
     }
 
+    public void assertIsActive() {
+        Assert.assertEquals("Read stream is active", 0, isClosed.get());
+        Assert.assertEquals("Read stream is cancelled", 0, isCanceled.get());
+    }
+
     public void assertIsClosed() {
         Assert.assertEquals("Read stream is closed", 1, isClosed.get());
     }

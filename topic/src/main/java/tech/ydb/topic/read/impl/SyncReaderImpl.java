@@ -18,6 +18,7 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
@@ -94,14 +95,15 @@ public class SyncReaderImpl implements SyncReader {
     public void shutdown() {
         if (!impl.close()) {
             // implicit closing because stream will never call onClose
-            close();
+            // implicit closing because stream will never call onClose
+            close(Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO)));
         }
 
         shutdownFuture.join();
     }
 
-    private void close() {
-        initFuture.complete(null);
+    private void close(Status status) {
+        initFuture.completeExceptionally(new RuntimeException("Reader closed with " + status));
         shutdownFuture.complete(null);
 
         decompressor.close();
@@ -210,7 +212,7 @@ public class SyncReaderImpl implements SyncReader {
 
         @Override
         public void handleReaderClosed(Status status) {
-            close();
+            close(status);
         }
 
         @Override

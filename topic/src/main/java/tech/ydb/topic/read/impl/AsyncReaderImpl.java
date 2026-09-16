@@ -85,30 +85,19 @@ public class AsyncReaderImpl implements AsyncReader {
         return impl.updateOffsetsInTransaction(transaction, offsets, settings);
     }
 
-    protected CompletableFuture<Void> handleReaderClosed() {
-        return CompletableFuture.runAsync(() -> {
-            try {
-                eventHandler.onReaderClosed(new ReaderClosedEvent());
-            } catch (Throwable th) {
-                failSession(th, "onReaderClosed");
-                throw th;
-            }
-        }, controlEventsExecutor);
-    }
-
     @Override
     public CompletableFuture<Void> shutdown() {
         if (!impl.close()) {
             // implicit closing because stream will never call onClose
-            close();
+            close(Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO)));
         }
         return shutdownFuture;
     }
 
-    private void close() {
+    private void close(Status status) {
         decompressor.close();
         processor.close();
-        initFuture.complete(null);
+        initFuture.completeExceptionally(new RuntimeException("Reader closed with " + status));
         shutdownFuture.complete(null);
     }
 
@@ -122,22 +111,28 @@ public class AsyncReaderImpl implements AsyncReader {
         @Override
         public  void handleSessionStarted(String sessionId) {
             initFuture.complete(null);
-            try {
-                eventHandler.onSessionStarted(new SessionStartedEvent(sessionId));
-            } catch (Throwable th) {
-                failSession(th, "onSessionStarted");
-            }
+            processor.execute(() -> {
+                try {
+                    eventHandler.onSessionStarted(new SessionStartedEvent(sessionId));
+                } catch (Throwable th) {
+                    failSession(th, "onSessionStarted");
+                    throw th;
+                }
+            });
         }
 
         @Override
         public void handleReaderClosed(Status status) {
-            try {
-                eventHandler.onReaderClosed(new ReaderClosedEvent());
-            } catch (Throwable th) {
-                failSession(th, "onReaderClosed");
-            } finally {
-                close();
-            }
+            processor.execute(() -> {
+                try {
+                    eventHandler.onReaderClosed(new ReaderClosedEvent());
+                } catch (Throwable th) {
+                    failSession(th, "onSessionStarted");
+                    throw th;
+                }
+            });
+
+            close(status); // wait while processer finished all tasks
         }
 
         @Override

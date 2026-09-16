@@ -13,6 +13,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -25,7 +26,11 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Status;
+import tech.ydb.table.SessionRetryContext;
+import tech.ydb.table.TableClient;
+import tech.ydb.table.transaction.TableTransaction;
 import tech.ydb.test.junit4.GrpcTransportRule;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.description.ConsumerDescription;
@@ -48,6 +53,7 @@ import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
+import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.utils.HideLoggers;
 import tech.ydb.topic.utils.HideLoggersRule;
@@ -582,5 +588,51 @@ public class TopicReadersIntegrationTest {
         } finally {
             reader.shutdown().join();
         }
+    }
+
+    @Test
+    public void readAllInTxTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        AtomicLong[] offsets = new AtomicLong[] { new AtomicLong(), new AtomicLong(), new AtomicLong() };
+        CountDownLatch read = new CountDownLatch(3600);
+
+        try (TableClient tableClient = TableClient.newClient(ydbTransport).build()) {
+            SessionRetryContext retryCtx = SessionRetryContext.create(tableClient).idempotent(true).build();
+            UpdateOffsetsInTransactionSettings settings = UpdateOffsetsInTransactionSettings.newBuilder().build();
+
+            AtomicReference<AsyncReader> ref = new AtomicReference<>();
+            @SuppressWarnings("deprecation")
+            AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                    .setEventHandler((DataReceivedEvent event) -> {
+                        AtomicLong offset = offsets[(int) event.getPartitionSession().getPartitionId()];
+                        for (Message msg : event.getMessages()) {
+                            Assert.assertEquals(offset.getAndIncrement(), msg.getOffset());
+                        }
+
+                        retryCtx.supplyStatus(session -> {
+                            TableTransaction tx = session.beginTransaction(TxMode.SERIALIZABLE_RW).join().getValue();
+                            ref.get().updateOffsetsInTransaction(tx, event.getPartitionOffsets(), settings).join();
+                            return tx.commit();
+                        }).join().expectSuccess();
+
+                        event.getMessages().forEach(msg -> read.countDown());
+                    }).build());
+
+            ref.set(reader);
+            reader.init().join();
+            try {
+                Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
+                Assert.assertEquals(1000, offsets[0].get());
+                Assert.assertEquals(500, offsets[1].get());
+                Assert.assertEquals(2100, offsets[2].get());
+            } finally {
+                reader.shutdown().join();
+            }
+        }
+
     }
 }

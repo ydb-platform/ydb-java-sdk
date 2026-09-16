@@ -31,6 +31,8 @@ import tech.ydb.topic.utils.HideLoggersRule;
  */
 public class SyncReaderImplTest {
     private static final CodecRegistry REGISTRY = new CodecRegistry();
+    private static final RetryConfig IMMEDIATE_RETRY = status -> (number, elapsed) -> 0;
+
     private static final byte[] MSG1 = new byte[] { 0x00 };
     private static final byte[] MSG2 = new byte[] { };
     private static final byte[] MSG3 = new byte[] { 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02 };
@@ -56,6 +58,7 @@ public class SyncReaderImplTest {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
                 .setConsumerName("consumer")
+                .setReaderName("test-reader-name")
                 .build();
 
         SyncReader reader = new SyncReaderImpl(mockRpc(mock), settings, REGISTRY);
@@ -203,8 +206,6 @@ public class SyncReaderImplTest {
     @Test
     public void retrySkipsReadMessagesTest() throws InterruptedException {
         ErrorsHandler errorsHandler = new ErrorsHandler();
-        // Policy: immediate retry (0ms) on all attempts, then no more
-        RetryConfig config = status -> (retryCount, elapsed) -> (status.getCode() != StatusCode.BAD_REQUEST) ? 0 : -1;
 
         ReadStreamMock m1 = new ReadStreamMock();
         ReadStreamMock m2 = new ReadStreamMock();
@@ -213,7 +214,7 @@ public class SyncReaderImplTest {
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
                 .setMaxMemoryUsageBytes(2000)
                 .setConsumerName("consumer")
-                .setRetryConfig(config)
+                .setRetryConfig(IMMEDIATE_RETRY)
                 .setErrorsHandler(errorsHandler)
                 .build();
 

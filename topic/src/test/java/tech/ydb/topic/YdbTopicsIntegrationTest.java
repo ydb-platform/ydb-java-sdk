@@ -62,6 +62,7 @@ public class YdbTopicsIntegrationTest {
 
     private final static String TEST_TOPIC = "integration_test_topic";
     private final static String TEST_OTHER_TOPIC = "integration_test_other_topic";
+    private final static String TEST_TMP_TOPIC = "integration_test_tmp_topic";
 
     private final static String TEST_CONSUMER1 = "consumer";
     private final static String TEST_CONSUMER2 = "other_consumer";
@@ -86,14 +87,21 @@ public class YdbTopicsIntegrationTest {
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER2).build())
                 .build()
         ).join().expectSuccess("can't create a new topic");
+
+        client.createTopic(TEST_OTHER_TOPIC, CreateTopicSettings.newBuilder()
+                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
+                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER2).build())
+                .build()
+        ).join().expectSuccess("can't create a new topic");
     }
 
     @AfterClass
     public static void dropTopic() {
         logger.info("Drop test topic {} ...", TEST_TOPIC);
-        Status dropStatus = client.dropTopic(TEST_TOPIC).join();
+        client.dropTopic(TEST_TOPIC).join();
+        logger.info("Drop test topic {} ...", TEST_OTHER_TOPIC);
+        client.dropTopic(TEST_OTHER_TOPIC).join();
         client.close();
-        dropStatus.expectSuccess("can't drop test topic");
     }
 
     @Test
@@ -246,7 +254,7 @@ public class YdbTopicsIntegrationTest {
 
     @Test
     public void describeTopic() {
-        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
+        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
 
         Assert.assertNull(description.getTopicStats());
         List<Consumer> consumers = description.getConsumers();
@@ -258,7 +266,7 @@ public class YdbTopicsIntegrationTest {
 
     @Test
     public void alterTopicWithAutoPartitioning() {
-        client.alterTopic(TEST_TOPIC, AlterTopicSettings.newBuilder()
+        client.alterTopic(TEST_OTHER_TOPIC, AlterTopicSettings.newBuilder()
                         .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
                                 .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
                                 .setMaxActivePartitions(10)
@@ -270,7 +278,7 @@ public class YdbTopicsIntegrationTest {
                                 .build())
                 .build()).join().expectSuccess("can't alter the topic");
 
-        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
+        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
 
         PartitioningSettings actualPartitioningSettings = description.getPartitioningSettings();
         PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
@@ -300,15 +308,17 @@ public class YdbTopicsIntegrationTest {
                         .build())
                 .build();
 
-        CompletableFuture<Status> secondaryTopicCreated = client.createTopic(TEST_OTHER_TOPIC,
+        CompletableFuture<Status> secondaryTopicCreated = client.createTopic(TEST_TMP_TOPIC,
                 CreateTopicSettings.newBuilder().setPartitioningSettings(expectedPartitioningSettings).build()
         );
 
         secondaryTopicCreated.join().expectSuccess("can't create the topic");
 
-        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
+        TopicDescription description = client.describeTopic(TEST_TMP_TOPIC).join().getValue();
 
         Assert.assertEquals(expectedPartitioningSettings, description.getPartitioningSettings());
+
+        client.dropTopic(TEST_TMP_TOPIC).join().expectSuccess("can't drop the test topic");
     }
 
     @Test
@@ -316,8 +326,8 @@ public class YdbTopicsIntegrationTest {
         DescribeTopicSettings on = DescribeTopicSettings.newBuilder().withIncludeStats(true).build();
         DescribeTopicSettings off = DescribeTopicSettings.newBuilder().withIncludeStats(false).build();
 
-        TopicDescription withStats = client.describeTopic(TEST_TOPIC, on).join().getValue();
-        TopicDescription withoutStats = client.describeTopic(TEST_TOPIC, off).join().getValue();
+        TopicDescription withStats = client.describeTopic(TEST_OTHER_TOPIC, on).join().getValue();
+        TopicDescription withoutStats = client.describeTopic(TEST_OTHER_TOPIC, off).join().getValue();
 
         Assert.assertNull(withoutStats.getTopicStats());
         Assert.assertNotNull(withStats.getTopicStats());
@@ -348,7 +358,7 @@ public class YdbTopicsIntegrationTest {
                         .build()
                 ).build();
 
-        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Status status = client.alterTopic(TEST_OTHER_TOPIC, settings).join();
         Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
         Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
     }
@@ -364,7 +374,7 @@ public class YdbTopicsIntegrationTest {
                         .build()
                 ).build();
 
-        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Status status = client.alterTopic(TEST_OTHER_TOPIC, settings).join();
         Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
         Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
     }
@@ -379,16 +389,16 @@ public class YdbTopicsIntegrationTest {
                         .build()
                 ).build();
 
-        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Status status = client.alterTopic(TEST_OTHER_TOPIC, settings).join();
         Assert.assertTrue("Alter must be OK, but got status " + status, status.isSuccess());
 
-        ConsumerDescription description = client.describeConsumer(TEST_TOPIC, TEST_CONSUMER2).join().getValue();
+        ConsumerDescription description = client.describeConsumer(TEST_OTHER_TOPIC, TEST_CONSUMER2).join().getValue();
 
         Assert.assertEquals(TEST_CONSUMER2, description.getConsumer().getName());
         Assert.assertEquals(Instant.EPOCH.plusSeconds(10), description.getConsumer().getReadFrom());
         Assert.assertEquals(Duration.ofMinutes(5), description.getConsumer().getAvailabilityPeriod());
 
-        TopicDescription topicDesc = client.describeTopic(TEST_TOPIC).join().getValue();
+        TopicDescription topicDesc = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
 
         Assert.assertNull(topicDesc.getTopicStats());
 
