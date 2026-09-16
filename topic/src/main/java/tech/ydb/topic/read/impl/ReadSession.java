@@ -71,6 +71,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> impleme
     }
 
     public Set<PartitionSession> closeAll() {
+        isClosed = true;
         decoder.stop();
 
         Set<PartitionSession> closed = new HashSet<>(partitions.values());
@@ -164,6 +165,11 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> impleme
         if (partition == null) {
             logger.error("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
                     "but have no such partition session active", debugId, psid);
+            send(YdbTopic.StreamReadMessage.FromClient.newBuilder().setStopPartitionSessionResponse(
+                            YdbTopic.StreamReadMessage.StopPartitionSessionResponse.newBuilder()
+                                    .setPartitionSessionId(psid)
+                                    .build())
+                    .build());
             return null;
         }
 
@@ -197,7 +203,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> impleme
             if (queue == null) {
                 logger.info("[{}] Received CommitOffsetResponse for unknown (most likely already closed) " +
                                 "partition session with id={}", debugId, offset.getPartitionSessionId());
-                return;
+                continue;
             }
 
             // Handling CompletableFuture completions for single commits

@@ -93,7 +93,19 @@ public class SyncReaderImpl implements SyncReader {
 
     @Override
     public void shutdown() {
-        impl.close();
+        if (!impl.close()) {
+            // implicit closing because stream will never call onClose
+            close();
+        }
+
+        shutdownFuture.join();
+    }
+
+    private void close() {
+        initFuture.complete(null);
+        shutdownFuture.complete(null);
+
+        decompressor.close();
 
         waitingLock.lock();
         try {
@@ -101,8 +113,6 @@ public class SyncReaderImpl implements SyncReader {
         } finally {
             waitingLock.unlock();
         }
-
-        shutdownFuture.join();
     }
 
     @Override
@@ -198,7 +208,7 @@ public class SyncReaderImpl implements SyncReader {
 
         @Override
         public void handleReaderClosed(Status status) {
-            shutdownFuture.complete(null);
+            close();
         }
 
         @Override

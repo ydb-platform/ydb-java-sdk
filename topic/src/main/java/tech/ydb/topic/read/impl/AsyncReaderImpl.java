@@ -99,13 +99,17 @@ public class AsyncReaderImpl implements AsyncReader {
 
     @Override
     public CompletableFuture<Void> shutdown() {
-        impl.close();
+        if (!impl.close()) {
+            // implicit closing because stream will never call onClose
+            close();
+        }
         return shutdownFuture;
     }
 
     private void close() {
         decompressor.close();
         processor.close();
+        initFuture.complete(null);
         shutdownFuture.complete(null);
     }
 

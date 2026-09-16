@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -36,6 +37,7 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
  * @author Nikolay Perfilov
  */
 public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, ReadSession> {
+
     public interface Releaser {
         void releaseRange(PartitionSession partition, OffsetsRange range);
     }
@@ -57,6 +59,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
     private final TopicRpc rpc;
     private final ReadConfig config;
     private final Handler handler;
+    private final BiConsumer<Status, Throwable> errorHandler;
 
     private final FromClient initRequest;
 
@@ -66,6 +69,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         this.initRequest = FromClient.newBuilder().setInitRequest(buildInitRequest(settings)).build();
         this.config = config;
         this.handler = handler;
+        this.errorHandler = settings.getErrorsHandler();
     }
 
     @Override
@@ -76,6 +80,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
     @Override
     protected void onRetry(ReadSession stream, Status status) {
         logger.warn("[{}] paused by status {}", debugId, status);
+        if (errorHandler != null) {
+            errorHandler.accept(status, null);
+        }
         stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
     }
 
@@ -85,6 +92,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             logger.warn("[{}] closed by status {}", debugId, status);
         } else {
             logger.info("[{}] closed by status {}", debugId, status);
+        }
+        if (errorHandler != null) {
+            errorHandler.accept(status, null);
         }
         stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
         handler.handleReaderClosed(status);
