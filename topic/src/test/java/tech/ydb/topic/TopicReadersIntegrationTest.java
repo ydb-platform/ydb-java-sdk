@@ -230,7 +230,8 @@ public class TopicReadersIntegrationTest {
         processing.completeExceptionally(new RuntimeException("shutdown"));
         shutdown.get(5, TimeUnit.SECONDS);
 
-        executor.shutdownNow();
+        executor.shutdown();
+        executor.awaitTermination(5, TimeUnit.SECONDS);
     }
 
     @Test

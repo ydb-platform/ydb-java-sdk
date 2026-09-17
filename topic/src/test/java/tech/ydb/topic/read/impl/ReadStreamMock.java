@@ -92,13 +92,17 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
     }
 
     public void responseStartPartition(String topicPath, long partitionID, long committedOffset) {
+        responseStartPartition(topicPath, partitionID, committedOffset, partCounter.incrementAndGet());
+    }
+
+    public void responseStartPartition(String topicPath, long partitionID, long committedOffset, long psid) {
         FromServer msg = FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .setStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest.newBuilder()
                         .setPartitionSession(YdbTopic.StreamReadMessage.PartitionSession.newBuilder()
                                 .setPath(topicPath)
                                 .setPartitionId(partitionID)
-                                .setPartitionSessionId(partCounter.incrementAndGet())
+                                .setPartitionSessionId(psid)
                                 .build())
                         .setCommittedOffset(committedOffset)
                         .build())
