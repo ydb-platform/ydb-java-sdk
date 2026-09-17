@@ -29,8 +29,7 @@ public class OperationTray {
             return future;
         }
 
-        logger.error("unknown type of {}", operation);
-        throw new IllegalArgumentException("Unknown type of operation");
+        throw new IllegalArgumentException("Unknown type of operation: " + operation);
     }
 
     private static <T> boolean complete(Throwable th, CompletableFuture<T> f, AsyncOperation<T> o, long elapsed) {

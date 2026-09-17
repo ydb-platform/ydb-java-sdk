@@ -4,9 +4,6 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import tech.ydb.core.Status;
 import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.QueueOverflowException;
@@ -16,9 +13,6 @@ import tech.ydb.topic.write.QueueOverflowException;
  * @author Aleksandr Gorshenin
  */
 public class BufferManager {
-    // use logger from WriterImpl
-    private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
-
     private final String debugId;
     private final long bufferMaxSize;
     private final int maxCount;
@@ -88,7 +82,6 @@ public class BufferManager {
         if (!countAvailable.tryAcquire()) {
             String errorMsg = "[" + debugId + "] Rejecting a message due to reaching message queue in-flight limit of "
                     + maxCount;
-            logger.warn(errorMsg);
             throw new QueueOverflowException(errorMsg);
         }
 
@@ -105,7 +98,6 @@ public class BufferManager {
             String errorMsg = "[" + debugId + "] Rejecting a message of " + messageSize +
                     " bytes: not enough space in message queue. Buffer currently has " + count +
                     " messages with " + size + " / " + bufferMaxSize + " bytes available";
-            logger.warn(errorMsg);
             throw new QueueOverflowException(errorMsg);
         }
 
@@ -126,7 +118,6 @@ public class BufferManager {
         if (!countAvailable.tryAcquire(timeout, unit)) {
             String errorMsg = "[" + debugId + "] Rejecting a message due to reaching message queue in-flight limit of "
                     + maxCount;
-            logger.warn(errorMsg);
             throw new TimeoutException(errorMsg);
         }
 
@@ -147,7 +138,6 @@ public class BufferManager {
                 String errorMsg = "[" + debugId + "] Rejecting a message of " + messageSize +
                         " bytes: not enough space in message queue. Buffer currently has " + count +
                         " messages with " + size + " / " + bufferMaxSize + " bytes available";
-                logger.warn(errorMsg);
                 throw new TimeoutException(errorMsg);
             }
         } catch (InterruptedException ex) {
