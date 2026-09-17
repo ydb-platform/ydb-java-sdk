@@ -33,9 +33,10 @@ public class ErrorsHandler implements BiConsumer<Status, Throwable> {
 
     public void assertCodes(StatusCode... codes) {
         Iterator<StatusCode> it = problems.iterator();
-        for (StatusCode code: codes) {
-            Assert.assertTrue("Expected " + code + ", but has nothing", it.hasNext());
-            Assert.assertEquals(code, it.next());
+        for (int idx = 0; idx < codes.length; idx++) {
+            StatusCode code = codes[idx];
+            Assert.assertTrue("Expected " + code + " on position " + idx + ", but has nothing", it.hasNext());
+            Assert.assertEquals("Unexpected code on position " + idx, code, it.next());
         }
         Assert.assertFalse("Unexpected error code", it.hasNext());
     }

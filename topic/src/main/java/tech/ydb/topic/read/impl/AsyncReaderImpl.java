@@ -65,9 +65,9 @@ public class AsyncReaderImpl implements AsyncReader {
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();
-        logger.info("Reader{} (generated id {}) created for topic(s) {} and {}",
-                readerName != null ? (" '" + readerName + "'") : "",
+        logger.info("[{}] AsyncReader{} created for topic(s) {} and {}",
                 debugId,
+                readerName != null ? (" '" + readerName + "'") : "",
                 settings.getTopics().stream().map(t -> "\"" + t.getPath() + "\"").collect(Collectors.joining(", ")),
                 consumerName != null ? (" consumer \"" + consumerName + "\"") : "without a consumer"
         );

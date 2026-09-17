@@ -67,9 +67,9 @@ public class SyncReaderImpl implements SyncReader {
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();
-        logger.info("Reader{} (generated id {}) created for topic(s) {} and {}",
-                readerName != null ? (" '" + readerName + "'") : "",
+        logger.info("[{}] SyncReader{} created for topic(s) {} and {}",
                 debugId,
+                readerName != null ? (" '" + readerName + "'") : "",
                 settings.getTopics().stream().map(t -> "\"" + t.getPath() + "\"").collect(Collectors.joining(", ")),
                 consumerName != null ? (" consumer \"" + consumerName + "\"") : "without a consumer"
         );
@@ -237,7 +237,7 @@ public class SyncReaderImpl implements SyncReader {
             int messagesCount = event.getMessages().size();
             long offsetStart = event.getMessages().get(0).getOffset();
             long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
-            logger.debug("{} Putting a batch into queueData with {} message(s) (offsets {}-{}) from {}",
+            logger.debug("[{}] Putting a batch into read queue with {} message(s) (offsets {}-{}) from {}",
                     debugId, messagesCount, offsetStart, offsetEnd, ps);
 
             for (Message msg: event.getMessages()) {
@@ -252,8 +252,8 @@ public class SyncReaderImpl implements SyncReader {
         }
 
         @Override
-        public void handleCommitResponse(long committedOffset, PartitionSession partitionSession) {
-            logger.debug("CommitResponse received for{} with committedOffset {}", partitionSession, committedOffset);
+        public void handleCommitResponse(long committedOffset, PartitionSession ps) {
+            logger.debug("[{}] commit response received for {} with committedOffset {}", debugId, ps, committedOffset);
         }
 
         @Override

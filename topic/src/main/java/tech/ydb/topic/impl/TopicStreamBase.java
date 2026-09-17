@@ -18,6 +18,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     private final W initRequest;
     private final CompletableFuture<Status> streamStatus = new CompletableFuture<>();
     private volatile String token;
+    private volatile boolean isStopped = false;
 
     public TopicStreamBase(Logger logger, String debugId, GrpcReadWriteStream<R, W> stream, W initRequest) {
         this.logger = logger;
@@ -44,6 +45,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
                 }
             }
         }).whenComplete((st, th) -> {
+            isStopped = true;
             Status status = st != null ? st : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
             logger.debug("[{}] finished with status {}", debugId, status);
             streamStatus.complete(status);
@@ -60,6 +62,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     public void close() {
         logger.debug("[{}] closed by app", debugId);
         if (!streamStatus.isDone()) {
+            isStopped = true;
             stream.close();
         }
     }
@@ -67,13 +70,14 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     protected void fail(Status status) {
         logger.warn("[{}] stopped by fail {}", debugId, status);
         if (streamStatus.complete(status)) {
+            isStopped = true;
             stream.close();
         }
     }
 
     @Override
     public void send(W req) {
-        if (streamStatus.isDone()) {
+        if (isStopped) {
             logger.warn("[{}] is already closed. Next message with type {} was NOT sent", debugId,
                     req.getDescriptorForType().getName());
             return;

@@ -230,8 +230,7 @@ public class AsyncReaderImplTest {
 
         reader.shutdown();
         mock.responseData(1200).partition(1, 1000).batch(Codec.RAW, MSG1, MSG2, MSG3, MSG4, MSG5).and().send();
-        mock.assertSentMessagesCount(5);
-        mock.assertLastMessage().isReadRequest(1200);
+        mock.assertSentMessagesCount(4);
         Mockito.verify(handler, Mockito.never()).onMessages(Mockito.any(DataReceivedEvent.class));
         mock.closeStream(Status.of(StatusCode.INTERNAL_ERROR));
     }

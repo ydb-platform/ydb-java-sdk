@@ -10,6 +10,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicLong;
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.TxMode;
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.TableClient;
 import tech.ydb.table.transaction.TableTransaction;
@@ -38,6 +40,7 @@ import tech.ydb.topic.description.ConsumerPartitionInfo;
 import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.Message;
+import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
@@ -55,6 +58,7 @@ import tech.ydb.topic.settings.StartPartitionSessionSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.utils.ErrorsHandler;
 import tech.ydb.topic.utils.HideLoggers;
 import tech.ydb.topic.utils.HideLoggersRule;
 import tech.ydb.topic.write.SyncWriter;
@@ -66,8 +70,11 @@ import tech.ydb.topic.write.SyncWriter;
 public class TopicReadersIntegrationTest {
     private static final Logger logger = LoggerFactory.getLogger(YdbTopicsIntegrationTest.class);
 
+    private static final FailableReaderInterceptor PROXY = new FailableReaderInterceptor();
+
     @ClassRule
-    public final static GrpcTransportRule ydbTransport = new GrpcTransportRule();
+    public final static GrpcTransportRule ydbTransport = new GrpcTransportRule()
+            .withGrpcTransportCustomizer(b -> b.addChannelInitializer(PROXY));
 
     @Rule
     public final HideLoggersRule hideLogger = new HideLoggersRule();
@@ -82,8 +89,9 @@ public class TopicReadersIntegrationTest {
     @BeforeClass
     public static void initClient() {
         client = TopicClient.newClient(ydbTransport).build();
-
         logger.info("Create test topic  {} ...", TEST_TOPIC);
+        client.dropTopic(TEST_TOPIC).join();
+        client.dropTopic(SPLITTED_TOPIC).join();
         client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
                 .setPartitioningSettings(PartitioningSettings.newBuilder()
@@ -130,12 +138,14 @@ public class TopicReadersIntegrationTest {
     public static void closeClient() {
         logger.info("Drop test topic {} ...", TEST_TOPIC);
         client.dropTopic(TEST_TOPIC).join();
+        logger.info("Drop test topic {} ...", SPLITTED_TOPIC);
         client.dropTopic(SPLITTED_TOPIC).join();
         client.close();
     }
 
     @Before
     public void resetConsumer() {
+        PROXY.reset();
         List<CompletableFuture<Status>> resets = new ArrayList<>();
 
         DescribeConsumerSettings dc = DescribeConsumerSettings.newBuilder().withIncludeStats(true).build();
@@ -297,6 +307,183 @@ public class TopicReadersIntegrationTest {
         } finally {
             reader.shutdown().join();
         }
+    }
+
+    @Test(timeout = 120000)
+    public void syncReadAllWithDefaultRetryPolicyTest() throws Exception {
+        // Fail initialization, reading, and both sides of committing, in this order.
+        PROXY.unavailableOnInit(1);
+        PROXY.badRequestOnInit(2);
+        PROXY.unavailableOnReadResponse(1);
+        PROXY.unavailableOnInit(4);
+        PROXY.unavailableOnInit(5);
+        PROXY.unavailableOnInit(6);
+        PROXY.badRequestOnReadResponse(2);
+
+        PROXY.badSessionOnCommitWithOffset(1, 60);
+        PROXY.unavailableOnCommitAck(1, 200);
+
+        AtomicLong[] committed = new AtomicLong[] { new AtomicLong(), new AtomicLong(), new AtomicLong() };
+        CountDownLatch totalCommitted = new CountDownLatch(3600);
+
+        ErrorsHandler errors = new ErrorsHandler();
+        ReaderSettings settings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setErrorsHandler((st, th) -> { // restore partition states
+                    DescribeConsumerSettings s = DescribeConsumerSettings.newBuilder()
+                            .withIncludeStats(true).build();
+                    ConsumerDescription desc = client.describeConsumer(TEST_TOPIC, TEST_CONSUMER1, s).join().getValue();
+                    for (ConsumerPartitionInfo partition: desc.getPartitions()) {
+                        int pid = (int) partition.getPartitionId();
+                        long lastCommit = partition.getConsumerStats().getCommittedOffset();
+                        long diff = lastCommit - committed[pid].getAndSet(lastCommit);
+                        for (int idx = 0; idx < diff; idx++) {
+                            totalCommitted.countDown();
+                        }
+                    }
+                    errors.accept(st, th);
+                })
+                .build();
+
+        Thread worker = new Thread(() -> {
+            Semaphore commitInflyLimit = new Semaphore(100);
+            SyncReader reader = client.createSyncReader(settings);
+            reader.init();
+            try {
+                while (!Thread.interrupted() && totalCommitted.getCount() > 0) {
+                    Message msg = reader.receive(10, TimeUnit.MILLISECONDS);
+                    if (msg == null) {
+                        continue;
+                    }
+
+                    int pid = (int) msg.getPartitionSession().getPartitionId();
+                    AtomicLong lastCommit = committed[pid];
+                    long messageCommit = msg.getOffset() + 1;
+                    // limit commit infly to avoid last message committing before test errors
+                    commitInflyLimit.acquire();
+                    msg.commit().whenComplete((res, th) -> {
+                        commitInflyLimit.release();
+                        if (th == null) { // commit is successful
+                            long diff = messageCommit - lastCommit.getAndSet(messageCommit);
+                            for (int idx = 0; idx < diff; idx++) {
+                                totalCommitted.countDown();
+                            }
+                        }
+                    });
+                }
+            } catch (InterruptedException ex) {
+                // nothing
+            } finally {
+                reader.shutdown();
+            }
+        });
+
+        worker.start();
+        try {
+            Assert.assertTrue("All messages must be committed", totalCommitted.await(30, TimeUnit.SECONDS));
+            Assert.assertEquals(1000, committed[0].get());
+            Assert.assertEquals(500, committed[1].get());
+            Assert.assertEquals(2100, committed[2].get());
+        } finally {
+            worker.interrupt();
+            worker.join(1_000);
+        }
+
+        errors.assertCodes(
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.BAD_REQUEST,
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.BAD_REQUEST,
+                StatusCode.BAD_SESSION,
+                StatusCode.TRANSPORT_UNAVAILABLE
+        );
+    }
+
+    @Test(timeout = 120000)
+    public void asyncReadAllWithDefaultRetryPolicyTest() throws Exception {
+        // Fail initialization, reading, and both sides of committing, in this order.
+        PROXY.unavailableOnInit(1);
+        PROXY.badRequestOnInit(2);
+        PROXY.unavailableOnReadResponse(1);
+        PROXY.unavailableOnInit(4);
+        PROXY.unavailableOnInit(5);
+
+        PROXY.badSessionOnCommitWithOffset(2, 100);
+        PROXY.unavailableOnCommitAck(2, 500);
+
+        ErrorsHandler errors = new ErrorsHandler();
+        ReaderSettings settings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setReaderName("async-read-all-with-default-retry-policy")
+                .setConsumerName(TEST_CONSUMER1)
+                .setMaxBatchSize(100) // commits by 100 messages
+                .setErrorsHandler(errors)
+                .build();
+
+        AtomicLong[] offsets = new AtomicLong[] { new AtomicLong(), new AtomicLong(), new AtomicLong() };
+        AtomicLong[] committed = new AtomicLong[] { new AtomicLong(), new AtomicLong(), new AtomicLong() };
+        CountDownLatch totalCommitted = new CountDownLatch(3600);
+
+        AsyncReader reader = client.createAsyncReader(settings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReadEventHandler() {
+                    @Override
+                    public void onStartPartitionSession(StartPartitionSessionEvent event) {
+                        int pid = (int) event.getPartitionSession().getPartitionId();
+                        // restore offset position
+                        offsets[pid].set(event.getCommittedOffset());
+                        // restore lost commits
+                        long diff = event.getCommittedOffset() - committed[pid].getAndSet(event.getCommittedOffset());
+                        for (int idx = 0; idx < diff; idx++) {
+                            totalCommitted.countDown();
+                        }
+                        event.confirm();
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        int pid = (int) event.getPartitionSession().getPartitionId();
+                        AtomicLong offset = offsets[pid];
+                        AtomicLong lastCommit = committed[pid];
+                        for (Message msg : event.getMessages()) {
+                            Assert.assertEquals(offset.getAndIncrement(), msg.getOffset());
+                        }
+
+                        long eventCommit = event.getRangeToCommit().getEnd();
+                        event.commit().thenRun(() -> {
+                            long diff = eventCommit - lastCommit.getAndSet(eventCommit);
+                            for (int idx = 0; idx < diff; idx++) {
+                                totalCommitted.countDown();
+                            }
+                        });
+                    }
+                }).build());
+
+        reader.init().join();
+        try {
+            Assert.assertTrue(totalCommitted.await(30, TimeUnit.SECONDS));
+            Assert.assertEquals(1000, offsets[0].get());
+            Assert.assertEquals(500, offsets[1].get());
+            Assert.assertEquals(2100, offsets[2].get());
+            Assert.assertEquals(1000, committed[0].get());
+            Assert.assertEquals(500, committed[1].get());
+            Assert.assertEquals(2100, committed[2].get());
+        } finally {
+            reader.shutdown().join();
+        }
+
+        errors.assertCodes(
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.BAD_REQUEST,
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.TRANSPORT_UNAVAILABLE,
+                StatusCode.BAD_SESSION,
+                StatusCode.TRANSPORT_UNAVAILABLE
+        );
     }
 
     @Test

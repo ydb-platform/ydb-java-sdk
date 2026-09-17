@@ -223,8 +223,7 @@ public class SyncReaderImplTest {
         reader.shutdown();
         // batch after shutdown is just skipped
         mock.responseData(1200).partition(1, 1000).batch(Codec.RAW, MSG1, MSG2, MSG3, MSG4, MSG5).and().send();
-        mock.assertSentMessagesCount(5);
-        mock.assertLastMessage().isReadRequest(1200);
+        mock.assertSentMessagesCount(4);
 
         mock.closeStream(Status.of(StatusCode.INTERNAL_ERROR));
     }

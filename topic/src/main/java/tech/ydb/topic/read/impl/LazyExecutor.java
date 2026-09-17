@@ -4,6 +4,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -68,7 +69,14 @@ public class LazyExecutor implements Executor, AutoCloseable {
             return;
         }
 
-        // do not wait for termination
-        service.shutdown();
+        try {
+            service.shutdown();
+            if (!service.awaitTermination(100, TimeUnit.MILLISECONDS)) {
+                service.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            logger.warn("executor {} shutdown interrupted", name, e);
+            Thread.currentThread().interrupt();
+        }
     }
 }

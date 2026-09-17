@@ -80,7 +80,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
 
     @Override
     protected void onRetry(ReadSession stream, Status status) {
-        logger.warn("[{}] paused by status {}", debugId, status);
+        logger.warn("[{}] stopped by status {}", debugId, status);
         if (errorHandler != null) {
             try {
                 errorHandler.accept(status, null);
