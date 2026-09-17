@@ -147,6 +147,11 @@ public class ReaderSettings {
             return this;
         }
 
+        public Builder addTopic(String topicPath) {
+            topics.add(TopicReadSettings.newBuilder().setPath(topicPath).build());
+            return this;
+        }
+
         public Builder setTopics(List<TopicReadSettings> topics) {
             this.topics = topics;
             return this;

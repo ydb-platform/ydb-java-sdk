@@ -2,13 +2,13 @@ package tech.ydb.topic.read.impl;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import com.google.protobuf.ByteString;
@@ -31,8 +31,9 @@ import tech.ydb.topic.description.OffsetsRange;
 public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClient> {
     private static final CodecRegistry REGISTRY = new CodecRegistry();
 
+    private final AtomicReference<String> token = new AtomicReference<>("token-value");
     private final CompletableFuture<Status> future = new CompletableFuture<>();
-    private final Deque<FromClient> messages = new ArrayDeque<>();
+    private final List<FromClient> messages = new ArrayList<>();
     private final AtomicInteger partCounter = new AtomicInteger();
     private Observer<FromServer> observer = null;
     private final AtomicInteger isClosed = new AtomicInteger();
@@ -40,7 +41,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
 
     @Override
     public String authToken() {
-        return "token";
+        return token.get();
     }
 
     @Override
@@ -64,6 +65,10 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         isCanceled.incrementAndGet();
     }
 
+    public void updateTokenValue(String tokenValue) {
+        token.set(tokenValue);
+    }
+
     public void closeStream(Status status) {
         future.complete(status);
     }
@@ -74,6 +79,14 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
                 .setInitResponse(YdbTopic.StreamReadMessage.InitResponse.newBuilder()
                         .setSessionId(sessionId)
                         .build())
+                .build();
+        observer.onNext(msg);
+    }
+
+    public void responseUpdateToken() {
+        FromServer msg = FromServer.newBuilder()
+                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                .setUpdateTokenResponse(YdbTopic.UpdateTokenResponse.newBuilder().build())
                 .build();
         observer.onNext(msg);
     }
@@ -116,7 +129,12 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         Assert.assertEquals("Read stream sent messages count", expectedCount, messages.size());
     }
 
+    public void assertIsNotStarted() {
+        Assert.assertNull("Read stream is already started", observer);
+    }
+
     public void assertIsActive() {
+        Assert.assertNotNull("Read stream is active", observer);
         Assert.assertEquals("Read stream is active", 0, isClosed.get());
         Assert.assertEquals("Read stream is cancelled", 0, isCanceled.get());
     }
@@ -130,7 +148,11 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
     }
 
     public MessageAssert assertLastMessage() {
-        return new MessageAssert(messages.getLast());
+        return new MessageAssert(messages.get(messages.size() - 1));
+    }
+
+    public MessageAssert assertPreLastMessage() {
+        return new MessageAssert(messages.get(messages.size() - 2));
     }
 
     public class DataResponse {
@@ -220,7 +242,11 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         public MessageAssert isInitRequest(String consumerName, String... topicPaths) {
             Assert.assertTrue("Msg is not init request", msg.hasInitRequest());
             Assert.assertFalse("Auto partition is disabled", msg.getInitRequest().getAutoPartitioningSupport());
-            Assert.assertEquals("Wrong consumer in init request", consumerName, msg.getInitRequest().getConsumer());
+            if (consumerName != null) {
+                Assert.assertEquals("Wrong consumer in init request", consumerName, msg.getInitRequest().getConsumer());
+            } else {
+                Assert.assertEquals("Wrong consumer in init request", "", msg.getInitRequest().getConsumer());
+            }
 
             Set<String> topics = msg.getInitRequest().getTopicsReadSettingsList().stream()
                     .map(YdbTopic.StreamReadMessage.InitRequest.TopicReadSettings::getPath)
@@ -258,6 +284,13 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
             return new CommitAssert(resp);
         }
 
+        public MessageAssert isUpdateToken(String tokenValue) {
+            Assert.assertTrue("Msg is not update token request", msg.hasUpdateTokenRequest());
+            YdbTopic.UpdateTokenRequest resp = msg.getUpdateTokenRequest();
+            Assert.assertEquals("Update token request has incorrect value", tokenValue, resp.getToken());
+            return this;
+        }
+
         public class CommitAssert {
             private final YdbTopic.StreamReadMessage.CommitOffsetRequest resp;
 
@@ -283,7 +316,6 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
 
                 return this;
             }
-
         }
     }
 

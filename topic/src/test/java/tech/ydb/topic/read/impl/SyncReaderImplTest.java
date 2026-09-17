@@ -88,7 +88,7 @@ public class SyncReaderImplTest {
         reader.shutdown(); // double shutdow is allowed
 
         Exception ex = Assert.assertThrows(RuntimeException.class, () -> reader.receive(0, TimeUnit.MILLISECONDS));
-        Assert.assertEquals("Reader was stopped", ex.getMessage());
+        Assert.assertEquals("Reader was stopped with Status{code = SUCCESS}", ex.getMessage());
 
         mock.closeStream(Status.SUCCESS);
     }
@@ -112,8 +112,34 @@ public class SyncReaderImplTest {
         mock.assertIsClosed();
         mock.closeStream(Status.SUCCESS);
 
-        Exception ex = Assert.assertThrows(RuntimeException.class, () -> reader.receive(0, TimeUnit.MILLISECONDS));
-        Assert.assertEquals("Reader was stopped", ex.getMessage());
+        Exception ex1 = Assert.assertThrows(RuntimeException.class, () -> reader.initAndWait());
+        Assert.assertEquals("Reader was closed with Status{code = SUCCESS}", ex1.getMessage());
+
+        Exception ex2 = Assert.assertThrows(RuntimeException.class, () -> reader.receive(0, TimeUnit.MILLISECONDS));
+        Assert.assertEquals("Reader was stopped with Status{code = SUCCESS}", ex2.getMessage());
+    }
+
+    @Test
+    public void shutdownWithoutInitTest() throws InterruptedException {
+        ReadStreamMock mock = new ReadStreamMock();
+
+        ReaderSettings settings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
+                .setConsumerName("consumer")
+                .build();
+
+        SyncReader reader = new SyncReaderImpl(mockRpc(mock), settings, REGISTRY);
+
+        reader.shutdown(); // shutdown without init
+        mock.assertIsNotStarted();
+
+        Exception ex1 = Assert.assertThrows(RuntimeException.class, () -> reader.initAndWait());
+        Assert.assertEquals("Reader was closed with Status{code = SUCCESS, issues = [Closed by client (S_INFO)]}",
+                ex1.getMessage());
+
+        Exception ex2 = Assert.assertThrows(RuntimeException.class, () -> reader.receive(0, TimeUnit.MILLISECONDS));
+        Assert.assertEquals("Reader was stopped with Status{code = SUCCESS, issues = [Closed by client (S_INFO)]}",
+                ex2.getMessage());
     }
 
     @Test

@@ -1,5 +1,7 @@
 package tech.ydb.topic.read.impl;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,7 +31,8 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 public class ReaderImplTest {
     private static final CodecRegistry REGISTRY = new CodecRegistry();
 
-    private static final String TOPIC = "/test/topic";
+    private static final String TOPIC1 = "/test/topic";
+    private static final String TOPIC2 = "/test/topic2";
 
     private static TopicRpc mockRpc(ReadStreamMock first, ReadStreamMock... rest) {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
@@ -47,11 +50,51 @@ public class ReaderImplTest {
     }
 
     @Test
+    public void updateTokenTest() {
+        ReadStreamMock mock = new ReadStreamMock();
+
+        ReaderSettings settings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder()
+                        .setPath(TOPIC1)
+                        .setMaxLag(Duration.ofDays(1))
+                        .setReadFrom(Instant.EPOCH.plusSeconds(1000000))
+                        .build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC2).build())
+                .setRetryConfig(TopicRetryConfig.NEVER)
+                .setMaxMemoryUsageBytes(1000)
+                .withoutConsumer()
+                .build();
+
+        ReadConfig config = new ReadConfig(REGISTRY, Runnable::run, Runnable::run, settings);
+        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
+
+        ReaderImpl reader = new ReaderImpl(mockRpc(mock), "test-reader", settings, config, handler);
+        reader.start();
+
+        mock.assertSentMessagesCount(1);
+        mock.assertLastMessage().isInitRequest(null, TOPIC1, TOPIC2);
+
+        mock.updateTokenValue("new-token-value");
+
+        mock.assertSentMessagesCount(1);
+        mock.responseInit("read-session-1");
+
+        mock.assertSentMessagesCount(3); // update token + read request
+        mock.assertPreLastMessage().isUpdateToken("new-token-value");
+        mock.assertLastMessage().isReadRequest(1000);
+
+        mock.responseUpdateToken();
+
+        reader.close();
+        mock.assertIsClosed();
+    }
+
+    @Test
     public void updateOffsetsInTxValidationTest() {
         ReadStreamMock mock = new ReadStreamMock();
 
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC1).build())
                 .setConsumerName("consumer")
                 .setRetryConfig(TopicRetryConfig.NEVER)
                 .setMaxMemoryUsageBytes(1000)
@@ -80,16 +123,16 @@ public class ReaderImplTest {
 
         assertIllegalArgument("Empty offsets range to update in transaction",
                 () -> reader.updateOffsetsInTransaction(
-                        active, Collections.singletonMap(TOPIC, new ArrayList<PartitionOffsets>()), updateSettings
+                        active, Collections.singletonMap(TOPIC1, new ArrayList<PartitionOffsets>()), updateSettings
                 )
         );
 
         List<PartitionOffsets> offsets = Arrays.asList(
-                new PartitionOffsets(new PartitionSession(1, 1, TOPIC), Arrays.asList(OffsetsRange.of(0, 10))),
-                new PartitionOffsets(new PartitionSession(2, 2, TOPIC),
+                new PartitionOffsets(new PartitionSession(1, 1, TOPIC1), Arrays.asList(OffsetsRange.of(0, 10))),
+                new PartitionOffsets(new PartitionSession(2, 2, TOPIC1),
                         Arrays.asList(OffsetsRange.of(0, 1), OffsetsRange.of(2, 3)))
         );
-        reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC, offsets), updateSettings);
+        reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC1, offsets), updateSettings);
 
 
         txStatus.complete(Status.SUCCESS);
@@ -104,7 +147,7 @@ public class ReaderImplTest {
         ReadStreamMock mock = new ReadStreamMock();
 
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC1).build())
                 .setConsumerName("consumer")
                 .setRetryConfig(TopicRetryConfig.NEVER)
                 .setMaxMemoryUsageBytes(1000)
@@ -121,11 +164,11 @@ public class ReaderImplTest {
         CompletableFuture<Status> txStatus = new CompletableFuture<>();
         TxMock active = new TxMock(txStatus);
         List<PartitionOffsets> offsets = Arrays.asList(
-                new PartitionOffsets(new PartitionSession(1, 1, TOPIC), Arrays.asList(OffsetsRange.of(0, 10))),
-                new PartitionOffsets(new PartitionSession(2, 2, TOPIC),
+                new PartitionOffsets(new PartitionSession(1, 1, TOPIC1), Arrays.asList(OffsetsRange.of(0, 10))),
+                new PartitionOffsets(new PartitionSession(2, 2, TOPIC1),
                         Arrays.asList(OffsetsRange.of(0, 1), OffsetsRange.of(2, 3)))
         );
-        reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC, offsets), updateSettings);
+        reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC1, offsets), updateSettings);
 
         txStatus.complete(Status.of(StatusCode.ABORTED));
         mock.assertIsClosed();
@@ -138,7 +181,7 @@ public class ReaderImplTest {
         ReadStreamMock mock = new ReadStreamMock();
 
         ReaderSettings settings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC).build())
+                .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC1).build())
                 .setConsumerName("consumer")
                 .setRetryConfig(TopicRetryConfig.NEVER)
                 .setMaxMemoryUsageBytes(1000)
@@ -155,11 +198,11 @@ public class ReaderImplTest {
         CompletableFuture<Status> txStatus = new CompletableFuture<>();
         TxMock active = new TxMock(txStatus);
         List<PartitionOffsets> offsets = Arrays.asList(
-                new PartitionOffsets(new PartitionSession(1, 1, TOPIC), Arrays.asList(OffsetsRange.of(0, 10))),
-                new PartitionOffsets(new PartitionSession(2, 2, TOPIC),
+                new PartitionOffsets(new PartitionSession(1, 1, TOPIC1), Arrays.asList(OffsetsRange.of(0, 10))),
+                new PartitionOffsets(new PartitionSession(2, 2, TOPIC1),
                         Arrays.asList(OffsetsRange.of(0, 1), OffsetsRange.of(2, 3)))
         );
-        reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC, offsets), updateSettings);
+        reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC1, offsets), updateSettings);
 
         txStatus.completeExceptionally(new RuntimeException("tx problem"));
         mock.assertIsClosed();

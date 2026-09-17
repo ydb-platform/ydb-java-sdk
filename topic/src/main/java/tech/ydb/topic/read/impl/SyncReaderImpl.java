@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -49,7 +50,7 @@ public class SyncReaderImpl implements SyncReader {
     private final ReaderImpl impl;
 
     private final CompletableFuture<Void> initFuture = new CompletableFuture<>();
-    private final CompletableFuture<Void> shutdownFuture = new CompletableFuture<>();
+    private final CompletableFuture<Status> shutdownFuture = new CompletableFuture<>();
 
     private final Queue<MessageWrapper> queue = new ConcurrentLinkedQueue<>();
     private final ReentrantLock waitingLock = new ReentrantLock();
@@ -87,14 +88,20 @@ public class SyncReaderImpl implements SyncReader {
     @Override
     public void initAndWait() {
         impl.start();
-        initFuture.join();
+        try {
+            initFuture.join();
+        } catch (CompletionException ex) {
+            if (ex.getCause() instanceof RuntimeException) {
+                throw (RuntimeException) ex.getCause();
+            }
+            throw ex;
+        }
     }
 
 
     @Override
     public void shutdown() {
         if (!impl.close()) {
-            // implicit closing because stream will never call onClose
             // implicit closing because stream will never call onClose
             close(Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO)));
         }
@@ -103,8 +110,8 @@ public class SyncReaderImpl implements SyncReader {
     }
 
     private void close(Status status) {
-        initFuture.completeExceptionally(new RuntimeException("Reader closed with " + status));
-        shutdownFuture.complete(null);
+        initFuture.completeExceptionally(new RuntimeException("Reader was closed with " + status));
+        shutdownFuture.complete(status);
 
         decompressor.close();
         wakeUp();
@@ -150,7 +157,7 @@ public class SyncReaderImpl implements SyncReader {
                 logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
                 waitingCondition.await(millisToWait, TimeUnit.MILLISECONDS);
                 if (impl.isClosed()) {
-                    throw new RuntimeException("Reader was stopped");
+                    throw new RuntimeException("Reader was stopped with " + shutdownFuture.join());
                 }
                 next = queue.poll();
             }
@@ -164,7 +171,7 @@ public class SyncReaderImpl implements SyncReader {
     public Message receiveInternal(ReceiveSettings receiveSettings, long timeout, TimeUnit unit)
             throws InterruptedException {
         if (impl.isClosed()) {
-            throw new RuntimeException("Reader was stopped");
+            throw new RuntimeException("Reader was stopped with " + shutdownFuture.join());
         }
 
         while (true) {
