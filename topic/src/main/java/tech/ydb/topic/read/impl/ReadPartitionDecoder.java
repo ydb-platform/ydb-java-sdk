@@ -136,6 +136,10 @@ public class ReadPartitionDecoder {
             notifyReady();
         }
 
+        long getUncompressedSize() {
+            return uncompressedSize;
+        }
+
         public long allocate() {
             if (isStopped) {
                 problem = new IOException("" + getPartitionSession() + " is already closed");
