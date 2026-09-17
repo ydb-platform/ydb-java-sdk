@@ -26,6 +26,10 @@ public class MessageDecoder {
     private volatile boolean isStopped = false;
 
     public MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
+        if (maxBufferSize <= 0) {
+            throw new IllegalArgumentException("maxBufferSize must be positive, but got " + maxBufferSize);
+        }
+
         this.totalAvailable = new AtomicLong(maxBufferSize);
         this.decompressionExecutor = decompressionExecutor;
         this.codecRegistry = codecRegistry;

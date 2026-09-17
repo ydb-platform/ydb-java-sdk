@@ -81,6 +81,64 @@ public class MessageDecoderTest {
     public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     @Test
+    public void nonPositiveBufferSizeTest() {
+        // A decoder with a non-positive budget can never admit a message and silently stalls the reader
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> new MessageDecoder(0, Runnable::run, REGISTRY));
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> new MessageDecoder(-1, Runnable::run, REGISTRY));
+    }
+
+    @Test
+    @HideLoggers(MessageDecoder.class)
+    public void readyHandlerThrowsOnDecodeTest() {
+        MessageDecoder decoder = new MessageDecoder(1000, Runnable::run, REGISTRY);
+
+        AtomicInteger ready = new AtomicInteger(0);
+        ReadPartitionDecoder partition = new ReadPartitionDecoder("t1", decoder, PS1, null, () -> {
+            ready.incrementAndGet();
+            throw new RuntimeException("ready handler is broken");
+        });
+
+        BatchMeta meta = meta(Codec.GZIP);
+        MessageImpl m1 = partition.decode(meta, OffsetsRange.of(1), gzipMsg(1, 40));
+        MessageImpl m2 = partition.decode(meta, OffsetsRange.of(2), gzipMsg(2, 50));
+
+        decoder.decodeNext();
+
+        // A broken handler must not escape into the decompression thread and must not stop the following messages
+        Assert.assertEquals(2, ready.get());
+        Assert.assertTrue(m1.isReady());
+        Assert.assertTrue(m2.isReady());
+        Assert.assertEquals(40, m1.getData().length);
+        Assert.assertEquals(50, m2.getData().length);
+    }
+
+    @Test
+    @HideLoggers(MessageDecoder.class)
+    public void readyHandlerThrowsOnErrorTest() {
+        Executor rejecting = task -> {
+            throw new RejectedExecutionException("executor is saturated");
+        };
+        MessageDecoder decoder = new MessageDecoder(1000, rejecting, REGISTRY);
+
+        AtomicInteger ready = new AtomicInteger(0);
+        ReadPartitionDecoder partition = new ReadPartitionDecoder("t1", decoder, PS1, null, () -> {
+            ready.incrementAndGet();
+            throw new RuntimeException("ready handler is broken");
+        });
+
+        BatchMeta meta = meta(Codec.GZIP);
+        MessageImpl m1 = partition.decode(meta, OffsetsRange.of(1), gzipMsg(1, 40));
+
+        decoder.decodeNext();
+
+        Assert.assertEquals(1, ready.get());
+        Assert.assertTrue(m1.isReady());
+        assertDecompressionException("Decompression for " + PS1 + " error", m1::getData);
+    }
+
+    @Test
     public void rawDecodeTest() {
         MessageDecoder decoder = new MessageDecoder(10000, Runnable::run, REGISTRY);
         AtomicInteger ready = new AtomicInteger(0);
