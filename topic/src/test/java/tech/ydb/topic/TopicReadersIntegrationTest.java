@@ -174,6 +174,7 @@ public class TopicReadersIntegrationTest {
 
     private static void writeToTopic(String topicPath, String producerId, int startFrom, int count) {
         writeToTopic(startFrom, count, WriterSettings.newBuilder()
+                .setLogPrefix("writers-test-" + producerId)
                 .setTopicPath(topicPath)
                 .setProducerId(producerId)
                 .build());

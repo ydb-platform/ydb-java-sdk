@@ -136,12 +136,18 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 req.getPartitionOffsets().getEnd()
         );
 
-        String traceID = debugId + '/' + psid + "-p" + pid;
+        String tid = debugId + '/' + psid + "-p" + pid;
+        if (partitions.putIfAbsent(psid, partition) != null) {
+            logger.error("[{}] Received second StartPartitionSessionRequest for the already active {}", debugId,
+                    partition);
+            Issue issue = Issue.of("Restarting read session due to receiving second StartPartitionSessionRequest with "
+                    + partition, Issue.Severity.FATAL);
+            fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+            return null;
+        }
         logger.info("[{}] Received StartPartitionSessionRequest for {} and consumer \"{}\" with committedOffset {}"
-                + " and partitionOffsets {}", traceID, partition, config.getConsumerName(), committed, offsets);
-
-        partitions.put(psid, partition);
-        return new StartPartitionRequest(traceID, partition, committed, offsets);
+                + " and partitionOffsets {}", tid, partition, config.getConsumerName(), committed, offsets);
+        return new StartPartitionRequest(tid, partition, committed, offsets);
     }
 
     public PartitionSession onClosePartition(long partitionSessionId) {
@@ -169,11 +175,9 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         if (partition == null) {
             logger.error("[{}] Received graceful StopPartitionSessionRequest for partition session {}, " +
                     "but have no such partition session active", debugId, psid);
-            send(YdbTopic.StreamReadMessage.FromClient.newBuilder().setStopPartitionSessionResponse(
-                            YdbTopic.StreamReadMessage.StopPartitionSessionResponse.newBuilder()
-                                    .setPartitionSessionId(psid)
-                                    .build())
-                    .build());
+            Issue issue = Issue.of("Restarting read session due to receiving StopPartitionSessionRequest with "
+                    + "PartitionSessionId " + psid + " that SDK knows nothing about", Issue.Severity.FATAL);
+            fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
             return null;
         }
 

@@ -127,7 +127,7 @@ public class AsyncReaderImpl implements AsyncReader {
                 try {
                     eventHandler.onReaderClosed(new ReaderClosedEvent());
                 } catch (Throwable th) {
-                    failSession(th, "onSessionStarted");
+                    failSession(th, "onReaderClosed");
                     throw th;
                 }
             });

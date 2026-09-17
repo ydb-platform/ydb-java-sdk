@@ -119,7 +119,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             stream.onInit(message.getInitResponse());
         } else if (message.hasStartPartitionSessionRequest()) {
             StartPartitionSessionEvent event = stream.onStartPartition(message.getStartPartitionSessionRequest());
-            handler.handleStartPartitionSessionRequest(event);
+            if (event != null) {
+                handler.handleStartPartitionSessionRequest(event);
+            }
         } else if (message.hasStopPartitionSessionRequest()) {
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest req = message.getStopPartitionSessionRequest();
             if (req.getGraceful()) {

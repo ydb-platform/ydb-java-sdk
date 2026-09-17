@@ -184,6 +184,7 @@ public class SyncReaderImpl implements SyncReader {
             }
 
             if (!next.isActive()) {
+                next.confirm();
                 continue;
             }
 

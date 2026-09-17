@@ -64,6 +64,13 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
         }
     }
 
+    protected void fail(Status status) {
+        logger.warn("[{}] stopped by fail {}", debugId, status);
+        if (streamStatus.complete(status)) {
+            stream.close();
+        }
+    }
+
     @Override
     public void send(W req) {
         if (streamStatus.isDone()) {
