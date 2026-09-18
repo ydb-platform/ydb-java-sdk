@@ -159,7 +159,7 @@ public class AsyncReaderImplTest {
                 ex.getCause().getMessage());
         mock.assertIsNotStarted();
         mock.assertSentMessagesCount(0);
-        Mockito.verifyNoInteractions(handler);
+        Mockito.verify(handler).onReaderClosed(Mockito.any());
     }
 
     @Test

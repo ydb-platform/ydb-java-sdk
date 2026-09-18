@@ -95,7 +95,22 @@ public class AsyncReaderImpl implements AsyncReader {
     }
 
     private void close(Status status) {
+        if (shutdownFuture.isDone()) {
+            return;
+        }
+
+        controlEventsExecutor.execute(() -> {
+            try {
+                eventHandler.onReaderClosed(new ReaderClosedEvent());
+            } catch (Throwable th) {
+                logger.error("[{}] onReaderClosed finished with exception", th);
+                throw th;
+            }
+        });
+
+        // stop decompressong
         decompressor.close();
+        // wait while processer finished all tasks
         processor.close();
         initFuture.completeExceptionally(new RuntimeException("Reader closed with " + status));
         shutdownFuture.complete(null);
@@ -111,7 +126,7 @@ public class AsyncReaderImpl implements AsyncReader {
         @Override
         public  void handleSessionStarted(String sessionId) {
             initFuture.complete(null);
-            processor.execute(() -> {
+            controlEventsExecutor.execute(() -> {
                 try {
                     eventHandler.onSessionStarted(new SessionStartedEvent(sessionId));
                 } catch (Throwable th) {
@@ -123,16 +138,7 @@ public class AsyncReaderImpl implements AsyncReader {
 
         @Override
         public void handleReaderClosed(Status status) {
-            processor.execute(() -> {
-                try {
-                    eventHandler.onReaderClosed(new ReaderClosedEvent());
-                } catch (Throwable th) {
-                    failSession(th, "onReaderClosed");
-                    throw th;
-                }
-            });
-
-            close(status); // wait while processer finished all tasks
+            close(status);
         }
 
         @Override

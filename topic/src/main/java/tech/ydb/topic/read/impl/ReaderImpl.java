@@ -64,6 +64,8 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
 
     private final FromClient initRequest;
 
+    private volatile String currentSessionId = null;
+
     public ReaderImpl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config, Handler handler) {
         super(logger, id, settings.getRetryConfig(), rpc.getScheduler());
         this.rpc = rpc;
@@ -81,6 +83,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
     @Override
     protected void onRetry(ReadSession stream, Status status) {
         logger.warn("[{}] stopped by status {}", debugId, status);
+        currentSessionId = null;
         if (errorHandler != null) {
             try {
                 errorHandler.accept(status, null);
@@ -93,6 +96,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
 
     @Override
     protected void onClose(ReadSession stream, Status status) {
+        currentSessionId = null;
         if (!status.isSuccess()) {
             logger.warn("[{}] closed by status {}", debugId, status);
         } else {
@@ -115,6 +119,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
 
         if (message.hasInitResponse()) {
             resetRetries();
+            currentSessionId = message.getInitResponse().getSessionId();
             handler.handleSessionStarted(message.getInitResponse().getSessionId());
             stream.onInit(message.getInitResponse());
         } else if (message.hasStartPartitionSessionRequest()) {
@@ -184,18 +189,23 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             logger.debug(str.toString());
         }
 
+        Object sessionId = currentSessionId; // store current session id to fail it for tx errors
         transaction.getStatusFuture().whenComplete((status, error) -> {
             if (status != null && !status.isSuccess()) {
                 String msg = "Restarting read session due to transaction " + transaction.getId() +
                                 " with partition offsets from read session " + debugId +
                                 " was not committed with status: " + status;
-                fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR)));
+                if (sessionId == currentSessionId) {
+                    fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR)));
+                }
             }
             if (error != null) {
                 String msg = "Restarting read session due to transaction " + transaction.getId() +
                                 " with partition offsets from read session " + debugId +
                                 " was not committed with reason: " + error.getMessage();
-                fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, error, Issue.of(msg, Issue.Severity.ERROR)));
+                if (sessionId == currentSessionId) {
+                    fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR)));
+                }
             }
         });
 
@@ -240,7 +250,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
                 .build();
     }
 
-    public static YdbTopic.OffsetsRange buildOffsetRange(OffsetsRange range) {
+    static YdbTopic.OffsetsRange buildOffsetRange(OffsetsRange range) {
         return YdbTopic.OffsetsRange.newBuilder()
                 .setStart(range.getStart())
                 .setEnd(range.getEnd())
