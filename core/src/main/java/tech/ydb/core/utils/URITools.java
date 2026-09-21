@@ -34,6 +34,10 @@ public class URITools {
     }
 
     private static String decode(String url) {
+        // a parameter without a value, like "?flag" or "?database=", has no string to decode
+        if (url == null) {
+            return null;
+        }
         try {
             return URLDecoder.decode(url, StandardCharsets.UTF_8.name());
         } catch (UnsupportedEncodingException ex) {
