@@ -118,6 +118,34 @@ public class GrpcStatusesTest {
     }
 
     @Test
+    public void statusResourceExhaustedMessageTooLargeSend() {
+        Status status = GrpcStatuses.toStatus(
+                io.grpc.Status.RESOURCE_EXHAUSTED.withDescription("trying to send message larger than max"), "test");
+        Issue issue = Issue.of(
+                "gRPC error: (RESOURCE_EXHAUSTED) on test, trying to send message larger than max",
+                Issue.Severity.ERROR);
+        assertEquals(Status.of(StatusCode.BAD_REQUEST).withIssues(issue), status);
+    }
+
+    @Test
+    public void statusResourceExhaustedMessageTooLargeReceive() {
+        Status status = GrpcStatuses.toStatus(
+                io.grpc.Status.RESOURCE_EXHAUSTED.withDescription("received message larger than max"), "test");
+        Issue issue = Issue.of(
+                "gRPC error: (RESOURCE_EXHAUSTED) on test, received message larger than max",
+                Issue.Severity.ERROR);
+        assertEquals(Status.of(StatusCode.BAD_REQUEST).withIssues(issue), status);
+    }
+
+    @Test
+    public void statusResourceExhaustedOtherDescription() {
+        Status status = GrpcStatuses.toStatus(
+                io.grpc.Status.RESOURCE_EXHAUSTED.withDescription("quota exceeded"), "test");
+        Issue issue = Issue.of("gRPC error: (RESOURCE_EXHAUSTED) on test, quota exceeded", Issue.Severity.ERROR);
+        assertEquals(Status.of(StatusCode.CLIENT_RESOURCE_EXHAUSTED).withIssues(issue), status);
+    }
+
+    @Test
     public void statusThrowable() {
         Throwable th = new RuntimeException("Hello");
         Status status = GrpcStatuses.toStatus(io.grpc.Status.RESOURCE_EXHAUSTED.withCause(th), "test");
