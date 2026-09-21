@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.SerialExecutor;
@@ -48,7 +49,15 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
                            ReaderSettings settings,
                            ReadEventHandlersSettings handlersSettings,
                            @Nonnull CodecRegistry codecRegistry) {
-        super(topicRpc, settings, codecRegistry);
+        this(topicRpc, settings, handlersSettings, codecRegistry, Meter.NOOP);
+    }
+
+    public AsyncReaderImpl(TopicRpc topicRpc,
+                           ReaderSettings settings,
+                           ReadEventHandlersSettings handlersSettings,
+                           @Nonnull CodecRegistry codecRegistry,
+                           Meter meter) {
+        super(topicRpc, settings, codecRegistry, meter);
         this.eventHandler = handlersSettings.getEventHandler();
 
         if (handlersSettings.getExecutor() != null) {
@@ -100,6 +109,7 @@ public class AsyncReaderImpl extends ReaderImpl implements AsyncReader {
             long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
             logger.debug("{} DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
                     + "to be called...", session, messagesCount, offsetStart, offsetEnd);
+            getMetrics().reportDelivered(messagesCount, session.getPartition().getPath());
             eventHandler.onMessages(event);
             logger.debug("{} DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
                     + "successfully finished", session, messagesCount, offsetStart, offsetEnd);

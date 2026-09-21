@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.impl.Observability;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.operation.Operation;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
@@ -66,10 +68,13 @@ public class TopicClientImpl implements TopicClient {
     private final Executor compressionExecutor;
     private final ExecutorService defaultCompressionExecutorService;
     private final CodecRegistry codecRegistry;
+    private final Meter meter;
 
     TopicClientImpl(TopicClientBuilderImpl builder) {
         this.topicRpc = builder.topicRpc;
         this.codecRegistry = new CodecRegistry(builder.codecs);
+        this.meter = builder.meter;
+        Observability.reportMetricsUsage(meter);
         if (builder.compressionExecutor != null) {
             this.defaultCompressionExecutorService = null;
             this.compressionExecutor = builder.compressionExecutor;
@@ -372,12 +377,12 @@ public class TopicClientImpl implements TopicClient {
 
     @Override
     public SyncReader createSyncReader(ReaderSettings settings) {
-        return new SyncReaderImpl(topicRpc, settings, codecRegistry);
+        return new SyncReaderImpl(topicRpc, settings, codecRegistry, meter);
     }
 
     @Override
     public AsyncReader createAsyncReader(ReaderSettings settings, ReadEventHandlersSettings handlersSettings) {
-        return new AsyncReaderImpl(topicRpc, settings, handlersSettings, codecRegistry);
+        return new AsyncReaderImpl(topicRpc, settings, handlersSettings, codecRegistry, meter);
     }
 
     @Override
