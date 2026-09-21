@@ -374,10 +374,9 @@ public interface Result<T> {
 
         @Nonnull
         @Override
+        @SuppressWarnings("unchecked")
         public <U> CompletableFuture<Result<U>> mapResultFuture(Function<V, CompletableFuture<Result<U>>> mapper) {
-            CompletableFuture<Result<U>> future = new CompletableFuture<>();
-            future.completeExceptionally(status.getCause());
-            return future;
+            return CompletableFuture.completedFuture((Error<U>) this);
         }
 
         @Nonnull
