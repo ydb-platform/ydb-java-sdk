@@ -284,6 +284,9 @@ public class AlterTableTest {
         assertIndexSync(description.getIndexes().get(0), "idx2", Arrays.asList("id", "code"), Collections.emptyList());
     }
 
+    /**
+     * Checks that create table with 3 custom attributes pass
+     */
     @Test
     public void createAttributesTest() {
         // --------------------- create table with attributes -----------------------------
@@ -295,6 +298,16 @@ public class AlterTableTest {
         Assert.assertEquals(3, attrs.size());
     }
 
+    /**
+     * Checks that test overwrites an existing attribute
+     * and adds a new one in a single alter request.
+     * <p>
+     * The table is created with three attributes,
+     * then scheme_version is changed from "code 1" to "code 2"
+     * and a new {env attribute is added.
+     * After the alter, expected return four
+     * attributes with the untouched ones owner, author preserved.
+     */
     @Test
     public void modifyAttributesTest() {
         createTable();
@@ -318,6 +331,13 @@ public class AlterTableTest {
         Assert.assertEquals(4, attrs.size());
     }
 
+    /**
+     * Checks that test removes a single attribute from the table
+     * and leaves the rest of them intact.
+     * <p>
+     * The table is created with three attributes, then owner is dropped.
+     * After the alter is expected to return only scheme_version and @code author.
+     */
     @Test
     public void dropAttributesTest() {
         // --------------------- create table with attributes -----------------------------
