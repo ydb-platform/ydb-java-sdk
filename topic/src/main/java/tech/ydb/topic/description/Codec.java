@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
-
  *
  * Interface for custom codec implementation.
  * <p>
@@ -49,6 +48,17 @@ public interface Codec {
      * @return codec identifier
      */
     int getId();
+
+    /**
+     * Returns a conservative upper bound for the encoded size of an input with the specified size.
+     * Codecs whose output may be larger than their input should override this method.
+     *
+     * @param inputSizeBytes input size in bytes
+     * @return encoded size upper bound in bytes
+     */
+    default long getMaxEncodedSize(int inputSizeBytes) {
+        return inputSizeBytes;
+    }
 
     /**
      * Decode data

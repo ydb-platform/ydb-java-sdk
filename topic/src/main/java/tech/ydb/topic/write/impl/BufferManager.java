@@ -168,10 +168,43 @@ public class BufferManager {
         countAvailable.release();
     }
 
-    public void updateMessageSize(long oldSize, long newSize) {
+    /**
+     * Tries to update the buffer reservation for an already acquired message.
+     * Releases unused blocks when the message becomes smaller. When it grows, reserves the requested additional
+     * blocks if possible, or all currently available blocks otherwise.
+     *
+     * @param oldSize currently reserved message size in bytes
+     * @param newSize required message size in bytes
+     * @return effective reservation size in bytes
+     */
+    public long updateMessageSize(long oldSize, long newSize) {
         int oldBlocks = calculateBlocksCount(oldSize, blockBitsCount);
         int newBlocks = calculateBlocksCount(newSize, blockBitsCount);
-        blocksAvailable.release(oldBlocks - newBlocks);
+        int difference = oldBlocks - newBlocks;
+
+        if (difference >= 0) {
+            blocksAvailable.release(difference);
+            return newSize;
+        }
+
+        int requiredBlocks = -difference;
+
+        if (blocksAvailable.tryAcquire(requiredBlocks)) {
+            return newSize;
+        }
+
+        int acquiredBlocks = blocksAvailable.drainPermits();
+
+        if (acquiredBlocks >= requiredBlocks) {
+            blocksAvailable.release(acquiredBlocks - requiredBlocks);
+            return newSize;
+        }
+
+        if (acquiredBlocks == 0) {
+            return oldSize;
+        }
+
+        return (oldBlocks + (long) acquiredBlocks) << blockBitsCount;
     }
 
     private static int calculateBlockSize(long maxBufferSize) {

@@ -70,4 +70,18 @@ public class StatusTest {
                 ex2.getMessage());
         Assert.assertEquals(wrong, ex2.getStatus());
     }
+
+    @Test
+    public void keepCauseOnCopy() {
+        Throwable cause = new RuntimeException("transport problem");
+        Issue i1 = Issue.of("issue1", Issue.Severity.ERROR);
+
+        Status origin = Status.of(StatusCode.TRANSPORT_UNAVAILABLE, cause);
+        Assert.assertSame(cause, origin.getCause());
+
+        // adding issues or consumed RU to a status must not lose the exception which caused it
+        Assert.assertSame(cause, origin.withIssues(i1).getCause());
+        Assert.assertSame(cause, origin.withConsumedRu(3d).getCause());
+        Assert.assertSame(cause, origin.withConsumedRu(3d).withIssues(i1).getCause());
+    }
 }
