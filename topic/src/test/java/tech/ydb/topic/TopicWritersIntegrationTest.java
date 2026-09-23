@@ -11,7 +11,6 @@ import java.util.concurrent.CompletionException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiConsumer;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -44,6 +43,7 @@ import tech.ydb.topic.settings.SendSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.TopicRetryConfig;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.utils.ErrorsHandler;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
@@ -283,7 +283,7 @@ public class TopicWritersIntegrationTest {
                 StatusCode.TRANSPORT_UNAVAILABLE
         };
 
-        ErrorsHolder errorsHolder = new ErrorsHolder();
+        ErrorsHandler errorsHolder = new ErrorsHandler();
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath(ONE_PART_TOPIC)
                 .setProducerId(TEST_PRODUCER)
@@ -625,7 +625,7 @@ public class TopicWritersIntegrationTest {
     public void invalidTxWriteTest() throws Exception {
         createTopicWithOnePartition();
 
-        ErrorsHolder errorsHolder = new ErrorsHolder();
+        ErrorsHandler errorsHolder = new ErrorsHandler();
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath(ONE_PART_TOPIC)
                 .setProducerId(TEST_PRODUCER)
@@ -679,7 +679,7 @@ public class TopicWritersIntegrationTest {
 
         PROXY.unavailableOnAckWithSeqNo(2);
 
-        ErrorsHolder errorsHolder = new ErrorsHolder();
+        ErrorsHandler errorsHolder = new ErrorsHandler();
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath(ONE_PART_TOPIC)
                 .setProducerId(TEST_PRODUCER)
@@ -714,32 +714,5 @@ public class TopicWritersIntegrationTest {
         }
 
         assertTopicContent(ONE_PART_TOPIC, Arrays.asList(msg1, msg2));
-    }
-
-    private class ErrorsHolder implements BiConsumer<Status, Throwable> {
-        private final List<StatusCode> problems = new ArrayList<>();
-
-        @Override
-        public void accept(Status st, Throwable th) {
-            if (st != null) {
-                problems.add(st.getCode());
-            }
-            if (th != null) {
-                problems.add(StatusCode.CLIENT_INTERNAL_ERROR);
-            }
-        }
-
-        public void assertEmpty() {
-            Assert.assertTrue("No reties was expected", problems.isEmpty());
-        }
-
-        public void assertCodes(StatusCode... codes) {
-            Iterator<StatusCode> it = problems.iterator();
-            for (StatusCode code: codes) {
-                Assert.assertTrue("Expected " + code + ", but has nothing", it.hasNext());
-                Assert.assertEquals(code, it.next());
-            }
-            Assert.assertFalse("Unexpected error code", it.hasNext());
-        }
     }
 }

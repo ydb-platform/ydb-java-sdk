@@ -139,7 +139,7 @@ public class BufferManagerTest {
                 + "Buffer currently has 1 messages with 5 / 20 bytes available",
                 () -> bm.tryAcquire(15, 1, TimeUnit.MILLISECONDS));
 
-        bm.updateMessageSize(15, 10);
+        Assert.assertEquals(10, bm.updateMessageSize(15, 10));
         bm.tryAcquire(6, 1, TimeUnit.MILLISECONDS); // success
         assertTimeout("[test] Rejecting a message due to reaching message queue in-flight limit of 2",
                 () -> bm.tryAcquire(1, 1, TimeUnit.MILLISECONDS));
@@ -156,6 +156,26 @@ public class BufferManagerTest {
         bm.tryAcquire(10);
         bm.releaseMessage(10);
         bm.releaseMessage(10);
+    }
+
+    @Test
+    public void testUpdateMessageSizeAcquiresAvailableCapacity() throws Exception {
+        BufferManager bufferManager = manager(10, 3);
+        bufferManager.tryAcquire(4);
+        bufferManager.tryAcquire(4);
+
+        long updatedSize = bufferManager.updateMessageSize(4, 8);
+        Assert.assertEquals(6, updatedSize);
+        assertOverflow(
+                "[test] Rejecting a message of 1 bytes: not enough space in message queue. "
+                        + "Buffer currently has 2 messages with 0 / 10 bytes available",
+                () -> bufferManager.tryAcquire(1)
+        );
+
+        bufferManager.releaseMessage(4);
+        bufferManager.releaseMessage(updatedSize);
+        bufferManager.tryAcquire(10);
+        bufferManager.releaseMessage(10);
     }
 
     @Test
