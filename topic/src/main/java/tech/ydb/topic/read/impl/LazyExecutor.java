@@ -71,8 +71,8 @@ public class LazyExecutor implements Executor, AutoCloseable {
 
         try {
             service.shutdown();
-            if (!service.awaitTermination(100, TimeUnit.MILLISECONDS)) {
-                service.shutdownNow();
+            if (!service.awaitTermination(1, TimeUnit.SECONDS)) {
+                logger.warn("executor {} doesn't compelete all tasks", name);
             }
         } catch (InterruptedException e) {
             logger.warn("executor {} shutdown interrupted", name, e);
