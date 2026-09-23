@@ -36,33 +36,23 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
     }
 
     @Override
-    public CompletableFuture<WriteSession.Stream> createNewStream(String id) {
-        CompletableFuture<Result<Long>> partitionIdLookup = partitionId == null
+    public CompletableFuture<Result<WriteSession.Stream>> createNewStream(String id) {
+        CompletableFuture<Result<Long>> partition = partitionId == null
                 ? lookupPartitionId(id)
                 : CompletableFuture.completedFuture(Result.success(partitionId));
 
-        return partitionIdLookup.thenCompose(lookupResult -> {
-            if (!lookupResult.isSuccess()) {
-                return CompletableFuture.completedFuture(new WriteStream.Fail(id, lookupResult.getStatus()));
-            }
-
-            long targetPartitionId = lookupResult.getValue();
-            return lookupLocation(id, targetPartitionId)
-                    .thenApply(location -> buildDirectStream(id, targetPartitionId, location));
-        });
+        return partition.thenCompose(Result.compose(
+                partID -> lookupLocation(id, partID)
+                        .thenApply(r -> r.map(location -> buildDirectStream(id, partID, location)))
+        ));
     }
 
-    private WriteSession.Stream buildDirectStream(String id, long targetPartitionId,
-            Result<YdbTopic.PartitionLocation> location) {
-        if (!location.isSuccess()) {
-            return new WriteStream.Fail(id, location.getStatus());
-        }
-
+    private WriteSession.Stream buildDirectStream(String id, long partitionId, YdbTopic.PartitionLocation location) {
         StreamWriteMessage.InitRequest.Builder req = StreamWriteMessage.InitRequest.newBuilder()
                 .setPath(topicPath)
                 .setPartitionWithGeneration(YdbTopic.PartitionWithGeneration.newBuilder()
-                        .setPartitionId(targetPartitionId)
-                        .setGeneration(location.getValue().getGeneration())
+                        .setPartitionId(partitionId)
+                        .setGeneration(location.getGeneration())
                         .build());
 
         if (producerId != null) {
@@ -74,7 +64,7 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
                 .withTraceId(id)
                 .disableDeadline()
                 .withDirectMode(true)
-                .withPreferredNodeID(location.getValue().getNodeId())
+                .withPreferredNodeID(location.getNodeId())
                 .build();
 
         return new WriteStream(id, rpc.writeSession(settings), init);
@@ -82,28 +72,26 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
 
     protected CompletableFuture<Result<YdbTopic.PartitionLocation>> lookupLocation(String id, long targetPartitionId) {
         logger.info("[{}] describe topic {} to look up node for partition {}", id, topicPath, targetPartitionId);
-        return rpc.describeTopic(
-                YdbTopic.DescribeTopicRequest.newBuilder().setIncludeLocation(true).setPath(topicPath).build(),
-                GrpcRequestSettings.newBuilder().withDeadline(Duration.ofMinutes(1)).build()
-        ).thenApply(describeTopic -> parseLocation(id, targetPartitionId, describeTopic));
+        YdbTopic.DescribeTopicRequest req = YdbTopic.DescribeTopicRequest.newBuilder()
+                .setIncludeLocation(true).setPath(topicPath)
+                .build();
+        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().withDeadline(Duration.ofMinutes(1)).build();
+        return rpc.describeTopic(req, settings).thenApply(res -> parseLocation(id, targetPartitionId, res));
     }
 
-    private Result<YdbTopic.PartitionLocation> parseLocation(
-            String id,
-            long targetPartitionId,
-            Result<YdbTopic.DescribeTopicResult> describeTopic
-    ) {
-        if (!describeTopic.isSuccess()) {
-            logger.warn("[{}] describe topic {} failed with status {}", id, topicPath, describeTopic.getStatus());
-            return Result.fail(describeTopic.getStatus());
+    private Result<YdbTopic.PartitionLocation> parseLocation(String id, long partitionId,
+            Result<YdbTopic.DescribeTopicResult> description) {
+        if (!description.isSuccess()) {
+            logger.warn("[{}] describe topic {} failed with status {}", id, topicPath, description.getStatus());
+            return Result.fail(description.getStatus());
         }
 
         // lookup for partition location
-        for (YdbTopic.DescribeTopicResult.PartitionInfo partition : describeTopic.getValue().getPartitionsList()) {
-            if (partition.getPartitionId() == targetPartitionId) {
+        for (YdbTopic.DescribeTopicResult.PartitionInfo partition : description.getValue().getPartitionsList()) {
+            if (partition.getPartitionId() == partitionId) {
                 if (!partition.hasPartitionLocation()) {
-                    logger.warn("[{}] partition {} has no valid location info", id, targetPartitionId);
-                    Issue issue = Issue.of("Partition " + targetPartitionId + " has no location", Issue.Severity.ERROR);
+                    logger.warn("[{}] partition {} has no valid location info", id, partitionId);
+                    Issue issue = Issue.of("Partition " + partitionId + " has no location", Issue.Severity.ERROR);
                     return Result.fail(Status.of(StatusCode.BAD_REQUEST, issue));
                 }
 
@@ -111,8 +99,8 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
             }
         }
 
-        logger.warn("[{}] topic {} doesn't have partition {}, direct writing failed", id, topicPath, targetPartitionId);
-        Issue issue = Issue.of("Cannot find partition " + targetPartitionId, Issue.Severity.ERROR);
+        logger.warn("[{}] topic {} doesn't have partition {}, direct writing failed", id, topicPath, partitionId);
+        Issue issue = Issue.of("Cannot find partition " + partitionId, Issue.Severity.ERROR);
         return Result.fail(Status.of(StatusCode.BAD_REQUEST, issue));
     }
 
@@ -178,13 +166,8 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
                     .build();
             stream.sendNext(init);
         } catch (Throwable throwable) {
-            logger.warn(
-                    "[{}] cannot send init request to probe stream of topic {} with producer {}",
-                    id,
-                    topicPath,
-                    producerId,
-                    throwable
-            );
+            logger.warn("[{}] cannot send init request to probe stream of topic {} with producer {}",
+                    id, topicPath, producerId, throwable);
             pidFuture.complete(Result.fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, throwable)));
         }
 

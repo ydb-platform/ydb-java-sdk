@@ -6,14 +6,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
+import javax.annotation.Nullable;
+
 import com.google.protobuf.Message;
 import org.slf4j.Logger;
 
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.common.retry.RetryPolicy;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.utils.FutureTools;
 
 public abstract class TopicRetryableStream<R extends Message, W extends Message, S extends TopicStream<R, W>> {
     protected final String debugId;
@@ -21,9 +23,11 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
     private final RetryConfig retryConfig;
     private final ScheduledExecutorService scheduler;
 
-    private final AtomicReference<S> realStream = new AtomicReference<>();
     private final AtomicInteger streamCount = new AtomicInteger(0);
     private final RetryState state = new RetryState();
+
+    private final AtomicReference<String> realStreamId = new AtomicReference<>();
+    private volatile S realStream = null;
 
     private volatile boolean isClosed = false;
 
@@ -40,9 +44,9 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
      * transport.
      *
      * @param debugId identifier of the new stream for logging
-     * @return future with the new stream
+     * @return future with the new stream result
      */
-    protected abstract CompletableFuture<S> createNewStream(String debugId);
+    protected abstract CompletableFuture<Result<S>> createNewStream(String debugId);
 
     protected abstract void onNext(S stream, R message);
 
@@ -50,13 +54,13 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
      * @param stream the stopped stream, or {@code null} when stream creation itself failed
      * @param status status the stream stopped with
      */
-    protected abstract void onRetry(S stream, Status status);
+    protected abstract void onRetry(@Nullable S stream, Status status);
 
     /**
      * @param stream the closed stream, or {@code null} when stream creation itself failed
      * @param status status the stream was closed with
      */
-    protected abstract void onClose(S stream, Status status);
+    protected abstract void onClose(@Nullable S stream, Status status);
 
     public void start() {
         if (isClosed) {
@@ -65,35 +69,45 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
         }
 
         String streamID = debugId + '.' + streamCount.incrementAndGet();
-        createNewStream(streamID).whenComplete((stream, throwable) -> {
-            if (throwable != null) {
-                // creation may be composed of several futures, so the error comes wrapped in a CompletionException
-                Throwable cause = FutureTools.unwrapCompletionException(throwable);
-                logger.warn("[{}] cannot create stream", debugId, cause);
-                Status errorStatus = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, cause);
-                // there is no stream to report: creation is what failed
-                onStreamStop(null, errorStatus, retryConfig.getThrowableRetryPolicy(cause));
-                return;
-            }
-
-            startStream(stream);
+        createNewStream(streamID).whenComplete((result, th) -> {
+            tryStartStream(streamID, result, th);
         });
     }
 
-    private void startStream(S stream) {
-        if (!realStream.compareAndSet(null, stream)) {
-            logger.warn("[{}] double start of stream, skipping", debugId);
+    private void tryStartStream(String streamID, Result<S> result, Throwable th) {
+        if (isClosed) {
+            logger.info("[{}] stream was closed while it was creating, skipping", streamID);
             return;
         }
 
-        // stream creation is asynchronous, so close() may have happened while it was in progress
-        if (isClosed && realStream.compareAndSet(stream, null)) {
-            logger.info("[{}] stream was closed while it was creating, skipping", debugId);
+        if (!realStreamId.compareAndSet(null, streamID)) {
+            logger.warn("[{}] double start of stream, skipping", streamID);
             return;
         }
 
+        if (result != null && result.isSuccess()) {
+            startStream(streamID, result.getValue());
+            return;
+        }
+
+        if (!realStreamId.compareAndSet(streamID, null)) {
+            return;
+        }
+
+        if (result == null) {
+            logger.warn("[{}] cannot create stream with exeption", streamID, th);
+            Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
+            onStreamStop(null, wrapped, retryConfig.getThrowableRetryPolicy(th));
+        } else {
+            logger.warn("[{}] cannot create stream with status {}", streamID, result.getStatus());
+            onStreamStop(null, result.getStatus(), retryConfig.getStatusRetryPolicy(result.getStatus()));
+        }
+    }
+
+    private void startStream(String streamID, S stream) {
+        realStream = stream;
         stream.start(msg -> onNext(stream, msg)).whenComplete((status, th) -> {
-            if (!realStream.compareAndSet(stream, null)) {
+            if (!realStreamId.compareAndSet(streamID, null)) {
                 return;
             }
             if (status != null) {
@@ -104,6 +118,11 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
                 onStreamStop(stream, wrapped, retryConfig.getThrowableRetryPolicy(th));
             }
         });
+
+        if (isClosed) { // stream may be closed by other thread
+            realStream = null;
+            stream.close();
+        }
     }
 
     protected void resetRetries() {
@@ -115,32 +134,40 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
     }
 
     public void fail(Status status) {
-        S closed = realStream.getAndSet(null);
-        if (closed != null) {
-            logger.warn("[{}] failed by application-side error {}", debugId, status);
-            closed.close();
-            onStreamStop(closed, status, retryConfig.getStatusRetryPolicy(status));
+        String streamId = realStreamId.getAndSet(null);
+        if (streamId != null) {
+            logger.warn("[{}] failed by application-side error {}", streamId, status);
+            S local = realStream;
+            realStream = null;
+            if (local != null) {
+                local.close();
+            }
+            onStreamStop(local, status, retryConfig.getStatusRetryPolicy(status));
         }
     }
 
     public void send(W msg) {
-        S stream = realStream.get();
-        if (stream == null) {
+        S local = realStream;
+        if (local == null) {
             logger.warn("[{}] send message before stream is ready", debugId);
             return;
         }
-        stream.send(msg);
+        local.send(msg);
     }
 
     public boolean close() {
         isClosed = true;
-        S stream = realStream.getAndSet(null);
-        if (stream == null) {
+        String streamId = realStreamId.getAndSet(null);
+        if (streamId == null) {
             return false;
         }
 
-        stream.close();
-        onStreamStop(stream, Status.SUCCESS, null);
+        S local = realStream;
+        realStream = null;
+        if (local != null) {
+            local.close();
+        }
+        onStreamStop(local, Status.SUCCESS, null);
         return true;
     }
 

@@ -69,6 +69,10 @@ public class WriteStreamDirectFactoryTest {
             }).when(grpc).sendNext(Mockito.any());
         }
 
+        public void responseWithException(Exception ex) {
+            Mockito.doThrow(ex).when(grpc).sendNext(Mockito.any());
+        }
+
         public void closeImmediately(Status status) {
             result.complete(status);
         }
@@ -136,15 +140,15 @@ public class WriteStreamDirectFactoryTest {
         WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, settings);
         Assert.assertEquals("/local/topic", factory.getTopicPath());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream);
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
+        Assert.assertTrue(res.isSuccess());
 
         ArgumentCaptor<GrpcRequestSettings> options = ArgumentCaptor.forClass(GrpcRequestSettings.class);
         Mockito.verify(rpc).writeSession(options.capture());
         Assert.assertTrue(options.getValue().isDirectMode());
         Assert.assertEquals(42, options.getValue().getPreferredNodeID().intValue());
 
-        stream.start(null);
+        res.getValue().start(null);
 
         FromClient msg = mocked.verifyNextMsg();
         Assert.assertTrue(msg.hasInitRequest());
@@ -166,16 +170,11 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
-        Assert.assertEquals(Status.of(StatusCode.UNAVAILABLE), res.join());
-
-        stream.close(); // no effect
+        Assert.assertTrue(!res.isSuccess());
+        Assert.assertEquals(Status.of(StatusCode.UNAVAILABLE), res.getStatus());
     }
 
     @Test
@@ -190,17 +189,12 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
+        Assert.assertTrue(!res.isSuccess());
         Status expected = Status.of(StatusCode.BAD_REQUEST, Issue.of("Cannot find partition 3", Issue.Severity.ERROR));
-        Assert.assertEquals(expected, res.join());
-
-        stream.close(); // no effect
+        Assert.assertEquals(expected, res.getStatus());
     }
 
     @Test
@@ -217,17 +211,12 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc, Mockito.never()).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
+        Assert.assertTrue(!res.isSuccess());
         Status expected = Status.of(StatusCode.BAD_REQUEST, Issue.of("Partition 3 has no location", Issue.Severity.ERROR));
-        Assert.assertEquals(expected, res.join());
-
-        stream.close(); // no effect
+        Assert.assertEquals(expected, res.getStatus());
     }
 
     @Test
@@ -258,15 +247,15 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream);
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
+        Assert.assertTrue(res.isSuccess());
 
         ArgumentCaptor<GrpcRequestSettings> options = ArgumentCaptor.forClass(GrpcRequestSettings.class);
         Mockito.verify(rpc, Mockito.times(2)).writeSession(options.capture());
         Assert.assertTrue(options.getValue().isDirectMode());
         Assert.assertEquals(55, options.getValue().getPreferredNodeID().intValue());
 
-        stream.start(null);
+        res.getValue().start(null);
 
         FromClient msg = actual.verifyNextMsg();
         Assert.assertTrue(msg.hasInitRequest());
@@ -292,14 +281,11 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
-        Assert.assertEquals(Status.of(StatusCode.UNAUTHORIZED), res.join());
-        stream.close(); // no effect
+        Assert.assertFalse(res.isSuccess());
+        Assert.assertEquals(Status.of(StatusCode.UNAUTHORIZED), res.getStatus());
     }
 
     @Test
@@ -316,14 +302,11 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
-        Assert.assertEquals(Status.of(StatusCode.PRECONDITION_FAILED), res.join());
-        stream.close(); // no effect
+        Assert.assertFalse(res.isSuccess());
+        Assert.assertEquals(Status.of(StatusCode.PRECONDITION_FAILED), res.getStatus());
     }
 
     @Test
@@ -340,17 +323,38 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
-        Status status = res.join();
+        Assert.assertFalse(res.isSuccess());
+        Status status = res.getStatus();
         Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, status.getCode());
-        Assert.assertNotNull(status.getCause());
+        Assert.assertTrue(status.getCause() instanceof RuntimeException);
         Assert.assertEquals("something went wrong", status.getCause().getMessage());
-        stream.close(); // no effect
+    }
+
+    @Test
+    public void directWriteByProducerIdProbeThrowsExceptionOnSendTest() {
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+
+        MockedStream probe = new MockedStream();
+        probe.responseWithException(new IllegalStateException("invalid state"));
+        Mockito.when(rpc.writeSession(Mockito.any(GrpcRequestSettings.class))).thenReturn(probe.grpc);
+
+        WriteStreamFactory factory = new WriteStreamDirectFactory(rpc, WriterSettings.newBuilder()
+                .setTopicPath("/test/topic")
+                .setProducerId("producer-1")
+                .setDirectWrite(true)
+                .build());
+
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
+        Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
+
+        Assert.assertFalse(res.isSuccess());
+        Status status = res.getStatus();
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, status.getCode());
+        Assert.assertTrue(status.getCause() instanceof IllegalStateException);
+        Assert.assertEquals("invalid state", status.getCause().getMessage());
     }
 
     @Test
@@ -370,14 +374,11 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
-        Assert.assertEquals(Status.of(StatusCode.INTERNAL_ERROR), res.join());
-        stream.close(); // no effect
+        Assert.assertFalse(res.isSuccess());
+        Assert.assertEquals(Status.of(StatusCode.INTERNAL_ERROR), res.getStatus());
     }
 
     @Test
@@ -398,15 +399,12 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
         Mockito.verify(rpc).writeSession(Mockito.any(GrpcRequestSettings.class));
 
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
+        Assert.assertFalse(res.isSuccess());
         Issue issue = Issue.of("Unexpected message from stream with producer producer-1", Issue.Severity.ERROR);
-        Assert.assertEquals(Status.of(StatusCode.BAD_REQUEST, issue), res.join());
-        stream.close(); // no effect
+        Assert.assertEquals(Status.of(StatusCode.BAD_REQUEST, issue), res.getStatus());
     }
 
     @Test
@@ -433,11 +431,9 @@ public class WriteStreamDirectFactoryTest {
                 .setDirectWrite(true)
                 .build());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
-        Assert.assertTrue(stream instanceof WriteStream.Fail);
-        CompletableFuture<Status> res = stream.start(null);
-        Assert.assertTrue(res.isDone());
+        Result<WriteSession.Stream> res = factory.createNewStream("s1").join();
+        Assert.assertFalse(res.isSuccess());
         Status expected = Status.of(StatusCode.BAD_REQUEST, Issue.of("Cannot find partition 5", Issue.Severity.ERROR));
-        Assert.assertEquals(expected, res.join());
+        Assert.assertEquals(expected, res.getStatus());
     }
 }

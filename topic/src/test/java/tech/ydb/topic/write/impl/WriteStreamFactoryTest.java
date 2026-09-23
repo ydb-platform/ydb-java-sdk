@@ -31,7 +31,7 @@ public class WriteStreamFactoryTest {
         WriteStreamFactory factory = new WriteStreamFactory(rpc, settings);
         Assert.assertEquals("/local/topic", factory.getTopicPath());
 
-        WriteSession.Stream stream = factory.createNewStream("s1").join();
+        WriteSession.Stream stream = factory.createNewStream("s1").join().getValue();
         Assert.assertTrue(stream instanceof WriteStream);
         Mockito.verify(rpc).writeSession("s1");
     }
