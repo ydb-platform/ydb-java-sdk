@@ -79,7 +79,7 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
         return rpc.describeTopic(req, settings).thenApply(res -> parseLocation(id, targetPartitionId, res));
     }
 
-    private Result<YdbTopic.PartitionLocation> parseLocation(String id, long partitionId,
+    private Result<YdbTopic.PartitionLocation> parseLocation(String id, long targetPartitionId,
             Result<YdbTopic.DescribeTopicResult> description) {
         if (!description.isSuccess()) {
             logger.warn("[{}] describe topic {} failed with status {}", id, topicPath, description.getStatus());
@@ -88,10 +88,10 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
 
         // lookup for partition location
         for (YdbTopic.DescribeTopicResult.PartitionInfo partition : description.getValue().getPartitionsList()) {
-            if (partition.getPartitionId() == partitionId) {
+            if (partition.getPartitionId() == targetPartitionId) {
                 if (!partition.hasPartitionLocation()) {
-                    logger.warn("[{}] partition {} has no valid location info", id, partitionId);
-                    Issue issue = Issue.of("Partition " + partitionId + " has no location", Issue.Severity.ERROR);
+                    logger.warn("[{}] partition {} has no valid location info", id, targetPartitionId);
+                    Issue issue = Issue.of("Partition " + targetPartitionId + " has no location", Issue.Severity.ERROR);
                     return Result.fail(Status.of(StatusCode.BAD_REQUEST, issue));
                 }
 
@@ -99,8 +99,8 @@ public class WriteStreamDirectFactory extends WriteStreamFactory {
             }
         }
 
-        logger.warn("[{}] topic {} doesn't have partition {}, direct writing failed", id, topicPath, partitionId);
-        Issue issue = Issue.of("Cannot find partition " + partitionId, Issue.Severity.ERROR);
+        logger.warn("[{}] topic {} doesn't have partition {}, direct writing failed", id, topicPath, targetPartitionId);
+        Issue issue = Issue.of("Cannot find partition " + targetPartitionId, Issue.Severity.ERROR);
         return Result.fail(Status.of(StatusCode.BAD_REQUEST, issue));
     }
 

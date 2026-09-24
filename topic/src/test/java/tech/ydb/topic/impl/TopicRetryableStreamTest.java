@@ -174,11 +174,11 @@ public class TopicRetryableStreamTest {
         TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h1, h2);
 
         retryable.start(); // sets realStream = h1.topicStream
-        retryable.start(); // compareAndSet fails → h2.topicStream is closed
+        retryable.start(); // compareAndSet fails → h2.topicStream is closed byt not started
 
         Mockito.verify(h1.grpc).start(Mockito.any());
         Mockito.verify(h2.grpc, Mockito.never()).start(Mockito.any()); // h2 was never started
-        Mockito.verify(h2.grpc, Mockito.never()).close();              // h2 was never closed
+        Mockito.verify(h2.grpc).close();
     }
 
     @Test
@@ -228,7 +228,7 @@ public class TopicRetryableStreamTest {
     }
 
     @Test
-    public void closeWhileStreamIsCreatingTest() {
+    public void closeWhileAsyncInitializationTest() {
         StreamHandle streamHandle = new StreamHandle();
         TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
 
@@ -236,12 +236,49 @@ public class TopicRetryableStreamTest {
         retryable.addHandle(creation);
 
         retryable.start();
-        Assert.assertFalse(retryable.close()); // there is no stream to close yet
+        Assert.assertTrue(retryable.close());
 
-        creation.complete(Result.success(streamHandle)); // the created stream must not be started
+        creation.complete(Result.success(streamHandle));
 
         Mockito.verify(streamHandle.grpc, Mockito.never()).start(Mockito.any());
+        Mockito.verify(streamHandle.grpc).close();
+
         Assert.assertFalse(retryable.close());
+
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
+        Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
+    }
+
+    @Test
+    public void closeWhileAsyncInitializationFailedTest() {
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<Result<StreamHandle>> creation = new CompletableFuture<>();
+        retryable.addHandle(creation);
+
+        retryable.start();
+        Assert.assertTrue(retryable.close());
+        creation.complete(Result.fail(Status.of(StatusCode.BAD_REQUEST))); // will be lost
+
+        Assert.assertFalse(retryable.close());
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
+        Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
+    }
+
+    @Test
+    public void closeWhileAsyncInitializationErrorTest() {
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<Result<StreamHandle>> creation = new CompletableFuture<>();
+        retryable.addHandle(creation);
+
+        retryable.start();
+        Assert.assertTrue(retryable.close());
+        creation.completeExceptionally(new IllegalArgumentException("error")); // will be lost
+
+        Assert.assertFalse(retryable.close());
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
+        Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
     }
 
     @Test

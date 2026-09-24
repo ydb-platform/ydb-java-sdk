@@ -87,34 +87,39 @@ public class AsyncReaderImplTest {
 
     @Test
     public void initAndShutdownTest() {
-        ReadStreamMock mock = new ReadStreamMock();
-        AsyncReader reader = reader(settings().setReaderName("test-reader-name").build(), mock);
-        mock.assertSentMessagesCount(0);
+        ReadStreamMock m1 = new ReadStreamMock();
+        ReadStreamMock m2 = new ReadStreamMock();
+        AsyncReader reader = reader(settings().setReaderName("test-reader-name").build(), m1, m2);
+        m1.assertSentMessagesCount(0);
         Mockito.verifyNoInteractions(handler);
 
         CompletableFuture<Void> init = reader.init();
         Assert.assertFalse(init.isDone());
-        mock.assertSentMessagesCount(1);
-        mock.assertLastMessage().isInitRequest("consumer", "/test-topic");
+        m1.assertSentMessagesCount(1);
+        m1.assertLastMessage().isInitRequest("consumer", "/test-topic");
 
-        Assert.assertSame(init, reader.init()); // double init is allowed
-        mock.assertSentMessagesCount(1);
-        mock.responseInit("read-session-1");
+        // double init is allowed, but second stream will be closed without start
+        Assert.assertSame(init, reader.init());
+        m2.assertIsNotStarted();
+        m2.assertIsClosed();
+
+        m1.assertSentMessagesCount(1);
+        m1.responseInit("read-session-1");
 
         Assert.assertTrue(init.isDone());
         Assert.assertFalse(init.isCompletedExceptionally());
         ArgumentCaptor<SessionStartedEvent> started = ArgumentCaptor.forClass(SessionStartedEvent.class);
         Mockito.verify(handler).onSessionStarted(started.capture());
         Assert.assertEquals("read-session-1", started.getValue().getSessionId());
-        mock.assertSentMessagesCount(2);
-        mock.assertLastMessage().isReadRequest(100 * 1024 * 1024);
+        m1.assertSentMessagesCount(2);
+        m1.assertLastMessage().isReadRequest(100 * 1024 * 1024);
 
         CompletableFuture<Void> shutdown = reader.shutdown();
-        mock.assertIsClosed();
+        m1.assertIsClosed();
         Assert.assertTrue(shutdown.isDone());
         Assert.assertSame(shutdown, reader.shutdown()); // double shutdown is allowed
-        mock.assertIsClosed();
-        mock.closeStream(Status.SUCCESS);
+        m1.assertIsClosed();
+        m1.closeStream(Status.SUCCESS);
 
         Assert.assertTrue(shutdown.isDone());
         Assert.assertFalse(shutdown.isCompletedExceptionally());
