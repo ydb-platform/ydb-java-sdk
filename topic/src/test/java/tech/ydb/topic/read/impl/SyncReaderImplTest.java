@@ -53,7 +53,8 @@ public class SyncReaderImplTest {
 
     @Test
     public void initAndShutdownTest() throws InterruptedException {
-        ReadStreamMock mock = new ReadStreamMock();
+        ReadStreamMock m1 = new ReadStreamMock();
+        ReadStreamMock m2 = new ReadStreamMock();
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
@@ -61,36 +62,39 @@ public class SyncReaderImplTest {
                 .setReaderName("test-reader-name")
                 .build();
 
-        SyncReader reader = new SyncReaderImpl(mockRpc(mock), settings, REGISTRY);
-        mock.assertSentMessagesCount(0);
+        SyncReader reader = new SyncReaderImpl(mockRpc(m1, m2), settings, REGISTRY);
+        m1.assertSentMessagesCount(0);
 
         // before init there is nothing to read
         Assert.assertNull(reader.receive(0, TimeUnit.MILLISECONDS));
 
         reader.init();
-        mock.assertSentMessagesCount(1);
-        mock.assertLastMessage().isInitRequest("consumer", "/test-topic");
+        m1.assertSentMessagesCount(1);
+        m1.assertLastMessage().isInitRequest("consumer", "/test-topic");
 
-        reader.init(); // double init is allowed
-        mock.assertSentMessagesCount(1);
+        reader.init(); // double init is allowed, but second stream will be closed without start
+        m2.assertIsNotStarted();
+        m2.assertIsClosed();
 
-        mock.responseInit("read-session-1");
+        m1.assertSentMessagesCount(1);
+
+        m1.responseInit("read-session-1");
 
         Assert.assertEquals("read-session-1", reader.getSessionId());
-        mock.assertSentMessagesCount(2);
-        mock.assertLastMessage().isReadRequest(100 * 1024 * 1024);
+        m1.assertSentMessagesCount(2);
+        m1.assertLastMessage().isReadRequest(100 * 1024 * 1024);
 
         Assert.assertNull(reader.receive(0, TimeUnit.MILLISECONDS));
 
         reader.shutdown();
-        mock.assertIsClosed();
+        m1.assertIsClosed();
 
         reader.shutdown(); // double shutdow is allowed
 
         Exception ex = Assert.assertThrows(RuntimeException.class, () -> reader.receive(0, TimeUnit.MILLISECONDS));
         Assert.assertEquals("Reader was stopped with Status{code = SUCCESS}", ex.getMessage());
 
-        mock.closeStream(Status.SUCCESS);
+        m1.closeStream(Status.SUCCESS);
     }
 
     @Test

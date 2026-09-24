@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Issue;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -76,8 +77,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
     }
 
     @Override
-    protected ReadSession createNewStream(String id) {
-        return new ReadSession(id, rpc.readSession(id), initRequest, handler::handleDataReceivedEvent, config);
+    protected CompletableFuture<Result<ReadSession>> createNewStream(String id) {
+        ReadSession s = new ReadSession(id, rpc.readSession(id), initRequest, handler::handleDataReceivedEvent, config);
+        return CompletableFuture.completedFuture(Result.success(s));
     }
 
     @Override
@@ -91,7 +93,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
                 logger.error("[{}] errorHandler onRetry processing throws exception", debugId, ex);
             }
         }
-        stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
+        if (stream != null) {
+            stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
+        }
     }
 
     @Override
@@ -109,7 +113,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
                 logger.error("[{}] errorHandler onClose processing throws exception", debugId, ex);
             }
         }
-        stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
+        if (stream != null) {
+            stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
+        }
         handler.handleReaderClosed(status);
     }
 

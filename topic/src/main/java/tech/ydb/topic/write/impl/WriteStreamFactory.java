@@ -1,7 +1,8 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.concurrent.CompletableFuture;
 
-
+import tech.ydb.core.Result;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.topic.TopicRpc;
@@ -52,8 +53,16 @@ public class WriteStreamFactory {
         return req.build();
     }
 
-    public WriteSession.Stream createNewStream(String id) {
+    /**
+     * Creates a new write stream. The returned future may be completed asynchronously, the method itself never blocks
+     * the caller.
+     *
+     * @param id identifier of the new stream for logging
+     * @return future with the new stream
+     */
+    public CompletableFuture<Result<WriteSession.Stream>> createNewStream(String id) {
         FromClient init = FromClient.newBuilder().setInitRequest(buildInitRequest()).build();
-        return new WriteStream(id, rpc.writeSession(id), init);
+        WriteStream stream = new WriteStream(id, rpc.writeSession(id), init);
+        return CompletableFuture.completedFuture(Result.success(stream));
     }
 }
