@@ -1,3 +1,6 @@
+## 2.4.12 ##
+* Core: fixed ready watcher invocation on discovery error
+
 ## 2.4.11 ##
 * Table: fixed StackOverflow problem for the immediately released sessions
 

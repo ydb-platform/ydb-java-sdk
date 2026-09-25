@@ -187,6 +187,34 @@ public class YdbTransportImplTest {
     }
 
     @Test
+    public void asyncBuildDiscoveryErrorTest() {
+        MockedScheduler scheduler = new MockedScheduler(MockedClock.create(ZoneId.of("UTC")));
+
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.unavailable());
+
+        CompletableFuture<Void> isReady = new CompletableFuture<>();
+
+        @SuppressWarnings("deprecation")
+        GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withSchedulerFactory(() -> scheduler)
+                .withDiscoveryTimeout(Duration.ofMillis(100))
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .buildAsync(() -> isReady.complete(null));
+
+        Assert.assertNotNull(transport);
+        Assert.assertFalse(isReady.isDone());
+
+        // Run discovery task and ready-watcher task
+        scheduler.hasTasksCount(2).runNextTask().runNextTask();
+
+        // readyWatcher must be called even if discovery fails
+        Assert.assertTrue(isReady.isDone());
+
+        transport.close();
+    }
+
+    @Test
     @SuppressWarnings("SleepWhileInLoop")
     public void asyncWaitingForReadyTest() throws Exception {
         CountDownLatch discoveryLatch = new CountDownLatch(1);

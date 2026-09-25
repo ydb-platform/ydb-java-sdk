@@ -83,8 +83,13 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         discovery.start();
         if (readyWatcher != null) {
             scheduler.execute(() -> {
-                discovery.waitReady(-1);
-                readyWatcher.run();
+                try {
+                    discovery.waitReady(-1);
+                } catch (RuntimeException ex) {
+                    logger.warn("Discovery failed during async transport initialization", ex);
+                } finally {
+                    readyWatcher.run();
+                }
             });
         }
     }
