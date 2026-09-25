@@ -81,6 +81,67 @@ public class MessageDecoderTest {
     public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     @Test
+    public void nonPositiveBufferSizeTest() {
+        // A decoder with a non-positive budget can never admit a message and silently stalls the reader
+        Exception ex1 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> new MessageDecoder(0, Runnable::run, REGISTRY));
+        Assert.assertEquals("maxBufferSize must be positive, but got 0", ex1.getMessage());
+
+        Exception ex2 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> new MessageDecoder(-1, Runnable::run, REGISTRY));
+        Assert.assertEquals("maxBufferSize must be positive, but got -1", ex2.getMessage());
+    }
+
+    @Test
+    @HideLoggers(MessageDecoder.class)
+    public void readyHandlerThrowsOnDecodeTest() {
+        MessageDecoder decoder = new MessageDecoder(1000, Runnable::run, REGISTRY);
+
+        AtomicInteger ready = new AtomicInteger(0);
+        ReadPartitionDecoder partition = new ReadPartitionDecoder("t1", decoder, PS1, null, () -> {
+            ready.incrementAndGet();
+            throw new RuntimeException("ready handler is broken");
+        });
+
+        BatchMeta meta = meta(Codec.GZIP);
+        MessageImpl m1 = partition.decode(meta, OffsetsRange.of(1), gzipMsg(1, 40));
+        MessageImpl m2 = partition.decode(meta, OffsetsRange.of(2), gzipMsg(2, 50));
+
+        decoder.decodeNext();
+
+        // A broken handler must not escape into the decompression thread and must not stop the following messages
+        Assert.assertEquals(2, ready.get());
+        Assert.assertTrue(m1.isReady());
+        Assert.assertTrue(m2.isReady());
+        Assert.assertEquals(40, m1.getData().length);
+        Assert.assertEquals(50, m2.getData().length);
+    }
+
+    @Test
+    @HideLoggers(MessageDecoder.class)
+    public void readyHandlerThrowsOnErrorTest() {
+        Executor rejecting = task -> {
+            throw new RejectedExecutionException("executor is saturated");
+        };
+        MessageDecoder decoder = new MessageDecoder(1000, rejecting, REGISTRY);
+
+        AtomicInteger ready = new AtomicInteger(0);
+        ReadPartitionDecoder partition = new ReadPartitionDecoder("t1", decoder, PS1, null, () -> {
+            ready.incrementAndGet();
+            throw new RuntimeException("ready handler is broken");
+        });
+
+        BatchMeta meta = meta(Codec.GZIP);
+        MessageImpl m1 = partition.decode(meta, OffsetsRange.of(1), gzipMsg(1, 40));
+
+        decoder.decodeNext();
+
+        Assert.assertEquals(1, ready.get());
+        Assert.assertTrue(m1.isReady());
+        assertDecompressionException("Decompression for " + PS1 + " error", m1::getData);
+    }
+
+    @Test
     public void rawDecodeTest() {
         MessageDecoder decoder = new MessageDecoder(10000, Runnable::run, REGISTRY);
         AtomicInteger ready = new AtomicInteger(0);
@@ -130,31 +191,47 @@ public class MessageDecoderTest {
 
         decoder.decodeNext();
 
-        Assert.assertEquals(-50, decoder.getTotalAvailable());
+        // 40 + 50 fit into the budget, 60 does not and has to wait
+        Assert.assertEquals(10, decoder.getTotalAvailable());
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
+        Assert.assertFalse(m3.isReady());
+        Assert.assertFalse(m4.isReady());
+        Assert.assertFalse(m5.isReady());
+        Assert.assertEquals(2, ready.get());
+
+        Assert.assertEquals(40, m1.getData().length);
+        Assert.assertEquals(50, m2.getData().length);
+        Assert.assertEquals(1, m1.getData()[0]);
+        Assert.assertEquals(2, m2.getData()[0]);
+
+        p1.releaseRange(OffsetsRange.of(1)); // 10 + 40 is not enough for the 60 bytes of m3
+        p1.releaseRange(OffsetsRange.of(4)); // that offset is not decoded yet
+
+        Assert.assertEquals(50, decoder.getTotalAvailable());
+        Assert.assertFalse(m3.isReady());
+        Assert.assertFalse(m4.isReady());
+        Assert.assertFalse(m5.isReady());
+        Assert.assertEquals(2, ready.get());
+
+        p1.releaseRange(OffsetsRange.of(2)); // the whole budget is free again, m3 is admitted
+        Assert.assertEquals(40, decoder.getTotalAvailable());
         Assert.assertTrue(m3.isReady());
         Assert.assertFalse(m4.isReady());
         Assert.assertFalse(m5.isReady());
         Assert.assertEquals(3, ready.get());
 
-        Assert.assertEquals(40, m1.getData().length);
-        Assert.assertEquals(50, m2.getData().length);
         Assert.assertEquals(60, m3.getData().length);
-        Assert.assertEquals(1, m1.getData()[0]);
-        Assert.assertEquals(2, m2.getData()[0]);
         Assert.assertEquals(3, m3.getData()[0]);
 
-        p1.releaseRange(OffsetsRange.of(1)); // 40 is not enough to resume decoding
-        p1.releaseRange(OffsetsRange.of(4)); // that offset is not decoded yet
+        p1.releaseRange(OffsetsRange.of(0, 3)); // double release
 
-        Assert.assertEquals(-10, decoder.getTotalAvailable());
+        Assert.assertEquals(40, decoder.getTotalAvailable());
         Assert.assertFalse(m4.isReady());
-        Assert.assertFalse(m5.isReady());
         Assert.assertEquals(3, ready.get());
 
-        p1.releaseRange(OffsetsRange.of(2));
-        Assert.assertEquals(-30, decoder.getTotalAvailable());
+        p1.releaseRange(OffsetsRange.of(0, 5)); // releases m3, then m4 fits into the free budget
+        Assert.assertEquals(30, decoder.getTotalAvailable());
         Assert.assertTrue(m4.isReady());
         Assert.assertFalse(m5.isReady());
         Assert.assertEquals(4, ready.get());
@@ -162,13 +239,8 @@ public class MessageDecoderTest {
         Assert.assertEquals(70, m4.getData().length);
         Assert.assertEquals(4, m4.getData()[0]);
 
-        p1.releaseRange(OffsetsRange.of(0, 3)); // double release
-
-        Assert.assertEquals(-30, decoder.getTotalAvailable());
-        Assert.assertFalse(m5.isReady());
-        Assert.assertEquals(4, ready.get());
-
-        p1.releaseRange(OffsetsRange.of(0, 5));
+        // m5 is bigger than the whole budget, so it is admitted only when nothing else retains the buffer
+        p1.releaseRange(OffsetsRange.of(0, 6));
         Assert.assertTrue(m5.isReady());
         Assert.assertEquals(5, ready.get());
 
@@ -199,7 +271,8 @@ public class MessageDecoderTest {
         Assert.assertEquals(100, decoder.getTotalAvailable());
 
         decoder.decodeNext();
-        Assert.assertEquals(-50, decoder.getTotalAvailable());
+        // 40 + 50 fit into the budget, the 60 bytes of m3 do not
+        Assert.assertEquals(10, decoder.getTotalAvailable());
 
         MessageImpl m6 = p1.decode(meta, OffsetsRange.of(4), gzipMsg(4, 10));
         MessageImpl m7 = p1.decode(meta, OffsetsRange.of(5), gzipMsg(5, 20));
@@ -207,11 +280,12 @@ public class MessageDecoderTest {
         MessageImpl m9 = p2.decode(meta, OffsetsRange.of(15), gzipMsg(15, 20));
 
         decoder.decodeNext();
-        Assert.assertEquals(-50, decoder.getTotalAvailable());
+        // m3 still blocks the queue, the smaller messages behind it are not reordered
+        Assert.assertEquals(10, decoder.getTotalAvailable());
 
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
-        Assert.assertTrue(m3.isReady());
+        Assert.assertFalse(m3.isReady());
         Assert.assertFalse(m4.isReady());
         Assert.assertFalse(m5.isReady());
         Assert.assertFalse(m6.isReady());
@@ -220,8 +294,9 @@ public class MessageDecoderTest {
         Assert.assertFalse(m9.isReady());
 
         Assert.assertEquals(2, r1.get());
-        Assert.assertEquals(1, r2.get());
+        Assert.assertEquals(0, r2.get());
 
+        // closing p1 returns its 90 bytes, which is enough to admit m3 and then m4
         p1.close();
         Assert.assertEquals(0, decoder.getTotalAvailable());
 
@@ -270,23 +345,27 @@ public class MessageDecoderTest {
 
         decoder.decodeNext();
 
-        Assert.assertEquals(-20, decoder.getTotalAvailable());
-        Assert.assertEquals(2, ready.get());
+        // only m1 fits into the 70 bytes budget, the 50 bytes of m2 do not
+        Assert.assertEquals(30, decoder.getTotalAvailable());
+        Assert.assertEquals(1, ready.get());
         Assert.assertTrue(m1.isReady());
-        Assert.assertTrue(m2.isReady());
+        Assert.assertFalse(m2.isReady());
         Assert.assertFalse(m3.isReady());
 
         decoder.stop();
-        Assert.assertEquals(-20, decoder.getTotalAvailable());
+        Assert.assertEquals(30, decoder.getTotalAvailable());
 
-        Assert.assertEquals(2, ready.get());
+        Assert.assertEquals(1, ready.get());
+        Assert.assertFalse(m2.isReady());
         Assert.assertFalse(m3.isReady());
 
+        // a stopped decoder neither returns the budget nor resumes the pending messages
         partition.releaseRange(OffsetsRange.of(0, 10));
-        Assert.assertEquals(2, ready.get());
+        Assert.assertEquals(1, ready.get());
+        Assert.assertFalse(m2.isReady());
         Assert.assertFalse(m3.isReady());
 
-        Assert.assertEquals(-20, decoder.getTotalAvailable());
+        Assert.assertEquals(30, decoder.getTotalAvailable());
     }
 
     @Test
@@ -319,7 +398,8 @@ public class MessageDecoderTest {
 
         Assert.assertFalse(m1.isReady());
         Assert.assertFalse(m2.isReady());
-        Assert.assertEquals(3, decodeTasks.size());
+        // 400 + 500 fit into the 1000 bytes budget, the 600 bytes of m3 do not
+        Assert.assertEquals(2, decodeTasks.size());
         Assert.assertEquals(0, p1ready.get());
         Assert.assertEquals(0, p2ready.get());
 
@@ -327,7 +407,7 @@ public class MessageDecoderTest {
 
         Assert.assertTrue(m1.isReady());
         Assert.assertFalse(m2.isReady());
-        Assert.assertEquals(2, decodeTasks.size());
+        Assert.assertEquals(1, decodeTasks.size());
         Assert.assertEquals(1, p1ready.get());
         Assert.assertEquals(0, p2ready.get());
 
@@ -335,18 +415,30 @@ public class MessageDecoderTest {
 
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
-        Assert.assertEquals(1, decodeTasks.size());
+        Assert.assertEquals(0, decodeTasks.size());
         Assert.assertEquals(1, p1ready.get());
         Assert.assertEquals(1, p2ready.get());
+
+        // decoding a message does not return its budget, only releasing it does
+        p1.releaseRange(OffsetsRange.of(0, 2));
+        Assert.assertEquals(0, decodeTasks.size());
+
+        // now the whole budget is free again and m3 and m4 are admitted
+        p2.releaseRange(OffsetsRange.of(0, 2));
+        Assert.assertEquals(2, decodeTasks.size());
 
         decoder.stop();
         p1.close();
         p2.close();
 
-        Assert.assertEquals(1, decodeTasks.size());
+        // tasks already submitted to the executor must not decode after the partitions are closed
+        decodeTasks.poll().run();
         decodeTasks.poll().run();
         Assert.assertEquals(0, decodeTasks.size());
 
+        Assert.assertFalse(m3.isReady());
+        Assert.assertFalse(m4.isReady());
+        Assert.assertFalse(m5.isReady());
         Assert.assertEquals(1, p1ready.get());
         Assert.assertEquals(1, p2ready.get());
     }

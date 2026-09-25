@@ -10,6 +10,16 @@ import org.junit.Test;
 public class ReaderSettingsTest {
 
     @Test
+    public void nonPositiveBufferSizeTest() {
+        IllegalArgumentException ex1 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> ReaderSettings.newBuilder().setMaxMemoryUsageBytes(0).build());
+        Assert.assertEquals("maxMemoryUsageBytes must be positive, but got 0", ex1.getMessage());
+        IllegalArgumentException ex2 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> ReaderSettings.newBuilder().setMaxMemoryUsageBytes(-1).build());
+        Assert.assertEquals("maxMemoryUsageBytes must be positive, but got -1", ex2.getMessage());
+    }
+
+    @Test
     public void validateTopicsListTest() {
         Exception ex = Assert.assertThrows(
                 IllegalArgumentException.class,

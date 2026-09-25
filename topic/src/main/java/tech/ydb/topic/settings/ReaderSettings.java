@@ -158,6 +158,10 @@ public class ReaderSettings {
         }
 
         public Builder setMaxMemoryUsageBytes(long maxMemoryUsageBytes) {
+            if (maxMemoryUsageBytes <= 0) {
+                String msg = "maxMemoryUsageBytes must be positive, but got " + maxMemoryUsageBytes;
+                throw new IllegalArgumentException(msg);
+            }
             this.maxMemoryUsageBytes = maxMemoryUsageBytes;
             return this;
         }
