@@ -13,11 +13,9 @@ import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.FixMethodOrder;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.Timeout;
-import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +51,6 @@ import tech.ydb.topic.write.SyncWriter;
  *
  * @author Aleksandr Gorshenin
  */
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class YdbTopicsIntegrationTest {
     private final static Logger logger = LoggerFactory.getLogger(YdbTopicsIntegrationTest.class);
 
@@ -65,6 +62,7 @@ public class YdbTopicsIntegrationTest {
 
     private final static String TEST_TOPIC = "integration_test_topic";
     private final static String TEST_OTHER_TOPIC = "integration_test_other_topic";
+    private final static String TEST_TMP_TOPIC = "integration_test_tmp_topic";
 
     private final static String TEST_CONSUMER1 = "consumer";
     private final static String TEST_CONSUMER2 = "other_consumer";
@@ -89,18 +87,34 @@ public class YdbTopicsIntegrationTest {
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER2).build())
                 .build()
         ).join().expectSuccess("can't create a new topic");
+
+        client.createTopic(TEST_OTHER_TOPIC, CreateTopicSettings.newBuilder()
+                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
+                .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER2).build())
+                .build()
+        ).join().expectSuccess("can't create a new topic");
     }
 
     @AfterClass
     public static void dropTopic() {
         logger.info("Drop test topic {} ...", TEST_TOPIC);
-        Status dropStatus = client.dropTopic(TEST_TOPIC).join();
+        client.dropTopic(TEST_TOPIC).join();
+        logger.info("Drop test topic {} ...", TEST_OTHER_TOPIC);
+        client.dropTopic(TEST_OTHER_TOPIC).join();
         client.close();
-        dropStatus.expectSuccess("can't drop test topic");
     }
 
     @Test
-    public void step01_writeWithoutDeduplication() throws InterruptedException, ExecutionException, TimeoutException {
+    public void writeAndReadTest() throws Exception {
+        step01_writeWithoutDeduplication();
+        step02_readHalfWithoutCommit();
+        step03_readHalfWithCommit();
+        step04_readNextHalfWithoutCommit();
+        step05_readNextHalfWithCommit();
+        step06_readAllByAsyncReader();
+    }
+
+    private void step01_writeWithoutDeduplication() throws InterruptedException, ExecutionException, TimeoutException {
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath(TEST_TOPIC)
                 .build();
@@ -119,8 +133,7 @@ public class YdbTopicsIntegrationTest {
         writer.shutdown(1, TimeUnit.MINUTES);
     }
 
-    @Test
-    public void step02_readHalfWithoutCommit() throws InterruptedException {
+    private void step02_readHalfWithoutCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -137,8 +150,7 @@ public class YdbTopicsIntegrationTest {
         reader.shutdown();
     }
 
-    @Test
-    public void step03_readHalfWithCommit() throws InterruptedException {
+    private void step03_readHalfWithCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -156,8 +168,7 @@ public class YdbTopicsIntegrationTest {
         reader.shutdown();
     }
 
-    @Test
-    public void step03_readNextHalfWithoutCommit() throws InterruptedException {
+    private void step04_readNextHalfWithoutCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -178,8 +189,7 @@ public class YdbTopicsIntegrationTest {
         reader.shutdown();
     }
 
-    @Test
-    public void step04_readNextHalfWithCommit() throws InterruptedException {
+    private void step05_readNextHalfWithCommit() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -203,20 +213,7 @@ public class YdbTopicsIntegrationTest {
         reader.shutdown();
     }
 
-    @Test
-    public void step05_describeTopic() {
-        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
-
-        Assert.assertNull(description.getTopicStats());
-        List<Consumer> consumers = description.getConsumers();
-        Assert.assertEquals(2, consumers.size());
-
-        Assert.assertEquals(TEST_CONSUMER1, consumers.get(0).getName());
-        Assert.assertEquals(TEST_CONSUMER2, consumers.get(1).getName());
-    }
-
-    @Test
-    public void step06_readAllByAsyncReader() throws InterruptedException {
+    private void step06_readAllByAsyncReader() throws InterruptedException {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER2)
@@ -256,8 +253,20 @@ public class YdbTopicsIntegrationTest {
     }
 
     @Test
-    public void step07_alterTopicWithAutoPartitioning() {
-        client.alterTopic(TEST_TOPIC, AlterTopicSettings.newBuilder()
+    public void describeTopic() {
+        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
+
+        Assert.assertNull(description.getTopicStats());
+        List<Consumer> consumers = description.getConsumers();
+        Assert.assertEquals(2, consumers.size());
+
+        Assert.assertEquals(TEST_CONSUMER1, consumers.get(0).getName());
+        Assert.assertEquals(TEST_CONSUMER2, consumers.get(1).getName());
+    }
+
+    @Test
+    public void alterTopicWithAutoPartitioning() {
+        client.alterTopic(TEST_OTHER_TOPIC, AlterTopicSettings.newBuilder()
                         .setAlterPartitioningSettings(AlterPartitioningSettings.newBuilder()
                                 .setAutoPartitioningStrategy(AutoPartitioningStrategy.SCALE_UP)
                                 .setMaxActivePartitions(10)
@@ -269,7 +278,7 @@ public class YdbTopicsIntegrationTest {
                                 .build())
                 .build()).join().expectSuccess("can't alter the topic");
 
-        TopicDescription description = client.describeTopic(TEST_TOPIC).join().getValue();
+        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
 
         PartitioningSettings actualPartitioningSettings = description.getPartitioningSettings();
         PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
@@ -287,7 +296,7 @@ public class YdbTopicsIntegrationTest {
     }
 
     @Test
-    public void step08_createTopicWithAutoPartitioning() {
+    public void createTopicWithAutoPartitioning() {
         PartitioningSettings expectedPartitioningSettings = PartitioningSettings.newBuilder()
                 .setMaxActivePartitions(8)
                 .setMinActivePartitions(4)
@@ -299,39 +308,39 @@ public class YdbTopicsIntegrationTest {
                         .build())
                 .build();
 
-        CompletableFuture<Status> secondaryTopicCreated = client.createTopic(TEST_OTHER_TOPIC, CreateTopicSettings.newBuilder()
-                .setPartitioningSettings(expectedPartitioningSettings)
-                .build());
+        CompletableFuture<Status> secondaryTopicCreated = client.createTopic(TEST_TMP_TOPIC,
+                CreateTopicSettings.newBuilder().setPartitioningSettings(expectedPartitioningSettings).build()
+        );
 
         secondaryTopicCreated.join().expectSuccess("can't create the topic");
 
-        TopicDescription description = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
+        TopicDescription description = client.describeTopic(TEST_TMP_TOPIC).join().getValue();
 
         Assert.assertEquals(expectedPartitioningSettings, description.getPartitioningSettings());
+
+        client.dropTopic(TEST_TMP_TOPIC).join().expectSuccess("can't drop the test topic");
     }
 
     @Test
-    public void step09_describeTopicStats() {
+    public void describeTopicStats() {
         DescribeTopicSettings on = DescribeTopicSettings.newBuilder().withIncludeStats(true).build();
         DescribeTopicSettings off = DescribeTopicSettings.newBuilder().withIncludeStats(false).build();
 
-        TopicDescription withStats = client.describeTopic(TEST_TOPIC, on).join().getValue();
-        TopicDescription withoutStats = client.describeTopic(TEST_TOPIC, off).join().getValue();
+        TopicDescription withStats = client.describeTopic(TEST_OTHER_TOPIC, on).join().getValue();
+        TopicDescription withoutStats = client.describeTopic(TEST_OTHER_TOPIC, off).join().getValue();
 
         Assert.assertNull(withoutStats.getTopicStats());
         Assert.assertNotNull(withStats.getTopicStats());
 
         for (Consumer consumer: withoutStats.getConsumers()) {
             Assert.assertNull(consumer.getStats());
-            Assert.assertNull(consumer.getAvailabilityPeriod());
         }
-        for (Consumer consumer: withStats.getConsumers()) {
-            Assert.assertNotNull(consumer.getStats());
-            Assert.assertNull(consumer.getAvailabilityPeriod());
-        }
-
         for (PartitionInfo partition: withoutStats.getPartitions()) {
             Assert.assertNull(partition.getPartitionStats());
+        }
+
+        for (Consumer consumer: withStats.getConsumers()) {
+            Assert.assertNotNull(consumer.getStats());
         }
         for (PartitionInfo partition: withStats.getPartitions()) {
             Assert.assertNotNull(partition.getPartitionStats());
@@ -339,7 +348,7 @@ public class YdbTopicsIntegrationTest {
     }
 
     @Test
-    public void step10_invalidAddConsumerTest() {
+    public void invalidAddConsumerTest() {
         AlterTopicSettings settings = AlterTopicSettings.newBuilder()
                 .addAddConsumer(Consumer.newBuilder()
                         .setName("WRONG_CONSUMER")
@@ -349,13 +358,13 @@ public class YdbTopicsIntegrationTest {
                         .build()
                 ).build();
 
-        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Status status = client.alterTopic(TEST_OTHER_TOPIC, settings).join();
         Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
         Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
     }
 
     @Test
-    public void step11_invalidAlterConsumerTest() {
+    public void invalidAlterConsumerTest() {
         AlterTopicSettings settings = AlterTopicSettings.newBuilder()
                 .addAlterConsumer(AlterConsumerSettings.newBuilder()
                         .setName(TEST_CONSUMER2)
@@ -365,13 +374,13 @@ public class YdbTopicsIntegrationTest {
                         .build()
                 ).build();
 
-        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Status status = client.alterTopic(TEST_OTHER_TOPIC, settings).join();
         Assert.assertFalse("Alter must fail, but get status " + status, status.isSuccess());
         Assert.assertEquals("Alter must fail, but get status " + status, StatusCode.BAD_REQUEST, status.getCode());
     }
 
     @Test
-    public void step12_alterConsumerTest() {
+    public void alterConsumerTest() {
         AlterTopicSettings settings = AlterTopicSettings.newBuilder()
                 .addAlterConsumer(AlterConsumerSettings.newBuilder()
                         .setName(TEST_CONSUMER2)
@@ -380,13 +389,28 @@ public class YdbTopicsIntegrationTest {
                         .build()
                 ).build();
 
-        Status status = client.alterTopic(TEST_TOPIC, settings).join();
+        Status status = client.alterTopic(TEST_OTHER_TOPIC, settings).join();
         Assert.assertTrue("Alter must be OK, but got status " + status, status.isSuccess());
 
-        ConsumerDescription description = client.describeConsumer(TEST_TOPIC, TEST_CONSUMER2).join().getValue();
+        ConsumerDescription description = client.describeConsumer(TEST_OTHER_TOPIC, TEST_CONSUMER2).join().getValue();
 
         Assert.assertEquals(TEST_CONSUMER2, description.getConsumer().getName());
         Assert.assertEquals(Instant.EPOCH.plusSeconds(10), description.getConsumer().getReadFrom());
         Assert.assertEquals(Duration.ofMinutes(5), description.getConsumer().getAvailabilityPeriod());
-   }
+
+        TopicDescription topicDesc = client.describeTopic(TEST_OTHER_TOPIC).join().getValue();
+
+        Assert.assertNull(topicDesc.getTopicStats());
+
+        for (Consumer consumer: topicDesc.getConsumers()) {
+            Assert.assertNull(consumer.getStats());
+            if (TEST_CONSUMER2.equals(consumer.getName())) {
+                Assert.assertEquals(Duration.ofMinutes(5), consumer.getAvailabilityPeriod());
+                Assert.assertEquals(Instant.EPOCH.plusSeconds(10), consumer.getReadFrom());
+            } else {
+                Assert.assertNull(consumer.getAvailabilityPeriod());
+                Assert.assertEquals(Instant.EPOCH, consumer.getReadFrom());
+           }
+        }
+    }
 }

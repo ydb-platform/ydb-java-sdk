@@ -5,6 +5,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicLong;
 
+import com.google.common.annotations.VisibleForTesting;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,11 @@ public class MessageDecoder {
     private final SerialRunnable decodeNext = new SerialRunnable(new DecodeNext());
     private volatile boolean isStopped = false;
 
-    public MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
+    public MessageDecoder(ReadConfig config) {
+        this(config.getMaxMemoryUsageBytes(), config.getDecompressor(), config.getCodecRegistry());
+    }
+
+    MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
         if (maxBufferSize <= 0) {
             throw new IllegalArgumentException("maxBufferSize must be positive, but got " + maxBufferSize);
         }
@@ -45,6 +50,7 @@ public class MessageDecoder {
         this.isStopped = true;
     }
 
+    @VisibleForTesting
     long getTotalAvailable() {
         return totalAvailable.get();
     }

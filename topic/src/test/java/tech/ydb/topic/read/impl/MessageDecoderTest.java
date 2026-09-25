@@ -83,10 +83,13 @@ public class MessageDecoderTest {
     @Test
     public void nonPositiveBufferSizeTest() {
         // A decoder with a non-positive budget can never admit a message and silently stalls the reader
-        Assert.assertThrows(IllegalArgumentException.class,
+        Exception ex1 = Assert.assertThrows(IllegalArgumentException.class,
                 () -> new MessageDecoder(0, Runnable::run, REGISTRY));
-        Assert.assertThrows(IllegalArgumentException.class,
+        Assert.assertEquals("maxBufferSize must be positive, but got 0", ex1.getMessage());
+
+        Exception ex2 = Assert.assertThrows(IllegalArgumentException.class,
                 () -> new MessageDecoder(-1, Runnable::run, REGISTRY));
+        Assert.assertEquals("maxBufferSize must be positive, but got -1", ex2.getMessage());
     }
 
     @Test

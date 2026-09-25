@@ -6,11 +6,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -18,10 +19,12 @@ import javax.annotation.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
+import tech.ydb.topic.impl.DebugTools;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
@@ -36,9 +39,19 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 /**
  * @author Nikolay Perfilov
  */
-public class SyncReaderImpl extends ReaderImpl implements SyncReader {
+public class SyncReaderImpl implements SyncReader {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
+
     private static final int POLL_INTERVAL_SECONDS = 5;
+
+    private final String debugId;
+    private final LazyExecutor decompressor;
+    private final ReadConfig config;
+    private final ReaderImpl impl;
+
+    private final CompletableFuture<Void> initFuture = new CompletableFuture<>();
+    private final CompletableFuture<Status> shutdownFuture = new CompletableFuture<>();
+
     private final Queue<MessageWrapper> queue = new ConcurrentLinkedQueue<>();
     private final ReentrantLock waitingLock = new ReentrantLock();
     private final Condition waitingCondition = waitingLock.newCondition();
@@ -46,33 +59,20 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     private volatile String sessionId = null;
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
-        super(topicRpc, settings, codecRegistry);
-    }
+        this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
+        this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
 
-    private static class MessageWrapper {
-        private final Message msg;
-        private final ReadPartitionSession session;
-        private final OffsetsRange rangeToRelease;
+        this.config = new ReadConfig(codecRegistry, Runnable::run, decompressor, settings);
+        this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new SyncHandler());
 
-        private MessageWrapper(Message msg, ReadPartitionSession session, OffsetsRange rangeToRelease) {
-            this.msg = msg;
-            this.session = session;
-            this.rangeToRelease = rangeToRelease;
-        }
-
-        boolean isActive() {
-            return !session.isStopped();
-        }
-
-        Message getMessage() {
-            return msg;
-        }
-
-        void release() {
-            if (rangeToRelease != null) {
-                session.releaseRange(rangeToRelease);
-            }
-        }
+        String readerName = settings.getReaderName();
+        String consumerName = settings.getConsumerName();
+        logger.info("[{}] SyncReader{} created for topic(s) {} and {}",
+                debugId,
+                readerName != null ? (" '" + readerName + "'") : "",
+                settings.getTopics().stream().map(t -> "\"" + t.getPath() + "\"").collect(Collectors.joining(", ")),
+                consumerName != null ? (" consumer \"" + consumerName + "\"") : "without a consumer"
+        );
     }
 
     @Override
@@ -82,12 +82,62 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
     @Override
     public void init() {
-        initImpl();
+        impl.start();
     }
 
     @Override
     public void initAndWait() {
-        initImpl().join();
+        impl.start();
+        try {
+            initFuture.join();
+        } catch (CompletionException ex) {
+            if (ex.getCause() instanceof RuntimeException) {
+                throw (RuntimeException) ex.getCause();
+            }
+            throw ex;
+        }
+    }
+
+
+    @Override
+    public void shutdown() {
+        if (!impl.close()) {
+            // implicit closing because stream will never call onClose
+            close(Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO)));
+        }
+
+        shutdownFuture.join();
+    }
+
+    private void close(Status status) {
+        initFuture.completeExceptionally(new RuntimeException("Reader was closed with " + status));
+        shutdownFuture.complete(status);
+
+        decompressor.close();
+        wakeUp();
+    }
+
+    private void wakeUp() {
+        waitingLock.lock();
+        try {
+            waitingCondition.signalAll();
+        } finally {
+            waitingLock.unlock();
+        }
+    }
+
+    @Override
+    public Message receive(ReceiveSettings receiveSettings) throws InterruptedException {
+        if (receiveSettings.getTimeout() != null) {
+            return receiveInternal(receiveSettings, receiveSettings.getTimeout(), receiveSettings.getTimeoutTimeUnit());
+        }
+
+        Message result;
+        // Poll to prevent infinite wait in case if reader was stopped
+        do {
+            result = receiveInternal(receiveSettings, POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
+        } while (result == null);
+        return result;
     }
 
     private MessageWrapper waitReadyMessage(long timeout, TimeUnit unit) throws InterruptedException {
@@ -106,8 +156,8 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
 
                 logger.trace("No messages in queue. Waiting for {} ms...", millisToWait);
                 waitingCondition.await(millisToWait, TimeUnit.MILLISECONDS);
-                if (isStopped.get()) {
-                    throw new RuntimeException("Reader was stopped");
+                if (impl.isClosed()) {
+                    throw new RuntimeException("Reader was stopped with " + shutdownFuture.join());
                 }
                 next = queue.poll();
             }
@@ -120,8 +170,8 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
     @Nullable
     public Message receiveInternal(ReceiveSettings receiveSettings, long timeout, TimeUnit unit)
             throws InterruptedException {
-        if (isStopped.get()) {
-            throw new RuntimeException("Reader was stopped");
+        if (impl.isClosed()) {
+            throw new RuntimeException("Reader was stopped with " + shutdownFuture.join());
         }
 
         while (true) {
@@ -134,7 +184,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
             }
 
             if (!next.isActive()) {
-                next.release();
+                next.confirm();
                 continue;
             }
 
@@ -145,7 +195,7 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                         result.getPartitionSession(),
                         Collections.singletonList(result.getRangeToCommit())
                 ));
-                Status updateStatus = updateOffsetsInTransaction(
+                Status updateStatus = impl.updateOffsetsInTransaction(
                         receiveSettings.getTransaction(),
                         Collections.singletonMap(result.getPartitionSession().getPath(), offsets),
                         UpdateOffsetsInTransactionSettings.newBuilder().build()
@@ -156,100 +206,96 @@ public class SyncReaderImpl extends ReaderImpl implements SyncReader {
                 }
             }
 
-            next.release();
+            next.confirm();
             return result;
         }
     }
 
-    @Override
-    public Message receive(ReceiveSettings receiveSettings) throws InterruptedException {
-        if (receiveSettings.getTimeout() != null) {
-            return receiveInternal(receiveSettings, receiveSettings.getTimeout(), receiveSettings.getTimeoutTimeUnit());
+    private class SyncHandler implements ReaderImpl.Handler {
+        @Override
+        public void handleSessionStarted(String sessionId) {
+            SyncReaderImpl.this.sessionId = sessionId;
+            initFuture.complete(null);
         }
 
-        Message result;
-        // Poll to prevent infinite wait in case if reader was stopped
-        do {
-            result = receiveInternal(receiveSettings, POLL_INTERVAL_SECONDS, TimeUnit.SECONDS);
-        } while (result == null);
-        return result;
-    }
-
-    @Override
-    Executor getDataHandlerExecutor() {
-        return Runnable::run;
-    }
-
-    @Override
-    protected void handleDataReceivedEvent(ReadPartitionSession session, DataReceivedEvent event) {
-        if (isStopped.get() || event.getMessages().isEmpty()) {
-            session.releaseRange(event.getRangeToCommit());
-            return;
+        @Override
+        public void handleReaderClosed(Status status) {
+            close(status);
         }
 
-        int messagesCount = event.getMessages().size();
-        long offsetStart = event.getMessages().get(0).getOffset();
-        long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
-        logger.debug("{} Putting a batch into queueData with {} message(s) (offsets {}-{})",
-                session, messagesCount, offsetStart, offsetEnd);
+        @Override
+        public void handleDataReceivedEvent(ReaderImpl.PartitionControl control, DataReceivedEvent event) {
+            if (impl.isClosed()) { // never happens
+                return;
+            }
+            if (event.getMessages().isEmpty()) {  // never happens
+                control.confirmRangeProcessed(event.getRangeToCommit());
+                return;
+            }
 
-        for (Message msg: event.getMessages()) {
-            if (msg.getRangeToCommit().getEnd() == event.getRangeToCommit().getEnd()) { // last message in batch
-                queue.offer(new MessageWrapper(msg, session, event.getRangeToCommit()));
-            } else {
-                queue.offer(new MessageWrapper(msg, session, null));
+            PartitionSession ps = event.getPartitionSession();
+            int messagesCount = event.getMessages().size();
+            long offsetStart = event.getMessages().get(0).getOffset();
+            long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
+            logger.debug("[{}] Putting a batch into read queue with {} message(s) (offsets {}-{}) from {}",
+                    debugId, messagesCount, offsetStart, offsetEnd, ps);
+
+            for (Message msg: event.getMessages()) {
+                if (msg.getRangeToCommit().getEnd() == event.getRangeToCommit().getEnd()) { // last message in batch
+                    queue.offer(new MessageWrapper(control, msg, event.getRangeToCommit()));
+                } else {
+                    queue.offer(new MessageWrapper(control, msg, null));
+                }
+            }
+
+            wakeUp();
+        }
+
+        @Override
+        public void handleCommitResponse(long committedOffset, PartitionSession ps) {
+            logger.debug("[{}] commit response received for {} with committedOffset {}", debugId, ps, committedOffset);
+        }
+
+        @Override
+        public void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
+            event.confirm();
+        }
+
+        @Override
+        public void handleStopPartitionSession(StopPartitionSessionEvent event) {
+            // TODO: wait for all commits
+            event.confirm();
+        }
+
+        @Override
+        public void handleClosePartitionSession(PartitionSession partition) {
+            // Nothing
+        }
+    }
+
+    private static class MessageWrapper {
+        private final ReaderImpl.PartitionControl control;
+        private final Message msg;
+        private final OffsetsRange rangeToConfirm;
+
+        private MessageWrapper(ReaderImpl.PartitionControl control, Message msg, OffsetsRange rangeToConfirm) {
+            this.control = control;
+            this.msg = msg;
+            this.rangeToConfirm = rangeToConfirm;
+        }
+
+        Message getMessage() {
+            return msg;
+        }
+
+        boolean isActive() {
+            return control.isActive();
+        }
+
+        void confirm() {
+            if (rangeToConfirm != null) {
+                control.confirmRangeProcessed(rangeToConfirm);
             }
         }
-
-        waitingLock.lock();
-        try {
-            waitingCondition.signalAll();
-        } finally {
-            waitingLock.unlock();
-        }
-    }
-
-    @Override
-    protected void handleSessionStarted(String sessionId) {
-        this.sessionId = sessionId;
-    }
-
-    @Override
-    protected void handleCommitResponse(long committedOffset, PartitionSession partitionSession) {
-        if (logger.isDebugEnabled()) {
-            logger.debug("CommitResponse received for partition session {} (partition {}) with committedOffset {}",
-                    partitionSession.getId(), partitionSession.getPartitionId(), committedOffset);
-        }
-    }
-
-    @Override
-    protected void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
-        event.confirm();
-    }
-
-    @Override
-    protected void handleStopPartitionSession(StopPartitionSessionEvent event) {
-        // TODO: wait for all commits
-        event.confirm();
-    }
-
-    @Override
-    protected void handleClosePartitionSession(PartitionSession partition) {
-        // TODO: clean reading queue
-        logger.debug("ClosePartitionSession event received. Ignoring.");
-    }
-
-    @Override
-    public void shutdown() {
-        CompletableFuture<Void> impl = shutdownImpl();
-
-        waitingLock.lock();
-        try {
-            waitingCondition.signalAll();
-        } finally {
-            waitingLock.unlock();
-        }
-
-        impl.join();
     }
 }
