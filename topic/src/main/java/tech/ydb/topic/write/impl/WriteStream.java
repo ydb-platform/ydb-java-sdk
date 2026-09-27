@@ -11,7 +11,6 @@ import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.proto.topic.YdbTopic.UpdateTokenRequest;
 import tech.ydb.topic.impl.TopicStreamBase;
-import tech.ydb.topic.impl.TopicStreamFail;
 
 /**
  *
@@ -34,11 +33,5 @@ public class WriteStream extends TopicStreamBase<FromServer, FromClient> impleme
     @Override
     protected Status parseMessageStatus(FromServer message) {
         return Status.of(StatusCode.fromProto(message.getStatus()), Issue.fromPb(message.getIssuesList()));
-    }
-
-    public static class Fail extends TopicStreamFail<FromServer, FromClient> implements WriteSession.Stream {
-        public Fail(String id, Status status) {
-            super(logger, id, status);
-        }
     }
 }

@@ -91,6 +91,14 @@ public class ReadPartitionDecoder {
         decoder.free(allocatedTotal.getAndSet(0));
     }
 
+    private void notifyReady() {
+        try {
+            readyHandler.run();
+        } catch (Throwable th) {
+            logger.error("[{}] Exception was thrown by the ready handler", traceID, th);
+        }
+    }
+
     public class EncodedMessage extends MessageImpl  {
         private final int codecCode;
         private final long uncompressedSize;
@@ -125,7 +133,11 @@ public class ReadPartitionDecoder {
             problem = new IOException("Decompression for " + getPartitionSession() + " error", th);
             releaseRange(OffsetsRange.of(getOffset()));
             isReady = true;
-            readyHandler.run();
+            notifyReady();
+        }
+
+        long getUncompressedSize() {
+            return uncompressedSize;
         }
 
         public long allocate() {
@@ -172,7 +184,7 @@ public class ReadPartitionDecoder {
                     data = null;
                 }
                 isReady = true;
-                readyHandler.run();
+                notifyReady();
             }
         }
     }

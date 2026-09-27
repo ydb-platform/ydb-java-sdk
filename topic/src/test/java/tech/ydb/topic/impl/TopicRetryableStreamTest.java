@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.protobuf.Empty;
 import org.junit.Assert;
@@ -16,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.retry.RetryConfig;
+import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
@@ -72,21 +74,27 @@ public class TopicRetryableStreamTest {
     }
 
     private static class TestStream extends TopicRetryableStream<Empty, Empty, TopicStreamBase<Empty, Empty>> {
-        private final List<StreamHandle> handles;
-        private int handleIndex = 0;
+        private final List<CompletableFuture<Result<StreamHandle>>> handles = new ArrayList<>();
+        private final AtomicInteger handleIndex = new AtomicInteger(0);
 
         final List<Status> retryStatuses = new ArrayList<>();
         final List<Status> closeStatuses = new ArrayList<>();
         final List<Empty> receivedMessages = new ArrayList<>();
 
-        TestStream(List<StreamHandle> handles, RetryConfig retryConfig, ScheduledExecutorService scheduler) {
+        TestStream(RetryConfig retryConfig, ScheduledExecutorService scheduler, StreamHandle... initList) {
             super(logger, "test", retryConfig, scheduler);
-            this.handles = handles;
+            for (StreamHandle handle: initList) {
+                handles.add(CompletableFuture.completedFuture(Result.success(handle)));
+            }
+        }
+
+        public void addHandle(CompletableFuture<Result<StreamHandle>> handle) {
+            handles.add(handle);
         }
 
         @Override
-        protected TopicStreamBase<Empty, Empty> createNewStream(String debugId) {
-            return handles.get(handleIndex++).stream;
+        protected CompletableFuture<Result<TopicStreamBase<Empty, Empty>>> createNewStream(String debugId) {
+            return handles.get(handleIndex.getAndIncrement()).thenApply(r -> r.map(h -> h.stream));
         }
 
         @Override
@@ -112,7 +120,7 @@ public class TopicRetryableStreamTest {
     @Test
     public void simpleStartAndCloseTest() {
         StreamHandle h = new StreamHandle();
-        TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
 
         retryable.start();
 
@@ -136,7 +144,7 @@ public class TopicRetryableStreamTest {
     @Test
     public void failStreamTest() {
         StreamHandle h = new StreamHandle();
-        TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
 
         retryable.start();
 
@@ -163,20 +171,20 @@ public class TopicRetryableStreamTest {
     public void doubleStartTest() {
         StreamHandle h1 = new StreamHandle();
         StreamHandle h2 = new StreamHandle();
-        TestStream retryable = new TestStream(Arrays.asList(h1, h2), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h1, h2);
 
         retryable.start(); // sets realStream = h1.topicStream
-        retryable.start(); // compareAndSet fails → h2.topicStream is closed
+        retryable.start(); // compareAndSet fails → h2.topicStream is closed byt not started
 
         Mockito.verify(h1.grpc).start(Mockito.any());
         Mockito.verify(h2.grpc, Mockito.never()).start(Mockito.any()); // h2 was never started
-        Mockito.verify(h2.grpc, Mockito.never()).close();              // h2 was never closed
+        Mockito.verify(h2.grpc).close();
     }
 
     @Test
     public void doubleCloseTest() {
         StreamHandle h1 = new StreamHandle();
-        TestStream retryable = new TestStream(Arrays.asList(h1), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h1);
 
         retryable.start();
 
@@ -190,15 +198,109 @@ public class TopicRetryableStreamTest {
 
     @Test
     public void startAfterCloseTest() {
-        TestStream retryable = new TestStream(Arrays.asList(), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
         Assert.assertFalse(retryable.close());
         retryable.start(); // nothing
     }
 
     @Test
+    public void asyncStreamCreationTest() {
+        StreamHandle streamHandle = new StreamHandle();
+        CompletableFuture<Result<StreamHandle>> creation = new CompletableFuture<>();
+
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+        retryable.addHandle(creation);
+
+        retryable.start(); // must return without waiting for the creation future
+        Mockito.verify(streamHandle.grpc, Mockito.never()).start(Mockito.any());
+
+        retryable.send(EMPTY); // stream is not ready yet, message is skipped
+        Mockito.verify(streamHandle.grpc, Mockito.never()).sendNext(Mockito.any());
+
+        creation.complete(Result.success(streamHandle));
+
+        Mockito.verify(streamHandle.grpc).start(Mockito.any());
+        retryable.send(EMPTY);
+        Mockito.verify(streamHandle.grpc, Mockito.times(2)).sendNext(EMPTY); // init + sent request
+
+        Assert.assertTrue(retryable.close());
+        Mockito.verify(streamHandle.grpc).close();
+    }
+
+    @Test
+    public void closeWhileAsyncInitializationTest() {
+        StreamHandle streamHandle = new StreamHandle();
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<Result<StreamHandle>> creation = new CompletableFuture<>();
+        retryable.addHandle(creation);
+
+        retryable.start();
+        Assert.assertTrue(retryable.close());
+
+        creation.complete(Result.success(streamHandle));
+
+        Mockito.verify(streamHandle.grpc, Mockito.never()).start(Mockito.any());
+        Mockito.verify(streamHandle.grpc).close();
+
+        Assert.assertFalse(retryable.close());
+
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
+        Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
+    }
+
+    @Test
+    public void closeWhileAsyncInitializationFailedTest() {
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<Result<StreamHandle>> creation = new CompletableFuture<>();
+        retryable.addHandle(creation);
+
+        retryable.start();
+        Assert.assertTrue(retryable.close());
+        creation.complete(Result.fail(Status.of(StatusCode.BAD_REQUEST))); // will be lost
+
+        Assert.assertFalse(retryable.close());
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
+        Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
+    }
+
+    @Test
+    public void closeWhileAsyncInitializationErrorTest() {
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<Result<StreamHandle>> creation = new CompletableFuture<>();
+        retryable.addHandle(creation);
+
+        retryable.start();
+        Assert.assertTrue(retryable.close());
+        creation.completeExceptionally(new IllegalArgumentException("error")); // will be lost
+
+        Assert.assertFalse(retryable.close());
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
+        Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
+    }
+
+    @Test
+    @HideLoggers({TopicRetryableStreamTest.class})
+    public void streamCreationFailedTest() {
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+
+        CompletableFuture<Result<StreamHandle>> creation = new CompletableFuture<>();
+        retryable.addHandle(creation);
+
+        retryable.start();
+        creation.completeExceptionally(new RuntimeException("cannot create stream"));
+
+        Assert.assertEquals(1, retryable.closeStatuses.size());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, retryable.closeStatuses.get(0).getCode());
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
+    }
+
+    @Test
     public void sendBeforeStartIsIgnoredTest() {
         StreamHandle h = new StreamHandle();
-        TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
 
         retryable.send(EMPTY); // just skipping
 
@@ -208,7 +310,7 @@ public class TopicRetryableStreamTest {
     @Test
     public void closeBeforeStartIsNoOpTest() {
         StreamHandle h = new StreamHandle();
-        TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
 
         Assert.assertFalse(retryable.close()); // no stream yet, should not throw
 
@@ -218,7 +320,7 @@ public class TopicRetryableStreamTest {
     @Test
     public void noRetriesErrorStatusTest() {
         StreamHandle h = new StreamHandle();
-        TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
 
         retryable.start();
         h.complete(Status.of(StatusCode.ABORTED));
@@ -231,7 +333,7 @@ public class TopicRetryableStreamTest {
     public void noRetriesExceptionStatusTest() {
         @SuppressWarnings("unchecked")
         StreamHandle h = new StreamHandle(Mockito.mock(TopicStreamBase.class));
-        TestStream retryable = new TestStream(Arrays.asList(h), RetryConfig.noRetries(), mockScheduler());
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
 
         retryable.start();
         RuntimeException ex = new RuntimeException("fail");
@@ -258,7 +360,7 @@ public class TopicRetryableStreamTest {
         // Policy: immediate retry (0ms) on all attempts, then no more
         RetryConfig config = status -> (retryCount, elapsed) -> (status.getCode() != StatusCode.BAD_REQUEST) ? 0 : -1;
 
-        TestStream retryable = new TestStream(Arrays.asList(h1, h2, h3), config, mockScheduler());
+        TestStream retryable = new TestStream(config, mockScheduler(), h1, h2, h3);
         Assert.assertFalse(retryable.isClosed());
 
         retryable.start();
@@ -302,7 +404,7 @@ public class TopicRetryableStreamTest {
         long delayMs = 500L;
         RetryConfig config = status -> (retryCount, elapsed) -> delayMs;
 
-        TestStream retryable = new TestStream(Arrays.asList(h), config, null);
+        TestStream retryable = new TestStream(config, null, h);
 
         retryable.start();
         Assert.assertFalse(retryable.isClosed());
@@ -321,8 +423,7 @@ public class TopicRetryableStreamTest {
         long delayMs = 500L;
         RetryConfig config = status -> (retryCount, elapsed) -> delayMs;
 
-        TestStream retryable = new TestStream(
-                Arrays.asList(h), config, scheduler);
+        TestStream retryable = new TestStream(config, scheduler, h);
 
         retryable.start();
         h.complete(Status.of(StatusCode.UNAVAILABLE));
@@ -341,7 +442,7 @@ public class TopicRetryableStreamTest {
         // Policy: one immediate retry (retryCount 0), then no more
         RetryConfig config = status -> (retryCount, elapsed) -> retryCount == 0 ? 0 : -1;
 
-        TestStream retryable = new TestStream(Arrays.asList(h1, h2, h3), config, mockScheduler());
+        TestStream retryable = new TestStream(config, mockScheduler(), h1, h2, h3);
 
         Status error = Status.of(StatusCode.UNAVAILABLE);
         retryable.start();

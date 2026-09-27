@@ -5,8 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.concurrent.Executor;
-import java.util.stream.Collectors;
+import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,73 +22,65 @@ import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 /**
  * @author Nikolay Perfilov
  */
-public abstract class ReadPartitionSession {
-
+public class ReadPartitionSession implements ReaderImpl.PartitionControl {
     private static final Logger logger = LoggerFactory.getLogger(ReaderImpl.class);
 
     private final String traceID;
-    private final ReadSession session;
     private final PartitionSession partition;
-    private final int maxBatchSize;
-    private final BufferManager bufferManager;
-    private final SerialExecutor executor;
     private final MessageCommitterImpl committer;
     private final ReadPartitionDecoder decoder;
+    private final BufferManager bufferManager;
+    private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
+
+    private final int maxBatchSize;
+    private final SerialExecutor executor;
     private volatile long lastReadOffset;
 
     private volatile boolean isStopped = false;
 
     private final Queue<MessageImpl> readingQueue = new ConcurrentLinkedQueue<>();
 
-    ReadPartitionSession(String traceID, ReadSession session, PartitionSession partition, Executor executor,
-            long lastCommittedOffset) {
+    ReadPartitionSession(String traceID, ReadSession session, PartitionSession partition,
+            MessageCommitterImpl committer, long lastCommittedOffset) {
         this.traceID = traceID;
-        this.session = session;
         this.partition = partition;
-        this.maxBatchSize = session.getMaxBatchSize();
-        this.bufferManager = session.getBufferManager();
-        this.executor = new SerialExecutor(executor);
-        this.committer = new MessageCommitterImpl(this, lastCommittedOffset);
-        this.decoder = new ReadPartitionDecoder(traceID, session.getMessageDecoder(), partition, committer,
+        this.committer = committer;
+        this.decoder = new ReadPartitionDecoder(traceID, session.getDecoder(), partition, committer,
                 this::sendDataToReaders);
+
+        this.maxBatchSize = session.getConfig().getMaxBatchSize();
+        this.executor = new SerialExecutor(session.getConfig().getProcessor());
+        this.bufferManager = session.getBufferManager();
+        this.eventConsumer = session.getEventConsumer();
         this.lastReadOffset = lastCommittedOffset;
+    }
+
+    @Override
+    public boolean isActive() {
+        return !isStopped;
+    }
+
+    @Override
+    public void confirmRangeProcessed(OffsetsRange range) {
+        bufferManager.releaseRange(partition.getId(), range);
+        decoder.releaseRange(range);
+        sendDataToReaders();
     }
 
     public PartitionSession getPartition() {
         return partition;
     }
 
-    @Override
-    public String toString() {
-        return "[" + traceID + "]";
-    }
-
-    public boolean isStopped() {
-        return isStopped;
-    }
-
-    boolean commitOffsets(List<OffsetsRange> ranges) {
-        if (isStopped) {
-            logger.info("[{}] Offset ranges {} are requested to be committed, but partition session is already closed",
-                    traceID, ranges.stream().map(OffsetsRange::toString).collect(Collectors.joining(",")));
-            return false;
-        }
-        session.sendCommitOffsetRequest(partition, ranges);
-        return true;
-    }
-
-    void confirmCommit(long committedOffset) {
+    public void confirmCommittedOffset(long committedOffset) {
         committer.confirmCommit(committedOffset);
     }
 
     public void stop() {
         isStopped = true;
-        committer.failPendingCommits();
         decoder.close();
+        committer.failPendingCommits();
         logger.info("[{}] stopped", traceID);
     }
-
-    public abstract void handleDataReceivedEvent(DataReceivedEvent event);
 
     public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
         if (isStopped) {
@@ -133,13 +124,7 @@ public abstract class ReadPartitionSession {
         return !isStopped;
     }
 
-    public void releaseRange(OffsetsRange range) {
-        decoder.releaseRange(range);
-        bufferManager.releaseRange(partition.getId(), range);
-        sendDataToReaders();
-    }
-
-    private void sendDataToReaders() {
+    public void sendDataToReaders() {
         executor.execute(() -> {
             while (!isStopped) {
                 Iterator<MessageImpl> it = readingQueue.iterator();
@@ -159,9 +144,7 @@ public abstract class ReadPartitionSession {
                     next = it.hasNext() ? it.next() : null;
                 }
 
-                // Should be called maximum in 1 thread at a time
-                DataReceivedEvent event = new DataReceivedEventImpl(partition, committer, messagesToRead);
-                handleDataReceivedEvent(event);
+                eventConsumer.accept(this, new DataReceivedEventImpl(partition, committer, messagesToRead));
             }
         });
     }

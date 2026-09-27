@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.MessageCommitter;
+import tech.ydb.topic.read.PartitionSession;
 
 /**
  *
@@ -21,26 +22,30 @@ import tech.ydb.topic.read.MessageCommitter;
 class MessageCommitterImpl implements MessageCommitter {
     private static final Logger logger = LoggerFactory.getLogger(ReaderImpl.class);
 
-    private final ReadPartitionSession session;
+    private final String debugId;
+    private final ReadSession stream;
+    private final PartitionSession partition;
 
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private volatile long lastCommittedOffset;
 
-    MessageCommitterImpl(ReadPartitionSession session, long lastCommittedOffset) {
-        this.session = session;
+    MessageCommitterImpl(String debugId, ReadSession stream, PartitionSession partition, long lastCommittedOffset) {
+        this.debugId = debugId;
+        this.stream = stream;
+        this.partition = partition;
         this.lastCommittedOffset = lastCommittedOffset;
     }
 
     private RuntimeException partitionIsClosedException() {
-        return new RuntimeException("" + session.getPartition() + " is already stopped");
+        return new RuntimeException("" + partition + " is already stopped");
     }
 
     public void confirmCommit(long committedOffset) {
         if (committedOffset <= lastCommittedOffset) { // never happens
-            logger.error("{} received commit response. Committed offset: {} which is less than previous " +
-                    "committed offset: {}.", session, committedOffset, lastCommittedOffset);
+            logger.error("[{}] received commit response. Committed offset: {} which is less than previous " +
+                    "committed offset: {}.", debugId, committedOffset, lastCommittedOffset);
             return;
         }
 
@@ -48,8 +53,8 @@ class MessageCommitterImpl implements MessageCommitter {
         try {
             Map<Long, CompletableFuture<Void>> confirmed = commitFutures.headMap(committedOffset, true);
 
-            logger.debug("{} received commit response. Committed offset: {}. "
-                    + "Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures", session,
+            logger.debug("[{}] received commit response. Committed offset: {}. "
+                    + "Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures", debugId,
                     committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset, confirmed.size());
 
             lastCommittedOffset = committedOffset;
@@ -62,8 +67,10 @@ class MessageCommitterImpl implements MessageCommitter {
 
     @Override
     public CompletableFuture<Void> commit(OffsetsRange range) {
-        logger.debug("{} Offset range {} is requested to be committed. Last committed offset is {} (commit lag is {})",
-                session, range, lastCommittedOffset, range.getStart() - lastCommittedOffset);
+        logger.debug(
+                "[{}] Offset range {} is requested to be committed. Last committed offset is {} (commit lag is {})",
+                debugId, range, lastCommittedOffset, range.getStart() - lastCommittedOffset
+        );
 
         CompletableFuture<Void> future;
         commitFuturesLock.lock();
@@ -77,9 +84,9 @@ class MessageCommitterImpl implements MessageCommitter {
             commitFuturesLock.unlock();
         }
 
-        if (!session.commitOffsets(Collections.singletonList(range))) {
-            logger.info("{} Offset range {} is requested to be committed, but partition session is already stopped",
-                    session, range);
+        if (!stream.commitOffsets(partition, Collections.singletonList(range))) {
+            logger.info("[{}] Offset range {} is requested to be committed, but partition session is already stopped",
+                    debugId, range);
             future.completeExceptionally(partitionIsClosedException());
 
             commitFuturesLock.lock();
@@ -95,14 +102,18 @@ class MessageCommitterImpl implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(ranges);
+        stream.commitOffsets(partition, ranges);
     }
 
     public void failPendingCommits() {
         commitFuturesLock.lock();
         try {
-            logger.info("{} for {} is stopping. Failing {} commit futures...", session,
-                    session.getPartition().getPath(), commitFutures.size());
+            if (commitFutures.isEmpty()) {
+                return;
+            }
+
+            logger.info("[{}] for {} is stopping. Failing {} commit futures...", debugId, partition.getPath(),
+                    commitFutures.size());
             commitFutures.values().forEach(f -> f.completeExceptionally(partitionIsClosedException()));
             commitFutures.clear();
         } finally {
