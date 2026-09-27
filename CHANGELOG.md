@@ -1,3 +1,6 @@
+## 2.4.12 ##
+* Core: treat gRPC ResourceExhausted "message larger than max" as non-retryable
+
 ## 2.4.11 ##
 * Table: fixed StackOverflow problem for the immediately released sessions
 
