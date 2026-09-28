@@ -197,7 +197,7 @@ public class SyncReaderImplTest {
     }
 
     @Test
-    @HideLoggers({ BufferManager.class, ReaderImpl.class })
+    @HideLoggers({ BufferManager.class, ReadPartition.class })
     public void invalidBatchesTest() throws InterruptedException {
         ReadStreamMock mock = new ReadStreamMock();
 

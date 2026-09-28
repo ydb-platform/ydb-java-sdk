@@ -216,7 +216,7 @@ public class AsyncReaderImplTest {
     }
 
     @Test
-    @HideLoggers({ BufferManager.class, ReaderImpl.class })
+    @HideLoggers({ BufferManager.class, ReadPartition.class })
     public void invalidBatchesTest() {
         ReadStreamMock mock = new ReadStreamMock();
         AsyncReader reader = reader(settings().setMaxMemoryUsageBytes(2000).build(), mock);

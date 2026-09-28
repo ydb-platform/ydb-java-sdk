@@ -93,7 +93,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    @HideLoggers(MessageDecoder.class)
+    @HideLoggers({ MessageDecoder.class, ReadPartition.class })
     public void readyHandlerThrowsOnDecodeTest() {
         MessageDecoder decoder = new MessageDecoder(1000, Runnable::run, REGISTRY);
 
@@ -118,7 +118,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    @HideLoggers(MessageDecoder.class)
+    @HideLoggers({ MessageDecoder.class, ReadPartition.class })
     public void readyHandlerThrowsOnErrorTest() {
         Executor rejecting = task -> {
             throw new RejectedExecutionException("executor is saturated");
@@ -151,19 +151,13 @@ public class MessageDecoderTest {
         MessageImpl m1 = partition.decode(meta, OffsetsRange.of(1), rawMsg(1, 100, new byte[] {1, 2}));
         MessageImpl m2 = partition.decode(meta, OffsetsRange.of(2), rawMsg(2, 100, new byte[] {3}));
 
-        Assert.assertFalse(m1.isReady());
-        Assert.assertFalse(m2.isReady());
-
-        decoder.decodeNext();
-
+        // raw messages are not processesd by decoder
         Assert.assertTrue(m1.isReady());
         Assert.assertTrue(m2.isReady());
         Assert.assertArrayEquals(new byte[] {1, 2}, m1.getData());
         Assert.assertArrayEquals(new byte[] {3}, m2.getData());
-        Assert.assertEquals(2, ready.get());
 
-        Assert.assertEquals(9800, decoder.getTotalAvailable());
-        partition.releaseRange(OffsetsRange.of(0, 10));
+        Assert.assertEquals(0, ready.get());
         Assert.assertEquals(10000, decoder.getTotalAvailable());
     }
 
@@ -444,7 +438,7 @@ public class MessageDecoderTest {
     }
 
     @Test
-    @HideLoggers(MessageDecoder.class)
+    @HideLoggers({ MessageDecoder.class, ReadPartition.class })
     public void decodeProblemsTest() {
         List<Codec> codecs = new ArrayList<>(StandardCodecs.getAvailableCodecs());
         codecs.add(new Codec() {

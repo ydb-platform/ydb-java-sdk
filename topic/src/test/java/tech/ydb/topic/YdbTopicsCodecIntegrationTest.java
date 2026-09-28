@@ -24,7 +24,7 @@ import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.Consumer;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.SyncReader;
-import tech.ydb.topic.read.impl.MessageDecoder;
+import tech.ydb.topic.read.impl.ReadPartition;
 import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
@@ -240,7 +240,7 @@ public class YdbTopicsCodecIntegrationTest {
 
 
     @Test
-    @HideLoggers({ MessageDecoder.class })
+    @HideLoggers({ ReadPartition.class })
     public void readShouldFailIfWithNotRegisteredCodec() throws Exception {
         Codec c1 = new XorCodec(0xFF, 10113);
 
@@ -268,7 +268,7 @@ public class YdbTopicsCodecIntegrationTest {
     }
 
     @Test
-    @HideLoggers({ MessageDecoder.class })
+    @HideLoggers({ ReadPartition.class })
     public void rewriteZstdCodecTest() throws Exception {
         try (TopicClient client = buildClient().registerCodec(new XorCodec(0x44, Codec.ZSTD)).build()) {
             createTopic(client, TEST_TOPIC1);

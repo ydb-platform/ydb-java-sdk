@@ -46,7 +46,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
 
     private final Map<Long, PartitionSession> partitions = new ConcurrentHashMap<>();
-    private final Map<Long, ReadPartitionSession> readQueues = new ConcurrentHashMap<>();
+    private final Map<Long, ReadPartition> readQueues = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
 
     public ReadSession(String id, GrpcReadWriteStream<FromServer, FromClient> stream, FromClient initReq,
@@ -93,14 +93,14 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         Set<PartitionSession> closed = new HashSet<>(partitions.values());
         partitions.clear();
 
-        readQueues.values().forEach(ReadPartitionSession::stop);
+        readQueues.values().forEach(ReadPartition::stop);
         readQueues.clear();
 
         return closed;
     }
 
     public boolean commitOffsets(PartitionSession session, List<OffsetsRange> rangesToCommit) {
-        ReadPartitionSession partition = readQueues.get(session.getId());
+        ReadPartition partition = readQueues.get(session.getId());
         if (isClosed || partition == null || !partition.isActive()) {
             logger.info("[{}] Need to send CommitRequest for {} with offset ranges {}, "
                     + "but reading partition session is already closed", debugId, session,
@@ -158,7 +158,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return null;
         }
 
-        ReadPartitionSession queue = readQueues.remove(partitionSessionId);
+        ReadPartition queue = readQueues.remove(partitionSessionId);
         if (queue != null) {
             logger.info("[{}] Received force StopPartitionSessionRequest for {} ", debugId, queue.getPartition());
             queue.stop();
@@ -191,7 +191,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
             long psid = data.getPartitionSessionId();
-            ReadPartitionSession queue = readQueues.get(psid);
+            ReadPartition queue = readQueues.get(psid);
             if (queue == null || !queue.addBatches(data.getBatchesList())) {
                 logger.warn("[{}] Received PartitionData for unknown(most likely already closed) PartitionSessionId={}",
                         debugId, psid);
@@ -207,7 +207,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         logger.trace("[{}] Received CommitOffsetResponse", debugId);
 
         for (CommitOffsetResponse.PartitionCommittedOffset offset: response.getPartitionsCommittedOffsetsList()) {
-            ReadPartitionSession queue = readQueues.get(offset.getPartitionSessionId());
+            ReadPartition queue = readQueues.get(offset.getPartitionSessionId());
             if (queue == null) {
                 logger.info("[{}] Received CommitOffsetResponse for unknown (most likely already closed) " +
                                 "partition session with id={}", debugId, offset.getPartitionSessionId());
@@ -285,8 +285,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 }
             }
 
-            MessageCommitterImpl comm = new MessageCommitterImpl(traceID, ReadSession.this, partition, commitTo);
-            ReadPartitionSession queue = new ReadPartitionSession(traceID, ReadSession.this, partition, comm, commitTo);
+            ReadPartition queue = new ReadPartition(traceID, ReadSession.this, partition, commitTo);
             if (readQueues.putIfAbsent(psid, queue) != null) {
                 logger.warn("[{}] partition {} is already started", traceID, partition);
                 return;
@@ -321,7 +320,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                                         .build())
                         .build());
 
-                ReadPartitionSession session = readQueues.remove(psid);
+                ReadPartition session = readQueues.remove(psid);
                 if (session != null) {
                     session.stop();
                 }
