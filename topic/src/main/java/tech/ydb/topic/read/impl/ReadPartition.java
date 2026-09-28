@@ -96,14 +96,7 @@ public class ReadPartition implements PartitionControl {
                 if (list == null) {
                     return;
                 }
-                int messagesCount = list.size();
-                long offsetStart = list.get(0).getOffset();
-                long offsetEnd = list.get(list.size() - 1).getOffset();
-                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
-                        + "to be called...", traceID, messagesCount, offsetStart, offsetEnd);
                 eventConsumer.accept(new DataReceivedEventImpl(this, committer, list));
-                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
-                        + "successfully finished", traceID, messagesCount, offsetStart, offsetEnd);
             }
         });
     }

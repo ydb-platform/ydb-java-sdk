@@ -38,7 +38,7 @@ class ReadPartitionCommitter implements MessageCommitter {
     }
 
     private RuntimeException partitionIsClosedException() {
-        return new RuntimeException("" + partition + " is already stopped");
+        return new RuntimeException("" + partition.getPartition() + " is already stopped");
     }
 
     public void confirmCommit(long committedOffset) {
@@ -83,7 +83,10 @@ class ReadPartitionCommitter implements MessageCommitter {
             commitFuturesLock.unlock();
         }
 
-        if (!session.commitOffsets(partition.getPartition(), Collections.singletonList(range))) {
+        if (session.commitOffsets(partition.getPartition(), Collections.singletonList(range))) {
+            partition.releaseRange(range);
+            partition.sendDataToReaders();
+        } else {
             logger.info("[{}] Offset range {} is requested to be committed, but partition session is already stopped",
                     traceID, range);
             future.completeExceptionally(partitionIsClosedException());
@@ -96,18 +99,17 @@ class ReadPartitionCommitter implements MessageCommitter {
             }
         }
 
-        partition.releaseRange(range);
-        partition.sendDataToReaders();
         return future;
     }
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition.getPartition(), ranges);
-        for (OffsetsRange range: ranges) {
-            partition.releaseRange(range);
+        if (session.commitOffsets(partition.getPartition(), ranges)) {
+            for (OffsetsRange range: ranges) {
+                partition.releaseRange(range);
+            }
+            partition.sendDataToReaders();
         }
-        partition.sendDataToReaders();
     }
 
     public void failPendingCommits() {

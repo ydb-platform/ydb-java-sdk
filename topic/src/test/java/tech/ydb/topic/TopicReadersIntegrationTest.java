@@ -752,7 +752,38 @@ public class TopicReadersIntegrationTest {
     }
 
     @Test
-    public void customBackPressureTest() throws InterruptedException {
+    public void backPressureDefaultTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setMaxMemoryUsageBytes(10000)
+                .setMaxBatchSize(100)
+                .build();
+
+        AtomicLong[] offsets = new AtomicLong[] { new AtomicLong(), new AtomicLong(), new AtomicLong() };
+        CountDownLatch read = new CountDownLatch(3600);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler((ReaderHandler) (DataReceivedEvent event) -> {
+                    AtomicLong offset = offsets[(int) event.getPartitionSession().getPartitionId()];
+                    for (Message msg : event.getMessages()) {
+                        Assert.assertEquals(offset.getAndIncrement(), msg.getOffset());
+                        read.countDown();
+                    }}
+                ).build());
+
+        reader.init().join();
+        try {
+            Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
+            Assert.assertEquals(1000, offsets[0].get());
+            Assert.assertEquals(500, offsets[1].get());
+            Assert.assertEquals(2100, offsets[2].get());
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    public void backPressureControlTest() throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -766,7 +797,7 @@ public class TopicReadersIntegrationTest {
         AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
                 .setEventHandler(new ReaderHandler() {
                     @Override
-                    public void onMessagesImpl(DataReceivedEventImpl event) {
+                    public void onMessagesWithControl(DataReceivedEventImpl event) {
                         Assert.assertTrue(messages.offer(event));
                         queued.addAndGet(event.getMessages().size());
                     }
@@ -806,6 +837,11 @@ public class TopicReadersIntegrationTest {
                 }
                 processed.add(next);
             }
+
+            Assert.assertEquals(3600, messagesCount);
+            Assert.assertEquals(1000, offsets[0]);
+            Assert.assertEquals(500, offsets[1]);
+            Assert.assertEquals(2100, offsets[2]);
         } finally {
             reader.shutdown().join();
         }
@@ -826,7 +862,7 @@ public class TopicReadersIntegrationTest {
         AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
                 .setEventHandler(new ReaderHandler() {
                     @Override
-                    public void onMessagesImpl(DataReceivedEventImpl event) {
+                    public void onMessagesWithControl(DataReceivedEventImpl event) {
                         Assert.assertTrue(messages.offer(event));
                         queued.addAndGet(event.getMessages().size());
                     }
