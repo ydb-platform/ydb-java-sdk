@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
@@ -27,9 +28,9 @@ import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.TopicRetryableStream;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
@@ -38,11 +39,6 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
  * @author Nikolay Perfilov
  */
 public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, ReadSession> {
-    public interface PartitionControl {
-        boolean isActive();
-        void confirmRangeProcessed(OffsetsRange range);
-    }
-
     public interface Handler {
         void handleSessionStarted(String sessionId);
 
@@ -50,7 +46,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         void handleStopPartitionSession(StopPartitionSessionEvent event);
         void handleClosePartitionSession(PartitionSession partition);
 
-        void handleDataReceivedEvent(PartitionControl control, DataReceivedEvent event);
+        void handleDataReceivedEvent(DataReceivedEventImpl event);
         void handleCommitResponse(long committedOffset, PartitionSession partition);
 
         void handleReaderClosed(Status status);

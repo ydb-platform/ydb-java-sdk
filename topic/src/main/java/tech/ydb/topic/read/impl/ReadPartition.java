@@ -1,7 +1,7 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,13 @@ import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.read.impl.events.PartitionControl;
 
 /**
  * @author Nikolay Perfilov
  */
-public class ReadPartition implements ReaderImpl.PartitionControl {
+public class ReadPartition implements PartitionControl {
     private static final Logger logger = LoggerFactory.getLogger(ReadPartition.class);
 
     private final String traceID;
@@ -26,7 +26,7 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
     private final ReadPartitionDecoder decoder;
     private final ReadPartitionQueue queue;
     private final BufferManager bufferManager;
-    private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
+    private final Consumer<DataReceivedEventImpl> eventConsumer;
 
     private final SerialExecutor dataProcessor;
 
@@ -54,12 +54,13 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
     }
 
     @Override
-    public void confirmRangeProcessed(OffsetsRange range) {
+    public void confirmProcessedRange(OffsetsRange range) {
         bufferManager.releaseRange(partition.getId(), range);
         decoder.releaseRange(range);
         sendDataToReaders();
     }
 
+    @Override
     public PartitionSession getPartition() {
         return partition;
     }
@@ -91,7 +92,14 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
                 if (list == null) {
                     return;
                 }
-                eventConsumer.accept(this, new DataReceivedEventImpl(partition, committer, list));
+                int messagesCount = list.size();
+                long offsetStart = list.get(0).getOffset();
+                long offsetEnd = list.get(list.size() - 1).getOffset();
+                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
+                        + "to be called...", traceID, messagesCount, offsetStart, offsetEnd);
+                eventConsumer.accept(new DataReceivedEventImpl(this, committer, list));
+                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
+                        + "successfully finished", traceID, messagesCount, offsetStart, offsetEnd);
             }
         });
     }
