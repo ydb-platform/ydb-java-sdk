@@ -752,7 +752,7 @@ public class TopicReadersIntegrationTest {
     }
 
     @Test
-    public void externalProcessingReaderTest() throws InterruptedException {
+    public void customBackPressureTest() throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
@@ -805,6 +805,56 @@ public class TopicReadersIntegrationTest {
                     messagesCount++;
                 }
                 processed.add(next);
+            }
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    public void backPressureByCommitsTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setMaxMemoryUsageBytes(10000)
+                .setMaxBatchSize(100)
+                .build();
+
+        BlockingQueue<DataReceivedEventImpl> messages = new ArrayBlockingQueue<>(5000);
+        AtomicLong queued = new AtomicLong(0);
+
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReaderHandler() {
+                    @Override
+                    public void onMessagesImpl(DataReceivedEventImpl event) {
+                        Assert.assertTrue(messages.offer(event));
+                        queued.addAndGet(event.getMessages().size());
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                }).build());
+
+        reader.init().join();
+
+        long messagesCount = 0;
+        long[] offsets = new long[] { 0L, 0L, 0L };
+
+        try {
+            while (messagesCount < 3600) {
+                DataReceivedEventImpl next = messages.poll(1, TimeUnit.SECONDS);
+                Assert.assertNotNull(next);
+
+                int pid = (int) next.getPartitionSession().getPartitionId();
+                for (Message msg : next.getMessages()) {
+                    Assert.assertEquals(offsets[pid], msg.getOffset());
+                    offsets[pid] = msg.getOffset() + 1;
+                    messagesCount++;
+                }
+
+                next.commit(); // commit is auto confirm processing
             }
         } finally {
             reader.shutdown().join();

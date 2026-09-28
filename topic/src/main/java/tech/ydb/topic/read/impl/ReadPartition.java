@@ -39,7 +39,7 @@ public class ReadPartition implements PartitionControl {
         ReadConfig config = session.getConfig();
         MessageDecoder sessionDecoder = session.getDecoder();
 
-        this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
+        this.committer = new ReadPartitionCommitter(traceID, session, this, lastCommittedOffset);
         this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, this::sendDataToReaders);
         this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
 
@@ -55,8 +55,7 @@ public class ReadPartition implements PartitionControl {
 
     @Override
     public void confirmProcessedRange(OffsetsRange range) {
-        bufferManager.releaseRange(partition.getId(), range);
-        decoder.releaseRange(range);
+        releaseRange(range);
         sendDataToReaders();
     }
 
@@ -85,7 +84,12 @@ public class ReadPartition implements PartitionControl {
         return !isStopped;
     }
 
-    private void sendDataToReaders() {
+    void releaseRange(OffsetsRange range) {
+        bufferManager.releaseRange(partition.getId(), range);
+        decoder.releaseRange(range);
+    }
+
+    void sendDataToReaders() {
         dataProcessor.execute(() -> {
             while (!isStopped) {
                 List<Message> list = queue.getNextBatch();

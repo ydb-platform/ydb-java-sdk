@@ -241,7 +241,7 @@ public class SyncReaderImplTest {
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
-                .setMaxMemoryUsageBytes(2000)
+                .setMaxMemoryUsageBytes(20000)
                 .setConsumerName("consumer")
                 .setRetryConfig(IMMEDIATE_RETRY)
                 .setErrorsHandler(errorsHandler)
@@ -255,7 +255,7 @@ public class SyncReaderImplTest {
 
         m1.responseInit("read-session-1");
         m1.assertSentMessagesCount(2);
-        m1.assertLastMessage().isReadRequest(2000);
+        m1.assertLastMessage().isReadRequest(20000);
 
         // start partition read and send 4 messages
         m1.responseStartPartition("/test-topic", 123, 0);
@@ -305,7 +305,7 @@ public class SyncReaderImplTest {
 
         m2.responseInit("read-session-2");
         m2.assertSentMessagesCount(2);
-        m2.assertLastMessage().isReadRequest(2000);
+        m2.assertLastMessage().isReadRequest(20000);
 
         // partition start is auto confirmed
         m2.responseStartPartition("/test-topic", 123, 1);
