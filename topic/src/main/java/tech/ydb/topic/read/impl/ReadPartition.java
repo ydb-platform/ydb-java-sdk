@@ -27,6 +27,7 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
     private final ReadPartitionQueue queue;
     private final BufferManager bufferManager;
     private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
+    private final ReaderMetrics metrics;
 
     private final SerialExecutor dataProcessor;
 
@@ -46,6 +47,7 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         this.dataProcessor = new SerialExecutor(config.getProcessor());
         this.bufferManager = session.getBufferManager();
         this.eventConsumer = session.getEventConsumer();
+        this.metrics = config.getMetrics();
     }
 
     @Override
@@ -80,6 +82,11 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
             return false;
         }
         queue.addBatches(batchList);
+        long messagesCount = 0;
+        for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch : batchList) {
+            messagesCount += batch.getMessageDataCount();
+        }
+        metrics.reportReceivedMessages(messagesCount, partition.getPath());
         sendDataToReaders();
         return !isStopped;
     }
