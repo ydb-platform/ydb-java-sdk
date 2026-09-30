@@ -55,8 +55,8 @@ public class WriterQueue {
 
     private volatile long lastSeqNo = 0;
 
-    // Future for flush method
-    private volatile EnqueuedMessage lastAcceptedMessage = null;
+    // Future for flush method. Only the future is stored to not retain the message data after sending
+    private volatile CompletableFuture<WriteAck> lastAcceptedAckFuture = null;
 
     public WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
                        Executor compressionExecutor, Runnable readyNotify) {
@@ -72,13 +72,13 @@ public class WriterQueue {
     }
 
     CompletableFuture<Void> flush() {
-        EnqueuedMessage local = lastAcceptedMessage;
+        CompletableFuture<WriteAck> local = lastAcceptedAckFuture;
         if (local == null) {
             return CompletableFuture.completedFuture(null);
         }
         CompletableFuture<Void> flushFuture = new CompletableFuture<>();
         // ackFuture can be failed, but flushFuture must be always successful
-        local.getAckFuture().whenComplete((ack, th) -> flushFuture.complete(null));
+        local.whenComplete((ack, th) -> flushFuture.complete(null));
         return flushFuture;
     }
 
@@ -219,7 +219,7 @@ public class WriterQueue {
 
     private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, long reservedSizeBytes) {
         EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes);
-        lastAcceptedMessage = msg;
+        lastAcceptedAckFuture = msg.getAckFuture();
         queue.add(msg);
 
         if (codec.getId() == Codec.RAW) {
