@@ -67,7 +67,7 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
     }
 
     public void confirmCommittedOffset(long committedOffset) {
-        committer.confirmCommit(committedOffset);
+        metrics.reportCommitAcknowledged(committer.confirmCommit(committedOffset), partition.getPath());
     }
 
     public void stop() {
