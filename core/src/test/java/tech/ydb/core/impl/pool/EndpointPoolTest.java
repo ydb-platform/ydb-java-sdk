@@ -2,7 +2,6 @@ package tech.ydb.core.impl.pool;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.SocketAddress;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -43,7 +42,6 @@ public class EndpointPoolTest {
     public void setUp() throws IOException {
         mocks = MockitoAnnotations.openMocks(this);
         threadLocalStaticMock.when(ThreadLocalRandom::current).thenReturn(random);
-        Mockito.doNothing().when(socket).connect(Mockito.any(SocketAddress.class));
         Mockito.when(socketFactory.createSocket()).thenReturn(socket);
     }
 

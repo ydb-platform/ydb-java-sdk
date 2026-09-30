@@ -148,12 +148,20 @@ public class GrpcTransportBuilder {
         return schedulerFactory;
     }
 
+    @Deprecated
     public String getLocalDc() {
         return localDc;
     }
 
     public BalancingSettings getBalancingSettings() {
-        return balancingSettings;
+        if (balancingSettings != null) {
+            return balancingSettings;
+        }
+        if (localDc != null) {
+            return BalancingSettings.fromLocation(localDc);
+        }
+
+        return BalancingSettings.defaultInstance();
     }
 
     public Executor getCallExecutor() {
@@ -233,24 +241,6 @@ public class GrpcTransportBuilder {
      */
     public GrpcTransportBuilder addChannelInitializer(Consumer<? super ManagedChannelBuilder<?>> ci) {
         channelInitializers.add(ci);
-        return this;
-    }
-
-    /**
-     * Set a custom initialization of {@link io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder} <br>
-     * This method is deprecated. Use
-     * {@link GrpcTransportBuilder#withChannelFactoryBuilder(tech.ydb.core.impl.pool.ManagedChannelFactory.Builder)}
-     * instead
-     *
-     * @param ci custom NettyChannelBuilder initializer
-     * @return this
-     * @deprecated
-     */
-    @Deprecated
-    public GrpcTransportBuilder withChannelInitializer(
-            Consumer<io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder> ci
-    ) {
-        this.channelFactoryBuilder = tech.ydb.core.impl.pool.ShadedNettyChannelFactory.withInterceptor(ci);
         return this;
     }
 
@@ -347,16 +337,6 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    @Deprecated
-    public GrpcTransportBuilder withConnectTimeout(Duration timeout) {
-        return this;
-    }
-
-    @Deprecated
-    public GrpcTransportBuilder withConnectTimeout(long timeout, TimeUnit unit) {
-        return this;
-    }
-
     public GrpcTransportBuilder withDiscoveryTimeout(Duration timeout) {
         this.discoveryTimeoutMillis = timeout.toMillis();
         Preconditions.checkArgument(discoveryTimeoutMillis > 0, "discoveryTimeoutMillis must be greater than 0");
@@ -444,44 +424,10 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    /**
-     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
-     * @return this
-     * @deprecated
-     */
-    @Deprecated
-    public GrpcTransportBuilder enableRetry() {
-        this.grpcRetry = true;
-        return this;
-    }
-
-    /**
-     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
-     * @return this
-     * @deprecated
-     */
-    @Deprecated
-    public GrpcTransportBuilder disableRetry() {
-        this.grpcRetry = false;
-        return this;
-    }
-
     public GrpcTransport build() {
         YdbTransportImpl impl = new YdbTransportImpl(this);
         try {
             impl.start(initMode);
-            return impl;
-        } catch (RuntimeException ex) {
-            impl.close();
-            throw ex;
-        }
-    }
-
-    @Deprecated
-    public GrpcTransport buildAsync(Runnable ready) {
-        YdbTransportImpl impl = new YdbTransportImpl(this);
-        try {
-            impl.startAsync(ready);
             return impl;
         } catch (RuntimeException ex) {
             impl.close();

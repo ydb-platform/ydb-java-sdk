@@ -2,7 +2,6 @@ package tech.ydb.core.impl;
 
 
 import java.time.Duration;
-import java.time.ZoneId;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
@@ -138,52 +137,6 @@ public class YdbTransportImplTest {
 
         Assert.assertEquals("Discovery is not ready", ex.getMessage());
         Assert.assertNull(ex.getCause());
-    }
-
-    @Test
-    public void asyncBuildGoodTest() {
-        Ticker tickerRequests = new Ticker();
-        MockedScheduler scheduler = new MockedScheduler(MockedClock.create(ZoneId.of("UTC")));
-
-        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
-                .thenReturn(MockedCall.discovery("self", new EndpointRecord("node", 2136)));
-
-        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
-                .thenReturn(MockedCall.whoAmICall(tickerRequests, "i am discovery"));
-        Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
-                .thenReturn(MockedCall.whoAmICall(tickerRequests, "i am node"));
-
-        CompletableFuture<Void> isReady = new CompletableFuture<>();
-
-        @SuppressWarnings("deprecation")
-        GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
-                .withSchedulerFactory(() -> scheduler)
-                .withChannelFactoryBuilder(builder -> channelFactory)
-                .buildAsync(() -> isReady.complete(null));
-
-        Assert.assertNotNull(transport);
-        Assert.assertFalse(isReady.isDone());
-
-        // before discovery completed we send requests to discovery endpoint
-        tickerRequests.noTasks();
-        CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> f1 = whoAmI(transport);
-        Assert.assertFalse(f1.isDone());
-
-        tickerRequests.runNextTask().noTasks();
-        Assert.assertTrue(f1.isDone());
-        Assert.assertEquals("i am discovery", f1.join().getValue().getUser());
-
-        // Complete discovery
-        Assert.assertFalse(isReady.isDone());
-        scheduler.hasTasksCount(2).runNextTask().runNextTask();
-
-        CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> f2 = whoAmI(transport);
-        Assert.assertFalse(f2.isDone());
-        tickerRequests.runNextTask().noTasks();
-        Assert.assertTrue(f2.isDone());
-        Assert.assertEquals("i am node", f2.join().getValue().getUser());
-
-        Assert.assertTrue(isReady.isDone());
     }
 
     @Test
