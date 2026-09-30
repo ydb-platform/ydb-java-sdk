@@ -28,7 +28,7 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final ReadSession session;
     private final PartitionSession partition;
 
-    private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
+    private final NavigableMap<Long, PendingCommit> commitFutures = new TreeMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private final AtomicLong lastCommittedOffset;
@@ -52,23 +52,34 @@ class ReadPartitionCommitter implements MessageCommitter {
         }
     }
 
-    public void completePendingCommits() {
+    public long completePendingCommits() {
         List<CompletableFuture<Void>> completed = new ArrayList<>();
+        long acknowledgedMessages = 0;
         long last = lastCommittedOffset.get();
         commitFuturesLock.lock();
         try {
-            Map<Long, CompletableFuture<Void>> ready = commitFutures.headMap(last, true);
+            Map<Long, PendingCommit> ready = commitFutures.headMap(last, true);
             if (ready.isEmpty()) {
-                return;
+                return 0;
             }
 
-            ready.values().forEach(completed::add);
+            for (PendingCommit pending : ready.values()) {
+                acknowledgedMessages += pending.messages;
+                completed.add(pending.future);
+            }
             ready.clear();
         } finally {
             commitFuturesLock.unlock();
         }
         logger.debug("[{}] Completing {} commit futures by confirmed offset {}", traceID, completed.size(), last);
         completed.forEach(f -> f.complete(null));
+        return acknowledgedMessages;
+    }
+
+    private PendingCommit registerCommit(OffsetsRange range) {
+        PendingCommit pending = commitFutures.computeIfAbsent(range.getEnd(), offset -> new PendingCommit());
+        pending.messages += range.getEnd() - range.getStart();
+        return pending;
     }
 
     @Override
@@ -80,11 +91,7 @@ class ReadPartitionCommitter implements MessageCommitter {
         CompletableFuture<Void> future;
         commitFuturesLock.lock();
         try {
-            future = commitFutures.get(range.getEnd());
-            if (future == null) {
-                future = new CompletableFuture<>();
-                commitFutures.put(range.getEnd(), future);
-            }
+            future = registerCommit(range).future;
         } finally {
             commitFuturesLock.unlock();
         }
@@ -107,7 +114,15 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition, ranges);
+        commitFuturesLock.lock();
+        try {
+            ranges.forEach(this::registerCommit);
+        } finally {
+            commitFuturesLock.unlock();
+        }
+        if (!session.commitOffsets(partition, ranges)) {
+            close();
+        }
     }
 
     public void close() {
@@ -119,12 +134,17 @@ class ReadPartitionCommitter implements MessageCommitter {
                 return;
             }
 
-            commitFutures.values().forEach(failed::add);
+            commitFutures.values().forEach(pending -> failed.add(pending.future));
             commitFutures.clear();
         } finally {
             commitFuturesLock.unlock();
         }
         logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, partition, failed.size());
         failed.forEach(f -> f.completeExceptionally(partitionIsClosedException()));
+    }
+
+    private static class PendingCommit {
+        private final CompletableFuture<Void> future = new CompletableFuture<>();
+        private long messages;
     }
 }
