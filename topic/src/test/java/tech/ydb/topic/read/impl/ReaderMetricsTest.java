@@ -192,6 +192,55 @@ public class ReaderMetricsTest {
         }
     }
 
+    @Test
+    public void deferredCommitFromCompletionPreservesAcknowledgements() throws InterruptedException {
+        RecordingMeter meter = new RecordingMeter();
+        ReadStreamMock stream = new ReadStreamMock();
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.any(String.class))).thenReturn(stream);
+        TopicClient client = TopicClientImpl.newClient(rpc).build();
+        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath("/topic").build())
+                .setConsumerName("consumer")
+                .withMeter(meter, "reader")
+                .build());
+        try {
+            reader.init();
+            stream.responseInit("read-session");
+            stream.responseStartPartition("/topic", 42, 100);
+            stream.responseData(3).partition(1, 100)
+                    .batch(Codec.RAW, new byte[]{1}, new byte[]{2}, new byte[]{3}).and().send();
+            Message first = reader.receive(1, TimeUnit.SECONDS);
+            Message second = reader.receive(1, TimeUnit.SECONDS);
+            Message third = reader.receive(1, TimeUnit.SECONDS);
+            Assert.assertNotNull(first);
+            Assert.assertNotNull(second);
+            Assert.assertNotNull(third);
+            CompletableFuture<Void> firstCommit = first.commit();
+            CompletableFuture<Void> secondCommit = second.commit();
+            DeferredCommitter batch = DeferredCommitter.newInstance();
+            batch.add(third);
+            CompletableFuture<Void> continuation = firstCommit.thenRun(batch::commit);
+
+            stream.responseCommitAck().partition(1, 102).send();
+
+            Assert.assertTrue(firstCommit.isDone());
+            Assert.assertTrue(secondCommit.isDone());
+            Assert.assertFalse(secondCommit.isCompletedExceptionally());
+            Assert.assertTrue(continuation.isDone());
+            Assert.assertFalse(continuation.isCompletedExceptionally());
+            Assert.assertEquals(3, meter.value(COMMIT_QUEUED));
+            Assert.assertEquals(2, meter.value(COMMIT_ACKNOWLEDGED));
+            stream.assertLastMessage().isCommit(1).hasPartitionOffset(1, OffsetsRange.of(102, 103));
+            stream.responseCommitAck().partition(1, 103).send();
+            Assert.assertEquals(3, meter.value(COMMIT_ACKNOWLEDGED));
+        } finally {
+            reader.shutdown();
+            client.close();
+        }
+    }
+
     private static class RecordingMeter implements Meter {
         private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
         private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();

@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -58,12 +59,13 @@ class ReadPartitionCommitter implements MessageCommitter {
                     committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset, confirmed.size());
 
             lastCommittedOffset = committedOffset;
+            List<PendingCommit> acknowledged = new ArrayList<>(confirmed.values());
+            confirmed.clear();
             long acknowledgedMessages = 0;
-            for (PendingCommit pending : confirmed.values()) {
+            for (PendingCommit pending : acknowledged) {
                 acknowledgedMessages += pending.messages;
                 pending.future.complete(null);
             }
-            confirmed.clear();
             return acknowledgedMessages;
         } finally {
             commitFuturesLock.unlock();
