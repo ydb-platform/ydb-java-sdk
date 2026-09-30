@@ -207,6 +207,7 @@ public class SyncReaderImpl implements SyncReader {
             }
 
             next.confirm();
+            config.getMetrics().reportDelivered(1, result.getPartitionSession().getPath());
             return result;
         }
     }
