@@ -62,7 +62,13 @@ public final class OpenTelemetryMeter implements Meter {
     }
 
     @Override
-    public MetricRegistration createLongGauge(
+    @Deprecated
+    public void createLongGauge(String name, String unit, String description, Consumer<LongMeasurement> callback) {
+        registerLongGauge(name, unit, description, callback);
+    }
+
+    @Override
+    public MetricRegistration registerLongGauge(
             String name, String unit, String description, Consumer<LongMeasurement> callback) {
         LongGaugeBuilder builder = meter.gaugeBuilder(name).ofLongs();
         if (unit != null) {

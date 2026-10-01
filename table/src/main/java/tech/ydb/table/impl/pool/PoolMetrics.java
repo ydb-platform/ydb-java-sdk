@@ -99,17 +99,18 @@ public final class PoolMetrics implements AutoCloseable {
         this.closed = meter.createCounter(prefix + "closed", UNIT, "Total closed sessions.");
         this.createTime = meter.createHistogram(prefix + "create_time", "s", "Session creation cost.");
 
-        this.maxGauge = meter.createLongGauge(prefix + "max", UNIT, "Configured MaxPoolSize",
+        this.maxGauge = meter.registerLongGauge(prefix + "max", UNIT, "Configured MaxPoolSize",
                 m -> m.record(queue.getTotalLimit(), poolAttrs));
-        this.minGauge = meter.createLongGauge(prefix + "min", UNIT, "Configured MinPoolSize",
+        this.minGauge = meter.registerLongGauge(prefix + "min", UNIT, "Configured MinPoolSize",
                 m -> m.record(minSize, poolAttrs));
-        this.countGauge = meter.createLongGauge(prefix + "count", UNIT, "Current pool session counts", m -> {
+        this.countGauge = meter.registerLongGauge(prefix + "count", UNIT, "Current pool session counts", m -> {
             int total = queue.getTotalCount();
             int idle = queue.getIdleCount();
             m.record(idle, idleAttrs);
             m.record(total - idle, inUseAttrs);
         });
-        this.pendingGauge = meter.createLongGauge(prefix + "pending_requests", UNIT, "Requests waiting for a session.",
+        this.pendingGauge = meter.registerLongGauge(
+                prefix + "pending_requests", UNIT, "Requests waiting for a session.",
                 m -> m.record(queue.getWaitingCount() + queue.getPendingCount(), poolAttrs));
     }
 

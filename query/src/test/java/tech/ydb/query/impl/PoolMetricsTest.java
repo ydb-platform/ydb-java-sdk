@@ -90,7 +90,7 @@ public class PoolMetricsTest {
             String name = inv.getArgument(0);
             gauges.put(name, inv.getArgument(3));
             return (MetricRegistration) () -> gauges.remove(name);
-        }).when(meter).createLongGauge(anyString(), any(), any(), any());
+        }).when(meter).registerLongGauge(anyString(), any(), any(), any());
     }
 
     @Test
@@ -103,10 +103,10 @@ public class PoolMetricsTest {
             verify(meter).createCounter(eq(PREFIX + "failed"), eq("{session}"), anyString());
             verify(meter).createCounter(eq(PREFIX + "closed"), eq("{session}"), anyString());
             verify(meter).createHistogram(eq(PREFIX + "create_time"), eq("s"), anyString());
-            verify(meter).createLongGauge(eq(PREFIX + "max"), eq("{session}"), anyString(), any());
-            verify(meter).createLongGauge(eq(PREFIX + "min"), eq("{session}"), anyString(), any());
-            verify(meter).createLongGauge(eq(PREFIX + "count"), eq("{session}"), anyString(), any());
-            verify(meter).createLongGauge(eq(PREFIX + "pending_requests"), eq("{session}"), anyString(), any());
+            verify(meter).registerLongGauge(eq(PREFIX + "max"), eq("{session}"), anyString(), any());
+            verify(meter).registerLongGauge(eq(PREFIX + "min"), eq("{session}"), anyString(), any());
+            verify(meter).registerLongGauge(eq(PREFIX + "count"), eq("{session}"), anyString(), any());
+            verify(meter).registerLongGauge(eq(PREFIX + "pending_requests"), eq("{session}"), anyString(), any());
         }
         Assert.assertTrue(gauges.isEmpty());
     }

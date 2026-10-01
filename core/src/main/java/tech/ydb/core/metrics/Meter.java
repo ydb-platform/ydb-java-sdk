@@ -21,10 +21,23 @@ public interface Meter {
     }
 
     /**
-     * Registers a gauge callback. The caller must close the registration when its source is closed.
+     * Creates a gauge callback without a registration handle.
+     *
+     * @deprecated Use {@link #registerLongGauge} to manage the callback lifecycle.
      */
-    default MetricRegistration createLongGauge(
+    @Deprecated
+    default void createLongGauge(String name, String unit, String description, Consumer<LongMeasurement> callback) {
+        // noop: the backend never queries the callback
+    }
+
+    /**
+     * Registers a gauge callback. Close the returned handle when its source is closed.
+     * Backends implementing only {@link #createLongGauge} retain their existing lifecycle;
+     * override this method to support unregistering callbacks.
+     */
+    default MetricRegistration registerLongGauge(
             String name, String unit, String description, Consumer<LongMeasurement> callback) {
+        createLongGauge(name, unit, description, callback);
         return MetricRegistration.NOOP;
     }
 }
