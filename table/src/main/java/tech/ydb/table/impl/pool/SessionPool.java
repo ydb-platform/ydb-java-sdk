@@ -87,6 +87,7 @@ public class SessionPool implements AutoCloseable {
         logger.info("closing session pool");
 
         keepAliveFuture.cancel(false);
+        metrics.close();
         queue.close();
     }
 
