@@ -64,6 +64,7 @@ public class SyncReaderImpl implements SyncReader {
 
         this.config = new ReadConfig(codecRegistry, Runnable::run, decompressor, settings);
         this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new SyncHandler());
+        config.getMetrics().registerGauges(impl);
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();
@@ -110,6 +111,7 @@ public class SyncReaderImpl implements SyncReader {
     }
 
     private void close(Status status) {
+        config.getMetrics().close();
         initFuture.completeExceptionally(new RuntimeException("Reader was closed with " + status));
         shutdownFuture.complete(status);
 

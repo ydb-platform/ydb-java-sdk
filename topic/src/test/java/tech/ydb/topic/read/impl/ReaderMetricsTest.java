@@ -1,8 +1,6 @@
 package tech.ydb.topic.read.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
@@ -86,7 +84,8 @@ public class ReaderMetricsTest {
                 .addTopic("/topic").setConsumerName("consumer")
                 .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
         try {
-            Assert.assertTrue(meter.gauges.isEmpty());
+            Assert.assertEquals(0, meter.collect(PARTITIONS));
+            Assert.assertEquals(0, meter.collect(CREDIT));
             reader.init();
             Assert.assertEquals(0, meter.collect(PARTITIONS));
             Assert.assertEquals(0, meter.collect(CREDIT));
@@ -112,26 +111,18 @@ public class ReaderMetricsTest {
     private static class RecordingMeter implements Meter {
         private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
         private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();
-        private final Map<String, List<Consumer<LongMeasurement>>> gauges = new ConcurrentHashMap<>();
+        private final Map<String, Consumer<LongMeasurement>> gauges = new ConcurrentHashMap<>();
 
         @Override
         public MetricRegistration registerLongGauge(
                 String name, String unit, String description, Consumer<LongMeasurement> callback) {
-            List<Consumer<LongMeasurement>> callbacks = gauges.computeIfAbsent(name, key -> new ArrayList<>());
-            callbacks.add(callback);
-            return () -> {
-                callbacks.remove(callback);
-                if (callbacks.isEmpty()) {
-                    gauges.remove(name, callbacks);
-                }
-            };
+            gauges.put(name, callback);
+            return () -> gauges.remove(name);
         }
 
         long collect(String name) {
             Long[] value = new Long[1];
-            List<Consumer<LongMeasurement>> callbacks = gauges.get(name);
-            Assert.assertEquals(1, callbacks.size());
-            callbacks.get(0).accept((observed, attrs) -> value[0] = observed);
+            gauges.get(name).accept((observed, attrs) -> value[0] = observed);
             return value[0];
         }
 

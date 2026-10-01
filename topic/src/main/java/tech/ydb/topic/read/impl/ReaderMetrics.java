@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
-import java.util.function.BooleanSupplier;
 
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
@@ -11,7 +10,7 @@ import tech.ydb.core.metrics.MetricRegistration;
 /**
  * Topic reader metrics.
  */
-final class ReaderMetrics {
+final class ReaderMetrics implements AutoCloseable {
     private static final String MESSAGE_UNIT = "{message}";
 
     private final LongCounter deliveredMessages;
@@ -20,6 +19,7 @@ final class ReaderMetrics {
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
+    private MetricRegistration gauges = MetricRegistration.NOOP;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -35,20 +35,24 @@ final class ReaderMetrics {
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    MetricRegistration registerGauges(ReadSession stream, BooleanSupplier initialized) {
+    void registerGauges(ReaderImpl reader) {
         MetricRegistration partitions = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
-                m -> m.record(stream.getPartitionSessionCount(), commonAttributes));
+                m -> m.record(reader.getPartitionSessionCount(), commonAttributes));
         MetricRegistration credit = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.", m -> {
-                    m.record(initialized.getAsBoolean() ? stream.getBufferManager().getCreditBalanceBytes() : 0,
-                            commonAttributes);
+                    m.record(reader.getCreditBalanceBytes(), commonAttributes);
                 });
-        return () -> {
+        gauges = () -> {
             partitions.close();
             credit.close();
         };
+    }
+
+    @Override
+    public void close() {
+        gauges.close();
     }
 
     void reportDelivered(long messages, String topic) {
