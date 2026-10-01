@@ -230,7 +230,7 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
      * @param values embedding components
      * @return a Bytes value suitable for a query parameter declared as Bytes
      */
-    public static PrimitiveValue newEmbedding(float[] values) {
+    public static PrimitiveValue newBytesEmbedding(float[] values) {
         byte[] bytes = new byte[values.length * 4 + 1];
         for (int i = 0; i < values.length; i++) {
             int bits = Float.floatToRawIntBits(values[i]);

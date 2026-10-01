@@ -387,7 +387,7 @@ public class PrimitiveValueTest {
 
     @Test
     public void embedding() {
-        PrimitiveValue value = PrimitiveValue.newEmbedding(new float[] { 1.0f, -2.0f, 0.5f });
+        PrimitiveValue value = PrimitiveValue.newBytesEmbedding(new float[] { 1.0f, -2.0f, 0.5f });
 
         Assert.assertEquals(PrimitiveType.Bytes, value.getType());
         Assert.assertArrayEquals(new byte[] {
@@ -400,7 +400,7 @@ public class PrimitiveValueTest {
 
     @Test
     public void emptyEmbedding() {
-        PrimitiveValue value = PrimitiveValue.newEmbedding(new float[0]);
+        PrimitiveValue value = PrimitiveValue.newBytesEmbedding(new float[0]);
 
         Assert.assertEquals(PrimitiveType.Bytes, value.getType());
         Assert.assertArrayEquals(new byte[] { 0x01 }, value.getBytes());
@@ -408,7 +408,7 @@ public class PrimitiveValueTest {
 
     @Test
     public void embeddingPreservesFloatBits() {
-        PrimitiveValue value = PrimitiveValue.newEmbedding(new float[] {
+        PrimitiveValue value = PrimitiveValue.newBytesEmbedding(new float[] {
                 -0.0f, Float.POSITIVE_INFINITY, Float.intBitsToFloat(0x7fc12345)
         });
 
