@@ -1,7 +1,6 @@
 package tech.ydb.core.metrics;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import io.grpc.ExperimentalApi;
@@ -89,18 +88,15 @@ public final class OpenTelemetryMeter implements Meter {
     }
 
     private static final class GaugeRegistration implements MetricRegistration {
-        private final AtomicReference<ObservableLongGauge> registration;
+        private final ObservableLongGauge gauge;
 
         GaugeRegistration(ObservableLongGauge gauge) {
-            this.registration = new AtomicReference<>(gauge);
+            this.gauge = gauge;
         }
 
         @Override
         public void close() {
-            ObservableLongGauge gauge = registration.getAndSet(null);
-            if (gauge != null) {
-                gauge.close();
-            }
+            gauge.close();
         }
     }
 }
