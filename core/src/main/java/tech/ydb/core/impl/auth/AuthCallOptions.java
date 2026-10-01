@@ -29,6 +29,7 @@ public class AuthCallOptions implements AutoCloseable {
         this.readTimeoutMillis = 0;
     }
 
+    @SuppressWarnings("deprecation")
     public AuthCallOptions(
             ScheduledExecutorService scheduler,
             List<EndpointRecord> endpoints,

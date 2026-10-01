@@ -172,13 +172,9 @@ public class GrpcTransportBuilder {
         return authProvider;
     }
 
+    @Deprecated
     public long getReadTimeoutMillis() {
         return readTimeoutMillis;
-    }
-
-    @Deprecated
-    public long getConnectTimeoutMillis() {
-        return 10_000;
     }
 
     public long getDiscoveryTimeoutMillis() {
