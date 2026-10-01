@@ -75,7 +75,7 @@ public class OpenTelemetryMeterTest {
     @Test
     public void gaugeInvokesCallbackOnCollect() {
         AtomicLong value = new AtomicLong(7L);
-        meter.createLongGauge("ydb.test.gauge", "{session}", "test gauge",
+        MetricRegistration registration = meter.createLongGauge("ydb.test.gauge", "{session}", "test gauge",
                 m -> m.record(value.get(), Attr.of("pool.name", "my-pool"), Attr.of("state", "idle")));
 
         MetricData metric = single("ydb.test.gauge");
@@ -90,6 +90,9 @@ public class OpenTelemetryMeterTest {
         value.set(11L);
         LongPointData updated = singleLongPoint(single("ydb.test.gauge").getLongGaugeData().getPoints());
         Assert.assertEquals(11L, updated.getValue());
+        registration.close();
+        registration.close();
+        Assert.assertTrue(reader.collectAllMetrics().isEmpty());
     }
 
     @Test

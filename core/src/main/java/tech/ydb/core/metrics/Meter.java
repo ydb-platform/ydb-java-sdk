@@ -20,7 +20,11 @@ public interface Meter {
         return DoubleHistogram.NOOP;
     }
 
-    default void createLongGauge(String name, String unit, String description, Consumer<LongMeasurement> callback) {
-        // noop: the backend never queries the callback
+    /**
+     * Registers a gauge callback. The caller must close the registration when its source is closed.
+     */
+    default MetricRegistration createLongGauge(
+            String name, String unit, String description, Consumer<LongMeasurement> callback) {
+        return MetricRegistration.NOOP;
     }
 }

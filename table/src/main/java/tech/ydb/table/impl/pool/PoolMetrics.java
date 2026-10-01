@@ -8,8 +8,9 @@ import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.metrics.MetricRegistration;
 
-public final class PoolMetrics {
+public final class PoolMetrics implements AutoCloseable {
     public enum Reason {
         UNKNOWN("unknown"),
 
@@ -76,6 +77,10 @@ public final class PoolMetrics {
     private final LongCounter failed;
     private final LongCounter closed;
     private final DoubleHistogram createTime;
+    private final MetricRegistration maxGauge;
+    private final MetricRegistration minGauge;
+    private final MetricRegistration countGauge;
+    private final MetricRegistration pendingGauge;
 
     public PoolMetrics(Meter meter, String name, String poolName, WaitingQueue<?> queue, int minSize) {
         String prefix = "ydb." + name + ".session.";
@@ -94,18 +99,26 @@ public final class PoolMetrics {
         this.closed = meter.createCounter(prefix + "closed", UNIT, "Total closed sessions.");
         this.createTime = meter.createHistogram(prefix + "create_time", "s", "Session creation cost.");
 
-        meter.createLongGauge(prefix + "max", UNIT, "Configured MaxPoolSize",
+        this.maxGauge = meter.createLongGauge(prefix + "max", UNIT, "Configured MaxPoolSize",
                 m -> m.record(queue.getTotalLimit(), poolAttrs));
-        meter.createLongGauge(prefix + "min", UNIT, "Configured MinPoolSize",
+        this.minGauge = meter.createLongGauge(prefix + "min", UNIT, "Configured MinPoolSize",
                 m -> m.record(minSize, poolAttrs));
-        meter.createLongGauge(prefix + "count", UNIT, "Current pool session counts", m -> {
+        this.countGauge = meter.createLongGauge(prefix + "count", UNIT, "Current pool session counts", m -> {
             int total = queue.getTotalCount();
             int idle = queue.getIdleCount();
             m.record(idle, idleAttrs);
             m.record(total - idle, inUseAttrs);
         });
-        meter.createLongGauge(prefix + "pending_requests", UNIT, "Requests waiting for a session.",
+        this.pendingGauge = meter.createLongGauge(prefix + "pending_requests", UNIT, "Requests waiting for a session.",
                 m -> m.record(queue.getWaitingCount() + queue.getPendingCount(), poolAttrs));
+    }
+
+    @Override
+    public void close() {
+        maxGauge.close();
+        minGauge.close();
+        countGauge.close();
+        pendingGauge.close();
     }
 
     public void onSessionRequested() {

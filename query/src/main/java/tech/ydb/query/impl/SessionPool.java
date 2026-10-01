@@ -99,6 +99,7 @@ class SessionPool implements AutoCloseable {
     public void close() {
         logger.info("closing QuerySession pool");
         cleanerFuture.cancel(false);
+        metrics.close();
         queue.close();
     }
 

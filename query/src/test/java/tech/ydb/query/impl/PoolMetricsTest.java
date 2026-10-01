@@ -28,6 +28,7 @@ import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.metrics.MetricRegistration;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.proto.StatusCodesProtos.StatusIds;
 import tech.ydb.proto.query.YdbQuery;
@@ -86,8 +87,9 @@ public class PoolMetricsTest {
                 .thenAnswer(inv -> counters.computeIfAbsent(inv.getArgument(0), k -> mock(LongCounter.class)));
         when(meter.createHistogram(anyString(), any(), any())).thenReturn(createTime);
         doAnswer(inv -> {
-            gauges.put(inv.getArgument(0), inv.getArgument(3));
-            return null;
+            String name = inv.getArgument(0);
+            gauges.put(name, inv.getArgument(3));
+            return (MetricRegistration) () -> gauges.remove(name);
         }).when(meter).createLongGauge(anyString(), any(), any(), any());
     }
 
@@ -106,6 +108,7 @@ public class PoolMetricsTest {
             verify(meter).createLongGauge(eq(PREFIX + "count"), eq("{session}"), anyString(), any());
             verify(meter).createLongGauge(eq(PREFIX + "pending_requests"), eq("{session}"), anyString(), any());
         }
+        Assert.assertTrue(gauges.isEmpty());
     }
 
     @Test

@@ -1,6 +1,7 @@
 package tech.ydb.core.metrics;
 
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 
 import io.grpc.ExperimentalApi;
@@ -11,6 +12,7 @@ import io.opentelemetry.api.common.AttributesBuilder;
 import io.opentelemetry.api.metrics.DoubleHistogramBuilder;
 import io.opentelemetry.api.metrics.LongCounterBuilder;
 import io.opentelemetry.api.metrics.LongGaugeBuilder;
+import io.opentelemetry.api.metrics.ObservableLongGauge;
 
 /**
  * OpenTelemetry-backed implementation of {@link Meter}.
@@ -61,7 +63,8 @@ public final class OpenTelemetryMeter implements Meter {
     }
 
     @Override
-    public void createLongGauge(String name, String unit, String description, Consumer<LongMeasurement> callback) {
+    public MetricRegistration createLongGauge(
+            String name, String unit, String description, Consumer<LongMeasurement> callback) {
         LongGaugeBuilder builder = meter.gaugeBuilder(name).ofLongs();
         if (unit != null) {
             builder.setUnit(unit);
@@ -69,8 +72,15 @@ public final class OpenTelemetryMeter implements Meter {
         if (description != null) {
             builder.setDescription(description);
         }
-        builder.buildWithCallback(otelMeasurement ->
-                callback.accept((value, attrs) -> otelMeasurement.record(value, attributesOf(attrs))));
+        AtomicReference<ObservableLongGauge> registration = new AtomicReference<>(builder.buildWithCallback(
+                otelMeasurement -> callback.accept((value, attrs) ->
+                        otelMeasurement.record(value, attributesOf(attrs)))));
+        return () -> {
+            ObservableLongGauge gauge = registration.getAndSet(null);
+            if (gauge != null) {
+                gauge.close();
+            }
+        };
     }
 
     private static Attributes attributesOf(Attr[] attrs) {
