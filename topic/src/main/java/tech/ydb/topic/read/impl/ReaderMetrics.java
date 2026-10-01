@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.lang.ref.WeakReference;
 import java.util.Arrays;
 
 import tech.ydb.core.metrics.Attr;
@@ -7,7 +8,7 @@ import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 
 /**
- * Topic reader counters.
+ * Topic reader metrics.
  */
 final class ReaderMetrics {
     private static final String MESSAGE_UNIT = "{message}";
@@ -29,6 +30,27 @@ final class ReaderMetrics {
         this.receivedBytes = meter.createCounter("ydb.topic.reader.received.bytes", "By",
                 "Bytes in received ReadResponse messages.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
+    }
+
+    void registerGauges(Meter meter, ReaderImpl reader) {
+        if (!enabled) {
+            return;
+        }
+        WeakReference<ReaderImpl> source = new WeakReference<>(reader);
+        meter.createLongGauge("ydb.topic.reader.partition_session.count", "{session}",
+                "The number of partition sessions currently in the reader session processing lifecycle.", m -> {
+                    ReaderImpl current = source.get();
+                    if (current != null && !current.isClosed()) {
+                        m.record(current.getPartitionSessionCount(), commonAttributes);
+                    }
+                });
+        meter.createLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
+                "The protocol credit granted to the server and not yet consumed by read responses.", m -> {
+                    ReaderImpl current = source.get();
+                    if (current != null && !current.isClosed()) {
+                        m.record(current.getCreditBalanceBytes(), commonAttributes);
+                    }
+                });
     }
 
     void reportDelivered(long messages, String topic) {

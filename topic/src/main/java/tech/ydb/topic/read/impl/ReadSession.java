@@ -74,6 +74,10 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return bufferManager;
     }
 
+    int getPartitionSessionCount() {
+        return partitions.size();
+    }
+
     ReadConfig getConfig() {
         return config;
     }
