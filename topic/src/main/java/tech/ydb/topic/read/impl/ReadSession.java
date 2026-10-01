@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
+import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,7 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.core.metrics.MetricRegistration;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.CommitOffsetRequest;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.CommitOffsetResponse;
@@ -48,6 +50,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final Map<Long, PartitionSession> partitions = new ConcurrentHashMap<>();
     private final Map<Long, ReadPartition> readQueues = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
+    private MetricRegistration metricsRegistration = MetricRegistration.NOOP;
 
     public ReadSession(String id, GrpcReadWriteStream<FromServer, FromClient> stream, FromClient initReq,
             BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer, ReadConfig config) {
@@ -78,6 +81,10 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return partitions.size();
     }
 
+    void registerGauges(BooleanSupplier initialized) {
+        metricsRegistration = config.getMetrics().registerGauges(this, initialized);
+    }
+
     ReadConfig getConfig() {
         return config;
     }
@@ -92,6 +99,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public Set<PartitionSession> closeAll() {
         isClosed = true;
+        metricsRegistration.close();
         decoder.stop();
 
         Set<PartitionSession> closed = new HashSet<>(partitions.values());

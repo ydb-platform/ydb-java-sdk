@@ -12,6 +12,7 @@ import org.mockito.Mockito;
 
 import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.metrics.MetricRegistration;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
@@ -33,7 +34,10 @@ public class ReaderStateGaugesTest {
                 .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build();
         SyncReader reader = new SyncReaderImpl(rpc, settings, new CodecRegistry());
         try {
+            Assert.assertTrue(meter.gauges.isEmpty());
             reader.init();
+            Assert.assertEquals(0, meter.collect(PARTITIONS));
+            Assert.assertEquals(0, meter.collect(CREDIT));
             stream.responseInit("session");
             stream.responseStartPartition("/topic", 42, 0);
             Assert.assertEquals(1, meter.collect(PARTITIONS));
@@ -46,18 +50,21 @@ public class ReaderStateGaugesTest {
         } finally {
             reader.shutdown();
         }
+        Assert.assertTrue(meter.gauges.isEmpty());
     }
 
     private static class RecordingMeter implements Meter {
         private final Map<String, Consumer<LongMeasurement>> gauges = new HashMap<>();
 
         @Override
-        public void createLongGauge(String name, String unit, String description, Consumer<LongMeasurement> callback) {
+        public MetricRegistration registerLongGauge(
+                String name, String unit, String description, Consumer<LongMeasurement> callback) {
             gauges.put(name, callback);
+            return () -> gauges.remove(name);
         }
 
         long collect(String name) {
-            long[] value = new long[1];
+            Long[] value = new Long[1];
             gauges.get(name).accept((observed, attrs) -> value[0] = observed);
             return value[0];
         }

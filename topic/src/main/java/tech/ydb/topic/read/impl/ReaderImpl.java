@@ -78,20 +78,11 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         Observability.reportMetricsUsage(settings.getMeter());
     }
 
-    long getPartitionSessionCount() {
-        ReadSession stream = getCurrentStream();
-        return stream == null ? 0 : stream.getPartitionSessionCount();
-    }
-
-    long getCreditBalanceBytes() {
-        ReadSession stream = getCurrentStream();
-        return stream == null || currentSessionId == null ? 0 : stream.getBufferManager().getCreditBalanceBytes();
-    }
-
     @Override
     protected CompletableFuture<Result<ReadSession>> createNewStream(String id) {
         ReadSession s = new ReadSession(id, rpc.readSession(id), initRequest,
                 handler::handleDataReceivedEvent, config);
+        s.registerGauges(() -> currentSessionId != null);
         return CompletableFuture.completedFuture(Result.success(s));
     }
 

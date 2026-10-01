@@ -1,11 +1,12 @@
 package tech.ydb.topic.read.impl;
 
-import java.lang.ref.WeakReference;
 import java.util.Arrays;
+import java.util.function.BooleanSupplier;
 
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.metrics.MetricRegistration;
 
 /**
  * Topic reader metrics.
@@ -18,39 +19,36 @@ final class ReaderMetrics {
     private final LongCounter receivedBytes;
     private final Attr[] commonAttributes;
     private final boolean enabled;
+    private final Meter meter;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
+        this.meter = meter;
         this.enabled = meter != Meter.NOOP;
         this.deliveredMessages = meter.createCounter(
                 "ydb.topic.reader.delivered.messages",
                 MESSAGE_UNIT,
                 "The number of messages delivered by the SDK to application code.");
         this.receivedMessages = meter.createCounter("ydb.topic.reader.received.messages", MESSAGE_UNIT,
-                "Messages accepted by the SDK for active partition sessions.");
+                "The number of messages accepted by the SDK for an active partition session.");
         this.receivedBytes = meter.createCounter("ydb.topic.reader.received.bytes", "By",
-                "Bytes in received ReadResponse messages.");
+                "The protocol bytes_size received in read responses.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    void registerGauges(Meter meter, ReaderImpl reader) {
-        if (!enabled) {
-            return;
-        }
-        WeakReference<ReaderImpl> source = new WeakReference<>(reader);
-        meter.createLongGauge("ydb.topic.reader.partition_session.count", "{session}",
-                "The number of partition sessions currently in the reader session processing lifecycle.", m -> {
-                    ReaderImpl current = source.get();
-                    if (current != null && !current.isClosed()) {
-                        m.record(current.getPartitionSessionCount(), commonAttributes);
-                    }
-                });
-        meter.createLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
+    MetricRegistration registerGauges(ReadSession stream, BooleanSupplier initialized) {
+        MetricRegistration partitions = meter.registerLongGauge(
+                "ydb.topic.reader.partition_session.count", "{session}",
+                "The number of partition sessions currently in the reader session processing lifecycle.",
+                m -> m.record(stream.getPartitionSessionCount(), commonAttributes));
+        MetricRegistration credit = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.", m -> {
-                    ReaderImpl current = source.get();
-                    if (current != null && !current.isClosed()) {
-                        m.record(current.getCreditBalanceBytes(), commonAttributes);
-                    }
+                    m.record(initialized.getAsBoolean() ? stream.getBufferManager().getCreditBalanceBytes() : 0,
+                            commonAttributes);
                 });
+        return () -> {
+            partitions.close();
+            credit.close();
+        };
     }
 
     void reportDelivered(long messages, String topic) {
