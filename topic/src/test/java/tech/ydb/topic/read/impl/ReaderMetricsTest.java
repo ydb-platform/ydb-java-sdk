@@ -1,6 +1,8 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
@@ -78,7 +80,7 @@ public class ReaderMetricsTest {
         ReadStreamMock stream = new ReadStreamMock();
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream).thenReturn(new ReadStreamMock());
         TopicClient client = TopicClientImpl.newClient(rpc).build();
         SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
                 .addTopic("/topic").setConsumerName("consumer")
@@ -90,6 +92,9 @@ public class ReaderMetricsTest {
             Assert.assertEquals(0, meter.collect(CREDIT));
             stream.responseInit("session");
             stream.responseStartPartition("/topic", 42, 0);
+            Assert.assertEquals(1, meter.collect(PARTITIONS));
+            Assert.assertEquals(100, meter.collect(CREDIT));
+            reader.init();
             Assert.assertEquals(1, meter.collect(PARTITIONS));
             Assert.assertEquals(100, meter.collect(CREDIT));
 
@@ -107,18 +112,26 @@ public class ReaderMetricsTest {
     private static class RecordingMeter implements Meter {
         private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
         private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();
-        private final Map<String, Consumer<LongMeasurement>> gauges = new ConcurrentHashMap<>();
+        private final Map<String, List<Consumer<LongMeasurement>>> gauges = new ConcurrentHashMap<>();
 
         @Override
         public MetricRegistration registerLongGauge(
                 String name, String unit, String description, Consumer<LongMeasurement> callback) {
-            gauges.put(name, callback);
-            return () -> gauges.remove(name);
+            List<Consumer<LongMeasurement>> callbacks = gauges.computeIfAbsent(name, key -> new ArrayList<>());
+            callbacks.add(callback);
+            return () -> {
+                callbacks.remove(callback);
+                if (callbacks.isEmpty()) {
+                    gauges.remove(name, callbacks);
+                }
+            };
         }
 
         long collect(String name) {
             Long[] value = new Long[1];
-            gauges.get(name).accept((observed, attrs) -> value[0] = observed);
+            List<Consumer<LongMeasurement>> callbacks = gauges.get(name);
+            Assert.assertEquals(1, callbacks.size());
+            callbacks.get(0).accept((observed, attrs) -> value[0] = observed);
             return value[0];
         }
 
