@@ -72,15 +72,9 @@ public final class OpenTelemetryMeter implements Meter {
         if (description != null) {
             builder.setDescription(description);
         }
-        AtomicReference<ObservableLongGauge> registration = new AtomicReference<>(builder.buildWithCallback(
+        return new GaugeRegistration(builder.buildWithCallback(
                 otelMeasurement -> callback.accept((value, attrs) ->
                         otelMeasurement.record(value, attributesOf(attrs)))));
-        return () -> {
-            ObservableLongGauge gauge = registration.getAndSet(null);
-            if (gauge != null) {
-                gauge.close();
-            }
-        };
     }
 
     private static Attributes attributesOf(Attr[] attrs) {
@@ -92,5 +86,21 @@ public final class OpenTelemetryMeter implements Meter {
             builder.put(attr.getKey(), attr.getValue());
         }
         return builder.build();
+    }
+
+    private static final class GaugeRegistration implements MetricRegistration {
+        private final AtomicReference<ObservableLongGauge> registration;
+
+        GaugeRegistration(ObservableLongGauge gauge) {
+            this.registration = new AtomicReference<>(gauge);
+        }
+
+        @Override
+        public void close() {
+            ObservableLongGauge gauge = registration.getAndSet(null);
+            if (gauge != null) {
+                gauge.close();
+            }
+        }
     }
 }
