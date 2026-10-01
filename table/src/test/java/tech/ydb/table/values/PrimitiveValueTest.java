@@ -386,6 +386,41 @@ public class PrimitiveValueTest {
     }
 
     @Test
+    public void embedding() {
+        PrimitiveValue value = PrimitiveValue.newEmbedding(new float[] { 1.0f, -2.0f, 0.5f });
+
+        Assert.assertEquals(PrimitiveType.Bytes, value.getType());
+        Assert.assertArrayEquals(new byte[] {
+                0x00, 0x00, (byte) 0x80, 0x3f,
+                0x00, 0x00, 0x00, (byte) 0xc0,
+                0x00, 0x00, 0x00, 0x3f,
+                0x01
+        }, value.getBytes());
+    }
+
+    @Test
+    public void emptyEmbedding() {
+        PrimitiveValue value = PrimitiveValue.newEmbedding(new float[0]);
+
+        Assert.assertEquals(PrimitiveType.Bytes, value.getType());
+        Assert.assertArrayEquals(new byte[] { 0x01 }, value.getBytes());
+    }
+
+    @Test
+    public void embeddingPreservesFloatBits() {
+        PrimitiveValue value = PrimitiveValue.newEmbedding(new float[] {
+                -0.0f, Float.POSITIVE_INFINITY, Float.intBitsToFloat(0x7fc12345)
+        });
+
+        Assert.assertArrayEquals(new byte[] {
+                0x00, 0x00, 0x00, (byte) 0x80,
+                0x00, 0x00, (byte) 0x80, 0x7f,
+                0x45, 0x23, (byte) 0xc1, 0x7f,
+                0x01
+        }, value.getBytes());
+    }
+
+    @Test
     public void yson() {
         byte[] data = { 0x0, 0x7, 0x3f, 0x7f, (byte) 0xff };
         byte[] other = { 0x0, 0x7, 0x34, 0x7f, (byte) 0xff };
