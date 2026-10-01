@@ -19,7 +19,8 @@ final class ReaderMetrics implements AutoCloseable {
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
-    private MetricRegistration gauges = MetricRegistration.NOOP;
+    private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
+    private MetricRegistration creditGauge = MetricRegistration.NOOP;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -36,23 +37,20 @@ final class ReaderMetrics implements AutoCloseable {
     }
 
     void registerGauges(ReaderImpl reader) {
-        MetricRegistration partitions = meter.registerLongGauge(
+        partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
                 m -> m.record(reader.getPartitionSessionCount(), commonAttributes));
-        MetricRegistration credit = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
+        creditGauge = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.", m -> {
                     m.record(reader.getCreditBalanceBytes(), commonAttributes);
                 });
-        gauges = () -> {
-            partitions.close();
-            credit.close();
-        };
     }
 
     @Override
     public void close() {
-        gauges.close();
+        partitionsGauge.close();
+        creditGauge.close();
     }
 
     void reportDelivered(long messages, String topic) {
