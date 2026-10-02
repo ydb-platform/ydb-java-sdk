@@ -276,8 +276,7 @@ public class AsyncReaderImplTest {
         Assert.assertTrue(c1.isDone());
         Assert.assertFalse(c1.isCompletedExceptionally());
         Assert.assertFalse(c2.isDone());
-        ArgumentCaptor<CommitOffsetAcknowledgementEvent> ack =
-                ArgumentCaptor.forClass(CommitOffsetAcknowledgementEvent.class);
+        ArgumentCaptor<CommitOffsetAcknowledgementEvent> ack = ArgumentCaptor.forClass(CommitOffsetAcknowledgementEvent.class);
         Mockito.verify(handler).onCommitResponse(ack.capture());
         Assert.assertEquals(1, ack.getValue().getCommittedOffset());
         Assert.assertEquals(123, ack.getValue().getPartitionSession().getPartitionId());

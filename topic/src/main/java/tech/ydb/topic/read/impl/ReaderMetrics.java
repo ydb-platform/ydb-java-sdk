@@ -40,9 +40,7 @@ final class ReaderMetrics {
     }
 
     void reportReceivedBytes(long bytes) {
-        if (enabled) {
-            record(receivedBytes, bytes);
-        }
+        record(receivedBytes, bytes);
     }
 
     private void report(LongCounter counter, long messages, String topic) {
@@ -52,7 +50,7 @@ final class ReaderMetrics {
     }
 
     private void record(LongCounter counter, long value, Attr... extraAttributes) {
-        if (value > 0) {
+        if (enabled && value > 0) {
             Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + extraAttributes.length);
             System.arraycopy(extraAttributes, 0, attributes, commonAttributes.length, extraAttributes.length);
             counter.add(value, attributes);

@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
@@ -29,37 +30,37 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
-    private volatile long lastCommittedOffset;
+    private final AtomicLong lastCommittedOffset;
 
     ReadPartitionCommitter(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
-        this.lastCommittedOffset = lastCommittedOffset;
+        this.lastCommittedOffset = new AtomicLong(lastCommittedOffset);
     }
 
     private RuntimeException partitionIsClosedException() {
         return new RuntimeException("" + partition + " is already stopped");
     }
 
-    public void confirmCommit(long committedOffset) {
-        if (committedOffset <= lastCommittedOffset) { // never happens
-            logger.error("[{}] received commit response. Committed offset: {} which is less than previous " +
-                    "committed offset: {}.", traceID, committedOffset, lastCommittedOffset);
-            return;
-        }
+    public void updateCommittedOffset(long offset) {
+        long old = lastCommittedOffset.get();
+        lastCommittedOffset.accumulateAndGet(offset, Math::max);
+        logger.debug("[{}] received commit response. Committed offset: {}. Previous committed offset: {} "
+                + "(diff is {} message(s)).", traceID, offset, old, offset - old);
+    }
 
+    public long completePendingCommits() {
         commitFuturesLock.lock();
         try {
-            Map<Long, CompletableFuture<Void>> confirmed = commitFutures.headMap(committedOffset, true);
-
-            logger.debug("[{}] received commit response. Committed offset: {}. "
-                    + "Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures", traceID,
-                    committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset, confirmed.size());
-
-            lastCommittedOffset = committedOffset;
-            confirmed.values().forEach(future -> future.complete(null));
-            confirmed.clear();
+            long last = lastCommittedOffset.get();
+            Map<Long, CompletableFuture<Void>> ready = commitFutures.headMap(last, true);
+            if (!ready.isEmpty()) {
+                logger.debug("[{}] Completing {} commit futures by confirmed offset {}", traceID, ready.size(), last);
+                ready.values().forEach(future -> future.complete(null));
+                ready.clear();
+            }
+            return last;
         } finally {
             commitFuturesLock.unlock();
         }
@@ -67,9 +68,10 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public CompletableFuture<Void> commit(OffsetsRange range) {
+        long confirmed = lastCommittedOffset.get();
         logger.debug(
                 "[{}] Offset range {} is requested to be committed. Last committed offset is {} (commit lag is {})",
-                traceID, range, lastCommittedOffset, range.getStart() - lastCommittedOffset
+                traceID, range, confirmed, range.getStart() - confirmed
         );
 
         CompletableFuture<Void> future;
