@@ -148,6 +148,11 @@ public class GrpcTransportBuilder {
         return schedulerFactory;
     }
 
+    /**
+     * use {@link GrpcTransportBuilder#getBalancingSettings()} instead
+     * @deprecated
+     * @return current local dc
+     */
     @Deprecated
     public String getLocalDc() {
         return localDc;
@@ -172,6 +177,11 @@ public class GrpcTransportBuilder {
         return authProvider;
     }
 
+    /**
+     * use {@link tech.ydb.core.settings.BaseRequestSettings#getRequestTimeout()} instead
+     * @return default request timeout
+     * @deprecated
+     */
     @Deprecated
     public long getReadTimeoutMillis() {
         return readTimeoutMillis;
@@ -307,7 +317,7 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * use tech.ydb.table.settings.RequestSettings#setTimeout(java.time.Duration) instead
+     * use {@link tech.ydb.core.settings.BaseRequestSettings.BaseBuilder#withRequestTimeout(java.time.Duration)} instead
      * @param timeout global timeout for grpc calls
      * @return this
      * @deprecated
@@ -320,7 +330,7 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * use tech.ydb.table.settings.RequestSettings#setTimeout(long, java.time.TimeUnit) instead
+     * use {@link tech.ydb.core.settings.BaseRequestSettings.BaseBuilder#withRequestTimeout(java.time.Duration)} instead
      * @param timeout size of global timeout for grpc calls
      * @param unit time unit of global timeout for grpc calls
      * @return this
