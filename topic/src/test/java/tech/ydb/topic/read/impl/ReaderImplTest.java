@@ -25,6 +25,7 @@ import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
+import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -58,19 +59,20 @@ public class ReaderImplTest {
         Assert.assertEquals(msg, ex.getMessage());
     }
 
-    private static ReaderImpl startReader(ReaderImpl.Handler handler, ReadStreamMock mock) {
+    private static TestImpl startReader(ReadStreamMock mock) {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TOPIC1).build())
                 .setConsumerName("consumer")
                 .setRetryConfig(TopicRetryConfig.NEVER)
                 .setMaxMemoryUsageBytes(1000)
                 .build();
-        ReadConfig config = new ReadConfig(REGISTRY, Runnable::run, Runnable::run, settings);
-        ReaderImpl reader = new ReaderImpl(mockRpc(mock), "test-reader", settings, config, handler);
+        ReadConfig config = new ReadConfig(REGISTRY, Runnable::run, Runnable::run, Runnable::run, settings);
+        TestImpl reader = new TestImpl(mockRpc(mock), "test-reader", settings, config);
         reader.start();
         mock.responseInit("read-session-1");
         mock.assertSentMessagesCount(2);
         mock.assertLastMessage().isReadRequest(1000);
+        Assert.assertEquals(1, reader.starts.size());
         return reader;
     }
 
@@ -78,13 +80,12 @@ public class ReaderImplTest {
     @HideLoggers({ ReadSession.class })
     public void duplicateStartPartitionRequestTest() {
         ReadStreamMock mock = new ReadStreamMock();
-        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
-        ReaderImpl reader = startReader(handler, mock);
+        TestImpl reader = startReader(mock);
 
         mock.responseStartPartition(TOPIC1, 123, 0, 1);
 
         ArgumentCaptor<StartPartitionSessionEvent> start = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
-        Mockito.verify(handler).handleStartPartitionSessionRequest(start.capture());
+        Mockito.verify(reader.handler).onPartitionStarted(start.capture());
 
         Assert.assertEquals(new PartitionSession(1, 123, TOPIC1), start.getValue().getPartitionSession());
 
@@ -92,11 +93,10 @@ public class ReaderImplTest {
         mock.responseStartPartition(TOPIC1, 123, 0, 1);
 
         // partiton is not started
-        Mockito.verify(handler, Mockito.never()).handleStopPartitionSession(Mockito.any());
+        Mockito.verify(reader.handler, Mockito.never()).onPartitionStopped(Mockito.any());
 
-        ArgumentCaptor<Status> closed = ArgumentCaptor.forClass(Status.class);
-        Mockito.verify(handler).handleReaderClosed(closed.capture());
-        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, closed.getValue().getCode());
+        Assert.assertEquals(1, reader.stops.size());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, reader.stops.get(0).getCode());
         mock.assertSentMessagesCount(2);
         mock.assertIsClosed();
         reader.close();
@@ -107,19 +107,18 @@ public class ReaderImplTest {
     @HideLoggers({ ReadSession.class })
     public void duplicateStopPartitionRequestTest() {
         ReadStreamMock mock = new ReadStreamMock();
-        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
-        ReaderImpl reader = startReader(handler, mock);
+        TestImpl reader = startReader(mock);
 
         mock.responseStartPartition(TOPIC1, 123, 0);
         ArgumentCaptor<StartPartitionSessionEvent> start = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
-        Mockito.verify(handler).handleStartPartitionSessionRequest(start.capture());
+        Mockito.verify(reader.handler).onPartitionStarted(start.capture());
         start.getValue().confirm();
 
         // Both requests arrive before the application confirms the stop.
         mock.responseStopPartition(1, true);
         mock.responseStopPartition(1, true);
         ArgumentCaptor<StopPartitionSessionEvent> stop = ArgumentCaptor.forClass(StopPartitionSessionEvent.class);
-        Mockito.verify(handler, Mockito.times(2)).handleStopPartitionSession(stop.capture());
+        Mockito.verify(reader.handler, Mockito.times(2)).onPartitionStopped(stop.capture());
         for (StopPartitionSessionEvent event : stop.getAllValues()) {
             Assert.assertSame(start.getValue().getPartitionSession(), event.getPartitionSession());
         }
@@ -135,10 +134,10 @@ public class ReaderImplTest {
 
         // Once confirmed, a graceful stop for the removed session is a protocol error.
         mock.responseStopPartition(1, true);
-        Mockito.verify(handler, Mockito.times(2)).handleStopPartitionSession(Mockito.any());
-        ArgumentCaptor<Status> closed = ArgumentCaptor.forClass(Status.class);
-        Mockito.verify(handler).handleReaderClosed(closed.capture());
-        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, closed.getValue().getCode());
+        Mockito.verify(reader.handler, Mockito.times(2)).onPartitionStopped(Mockito.any());
+        Assert.assertEquals(1, reader.stops.size());
+        Assert.assertEquals(StatusCode.CLIENT_INTERNAL_ERROR, reader.stops.get(0).getCode());
+
         mock.assertSentMessagesCount(4);
         mock.assertIsClosed();
         reader.close();
@@ -148,19 +147,19 @@ public class ReaderImplTest {
     @Test
     public void duplicateForcedStopPartitionRequestTest() {
         ReadStreamMock mock = new ReadStreamMock();
-        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
-        ReaderImpl reader = startReader(handler, mock);
+        TestImpl reader = startReader(mock);
 
         mock.responseStartPartition(TOPIC1, 123, 0);
         ArgumentCaptor<StartPartitionSessionEvent> start = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
-        Mockito.verify(handler).handleStartPartitionSessionRequest(start.capture());
+        Mockito.verify(reader.handler).onPartitionStarted(start.capture());
         start.getValue().confirm();
 
         mock.responseStopPartition(1, false);
         mock.responseStopPartition(1, false);
-        Mockito.verify(handler).handleClosePartitionSession(start.getValue().getPartitionSession());
-        Mockito.verify(handler, Mockito.never()).handleStopPartitionSession(Mockito.any());
-        Mockito.verify(handler, Mockito.never()).handleReaderClosed(Mockito.any());
+        ArgumentCaptor<PartitionSessionClosedEvent> closed = ArgumentCaptor.forClass(PartitionSessionClosedEvent.class);
+        Mockito.verify(reader.handler, Mockito.times(1)).onPartitionClosed(closed.capture());
+        Assert.assertEquals(1L, closed.getValue().getPartitionSession().getId());
+        Assert.assertTrue(reader.stops.isEmpty());
         mock.assertSentMessagesCount(3); // forced stops do not require acknowledgement
         mock.assertIsActive();
 
@@ -183,10 +182,8 @@ public class ReaderImplTest {
                 .build();
 
         ReadStreamMock mock = new ReadStreamMock();
-        ReadConfig config = new ReadConfig(REGISTRY, Runnable::run, Runnable::run, settings);
-        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
-
-        ReaderImpl reader = new ReaderImpl(mockRpc(mock), "test-reader", settings, config, handler);
+        ReadConfig config = new ReadConfig(REGISTRY, Runnable::run, Runnable::run, Runnable::run, settings);
+        ReaderImpl reader = new TestImpl(mockRpc(mock), "test-reader", settings, config);
 
         reader.start();
         mock.assertSentMessagesCount(1);
@@ -210,8 +207,7 @@ public class ReaderImplTest {
     @Test
     public void updateOffsetsInTxValidationTest() {
         ReadStreamMock mock = new ReadStreamMock();
-        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
-        ReaderImpl reader = startReader(handler, mock);
+        ReaderImpl reader = startReader(mock);
 
         UpdateOffsetsInTransactionSettings updateSettings = UpdateOffsetsInTransactionSettings.newBuilder()
                 .withTraceId("test-trace").build();
@@ -252,8 +248,7 @@ public class ReaderImplTest {
     @Test
     public void updateOffsetsInTxFailTest() {
         ReadStreamMock mock = new ReadStreamMock();
-        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
-        ReaderImpl reader = startReader(handler, mock);
+        ReaderImpl reader = startReader(mock);
 
         UpdateOffsetsInTransactionSettings updateSettings = UpdateOffsetsInTransactionSettings.newBuilder().build();
 
@@ -275,8 +270,7 @@ public class ReaderImplTest {
     @Test
     public void updateOffsetsInTxErrorTest() {
         ReadStreamMock mock = new ReadStreamMock();
-        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
-        ReaderImpl reader = startReader(handler, mock);
+        ReaderImpl reader = startReader(mock);
 
         UpdateOffsetsInTransactionSettings updateSettings = UpdateOffsetsInTransactionSettings.newBuilder().build();
 
@@ -293,6 +287,31 @@ public class ReaderImplTest {
         mock.assertIsClosed();
         reader.close();
         mock.assertIsClosed();
+    }
+
+    private static class TestImpl extends ReaderImpl {
+        private final List<String> starts = new ArrayList<>();
+        private final List<Status> stops = new ArrayList<>();
+        private final ReadSession.Handler handler;
+
+        private TestImpl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config, ReadSession.Handler h) {
+            super(rpc, id, settings, config, h);
+            this.handler = h;
+        }
+
+        public TestImpl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config) {
+            this(rpc, id, settings, config, Mockito.mock(ReadSession.Handler.class));
+        }
+
+        @Override
+        protected void onSessionStarted(String sessionId) {
+            starts.add(sessionId);
+        }
+
+        @Override
+        protected void onReaderClosed(Status status) {
+            stops.add(status);
+        }
     }
 
     private class TxMock implements YdbTransaction {

@@ -29,7 +29,9 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
+import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
+import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -47,7 +49,7 @@ public class SyncReaderImpl implements SyncReader {
     private final String debugId;
     private final LazyExecutor decompressor;
     private final ReadConfig config;
-    private final ReaderImpl impl;
+    private final Impl impl;
 
     private final CompletableFuture<Void> initFuture = new CompletableFuture<>();
     private final CompletableFuture<Status> shutdownFuture = new CompletableFuture<>();
@@ -62,8 +64,8 @@ public class SyncReaderImpl implements SyncReader {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
         this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
 
-        this.config = new ReadConfig(codecRegistry, Runnable::run, decompressor, settings);
-        this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new SyncHandler());
+        this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings);
+        this.impl = new Impl(topicRpc, debugId, settings, config);
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();
@@ -212,28 +214,26 @@ public class SyncReaderImpl implements SyncReader {
         }
     }
 
-    private class SyncHandler implements ReaderImpl.Handler {
+    private class Impl extends ReaderImpl {
+        Impl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config) {
+            super(rpc, id, settings, config, new SyncHandler());
+        }
+
         @Override
-        public void handleSessionStarted(String sessionId) {
+        public void onSessionStarted(String sessionId) {
             SyncReaderImpl.this.sessionId = sessionId;
-            initFuture.complete(null);
+            SyncReaderImpl.this.initFuture.complete(null);
         }
 
         @Override
-        public void handleReaderClosed(Status status) {
-            close(status);
+        public void onReaderClosed(Status status) {
+            SyncReaderImpl.this.close(status);
         }
+    }
 
+    private class SyncHandler implements ReadSession.Handler {
         @Override
-        public void handleDataReceivedEvent(ReaderImpl.PartitionControl control, DataReceivedEvent event) {
-            if (impl.isClosed()) { // never happens
-                return;
-            }
-            if (event.getMessages().isEmpty()) {  // never happens
-                control.confirmRangeProcessed(event.getRangeToCommit());
-                return;
-            }
-
+        public void onData(ReadSession.PartitionControl control, DataReceivedEvent event) {
             PartitionSession ps = event.getPartitionSession();
             int messagesCount = event.getMessages().size();
             long offsetStart = event.getMessages().get(0).getOffset();
@@ -253,33 +253,35 @@ public class SyncReaderImpl implements SyncReader {
         }
 
         @Override
-        public void handleCommitResponse(long committedOffset, PartitionSession ps) {
-            logger.debug("[{}] commit response received for {} with committedOffset {}", debugId, ps, committedOffset);
+        public void onCommitAck(CommitOffsetAcknowledgementEvent event) {
+            PartitionSession ps = event.getPartitionSession();
+            long offset = event.getCommittedOffset();
+            logger.debug("[{}] commit response received for {} with committedOffset {}", debugId, ps, offset);
         }
 
         @Override
-        public void handleStartPartitionSessionRequest(StartPartitionSessionEvent event) {
+        public void onPartitionStarted(StartPartitionSessionEvent event) {
             event.confirm();
         }
 
         @Override
-        public void handleStopPartitionSession(StopPartitionSessionEvent event) {
+        public void onPartitionStopped(StopPartitionSessionEvent event) {
             // TODO: wait for all commits
             event.confirm();
         }
 
         @Override
-        public void handleClosePartitionSession(PartitionSession partition) {
+        public void onPartitionClosed(PartitionSessionClosedEvent event) {
             // Nothing
         }
     }
 
     private static class MessageWrapper {
-        private final ReaderImpl.PartitionControl control;
+        private final ReadSession.PartitionControl control;
         private final Message msg;
         private final OffsetsRange rangeToConfirm;
 
-        private MessageWrapper(ReaderImpl.PartitionControl control, Message msg, OffsetsRange rangeToConfirm) {
+        private MessageWrapper(ReadSession.PartitionControl control, Message msg, OffsetsRange rangeToConfirm) {
             this.control = control;
             this.msg = msg;
             this.rangeToConfirm = rangeToConfirm;
