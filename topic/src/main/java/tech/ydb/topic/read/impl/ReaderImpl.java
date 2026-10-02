@@ -27,10 +27,6 @@ import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.TopicRetryableStream;
 import tech.ydb.topic.read.PartitionOffsets;
-import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.DataReceivedEvent;
-import tech.ydb.topic.read.events.StartPartitionSessionEvent;
-import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
@@ -38,52 +34,36 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 /**
  * @author Nikolay Perfilov
  */
-public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, ReadSession> {
-    public interface PartitionControl {
-        boolean isActive();
-        void confirmRangeProcessed(OffsetsRange range);
-    }
-
-    public interface Handler {
-        void handleSessionStarted(String sessionId);
-
-        void handleStartPartitionSessionRequest(StartPartitionSessionEvent event);
-        void handleStopPartitionSession(StopPartitionSessionEvent event);
-        void handleClosePartitionSession(PartitionSession partition);
-
-        void handleDataReceivedEvent(PartitionControl control, DataReceivedEvent event);
-        void handleCommitResponse(long committedOffset, PartitionSession partition);
-
-        void handleReaderClosed(Status status);
-    }
-
+public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, ReadSession> {
     private static final Logger logger = LoggerFactory.getLogger(ReaderImpl.class);
 
     private final TopicRpc rpc;
     private final ReadConfig config;
-    private final Handler handler;
+    private final ReadSession.Handler handler;
     private final BiConsumer<Status, Throwable> errorHandler;
 
     private final FromClient initRequest;
 
     private volatile String currentSessionId = null;
 
-    public ReaderImpl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config, Handler handler) {
+    public ReaderImpl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config, ReadSession.Handler hdlr) {
         super(logger, id, settings.getRetryConfig(), rpc.getScheduler());
         this.rpc = rpc;
         this.initRequest = FromClient.newBuilder().setInitRequest(buildInitRequest(settings)).build();
         this.config = config;
-        this.handler = handler;
+        this.handler = hdlr;
         this.errorHandler = settings.getErrorsHandler();
         Observability.reportMetricsUsage(settings.getMeter());
     }
 
     @Override
     protected CompletableFuture<Result<ReadSession>> createNewStream(String id) {
-        ReadSession s = new ReadSession(id, rpc.readSession(id), initRequest,
-                handler::handleDataReceivedEvent, config);
+        ReadSession s = new ReadSession(id, rpc.readSession(id), initRequest, handler, config);
         return CompletableFuture.completedFuture(Result.success(s));
     }
+
+    protected abstract void onSessionStarted(String sessionId);
+    protected abstract void onReaderClosed(Status status);
 
     @Override
     protected void onRetry(ReadSession stream, Status status) {
@@ -97,7 +77,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             }
         }
         if (stream != null) {
-            stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
+            stream.closeAll();
         }
     }
 
@@ -117,9 +97,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             }
         }
         if (stream != null) {
-            stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
+            stream.closeAll();
         }
-        handler.handleReaderClosed(status);
+        onReaderClosed(status);
     }
 
     @Override
@@ -129,30 +109,21 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         if (message.hasInitResponse()) {
             resetRetries();
             currentSessionId = message.getInitResponse().getSessionId();
-            handler.handleSessionStarted(message.getInitResponse().getSessionId());
+            onSessionStarted(message.getInitResponse().getSessionId());
             stream.onInit(message.getInitResponse());
         } else if (message.hasStartPartitionSessionRequest()) {
-            StartPartitionSessionEvent event = stream.onStartPartition(message.getStartPartitionSessionRequest());
-            if (event != null) {
-                handler.handleStartPartitionSessionRequest(event);
-            }
+            stream.onStartPartition(message.getStartPartitionSessionRequest());
         } else if (message.hasStopPartitionSessionRequest()) {
             YdbTopic.StreamReadMessage.StopPartitionSessionRequest req = message.getStopPartitionSessionRequest();
             if (req.getGraceful()) {
-                StopPartitionSessionEvent event = stream.onStopPartition(req);
-                if (event != null) {
-                    handler.handleStopPartitionSession(event);
-                }
+                stream.onStopPartition(req);
             } else {
-                PartitionSession closed = stream.onClosePartition(req.getPartitionSessionId());
-                if (closed != null) {
-                    handler.handleClosePartitionSession(closed);
-                }
+                stream.onClosePartition(req.getPartitionSessionId());
             }
         } else if (message.hasReadResponse()) {
             stream.onRead(message.getReadResponse());
         } else if (message.hasCommitOffsetResponse()) {
-            stream.onCommitOffset(message.getCommitOffsetResponse(), handler::handleCommitResponse);
+            stream.onCommitOffset(message.getCommitOffsetResponse());
         } else if (message.hasPartitionSessionStatusResponse()) {
             stream.onPartitionSessionStatus(message.getPartitionSessionStatusResponse());
         } else if (message.hasUpdateTokenResponse()) {
