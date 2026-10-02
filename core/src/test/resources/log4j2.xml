@@ -10,6 +10,9 @@
         <Logger name="io.grpc" level="warn" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
+        <Logger name="io.netty" level="warn" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <Logger name="tech.ydb.core" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
@@ -19,6 +22,9 @@
         <Logger name="tech.ydb.core.impl.pool.GrpcChannel" level="error"  additivity="false">
         </Logger>
         <Logger name="tech.ydb.core.auth.BackgroundIdentity" level="off" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Logger name="tech.ydb.core.auth.JwtUtils" level="off" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>
 

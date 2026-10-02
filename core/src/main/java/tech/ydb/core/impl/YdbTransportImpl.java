@@ -41,7 +41,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     public YdbTransportImpl(GrpcTransportBuilder builder) {
         super(builder);
-        BalancingSettings balancingSettings = getBalancingSettings(builder);
+        BalancingSettings balancingSettings = builder.getBalancingSettings();
         Duration discoveryTimeout = Duration.ofMillis(builder.getDiscoveryTimeoutMillis());
 
         this.database = Strings.nullToEmpty(builder.getDatabase());
@@ -77,18 +77,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         return "YdbTransport{endpoint=" + serverEndpoint + ", database=" + database + "}";
     }
 
-    @Deprecated
-    public void startAsync(Runnable readyWatcher) {
-        endpointPool.setNewState(null, Collections.singletonList(serverEndpoint));
-        discovery.start();
-        if (readyWatcher != null) {
-            scheduler.execute(() -> {
-                discovery.waitReady(-1);
-                readyWatcher.run();
-            });
-        }
-    }
-
     @Override
     protected void shutdown() {
         discovery.stop();
@@ -96,20 +84,6 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         callOptions.close();
 
         YdbSchedulerFactory.shutdownScheduler(scheduler);
-    }
-
-    private static BalancingSettings getBalancingSettings(GrpcTransportBuilder builder) {
-        BalancingSettings balancingSettings = builder.getBalancingSettings();
-        if (balancingSettings != null) {
-            return balancingSettings;
-        }
-
-        String localDc = builder.getLocalDc();
-        if (localDc != null) {
-            return BalancingSettings.fromLocation(builder.getLocalDc());
-        }
-
-        return BalancingSettings.defaultInstance();
     }
 
     @Override

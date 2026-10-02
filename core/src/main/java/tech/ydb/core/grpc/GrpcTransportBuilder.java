@@ -148,12 +148,25 @@ public class GrpcTransportBuilder {
         return schedulerFactory;
     }
 
+    /**
+     * use {@link GrpcTransportBuilder#getBalancingSettings()} instead
+     * @deprecated
+     * @return current local dc
+     */
+    @Deprecated
     public String getLocalDc() {
         return localDc;
     }
 
     public BalancingSettings getBalancingSettings() {
-        return balancingSettings;
+        if (balancingSettings != null) {
+            return balancingSettings;
+        }
+        if (localDc != null) {
+            return BalancingSettings.fromLocation(localDc);
+        }
+
+        return BalancingSettings.defaultInstance();
     }
 
     public Executor getCallExecutor() {
@@ -164,13 +177,14 @@ public class GrpcTransportBuilder {
         return authProvider;
     }
 
+    /**
+     * use {@link tech.ydb.core.settings.BaseRequestSettings#getRequestTimeout()} instead
+     * @return default request timeout
+     * @deprecated
+     */
+    @Deprecated
     public long getReadTimeoutMillis() {
         return readTimeoutMillis;
-    }
-
-    @Deprecated
-    public long getConnectTimeoutMillis() {
-        return 10_000;
     }
 
     public long getDiscoveryTimeoutMillis() {
@@ -233,24 +247,6 @@ public class GrpcTransportBuilder {
      */
     public GrpcTransportBuilder addChannelInitializer(Consumer<? super ManagedChannelBuilder<?>> ci) {
         channelInitializers.add(ci);
-        return this;
-    }
-
-    /**
-     * Set a custom initialization of {@link io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder} <br>
-     * This method is deprecated. Use
-     * {@link GrpcTransportBuilder#withChannelFactoryBuilder(tech.ydb.core.impl.pool.ManagedChannelFactory.Builder)}
-     * instead
-     *
-     * @param ci custom NettyChannelBuilder initializer
-     * @return this
-     * @deprecated
-     */
-    @Deprecated
-    public GrpcTransportBuilder withChannelInitializer(
-            Consumer<io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder> ci
-    ) {
-        this.channelFactoryBuilder = tech.ydb.core.impl.pool.ShadedNettyChannelFactory.withInterceptor(ci);
         return this;
     }
 
@@ -321,7 +317,7 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * use tech.ydb.table.settings.RequestSettings#setTimeout(java.time.Duration) instead
+     * use {@link tech.ydb.core.settings.BaseRequestSettings.BaseBuilder#withRequestTimeout(java.time.Duration)} instead
      * @param timeout global timeout for grpc calls
      * @return this
      * @deprecated
@@ -334,7 +330,7 @@ public class GrpcTransportBuilder {
     }
 
     /**
-     * use tech.ydb.table.settings.RequestSettings#setTimeout(long, java.time.TimeUnit) instead
+     * use {@link tech.ydb.core.settings.BaseRequestSettings.BaseBuilder#withRequestTimeout(java.time.Duration)} instead
      * @param timeout size of global timeout for grpc calls
      * @param unit time unit of global timeout for grpc calls
      * @return this
@@ -344,16 +340,6 @@ public class GrpcTransportBuilder {
     public GrpcTransportBuilder withReadTimeout(long timeout, TimeUnit unit) {
         this.readTimeoutMillis = unit.toMillis(timeout);
         Preconditions.checkArgument(readTimeoutMillis > 0, "readTimeoutMillis must be greater than 0");
-        return this;
-    }
-
-    @Deprecated
-    public GrpcTransportBuilder withConnectTimeout(Duration timeout) {
-        return this;
-    }
-
-    @Deprecated
-    public GrpcTransportBuilder withConnectTimeout(long timeout, TimeUnit unit) {
         return this;
     }
 
@@ -444,44 +430,10 @@ public class GrpcTransportBuilder {
         return this;
     }
 
-    /**
-     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
-     * @return this
-     * @deprecated
-     */
-    @Deprecated
-    public GrpcTransportBuilder enableRetry() {
-        this.grpcRetry = true;
-        return this;
-    }
-
-    /**
-     * use {@link GrpcTransportBuilder#withGrpcRetry(boolean) } instead
-     * @return this
-     * @deprecated
-     */
-    @Deprecated
-    public GrpcTransportBuilder disableRetry() {
-        this.grpcRetry = false;
-        return this;
-    }
-
     public GrpcTransport build() {
         YdbTransportImpl impl = new YdbTransportImpl(this);
         try {
             impl.start(initMode);
-            return impl;
-        } catch (RuntimeException ex) {
-            impl.close();
-            throw ex;
-        }
-    }
-
-    @Deprecated
-    public GrpcTransport buildAsync(Runnable ready) {
-        YdbTransportImpl impl = new YdbTransportImpl(this);
-        try {
-            impl.startAsync(ready);
             return impl;
         } catch (RuntimeException ex) {
             impl.close();
