@@ -3,6 +3,7 @@ package tech.ydb.core.metrics;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.AttributeKey;
@@ -75,7 +76,7 @@ public class OpenTelemetryMeterTest {
     @Test
     public void gaugeInvokesCallbackOnCollect() {
         AtomicLong value = new AtomicLong(7L);
-        meter.createLongGauge("ydb.test.gauge", "{session}", "test gauge",
+        MetricRegistration registration = meter.registerLongGauge("ydb.test.gauge", "{session}", "test gauge",
                 m -> m.record(value.get(), Attr.of("pool.name", "my-pool"), Attr.of("state", "idle")));
 
         MetricData metric = single("ydb.test.gauge");
@@ -90,6 +91,32 @@ public class OpenTelemetryMeterTest {
         value.set(11L);
         LongPointData updated = singleLongPoint(single("ydb.test.gauge").getLongGaugeData().getPoints());
         Assert.assertEquals(11L, updated.getValue());
+        registration.close();
+        registration.close();
+        Assert.assertTrue(reader.collectAllMetrics().isEmpty());
+    }
+
+    @Test
+    public void legacyGaugeCreationStillReportsValues() {
+        meter.createLongGauge("ydb.test.legacy", null, null, m -> m.record(7));
+
+        Assert.assertEquals(7L, singleLongPoint(single("ydb.test.legacy").getLongGaugeData().getPoints()).getValue());
+    }
+
+    @Test
+    public void registrationSupportsLegacyMeterOverride() {
+        long[] observed = new long[1];
+        Meter legacy = new Meter() {
+            @Override
+            public void createLongGauge(
+                    String name, String unit, String description, Consumer<LongMeasurement> callback) {
+                callback.accept((value, attrs) -> observed[0] = value);
+            }
+        };
+
+        MetricRegistration registration = legacy.registerLongGauge("ydb.test.legacy", null, null, m -> m.record(7));
+        Assert.assertEquals(7L, observed[0]);
+        registration.close();
     }
 
     @Test

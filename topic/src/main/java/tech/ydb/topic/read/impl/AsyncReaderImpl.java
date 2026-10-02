@@ -155,6 +155,7 @@ public class AsyncReaderImpl implements AsyncReader {
                 long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
                         + "to be called...", debugId, messagesCount, offsetStart, offsetEnd);
+                config.getMetrics().reportDelivered(messagesCount, event.getPartitionSession().getPath());
                 eventHandler.onMessages(event);
                 logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
                         + "successfully finished", debugId, messagesCount, offsetStart, offsetEnd);

@@ -261,6 +261,13 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
             return this;
         }
 
+        public MessageAssert hasReaderName(String readerName) {
+            Assert.assertTrue("Msg is not init request", msg.hasInitRequest());
+            Assert.assertEquals("Wrong reader name in init request", readerName,
+                    msg.getInitRequest().getReaderName());
+            return this;
+        }
+
         public MessageAssert isReadRequest(long bytesSize) {
             Assert.assertTrue("Msg is not read request", msg.hasReadRequest());
             Assert.assertEquals("Read request has incorrect size", bytesSize, msg.getReadRequest().getBytesSize());

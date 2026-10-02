@@ -187,6 +187,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onRead(YdbTopic.StreamReadMessage.ReadResponse response) {
         logger.debug("[{}] Received ReadResponse of {} bytes", debugId, response.getBytesSize());
+        config.getMetrics().reportReceivedBytes(response.getBytesSize());
         bufferManager.allocate(response.getBytesSize(), response.getPartitionDataList());
 
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {

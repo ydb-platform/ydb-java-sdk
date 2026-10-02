@@ -16,6 +16,7 @@ public class ReadConfig {
     private final String consumerName;
     private final long maxMemoryUsageBytes;
     private final int maxBatchSize;
+    private final ReaderMetrics metrics;
 
     public ReadConfig(CodecRegistry codecRegistry, Executor processor, Executor decompressor, ReaderSettings settings) {
         this.codecRegistry = codecRegistry;
@@ -24,6 +25,7 @@ public class ReadConfig {
         this.consumerName = settings.getConsumerName();
         this.maxMemoryUsageBytes = settings.getMaxMemoryUsageBytes();
         this.maxBatchSize = settings.getMaxBatchSize();
+        this.metrics = new ReaderMetrics(settings.getMeter(), settings.getConsumerName(), settings.getReaderName());
     }
 
     public CodecRegistry getCodecRegistry() {
@@ -48,5 +50,9 @@ public class ReadConfig {
 
     public int getMaxBatchSize() {
         return maxBatchSize;
+    }
+
+    ReaderMetrics getMetrics() {
+        return metrics;
     }
 }

@@ -11,6 +11,7 @@ import com.google.common.collect.ImmutableList;
 
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 
 /**
@@ -22,6 +23,7 @@ public class ReaderSettings {
     private final String logPrefix;
     private final String consumerName;
     private final String readerName;
+    private final Meter meter;
     private final List<TopicReadSettings> topics;
     private final long maxMemoryUsageBytes;
     private final int maxBatchSize;
@@ -34,6 +36,7 @@ public class ReaderSettings {
         this.logPrefix = builder.logPrefix;
         this.consumerName = builder.consumerName;
         this.readerName = builder.readerName;
+        this.meter = builder.meter;
         this.topics = ImmutableList.copyOf(builder.topics);
         this.maxMemoryUsageBytes = builder.maxMemoryUsageBytes;
         this.maxBatchSize = builder.maxBatchSize;
@@ -54,6 +57,10 @@ public class ReaderSettings {
     @Nullable
     public String getReaderName() {
         return readerName;
+    }
+
+    public Meter getMeter() {
+        return meter;
     }
 
     public List<TopicReadSettings> getTopics() {
@@ -96,6 +103,7 @@ public class ReaderSettings {
         private String consumerName = null;
         private boolean readWithoutConsumer = false;
         private String readerName = null;
+        private Meter meter = Meter.NOOP;
         private List<TopicReadSettings> topics = new ArrayList<>();
         private long maxMemoryUsageBytes = MAX_MEMORY_USAGE_BYTES_DEFAULT;
         private long partitionMaxInFlightBytes = 0;
@@ -138,6 +146,25 @@ public class ReaderSettings {
          * @return settings builder
          */
         public Builder setReaderName(String readerName) {
+            this.readerName = readerName;
+            return this;
+        }
+
+        /**
+         * Enable reader metrics with a non-empty reader name.
+         *
+         * @param meter meter used to record reader metrics
+         * @param readerName non-empty name included in reader metric attributes
+         * @return settings builder
+         */
+        public Builder withMeter(Meter meter, String readerName) {
+            if (meter == null) {
+                throw new IllegalArgumentException("Meter must be not null");
+            }
+            if (readerName == null || readerName.trim().isEmpty()) {
+                throw new IllegalArgumentException("readerName must be non-empty when a Meter is provided");
+            }
+            this.meter = meter;
             this.readerName = readerName;
             return this;
         }
@@ -247,6 +274,9 @@ public class ReaderSettings {
             }
             if (topics.isEmpty()) {
                 throw new IllegalArgumentException("Missing topics for read settings. At least one should be set");
+            }
+            if (meter != Meter.NOOP && (readerName == null || readerName.trim().isEmpty())) {
+                throw new IllegalArgumentException("readerName must be non-empty when a Meter is provided");
             }
             return new ReaderSettings(this);
         }

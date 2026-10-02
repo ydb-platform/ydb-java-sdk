@@ -17,6 +17,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.WriterSettings;
@@ -374,6 +376,23 @@ public class WriterQueueTest {
         Assert.assertFalse(flushFuture.isDone());
         q.confirmAck(new WriteAck(lastSeqNo, WriteAck.State.WRITTEN, null, null));
 
+        Assert.assertTrue(flushFuture.isDone());
+        Assert.assertFalse(flushFuture.isCompletedExceptionally());
+    }
+
+    @Test
+    public void testFlushCompletesWhenMessageIsFailed() throws Exception {
+        WriterQueue q = rawQueue(new AtomicInteger());
+
+        CompletableFuture<WriteAck> ackFuture = q.enqueue(SMALL_MSG, null);
+        assertSendAll(q, 1);
+
+        CompletableFuture<Void> flushFuture = q.flush();
+        Assert.assertFalse(flushFuture.isDone());
+
+        q.close(Status.of(StatusCode.CLIENT_CANCELLED));
+
+        Assert.assertTrue(ackFuture.isCompletedExceptionally());
         Assert.assertTrue(flushFuture.isDone());
         Assert.assertFalse(flushFuture.isCompletedExceptionally());
     }

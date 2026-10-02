@@ -19,6 +19,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.core.impl.Observability;
 import tech.ydb.core.utils.ProtobufUtils;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromClient;
@@ -70,11 +71,13 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         this.config = config;
         this.handler = handler;
         this.errorHandler = settings.getErrorsHandler();
+        Observability.reportMetricsUsage(settings.getMeter());
     }
 
     @Override
     protected CompletableFuture<Result<ReadSession>> createNewStream(String id) {
-        ReadSession s = new ReadSession(id, rpc.readSession(id), initRequest, handler::handleDataReceivedEvent, config);
+        ReadSession s = new ReadSession(id, rpc.readSession(id), initRequest,
+                handler::handleDataReceivedEvent, config);
         return CompletableFuture.completedFuture(Result.success(s));
     }
 

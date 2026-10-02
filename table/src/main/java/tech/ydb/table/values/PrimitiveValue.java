@@ -224,6 +224,26 @@ public abstract class PrimitiveValue implements Value<PrimitiveType> {
         return new FloatValue(value);
     }
 
+    /**
+     * Encodes a float array as a Bytes value in YDB FloatVector format. An empty array produces the single byte 0x01.
+     *
+     * @param values embedding components
+     * @return a Bytes value suitable for a query parameter declared as Bytes
+     */
+    public static PrimitiveValue newBytesEmbedding(float[] values) {
+        byte[] bytes = new byte[values.length * 4 + 1];
+        for (int i = 0; i < values.length; i++) {
+            int bits = Float.floatToRawIntBits(values[i]);
+            int offset = i * 4;
+            bytes[offset] = (byte) bits;
+            bytes[offset + 1] = (byte) (bits >>> 8);
+            bytes[offset + 2] = (byte) (bits >>> 16);
+            bytes[offset + 3] = (byte) (bits >>> 24);
+        }
+        bytes[bytes.length - 1] = 0x01;
+        return newBytesOwn(bytes);
+    }
+
     public static PrimitiveValue newDouble(double value) {
         return new DoubleValue(value);
     }

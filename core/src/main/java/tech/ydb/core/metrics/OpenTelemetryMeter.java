@@ -11,6 +11,7 @@ import io.opentelemetry.api.common.AttributesBuilder;
 import io.opentelemetry.api.metrics.DoubleHistogramBuilder;
 import io.opentelemetry.api.metrics.LongCounterBuilder;
 import io.opentelemetry.api.metrics.LongGaugeBuilder;
+import io.opentelemetry.api.metrics.ObservableLongGauge;
 
 /**
  * OpenTelemetry-backed implementation of {@link Meter}.
@@ -61,7 +62,14 @@ public final class OpenTelemetryMeter implements Meter {
     }
 
     @Override
+    @Deprecated
     public void createLongGauge(String name, String unit, String description, Consumer<LongMeasurement> callback) {
+        registerLongGauge(name, unit, description, callback);
+    }
+
+    @Override
+    public MetricRegistration registerLongGauge(
+            String name, String unit, String description, Consumer<LongMeasurement> callback) {
         LongGaugeBuilder builder = meter.gaugeBuilder(name).ofLongs();
         if (unit != null) {
             builder.setUnit(unit);
@@ -69,8 +77,9 @@ public final class OpenTelemetryMeter implements Meter {
         if (description != null) {
             builder.setDescription(description);
         }
-        builder.buildWithCallback(otelMeasurement ->
-                callback.accept((value, attrs) -> otelMeasurement.record(value, attributesOf(attrs))));
+        return new GaugeRegistration(builder.buildWithCallback(
+                otelMeasurement -> callback.accept((value, attrs) ->
+                        otelMeasurement.record(value, attributesOf(attrs)))));
     }
 
     private static Attributes attributesOf(Attr[] attrs) {
@@ -82,5 +91,18 @@ public final class OpenTelemetryMeter implements Meter {
             builder.put(attr.getKey(), attr.getValue());
         }
         return builder.build();
+    }
+
+    private static final class GaugeRegistration implements MetricRegistration {
+        private final ObservableLongGauge gauge;
+
+        GaugeRegistration(ObservableLongGauge gauge) {
+            this.gauge = gauge;
+        }
+
+        @Override
+        public void close() {
+            gauge.close();
+        }
     }
 }
