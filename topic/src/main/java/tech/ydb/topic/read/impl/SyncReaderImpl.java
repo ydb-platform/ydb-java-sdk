@@ -29,9 +29,10 @@ import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.SyncReader;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.read.impl.events.PartitionControl;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.ReceiveSettings;
 import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
@@ -225,12 +226,14 @@ public class SyncReaderImpl implements SyncReader {
         }
 
         @Override
-        public void handleDataReceivedEvent(ReaderImpl.PartitionControl control, DataReceivedEvent event) {
+        public void handleDataReceivedEvent(DataReceivedEventImpl event) {
             if (impl.isClosed()) { // never happens
                 return;
             }
+
+            PartitionControl control = event.getPartitionControl();
             if (event.getMessages().isEmpty()) {  // never happens
-                control.confirmRangeProcessed(event.getRangeToCommit());
+                control.confirmProcessedRange(event.getRangeToCommit());
                 return;
             }
 
@@ -275,11 +278,11 @@ public class SyncReaderImpl implements SyncReader {
     }
 
     private static class MessageWrapper {
-        private final ReaderImpl.PartitionControl control;
+        private final PartitionControl control;
         private final Message msg;
         private final OffsetsRange rangeToConfirm;
 
-        private MessageWrapper(ReaderImpl.PartitionControl control, Message msg, OffsetsRange rangeToConfirm) {
+        private MessageWrapper(PartitionControl control, Message msg, OffsetsRange rangeToConfirm) {
             this.control = control;
             this.msg = msg;
             this.rangeToConfirm = rangeToConfirm;
@@ -295,7 +298,7 @@ public class SyncReaderImpl implements SyncReader {
 
         void confirm() {
             if (rangeToConfirm != null) {
-                control.confirmRangeProcessed(rangeToConfirm);
+                control.confirmProcessedRange(rangeToConfirm);
             }
         }
     }

@@ -25,9 +25,9 @@ import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.StartPartitionSessionResp
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.TopicStreamBase;
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
 import tech.ydb.topic.read.impl.events.StopPartitionSessionEventImpl;
 import tech.ydb.topic.settings.StartPartitionSessionSettings;
@@ -43,14 +43,14 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final ReadConfig config;
     private final MessageDecoder decoder;
     private final BufferManager bufferManager;
-    private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
+    private final Consumer<DataReceivedEventImpl> eventConsumer;
 
     private final Map<Long, PartitionSession> partitions = new ConcurrentHashMap<>();
     private final Map<Long, ReadPartition> readQueues = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
 
     public ReadSession(String id, GrpcReadWriteStream<FromServer, FromClient> stream, FromClient initReq,
-            BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer, ReadConfig config) {
+            Consumer<DataReceivedEventImpl> eventConsumer, ReadConfig config) {
         super(logger, id, stream, initReq);
         this.debugId = id;
         this.config = config;
@@ -82,7 +82,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return decoder;
     }
 
-    BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> getEventConsumer() {
+    Consumer<DataReceivedEventImpl> getEventConsumer() {
         return eventConsumer;
     }
 

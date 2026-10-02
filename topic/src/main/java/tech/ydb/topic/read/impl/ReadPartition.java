@@ -1,7 +1,7 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.List;
-import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,13 +11,13 @@ import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.read.impl.events.PartitionControl;
 
 /**
  * @author Nikolay Perfilov
  */
-public class ReadPartition implements ReaderImpl.PartitionControl {
+public class ReadPartition implements PartitionControl {
     private static final Logger logger = LoggerFactory.getLogger(ReadPartition.class);
 
     private final String traceID;
@@ -26,7 +26,7 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
     private final ReadPartitionDecoder decoder;
     private final ReadPartitionQueue queue;
     private final BufferManager bufferManager;
-    private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
+    private final Consumer<DataReceivedEventImpl> eventConsumer;
     private final ReaderMetrics metrics;
 
     private final SerialExecutor dataProcessor;
@@ -40,7 +40,7 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         ReadConfig config = session.getConfig();
         MessageDecoder sessionDecoder = session.getDecoder();
 
-        this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
+        this.committer = new ReadPartitionCommitter(traceID, session, this, lastCommittedOffset);
         this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, this::sendDataToReaders);
         this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
 
@@ -56,12 +56,12 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
     }
 
     @Override
-    public void confirmRangeProcessed(OffsetsRange range) {
-        bufferManager.releaseRange(partition.getId(), range);
-        decoder.releaseRange(range);
+    public void confirmProcessedRange(OffsetsRange range) {
+        releaseRange(range);
         sendDataToReaders();
     }
 
+    @Override
     public PartitionSession getPartition() {
         return partition;
     }
@@ -91,14 +91,19 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         return !isStopped;
     }
 
-    private void sendDataToReaders() {
+    void releaseRange(OffsetsRange range) {
+        bufferManager.releaseRange(partition.getId(), range);
+        decoder.releaseRange(range);
+    }
+
+    void sendDataToReaders() {
         dataProcessor.execute(() -> {
             while (!isStopped) {
                 List<Message> list = queue.getNextBatch();
                 if (list == null) {
                     return;
                 }
-                eventConsumer.accept(this, new DataReceivedEventImpl(partition, committer, list));
+                eventConsumer.accept(new DataReceivedEventImpl(this, committer, list));
             }
         });
     }

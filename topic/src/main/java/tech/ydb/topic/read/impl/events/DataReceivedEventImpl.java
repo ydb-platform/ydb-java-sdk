@@ -14,13 +14,13 @@ import tech.ydb.topic.read.events.DataReceivedEvent;
  * @author Nikolay Perfilov
  */
 public class DataReceivedEventImpl implements DataReceivedEvent {
-    private final PartitionSession session;
+    private final PartitionControl control;
     private final MessageCommitter committer;
     private final List<Message> messages;
     private final OffsetsRange offsetRange;
 
-    public DataReceivedEventImpl(PartitionSession session, MessageCommitter committer, List<Message> messages) {
-        this.session = session;
+    public DataReceivedEventImpl(PartitionControl control, MessageCommitter committer, List<Message> messages) {
+        this.control = control;
         this.committer = committer;
         this.messages = messages;
         this.offsetRange = OffsetsRange.of(
@@ -36,7 +36,7 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
 
     @Override
     public PartitionSession getPartitionSession() {
-        return session;
+        return control.getPartition();
     }
 
     @Override
@@ -49,9 +49,13 @@ public class DataReceivedEventImpl implements DataReceivedEvent {
         return committer;
     }
 
+    public PartitionControl getPartitionControl() {
+        return control;
+    }
+
     @Override
     @Deprecated
     public PartitionOffsets getPartitionOffsets() {
-        return new PartitionOffsets(session, Collections.singletonList(offsetRange));
+        return new PartitionOffsets(control.getPartition(), Collections.singletonList(offsetRange));
     }
 }

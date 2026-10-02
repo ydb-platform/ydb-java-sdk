@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.MessageCommitter;
-import tech.ydb.topic.read.PartitionSession;
 
 /**
  *
@@ -24,14 +23,14 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     private final String traceID;
     private final ReadSession session;
-    private final PartitionSession partition;
+    private final ReadPartition partition;
 
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private volatile long lastCommittedOffset;
 
-    ReadPartitionCommitter(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
+    ReadPartitionCommitter(String traceID, ReadSession session, ReadPartition partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
@@ -39,7 +38,7 @@ class ReadPartitionCommitter implements MessageCommitter {
     }
 
     private RuntimeException partitionIsClosedException() {
-        return new RuntimeException("" + partition + " is already stopped");
+        return new RuntimeException("" + partition.getPartition() + " is already stopped");
     }
 
     public void confirmCommit(long committedOffset) {
@@ -84,7 +83,10 @@ class ReadPartitionCommitter implements MessageCommitter {
             commitFuturesLock.unlock();
         }
 
-        if (!session.commitOffsets(partition, Collections.singletonList(range))) {
+        if (session.commitOffsets(partition.getPartition(), Collections.singletonList(range))) {
+            partition.releaseRange(range);
+            partition.sendDataToReaders();
+        } else {
             logger.info("[{}] Offset range {} is requested to be committed, but partition session is already stopped",
                     traceID, range);
             future.completeExceptionally(partitionIsClosedException());
@@ -102,7 +104,12 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition, ranges);
+        if (session.commitOffsets(partition.getPartition(), ranges)) {
+            for (OffsetsRange range: ranges) {
+                partition.releaseRange(range);
+            }
+            partition.sendDataToReaders();
+        }
     }
 
     public void failPendingCommits() {
@@ -112,8 +119,8 @@ class ReadPartitionCommitter implements MessageCommitter {
                 return;
             }
 
-            logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, partition.getPath(),
-                    commitFutures.size());
+            String path = partition.getPartition().getPath();
+            logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, path, commitFutures.size());
             commitFutures.values().forEach(f -> f.completeExceptionally(partitionIsClosedException()));
             commitFutures.clear();
         } finally {

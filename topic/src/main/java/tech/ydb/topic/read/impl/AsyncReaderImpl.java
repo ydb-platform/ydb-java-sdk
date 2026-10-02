@@ -21,13 +21,15 @@ import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.read.impl.events.PartitionControl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
+import tech.ydb.topic.read.impl.events.ReaderHandler;
 import tech.ydb.topic.read.impl.events.SessionStartedEvent;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -42,8 +44,8 @@ public class AsyncReaderImpl implements AsyncReader {
     private final String debugId;
     private final LazyExecutor processor;
     private final LazyExecutor decompressor;
-    private final ReadEventHandler eventHandler;
     private final SerialExecutor controlEventsExecutor;
+    private final ReadEventHandler eventHandler;
     private final ReadConfig config;
     private final ReaderImpl impl;
 
@@ -61,7 +63,10 @@ public class AsyncReaderImpl implements AsyncReader {
         this.controlEventsExecutor = new SerialExecutor(processor);
 
         this.config = new ReadConfig(codecRegistry, processor, decompressor, settings);
-        this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new AsyncHandler());
+
+        ReaderImpl.Handler handler = (eventHandler instanceof ReaderHandler)
+                ? new AsyncHandlerWithControl((ReaderHandler) eventHandler) : new AsyncHandler();
+        this.impl = new ReaderImpl(topicRpc, debugId, settings, config, handler);
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();
@@ -142,7 +147,8 @@ public class AsyncReaderImpl implements AsyncReader {
         }
 
         @Override
-        public void handleDataReceivedEvent(ReaderImpl.PartitionControl control, DataReceivedEvent event) {
+        public void handleDataReceivedEvent(DataReceivedEventImpl event) {
+            PartitionControl control = event.getPartitionControl();
             try {
                 int messagesCount = event.getMessages().size();
                 long offsetStart = event.getMessages().get(0).getOffset();
@@ -157,7 +163,7 @@ public class AsyncReaderImpl implements AsyncReader {
                 failSession(th, "onMessages");
                 throw th;
             } finally {
-                control.confirmRangeProcessed(event.getRangeToCommit());
+                control.confirmProcessedRange(event.getRangeToCommit());
             }
         }
 
@@ -207,6 +213,24 @@ public class AsyncReaderImpl implements AsyncReader {
                     throw th;
                 }
             });
+        }
+    }
+
+    private class AsyncHandlerWithControl extends AsyncHandler {
+        private final ReaderHandler readerHandler;
+
+        AsyncHandlerWithControl(ReaderHandler readerHandler) {
+            this.readerHandler = readerHandler;
+        }
+
+        @Override
+        public void handleDataReceivedEvent(DataReceivedEventImpl event) {
+            try {
+                readerHandler.onMessagesWithControl(event);
+            } catch (Throwable th) {
+                failSession(th, "onMessages");
+                throw th;
+            }
         }
     }
 }
