@@ -84,11 +84,9 @@ public class ReaderMetricsTest {
                 .addTopic("/topic").setConsumerName("consumer")
                 .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
         try {
-            Assert.assertEquals(0, meter.collect(PARTITIONS));
-            Assert.assertEquals(0, meter.collect(CREDIT));
+            Assert.assertTrue(meter.gauges.isEmpty());
             reader.init();
-            Assert.assertEquals(0, meter.collect(PARTITIONS));
-            Assert.assertEquals(0, meter.collect(CREDIT));
+            Assert.assertTrue(meter.gauges.isEmpty());
             stream.responseInit("session");
             stream.responseStartPartition("/topic", 42, 0);
             Assert.assertEquals(1, meter.collect(PARTITIONS));
@@ -105,6 +103,32 @@ public class ReaderMetricsTest {
             reader.shutdown();
             client.close();
         }
+        Assert.assertTrue(meter.gauges.isEmpty());
+    }
+
+    @Test
+    public void staleStreamCleanupDoesNotRemoveCurrentGauges() {
+        RecordingMeter meter = new RecordingMeter();
+        ReaderMetrics metrics = new ReaderMetrics(meter, "consumer", "reader");
+        ReadSession first = Mockito.mock(ReadSession.class);
+        ReadSession second = Mockito.mock(ReadSession.class);
+        Mockito.when(first.getPartitionSessionCount()).thenReturn(1);
+        Mockito.when(second.getPartitionSessionCount()).thenReturn(2);
+        try {
+            metrics.registerStream(first);
+            metrics.registerStream(second);
+            metrics.unregisterStream(first);
+            Assert.assertEquals(2, meter.collect(PARTITIONS));
+
+            Mockito.when(first.isClosed()).thenReturn(true);
+            metrics.registerStream(first);
+            Assert.assertEquals(2, meter.collect(PARTITIONS));
+            metrics.unregisterStream(second);
+            Assert.assertTrue(meter.gauges.isEmpty());
+        } finally {
+            metrics.close();
+        }
+        metrics.registerStream(second);
         Assert.assertTrue(meter.gauges.isEmpty());
     }
 

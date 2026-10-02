@@ -64,7 +64,6 @@ public class SyncReaderImpl implements SyncReader {
 
         this.config = new ReadConfig(codecRegistry, Runnable::run, decompressor, settings);
         this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new SyncHandler());
-        config.getMetrics().registerGauges(impl);
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();

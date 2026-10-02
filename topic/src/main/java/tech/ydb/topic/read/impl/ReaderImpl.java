@@ -78,16 +78,6 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         Observability.reportMetricsUsage(settings.getMeter());
     }
 
-    long getPartitionSessionCount() {
-        ReadSession stream = getCurrentStream();
-        return stream == null ? 0 : stream.getPartitionSessionCount();
-    }
-
-    long getCreditBalanceBytes() {
-        ReadSession stream = getCurrentStream();
-        return stream == null || currentSessionId == null ? 0 : stream.getBufferManager().getCreditBalanceBytes();
-    }
-
     @Override
     protected CompletableFuture<Result<ReadSession>> createNewStream(String id) {
         ReadSession s = new ReadSession(id, rpc.readSession(id), initRequest,
@@ -109,6 +99,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         if (stream != null) {
             stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
         }
+        config.getMetrics().unregisterStream(stream);
     }
 
     @Override
@@ -129,6 +120,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         if (stream != null) {
             stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
         }
+        config.getMetrics().unregisterStream(stream);
         handler.handleReaderClosed(status);
     }
 
@@ -141,6 +133,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             currentSessionId = message.getInitResponse().getSessionId();
             handler.handleSessionStarted(message.getInitResponse().getSessionId());
             stream.onInit(message.getInitResponse());
+            config.getMetrics().registerStream(stream);
         } else if (message.hasStartPartitionSessionRequest()) {
             StartPartitionSessionEvent event = stream.onStartPartition(message.getStartPartitionSessionRequest());
             if (event != null) {

@@ -62,7 +62,6 @@ public class AsyncReaderImpl implements AsyncReader {
 
         this.config = new ReadConfig(codecRegistry, processor, decompressor, settings);
         this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new AsyncHandler());
-        config.getMetrics().registerGauges(impl);
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();

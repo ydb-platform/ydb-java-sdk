@@ -21,6 +21,8 @@ final class ReaderMetrics implements AutoCloseable {
     private final Meter meter;
     private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
     private MetricRegistration creditGauge = MetricRegistration.NOOP;
+    private ReadSession registeredStream;
+    private boolean closed;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -36,21 +38,37 @@ final class ReaderMetrics implements AutoCloseable {
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    void registerGauges(ReaderImpl reader) {
+    synchronized void registerStream(ReadSession stream) {
+        if (stream != null && (closed || stream.isClosed())) {
+            return;
+        }
+        partitionsGauge.close();
+        creditGauge.close();
+        partitionsGauge = MetricRegistration.NOOP;
+        creditGauge = MetricRegistration.NOOP;
+        registeredStream = stream;
+        if (stream == null) {
+            return;
+        }
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
-                m -> m.record(reader.getPartitionSessionCount(), commonAttributes));
+                m -> m.record(stream.getPartitionSessionCount(), commonAttributes));
         creditGauge = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
-                "The protocol credit granted to the server and not yet consumed by read responses.", m -> {
-                    m.record(reader.getCreditBalanceBytes(), commonAttributes);
-                });
+                "The protocol credit granted to the server and not yet consumed by read responses.",
+                m -> m.record(stream.getBufferManager().getCreditBalanceBytes(), commonAttributes));
+    }
+
+    synchronized void unregisterStream(ReadSession stream) {
+        if (registeredStream == stream) {
+            registerStream(null);
+        }
     }
 
     @Override
-    public void close() {
-        partitionsGauge.close();
-        creditGauge.close();
+    public synchronized void close() {
+        closed = true;
+        registerStream(null);
     }
 
     void reportDelivered(long messages, String topic) {

@@ -78,6 +78,10 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return partitions.size();
     }
 
+    boolean isClosed() {
+        return isClosed;
+    }
+
     ReadConfig getConfig() {
         return config;
     }

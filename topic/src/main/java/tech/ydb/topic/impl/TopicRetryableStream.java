@@ -90,12 +90,6 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
         return isClosed;
     }
 
-    @Nullable
-    protected S getCurrentStream() {
-        State current = state.get();
-        return current == null ? null : current.stream.get();
-    }
-
     public void fail(Status status) {
         State local = state.getAndSet(null);
         if (local != null) {
