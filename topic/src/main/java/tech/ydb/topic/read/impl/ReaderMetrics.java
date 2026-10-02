@@ -39,17 +39,11 @@ final class ReaderMetrics implements AutoCloseable {
     }
 
     synchronized void registerStream(ReadSession stream) {
-        if (stream != null && (closed || stream.isClosed())) {
+        if (closed || stream.isClosed()) {
             return;
         }
-        partitionsGauge.close();
-        creditGauge.close();
-        partitionsGauge = MetricRegistration.NOOP;
-        creditGauge = MetricRegistration.NOOP;
+        closeGauges();
         registeredStream = stream;
-        if (stream == null) {
-            return;
-        }
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
@@ -61,14 +55,22 @@ final class ReaderMetrics implements AutoCloseable {
 
     synchronized void unregisterStream(ReadSession stream) {
         if (registeredStream == stream) {
-            registerStream(null);
+            closeGauges();
         }
     }
 
     @Override
     public synchronized void close() {
         closed = true;
-        registerStream(null);
+        closeGauges();
+    }
+
+    private void closeGauges() {
+        partitionsGauge.close();
+        creditGauge.close();
+        partitionsGauge = MetricRegistration.NOOP;
+        creditGauge = MetricRegistration.NOOP;
+        registeredStream = null;
     }
 
     void reportDelivered(long messages, String topic) {
