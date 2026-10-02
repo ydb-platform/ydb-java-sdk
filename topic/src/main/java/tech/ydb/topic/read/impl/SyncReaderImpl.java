@@ -110,6 +110,7 @@ public class SyncReaderImpl implements SyncReader {
     }
 
     private void close(Status status) {
+        config.getMetrics().close();
         initFuture.completeExceptionally(new RuntimeException("Reader was closed with " + status));
         shutdownFuture.complete(status);
 

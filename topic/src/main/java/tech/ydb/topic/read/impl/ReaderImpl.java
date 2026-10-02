@@ -99,6 +99,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         if (stream != null) {
             stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
         }
+        config.getMetrics().unregisterStream(stream);
     }
 
     @Override
@@ -119,6 +120,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         if (stream != null) {
             stream.closeAll().forEach(ps -> handler.handleClosePartitionSession(ps));
         }
+        config.getMetrics().unregisterStream(stream);
         handler.handleReaderClosed(status);
     }
 
@@ -131,6 +133,7 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             currentSessionId = message.getInitResponse().getSessionId();
             handler.handleSessionStarted(message.getInitResponse().getSessionId());
             stream.onInit(message.getInitResponse());
+            config.getMetrics().registerStream(stream);
         } else if (message.hasStartPartitionSessionRequest()) {
             StartPartitionSessionEvent event = stream.onStartPartition(message.getStartPartitionSessionRequest());
             if (event != null) {

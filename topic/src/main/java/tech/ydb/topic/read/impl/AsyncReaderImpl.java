@@ -98,6 +98,7 @@ public class AsyncReaderImpl implements AsyncReader {
         if (shutdownFuture.isDone()) {
             return;
         }
+        config.getMetrics().close();
 
         controlEventsExecutor.execute(() -> {
             try {
