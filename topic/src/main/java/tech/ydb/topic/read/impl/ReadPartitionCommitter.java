@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,7 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final ReadSession session;
     private final PartitionSession partition;
 
-    private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
+    private final NavigableMap<Long, PendingCommit> commitFutures = new TreeMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private volatile long lastCommittedOffset;
@@ -42,27 +43,39 @@ class ReadPartitionCommitter implements MessageCommitter {
         return new RuntimeException("" + partition + " is already stopped");
     }
 
-    public void confirmCommit(long committedOffset) {
+    public long confirmCommit(long committedOffset) {
         if (committedOffset <= lastCommittedOffset) { // never happens
             logger.error("[{}] received commit response. Committed offset: {} which is less than previous " +
                     "committed offset: {}.", traceID, committedOffset, lastCommittedOffset);
-            return;
+            return 0;
         }
 
         commitFuturesLock.lock();
         try {
-            Map<Long, CompletableFuture<Void>> confirmed = commitFutures.headMap(committedOffset, true);
+            Map<Long, PendingCommit> confirmed = commitFutures.headMap(committedOffset, true);
 
             logger.debug("[{}] received commit response. Committed offset: {}. "
                     + "Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures", traceID,
                     committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset, confirmed.size());
 
             lastCommittedOffset = committedOffset;
-            confirmed.values().forEach(future -> future.complete(null));
+            List<PendingCommit> acknowledged = new ArrayList<>(confirmed.values());
             confirmed.clear();
+            long acknowledgedMessages = 0;
+            for (PendingCommit pending : acknowledged) {
+                acknowledgedMessages += pending.messages;
+                pending.future.complete(null);
+            }
+            return acknowledgedMessages;
         } finally {
             commitFuturesLock.unlock();
         }
+    }
+
+    private PendingCommit registerCommit(OffsetsRange range) {
+        PendingCommit pending = commitFutures.computeIfAbsent(range.getEnd(), offset -> new PendingCommit());
+        pending.messages += range.getEnd() - range.getStart();
+        return pending;
     }
 
     @Override
@@ -75,11 +88,7 @@ class ReadPartitionCommitter implements MessageCommitter {
         CompletableFuture<Void> future;
         commitFuturesLock.lock();
         try {
-            future = commitFutures.get(range.getEnd());
-            if (future == null) {
-                future = new CompletableFuture<>();
-                commitFutures.put(range.getEnd(), future);
-            }
+            future = registerCommit(range).future;
         } finally {
             commitFuturesLock.unlock();
         }
@@ -102,7 +111,15 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition, ranges);
+        commitFuturesLock.lock();
+        try {
+            ranges.forEach(this::registerCommit);
+        } finally {
+            commitFuturesLock.unlock();
+        }
+        if (!session.commitOffsets(partition, ranges)) {
+            failPendingCommits();
+        }
     }
 
     public void failPendingCommits() {
@@ -114,10 +131,16 @@ class ReadPartitionCommitter implements MessageCommitter {
 
             logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, partition.getPath(),
                     commitFutures.size());
-            commitFutures.values().forEach(f -> f.completeExceptionally(partitionIsClosedException()));
+            commitFutures.values().forEach(pending ->
+                    pending.future.completeExceptionally(partitionIsClosedException()));
             commitFutures.clear();
         } finally {
             commitFuturesLock.unlock();
         }
+    }
+
+    private static class PendingCommit {
+        private final CompletableFuture<Void> future = new CompletableFuture<>();
+        private long messages;
     }
 }
