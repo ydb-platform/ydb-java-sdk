@@ -47,6 +47,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
 
     private final CompletableFuture<Status> statusFuture = new CompletableFuture<>();
     private Observer<R> consumer = null;
+    private boolean isStopped = false;
 
     public ReadWriteStreamCall(String traceId, String endpoint, ClientCall<W, R> call, GrpcFlowControl flowCtrl,
             Metadata headers, AuthCallOptions options, GrpcStatusHandler statusHandler) {
@@ -97,6 +98,11 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     public void sendNext(W message) {
         callLock.lock();
         try {
+            if (isStopped) {
+                // the message can never be sent, don't retain it in the queue
+                return;
+            }
+
             if (flush()) {
                 if (logger.isTraceEnabled()) {
                     if (message instanceof YdbTopic.UpdateTokenRequest) {
@@ -136,6 +142,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     public void cancel() {
         callLock.lock();
         try {
+            stop();
             call.cancel("Cancelled on user request", new CancellationException());
         } finally {
             callLock.unlock();
@@ -190,6 +197,7 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
     public void close() {
         callLock.lock();
         try {
+            stop(); // messages can't be sent after halfClose
             call.halfClose();
         } finally {
             callLock.unlock();
@@ -201,6 +209,15 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         if (logger.isTraceEnabled()) {
             logger.trace("ReadWriteStreamCall[{}] closed with status {}", traceId, status);
         }
+
+        callLock.lock();
+
+        try {
+            stop();
+        } finally {
+            callLock.unlock();
+        }
+
         statusConsumer.accept(status, trailers);
 
         if (status.isOk()) {
@@ -210,5 +227,10 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
         }
 
         statusConsumer.postComplete();
+    }
+
+    private void stop() {
+        isStopped = true;
+        messagesQueue.clear();
     }
 }
