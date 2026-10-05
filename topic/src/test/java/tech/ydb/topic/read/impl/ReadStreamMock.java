@@ -23,6 +23,7 @@ import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromServer;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
+import tech.ydb.topic.read.PartitionSession;
 
 /**
  *
@@ -92,17 +93,18 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
     }
 
     public void responseStartPartition(String topicPath, long partitionID, long committedOffset) {
-        responseStartPartition(topicPath, partitionID, committedOffset, partCounter.incrementAndGet());
+        int psid = partCounter.incrementAndGet();
+        responseStartPartition(new PartitionSession(psid, partitionID, topicPath), committedOffset);
     }
 
-    public void responseStartPartition(String topicPath, long partitionID, long committedOffset, long psid) {
+    public void responseStartPartition(PartitionSession ps, long committedOffset) {
         FromServer msg = FromServer.newBuilder()
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .setStartPartitionSessionRequest(YdbTopic.StreamReadMessage.StartPartitionSessionRequest.newBuilder()
                         .setPartitionSession(YdbTopic.StreamReadMessage.PartitionSession.newBuilder()
-                                .setPath(topicPath)
-                                .setPartitionId(partitionID)
-                                .setPartitionSessionId(psid)
+                                .setPath(ps.getPath())
+                                .setPartitionId(ps.getPartitionId())
+                                .setPartitionSessionId(ps.getId())
                                 .build())
                         .setCommittedOffset(committedOffset)
                         .build())
@@ -275,14 +277,14 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         }
 
         public MessageAssert isStartPartition(long psid) {
-            Assert.assertTrue("Msg is not start partition response", msg.hasStartPartitionSessionResponse());
+            Assert.assertTrue("Msg[" + msg + "] is not start partition", msg.hasStartPartitionSessionResponse());
             YdbTopic.StreamReadMessage.StartPartitionSessionResponse resp = msg.getStartPartitionSessionResponse();
             Assert.assertEquals("Start partition has incorrect id", psid, resp.getPartitionSessionId());
             return this;
         }
 
         public MessageAssert isStopPartition(long psid) {
-            Assert.assertTrue("Msg is not stop partition response", msg.hasStopPartitionSessionResponse());
+            Assert.assertTrue("Msg[" + msg + "] is not stop partition", msg.hasStopPartitionSessionResponse());
             YdbTopic.StreamReadMessage.StopPartitionSessionResponse resp = msg.getStopPartitionSessionResponse();
             Assert.assertEquals("Stop partition has incorrect id", psid, resp.getPartitionSessionId());
             return this;

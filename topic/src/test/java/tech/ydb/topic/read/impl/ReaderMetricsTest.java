@@ -46,13 +46,20 @@ public class ReaderMetricsTest {
             stream.assertLastMessage().isInitRequest("consumer", "/topic").hasReaderName("reader");
             stream.responseInit("read-session");
             stream.responseStartPartition("/topic", 42, 0);
+            byte[] msg1 = new byte[] { 1 };
+            byte[] msg2 = new byte[] { 2 };
             stream.responseData(25).partition(1, 0)
-                    .batch(Codec.RAW, new byte[]{1})
-                    .batch(Codec.RAW, new byte[]{2})
+                    .batch(Codec.RAW, msg1, msg2)
                     .and().send();
-
             Assert.assertEquals(2, meter.value(RECEIVED_MESSAGES));
             Assert.assertEquals(25, meter.value(RECEIVED_BYTES));
+
+            stream.responseData(30).partition(1, 2)
+                    .batch(Codec.RAW, msg1, msg2, msg1)
+                    .and().send();
+            Assert.assertEquals(5, meter.value(RECEIVED_MESSAGES));
+            Assert.assertEquals(55, meter.value(RECEIVED_BYTES));
+
             Assert.assertEquals(0, meter.value(DELIVERED));
             meter.assertAttribute(RECEIVED_MESSAGES, "topic", "/topic");
             meter.assertAttribute(RECEIVED_MESSAGES, "reader.name", "reader");
