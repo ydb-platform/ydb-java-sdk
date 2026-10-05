@@ -3,12 +3,16 @@ package tech.ydb.topic.write.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,15 +24,22 @@ import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.grpc.GrpcReadStream;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
+import tech.ydb.core.metrics.Attr;
+import tech.ydb.core.metrics.LongCounter;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.proto.StatusCodesProtos;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
 import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
+import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
+import tech.ydb.topic.description.MetadataItem;
+import tech.ydb.topic.impl.TopicClientImpl;
 import tech.ydb.topic.settings.TopicRetryConfig;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.InitResult;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
@@ -354,6 +365,162 @@ public class WriterImplTest {
         Assert.assertFalse(m2.isDone());
     }
 
+    @Test
+    public void writerCountersCountAcceptedMessagesAndAcknowledgements() throws Exception {
+        RecordingMeter meter = new RecordingMeter();
+        StreamMock firstStream = new StreamMock();
+        StreamMock replacementStream = new StreamMock();
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test/topic").setCodec(Codec.RAW)
+                .setRetryConfig(IMMEDIATELY_FOREVER).setMaxSendBufferMessagesCount(3)
+                .withMeter(meter, "writer").build();
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(firstStream, replacementStream))
+                .setCompressionExecutor(Runnable::run).build()) {
+            AsyncWriter writer = client.createAsyncWriter(settings);
+            try {
+                CompletableFuture<InitResult> initialized = writer.init();
+                firstStream.sendInitResponse(0);
+                initialized.get(1, TimeUnit.SECONDS);
+                Message message = Message.newBuilder().setData(new byte[]{1, 2})
+                        .addMetadataItem(new MetadataItem("key", new byte[10])).build();
+                CompletableFuture<WriteAck> first = writer.send(message);
+                CompletableFuture<WriteAck> second = writer.send(Message.of(new byte[]{3, 4, 5}));
+                CompletableFuture<WriteAck> third = writer.send(Message.of(new byte[0]));
+                Assert.assertThrows(QueueOverflowException.class, () -> writer.send(MSG1));
+                Assert.assertEquals(3, meter.value("sending.messages"));
+                Assert.assertEquals(5, meter.value("sending.bytes"));
+                Assert.assertEquals(0, meter.value("written.messages"));
+
+                firstStream.close(Status.of(StatusCode.UNAVAILABLE));
+                replacementStream.sendInitResponse(0);
+                Assert.assertEquals(3, meter.value("sending.messages"));
+                Assert.assertEquals(5, meter.value("sending.bytes"));
+                CompletableFuture<Void> observed = first.thenAccept(ack ->
+                        Assert.assertEquals(1, meter.value("written.messages")));
+                replacementStream.sendAckResponse(1, 10);
+                observed.get(1, TimeUnit.SECONDS);
+                Assert.assertEquals(WriteAck.State.WRITTEN, first.get().getState());
+                Assert.assertFalse(second.isDone());
+                Assert.assertFalse(third.isDone());
+
+                YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Builder skipped =
+                        YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.newBuilder().setSeqNo(2);
+                skipped.getSkippedBuilder();
+                YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Builder inTx =
+                        YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.newBuilder().setSeqNo(3);
+                inTx.getWrittenInTxBuilder();
+                replacementStream.sendAckResponse(skipped.build(), inTx.build());
+                Assert.assertEquals(WriteAck.State.ALREADY_WRITTEN, second.get(1, TimeUnit.SECONDS).getState());
+                Assert.assertEquals(WriteAck.State.WRITTEN_IN_TX, third.get(1, TimeUnit.SECONDS).getState());
+                Assert.assertEquals(3, meter.value("written.messages"));
+                replacementStream.sendAckResponse(3, 12);
+                Assert.assertEquals(3, meter.value("written.messages"));
+                for (String name : Arrays.asList("sending.messages", "sending.bytes", "written.messages")) {
+                    meter.assertAttributes(name, Attr.of("topic", "/test/topic"), Attr.of("writer.name", "writer"));
+                }
+
+                CompletableFuture<Void> closed = writer.shutdown();
+                replacementStream.close(Status.SUCCESS);
+                closed.get(1, TimeUnit.SECONDS);
+                Assert.assertThrows(IllegalStateException.class, () -> writer.send(MSG1));
+                Assert.assertEquals(3, meter.value("sending.messages"));
+                Assert.assertEquals(5, meter.value("sending.bytes"));
+                Assert.assertEquals(3, meter.value("written.messages"));
+            } finally {
+                writer.shutdown();
+                firstStream.close(Status.SUCCESS);
+                replacementStream.close(Status.SUCCESS);
+            }
+        }
+    }
+
+    @Test
+    public void writerCountersRetainAcceptedMessagesWithoutAcknowledgements() throws Exception {
+        RecordingMeter meter = new RecordingMeter();
+        WriterSettings settings = WriterSettings.newBuilder().setTopicPath("/test/topic")
+                .withMeter(meter, "writer").setRetryConfig(TopicRetryConfig.NEVER).build();
+        StreamMock stream = new StreamMock();
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).setCompressionExecutor(task -> {
+            throw new RejectedExecutionException("Encoding task rejected");
+        }).build()) {
+            AsyncWriter writer = client.createAsyncWriter(settings);
+            try {
+                writer.init();
+                stream.sendInitResponse(0);
+                CompletableFuture<WriteAck> rejected = writer.send(MSG1);
+                Assert.assertTrue(rejected.isCompletedExceptionally());
+                Assert.assertEquals(1, meter.value("sending.messages"));
+                Assert.assertEquals(MSG1.getData().length, meter.value("sending.bytes"));
+                Assert.assertEquals(0, meter.value("written.messages"));
+            } finally {
+                writer.shutdown();
+                stream.close(Status.SUCCESS);
+            }
+        }
+
+        WriterSettings rawSettings = WriterSettings.newBuilder().setTopicPath("/test/topic").setCodec(Codec.RAW)
+                .withMeter(meter, "writer").build();
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(new StreamMock()))
+                .setCompressionExecutor(Runnable::run).build()) {
+            AsyncWriter writer = client.createAsyncWriter(rawSettings);
+            CompletableFuture<WriteAck> pending;
+            try {
+                pending = writer.send(MSG1);
+                Assert.assertFalse(pending.isDone());
+            } finally {
+                writer.shutdown().get(1, TimeUnit.SECONDS);
+            }
+            Assert.assertTrue(pending.isCompletedExceptionally());
+            Assert.assertEquals(2, meter.value("sending.messages"));
+            Assert.assertEquals(2 * MSG1.getData().length, meter.value("sending.bytes"));
+            Assert.assertEquals(0, meter.value("written.messages"));
+        }
+    }
+
+    @Test
+    public void writerMetricsRequireExplicitName() {
+        Assert.assertSame(Meter.NOOP, WriterSettings.newBuilder().build().getMeter());
+        Assert.assertNull(WriterSettings.newBuilder().build().getWriterName());
+        Assert.assertThrows(IllegalArgumentException.class,
+                () -> WriterSettings.newBuilder().withMeter(null, "writer"));
+        for (String name : Arrays.asList(null, "", " ")) {
+            Assert.assertThrows(IllegalArgumentException.class,
+                    () -> WriterSettings.newBuilder().withMeter(new RecordingMeter(), name));
+        }
+        RecordingMeter meter = new RecordingMeter();
+        WriterSettings settings = WriterSettings.newBuilder().withMeter(meter, "writer").build();
+        Assert.assertSame(meter, settings.getMeter());
+        Assert.assertEquals("writer", settings.getWriterName());
+    }
+
+    private static class RecordingMeter implements Meter {
+        private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
+        private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();
+
+        @Override
+        public LongCounter createCounter(String name, String unit, String description) {
+            AtomicLong counter = counters.computeIfAbsent(name, key -> new AtomicLong());
+            return (value, attrs) -> {
+                counter.addAndGet(value);
+                attributes.put(name, attrs);
+            };
+        }
+
+        long value(String name) {
+            AtomicLong counter = counters.get("ydb.topic.writer." + name);
+            return counter == null ? 0 : counter.get();
+        }
+
+        void assertAttributes(String name, Attr... expected) {
+            Attr[] observed = attributes.get("ydb.topic.writer." + name);
+            Assert.assertEquals(expected.length, observed.length);
+            for (Attr attribute : expected) {
+                Assert.assertTrue(Arrays.stream(observed).anyMatch(actual ->
+                        attribute.getKey().equals(actual.getKey()) && attribute.getValue().equals(actual.getValue())));
+            }
+        }
+    }
+
     private static class StreamMock implements GrpcReadWriteStream<FromServer, FromClient> {
         private final CompletableFuture<Status> future = new CompletableFuture<>();
         private final List<FromClient> messages = new ArrayList<>();
@@ -372,15 +539,18 @@ public class WriterImplTest {
         }
 
         void sendAckResponse(long seqNo, long offset) {
+            sendAckResponse(YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.newBuilder()
+                    .setSeqNo(seqNo)
+                    .setWritten(YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Written.newBuilder()
+                            .setOffset(offset).build())
+                    .build());
+        }
+
+        void sendAckResponse(YdbTopic.StreamWriteMessage.WriteResponse.WriteAck... acks) {
             observer.onNext(FromServer.newBuilder()
                     .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                     .setWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse.newBuilder()
-                            .addAcks(YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.newBuilder()
-                                    .setSeqNo(seqNo)
-                                    .setWritten(YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Written.newBuilder()
-                                            .setOffset(offset)
-                                            .build())
-                                    .build())
+                            .addAllAcks(Arrays.asList(acks))
                             .build())
                     .build()
             );
