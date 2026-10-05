@@ -4,15 +4,21 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
+import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
+import tech.ydb.core.metrics.MetricRegistration;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
@@ -25,6 +31,8 @@ public class ReaderMetricsTest {
     private static final String DELIVERED = "ydb.topic.reader.delivered.messages";
     private static final String RECEIVED_MESSAGES = "ydb.topic.reader.received.messages";
     private static final String RECEIVED_BYTES = "ydb.topic.reader.received.bytes";
+    private static final String PARTITIONS = "ydb.topic.reader.partition_session.count";
+    private static final String CREDIT = "ydb.topic.reader.credit_balance_bytes";
 
     @Test
     public void readerCountersIncrementOnReceive() throws InterruptedException {
@@ -66,9 +74,59 @@ public class ReaderMetricsTest {
         }
     }
 
+    @Test
+    public void gaugesObservePartitionSessionsAndProtocolCredit() throws InterruptedException {
+        RecordingMeter meter = new RecordingMeter();
+        ReadStreamMock stream = new ReadStreamMock();
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream).thenReturn(new ReadStreamMock());
+        TopicClient client = TopicClientImpl.newClient(rpc).build();
+        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                .addTopic("/topic").setConsumerName("consumer")
+                .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
+        try {
+            Assert.assertTrue(meter.gauges.isEmpty());
+            reader.init();
+            Assert.assertTrue(meter.gauges.isEmpty());
+            stream.responseInit("session");
+            stream.responseStartPartition("/topic", 42, 0);
+            Assert.assertEquals(1, meter.collect(PARTITIONS));
+            Assert.assertEquals(100, meter.collect(CREDIT));
+            reader.init();
+            Assert.assertEquals(1, meter.collect(PARTITIONS));
+            Assert.assertEquals(100, meter.collect(CREDIT));
+
+            stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
+            Assert.assertEquals(80, meter.collect(CREDIT));
+            Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
+            Assert.assertEquals(100, meter.collect(CREDIT));
+            stream.closeStream(Status.of(StatusCode.OVERLOADED));
+            Assert.assertTrue(meter.gauges.isEmpty());
+        } finally {
+            reader.shutdown();
+            client.close();
+        }
+        Assert.assertTrue(meter.gauges.isEmpty());
+    }
+
     private static class RecordingMeter implements Meter {
         private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
         private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();
+        private final Map<String, Consumer<LongMeasurement>> gauges = new ConcurrentHashMap<>();
+
+        @Override
+        public MetricRegistration registerLongGauge(
+                String name, String unit, String description, Consumer<LongMeasurement> callback) {
+            gauges.put(name, callback);
+            return () -> gauges.remove(name);
+        }
+
+        long collect(String name) {
+            Long[] value = new Long[1];
+            gauges.get(name).accept((observed, attrs) -> value[0] = observed);
+            return value[0];
+        }
 
         @Override
         public LongCounter createCounter(String name, String unit, String description) {

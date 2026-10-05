@@ -96,6 +96,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         readQueues.values().forEach(ReadPartition::stop);
         readQueues.clear();
 
+        config.getMetrics().unregister();
         return closed;
     }
 
@@ -123,6 +124,10 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
+    }
+
+    void registerMetrics() {
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
     }
 
     public StartPartitionSessionEvent onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
