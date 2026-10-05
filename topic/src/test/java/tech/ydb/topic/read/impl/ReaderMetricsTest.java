@@ -90,9 +90,10 @@ public class ReaderMetricsTest {
         try {
             Assert.assertTrue(meter.gauges.isEmpty());
             reader.init();
+            Assert.assertTrue(meter.gauges.isEmpty());
+            stream.responseInit("session");
             Assert.assertEquals(0, meter.collect(PARTITIONS));
             Assert.assertEquals(100, meter.collect(CREDIT));
-            stream.responseInit("session");
             stream.responseStartPartition("/topic", 42, 0);
             Assert.assertEquals(1, meter.collect(PARTITIONS));
             Assert.assertEquals(100, meter.collect(CREDIT));

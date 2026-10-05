@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
@@ -58,12 +57,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         this.decoder = new MessageDecoder(config);
         this.bufferManager = new BufferManager(id, config.getMaxMemoryUsageBytes(), new ReadRequest());
         this.eventConsumer = eventConsumer;
-    }
-
-    @Override
-    public CompletableFuture<Status> start(Consumer<FromServer> messageHandler) {
-        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
-        return super.start(messageHandler);
     }
 
     @Override
@@ -131,6 +124,9 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
+        if (!isClosed) {
+            config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
+        }
     }
 
     public StartPartitionSessionEvent onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
