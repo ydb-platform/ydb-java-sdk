@@ -174,7 +174,10 @@ public class ReadPartition implements ReadSession.PartitionControl {
             if (state.compareAndSet(State.INITED, State.STOPPED)) {
                 logger.info("[{}] was auto stopped because the partition start is not confirmed yet", traceID);
                 session.sendStopPartition(partition);
-                session.getHandler().onPartitionClosed(new PartitionSessionClosedEventImpl(partition));
+
+                // partition close event doesn't use partition's executors
+                PartitionSessionClosedEventImpl event = new PartitionSessionClosedEventImpl(partition);
+                session.getConfig().getManagerExecutor().execute(() -> session.getHandler().onPartitionClosed(event));
                 return;
             }
             if (state.compareAndSet(State.STARTED, State.PRE_STOPPED)) {
@@ -205,6 +208,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
                 logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset {} "
                         + "and commitOffset {}", traceID, partition, consumer, readFrom, commitTo);
                 session.sendStartPartition(partition, readFrom, commitTo);
+                sendDataToReaders();
             } else {
                 logger.warn("[{}] Need to send StartPartitionSessionResponse, but the partition session is already {}",
                         traceID, state.get());
@@ -224,7 +228,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
                 session.sendStopPartition(partition);
             } else {
                 logger.warn("[{}] Need to send StopPartitionSessionResponse, but the partition session is already {}",
-                        "but reading session is already closed", traceID, partition);
+                        traceID, partition);
             }
         }
     }
