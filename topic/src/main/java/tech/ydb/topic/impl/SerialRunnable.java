@@ -1,20 +1,26 @@
 package tech.ydb.topic.impl;
 
+import java.util.concurrent.Executor;
+
 /**
  *
  * @author Aleksandr Gorshenin
  */
 public class SerialRunnable implements Runnable {
     private final Runnable task;
-    private final SerialExecutor executor;
+    private final SerialExecutor serial;
 
     public SerialRunnable(Runnable task) {
+        this(Runnable::run, task);
+    }
+
+    public SerialRunnable(Executor executor, Runnable task) {
         this.task = task;
-        this.executor = new SerialExecutor(Runnable::run, true);
+        this.serial = new SerialExecutor(executor, true);
     }
 
     @Override
     public void run() {
-        executor.execute(task);
+        serial.execute(task);
     }
 }

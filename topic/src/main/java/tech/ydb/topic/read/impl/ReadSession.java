@@ -99,6 +99,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         isClosed = true;
         decoder.stop();
         partitions.values().forEach(ReadPartition::close);
+        partitions.clear();
     }
 
     public boolean commitOffsets(PartitionSession session, List<OffsetsRange> rangesToCommit) {

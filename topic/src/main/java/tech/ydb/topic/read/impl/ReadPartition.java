@@ -2,7 +2,6 @@ package tech.ydb.topic.read.impl;
 
 import java.util.EnumSet;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
@@ -10,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.OffsetsRange;
-import tech.ydb.topic.impl.SerialExecutor;
+import tech.ydb.topic.impl.SerialRunnable;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
@@ -47,13 +46,13 @@ public class ReadPartition implements ReadSession.PartitionControl {
     private final ReadSession session;
     private final PartitionSession partition;
 
+    private final ReaderMetrics metrics;
+    private final Runnable sendDataEvent;
+    private final Runnable sendCommitAcks;
+
     private final ReadPartitionCommitter committer;
     private final ReadPartitionDecoder decoder;
     private final ReadPartitionQueue queue;
-
-    private final ReaderMetrics metrics;
-    private final Executor dataExecutor;
-    private final Executor controlExecutor;
 
     private final AtomicReference<State> state = new AtomicReference<>(State.CREATED);
 
@@ -65,13 +64,13 @@ public class ReadPartition implements ReadSession.PartitionControl {
         ReadConfig config = session.getConfig();
         MessageDecoder sessionDecoder = session.getDecoder();
 
-        this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
-        this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, this::sendDataToReaders);
-        this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
-
         this.metrics = config.getMetrics();
-        this.dataExecutor = new SerialExecutor(config.getDataExecutor());
-        this.controlExecutor = new SerialExecutor(config.getDataExecutor());
+        this.sendDataEvent = new SerialRunnable(config.getDataExecutor(), new SendDataEvent());
+        this.sendCommitAcks = new SerialRunnable(config.getDataExecutor(), new SendCommitAck());
+
+        this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
+        this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, sendDataEvent);
+        this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
     }
 
     @Override
@@ -83,7 +82,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
     public void confirmRangeProcessed(OffsetsRange range) {
         session.getBufferManager().releaseRange(partition.getId(), range);
         decoder.releaseRange(range);
-        sendDataToReaders();
+        sendDataEvent.run();
     }
 
     public PartitionSession getPartition() {
@@ -92,10 +91,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     public void confirmCommittedOffset(long committedOffset) {
         committer.updateCommittedOffset(committedOffset);
-        controlExecutor.execute(() -> {
-            long lastAck = committer.completePendingCommits();
-            session.getHandler().onCommitAck(new CommitOffsetAcknowledgementEventImpl(partition, lastAck));
-        });
+        sendCommitAcks.run();
     }
 
     public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
@@ -108,21 +104,8 @@ public class ReadPartition implements ReadSession.PartitionControl {
             messagesCount += batch.getMessageDataCount();
         }
         metrics.reportReceivedMessages(messagesCount, partition.getPath());
-        sendDataToReaders();
+        sendDataEvent.run();
         return isActive();
-    }
-
-    private void sendDataToReaders() {
-        dataExecutor.execute(() -> {
-            while (state.get() == State.STARTED || state.get() == State.PRE_STOPPED) {
-                List<Message> list = queue.getNextBatch();
-                if (list == null) {
-                    return;
-                }
-                DataReceivedEventImpl event = new DataReceivedEventImpl(partition, committer, list);
-                session.getHandler().onData(this, event);
-            }
-        });
     }
 
     public void close() {
@@ -170,7 +153,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         }
 
         committer.updateCommittedOffset(committed);
-        controlExecutor.execute(() -> {
+        session.getConfig().getManagerExecutor().execute(() -> {
             if (state.compareAndSet(State.INITED, State.STOPPED)) {
                 logger.info("[{}] was auto stopped because the partition start is not confirmed yet", traceID);
                 session.sendStopPartition(partition);
@@ -188,6 +171,29 @@ public class ReadPartition implements ReadSession.PartitionControl {
         });
     }
 
+    private class SendDataEvent implements Runnable {
+        @Override
+        public void run() {
+            while (state.get() == State.STARTED || state.get() == State.PRE_STOPPED) {
+                List<Message> list = queue.getNextBatch();
+                if (list == null) {
+                    return;
+                }
+                DataReceivedEventImpl event = new DataReceivedEventImpl(partition, committer, list);
+                session.getHandler().onData(ReadPartition.this, event);
+            }
+        }
+    }
+
+    private class SendCommitAck implements Runnable {
+        @Override
+        public void run() {
+            long lastAck = committer.completePendingCommits();
+            CommitOffsetAcknowledgementEventImpl event = new CommitOffsetAcknowledgementEventImpl(partition, lastAck);
+            session.getHandler().onCommitAck(event);
+        }
+    }
+
     private class StartEvent extends StartPartitionSessionEventImpl {
         StartEvent(long committed, OffsetsRange offsets) {
             super(partition, committed, offsets);
@@ -198,17 +204,17 @@ public class ReadPartition implements ReadSession.PartitionControl {
             Long readFrom = settings != null ? settings.getReadOffset() : null;
             Long commitTo = settings != null ? settings.getCommitOffset() : null;
 
-            if (commitTo != null) {
-                committer.updateCommittedOffset(commitTo);
-                queue.updateLastReadOffset(commitTo); // avoid lags of commits
-            }
-
             String consumer = session.getConfig().getConsumerName();
             if (state.compareAndSet(State.INITED, State.STARTED)) {
+                if (commitTo != null) {
+                    committer.updateCommittedOffset(commitTo);
+                    queue.updateLastReadOffset(commitTo); // avoid lags of commits
+                }
+
                 logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset {} "
                         + "and commitOffset {}", traceID, partition, consumer, readFrom, commitTo);
                 session.sendStartPartition(partition, readFrom, commitTo);
-                sendDataToReaders();
+                sendDataEvent.run();
             } else {
                 logger.warn("[{}] Need to send StartPartitionSessionResponse, but the partition session is already {}",
                         traceID, state.get());

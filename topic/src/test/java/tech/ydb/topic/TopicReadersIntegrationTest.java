@@ -588,12 +588,12 @@ public class TopicReadersIntegrationTest {
             ReadEventHandler handler23 = new ReadEventHandler() {
                 @Override
                 public void onStartPartitionSession(StartPartitionSessionEvent event) {
-                    event.confirm();
                     // reset read counter
                     int pid = (int) event.getPartitionSession().getPartitionId();
                     read[pid] = new CountDownLatch(pid == 0 ? 1000 : (pid == 1 ? 500 : 2100));
                     offsets[pid].set(0);
                     partitions23.countDown();
+                    event.confirm();
                 }
 
                 @Override
