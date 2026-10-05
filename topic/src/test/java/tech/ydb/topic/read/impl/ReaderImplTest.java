@@ -75,6 +75,22 @@ public class ReaderImplTest {
     }
 
     @Test
+    public void messagesAfterCloseAreIgnoredTest() {
+        ReadStreamMock mock = new ReadStreamMock();
+        ReaderImpl.Handler handler = Mockito.mock(ReaderImpl.Handler.class);
+        ReaderImpl reader = startReader(handler, mock);
+        try {
+            reader.close();
+            Mockito.clearInvocations(handler);
+            mock.responseInit("late-session");
+            Mockito.verifyNoInteractions(handler);
+            mock.assertSentMessagesCount(2);
+        } finally {
+            reader.close();
+        }
+    }
+
+    @Test
     @HideLoggers({ ReadSession.class })
     public void duplicateStartPartitionRequestTest() {
         ReadStreamMock mock = new ReadStreamMock();

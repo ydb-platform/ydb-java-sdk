@@ -124,6 +124,9 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
 
     @Override
     protected void onNext(ReadSession stream, FromServer message) {
+        if (isClosed()) {
+            return;
+        }
         logger.trace("[{}] processMessage called", debugId);
 
         if (message.hasInitResponse()) {
