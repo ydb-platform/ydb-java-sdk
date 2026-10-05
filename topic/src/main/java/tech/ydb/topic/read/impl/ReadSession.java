@@ -87,12 +87,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return eventConsumer;
     }
 
-    @Override
-    public void close() {
-        config.getMetrics().unregister();
-        super.close();
-    }
-
     public Set<PartitionSession> closeAll() {
         isClosed = true;
         decoder.stop();
