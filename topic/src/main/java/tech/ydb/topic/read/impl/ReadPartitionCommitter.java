@@ -45,9 +45,11 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     public void updateCommittedOffset(long offset) {
         long old = lastCommittedOffset.get();
-        lastCommittedOffset.accumulateAndGet(offset, Math::max);
-        logger.debug("[{}] received commit response. Committed offset: {}. Previous committed offset: {} "
-                + "(diff is {} message(s)).", traceID, offset, old, offset - old);
+        if (old == lastCommittedOffset.accumulateAndGet(offset, Math::max)) {
+            return;
+        }
+        logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} (diff is {} message(s)).",
+                traceID, offset, old, offset - old);
     }
 
     public long completePendingCommits() {

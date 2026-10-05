@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.EnumSet;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.atomic.AtomicReference;
@@ -26,10 +27,20 @@ public class ReadPartition implements ReadSession.PartitionControl {
     private static final Logger logger = LoggerFactory.getLogger(ReadPartition.class);
 
     private enum State {
-        INIT,
-        ACTIVE,
+        /** Partition is created */
+        CREATED,
+        /** StartEvent is sent to user to confirm */
+        INITED,
+        /** Partition is active */
+        STARTED,
+        /** StopEvent is sent to user to confirm */
+        PRE_STOPPED,
+        /** Partition is confirmed by user to stop */
         STOPPED,
-        CLOSED
+        /** Partition is closed and removed from reader */
+        CLOSED;
+
+        static final EnumSet<State> IS_ACTIVE = EnumSet.of(CREATED, INITED, STARTED, PRE_STOPPED);
     }
 
     private final String traceID;
@@ -44,7 +55,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
     private final Executor dataExecutor;
     private final Executor controlExecutor;
 
-    private final AtomicReference<State> state = new AtomicReference<>(State.INIT);
+    private final AtomicReference<State> state = new AtomicReference<>(State.CREATED);
 
     ReadPartition(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
@@ -65,7 +76,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     @Override
     public boolean isActive() {
-        return state.get() == State.INIT || state.get() == State.ACTIVE;
+        return State.IS_ACTIVE.contains(state.get());
     }
 
     @Override
@@ -103,12 +114,13 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     private void sendDataToReaders() {
         dataExecutor.execute(() -> {
-            while (state.get() == State.ACTIVE) {
+            while (state.get() == State.STARTED || state.get() == State.PRE_STOPPED) {
                 List<Message> list = queue.getNextBatch();
                 if (list == null) {
                     return;
                 }
-                session.getHandler().onData(this, new DataReceivedEventImpl(partition, committer, list));
+                DataReceivedEventImpl event = new DataReceivedEventImpl(partition, committer, list);
+                session.getHandler().onData(this, event);
             }
         });
     }
@@ -122,11 +134,12 @@ public class ReadPartition implements ReadSession.PartitionControl {
         session.getBufferManager().releasePartition(partition.getId());
         decoder.close();
         committer.failPendingCommits();
-        logger.info("[{}] stopped", traceID);
+        logger.info("[{}] stopped with actual status {}", traceID, old);
 
-        if (old != State.STOPPED) { // if partition was already stopped by user, there is no need to send a closed event
+        if (old != State.STOPPED && old != State.CREATED) {
             PartitionSessionClosedEventImpl event = new PartitionSessionClosedEventImpl(partition);
-            controlExecutor.execute(() -> session.getHandler().onPartitionClosed(event));
+            // partition close event doesn't use partition's executors
+            session.getConfig().getManagerExecutor().execute(() -> session.getHandler().onPartitionClosed(event));
         }
     }
 
@@ -136,10 +149,13 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
         committer.updateCommittedOffset(committed);
         queue.updateLastReadOffset(committed);
-        controlExecutor.execute(() -> {
-            if (state.get() == State.INIT) {
+        // partition start event doesn't use partition's executors
+        session.getConfig().getManagerExecutor().execute(() -> {
+            if (state.compareAndSet(State.CREATED, State.INITED)) {
                 session.getHandler().onPartitionStarted(new StartEvent(committed, offsets));
+                return;
             }
+            logger.info("[{}] skipped onStart event because the partition session is already {}", traceID, state.get());
         });
     }
 
@@ -147,11 +163,25 @@ public class ReadPartition implements ReadSession.PartitionControl {
         logger.info("[{}] Received graceful StopPartitionSessionRequest for {} with committedOffset {}",
                 traceID, partition, committed);
 
+        if (state.compareAndSet(State.CREATED, State.STOPPED)) {
+            logger.info("[{}] was auto stopped because the partition is not initialized yet", traceID);
+            session.sendStopPartition(partition);
+            return;
+        }
+
         committer.updateCommittedOffset(committed);
         controlExecutor.execute(() -> {
-            if (state.get() == State.ACTIVE) {
-                session.getHandler().onPartitionStopped(new StopEvent(committed));
+            if (state.compareAndSet(State.INITED, State.STOPPED)) {
+                logger.info("[{}] was auto stopped because the partition start is not confirmed yet", traceID);
+                session.sendStopPartition(partition);
+                session.getHandler().onPartitionClosed(new PartitionSessionClosedEventImpl(partition));
+                return;
             }
+            if (state.compareAndSet(State.STARTED, State.PRE_STOPPED)) {
+                session.getHandler().onPartitionStopped(new StopEvent(committed));
+                return;
+            }
+            logger.warn("[{}] skipped onStop event because the partition session is already {}", traceID, state.get());
         });
     }
 
@@ -171,13 +201,13 @@ public class ReadPartition implements ReadSession.PartitionControl {
             }
 
             String consumer = session.getConfig().getConsumerName();
-            if (state.compareAndSet(State.INIT, State.ACTIVE)) {
+            if (state.compareAndSet(State.INITED, State.STARTED)) {
                 logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset {} "
                         + "and commitOffset {}", traceID, partition, consumer, readFrom, commitTo);
                 session.sendStartPartition(partition, readFrom, commitTo);
             } else {
-                logger.warn("[{}] Need to send StartPartitionSessionResponse, but reading session is already closed",
-                        traceID);
+                logger.warn("[{}] Need to send StartPartitionSessionResponse, but the partition session is already {}",
+                        traceID, state.get());
             }
         }
     }
@@ -189,11 +219,11 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
         @Override
         public void confirm() {
-            if (state.compareAndSet(State.ACTIVE, State.STOPPED)) {
+            if (state.compareAndSet(State.PRE_STOPPED, State.STOPPED)) {
                 logger.info("[{}] Sending StopPartitionSessionResponse for {}", traceID, partition);
                 session.sendStopPartition(partition);
             } else {
-                logger.info("[{}] Need to send StopPartitionSessionResponse for {}, " +
+                logger.warn("[{}] Need to send StopPartitionSessionResponse, but the partition session is already {}",
                         "but reading session is already closed", traceID, partition);
             }
         }

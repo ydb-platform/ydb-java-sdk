@@ -177,10 +177,9 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         String tid = debugId + '/' + psid + "-p" + pid;
         ReadPartition partition = new ReadPartition(tid, this, ps, committed);
         if (partitions.putIfAbsent(psid, partition) != null) {
-            logger.error("[{}] Received second StartPartitionSessionRequest for the already active {}", debugId,
-                    partition);
+            logger.error("[{}] Received second StartPartitionSessionRequest for the already active {}", debugId, ps);
             Issue issue = Issue.of("Restarting read session due to receiving second StartPartitionSessionRequest with "
-                    + partition, Issue.Severity.FATAL);
+                    + ps, Issue.Severity.FATAL);
             fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
             return;
         }
