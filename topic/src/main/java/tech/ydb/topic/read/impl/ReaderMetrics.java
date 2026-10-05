@@ -37,6 +37,15 @@ final class ReaderMetrics {
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
+    ReaderMetrics(ReaderMetrics reader) {
+        this.meter = reader.meter;
+        this.enabled = reader.enabled;
+        this.deliveredMessages = reader.deliveredMessages;
+        this.receivedMessages = reader.receivedMessages;
+        this.receivedBytes = reader.receivedBytes;
+        this.commonAttributes = reader.commonAttributes;
+    }
+
     void register(LongSupplier partitionCount, LongSupplier bufferBudget) {
         unregister();
         partitionsGauge = meter.registerLongGauge(

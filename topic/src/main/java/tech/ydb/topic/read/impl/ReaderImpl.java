@@ -129,7 +129,6 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         if (message.hasInitResponse()) {
             resetRetries();
             currentSessionId = message.getInitResponse().getSessionId();
-            stream.registerMetrics();
             handler.handleSessionStarted(message.getInitResponse().getSessionId());
             stream.onInit(message.getInitResponse());
         } else if (message.hasStartPartitionSessionRequest()) {
