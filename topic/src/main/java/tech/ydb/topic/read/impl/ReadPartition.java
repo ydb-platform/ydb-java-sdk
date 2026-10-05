@@ -130,7 +130,16 @@ public class ReadPartition implements ReadSession.PartitionControl {
                 }
 
                 DataReceivedEventImpl event = new DataReceivedEventImpl(partition, committer, list);
+
+                int messagesCount = event.getMessages().size();
+                long offsetStart = event.getMessages().get(0).getOffset();
+                long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
+                logger.debug("[{}] onData with {} message(s) (offsets {}-{}) is about to be called...",
+                        traceID, messagesCount, offsetStart, offsetEnd);
                 session.getHandler().onData(this, event);
+                logger.debug("[{}] onData with {} message(s) (offsets {}-{}) successfully finished",
+                        traceID, messagesCount, offsetStart, offsetEnd);
+
                 sendCommitOffsetAck();
             }
         });

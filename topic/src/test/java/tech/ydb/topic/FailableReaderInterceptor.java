@@ -18,6 +18,7 @@ import io.grpc.MethodDescriptor;
 import io.grpc.Status;
 
 import tech.ydb.proto.StatusCodesProtos;
+import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.CommitOffsetRequest.PartitionCommitOffset;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.CommitOffsetResponse.PartitionCommittedOffset;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromClient;
@@ -36,6 +37,7 @@ public class FailableReaderInterceptor implements Consumer<ManagedChannelBuilder
     private final Map<Integer, Error> readErrors = new HashMap<>();
     private final Map<Long, NavigableMap<Long, Error>> ackErrors = new ConcurrentHashMap<>();
     private final Map<Long, NavigableMap<Long, Error>> sendErrors = new ConcurrentHashMap<>();
+    private volatile Consumer<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataConsumer = null;
 
     public void reset() {
         initErrors.clear();
@@ -44,6 +46,7 @@ public class FailableReaderInterceptor implements Consumer<ManagedChannelBuilder
         sendErrors.clear();
         initCounter.set(0);
         readCounter.set(0);
+        dataConsumer = null;
     }
 
     @Override
@@ -85,6 +88,10 @@ public class FailableReaderInterceptor implements Consumer<ManagedChannelBuilder
     public void badSessionOnCommitWithOffset(long partitionID, long offset) {
         sendErrors.computeIfAbsent(partitionID, id -> new ConcurrentSkipListMap<>())
                 .put(offset, sendError(StatusCodesProtos.StatusIds.StatusCode.BAD_SESSION));
+    }
+
+    public void listenPartitionData(Consumer<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> listener) {
+        this.dataConsumer = listener;
     }
 
 
@@ -207,6 +214,10 @@ public class FailableReaderInterceptor implements Consumer<ManagedChannelBuilder
                         error = initErrors.get(initCounter.incrementAndGet());
                     }
                     if (msg.hasReadResponse()) {
+                        Consumer<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> local = dataConsumer;
+                        if (local != null) {
+                            msg.getReadResponse().getPartitionDataList().forEach(local::accept);
+                        }
                         error = readErrors.get(readCounter.incrementAndGet());
                     }
                     if (msg.hasCommitOffsetResponse()) {
