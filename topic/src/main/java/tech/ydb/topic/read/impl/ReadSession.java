@@ -124,9 +124,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
-        if (!isClosed) {
-            config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
-        }
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
     }
 
     public StartPartitionSessionEvent onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
