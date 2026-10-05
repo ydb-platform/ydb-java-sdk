@@ -57,6 +57,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         this.decoder = new MessageDecoder(config);
         this.bufferManager = new BufferManager(id, config.getMaxMemoryUsageBytes(), new ReadRequest());
         this.eventConsumer = eventConsumer;
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
     }
 
     @Override
@@ -96,6 +97,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         readQueues.values().forEach(ReadPartition::stop);
         readQueues.clear();
 
+        config.getMetrics().unregister();
         return closed;
     }
 
