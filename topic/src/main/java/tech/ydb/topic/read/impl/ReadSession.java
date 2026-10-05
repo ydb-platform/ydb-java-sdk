@@ -43,7 +43,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final ReadConfig config;
     private final MessageDecoder decoder;
     private final BufferManager bufferManager;
-    private final ReaderMetrics metrics;
     private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
 
     private final Map<Long, PartitionSession> partitions = new ConcurrentHashMap<>();
@@ -58,8 +57,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         this.decoder = new MessageDecoder(config);
         this.bufferManager = new BufferManager(id, config.getMaxMemoryUsageBytes(), new ReadRequest());
         this.eventConsumer = eventConsumer;
-        this.metrics = new ReaderMetrics(config.getMetrics());
-        metrics.register(partitions::size, bufferManager::getCreditBalanceBytes);
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
     }
 
     @Override
@@ -91,7 +89,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     @Override
     public void close() {
-        metrics.unregister();
+        config.getMetrics().unregister();
         super.close();
     }
 
@@ -105,7 +103,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         readQueues.values().forEach(ReadPartition::stop);
         readQueues.clear();
 
-        metrics.unregister();
+        config.getMetrics().unregister();
         return closed;
     }
 

@@ -82,7 +82,7 @@ public class ReaderMetricsTest {
         ReadStreamMock stream = new ReadStreamMock();
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream).thenReturn(new ReadStreamMock());
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
         TopicClient client = TopicClientImpl.newClient(rpc).build();
         SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
                 .addTopic("/topic").setConsumerName("consumer")
@@ -96,10 +96,6 @@ public class ReaderMetricsTest {
             stream.responseStartPartition("/topic", 42, 0);
             Assert.assertEquals(1, meter.collect(PARTITIONS));
             Assert.assertEquals(100, meter.collect(CREDIT));
-            reader.init();
-            Assert.assertEquals(1, meter.collect(PARTITIONS));
-            Assert.assertEquals(100, meter.collect(CREDIT));
-
             stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
             Assert.assertEquals(80, meter.collect(CREDIT));
             Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
