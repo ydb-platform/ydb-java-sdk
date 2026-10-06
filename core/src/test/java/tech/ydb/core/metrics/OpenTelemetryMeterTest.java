@@ -10,6 +10,7 @@ import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
+import io.opentelemetry.sdk.metrics.data.DoublePointData;
 import io.opentelemetry.sdk.metrics.data.HistogramPointData;
 import io.opentelemetry.sdk.metrics.data.LongPointData;
 import io.opentelemetry.sdk.metrics.data.MetricData;
@@ -94,6 +95,26 @@ public class OpenTelemetryMeterTest {
         registration.close();
         registration.close();
         Assert.assertTrue(reader.collectAllMetrics().isEmpty());
+    }
+
+    @Test
+    public void doubleGaugeReportsFractionalValuesAndCloses() {
+        double[] value = {0.125};
+        MetricRegistration registration = meter.registerDoubleGauge("ydb.test.age", "s", null,
+                m -> m.record(value[0], Attr.of("pool.name", "my-pool")));
+        MetricData metric = single("ydb.test.age");
+        Assert.assertEquals("s", metric.getUnit());
+        Assert.assertEquals(1, metric.getDoubleGaugeData().getPoints().size());
+        DoublePointData point = metric.getDoubleGaugeData().getPoints().iterator().next();
+        Assert.assertEquals(0.125, point.getValue(), 0);
+        Assert.assertEquals("my-pool", point.getAttributes().get(POOL));
+        value[0] = 1.5;
+        Assert.assertEquals(1.5, single("ydb.test.age").getDoubleGaugeData().getPoints()
+                .iterator().next().getValue(), 0);
+        registration.close();
+        registration.close();
+        Assert.assertTrue(reader.collectAllMetrics().isEmpty());
+        Meter.NOOP.registerDoubleGauge("noop", "s", null, m -> Assert.fail("NOOP collected")).close();
     }
 
     @Test
