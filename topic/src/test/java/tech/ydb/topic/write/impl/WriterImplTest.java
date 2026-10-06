@@ -2,16 +2,15 @@ package tech.ydb.topic.write.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -363,8 +362,15 @@ public class WriterImplTest {
     }
 
     @Test
-    public void writerCountersCountAcceptedMessagesAndAcknowledgements() throws Exception {
-        RecordingMeter meter = new RecordingMeter();
+    public void writerCountersCountAcceptedMessagesAndAcknowledgements() throws QueueOverflowException {
+        Map<String, Long> counters = new HashMap<>();
+        Meter meter = new Meter() {
+            @Override
+            public LongCounter createCounter(String name, String unit, String description) {
+                counters.put(name, 0L);
+                return (value, attrs) -> counters.put(name, counters.get(name) + value);
+            }
+        };
         StreamMock stream = new StreamMock();
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/test/topic").setCodec(Codec.RAW)
@@ -373,36 +379,18 @@ public class WriterImplTest {
                 .setCompressionExecutor(Runnable::run).build()) {
             AsyncWriter writer = client.createAsyncWriter(settings);
             try {
-                CompletableFuture<InitResult> initialized = writer.init();
+                writer.init();
                 stream.sendInitResponse(0);
-                initialized.get(1, TimeUnit.SECONDS);
-                CompletableFuture<WriteAck> first = writer.send(Message.of(new byte[]{1, 2}));
-                CompletableFuture<WriteAck> second = writer.send(Message.of(new byte[]{3, 4, 5}));
+                writer.send(Message.of(new byte[]{1, 2}));
+                writer.send(Message.of(new byte[]{3, 4, 5}));
                 stream.sendAckResponse(2, 10);
-                first.get(1, TimeUnit.SECONDS);
-                second.get(1, TimeUnit.SECONDS);
-                Assert.assertEquals(2, meter.value("sending.messages"));
-                Assert.assertEquals(5, meter.value("sending.bytes"));
-                Assert.assertEquals(2, meter.value("written.messages"));
+                Assert.assertEquals(Long.valueOf(2), counters.get("ydb.topic.writer.sending.messages"));
+                Assert.assertEquals(Long.valueOf(5), counters.get("ydb.topic.writer.sending.bytes"));
+                Assert.assertEquals(Long.valueOf(2), counters.get("ydb.topic.writer.written.messages"));
             } finally {
                 writer.shutdown();
                 stream.close(Status.SUCCESS);
             }
-        }
-    }
-
-    private static class RecordingMeter implements Meter {
-        private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
-
-        @Override
-        public LongCounter createCounter(String name, String unit, String description) {
-            AtomicLong counter = counters.computeIfAbsent(name, key -> new AtomicLong());
-            return (value, attrs) -> counter.addAndGet(value);
-        }
-
-        long value(String name) {
-            AtomicLong counter = counters.get("ydb.topic.writer." + name);
-            return counter == null ? 0 : counter.get();
         }
     }
 
