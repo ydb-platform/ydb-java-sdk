@@ -47,6 +47,7 @@ public class WriterQueue {
     private final Codec codec;
     private final Executor compressionExecutor;
     private final Runnable readyNotify;
+    private final WriterMetrics metrics;
 
     // Messages that are taken into send buffer, are already compressed and are waiting for being sent
     private final Queue<EnqueuedMessage> queue = new ConcurrentLinkedQueue<>();
@@ -69,6 +70,7 @@ public class WriterQueue {
         }
         this.compressionExecutor = compressionExecutor;
         this.readyNotify = readyNotify;
+        this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
     }
 
     CompletableFuture<Void> flush() {
@@ -146,6 +148,7 @@ public class WriterQueue {
 
             sentIt.remove();
             buffer.releaseMessage(sentMsg.getBufferSize());
+            metrics.reportWritten();
             msg.confirm(ack);
         }
     }
@@ -221,6 +224,7 @@ public class WriterQueue {
         EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes);
         lastAcceptedAckFuture = msg.getAckFuture();
         queue.add(msg);
+        metrics.reportSending(message.getData().length);
 
         if (codec.getId() == Codec.RAW) {
             // fast track without compression
