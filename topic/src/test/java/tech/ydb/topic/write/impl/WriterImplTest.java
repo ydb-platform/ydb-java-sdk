@@ -390,6 +390,7 @@ public class WriterImplTest {
                 Assert.assertEquals(3, meter.value("sending.messages"));
                 Assert.assertEquals(5, meter.value("sending.bytes"));
                 Assert.assertEquals(0, meter.value("written.messages"));
+                Assert.assertEquals(3, meter.count("sending.bytes"));
 
                 firstStream.close(Status.of(StatusCode.UNAVAILABLE));
                 replacementStream.sendInitResponse(0);
@@ -495,15 +496,22 @@ public class WriterImplTest {
 
     private static class RecordingMeter implements Meter {
         private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
+        private final Map<String, AtomicLong> measurements = new ConcurrentHashMap<>();
         private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();
 
         @Override
         public LongCounter createCounter(String name, String unit, String description) {
             AtomicLong counter = counters.computeIfAbsent(name, key -> new AtomicLong());
+            AtomicLong count = measurements.computeIfAbsent(name, key -> new AtomicLong());
             return (value, attrs) -> {
                 counter.addAndGet(value);
+                count.incrementAndGet();
                 attributes.put(name, attrs);
             };
+        }
+
+        long count(String name) {
+            return measurements.get("ydb.topic.writer." + name).get();
         }
 
         long value(String name) {
