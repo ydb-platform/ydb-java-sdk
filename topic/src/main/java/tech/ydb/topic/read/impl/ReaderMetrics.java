@@ -25,9 +25,9 @@ final class ReaderMetrics {
                 MESSAGE_UNIT,
                 "The number of messages delivered by the SDK to application code.");
         this.receivedMessages = meter.createCounter("ydb.topic.reader.received.messages", MESSAGE_UNIT,
-                "The number of messages accepted by the SDK for an active partition session.");
+                "Messages accepted by the SDK for active partition sessions.");
         this.receivedBytes = meter.createCounter("ydb.topic.reader.received.bytes", "By",
-                "The protocol bytes_size received in read responses.");
+                "Bytes in received ReadResponse messages.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
