@@ -57,7 +57,8 @@ public class AsyncReaderImpl implements AsyncReader {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
         this.eventHandler = handlersSettings.getEventHandler();
         this.processor = new LazyExecutor("reader[" + debugId + "]-handler", handlersSettings.getExecutor());
-        this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
+        this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor(),
+                LazyExecutor.DECOMPRESSION_THREAD_COUNT);
         this.controlEventsExecutor = new SerialExecutor(processor);
 
         this.config = new ReadConfig(codecRegistry, processor, decompressor, settings);

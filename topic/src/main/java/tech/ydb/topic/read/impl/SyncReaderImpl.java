@@ -60,7 +60,8 @@ public class SyncReaderImpl implements SyncReader {
 
     public SyncReaderImpl(TopicRpc topicRpc, ReaderSettings settings, @Nonnull CodecRegistry codecRegistry) {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
-        this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
+        this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor(),
+                LazyExecutor.DECOMPRESSION_THREAD_COUNT);
 
         this.config = new ReadConfig(codecRegistry, Runnable::run, decompressor, settings);
         this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new SyncHandler());

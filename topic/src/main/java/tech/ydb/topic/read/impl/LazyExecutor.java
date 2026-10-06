@@ -18,16 +18,26 @@ import org.slf4j.LoggerFactory;
 public class LazyExecutor implements Executor, AutoCloseable {
     private static final Logger logger = LoggerFactory.getLogger(LazyExecutor.class);
     private static final int MAX_EXECUTOR_THREADS_COUNT = 4;
+    static final int DECOMPRESSION_THREAD_COUNT = 10;
 
     private final String name;
     private final Executor custom;
+    private final int poolSize;
     private final AtomicInteger threadsCount = new AtomicInteger();
     private final AtomicReference<ExecutorService> service = new AtomicReference<>();
     private volatile boolean isStopped = false;
 
     public LazyExecutor(String name, Executor custom) {
+        this(name, custom, MAX_EXECUTOR_THREADS_COUNT);
+    }
+
+    public LazyExecutor(String name, Executor custom, int threadCount) {
+        if (threadCount <= 0) {
+            throw new IllegalArgumentException("threadCount must be positive, but got " + threadCount);
+        }
         this.name = name;
         this.custom = custom;
+        this.poolSize = threadCount;
     }
 
     @Override
@@ -44,7 +54,7 @@ public class LazyExecutor implements Executor, AutoCloseable {
         ExecutorService local = service.get();
         while (!isStopped && local == null) {
             ThreadFactory factory = r -> new Thread(r, name + "-" + threadsCount.incrementAndGet());
-            ExecutorService pool = Executors.newFixedThreadPool(MAX_EXECUTOR_THREADS_COUNT, factory);
+            ExecutorService pool = Executors.newFixedThreadPool(poolSize, factory);
             if (!service.compareAndSet(local, pool)) {
                 pool.shutdown();
             }

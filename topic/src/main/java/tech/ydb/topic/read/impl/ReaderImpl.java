@@ -157,6 +157,11 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             stream.onPartitionSessionStatus(message.getPartitionSessionStatusResponse());
         } else if (message.hasUpdateTokenResponse()) {
             logger.debug("[{}] Received UpdateTokenResponse", debugId);
+        } else if (message.hasEndPartitionSession()) {
+            YdbTopic.StreamReadMessage.EndPartitionSession end = message.getEndPartitionSession();
+            logger.info("[{}] Received EndPartitionSession partitionSessionId {} childPartitionIds {}"
+                    + " adjacentPartitionIds {}", debugId, end.getPartitionSessionId(),
+                    end.getChildPartitionIdsList(), end.getAdjacentPartitionIdsList());
         } else {
             logger.error("[{}] Unhandled message from server: {}", debugId, message);
         }
@@ -296,6 +301,8 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
 
         YdbTopic.StreamReadMessage.InitRequest.Builder builder = YdbTopic.StreamReadMessage.InitRequest.newBuilder();
 
+        // Child partitions are assigned only after the parent is read when the reader advertises support.
+        builder.setAutoPartitioningSupport(true);
         builder.setPartitionMaxInFlightBytes(settings.getPartitionMaxInFlightBytes());
         if (consumerName != null && !consumerName.isEmpty()) {
             builder.setConsumer(consumerName);

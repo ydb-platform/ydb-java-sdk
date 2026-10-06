@@ -69,4 +69,37 @@ public class LazyExecutorTest {
         lazy.close();
         Assert.assertEquals(600, counter.get());
     }
+
+    @Test
+    public void decompressionPoolRunsTenThreads() throws InterruptedException {
+        int poolSize = LazyExecutor.DECOMPRESSION_THREAD_COUNT;
+        LazyExecutor decoder = new LazyExecutor("decoder", null, poolSize);
+        CountDownLatch started = new CountDownLatch(poolSize);
+        CountDownLatch release = new CountDownLatch(1);
+        CountDownLatch extraStarted = new CountDownLatch(1);
+
+        try {
+            for (int idx = 0; idx < poolSize; idx++) {
+                decoder.execute(() -> {
+                    started.countDown();
+                    await(release);
+                });
+            }
+            Assert.assertTrue(started.await(5, TimeUnit.SECONDS));
+
+            decoder.execute(extraStarted::countDown);
+            Assert.assertFalse(extraStarted.await(200, TimeUnit.MILLISECONDS));
+        } finally {
+            release.countDown();
+            decoder.close();
+        }
+    }
+
+    private static void await(CountDownLatch latch) {
+        try {
+            latch.await();
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+        }
+    }
 }
