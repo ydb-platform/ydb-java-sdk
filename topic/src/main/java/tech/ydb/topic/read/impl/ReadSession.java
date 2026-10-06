@@ -57,7 +57,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         this.decoder = new MessageDecoder(config);
         this.bufferManager = new BufferManager(id, config.getMaxMemoryUsageBytes(), new ReadRequest());
         this.eventConsumer = eventConsumer;
-        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
     }
 
     @Override
@@ -125,6 +124,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
     }
 
     public StartPartitionSessionEvent onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {

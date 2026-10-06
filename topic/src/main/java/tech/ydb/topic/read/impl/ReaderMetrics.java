@@ -38,7 +38,6 @@ final class ReaderMetrics {
     }
 
     void register(LongSupplier partitionCount, LongSupplier bufferBudget) {
-        unregister();
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
