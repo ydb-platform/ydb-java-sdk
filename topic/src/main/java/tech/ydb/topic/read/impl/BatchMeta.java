@@ -14,12 +14,22 @@ public class BatchMeta {
     private final Map<String, String> writeSessionMeta;
     private final int codec;
     private final Instant writtenAt;
+    private final long receivedAt;
 
     public BatchMeta(YdbTopic.StreamReadMessage.ReadResponse.Batch batch) {
+        this(batch, System.nanoTime());
+    }
+
+    BatchMeta(YdbTopic.StreamReadMessage.ReadResponse.Batch batch, long receivedAt) {
         this.producerId = batch.getProducerId();
         this.writeSessionMeta = batch.getWriteSessionMetaMap();
         this.codec = batch.getCodec();
         this.writtenAt = ProtobufUtils.protoToInstant(batch.getWrittenAt());
+        this.receivedAt = receivedAt;
+    }
+
+    long getReceivedAt() {
+        return receivedAt;
     }
 
     public String getProducerId() {

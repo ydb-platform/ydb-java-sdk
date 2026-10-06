@@ -42,6 +42,10 @@ class ReadPartitionCommitter implements MessageCommitter {
         return new RuntimeException("" + partition + " is already stopped");
     }
 
+    long getLastCommittedOffset() {
+        return lastCommittedOffset;
+    }
+
     public void confirmCommit(long committedOffset) {
         if (committedOffset <= lastCommittedOffset) { // never happens
             logger.error("[{}] received commit response. Committed offset: {} which is less than previous " +

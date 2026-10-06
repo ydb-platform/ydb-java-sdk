@@ -81,6 +81,20 @@ public class MessageDecoderTest {
     public final HideLoggersRule hideLogger = new HideLoggersRule();
 
     @Test
+    public void messageAgeStartsAtResponseReceiptBeforeDecoding() {
+        MessageDecoder decoder = new MessageDecoder(1000, Runnable::run, REGISTRY);
+        ReadPartitionDecoder partition = new ReadPartitionDecoder("age", decoder, PS1, null, () -> { });
+        BatchMeta batch = new BatchMeta(ReadResponse.Batch.newBuilder().setCodec(Codec.GZIP).build(), 100);
+        MessageImpl message = partition.decode(batch, OffsetsRange.of(1), gzipMsg(1, 40));
+        Assert.assertFalse(message.isReady());
+        Assert.assertEquals(0.125, message.getLocalBufferMessageAge(125_000_100), 0);
+        decoder.decodeNext();
+        Assert.assertTrue(message.isReady());
+        Assert.assertEquals(0.5, message.getLocalBufferMessageAge(500_000_100), 0);
+        Assert.assertEquals(0, message.getLocalBufferMessageAge(99), 0);
+    }
+
+    @Test
     public void nonPositiveBufferSizeTest() {
         // A decoder with a non-positive budget can never admit a message and silently stalls the reader
         Exception ex1 = Assert.assertThrows(IllegalArgumentException.class,

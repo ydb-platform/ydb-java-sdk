@@ -7,6 +7,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.DoubleSupplier;
+import java.util.function.LongSupplier;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -118,13 +120,20 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                         .build())
                 .build();
 
+        partition.recordCommitRequest(rangesToCommit);
         send(FromClient.newBuilder().setCommitOffsetRequest(req).build());
         return true;
     }
 
-    public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
+    public void onInit(YdbTopic.StreamReadMessage.InitResponse response, LongSupplier readyMessages,
+            DoubleSupplier readyMessageAgeMax) {
         bufferManager.init(response.getSessionId());
-        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes,
+                () -> readyMessages.getAsLong()
+                        + readQueues.values().stream().mapToLong(ReadPartition::getLocalBufferMessages).sum(),
+                () -> Math.max(readyMessageAgeMax.getAsDouble(), readQueues.values().stream()
+                        .mapToDouble(ReadPartition::getLocalBufferMessageAgeMax).max().orElse(0)),
+                () -> readQueues.values().stream().mapToLong(ReadPartition::getCommitOffsetLag).max().orElse(0));
     }
 
     public StartPartitionSessionEvent onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
@@ -188,6 +197,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     }
 
     public void onRead(YdbTopic.StreamReadMessage.ReadResponse response) {
+        long receivedAt = System.nanoTime();
         logger.debug("[{}] Received ReadResponse of {} bytes", debugId, response.getBytesSize());
         config.getMetrics().reportReceivedBytes(response.getBytesSize());
         bufferManager.allocate(response.getBytesSize(), response.getPartitionDataList());
@@ -195,7 +205,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
             long psid = data.getPartitionSessionId();
             ReadPartition queue = readQueues.get(psid);
-            if (queue == null || !queue.addBatches(data.getBatchesList())) {
+            if (queue == null || !queue.addBatches(data.getBatchesList(), receivedAt)) {
                 logger.warn("[{}] Received PartitionData for unknown(most likely already closed) PartitionSessionId={}",
                         debugId, psid);
                 bufferManager.releasePartition(psid);

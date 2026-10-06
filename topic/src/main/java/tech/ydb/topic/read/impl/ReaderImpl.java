@@ -55,6 +55,14 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
         void handleCommitResponse(long committedOffset, PartitionSession partition);
 
         void handleReaderClosed(Status status);
+
+        default long getLocalBufferMessages() {
+            return 0;
+        }
+
+        default double getLocalBufferMessageAgeMax() {
+            return 0;
+        }
     }
 
     private static final Logger logger = LoggerFactory.getLogger(ReaderImpl.class);
@@ -130,7 +138,8 @@ public class ReaderImpl extends TopicRetryableStream<FromServer, FromClient, Rea
             resetRetries();
             currentSessionId = message.getInitResponse().getSessionId();
             handler.handleSessionStarted(message.getInitResponse().getSessionId());
-            stream.onInit(message.getInitResponse());
+            stream.onInit(message.getInitResponse(), handler::getLocalBufferMessages,
+                    handler::getLocalBufferMessageAgeMax);
         } else if (message.hasStartPartitionSessionRequest()) {
             StartPartitionSessionEvent event = stream.onStartPartition(message.getStartPartitionSessionRequest());
             if (event != null) {
