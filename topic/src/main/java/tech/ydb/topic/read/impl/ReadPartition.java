@@ -66,6 +66,10 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         return partition;
     }
 
+    double getLocalBufferMessageAgeMax() {
+        return queue.getLocalBufferMessageAgeMax();
+    }
+
     public void confirmCommittedOffset(long committedOffset) {
         committer.confirmCommit(committedOffset);
     }
@@ -77,11 +81,11 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         logger.info("[{}] stopped", traceID);
     }
 
-    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
+    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList, long receivedAt) {
         if (isStopped) {
             return false;
         }
-        queue.addBatches(batchList);
+        queue.addBatches(batchList, receivedAt);
         long messagesCount = 0;
         for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch : batchList) {
             messagesCount += batch.getMessageDataCount();
