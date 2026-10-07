@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-import java.util.function.LongSupplier;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -123,10 +122,10 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return true;
     }
 
-    public void onInit(YdbTopic.StreamReadMessage.InitResponse response, LongSupplier readyMessages) {
+    public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
         config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes,
-                () -> readyMessages.getAsLong()
+                () -> config.readyMessages.getAsLong()
                         + readQueues.values().stream().mapToLong(ReadPartition::getLocalBufferMessages).sum());
     }
 
