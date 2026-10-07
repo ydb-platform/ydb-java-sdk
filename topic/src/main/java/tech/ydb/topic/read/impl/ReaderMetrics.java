@@ -1,6 +1,7 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
+import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.metrics.Attr;
@@ -22,6 +23,7 @@ final class ReaderMetrics {
     private final Meter meter;
     private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
     private MetricRegistration creditGauge = MetricRegistration.NOOP;
+    private MetricRegistration ageGauge = MetricRegistration.NOOP;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -37,7 +39,7 @@ final class ReaderMetrics {
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    void register(LongSupplier partitionCount, LongSupplier bufferBudget) {
+    void register(LongSupplier partitionCount, LongSupplier bufferBudget, DoubleSupplier messageAgeMax) {
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
@@ -45,13 +47,22 @@ final class ReaderMetrics {
         creditGauge = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.",
                 m -> m.record(bufferBudget.getAsLong(), commonAttributes));
+        ageGauge = meter.registerDoubleGauge("ydb.topic.reader.local_buffer.message_age.max", "s",
+                "The age of the oldest batch retained in the reader's local buffer.",
+                m -> m.record(messageAgeMax.getAsDouble(), commonAttributes));
     }
 
     void unregister() {
         partitionsGauge.close();
         creditGauge.close();
+        ageGauge.close();
         partitionsGauge = MetricRegistration.NOOP;
         creditGauge = MetricRegistration.NOOP;
+        ageGauge = MetricRegistration.NOOP;
+    }
+
+    long reportReadResponseStart() {
+        return enabled ? System.nanoTime() : 0;
     }
 
     void reportDelivered(long messages, String topic) {
