@@ -2,7 +2,7 @@
 
 The CodeQL workflow runs the `security-extended` query suite for the SDK language and GitHub Actions on pull requests, pushes, merge queues and a weekly schedule. It can also be started manually.
 
-The SDK scan traces clean Maven builds of the reactor and the separate auth-api project, with test compilation disabled.
+The SDK scan traces a clean Maven reactor build with the `with-auth-api` profile, which includes the authentication API, and test compilation disabled.
 
 Results are published to **Security and quality → Code scanning**, with a separate category for each language. Review initial findings and record a reason for every dismissed alert.
 

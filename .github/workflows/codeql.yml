@@ -57,8 +57,7 @@ jobs:
       - name: Build Java SDK and authentication API
         if: matrix.language == 'java-kotlin'
         run: |
-          mvn --batch-mode --no-transfer-progress -Dmaven.test.skip=true clean package
-          mvn --batch-mode --no-transfer-progress -Dmaven.test.skip=true -f auth-api/pom.xml clean package
+          mvn --batch-mode --no-transfer-progress -Pwith-auth-api -Dmaven.test.skip=true clean package
 
       - name: Analyze and upload results
         uses: github/codeql-action/analyze@v4
