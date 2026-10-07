@@ -32,12 +32,26 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private final AtomicLong lastCommittedOffset;
+    private final AtomicLong lastRequestedCommitOffset;
 
     ReadPartitionCommitter(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
         this.lastCommittedOffset = new AtomicLong(lastCommittedOffset);
+        this.lastRequestedCommitOffset = new AtomicLong(lastCommittedOffset);
+    }
+
+    void recordCommitRequest(List<OffsetsRange> ranges) {
+        for (OffsetsRange range : ranges) {
+            if (range.getEnd() >= lastCommittedOffset.get()) {
+                lastRequestedCommitOffset.set(range.getEnd());
+            }
+        }
+    }
+
+    long getCommitOffsetLag() {
+        return Math.max(0, lastRequestedCommitOffset.get() - lastCommittedOffset.get());
     }
 
     private RuntimeException partitionIsClosedException() {

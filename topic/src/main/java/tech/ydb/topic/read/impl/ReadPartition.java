@@ -106,6 +106,14 @@ public class ReadPartition implements ReadSession.PartitionControl {
         }
     }
 
+    void recordCommitRequest(List<OffsetsRange> ranges) {
+        committer.recordCommitRequest(ranges);
+    }
+
+    long getCommitOffsetLag() {
+        return committer.getCommitOffsetLag();
+    }
+
     public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
         if (!isActive()) {
             return false;
