@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
-import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.metrics.Attr;
@@ -24,8 +23,6 @@ final class ReaderMetrics {
     private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
     private MetricRegistration creditGauge = MetricRegistration.NOOP;
     private MetricRegistration bufferGauge = MetricRegistration.NOOP;
-    private MetricRegistration ageGauge = MetricRegistration.NOOP;
-    private MetricRegistration commitLagGauge = MetricRegistration.NOOP;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -41,8 +38,7 @@ final class ReaderMetrics {
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    void register(LongSupplier partitionCount, LongSupplier bufferBudget, LongSupplier bufferedMessages,
-            DoubleSupplier messageAgeMax, LongSupplier commitOffsetLagMax) {
+    void register(LongSupplier partitionCount, LongSupplier bufferBudget, LongSupplier bufferedMessages) {
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
@@ -53,25 +49,15 @@ final class ReaderMetrics {
         bufferGauge = meter.registerLongGauge("ydb.topic.reader.local_buffer.messages", MESSAGE_UNIT,
                 "The number of messages currently buffered by the reader.",
                 m -> m.record(bufferedMessages.getAsLong(), commonAttributes));
-        ageGauge = meter.registerDoubleGauge("ydb.topic.reader.local_buffer.message_age.max", "s",
-                "The age of the oldest batch retained in the reader's local buffer.",
-                m -> m.record(messageAgeMax.getAsDouble(), commonAttributes));
-        commitLagGauge = meter.registerLongGauge("ydb.topic.reader.commit_offset.lag.max", MESSAGE_UNIT,
-                "The maximum gap between requested and acknowledged commit offsets.",
-                m -> m.record(commitOffsetLagMax.getAsLong(), commonAttributes));
     }
 
     void unregister() {
         partitionsGauge.close();
         creditGauge.close();
         bufferGauge.close();
-        ageGauge.close();
-        commitLagGauge.close();
         partitionsGauge = MetricRegistration.NOOP;
         creditGauge = MetricRegistration.NOOP;
         bufferGauge = MetricRegistration.NOOP;
-        ageGauge = MetricRegistration.NOOP;
-        commitLagGauge = MetricRegistration.NOOP;
     }
 
     void reportDelivered(long messages, String topic) {

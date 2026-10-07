@@ -219,14 +219,6 @@ public class SyncReaderImpl implements SyncReader {
         }
 
         @Override
-        public double getLocalBufferMessageAgeMax() {
-            long now = System.nanoTime();
-            return queue.stream().filter(MessageWrapper::isActive)
-                    .mapToDouble(message -> ((MessageImpl) message.msg).getLocalBufferMessageAge(now))
-                    .max().orElse(0);
-        }
-
-        @Override
         public void handleSessionStarted(String sessionId) {
             SyncReaderImpl.this.sessionId = sessionId;
             initFuture.complete(null);

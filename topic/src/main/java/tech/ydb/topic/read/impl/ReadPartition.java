@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.BiConsumer;
 
 import org.slf4j.Logger;
@@ -29,7 +28,6 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
     private final BufferManager bufferManager;
     private final BiConsumer<ReaderImpl.PartitionControl, DataReceivedEvent> eventConsumer;
     private final ReaderMetrics metrics;
-    private final AtomicLong lastRequestedCommitOffset;
 
     private final SerialExecutor dataProcessor;
 
@@ -43,7 +41,6 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         MessageDecoder sessionDecoder = session.getDecoder();
 
         this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
-        this.lastRequestedCommitOffset = new AtomicLong(lastCommittedOffset);
         this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, this::sendDataToReaders);
         this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
 
@@ -69,26 +66,12 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         return queue.getLocalBufferMessages();
     }
 
-    double getLocalBufferMessageAgeMax() {
-        return queue.getLocalBufferMessageAgeMax();
-    }
-
     public PartitionSession getPartition() {
         return partition;
     }
 
     public void confirmCommittedOffset(long committedOffset) {
         committer.confirmCommit(committedOffset);
-    }
-
-    void recordCommitRequest(List<OffsetsRange> ranges) {
-        for (OffsetsRange range : ranges) {
-            lastRequestedCommitOffset.accumulateAndGet(range.getEnd(), Math::max);
-        }
-    }
-
-    long getCommitOffsetLag() {
-        return Math.max(0, lastRequestedCommitOffset.get() - committer.getLastCommittedOffset());
     }
 
     public void stop() {
@@ -98,11 +81,11 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         logger.info("[{}] stopped", traceID);
     }
 
-    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList, long receivedAt) {
+    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
         if (isStopped) {
             return false;
         }
-        queue.addBatches(batchList, receivedAt);
+        queue.addBatches(batchList);
         long messagesCount = 0;
         for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch : batchList) {
             messagesCount += batch.getMessageDataCount();

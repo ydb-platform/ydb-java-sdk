@@ -100,10 +100,11 @@ public class OpenTelemetryMeterTest {
     @Test
     public void doubleGaugeReportsFractionalValuesAndCloses() {
         double[] value = {0.125};
-        MetricRegistration registration = meter.registerDoubleGauge("ydb.test.age", "s", null,
+        MetricRegistration registration = meter.registerDoubleGauge("ydb.test.age", "s", "test age",
                 m -> m.record(value[0], Attr.of("pool.name", "my-pool")));
         MetricData metric = single("ydb.test.age");
         Assert.assertEquals("s", metric.getUnit());
+        Assert.assertEquals("test age", metric.getDescription());
         Assert.assertEquals(1, metric.getDoubleGaugeData().getPoints().size());
         DoublePointData point = metric.getDoubleGaugeData().getPoints().iterator().next();
         Assert.assertEquals(0.125, point.getValue(), 0);
@@ -148,6 +149,14 @@ public class OpenTelemetryMeterTest {
         LongPointData point = singleLongPoint(single("ydb.test.noattrs").getLongSumData().getPoints());
         Assert.assertEquals(1L, point.getValue());
         Assert.assertEquals(Attributes.empty(), point.getAttributes());
+
+        MetricRegistration registration = meter.registerDoubleGauge("ydb.test.noattrs.double", null, null,
+                m -> m.record(1.5));
+        DoublePointData doublePoint = single("ydb.test.noattrs.double").getDoubleGaugeData()
+                .getPoints().iterator().next();
+        Assert.assertEquals(1.5, doublePoint.getValue(), 0);
+        Assert.assertEquals(Attributes.empty(), doublePoint.getAttributes());
+        registration.close();
     }
 
     private MetricData single(String name) {

@@ -36,19 +36,14 @@ class ReadPartitionQueue {
         return readingQueue.size();
     }
 
-    double getLocalBufferMessageAgeMax() {
-        long now = System.nanoTime();
-        return readingQueue.stream().mapToDouble(message -> message.getLocalBufferMessageAge(now)).max().orElse(0);
-    }
-
-    void addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList, long receivedAt) {
+    void addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
         for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch : batchList) {
             if (batch.getMessageDataCount() == 0) {
                 logger.error("[{}] Received empty batch. This shouldn't happen", traceID);
                 continue;
             }
 
-            BatchMeta meta = new BatchMeta(batch, receivedAt);
+            BatchMeta meta = new BatchMeta(batch);
             List<MessageImpl> messages = new ArrayList<>(batch.getMessageDataCount());
             for (YdbTopic.StreamReadMessage.ReadResponse.MessageData msg : batch.getMessageDataList()) {
                 if (lastReadOffset > msg.getOffset()) {
