@@ -62,7 +62,12 @@ public class SyncReaderImpl implements SyncReader {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
         this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
 
-        this.config = new ReadConfig(codecRegistry, Runnable::run, decompressor, settings);
+        this.config = new ReadConfig(codecRegistry, Runnable::run, decompressor, settings, () -> {
+            long now = System.nanoTime();
+            return queue.stream().filter(MessageWrapper::isActive)
+                    .mapToDouble(message -> ((MessageImpl) message.msg).getLocalBufferMessageAge(now))
+                    .max().orElse(0);
+        });
         this.impl = new ReaderImpl(topicRpc, debugId, settings, config, new SyncHandler());
 
         String readerName = settings.getReaderName();
@@ -213,14 +218,6 @@ public class SyncReaderImpl implements SyncReader {
     }
 
     private class SyncHandler implements ReaderImpl.Handler {
-        @Override
-        public double getLocalBufferMessageAgeMax() {
-            long now = System.nanoTime();
-            return queue.stream().filter(MessageWrapper::isActive)
-                    .mapToDouble(message -> ((MessageImpl) message.msg).getLocalBufferMessageAge(now))
-                    .max().orElse(0);
-        }
-
         @Override
         public void handleSessionStarted(String sessionId) {
             SyncReaderImpl.this.sessionId = sessionId;
