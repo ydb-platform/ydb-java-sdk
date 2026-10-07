@@ -2,45 +2,52 @@ name: CodeQL
 
 on:
   push:
-    branches: ["master", "develop", "release*"]
+    branches: ["master", "release*"]
   pull_request:
-    branches: ["master", "develop", "release*"]
-  merge_group:
+      type: [opened, reopened, edited, synchronize]
   schedule:
     - cron: '23 3 * * 1'
-  workflow_dispatch:
 
 permissions:
   contents: read
+  security-events: write
 
 concurrency:
   group: codeql-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
-  analyze:
-    name: CodeQL (${{ matrix.language }})
+  analyze-actions:
+    name: CodeQL (Github Actions)
     runs-on: ubuntu-24.04
     timeout-minutes: 45
-    permissions:
-      contents: read
-      security-events: write
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - language: java-kotlin
-            build-mode: manual
-            config: .github/codeql/sdk.yml
-          - language: actions
-            build-mode: none
-            config: .github/codeql/actions.yml
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: actions
+          build-mode: none
+          queries: security-extended
+
+      - name: Analyze and upload results
+        uses: github/codeql-action/analyze@v4
+        with:
+          category: /language:actions
+
+  analyze-sdk:
+    name: CodeQL (YDB Java SDK)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
       - name: Set up Java
-        if: matrix.language == 'java-kotlin'
         uses: actions/setup-java@v5
         with:
           distribution: temurin
@@ -50,16 +57,14 @@ jobs:
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
-          languages: ${{ matrix.language }}
-          build-mode: ${{ matrix.build-mode }}
-          config-file: ${{ matrix.config }}
+          languages: java-kotlin
+          build-mode: manual
+          queries: security-extended
 
-      - name: Build Java SDK and authentication API
-        if: matrix.language == 'java-kotlin'
-        run: |
-          mvn --batch-mode --no-transfer-progress -Pwith-auth-api -Dmaven.test.skip=true clean package
+      - name: Build Java SDK
+        run:  mvn --batch-mode --no-transfer-progress -Pwith-auth-api -Dmaven.test.skip=true clean package
 
       - name: Analyze and upload results
         uses: github/codeql-action/analyze@v4
         with:
-          category: /language:${{ matrix.language }}
+          category: /language:java-kotlin

@@ -1,4 +1,0 @@
-name: SDK security baseline
-
-queries:
-  - uses: security-extended
