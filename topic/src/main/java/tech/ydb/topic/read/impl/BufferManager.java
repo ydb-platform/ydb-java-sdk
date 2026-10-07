@@ -44,6 +44,10 @@ public class BufferManager {
         requestFunc.accept(maxBufferSize);
     }
 
+    long getCreditBalanceBytes() {
+        return maxBufferSize + totalReleased.get() - totalAllocated.get();
+    }
+
     // Has no reentrant thread safety
     public void allocate(long bufferSize, List<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataList) {
         logger.debug("[{}] Received ReadResponse of {} bytes, {} allocated and {} released before",

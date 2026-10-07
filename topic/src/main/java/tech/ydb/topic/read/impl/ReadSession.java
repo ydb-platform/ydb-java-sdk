@@ -100,6 +100,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         decoder.stop();
         partitions.values().forEach(ReadPartition::close);
         partitions.clear();
+        config.getMetrics().unregister();
     }
 
     public boolean commitOffsets(PartitionSession session, List<OffsetsRange> rangesToCommit) {
@@ -162,6 +163,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
     }
 
     public void onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {

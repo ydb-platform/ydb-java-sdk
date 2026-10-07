@@ -8,9 +8,11 @@ import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.common.AttributesBuilder;
+import io.opentelemetry.api.metrics.DoubleGaugeBuilder;
 import io.opentelemetry.api.metrics.DoubleHistogramBuilder;
 import io.opentelemetry.api.metrics.LongCounterBuilder;
 import io.opentelemetry.api.metrics.LongGaugeBuilder;
+import io.opentelemetry.api.metrics.ObservableDoubleGauge;
 import io.opentelemetry.api.metrics.ObservableLongGauge;
 
 /**
@@ -80,6 +82,22 @@ public final class OpenTelemetryMeter implements Meter {
         return new GaugeRegistration(builder.buildWithCallback(
                 otelMeasurement -> callback.accept((value, attrs) ->
                         otelMeasurement.record(value, attributesOf(attrs)))));
+    }
+
+    @Override
+    public MetricRegistration registerDoubleGauge(
+            String name, String unit, String description, Consumer<DoubleMeasurement> callback) {
+        DoubleGaugeBuilder builder = meter.gaugeBuilder(name);
+        if (unit != null) {
+            builder.setUnit(unit);
+        }
+        if (description != null) {
+            builder.setDescription(description);
+        }
+        ObservableDoubleGauge gauge = builder.buildWithCallback(
+                otelMeasurement -> callback.accept((value, attrs) ->
+                        otelMeasurement.record(value, attributesOf(attrs))));
+        return gauge::close;
     }
 
     private static Attributes attributesOf(Attr[] attrs) {
