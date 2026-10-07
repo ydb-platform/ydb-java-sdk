@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -53,19 +54,21 @@ class ReadPartitionCommitter implements MessageCommitter {
     }
 
     public long completePendingCommits() {
+        List<CompletableFuture<Void>> completed = new ArrayList<>();
         commitFuturesLock.lock();
+        long last = lastCommittedOffset.get();
         try {
-            long last = lastCommittedOffset.get();
             Map<Long, CompletableFuture<Void>> ready = commitFutures.headMap(last, true);
             if (!ready.isEmpty()) {
                 logger.debug("[{}] Completing {} commit futures by confirmed offset {}", traceID, ready.size(), last);
-                ready.values().forEach(future -> future.complete(null));
+                ready.values().forEach(completed::add);
                 ready.clear();
             }
-            return last;
         } finally {
             commitFuturesLock.unlock();
         }
+        completed.forEach(f -> f.complete(null));
+        return last;
     }
 
     @Override
@@ -109,19 +112,21 @@ class ReadPartitionCommitter implements MessageCommitter {
         session.commitOffsets(partition, ranges);
     }
 
-    public void failPendingCommits() {
+    public void close() {
+        completePendingCommits();
+        List<CompletableFuture<Void>> failed = new ArrayList<>();
         commitFuturesLock.lock();
         try {
             if (commitFutures.isEmpty()) {
                 return;
             }
 
-            logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, partition.getPath(),
-                    commitFutures.size());
-            commitFutures.values().forEach(f -> f.completeExceptionally(partitionIsClosedException()));
+            commitFutures.values().forEach(failed::add);
             commitFutures.clear();
         } finally {
             commitFuturesLock.unlock();
         }
+        logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, partition, failed.size());
+        failed.forEach(f -> f.completeExceptionally(partitionIsClosedException()));
     }
 }
