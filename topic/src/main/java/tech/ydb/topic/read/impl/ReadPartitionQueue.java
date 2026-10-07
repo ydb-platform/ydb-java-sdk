@@ -32,6 +32,10 @@ class ReadPartitionQueue {
         this.lastReadOffset = lastCommittedOffset;
     }
 
+    long getLocalBufferMessages() {
+        return readingQueue.size();
+    }
+
     void addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
         for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch : batchList) {
             if (batch.getMessageDataCount() == 0) {

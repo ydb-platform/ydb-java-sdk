@@ -22,6 +22,7 @@ final class ReaderMetrics {
     private final Meter meter;
     private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
     private MetricRegistration creditGauge = MetricRegistration.NOOP;
+    private MetricRegistration bufferGauge = MetricRegistration.NOOP;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -37,7 +38,7 @@ final class ReaderMetrics {
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    void register(LongSupplier partitionCount, LongSupplier bufferBudget) {
+    void register(LongSupplier partitionCount, LongSupplier bufferBudget, LongSupplier bufferedMessages) {
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
@@ -45,13 +46,18 @@ final class ReaderMetrics {
         creditGauge = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.",
                 m -> m.record(bufferBudget.getAsLong(), commonAttributes));
+        bufferGauge = meter.registerLongGauge("ydb.topic.reader.local_buffer.messages", MESSAGE_UNIT,
+                "The number of messages currently buffered by the reader.",
+                m -> m.record(bufferedMessages.getAsLong(), commonAttributes));
     }
 
     void unregister() {
         partitionsGauge.close();
         creditGauge.close();
+        bufferGauge.close();
         partitionsGauge = MetricRegistration.NOOP;
         creditGauge = MetricRegistration.NOOP;
+        bufferGauge = MetricRegistration.NOOP;
     }
 
     void reportDelivered(long messages, String topic) {

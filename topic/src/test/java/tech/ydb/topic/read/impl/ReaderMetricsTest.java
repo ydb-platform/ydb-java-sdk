@@ -25,7 +25,9 @@ import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.TopicClientImpl;
+import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.SyncReader;
+import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 
@@ -35,6 +37,7 @@ public class ReaderMetricsTest {
     private static final String RECEIVED_BYTES = "ydb.topic.reader.received.bytes";
     private static final String PARTITIONS = "ydb.topic.reader.partition_session.count";
     private static final String CREDIT = "ydb.topic.reader.credit_balance_bytes";
+    private static final String BUFFER = "ydb.topic.reader.local_buffer.messages";
 
     @Test
     public void readerCountersIncrementOnReceive() throws InterruptedException {
@@ -74,6 +77,78 @@ public class ReaderMetricsTest {
             reader.shutdown();
             client.close();
         }
+    }
+
+    @Test
+    public void bufferGaugesIncludePartialZeroByteBatchesAndDropStoppedPartitions() throws InterruptedException {
+        RecordingMeter meter = new RecordingMeter();
+        ReadStreamMock stream = new ReadStreamMock();
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
+        TopicClient client = TopicClientImpl.newClient(rpc).build();
+        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                .addTopic("/topic").setConsumerName("consumer").setMaxBatchSize(1)
+                .withMeter(meter, "reader").build());
+        try {
+            reader.init();
+            Assert.assertTrue(meter.gauges.isEmpty());
+            stream.responseInit("session");
+            Assert.assertEquals(0, meter.collect(BUFFER));
+            stream.responseStartPartition("/topic", 42, 0);
+            stream.responseStartPartition("/topic", 43, 0);
+            stream.responseData(0).partition(1, 0).batch(Codec.RAW, new byte[0], new byte[0]).and().send();
+            stream.responseData(5).partition(2, 100).batch(Codec.RAW, new byte[]{1}).and().send();
+            Assert.assertEquals(3, meter.collect(BUFFER));
+            meter.assertAttribute(BUFFER, "reader.name", "reader");
+            Assert.assertEquals(0, reader.receive(1, TimeUnit.SECONDS).getOffset());
+            Assert.assertEquals(2, meter.collect(BUFFER));
+            Assert.assertEquals(1, reader.receive(1, TimeUnit.SECONDS).getOffset());
+            Assert.assertEquals(1, meter.collect(BUFFER));
+            stream.responseStopPartition(2, false);
+            Assert.assertEquals(0, meter.collect(BUFFER));
+            stream.responseData(10).partition(2, 101).batch(Codec.RAW, new byte[]{2}).and().send();
+            Assert.assertEquals(0, meter.collect(BUFFER));
+        } finally {
+            reader.shutdown();
+            client.close();
+        }
+        Assert.assertTrue(meter.gauges.isEmpty());
+    }
+
+    @Test
+    public void asyncBufferIncludesWaitingDecompressionAndEndsAtCallbackDelivery() {
+        RecordingMeter meter = new RecordingMeter();
+        ReadStreamMock stream = new ReadStreamMock();
+        List<Runnable> decompression = new ArrayList<>();
+        int[] delivered = {0};
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
+        TopicClient client = TopicClientImpl.newClient(rpc).build();
+        AsyncReader reader = client.createAsyncReader(ReaderSettings.newBuilder()
+                .addTopic("/topic").setConsumerName("consumer").setDecompressionExecutor(decompression::add)
+                .withMeter(meter, "reader").build(), ReadEventHandlersSettings.newBuilder()
+                        .setExecutor(Runnable::run).setEventHandler(event -> {
+                            delivered[0] += event.getMessages().size();
+                            Assert.assertEquals(0, meter.collect(BUFFER));
+                        }).build());
+        try {
+            reader.init();
+            stream.responseInit("session");
+            stream.responseStartPartition("/topic", 42, 0);
+            stream.responseData(30).partition(1, 0).batch(Codec.GZIP, new byte[]{1}).and().send();
+            Assert.assertEquals(1, decompression.size());
+            Assert.assertEquals(1, meter.collect(BUFFER));
+            Assert.assertEquals(0, delivered[0]);
+            decompression.remove(0).run();
+            Assert.assertEquals(1, delivered[0]);
+            Assert.assertEquals(0, meter.collect(BUFFER));
+        } finally {
+            reader.shutdown();
+            client.close();
+        }
+        Assert.assertTrue(meter.gauges.isEmpty());
     }
 
     @Test
@@ -131,7 +206,10 @@ public class ReaderMetricsTest {
         long collect(String name) {
             Long[] value = new Long[1];
             Assert.assertEquals(1, gauges.get(name).size());
-            gauges.get(name).get(0).accept((observed, attrs) -> value[0] = observed);
+            gauges.get(name).get(0).accept((observed, attrs) -> {
+                value[0] = observed;
+                attributes.put(name, attrs);
+            });
             return value[0];
         }
 

@@ -62,6 +62,10 @@ public class ReadPartition implements ReaderImpl.PartitionControl {
         sendDataToReaders();
     }
 
+    long getLocalBufferMessages() {
+        return queue.getLocalBufferMessages();
+    }
+
     public PartitionSession getPartition() {
         return partition;
     }
