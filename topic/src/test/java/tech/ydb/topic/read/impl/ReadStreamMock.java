@@ -264,7 +264,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
 
         public MessageAssert isInitRequest(String consumerName, String... topicPaths) {
             Assert.assertTrue("Msg is not init request", msg.hasInitRequest());
-            Assert.assertFalse("Auto partition is disabled", msg.getInitRequest().getAutoPartitioningSupport());
+            Assert.assertTrue("Auto partition is enabled", msg.getInitRequest().getAutoPartitioningSupport());
             if (consumerName != null) {
                 Assert.assertEquals("Wrong consumer in init request", consumerName, msg.getInitRequest().getConsumer());
             } else {

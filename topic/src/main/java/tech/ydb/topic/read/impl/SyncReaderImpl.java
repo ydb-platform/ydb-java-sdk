@@ -32,6 +32,7 @@ import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
+import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -272,6 +273,11 @@ public class SyncReaderImpl implements SyncReader {
 
         @Override
         public void onPartitionClosed(PartitionSessionClosedEvent event) {
+            // Nothing
+        }
+
+        @Override
+        public void onPartitionEnded(PartitionSessionEndedEvent event) {
             // Nothing
         }
     }

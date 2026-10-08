@@ -123,11 +123,13 @@ public class BufferManager {
     }
 
     // Thread safe
-    public void releaseRange(Long id, OffsetsRange range) {
+    public boolean releaseRange(Long id, OffsetsRange range) {
         PartitionBuffer part = partitions.get(id);
         if (part != null) {
             release(part.release(range));
+            return part.isActive();
         }
+        return false;
     }
 
     private void release(long total) {
@@ -178,6 +180,10 @@ public class BufferManager {
 
         public void add(BatchBuffer range) {
             batches.add(range);
+        }
+
+        public boolean isActive() {
+            return !batches.isEmpty();
         }
 
         public long release(OffsetsRange range) {

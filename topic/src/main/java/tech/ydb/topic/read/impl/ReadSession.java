@@ -24,6 +24,7 @@ import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
+import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 
@@ -34,6 +35,8 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(ReadSession.class);
 
+    private static final Runnable EMPTY_RELEASER = () -> {};
+
     public interface PartitionControl {
         boolean isActive();
         void confirmRangeProcessed(OffsetsRange range);
@@ -43,6 +46,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         void onPartitionStarted(StartPartitionSessionEvent event);
         void onPartitionStopped(StopPartitionSessionEvent event);
         void onPartitionClosed(PartitionSessionClosedEvent event);
+        void onPartitionEnded(PartitionSessionEndedEvent event);
 
         void onData(PartitionControl control, DataReceivedEvent event);
 
@@ -56,6 +60,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final Handler handler;
 
     private final Map<Long, ReadPartition> partitions = new ConcurrentHashMap<>();
+    private final Map<Long, Runnable> partitionReleasers = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
 
     public ReadSession(String id, GrpcReadWriteStream<FromServer, FromClient> stream, FromClient initReq,
@@ -98,6 +103,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     public void closeAll() {
         isClosed = true;
         decoder.stop();
+        partitionReleasers.clear();
         partitions.values().forEach(ReadPartition::close);
         partitions.clear();
         config.getMetrics().unregister();
@@ -161,6 +167,15 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
     }
 
+    public void releasePartitions(List<Long> partitionIds) {
+        for (Long pid: partitionIds) {
+            Runnable releaser = partitionReleasers.remove(pid);
+            if (releaser != null) {
+                releaser.run();
+            }
+        }
+    }
+
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
         config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
@@ -187,14 +202,31 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
-        partition.start(committed, offsets);
+        boolean isPaused = (EMPTY_RELEASER == partitionReleasers.replace(pid, partition::release));
+        partition.start(committed, offsets, isPaused);
     }
 
-    public void onClosePartition(long partitionSessionId) {
-        ReadPartition partition = partitions.remove(partitionSessionId);
+    public void onEndPartition(YdbTopic.StreamReadMessage.EndPartitionSession request) {
+        long psid = request.getPartitionSessionId();
+        ReadPartition partition = partitions.get(psid);
+        if (partition == null) {
+            logger.warn("[{}] Received EndPartitionSession for partition session {}, but have no such "
+                    + "partition session running", debugId, psid);
+            return;
+        }
+
+        for (Long pid: request.getChildPartitionIdsList()) { // register all child partitions
+            partitionReleasers.put(pid, EMPTY_RELEASER);
+        }
+
+        partition.confirmPartitionEnded(request.getChildPartitionIdsList());
+    }
+
+    public void onClosePartition(long psid) {
+        ReadPartition partition = partitions.remove(psid);
         if (partition == null) {
             logger.warn("[{}] Received force StopPartitionSessionRequest for partition session {}, " +
-                    "but have no such partition session running", debugId, partitionSessionId);
+                    "but have no such partition session running", debugId, psid);
             return;
         }
 

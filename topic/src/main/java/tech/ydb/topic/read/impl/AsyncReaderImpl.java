@@ -23,6 +23,7 @@ import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
+import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
@@ -190,6 +191,15 @@ public class AsyncReaderImpl implements AsyncReader {
                 eventHandler.onPartitionSessionClosed(event);
             } catch (Throwable th) {
                 failSession(th, "onPartitionSessionClosed");
+            }
+        }
+
+        @Override
+        public void onPartitionEnded(PartitionSessionEndedEvent event) {
+            try {
+                eventHandler.onPartitionSessionEnded(event);
+            } catch (Throwable th) {
+                failSession(th, "onPartitionSessionEnded");
             }
         }
     }
