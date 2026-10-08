@@ -123,6 +123,23 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         observer.onNext(msg);
     }
 
+    public void responsePartitionSessionStatus(long psid) {
+        FromServer msg = FromServer.newBuilder()
+                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                .setPartitionSessionStatusResponse(YdbTopic.StreamReadMessage.PartitionSessionStatusResponse.newBuilder()
+                        .setPartitionSessionId(psid)
+                        .build())
+                .build();
+        observer.onNext(msg);
+    }
+
+    public void responseEmpty() {
+        FromServer msg = FromServer.newBuilder()
+                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                .build();
+        observer.onNext(msg);
+    }
+
     public CommitAckResponse responseCommitAck() {
         return new CommitAckResponse();
     }

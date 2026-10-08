@@ -301,6 +301,46 @@ public class ReaderImplTest {
     }
 
     @Test
+    @HideLoggers(ReaderImpl.class)
+    public void onPartitionSessionStatusTest() {
+        ReaderSettings settings = ReaderSettings.newBuilder()
+                .addTopic(TOPIC1)
+                .setMaxMemoryUsageBytes(10200)
+                .setConsumerName("test")
+                .build();
+
+        ReadStreamMock mock = new ReadStreamMock();
+        ReadConfig config = new ReadConfig(REGISTRY, Runnable::run, Runnable::run, Runnable::run, settings);
+        TestImpl reader = new TestImpl(mockRpc(mock), "test-reader", settings, config);
+
+        // init reader
+        reader.start();
+        mock.assertSentMessagesCount(1);
+        mock.assertLastMessage().isInitRequest("test", TOPIC1);
+        mock.responseInit("read-session-1");
+
+        mock.assertSentMessagesCount(2);
+        mock.assertLastMessage().isReadRequest(10200);
+
+        // start partition
+        ArgumentCaptor<StartPartitionSessionEvent> started = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
+        mock.responseStartPartition(TOPIC1, 333, 100);
+        reader.verifyHandler().onPartitionStarted(started.capture());
+        started.getValue().confirm();
+        mock.assertSentMessagesCount(3);
+        mock.assertLastMessage().isStartPartition(1);
+
+        // on partition status
+        mock.responsePartitionSessionStatus(1); // nothing
+        mock.responsePartitionSessionStatus(2); // nothing
+        mock.responseEmpty(); // nothing
+
+        reader.close();
+        reader.assertReaderIsStopped(Status.SUCCESS);
+        mock.assertIsClosed();
+    }
+
+    @Test
     public void updateTokenTest() {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder()
