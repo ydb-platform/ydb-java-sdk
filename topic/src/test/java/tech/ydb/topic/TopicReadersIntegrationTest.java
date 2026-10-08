@@ -275,15 +275,16 @@ public class TopicReadersIntegrationTest {
         );
 
         reader.init();
+        try {
+            // wait for message committing
+            Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
+        } finally {
+            // stop reader
+            reader.shutdown();
 
-        // wait for message committing
-        Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
-
-        // stop reader
-        reader.shutdown();
-
-        executor.shutdown();
-        executor.awaitTermination(5, TimeUnit.SECONDS);
+            executor.shutdown();
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+        }
     }
 
     @Test

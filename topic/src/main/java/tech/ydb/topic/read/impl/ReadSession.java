@@ -1,5 +1,6 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -60,7 +61,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final Handler handler;
 
     private final Map<Long, ReadPartition> partitions = new ConcurrentHashMap<>();
-    private final Map<Long, Runnable> partitionReleasers = new ConcurrentHashMap<>();
+    private final Map<TopicPartition, Runnable> partitionReleasers = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
 
     public ReadSession(String id, GrpcReadWriteStream<FromServer, FromClient> stream, FromClient initReq,
@@ -167,9 +168,9 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
     }
 
-    public void releasePartitions(List<Long> partitionIds) {
-        for (Long pid: partitionIds) {
-            Runnable releaser = partitionReleasers.remove(pid);
+    public void releasePartitions(List<TopicPartition> partitions) {
+        for (TopicPartition partition: partitions) {
+            Runnable releaser = partitionReleasers.remove(partition);
             if (releaser != null) {
                 releaser.run();
             }
@@ -202,8 +203,13 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
-        boolean isPaused = (EMPTY_RELEASER == partitionReleasers.replace(pid, partition::release));
-        partition.start(committed, offsets, isPaused);
+        partition.start(committed, offsets);
+        TopicPartition tp = new TopicPartition(ps.getPath(), ps.getPartitionId());
+        if (EMPTY_RELEASER == partitionReleasers.replace(tp, partition::unpause)) {
+            logger.info("[{}] was paused", tid);
+        } else {
+            partition.unpause();
+        }
     }
 
     public void onEndPartition(YdbTopic.StreamReadMessage.EndPartitionSession request) {
@@ -215,11 +221,14 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
+        List<TopicPartition> childs = new ArrayList<>();
         for (Long pid: request.getChildPartitionIdsList()) { // register all child partitions
-            partitionReleasers.put(pid, EMPTY_RELEASER);
+            TopicPartition child = new TopicPartition(partition.getPartition().getPath(), pid);
+            partitionReleasers.put(child, EMPTY_RELEASER);
+            childs.add(child);
         }
 
-        partition.confirmPartitionEnded(request.getChildPartitionIdsList());
+        partition.confirmPartitionEnded(childs);
     }
 
     public void onClosePartition(long psid) {
