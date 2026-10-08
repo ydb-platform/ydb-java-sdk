@@ -410,7 +410,6 @@ public class ReaderImplTest {
         );
         reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC1, offsets), updateSettings);
 
-
         txStatus.complete(Status.SUCCESS);
         mock.assertIsActive();
         reader.close();

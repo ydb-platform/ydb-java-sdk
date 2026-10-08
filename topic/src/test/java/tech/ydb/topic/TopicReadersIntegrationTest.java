@@ -90,7 +90,7 @@ public class TopicReadersIntegrationTest {
     @BeforeClass
     public static void initClient() {
         client = TopicClient.newClient(ydbTransport).build();
-        initTopips();
+        initTopics();
     }
 
     @AfterClass
@@ -99,7 +99,7 @@ public class TopicReadersIntegrationTest {
         client.close();
     }
 
-    private static void initTopips() {
+    private static void initTopics() {
         logger.info("Create test topic  {} ...", TEST_TOPIC);
         client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())

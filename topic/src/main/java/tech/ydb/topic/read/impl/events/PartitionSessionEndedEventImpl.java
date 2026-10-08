@@ -3,7 +3,7 @@ package tech.ydb.topic.read.impl.events;
 import java.util.List;
 
 import tech.ydb.topic.read.PartitionSession;
-import tech.ydb.topic.read.events.*;
+import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.impl.TopicPartition;
 
 /**

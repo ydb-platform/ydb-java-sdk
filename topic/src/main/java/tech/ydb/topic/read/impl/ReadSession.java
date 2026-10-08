@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -36,8 +37,6 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(ReadSession.class);
 
-    private static final Runnable EMPTY_RELEASER = () -> {};
-
     public interface PartitionControl {
         boolean isActive();
         void confirmRangeProcessed(OffsetsRange range);
@@ -61,7 +60,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final Handler handler;
 
     private final Map<Long, ReadPartition> partitions = new ConcurrentHashMap<>();
-    private final Map<TopicPartition, Runnable> partitionReleasers = new ConcurrentHashMap<>();
+    private final Map<TopicPartition, PartitionLock> locks = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
 
     public ReadSession(String id, GrpcReadWriteStream<FromServer, FromClient> stream, FromClient initReq,
@@ -104,7 +103,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     public void closeAll() {
         isClosed = true;
         decoder.stop();
-        partitionReleasers.clear();
+        locks.clear();
         partitions.values().forEach(ReadPartition::close);
         partitions.clear();
         config.getMetrics().unregister();
@@ -169,12 +168,11 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     }
 
     public void releasePartitions(List<TopicPartition> partitions) {
+        List<ReadPartition> released = new ArrayList<>();
         for (TopicPartition partition: partitions) {
-            Runnable releaser = partitionReleasers.remove(partition);
-            if (releaser != null) {
-                releaser.run();
-            }
+            locks.computeIfPresent(partition, (key, lock) -> lock.release(released) ? null : lock);
         }
+        released.forEach(ReadPartition::unpause);
     }
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
@@ -204,11 +202,12 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
 
         partition.start(committed, offsets);
-        TopicPartition tp = new TopicPartition(ps.getPath(), ps.getPartitionId());
-        if (EMPTY_RELEASER == partitionReleasers.replace(tp, partition::unpause)) {
-            logger.info("[{}] was paused", tid);
-        } else {
+        PartitionLock lock = locks.get(new TopicPartition(ps));
+        if (lock == null) {
             partition.unpause();
+        } else {
+            logger.info("[{}] was paused", tid);
+            lock.bind(partition);
         }
     }
 
@@ -224,7 +223,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         List<TopicPartition> childs = new ArrayList<>();
         for (Long pid: request.getChildPartitionIdsList()) { // register all child partitions
             TopicPartition child = new TopicPartition(partition.getPartition().getPath(), pid);
-            partitionReleasers.put(child, EMPTY_RELEASER);
+            locks.compute(child, (key, existing) -> (existing != null ? existing : new PartitionLock()).lock());
             childs.add(child);
         }
 
@@ -312,6 +311,34 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                             .setBytesSize(sizeToRequest)
                             .build())
                     .build());
+        }
+    }
+
+    private class PartitionLock {
+        private final AtomicInteger locks = new AtomicInteger(0);
+        private volatile ReadPartition partition;
+
+        public PartitionLock lock() {
+            locks.incrementAndGet();
+            return this;
+        }
+
+        public boolean release(List<ReadPartition> released) {
+            if (locks.decrementAndGet() > 0) {
+                return false;
+            }
+
+            if (partition != null) {
+                released.add(partition);
+            }
+            return true;
+        }
+
+        public void bind(ReadPartition local) {
+            partition = local;
+            if (locks.get() <= 0) {
+                partition.unpause();
+            }
         }
     }
 }

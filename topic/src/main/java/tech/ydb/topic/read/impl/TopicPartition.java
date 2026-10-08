@@ -1,5 +1,7 @@
 package tech.ydb.topic.read.impl;
 
+import tech.ydb.topic.read.PartitionSession;
+
 /**
  *
  * @author Aleksandr Gorshenin {@literal <alexandr268@ydb.tech>}
@@ -7,6 +9,11 @@ package tech.ydb.topic.read.impl;
 public class TopicPartition {
     private final String topicPath;
     private final long partitionId;
+
+    public TopicPartition(PartitionSession ps) {
+        this.topicPath = ps.getPath();
+        this.partitionId = ps.getPartitionId();
+    }
 
     public TopicPartition(String topicPath, long partitionId) {
         this.topicPath = topicPath;
