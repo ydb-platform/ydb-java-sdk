@@ -187,6 +187,21 @@ public class WriterMetricsTest {
         Assert.assertTrue(gauges.isEmpty());
     }
 
+    @Test
+    public void testBufferWaitDuration() {
+        List<Double> durations = new ArrayList<>();
+        Meter meter = new Meter() {
+            @Override
+            public DoubleHistogram createHistogram(String name, String unit, String description) {
+                return (value, attrs) -> durations.add(value);
+            }
+        };
+        WriterMetrics metrics = new WriterMetrics(meter, "/test", "writer");
+        metrics.reportBufferWaitDuration(metrics.reportBufferWaitStart());
+        Assert.assertEquals(1, durations.size());
+        Assert.assertTrue(durations.get(0) >= 0);
+    }
+
     private static TopicRpc mockRpc(WriteStreamMock stream) {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));

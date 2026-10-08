@@ -18,6 +18,7 @@ final class WriterMetrics {
     private final LongCounter sendingBytes;
     private final LongCounter writtenMessages;
     private final DoubleHistogram messageAckDuration;
+    private final DoubleHistogram bufferWaitDuration;
     private final Attr[] commonAttributes;
     private final Meter meter;
     private final boolean enabled;
@@ -36,6 +37,8 @@ final class WriterMetrics {
                 "The number of messages confirmed written by the server, including already written messages.");
         this.messageAckDuration = meter.createHistogram("ydb.topic.writer.message.ack.duration", "s",
                 "Time from first sending a message to the server to its acknowledgement.");
+        this.bufferWaitDuration = meter.createHistogram("ydb.topic.writer.buffer.wait.duration", "s",
+                "Time waiting for buffer capacity before a message is accepted.");
         this.commonAttributes = writerName == null
                 ? new Attr[0]
                 : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
@@ -75,6 +78,16 @@ final class WriterMetrics {
     void reportMessageAckDuration(long timestamp) {
         if (timestamp != 0) {
             messageAckDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
+        }
+    }
+
+    long reportBufferWaitStart() {
+        return enabled ? System.nanoTime() : 0;
+    }
+
+    void reportBufferWaitDuration(long timestamp) {
+        if (timestamp != 0) {
+            bufferWaitDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
         }
     }
 
