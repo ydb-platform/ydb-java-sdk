@@ -13,6 +13,7 @@ import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.PartitionSession;
+import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
@@ -56,6 +57,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
     private final ReadPartitionQueue queue;
 
     private final AtomicReference<State> state = new AtomicReference<>(State.CREATED);
+    private final AtomicReference<CommitOffsetAcknowledgementEvent> commitOffsetAck = new AtomicReference<>(null);
 
     ReadPartition(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
@@ -92,10 +94,16 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     public void confirmCommittedOffset(long committedOffset) {
         committer.updateCommittedOffset(committedOffset);
-        long lastAck = committer.completePendingCommits();
-        dataExecutor.execute(() -> {
-            session.getHandler().onCommitAck(new CommitOffsetAcknowledgementEventImpl(partition, lastAck));
-        });
+        committer.completePendingCommits();
+        commitOffsetAck.set(new CommitOffsetAcknowledgementEventImpl(partition, committedOffset));
+        sendDataToReaders();
+    }
+
+    private void sendCommitOffsetAck() {
+        CommitOffsetAcknowledgementEvent event = commitOffsetAck.getAndSet(null);
+        if (event != null) {
+            session.getHandler().onCommitAck(event);
+        }
     }
 
     public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
@@ -114,13 +122,16 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     private void sendDataToReaders() {
         dataExecutor.execute(() -> {
+            sendCommitOffsetAck(); // ack may be sent even state is not active
             while (state.get() == State.STARTED || state.get() == State.PRE_STOPPED) {
                 List<Message> list = queue.getNextBatch();
                 if (list == null) {
                     return;
                 }
+
                 DataReceivedEventImpl event = new DataReceivedEventImpl(partition, committer, list);
                 session.getHandler().onData(this, event);
+                sendCommitOffsetAck();
             }
         });
     }

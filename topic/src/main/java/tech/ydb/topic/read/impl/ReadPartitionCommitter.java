@@ -46,38 +46,36 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     public void updateCommittedOffset(long offset) {
         long old = lastCommittedOffset.get();
-        if (old == lastCommittedOffset.accumulateAndGet(offset, Math::max)) {
-            return;
+        if (old != lastCommittedOffset.accumulateAndGet(offset, Math::max)) {
+            logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} "
+                    + "(diff is {} message(s)).", traceID, offset, old, offset - old);
         }
-        logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} (diff is {} message(s)).",
-                traceID, offset, old, offset - old);
     }
 
-    public long completePendingCommits() {
+    public void completePendingCommits() {
         List<CompletableFuture<Void>> completed = new ArrayList<>();
-        commitFuturesLock.lock();
         long last = lastCommittedOffset.get();
+        commitFuturesLock.lock();
         try {
             Map<Long, CompletableFuture<Void>> ready = commitFutures.headMap(last, true);
-            if (!ready.isEmpty()) {
-                logger.debug("[{}] Completing {} commit futures by confirmed offset {}", traceID, ready.size(), last);
-                ready.values().forEach(completed::add);
-                ready.clear();
+            if (ready.isEmpty()) {
+                return;
             }
+
+            ready.values().forEach(completed::add);
+            ready.clear();
         } finally {
             commitFuturesLock.unlock();
         }
+        logger.debug("[{}] Completing {} commit futures by confirmed offset {}", traceID, completed.size(), last);
         completed.forEach(f -> f.complete(null));
-        return last;
     }
 
     @Override
     public CompletableFuture<Void> commit(OffsetsRange range) {
         long confirmed = lastCommittedOffset.get();
-        logger.debug(
-                "[{}] Offset range {} is requested to be committed. Last committed offset is {} (commit lag is {})",
-                traceID, range, confirmed, range.getStart() - confirmed
-        );
+        logger.debug("[{}] Offset range {} is requested to be committed. Last committed offset is {} "
+                + "(commit lag is {})", traceID, range, confirmed, range.getStart() - confirmed);
 
         CompletableFuture<Void> future;
         commitFuturesLock.lock();

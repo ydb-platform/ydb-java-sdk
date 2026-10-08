@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -655,6 +657,95 @@ public class TopicReadersIntegrationTest {
                 Assert.assertEquals(1000, offsets2[0].get());
                 Assert.assertEquals(500, offsets2[1].get());
                 Assert.assertEquals(2100, offsets2[2].get());
+            } finally {
+                reader2.shutdown().get(1, TimeUnit.SECONDS);
+                reader3.shutdown().get(1, TimeUnit.SECONDS);
+            }
+        } finally {
+            reader1.shutdown().get(1, TimeUnit.SECONDS);
+        }
+    }
+
+    @Test
+    public void readAllByWithLazyRebalancingTest() throws Exception {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TEST_TOPIC)
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        AtomicLong[] offsets = new AtomicLong[] { new AtomicLong(), new AtomicLong(), new AtomicLong() };
+        CountDownLatch[] read = new CountDownLatch[] {
+            new CountDownLatch(1000),
+            new CountDownLatch(500),
+            new CountDownLatch(2100),
+        };
+        CountDownLatch partitions = new CountDownLatch(3);
+        Queue<StartPartitionSessionEvent> events = new ConcurrentLinkedQueue<>();
+
+        ReadEventHandler handler = new ReadEventHandler() {
+            @Override
+            public void onStartPartitionSession(StartPartitionSessionEvent event) {
+                events.add(event);
+                partitions.countDown();
+            }
+
+            @Override
+            public void onMessages(DataReceivedEvent event) {
+                int pid = (int) event.getPartitionSession().getPartitionId();
+                for (Message msg : event.getMessages()) {
+                    Assert.assertEquals(offsets[pid].getAndIncrement(), msg.getOffset());
+                    read[pid].countDown();
+                }
+            }
+        };
+
+        AsyncReader reader1 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(handler).build());
+
+        reader1.init();
+        try {
+            // wait for reader1 to get all partitions
+            Assert.assertTrue(partitions.await(5, TimeUnit.SECONDS));
+
+            CountDownLatch partitions2 = new CountDownLatch(2);
+            ReadEventHandler handler2 = new ReadEventHandler() {
+                @Override
+                public void onStartPartitionSession(StartPartitionSessionEvent event) {
+                    events.add(event);
+                    partitions2.countDown();
+                }
+
+                @Override
+                public void onMessages(DataReceivedEvent event) {
+                int pid = (int) event.getPartitionSession().getPartitionId();
+                    for (Message msg : event.getMessages()) {
+                        Assert.assertEquals(offsets[pid].getAndIncrement(), msg.getOffset());
+                        read[pid].countDown();
+                    }
+                }
+            };
+
+            AsyncReader reader2 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                    .setEventHandler(handler2).build());
+            AsyncReader reader3 = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                    .setEventHandler(handler2).build());
+
+            reader2.init();
+            reader3.init();
+
+            try {
+                // wait for rebalancing - every reader must have one partition
+                Assert.assertTrue(partitions2.await(5, TimeUnit.SECONDS));
+
+                events.forEach(StartPartitionSessionEvent::confirm);
+
+                Assert.assertTrue(read[0].await(5, TimeUnit.SECONDS));
+                Assert.assertTrue(read[1].await(5, TimeUnit.SECONDS));
+                Assert.assertTrue(read[2].await(5, TimeUnit.SECONDS));
+
+                Assert.assertEquals(1000, offsets[0].get());
+                Assert.assertEquals(500, offsets[1].get());
+                Assert.assertEquals(2100, offsets[2].get());
             } finally {
                 reader2.shutdown().get(1, TimeUnit.SECONDS);
                 reader3.shutdown().get(1, TimeUnit.SECONDS);
