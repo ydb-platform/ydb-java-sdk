@@ -48,7 +48,7 @@ public class BufferManager {
     long getUsedSize() {
         long usedBlocks = (long) calculateBlocksCount(bufferMaxSize, blockBitsCount)
                 - blocksAvailable.availablePermits();
-        return Math.max(0, usedBlocks << blockBitsCount);
+        return usedBlocks << blockBitsCount;
     }
 
     public void close(Status status) {
