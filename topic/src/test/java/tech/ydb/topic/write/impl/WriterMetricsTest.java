@@ -1,6 +1,8 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
@@ -11,6 +13,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
@@ -25,6 +28,7 @@ import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
 
 public class WriterMetricsTest {
+    private static final Message MSG1 = Message.of(new byte[] { 0x00, 0x01, 0x02 });
 
     @Test
     public void writerCountersCountAcceptedMessagesAndAcknowledgements() throws QueueOverflowException {
@@ -100,6 +104,38 @@ public class WriterMetricsTest {
             }
         }
         Assert.assertTrue(gauges.isEmpty());
+    }
+
+    @Test
+    public void writerAckDurationRecordsAcknowledgements() throws QueueOverflowException {
+        List<Double> durations = new ArrayList<>();
+        Meter meter = new Meter() {
+            @Override
+            public DoubleHistogram createHistogram(String name, String unit, String description) {
+                return (value, attrs) -> durations.add(value);
+            }
+        };
+        WriteStreamMock stream = new WriteStreamMock();
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test/topic").setCodec(Codec.RAW).withMeter(meter, "writer").build();
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream))
+                .setCompressionExecutor(Runnable::run).build()) {
+            AsyncWriter writer = client.createAsyncWriter(settings);
+            try {
+                writer.init();
+                stream.sendInitResponse(0);
+                writer.send(MSG1);
+                writer.send(MSG1);
+                Assert.assertTrue(durations.isEmpty());
+                stream.sendAckResponse(2, 10);
+                Assert.assertEquals(2, durations.size());
+                Assert.assertTrue(durations.get(0) >= 0);
+                Assert.assertTrue(durations.get(1) >= 0);
+            } finally {
+                writer.shutdown();
+                stream.close(Status.SUCCESS);
+            }
+        }
     }
 
     private static TopicRpc mockRpc(WriteStreamMock stream) {

@@ -112,7 +112,7 @@ public class WriterQueue {
             }
 
             lastSeqNo = actualSeqNo;
-            SentMessage sentMsg = new SentMessage(next, actualSeqNo);
+            SentMessage sentMsg = new SentMessage(next, actualSeqNo, metrics.reportMessageSendStart());
             logger.trace("[{}] prepare sent message with seqNo {}", debugId, actualSeqNo);
             sent.offer(sentMsg);
             return sentMsg;
@@ -150,6 +150,7 @@ public class WriterQueue {
             sentIt.remove();
             buffer.releaseMessage(sentMsg.getBufferSize());
             metrics.reportWritten();
+            metrics.reportMessageAckDuration(sentMsg.getSendTimestamp());
             msg.confirm(ack);
         }
     }
