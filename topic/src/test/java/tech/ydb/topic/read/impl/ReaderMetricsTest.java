@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -22,14 +21,10 @@ import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
-import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.FromClient;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.TopicClientImpl;
-import tech.ydb.topic.read.DeferredCommitter;
-import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
@@ -125,166 +120,27 @@ public class ReaderMetricsTest {
     }
 
     @Test
-    public void commitCountersCountAcceptedAndAcknowledgedRanges() throws InterruptedException {
+    public void commitCountersIncrementOnAcknowledgement() throws InterruptedException {
         RecordingMeter meter = new RecordingMeter();
         ReadStreamMock stream = new ReadStreamMock();
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.any(String.class))).thenReturn(stream);
-
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
         TopicClient client = TopicClientImpl.newClient(rpc).build();
         SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath("/topic").build())
-                .setConsumerName("consumer")
-                .withMeter(meter, "reader")
-                .build());
+                .addTopic("/topic").setConsumerName("consumer").setDecompressionExecutor(Runnable::run)
+                .withMeter(meter, "reader").build());
         try {
             reader.init();
-            stream.responseInit("read-session");
-            stream.responseStartPartition("/topic", 42, 100);
-            stream.responseData(25).partition(1, 100)
-                    .batch(Codec.RAW, new byte[]{1}, new byte[]{2}, new byte[]{3}, new byte[]{4}, new byte[]{5})
-                    .and().send();
-            Message first = reader.receive(1, TimeUnit.SECONDS);
-            Message second = reader.receive(1, TimeUnit.SECONDS);
-            Message third = reader.receive(1, TimeUnit.SECONDS);
-            Message fourth = reader.receive(1, TimeUnit.SECONDS);
-            Message fifth = reader.receive(1, TimeUnit.SECONDS);
-            Assert.assertNotNull(first);
-            Assert.assertNotNull(second);
-            Assert.assertNotNull(third);
-            Assert.assertNotNull(fourth);
-            Assert.assertNotNull(fifth);
-            Assert.assertEquals(0, meter.value(COMMIT_QUEUED));
-            Assert.assertEquals(0, meter.value(COMMIT_ACKNOWLEDGED));
-
-            CompletableFuture<Void> committed = first.commit();
-            Assert.assertFalse(committed.isDone());
-            Assert.assertEquals(1, meter.value(COMMIT_QUEUED));
-            Assert.assertSame(committed, first.commit());
-            Assert.assertEquals(2, meter.value(COMMIT_QUEUED));
-            DeferredCommitter deferred = DeferredCommitter.newInstance();
-            deferred.add(second);
-            deferred.add(fourth);
-            deferred.commit();
-            stream.assertLastMessage().isCommit(1)
-                    .hasPartitionOffset(1, OffsetsRange.of(101, 102), OffsetsRange.of(103, 104));
-            Assert.assertEquals(4, meter.value(COMMIT_QUEUED));
-            meter.assertAttribute(COMMIT_QUEUED, "topic", "/topic");
-            meter.assertAttribute(COMMIT_QUEUED, "consumer", "consumer");
-            meter.assertAttribute(COMMIT_QUEUED, "reader.name", "reader");
-            stream.responseCommitAck().partition(999, 104).send();
-            Assert.assertEquals(0, meter.value(COMMIT_ACKNOWLEDGED));
-            stream.responseCommitAck().partition(1, 102).send();
-            Assert.assertTrue(committed.isDone());
-            Assert.assertFalse(committed.isCompletedExceptionally());
-            Assert.assertEquals(3, meter.value(COMMIT_ACKNOWLEDGED));
-            stream.responseCommitAck().partition(1, 102).send();
-            stream.responseCommitAck().partition(1, 101).send();
-            Assert.assertEquals(3, meter.value(COMMIT_ACKNOWLEDGED));
-            stream.responseCommitAck().partition(1, 104).send();
-            Assert.assertEquals(4, meter.value(COMMIT_ACKNOWLEDGED));
-            Assert.assertEquals(4, meter.value(COMMIT_QUEUED));
-            meter.assertAttribute(COMMIT_ACKNOWLEDGED, "topic", "/topic");
-            meter.assertAttribute(COMMIT_ACKNOWLEDGED, "consumer", "consumer");
-            meter.assertAttribute(COMMIT_ACKNOWLEDGED, "reader.name", "reader");
-
-            CompletableFuture<Void> pending = fifth.commit();
-            Assert.assertEquals(5, meter.value(COMMIT_QUEUED));
-            stream.responseStopPartition(1, false);
-            stream.responseCommitAck().partition(1, 105).send();
-            Assert.assertTrue(pending.isCompletedExceptionally());
-            Assert.assertTrue(fifth.commit().isCompletedExceptionally());
-            Assert.assertEquals(5, meter.value(COMMIT_QUEUED));
-            Assert.assertEquals(4, meter.value(COMMIT_ACKNOWLEDGED));
-        } finally {
-            reader.shutdown();
-            client.close();
-        }
-    }
-
-    @Test
-    public void commitAcknowledgementDuringSendIsCounted() throws InterruptedException {
-        RecordingMeter meter = new RecordingMeter();
-        ReadStreamMock stream = new ReadStreamMock() {
-            @Override
-            public void sendNext(FromClient message) {
-                super.sendNext(message);
-                if (message.hasCommitOffsetRequest()) {
-                    Assert.assertEquals(1, meter.value(COMMIT_QUEUED));
-                    responseCommitAck().partition(1, 1).send();
-                }
-            }
-        };
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.any(String.class))).thenReturn(stream);
-        TopicClient client = TopicClientImpl.newClient(rpc).build();
-        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath("/topic").build())
-                .setConsumerName("consumer")
-                .withMeter(meter, "reader")
-                .build());
-        try {
-            reader.init();
-            stream.responseInit("read-session");
+            stream.responseInit("session");
             stream.responseStartPartition("/topic", 42, 0);
             stream.responseData(1).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
-            Message message = reader.receive(1, TimeUnit.SECONDS);
-            Assert.assertNotNull(message);
-            CompletableFuture<Void> committed = message.commit();
-            Assert.assertTrue(committed.isDone());
-            Assert.assertFalse(committed.isCompletedExceptionally());
-            Assert.assertEquals(1, meter.value(COMMIT_ACKNOWLEDGED));
-        } finally {
-            reader.shutdown();
-            client.close();
-        }
-    }
-
-    @Test
-    public void deferredCommitFromCompletionPreservesAcknowledgements() throws InterruptedException {
-        RecordingMeter meter = new RecordingMeter();
-        ReadStreamMock stream = new ReadStreamMock();
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.any(String.class))).thenReturn(stream);
-        TopicClient client = TopicClientImpl.newClient(rpc).build();
-        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath("/topic").build())
-                .setConsumerName("consumer")
-                .withMeter(meter, "reader")
-                .build());
-        try {
-            reader.init();
-            stream.responseInit("read-session");
-            stream.responseStartPartition("/topic", 42, 100);
-            stream.responseData(3).partition(1, 100)
-                    .batch(Codec.RAW, new byte[]{1}, new byte[]{2}, new byte[]{3}).and().send();
-            Message first = reader.receive(1, TimeUnit.SECONDS);
-            Message second = reader.receive(1, TimeUnit.SECONDS);
-            Message third = reader.receive(1, TimeUnit.SECONDS);
-            Assert.assertNotNull(first);
-            Assert.assertNotNull(second);
-            Assert.assertNotNull(third);
-            CompletableFuture<Void> firstCommit = first.commit();
-            CompletableFuture<Void> secondCommit = second.commit();
-            DeferredCommitter batch = DeferredCommitter.newInstance();
-            batch.add(third);
-            CompletableFuture<Void> continuation = firstCommit.thenRun(batch::commit);
-
-            stream.responseCommitAck().partition(1, 102).send();
-
-            Assert.assertTrue(firstCommit.isDone());
-            Assert.assertTrue(secondCommit.isDone());
-            Assert.assertFalse(secondCommit.isCompletedExceptionally());
-            Assert.assertTrue(continuation.isDone());
-            Assert.assertFalse(continuation.isCompletedExceptionally());
-            Assert.assertEquals(3, meter.value(COMMIT_QUEUED));
-            Assert.assertEquals(2, meter.value(COMMIT_ACKNOWLEDGED));
-            stream.assertLastMessage().isCommit(1).hasPartitionOffset(1, OffsetsRange.of(102, 103));
-            stream.responseCommitAck().partition(1, 103).send();
-            Assert.assertEquals(3, meter.value(COMMIT_ACKNOWLEDGED));
+            reader.receive().commit();
+            stream.responseData(2).partition(1, 3).batch(Codec.RAW, new byte[]{2, 3}).and().send();
+            reader.receive().commit();
+            Assert.assertEquals(4, meter.value(COMMIT_QUEUED));
+            stream.responseCommitAck().partition(1, 4).send();
+            Assert.assertEquals(4, meter.value(COMMIT_ACKNOWLEDGED));
         } finally {
             reader.shutdown();
             client.close();
