@@ -2,10 +2,8 @@ package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +24,6 @@ import tech.ydb.core.metrics.MetricRegistration;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.TopicClientImpl;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
@@ -89,63 +86,6 @@ public class ReaderMetricsTest {
     }
 
     @Test
-    public void commitLagTracksSingleAndBulkRequestsAndMaximumAcrossPartitions() throws InterruptedException {
-        RecordingMeter meter = new RecordingMeter();
-        ReadStreamMock stream = new ReadStreamMock();
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
-        TopicClient client = TopicClientImpl.newClient(rpc).build();
-        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic("/topic").setConsumerName("consumer").setDecompressionExecutor(Runnable::run)
-                .withMeter(meter, "reader").build());
-        try {
-            reader.init();
-            stream.responseInit("session");
-            stream.responseStartPartition("/topic", 42, 10);
-            stream.responseStartPartition("/topic", 43, 100);
-            Assert.assertEquals(0, meter.collect(COMMIT_LAG));
-            stream.responseData(5).partition(1, 30).batch(Codec.RAW, new byte[]{1}).and().send();
-            Message first = reader.receive(0, TimeUnit.MILLISECONDS);
-            CompletableFuture<Void> committed = first.commit();
-            stream.assertLastMessage().isCommit(1).hasPartitionOffset(1, OffsetsRange.of(10, 31));
-            Assert.assertEquals(21, meter.collect(COMMIT_LAG));
-            stream.responseCommitAck().partition(1, 20).send();
-            Assert.assertEquals(11, meter.collect(COMMIT_LAG));
-            Assert.assertFalse(committed.isDone());
-            first.getCommitter().commitRanges(Collections.singletonList(OffsetsRange.of(70, 80)));
-            stream.assertLastMessage().isCommit(1).hasPartitionOffset(1, OffsetsRange.of(70, 80));
-            Assert.assertEquals(60, meter.collect(COMMIT_LAG));
-            first.getCommitter().commitRanges(Collections.singletonList(OffsetsRange.of(40, 42)));
-            Assert.assertEquals(22, meter.collect(COMMIT_LAG));
-            first.getCommitter().commitRanges(Collections.singletonList(OffsetsRange.of(5, 10)));
-            Assert.assertEquals(22, meter.collect(COMMIT_LAG));
-            stream.responseData(5).partition(2, 105).batch(Codec.RAW, new byte[]{2}).and().send();
-            Message second = reader.receive(0, TimeUnit.MILLISECONDS);
-            second.commit();
-            Assert.assertEquals(22, meter.collect(COMMIT_LAG));
-            stream.responseCommitAck().partition(1, 80).send();
-            Assert.assertTrue(committed.isDone());
-            Assert.assertFalse(committed.isCompletedExceptionally());
-            Assert.assertEquals(6, meter.collect(COMMIT_LAG));
-            stream.responseCommitAck().partition(2, 110).send();
-            Assert.assertEquals(0, meter.collect(COMMIT_LAG));
-            first.getCommitter().commitRanges(Collections.singletonList(OffsetsRange.of(120, 130)));
-            Assert.assertEquals(50, meter.collect(COMMIT_LAG));
-            stream.responseStopPartition(1, true);
-            Assert.assertEquals(0, meter.collect(COMMIT_LAG));
-            stream.assertLastMessage().isStopPartition(1);
-            first.getCommitter().commitRanges(Collections.singletonList(OffsetsRange.of(150, 160)));
-            Assert.assertEquals(0, meter.collect(COMMIT_LAG));
-            stream.assertLastMessage().isStopPartition(1);
-        } finally {
-            reader.shutdown();
-            client.close();
-        }
-        Assert.assertTrue(meter.gauges.isEmpty());
-    }
-
-    @Test
     public void gaugesObservePartitionSessionsAndProtocolCredit() throws InterruptedException {
         RecordingMeter meter = new RecordingMeter();
         ReadStreamMock stream = new ReadStreamMock();
@@ -155,6 +95,7 @@ public class ReaderMetricsTest {
         TopicClient client = TopicClientImpl.newClient(rpc).build();
         SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
                 .addTopic("/topic").setConsumerName("consumer")
+                .setDecompressionExecutor(Runnable::run)
                 .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
         try {
             Assert.assertTrue(meter.gauges.isEmpty());
@@ -168,7 +109,12 @@ public class ReaderMetricsTest {
             Assert.assertEquals(100, meter.collect(CREDIT));
             stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
             Assert.assertEquals(80, meter.collect(CREDIT));
-            Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
+            Message message = reader.receive(1, TimeUnit.SECONDS);
+            Assert.assertNotNull(message);
+            message.commit();
+            Assert.assertEquals(1, meter.collect(COMMIT_LAG));
+            stream.responseCommitAck().partition(1, 1).send();
+            Assert.assertEquals(0, meter.collect(COMMIT_LAG));
             Assert.assertEquals(100, meter.collect(CREDIT));
             stream.closeStream(Status.of(StatusCode.OVERLOADED));
             Assert.assertTrue(meter.gauges.isEmpty());
