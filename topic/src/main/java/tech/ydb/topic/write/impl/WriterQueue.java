@@ -71,6 +71,7 @@ public class WriterQueue {
         this.compressionExecutor = compressionExecutor;
         this.readyNotify = readyNotify;
         this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
+        this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
     }
 
     CompletableFuture<Void> flush() {
@@ -154,6 +155,7 @@ public class WriterQueue {
     }
 
     void close(Status status) {
+        metrics.unregister();
         buffer.close(status);
 
         while (!queue.isEmpty()) {

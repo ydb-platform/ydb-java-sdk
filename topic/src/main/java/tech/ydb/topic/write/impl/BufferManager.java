@@ -45,6 +45,12 @@ public class BufferManager {
         return bufferMaxSize;
     }
 
+    long getUsedSize() {
+        long usedBlocks = (long) calculateBlocksCount(bufferMaxSize, blockBitsCount)
+                - blocksAvailable.availablePermits();
+        return Math.max(0, usedBlocks << blockBitsCount);
+    }
+
     public void close(Status status) {
         this.closed = status;
         // release all waiters
