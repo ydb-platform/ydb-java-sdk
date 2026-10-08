@@ -218,21 +218,22 @@ public class ReadPartition implements ReadSession.PartitionControl {
             Long readFrom = settings != null ? settings.getReadOffset() : null;
             Long commitTo = settings != null ? settings.getCommitOffset() : null;
 
-            String consumer = session.getConfig().getConsumerName();
-            if (state.compareAndSet(State.INITED, State.STARTED)) {
-                if (commitTo != null) {
-                    committer.updateCommittedOffset(commitTo);
-                    queue.updateLastReadOffset(commitTo); // avoid lags of commits
-                }
-
-                logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset {} "
-                        + "and commitOffset {}", traceID, partition, consumer, readFrom, commitTo);
-                session.sendStartPartition(partition, readFrom, commitTo);
-                sendDataToReaders();
-            } else {
+            if (!state.compareAndSet(State.INITED, State.STARTED)) {
                 logger.warn("[{}] Need to send StartPartitionSessionResponse, but the partition session is already {}",
                         traceID, state.get());
+                return;
             }
+
+            if (commitTo != null) {
+                committer.updateCommittedOffset(commitTo);
+                queue.updateLastReadOffset(commitTo); // avoid lags of commits
+            }
+
+            String consumer = session.getConfig().getConsumerName();
+            logger.info("[{}] Sending StartPartitionSessionResponse for {} and consumer \"{}\" with readOffset {} "
+                    + "and commitOffset {}", traceID, partition, consumer, readFrom, commitTo);
+            session.sendStartPartition(partition, readFrom, commitTo);
+            sendDataToReaders();
         }
     }
 

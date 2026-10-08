@@ -259,6 +259,36 @@ public class TopicReadersIntegrationTest {
     }
 
     @Test
+    public void singleThreadReadAllTest() throws Exception {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TEST_TOPIC)
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        CountDownLatch read = new CountDownLatch(3600);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor((r) -> new Thread(r, "test-executor"));
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(executor)
+                .setEventHandler((event) -> {
+                    event.commit().join();
+                    event.getMessages().forEach(m -> read.countDown());
+                }).build()
+        );
+
+        reader.init();
+
+        // wait for message committing
+        Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
+
+        // stop reader
+        reader.shutdown();
+
+        executor.shutdown();
+        executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+
+    @Test
     public void readAllTest() throws InterruptedException {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
