@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.function.Consumer;
+import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
 
 import org.junit.Assert;
@@ -14,6 +15,7 @@ import org.mockito.Mockito;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.metrics.DoubleHistogram;
+import tech.ydb.core.metrics.DoubleMeasurement;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
@@ -136,6 +138,53 @@ public class WriterMetricsTest {
                 stream.close(Status.SUCCESS);
             }
         }
+    }
+
+    @Test
+    public void writerOldestAgeClearsAfterAcknowledgement() throws QueueOverflowException {
+        Map<String, DoubleSupplier> gauges = new HashMap<>();
+        Meter meter = new Meter() {
+            @Override
+            public MetricRegistration registerDoubleGauge(String name, String unit, String description,
+                    Consumer<DoubleMeasurement> callback) {
+                gauges.put(name, () -> {
+                    double[] value = new double[1];
+                    callback.accept((observed, attrs) -> value[0] = observed);
+                    return value[0];
+                });
+                return () -> gauges.remove(name);
+            }
+        };
+        String metric = "ydb.topic.writer.sending.oldest_age";
+        WriteStreamMock stream = new WriteStreamMock();
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test/topic").setCodec(Codec.RAW)
+                .withMeter(meter, "writer").build();
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream))
+                .setCompressionExecutor(Runnable::run).build()) {
+            AsyncWriter writer = client.createAsyncWriter(settings);
+            try {
+                DoubleSupplier age = gauges.get(metric);
+                writer.init();
+                stream.sendInitResponse(0);
+                Assert.assertEquals(0, age.getAsDouble(), 0);
+                long acceptedBefore = System.nanoTime();
+                writer.send(MSG1);
+                long acceptedAfter = System.nanoTime();
+                writer.send(MSG1);
+                long collectedBefore = System.nanoTime();
+                double observed = age.getAsDouble();
+                long collectedAfter = System.nanoTime();
+                Assert.assertTrue(observed >= (collectedBefore - acceptedAfter) / 1_000_000_000d);
+                Assert.assertTrue(observed <= (collectedAfter - acceptedBefore) / 1_000_000_000d);
+                stream.sendAckResponse(2, 10);
+                Assert.assertEquals(0, age.getAsDouble(), 0);
+            } finally {
+                writer.shutdown();
+                stream.close(Status.SUCCESS);
+            }
+        }
+        Assert.assertTrue(gauges.isEmpty());
     }
 
     private static TopicRpc mockRpc(WriteStreamMock stream) {
