@@ -1,11 +1,13 @@
 package tech.ydb.topic.read.impl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
@@ -29,48 +31,51 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final NavigableMap<Long, CompletableFuture<Void>> commitFutures = new TreeMap<>();
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
-    private volatile long lastCommittedOffset;
+    private final AtomicLong lastCommittedOffset;
 
     ReadPartitionCommitter(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
-        this.lastCommittedOffset = lastCommittedOffset;
+        this.lastCommittedOffset = new AtomicLong(lastCommittedOffset);
     }
 
     private RuntimeException partitionIsClosedException() {
         return new RuntimeException("" + partition + " is already stopped");
     }
 
-    public void confirmCommit(long committedOffset) {
-        if (committedOffset <= lastCommittedOffset) { // never happens
-            logger.error("[{}] received commit response. Committed offset: {} which is less than previous " +
-                    "committed offset: {}.", traceID, committedOffset, lastCommittedOffset);
-            return;
+    public void updateCommittedOffset(long offset) {
+        long old = lastCommittedOffset.get();
+        if (old != lastCommittedOffset.accumulateAndGet(offset, Math::max)) {
+            logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} "
+                    + "(diff is {} message(s)).", traceID, offset, old, offset - old);
         }
+    }
 
+    public void completePendingCommits() {
+        List<CompletableFuture<Void>> completed = new ArrayList<>();
+        long last = lastCommittedOffset.get();
         commitFuturesLock.lock();
         try {
-            Map<Long, CompletableFuture<Void>> confirmed = commitFutures.headMap(committedOffset, true);
+            Map<Long, CompletableFuture<Void>> ready = commitFutures.headMap(last, true);
+            if (ready.isEmpty()) {
+                return;
+            }
 
-            logger.debug("[{}] received commit response. Committed offset: {}. "
-                    + "Previous committed offset: {} (diff is {} message(s)). Completing {} commit futures", traceID,
-                    committedOffset, lastCommittedOffset, committedOffset - lastCommittedOffset, confirmed.size());
-
-            lastCommittedOffset = committedOffset;
-            confirmed.values().forEach(future -> future.complete(null));
-            confirmed.clear();
+            ready.values().forEach(completed::add);
+            ready.clear();
         } finally {
             commitFuturesLock.unlock();
         }
+        logger.debug("[{}] Completing {} commit futures by confirmed offset {}", traceID, completed.size(), last);
+        completed.forEach(f -> f.complete(null));
     }
 
     @Override
     public CompletableFuture<Void> commit(OffsetsRange range) {
-        logger.debug(
-                "[{}] Offset range {} is requested to be committed. Last committed offset is {} (commit lag is {})",
-                traceID, range, lastCommittedOffset, range.getStart() - lastCommittedOffset
-        );
+        long confirmed = lastCommittedOffset.get();
+        logger.debug("[{}] Offset range {} is requested to be committed. Last committed offset is {} "
+                + "(commit lag is {})", traceID, range, confirmed, range.getStart() - confirmed);
 
         CompletableFuture<Void> future;
         commitFuturesLock.lock();
@@ -105,19 +110,21 @@ class ReadPartitionCommitter implements MessageCommitter {
         session.commitOffsets(partition, ranges);
     }
 
-    public void failPendingCommits() {
+    public void close() {
+        completePendingCommits();
+        List<CompletableFuture<Void>> failed = new ArrayList<>();
         commitFuturesLock.lock();
         try {
             if (commitFutures.isEmpty()) {
                 return;
             }
 
-            logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, partition.getPath(),
-                    commitFutures.size());
-            commitFutures.values().forEach(f -> f.completeExceptionally(partitionIsClosedException()));
+            commitFutures.values().forEach(failed::add);
             commitFutures.clear();
         } finally {
             commitFuturesLock.unlock();
         }
+        logger.info("[{}] for {} is stopping. Failing {} commit futures...", traceID, partition, failed.size());
+        failed.forEach(f -> f.completeExceptionally(partitionIsClosedException()));
     }
 }
