@@ -11,6 +11,7 @@ import tech.ydb.topic.settings.ReaderSettings;
  */
 public class ReadConfig {
     private final CodecRegistry codecRegistry;
+    private final Executor control;
     private final Executor processor;
     private final Executor decompressor;
     private final String consumerName;
@@ -18,8 +19,10 @@ public class ReadConfig {
     private final int maxBatchSize;
     private final ReaderMetrics metrics;
 
-    public ReadConfig(CodecRegistry codecRegistry, Executor processor, Executor decompressor, ReaderSettings settings) {
+    public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
+            ReaderSettings settings) {
         this.codecRegistry = codecRegistry;
+        this.control = control;
         this.processor = processor;
         this.decompressor = decompressor;
         this.consumerName = settings.getConsumerName();
@@ -36,8 +39,12 @@ public class ReadConfig {
         return decompressor;
     }
 
-    public Executor getProcessor() {
+    public Executor getDataExecutor() {
         return processor;
+    }
+
+    public Executor getControlExecutor() {
+        return control;
     }
 
     public long getMaxMemoryUsageBytes() {

@@ -10,6 +10,7 @@ import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.sdk.OpenTelemetrySdk;
 import io.opentelemetry.sdk.metrics.SdkMeterProvider;
+import io.opentelemetry.sdk.metrics.data.DoublePointData;
 import io.opentelemetry.sdk.metrics.data.HistogramPointData;
 import io.opentelemetry.sdk.metrics.data.LongPointData;
 import io.opentelemetry.sdk.metrics.data.MetricData;
@@ -97,6 +98,27 @@ public class OpenTelemetryMeterTest {
     }
 
     @Test
+    public void doubleGaugeReportsFractionalValuesAndCloses() {
+        double[] value = {0.125};
+        MetricRegistration registration = meter.registerDoubleGauge("ydb.test.age", "s", "test age",
+                m -> m.record(value[0], Attr.of("pool.name", "my-pool")));
+        MetricData metric = single("ydb.test.age");
+        Assert.assertEquals("s", metric.getUnit());
+        Assert.assertEquals("test age", metric.getDescription());
+        Assert.assertEquals(1, metric.getDoubleGaugeData().getPoints().size());
+        DoublePointData point = metric.getDoubleGaugeData().getPoints().iterator().next();
+        Assert.assertEquals(0.125, point.getValue(), 0);
+        Assert.assertEquals("my-pool", point.getAttributes().get(POOL));
+        value[0] = 1.5;
+        Assert.assertEquals(1.5, single("ydb.test.age").getDoubleGaugeData().getPoints()
+                .iterator().next().getValue(), 0);
+        registration.close();
+        registration.close();
+        Assert.assertTrue(reader.collectAllMetrics().isEmpty());
+        Meter.NOOP.registerDoubleGauge("noop", "s", null, m -> Assert.fail("NOOP collected")).close();
+    }
+
+    @Test
     public void legacyGaugeCreationStillReportsValues() {
         meter.createLongGauge("ydb.test.legacy", null, null, m -> m.record(7));
 
@@ -127,6 +149,14 @@ public class OpenTelemetryMeterTest {
         LongPointData point = singleLongPoint(single("ydb.test.noattrs").getLongSumData().getPoints());
         Assert.assertEquals(1L, point.getValue());
         Assert.assertEquals(Attributes.empty(), point.getAttributes());
+
+        MetricRegistration registration = meter.registerDoubleGauge("ydb.test.noattrs.double", null, null,
+                m -> m.record(1.5));
+        DoublePointData doublePoint = single("ydb.test.noattrs.double").getDoubleGaugeData()
+                .getPoints().iterator().next();
+        Assert.assertEquals(1.5, doublePoint.getValue(), 0);
+        Assert.assertEquals(Attributes.empty(), doublePoint.getAttributes());
+        registration.close();
     }
 
     private MetricData single(String name) {

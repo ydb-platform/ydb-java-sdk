@@ -1,8 +1,6 @@
 package tech.ydb.topic.write.impl;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -18,12 +16,6 @@ import org.mockito.Mockito;
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.grpc.GrpcReadStream;
-import tech.ydb.core.grpc.GrpcReadWriteStream;
-import tech.ydb.proto.StatusCodesProtos;
-import tech.ydb.proto.topic.YdbTopic;
-import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromClient;
-import tech.ydb.proto.topic.YdbTopic.StreamWriteMessage.FromServer;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
@@ -40,7 +32,7 @@ import tech.ydb.topic.write.WriteAck;
 public class WriterImplTest {
     private static final RetryConfig IMMEDIATELY_FOREVER = status -> (number, elapsed) -> 0;
 
-    private static TopicRpc mockRpc(StreamMock first, StreamMock... rest) {
+    private static TopicRpc mockRpc(WriteStreamMock first, WriteStreamMock... rest) {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
         Mockito.when(rpc.writeSession(Mockito.any(String.class))).thenReturn(first, rest);
@@ -87,7 +79,7 @@ public class WriterImplTest {
 
     @Test
     public void doubleInitTest() throws Exception {
-        StreamMock s = new StreamMock();
+        WriteStreamMock s = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
 
         CompletableFuture<WriteAck> m1 = writer.blockingSend(MSG1, null);
@@ -124,7 +116,7 @@ public class WriterImplTest {
 
     @Test
     public void closeBeforeInitTest() throws Exception {
-        StreamMock s = new StreamMock();
+        WriteStreamMock s = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
 
         CompletableFuture<WriteAck> m1 = writer.blockingSend(MSG1, null);
@@ -161,7 +153,7 @@ public class WriterImplTest {
 
     @Test
     public void shutdownCancelsPendingMessages() throws Exception {
-        StreamMock s = new StreamMock();
+        WriteStreamMock s = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
         writer.init();
 
@@ -185,7 +177,7 @@ public class WriterImplTest {
 
     @Test
     public void streamFailureTest() throws Exception {
-        StreamMock s = new StreamMock();
+        WriteStreamMock s = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
 
         CompletableFuture<InitResult> initFuture = writer.init();
@@ -230,7 +222,7 @@ public class WriterImplTest {
 
     @Test
     public void withSeqNoConsistencyTest() throws Exception {
-        StreamMock s = new StreamMock();
+        WriteStreamMock s = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
         writer.init();
         s.sendInitResponse(0L);
@@ -248,7 +240,7 @@ public class WriterImplTest {
 
     @Test
     public void withSeqNoIdempotencyTest() throws Exception {
-        StreamMock s = new StreamMock();
+        WriteStreamMock s = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
         writer.init();
         s.sendInitResponse(0L);
@@ -295,7 +287,7 @@ public class WriterImplTest {
 
     @Test
     public void withOutSeqNoConsistencyTest() throws Exception {
-        StreamMock s = new StreamMock();
+        WriteStreamMock s = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s));
         writer.init();
         s.sendInitResponse(0L);
@@ -323,8 +315,8 @@ public class WriterImplTest {
 
     @Test
     public void retryResendsPendingMessagesTest() throws Exception {
-        StreamMock s1 = new StreamMock();
-        StreamMock s2 = new StreamMock();
+        WriteStreamMock s1 = new WriteStreamMock();
+        WriteStreamMock s2 = new WriteStreamMock();
         WriterImpl writer = createWriter(mockRpc(s1, s2), IMMEDIATELY_FOREVER);
 
         writer.init();
@@ -352,70 +344,6 @@ public class WriterImplTest {
         Assert.assertEquals(WriteAck.State.WRITTEN, m1.join().getState());
 
         Assert.assertFalse(m2.isDone());
-    }
-
-    private static class StreamMock implements GrpcReadWriteStream<FromServer, FromClient> {
-        private final CompletableFuture<Status> future = new CompletableFuture<>();
-        private final List<FromClient> messages = new ArrayList<>();
-        private GrpcReadStream.Observer<FromServer> observer = null;
-        private boolean isClosed = false;
-        private boolean isCanceled = false;
-
-        void sendInitResponse(long lastSeqNo) {
-            observer.onNext(FromServer.newBuilder()
-                    .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-                    .setInitResponse(YdbTopic.StreamWriteMessage.InitResponse.newBuilder()
-                            .setLastSeqNo(lastSeqNo)
-                            .setSessionId("test-session")
-                            .build())
-                    .build());
-        }
-
-        void sendAckResponse(long seqNo, long offset) {
-            observer.onNext(FromServer.newBuilder()
-                    .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
-                    .setWriteResponse(YdbTopic.StreamWriteMessage.WriteResponse.newBuilder()
-                            .addAcks(YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.newBuilder()
-                                    .setSeqNo(seqNo)
-                                    .setWritten(YdbTopic.StreamWriteMessage.WriteResponse.WriteAck.Written.newBuilder()
-                                            .setOffset(offset)
-                                            .build())
-                                    .build())
-                            .build())
-                    .build()
-            );
-        }
-
-
-        void close(Status status) {
-            future.complete(status);
-        }
-
-        @Override
-        public String authToken() {
-            return "token";
-        }
-
-        @Override
-        public void sendNext(FromClient message) {
-            messages.add(message);
-        }
-
-        @Override
-        public void close() {
-            this.isClosed = true;
-        }
-
-        @Override
-        public CompletableFuture<Status> start(GrpcReadStream.Observer<FromServer> observer) {
-            this.observer = observer;
-            return future;
-        }
-
-        @Override
-        public void cancel() {
-            this.isCanceled = true;
-        }
     }
 
 }
