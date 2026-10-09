@@ -14,6 +14,7 @@ public class TableIndex {
         GLOBAL,
         GLOBAL_ASYNC,
         GLOBAL_UNIQUE,
+        GLOBAL_JSON,
     }
 
     /**

@@ -1,5 +1,7 @@
 package tech.ydb.table.integration;
 
+import java.util.Collections;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -11,6 +13,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.TableDescription;
+import tech.ydb.table.description.TableIndex;
 import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.values.PrimitiveType;
@@ -82,6 +85,28 @@ public class DescribeTableTest {
         Assert.assertEquals(2, copyDesc.getColumnFamilies().size());
         Assert.assertEquals(ColumnFamily.Compression.COMPRESSION_LZ4, findFamily(copyDesc, "default").getCompression());
         Assert.assertEquals(ColumnFamily.Compression.COMPRESSION_NONE, findFamily(copyDesc, "raw").getCompression());
+    }
+
+    @Test
+    public void jsonIndexTest() {
+        CTX.supplyStatus(session -> session.executeSchemeQuery("CREATE TABLE `" + tablePath + "` ("
+                + "id Uint64 NOT NULL, payload JsonDocument NOT NULL, title Text, PRIMARY KEY(id),"
+                + "INDEX global_idx GLOBAL ON (title), INDEX json_idx GLOBAL USING json ON (payload))"))
+                .join().expectSuccess();
+
+        TableDescription description = CTX.supplyResult(session -> session.describeTable(tablePath)).join().getValue();
+        Assert.assertEquals(2, description.getIndexes().size());
+        Assert.assertEquals(TableIndex.Type.GLOBAL, description.getIndexes().get(0).getType());
+        TableIndex index = description.getIndexes().get(1);
+        Assert.assertEquals("json_idx", index.getName());
+        Assert.assertEquals(TableIndex.Type.GLOBAL_JSON, index.getType());
+        Assert.assertEquals(Collections.singletonList("payload"), index.getColumns());
+        Assert.assertTrue(index.getDataColumns().isEmpty());
+
+        CTX.supplyStatus(session -> session.createTable(tableCopyPath, description)).join().expectSuccess();
+        TableDescription copy = CTX.supplyResult(session -> session.describeTable(tableCopyPath)).join().getValue();
+        Assert.assertEquals(2, copy.getIndexes().size());
+        Assert.assertEquals(TableIndex.Type.GLOBAL_JSON, copy.getIndexes().get(1).getType());
     }
 
     private ColumnFamily findFamily(TableDescription desc, String name) {

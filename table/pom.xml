@@ -76,7 +76,7 @@
                     <environmentVariables>
                         <TESTCONTAINERS_REUSE_ENABLE>true</TESTCONTAINERS_REUSE_ENABLE>
                         <YDB_DOCKER_IMAGE>ydbplatform/local-ydb:trunk</YDB_DOCKER_IMAGE>
-                        <YDB_DOCKER_FEATURE_FLAGS>enable_columnshard_bool</YDB_DOCKER_FEATURE_FLAGS>
+                        <YDB_DOCKER_FEATURE_FLAGS>enable_columnshard_bool,enable_json_index</YDB_DOCKER_FEATURE_FLAGS>
                     </environmentVariables>
                 </configuration>
             </plugin>
