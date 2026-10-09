@@ -72,6 +72,8 @@ public class WriterQueue {
         this.readyNotify = readyNotify;
         this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
         this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
+        this.metrics.register(() -> sent.stream().map(EncodedMsg::getSentMessage)
+                .filter(msg -> msg != null).mapToLong(msg -> msg.acceptedTimestamp).findFirst().orElse(0));
     }
 
     CompletableFuture<Void> flush() {
@@ -224,7 +226,8 @@ public class WriterQueue {
     }
 
     private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, long reservedSizeBytes) {
-        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes);
+        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes,
+                metrics.reportMessageSendStart());
         lastAcceptedAckFuture = msg.getAckFuture();
         queue.add(msg);
         metrics.reportSending(message.getData().length);

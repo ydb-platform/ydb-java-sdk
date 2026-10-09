@@ -23,6 +23,7 @@ final class WriterMetrics {
     private final boolean enabled;
     private MetricRegistration bufferUsedGauge = MetricRegistration.NOOP;
     private MetricRegistration bufferLimitGauge = MetricRegistration.NOOP;
+    private MetricRegistration oldestAgeGauge = MetricRegistration.NOOP;
 
     WriterMetrics(Meter meter, String topic, String writerName) {
         this.meter = meter;
@@ -49,11 +50,22 @@ final class WriterMetrics {
                 m -> m.record(bufferLimit.getAsLong(), commonAttributes));
     }
 
+    void register(LongSupplier oldestTimestamp) {
+        oldestAgeGauge = meter.registerDoubleGauge("ydb.topic.writer.sending.oldest_age", "s",
+                "The age of the oldest message in the writer's in-flight buffer.", m -> {
+                    long timestamp = oldestTimestamp.getAsLong();
+                    m.record(timestamp == 0 ? 0 : (System.nanoTime() - timestamp) / 1_000_000_000d,
+                            commonAttributes);
+                });
+    }
+
     void unregister() {
         bufferUsedGauge.close();
         bufferLimitGauge.close();
+        oldestAgeGauge.close();
         bufferUsedGauge = MetricRegistration.NOOP;
         bufferLimitGauge = MetricRegistration.NOOP;
+        oldestAgeGauge = MetricRegistration.NOOP;
     }
 
     long reportMessageSendStart() {
