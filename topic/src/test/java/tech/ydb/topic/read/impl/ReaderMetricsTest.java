@@ -30,14 +30,12 @@ import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 
 public class ReaderMetricsTest {
-    private static final String DELIVERED = "ydb.topic.reader.delivered.messages";
-    private static final String RECEIVED_MESSAGES = "ydb.topic.reader.received.messages";
-    private static final String RECEIVED_BYTES = "ydb.topic.reader.received.bytes";
-    private static final String PARTITIONS = "ydb.topic.reader.partition_session.count";
-    private static final String CREDIT = "ydb.topic.reader.credit_balance_bytes";
 
     @Test
     public void readerCountersIncrementOnReceive() throws InterruptedException {
+        String delivered = "ydb.topic.reader.delivered.messages";
+        String receivedMessages = "ydb.topic.reader.received.messages";
+        String receivedBytes = "ydb.topic.reader.received.bytes";
         RecordingMeter meter = new RecordingMeter();
         ReadStreamMock stream = new ReadStreamMock();
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
@@ -61,22 +59,22 @@ public class ReaderMetricsTest {
             stream.responseData(25).partition(1, 0)
                     .batch(Codec.RAW, msg1, msg2)
                     .and().send();
-            Assert.assertEquals(2, meter.value(RECEIVED_MESSAGES));
-            Assert.assertEquals(25, meter.value(RECEIVED_BYTES));
+            Assert.assertEquals(2, meter.value(receivedMessages));
+            Assert.assertEquals(25, meter.value(receivedBytes));
 
             stream.responseData(30).partition(1, 2)
                     .batch(Codec.RAW, msg1, msg2, msg1)
                     .and().send();
-            Assert.assertEquals(5, meter.value(RECEIVED_MESSAGES));
-            Assert.assertEquals(55, meter.value(RECEIVED_BYTES));
+            Assert.assertEquals(5, meter.value(receivedMessages));
+            Assert.assertEquals(55, meter.value(receivedBytes));
 
-            Assert.assertEquals(0, meter.value(DELIVERED));
-            meter.assertAttribute(RECEIVED_MESSAGES, "topic", "/topic");
-            meter.assertAttribute(RECEIVED_MESSAGES, "reader.name", "reader");
+            Assert.assertEquals(0, meter.value(delivered));
+            meter.assertAttribute(receivedMessages, "topic", "/topic");
+            meter.assertAttribute(receivedMessages, "reader.name", "reader");
 
             reader.receive();
             reader.receive();
-            Assert.assertEquals(2, meter.value(DELIVERED));
+            Assert.assertEquals(2, meter.value(delivered));
         } finally {
             reader.shutdown();
             client.close();
@@ -85,6 +83,8 @@ public class ReaderMetricsTest {
 
     @Test
     public void gaugesObservePartitionSessionsAndProtocolCredit() throws InterruptedException {
+        String partitions = "ydb.topic.reader.partition_session.count";
+        String credit = "ydb.topic.reader.credit_balance_bytes";
         RecordingMeter meter = new RecordingMeter();
         ReadStreamMock stream = new ReadStreamMock();
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
@@ -99,15 +99,15 @@ public class ReaderMetricsTest {
             reader.init();
             Assert.assertTrue(meter.gauges.isEmpty());
             stream.responseInit("session");
-            Assert.assertEquals(0, meter.collect(PARTITIONS));
-            Assert.assertEquals(100, meter.collect(CREDIT));
+            Assert.assertEquals(0, meter.collect(partitions));
+            Assert.assertEquals(100, meter.collect(credit));
             stream.responseStartPartition("/topic", 42, 0);
-            Assert.assertEquals(1, meter.collect(PARTITIONS));
-            Assert.assertEquals(100, meter.collect(CREDIT));
+            Assert.assertEquals(1, meter.collect(partitions));
+            Assert.assertEquals(100, meter.collect(credit));
             stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
-            Assert.assertEquals(80, meter.collect(CREDIT));
+            Assert.assertEquals(80, meter.collect(credit));
             Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
-            Assert.assertEquals(100, meter.collect(CREDIT));
+            Assert.assertEquals(100, meter.collect(credit));
             stream.closeStream(Status.of(StatusCode.OVERLOADED));
             Assert.assertTrue(meter.gauges.isEmpty());
         } finally {
