@@ -23,6 +23,7 @@ import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
+import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
@@ -148,15 +149,8 @@ public class AsyncReaderImpl implements AsyncReader {
         @Override
         public void onData(ReadSession.PartitionControl control, DataReceivedEvent event) {
             try {
-                int messagesCount = event.getMessages().size();
-                long offsetStart = event.getMessages().get(0).getOffset();
-                long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
-                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) is about "
-                        + "to be called...", debugId, messagesCount, offsetStart, offsetEnd);
-                config.getMetrics().reportDelivered(messagesCount, event.getPartitionSession().getPath());
+                config.getMetrics().reportDelivered(event.getMessages().size(), event.getPartitionSession().getPath());
                 eventHandler.onMessages(event);
-                logger.debug("[{}] DataReceivedEvent callback with {} message(s) (offsets {}-{}) "
-                        + "successfully finished", debugId, messagesCount, offsetStart, offsetEnd);
             } catch (Throwable th) {
                 failSession(th, "onMessages");
             } finally {
@@ -197,6 +191,15 @@ public class AsyncReaderImpl implements AsyncReader {
                 eventHandler.onPartitionSessionClosed(event);
             } catch (Throwable th) {
                 failSession(th, "onPartitionSessionClosed");
+            }
+        }
+
+        @Override
+        public void onPartitionEnded(PartitionSessionEndedEvent event) {
+            try {
+                eventHandler.onPartitionSessionEnded(event);
+            } catch (Throwable th) {
+                failSession(th, "onPartitionSessionEnded");
             }
         }
     }

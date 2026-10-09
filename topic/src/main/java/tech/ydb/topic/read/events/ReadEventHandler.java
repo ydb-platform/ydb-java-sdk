@@ -23,6 +23,8 @@ public interface ReadEventHandler {
 
     default void onPartitionSessionClosed(PartitionSessionClosedEvent event) { }
 
+    default void onPartitionSessionEnded(PartitionSessionEndedEvent event) { }
+
     default void onReaderClosed(ReaderClosedEvent event) { }
 
     default void onSessionStarted(SessionStartedEvent event) { }
