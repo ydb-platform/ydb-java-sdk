@@ -58,7 +58,7 @@ public class WriterMetricsTest {
         Meter meter = new Meter() {
             @Override
             public LongCounter createCounter(String name, String unit, String description) {
-                counters.put(name, 0L);
+                Assert.assertNull(counters.put(name, 0L));
                 return (value, attrs) -> counters.put(name, counters.get(name) + value);
             }
         };

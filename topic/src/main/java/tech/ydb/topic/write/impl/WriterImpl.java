@@ -58,9 +58,9 @@ public class WriterImpl {
     public WriterImpl(TopicRpc topicRpc, WriteStreamFactory factory, WriterSettings settings,
             Executor compressionExecutor, @Nonnull CodecRegistry codecRegistry) {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
-        this.stream = new WriteSession(debugId, factory, settings, topicRpc.getScheduler(), new ListenerImpl());
-        this.writeQueue = new WriterQueue(debugId, settings, codecRegistry, compressionExecutor, sendTask);
         this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
+        this.stream = new WriteSession(debugId, factory, settings, topicRpc.getScheduler(), new ListenerImpl());
+        this.writeQueue = new WriterQueue(debugId, settings, metrics, codecRegistry, compressionExecutor, sendTask);
         Observability.reportMetricsUsage(settings.getMeter());
 
         logger.info("Writer with id {} created for topic \"{}\" with producerId \"{}\" and messageGroupId \"{}\"",
