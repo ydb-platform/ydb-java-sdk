@@ -59,7 +59,7 @@ public class WriterQueue {
     // Future for flush method. Only the future is stored to not retain the message data after sending
     private volatile CompletableFuture<WriteAck> lastAcceptedAckFuture = null;
 
-    public WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
+    public WriterQueue(String debugId, WriterSettings settings, WriterMetrics metrics, CodecRegistry codecRegistry,
                        Executor compressionExecutor, Runnable readyNotify) {
         this.debugId = debugId;
         this.buffer = new BufferManager(debugId, settings);
@@ -70,7 +70,7 @@ public class WriterQueue {
         }
         this.compressionExecutor = compressionExecutor;
         this.readyNotify = readyNotify;
-        this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
+        this.metrics = metrics;
         this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
     }
 

@@ -32,6 +32,28 @@ import tech.ydb.topic.settings.TopicReadSettings;
 public class ReaderMetricsTest {
 
     @Test
+    public void sessionErrorsIncrementOnStreamFailure() {
+        RecordingMeter meter = new RecordingMeter();
+        ReadStreamMock stream = new ReadStreamMock();
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
+        TopicClient client = TopicClientImpl.newClient(rpc).build();
+        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                .addTopic("/topic").setConsumerName("consumer").setRetryConfig(status -> null)
+                .withMeter(meter, "reader").build());
+        try {
+            reader.init();
+            stream.responseInit("session");
+            stream.closeStream(Status.of(StatusCode.UNAUTHORIZED));
+            Assert.assertEquals(1, meter.value("ydb.topic.reader.session.errors"));
+        } finally {
+            reader.shutdown();
+            client.close();
+        }
+    }
+
+    @Test
     public void readerCountersIncrementOnReceive() throws InterruptedException {
         String delivered = "ydb.topic.reader.delivered.messages";
         String receivedMessages = "ydb.topic.reader.received.messages";
@@ -79,6 +101,7 @@ public class ReaderMetricsTest {
             reader.shutdown();
             client.close();
         }
+        Assert.assertEquals(0, meter.value("ydb.topic.reader.session.errors"));
     }
 
     @Test

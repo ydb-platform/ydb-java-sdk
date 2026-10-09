@@ -2,10 +2,12 @@ package tech.ydb.topic.write.impl;
 
 import java.util.function.LongSupplier;
 
+import tech.ydb.core.Status;
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
+import tech.ydb.topic.impl.TopicMetricsUtils;
 
 /**
  * Topic writer metrics.
@@ -16,6 +18,7 @@ final class WriterMetrics {
     private final LongCounter sendingMessages;
     private final LongCounter sendingBytes;
     private final LongCounter writtenMessages;
+    private final LongCounter sessionErrors;
     private final Attr[] commonAttributes;
     private final Meter meter;
     private MetricRegistration bufferUsedGauge = MetricRegistration.NOOP;
@@ -29,6 +32,8 @@ final class WriterMetrics {
                 "The uncompressed body size of messages accepted by the writer.");
         this.writtenMessages = meter.createCounter("ydb.topic.writer.written.messages", MESSAGE_UNIT,
                 "The number of messages confirmed written by the server, including already written messages.");
+        this.sessionErrors = meter.createCounter("ydb.topic.writer.session.errors", "{error}",
+                "The number of writer stream session errors by retry decision.");
         this.commonAttributes = writerName == null
                 ? new Attr[0]
                 : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
@@ -57,5 +62,9 @@ final class WriterMetrics {
 
     void reportWritten() {
         writtenMessages.add(1, commonAttributes);
+    }
+
+    void reportSessionError(Status status, boolean retry) {
+        sessionErrors.add(1, TopicMetricsUtils.sessionErrorAttributes(commonAttributes, status.getCode(), retry));
     }
 }

@@ -39,6 +39,7 @@ public class WriterImpl {
 
     private final String debugId;
     private final WriterQueue writeQueue;
+    private final WriterMetrics metrics;
     private final WriteSession stream;
     private final Runnable sendTask = new SerialRunnable(new SendTask());
 
@@ -57,8 +58,9 @@ public class WriterImpl {
     public WriterImpl(TopicRpc topicRpc, WriteStreamFactory factory, WriterSettings settings,
             Executor compressionExecutor, @Nonnull CodecRegistry codecRegistry) {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
+        this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
         this.stream = new WriteSession(debugId, factory, settings, topicRpc.getScheduler(), new ListenerImpl());
-        this.writeQueue = new WriterQueue(debugId, settings, codecRegistry, compressionExecutor, sendTask);
+        this.writeQueue = new WriterQueue(debugId, settings, metrics, codecRegistry, compressionExecutor, sendTask);
         Observability.reportMetricsUsage(settings.getMeter());
 
         logger.info("Writer with id {} created for topic \"{}\" with producerId \"{}\" and messageGroupId \"{}\"",
@@ -185,6 +187,7 @@ public class WriterImpl {
         @Override
         public void onStop(Status status) {
             isReady = false;
+            metrics.reportSessionError(status, true);
         }
 
         @Override
@@ -194,6 +197,9 @@ public class WriterImpl {
 
         @Override
         public void onClose(Status status) {
+            if (!isClosed.get()) {
+                metrics.reportSessionError(status, false);
+            }
             isClosed.set(true);
             isReady = false;
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));

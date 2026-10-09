@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.LongMeasurement;
 import tech.ydb.core.metrics.Meter;
@@ -27,12 +28,37 @@ import tech.ydb.topic.write.QueueOverflowException;
 public class WriterMetricsTest {
 
     @Test
+    public void sessionErrorsIncrementOnStreamFailure() {
+        Map<String, Long> counters = new HashMap<>();
+        Meter meter = new Meter() {
+            @Override
+            public LongCounter createCounter(String name, String unit, String description) {
+                return (value, attrs) -> counters.merge(name, value, Long::sum);
+            }
+        };
+        WriteStreamMock stream = new WriteStreamMock();
+        WriterSettings settings = WriterSettings.newBuilder()
+                .setTopicPath("/test/topic").setCodec(Codec.RAW).setRetryConfig(status -> null)
+                .withMeter(meter, "writer").build();
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
+            AsyncWriter writer = client.createAsyncWriter(settings);
+            try {
+                writer.init();
+                stream.close(Status.of(StatusCode.UNAUTHORIZED));
+                Assert.assertEquals(Long.valueOf(1), counters.get("ydb.topic.writer.session.errors"));
+            } finally {
+                writer.shutdown();
+            }
+        }
+    }
+
+    @Test
     public void writerCountersCountAcceptedMessagesAndAcknowledgements() throws QueueOverflowException {
         Map<String, Long> counters = new HashMap<>();
         Meter meter = new Meter() {
             @Override
             public LongCounter createCounter(String name, String unit, String description) {
-                counters.put(name, 0L);
+                Assert.assertNull(counters.put(name, 0L));
                 return (value, attrs) -> counters.put(name, counters.get(name) + value);
             }
         };
