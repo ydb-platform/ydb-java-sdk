@@ -122,14 +122,17 @@ public class BufferManager {
         }
     }
 
+    public boolean hasPartition(Long id) {
+        PartitionBuffer part = partitions.get(id);
+        return part != null && !part.isEmpty();
+    }
+
     // Thread safe
-    public boolean releaseRange(Long id, OffsetsRange range) {
+    public void releaseRange(Long id, OffsetsRange range) {
         PartitionBuffer part = partitions.get(id);
         if (part != null) {
             release(part.release(range));
-            return part.isActive();
         }
-        return false;
     }
 
     private void release(long total) {
@@ -182,8 +185,8 @@ public class BufferManager {
             batches.add(range);
         }
 
-        public boolean isActive() {
-            return !batches.isEmpty();
+        public boolean isEmpty() {
+            return batches.isEmpty();
         }
 
         public long release(OffsetsRange range) {

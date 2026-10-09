@@ -60,7 +60,6 @@ public class ReadPartition implements ReadSession.PartitionControl {
     private final AtomicReference<State> state = new AtomicReference<>(State.CREATED);
     private final AtomicReference<CommitOffsetAcknowledgementEvent> commitOffsetAck = new AtomicReference<>(null);
     private final AtomicReference<PartitionSessionEndedEventImpl> partitionEnd = new AtomicReference<>(null);
-    private volatile boolean hasUnprocessedMessages = false;
     private volatile boolean isPaused = true;
 
     ReadPartition(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
@@ -94,8 +93,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
     @Override
     public void confirmRangeProcessed(OffsetsRange range) {
         decoder.releaseRange(range);
-        hasUnprocessedMessages = session.getBufferManager().releaseRange(partition.getId(), range);
-        trySendPartitionEnded();
+        session.getBufferManager().releaseRange(partition.getId(), range);
         sendDataToReaders();
     }
 
@@ -103,7 +101,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         PartitionSessionEndedEventImpl event = new PartitionSessionEndedEventImpl(partition, childs);
         logger.info("[{}] got EndPartitionSession with child partitions {}", traceID, event.getChildsString());
         partitionEnd.set(event);
-        trySendPartitionEnded();
+        sendDataToReaders();
     }
 
     public void confirmCommittedOffset(long committedOffset) {
@@ -114,33 +112,11 @@ public class ReadPartition implements ReadSession.PartitionControl {
     }
 
     public void unpause() {
-        isPaused = false;
         if (state.get() != State.CREATED) {
             logger.info("[{}] was unpaused and ready to send data", traceID);
-            sendDataToReaders();
         }
-    }
-
-    private void trySendCommitOffsetAck() {
-        CommitOffsetAcknowledgementEvent event = commitOffsetAck.getAndSet(null);
-        if (event != null) {
-            session.getHandler().onCommitAck(event);
-        }
-    }
-
-    private void trySendPartitionEnded() {
-        if (hasUnprocessedMessages) {
-            return;
-        }
-        PartitionSessionEndedEventImpl event = partitionEnd.getAndSet(null);
-        if (event != null) {
-            dataExecutor.execute(() -> {
-                logger.info("[{}] has finished processing and unpaused child partitions {}", traceID,
-                        event.getChildsString());
-                session.getHandler().onPartitionEnded(event);
-                session.releaseLocks(partition, event.getChilds());
-            });
-        }
+        isPaused = false;
+        sendDataToReaders();
     }
 
     public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
@@ -154,7 +130,6 @@ public class ReadPartition implements ReadSession.PartitionControl {
         metrics.reportReceivedMessages(messagesCount, partition.getPath());
 
         if (messagesCount > 0) {
-            hasUnprocessedMessages = true;
             queue.addBatches(batchList);
             sendDataToReaders();
         }
@@ -162,16 +137,24 @@ public class ReadPartition implements ReadSession.PartitionControl {
         return isActive();
     }
 
+    private void sendCommitOffsetAck() {
+        CommitOffsetAcknowledgementEvent event = commitOffsetAck.getAndSet(null);
+        if (event != null) {
+            session.getHandler().onCommitAck(event);
+        }
+    }
+
     private void sendDataToReaders() {
         dataExecutor.execute(() -> {
-            trySendCommitOffsetAck(); // ack may be sent even state is not active
+            sendCommitOffsetAck(); // ack may be sent even state is not active
             if (isPaused) {
                 return;
             }
+
             while (state.get() == State.STARTED || state.get() == State.PRE_STOPPED) {
                 List<Message> list = queue.getNextBatch();
                 if (list == null) {
-                    return;
+                    break;
                 }
 
                 DataReceivedEventImpl event = new DataReceivedEventImpl(partition, committer, list);
@@ -185,7 +168,17 @@ public class ReadPartition implements ReadSession.PartitionControl {
                 logger.debug("[{}] onData with {} message(s) (offsets {}-{}) successfully finished",
                         traceID, messagesCount, offsetStart, offsetEnd);
 
-                trySendCommitOffsetAck();
+                sendCommitOffsetAck();
+            }
+
+            if (!session.getBufferManager().hasPartition(partition.getId())) {
+                PartitionSessionEndedEventImpl event = partitionEnd.getAndSet(null);
+                if (event != null) {
+                    logger.info("[{}] has finished processing and unpaused child partitions {}", traceID,
+                            event.getChildsString());
+                    session.getHandler().onPartitionEnded(event);
+                    session.releaseLocks(partition, event.getChilds());
+                }
             }
         });
     }
