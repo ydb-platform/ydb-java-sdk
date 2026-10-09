@@ -71,6 +71,14 @@ class ReadPartitionCommitter implements MessageCommitter {
         completed.forEach(f -> f.complete(null));
     }
 
+    private CompletableFuture<Void> registerCommit(OffsetsRange range) {
+        CompletableFuture<Void> future = commitFutures.computeIfAbsent(
+                range.getEnd(), offset -> new CompletableFuture<>());
+        long messages = range.getEnd() - range.getStart();
+        future.thenRun(() -> session.getConfig().getMetrics().reportCommitAcknowledged(messages, partition.getPath()));
+        return future;
+    }
+
     @Override
     public CompletableFuture<Void> commit(OffsetsRange range) {
         long confirmed = lastCommittedOffset.get();
@@ -80,11 +88,7 @@ class ReadPartitionCommitter implements MessageCommitter {
         CompletableFuture<Void> future;
         commitFuturesLock.lock();
         try {
-            future = commitFutures.get(range.getEnd());
-            if (future == null) {
-                future = new CompletableFuture<>();
-                commitFutures.put(range.getEnd(), future);
-            }
+            future = registerCommit(range);
         } finally {
             commitFuturesLock.unlock();
         }
@@ -107,7 +111,15 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition, ranges);
+        commitFuturesLock.lock();
+        try {
+            ranges.forEach(this::registerCommit);
+        } finally {
+            commitFuturesLock.unlock();
+        }
+        if (!session.commitOffsets(partition, ranges)) {
+            close();
+        }
     }
 
     public void close() {

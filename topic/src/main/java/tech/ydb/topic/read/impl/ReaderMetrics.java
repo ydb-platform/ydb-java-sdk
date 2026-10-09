@@ -1,12 +1,14 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
+import tech.ydb.topic.description.OffsetsRange;
 
 /**
  * Topic reader metrics.
@@ -17,6 +19,8 @@ final class ReaderMetrics {
     private final LongCounter deliveredMessages;
     private final LongCounter receivedMessages;
     private final LongCounter receivedBytes;
+    private final LongCounter commitQueued;
+    private final LongCounter commitAcknowledged;
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
@@ -34,6 +38,10 @@ final class ReaderMetrics {
                 "The number of messages accepted by the SDK for an active partition session.");
         this.receivedBytes = meter.createCounter("ydb.topic.reader.received.bytes", "By",
                 "The protocol bytes_size received in read responses.");
+        this.commitQueued = meter.createCounter("ydb.topic.reader.commit.queued", MESSAGE_UNIT,
+                "The number of messages in commit ranges accepted by the SDK.");
+        this.commitAcknowledged = meter.createCounter("ydb.topic.reader.commit.acknowledged", MESSAGE_UNIT,
+                "The number of messages in commit ranges completed by successful acknowledgements.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
@@ -66,6 +74,20 @@ final class ReaderMetrics {
         if (enabled) {
             record(receivedBytes, bytes);
         }
+    }
+
+    void reportCommitQueued(List<OffsetsRange> ranges, String topic) {
+        if (enabled) {
+            long messages = 0;
+            for (OffsetsRange range : ranges) {
+                messages += range.getEnd() - range.getStart();
+            }
+            report(commitQueued, messages, topic);
+        }
+    }
+
+    void reportCommitAcknowledged(long messages, String topic) {
+        report(commitAcknowledged, messages, topic);
     }
 
     private void report(LongCounter counter, long messages, String topic) {

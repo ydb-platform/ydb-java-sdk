@@ -35,6 +35,8 @@ public class ReaderMetricsTest {
     private static final String RECEIVED_BYTES = "ydb.topic.reader.received.bytes";
     private static final String PARTITIONS = "ydb.topic.reader.partition_session.count";
     private static final String CREDIT = "ydb.topic.reader.credit_balance_bytes";
+    private static final String COMMIT_QUEUED = "ydb.topic.reader.commit.queued";
+    private static final String COMMIT_ACKNOWLEDGED = "ydb.topic.reader.commit.acknowledged";
 
     @Test
     public void readerCountersIncrementOnReceive() throws InterruptedException {
@@ -115,6 +117,34 @@ public class ReaderMetricsTest {
             client.close();
         }
         Assert.assertTrue(meter.gauges.isEmpty());
+    }
+
+    @Test
+    public void commitCountersIncrementOnAcknowledgement() throws InterruptedException {
+        RecordingMeter meter = new RecordingMeter();
+        ReadStreamMock stream = new ReadStreamMock();
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
+        TopicClient client = TopicClientImpl.newClient(rpc).build();
+        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                .addTopic("/topic").setConsumerName("consumer").setDecompressionExecutor(Runnable::run)
+                .withMeter(meter, "reader").build());
+        try {
+            reader.init();
+            stream.responseInit("session");
+            stream.responseStartPartition("/topic", 42, 0);
+            stream.responseData(1).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
+            reader.receive().commit();
+            stream.responseData(2).partition(1, 3).batch(Codec.RAW, new byte[]{2, 3}).and().send();
+            reader.receive().commit();
+            Assert.assertEquals(4, meter.value(COMMIT_QUEUED));
+            stream.responseCommitAck().partition(1, 4).send();
+            Assert.assertEquals(4, meter.value(COMMIT_ACKNOWLEDGED));
+        } finally {
+            reader.shutdown();
+            client.close();
+        }
     }
 
     private static class RecordingMeter implements Meter {
