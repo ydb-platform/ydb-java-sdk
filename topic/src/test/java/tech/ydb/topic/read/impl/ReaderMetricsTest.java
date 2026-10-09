@@ -117,7 +117,9 @@ public class ReaderMetricsTest {
             Assert.assertEquals(1, meter.collect(COMMIT_LAG));
             DeferredCommitter committer = DeferredCommitter.newInstance();
             committer.add(reader.receive(1, TimeUnit.SECONDS));
+            stream.assertSentMessagesCount(5);
             committer.commit();
+            stream.assertSentMessagesCount(6);
             Assert.assertEquals(2, meter.collect(COMMIT_LAG));
             stream.responseCommitAck().partition(1, 2).send();
             Assert.assertEquals(0, meter.collect(COMMIT_LAG));

@@ -43,7 +43,7 @@ class ReadPartitionCommitter implements MessageCommitter {
     long getCommitOffsetLag() {
         commitFuturesLock.lock();
         try {
-            return commitFutures.isEmpty() ? 0 : Math.max(0, commitFutures.lastKey() - lastCommittedOffset.get());
+            return commitFutures.isEmpty() ? 0 : commitFutures.lastKey() - lastCommittedOffset.get();
         } finally {
             commitFuturesLock.unlock();
         }
