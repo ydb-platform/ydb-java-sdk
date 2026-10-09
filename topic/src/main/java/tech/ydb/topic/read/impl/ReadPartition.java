@@ -94,7 +94,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     public void confirmCommittedOffset(long committedOffset) {
         committer.updateCommittedOffset(committedOffset);
-        metrics.reportCommitAcknowledged(committer.completePendingCommits(), partition.getPath());
+        committer.completePendingCommits();
         commitOffsetAck.set(new CommitOffsetAcknowledgementEventImpl(partition, committedOffset));
         sendDataToReaders();
     }
