@@ -392,6 +392,68 @@ public class TopicReadersIntegrationTest {
         }
     }
 
+    @Test
+    public void readAllSplittedWithCommitsTest() throws Exception {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(SPLITTED_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setDecompressionExecutor(Runnable::run)
+                .setMaxBatchSize(100)
+                .build();
+
+        BlockingQueue<Message> queue = new ArrayBlockingQueue<>(1);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReaderHandler() {
+                    @Override
+                    public void onMessagesWithControl(DataReceivedEventImpl event) {
+                        try {
+                            for (Message msg : event.getMessages()) {
+                                Assert.assertTrue(queue.offer(msg, 60, TimeUnit.SECONDS));
+                            }
+                        } catch (InterruptedException ex) {
+                            throw new AssertionError("cannot process event", ex);
+                        }
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                }).build());
+
+        CountDownLatch recieved = new CountDownLatch(1500);
+        PROXY.listenPartitionData(partitionData -> {
+            partitionData.getBatchesList().forEach(batch -> {
+                batch.getMessageDataList().forEach(msg -> recieved.countDown());
+            });
+        });
+
+        reader.init();
+        try {
+            // wait to recieve all messages
+            Assert.assertTrue(recieved.await(5, TimeUnit.SECONDS));
+
+            // validate all messages
+            int p0_idx = 0;
+            int p1_idx = 0;
+            CompletableFuture<Void> lastCommit = null;
+            while (p0_idx < 1000 || p1_idx < 500) {
+                Message msg = queue.poll(1, TimeUnit.SECONDS);
+                Assert.assertNotNull("cannot get msg " + (p0_idx + p1_idx), msg);
+
+                int msg_idx = "p0".equals(msg.getProducerId()) ? ++p0_idx : ++p1_idx;
+                byte[] expected = writedMsg(msg.getProducerId(), msg_idx);
+                Assert.assertEquals(new String(expected), new String(msg.getData()));
+
+                lastCommit = msg.commit();
+            }
+            Assert.assertNotNull(lastCommit);
+            lastCommit.get(5, TimeUnit.SECONDS);
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
     @Test(timeout = 120000)
     public void syncReadAllWithDefaultRetryPolicyTest() throws Exception {
         // Fail initialization, reading, and both sides of committing, in this order.
