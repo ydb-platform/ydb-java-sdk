@@ -40,6 +40,15 @@ class ReadPartitionCommitter implements MessageCommitter {
         this.lastCommittedOffset = new AtomicLong(lastCommittedOffset);
     }
 
+    long getCommitOffsetLag() {
+        commitFuturesLock.lock();
+        try {
+            return commitFutures.isEmpty() ? 0 : commitFutures.lastKey() - lastCommittedOffset.get();
+        } finally {
+            commitFuturesLock.unlock();
+        }
+    }
+
     private RuntimeException partitionIsClosedException() {
         return new RuntimeException("" + partition + " is already stopped");
     }
@@ -107,7 +116,15 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition, ranges);
+        commitFuturesLock.lock();
+        try {
+            ranges.forEach(range -> commitFutures.computeIfAbsent(range.getEnd(), offset -> new CompletableFuture<>()));
+        } finally {
+            commitFuturesLock.unlock();
+        }
+        if (!session.commitOffsets(partition, ranges)) {
+            close();
+        }
     }
 
     public void close() {

@@ -25,6 +25,8 @@ import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.TopicClientImpl;
+import tech.ydb.topic.read.DeferredCommitter;
+import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
@@ -35,6 +37,7 @@ public class ReaderMetricsTest {
     private static final String RECEIVED_BYTES = "ydb.topic.reader.received.bytes";
     private static final String PARTITIONS = "ydb.topic.reader.partition_session.count";
     private static final String CREDIT = "ydb.topic.reader.credit_balance_bytes";
+    private static final String COMMIT_LAG = "ydb.topic.reader.commit_offset.lag.max";
 
     @Test
     public void readerCountersIncrementOnReceive() throws InterruptedException {
@@ -93,6 +96,7 @@ public class ReaderMetricsTest {
         TopicClient client = TopicClientImpl.newClient(rpc).build();
         SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
                 .addTopic("/topic").setConsumerName("consumer")
+                .setDecompressionExecutor(Runnable::run)
                 .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
         try {
             Assert.assertTrue(meter.gauges.isEmpty());
@@ -100,13 +104,25 @@ public class ReaderMetricsTest {
             Assert.assertTrue(meter.gauges.isEmpty());
             stream.responseInit("session");
             Assert.assertEquals(0, meter.collect(PARTITIONS));
+            Assert.assertEquals(0, meter.collect(COMMIT_LAG));
             Assert.assertEquals(100, meter.collect(CREDIT));
             stream.responseStartPartition("/topic", 42, 0);
             Assert.assertEquals(1, meter.collect(PARTITIONS));
             Assert.assertEquals(100, meter.collect(CREDIT));
-            stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
+            stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}, new byte[]{2}).and().send();
             Assert.assertEquals(80, meter.collect(CREDIT));
-            Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
+            Message message = reader.receive(1, TimeUnit.SECONDS);
+            Assert.assertNotNull(message);
+            message.commit();
+            Assert.assertEquals(1, meter.collect(COMMIT_LAG));
+            DeferredCommitter committer = DeferredCommitter.newInstance();
+            committer.add(reader.receive(1, TimeUnit.SECONDS));
+            stream.assertSentMessagesCount(5);
+            committer.commit();
+            stream.assertSentMessagesCount(6);
+            Assert.assertEquals(2, meter.collect(COMMIT_LAG));
+            stream.responseCommitAck().partition(1, 2).send();
+            Assert.assertEquals(0, meter.collect(COMMIT_LAG));
             Assert.assertEquals(100, meter.collect(CREDIT));
             stream.closeStream(Status.of(StatusCode.OVERLOADED));
             Assert.assertTrue(meter.gauges.isEmpty());
