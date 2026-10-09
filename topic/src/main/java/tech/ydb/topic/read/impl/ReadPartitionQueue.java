@@ -25,11 +25,15 @@ class ReadPartitionQueue {
     private final Queue<MessageImpl> readingQueue = new ConcurrentLinkedQueue<>();
     private volatile long lastReadOffset;
 
-    ReadPartitionQueue(String traceID, ReadPartitionDecoder decoder, int maxBatchSize, long lastCommittedOffset) {
+    ReadPartitionQueue(String traceID, ReadPartitionDecoder decoder, int maxBatchSize, long lastReadOffset) {
         this.traceID = traceID;
         this.decoder = decoder;
         this.maxBatchSize = maxBatchSize;
-        this.lastReadOffset = lastCommittedOffset;
+        this.lastReadOffset = lastReadOffset;
+    }
+
+    void updateLastReadOffset(long offset) {
+        lastReadOffset = offset;
     }
 
     void addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {

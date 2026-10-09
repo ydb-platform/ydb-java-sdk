@@ -9,6 +9,9 @@ on:
   pull_request:
       type: [opened, reopened, edited, synchronize]
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build YDB Java SDK

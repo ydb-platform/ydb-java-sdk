@@ -18,6 +18,7 @@ import tech.ydb.topic.write.QueueOverflowException;
 public class BufferManager {
     // use logger from WriterImpl
     private static final Logger logger = LoggerFactory.getLogger(WriterImpl.class);
+    private static final long MAX_BLOCKS_COUNT = Integer.MAX_VALUE - 1;
 
     private final String debugId;
     private final long bufferMaxSize;
@@ -43,6 +44,12 @@ public class BufferManager {
 
     public long getMaxSize() {
         return bufferMaxSize;
+    }
+
+    long getUsedSize() {
+        long usedBlocks = (long) calculateBlocksCount(bufferMaxSize, blockBitsCount)
+                - blocksAvailable.availablePermits();
+        return usedBlocks << blockBitsCount;
     }
 
     public void close(Status status) {
@@ -210,7 +217,7 @@ public class BufferManager {
     private static int calculateBlockSize(long maxBufferSize) {
         int bits = 0;
         long blocksCount = maxBufferSize;
-        while (blocksCount > Integer.MAX_VALUE - 1) {
+        while (blocksCount > MAX_BLOCKS_COUNT) {
             bits = bits + 1;
             blocksCount = blocksCount >>> 1;
 

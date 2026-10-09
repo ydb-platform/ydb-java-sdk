@@ -2,8 +2,11 @@ package tech.ydb.topic.settings;
 
 import java.util.function.BiConsumer;
 
+import javax.annotation.Nullable;
+
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.description.Codec;
 
@@ -15,6 +18,8 @@ public class WriterSettings {
     private static final int MAX_IN_FLIGHT_COUNT_DEFAULT = 100000;
 
     private final String logPrefix;
+    private final String writerName;
+    private final Meter meter;
     private final String topicPath;
     private final String producerId;
     private final String messageGroupId;
@@ -29,6 +34,8 @@ public class WriterSettings {
 
     private WriterSettings(Builder builder) {
         this.logPrefix = builder.logPrefix;
+        this.writerName = builder.writerName;
+        this.meter = builder.meter;
         this.topicPath = builder.topicPath;
         this.producerId = builder.producerId;
         this.messageGroupId = builder.messageGroupId;
@@ -47,6 +54,15 @@ public class WriterSettings {
 
     public String getLogPrefix() {
         return logPrefix;
+    }
+
+    @Nullable
+    public String getWriterName() {
+        return writerName;
+    }
+
+    public Meter getMeter() {
+        return meter;
     }
 
     public String getTopicPath() {
@@ -94,6 +110,8 @@ public class WriterSettings {
      */
     public static class Builder {
         private String logPrefix = null;
+        private String writerName = null;
+        private Meter meter = Meter.NOOP;
         private String topicPath = null;
         private String producerId = null;
         private String messageGroupId = null;
@@ -115,6 +133,25 @@ public class WriterSettings {
          */
         public Builder setLogPrefix(String logPrefix) {
             this.logPrefix = logPrefix;
+            return this;
+        }
+
+        /**
+         * Enable writer metrics with a non-empty writer name.
+         *
+         * @param meter meter used to record writer metrics
+         * @param writerName non-empty name included in writer metric attributes
+         * @return settings builder
+         */
+        public Builder withMeter(Meter meter, String writerName) {
+            if (meter == null) {
+                throw new IllegalArgumentException("Meter must be not null");
+            }
+            if (writerName == null || writerName.trim().isEmpty()) {
+                throw new IllegalArgumentException("writerName must be non-empty when a Meter is provided");
+            }
+            this.meter = meter;
+            this.writerName = writerName;
             return this;
         }
 

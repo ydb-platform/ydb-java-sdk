@@ -40,4 +40,12 @@ public interface Meter {
         createLongGauge(name, unit, description, callback);
         return MetricRegistration.NOOP;
     }
+
+    /**
+     * Registers a floating-point gauge callback. Close the returned handle when its source is closed.
+     */
+    default MetricRegistration registerDoubleGauge(
+            String name, String unit, String description, Consumer<DoubleMeasurement> callback) {
+        return MetricRegistration.NOOP;
+    }
 }

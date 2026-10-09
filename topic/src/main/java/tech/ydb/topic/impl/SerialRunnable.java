@@ -6,15 +6,15 @@ package tech.ydb.topic.impl;
  */
 public class SerialRunnable implements Runnable {
     private final Runnable task;
-    private final SerialExecutor executor;
+    private final SerialExecutor serial;
 
     public SerialRunnable(Runnable task) {
         this.task = task;
-        this.executor = new SerialExecutor(Runnable::run, true);
+        this.serial = new SerialExecutor(Runnable::run, true);
     }
 
     @Override
     public void run() {
-        executor.execute(task);
+        serial.execute(task);
     }
 }

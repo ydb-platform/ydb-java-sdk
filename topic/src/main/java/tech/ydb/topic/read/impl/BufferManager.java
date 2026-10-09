@@ -44,6 +44,10 @@ public class BufferManager {
         requestFunc.accept(maxBufferSize);
     }
 
+    long getCreditBalanceBytes() {
+        return maxBufferSize + totalReleased.get() - totalAllocated.get();
+    }
+
     // Has no reentrant thread safety
     public void allocate(long bufferSize, List<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataList) {
         logger.debug("[{}] Received ReadResponse of {} bytes, {} allocated and {} released before",
@@ -118,6 +122,11 @@ public class BufferManager {
         }
     }
 
+    public boolean hasPartition(Long id) {
+        PartitionBuffer part = partitions.get(id);
+        return part != null && !part.isEmpty();
+    }
+
     // Thread safe
     public void releaseRange(Long id, OffsetsRange range) {
         PartitionBuffer part = partitions.get(id);
@@ -174,6 +183,10 @@ public class BufferManager {
 
         public void add(BatchBuffer range) {
             batches.add(range);
+        }
+
+        public boolean isEmpty() {
+            return batches.isEmpty();
         }
 
         public long release(OffsetsRange range) {
