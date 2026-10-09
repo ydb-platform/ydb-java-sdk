@@ -106,10 +106,6 @@ public class ReadPartition implements ReadSession.PartitionControl {
         }
     }
 
-    void recordCommitRequest(List<OffsetsRange> ranges) {
-        committer.recordCommitRequest(ranges);
-    }
-
     long getCommitOffsetLag() {
         return committer.getCommitOffsetLag();
     }

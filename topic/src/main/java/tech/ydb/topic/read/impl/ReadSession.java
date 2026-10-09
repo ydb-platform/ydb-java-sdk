@@ -121,7 +121,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                         .build())
                 .build();
 
-        partition.recordCommitRequest(rangesToCommit);
         send(FromClient.newBuilder().setCommitOffsetRequest(req).build());
         return true;
     }

@@ -32,26 +32,21 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private final AtomicLong lastCommittedOffset;
-    private final AtomicLong lastRequestedCommitOffset;
 
     ReadPartitionCommitter(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
         this.lastCommittedOffset = new AtomicLong(lastCommittedOffset);
-        this.lastRequestedCommitOffset = new AtomicLong(lastCommittedOffset);
-    }
-
-    void recordCommitRequest(List<OffsetsRange> ranges) {
-        for (OffsetsRange range : ranges) {
-            if (range.getEnd() >= lastCommittedOffset.get()) {
-                lastRequestedCommitOffset.set(range.getEnd());
-            }
-        }
     }
 
     long getCommitOffsetLag() {
-        return Math.max(0, lastRequestedCommitOffset.get() - lastCommittedOffset.get());
+        commitFuturesLock.lock();
+        try {
+            return commitFutures.isEmpty() ? 0 : Math.max(0, commitFutures.lastKey() - lastCommittedOffset.get());
+        } finally {
+            commitFuturesLock.unlock();
+        }
     }
 
     private RuntimeException partitionIsClosedException() {
@@ -121,7 +116,15 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition, ranges);
+        commitFuturesLock.lock();
+        try {
+            ranges.forEach(range -> commitFutures.computeIfAbsent(range.getEnd(), offset -> new CompletableFuture<>()));
+        } finally {
+            commitFuturesLock.unlock();
+        }
+        if (!session.commitOffsets(partition, ranges)) {
+            close();
+        }
     }
 
     public void close() {
