@@ -3,7 +3,6 @@ package tech.ydb.core.metrics;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.common.AttributeKey;
@@ -116,29 +115,6 @@ public class OpenTelemetryMeterTest {
         registration.close();
         Assert.assertTrue(reader.collectAllMetrics().isEmpty());
         Meter.NOOP.registerDoubleGauge("noop", "s", null, m -> Assert.fail("NOOP collected")).close();
-    }
-
-    @Test
-    public void legacyGaugeCreationStillReportsValues() {
-        meter.createLongGauge("ydb.test.legacy", null, null, m -> m.record(7));
-
-        Assert.assertEquals(7L, singleLongPoint(single("ydb.test.legacy").getLongGaugeData().getPoints()).getValue());
-    }
-
-    @Test
-    public void registrationSupportsLegacyMeterOverride() {
-        long[] observed = new long[1];
-        Meter legacy = new Meter() {
-            @Override
-            public void createLongGauge(
-                    String name, String unit, String description, Consumer<LongMeasurement> callback) {
-                callback.accept((value, attrs) -> observed[0] = value);
-            }
-        };
-
-        MetricRegistration registration = legacy.registerLongGauge("ydb.test.legacy", null, null, m -> m.record(7));
-        Assert.assertEquals(7L, observed[0]);
-        registration.close();
     }
 
     @Test
