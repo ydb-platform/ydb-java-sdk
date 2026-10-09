@@ -119,8 +119,10 @@ public class OpenTelemetryMeterTest {
     }
 
     @Test
-    public void legacyGaugeCreationStillReportsValues() {
-        meter.createLongGauge("ydb.test.legacy", null, null, m -> m.record(7));
+    public void legacyGaugeCreationStillReportsValues() throws ReflectiveOperationException {
+        OpenTelemetryMeter.class.getMethod("createLongGauge",
+                String.class, String.class, String.class, Consumer.class)
+                .invoke(meter, "ydb.test.legacy", null, null, (Consumer<LongMeasurement>) m -> m.record(7));
 
         Assert.assertEquals(7L, singleLongPoint(single("ydb.test.legacy").getLongGaugeData().getPoints()).getValue());
     }
@@ -130,6 +132,7 @@ public class OpenTelemetryMeterTest {
         long[] observed = new long[1];
         Meter legacy = new Meter() {
             @Override
+            @Deprecated
             public void createLongGauge(
                     String name, String unit, String description, Consumer<LongMeasurement> callback) {
                 callback.accept((value, attrs) -> observed[0] = value);
