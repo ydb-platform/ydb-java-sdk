@@ -1,10 +1,11 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -167,12 +168,23 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
     }
 
-    public void releasePartitions(List<TopicPartition> partitions) {
+    public void releaseLocks(PartitionSession ps, List<TopicPartition> childs) {
         List<ReadPartition> released = new ArrayList<>();
-        for (TopicPartition partition: partitions) {
-            locks.computeIfPresent(partition, (key, lock) -> lock.release(released) ? null : lock);
+        for (TopicPartition partition: childs) {
+            locks.computeIfPresent(partition, (key, lock) -> lock.release(ps, released));
         }
         released.forEach(ReadPartition::unpause);
+    }
+
+    public void removeLocks(PartitionSession ps, List<TopicPartition> childs) {
+        List<ReadPartition> frozen = new ArrayList<>();
+        for (TopicPartition partition: childs) {
+            locks.computeIfPresent(partition, (key, lock) -> lock.remove(ps, frozen));
+        }
+        for (ReadPartition partition: frozen) {
+            logger.error("[{}] {} will be paused forever because the parent {} was closed", debugId,
+                    partition.getPartition(), ps);
+        }
     }
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
@@ -202,12 +214,11 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
 
         partition.start(committed, offsets);
-        PartitionLock lock = locks.get(new TopicPartition(ps));
-        if (lock == null) {
-            partition.unpause();
-        } else {
+        TopicPartition lockKey = new TopicPartition(ps);
+        if (locks.computeIfPresent(lockKey, (key, lock) -> lock.bind(partition)) != null) {
             logger.info("[{}] was paused", tid);
-            lock.bind(partition);
+        } else {
+            partition.unpause();
         }
     }
 
@@ -220,10 +231,11 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
+        PartitionSession ps = partition.getPartition();
         List<TopicPartition> childs = new ArrayList<>();
         for (Long pid: request.getChildPartitionIdsList()) { // register all child partitions
-            TopicPartition child = new TopicPartition(partition.getPartition().getPath(), pid);
-            locks.compute(child, (key, existing) -> (existing != null ? existing : new PartitionLock()).lock());
+            TopicPartition child = new TopicPartition(ps.getPath(), pid);
+            locks.compute(child, (key, lock) -> PartitionLock.lock(lock, ps));
             childs.add(child);
         }
 
@@ -314,31 +326,52 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
     }
 
-    private class PartitionLock {
-        private final AtomicInteger locks = new AtomicInteger(0);
-        private volatile ReadPartition partition;
+    private static class PartitionLock {
+        private final Set<PartitionSession> lockedBy;
+        private final ReadPartition partition;
 
-        public PartitionLock lock() {
-            locks.incrementAndGet();
-            return this;
+        private PartitionLock(Set<PartitionSession> lockedBy, ReadPartition partition) {
+            this.lockedBy = lockedBy;
+            this.partition = partition;
         }
 
-        public boolean release(List<ReadPartition> released) {
-            if (locks.decrementAndGet() > 0) {
-                return false;
+        public PartitionLock release(PartitionSession locker, List<ReadPartition> released) {
+            Set<PartitionSession> newSet = new HashSet<>(lockedBy);
+            newSet.remove(locker);
+            if (newSet.isEmpty()) {
+                if (partition != null) {
+                    released.add(partition);
+                }
+                return null;
+            }
+
+            return new PartitionLock(newSet, partition);
+        }
+
+        public PartitionLock remove(PartitionSession locker, List<ReadPartition> hanged) {
+            if (!lockedBy.contains(locker)) {
+                return this;
             }
 
             if (partition != null) {
-                released.add(partition);
+                hanged.add(partition);
             }
-            return true;
+            return null;
         }
 
-        public void bind(ReadPartition local) {
-            partition = local;
-            if (locks.get() <= 0) {
-                partition.unpause();
+        public PartitionLock bind(ReadPartition binded) {
+            return new PartitionLock(lockedBy, binded);
+        }
+
+        public static PartitionLock lock(PartitionLock currentLock, PartitionSession locker) {
+            Set<PartitionSession> locks = new HashSet<>();
+            ReadPartition partition = null;
+            if (currentLock != null) {
+                locks.addAll(currentLock.lockedBy);
+                partition = currentLock.partition;
             }
+            locks.add(locker);
+            return new PartitionLock(locks, partition);
         }
     }
 }

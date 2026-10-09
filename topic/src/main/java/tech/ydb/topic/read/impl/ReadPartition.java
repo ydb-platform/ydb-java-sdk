@@ -59,7 +59,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     private final AtomicReference<State> state = new AtomicReference<>(State.CREATED);
     private final AtomicReference<CommitOffsetAcknowledgementEvent> commitOffsetAck = new AtomicReference<>(null);
-    private final AtomicReference<PartitionSessionEndedEventImpl> partitonEnd = new AtomicReference<>(null);
+    private final AtomicReference<PartitionSessionEndedEventImpl> partitionEnd = new AtomicReference<>(null);
     private volatile boolean hasUnprocessedMessages = false;
     private volatile boolean isPaused = true;
 
@@ -102,7 +102,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
     public void confirmPartitionEnded(List<TopicPartition> childs) {
         PartitionSessionEndedEventImpl event = new PartitionSessionEndedEventImpl(partition, childs);
         logger.info("[{}] got EndPartitionSession with child partitions {}", traceID, event.getChildsString());
-        partitonEnd.set(event);
+        partitionEnd.set(event);
         trySendPartitionEnded();
     }
 
@@ -132,12 +132,14 @@ public class ReadPartition implements ReadSession.PartitionControl {
         if (hasUnprocessedMessages) {
             return;
         }
-        PartitionSessionEndedEventImpl event = partitonEnd.getAndSet(null);
+        PartitionSessionEndedEventImpl event = partitionEnd.getAndSet(null);
         if (event != null) {
-            dataExecutor.execute(() -> session.getHandler().onPartitionEnded(event));
-            logger.info("[{}] has finished processing and unpaused child partitions {}", traceID,
-                    event.getChildsString());
-            session.releasePartitions(event.getChilds());
+            dataExecutor.execute(() -> {
+                logger.info("[{}] has finished processing and unpaused child partitions {}", traceID,
+                        event.getChildsString());
+                session.getHandler().onPartitionEnded(event);
+                session.releaseLocks(partition, event.getChilds());
+            });
         }
     }
 
@@ -199,10 +201,15 @@ public class ReadPartition implements ReadSession.PartitionControl {
         committer.close();
         logger.info("[{}] with state {} was closed", traceID, old);
 
+        PartitionSessionEndedEventImpl endEvent = partitionEnd.getAndSet(null);
+        if (endEvent != null) {
+            session.removeLocks(partition, endEvent.getChilds());
+        }
+
         if (old != State.STOPPED && old != State.CREATED) {
-            PartitionSessionClosedEventImpl event = new PartitionSessionClosedEventImpl(partition);
+            PartitionSessionClosedEventImpl closedEvent = new PartitionSessionClosedEventImpl(partition);
             // partition close event doesn't use partition's executors
-            controlExecutor.execute(() -> session.getHandler().onPartitionClosed(event));
+            controlExecutor.execute(() -> session.getHandler().onPartitionClosed(closedEvent));
         }
     }
 
