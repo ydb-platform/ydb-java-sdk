@@ -25,11 +25,11 @@ import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.impl.TopicStreamBase;
 import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 
 /**
  *
@@ -38,18 +38,13 @@ import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private static final Logger logger = LoggerFactory.getLogger(ReadSession.class);
 
-    public interface PartitionControl {
-        boolean isActive();
-        void confirmRangeProcessed(OffsetsRange range);
-    }
-
     public interface Handler {
         void onPartitionStarted(StartPartitionSessionEvent event);
         void onPartitionStopped(StopPartitionSessionEvent event);
         void onPartitionClosed(PartitionSessionClosedEvent event);
         void onPartitionEnded(PartitionSessionEndedEvent event);
 
-        void onData(PartitionControl control, DataReceivedEvent event);
+        void onData(DataReceivedEventImpl event);
 
         void onCommitAck(CommitOffsetAcknowledgementEvent event);
     }
