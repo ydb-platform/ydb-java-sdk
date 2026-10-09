@@ -200,7 +200,7 @@ public class WriterQueue {
     CompletableFuture<WriteAck> enqueue(Message message, YdbTransaction tx) throws QueueOverflowException,
             InterruptedException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
-        buffer.acquire(reservedSizeBytes);
+        buffer.acquire(reservedSizeBytes, metrics);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -213,7 +213,7 @@ public class WriterQueue {
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
-        buffer.tryAcquire(reservedSizeBytes, timeout, unit);
+        buffer.tryAcquire(reservedSizeBytes, timeout, unit, metrics);
         return accept(message, tx, reservedSizeBytes);
     }
 
