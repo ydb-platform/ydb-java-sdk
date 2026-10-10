@@ -39,6 +39,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
     private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
+    private final SslContext sslContext;
 
     private ShadedNettyChannelFactory(GrpcTransportBuilder builder) {
         this.metadata = YdbHeaders.createMetadataInterceptor(builder);
@@ -48,6 +49,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
         this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
         this.initializers = builder.getChannelInitializers();
+        this.sslContext = createSslContext();
     }
 
     @SuppressWarnings("deprecation")
@@ -59,7 +61,7 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
         if (useTLS) {
             channelBuilder
                     .negotiationType(NegotiationType.TLS)
-                    .sslContext(createSslContext());
+                    .sslContext(sslContext);
             if (sslHostOverride != null) {
                 channelBuilder.overrideAuthority(sslHostOverride);
             }
