@@ -90,14 +90,25 @@ public class PriorityPicker {
 
             int nodeSize = Math.min(nodes.size(), DETECT_DC_NODE_SIZE);
             long tcpPing = 0;
+            int reachableCount = 0;
 
             for (EndpointRecord node : nodes.subList(0, nodeSize)) {
                 long currentPing = tcpPing(new InetSocketAddress(node.getHost(), node.getPort()), ticker);
                 logger.debug("Address: {}, port: {}, nanos ping: {}", node.getHost(), node.getPort(), currentPing);
-                tcpPing += currentPing;
+
+                // an unreachable node tells nothing about the distance and its Long.MAX_VALUE would overflow the sum
+                if (currentPing != Long.MAX_VALUE) {
+                    tcpPing += currentPing;
+                    reachableCount++;
+                }
             }
 
-            tcpPing /= nodeSize;
+            if (reachableCount == 0) {
+                logger.debug("No reachable nodes in {}, skip it", dc);
+                continue;
+            }
+
+            tcpPing /= reachableCount;
 
             if (minPing > tcpPing) {
                 minPing = tcpPing;
