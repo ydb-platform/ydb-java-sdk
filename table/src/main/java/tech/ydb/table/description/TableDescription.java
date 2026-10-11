@@ -3,6 +3,7 @@ package tech.ydb.table.description;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 
 import tech.ydb.table.Session;
@@ -48,6 +50,8 @@ public class TableDescription {
 
     private final TableTtl tableTtl;
 
+    private final Map<String, String> attributes;
+
     private TableDescription(Builder builder) {
         this.storeType = builder.storeType;
         this.primaryKeys = ImmutableList.copyOf(builder.primaryKeys);
@@ -61,6 +65,7 @@ public class TableDescription {
         this.partitionStats = ImmutableList.copyOf(builder.partitionStats);
         this.tableTtl = builder.ttlSettings;
         this.changefeeds = builder.changefeeds;
+        this.attributes = ImmutableMap.copyOf(builder.attributes);
     }
 
     public static Builder newBuilder() {
@@ -113,6 +118,10 @@ public class TableDescription {
         return changefeeds;
     }
 
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
     /**
      * BUILDER
      */
@@ -129,6 +138,7 @@ public class TableDescription {
         private final List<PartitionStats> partitionStats = new ArrayList<>();
         private TableTtl ttlSettings = TableTtl.notSet();
         private final List<ChangefeedDescription> changefeeds = new ArrayList<>();
+        private final Map<String, String> attributes = new HashMap<>();
 
         public Builder setStoreType(StoreType storeType) {
             this.storeType = storeType;
@@ -360,6 +370,17 @@ public class TableDescription {
          */
         public Builder addChangefeed(ChangefeedDescription changefeed) {
             this.changefeeds.add(changefeed);
+            return this;
+        }
+
+        public Builder addAttribute(String name, String value) {
+            this.attributes.put(name, value);
+            return this;
+        }
+
+        public Builder setAttributes(Map<String, String> attrs) {
+            this.attributes.clear();
+            this.attributes.putAll(attrs);
             return this;
         }
 
