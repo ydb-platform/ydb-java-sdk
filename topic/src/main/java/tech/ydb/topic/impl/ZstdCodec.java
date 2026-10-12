@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.github.luben.zstd.RecyclingBufferPool;
 import com.github.luben.zstd.Zstd;
 import com.github.luben.zstd.ZstdInputStreamNoFinalizer;
 import com.github.luben.zstd.ZstdOutputStreamNoFinalizer;
@@ -45,11 +46,11 @@ public class ZstdCodec implements Codec {
 
     @Override
     public InputStream decode(InputStream byteArrayInputStream) throws IOException {
-        return new ZstdInputStreamNoFinalizer(byteArrayInputStream);
+        return new ZstdInputStreamNoFinalizer(byteArrayInputStream, RecyclingBufferPool.INSTANCE);
     }
 
     @Override
     public OutputStream encode(OutputStream byteArrayOutputStream) throws IOException {
-        return new ZstdOutputStreamNoFinalizer(byteArrayOutputStream);
+        return new ZstdOutputStreamNoFinalizer(byteArrayOutputStream, RecyclingBufferPool.INSTANCE);
     }
 }
