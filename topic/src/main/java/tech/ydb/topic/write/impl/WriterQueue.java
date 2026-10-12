@@ -73,7 +73,7 @@ public class WriterQueue {
         this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
         this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
         this.metrics.register(() -> sent.stream().map(EncodedMsg::getSentMessage)
-                .filter(msg -> msg != null).mapToLong(msg -> msg.acceptedTimestamp).findFirst().orElse(0));
+                .filter(msg -> msg != null).mapToLong(SentMessage::getAcceptedTimestamp).findFirst().orElse(0));
     }
 
     CompletableFuture<Void> flush() {

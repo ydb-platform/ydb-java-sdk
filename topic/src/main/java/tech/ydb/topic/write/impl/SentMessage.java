@@ -18,7 +18,7 @@ public class SentMessage implements WriterQueue.EncodedMsg {
     private final long seqNo;
     private final long bufferSize;
     private final long sendTimestamp;
-    final long acceptedTimestamp;
+    private final long acceptedTimestamp;
     private final YdbTransaction tx;
     private final YdbTopic.StreamWriteMessage.WriteRequest.MessageData pb;
     private final CompletableFuture<WriteAck> ackFuture;
@@ -31,7 +31,7 @@ public class SentMessage implements WriterQueue.EncodedMsg {
         this.seqNo = seqNo;
         this.bufferSize = msg.getBufferSize();
         this.sendTimestamp = sendTimestamp;
-        this.acceptedTimestamp = msg.acceptedTimestamp;
+        this.acceptedTimestamp = msg.getAcceptedTimestamp();
         this.tx = msg.getMeta().getTransaction();
         this.pb = buildPb(seqNo, msg);
         this.ackFuture = msg.getAckFuture();
@@ -52,6 +52,10 @@ public class SentMessage implements WriterQueue.EncodedMsg {
 
     long getSendTimestamp() {
         return sendTimestamp;
+    }
+
+    long getAcceptedTimestamp() {
+        return acceptedTimestamp;
     }
 
     @Override
