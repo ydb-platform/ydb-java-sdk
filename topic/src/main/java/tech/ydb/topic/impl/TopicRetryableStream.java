@@ -19,11 +19,12 @@ import tech.ydb.core.StatusCode;
 
 public abstract class TopicRetryableStream<R extends Message, W extends Message, S extends TopicStream<R, W>> {
     protected final String debugId;
+
     private final Logger logger;
     private final RetryConfig retryConfig;
     private final ScheduledExecutorService scheduler;
 
-    private final AtomicReference<State> state = new AtomicReference<>();
+    private final AtomicReference<State> state = new AtomicReference<>(null);
     private final AtomicInteger streamCount = new AtomicInteger(0);
     private final RetryState retryState = new RetryState();
 
@@ -71,14 +72,13 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
 
         if (!state.compareAndSet(null, newState)) {
             logger.warn("[{}] double start of stream, skipping", debugId);
-            newState.closeWithoutStart();
+            newState.close();
             return;
         }
 
         newState.start();
-
         if (isClosed) {
-            close();
+            newState.close();
         }
     }
 
@@ -94,29 +94,32 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
         State local = state.getAndSet(null);
         if (local != null) {
             logger.warn("[{}] failed by application-side error {}", debugId, status);
-            onStreamStop(local.closeStream(), status, retryConfig.getStatusRetryPolicy(status));
+            local.close();
+            onStreamStop(local.stream, status, retryConfig.getStatusRetryPolicy(status));
         }
     }
 
     public void send(W msg) {
         State local = state.get();
-        S stream = local != null ? local.stream.get() : null;
-        if (stream == null) {
+        if (isClosed || local == null) {
+            logger.warn("[{}] send message before starting or after closing", debugId);
+            return;
+        }
+        if (local.stream == null) {
             logger.warn("[{}] send message before stream is ready", debugId);
             return;
         }
-        stream.send(msg);
+
+        local.stream.send(msg);
     }
 
     public boolean close() {
         isClosed = true;
-        State local = state.getAndSet(null);
-        if (local == null) {
-            return false;
+        State local = state.get();
+        if (local != null) {
+            local.close();
         }
-
-        onStreamStop(local.closeStream(), Status.SUCCESS, null);
-        return true;
+        return local != null;
     }
 
     private void onStreamStop(S closed, Status status, RetryPolicy policy) {
@@ -163,72 +166,73 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
 
     private class State {
         private final CompletableFuture<Result<S>> future;
-        private final AtomicReference<S> stream = new AtomicReference<>();
+        private final S stream;
 
         State(CompletableFuture<Result<S>> future) {
+            this(future, null);
+        }
+
+        State(CompletableFuture<Result<S>> future, S stream) {
             this.future = future;
+            this.stream = stream;
         }
 
         public void start() {
             this.future.whenComplete((res, th) -> {
-                if (res == null) {
-                    if (state.compareAndSet(this, null)) {
+                if (res == null || !res.isSuccess()) {
+                    if (!state.compareAndSet(this, null)) {
+                        return;
+                    }
+
+                    if (res != null) {
+                        onStreamStop(null, res.getStatus(), retryConfig.getStatusRetryPolicy(res.getStatus()));
+                    } else {
                         Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
                         onStreamStop(null, wrapped, retryConfig.getThrowableRetryPolicy(th));
                     }
                     return;
                 }
 
-                if (!res.isSuccess()) {
-                    if (state.compareAndSet(this, null)) {
-                        onStreamStop(null, res.getStatus(), retryConfig.getStatusRetryPolicy(res.getStatus()));
-                    }
-                    return;
+                State next = new State(future, res.getValue());
+                if (state.compareAndSet(this, next)) {
+                    next.startStream();
                 }
-
-                startStream(res.getValue());
             });
         }
 
-        public void closeWithoutStart() {
+        public boolean close() {
+            if (stream != null) {
+                stream.close();
+                return true;
+            }
+
             this.future.whenComplete((res, th) -> {
                 if (res != null && res.isSuccess()) {
                     res.getValue().close();
                 }
             });
-        }
 
-        private void startStream(S local) {
-            if (state.get() != this) {
-                local.close();
-                return;
+            if (!state.compareAndSet(this, null)) {
+                return false;
             }
 
-            stream.set(local);
-            local.start(msg -> onNext(local, msg)).whenComplete((status, th) -> {
+            onStreamStop(null, Status.SUCCESS, retryConfig.getStatusRetryPolicy(Status.SUCCESS));
+            return true;
+        }
+
+        private void startStream() {
+            stream.start(msg -> onNext(stream, msg)).whenComplete((status, th) -> {
                 if (!state.compareAndSet(this, null)) {
                     return;
                 }
 
                 if (status != null) {
-                    onStreamStop(local, status, retryConfig.getStatusRetryPolicy(status));
+                    onStreamStop(stream, status, retryConfig.getStatusRetryPolicy(status));
                 } else {
                     Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-                    onStreamStop(local, wrapped, retryConfig.getThrowableRetryPolicy(th));
+                    onStreamStop(stream, wrapped, retryConfig.getThrowableRetryPolicy(th));
                 }
             });
-
-            if (state.get() != this) {
-                closeStream();
-            }
-        }
-
-        public S closeStream() {
-            S local = stream.getAndSet(null);
-            if (local != null) {
-                local.close();
-            }
-            return local;
         }
     }
 

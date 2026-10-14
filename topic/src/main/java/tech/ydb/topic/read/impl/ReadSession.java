@@ -101,13 +101,13 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return handler;
     }
 
-    public void closeAll() {
+    @Override
+    protected void preDestroy() {
         isClosed = true;
         decoder.stop();
         locks.clear();
         partitions.values().forEach(ReadPartition::close);
         partitions.clear();
-        config.getMetrics().unregister();
     }
 
     public boolean commitOffsets(PartitionSession session, List<OffsetsRange> rangesToCommit) {
