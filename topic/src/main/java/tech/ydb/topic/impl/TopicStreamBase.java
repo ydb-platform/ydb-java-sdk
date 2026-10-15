@@ -16,8 +16,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     private final String debugId;
     private final GrpcReadWriteStream<R, W> stream;
     private final W initRequest;
-    private final CompletableFuture<Completion> completion = new CompletableFuture<>();
-    private final CompletableFuture<Status> streamStatus = completion.thenApply(value -> value.status);
+    private final CompletableFuture<Status> streamStatus = new CompletableFuture<>();
     private volatile String token;
     private volatile boolean isStopped = false;
 
@@ -41,7 +40,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
                 messageHandler.accept(msg);
             } else {
                 logger.warn("[{}] stopped by getting status {}", debugId, messageStatus);
-                if (completion.complete(new Completion(messageStatus, null))) {
+                if (streamStatus.complete(messageStatus)) {
                     stream.close();
                 }
             }
@@ -49,10 +48,10 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
             isStopped = true;
             Status status = st != null ? st : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
             logger.debug("[{}] finished with status {}", debugId, status);
-            completion.complete(new Completion(status, null));
+            streamStatus.complete(status);
         });
 
-        if (!completion.isDone()) {
+        if (!streamStatus.isDone()) {
             stream.sendNext(initRequest);
         }
 
@@ -62,28 +61,18 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     @Override
     public void close() {
         logger.debug("[{}] closed by app", debugId);
-        if (!completion.isDone()) {
+        if (!streamStatus.isDone()) {
             isStopped = true;
             stream.close();
         }
     }
 
     protected void fail(Status status) {
-        fail(status, null);
-    }
-
-    protected void fail(Status status, String reason) {
         logger.warn("[{}] stopped by fail {}", debugId, status);
-        if (completion.complete(new Completion(status, reason))) {
+        if (streamStatus.complete(status)) {
             isStopped = true;
             stream.close();
         }
-    }
-
-    @Override
-    public String getFailureReason(Status status) {
-        Completion value = completion.getNow(null);
-        return value != null && value.status == status ? value.reason : null;
     }
 
     @Override
@@ -102,15 +91,5 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
         }
 
         stream.sendNext(req);
-    }
-
-    private static final class Completion {
-        private final Status status;
-        private final String reason;
-
-        Completion(Status status, String reason) {
-            this.status = status;
-            this.reason = reason;
-        }
     }
 }
