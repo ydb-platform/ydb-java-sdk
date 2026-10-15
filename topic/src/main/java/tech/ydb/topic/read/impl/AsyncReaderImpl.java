@@ -119,8 +119,7 @@ public class AsyncReaderImpl implements AsyncReader {
     private void failSession(Throwable th, String callbackName) {
         String errorMessage = "Unhandled throwable in " + callbackName + " user callback: " + th.getMessage();
         logger.error(errorMessage, th);
-        impl.fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th, Issue.of(errorMessage, Issue.Severity.ERROR)),
-                "user_callback_error");
+        impl.fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th, Issue.of(errorMessage, Issue.Severity.ERROR)));
     }
 
     private class Impl extends ReaderImpl {

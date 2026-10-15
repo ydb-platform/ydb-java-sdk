@@ -10,10 +10,6 @@ import tech.ydb.core.Status;
 public interface TopicStream<R extends Message, W extends Message> {
     CompletableFuture<Status> start(Consumer<R> messageHandler);
 
-    default String getFailureReason(Status status) {
-        return null;
-    }
-
     void send(W request);
     void close();
 }
