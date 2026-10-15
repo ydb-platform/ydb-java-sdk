@@ -104,7 +104,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           repository: ydb-platform/ydb-java-examples
-          ref: master
+          ref: 68c06dfa5f09dea42613dc5eaffb0e4c456cfd51
           path: examples
 
       - name: Build current workload image
@@ -124,8 +124,7 @@ jobs:
             --sdk sdk-baseline \
             --examples examples \
             --workload ${{ matrix.workload.module }} \
-            --tag "ydb-app-baseline-${{ matrix.workload.module }}" \
-            --fallback-image "ydb-app-current-${{ matrix.workload.module }}"
+            --tag "ydb-app-baseline-${{ matrix.workload.module }}"
 
       - name: Run SLO Tests
         uses: ydb-platform/ydb-slo-action/init@v2
@@ -135,6 +134,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           workload_name: ${{ matrix.workload.name }}
           workload_duration: "600"
+          fail_on_workload_error: true
           workload_current_ref: ${{ github.head_ref || github.ref_name }}
           workload_current_image: ydb-app-current-${{ matrix.workload.module }}
           workload_current_command: --read-rps 1000 --write-rps 100
