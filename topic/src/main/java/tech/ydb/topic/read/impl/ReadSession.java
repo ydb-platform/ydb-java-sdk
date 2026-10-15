@@ -128,6 +128,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                         .build())
                 .build();
 
+        config.getMetrics().reportCommitQueued(rangesToCommit, session.getPath());
         send(FromClient.newBuilder().setCommitOffsetRequest(req).build());
         return true;
     }
@@ -189,7 +190,13 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
-        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes);
+        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes,
+                () -> partitions.values().stream().mapToLong(ReadPartition::getCommitOffsetLag).max().orElse(0),
+                () -> config.readyMessages.getAsLong() + partitions.values().stream()
+                        .filter(ReadPartition::isActive).mapToLong(ReadPartition::getLocalBufferMessages).sum(),
+                () -> Math.max(config.readyMessageAgeMax.getAsDouble(), partitions.values().stream()
+                        .filter(ReadPartition::isActive)
+                        .mapToDouble(ReadPartition::getLocalBufferMessageAgeMax).max().orElse(0)));
     }
 
     public void onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
@@ -271,6 +278,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     }
 
     public void onRead(YdbTopic.StreamReadMessage.ReadResponse response) {
+        long receivedAt = config.getMetrics().reportReadResponseStart();
         logger.debug("[{}] Received ReadResponse of {} bytes", debugId, response.getBytesSize());
         config.getMetrics().reportReceivedBytes(response.getBytesSize());
         bufferManager.allocate(response.getBytesSize(), response.getPartitionDataList());
@@ -278,7 +286,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
             long psid = data.getPartitionSessionId();
             ReadPartition partition = partitions.get(psid);
-            if (partition == null || !partition.addBatches(data.getBatchesList())) {
+            if (partition == null || !partition.addBatches(data.getBatchesList(), receivedAt)) {
                 logger.warn("[{}] Received PartitionData for unknown(most likely already closed) PartitionSessionId={}",
                         debugId, psid);
                 bufferManager.releasePartition(psid);

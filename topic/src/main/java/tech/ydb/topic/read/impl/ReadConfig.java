@@ -1,6 +1,8 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.concurrent.Executor;
+import java.util.function.DoubleSupplier;
+import java.util.function.LongSupplier;
 
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -18,9 +20,21 @@ public class ReadConfig {
     private final long maxMemoryUsageBytes;
     private final int maxBatchSize;
     private final ReaderMetrics metrics;
+    final LongSupplier readyMessages;
+    final DoubleSupplier readyMessageAgeMax;
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
             ReaderSettings settings) {
+        this(codecRegistry, control, processor, decompressor, settings, () -> 0);
+    }
+
+    ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
+            ReaderSettings settings, LongSupplier readyMessages) {
+        this(codecRegistry, control, processor, decompressor, settings, readyMessages, () -> 0);
+    }
+
+    public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
+            ReaderSettings settings, LongSupplier readyMessages, DoubleSupplier readyMessageAgeMax) {
         this.codecRegistry = codecRegistry;
         this.control = control;
         this.processor = processor;
@@ -29,6 +43,8 @@ public class ReadConfig {
         this.maxMemoryUsageBytes = settings.getMaxMemoryUsageBytes();
         this.maxBatchSize = settings.getMaxBatchSize();
         this.metrics = new ReaderMetrics(settings.getMeter(), settings.getConsumerName(), settings.getReaderName());
+        this.readyMessages = readyMessages;
+        this.readyMessageAgeMax = readyMessageAgeMax;
     }
 
     public CodecRegistry getCodecRegistry() {

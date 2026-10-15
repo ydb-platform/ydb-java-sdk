@@ -1,6 +1,8 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.Status;
@@ -9,6 +11,7 @@ import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
+import tech.ydb.topic.description.OffsetsRange;
 
 /**
  * Topic reader metrics.
@@ -19,12 +22,17 @@ final class ReaderMetrics {
     private final LongCounter deliveredMessages;
     private final LongCounter receivedMessages;
     private final LongCounter receivedBytes;
+    private final LongCounter commitQueued;
+    private final LongCounter commitAcknowledged;
     private final LongCounter sessionErrors;
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
     private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
     private MetricRegistration creditGauge = MetricRegistration.NOOP;
+    private MetricRegistration commitLagGauge = MetricRegistration.NOOP;
+    private MetricRegistration bufferMessagesGauge = MetricRegistration.NOOP;
+    private MetricRegistration ageGauge = MetricRegistration.NOOP;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -37,12 +45,17 @@ final class ReaderMetrics {
                 "The number of messages accepted by the SDK for an active partition session.");
         this.receivedBytes = meter.createCounter("ydb.topic.reader.received.bytes", "By",
                 "The protocol bytes_size received in read responses.");
+        this.commitQueued = meter.createCounter("ydb.topic.reader.commit.queued", MESSAGE_UNIT,
+                "The number of messages in commit ranges accepted by the SDK.");
+        this.commitAcknowledged = meter.createCounter("ydb.topic.reader.commit.acknowledged", MESSAGE_UNIT,
+                "The number of messages in commit ranges completed by successful acknowledgements.");
         this.sessionErrors = meter.createCounter("ydb.topic.reader.session.errors", "{error}",
                 "The number of reader stream session errors by retry decision.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    void register(LongSupplier partitionCount, LongSupplier bufferBudget) {
+    void register(LongSupplier partitionCount, LongSupplier bufferBudget, LongSupplier commitLag,
+            LongSupplier bufferMessages, DoubleSupplier messageAgeMax) {
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
@@ -50,13 +63,32 @@ final class ReaderMetrics {
         creditGauge = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.",
                 m -> m.record(bufferBudget.getAsLong(), commonAttributes));
+        commitLagGauge = meter.registerLongGauge("ydb.topic.reader.commit_offset.lag.max", MESSAGE_UNIT,
+                "The maximum gap between requested and acknowledged commit offsets.",
+                m -> m.record(commitLag.getAsLong(), commonAttributes));
+        bufferMessagesGauge = meter.registerLongGauge("ydb.topic.reader.local_buffer.messages", MESSAGE_UNIT,
+                "The number of messages currently buffered by the reader.",
+                m -> m.record(bufferMessages.getAsLong(), commonAttributes));
+        ageGauge = meter.registerDoubleGauge("ydb.topic.reader.local_buffer.message_age.max", "s",
+                "The age of the oldest batch retained in the reader's local buffer.",
+                m -> m.record(messageAgeMax.getAsDouble(), commonAttributes));
     }
 
     void unregister() {
         partitionsGauge.close();
         creditGauge.close();
+        commitLagGauge.close();
+        bufferMessagesGauge.close();
+        ageGauge.close();
         partitionsGauge = MetricRegistration.NOOP;
         creditGauge = MetricRegistration.NOOP;
+        commitLagGauge = MetricRegistration.NOOP;
+        bufferMessagesGauge = MetricRegistration.NOOP;
+        ageGauge = MetricRegistration.NOOP;
+    }
+
+    long reportReadResponseStart() {
+        return enabled ? System.nanoTime() : 0;
     }
 
     void reportDelivered(long messages, String topic) {
@@ -83,6 +115,20 @@ final class ReaderMetrics {
                         ? "session_closed" : code.isTransportError() ? "transport_error" : "ydb_error";
         attributes[commonAttributes.length + 2] = Attr.of("error.type", errorType);
         sessionErrors.add(1, attributes);
+    }
+
+    void reportCommitQueued(List<OffsetsRange> ranges, String topic) {
+        if (enabled) {
+            long messages = 0;
+            for (OffsetsRange range : ranges) {
+                messages += range.getEnd() - range.getStart();
+            }
+            report(commitQueued, messages, topic);
+        }
+    }
+
+    void reportCommitAcknowledged(long messages, String topic) {
+        report(commitAcknowledged, messages, topic);
     }
 
     private void report(LongCounter counter, long messages, String topic) {

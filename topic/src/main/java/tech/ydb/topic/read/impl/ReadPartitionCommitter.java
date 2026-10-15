@@ -44,6 +44,15 @@ class ReadPartitionCommitter implements MessageCommitter {
         return new RuntimeException("" + partition + " is already stopped");
     }
 
+    public long getCommitOffsetLag() {
+        commitFuturesLock.lock();
+        try {
+            return commitFutures.isEmpty() ? 0 : commitFutures.lastKey() - lastCommittedOffset.get();
+        } finally {
+            commitFuturesLock.unlock();
+        }
+    }
+
     public void updateCommittedOffset(long offset) {
         long old = lastCommittedOffset.get();
         if (old != lastCommittedOffset.accumulateAndGet(offset, Math::max)) {
@@ -85,6 +94,9 @@ class ReadPartitionCommitter implements MessageCommitter {
                 future = new CompletableFuture<>();
                 commitFutures.put(range.getEnd(), future);
             }
+            long messages = range.getEnd() - range.getStart();
+            future.thenRun(() -> session.getConfig().getMetrics()
+                    .reportCommitAcknowledged(messages, partition.getPath()));
         } finally {
             commitFuturesLock.unlock();
         }
@@ -107,7 +119,20 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        session.commitOffsets(partition, ranges);
+        commitFuturesLock.lock();
+        try {
+            ranges.forEach(range -> {
+                long messages = range.getEnd() - range.getStart();
+                commitFutures.computeIfAbsent(range.getEnd(), offset -> new CompletableFuture<>())
+                        .thenRun(() -> session.getConfig().getMetrics()
+                                .reportCommitAcknowledged(messages, partition.getPath()));
+            });
+        } finally {
+            commitFuturesLock.unlock();
+        }
+        if (!session.commitOffsets(partition, ranges)) {
+            close();
+        }
     }
 
     public void close() {

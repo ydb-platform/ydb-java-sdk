@@ -90,6 +90,10 @@ public class ReadPartition implements ReadSession.PartitionControl {
         return partition;
     }
 
+    public long getCommitOffsetLag() {
+        return committer.getCommitOffsetLag();
+    }
+
     @Override
     public void confirmRangeProcessed(OffsetsRange range) {
         decoder.releaseRange(range);
@@ -102,6 +106,14 @@ public class ReadPartition implements ReadSession.PartitionControl {
         logger.info("[{}] got EndPartitionSession with child partitions {}", traceID, event.getChildsString());
         partitionEnd.set(event);
         sendDataToReaders();
+    }
+
+    double getLocalBufferMessageAgeMax() {
+        return queue.getLocalBufferMessageAgeMax();
+    }
+
+    long getLocalBufferMessages() {
+        return queue.getLocalBufferMessages();
     }
 
     public void confirmCommittedOffset(long committedOffset) {
@@ -119,7 +131,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         sendDataToReaders();
     }
 
-    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
+    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList, long receivedAt) {
         if (!isActive()) {
             return false;
         }
@@ -130,7 +142,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         metrics.reportReceivedMessages(messagesCount, partition.getPath());
 
         if (messagesCount > 0) {
-            queue.addBatches(batchList);
+            queue.addBatches(batchList, receivedAt);
             sendDataToReaders();
         }
 
