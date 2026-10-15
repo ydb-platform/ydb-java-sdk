@@ -13,6 +13,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 import org.slf4j.Logger;
@@ -20,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.WriterSettings;
@@ -58,6 +60,13 @@ public class WriterQueue {
 
     // Future for flush method. Only the future is stored to not retain the message data after sending
     private volatile CompletableFuture<WriteAck> lastAcceptedAckFuture = null;
+
+    @VisibleForTesting
+    public WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
+                       Executor compressionExecutor, Runnable readyNotify) {
+        this(debugId, settings, new WriterMetrics(Meter.NOOP, settings.getTopicPath(), settings.getWriterName()),
+                codecRegistry, compressionExecutor, readyNotify);
+    }
 
     public WriterQueue(String debugId, WriterSettings settings, WriterMetrics metrics, CodecRegistry codecRegistry,
                        Executor compressionExecutor, Runnable readyNotify) {

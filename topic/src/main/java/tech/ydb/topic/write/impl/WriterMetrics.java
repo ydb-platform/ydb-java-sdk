@@ -1,13 +1,14 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.Arrays;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
-import tech.ydb.topic.impl.TopicMetricsUtils;
 
 /**
  * Topic writer metrics.
@@ -65,6 +66,13 @@ final class WriterMetrics {
     }
 
     void reportSessionError(Status status, boolean retry) {
-        sessionErrors.add(1, TopicMetricsUtils.sessionErrorAttributes(commonAttributes, status.getCode(), retry));
+        StatusCode code = status.getCode();
+        Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + 3);
+        attributes[commonAttributes.length] = Attr.of("retry_decision", retry ? "retry" : "stop");
+        attributes[commonAttributes.length + 1] = Attr.of("status_code", code.name());
+        String errorType = code == StatusCode.SUCCESS || code == StatusCode.UNUSED_STATUS
+                ? "session_closed" : code.isTransportError() ? "transport_error" : "ydb_error";
+        attributes[commonAttributes.length + 2] = Attr.of("error.type", errorType);
+        sessionErrors.add(1, attributes);
     }
 }

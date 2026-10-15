@@ -19,7 +19,6 @@ import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.WriterSettings;
@@ -59,12 +58,8 @@ public class WriterQueueTest {
     }
 
     private static WriterQueue rawQueue(AtomicInteger notifyCount) {
-        return new WriterQueue("test", rawSettings(), metrics(), new CodecRegistry(),
+        return new WriterQueue("test", rawSettings(), new CodecRegistry(),
                 Runnable::run, () -> notifyCount.incrementAndGet());
-    }
-
-    private static WriterMetrics metrics() {
-        return new WriterMetrics(Meter.NOOP, "/test", null);
     }
 
     private static void assertOverflow(String msg, ThrowingRunnable runnable) {
@@ -93,7 +88,7 @@ public class WriterQueueTest {
                 .setCodec(9999)
                 .build();
         IllegalArgumentException ex = Assert.assertThrows(IllegalArgumentException.class,
-                () -> new WriterQueue("test", settings, metrics(), new CodecRegistry(), Runnable::run, () -> { }));
+                () -> new WriterQueue("test", settings, new CodecRegistry(), Runnable::run, () -> { }));
         Assert.assertEquals("Unsupported codec: 9999", ex.getMessage());
     }
 
@@ -107,7 +102,7 @@ public class WriterQueueTest {
 
     @Test
     public void testRawCompressor() throws Exception {
-        WriterQueue q = new WriterQueue("test", rawSettings(), metrics(), new CodecRegistry(), null, () -> {});
+        WriterQueue q = new WriterQueue("test", rawSettings(), new CodecRegistry(), null, () -> {});
 
         CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
         CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
@@ -138,7 +133,7 @@ public class WriterQueueTest {
                 .setCodec(codec.getId())
                 .setMaxSendBufferMemorySize(10)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, metrics(), new CodecRegistry(singletonList(codec)),
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
                 Runnable::run, () -> {
         });
 
@@ -158,8 +153,7 @@ public class WriterQueueTest {
                 .setCodec(Codec.LZOP)
                 .setMaxSendBufferMemorySize(109)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, metrics(), new CodecRegistry(), encodingTasks::add,
-                () -> {
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(), encodingTasks::add, () -> {
         });
 
         writerQueue.tryEnqueue(SMALL_MSG, null);
@@ -189,7 +183,7 @@ public class WriterQueueTest {
                 .setCodec(codec.getId())
                 .setMaxSendBufferMemorySize(10)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, metrics(), new CodecRegistry(singletonList(codec)),
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
                 encodingTasks::add, () -> {
         });
 
@@ -220,7 +214,7 @@ public class WriterQueueTest {
                 .setCodec(codec.getId())
                 .setMaxSendBufferMemorySize(12)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, metrics(), new CodecRegistry(singletonList(codec)),
+        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
                 encodingTasks::add, () -> {
         });
 
@@ -244,7 +238,7 @@ public class WriterQueueTest {
     @Test
     @HideLoggers({ WriterImpl.class })
     public void testGzipNullCompressor() throws Exception {
-        WriterQueue q = new WriterQueue("test", gzipSettings(), metrics(), new CodecRegistry(), null, () -> {});
+        WriterQueue q = new WriterQueue("test", gzipSettings(), new CodecRegistry(), null, () -> {});
 
         CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
         CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
@@ -289,7 +283,7 @@ public class WriterQueueTest {
                 .setCodec(failingCodec.getId())
                 .build();
 
-        WriterQueue q = new WriterQueue("test", settings, metrics(), registry, Runnable::run, notify::incrementAndGet);
+        WriterQueue q = new WriterQueue("test", settings, registry, Runnable::run, notify::incrementAndGet);
 
         CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
         CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
@@ -341,7 +335,7 @@ public class WriterQueueTest {
                 .build();
         AtomicInteger notify = new AtomicInteger();
         CodecRegistry registry = new CodecRegistry(Arrays.asList(selective));
-        WriterQueue q = new WriterQueue("test", settings, metrics(), registry, Runnable::run, notify::incrementAndGet);
+        WriterQueue q = new WriterQueue("test", settings, registry, Runnable::run, notify::incrementAndGet);
 
         CompletableFuture<WriteAck> good1 = q.enqueue(Message.of(new byte[] { 0x01 }), null);
         CompletableFuture<WriteAck> bad = q.enqueue(Message.of(new byte[] { 0x7F }), null);
@@ -412,7 +406,7 @@ public class WriterQueueTest {
                 .setMaxSendBufferMemorySize(12)
                 .build();
 
-        WriterQueue q = new WriterQueue("test", settings, metrics(), new CodecRegistry(), null, notify::incrementAndGet);
+        WriterQueue q = new WriterQueue("test", settings, new CodecRegistry(), null, notify::incrementAndGet);
 
         q.tryEnqueue(smallMsg(10), null); // success
         q.tryEnqueue(smallMsg(20), null); // success

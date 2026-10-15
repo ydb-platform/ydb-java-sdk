@@ -197,10 +197,9 @@ public class WriterImpl {
 
         @Override
         public void onClose(Status status) {
-            if (!isClosed.get()) {
+            if (isClosed.compareAndSet(false, true)) {
                 metrics.reportSessionError(status, false);
             }
-            isClosed.set(true);
             isReady = false;
             initFuture.completeExceptionally(new UnexpectedResultException("Cannot init write session", status));
             shutdownFuture.complete(status);
