@@ -136,6 +136,8 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
             stream.onRead(message.getReadResponse());
         } else if (message.hasCommitOffsetResponse()) {
             stream.onCommitOffset(message.getCommitOffsetResponse());
+        } else if (message.hasEndPartitionSession()) {
+            stream.onEndPartition(message.getEndPartitionSession());
         } else if (message.hasPartitionSessionStatusResponse()) {
             stream.onPartitionSessionStatus(message.getPartitionSessionStatusResponse());
         } else if (message.hasUpdateTokenResponse()) {
@@ -291,6 +293,8 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
         for (TopicReadSettings trs: topics) {
             builder.addTopicsReadSettings(buildTopicSettings(trs));
         }
+
+        builder.setAutoPartitioningSupport(true);
 
         return builder.build();
     }

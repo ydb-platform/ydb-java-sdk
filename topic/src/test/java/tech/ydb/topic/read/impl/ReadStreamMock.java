@@ -123,6 +123,34 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
         observer.onNext(msg);
     }
 
+    public void responseEndPartition(long psid, long... childPartitionIds) {
+        YdbTopic.StreamReadMessage.EndPartitionSession.Builder end = YdbTopic.StreamReadMessage.EndPartitionSession
+                .newBuilder().setPartitionSessionId(psid);
+        for (long id: childPartitionIds) {
+            end.addChildPartitionIds(id);
+        }
+        observer.onNext(FromServer.newBuilder()
+                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                .setEndPartitionSession(end)
+                .build());
+    }
+
+    public void responsePartitionSessionStatus(long psid) {
+        FromServer msg = FromServer.newBuilder()
+                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                .setPartitionSessionStatusResponse(YdbTopic.StreamReadMessage.PartitionSessionStatusResponse
+                        .newBuilder().setPartitionSessionId(psid).build())
+                .build();
+        observer.onNext(msg);
+    }
+
+    public void responseEmpty() {
+        FromServer msg = FromServer.newBuilder()
+                .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
+                .build();
+        observer.onNext(msg);
+    }
+
     public CommitAckResponse responseCommitAck() {
         return new CommitAckResponse();
     }
@@ -247,7 +275,7 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
 
         public MessageAssert isInitRequest(String consumerName, String... topicPaths) {
             Assert.assertTrue("Msg is not init request", msg.hasInitRequest());
-            Assert.assertFalse("Auto partition is disabled", msg.getInitRequest().getAutoPartitioningSupport());
+            Assert.assertTrue("Auto partition is enabled", msg.getInitRequest().getAutoPartitioningSupport());
             if (consumerName != null) {
                 Assert.assertEquals("Wrong consumer in init request", consumerName, msg.getInitRequest().getConsumer());
             } else {

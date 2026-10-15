@@ -25,11 +25,14 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.topic.TopicRpc;
+import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.PartitionSession;
+import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
+import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -44,6 +47,10 @@ public class ReaderImplTest {
 
     private static final String TOPIC1 = "/test/topic";
     private static final String TOPIC2 = "/test/topic2";
+
+    private static final byte[] MSG1 = new byte[] { 0x00 };
+    private static final byte[] MSG2 = new byte[] { };
+    private static final byte[] MSG3 = new byte[] { 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02 };
 
     @Rule
     public final HideLoggersRule hideLogger = new HideLoggersRule();
@@ -61,6 +68,15 @@ public class ReaderImplTest {
         IllegalArgumentException ex = Assert.assertThrows("Must be thrown IllegalArgumentException",
                 IllegalArgumentException.class, runnable);
         Assert.assertEquals(msg, ex.getMessage());
+    }
+
+    private static void assertMessages(long pid, long offset, List<byte[]> expected,  DataReceivedEvent event) {
+        Assert.assertEquals(pid, event.getPartitionSession().getPartitionId());
+        Assert.assertEquals(expected.size(), event.getMessages().size());
+        for (int idx = 0; idx < event.getMessages().size(); idx++) {
+            Assert.assertEquals(offset + idx, event.getMessages().get(idx).getOffset());
+            Assert.assertArrayEquals(expected.get(idx), event.getMessages().get(idx).getData());
+        }
     }
 
     private static TestImpl startReader(ReadStreamMock mock) {
@@ -301,6 +317,180 @@ public class ReaderImplTest {
     }
 
     @Test
+    @HideLoggers(ReaderImpl.class)
+    public void onPartitionSessionStatusTest() {
+        ReaderSettings settings = ReaderSettings.newBuilder()
+                .addTopic(TOPIC1)
+                .setMaxMemoryUsageBytes(10200)
+                .setConsumerName("test")
+                .build();
+
+        ReadStreamMock mock = new ReadStreamMock();
+        ReadConfig config = new ReadConfig(REGISTRY, Runnable::run, Runnable::run, Runnable::run, settings);
+        TestImpl reader = new TestImpl(mockRpc(mock), "test-reader", settings, config);
+
+        // init reader
+        reader.start();
+        mock.assertSentMessagesCount(1);
+        mock.assertLastMessage().isInitRequest("test", TOPIC1);
+        mock.responseInit("read-session-1");
+
+        mock.assertSentMessagesCount(2);
+        mock.assertLastMessage().isReadRequest(10200);
+
+        // start partition
+        ArgumentCaptor<StartPartitionSessionEvent> started = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
+        mock.responseStartPartition(TOPIC1, 333, 100);
+        reader.verifyHandler().onPartitionStarted(started.capture());
+        started.getValue().confirm();
+        mock.assertSentMessagesCount(3);
+        mock.assertLastMessage().isStartPartition(1);
+
+        // on partition status
+        mock.responsePartitionSessionStatus(1); // nothing
+        mock.responsePartitionSessionStatus(2); // nothing
+        mock.responseEmpty(); // nothing
+
+        reader.close();
+        reader.assertReaderIsStopped(Status.SUCCESS);
+        mock.assertIsClosed();
+    }
+
+    @Test
+    public void mergedPartitionReadTest() {
+        ReadStreamMock mock = new ReadStreamMock();
+        TestImpl reader = startReader(mock);
+
+        PartitionSession ps1 = new PartitionSession(1, 100, TOPIC1);
+        PartitionSession ps2 = new PartitionSession(2, 200, TOPIC1);
+        PartitionSession ps3 = new PartitionSession(3, 300, TOPIC1);
+        PartitionSession ps4 = new PartitionSession(4, 400, TOPIC1);
+
+        // start two parent partitions
+        mock.responseStartPartition(ps1, 0);
+        mock.responseStartPartition(ps2, 10);
+
+        ArgumentCaptor<StartPartitionSessionEvent> start = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
+        ArgumentCaptor<PartitionSessionEndedEvent> ended = ArgumentCaptor.forClass(PartitionSessionEndedEvent.class);
+        ArgumentCaptor<ReadSession.PartitionControl> ctrl = ArgumentCaptor.forClass(ReadSession.PartitionControl.class);
+        ArgumentCaptor<DataReceivedEvent> dataEvent = ArgumentCaptor.forClass(DataReceivedEvent.class);
+
+        reader.verifyHandler(Mockito.times(2)).onPartitionStarted(start.capture());
+        start.getAllValues().forEach(StartPartitionSessionEvent::confirm);
+
+        mock.responseData(100)
+                .partition(1, 0).batch(Codec.RAW, MSG1, MSG2, MSG3).and()
+                .partition(2, 10).batch(Codec.RAW, MSG3, MSG1, MSG2).and()
+                .send();
+
+        reader.verifyHandler(Mockito.times(2)).onData(ctrl.capture(), dataEvent.capture());
+        ReadSession.PartitionControl ctrl1 = ctrl.getAllValues().get(0);
+        ReadSession.PartitionControl ctrl2 = ctrl.getAllValues().get(1);
+        assertMessages(100,  0, Arrays.asList(MSG1, MSG2, MSG3), dataEvent.getAllValues().get(0));
+        assertMessages(200, 10, Arrays.asList(MSG3, MSG1, MSG2), dataEvent.getAllValues().get(1));
+        reader.resetHandler();
+
+        mock.responseEndPartition(1, 300);
+        mock.responseEndPartition(2, 300);
+
+        reader.verifyHandler(Mockito.never()).onPartitionEnded(ended.capture());
+
+        mock.responseStartPartition(ps3, 0);
+        mock.responseStartPartition(ps4, 0);
+
+        reader.verifyHandler(Mockito.times(2)).onPartitionStarted(start.capture());
+        start.getAllValues().forEach(StartPartitionSessionEvent::confirm);
+
+        mock.responseData(100)
+                .partition(3, 30).batch(Codec.RAW, MSG3, MSG2, MSG1).and()
+                .partition(4, 40).batch(Codec.RAW, MSG2, MSG1, MSG3).and()
+                .send();
+
+        // Got only ps4 cause ps3 is paused
+        reader.verifyHandler(Mockito.times(1)).onData(ctrl.capture(), dataEvent.capture());
+        assertMessages(400, 40, Arrays.asList(MSG2, MSG1, MSG3), dataEvent.getAllValues().get(2));
+        reader.resetHandler();
+
+        ctrl2.confirmRangeProcessed(OffsetsRange.of(10, 13)); // release one of parents
+
+        reader.verifyHandler(Mockito.times(1)).onPartitionEnded(ended.capture());
+        reader.verifyHandler(Mockito.never()).onData(ctrl.capture(), dataEvent.capture());
+
+        ctrl1.confirmRangeProcessed(OffsetsRange.of(0, 3)); // release second of parents
+
+        reader.verifyHandler(Mockito.times(2)).onPartitionEnded(ended.capture());
+        reader.verifyHandler(Mockito.times(1)).onData(ctrl.capture(), dataEvent.capture());
+
+        assertMessages(300, 30, Arrays.asList(MSG3, MSG2, MSG1), dataEvent.getAllValues().get(3));
+
+        reader.close();
+        mock.assertIsClosed();
+    }
+
+    @Test
+    @HideLoggers(ReadSession.class)
+    public void mergedPartitionWithClosedParentTest() {
+        ReadStreamMock mock = new ReadStreamMock();
+        TestImpl reader = startReader(mock);
+
+        PartitionSession ps1 = new PartitionSession(1, 100, TOPIC1);
+        PartitionSession ps2 = new PartitionSession(2, 200, TOPIC1);
+        PartitionSession ps3 = new PartitionSession(3, 300, TOPIC1);
+
+        // start two parent partitions
+        mock.responseStartPartition(ps1, 30);
+        mock.responseStartPartition(ps2, 10);
+
+        ArgumentCaptor<StartPartitionSessionEvent> start = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
+        ArgumentCaptor<PartitionSessionEndedEvent> ended = ArgumentCaptor.forClass(PartitionSessionEndedEvent.class);
+        ArgumentCaptor<ReadSession.PartitionControl> ctrl = ArgumentCaptor.forClass(ReadSession.PartitionControl.class);
+        ArgumentCaptor<DataReceivedEvent> dataEvent = ArgumentCaptor.forClass(DataReceivedEvent.class);
+
+        reader.verifyHandler(Mockito.times(2)).onPartitionStarted(start.capture());
+        start.getAllValues().forEach(StartPartitionSessionEvent::confirm);
+
+        mock.responseData(100)
+                .partition(1, 40).batch(Codec.RAW, MSG1, MSG2, MSG3).and()
+                .partition(2, 10).batch(Codec.RAW, MSG3, MSG1, MSG2).and()
+                .send();
+
+        reader.verifyHandler(Mockito.times(2)).onData(ctrl.capture(), dataEvent.capture());
+        ReadSession.PartitionControl ctrl1 = ctrl.getAllValues().get(0);
+        ReadSession.PartitionControl ctrl2 = ctrl.getAllValues().get(1);
+        assertMessages(100, 40, Arrays.asList(MSG1, MSG2, MSG3), dataEvent.getAllValues().get(0));
+        assertMessages(200, 10, Arrays.asList(MSG3, MSG1, MSG2), dataEvent.getAllValues().get(1));
+        reader.resetHandler();
+
+        mock.responseEndPartition(1, 300);
+        mock.responseEndPartition(2, 300);
+
+        reader.verifyHandler(Mockito.never()).onPartitionEnded(ended.capture());
+
+        mock.responseStartPartition(ps3, 0);
+
+        reader.verifyHandler(Mockito.times(1)).onPartitionStarted(start.capture());
+        start.getAllValues().forEach(StartPartitionSessionEvent::confirm);
+
+        mock.responseData(100)
+                .partition(3, 30).batch(Codec.RAW, MSG3, MSG2, MSG1).and()
+                .send();
+
+        // ps3 is paused
+        reader.verifyHandler(Mockito.never()).onData(ctrl.capture(), dataEvent.capture());
+        reader.resetHandler();
+
+        ctrl1.confirmRangeProcessed(OffsetsRange.of(40, 43)); // release first parent
+        mock.responseStopPartition(2, false);  // non graceful stopp of second parent
+        ctrl2.confirmRangeProcessed(OffsetsRange.of(10, 13)); // release has no effect
+
+        // ps3 is paused forever
+        reader.verifyHandler(Mockito.never()).onData(ctrl.capture(), dataEvent.capture());
+
+        reader.close();
+        mock.assertIsClosed();
+    }
+
+    @Test
     public void updateTokenTest() {
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder()
@@ -370,7 +560,6 @@ public class ReaderImplTest {
         );
         reader.updateOffsetsInTransaction(active, Collections.singletonMap(TOPIC1, offsets), updateSettings);
 
-
         txStatus.complete(Status.SUCCESS);
         mock.assertIsActive();
         reader.close();
@@ -432,7 +621,7 @@ public class ReaderImplTest {
             this.handler = h;
         }
 
-        public TestImpl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config) {
+        TestImpl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config) {
             this(rpc, id, settings, config, Mockito.mock(ReadSession.Handler.class));
         }
 
@@ -452,6 +641,10 @@ public class ReaderImplTest {
 
         public ReadSession.Handler verifyHandler(VerificationMode mode) {
             return Mockito.verify(handler, mode);
+        }
+
+        public void resetHandler() {
+            Mockito.reset(handler);
         }
 
         public void assertReaderIsStopped(Status expected) {
@@ -484,7 +677,7 @@ public class ReaderImplTest {
     private static class TxMock implements YdbTransaction {
         private final CompletableFuture<Status> status;
 
-        public TxMock(CompletableFuture<Status> status) {
+        TxMock(CompletableFuture<Status> status) {
             this.status = status;
         }
 

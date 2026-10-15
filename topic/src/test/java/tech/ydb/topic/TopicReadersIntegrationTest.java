@@ -3,10 +3,10 @@ package tech.ydb.topic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -23,7 +23,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -91,9 +90,17 @@ public class TopicReadersIntegrationTest {
     @BeforeClass
     public static void initClient() {
         client = TopicClient.newClient(ydbTransport).build();
+        initTopics();
+    }
+
+    @AfterClass
+    public static void closeClient() {
+        dropTopics();
+        client.close();
+    }
+
+    private static void initTopics() {
         logger.info("Create test topic  {} ...", TEST_TOPIC);
-        client.dropTopic(TEST_TOPIC).join();
-        client.dropTopic(SPLITTED_TOPIC).join();
         client.createTopic(TEST_TOPIC, CreateTopicSettings.newBuilder()
                 .addConsumer(Consumer.newBuilder().setName(TEST_CONSUMER1).build())
                 .setPartitioningSettings(PartitioningSettings.newBuilder()
@@ -136,13 +143,11 @@ public class TopicReadersIntegrationTest {
         CompletableFuture.allOf(f6, f7).join();
     }
 
-    @AfterClass
-    public static void closeClient() {
+    private static void dropTopics() {
         logger.info("Drop test topic {} ...", TEST_TOPIC);
         client.dropTopic(TEST_TOPIC).join();
         logger.info("Drop test topic {} ...", SPLITTED_TOPIC);
         client.dropTopic(SPLITTED_TOPIC).join();
-        client.close();
     }
 
     @Before
@@ -192,14 +197,19 @@ public class TopicReadersIntegrationTest {
                 .build());
     }
 
+    private static byte[] writedMsg(String producerID, int idx) {
+        byte[] msg = ("p" + producerID + "_msg" + idx).getBytes();
+        byte[] data = new byte[100];
+        Arrays.fill(data, (byte) 0x20); // fill spaces
+        System.arraycopy(msg, 0, data, 0, msg.length);
+        return data;
+    }
+
     private static void writeToTopic(int startFrom, int count, WriterSettings settings) {
         SyncWriter writer = client.createSyncWriter(settings);
         writer.initAndWait();
         for (int idx = 1; idx <= count; idx++) {
-            byte[] msg = ("p" + settings.getProducerId() + "_msg" + (startFrom + idx)).getBytes();
-            byte[] data = new byte[100];
-            System.arraycopy(msg, 0, data, 0, msg.length);
-            writer.send(tech.ydb.topic.write.Message.of(data));
+            writer.send(tech.ydb.topic.write.Message.of(writedMsg(settings.getProducerId(), startFrom + idx)));
         }
 
         try {
@@ -244,6 +254,37 @@ public class TopicReadersIntegrationTest {
 
         executor.shutdown();
         executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
+
+    @Test
+    public void singleThreadReadAllTest() throws Exception {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TEST_TOPIC)
+                .setConsumerName(TEST_CONSUMER1)
+                .build();
+
+        CountDownLatch read = new CountDownLatch(3600);
+
+        ExecutorService executor = Executors.newSingleThreadExecutor((r) -> new Thread(r, "test-executor"));
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setExecutor(executor)
+                .setEventHandler((event) -> {
+                    event.commit().join();
+                    event.getMessages().forEach(m -> read.countDown());
+                }).build()
+        );
+
+        reader.init();
+        try {
+            // wait for message committing
+            Assert.assertTrue(read.await(5, TimeUnit.SECONDS));
+        } finally {
+            // stop reader
+            reader.shutdown();
+
+            executor.shutdown();
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+        }
     }
 
     @Test
@@ -305,32 +346,45 @@ public class TopicReadersIntegrationTest {
         ReaderSettings readerSettings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath(SPLITTED_TOPIC).build())
                 .setConsumerName(TEST_CONSUMER1)
+                .setDecompressionExecutor(Runnable::run)
+                .setMaxBatchSize(100)
                 .build();
 
-        Map<String, Long> partitions = new ConcurrentHashMap<>();
-        partitions.put("p0", 0L);
-        partitions.put("p1", 0L);
-
-        CountDownLatch read = new CountDownLatch(1500);
+        BlockingQueue<Message> queue = new ArrayBlockingQueue<>(1);
         AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
                 .setEventHandler((DataReceivedEvent event) -> {
-                    for (Message msg : event.getMessages()) {
-                        String producer = msg.getProducerId();
-                        Assert.assertTrue(partitions.containsKey(producer));
-                        partitions.put(msg.getProducerId(), 1L + partitions.get(msg.getProducerId()));
-                        Assert.assertEquals(100, msg.getData().length);
-                        String expected = "p" + producer + "_msg" + partitions.get(producer);
-                        Assert.assertEquals(expected, new String(Arrays.copyOf(msg.getData(), expected.length())));
-                        read.countDown();
+                    try {
+                        for (Message msg : event.getMessages()) {
+                            Assert.assertTrue(queue.offer(msg, 60, TimeUnit.SECONDS));
+                        }
+                    } catch (InterruptedException ex) {
+                        throw new AssertionError("cannot process event", ex);
                     }
-                    event.commit();
-                }).build());
+        }).build());
 
-        reader.init().join();
+        CountDownLatch recieved = new CountDownLatch(1500);
+        PROXY.listenPartitionData(partitionData -> {
+            partitionData.getBatchesList().forEach(batch -> {
+                batch.getMessageDataList().forEach(msg -> recieved.countDown());
+            });
+        });
+
+        reader.init();
         try {
-            Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
-            Assert.assertEquals(Long.valueOf(1000), partitions.get("p0"));
-            Assert.assertEquals(Long.valueOf(500), partitions.get("p1"));
+            // wait to recieve all messages
+            Assert.assertTrue(recieved.await(5, TimeUnit.SECONDS));
+
+            // validate all messages
+            int p0_idx = 0;
+            int p1_idx = 0;
+            while (p0_idx < 1000 || p1_idx < 500) {
+                Message msg = queue.poll(1, TimeUnit.SECONDS);
+                Assert.assertNotNull("cannot get msg " + (p0_idx + p1_idx), msg);
+
+                int msg_idx = "p0".equals(msg.getProducerId()) ? ++p0_idx : ++p1_idx;
+                byte[] expected = writedMsg(msg.getProducerId(), msg_idx);
+                Assert.assertEquals(new String(expected), new String(msg.getData()));
+            }
         } finally {
             reader.shutdown().join();
         }
@@ -511,38 +565,6 @@ public class TopicReadersIntegrationTest {
                 StatusCode.BAD_SESSION,
                 StatusCode.TRANSPORT_UNAVAILABLE
         );
-    }
-
-    @Test
-    @Ignore // requires auto-partitioning supporr
-    public void readAllSplittedWithoutCommitTest() throws InterruptedException {
-        ReaderSettings readerSettings = ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath(SPLITTED_TOPIC).build())
-                .setConsumerName(TEST_CONSUMER1)
-                .build();
-
-        Map<String, Long> partitions = new ConcurrentHashMap<>();
-        partitions.put("p0", 0L);
-        partitions.put("p1", 0L);
-
-        CountDownLatch read = new CountDownLatch(1500);
-        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
-                .setEventHandler((DataReceivedEvent event) -> {
-                    for (Message msg : event.getMessages()) {
-                        Assert.assertTrue(partitions.containsKey(msg.getProducerId()));
-                        partitions.put(msg.getProducerId(), 1L + partitions.get(msg.getProducerId()));
-                        read.countDown();
-                    }
-                }).build());
-
-        reader.init().join();
-        try {
-            Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
-            Assert.assertEquals(Long.valueOf(1000), partitions.get("p0"));
-            Assert.assertEquals(Long.valueOf(500), partitions.get("p1"));
-        } finally {
-            reader.shutdown().join();
-        }
     }
 
     @Test
