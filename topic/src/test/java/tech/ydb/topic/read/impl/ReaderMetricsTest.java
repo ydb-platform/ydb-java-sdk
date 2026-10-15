@@ -1,14 +1,6 @@
 package tech.ydb.topic.read.impl;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,149 +8,134 @@ import org.mockito.Mockito;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.metrics.Attr;
-import tech.ydb.core.metrics.LongCounter;
-import tech.ydb.core.metrics.LongMeasurement;
-import tech.ydb.core.metrics.Meter;
-import tech.ydb.core.metrics.MetricRegistration;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.TopicClientImpl;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.ReaderSettings;
-import tech.ydb.topic.settings.TopicReadSettings;
+import tech.ydb.topic.utils.TopicMeterMock;
 
 public class ReaderMetricsTest {
+    private static final String DELIVERED = "ydb.topic.reader.delivered.messages";
+    private static final String RECEIVED = "ydb.topic.reader.received.messages";
+    private static final String BYTES = "ydb.topic.reader.received.bytes";
+    private static final String ERRORS = "ydb.topic.reader.session.errors";
+    private static final String PARTITIONS = "ydb.topic.reader.partition_session.count";
+    private static final String CREDIT = "ydb.topic.reader.credit_balance_bytes";
 
     @Test
-    public void readerCountersIncrementOnReceive() throws InterruptedException {
-        String delivered = "ydb.topic.reader.delivered.messages";
-        String receivedMessages = "ydb.topic.reader.received.messages";
-        String receivedBytes = "ydb.topic.reader.received.bytes";
-        RecordingMeter meter = new RecordingMeter();
+    public void readerReceivesMessagesAndShutsDown() throws InterruptedException {
+        TopicMeterMock meter = new TopicMeterMock();
         ReadStreamMock stream = new ReadStreamMock();
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.any(String.class))).thenReturn(stream);
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
+            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                    .addTopic("/topic").setConsumerName("consumer")
+                    .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
+            try {
+                meter.assertNoGauges();
+                reader.init();
+                stream.assertLastMessage().isInitRequest("consumer", "/topic").hasReaderName("reader");
+                meter.assertNoGauges();
+                stream.responseInit("session");
+                Assert.assertEquals(0, meter.collect(PARTITIONS));
+                Assert.assertEquals(100, meter.collect(CREDIT));
+                stream.responseStartPartition("/topic", 42, 0);
+                Assert.assertEquals(1, meter.collect(PARTITIONS));
 
-        TopicClient client = TopicClientImpl.newClient(rpc).build();
-        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath("/topic").build())
-                .setConsumerName("consumer")
-                .withMeter(meter, "reader")
-                .build());
+                byte[] msg1 = new byte[]{1};
+                byte[] msg2 = new byte[]{2};
+                stream.responseData(25).partition(1, 0).batch(Codec.RAW, msg1, msg2).and().send();
+                Assert.assertEquals(2, meter.value(RECEIVED));
+                Assert.assertEquals(25, meter.value(BYTES));
+                Assert.assertEquals(75, meter.collect(CREDIT));
+                Assert.assertEquals(0, meter.value(DELIVERED));
+                Assert.assertEquals(0, meter.value(ERRORS));
 
-        try {
-            reader.init();
-            stream.assertLastMessage().isInitRequest("consumer", "/topic").hasReaderName("reader");
-            stream.responseInit("read-session");
-            stream.responseStartPartition("/topic", 42, 0);
-            byte[] msg1 = new byte[] { 1 };
-            byte[] msg2 = new byte[] { 2 };
-            stream.responseData(25).partition(1, 0)
-                    .batch(Codec.RAW, msg1, msg2)
-                    .and().send();
-            Assert.assertEquals(2, meter.value(receivedMessages));
-            Assert.assertEquals(25, meter.value(receivedBytes));
-
-            stream.responseData(30).partition(1, 2)
-                    .batch(Codec.RAW, msg1, msg2, msg1)
-                    .and().send();
-            Assert.assertEquals(5, meter.value(receivedMessages));
-            Assert.assertEquals(55, meter.value(receivedBytes));
-
-            Assert.assertEquals(0, meter.value(delivered));
-            meter.assertAttribute(receivedMessages, "topic", "/topic");
-            meter.assertAttribute(receivedMessages, "reader.name", "reader");
-
-            reader.receive();
-            reader.receive();
-            Assert.assertEquals(2, meter.value(delivered));
-        } finally {
-            reader.shutdown();
-            client.close();
+                stream.responseData(30).partition(1, 2).batch(Codec.RAW, msg1, msg2, msg1).and().send();
+                Assert.assertEquals(5, meter.value(RECEIVED));
+                Assert.assertEquals(55, meter.value(BYTES));
+                Assert.assertEquals(45, meter.collect(CREDIT));
+                reader.receive();
+                reader.receive();
+                Assert.assertEquals(2, meter.value(DELIVERED));
+                reader.receive();
+                reader.receive();
+                reader.receive();
+                Assert.assertEquals(5, meter.value(DELIVERED));
+                Assert.assertEquals(100, meter.collect(CREDIT));
+                Assert.assertEquals(1, meter.collect(PARTITIONS));
+                meter.assertAttribute(RECEIVED, "topic", "/topic");
+                meter.assertAttribute(DELIVERED, "topic", "/topic");
+                meter.assertAttribute(BYTES, "consumer", "consumer");
+                meter.assertAttribute(PARTITIONS, "reader.name", "reader");
+                meter.assertAttribute(CREDIT, "consumer", "consumer");
+            } finally {
+                reader.shutdown();
+            }
         }
+        Assert.assertEquals(0, meter.value(ERRORS));
+        meter.assertNoGauges();
     }
 
     @Test
-    public void gaugesObservePartitionSessionsAndProtocolCredit() throws InterruptedException {
-        String partitions = "ydb.topic.reader.partition_session.count";
-        String credit = "ydb.topic.reader.credit_balance_bytes";
-        RecordingMeter meter = new RecordingMeter();
-        ReadStreamMock stream = new ReadStreamMock();
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
-        TopicClient client = TopicClientImpl.newClient(rpc).build();
-        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic("/topic").setConsumerName("consumer")
-                .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
-        try {
-            Assert.assertTrue(meter.gauges.isEmpty());
-            reader.init();
-            Assert.assertTrue(meter.gauges.isEmpty());
-            stream.responseInit("session");
-            Assert.assertEquals(0, meter.collect(partitions));
-            Assert.assertEquals(100, meter.collect(credit));
-            stream.responseStartPartition("/topic", 42, 0);
-            Assert.assertEquals(1, meter.collect(partitions));
-            Assert.assertEquals(100, meter.collect(credit));
-            stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
-            Assert.assertEquals(80, meter.collect(credit));
-            Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
-            Assert.assertEquals(100, meter.collect(credit));
-            stream.closeStream(Status.of(StatusCode.OVERLOADED));
-            Assert.assertTrue(meter.gauges.isEmpty());
-        } finally {
-            reader.shutdown();
-            client.close();
+    public void readerReconnectsThenStopsOnTerminalError() throws InterruptedException {
+        TopicMeterMock meter = new TopicMeterMock();
+        ReadStreamMock first = new ReadStreamMock();
+        ReadStreamMock retry = new ReadStreamMock();
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(first, retry)).build()) {
+            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                    .addTopic("/topic").setConsumerName("consumer").setMaxMemoryUsageBytes(100)
+                    .setRetryConfig(status -> status.getCode() == StatusCode.TRANSPORT_UNAVAILABLE
+                            ? (attempt, elapsed) -> 0 : null)
+                    .withMeter(meter, "reader").build());
+            try {
+                reader.init();
+                first.responseInit("first");
+                first.responseStartPartition("/topic", 42, 0);
+                first.responseData(25).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
+                reader.receive();
+                first.closeStream(Status.of(StatusCode.TRANSPORT_UNAVAILABLE));
+                Assert.assertEquals(1, meter.value(ERRORS));
+                meter.assertAttribute(ERRORS, "retry_decision", "retry");
+                meter.assertAttribute(ERRORS, "status_code", "TRANSPORT_UNAVAILABLE");
+                meter.assertAttribute(ERRORS, "error.type", "transport_error");
+                meter.assertNoGauges();
+                Assert.assertEquals(1, meter.value(RECEIVED));
+                Assert.assertEquals(1, meter.value(DELIVERED));
+                Assert.assertEquals(25, meter.value(BYTES));
+
+                retry.responseInit("retry");
+                retry.responseStartPartition("/topic", 42, 1);
+                Assert.assertEquals(1, meter.collect(PARTITIONS));
+                Assert.assertEquals(100, meter.collect(CREDIT));
+                retry.responseData(30).partition(1, 1).batch(Codec.RAW, new byte[]{2}).and().send();
+                reader.receive();
+                Assert.assertEquals(2, meter.value(RECEIVED));
+                Assert.assertEquals(2, meter.value(DELIVERED));
+                Assert.assertEquals(55, meter.value(BYTES));
+                Assert.assertEquals(100, meter.collect(CREDIT));
+
+                retry.closeStream(Status.of(StatusCode.UNAUTHORIZED));
+                Assert.assertEquals(2, meter.value(ERRORS));
+                meter.assertAttribute(ERRORS, "retry_decision", "stop");
+                meter.assertAttribute(ERRORS, "status_code", "UNAUTHORIZED");
+                meter.assertAttribute(ERRORS, "error.type", "ydb_error");
+                meter.assertAttribute(ERRORS, "consumer", "consumer");
+                meter.assertAttribute(ERRORS, "reader.name", "reader");
+                meter.assertNoGauges();
+            } finally {
+                reader.shutdown();
+            }
         }
-        Assert.assertTrue(meter.gauges.isEmpty());
+        Assert.assertEquals(2, meter.value(ERRORS));
+        meter.assertNoGauges();
     }
 
-    private static class RecordingMeter implements Meter {
-        private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
-        private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();
-        private final Map<String, List<Consumer<LongMeasurement>>> gauges = new ConcurrentHashMap<>();
-
-        @Override
-        public MetricRegistration registerLongGauge(
-                String name, String unit, String description, Consumer<LongMeasurement> callback) {
-            List<Consumer<LongMeasurement>> callbacks = gauges.computeIfAbsent(name, key -> new ArrayList<>());
-            callbacks.add(callback);
-            return () -> {
-                callbacks.remove(callback);
-                if (callbacks.isEmpty()) {
-                    gauges.remove(name, callbacks);
-                }
-            };
-        }
-
-        long collect(String name) {
-            Long[] value = new Long[1];
-            Assert.assertEquals(1, gauges.get(name).size());
-            gauges.get(name).get(0).accept((observed, attrs) -> value[0] = observed);
-            return value[0];
-        }
-
-        @Override
-        public LongCounter createCounter(String name, String unit, String description) {
-            AtomicLong counter = counters.computeIfAbsent(name, key -> new AtomicLong());
-            return (value, attrs) -> {
-                counter.addAndGet(value);
-                attributes.put(name, attrs);
-            };
-        }
-
-        long value(String name) {
-            AtomicLong counter = counters.get(name);
-            return counter == null ? 0 : counter.get();
-        }
-
-        void assertAttribute(String name, String key, String value) {
-            Assert.assertTrue(Arrays.stream(attributes.get(name))
-                    .anyMatch(attr -> attr.getKey().equals(key) && attr.getValue().equals(value)));
-        }
+    private static TopicRpc mockRpc(ReadStreamMock first, ReadStreamMock... retries) {
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(first, retries);
+        return rpc;
     }
 }
