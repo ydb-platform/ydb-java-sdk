@@ -32,24 +32,36 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private final AtomicLong lastCommittedOffset;
+    private final AtomicLong commitTargetOffset;
 
     ReadPartitionCommitter(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
         this.lastCommittedOffset = new AtomicLong(lastCommittedOffset);
+        this.commitTargetOffset = new AtomicLong(lastCommittedOffset);
     }
 
     private RuntimeException partitionIsClosedException() {
         return new RuntimeException("" + partition + " is already stopped");
     }
 
-    public void updateCommittedOffset(long offset) {
-        long old = lastCommittedOffset.get();
-        if (old != lastCommittedOffset.accumulateAndGet(offset, Math::max)) {
+    public long getCommitOffsetLag() {
+        return Math.max(0, commitTargetOffset.get() - lastCommittedOffset.get());
+    }
+
+    void updateCommitTarget(long offset) {
+        commitTargetOffset.accumulateAndGet(offset, Math::max);
+    }
+
+    public long updateCommittedOffset(long offset) {
+        long old = lastCommittedOffset.getAndAccumulate(offset, Math::max);
+        if (offset > old) {
             logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} "
                     + "(diff is {} message(s)).", traceID, offset, old, offset - old);
+            return offset - old;
         }
+        return 0;
     }
 
     public void completePendingCommits() {

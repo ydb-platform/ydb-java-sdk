@@ -65,7 +65,8 @@ public class SyncReaderImpl implements SyncReader {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
         this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
 
-        this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings);
+        this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings,
+                queue::size, this::getOldestReceivedTimestamp);
         this.impl = new Impl(topicRpc, debugId, settings, config);
 
         String readerName = settings.getReaderName();
@@ -81,6 +82,11 @@ public class SyncReaderImpl implements SyncReader {
     @Override
     public String getSessionId() {
         return sessionId;
+    }
+
+    private long getOldestReceivedTimestamp() {
+        return queue.stream().filter(MessageWrapper::isActive)
+                .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt()).min().orElse(0);
     }
 
     @Override

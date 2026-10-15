@@ -6,9 +6,11 @@ import java.util.function.LongSupplier;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
+import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
+import tech.ydb.proto.topic.YdbTopic;
 
 /**
  * Topic reader metrics.
@@ -19,12 +21,19 @@ final class ReaderMetrics {
     private final LongCounter deliveredMessages;
     private final LongCounter receivedMessages;
     private final LongCounter receivedBytes;
+    private final LongCounter commitQueued;
+    private final LongCounter commitAcknowledged;
     private final LongCounter sessionErrors;
+    private final DoubleHistogram compressionDuration;
+    private final DoubleHistogram processingDuration;
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
     private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
     private MetricRegistration creditGauge = MetricRegistration.NOOP;
+    private MetricRegistration commitLagGauge = MetricRegistration.NOOP;
+    private MetricRegistration bufferMessagesGauge = MetricRegistration.NOOP;
+    private MetricRegistration ageGauge = MetricRegistration.NOOP;
 
     ReaderMetrics(Meter meter, String consumer, String readerName) {
         this.meter = meter;
@@ -37,12 +46,21 @@ final class ReaderMetrics {
                 "The number of messages accepted by the SDK for an active partition session.");
         this.receivedBytes = meter.createCounter("ydb.topic.reader.received.bytes", "By",
                 "The protocol bytes_size received in read responses.");
+        this.commitQueued = meter.createCounter("ydb.topic.reader.commit.queued", MESSAGE_UNIT,
+                "The number of messages in commit ranges accepted by the SDK.");
+        this.commitAcknowledged = meter.createCounter("ydb.topic.reader.commit.acknowledged", MESSAGE_UNIT,
+                "The number of messages acknowledged by advances of the committed offset.");
         this.sessionErrors = meter.createCounter("ydb.topic.reader.session.errors", "{error}",
                 "The number of reader stream session errors by retry decision.");
+        this.compressionDuration = meter.createHistogram("ydb.topic.reader.compression.duration", "s",
+                "The time spent decompressing a message, excluding queueing.");
+        this.processingDuration = meter.createHistogram("ydb.topic.reader.message.processing.duration", "s",
+                "The time from receipt until a message is ready for delivery.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
-    void register(LongSupplier partitionCount, LongSupplier bufferBudget) {
+    void register(LongSupplier partitionCount, LongSupplier bufferBudget, LongSupplier commitLag,
+            LongSupplier bufferMessages, LongSupplier oldestTimestamp) {
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
@@ -50,13 +68,32 @@ final class ReaderMetrics {
         creditGauge = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.",
                 m -> m.record(bufferBudget.getAsLong(), commonAttributes));
+        commitLagGauge = meter.registerLongGauge("ydb.topic.reader.commit_offset.lag.max", MESSAGE_UNIT,
+                "The maximum gap between requested and acknowledged commit offsets.",
+                m -> m.record(commitLag.getAsLong(), commonAttributes));
+        bufferMessagesGauge = meter.registerLongGauge("ydb.topic.reader.local_buffer.messages", MESSAGE_UNIT,
+                "The number of messages currently buffered by the reader.",
+                m -> m.record(bufferMessages.getAsLong(), commonAttributes));
+        ageGauge = meter.registerDoubleGauge("ydb.topic.reader.local_buffer.message_age.max", "s",
+                "The age of the oldest batch retained in the reader's local buffer.",
+                m -> {
+                    long timestamp = oldestTimestamp.getAsLong();
+                    m.record(timestamp == 0 ? 0 : (System.nanoTime() - timestamp) / 1_000_000_000d,
+                            commonAttributes);
+                });
     }
 
     void unregister() {
         partitionsGauge.close();
         creditGauge.close();
+        commitLagGauge.close();
+        bufferMessagesGauge.close();
+        ageGauge.close();
         partitionsGauge = MetricRegistration.NOOP;
         creditGauge = MetricRegistration.NOOP;
+        commitLagGauge = MetricRegistration.NOOP;
+        bufferMessagesGauge = MetricRegistration.NOOP;
+        ageGauge = MetricRegistration.NOOP;
     }
 
     void reportDelivered(long messages, String topic) {
@@ -83,6 +120,35 @@ final class ReaderMetrics {
                         ? "session_closed" : code.isTransportError() ? "transport_error" : "ydb_error";
         attributes[commonAttributes.length + 2] = Attr.of("error.type", errorType);
         sessionErrors.add(1, attributes);
+    }
+
+    void reportCommitQueued(long messages, String topic) {
+        report(commitQueued, messages, topic);
+    }
+
+    void reportCommitAcknowledged(long messages, String topic) {
+        report(commitAcknowledged, messages, topic);
+    }
+
+    void reportDecoded(long compressionNanos, long processingNanos, int codec, String topic, Throwable error) {
+        recordDuration(compressionDuration, compressionNanos, codec, topic, error);
+        recordDuration(processingDuration, processingNanos, codec, topic, error);
+    }
+
+    private void recordDuration(DoubleHistogram histogram, long durationNanos, int codec, String topic,
+            Throwable error) {
+        if (enabled) {
+            Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + (error == null ? 3 : 4));
+            attributes[commonAttributes.length] = Attr.of("topic", topic);
+            YdbTopic.Codec codecType = YdbTopic.Codec.forNumber(codec);
+            attributes[commonAttributes.length + 1] = Attr.of("codec", codecType == null ? Integer.toString(codec)
+                    : codecType.name().substring("CODEC_".length()).toLowerCase(java.util.Locale.ROOT));
+            attributes[commonAttributes.length + 2] = Attr.of("outcome", error == null ? "ok" : "error");
+            if (error != null) {
+                attributes[commonAttributes.length + 3] = Attr.of("error.type", error.getClass().getName());
+            }
+            histogram.record(durationNanos / 1_000_000_000d, attributes);
+        }
     }
 
     private void report(LongCounter counter, long messages, String topic) {

@@ -75,7 +75,8 @@ public class ReadPartition implements ReadSession.PartitionControl {
         this.controlExecutor = config.getControlExecutor();
 
         this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
-        this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, this::sendDataToReaders);
+        this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer,
+                this::sendDataToReaders, metrics);
         this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
 
         logger.info("[{}] started for {}", traceID, partition);
@@ -88,6 +89,14 @@ public class ReadPartition implements ReadSession.PartitionControl {
 
     public PartitionSession getPartition() {
         return partition;
+    }
+
+    public long getCommitOffsetLag() {
+        return committer.getCommitOffsetLag();
+    }
+
+    void updateCommitTarget(long offset) {
+        committer.updateCommitTarget(offset);
     }
 
     @Override
@@ -104,11 +113,20 @@ public class ReadPartition implements ReadSession.PartitionControl {
         sendDataToReaders();
     }
 
-    public void confirmCommittedOffset(long committedOffset) {
-        committer.updateCommittedOffset(committedOffset);
+    long getOldestReceivedTimestamp() {
+        return queue.getOldestReceivedTimestamp();
+    }
+
+    long getLocalBufferMessages() {
+        return queue.getLocalBufferMessages();
+    }
+
+    public long confirmCommittedOffset(long committedOffset) {
+        long acknowledged = committer.updateCommittedOffset(committedOffset);
         committer.completePendingCommits();
         commitOffsetAck.set(new CommitOffsetAcknowledgementEventImpl(partition, committedOffset));
         sendDataToReaders();
+        return acknowledged;
     }
 
     public void unpause() {
