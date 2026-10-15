@@ -6,6 +6,7 @@ import java.util.function.LongSupplier;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
+import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
@@ -20,13 +21,18 @@ final class WriterMetrics {
     private final LongCounter sendingBytes;
     private final LongCounter writtenMessages;
     private final LongCounter sessionErrors;
+    private final DoubleHistogram messageAckDuration;
+    private final DoubleHistogram bufferWaitDuration;
     private final Attr[] commonAttributes;
     private final Meter meter;
+    private final boolean enabled;
     private MetricRegistration bufferUsedGauge = MetricRegistration.NOOP;
     private MetricRegistration bufferLimitGauge = MetricRegistration.NOOP;
+    private MetricRegistration oldestAgeGauge = MetricRegistration.NOOP;
 
     WriterMetrics(Meter meter, String topic, String writerName) {
         this.meter = meter;
+        this.enabled = meter != Meter.NOOP;
         this.sendingMessages = meter.createCounter("ydb.topic.writer.sending.messages", MESSAGE_UNIT,
                 "The number of messages accepted by the SDK for sending.");
         this.sendingBytes = meter.createCounter("ydb.topic.writer.sending.bytes", "By",
@@ -35,6 +41,10 @@ final class WriterMetrics {
                 "The number of messages confirmed written by the server, including already written messages.");
         this.sessionErrors = meter.createCounter("ydb.topic.writer.session.errors", "{error}",
                 "The number of writer stream session errors by retry decision.");
+        this.messageAckDuration = meter.createHistogram("ydb.topic.writer.message.ack.duration", "s",
+                "Time from first sending a message to the server to its acknowledgement.");
+        this.bufferWaitDuration = meter.createHistogram("ydb.topic.writer.buffer.wait.duration", "s",
+                "Time waiting for buffer capacity before a message is accepted.");
         this.commonAttributes = writerName == null
                 ? new Attr[0]
                 : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
@@ -49,11 +59,42 @@ final class WriterMetrics {
                 m -> m.record(bufferLimit.getAsLong(), commonAttributes));
     }
 
+    void register(LongSupplier oldestTimestamp) {
+        oldestAgeGauge = meter.registerDoubleGauge("ydb.topic.writer.sending.oldest_age", "s",
+                "The age of the oldest message in the writer's in-flight buffer.", m -> {
+                    long timestamp = oldestTimestamp.getAsLong();
+                    m.record(timestamp == 0 ? 0 : (System.nanoTime() - timestamp) / 1_000_000_000d,
+                            commonAttributes);
+                });
+    }
+
     void unregister() {
         bufferUsedGauge.close();
         bufferLimitGauge.close();
+        oldestAgeGauge.close();
         bufferUsedGauge = MetricRegistration.NOOP;
         bufferLimitGauge = MetricRegistration.NOOP;
+        oldestAgeGauge = MetricRegistration.NOOP;
+    }
+
+    long reportMessageSendStart() {
+        return enabled ? System.nanoTime() : 0;
+    }
+
+    void reportMessageAckDuration(long timestamp) {
+        if (timestamp != 0) {
+            messageAckDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
+        }
+    }
+
+    long reportBufferWaitStart() {
+        return enabled ? System.nanoTime() : 0;
+    }
+
+    void reportBufferWaitDuration(long timestamp) {
+        if (timestamp != 0) {
+            bufferWaitDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
+        }
     }
 
     void reportSending(long bytes) {

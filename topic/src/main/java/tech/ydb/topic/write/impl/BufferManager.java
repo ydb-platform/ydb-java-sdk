@@ -60,11 +60,21 @@ public class BufferManager {
     }
 
     public void acquire(long messageSize) throws InterruptedException, QueueOverflowException {
+        acquire(messageSize, null);
+    }
+
+    void acquire(long messageSize, WriterMetrics metrics) throws InterruptedException, QueueOverflowException {
         if (closed != null) {
             throw new IllegalStateException("Writer was closed with status " + closed);
         }
 
-        countAvailable.acquire();
+        long waitStarted = 0;
+        if (!countAvailable.tryAcquire(0, TimeUnit.NANOSECONDS)) {
+            if (metrics != null) {
+                waitStarted = metrics.reportBufferWaitStart();
+            }
+            countAvailable.acquire();
+        }
 
         if (closed != null) {
             countAvailable.release();
@@ -74,7 +84,12 @@ public class BufferManager {
         int messageBlocks = calculateBlocksCount(messageSize, blockBitsCount);
 
         try {
-            blocksAvailable.acquire(messageBlocks);
+            if (!blocksAvailable.tryAcquire(messageBlocks, 0, TimeUnit.NANOSECONDS)) {
+                if (waitStarted == 0 && metrics != null) {
+                    waitStarted = metrics.reportBufferWaitStart();
+                }
+                blocksAvailable.acquire(messageBlocks);
+            }
         } catch (InterruptedException ex) {
             countAvailable.release();
             throw ex;
@@ -84,6 +99,9 @@ public class BufferManager {
             blocksAvailable.release(messageBlocks);
             countAvailable.release();
             throw new IllegalStateException("Writer was closed with status " + closed);
+        }
+        if (metrics != null) {
+            metrics.reportBufferWaitDuration(waitStarted);
         }
     }
 
@@ -125,12 +143,25 @@ public class BufferManager {
 
     public void tryAcquire(long messageSize, long timeout, TimeUnit unit) throws InterruptedException,
             QueueOverflowException, TimeoutException {
+        tryAcquire(messageSize, timeout, unit, null);
+    }
+
+    void tryAcquire(long messageSize, long timeout, TimeUnit unit, WriterMetrics metrics) throws InterruptedException,
+            QueueOverflowException, TimeoutException {
         if (closed != null) {
             throw new IllegalStateException("Writer was closed with status " + closed);
         }
 
         long expireAt = System.nanoTime() + unit.toNanos(timeout);
-        if (!countAvailable.tryAcquire(timeout, unit)) {
+        long waitStarted = 0;
+        boolean countAcquired = countAvailable.tryAcquire(0, TimeUnit.NANOSECONDS);
+        if (!countAcquired) {
+            if (metrics != null) {
+                waitStarted = metrics.reportBufferWaitStart();
+            }
+            countAcquired = countAvailable.tryAcquire(timeout, unit);
+        }
+        if (!countAcquired) {
             String errorMsg = "[" + debugId + "] Rejecting a message due to reaching message queue in-flight limit of "
                     + maxCount;
             logger.warn(errorMsg);
@@ -147,7 +178,14 @@ public class BufferManager {
         try {
             // negative timeout is allowed for tryAcquire
             long timeout2 = expireAt - System.nanoTime();
-            if (!blocksAvailable.tryAcquire(messageBlocks, timeout2, TimeUnit.NANOSECONDS)) {
+            boolean blocksAcquired = blocksAvailable.tryAcquire(messageBlocks, 0, TimeUnit.NANOSECONDS);
+            if (!blocksAcquired) {
+                if (waitStarted == 0 && metrics != null) {
+                    waitStarted = metrics.reportBufferWaitStart();
+                }
+                blocksAcquired = blocksAvailable.tryAcquire(messageBlocks, timeout2, TimeUnit.NANOSECONDS);
+            }
+            if (!blocksAcquired) {
                 countAvailable.release();
                 int count = maxCount - countAvailable.availablePermits();
                 long size = ((long) blocksAvailable.availablePermits()) << blockBitsCount;
@@ -166,6 +204,9 @@ public class BufferManager {
             blocksAvailable.release(messageBlocks);
             countAvailable.release();
             throw new IllegalStateException("Writer was closed with status " + closed);
+        }
+        if (metrics != null) {
+            metrics.reportBufferWaitDuration(waitStarted);
         }
     }
 
