@@ -67,7 +67,12 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
 
     @Override
     protected void onRetry(ReadSession stream, Status status) {
-        config.getMetrics().reportSessionError(status, true);
+        onRetry(stream, status, null);
+    }
+
+    @Override
+    protected void onRetry(ReadSession stream, Status status, String failureReason) {
+        config.getMetrics().reportSessionError(status, true, failureReason);
         logger.warn("[{}] stopped by status {}", debugId, status);
         currentSessionId = null;
         if (errorHandler != null) {
@@ -84,9 +89,14 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
 
     @Override
     protected void onClose(ReadSession stream, Status status) {
+        onClose(stream, status, null);
+    }
+
+    @Override
+    protected void onClose(ReadSession stream, Status status, String failureReason) {
         currentSessionId = null;
         if (!status.isSuccess()) {
-            config.getMetrics().reportSessionError(status, false);
+            config.getMetrics().reportSessionError(status, false, failureReason);
             logger.warn("[{}] closed by status {}", debugId, status);
         } else {
             logger.info("[{}] closed by status {}", debugId, status);
@@ -178,7 +188,8 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
                                 " with partition offsets from read session " + debugId +
                                 " was not committed with status: " + status;
                 if (sessionId == currentSessionId) {
-                    fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR)));
+                    fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR)),
+                            "transaction_error");
                 }
             }
             if (error != null) {
@@ -186,7 +197,8 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
                                 " with partition offsets from read session " + debugId +
                                 " was not committed with reason: " + error.getMessage();
                 if (sessionId == currentSessionId) {
-                    fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR)));
+                    fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, Issue.of(msg, Issue.Severity.ERROR)),
+                            "transaction_error");
                 }
             }
         });
