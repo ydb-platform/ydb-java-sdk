@@ -8,7 +8,7 @@ Usage:
   build-slo-image.sh \
     --sdk <path> \
     --examples <path> \
-    --workload <query|jdbc|spring-data-jdbc|spring-data-jpa> \
+    --workload <query|query-rmw|jdbc|spring-data-jdbc|spring-data-jpa> \
     --tag <docker-tag> \
     [--fallback-image <docker-tag>]
 
@@ -78,6 +78,11 @@ case "$workload" in
     query)
         workload_module="slo-workload/query"
         workload_jar="ydb-slo-query-workload.jar"
+        copy_libs="true"
+        ;;
+    query-rmw)
+        workload_module="slo-workload/query-rmw"
+        workload_jar="ydb-slo-query-rmw-workload.jar"
         copy_libs="true"
         ;;
     jdbc)
