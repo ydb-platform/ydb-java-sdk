@@ -209,7 +209,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             logger.error("[{}] Received second StartPartitionSessionRequest for the already active {}", debugId, ps);
             Issue issue = Issue.of("Restarting read session due to receiving second StartPartitionSessionRequest with "
                     + ps, Issue.Severity.FATAL);
-            fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue), "protocol_error");
+            fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
             return;
         }
 
@@ -267,7 +267,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 "but have no such partition session active", debugId, psid);
         Issue issue = Issue.of("Restarting read session due to receiving StopPartitionSessionRequest with "
                 + "PartitionSessionId " + psid + " that SDK knows nothing about", Issue.Severity.FATAL);
-        fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue), "protocol_error");
+        fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
     }
 
     public void onRead(YdbTopic.StreamReadMessage.ReadResponse response) {

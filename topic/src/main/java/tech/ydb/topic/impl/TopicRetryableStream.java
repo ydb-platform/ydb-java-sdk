@@ -60,14 +60,6 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
      */
     protected abstract void onClose(@Nullable S stream, Status status);
 
-    protected void onRetry(@Nullable S stream, Status status, String failureReason) {
-        onRetry(stream, status);
-    }
-
-    protected void onClose(@Nullable S stream, Status status, String failureReason) {
-        onClose(stream, status);
-    }
-
     public void start() {
         if (isClosed) {
             logger.warn("[{}] double start of closed stream, ignored", debugId);
@@ -99,14 +91,10 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
     }
 
     public void fail(Status status) {
-        fail(status, null);
-    }
-
-    public void fail(Status status, String failureReason) {
         State local = state.getAndSet(null);
         if (local != null) {
             logger.warn("[{}] failed by application-side error {}", debugId, status);
-            onStreamStop(local.closeStream(), status, retryConfig.getStatusRetryPolicy(status), failureReason);
+            onStreamStop(local.closeStream(), status, retryConfig.getStatusRetryPolicy(status));
         }
     }
 
@@ -132,19 +120,15 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
     }
 
     private void onStreamStop(S closed, Status status, RetryPolicy policy) {
-        onStreamStop(closed, status, policy, null);
-    }
-
-    private void onStreamStop(S closed, Status status, RetryPolicy policy, String failureReason) {
         if (isClosed) { // stream was already closed (usually with success)
-            onClose(closed, status, failureReason);
+            onClose(closed, status);
             return;
         }
 
         if (policy == null) {
             logger.warn("[{}] stopped by non-retryable status {}", debugId, status);
             isClosed = true;
-            onClose(closed, status, failureReason);
+            onClose(closed, status);
             return;
         }
 
@@ -153,27 +137,27 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
         if (nextRetryMs < 0) {
             logger.warn("[{}] stopped after retry policy evaluation for status {}", debugId, status);
             isClosed = true;
-            onClose(closed, status, failureReason);
+            onClose(closed, status);
             return;
         }
 
         if (nextRetryMs == 0) { // retry immediately
             logger.warn("[{}] retry #{}. Retry immediately...", debugId, retryState.retryNumber());
-            onRetry(closed, status, failureReason);
+            onRetry(closed, status);
             start();
             return;
         }
 
         // retry scheduling
         logger.warn("[{}] retry #{}. Scheduling reconnect in {}ms...", debugId, retryState.retryNumber(), nextRetryMs);
-        onRetry(closed, status, failureReason);
+        onRetry(closed, status);
 
         try {
             scheduler.schedule(this::start, nextRetryMs, TimeUnit.MILLISECONDS);
         } catch (Exception ex) {
             logger.error("[{}] cannot schedule reconnect, stopping", debugId, ex);
             isClosed = true;
-            onClose(closed, status, failureReason);
+            onClose(closed, status);
         }
     }
 
@@ -227,8 +211,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
                 }
 
                 if (status != null) {
-                    onStreamStop(local, status, retryConfig.getStatusRetryPolicy(status),
-                            local.getFailureReason(status));
+                    onStreamStop(local, status, retryConfig.getStatusRetryPolicy(status));
                 } else {
                     Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
                     onStreamStop(local, wrapped, retryConfig.getThrowableRetryPolicy(th));
