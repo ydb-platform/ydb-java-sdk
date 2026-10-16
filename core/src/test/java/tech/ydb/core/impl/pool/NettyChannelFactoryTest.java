@@ -243,10 +243,8 @@ public class NettyChannelFactoryTest {
         GrpcTransportBuilder builder = GrpcTransport.forHost(MOCKED_HOST, MOCKED_PORT, "/Root")
                 .withSecureConnection(cert);
 
-        ManagedChannelFactory factory = ChannelFactoryLoader.load().buildFactory(builder);
-
         RuntimeException ex = Assert.assertThrows(RuntimeException.class,
-                () -> factory.newManagedChannel(MOCKED_HOST, MOCKED_PORT, null));
+                () -> ChannelFactoryLoader.load().buildFactory(builder));
 
         Assert.assertEquals("cannot create ssl context", ex.getMessage());
         Assert.assertNotNull(ex.getCause());

@@ -33,23 +33,19 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
 
     private final ClientInterceptor metadata;
 
-    private final boolean useTLS;
-    private final byte[] cert;
     private final boolean retryEnabled;
     private final boolean useDefaultGrpcResolver;
     private final Long grpcKeepAliveTimeMillis;
     private final List<Consumer<? super ManagedChannelBuilder<?>>> initializers;
-    private final SslContext sslContext;
+    private final SslContext sslCtx;
 
     private ShadedNettyChannelFactory(GrpcTransportBuilder builder) {
         this.metadata = YdbHeaders.createMetadataInterceptor(builder);
-        this.useTLS = builder.getUseTls();
-        this.cert = builder.getCert();
         this.retryEnabled = builder.isEnableRetry();
         this.useDefaultGrpcResolver = builder.useDefaultGrpcResolver();
         this.grpcKeepAliveTimeMillis = builder.getGrpcKeepAliveTimeMillis();
         this.initializers = builder.getChannelInitializers();
-        this.sslContext = createSslContext();
+        this.sslCtx = createSslContext(builder.getUseTls(), builder.getCert());
     }
 
     @SuppressWarnings("deprecation")
@@ -58,10 +54,10 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
         NettyChannelBuilder channelBuilder = NettyChannelBuilder
                 .forAddress(host, port);
 
-        if (useTLS) {
+        if (sslCtx != null) {
             channelBuilder
                     .negotiationType(NegotiationType.TLS)
-                    .sslContext(sslContext);
+                    .sslContext(sslCtx);
             if (sslHostOverride != null) {
                 channelBuilder.overrideAuthority(sslHostOverride);
             }
@@ -106,11 +102,15 @@ public class ShadedNettyChannelFactory implements ManagedChannelFactory {
 
     }
 
-    private SslContext createSslContext() {
+    private static SslContext createSslContext(boolean useTLS, byte[] customCert) {
+        if (!useTLS) {
+            return null;
+        }
+
         try {
             SslContextBuilder sslContextBuilder = GrpcSslContexts.forClient();
-            if (cert != null) {
-                sslContextBuilder.trustManager(new ByteArrayInputStream(cert));
+            if (customCert != null) {
+                sslContextBuilder.trustManager(new ByteArrayInputStream(customCert));
             } else {
                 sslContextBuilder.trustManager(new YandexTrustManagerFactory(""));
             }
