@@ -16,6 +16,7 @@ import tech.ydb.topic.read.PartitionSession;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
 import tech.ydb.topic.read.impl.events.CommitOffsetAcknowledgementEventImpl;
 import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.read.impl.events.PartitionControl;
 import tech.ydb.topic.read.impl.events.PartitionSessionClosedEventImpl;
 import tech.ydb.topic.read.impl.events.PartitionSessionEndedEventImpl;
 import tech.ydb.topic.read.impl.events.StartPartitionSessionEventImpl;
@@ -25,7 +26,7 @@ import tech.ydb.topic.settings.StartPartitionSessionSettings;
 /**
  * @author Nikolay Perfilov
  */
-public class ReadPartition implements ReadSession.PartitionControl {
+public class ReadPartition implements PartitionControl {
     private static final Logger logger = LoggerFactory.getLogger(ReadPartition.class);
 
     private enum State {
@@ -74,7 +75,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         this.dataExecutor = new SerialExecutor(config.getDataExecutor());
         this.controlExecutor = config.getControlExecutor();
 
-        this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
+        this.committer = new ReadPartitionCommitter(traceID, session, this, lastCommittedOffset);
         this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, this::sendDataToReaders);
         this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
 
@@ -86,14 +87,23 @@ public class ReadPartition implements ReadSession.PartitionControl {
         return State.IS_ACTIVE.contains(state.get());
     }
 
+    @Override
     public PartitionSession getPartition() {
         return partition;
     }
 
     @Override
-    public void confirmRangeProcessed(OffsetsRange range) {
+    public void confirmProcessedRange(OffsetsRange range) {
         decoder.releaseRange(range);
         session.getBufferManager().releaseRange(partition.getId(), range);
+        sendDataToReaders();
+    }
+
+    public void confirmProcessedRanges(List<OffsetsRange> ranges) {
+        for (OffsetsRange range: ranges) {
+            decoder.releaseRange(range);
+            session.getBufferManager().releaseRange(partition.getId(), range);
+        }
         sendDataToReaders();
     }
 
@@ -157,14 +167,14 @@ public class ReadPartition implements ReadSession.PartitionControl {
                     break;
                 }
 
-                DataReceivedEventImpl event = new DataReceivedEventImpl(partition, committer, list);
+                DataReceivedEventImpl event = new DataReceivedEventImpl(this, committer, list);
 
                 int messagesCount = event.getMessages().size();
                 long offsetStart = event.getMessages().get(0).getOffset();
                 long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
                 logger.debug("[{}] onData with {} message(s) (offsets {}-{}) is about to be called...",
                         traceID, messagesCount, offsetStart, offsetEnd);
-                session.getHandler().onData(this, event);
+                session.getHandler().onData(event);
                 logger.debug("[{}] onData with {} message(s) (offsets {}-{}) successfully finished",
                         traceID, messagesCount, offsetStart, offsetEnd);
 

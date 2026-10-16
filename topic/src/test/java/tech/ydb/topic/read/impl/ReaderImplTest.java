@@ -35,6 +35,7 @@ import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicReadSettings;
 import tech.ydb.topic.settings.TopicRetryConfig;
@@ -372,8 +373,7 @@ public class ReaderImplTest {
 
         ArgumentCaptor<StartPartitionSessionEvent> start = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
         ArgumentCaptor<PartitionSessionEndedEvent> ended = ArgumentCaptor.forClass(PartitionSessionEndedEvent.class);
-        ArgumentCaptor<ReadSession.PartitionControl> ctrl = ArgumentCaptor.forClass(ReadSession.PartitionControl.class);
-        ArgumentCaptor<DataReceivedEvent> dataEvent = ArgumentCaptor.forClass(DataReceivedEvent.class);
+        ArgumentCaptor<DataReceivedEventImpl> dataEvent = ArgumentCaptor.forClass(DataReceivedEventImpl.class);
 
         reader.verifyHandler(Mockito.times(2)).onPartitionStarted(start.capture());
         start.getAllValues().forEach(StartPartitionSessionEvent::confirm);
@@ -383,11 +383,11 @@ public class ReaderImplTest {
                 .partition(2, 10).batch(Codec.RAW, MSG3, MSG1, MSG2).and()
                 .send();
 
-        reader.verifyHandler(Mockito.times(2)).onData(ctrl.capture(), dataEvent.capture());
-        ReadSession.PartitionControl ctrl1 = ctrl.getAllValues().get(0);
-        ReadSession.PartitionControl ctrl2 = ctrl.getAllValues().get(1);
-        assertMessages(100,  0, Arrays.asList(MSG1, MSG2, MSG3), dataEvent.getAllValues().get(0));
-        assertMessages(200, 10, Arrays.asList(MSG3, MSG1, MSG2), dataEvent.getAllValues().get(1));
+        reader.verifyHandler(Mockito.times(2)).onData(dataEvent.capture());
+        DataReceivedEventImpl data1 = dataEvent.getAllValues().get(0);
+        DataReceivedEventImpl data2 = dataEvent.getAllValues().get(1);
+        assertMessages(100,  0, Arrays.asList(MSG1, MSG2, MSG3), data1);
+        assertMessages(200, 10, Arrays.asList(MSG3, MSG1, MSG2), data2);
         reader.resetHandler();
 
         mock.responseEndPartition(1, 300);
@@ -407,19 +407,19 @@ public class ReaderImplTest {
                 .send();
 
         // Got only ps4 cause ps3 is paused
-        reader.verifyHandler(Mockito.times(1)).onData(ctrl.capture(), dataEvent.capture());
+        reader.verifyHandler(Mockito.times(1)).onData(dataEvent.capture());
         assertMessages(400, 40, Arrays.asList(MSG2, MSG1, MSG3), dataEvent.getAllValues().get(2));
         reader.resetHandler();
 
-        ctrl2.confirmRangeProcessed(OffsetsRange.of(10, 13)); // release one of parents
+        data2.getPartitionControl().confirmProcessedRange(OffsetsRange.of(10, 13)); // release one of parents
 
         reader.verifyHandler(Mockito.times(1)).onPartitionEnded(ended.capture());
-        reader.verifyHandler(Mockito.never()).onData(ctrl.capture(), dataEvent.capture());
+        reader.verifyHandler(Mockito.never()).onData(dataEvent.capture());
 
-        ctrl1.confirmRangeProcessed(OffsetsRange.of(0, 3)); // release second of parents
+        data1.getPartitionControl().confirmProcessedRange(OffsetsRange.of(0, 3)); // release second of parents
 
         reader.verifyHandler(Mockito.times(2)).onPartitionEnded(ended.capture());
-        reader.verifyHandler(Mockito.times(1)).onData(ctrl.capture(), dataEvent.capture());
+        reader.verifyHandler(Mockito.times(1)).onData(dataEvent.capture());
 
         assertMessages(300, 30, Arrays.asList(MSG3, MSG2, MSG1), dataEvent.getAllValues().get(3));
 
@@ -443,8 +443,7 @@ public class ReaderImplTest {
 
         ArgumentCaptor<StartPartitionSessionEvent> start = ArgumentCaptor.forClass(StartPartitionSessionEvent.class);
         ArgumentCaptor<PartitionSessionEndedEvent> ended = ArgumentCaptor.forClass(PartitionSessionEndedEvent.class);
-        ArgumentCaptor<ReadSession.PartitionControl> ctrl = ArgumentCaptor.forClass(ReadSession.PartitionControl.class);
-        ArgumentCaptor<DataReceivedEvent> dataEvent = ArgumentCaptor.forClass(DataReceivedEvent.class);
+        ArgumentCaptor<DataReceivedEventImpl> dataEvent = ArgumentCaptor.forClass(DataReceivedEventImpl.class);
 
         reader.verifyHandler(Mockito.times(2)).onPartitionStarted(start.capture());
         start.getAllValues().forEach(StartPartitionSessionEvent::confirm);
@@ -454,11 +453,11 @@ public class ReaderImplTest {
                 .partition(2, 10).batch(Codec.RAW, MSG3, MSG1, MSG2).and()
                 .send();
 
-        reader.verifyHandler(Mockito.times(2)).onData(ctrl.capture(), dataEvent.capture());
-        ReadSession.PartitionControl ctrl1 = ctrl.getAllValues().get(0);
-        ReadSession.PartitionControl ctrl2 = ctrl.getAllValues().get(1);
-        assertMessages(100, 40, Arrays.asList(MSG1, MSG2, MSG3), dataEvent.getAllValues().get(0));
-        assertMessages(200, 10, Arrays.asList(MSG3, MSG1, MSG2), dataEvent.getAllValues().get(1));
+        reader.verifyHandler(Mockito.times(2)).onData(dataEvent.capture());
+        DataReceivedEventImpl data1 = dataEvent.getAllValues().get(0);
+        DataReceivedEventImpl data2 = dataEvent.getAllValues().get(1);
+        assertMessages(100, 40, Arrays.asList(MSG1, MSG2, MSG3), data1);
+        assertMessages(200, 10, Arrays.asList(MSG3, MSG1, MSG2), data2);
         reader.resetHandler();
 
         mock.responseEndPartition(1, 300);
@@ -476,15 +475,15 @@ public class ReaderImplTest {
                 .send();
 
         // ps3 is paused
-        reader.verifyHandler(Mockito.never()).onData(ctrl.capture(), dataEvent.capture());
+        reader.verifyHandler(Mockito.never()).onData(dataEvent.capture());
         reader.resetHandler();
 
-        ctrl1.confirmRangeProcessed(OffsetsRange.of(40, 43)); // release first parent
+        data1.getPartitionControl().confirmProcessedRange(OffsetsRange.of(40, 43)); // release first parent
         mock.responseStopPartition(2, false);  // non graceful stopp of second parent
-        ctrl2.confirmRangeProcessed(OffsetsRange.of(10, 13)); // release has no effect
+        data2.getPartitionControl().confirmProcessedRange(OffsetsRange.of(10, 13)); // release has no effect
 
         // ps3 is paused forever
-        reader.verifyHandler(Mockito.never()).onData(ctrl.capture(), dataEvent.capture());
+        reader.verifyHandler(Mockito.never()).onData(dataEvent.capture());
 
         reader.close();
         mock.assertIsClosed();
