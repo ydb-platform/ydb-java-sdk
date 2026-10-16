@@ -37,7 +37,7 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
     private final Lock callLock = new ReentrantLock();
     private final GrpcStatusHandler statusConsumer;
     private final Span callSpan;
-    private final ReqT request;
+    private ReqT request;
     private final Metadata headers;
     private final GrpcFlowControl.Call flow;
 
@@ -75,6 +75,8 @@ public class ReadStreamCall<ReqT, RespT> extends ClientCall.Listener<RespT> impl
                 logger.trace("ReadStreamCall[{}] --> {}", traceId, TextFormat.shortDebugString((Message) request));
             }
             call.sendMessage(request);
+            // the request isn't needed anymore, don't retain it until the end of the stream
+            request = null;
             // close stream by client side
             call.halfClose();
             // init flow
