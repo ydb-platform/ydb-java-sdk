@@ -1,6 +1,7 @@
 package tech.ydb.core.auth;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +19,10 @@ import org.slf4j.LoggerFactory;
  */
 public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
     private static final Logger logger = LoggerFactory.getLogger(BackgroundIdentity.class);
+
+    // Delays before retrying a failed background update while the current token is still valid
+    private static final long RETRY_MIN_DELAY_MS = 1_000;
+    private static final long RETRY_MAX_DELAY_MS = 60_000;
 
     public interface Rpc extends AutoCloseable {
         class Token {
@@ -85,6 +90,12 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
         return state.get().validate(clock.instant()).token();
     }
 
+    private static Instant nextRetry(Instant now, int failedUpdates) {
+        // 1s, 2s, 4s, ... up to 1 minute
+        long delayMs = RETRY_MIN_DELAY_MS << Math.min(failedUpdates - 1, 10);
+        return now.plus(Duration.ofMillis(Math.min(delayMs, RETRY_MAX_DELAY_MS)));
+    }
+
     private <T> T unwrap(CompletableFuture<T> future) {
         try {
             return future.get(rpc.getTimeoutSeconds(), TimeUnit.SECONDS);
@@ -143,10 +154,12 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
 
     private class BackgroundLogin implements State {
         private final Rpc.Token token;
+        private final int failedUpdates;
         private final CompletableFuture<State> future = new CompletableFuture<>();
 
-        BackgroundLogin(Rpc.Token token) {
+        BackgroundLogin(Rpc.Token token, int failedUpdates) {
             this.token = token;
+            this.failedUpdates = failedUpdates;
         }
 
         @Override
@@ -172,8 +185,10 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
                     // If token had already expired, switch to sync mode and wait for finishing
                     return updateState(this, new SyncLogin()).validate(now);
                 }
-                // else retry background login
-                return updateState(this, new BackgroundLogin(token));
+
+                // else retry background login after a delay, every getToken() would retry it immediately otherwise
+                int failed = failedUpdates + 1;
+                return updateState(this, new LoggedInState(token, nextRetry(now, failed), failed));
             }
 
             if (future.isDone()) {
@@ -186,13 +201,25 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
 
     private class LoggedInState implements State {
         private final Rpc.Token token;
+        private final Instant updateAt;
+        private final int failedUpdates;
 
         LoggedInState(Rpc.Token token) {
+            this(token, token.updateAt(), 0);
+        }
+
+        LoggedInState(Rpc.Token token, Instant updateAt, int failedUpdates) {
             this.token = token;
+            this.updateAt = updateAt;
+            this.failedUpdates = failedUpdates;
         }
 
         @Override
-        public void init() { }
+        public void init() {
+            if (failedUpdates > 0) {
+                logger.warn("background token update failed {} time(s), next attempt at {}", failedUpdates, updateAt);
+            }
+        }
 
         @Override
         public String token() {
@@ -205,8 +232,8 @@ public class BackgroundIdentity implements tech.ydb.auth.AuthIdentity {
                 // If token had already expired, switch to sync mode and wait for finishing
                 return updateState(this, new SyncLogin()).validate(now);
             }
-            if (now.isAfter(token.updateAt())) {
-                return updateState(this, new BackgroundLogin(token));
+            if (now.isAfter(updateAt)) {
+                return updateState(this, new BackgroundLogin(token, failedUpdates));
             }
             return this;
         }
