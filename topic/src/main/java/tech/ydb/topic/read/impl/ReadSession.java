@@ -213,6 +213,11 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
+        if (isClosed) {
+            preDestroy();
+            return;
+        }
+
         partition.start(committed, offsets);
         TopicPartition lockKey = new TopicPartition(ps);
         if (locks.computeIfPresent(lockKey, (key, lock) -> lock.bind(partition)) != null) {

@@ -72,7 +72,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     }
 
     protected void preDestroy() {
-        // nothign
+        // nothing
     }
 
     private void closeStream() {

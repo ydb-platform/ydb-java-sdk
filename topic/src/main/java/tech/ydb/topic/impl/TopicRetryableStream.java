@@ -206,18 +206,19 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
                 return true;
             }
 
+            boolean effective = state.compareAndSet(this, null);
             this.future.whenComplete((res, th) -> {
                 if (res != null && res.isSuccess()) {
                     res.getValue().close();
                 }
             });
 
-            if (!state.compareAndSet(this, null)) {
-                return false;
+            if (effective) {
+                onStreamStop(null, Status.SUCCESS, retryConfig.getStatusRetryPolicy(Status.SUCCESS));
+                return true;
             }
 
-            onStreamStop(null, Status.SUCCESS, retryConfig.getStatusRetryPolicy(Status.SUCCESS));
-            return true;
+            return false;
         }
 
         private void startStream() {
