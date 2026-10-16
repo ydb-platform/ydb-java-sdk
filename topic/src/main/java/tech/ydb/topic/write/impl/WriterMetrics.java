@@ -1,7 +1,10 @@
 package tech.ydb.topic.write.impl;
 
+import java.util.Arrays;
 import java.util.function.LongSupplier;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
@@ -16,6 +19,7 @@ final class WriterMetrics {
     private final LongCounter sendingMessages;
     private final LongCounter sendingBytes;
     private final LongCounter writtenMessages;
+    private final LongCounter sessionErrors;
     private final Attr[] commonAttributes;
     private final Meter meter;
     private MetricRegistration bufferUsedGauge = MetricRegistration.NOOP;
@@ -29,6 +33,8 @@ final class WriterMetrics {
                 "The uncompressed body size of messages accepted by the writer.");
         this.writtenMessages = meter.createCounter("ydb.topic.writer.written.messages", MESSAGE_UNIT,
                 "The number of messages confirmed written by the server, including already written messages.");
+        this.sessionErrors = meter.createCounter("ydb.topic.writer.session.errors", "{error}",
+                "The number of writer stream session errors by retry decision.");
         this.commonAttributes = writerName == null
                 ? new Attr[0]
                 : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
@@ -57,5 +63,16 @@ final class WriterMetrics {
 
     void reportWritten() {
         writtenMessages.add(1, commonAttributes);
+    }
+
+    void reportSessionError(Status status, boolean retry) {
+        StatusCode code = status.getCode();
+        Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + 3);
+        attributes[commonAttributes.length] = Attr.of("retry_decision", retry ? "retry" : "stop");
+        attributes[commonAttributes.length + 1] = Attr.of("status_code", code.name());
+        String errorType = code == StatusCode.SUCCESS || code == StatusCode.UNUSED_STATUS
+                ? "session_closed" : code.isTransportError() ? "transport_error" : "ydb_error";
+        attributes[commonAttributes.length + 2] = Attr.of("error.type", errorType);
+        sessionErrors.add(1, attributes);
     }
 }

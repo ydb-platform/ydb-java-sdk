@@ -3,6 +3,8 @@ package tech.ydb.topic.read.impl;
 import java.util.Arrays;
 import java.util.function.LongSupplier;
 
+import tech.ydb.core.Status;
+import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
@@ -17,6 +19,7 @@ final class ReaderMetrics {
     private final LongCounter deliveredMessages;
     private final LongCounter receivedMessages;
     private final LongCounter receivedBytes;
+    private final LongCounter sessionErrors;
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
@@ -34,6 +37,8 @@ final class ReaderMetrics {
                 "The number of messages accepted by the SDK for an active partition session.");
         this.receivedBytes = meter.createCounter("ydb.topic.reader.received.bytes", "By",
                 "The protocol bytes_size received in read responses.");
+        this.sessionErrors = meter.createCounter("ydb.topic.reader.session.errors", "{error}",
+                "The number of reader stream session errors by retry decision.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
@@ -66,6 +71,18 @@ final class ReaderMetrics {
         if (enabled) {
             record(receivedBytes, bytes);
         }
+    }
+
+    void reportSessionError(Status status, boolean retry) {
+        StatusCode code = status.getCode();
+        Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + 3);
+        attributes[commonAttributes.length] = Attr.of("retry_decision", retry ? "retry" : "stop");
+        attributes[commonAttributes.length + 1] = Attr.of("status_code", code.name());
+        String errorType = code == StatusCode.CLIENT_INTERNAL_ERROR ? "client_error"
+                : code == StatusCode.SUCCESS || code == StatusCode.UNUSED_STATUS
+                        ? "session_closed" : code.isTransportError() ? "transport_error" : "ydb_error";
+        attributes[commonAttributes.length + 2] = Attr.of("error.type", errorType);
+        sessionErrors.add(1, attributes);
     }
 
     private void report(LongCounter counter, long messages, String topic) {
