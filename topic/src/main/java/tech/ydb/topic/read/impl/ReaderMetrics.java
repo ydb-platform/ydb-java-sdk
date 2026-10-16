@@ -73,12 +73,12 @@ final class ReaderMetrics {
         }
     }
 
-    void reportSessionError(Status status, boolean retry) {
+    void reportSessionError(Status status, boolean retry, boolean localFailure) {
         StatusCode code = status.getCode();
         Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + 3);
         attributes[commonAttributes.length] = Attr.of("retry_decision", retry ? "retry" : "stop");
         attributes[commonAttributes.length + 1] = Attr.of("status_code", code.name());
-        String errorType = code == StatusCode.CLIENT_INTERNAL_ERROR ? "client_error"
+        String errorType = localFailure ? "client_error"
                 : code == StatusCode.SUCCESS || code == StatusCode.UNUSED_STATUS
                         ? "session_closed" : code.isTransportError() ? "transport_error" : "ydb_error";
         attributes[commonAttributes.length + 2] = Attr.of("error.type", errorType);

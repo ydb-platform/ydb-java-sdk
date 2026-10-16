@@ -62,8 +62,8 @@ public class WriterQueue {
     private volatile CompletableFuture<WriteAck> lastAcceptedAckFuture = null;
 
     @VisibleForTesting
-    public WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
-                       Executor compressionExecutor, Runnable readyNotify) {
+    WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
+                Executor compressionExecutor, Runnable readyNotify) {
         this(debugId, settings, new WriterMetrics(Meter.NOOP, settings.getTopicPath(), settings.getWriterName()),
                 codecRegistry, compressionExecutor, readyNotify);
     }

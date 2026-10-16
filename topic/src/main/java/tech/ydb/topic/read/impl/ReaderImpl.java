@@ -66,8 +66,13 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
     protected abstract void onReaderClosed(Status status);
 
     @Override
+    protected void onRetry(ReadSession stream, Status status, boolean localFailure) {
+        config.getMetrics().reportSessionError(status, true, localFailure);
+        onRetry(stream, status);
+    }
+
+    @Override
     protected void onRetry(ReadSession stream, Status status) {
-        config.getMetrics().reportSessionError(status, true);
         logger.warn("[{}] stopped by status {}", debugId, status);
         currentSessionId = null;
         if (errorHandler != null) {
@@ -83,10 +88,17 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
     }
 
     @Override
+    protected void onClose(ReadSession stream, Status status, boolean localFailure) {
+        if (!status.isSuccess()) {
+            config.getMetrics().reportSessionError(status, false, localFailure);
+        }
+        onClose(stream, status);
+    }
+
+    @Override
     protected void onClose(ReadSession stream, Status status) {
         currentSessionId = null;
         if (!status.isSuccess()) {
-            config.getMetrics().reportSessionError(status, false);
             logger.warn("[{}] closed by status {}", debugId, status);
         } else {
             logger.info("[{}] closed by status {}", debugId, status);
