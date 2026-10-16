@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.CountDownLatch;
 
 import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
@@ -175,6 +176,44 @@ public class YdbDiscoveryTest {
         Assert.assertTrue(req3.join());
         Assert.assertTrue(req4.join());
 
+        discovery.stop();
+    }
+
+    @Test(timeout = 10_000)
+    public void readyOnlyAfterEndpointsAreHandledTest() throws InterruptedException {
+        Mockito.when(channel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenReturn(MockedCall.discovery("self", new EndpointRecord("localhost", 12340)));
+
+        CountDownLatch handlingStarted = new CountDownLatch(1);
+        CountDownLatch handlingAllowed = new CountDownLatch(1);
+        TestHandler handler = new TestHandler() {
+            @Override
+            public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+                handlingStarted.countDown();
+                try {
+                    handlingAllowed.await();
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                return super.handleEndpoints(endpoints, selfLocation);
+            }
+        };
+
+        YdbDiscovery discovery = new YdbDiscovery(handler, scheduler, "/ready", Duration.ofMillis(100));
+        discovery.start();
+
+        // the first discovery is blocked in the endpoints handling
+        CompletableFuture<MockedScheduler> firstDiscovery = CompletableFuture.supplyAsync(scheduler::runNextTask);
+        handlingStarted.await();
+
+        // endpoints are not applied yet, so discovery must not be ready and waiting must not be blocked
+        IllegalStateException ex = Assert.assertThrows(IllegalStateException.class, () -> discovery.waitReady(50));
+        Assert.assertEquals("Discovery is not ready", ex.getMessage());
+
+        handlingAllowed.countDown();
+        firstDiscovery.join();
+
+        discovery.waitReady(100);
         discovery.stop();
     }
 
