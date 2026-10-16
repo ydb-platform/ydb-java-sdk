@@ -16,7 +16,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     private final String debugId;
     private final GrpcReadWriteStream<R, W> stream;
     private final W initRequest;
-    private final CompletableFuture<Completion> streamStatus = new CompletableFuture<>();
+    private final CompletableFuture<Status> streamStatus = new CompletableFuture<>();
     private volatile String token;
     private volatile boolean isStopped = false;
 
@@ -32,12 +32,6 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
     protected abstract Status parseMessageStatus(R message);
 
     @Override
-    public boolean isLocalFailure() {
-        Completion completion = streamStatus.getNow(null);
-        return completion != null && completion.localFailure;
-    }
-
-    @Override
     public CompletableFuture<Status> start(Consumer<R> messageHandler) {
         this.logger.debug("[{}] is about to start", debugId);
         this.stream.start((R msg) -> {
@@ -46,7 +40,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
                 messageHandler.accept(msg);
             } else {
                 logger.warn("[{}] stopped by getting status {}", debugId, messageStatus);
-                if (streamStatus.complete(new Completion(messageStatus, false))) {
+                if (streamStatus.complete(messageStatus)) {
                     stream.close();
                 }
             }
@@ -54,14 +48,14 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
             isStopped = true;
             Status status = st != null ? st : Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
             logger.debug("[{}] finished with status {}", debugId, status);
-            streamStatus.complete(new Completion(status, false));
+            streamStatus.complete(status);
         });
 
         if (!streamStatus.isDone()) {
             stream.sendNext(initRequest);
         }
 
-        return streamStatus.thenApply(completion -> completion.status);
+        return streamStatus;
     }
 
     @Override
@@ -75,7 +69,7 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
 
     protected void fail(Status status) {
         logger.warn("[{}] stopped by fail {}", debugId, status);
-        if (streamStatus.complete(new Completion(status, true))) {
+        if (streamStatus.complete(status)) {
             isStopped = true;
             stream.close();
         }
@@ -97,15 +91,5 @@ public abstract class TopicStreamBase<R extends Message, W extends Message> impl
         }
 
         stream.sendNext(req);
-    }
-
-    private static final class Completion {
-        private final Status status;
-        private final boolean localFailure;
-
-        private Completion(Status status, boolean localFailure) {
-            this.status = status;
-            this.localFailure = localFailure;
-        }
     }
 }

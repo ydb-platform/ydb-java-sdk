@@ -54,19 +54,11 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
      */
     protected abstract void onRetry(@Nullable S stream, Status status);
 
-    protected void onRetry(@Nullable S stream, Status status, boolean localFailure) {
-        onRetry(stream, status);
-    }
-
     /**
      * @param stream the closed stream, or {@code null} when stream creation itself failed
      * @param status status the stream was closed with
      */
     protected abstract void onClose(@Nullable S stream, Status status);
-
-    protected void onClose(@Nullable S stream, Status status, boolean localFailure) {
-        onClose(stream, status);
-    }
 
     public void start() {
         if (isClosed) {
@@ -102,7 +94,7 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
         State local = state.getAndSet(null);
         if (local != null) {
             logger.warn("[{}] failed by application-side error {}", debugId, status);
-            onStreamStop(local.closeStream(), status, retryConfig.getStatusRetryPolicy(status), true);
+            onStreamStop(local.closeStream(), status, retryConfig.getStatusRetryPolicy(status));
         }
     }
 
@@ -123,20 +115,20 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
             return false;
         }
 
-        onStreamStop(local.closeStream(), Status.SUCCESS, null, false);
+        onStreamStop(local.closeStream(), Status.SUCCESS, null);
         return true;
     }
 
-    private void onStreamStop(S closed, Status status, RetryPolicy policy, boolean localFailure) {
+    private void onStreamStop(S closed, Status status, RetryPolicy policy) {
         if (isClosed) { // stream was already closed (usually with success)
-            onClose(closed, status, localFailure);
+            onClose(closed, status);
             return;
         }
 
         if (policy == null) {
             logger.warn("[{}] stopped by non-retryable status {}", debugId, status);
             isClosed = true;
-            onClose(closed, status, localFailure);
+            onClose(closed, status);
             return;
         }
 
@@ -145,27 +137,27 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
         if (nextRetryMs < 0) {
             logger.warn("[{}] stopped after retry policy evaluation for status {}", debugId, status);
             isClosed = true;
-            onClose(closed, status, localFailure);
+            onClose(closed, status);
             return;
         }
 
         if (nextRetryMs == 0) { // retry immediately
             logger.warn("[{}] retry #{}. Retry immediately...", debugId, retryState.retryNumber());
-            onRetry(closed, status, localFailure);
+            onRetry(closed, status);
             start();
             return;
         }
 
         // retry scheduling
         logger.warn("[{}] retry #{}. Scheduling reconnect in {}ms...", debugId, retryState.retryNumber(), nextRetryMs);
-        onRetry(closed, status, localFailure);
+        onRetry(closed, status);
 
         try {
             scheduler.schedule(this::start, nextRetryMs, TimeUnit.MILLISECONDS);
         } catch (Exception ex) {
             logger.error("[{}] cannot schedule reconnect, stopping", debugId, ex);
             isClosed = true;
-            onClose(closed, status, localFailure);
+            onClose(closed, status);
         }
     }
 
@@ -182,14 +174,14 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
                 if (res == null) {
                     if (state.compareAndSet(this, null)) {
                         Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-                        onStreamStop(null, wrapped, retryConfig.getThrowableRetryPolicy(th), false);
+                        onStreamStop(null, wrapped, retryConfig.getThrowableRetryPolicy(th));
                     }
                     return;
                 }
 
                 if (!res.isSuccess()) {
                     if (state.compareAndSet(this, null)) {
-                        onStreamStop(null, res.getStatus(), retryConfig.getStatusRetryPolicy(res.getStatus()), false);
+                        onStreamStop(null, res.getStatus(), retryConfig.getStatusRetryPolicy(res.getStatus()));
                     }
                     return;
                 }
@@ -219,10 +211,10 @@ public abstract class TopicRetryableStream<R extends Message, W extends Message,
                 }
 
                 if (status != null) {
-                    onStreamStop(local, status, retryConfig.getStatusRetryPolicy(status), local.isLocalFailure());
+                    onStreamStop(local, status, retryConfig.getStatusRetryPolicy(status));
                 } else {
                     Status wrapped = Status.of(StatusCode.CLIENT_INTERNAL_ERROR, th);
-                    onStreamStop(local, wrapped, retryConfig.getThrowableRetryPolicy(th), false);
+                    onStreamStop(local, wrapped, retryConfig.getThrowableRetryPolicy(th));
                 }
             });
 
