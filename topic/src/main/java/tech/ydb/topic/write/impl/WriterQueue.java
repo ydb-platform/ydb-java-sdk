@@ -81,6 +81,8 @@ public class WriterQueue {
         this.readyNotify = readyNotify;
         this.metrics = metrics;
         this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
+        this.metrics.register(() -> sent.stream().map(EncodedMsg::getSentMessage)
+                .filter(msg -> msg != null).mapToLong(SentMessage::getAcceptedTimestamp).findFirst().orElse(0));
     }
 
     CompletableFuture<Void> flush() {
@@ -121,7 +123,7 @@ public class WriterQueue {
             }
 
             lastSeqNo = actualSeqNo;
-            SentMessage sentMsg = new SentMessage(next, actualSeqNo);
+            SentMessage sentMsg = new SentMessage(next, actualSeqNo, metrics.reportMessageSendStart());
             logger.trace("[{}] prepare sent message with seqNo {}", debugId, actualSeqNo);
             sent.offer(sentMsg);
             return sentMsg;
@@ -159,6 +161,7 @@ public class WriterQueue {
             sentIt.remove();
             buffer.releaseMessage(sentMsg.getBufferSize());
             metrics.reportWritten();
+            metrics.reportMessageAckDuration(sentMsg.getSendTimestamp());
             msg.confirm(ack);
         }
     }
@@ -206,7 +209,7 @@ public class WriterQueue {
     CompletableFuture<WriteAck> enqueue(Message message, YdbTransaction tx) throws QueueOverflowException,
             InterruptedException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
-        buffer.acquire(reservedSizeBytes);
+        buffer.acquire(reservedSizeBytes, metrics);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -219,7 +222,7 @@ public class WriterQueue {
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
-        buffer.tryAcquire(reservedSizeBytes, timeout, unit);
+        buffer.tryAcquire(reservedSizeBytes, timeout, unit, metrics);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -232,7 +235,8 @@ public class WriterQueue {
     }
 
     private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, long reservedSizeBytes) {
-        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes);
+        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes,
+                metrics.reportMessageSendStart());
         lastAcceptedAckFuture = msg.getAckFuture();
         queue.add(msg);
         metrics.reportSending(message.getData().length);

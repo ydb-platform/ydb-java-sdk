@@ -17,13 +17,21 @@ import tech.ydb.topic.write.WriteAck;
 public class SentMessage implements WriterQueue.EncodedMsg {
     private final long seqNo;
     private final long bufferSize;
+    private final long sendTimestamp;
+    private final long acceptedTimestamp;
     private final YdbTransaction tx;
     private final YdbTopic.StreamWriteMessage.WriteRequest.MessageData pb;
     private final CompletableFuture<WriteAck> ackFuture;
 
     public SentMessage(EnqueuedMessage msg, long seqNo) {
+        this(msg, seqNo, 0);
+    }
+
+    SentMessage(EnqueuedMessage msg, long seqNo, long sendTimestamp) {
         this.seqNo = seqNo;
         this.bufferSize = msg.getBufferSize();
+        this.sendTimestamp = sendTimestamp;
+        this.acceptedTimestamp = msg.getAcceptedTimestamp();
         this.tx = msg.getMeta().getTransaction();
         this.pb = buildPb(seqNo, msg);
         this.ackFuture = msg.getAckFuture();
@@ -40,6 +48,14 @@ public class SentMessage implements WriterQueue.EncodedMsg {
 
     public long getBufferSize() {
         return bufferSize;
+    }
+
+    long getSendTimestamp() {
+        return sendTimestamp;
+    }
+
+    long getAcceptedTimestamp() {
+        return acceptedTimestamp;
     }
 
     @Override
