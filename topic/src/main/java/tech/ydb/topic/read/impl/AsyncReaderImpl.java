@@ -91,6 +91,7 @@ public class AsyncReaderImpl implements AsyncReader {
             // implicit closing because stream will never call onClose
             close(Status.SUCCESS.withIssues(Issue.of("Closed by client", Issue.Severity.INFO)));
         }
+        initFuture.completeExceptionally(new RuntimeException("Reader closed by user"));
         return shutdownFuture;
     }
 

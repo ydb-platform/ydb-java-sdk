@@ -76,9 +76,7 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
                 logger.error("[{}] errorHandler onRetry processing throws exception", debugId, ex);
             }
         }
-        if (stream != null) {
-            stream.closeAll();
-        }
+        config.getMetrics().unregister();
     }
 
     @Override
@@ -96,9 +94,7 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
                 logger.error("[{}] errorHandler onClose processing throws exception", debugId, ex);
             }
         }
-        if (stream != null) {
-            stream.closeAll();
-        }
+        config.getMetrics().unregister();
         onReaderClosed(status);
     }
 
