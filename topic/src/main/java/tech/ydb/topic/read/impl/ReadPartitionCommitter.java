@@ -47,8 +47,7 @@ class ReadPartitionCommitter implements MessageCommitter {
     }
 
     public long getCommitOffsetLag() {
-        long committed = lastCommittedOffset.get();
-        return commitTargetOffset.get() - committed;
+        return Math.max(0, commitTargetOffset.get() - lastCommittedOffset.get());
     }
 
     void updateCommitTarget(long offset) {
@@ -56,8 +55,6 @@ class ReadPartitionCommitter implements MessageCommitter {
     }
 
     public long updateCommittedOffset(long offset) {
-        // Advance the target first so lag cannot observe an acknowledged offset ahead of it.
-        updateCommitTarget(offset);
         long old = lastCommittedOffset.getAndAccumulate(offset, Math::max);
         if (offset > old) {
             logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} "

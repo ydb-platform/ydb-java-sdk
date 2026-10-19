@@ -41,7 +41,8 @@ class ReadPartitionQueue {
     }
 
     long getOldestReceivedTimestamp() {
-        return readingQueue.stream().mapToLong(MessageImpl::getReceivedAt).min().orElse(0);
+        MessageImpl first = readingQueue.peek();
+        return first == null ? 0 : first.getReceivedAt();
     }
 
     void addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
