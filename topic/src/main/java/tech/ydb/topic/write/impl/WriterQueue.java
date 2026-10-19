@@ -254,7 +254,9 @@ public class WriterQueue {
 
         if (codec.getId() == Codec.RAW) {
             // fast track without compression
-            msg.completeWithData(UnsafeByteOperations.unsafeWrap(message.getData()), reservedSizeBytes);
+            ByteString data = UnsafeByteOperations.unsafeWrap(message.getData());
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), null);
+            msg.completeWithData(data, reservedSizeBytes);
             readyNotify.run();
             return msg.getAckFuture();
         }
@@ -262,6 +264,7 @@ public class WriterQueue {
         try {
             compressionExecutor.execute(() -> encode(message.getData(), reservedSizeBytes, msg));
         } catch (Throwable ex) {
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), ex);
             logger.warn("[{}] Message wasn't sent because of processing error", debugId, ex);
             msg.completeWithProblem(ex);
             readyNotify.run();
@@ -277,9 +280,16 @@ public class WriterQueue {
 
         logger.trace("[{}] Started encoding message", debugId);
         try (ByteString.Output encoded = ByteString.newOutput()) {
-            try (OutputStream os = codec.encode(encoded)) {
-                os.write(data, 0, data.length);
+            long compressionStarted = System.nanoTime();
+            try {
+                try (OutputStream os = codec.encode(encoded)) {
+                    os.write(data, 0, data.length);
+                }
+            } catch (Throwable ex) {
+                metrics.reportCompression(System.nanoTime() - compressionStarted, codec.getId(), ex);
+                throw ex;
             }
+            metrics.reportCompression(System.nanoTime() - compressionStarted, codec.getId(), null);
 
             if (logger.isTraceEnabled()) {
                 logger.trace("[{}] Message compressed from {} to {} bytes", debugId, data.length, encoded.size());
@@ -301,8 +311,10 @@ public class WriterQueue {
             }
 
             bufferSizeBytes = updatedBufferSizeBytes;
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), null);
             msg.completeWithData(encodedData, bufferSizeBytes);
         } catch (Throwable ex) {
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), ex);
             logger.warn("[{}] Message wasn't sent because of encoding error", debugId, ex);
             msg.completeWithProblem(ex);
         }

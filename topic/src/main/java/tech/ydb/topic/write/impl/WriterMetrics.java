@@ -10,6 +10,7 @@ import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
+import tech.ydb.proto.topic.YdbTopic;
 
 /**
  * Topic writer metrics.
@@ -23,6 +24,8 @@ final class WriterMetrics {
     private final LongCounter sessionErrors;
     private final DoubleHistogram messageAckDuration;
     private final DoubleHistogram bufferWaitDuration;
+    private final DoubleHistogram compressionDuration;
+    private final DoubleHistogram processingDuration;
     private final Attr[] commonAttributes;
     private final Meter meter;
     private final boolean enabled;
@@ -45,6 +48,10 @@ final class WriterMetrics {
                 "Time from first sending a message to the server to its acknowledgement.");
         this.bufferWaitDuration = meter.createHistogram("ydb.topic.writer.buffer.wait.duration", "s",
                 "Time waiting for buffer capacity before a message is accepted.");
+        this.compressionDuration = meter.createHistogram("ydb.topic.writer.compression.duration", "s",
+                "The time spent compressing a message, excluding queueing.");
+        this.processingDuration = meter.createHistogram("ydb.topic.writer.message.processing.duration", "s",
+                "The time from buffer acceptance until a message is ready for sending.");
         this.commonAttributes = writerName == null
                 ? new Attr[0]
                 : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
@@ -93,6 +100,28 @@ final class WriterMetrics {
 
     void reportWritten() {
         writtenMessages.add(1, commonAttributes);
+    }
+
+    void reportCompression(long durationNanos, int codec, Throwable error) {
+        recordDuration(compressionDuration, durationNanos, codec, error);
+    }
+
+    void reportProcessing(long durationNanos, int codec, Throwable error) {
+        recordDuration(processingDuration, durationNanos, codec, error);
+    }
+
+    private void recordDuration(DoubleHistogram histogram, long durationNanos, int codec, Throwable error) {
+        if (enabled) {
+            Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + (error == null ? 2 : 3));
+            YdbTopic.Codec codecType = YdbTopic.Codec.forNumber(codec);
+            attributes[commonAttributes.length] = Attr.of("codec", codecType == null ? Integer.toString(codec)
+                    : codecType.name().substring("CODEC_".length()).toLowerCase(java.util.Locale.ROOT));
+            attributes[commonAttributes.length + 1] = Attr.of("outcome", error == null ? "ok" : "error");
+            if (error != null) {
+                attributes[commonAttributes.length + 2] = Attr.of("error.type", error.getClass().getName());
+            }
+            histogram.record(durationNanos / 1_000_000_000d, attributes);
+        }
     }
 
     void reportSessionError(Status status, boolean retry) {
