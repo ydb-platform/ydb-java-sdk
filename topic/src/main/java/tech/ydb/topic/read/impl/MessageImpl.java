@@ -48,10 +48,6 @@ public abstract class MessageImpl implements Message {
 
     public abstract boolean isReady();
 
-    double getLocalBufferMessageAge(long now) {
-        return batchMeta.age(now);
-    }
-
     long getReceivedAt() {
         return batchMeta.getReceivedAt();
     }

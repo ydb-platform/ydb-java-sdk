@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.concurrent.Executor;
-import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
 
 import tech.ydb.topic.description.CodecRegistry;
@@ -21,7 +20,7 @@ public class ReadConfig {
     private final int maxBatchSize;
     private final ReaderMetrics metrics;
     final LongSupplier readyMessages;
-    final DoubleSupplier readyMessageAgeMax;
+    final LongSupplier readyOldestTimestamp;
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
             ReaderSettings settings) {
@@ -34,7 +33,7 @@ public class ReadConfig {
     }
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
-            ReaderSettings settings, LongSupplier readyMessages, DoubleSupplier readyMessageAgeMax) {
+            ReaderSettings settings, LongSupplier readyMessages, LongSupplier readyOldestTimestamp) {
         this.codecRegistry = codecRegistry;
         this.control = control;
         this.processor = processor;
@@ -44,7 +43,7 @@ public class ReadConfig {
         this.maxBatchSize = settings.getMaxBatchSize();
         this.metrics = new ReaderMetrics(settings.getMeter(), settings.getConsumerName(), settings.getReaderName());
         this.readyMessages = readyMessages;
-        this.readyMessageAgeMax = readyMessageAgeMax;
+        this.readyOldestTimestamp = readyOldestTimestamp;
     }
 
     public CodecRegistry getCodecRegistry() {

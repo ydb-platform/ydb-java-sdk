@@ -66,12 +66,7 @@ public class SyncReaderImpl implements SyncReader {
         this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
 
         this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings,
-                queue::size, () -> {
-                    long receivedAt = queue.stream().filter(MessageWrapper::isActive)
-                            .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt())
-                            .filter(timestamp -> timestamp != 0).min().orElse(0);
-                    return receivedAt == 0 ? 0 : Math.max(0, System.nanoTime() - receivedAt) / 1_000_000_000.0;
-                });
+                queue::size, this::getOldestReceivedTimestamp);
         this.impl = new Impl(topicRpc, debugId, settings, config);
 
         String readerName = settings.getReaderName();
@@ -87,6 +82,11 @@ public class SyncReaderImpl implements SyncReader {
     @Override
     public String getSessionId() {
         return sessionId;
+    }
+
+    private long getOldestReceivedTimestamp() {
+        return queue.stream().filter(MessageWrapper::isActive)
+                .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt()).min().orElse(0);
     }
 
     @Override

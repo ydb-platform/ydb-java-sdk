@@ -2,7 +2,6 @@ package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.function.DoubleSupplier;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.Status;
@@ -55,7 +54,7 @@ final class ReaderMetrics {
     }
 
     void register(LongSupplier partitionCount, LongSupplier bufferBudget, LongSupplier commitLag,
-            LongSupplier bufferMessages, DoubleSupplier messageAgeMax) {
+            LongSupplier bufferMessages, LongSupplier oldestTimestamp) {
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
@@ -71,7 +70,11 @@ final class ReaderMetrics {
                 m -> m.record(bufferMessages.getAsLong(), commonAttributes));
         ageGauge = meter.registerDoubleGauge("ydb.topic.reader.local_buffer.message_age.max", "s",
                 "The age of the oldest batch retained in the reader's local buffer.",
-                m -> m.record(messageAgeMax.getAsDouble(), commonAttributes));
+                m -> {
+                    long timestamp = oldestTimestamp.getAsLong();
+                    m.record(timestamp == 0 ? 0 : (System.nanoTime() - timestamp) / 1_000_000_000d,
+                            commonAttributes);
+                });
     }
 
     void unregister() {
@@ -85,10 +88,6 @@ final class ReaderMetrics {
         commitLagGauge = MetricRegistration.NOOP;
         bufferMessagesGauge = MetricRegistration.NOOP;
         ageGauge = MetricRegistration.NOOP;
-    }
-
-    long reportReadResponseStart() {
-        return enabled ? System.nanoTime() : 0;
     }
 
     void reportDelivered(long messages, String topic) {

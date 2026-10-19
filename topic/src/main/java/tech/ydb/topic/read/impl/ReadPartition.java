@@ -108,8 +108,8 @@ public class ReadPartition implements ReadSession.PartitionControl {
         sendDataToReaders();
     }
 
-    double getLocalBufferMessageAgeMax() {
-        return queue.getLocalBufferMessageAgeMax();
+    long getOldestReceivedTimestamp() {
+        return queue.getOldestReceivedTimestamp();
     }
 
     long getLocalBufferMessages() {
@@ -131,7 +131,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         sendDataToReaders();
     }
 
-    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList, long receivedAt) {
+    public boolean addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {
         if (!isActive()) {
             return false;
         }
@@ -142,7 +142,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         metrics.reportReceivedMessages(messagesCount, partition.getPath());
 
         if (messagesCount > 0) {
-            queue.addBatches(batchList, receivedAt);
+            queue.addBatches(batchList);
             sendDataToReaders();
         }
 
