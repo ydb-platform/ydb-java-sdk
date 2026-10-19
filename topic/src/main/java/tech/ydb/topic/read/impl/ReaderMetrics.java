@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.Status;
@@ -10,7 +9,6 @@ import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
-import tech.ydb.topic.description.OffsetsRange;
 
 /**
  * Topic reader metrics.
@@ -116,14 +114,8 @@ final class ReaderMetrics {
         sessionErrors.add(1, attributes);
     }
 
-    void reportCommitQueued(List<OffsetsRange> ranges, String topic) {
-        if (enabled) {
-            long messages = 0;
-            for (OffsetsRange range : ranges) {
-                messages += range.getEnd() - range.getStart();
-            }
-            report(commitQueued, messages, topic);
-        }
+    void reportCommitQueued(long messages, String topic) {
+        report(commitQueued, messages, topic);
     }
 
     void reportCommitAcknowledged(long messages, String topic) {

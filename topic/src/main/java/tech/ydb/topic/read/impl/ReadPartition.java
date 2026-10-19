@@ -94,6 +94,10 @@ public class ReadPartition implements ReadSession.PartitionControl {
         return committer.getCommitOffsetLag();
     }
 
+    void updateCommitTarget(long offset) {
+        committer.updateCommitTarget(offset);
+    }
+
     @Override
     public void confirmRangeProcessed(OffsetsRange range) {
         decoder.releaseRange(range);

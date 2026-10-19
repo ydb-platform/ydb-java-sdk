@@ -32,12 +32,14 @@ class ReadPartitionCommitter implements MessageCommitter {
     private final ReentrantLock commitFuturesLock = new ReentrantLock();
 
     private final AtomicLong lastCommittedOffset;
+    private final AtomicLong commitTargetOffset;
 
     ReadPartitionCommitter(String traceID, ReadSession session, PartitionSession partition, long lastCommittedOffset) {
         this.traceID = traceID;
         this.session = session;
         this.partition = partition;
         this.lastCommittedOffset = new AtomicLong(lastCommittedOffset);
+        this.commitTargetOffset = new AtomicLong(lastCommittedOffset);
     }
 
     private RuntimeException partitionIsClosedException() {
@@ -45,15 +47,17 @@ class ReadPartitionCommitter implements MessageCommitter {
     }
 
     public long getCommitOffsetLag() {
-        commitFuturesLock.lock();
-        try {
-            return commitFutures.isEmpty() ? 0 : commitFutures.lastKey() - lastCommittedOffset.get();
-        } finally {
-            commitFuturesLock.unlock();
-        }
+        long committed = lastCommittedOffset.get();
+        return commitTargetOffset.get() - committed;
+    }
+
+    void updateCommitTarget(long offset) {
+        commitTargetOffset.accumulateAndGet(offset, Math::max);
     }
 
     public long updateCommittedOffset(long offset) {
+        // Advance the target first so lag cannot observe an acknowledged offset ahead of it.
+        updateCommitTarget(offset);
         long old = lastCommittedOffset.getAndAccumulate(offset, Math::max);
         if (offset > old) {
             logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} "
@@ -118,16 +122,7 @@ class ReadPartitionCommitter implements MessageCommitter {
 
     @Override
     public void commitRanges(List<OffsetsRange> ranges) {
-        commitFuturesLock.lock();
-        try {
-            ranges.forEach(range ->
-                    commitFutures.computeIfAbsent(range.getEnd(), offset -> new CompletableFuture<>()));
-        } finally {
-            commitFuturesLock.unlock();
-        }
-        if (!session.commitOffsets(partition, ranges)) {
-            close();
-        }
+        session.commitOffsets(partition, ranges);
     }
 
     public void close() {

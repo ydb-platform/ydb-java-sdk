@@ -128,7 +128,10 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                         .build())
                 .build();
 
-        config.getMetrics().reportCommitQueued(rangesToCommit, session.getPath());
+        for (OffsetsRange range : rangesToCommit) {
+            partition.updateCommitTarget(range.getEnd());
+            config.getMetrics().reportCommitQueued(range.getEnd() - range.getStart(), session.getPath());
+        }
         send(FromClient.newBuilder().setCommitOffsetRequest(req).build());
         return true;
     }
