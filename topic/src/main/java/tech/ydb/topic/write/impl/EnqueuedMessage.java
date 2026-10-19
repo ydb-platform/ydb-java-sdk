@@ -12,6 +12,7 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class EnqueuedMessage {
     private final MessageMeta meta;
+    private final long acceptedTimestamp = System.nanoTime();
     private final CompletableFuture<WriteAck> ackFuture = new CompletableFuture<>();
 
     private volatile ByteString data = null;
@@ -27,6 +28,10 @@ public class EnqueuedMessage {
 
     public MessageMeta getMeta() {
         return meta;
+    }
+
+    long getAcceptedTimestamp() {
+        return acceptedTimestamp;
     }
 
     public ByteString getData() {

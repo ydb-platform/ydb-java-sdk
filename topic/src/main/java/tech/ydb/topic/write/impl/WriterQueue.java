@@ -80,7 +80,17 @@ public class WriterQueue {
         this.compressionExecutor = compressionExecutor;
         this.readyNotify = readyNotify;
         this.metrics = metrics;
-        this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
+        this.metrics.register(buffer::getUsedSize, buffer::getMaxSize, this::getOlderAcceptedTimestamp);
+    }
+
+    private long getOlderAcceptedTimestamp() {
+        for (EncodedMsg msg : sent) {
+            SentMessage sentMsg = msg.getSentMessage();
+            if (sentMsg != null) {
+                return sentMsg.getAcceptedTimestamp();
+            }
+        }
+        return 0;
     }
 
     CompletableFuture<Void> flush() {
@@ -159,6 +169,7 @@ public class WriterQueue {
             sentIt.remove();
             buffer.releaseMessage(sentMsg.getBufferSize());
             metrics.reportWritten();
+            metrics.reportMessageAckDuration(sentMsg.getSendTimestamp());
             msg.confirm(ack);
         }
     }
@@ -206,7 +217,9 @@ public class WriterQueue {
     CompletableFuture<WriteAck> enqueue(Message message, YdbTransaction tx) throws QueueOverflowException,
             InterruptedException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
+        long waitStarted = System.nanoTime();
         buffer.acquire(reservedSizeBytes);
+        metrics.reportBufferWaitDuration(waitStarted);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -219,7 +232,9 @@ public class WriterQueue {
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
+        long waitStarted = System.nanoTime();
         buffer.tryAcquire(reservedSizeBytes, timeout, unit);
+        metrics.reportBufferWaitDuration(waitStarted);
         return accept(message, tx, reservedSizeBytes);
     }
 
