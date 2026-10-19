@@ -6,9 +6,11 @@ import java.util.function.LongSupplier;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
+import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
+import tech.ydb.proto.topic.YdbTopic;
 
 /**
  * Topic reader metrics.
@@ -22,6 +24,8 @@ final class ReaderMetrics {
     private final LongCounter commitQueued;
     private final LongCounter commitAcknowledged;
     private final LongCounter sessionErrors;
+    private final DoubleHistogram compressionDuration;
+    private final DoubleHistogram processingDuration;
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
@@ -48,6 +52,10 @@ final class ReaderMetrics {
                 "The number of messages acknowledged by advances of the committed offset.");
         this.sessionErrors = meter.createCounter("ydb.topic.reader.session.errors", "{error}",
                 "The number of reader stream session errors by retry decision.");
+        this.compressionDuration = meter.createHistogram("ydb.topic.reader.compression.duration", "s",
+                "The time spent decompressing a message, excluding queueing.");
+        this.processingDuration = meter.createHistogram("ydb.topic.reader.message.processing.duration", "s",
+                "The time from receipt until a message is ready for delivery.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);
     }
 
@@ -120,6 +128,27 @@ final class ReaderMetrics {
 
     void reportCommitAcknowledged(long messages, String topic) {
         report(commitAcknowledged, messages, topic);
+    }
+
+    void reportDecoded(long compressionNanos, long processingNanos, int codec, String topic, Throwable error) {
+        recordDuration(compressionDuration, compressionNanos, codec, topic, error);
+        recordDuration(processingDuration, processingNanos, codec, topic, error);
+    }
+
+    private void recordDuration(DoubleHistogram histogram, long durationNanos, int codec, String topic,
+            Throwable error) {
+        if (enabled) {
+            Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + (error == null ? 3 : 4));
+            attributes[commonAttributes.length] = Attr.of("topic", topic);
+            YdbTopic.Codec codecType = YdbTopic.Codec.forNumber(codec);
+            attributes[commonAttributes.length + 1] = Attr.of("codec", codecType == null ? Integer.toString(codec)
+                    : codecType.name().substring("CODEC_".length()).toLowerCase(java.util.Locale.ROOT));
+            attributes[commonAttributes.length + 2] = Attr.of("outcome", error == null ? "ok" : "error");
+            if (error != null) {
+                attributes[commonAttributes.length + 3] = Attr.of("error.type", error.getClass().getName());
+            }
+            histogram.record(durationNanos / 1_000_000_000d, attributes);
+        }
     }
 
     private void report(LongCounter counter, long messages, String topic) {
