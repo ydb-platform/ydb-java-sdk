@@ -202,12 +202,12 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     }
 
     private long getLocalBufferMessages() {
-        return config.readyMessages.getAsLong() + partitions.values().stream()
+        return config.getReadyMessages() + partitions.values().stream()
                 .filter(ReadPartition::isActive).mapToLong(ReadPartition::getLocalBufferMessages).sum();
     }
 
     private long getOldestReceivedTimestamp() {
-        long oldestTimestamp = config.readyOldestTimestamp.getAsLong();
+        long oldestTimestamp = config.getReadyOldestTimestamp();
         for (ReadPartition partition : partitions.values()) {
             if (partition.isActive()) {
                 long timestamp = partition.getOldestReceivedTimestamp();

@@ -19,17 +19,12 @@ public class ReadConfig {
     private final long maxMemoryUsageBytes;
     private final int maxBatchSize;
     private final ReaderMetrics metrics;
-    final LongSupplier readyMessages;
-    final LongSupplier readyOldestTimestamp;
+    private final LongSupplier readyMessages;
+    private final LongSupplier readyOldestTimestamp;
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
             ReaderSettings settings) {
-        this(codecRegistry, control, processor, decompressor, settings, () -> 0);
-    }
-
-    ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
-            ReaderSettings settings, LongSupplier readyMessages) {
-        this(codecRegistry, control, processor, decompressor, settings, readyMessages, () -> 0);
+        this(codecRegistry, control, processor, decompressor, settings, () -> 0, () -> 0);
     }
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
@@ -72,6 +67,14 @@ public class ReadConfig {
 
     public int getMaxBatchSize() {
         return maxBatchSize;
+    }
+
+    public long getReadyMessages() {
+        return readyMessages.getAsLong();
+    }
+
+    public long getReadyOldestTimestamp() {
+        return readyOldestTimestamp.getAsLong();
     }
 
     ReaderMetrics getMetrics() {
