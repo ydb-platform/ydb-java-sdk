@@ -31,13 +31,17 @@ import tech.ydb.topic.settings.TopicReadSettings;
 
 public class ReaderMetricsTest {
 
+    private static final byte[] MSG1 = new byte[] { 1 };
+    private static final byte[] MSG2 = new byte[] { 2 };
+    private static final byte[] MSG3 = new byte[] { 3 };
+
     @Test
     public void readerCountersIncrementOnReceive() throws InterruptedException {
         String delivered = "ydb.topic.reader.delivered.messages";
         String receivedMessages = "ydb.topic.reader.received.messages";
         String receivedBytes = "ydb.topic.reader.received.bytes";
         RecordingMeter meter = new RecordingMeter();
-        ReadStreamMock stream = new ReadStreamMock();
+        ReadStreamMock stream = new ReadStreamMock(true);
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
         Mockito.when(rpc.readSession(Mockito.any(String.class))).thenReturn(stream);
@@ -54,16 +58,14 @@ public class ReaderMetricsTest {
             stream.assertLastMessage().isInitRequest("consumer", "/topic").hasReaderName("reader");
             stream.responseInit("read-session");
             stream.responseStartPartition("/topic", 42, 0);
-            byte[] msg1 = new byte[] { 1 };
-            byte[] msg2 = new byte[] { 2 };
             stream.responseData(25).partition(1, 0)
-                    .batch(Codec.RAW, msg1, msg2)
+                    .batch(Codec.RAW, MSG1, MSG2)
                     .and().send();
             Assert.assertEquals(2, meter.value(receivedMessages));
             Assert.assertEquals(25, meter.value(receivedBytes));
 
             stream.responseData(30).partition(1, 2)
-                    .batch(Codec.RAW, msg1, msg2, msg1)
+                    .batch(Codec.RAW, MSG1, MSG2, MSG3)
                     .and().send();
             Assert.assertEquals(5, meter.value(receivedMessages));
             Assert.assertEquals(55, meter.value(receivedBytes));
@@ -86,7 +88,7 @@ public class ReaderMetricsTest {
         String partitions = "ydb.topic.reader.partition_session.count";
         String credit = "ydb.topic.reader.credit_balance_bytes";
         RecordingMeter meter = new RecordingMeter();
-        ReadStreamMock stream = new ReadStreamMock();
+        ReadStreamMock stream = new ReadStreamMock(true);
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
         Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
@@ -104,7 +106,9 @@ public class ReaderMetricsTest {
             stream.responseStartPartition("/topic", 42, 0);
             Assert.assertEquals(1, meter.collect(partitions));
             Assert.assertEquals(100, meter.collect(credit));
-            stream.responseData(20).partition(1, 0).batch(Codec.RAW, new byte[]{1}).and().send();
+            stream.responseData(20).partition(1, 0).batch(Codec.RAW, MSG1, MSG2).and().send();
+            Assert.assertEquals(80, meter.collect(credit));
+            Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
             Assert.assertEquals(80, meter.collect(credit));
             Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
             Assert.assertEquals(100, meter.collect(credit));

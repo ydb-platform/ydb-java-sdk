@@ -39,6 +39,15 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
     private Observer<FromServer> observer = null;
     private final AtomicInteger isClosed = new AtomicInteger();
     private final AtomicInteger isCanceled = new AtomicInteger();
+    private final boolean autoClose;
+
+    public ReadStreamMock() {
+        this(false);
+    }
+
+    public ReadStreamMock(boolean autoClose) {
+        this.autoClose = autoClose;
+    }
 
     @Override
     public String authToken() {
@@ -53,6 +62,9 @@ public class ReadStreamMock implements GrpcReadWriteStream<FromServer, FromClien
     @Override
     public void close() {
         isClosed.incrementAndGet();
+        if (autoClose) {
+            future.complete(Status.SUCCESS);
+        }
     }
 
     @Override

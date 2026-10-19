@@ -116,13 +116,14 @@ public class AsyncReaderImplTest {
 
         CompletableFuture<Void> shutdown = reader.shutdown();
         m1.assertIsClosed();
-        Assert.assertTrue(shutdown.isDone());
+        Assert.assertFalse(shutdown.isDone()); // stream is not closed yet
         Assert.assertSame(shutdown, reader.shutdown()); // double shutdown is allowed
         m1.assertIsClosed();
-        m1.closeStream(Status.SUCCESS);
 
+        m1.closeStream(Status.SUCCESS);
         Assert.assertTrue(shutdown.isDone());
         Assert.assertFalse(shutdown.isCompletedExceptionally());
+
         Mockito.verify(handler).onReaderClosed(Mockito.any(ReaderClosedEvent.class));
         Mockito.verify(handler, Mockito.never()).onMessages(Mockito.any(DataReceivedEvent.class));
     }
@@ -137,14 +138,15 @@ public class AsyncReaderImplTest {
 
         CompletableFuture<Void> shutdown = reader.shutdown();
         mock.assertIsClosed();
+
         Assert.assertTrue(init.isCompletedExceptionally());
-        Assert.assertTrue(shutdown.isDone());
+        Assert.assertFalse(shutdown.isDone());
         mock.closeStream(Status.SUCCESS);
 
         Assert.assertTrue(shutdown.isDone());
         Assert.assertFalse(shutdown.isCompletedExceptionally());
         CompletionException ex = Assert.assertThrows(CompletionException.class, init::join);
-        Assert.assertEquals("Reader closed with Status{code = SUCCESS}", ex.getCause().getMessage());
+        Assert.assertEquals("Reader closed by user", ex.getCause().getMessage());
         Assert.assertSame(init, reader.init());
         Mockito.verify(handler).onReaderClosed(Mockito.any(ReaderClosedEvent.class));
         Mockito.verify(handler, Mockito.never()).onSessionStarted(Mockito.any(SessionStartedEvent.class));
