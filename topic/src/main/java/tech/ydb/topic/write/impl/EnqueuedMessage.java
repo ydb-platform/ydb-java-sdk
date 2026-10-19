@@ -12,7 +12,7 @@ import tech.ydb.topic.write.WriteAck;
  */
 public class EnqueuedMessage {
     private final MessageMeta meta;
-    private final long acceptedTimestamp;
+    private final long acceptedTimestamp = System.nanoTime();
     private final CompletableFuture<WriteAck> ackFuture = new CompletableFuture<>();
 
     private volatile ByteString data = null;
@@ -21,12 +21,7 @@ public class EnqueuedMessage {
     private volatile boolean isReady = false;
 
     public EnqueuedMessage(MessageMeta meta, long bufferSize) {
-        this(meta, bufferSize, 0);
-    }
-
-    EnqueuedMessage(MessageMeta meta, long bufferSize, long acceptedTimestamp) {
         this.meta = meta;
-        this.acceptedTimestamp = acceptedTimestamp;
         this.data = null;
         this.bufferSize = bufferSize;
     }

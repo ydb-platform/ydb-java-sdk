@@ -50,16 +50,13 @@ final class WriterMetrics {
                 : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
     }
 
-    void register(LongSupplier bufferUsed, LongSupplier bufferLimit) {
+    void register(LongSupplier bufferUsed, LongSupplier bufferLimit, LongSupplier oldestTimestamp) {
         bufferUsedGauge = meter.registerLongGauge("ydb.topic.writer.buffer.used.bytes", "By",
                 "The occupied budget of the writer buffer limiter.",
                 m -> m.record(bufferUsed.getAsLong(), commonAttributes));
         bufferLimitGauge = meter.registerLongGauge("ydb.topic.writer.buffer.limit.bytes", "By",
                 "The configured limit of the writer buffer limiter.",
                 m -> m.record(bufferLimit.getAsLong(), commonAttributes));
-    }
-
-    void register(LongSupplier oldestTimestamp) {
         oldestAgeGauge = meter.registerDoubleGauge("ydb.topic.writer.sending.oldest_age", "s",
                 "The age of the oldest message in the writer's in-flight buffer.", m -> {
                     long timestamp = oldestTimestamp.getAsLong();
@@ -77,22 +74,14 @@ final class WriterMetrics {
         oldestAgeGauge = MetricRegistration.NOOP;
     }
 
-    long reportMessageSendStart() {
-        return enabled ? System.nanoTime() : 0;
-    }
-
     void reportMessageAckDuration(long timestamp) {
-        if (timestamp != 0) {
+        if (enabled) {
             messageAckDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
         }
     }
 
-    long reportBufferWaitStart() {
-        return enabled ? System.nanoTime() : 0;
-    }
-
     void reportBufferWaitDuration(long timestamp) {
-        if (timestamp != 0) {
+        if (enabled) {
             bufferWaitDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
         }
     }

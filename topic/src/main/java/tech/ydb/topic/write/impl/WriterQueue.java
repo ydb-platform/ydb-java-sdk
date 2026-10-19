@@ -80,9 +80,17 @@ public class WriterQueue {
         this.compressionExecutor = compressionExecutor;
         this.readyNotify = readyNotify;
         this.metrics = metrics;
-        this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
-        this.metrics.register(() -> sent.stream().map(EncodedMsg::getSentMessage)
-                .filter(msg -> msg != null).mapToLong(SentMessage::getAcceptedTimestamp).findFirst().orElse(0));
+        this.metrics.register(buffer::getUsedSize, buffer::getMaxSize, this::getOlderAcceptedTimestamp);
+    }
+
+    private long getOlderAcceptedTimestamp() {
+        for (EncodedMsg msg : sent) {
+            SentMessage sentMsg = msg.getSentMessage();
+            if (sentMsg != null) {
+                return sentMsg.getAcceptedTimestamp();
+            }
+        }
+        return 0;
     }
 
     CompletableFuture<Void> flush() {
@@ -123,7 +131,7 @@ public class WriterQueue {
             }
 
             lastSeqNo = actualSeqNo;
-            SentMessage sentMsg = new SentMessage(next, actualSeqNo, metrics.reportMessageSendStart());
+            SentMessage sentMsg = new SentMessage(next, actualSeqNo);
             logger.trace("[{}] prepare sent message with seqNo {}", debugId, actualSeqNo);
             sent.offer(sentMsg);
             return sentMsg;
@@ -209,7 +217,9 @@ public class WriterQueue {
     CompletableFuture<WriteAck> enqueue(Message message, YdbTransaction tx) throws QueueOverflowException,
             InterruptedException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
-        buffer.acquire(reservedSizeBytes, metrics);
+        long waitStarted = System.nanoTime();
+        buffer.acquire(reservedSizeBytes);
+        metrics.reportBufferWaitDuration(waitStarted);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -222,7 +232,9 @@ public class WriterQueue {
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
-        buffer.tryAcquire(reservedSizeBytes, timeout, unit, metrics);
+        long waitStarted = System.nanoTime();
+        buffer.tryAcquire(reservedSizeBytes, timeout, unit);
+        metrics.reportBufferWaitDuration(waitStarted);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -235,8 +247,7 @@ public class WriterQueue {
     }
 
     private CompletableFuture<WriteAck> accept(Message message, YdbTransaction tx, long reservedSizeBytes) {
-        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes,
-                metrics.reportMessageSendStart());
+        EnqueuedMessage msg = new EnqueuedMessage(new MessageMeta(message, tx), reservedSizeBytes);
         lastAcceptedAckFuture = msg.getAckFuture();
         queue.add(msg);
         metrics.reportSending(message.getData().length);
