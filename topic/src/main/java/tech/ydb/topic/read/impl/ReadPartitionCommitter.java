@@ -53,12 +53,14 @@ class ReadPartitionCommitter implements MessageCommitter {
         }
     }
 
-    public void updateCommittedOffset(long offset) {
-        long old = lastCommittedOffset.get();
-        if (old != lastCommittedOffset.accumulateAndGet(offset, Math::max)) {
+    public long updateCommittedOffset(long offset) {
+        long old = lastCommittedOffset.getAndAccumulate(offset, Math::max);
+        if (offset > old) {
             logger.debug("[{}] Updated last committed offset: {}. Previous committed offset: {} "
                     + "(diff is {} message(s)).", traceID, offset, old, offset - old);
+            return offset - old;
         }
+        return 0;
     }
 
     public void completePendingCommits() {
@@ -94,9 +96,6 @@ class ReadPartitionCommitter implements MessageCommitter {
                 future = new CompletableFuture<>();
                 commitFutures.put(range.getEnd(), future);
             }
-            long messages = range.getEnd() - range.getStart();
-            future.thenRun(() -> session.getConfig().getMetrics()
-                    .reportCommitAcknowledged(messages, partition.getPath()));
         } finally {
             commitFuturesLock.unlock();
         }
@@ -121,12 +120,8 @@ class ReadPartitionCommitter implements MessageCommitter {
     public void commitRanges(List<OffsetsRange> ranges) {
         commitFuturesLock.lock();
         try {
-            ranges.forEach(range -> {
-                long messages = range.getEnd() - range.getStart();
-                commitFutures.computeIfAbsent(range.getEnd(), offset -> new CompletableFuture<>())
-                        .thenRun(() -> session.getConfig().getMetrics()
-                                .reportCommitAcknowledged(messages, partition.getPath()));
-            });
+            ranges.forEach(range ->
+                    commitFutures.computeIfAbsent(range.getEnd(), offset -> new CompletableFuture<>()));
         } finally {
             commitFuturesLock.unlock();
         }

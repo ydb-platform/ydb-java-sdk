@@ -116,11 +116,12 @@ public class ReadPartition implements ReadSession.PartitionControl {
         return queue.getLocalBufferMessages();
     }
 
-    public void confirmCommittedOffset(long committedOffset) {
-        committer.updateCommittedOffset(committedOffset);
+    public long confirmCommittedOffset(long committedOffset) {
+        long acknowledged = committer.updateCommittedOffset(committedOffset);
         committer.completePendingCommits();
         commitOffsetAck.set(new CommitOffsetAcknowledgementEventImpl(partition, committedOffset));
         sendDataToReaders();
+        return acknowledged;
     }
 
     public void unpause() {

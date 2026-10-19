@@ -47,7 +47,7 @@ final class ReaderMetrics {
         this.commitQueued = meter.createCounter("ydb.topic.reader.commit.queued", MESSAGE_UNIT,
                 "The number of messages in commit ranges accepted by the SDK.");
         this.commitAcknowledged = meter.createCounter("ydb.topic.reader.commit.acknowledged", MESSAGE_UNIT,
-                "The number of messages in commit ranges completed by successful acknowledgements.");
+                "The number of messages acknowledged by advances of the committed offset.");
         this.sessionErrors = meter.createCounter("ydb.topic.reader.session.errors", "{error}",
                 "The number of reader stream session errors by retry decision.");
         this.commonAttributes = createCommonAttributes(consumer, readerName);

@@ -323,7 +323,8 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 continue;
             }
 
-            partition.confirmCommittedOffset(offset.getCommittedOffset());
+            long acknowledged = partition.confirmCommittedOffset(offset.getCommittedOffset());
+            config.getMetrics().reportCommitAcknowledged(acknowledged, partition.getPartition().getPath());
         }
     }
 
