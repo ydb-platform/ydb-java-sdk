@@ -2,9 +2,9 @@ package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.BooleanSupplier;
 import java.util.function.LongSupplier;
 
 import tech.ydb.core.Status;
@@ -34,7 +34,7 @@ final class ReaderMetrics {
     private final Attr[] commonAttributes;
     private final boolean enabled;
     private final Meter meter;
-    private final Map<Source, BooleanSupplier> sources = new ConcurrentHashMap<>();
+    private final Set<Source> sources = ConcurrentHashMap.newKeySet();
     private final Map<Long, CommitOffsets> partitions = new ConcurrentHashMap<>();
     private MetricRegistration partitionsGauge = MetricRegistration.NOOP;
     private MetricRegistration creditGauge = MetricRegistration.NOOP;
@@ -63,11 +63,7 @@ final class ReaderMetrics {
     }
 
     void addSource(Source source) {
-        addSource(source, () -> true);
-    }
-
-    void addSource(Source source, BooleanSupplier active) {
-        sources.put(source, active);
+        sources.add(source);
     }
 
     void removeSource(Source source) {
@@ -95,18 +91,15 @@ final class ReaderMetrics {
     }
 
     private long getLocalBufferMessages() {
-        return sources.entrySet().stream().filter(s -> s.getValue().getAsBoolean())
-                .mapToLong(s -> s.getKey().getMessagesCount()).sum();
+        return sources.stream().mapToLong(Source::getMessagesCount).sum();
     }
 
     private long getOldestReceivedTimestamp() {
         long oldest = 0;
-        for (Map.Entry<Source, BooleanSupplier> entry : sources.entrySet()) {
-            if (entry.getValue().getAsBoolean()) {
-                long timestamp = entry.getKey().getOldestReceivedTimestamp();
-                if (timestamp != 0 && (oldest == 0 || timestamp < oldest)) {
-                    oldest = timestamp;
-                }
+        for (Source source : sources) {
+            long timestamp = source.getOldestReceivedTimestamp();
+            if (timestamp != 0 && (oldest == 0 || timestamp < oldest)) {
+                oldest = timestamp;
             }
         }
         return oldest;

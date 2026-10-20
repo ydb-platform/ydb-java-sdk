@@ -211,7 +211,7 @@ public class ReadPartition implements ReadSession.PartitionControl {
         logger.info("[{}] got StartPartitionSessionRequest with committed offset {} and partition offsets {}",
                 traceID, committed, offsets);
 
-        metrics.addSource(queue, this::isActive);
+        metrics.addSource(queue);
         committer.updateCommittedOffset(committed);
         queue.updateLastReadOffset(committed);
         // partition start event doesn't use partition's executors
