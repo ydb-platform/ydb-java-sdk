@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.concurrent.Executor;
-import java.util.function.LongSupplier;
 
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -19,16 +18,9 @@ public class ReadConfig {
     private final long maxMemoryUsageBytes;
     private final int maxBatchSize;
     private final ReaderMetrics metrics;
-    private final LongSupplier readyMessages;
-    private final LongSupplier readyOldestTimestamp;
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
             ReaderSettings settings) {
-        this(codecRegistry, control, processor, decompressor, settings, () -> 0, () -> 0);
-    }
-
-    public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
-            ReaderSettings settings, LongSupplier readyMessages, LongSupplier readyOldestTimestamp) {
         this.codecRegistry = codecRegistry;
         this.control = control;
         this.processor = processor;
@@ -37,8 +29,6 @@ public class ReadConfig {
         this.maxMemoryUsageBytes = settings.getMaxMemoryUsageBytes();
         this.maxBatchSize = settings.getMaxBatchSize();
         this.metrics = new ReaderMetrics(settings.getMeter(), settings.getConsumerName(), settings.getReaderName());
-        this.readyMessages = readyMessages;
-        this.readyOldestTimestamp = readyOldestTimestamp;
     }
 
     public CodecRegistry getCodecRegistry() {
@@ -67,14 +57,6 @@ public class ReadConfig {
 
     public int getMaxBatchSize() {
         return maxBatchSize;
-    }
-
-    public long getReadyMessages() {
-        return readyMessages.getAsLong();
-    }
-
-    public long getReadyOldestTimestamp() {
-        return readyOldestTimestamp.getAsLong();
     }
 
     ReaderMetrics getMetrics() {

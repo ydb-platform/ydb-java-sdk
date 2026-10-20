@@ -42,7 +42,7 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 /**
  * @author Nikolay Perfilov
  */
-public class SyncReaderImpl implements SyncReader {
+public class SyncReaderImpl implements SyncReader, ReaderMetrics.Source {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
 
     private static final int POLL_INTERVAL_SECONDS = 5;
@@ -65,8 +65,7 @@ public class SyncReaderImpl implements SyncReader {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
         this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
 
-        this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings,
-                queue::size, this::getOldestReceivedTimestamp);
+        this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings);
         this.impl = new Impl(topicRpc, debugId, settings, config);
 
         String readerName = settings.getReaderName();
@@ -84,7 +83,13 @@ public class SyncReaderImpl implements SyncReader {
         return sessionId;
     }
 
-    private long getOldestReceivedTimestamp() {
+    @Override
+    public long getMessagesCount() {
+        return queue.size();
+    }
+
+    @Override
+    public long getOldestReceivedTimestamp() {
         return queue.stream().filter(MessageWrapper::isActive)
                 .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt()).min().orElse(0);
     }
@@ -229,6 +234,7 @@ public class SyncReaderImpl implements SyncReader {
         @Override
         public void onSessionStarted(String sessionId) {
             SyncReaderImpl.this.sessionId = sessionId;
+            config.getMetrics().addSource(SyncReaderImpl.this);
             SyncReaderImpl.this.initFuture.complete(null);
         }
 

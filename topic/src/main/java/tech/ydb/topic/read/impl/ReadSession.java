@@ -129,8 +129,8 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 .build();
 
         for (OffsetsRange range : rangesToCommit) {
-            partition.updateCommitTarget(range.getEnd());
-            config.getMetrics().reportCommitQueued(range.getEnd() - range.getStart(), session.getPath());
+            config.getMetrics().reportCommitQueued(session.getId(), range.getEnd(),
+                    range.getEnd() - range.getStart(), session.getPath());
         }
         send(FromClient.newBuilder().setCommitOffsetRequest(req).build());
         return true;
@@ -149,6 +149,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
         if (commitTo != null) {
             resp.setCommitOffset(commitTo);
+            config.getMetrics().updateCommittedOffset(ps.getId(), commitTo);
         }
 
         send(YdbTopic.StreamReadMessage.FromClient.newBuilder().setStartPartitionSessionResponse(resp.build()).build());
@@ -168,6 +169,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
         ReadPartition partition = partitions.remove(ps.getId());
         if (partition != null) {
+            config.getMetrics().removePartition(ps.getId());
             partition.close();
         }
     }
@@ -193,30 +195,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
-        config.getMetrics().register(partitions::size, bufferManager::getCreditBalanceBytes,
-                this::getCommitOffsetLagMax, this::getLocalBufferMessages, this::getOldestReceivedTimestamp);
-    }
-
-    private long getCommitOffsetLagMax() {
-        return partitions.values().stream().mapToLong(ReadPartition::getCommitOffsetLag).max().orElse(0);
-    }
-
-    private long getLocalBufferMessages() {
-        return config.getReadyMessages() + partitions.values().stream()
-                .filter(ReadPartition::isActive).mapToLong(ReadPartition::getLocalBufferMessages).sum();
-    }
-
-    private long getOldestReceivedTimestamp() {
-        long oldestTimestamp = config.getReadyOldestTimestamp();
-        for (ReadPartition partition : partitions.values()) {
-            if (partition.isActive()) {
-                long timestamp = partition.getOldestReceivedTimestamp();
-                if (timestamp != 0 && (oldestTimestamp == 0 || timestamp < oldestTimestamp)) {
-                    oldestTimestamp = timestamp;
-                }
-            }
-        }
-        return oldestTimestamp;
+        config.getMetrics().register(bufferManager::getCreditBalanceBytes);
     }
 
     public void onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
@@ -240,6 +219,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
+        config.getMetrics().addPartition(psid, committed);
         partition.start(committed, offsets);
         TopicPartition lockKey = new TopicPartition(ps);
         if (locks.computeIfPresent(lockKey, (key, lock) -> lock.bind(partition)) != null) {
@@ -278,6 +258,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
 
         logger.info("[{}] Received force StopPartitionSessionRequest for {} ", debugId, partition.getPartition());
+        config.getMetrics().removePartition(psid);
         partition.close();
     }
 
@@ -286,6 +267,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         long psid = request.getPartitionSessionId();
         ReadPartition partition = partitions.get(psid);
         if (partition != null) {
+            config.getMetrics().updateCommittedOffset(psid, committedOffset);
             partition.stop(committedOffset);
             return;
         }
@@ -326,8 +308,9 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 continue;
             }
 
-            long acknowledged = partition.confirmCommittedOffset(offset.getCommittedOffset());
-            config.getMetrics().reportCommitAcknowledged(acknowledged, partition.getPartition().getPath());
+            config.getMetrics().reportCommitAcknowledged(offset.getPartitionSessionId(),
+                    offset.getCommittedOffset(), partition.getPartition().getPath());
+            partition.confirmCommittedOffset(offset.getCommittedOffset());
         }
     }
 
