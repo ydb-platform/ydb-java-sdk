@@ -42,7 +42,7 @@ import tech.ydb.topic.settings.UpdateOffsetsInTransactionSettings;
 /**
  * @author Nikolay Perfilov
  */
-public class SyncReaderImpl implements SyncReader, ReaderMetrics.Source {
+public class SyncReaderImpl implements SyncReader {
     private static final Logger logger = LoggerFactory.getLogger(SyncReaderImpl.class);
 
     private static final int POLL_INTERVAL_SECONDS = 5;
@@ -81,17 +81,6 @@ public class SyncReaderImpl implements SyncReader, ReaderMetrics.Source {
     @Override
     public String getSessionId() {
         return sessionId;
-    }
-
-    @Override
-    public long getMessagesCount() {
-        return queue.size();
-    }
-
-    @Override
-    public long getOldestReceivedTimestamp() {
-        return queue.stream().filter(MessageWrapper::isActive)
-                .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt()).min().orElse(0);
     }
 
     @Override
@@ -234,7 +223,18 @@ public class SyncReaderImpl implements SyncReader, ReaderMetrics.Source {
         @Override
         public void onSessionStarted(String sessionId) {
             SyncReaderImpl.this.sessionId = sessionId;
-            config.getMetrics().addSource(SyncReaderImpl.this);
+            config.getMetrics().addSource(new ReaderMetrics.Source() {
+                @Override
+                public long getMessagesCount() {
+                    return queue.size();
+                }
+
+                @Override
+                public long getOldestReceivedTimestamp() {
+                    return queue.stream().filter(MessageWrapper::isActive)
+                            .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt()).min().orElse(0);
+                }
+            });
             SyncReaderImpl.this.initFuture.complete(null);
         }
 
