@@ -89,24 +89,27 @@ public class DescribeTableTest {
 
     @Test
     public void jsonIndexTest() {
-        CTX.supplyStatus(session -> session.executeSchemeQuery("CREATE TABLE `" + tablePath + "` ("
-                + "id Uint64 NOT NULL, payload JsonDocument NOT NULL, title Text, PRIMARY KEY(id),"
-                + "INDEX global_idx GLOBAL ON (title), INDEX json_idx GLOBAL USING json ON (payload))"))
-                .join().expectSuccess();
+        TableDescription createTable = TableDescription.newBuilder()
+                .addNonnullColumn("id", PrimitiveType.Uint64)
+                .addNonnullColumn("payload", PrimitiveType.JsonDocument)
+                .addNullableColumn("title", PrimitiveType.Text)
+                .addGlobalIndex("global_idx", Collections.singletonList("title"))
+                .addGlobalJsonIndex("json_idx", "payload")
+                .setPrimaryKeys("id")
+                .build();
+
+        CTX.supplyStatus(session -> session.createTable(tablePath, createTable)).join()
+                .expectSuccess("cannot create table " + tablePath);
 
         TableDescription description = CTX.supplyResult(session -> session.describeTable(tablePath)).join().getValue();
         Assert.assertEquals(2, description.getIndexes().size());
         Assert.assertEquals(TableIndex.Type.GLOBAL, description.getIndexes().get(0).getType());
+        Assert.assertEquals(TableIndex.Type.GLOBAL_JSON, description.getIndexes().get(1).getType());
+
         TableIndex index = description.getIndexes().get(1);
         Assert.assertEquals("json_idx", index.getName());
-        Assert.assertEquals(TableIndex.Type.GLOBAL_JSON, index.getType());
         Assert.assertEquals(Collections.singletonList("payload"), index.getColumns());
         Assert.assertTrue(index.getDataColumns().isEmpty());
-
-        CTX.supplyStatus(session -> session.createTable(tableCopyPath, description)).join().expectSuccess();
-        TableDescription copy = CTX.supplyResult(session -> session.describeTable(tableCopyPath)).join().getValue();
-        Assert.assertEquals(2, copy.getIndexes().size());
-        Assert.assertEquals(TableIndex.Type.GLOBAL_JSON, copy.getIndexes().get(1).getType());
     }
 
     private ColumnFamily findFamily(TableDescription desc, String name) {
