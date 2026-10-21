@@ -189,7 +189,7 @@ class ReadPartitionDecoder {
                 return;
             }
 
-            long compressionStarted = 0;
+            long compressionStarted = System.nanoTime();
             try {
                 Codec codec = registry.getCodec(codecCode);
                 if (codec == null) {
@@ -199,7 +199,6 @@ class ReadPartitionDecoder {
                 }
 
                 logger.trace("[{}] Started decoding batch", traceID);
-                compressionStarted = System.nanoTime();
                 try (InputStream encoded = origin.newInput(); InputStream decoded = codec.decode(encoded)) {
                     data = ByteStreams.toByteArray(decoded);
                     logger.trace("[{}] Finished decoding batch", traceID);
@@ -211,7 +210,7 @@ class ReadPartitionDecoder {
                     problem = new IOException("Cannot decode message", ex);
                 }
             } finally {
-                metrics.reportDecoded(compressionStarted == 0 ? 0 : System.nanoTime() - compressionStarted,
+                metrics.reportDecoded(System.nanoTime() - compressionStarted,
                         System.nanoTime() - getReceivedAt(), codecCode, partition.getPath(), problem);
                 if (problem == null) {
                     origin = null;
