@@ -182,7 +182,6 @@ public class YdbDiscovery {
 
     private void handleThrowable(Throwable th) {
         readyLock.lock();
-
         try {
             lastException = th;
             scheduleNextTick();
@@ -193,13 +192,9 @@ public class YdbDiscovery {
     }
 
     private void handleOk(String selfLocation, List<EndpointRecord> endpoints) {
-        // The endpoints must be applied before the discovery is marked as started: waitReady() checks isStarted
-        // without the lock, so a request that sees it must also see the new endpoints. Endpoints handling may
-        // block (local DC detection pings the nodes), so it is done outside of readyLock to let waiters time out.
         CompletableFuture<Boolean> handled = handler.handleEndpoints(endpoints, selfLocation);
 
         readyLock.lock();
-
         try {
             isStarted = true;
             lastException = null;

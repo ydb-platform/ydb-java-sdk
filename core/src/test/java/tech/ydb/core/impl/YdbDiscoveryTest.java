@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 import io.grpc.ConnectivityState;
 import io.grpc.ManagedChannel;
@@ -179,7 +180,7 @@ public class YdbDiscoveryTest {
         discovery.stop();
     }
 
-    @Test(timeout = 10_000)
+    @Test
     public void readyOnlyAfterEndpointsAreHandledTest() throws InterruptedException {
         Mockito.when(channel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
                 .thenReturn(MockedCall.discovery("self", new EndpointRecord("localhost", 12340)));
@@ -189,13 +190,13 @@ public class YdbDiscoveryTest {
         TestHandler handler = new TestHandler() {
             @Override
             public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
-                handlingStarted.countDown();
                 try {
-                    handlingAllowed.await();
+                    handlingStarted.countDown();
+                    Assert.assertTrue(handlingAllowed.await(1, TimeUnit.SECONDS));
+                    return CompletableFuture.completedFuture(Boolean.TRUE);
                 } catch (InterruptedException ex) {
-                    Thread.currentThread().interrupt();
+                    throw new AssertionError("interrupted", ex);
                 }
-                return super.handleEndpoints(endpoints, selfLocation);
             }
         };
 
@@ -204,7 +205,7 @@ public class YdbDiscoveryTest {
 
         // the first discovery is blocked in the endpoints handling
         CompletableFuture<MockedScheduler> firstDiscovery = CompletableFuture.supplyAsync(scheduler::runNextTask);
-        handlingStarted.await();
+        Assert.assertTrue(handlingStarted.await(1, TimeUnit.SECONDS));
 
         // endpoints are not applied yet, so discovery must not be ready and waiting must not be blocked
         IllegalStateException ex = Assert.assertThrows(IllegalStateException.class, () -> discovery.waitReady(50));
