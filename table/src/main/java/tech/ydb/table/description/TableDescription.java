@@ -328,13 +328,8 @@ public class TableDescription {
             return this;
         }
 
-        public Builder addGlobalJsonIndex(String name, List<String> columns) {
-            indexes.add(new TableIndex(name, columns, TableIndex.Type.GLOBAL_JSON));
-            return this;
-        }
-
-        public Builder addGlobalJsonIndex(String name, List<String> columns, List<String> dataColumns) {
-            indexes.add(new TableIndex(name, columns, dataColumns, TableIndex.Type.GLOBAL_JSON));
+        public Builder addGlobalJsonIndex(String name, String columnName) {
+            indexes.add(new TableIndex(name, Collections.singletonList(columnName), TableIndex.Type.GLOBAL_JSON));
             return this;
         }
 

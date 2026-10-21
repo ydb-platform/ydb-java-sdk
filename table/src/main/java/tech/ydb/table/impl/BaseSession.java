@@ -910,8 +910,8 @@ public abstract class BaseSession implements Session {
                 description.addGlobalUniqueIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
             }
 
-            if (idx.hasGlobalJsonIndex()) {
-                description.addGlobalJsonIndex(idx.getName(), idx.getIndexColumnsList(), idx.getDataColumnsList());
+            if (idx.hasGlobalJsonIndex() && idx.getIndexColumnsCount() == 1) {
+                description.addGlobalJsonIndex(idx.getName(), idx.getIndexColumns(0));
             }
         }
         YdbTable.TableStats tableStats = desc.getTableStats();
