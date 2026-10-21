@@ -3,6 +3,7 @@ package tech.ydb.table.integration;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -283,6 +284,81 @@ public class AlterTableTest {
         assertIndexSync(description.getIndexes().get(0), "idx2", Arrays.asList("id", "code"), Collections.emptyList());
     }
 
+    /**
+     * Checks that create table with 3 custom attributes pass
+     */
+    @Test
+    public void createAttributesTest() {
+        // --------------------- create table with attributes -----------------------------
+        Map<String, String> attrs = createTable();
+
+        Assert.assertEquals("1", attrs.get("scheme_version"));
+        Assert.assertEquals("test-service", attrs.get("owner"));
+        Assert.assertEquals("max", attrs.get("author"));
+        Assert.assertEquals(3, attrs.size());
+    }
+
+    /**
+     * Checks that test overwrites an existing attribute
+     * and adds a new one in a single alter request.
+     * <p>
+     * The table is created with three attributes,
+     * then scheme_version is changed from "code 1" to "code 2"
+     * and a new {env attribute is added.
+     * After the alter, expected return four
+     * attributes with the untouched ones owner, author preserved.
+     */
+    @Test
+    public void modifyAttributesTest() {
+        createTable();
+
+        // --------------------- alter: modify one attribute, add another -----------------------------
+        Status alterStatus = ctx.supplyStatus(
+                session -> session.alterTable(tablePath, new AlterTableSettings()
+                        .alterAttribute("scheme_version", "2")
+                        .alterAttribute("env", "production"))
+        ).join();
+        Assert.assertTrue("Alter table attributes " + alterStatus, alterStatus.isSuccess());
+
+        Result<TableDescription> describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe after alter " + describeResult.getStatus(), describeResult.isSuccess());
+
+        Map<String, String> attrs = describeResult.getValue().getAttributes();
+        Assert.assertEquals("2", attrs.get("scheme_version"));
+        Assert.assertEquals("test-service", attrs.get("owner"));
+        Assert.assertEquals("production", attrs.get("env"));
+        Assert.assertEquals("max", attrs.get("author"));
+        Assert.assertEquals(4, attrs.size());
+    }
+
+    /**
+     * Checks that test removes a single attribute from the table
+     * and leaves the rest of them intact.
+     * <p>
+     * The table is created with three attributes, then owner is dropped.
+     * After the alter is expected to return only scheme_version and @code author.
+     */
+    @Test
+    public void dropAttributesTest() {
+        // --------------------- create table with attributes -----------------------------
+        createTable();
+
+        // --------------------- alter: drop an attribute -----------------------------
+        Status alterStatus = ctx.supplyStatus(
+                session -> session.alterTable(tablePath, new AlterTableSettings()
+                        .dropAttribute("owner"))
+        ).join();
+        Assert.assertTrue("Drop table attribute " + alterStatus, alterStatus.isSuccess());
+
+        Result<TableDescription> describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe after drop " + describeResult.getStatus(), describeResult.isSuccess());
+
+        Map<String, String> attrs = describeResult.getValue().getAttributes();
+        Assert.assertEquals("1", attrs.get("scheme_version"));
+        Assert.assertEquals("max", attrs.get("author"));
+        Assert.assertEquals(2, attrs.size());
+    }
+
     private void assertColumn(TableColumn column, String name, Type type) {
         assertColumn(column, name, type, false, false);
     }
@@ -314,5 +390,28 @@ public class AlterTableTest {
         for (int idx = 0; idx < expected.size(); idx += 1) {
             Assert.assertEquals(expected.get(idx), values.get(idx));
         }
+    }
+
+    private Map<String, String> createTable() {
+        // --------------------- create table with attributes -----------------------------
+        TableDescription createTableDesc = TableDescription.newBuilder()
+                .addNonnullColumn("id", PrimitiveType.Uint64)
+                .addNullableColumn("value", PrimitiveType.Text)
+                .setPrimaryKey("id")
+                .addAttribute("scheme_version", "1")
+                .addAttribute("owner", "test-service")
+                .addAttribute("author", "max")
+                .build();
+
+        Status createStatus = ctx.supplyStatus(
+                session -> session.createTable(tablePath, createTableDesc, new CreateTableSettings())
+        ).join();
+        Assert.assertTrue("Create table with attributes " + createStatus, createStatus.isSuccess());
+
+        // --------------------- describe table: check initial attributes -----------------------------
+        Result<TableDescription> describeResult = ctx.supplyResult(session -> session.describeTable(tablePath)).join();
+        Assert.assertTrue("Describe table with attributes " + describeResult.getStatus(), describeResult.isSuccess());
+
+        return describeResult.getValue().getAttributes();
     }
 }
