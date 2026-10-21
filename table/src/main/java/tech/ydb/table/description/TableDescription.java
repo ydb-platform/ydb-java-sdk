@@ -338,6 +338,11 @@ public class TableDescription {
             return this;
         }
 
+        public Builder addGlobalJsonIndex(String name, String columnName) {
+            indexes.add(new TableIndex(name, Collections.singletonList(columnName), TableIndex.Type.GLOBAL_JSON));
+            return this;
+        }
+
         public Builder setTableStats(TableStats tableStats) {
             this.tableStats = tableStats;
             return this;

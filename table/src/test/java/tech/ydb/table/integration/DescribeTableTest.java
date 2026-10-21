@@ -1,5 +1,7 @@
 package tech.ydb.table.integration;
 
+import java.util.Collections;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.ClassRule;
@@ -11,6 +13,7 @@ import tech.ydb.core.StatusCode;
 import tech.ydb.table.SessionRetryContext;
 import tech.ydb.table.description.ColumnFamily;
 import tech.ydb.table.description.TableDescription;
+import tech.ydb.table.description.TableIndex;
 import tech.ydb.table.impl.SimpleTableClient;
 import tech.ydb.table.rpc.grpc.GrpcTableRpc;
 import tech.ydb.table.values.PrimitiveType;
@@ -82,6 +85,31 @@ public class DescribeTableTest {
         Assert.assertEquals(2, copyDesc.getColumnFamilies().size());
         Assert.assertEquals(ColumnFamily.Compression.COMPRESSION_LZ4, findFamily(copyDesc, "default").getCompression());
         Assert.assertEquals(ColumnFamily.Compression.COMPRESSION_NONE, findFamily(copyDesc, "raw").getCompression());
+    }
+
+    @Test
+    public void jsonIndexTest() {
+        TableDescription createTable = TableDescription.newBuilder()
+                .addNonnullColumn("id", PrimitiveType.Uint64)
+                .addNonnullColumn("payload", PrimitiveType.JsonDocument)
+                .addNullableColumn("title", PrimitiveType.Text)
+                .addGlobalIndex("global_idx", Collections.singletonList("title"))
+                .addGlobalJsonIndex("json_idx", "payload")
+                .setPrimaryKeys("id")
+                .build();
+
+        CTX.supplyStatus(session -> session.createTable(tablePath, createTable)).join()
+                .expectSuccess("cannot create table " + tablePath);
+
+        TableDescription description = CTX.supplyResult(session -> session.describeTable(tablePath)).join().getValue();
+        Assert.assertEquals(2, description.getIndexes().size());
+        Assert.assertEquals(TableIndex.Type.GLOBAL, description.getIndexes().get(0).getType());
+        Assert.assertEquals(TableIndex.Type.GLOBAL_JSON, description.getIndexes().get(1).getType());
+
+        TableIndex index = description.getIndexes().get(1);
+        Assert.assertEquals("json_idx", index.getName());
+        Assert.assertEquals(Collections.singletonList("payload"), index.getColumns());
+        Assert.assertTrue(index.getDataColumns().isEmpty());
     }
 
     private ColumnFamily findFamily(TableDescription desc, String name) {
