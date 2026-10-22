@@ -48,6 +48,10 @@ public abstract class MessageImpl implements Message {
 
     public abstract boolean isReady();
 
+    long getReceivedAt() {
+        return batchMeta.getReceivedAt();
+    }
+
     @Override
     public long getOffset() {
         return offset;
