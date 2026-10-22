@@ -1,5 +1,6 @@
 package tech.ydb.core.impl.pool;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -50,18 +51,30 @@ public class GrpcChannelPool {
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }
 
-        logger.debug("shutdown {} channels", channelsToShutdown.size());
+        logger.debug("shutting down {} channels", channelsToShutdown.size());
+        List<GrpcChannel> channelsList = new ArrayList<>(channelsToShutdown);
+
+        // Shut down all channels at once, so they complete their active calls in parallel within a shared deadline
+        // instead of waiting for each other
+        channelsList.forEach(GrpcChannel::initShutdown);
         return CompletableFuture.supplyAsync(() -> {
+            long deadline = GrpcChannel.closingDeadline();
             int closed = 0;
-            for (GrpcChannel channel : channelsToShutdown) {
-                if (Thread.currentThread().isInterrupted()) {
-                    return false;
+
+            try {
+                for (GrpcChannel channel : channelsList) {
+                    if (channel.awaitTermination(deadline)) {
+                        closed++;
+                    }
                 }
-                if (channel.shutdown()) {
-                    closed++;
-                }
+            } catch (InterruptedException ex) {
+                logger.warn("interrupted while waiting for gRPC channels to terminate, shutting them down now", ex);
+                Thread.currentThread().interrupt();
+            } finally {
+                channelsList.forEach(GrpcChannel::shutdownNow);
             }
-            return closed == channelsToShutdown.size();
+
+            return closed == channelsList.size();
         }, executor);
     }
 

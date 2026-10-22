@@ -97,6 +97,25 @@ public class TopicStreamTest {
     }
 
     @Test
+    public void closedStreamTest() {
+        CompletableFuture<Status> status = new CompletableFuture<>();
+        MockedStream mock = buildMockedStream("token", status);
+
+        TestStream stream = new TestStream(mock);
+        stream.close();
+
+        stream.send(msg("1"));
+        CompletableFuture<Status> start = stream.start(msg -> {});
+        Assert.assertTrue(start.isDone());
+        Assert.assertEquals(Status.of(StatusCode.CLIENT_INTERNAL_ERROR), start.join());
+
+        Mockito.verify(mock, Mockito.never()).sendNext(Mockito.any());
+        Mockito.verify(mock, Mockito.never()).start(Mockito.any());
+        Mockito.verify(mock, Mockito.never()).cancel();
+        Mockito.verify(mock).close();
+    }
+
+    @Test
     public void startStreamAndImmediatelyFinishTest() {
         // Stream may be closed immediately after start, for example if token is invalid
         CompletableFuture<Status> status = new CompletableFuture<>();

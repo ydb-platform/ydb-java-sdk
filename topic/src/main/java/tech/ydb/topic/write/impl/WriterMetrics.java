@@ -6,9 +6,11 @@ import java.util.function.LongSupplier;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.metrics.Attr;
+import tech.ydb.core.metrics.DoubleHistogram;
 import tech.ydb.core.metrics.LongCounter;
 import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
+import tech.ydb.proto.topic.YdbTopic;
 
 /**
  * Topic writer metrics.
@@ -20,13 +22,20 @@ final class WriterMetrics {
     private final LongCounter sendingBytes;
     private final LongCounter writtenMessages;
     private final LongCounter sessionErrors;
+    private final DoubleHistogram messageAckDuration;
+    private final DoubleHistogram bufferWaitDuration;
+    private final DoubleHistogram compressionDuration;
+    private final DoubleHistogram processingDuration;
     private final Attr[] commonAttributes;
     private final Meter meter;
+    private final boolean enabled;
     private MetricRegistration bufferUsedGauge = MetricRegistration.NOOP;
     private MetricRegistration bufferLimitGauge = MetricRegistration.NOOP;
+    private MetricRegistration oldestAgeGauge = MetricRegistration.NOOP;
 
     WriterMetrics(Meter meter, String topic, String writerName) {
         this.meter = meter;
+        this.enabled = meter != Meter.NOOP;
         this.sendingMessages = meter.createCounter("ydb.topic.writer.sending.messages", MESSAGE_UNIT,
                 "The number of messages accepted by the SDK for sending.");
         this.sendingBytes = meter.createCounter("ydb.topic.writer.sending.bytes", "By",
@@ -35,25 +44,53 @@ final class WriterMetrics {
                 "The number of messages confirmed written by the server, including already written messages.");
         this.sessionErrors = meter.createCounter("ydb.topic.writer.session.errors", "{error}",
                 "The number of writer stream session errors by retry decision.");
+        this.messageAckDuration = meter.createHistogram("ydb.topic.writer.message.ack.duration", "s",
+                "Time from first sending a message to the server to its acknowledgement.");
+        this.bufferWaitDuration = meter.createHistogram("ydb.topic.writer.buffer.wait.duration", "s",
+                "Time waiting for buffer capacity before a message is accepted.");
+        this.compressionDuration = meter.createHistogram("ydb.topic.writer.compression.duration", "s",
+                "The time spent compressing a message, excluding queueing.");
+        this.processingDuration = meter.createHistogram("ydb.topic.writer.message.processing.duration", "s",
+                "The time from buffer acceptance until a message is ready for sending.");
         this.commonAttributes = writerName == null
                 ? new Attr[0]
                 : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
     }
 
-    void register(LongSupplier bufferUsed, LongSupplier bufferLimit) {
+    void register(LongSupplier bufferUsed, LongSupplier bufferLimit, LongSupplier oldestTimestamp) {
         bufferUsedGauge = meter.registerLongGauge("ydb.topic.writer.buffer.used.bytes", "By",
                 "The occupied budget of the writer buffer limiter.",
                 m -> m.record(bufferUsed.getAsLong(), commonAttributes));
         bufferLimitGauge = meter.registerLongGauge("ydb.topic.writer.buffer.limit.bytes", "By",
                 "The configured limit of the writer buffer limiter.",
                 m -> m.record(bufferLimit.getAsLong(), commonAttributes));
+        oldestAgeGauge = meter.registerDoubleGauge("ydb.topic.writer.sending.oldest_age", "s",
+                "The age of the oldest message in the writer's in-flight buffer.", m -> {
+                    long timestamp = oldestTimestamp.getAsLong();
+                    m.record(timestamp == 0 ? 0 : (System.nanoTime() - timestamp) / 1_000_000_000d,
+                            commonAttributes);
+                });
     }
 
     void unregister() {
         bufferUsedGauge.close();
         bufferLimitGauge.close();
+        oldestAgeGauge.close();
         bufferUsedGauge = MetricRegistration.NOOP;
         bufferLimitGauge = MetricRegistration.NOOP;
+        oldestAgeGauge = MetricRegistration.NOOP;
+    }
+
+    void reportMessageAckDuration(long timestamp) {
+        if (enabled) {
+            messageAckDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
+        }
+    }
+
+    void reportBufferWaitDuration(long timestamp) {
+        if (enabled) {
+            bufferWaitDuration.record((System.nanoTime() - timestamp) / 1_000_000_000d, commonAttributes);
+        }
     }
 
     void reportSending(long bytes) {
@@ -63,6 +100,28 @@ final class WriterMetrics {
 
     void reportWritten() {
         writtenMessages.add(1, commonAttributes);
+    }
+
+    void reportCompression(long durationNanos, int codec, Throwable error) {
+        recordDuration(compressionDuration, durationNanos, codec, error);
+    }
+
+    void reportProcessing(long durationNanos, int codec, Throwable error) {
+        recordDuration(processingDuration, durationNanos, codec, error);
+    }
+
+    private void recordDuration(DoubleHistogram histogram, long durationNanos, int codec, Throwable error) {
+        if (enabled) {
+            Attr[] attributes = Arrays.copyOf(commonAttributes, commonAttributes.length + (error == null ? 2 : 3));
+            YdbTopic.Codec codecType = YdbTopic.Codec.forNumber(codec);
+            attributes[commonAttributes.length] = Attr.of("codec", codecType == null ? Integer.toString(codec)
+                    : codecType.name().substring("CODEC_".length()).toLowerCase(java.util.Locale.ROOT));
+            attributes[commonAttributes.length + 1] = Attr.of("outcome", error == null ? "ok" : "error");
+            if (error != null) {
+                attributes[commonAttributes.length + 2] = Attr.of("error.type", error.getClass().getName());
+            }
+            histogram.record(durationNanos / 1_000_000_000d, attributes);
+        }
     }
 
     void reportSessionError(Status status, boolean retry) {

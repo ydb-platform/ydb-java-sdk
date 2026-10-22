@@ -119,20 +119,20 @@ public class OpenTelemetryMeterTest {
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void legacyGaugeCreationStillReportsValues() {
         meter.createLongGauge("ydb.test.legacy", null, null, m -> m.record(7));
-
         Assert.assertEquals(7L, singleLongPoint(single("ydb.test.legacy").getLongGaugeData().getPoints()).getValue());
     }
 
     @Test
+    @SuppressWarnings("deprecation")
     public void registrationSupportsLegacyMeterOverride() {
         long[] observed = new long[1];
         Meter legacy = new Meter() {
             @Override
-            public void createLongGauge(
-                    String name, String unit, String description, Consumer<LongMeasurement> callback) {
-                callback.accept((value, attrs) -> observed[0] = value);
+            public void createLongGauge(String name, String unit, String description, Consumer<LongMeasurement> cb) {
+                cb.accept((value, attrs) -> observed[0] = value);
             }
         };
 

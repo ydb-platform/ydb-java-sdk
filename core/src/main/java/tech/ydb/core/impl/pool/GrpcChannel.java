@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public final class GrpcChannel implements Runnable {
 
     /* Channel shutdown waits for finish of active grpc calls, so there must be enough time to complete them all */
-    private static final long WAIT_FOR_CLOSING_MS = 5000;
+    static final long WAIT_FOR_CLOSING_MS = 5000;
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannel.class);
 
     private final EndpointRecord endpoint;
@@ -49,20 +49,56 @@ public final class GrpcChannel implements Runnable {
         }
 
         try {
-            boolean closed = channel.shutdown().awaitTermination(WAIT_FOR_CLOSING_MS, TimeUnit.MILLISECONDS);
-            if (closed) {
-                logger.debug("Grpc channel {} shutdown successfully", endpoint);
-            } else {
-                logger.warn("Grpc channel {} shutdown timeout exceeded", endpoint);
-            }
-            return closed;
+            initShutdown();
+            return awaitTermination(closingDeadline());
         } catch (InterruptedException e) {
             logger.warn("transport shutdown interrupted for channel {}: ", endpoint, e);
             Thread.currentThread().interrupt();
             return false;
         } finally {
-            channel.shutdownNow();
+            shutdownNow();
         }
+    }
+
+    /**
+     * @return the {@link System#nanoTime()} based deadline for the termination of channels shut down now
+     */
+    static long closingDeadline() {
+        return System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(WAIT_FOR_CLOSING_MS);
+    }
+
+    /**
+     * Initiates an orderly shutdown: new calls are rejected, but the active ones are allowed to complete.
+     */
+    void initShutdown() {
+        channel.shutdown();
+    }
+
+    /**
+     * Waits for the termination of the channel after {@link #initShutdown()}.
+     *
+     * @param deadlineNanos the {@link System#nanoTime()} based deadline of waiting
+     * @return true if the channel is terminated
+     * @throws InterruptedException if interrupted while waiting
+     */
+    boolean awaitTermination(long deadlineNanos) throws InterruptedException {
+        long timeoutNanos = Math.max(deadlineNanos - System.nanoTime(), 0);
+        boolean closed = channel.awaitTermination(timeoutNanos, TimeUnit.NANOSECONDS);
+
+        if (closed) {
+            logger.debug("gRPC channel {} was shut down successfully", endpoint);
+        } else {
+            logger.warn("gRPC channel {} did not terminate before the shutdown deadline", endpoint);
+        }
+
+        return closed;
+    }
+
+    /**
+     * Forcefully shuts down the channel, the active calls are cancelled.
+     */
+    void shutdownNow() {
+        channel.shutdownNow();
     }
 
     private void checkState() {

@@ -153,8 +153,11 @@ public class ReaderImplTest {
         reader.verifyHandler(Mockito.never()).onPartitionClosed(Mockito.any());
 
         reader.close();
-        reader.assertReaderIsStopped(Status.SUCCESS);
         mock.assertIsClosed();
+        reader.assertReaderIsNotStopped();
+
+        mock.closeStream(Status.SUCCESS);
+        reader.assertReaderIsStopped(Status.SUCCESS);
     }
 
     @Test
@@ -209,8 +212,11 @@ public class ReaderImplTest {
         reader.verifyHandler(Mockito.times(2)).onPartitionClosed(Mockito.any());
 
         reader.close();
-        reader.assertReaderIsStopped(Status.SUCCESS);
         mock.assertIsClosed();
+        reader.assertReaderIsNotStopped();
+
+        mock.closeStream(Status.SUCCESS);
+        reader.assertReaderIsStopped(Status.SUCCESS);
     }
 
     @Test
@@ -352,8 +358,11 @@ public class ReaderImplTest {
         mock.responseEmpty(); // nothing
 
         reader.close();
-        reader.assertReaderIsStopped(Status.SUCCESS);
         mock.assertIsClosed();
+        reader.assertReaderIsNotStopped();
+
+        mock.closeStream(Status.SUCCESS);
+        reader.assertReaderIsStopped(Status.SUCCESS);
     }
 
     @Test
@@ -645,6 +654,10 @@ public class ReaderImplTest {
 
         public void resetHandler() {
             Mockito.reset(handler);
+        }
+
+        public void assertReaderIsNotStopped() {
+            Assert.assertTrue(stops.isEmpty());
         }
 
         public void assertReaderIsStopped(Status expected) {

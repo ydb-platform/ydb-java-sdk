@@ -182,7 +182,6 @@ public class YdbDiscovery {
 
     private void handleThrowable(Throwable th) {
         readyLock.lock();
-
         try {
             lastException = th;
             scheduleNextTick();
@@ -193,16 +192,18 @@ public class YdbDiscovery {
     }
 
     private void handleOk(String selfLocation, List<EndpointRecord> endpoints) {
-        readyLock.lock();
+        CompletableFuture<Boolean> handled = handler.handleEndpoints(endpoints, selfLocation);
 
+        readyLock.lock();
         try {
             isStarted = true;
             lastException = null;
-            handler.handleEndpoints(endpoints, selfLocation).whenComplete((res, th) -> scheduleNextTick());
             readyCondition.signalAll();
         } finally {
             readyLock.unlock();
         }
+
+        handled.whenComplete((res, th) -> scheduleNextTick());
     }
 
     private static String createAddress(EndpointInfo e) {

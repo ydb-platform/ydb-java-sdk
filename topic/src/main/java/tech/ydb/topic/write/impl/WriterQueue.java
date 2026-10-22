@@ -62,8 +62,8 @@ public class WriterQueue {
     private volatile CompletableFuture<WriteAck> lastAcceptedAckFuture = null;
 
     @VisibleForTesting
-    public WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
-                       Executor compressionExecutor, Runnable readyNotify) {
+    WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
+                Executor compressionExecutor, Runnable readyNotify) {
         this(debugId, settings, new WriterMetrics(Meter.NOOP, settings.getTopicPath(), settings.getWriterName()),
                 codecRegistry, compressionExecutor, readyNotify);
     }
@@ -80,7 +80,17 @@ public class WriterQueue {
         this.compressionExecutor = compressionExecutor;
         this.readyNotify = readyNotify;
         this.metrics = metrics;
-        this.metrics.register(buffer::getUsedSize, buffer::getMaxSize);
+        this.metrics.register(buffer::getUsedSize, buffer::getMaxSize, this::getOlderAcceptedTimestamp);
+    }
+
+    private long getOlderAcceptedTimestamp() {
+        for (EncodedMsg msg : sent) {
+            SentMessage sentMsg = msg.getSentMessage();
+            if (sentMsg != null) {
+                return sentMsg.getAcceptedTimestamp();
+            }
+        }
+        return 0;
     }
 
     CompletableFuture<Void> flush() {
@@ -159,6 +169,7 @@ public class WriterQueue {
             sentIt.remove();
             buffer.releaseMessage(sentMsg.getBufferSize());
             metrics.reportWritten();
+            metrics.reportMessageAckDuration(sentMsg.getSendTimestamp());
             msg.confirm(ack);
         }
     }
@@ -206,7 +217,9 @@ public class WriterQueue {
     CompletableFuture<WriteAck> enqueue(Message message, YdbTransaction tx) throws QueueOverflowException,
             InterruptedException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
+        long waitStarted = System.nanoTime();
         buffer.acquire(reservedSizeBytes);
+        metrics.reportBufferWaitDuration(waitStarted);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -219,7 +232,9 @@ public class WriterQueue {
     CompletableFuture<WriteAck> tryEnqueue(Message message, YdbTransaction tx, long timeout, TimeUnit unit)
             throws QueueOverflowException, InterruptedException, TimeoutException {
         long reservedSizeBytes = reservationSizeBytes(message.getData().length);
+        long waitStarted = System.nanoTime();
         buffer.tryAcquire(reservedSizeBytes, timeout, unit);
+        metrics.reportBufferWaitDuration(waitStarted);
         return accept(message, tx, reservedSizeBytes);
     }
 
@@ -239,7 +254,9 @@ public class WriterQueue {
 
         if (codec.getId() == Codec.RAW) {
             // fast track without compression
-            msg.completeWithData(UnsafeByteOperations.unsafeWrap(message.getData()), reservedSizeBytes);
+            ByteString data = UnsafeByteOperations.unsafeWrap(message.getData());
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), null);
+            msg.completeWithData(data, reservedSizeBytes);
             readyNotify.run();
             return msg.getAckFuture();
         }
@@ -247,6 +264,7 @@ public class WriterQueue {
         try {
             compressionExecutor.execute(() -> encode(message.getData(), reservedSizeBytes, msg));
         } catch (Throwable ex) {
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), ex);
             logger.warn("[{}] Message wasn't sent because of processing error", debugId, ex);
             msg.completeWithProblem(ex);
             readyNotify.run();
@@ -261,10 +279,12 @@ public class WriterQueue {
         }
 
         logger.trace("[{}] Started encoding message", debugId);
+        long compressionStarted = System.nanoTime();
         try (ByteString.Output encoded = ByteString.newOutput()) {
             try (OutputStream os = codec.encode(encoded)) {
                 os.write(data, 0, data.length);
             }
+            long compressionDuration = System.nanoTime() - compressionStarted;
 
             if (logger.isTraceEnabled()) {
                 logger.trace("[{}] Message compressed from {} to {} bytes", debugId, data.length, encoded.size());
@@ -286,8 +306,12 @@ public class WriterQueue {
             }
 
             bufferSizeBytes = updatedBufferSizeBytes;
+            metrics.reportCompression(compressionDuration, codec.getId(), null);
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), null);
             msg.completeWithData(encodedData, bufferSizeBytes);
         } catch (Throwable ex) {
+            metrics.reportCompression(System.nanoTime() - compressionStarted, codec.getId(), ex);
+            metrics.reportProcessing(System.nanoTime() - msg.getAcceptedTimestamp(), codec.getId(), ex);
             logger.warn("[{}] Message wasn't sent because of encoding error", debugId, ex);
             msg.completeWithProblem(ex);
         }

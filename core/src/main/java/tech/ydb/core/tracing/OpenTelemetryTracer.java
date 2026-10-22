@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import io.grpc.ExperimentalApi;
 import io.opentelemetry.api.GlobalOpenTelemetry;
 import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.trace.SpanContext;
 import io.opentelemetry.api.trace.StatusCode;
 import io.opentelemetry.context.Context;
 
@@ -74,7 +75,9 @@ public final class OpenTelemetryTracer implements Tracer {
 
         @Override
         public String getId() {
-            return "00-" + span.getSpanContext().getTraceId() + "-" + span.getSpanContext().getSpanId() + "-01";
+            // W3C traceparent; the trace flags tell the server whether the client has sampled the trace
+            SpanContext ctx = span.getSpanContext();
+            return "00-" + ctx.getTraceId() + "-" + ctx.getSpanId() + "-" + ctx.getTraceFlags().asHex();
         }
 
         @Override

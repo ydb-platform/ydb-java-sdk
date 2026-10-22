@@ -101,13 +101,13 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         return handler;
     }
 
-    public void closeAll() {
+    @Override
+    protected void preDestroy() {
         isClosed = true;
         decoder.stop();
         locks.clear();
         partitions.values().forEach(ReadPartition::close);
         partitions.clear();
-        config.getMetrics().unregister();
     }
 
     public boolean commitOffsets(PartitionSession session, List<OffsetsRange> rangesToCommit) {
@@ -216,6 +216,11 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             Issue issue = Issue.of("Restarting read session due to receiving second StartPartitionSessionRequest with "
                     + ps, Issue.Severity.FATAL);
             fail(Status.of(StatusCode.CLIENT_INTERNAL_ERROR, issue));
+            return;
+        }
+
+        if (isClosed) {
+            preDestroy();
             return;
         }
 
