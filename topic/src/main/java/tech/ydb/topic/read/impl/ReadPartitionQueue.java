@@ -16,7 +16,7 @@ import tech.ydb.topic.read.Message;
 /**
  * @author Nikolay Perfilov
  */
-class ReadPartitionQueue {
+class ReadPartitionQueue implements ReaderMetrics.Source {
     private static final Logger logger = LoggerFactory.getLogger(ReadPartition.class);
 
     private final String traceID;
@@ -34,6 +34,17 @@ class ReadPartitionQueue {
 
     void updateLastReadOffset(long offset) {
         lastReadOffset = offset;
+    }
+
+    @Override
+    public long getMessagesCount() {
+        return readingQueue.size();
+    }
+
+    @Override
+    public long getOldestReceivedTimestamp() {
+        MessageImpl first = readingQueue.peek();
+        return first == null ? 0 : first.getReceivedAt();
     }
 
     void addBatches(List<YdbTopic.StreamReadMessage.ReadResponse.Batch> batchList) {

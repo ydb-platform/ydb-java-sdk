@@ -223,6 +223,18 @@ public class SyncReaderImpl implements SyncReader {
         @Override
         public void onSessionStarted(String sessionId) {
             SyncReaderImpl.this.sessionId = sessionId;
+            config.getMetrics().addSource(new ReaderMetrics.Source() {
+                @Override
+                public long getMessagesCount() {
+                    return queue.size();
+                }
+
+                @Override
+                public long getOldestReceivedTimestamp() {
+                    return queue.stream().filter(MessageWrapper::isActive)
+                            .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt()).min().orElse(0);
+                }
+            });
             SyncReaderImpl.this.initFuture.complete(null);
         }
 
