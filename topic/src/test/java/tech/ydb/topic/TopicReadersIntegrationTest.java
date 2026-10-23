@@ -46,6 +46,8 @@ import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.impl.AsyncReaderImpl;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.read.impl.events.ReaderHandler;
 import tech.ydb.topic.settings.AlterPartitioningSettings;
 import tech.ydb.topic.settings.AlterTopicSettings;
 import tech.ydb.topic.settings.AutoPartitioningStrategy;
@@ -385,6 +387,68 @@ public class TopicReadersIntegrationTest {
                 byte[] expected = writedMsg(msg.getProducerId(), msg_idx);
                 Assert.assertEquals(new String(expected), new String(msg.getData()));
             }
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    public void readAllSplittedWithCommitsTest() throws Exception {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(SPLITTED_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setDecompressionExecutor(Runnable::run)
+                .setMaxBatchSize(100)
+                .build();
+
+        BlockingQueue<Message> queue = new ArrayBlockingQueue<>(1);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReaderHandler() {
+                    @Override
+                    public void onMessagesWithControl(DataReceivedEventImpl event) {
+                        try {
+                            for (Message msg : event.getMessages()) {
+                                Assert.assertTrue(queue.offer(msg, 60, TimeUnit.SECONDS));
+                            }
+                        } catch (InterruptedException ex) {
+                            throw new AssertionError("cannot process event", ex);
+                        }
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                }).build());
+
+        CountDownLatch recieved = new CountDownLatch(1500);
+        PROXY.listenPartitionData(partitionData -> {
+            partitionData.getBatchesList().forEach(batch -> {
+                batch.getMessageDataList().forEach(msg -> recieved.countDown());
+            });
+        });
+
+        reader.init();
+        try {
+            // wait to recieve all messages
+            Assert.assertTrue(recieved.await(5, TimeUnit.SECONDS));
+
+            // validate all messages
+            int p0_idx = 0;
+            int p1_idx = 0;
+            CompletableFuture<Void> lastCommit = null;
+            while (p0_idx < 1000 || p1_idx < 500) {
+                Message msg = queue.poll(1, TimeUnit.SECONDS);
+                Assert.assertNotNull("cannot get msg " + (p0_idx + p1_idx), msg);
+
+                int msg_idx = "p0".equals(msg.getProducerId()) ? ++p0_idx : ++p1_idx;
+                byte[] expected = writedMsg(msg.getProducerId(), msg_idx);
+                Assert.assertEquals(new String(expected), new String(msg.getData()));
+
+                lastCommit = msg.commit();
+            }
+            Assert.assertNotNull(lastCommit);
+            lastCommit.get(5, TimeUnit.SECONDS);
         } finally {
             reader.shutdown().join();
         }
@@ -972,6 +1036,152 @@ public class TopicReadersIntegrationTest {
             Assert.assertEquals(1000, offsets[0].get());
             Assert.assertEquals(500, offsets[1].get());
             Assert.assertEquals(2100, offsets[2].get());
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    public void backPressureDefaultTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setMaxMemoryUsageBytes(10000)
+                .setMaxBatchSize(100)
+                .build();
+
+        AtomicLong[] offsets = new AtomicLong[] { new AtomicLong(), new AtomicLong(), new AtomicLong() };
+        CountDownLatch read = new CountDownLatch(3600);
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler((ReaderHandler) (DataReceivedEvent event) -> {
+                    AtomicLong offset = offsets[(int) event.getPartitionSession().getPartitionId()];
+                    for (Message msg : event.getMessages()) {
+                        Assert.assertEquals(offset.getAndIncrement(), msg.getOffset());
+                        read.countDown();
+                    }}
+                ).build());
+
+        reader.init().join();
+        try {
+            Assert.assertTrue(read.await(30, TimeUnit.SECONDS));
+            Assert.assertEquals(1000, offsets[0].get());
+            Assert.assertEquals(500, offsets[1].get());
+            Assert.assertEquals(2100, offsets[2].get());
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    public void backPressureControlTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setMaxMemoryUsageBytes(3600 * 100 / 2) // half of total messages size
+                .setMaxBatchSize(100)
+                .build();
+
+        BlockingQueue<DataReceivedEventImpl> messages = new ArrayBlockingQueue<>(5000);
+        AtomicLong queued = new AtomicLong(0);
+
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReaderHandler() {
+                    @Override
+                    public void onMessagesWithControl(DataReceivedEventImpl event) {
+                        Assert.assertTrue(messages.offer(event));
+                        queued.addAndGet(event.getMessages().size());
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                }).build());
+
+        reader.init().join();
+
+        long messagesCount = 0;
+        long[] offsets = new long[] { 0L, 0L, 0L };
+
+        try {
+            List<DataReceivedEventImpl> processed = new ArrayList<>();
+            while (messagesCount < 3600) {
+                DataReceivedEventImpl next = messages.poll(1, TimeUnit.SECONDS);
+                if (next == null) { // reading is stopped by max memory usage
+                    Assert.assertEquals(1800, queued.get());
+
+                    for (DataReceivedEventImpl event: processed) {
+                        event.getPartitionControl().confirmProcessedRange(event.getRangeToCommit());
+                    }
+                    processed.clear();
+                    next = messages.poll(1, TimeUnit.SECONDS);
+                }
+
+                Assert.assertNotNull(next);
+
+                int pid = (int) next.getPartitionSession().getPartitionId();
+                for (Message msg : next.getMessages()) {
+                    Assert.assertEquals(offsets[pid], msg.getOffset());
+                    offsets[pid] = msg.getOffset() + 1;
+                    messagesCount++;
+                }
+                processed.add(next);
+            }
+
+            Assert.assertEquals(3600, messagesCount);
+            Assert.assertEquals(1000, offsets[0]);
+            Assert.assertEquals(500, offsets[1]);
+            Assert.assertEquals(2100, offsets[2]);
+        } finally {
+            reader.shutdown().join();
+        }
+    }
+
+    @Test
+    public void backPressureByCommitsTest() throws InterruptedException {
+        ReaderSettings readerSettings = ReaderSettings.newBuilder()
+                .addTopic(TopicReadSettings.newBuilder().setPath(TEST_TOPIC).build())
+                .setConsumerName(TEST_CONSUMER1)
+                .setMaxMemoryUsageBytes(10000)
+                .setMaxBatchSize(100)
+                .build();
+
+        BlockingQueue<DataReceivedEventImpl> messages = new ArrayBlockingQueue<>(5000);
+        AtomicLong queued = new AtomicLong(0);
+
+        AsyncReader reader = client.createAsyncReader(readerSettings, ReadEventHandlersSettings.newBuilder()
+                .setEventHandler(new ReaderHandler() {
+                    @Override
+                    public void onMessagesWithControl(DataReceivedEventImpl event) {
+                        Assert.assertTrue(messages.offer(event));
+                        queued.addAndGet(event.getMessages().size());
+                    }
+
+                    @Override
+                    public void onMessages(DataReceivedEvent event) {
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                }).build());
+
+        reader.init().join();
+
+        long messagesCount = 0;
+        long[] offsets = new long[] { 0L, 0L, 0L };
+
+        try {
+            while (messagesCount < 3600) {
+                DataReceivedEventImpl next = messages.poll(1, TimeUnit.SECONDS);
+                Assert.assertNotNull(next);
+
+                int pid = (int) next.getPartitionSession().getPartitionId();
+                for (Message msg : next.getMessages()) {
+                    Assert.assertEquals(offsets[pid], msg.getOffset());
+                    offsets[pid] = msg.getOffset() + 1;
+                    messagesCount++;
+                }
+
+                next.commit(); // commit is auto confirm processing
+            }
         } finally {
             reader.shutdown().join();
         }

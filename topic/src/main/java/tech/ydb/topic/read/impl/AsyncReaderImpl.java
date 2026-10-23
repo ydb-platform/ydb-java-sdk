@@ -21,13 +21,15 @@ import tech.ydb.topic.impl.SerialExecutor;
 import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.PartitionOffsets;
 import tech.ydb.topic.read.events.CommitOffsetAcknowledgementEvent;
-import tech.ydb.topic.read.events.DataReceivedEvent;
 import tech.ydb.topic.read.events.PartitionSessionClosedEvent;
 import tech.ydb.topic.read.events.PartitionSessionEndedEvent;
 import tech.ydb.topic.read.events.ReadEventHandler;
 import tech.ydb.topic.read.events.ReaderClosedEvent;
 import tech.ydb.topic.read.events.StartPartitionSessionEvent;
 import tech.ydb.topic.read.events.StopPartitionSessionEvent;
+import tech.ydb.topic.read.impl.events.DataReceivedEventImpl;
+import tech.ydb.topic.read.impl.events.PartitionControl;
+import tech.ydb.topic.read.impl.events.ReaderHandler;
 import tech.ydb.topic.read.impl.events.SessionStartedEvent;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -42,8 +44,8 @@ public class AsyncReaderImpl implements AsyncReader {
     private final String debugId;
     private final LazyExecutor processor;
     private final LazyExecutor decompressor;
-    private final ReadEventHandler eventHandler;
     private final SerialExecutor controlEventsExecutor;
+    private final ReadEventHandler eventHandler;
     private final ReadConfig config;
     private final Impl impl;
 
@@ -61,7 +63,10 @@ public class AsyncReaderImpl implements AsyncReader {
         this.controlEventsExecutor = new SerialExecutor(processor);
 
         this.config = new ReadConfig(codecRegistry, controlEventsExecutor, processor, decompressor, settings);
-        this.impl = new Impl(topicRpc, debugId, settings, config);
+
+        ReadSession.Handler handler = (eventHandler instanceof ReaderHandler)
+                ? new AsyncHandlerWithControl((ReaderHandler) eventHandler) : new AsyncHandler();
+        this.impl = new Impl(topicRpc, debugId, settings, config, handler);
 
         String readerName = settings.getReaderName();
         String consumerName = settings.getConsumerName();
@@ -124,8 +129,8 @@ public class AsyncReaderImpl implements AsyncReader {
     }
 
     private class Impl extends ReaderImpl {
-        Impl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config) {
-            super(rpc, id, settings, config, new AsyncHandler());
+        Impl(TopicRpc rpc, String id, ReaderSettings settings, ReadConfig config, ReadSession.Handler handler) {
+            super(rpc, id, settings, config, handler);
         }
 
         @Override
@@ -148,14 +153,15 @@ public class AsyncReaderImpl implements AsyncReader {
 
     private class AsyncHandler implements ReadSession.Handler {
         @Override
-        public void onData(ReadSession.PartitionControl control, DataReceivedEvent event) {
+        public void onData(DataReceivedEventImpl event) {
+            PartitionControl control = event.getPartitionControl();
             try {
                 config.getMetrics().reportDelivered(event.getMessages().size(), event.getPartitionSession().getPath());
                 eventHandler.onMessages(event);
             } catch (Throwable th) {
                 failSession(th, "onMessages");
             } finally {
-                control.confirmRangeProcessed(event.getRangeToCommit());
+                control.confirmProcessedRange(event.getRangeToCommit());
             }
         }
 
@@ -201,6 +207,24 @@ public class AsyncReaderImpl implements AsyncReader {
                 eventHandler.onPartitionSessionEnded(event);
             } catch (Throwable th) {
                 failSession(th, "onPartitionSessionEnded");
+            }
+        }
+    }
+
+    private class AsyncHandlerWithControl extends AsyncHandler {
+        private final ReaderHandler readerHandler;
+
+        AsyncHandlerWithControl(ReaderHandler readerHandler) {
+            this.readerHandler = readerHandler;
+        }
+
+        @Override
+        public void onData(DataReceivedEventImpl event) {
+            try {
+                config.getMetrics().reportDelivered(event.getMessages().size(), event.getPartitionSession().getPath());
+                readerHandler.onMessagesWithControl(event);
+            } catch (Throwable th) {
+                failSession(th, "onMessages");
             }
         }
     }

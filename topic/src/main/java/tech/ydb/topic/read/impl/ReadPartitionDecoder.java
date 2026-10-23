@@ -35,7 +35,6 @@ class ReadPartitionDecoder {
     private final ReaderMetrics metrics;
     private final Runnable readyHandler;
 
-    private final AtomicLong allocatedTotal = new AtomicLong(0);
     private final Queue<EncodedMessage> allocatedMessages = new ConcurrentLinkedQueue<>();
     private volatile boolean isStopped = false;
 
@@ -74,24 +73,13 @@ class ReadPartitionDecoder {
             }
 
             if (msg.getOffset() < range.getEnd()) {
-                released += msg.uncompressedSize;
+                released += msg.allocated.getAndSet(0);
                 it.remove();
             } else {
                 break;
             }
         }
-
-        while (true) {
-            long curr = allocatedTotal.get();
-            long free = Math.min(released, curr);
-            if (free <= 0) {
-                return;
-            }
-            if (allocatedTotal.compareAndSet(curr, curr - free)) {
-                decoder.free(free);
-                return;
-            }
-        }
+        decoder.free(released);
     }
 
     void close() {
@@ -100,7 +88,14 @@ class ReadPartitionDecoder {
     }
 
     private void release() {
-        decoder.free(allocatedTotal.getAndSet(0));
+        long released = 0;
+        Iterator<EncodedMessage> it = allocatedMessages.iterator();
+        while (it.hasNext()) {
+            EncodedMessage msg = it.next();
+            released += msg.allocated.getAndSet(0);
+            it.remove();
+        }
+        decoder.free(released);
     }
 
     private void notifyReady() {
@@ -133,6 +128,7 @@ class ReadPartitionDecoder {
     class EncodedMessage extends MessageImpl  {
         private final int codecCode;
         private final long uncompressedSize;
+        private final AtomicLong allocated = new AtomicLong(0);
         private ByteString origin;
         private byte[] data = null;
         private IOException problem = null;
@@ -178,7 +174,7 @@ class ReadPartitionDecoder {
                 return 0;
             }
 
-            allocatedTotal.addAndGet(uncompressedSize);
+            allocated.addAndGet(uncompressedSize);
             allocatedMessages.add(this);
             return uncompressedSize;
         }
