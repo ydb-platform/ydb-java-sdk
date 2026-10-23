@@ -2,6 +2,7 @@ package tech.ydb.core.impl.pool;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -106,6 +107,39 @@ public class PriorityPickerTest {
             Assert.assertEquals("DC1", localDC);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @Test
+    public void detectLocalDCWithUnreachableNodesTest() throws IOException {
+        int closedPort;
+
+        try (ServerSocket socket = ServerSocketFactory.getDefault().createServerSocket(0)) {
+            closedPort = socket.getLocalPort();
+        }
+
+        // every successful probe takes 10 nanos
+        Ticker ticker = new Ticker() {
+            private long now = 0;
+
+            @Override
+            public long read() {
+                now += 10;
+                return now;
+            }
+        };
+
+        try (ServerSocket serverSocket = ServerSocketFactory.getDefault().createServerSocket(0)) {
+            int openPort = serverSocket.getLocalPort();
+
+            List<EndpointRecord> records = Arrays.asList(
+                    new EndpointRecord("localhost", closedPort, 1, "DOWN", null),
+                    new EndpointRecord("localhost", closedPort, 2, "DOWN", null),
+                    new EndpointRecord("localhost", openPort, 3, "UP", null)
+            );
+
+            // failed probes of DOWN must not overflow into a negative, i.e. the best, ping
+            Assert.assertEquals("UP", PriorityPicker.detectLocalDC(records, ticker));
         }
     }
 }

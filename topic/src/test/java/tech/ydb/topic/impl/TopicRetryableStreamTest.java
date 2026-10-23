@@ -133,11 +133,10 @@ public class TopicRetryableStreamTest {
         Assert.assertTrue(retryable.close());
         Assert.assertTrue(retryable.isClosed());
 
-        h.complete(Status.SUCCESS);
-
         Mockito.verify(h.grpc).close();
         Mockito.verify(h.grpc, Mockito.never()).cancel();
 
+        h.complete(Status.SUCCESS);
         Assert.assertEquals(Arrays.asList(Status.SUCCESS), retryable.closeStatuses);
     }
 
@@ -165,6 +164,7 @@ public class TopicRetryableStreamTest {
 
         h.complete(Status.SUCCESS);
         Assert.assertEquals(Arrays.asList(Status.of(StatusCode.ABORTED)), retryable.closeStatuses);
+        Assert.assertTrue(retryable.retryStatuses.isEmpty());
     }
 
     @Test
@@ -186,21 +186,47 @@ public class TopicRetryableStreamTest {
         StreamHandle h1 = new StreamHandle();
         TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h1);
 
+        Assert.assertFalse(retryable.isClosed());
         retryable.start();
 
-        Assert.assertTrue(retryable.close());
-
-        Assert.assertFalse(retryable.close());
-
         Mockito.verify(h1.grpc).start(Mockito.any());
+
+        Assert.assertFalse(retryable.isClosed());
+        Assert.assertTrue(retryable.close());
+        Assert.assertTrue(retryable.isClosed());
+
         Mockito.verify(h1.grpc).close();
+
+        Assert.assertTrue(retryable.close()); // close is idempotent
+        Mockito.verify(h1.grpc).close();
+        h1.complete(Status.SUCCESS);
+
+        Assert.assertFalse(retryable.close()); // no effect
+        Mockito.verify(h1.grpc).close();
+        h1.complete(Status.SUCCESS);
     }
 
     @Test
     public void startAfterCloseTest() {
-        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler());
+        StreamHandle h = new StreamHandle();
+        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
+
+        Assert.assertFalse(retryable.isClosed());
         Assert.assertFalse(retryable.close());
+        Assert.assertTrue(retryable.isClosed());
+
+        Mockito.verify(h.grpc, Mockito.never()).start(Mockito.any());
+        Mockito.verify(h.grpc, Mockito.never()).close();
+
         retryable.start(); // nothing
+        Assert.assertFalse(retryable.close()); // nothing
+
+        retryable.send(EMPTY); // skipped
+
+        Mockito.verify(h.grpc, Mockito.never()).start(Mockito.any());
+        Mockito.verify(h.grpc, Mockito.never()).close();
+
+        Assert.assertTrue(retryable.isClosed());
     }
 
     @Test
@@ -308,16 +334,6 @@ public class TopicRetryableStreamTest {
     }
 
     @Test
-    public void closeBeforeStartIsNoOpTest() {
-        StreamHandle h = new StreamHandle();
-        TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
-
-        Assert.assertFalse(retryable.close()); // no stream yet, should not throw
-
-        Mockito.verify(h.grpc, Mockito.never()).close();
-    }
-
-    @Test
     public void noRetriesErrorStatusTest() {
         StreamHandle h = new StreamHandle();
         TestStream retryable = new TestStream(RetryConfig.noRetries(), mockScheduler(), h);
@@ -385,13 +401,13 @@ public class TopicRetryableStreamTest {
         Assert.assertFalse(retryable.close()); // no effect
 
         Mockito.verify(h1.grpc, Mockito.times(2)).sendNext(EMPTY); // init req + send
-        Mockito.verify(h1.grpc, Mockito.never()).close();  // stream was closed by error
+        Mockito.verify(h1.grpc, Mockito.never()).close();  // stream was already closed with error
 
         Mockito.verify(h2.grpc, Mockito.times(3)).sendNext(EMPTY); // init req + 2 * send
-        Mockito.verify(h2.grpc, Mockito.never()).close();  // stream was closed by error
+        Mockito.verify(h2.grpc, Mockito.never()).close();  // stream was already closed with error
 
         Mockito.verify(h3.grpc, Mockito.times(2)).sendNext(EMPTY); // init req + send
-        Mockito.verify(h3.grpc, Mockito.never()).close();  // stream was closed by error
+        Mockito.verify(h3.grpc, Mockito.never()).close();  // stream was already closed with error
 
         Assert.assertEquals(Arrays.asList(s1, s2), retryable.retryStatuses);
         Assert.assertEquals(Arrays.asList(s3), retryable.closeStatuses);

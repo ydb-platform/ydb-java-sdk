@@ -69,14 +69,14 @@ public class ReadPartition implements PartitionControl {
         this.partition = partition;
 
         ReadConfig config = session.getConfig();
-        MessageDecoder sessionDecoder = session.getDecoder();
 
         this.metrics = config.getMetrics();
         this.dataExecutor = new SerialExecutor(config.getDataExecutor());
         this.controlExecutor = config.getControlExecutor();
 
         this.committer = new ReadPartitionCommitter(traceID, session, this, lastCommittedOffset);
-        this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer, this::sendDataToReaders);
+        this.decoder = new ReadPartitionDecoder(traceID, session.getDecoder(), partition, committer,
+                this::sendDataToReaders, metrics);
         this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
 
         logger.info("[{}] started for {}", traceID, partition);
@@ -199,6 +199,7 @@ public class ReadPartition implements PartitionControl {
             return;
         }
 
+        metrics.removeSource(queue);
         session.getBufferManager().releasePartition(partition.getId());
         decoder.close();
         committer.close();
@@ -220,6 +221,7 @@ public class ReadPartition implements PartitionControl {
         logger.info("[{}] got StartPartitionSessionRequest with committed offset {} and partition offsets {}",
                 traceID, committed, offsets);
 
+        metrics.addSource(queue);
         committer.updateCommittedOffset(committed);
         queue.updateLastReadOffset(committed);
         // partition start event doesn't use partition's executors

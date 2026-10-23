@@ -35,6 +35,8 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
 
     private final List<RenameIndex> renameIndices = new ArrayList<>();
 
+    private final Map<String, String> alterAttributes = new HashMap<>();
+
     @Nullable
     private TableTtl ttl;
     @Nullable
@@ -198,6 +200,20 @@ public class AlterTableSettings extends RequestSettings<AlterTableSettings> {
             return null;
         }
         return new TtlSettings(ttl.getDateTimeColumn(), ttl.getExpireAfterSeconds());
+    }
+
+    public AlterTableSettings alterAttribute(String name, String value) {
+        alterAttributes.put(name, value);
+        return this;
+    }
+
+    public AlterTableSettings dropAttribute(String name) {
+        alterAttributes.put(name, "");
+        return this;
+    }
+
+    public Map<String, String> getAlterAttributes() {
+        return alterAttributes;
     }
 
     @Nullable

@@ -53,8 +53,8 @@ public class SyncReaderImplTest {
 
     @Test
     public void initAndShutdownTest() throws InterruptedException {
-        ReadStreamMock m1 = new ReadStreamMock();
-        ReadStreamMock m2 = new ReadStreamMock();
+        ReadStreamMock m1 = new ReadStreamMock(true);
+        ReadStreamMock m2 = new ReadStreamMock(true);
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
@@ -99,7 +99,7 @@ public class SyncReaderImplTest {
 
     @Test
     public void shutdownBeforeInitTest() throws InterruptedException {
-        ReadStreamMock mock = new ReadStreamMock();
+        ReadStreamMock mock = new ReadStreamMock(true);
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
@@ -125,7 +125,7 @@ public class SyncReaderImplTest {
 
     @Test
     public void shutdownWithoutInitTest() throws InterruptedException {
-        ReadStreamMock mock = new ReadStreamMock();
+        ReadStreamMock mock = new ReadStreamMock(true);
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
@@ -148,7 +148,7 @@ public class SyncReaderImplTest {
 
     @Test
     public void readClosedPartitionTest() throws InterruptedException {
-        ReadStreamMock mock = new ReadStreamMock();
+        ReadStreamMock mock = new ReadStreamMock(true);
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
@@ -199,7 +199,7 @@ public class SyncReaderImplTest {
     @Test
     @HideLoggers({ BufferManager.class, ReadPartition.class })
     public void invalidBatchesTest() throws InterruptedException {
-        ReadStreamMock mock = new ReadStreamMock();
+        ReadStreamMock mock = new ReadStreamMock(true);
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())
@@ -236,8 +236,8 @@ public class SyncReaderImplTest {
     public void retrySkipsReadMessagesTest() throws InterruptedException {
         ErrorsHandler errorsHandler = new ErrorsHandler();
 
-        ReadStreamMock m1 = new ReadStreamMock();
-        ReadStreamMock m2 = new ReadStreamMock();
+        ReadStreamMock m1 = new ReadStreamMock(true);
+        ReadStreamMock m2 = new ReadStreamMock(true);
 
         ReaderSettings settings = ReaderSettings.newBuilder()
                 .addTopic(TopicReadSettings.newBuilder().setPath("/test-topic").build())

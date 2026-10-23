@@ -68,6 +68,7 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
 
     @Override
     protected void onRetry(ReadSession stream, Status status) {
+        config.getMetrics().reportSessionError(status, true);
         logger.warn("[{}] stopped by status {}", debugId, status);
         currentSessionId = null;
         if (errorHandler != null) {
@@ -77,15 +78,14 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
                 logger.error("[{}] errorHandler onRetry processing throws exception", debugId, ex);
             }
         }
-        if (stream != null) {
-            stream.closeAll();
-        }
+        config.getMetrics().unregister();
     }
 
     @Override
     protected void onClose(ReadSession stream, Status status) {
         currentSessionId = null;
         if (!status.isSuccess()) {
+            config.getMetrics().reportSessionError(status, false);
             logger.warn("[{}] closed by status {}", debugId, status);
         } else {
             logger.info("[{}] closed by status {}", debugId, status);
@@ -97,9 +97,7 @@ public abstract class ReaderImpl extends TopicRetryableStream<FromServer, FromCl
                 logger.error("[{}] errorHandler onClose processing throws exception", debugId, ex);
             }
         }
-        if (stream != null) {
-            stream.closeAll();
-        }
+        config.getMetrics().unregister();
         onReaderClosed(status);
     }
 
