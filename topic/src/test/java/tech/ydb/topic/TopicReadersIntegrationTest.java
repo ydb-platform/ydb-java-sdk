@@ -733,13 +733,13 @@ public class TopicReadersIntegrationTest {
             ReadEventHandler handler2 = new ReadEventHandler() {
                 @Override
                 public void onStartPartitionSession(StartPartitionSessionEvent event) {
-                    events.add(event);
                     partitions2.countDown();
+                    event.confirm();
                 }
 
                 @Override
                 public void onMessages(DataReceivedEvent event) {
-                int pid = (int) event.getPartitionSession().getPartitionId();
+                    int pid = (int) event.getPartitionSession().getPartitionId();
                     for (Message msg : event.getMessages()) {
                         Assert.assertEquals(offsets[pid].getAndIncrement(), msg.getOffset());
                         read[pid].countDown();
