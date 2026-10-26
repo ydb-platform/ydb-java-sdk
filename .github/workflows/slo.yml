@@ -67,7 +67,7 @@ jobs:
           docker compose version
 
       - name: Checkout current SDK version
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           path: sdk-current
           fetch-depth: 0
@@ -94,14 +94,14 @@ jobs:
           echo "ref=${BASELINE_REF}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout baseline SDK version
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           ref: ${{ steps.baseline.outputs.sha }}
           path: sdk-baseline
           fetch-depth: 1
 
       - name: Checkout ydb-java-examples
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           repository: ydb-platform/ydb-java-examples
           ref: master
