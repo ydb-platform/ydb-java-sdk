@@ -1,3 +1,6 @@
+## 2.4.12 ##
+* Table: added support of JSON indexes to table descriptions
+
 ## 2.4.11 ##
 * Table: fixed StackOverflow problem for the immediately released sessions
 
