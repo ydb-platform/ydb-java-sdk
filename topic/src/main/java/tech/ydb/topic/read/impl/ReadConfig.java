@@ -2,7 +2,6 @@ package tech.ydb.topic.read.impl;
 
 import java.util.concurrent.Executor;
 
-import tech.ydb.core.metrics.Attr;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.settings.ReaderSettings;
 
@@ -22,11 +21,11 @@ public class ReadConfig {
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
             ReaderSettings settings) {
-        this(codecRegistry, control, processor, decompressor, settings, new Attr[0]);
+        this(codecRegistry, control, processor, decompressor, settings, "", "");
     }
 
     public ReadConfig(CodecRegistry codecRegistry, Executor control, Executor processor, Executor decompressor,
-            ReaderSettings settings, Attr... attributes) {
+            ReaderSettings settings, String endpoint, String database) {
         this.codecRegistry = codecRegistry;
         this.control = control;
         this.processor = processor;
@@ -35,7 +34,7 @@ public class ReadConfig {
         this.maxMemoryUsageBytes = settings.getMaxMemoryUsageBytes();
         this.maxBatchSize = settings.getMaxBatchSize();
         this.metrics = new ReaderMetrics(settings.getMeter(), settings.getConsumerName(), settings.getReaderName(),
-                attributes);
+                endpoint, database);
     }
 
     public CodecRegistry getCodecRegistry() {

@@ -19,7 +19,6 @@ import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.impl.Observability;
-import tech.ydb.core.metrics.Attr;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.DebugTools;
@@ -60,7 +59,7 @@ public class WriterImpl {
             Executor compressionExecutor, @Nonnull CodecRegistry codecRegistry) {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
         this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName(),
-                topicRpc.getMetricAttributes().toArray(new Attr[0]));
+                topicRpc.getEndpoint(), topicRpc.getDatabase());
         this.stream = new WriteSession(debugId, factory, settings, topicRpc.getScheduler(), new ListenerImpl());
         this.writeQueue = new WriterQueue(debugId, settings, metrics, codecRegistry, compressionExecutor, sendTask);
         Observability.reportMetricsUsage(settings.getMeter());

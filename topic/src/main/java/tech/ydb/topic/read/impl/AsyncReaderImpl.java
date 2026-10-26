@@ -14,7 +14,6 @@ import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.metrics.Attr;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.impl.DebugTools;
@@ -62,7 +61,7 @@ public class AsyncReaderImpl implements AsyncReader {
         this.controlEventsExecutor = new SerialExecutor(processor);
 
         this.config = new ReadConfig(codecRegistry, controlEventsExecutor, processor, decompressor, settings,
-                topicRpc.getMetricAttributes().toArray(new Attr[0]));
+                topicRpc.getEndpoint(), topicRpc.getDatabase());
         this.impl = new Impl(topicRpc, debugId, settings, config);
 
         String readerName = settings.getReaderName();

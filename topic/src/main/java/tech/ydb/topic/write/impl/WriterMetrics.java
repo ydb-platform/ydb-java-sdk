@@ -33,7 +33,11 @@ final class WriterMetrics {
     private MetricRegistration bufferLimitGauge = MetricRegistration.NOOP;
     private MetricRegistration oldestAgeGauge = MetricRegistration.NOOP;
 
-    WriterMetrics(Meter meter, String topic, String writerName, Attr... attributes) {
+    WriterMetrics(Meter meter, String topic, String writerName) {
+        this(meter, topic, writerName, "", "");
+    }
+
+    WriterMetrics(Meter meter, String topic, String writerName, String endpoint, String database) {
         this.meter = meter;
         this.enabled = meter != Meter.NOOP;
         this.sendingMessages = meter.createCounter("ydb.topic.writer.sending.messages", MESSAGE_UNIT,
@@ -52,11 +56,10 @@ final class WriterMetrics {
                 "The time spent compressing a message, excluding queueing.");
         this.processingDuration = meter.createHistogram("ydb.topic.writer.message.processing.duration", "s",
                 "The time from buffer acceptance until a message is ready for sending.");
-        this.commonAttributes = Arrays.copyOf(attributes, attributes.length + (writerName == null ? 0 : 2));
-        if (writerName != null) {
-            commonAttributes[attributes.length] = Attr.of("topic", topic);
-            commonAttributes[attributes.length + 1] = Attr.of("writer.name", writerName);
-        }
+        this.commonAttributes = !enabled ? new Attr[0] : writerName == null
+                ? new Attr[]{Attr.of("endpoint", endpoint), Attr.of("database", database)}
+                : new Attr[]{Attr.of("endpoint", endpoint), Attr.of("database", database),
+                    Attr.of("topic", topic), Attr.of("writer.name", writerName)};
     }
 
     void register(LongSupplier bufferUsed, LongSupplier bufferLimit, LongSupplier oldestTimestamp) {

@@ -46,7 +46,11 @@ final class ReaderMetrics {
     private MetricRegistration bufferMessagesGauge = MetricRegistration.NOOP;
     private MetricRegistration ageGauge = MetricRegistration.NOOP;
 
-    ReaderMetrics(Meter meter, String consumer, String readerName, Attr... attributes) {
+    ReaderMetrics(Meter meter, String consumer, String readerName) {
+        this(meter, consumer, readerName, "", "");
+    }
+
+    ReaderMetrics(Meter meter, String consumer, String readerName, String endpoint, String database) {
         this.meter = meter;
         this.enabled = meter != Meter.NOOP;
         this.deliveredMessages = meter.createCounter(
@@ -67,9 +71,8 @@ final class ReaderMetrics {
                 "The time spent decompressing a message, excluding queueing.");
         this.processingDuration = meter.createHistogram("ydb.topic.reader.message.processing.duration", "s",
                 "The time from receipt until a message is ready for delivery.");
-        Attr[] readerAttributes = createCommonAttributes(consumer, readerName);
-        this.commonAttributes = Arrays.copyOf(attributes, attributes.length + readerAttributes.length);
-        System.arraycopy(readerAttributes, 0, commonAttributes, attributes.length, readerAttributes.length);
+        this.commonAttributes = enabled
+                ? createCommonAttributes(consumer, readerName, endpoint, database) : new Attr[0];
     }
 
     void addSource(Source source) {
@@ -230,15 +233,20 @@ final class ReaderMetrics {
         }
     }
 
-    private static Attr[] createCommonAttributes(String consumer, String readerName) {
+    private static Attr[] createCommonAttributes(String consumer, String readerName, String endpoint, String database) {
+        Attr endpointAttr = Attr.of("endpoint", endpoint);
+        Attr databaseAttr = Attr.of("database", database);
         boolean hasReaderName = readerName != null && !readerName.isEmpty();
         if (consumer == null) {
-            return hasReaderName ? new Attr[]{Attr.of("reader.name", readerName)} : new Attr[0];
+            return hasReaderName
+                    ? new Attr[]{endpointAttr, databaseAttr, Attr.of("reader.name", readerName)}
+                    : new Attr[]{endpointAttr, databaseAttr};
         }
         if (!hasReaderName) {
-            return new Attr[]{Attr.of("consumer", consumer)};
+            return new Attr[]{endpointAttr, databaseAttr, Attr.of("consumer", consumer)};
         }
-        return new Attr[]{Attr.of("consumer", consumer), Attr.of("reader.name", readerName)};
+        return new Attr[]{
+            endpointAttr, databaseAttr, Attr.of("consumer", consumer), Attr.of("reader.name", readerName)};
     }
 
     private static class CommitOffsets {

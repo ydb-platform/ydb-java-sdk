@@ -1,7 +1,5 @@
 package tech.ydb.topic;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -9,7 +7,6 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
-import tech.ydb.core.metrics.Attr;
 import tech.ydb.proto.topic.YdbTopic.AlterTopicRequest;
 import tech.ydb.proto.topic.YdbTopic.CommitOffsetRequest;
 import tech.ydb.proto.topic.YdbTopic.CreateTopicRequest;
@@ -99,7 +96,11 @@ public interface TopicRpc {
 
     ScheduledExecutorService getScheduler();
 
-    default List<Attr> getMetricAttributes() {
-        return Collections.emptyList();
+    default String getEndpoint() {
+        return "";
+    }
+
+    default String getDatabase() {
+        return "";
     }
 }
