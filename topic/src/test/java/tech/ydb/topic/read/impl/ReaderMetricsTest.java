@@ -1,168 +1,227 @@
 package tech.ydb.topic.read.impl;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.Consumer;
 
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.core.metrics.Attr;
-import tech.ydb.core.metrics.LongCounter;
-import tech.ydb.core.metrics.LongMeasurement;
-import tech.ydb.core.metrics.Meter;
-import tech.ydb.core.metrics.MetricRegistration;
 import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.TopicClientImpl;
+import tech.ydb.topic.read.DecompressionException;
+import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.ReaderSettings;
-import tech.ydb.topic.settings.TopicReadSettings;
+import tech.ydb.topic.utils.InMemoryMeter;
+
+import static tech.ydb.topic.utils.InMemoryMeter.attributes;
 
 public class ReaderMetricsTest {
-
-    private static final byte[] MSG1 = new byte[] { 1 };
-    private static final byte[] MSG2 = new byte[] { 2 };
-    private static final byte[] MSG3 = new byte[] { 3 };
-
-    @Test
-    public void readerCountersIncrementOnReceive() throws InterruptedException {
-        String delivered = "ydb.topic.reader.delivered.messages";
-        String receivedMessages = "ydb.topic.reader.received.messages";
-        String receivedBytes = "ydb.topic.reader.received.bytes";
-        RecordingMeter meter = new RecordingMeter();
-        ReadStreamMock stream = new ReadStreamMock(true);
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.any(String.class))).thenReturn(stream);
-
-        TopicClient client = TopicClientImpl.newClient(rpc).build();
-        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic(TopicReadSettings.newBuilder().setPath("/topic").build())
-                .setConsumerName("consumer")
-                .withMeter(meter, "reader")
-                .build());
-
-        try {
-            reader.init();
-            stream.assertLastMessage().isInitRequest("consumer", "/topic").hasReaderName("reader");
-            stream.responseInit("read-session");
-            stream.responseStartPartition("/topic", 42, 0);
-            stream.responseData(25).partition(1, 0)
-                    .batch(Codec.RAW, MSG1, MSG2)
-                    .and().send();
-            Assert.assertEquals(2, meter.value(receivedMessages));
-            Assert.assertEquals(25, meter.value(receivedBytes));
-
-            stream.responseData(30).partition(1, 2)
-                    .batch(Codec.RAW, MSG1, MSG2, MSG3)
-                    .and().send();
-            Assert.assertEquals(5, meter.value(receivedMessages));
-            Assert.assertEquals(55, meter.value(receivedBytes));
-
-            Assert.assertEquals(0, meter.value(delivered));
-            meter.assertAttribute(receivedMessages, "topic", "/topic");
-            meter.assertAttribute(receivedMessages, "reader.name", "reader");
-
-            reader.receive();
-            reader.receive();
-            Assert.assertEquals(2, meter.value(delivered));
-        } finally {
-            reader.shutdown();
-            client.close();
-        }
-    }
+    private static final String PREFIX = "ydb.topic.reader.";
+    private static final byte[] MSG1 = new byte[] { 1, 2 };
+    private static final byte[] MSG2 = new byte[] { 3, 4, 5 };
+    private static final Map<String, String> COMMON = attributes("consumer", "consumer", "reader.name", "reader");
+    private static final Map<String, String> TOPIC = attributes(
+            "consumer", "consumer", "reader.name", "reader", "topic", "/topic");
+    private static final Map<String, String> OTHER = attributes(
+            "consumer", "consumer", "reader.name", "reader", "topic", "/other-topic");
+    private final InMemoryMeter meter = new InMemoryMeter();
 
     @Test
-    public void gaugesObservePartitionSessionsAndProtocolCredit() throws InterruptedException {
-        String partitions = "ydb.topic.reader.partition_session.count";
-        String credit = "ydb.topic.reader.credit_balance_bytes";
-        RecordingMeter meter = new RecordingMeter();
+    public void readAndCommitMetrics() throws Exception {
         ReadStreamMock stream = new ReadStreamMock(true);
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(stream);
-        TopicClient client = TopicClientImpl.newClient(rpc).build();
-        SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                .addTopic("/topic").setConsumerName("consumer")
-                .setMaxMemoryUsageBytes(100).withMeter(meter, "reader").build());
-        try {
-            Assert.assertTrue(meter.gauges.isEmpty());
-            reader.init();
-            Assert.assertTrue(meter.gauges.isEmpty());
-            stream.responseInit("session");
-            Assert.assertEquals(0, meter.collect(partitions));
-            Assert.assertEquals(100, meter.collect(credit));
-            stream.responseStartPartition("/topic", 42, 0);
-            Assert.assertEquals(1, meter.collect(partitions));
-            Assert.assertEquals(100, meter.collect(credit));
-            stream.responseData(20).partition(1, 0).batch(Codec.RAW, MSG1, MSG2).and().send();
-            Assert.assertEquals(80, meter.collect(credit));
-            Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
-            Assert.assertEquals(80, meter.collect(credit));
-            Assert.assertNotNull(reader.receive(1, TimeUnit.SECONDS));
-            Assert.assertEquals(100, meter.collect(credit));
-            stream.closeStream(Status.of(StatusCode.OVERLOADED));
-            Assert.assertTrue(meter.gauges.isEmpty());
-        } finally {
-            reader.shutdown();
-            client.close();
-        }
-        Assert.assertTrue(meter.gauges.isEmpty());
-    }
-
-    private static class RecordingMeter implements Meter {
-        private final Map<String, AtomicLong> counters = new ConcurrentHashMap<>();
-        private final Map<String, Attr[]> attributes = new ConcurrentHashMap<>();
-        private final Map<String, List<Consumer<LongMeasurement>>> gauges = new ConcurrentHashMap<>();
-
-        @Override
-        public MetricRegistration registerLongGauge(
-                String name, String unit, String description, Consumer<LongMeasurement> callback) {
-            List<Consumer<LongMeasurement>> callbacks = gauges.computeIfAbsent(name, key -> new ArrayList<>());
-            callbacks.add(callback);
-            return () -> {
-                callbacks.remove(callback);
-                if (callbacks.isEmpty()) {
-                    gauges.remove(name, callbacks);
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
+            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
+                    .addTopic("/topic").addTopic("/other-topic").setConsumerName("consumer")
+                    .setMaxMemoryUsageBytes(100).setDecompressionExecutor(Runnable::run)
+                    .withMeter(meter, "reader").build());
+            try {
+                reader.init();
+                stream.assertLastMessage().isInitRequest("consumer", "/topic", "/other-topic").hasReaderName("reader");
+                stream.responseInit("read-session");
+                stream.responseStartPartition("/topic", 42, 0);
+                stream.responseStartPartition("/other-topic", 43, 0);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 2, COMMON);
+                meter.assertLongGauge(PREFIX + "credit_balance_bytes", 100, COMMON);
+                stream.responseData(12).partition(1, 0).batch(Codec.GZIP, MSG1, MSG2).and().send();
+                meter.assertCounter(PREFIX + "received.messages", 2, TOPIC);
+                meter.assertLongGauge(PREFIX + "credit_balance_bytes", 88, COMMON);
+                stream.responseData(8).partition(2, 0).batch(Codec.GZIP, MSG1).and().send();
+                meter.assertCounter(PREFIX + "received.messages", 2, TOPIC);
+                meter.assertCounter(PREFIX + "received.messages", 1, OTHER);
+                meter.assertCounter(PREFIX + "received.bytes", 20, COMMON);
+                meter.assertLongGauge(PREFIX + "credit_balance_bytes", 80, COMMON);
+                meter.assertCounter(PREFIX + "delivered.messages", 0, TOPIC);
+                meter.assertCounter(PREFIX + "delivered.messages", 0, OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 3, COMMON);
+                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
+                Message first = reader.receive(0, TimeUnit.SECONDS);
+                Message second = reader.receive(0, TimeUnit.SECONDS);
+                Message third = reader.receive(0, TimeUnit.SECONDS);
+                Assert.assertNotNull(first);
+                Assert.assertNotNull(second);
+                Assert.assertNotNull(third);
+                Assert.assertArrayEquals(MSG1, first.getData());
+                Assert.assertArrayEquals(MSG2, second.getData());
+                Assert.assertArrayEquals(MSG1, third.getData());
+                meter.assertCounter(PREFIX + "delivered.messages", 2, TOPIC);
+                meter.assertCounter(PREFIX + "delivered.messages", 1, OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, COMMON);
+                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
+                // The final 8 released bytes stay below the 10-byte credit-request threshold.
+                meter.assertLongGauge(PREFIX + "credit_balance_bytes", 92, COMMON);
+                CompletableFuture<Void> committed = CompletableFuture.allOf(
+                        first.commit(), second.commit(), third.commit());
+                Assert.assertFalse(committed.isDone());
+                meter.assertCounter(PREFIX + "commit.queued", 2, TOPIC);
+                meter.assertCounter(PREFIX + "commit.queued", 1, OTHER);
+                meter.assertNoCounterSamples(PREFIX + "commit.acknowledged");
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 2, COMMON);
+                stream.responseCommitAck().partition(1, 2).partition(2, 1).send();
+                committed.get(1, TimeUnit.SECONDS);
+                meter.assertCounter(PREFIX + "commit.acknowledged", 2, TOPIC);
+                meter.assertCounter(PREFIX + "commit.acknowledged", 1, OTHER);
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, COMMON);
+                for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
+                    meter.assertHistogram(PREFIX + name, "s", 2, attributes("consumer", "consumer",
+                            "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "ok"));
+                    meter.assertHistogram(PREFIX + name, "s", 1, attributes("consumer", "consumer",
+                            "reader.name", "reader", "topic", "/other-topic", "codec", "gzip", "outcome", "ok"));
                 }
-            };
+                meter.assertUnit(PREFIX + "received.bytes", "By");
+                stream.responseStopPartition(1, true);
+                stream.responseStopPartition(2, true);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 0, COMMON);
+            } finally {
+                reader.shutdown();
+            }
         }
+        meter.assertNoCounterSamples(PREFIX + "session.errors");
+        meter.assertNoGauges();
+    }
 
-        long collect(String name) {
-            Long[] value = new Long[1];
-            Assert.assertEquals(1, gauges.get(name).size());
-            gauges.get(name).get(0).accept((observed, attrs) -> value[0] = observed);
-            return value[0];
+    @Test
+    public void readWithoutConsumerMetrics() throws Exception {
+        ReadStreamMock stream = new ReadStreamMock(true);
+        Map<String, String> common = attributes("reader.name", "without-consumer");
+        Map<String, String> topic = attributes("reader.name", "without-consumer", "topic", "/topic");
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
+            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic("/topic")
+                    .withoutConsumer().setDecompressionExecutor(Runnable::run)
+                    .withMeter(meter, "without-consumer").build());
+            try {
+                reader.init();
+                stream.assertLastMessage().isInitRequest(null, "/topic").hasReaderName("without-consumer");
+                stream.responseInit("without-consumer-session");
+                stream.responseStartPartition("/topic", 42, 0);
+                stream.responseData(8).partition(1, 0).batch(Codec.GZIP, MSG1).and().send();
+                meter.assertCounter(PREFIX + "received.messages", 1, topic);
+                meter.assertCounter(PREFIX + "received.bytes", 8, common);
+                Message message = reader.receive(0, TimeUnit.SECONDS);
+                Assert.assertNotNull(message);
+                Assert.assertArrayEquals(MSG1, message.getData());
+                meter.assertCounter(PREFIX + "delivered.messages", 1, topic);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 1, common);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, common);
+                for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
+                    meter.assertHistogram(PREFIX + name, "s", 1, attributes("reader.name", "without-consumer",
+                            "topic", "/topic", "codec", "gzip", "outcome", "ok"));
+                }
+            } finally {
+                reader.shutdown();
+            }
         }
+        meter.assertNoCounterSamples(PREFIX + "session.errors");
+        meter.assertNoGauges();
+    }
 
-        @Override
-        public LongCounter createCounter(String name, String unit, String description) {
-            AtomicLong counter = counters.computeIfAbsent(name, key -> new AtomicLong());
-            return (value, attrs) -> {
-                counter.addAndGet(value);
-                attributes.put(name, attrs);
-            };
+    @Test
+    public void sessionErrorsFollowRetriesAndStop() throws Exception {
+        ReadStreamMock first = new ReadStreamMock(true);
+        ReadStreamMock second = new ReadStreamMock(true);
+        ReadStreamMock third = new ReadStreamMock(true);
+        RetryConfig retries = status -> (number, elapsed) -> number < 2 ? 0 : -1;
+        Map<String, String> retry = attributes("consumer", "consumer", "reader.name", "reader",
+                "retry_decision", "retry", "status_code", "TRANSPORT_UNAVAILABLE", "error.type", "transport_error");
+        Map<String, String> stop = attributes("consumer", "consumer", "reader.name", "reader",
+                "retry_decision", "stop", "status_code", "TRANSPORT_UNAVAILABLE", "error.type", "transport_error");
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(first, second, third)).build()) {
+            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic("/topic")
+                    .setConsumerName("consumer").setRetryConfig(retries).withMeter(meter, "reader").build());
+            try {
+                reader.init();
+                first.responseInit("first-session");
+                first.closeStream(Status.of(StatusCode.TRANSPORT_UNAVAILABLE));
+                second.closeStream(Status.of(StatusCode.TRANSPORT_UNAVAILABLE));
+                third.assertLastMessage().isInitRequest("consumer", "/topic");
+                meter.assertCounter(PREFIX + "session.errors", 2, retry);
+                meter.assertCounter(PREFIX + "session.errors", 0, stop);
+                third.closeStream(Status.of(StatusCode.TRANSPORT_UNAVAILABLE));
+            } finally {
+                reader.shutdown();
+            }
         }
+        meter.assertCounter(PREFIX + "session.errors", 2, retry);
+        meter.assertCounter(PREFIX + "session.errors", 1, stop);
+        meter.assertCounterSeries(PREFIX + "session.errors", 2);
+        meter.assertNoGauges();
+    }
 
-        long value(String name) {
-            AtomicLong counter = counters.get(name);
-            return counter == null ? 0 : counter.get();
+    @Test
+    public void decompressionFailureMetrics() throws Exception {
+        ReadStreamMock stream = new ReadStreamMock(true);
+        IOException problem = new IOException("decode failure");
+        Codec codec = Mockito.mock(Codec.class, Mockito.CALLS_REAL_METHODS);
+        Mockito.when(codec.getId()).thenReturn(Codec.GZIP);
+        Mockito.doThrow(problem).when(codec).decode(Mockito.any(InputStream.class));
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).registerCodec(codec).build()) {
+            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic("/topic")
+                    .setConsumerName("consumer").setDecompressionExecutor(Runnable::run)
+                    .withMeter(meter, "reader").build());
+            try {
+                reader.init();
+                stream.responseInit("decode-failure-session");
+                stream.responseStartPartition("/topic", 42, 0);
+                stream.responseData(20).partition(1, 0).batch(Codec.GZIP, MSG1, MSG2).and().send();
+                for (int i = 0; i < 2; i++) {
+                    Message message = reader.receive(0, TimeUnit.SECONDS);
+                    Assert.assertNotNull(message);
+                    DecompressionException error = Assert.assertThrows(DecompressionException.class, message::getData);
+                    Assert.assertSame(problem, error.getCause());
+                }
+                meter.assertCounter(PREFIX + "received.messages", 2, TOPIC);
+                meter.assertCounter(PREFIX + "delivered.messages", 2, TOPIC);
+                meter.assertNoCounterSamples(PREFIX + "commit.acknowledged");
+                for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
+                    meter.assertHistogram(PREFIX + name, "s", 2, attributes("consumer", "consumer",
+                            "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "error",
+                            "error.type", "java.io.IOException"));
+                    meter.assertHistogram(PREFIX + name, "s", 0, attributes("consumer", "consumer",
+                            "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "ok"));
+                }
+            } finally {
+                reader.shutdown();
+            }
         }
+        meter.assertNoCounterSamples(PREFIX + "session.errors");
+        meter.assertNoGauges();
+    }
 
-        void assertAttribute(String name, String key, String value) {
-            Assert.assertTrue(Arrays.stream(attributes.get(name))
-                    .anyMatch(attr -> attr.getKey().equals(key) && attr.getValue().equals(value)));
-        }
+    private static TopicRpc mockRpc(ReadStreamMock first, ReadStreamMock... rest) {
+        TopicRpc rpc = Mockito.mock(TopicRpc.class);
+        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
+        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(first, rest);
+        return rpc;
     }
 }
