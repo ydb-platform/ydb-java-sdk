@@ -1,5 +1,7 @@
 package tech.ydb.topic.read.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -17,6 +19,7 @@ import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.TopicClientImpl;
+import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.ReaderSettings;
@@ -172,6 +175,46 @@ public class ReaderMetricsTest {
         meter.assertCounter(PREFIX + "session.errors", 2, retry);
         meter.assertCounter(PREFIX + "session.errors", 1, stop);
         meter.assertCounterSeries(PREFIX + "session.errors", 2);
+        meter.assertNoGauges();
+    }
+
+    @Test
+    public void decompressionFailureMetrics() throws Exception {
+        ReadStreamMock stream = new ReadStreamMock(true);
+        IOException problem = new IOException("decode failure");
+        Codec codec = Mockito.mock(Codec.class, Mockito.CALLS_REAL_METHODS);
+        Mockito.when(codec.getId()).thenReturn(Codec.GZIP);
+        Mockito.doThrow(problem).when(codec).decode(Mockito.any(InputStream.class));
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).registerCodec(codec).build()) {
+            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic("/topic")
+                    .setConsumerName("consumer").setDecompressionExecutor(Runnable::run)
+                    .withMeter(meter, "reader").build());
+            try {
+                reader.init();
+                stream.responseInit("decode-failure-session");
+                stream.responseStartPartition("/topic", 42, 0);
+                stream.responseData(20).partition(1, 0).batch(Codec.GZIP, MSG1, MSG2).and().send();
+                for (int i = 0; i < 2; i++) {
+                    Message message = reader.receive(0, TimeUnit.SECONDS);
+                    Assert.assertNotNull(message);
+                    DecompressionException error = Assert.assertThrows(DecompressionException.class, message::getData);
+                    Assert.assertSame(problem, error.getCause());
+                }
+                meter.assertCounter(PREFIX + "received.messages", 2, TOPIC);
+                meter.assertCounter(PREFIX + "delivered.messages", 2, TOPIC);
+                meter.assertNoCounterSamples(PREFIX + "commit.acknowledged");
+                for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
+                    meter.assertHistogram(PREFIX + name, "s", 2, attributes("consumer", "consumer",
+                            "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "error",
+                            "error.type", "java.io.IOException"));
+                    meter.assertHistogram(PREFIX + name, "s", 0, attributes("consumer", "consumer",
+                            "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "ok"));
+                }
+            } finally {
+                reader.shutdown();
+            }
+        }
+        meter.assertNoCounterSamples(PREFIX + "session.errors");
         meter.assertNoGauges();
     }
 

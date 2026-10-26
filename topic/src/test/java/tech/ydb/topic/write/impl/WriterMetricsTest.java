@@ -1,8 +1,11 @@
 package tech.ydb.topic.write.impl;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
@@ -22,6 +25,7 @@ import tech.ydb.topic.utils.InMemoryMeter;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.write.WriteAck;
 
 import static tech.ydb.topic.utils.InMemoryMeter.attributes;
 
@@ -145,6 +149,48 @@ public class WriterMetricsTest {
         meter.assertCounter(PREFIX + "session.errors", 2, retry);
         meter.assertCounter(PREFIX + "session.errors", 1, stop);
         meter.assertCounterSeries(PREFIX + "session.errors", 2);
+        meter.assertNoGauges();
+    }
+
+    @Test
+    public void compressionFailureMetrics() throws Exception {
+        WriteStreamMock stream = new WriteStreamMock();
+        IOException problem = new IOException("encode failure");
+        Codec codec = Mockito.mock(Codec.class, Mockito.CALLS_REAL_METHODS);
+        Mockito.when(codec.getId()).thenReturn(Codec.GZIP);
+        Mockito.doThrow(problem).when(codec).encode(Mockito.any(OutputStream.class));
+        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).registerCodec(codec)
+                .setCompressionExecutor(Runnable::run).build()) {
+            AsyncWriter writer = client.createAsyncWriter(WriterSettings.newBuilder().setTopicPath("/test/topic")
+                    .setCodec(Codec.GZIP).withMeter(meter, "writer").build());
+            try {
+                writer.init();
+                stream.sendInitResponse(0);
+                CompletableFuture<WriteAck> first = writer.send(Message.of(new byte[]{1, 2}));
+                CompletableFuture<WriteAck> second = writer.send(Message.of(new byte[]{3, 4, 5}));
+                Assert.assertSame(problem, Assert.assertThrows(ExecutionException.class,
+                        () -> first.get(1, TimeUnit.SECONDS)).getCause());
+                Assert.assertSame(problem, Assert.assertThrows(ExecutionException.class,
+                        () -> second.get(1, TimeUnit.SECONDS)).getCause());
+                meter.assertCounter(PREFIX + "sending.messages", 2, COMMON);
+                meter.assertCounter(PREFIX + "sending.bytes", 5, COMMON);
+                meter.assertNoCounterSamples(PREFIX + "written.messages");
+                meter.assertNoHistogramSamples(PREFIX + "message.ack.duration");
+                meter.assertLongGauge(PREFIX + "buffer.used.bytes", 0, COMMON);
+                for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
+                    meter.assertHistogram(PREFIX + name, "s", 2, attributes("topic", "/test/topic",
+                            "writer.name", "writer", "codec", "gzip", "outcome", "error",
+                            "error.type", "java.io.IOException"));
+                    meter.assertHistogram(PREFIX + name, "s", 0, attributes("topic", "/test/topic",
+                            "writer.name", "writer", "codec", "gzip", "outcome", "ok"));
+                }
+            } finally {
+                CompletableFuture<Void> closed = writer.shutdown();
+                stream.close(Status.SUCCESS);
+                closed.get(1, TimeUnit.SECONDS);
+            }
+        }
+        meter.assertNoCounterSamples(PREFIX + "session.errors");
         meter.assertNoGauges();
     }
 
