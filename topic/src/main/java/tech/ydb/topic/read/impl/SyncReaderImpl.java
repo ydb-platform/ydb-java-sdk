@@ -225,13 +225,15 @@ public class SyncReaderImpl implements SyncReader {
             SyncReaderImpl.this.sessionId = sessionId;
             config.getMetrics().addSource(new ReaderMetrics.Source() {
                 @Override
-                public long getMessagesCount() {
-                    return queue.size();
+                public long getMessagesCount(String topic) {
+                    return queue.stream()
+                            .filter(message -> topic.equals(message.msg.getPartitionSession().getPath())).count();
                 }
 
                 @Override
-                public long getOldestReceivedTimestamp() {
+                public long getOldestReceivedTimestamp(String topic) {
                     return queue.stream().filter(MessageWrapper::isActive)
+                            .filter(message -> topic.equals(message.msg.getPartitionSession().getPath()))
                             .mapToLong(message -> ((MessageImpl) message.msg).getReceivedAt()).min().orElse(0);
                 }
             });

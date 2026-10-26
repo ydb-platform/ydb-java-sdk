@@ -77,7 +77,8 @@ public class ReadPartition implements ReadSession.PartitionControl {
         this.committer = new ReadPartitionCommitter(traceID, session, partition, lastCommittedOffset);
         this.decoder = new ReadPartitionDecoder(traceID, sessionDecoder, partition, committer,
                 this::sendDataToReaders, metrics);
-        this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
+        this.queue = new ReadPartitionQueue(traceID, partition.getPath(), decoder,
+                config.getMaxBatchSize(), lastCommittedOffset);
 
         logger.info("[{}] started for {}", traceID, partition);
     }

@@ -224,7 +224,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
-        config.getMetrics().addPartition(psid, committed);
+        config.getMetrics().addPartition(psid, committed, ps.getPath());
         partition.start(committed, offsets);
         TopicPartition lockKey = new TopicPartition(ps);
         if (locks.computeIfPresent(lockKey, (key, lock) -> lock.bind(partition)) != null) {
@@ -286,8 +286,12 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onRead(YdbTopic.StreamReadMessage.ReadResponse response) {
         logger.debug("[{}] Received ReadResponse of {} bytes", debugId, response.getBytesSize());
-        config.getMetrics().reportReceivedBytes(response.getBytesSize());
-        bufferManager.allocate(response.getBytesSize(), response.getPartitionDataList());
+        bufferManager.allocate(response.getBytesSize(), response.getPartitionDataList(), (partitionId, bytes) -> {
+            ReadPartition partition = partitions.get(partitionId);
+            if (partition != null) {
+                config.getMetrics().reportReceivedBytes(bytes, partition.getPartition().getPath());
+            }
+        });
 
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
             long psid = data.getPartitionSessionId();
