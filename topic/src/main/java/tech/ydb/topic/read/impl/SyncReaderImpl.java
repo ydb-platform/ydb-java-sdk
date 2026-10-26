@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Issue;
 import tech.ydb.core.Status;
+import tech.ydb.core.metrics.Attr;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.CodecRegistry;
 import tech.ydb.topic.description.OffsetsRange;
@@ -65,7 +66,8 @@ public class SyncReaderImpl implements SyncReader {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
         this.decompressor = new LazyExecutor("reader[" + debugId + "]-decoder", settings.getDecompressionExecutor());
 
-        this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings);
+        this.config = new ReadConfig(codecRegistry, Runnable::run, Runnable::run, decompressor, settings,
+                topicRpc.getMetricAttributes().toArray(new Attr[0]));
         this.impl = new Impl(topicRpc, debugId, settings, config);
 
         String readerName = settings.getReaderName();

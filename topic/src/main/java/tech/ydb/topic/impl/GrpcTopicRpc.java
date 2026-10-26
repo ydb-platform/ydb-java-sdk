@@ -1,5 +1,7 @@
 package tech.ydb.topic.impl;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -11,6 +13,7 @@ import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcReadWriteStream;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.metrics.Attr;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.proto.topic.YdbTopic.AlterTopicRequest;
@@ -129,5 +132,11 @@ public final class GrpcTopicRpc implements TopicRpc {
     @Override
     public ScheduledExecutorService getScheduler() {
         return transport.getScheduler();
+    }
+
+    @Override
+    public List<Attr> getMetricAttributes() {
+        return Arrays.asList(
+                Attr.of("endpoint", transport.getEndpoint()), Attr.of("database", transport.getDatabase()));
     }
 }

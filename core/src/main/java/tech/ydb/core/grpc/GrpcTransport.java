@@ -40,6 +40,14 @@ public interface GrpcTransport extends AutoCloseable {
 
     String getDatabase();
 
+    /**
+     * Returns the configured discovery endpoint as host:port, or an empty string if unavailable.
+     * @return configured discovery endpoint
+     */
+    default String getEndpoint() {
+        return "";
+    }
+
     ScheduledExecutorService getScheduler();
 
     default Tracer getTracer() {

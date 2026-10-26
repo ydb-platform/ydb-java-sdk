@@ -15,14 +15,17 @@ import org.mockito.Mockito;
 import tech.ydb.common.retry.RetryConfig;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
+import tech.ydb.core.grpc.GrpcTransport;
+import tech.ydb.core.impl.SingleChannelTransport;
+import tech.ydb.proto.topic.v1.TopicServiceGrpc;
 import tech.ydb.topic.TopicClient;
-import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.impl.TopicClientImpl;
 import tech.ydb.topic.read.DecompressionException;
+import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
 import tech.ydb.topic.settings.ReaderSettings;
+import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.utils.InMemoryMeter;
 
 import static tech.ydb.topic.utils.InMemoryMeter.attributes;
@@ -31,17 +34,21 @@ public class ReaderMetricsTest {
     private static final String PREFIX = "ydb.topic.reader.";
     private static final byte[] MSG1 = new byte[] { 1, 2 };
     private static final byte[] MSG2 = new byte[] { 3, 4, 5 };
-    private static final Map<String, String> COMMON = attributes("consumer", "consumer", "reader.name", "reader");
+    private static final Map<String, String> COMMON = attributes("endpoint", "reader.example:2135",
+            "database", "/reader-db", "consumer", "consumer", "reader.name", "reader");
     private static final Map<String, String> TOPIC = attributes(
+            "endpoint", "reader.example:2135", "database", "/reader-db",
             "consumer", "consumer", "reader.name", "reader", "topic", "/topic");
     private static final Map<String, String> OTHER = attributes(
+            "endpoint", "reader.example:2135", "database", "/reader-db",
             "consumer", "consumer", "reader.name", "reader", "topic", "/other-topic");
     private final InMemoryMeter meter = new InMemoryMeter();
 
     @Test
     public void readAndCommitMetrics() throws Exception {
         ReadStreamMock stream = new ReadStreamMock(true);
-        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
+        try (GrpcTransport transport = mockTransport(stream);
+                TopicClient client = TopicClient.newClient(transport).build()) {
             SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
                     .addTopic("/topic").addTopic("/other-topic").setConsumerName("consumer")
                     .setMaxMemoryUsageBytes(100).setDecompressionExecutor(Runnable::run)
@@ -94,9 +101,11 @@ public class ReaderMetricsTest {
                 meter.assertCounter(PREFIX + "commit.acknowledged", 1, OTHER);
                 meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, COMMON);
                 for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
-                    meter.assertHistogram(PREFIX + name, "s", 2, attributes("consumer", "consumer",
+                    meter.assertHistogram(PREFIX + name, "s", 2, attributes(
+                            "endpoint", "reader.example:2135", "database", "/reader-db", "consumer", "consumer",
                             "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "ok"));
-                    meter.assertHistogram(PREFIX + name, "s", 1, attributes("consumer", "consumer",
+                    meter.assertHistogram(PREFIX + name, "s", 1, attributes(
+                            "endpoint", "reader.example:2135", "database", "/reader-db", "consumer", "consumer",
                             "reader.name", "reader", "topic", "/other-topic", "codec", "gzip", "outcome", "ok"));
                 }
                 meter.assertUnit(PREFIX + "received.bytes", "By");
@@ -114,9 +123,12 @@ public class ReaderMetricsTest {
     @Test
     public void readWithoutConsumerMetrics() throws Exception {
         ReadStreamMock stream = new ReadStreamMock(true);
-        Map<String, String> common = attributes("reader.name", "without-consumer");
-        Map<String, String> topic = attributes("reader.name", "without-consumer", "topic", "/topic");
-        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
+        Map<String, String> common = attributes("endpoint", "reader.example:2135", "database", "/reader-db",
+                "reader.name", "without-consumer");
+        Map<String, String> topic = attributes("endpoint", "reader.example:2135", "database", "/reader-db",
+                "reader.name", "without-consumer", "topic", "/topic");
+        try (GrpcTransport transport = mockTransport(stream);
+                TopicClient client = TopicClient.newClient(transport).build()) {
             SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic("/topic")
                     .withoutConsumer().setDecompressionExecutor(Runnable::run)
                     .withMeter(meter, "without-consumer").build());
@@ -135,7 +147,8 @@ public class ReaderMetricsTest {
                 meter.assertLongGauge(PREFIX + "partition_session.count", 1, common);
                 meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, common);
                 for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
-                    meter.assertHistogram(PREFIX + name, "s", 1, attributes("reader.name", "without-consumer",
+                    meter.assertHistogram(PREFIX + name, "s", 1, attributes(
+                            "endpoint", "reader.example:2135", "database", "/reader-db", "reader.name", "without-consumer",
                             "topic", "/topic", "codec", "gzip", "outcome", "ok"));
                 }
             } finally {
@@ -152,11 +165,14 @@ public class ReaderMetricsTest {
         ReadStreamMock second = new ReadStreamMock(true);
         ReadStreamMock third = new ReadStreamMock(true);
         RetryConfig retries = status -> (number, elapsed) -> number < 2 ? 0 : -1;
-        Map<String, String> retry = attributes("consumer", "consumer", "reader.name", "reader",
+        Map<String, String> retry = attributes("endpoint", "reader.example:2135", "database", "/reader-db",
+                "consumer", "consumer", "reader.name", "reader",
                 "retry_decision", "retry", "status_code", "TRANSPORT_UNAVAILABLE", "error.type", "transport_error");
-        Map<String, String> stop = attributes("consumer", "consumer", "reader.name", "reader",
+        Map<String, String> stop = attributes("endpoint", "reader.example:2135", "database", "/reader-db",
+                "consumer", "consumer", "reader.name", "reader",
                 "retry_decision", "stop", "status_code", "TRANSPORT_UNAVAILABLE", "error.type", "transport_error");
-        try (TopicClient client = TopicClientImpl.newClient(mockRpc(first, second, third)).build()) {
+        try (GrpcTransport transport = mockTransport(first, second, third);
+                TopicClient client = TopicClient.newClient(transport).build()) {
             SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic("/topic")
                     .setConsumerName("consumer").setRetryConfig(retries).withMeter(meter, "reader").build());
             try {
@@ -185,7 +201,8 @@ public class ReaderMetricsTest {
         Codec codec = Mockito.mock(Codec.class, Mockito.CALLS_REAL_METHODS);
         Mockito.when(codec.getId()).thenReturn(Codec.GZIP);
         Mockito.doThrow(problem).when(codec).decode(Mockito.any(InputStream.class));
-        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).registerCodec(codec).build()) {
+        try (GrpcTransport transport = mockTransport(stream);
+                TopicClient client = TopicClient.newClient(transport).registerCodec(codec).build()) {
             SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder().addTopic("/topic")
                     .setConsumerName("consumer").setDecompressionExecutor(Runnable::run)
                     .withMeter(meter, "reader").build());
@@ -204,10 +221,12 @@ public class ReaderMetricsTest {
                 meter.assertCounter(PREFIX + "delivered.messages", 2, TOPIC);
                 meter.assertNoCounterSamples(PREFIX + "commit.acknowledged");
                 for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
-                    meter.assertHistogram(PREFIX + name, "s", 2, attributes("consumer", "consumer",
+                    meter.assertHistogram(PREFIX + name, "s", 2, attributes(
+                            "endpoint", "reader.example:2135", "database", "/reader-db", "consumer", "consumer",
                             "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "error",
                             "error.type", "java.io.IOException"));
-                    meter.assertHistogram(PREFIX + name, "s", 0, attributes("consumer", "consumer",
+                    meter.assertHistogram(PREFIX + name, "s", 0, attributes(
+                            "endpoint", "reader.example:2135", "database", "/reader-db", "consumer", "consumer",
                             "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "ok"));
                 }
             } finally {
@@ -218,10 +237,58 @@ public class ReaderMetricsTest {
         meter.assertNoGauges();
     }
 
-    private static TopicRpc mockRpc(ReadStreamMock first, ReadStreamMock... rest) {
-        TopicRpc rpc = Mockito.mock(TopicRpc.class);
-        Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
-        Mockito.when(rpc.readSession(Mockito.anyString())).thenReturn(first, rest);
-        return rpc;
+    @Test
+    public void reusedSettingsKeepConnectionAttributes() throws Exception {
+        ReadStreamMock first = new ReadStreamMock(true);
+        ReadStreamMock second = new ReadStreamMock(true);
+        ReaderSettings settings = ReaderSettings.newBuilder().addTopic("/topic").setConsumerName("consumer")
+                .setDecompressionExecutor(Runnable::run).withMeter(meter, "reader").build();
+        CompletableFuture<Message> delivered = new CompletableFuture<>();
+        Map<String, String> otherCommon = attributes("endpoint", "other-reader.example:2137",
+                "database", "/other-reader-db", "consumer", "consumer", "reader.name", "reader");
+        try (GrpcTransport firstTransport = mockTransport(first);
+                GrpcTransport secondTransport = Mockito.spy(new SingleChannelTransport(
+                        GrpcTransport.forHost("other-reader.example", 2137, "/other-reader-db")
+                                .withScheduler(Mockito.mock(ScheduledExecutorService.class))));
+                TopicClient firstClient = TopicClient.newClient(firstTransport).build();
+                TopicClient secondClient = TopicClient.newClient(secondTransport).build()) {
+            Mockito.doReturn(second).when(secondTransport)
+                    .readWriteStreamCall(Mockito.eq(TopicServiceGrpc.getStreamReadMethod()), Mockito.any());
+            SyncReader sync = firstClient.createSyncReader(settings);
+            AsyncReader async = secondClient.createAsyncReader(settings, ReadEventHandlersSettings.newBuilder()
+                    .setExecutor(Runnable::run).setEventHandler(event -> delivered.complete(event.getMessages().get(0)))
+                    .build());
+            try {
+                sync.init();
+                async.init();
+                first.responseInit("first");
+                second.responseInit("second");
+                first.responseStartPartition("/topic", 42, 0);
+                second.responseStartPartition("/topic", 43, 0);
+                first.responseData(12).partition(1, 0).batch(Codec.GZIP, MSG1).and().send();
+                second.responseData(8).partition(1, 0).batch(Codec.GZIP, MSG2).and().send();
+                Assert.assertArrayEquals(MSG1, sync.receive(0, TimeUnit.SECONDS).getData());
+                Assert.assertArrayEquals(MSG2, delivered.get(1, TimeUnit.SECONDS).getData());
+                meter.assertCounter(PREFIX + "received.bytes", 12, COMMON);
+                meter.assertCounter(PREFIX + "received.bytes", 8, otherCommon);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 1, COMMON);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 1, otherCommon);
+                meter.assertCounterSeries(PREFIX + "received.bytes", 2);
+                Assert.assertSame(meter, settings.getMeter());
+            } finally {
+                sync.shutdown();
+                async.shutdown().get(1, TimeUnit.SECONDS);
+            }
+        }
+        meter.assertNoGauges();
+    }
+
+    private static GrpcTransport mockTransport(ReadStreamMock first, ReadStreamMock... rest) {
+        GrpcTransport transport = Mockito.spy(new SingleChannelTransport(
+                GrpcTransport.forEndpoint("grpcs://reader.example:2135", "/reader-db")
+                        .withScheduler(Mockito.mock(ScheduledExecutorService.class))));
+        Mockito.doReturn(first, (Object[]) rest).when(transport)
+                .readWriteStreamCall(Mockito.eq(TopicServiceGrpc.getStreamReadMethod()), Mockito.any());
+        return transport;
     }
 }

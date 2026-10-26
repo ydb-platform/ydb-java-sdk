@@ -33,7 +33,7 @@ final class WriterMetrics {
     private MetricRegistration bufferLimitGauge = MetricRegistration.NOOP;
     private MetricRegistration oldestAgeGauge = MetricRegistration.NOOP;
 
-    WriterMetrics(Meter meter, String topic, String writerName) {
+    WriterMetrics(Meter meter, String topic, String writerName, Attr... attributes) {
         this.meter = meter;
         this.enabled = meter != Meter.NOOP;
         this.sendingMessages = meter.createCounter("ydb.topic.writer.sending.messages", MESSAGE_UNIT,
@@ -52,9 +52,11 @@ final class WriterMetrics {
                 "The time spent compressing a message, excluding queueing.");
         this.processingDuration = meter.createHistogram("ydb.topic.writer.message.processing.duration", "s",
                 "The time from buffer acceptance until a message is ready for sending.");
-        this.commonAttributes = writerName == null
-                ? new Attr[0]
-                : new Attr[]{Attr.of("topic", topic), Attr.of("writer.name", writerName)};
+        this.commonAttributes = Arrays.copyOf(attributes, attributes.length + (writerName == null ? 0 : 2));
+        if (writerName != null) {
+            commonAttributes[attributes.length] = Attr.of("topic", topic);
+            commonAttributes[attributes.length + 1] = Attr.of("writer.name", writerName);
+        }
     }
 
     void register(LongSupplier bufferUsed, LongSupplier bufferLimit, LongSupplier oldestTimestamp) {

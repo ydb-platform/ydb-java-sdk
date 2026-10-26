@@ -69,6 +69,11 @@ public abstract class BaseGrpcTransport implements GrpcTransport {
 
     protected abstract AuthCallOptions getAuthCallOptions();
 
+    @Override
+    public String getEndpoint() {
+        return serverEndpoint.getHostAndPort();
+    }
+
     protected abstract GrpcChannel getChannel(GrpcRequestSettings settings);
 
     protected void pessimizeEndpoint(EndpointRecord endpoint, String reason) {

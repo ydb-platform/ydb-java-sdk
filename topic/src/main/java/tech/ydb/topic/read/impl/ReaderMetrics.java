@@ -46,7 +46,7 @@ final class ReaderMetrics {
     private MetricRegistration bufferMessagesGauge = MetricRegistration.NOOP;
     private MetricRegistration ageGauge = MetricRegistration.NOOP;
 
-    ReaderMetrics(Meter meter, String consumer, String readerName) {
+    ReaderMetrics(Meter meter, String consumer, String readerName, Attr... attributes) {
         this.meter = meter;
         this.enabled = meter != Meter.NOOP;
         this.deliveredMessages = meter.createCounter(
@@ -67,7 +67,9 @@ final class ReaderMetrics {
                 "The time spent decompressing a message, excluding queueing.");
         this.processingDuration = meter.createHistogram("ydb.topic.reader.message.processing.duration", "s",
                 "The time from receipt until a message is ready for delivery.");
-        this.commonAttributes = createCommonAttributes(consumer, readerName);
+        Attr[] readerAttributes = createCommonAttributes(consumer, readerName);
+        this.commonAttributes = Arrays.copyOf(attributes, attributes.length + readerAttributes.length);
+        System.arraycopy(readerAttributes, 0, commonAttributes, attributes.length, readerAttributes.length);
     }
 
     void addSource(Source source) {
