@@ -1,7 +1,6 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -80,8 +79,8 @@ final class ReaderMetrics {
         sources.remove(source);
     }
 
-    void addPartition(long id, long committedOffset) {
-        partitions.put(id, new CommitOffsets(committedOffset));
+    void addPartition(long id, long committedOffset, String topicPath) {
+        partitions.put(id, new CommitOffsets(committedOffset, topicPath));
     }
 
     void removePartition(long id) {
@@ -93,11 +92,6 @@ final class ReaderMetrics {
         if (offsets != null) {
             offsets.committed.accumulateAndGet(offset, Math::max);
         }
-    }
-
-    private long getCommitOffsetLag(long id) {
-        CommitOffsets offsets = partitions.get(id);
-        return offsets == null ? 0 : Math.max(0, offsets.requested.get() - offsets.committed.get());
     }
 
     private Attr[] topicAttributes(String topic) {
@@ -121,21 +115,21 @@ final class ReaderMetrics {
         return oldest;
     }
 
-    void register(LongSupplier bufferBudget, Collection<ReadPartition> readPartitions) {
+    void register(LongSupplier bufferBudget) {
         partitionsGauge = meter.registerLongGauge(
                 "ydb.topic.reader.partition_session.count", "{session}",
                 "The number of partition sessions currently in the reader session processing lifecycle.",
-                m -> readPartitions.stream().collect(Collectors.groupingBy(
-                        partition -> partition.getPartition().getPath(), Collectors.counting()))
+                m -> partitions.values().stream().collect(Collectors.groupingBy(
+                        offsets -> offsets.topicPath, Collectors.counting()))
                         .forEach((topic, count) -> m.record(count, topicAttributes(topic))));
         creditGauge = meter.registerLongGauge("ydb.topic.reader.credit_balance_bytes", "By",
                 "The protocol credit granted to the server and not yet consumed by read responses.",
                 m -> m.record(bufferBudget.getAsLong(), commonAttributes));
         commitLagGauge = meter.registerLongGauge("ydb.topic.reader.commit_offset.lag.max", MESSAGE_UNIT,
                 "The maximum gap between requested and acknowledged commit offsets.",
-                m -> readPartitions.stream().collect(Collectors.toMap(
-                        partition -> partition.getPartition().getPath(),
-                        partition -> getCommitOffsetLag(partition.getPartition().getId()), Math::max))
+                m -> partitions.values().stream().collect(Collectors.toMap(
+                        offsets -> offsets.topicPath,
+                        offsets -> Math.max(0, offsets.requested.get() - offsets.committed.get()), Math::max))
                         .forEach((topic, lag) -> m.record(lag, topicAttributes(topic))));
         bufferMessagesGauge = meter.registerLongGauge("ydb.topic.reader.local_buffer.messages", MESSAGE_UNIT,
                 "The number of messages currently buffered by the reader.",
@@ -253,10 +247,12 @@ final class ReaderMetrics {
     }
 
     private static class CommitOffsets {
+        private final String topicPath;
         private final AtomicLong requested;
         private final AtomicLong committed;
 
-        CommitOffsets(long offset) {
+        CommitOffsets(long offset, String topicPath) {
+            this.topicPath = topicPath;
             this.requested = new AtomicLong(offset);
             this.committed = new AtomicLong(offset);
         }
