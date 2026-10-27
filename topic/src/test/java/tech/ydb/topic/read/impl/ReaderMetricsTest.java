@@ -56,10 +56,8 @@ public class ReaderMetricsTest {
                 reader.init();
                 stream.assertLastMessage().isInitRequest("consumer", "/topic", "/other-topic").hasReaderName("reader");
                 stream.responseInit("read-session");
-                for (Map<String, String> topic : Arrays.asList(TOPIC, OTHER)) {
-                    meter.assertLongGauge(PREFIX + "partition_session.count", 0, topic);
-                    meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, topic);
-                }
+                meter.assertLongGaugeSeries(PREFIX + "partition_session.count", 0);
+                meter.assertLongGaugeSeries(PREFIX + "commit_offset.lag.max", 0);
                 meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, COMMON);
                 meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
                 stream.responseStartPartition("/topic", 42, 0);
@@ -133,8 +131,8 @@ public class ReaderMetricsTest {
                 meter.assertLongGauge(PREFIX + "partition_session.count", 1, OTHER);
                 stream.responseStopPartition(2, true);
                 stream.responseStopPartition(3, true);
-                meter.assertLongGauge(PREFIX + "partition_session.count", 0, TOPIC);
-                meter.assertLongGauge(PREFIX + "partition_session.count", 0, OTHER);
+                meter.assertLongGaugeSeries(PREFIX + "partition_session.count", 0);
+                meter.assertLongGaugeSeries(PREFIX + "commit_offset.lag.max", 0);
             } finally {
                 reader.shutdown();
             }

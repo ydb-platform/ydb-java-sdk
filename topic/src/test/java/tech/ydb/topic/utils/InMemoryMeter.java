@@ -103,6 +103,17 @@ public final class InMemoryMeter implements Meter {
         Assert.assertEquals(name + " " + attributes, expected, values.get(attributes).longValue());
     }
 
+    public void assertLongGaugeSeries(String name, int expected) {
+        List<Consumer<LongMeasurement>> callbacks = longGauges.get(name);
+        Assert.assertNotNull(name, callbacks);
+        Map<Map<String, String>, Long> values = new HashMap<>();
+        for (Consumer<LongMeasurement> callback : callbacks) {
+            callback.accept((value, attrs) -> Assert.assertNull(name + " duplicate series",
+                    values.put(key(attrs), value)));
+        }
+        Assert.assertEquals(name, expected, values.size());
+    }
+
     public void assertDoubleGauge(String name, double expected, Map<String, String> attributes) {
         Assert.assertEquals(name + " " + attributes, expected, doubleGaugeValue(name, attributes), 0);
     }

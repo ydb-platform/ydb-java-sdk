@@ -1,13 +1,11 @@
 package tech.ydb.topic.read.impl;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -61,10 +59,8 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final MessageDecoder decoder;
     private final BufferManager bufferManager;
     private final Handler handler;
-    private final YdbTopic.StreamReadMessage.InitRequest initRequest;
 
     private final Map<Long, ReadPartition> partitions = new ConcurrentHashMap<>();
-    private final Map<Long, CommitOffsets> commits = new ConcurrentHashMap<>();
     private final Map<TopicPartition, PartitionLock> locks = new ConcurrentHashMap<>();
     private volatile boolean isClosed = false;
 
@@ -76,7 +72,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         this.decoder = new MessageDecoder(config);
         this.bufferManager = new BufferManager(id, config.getMaxMemoryUsageBytes(), new ReadRequest());
         this.handler = handler;
-        this.initRequest = initReq.getInitRequest();
     }
 
     @Override
@@ -113,7 +108,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         locks.clear();
         partitions.values().forEach(ReadPartition::close);
         partitions.clear();
-        commits.clear();
     }
 
     public boolean commitOffsets(PartitionSession session, List<OffsetsRange> rangesToCommit) {
@@ -135,11 +129,8 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 .build();
 
         for (OffsetsRange range : rangesToCommit) {
-            CommitOffsets offsets = commits.get(session.getId());
-            if (offsets != null) {
-                offsets.requested.accumulateAndGet(range.getEnd(), Math::max);
-            }
-            config.getMetrics().reportCommitQueued(range.getEnd() - range.getStart(), session.getPath());
+            config.getMetrics().reportCommitQueued(session.getId(), range.getEnd(),
+                    range.getEnd() - range.getStart(), session.getPath());
         }
         send(FromClient.newBuilder().setCommitOffsetRequest(req).build());
         return true;
@@ -158,7 +149,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
         if (commitTo != null) {
             resp.setCommitOffset(commitTo);
-            updateCommittedOffset(ps.getId(), commitTo);
+            config.getMetrics().updateCommittedOffset(ps.getId(), commitTo);
         }
 
         send(YdbTopic.StreamReadMessage.FromClient.newBuilder().setStartPartitionSessionResponse(resp.build()).build());
@@ -178,7 +169,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
         ReadPartition partition = partitions.remove(ps.getId());
         if (partition != null) {
-            commits.remove(ps.getId());
+            config.getMetrics().removePartition(ps.getId());
             partition.close();
         }
     }
@@ -204,38 +195,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
-        config.getMetrics().register(bufferManager::getCreditBalanceBytes,
-                this::getPartitionCounts, this::getCommitOffsetLagMax);
-    }
-
-    private Map<String, Long> newTopicValues() {
-        Map<String, Long> values = new HashMap<>();
-        initRequest.getTopicsReadSettingsList().forEach(topic -> values.put(topic.getPath(), 0L));
-        return values;
-    }
-
-    private Map<String, Long> getPartitionCounts() {
-        Map<String, Long> counts = newTopicValues();
-        partitions.values().forEach(partition ->
-                counts.merge(partition.getPartition().getPath(), 1L, Long::sum));
-        return counts;
-    }
-
-    private Map<String, Long> getCommitOffsetLagMax() {
-        Map<String, Long> lag = newTopicValues();
-        partitions.forEach((id, partition) -> {
-            CommitOffsets offsets = commits.get(id);
-            long value = offsets == null ? 0 : Math.max(0, offsets.requested.get() - offsets.committed.get());
-            lag.merge(partition.getPartition().getPath(), value, Math::max);
-        });
-        return lag;
-    }
-
-    private void updateCommittedOffset(long id, long offset) {
-        CommitOffsets offsets = commits.get(id);
-        if (offsets != null) {
-            offsets.committed.accumulateAndGet(offset, Math::max);
-        }
+        config.getMetrics().register(bufferManager::getCreditBalanceBytes, partitions.values());
     }
 
     public void onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
@@ -264,7 +224,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
-        commits.put(psid, new CommitOffsets(committed));
+        config.getMetrics().addPartition(psid, committed);
         partition.start(committed, offsets);
         TopicPartition lockKey = new TopicPartition(ps);
         if (locks.computeIfPresent(lockKey, (key, lock) -> lock.bind(partition)) != null) {
@@ -303,7 +263,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
 
         logger.info("[{}] Received force StopPartitionSessionRequest for {} ", debugId, partition.getPartition());
-        commits.remove(psid);
+        config.getMetrics().removePartition(psid);
         partition.close();
     }
 
@@ -312,7 +272,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         long psid = request.getPartitionSessionId();
         ReadPartition partition = partitions.get(psid);
         if (partition != null) {
-            updateCommittedOffset(psid, committedOffset);
+            config.getMetrics().updateCommittedOffset(psid, committedOffset);
             partition.stop(committedOffset);
             return;
         }
@@ -353,13 +313,8 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 continue;
             }
 
-            CommitOffsets offsets = commits.get(offset.getPartitionSessionId());
-            if (offsets != null) {
-                long acknowledged = offset.getCommittedOffset();
-                long old = offsets.committed.getAndAccumulate(acknowledged, Math::max);
-                config.getMetrics().reportCommitAcknowledged(
-                        acknowledged > old ? acknowledged - old : 0, partition.getPartition().getPath());
-            }
+            config.getMetrics().reportCommitAcknowledged(offset.getPartitionSessionId(),
+                    offset.getCommittedOffset(), partition.getPartition().getPath());
             partition.confirmCommittedOffset(offset.getCommittedOffset());
         }
     }
@@ -373,16 +328,6 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 resp.getPartitionOffsets().getStart(),
                 resp.getPartitionOffsets().getEnd(),
                 resp.getCommittedOffset());
-    }
-
-    private static class CommitOffsets {
-        private final AtomicLong requested;
-        private final AtomicLong committed;
-
-        CommitOffsets(long offset) {
-            this.requested = new AtomicLong(offset);
-            this.committed = new AtomicLong(offset);
-        }
     }
 
     private class ReadRequest implements Consumer<Long> {
