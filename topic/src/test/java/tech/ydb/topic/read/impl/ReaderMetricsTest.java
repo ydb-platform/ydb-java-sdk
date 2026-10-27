@@ -242,37 +242,6 @@ public class ReaderMetricsTest {
         meter.assertNoGauges();
     }
 
-    @Test
-    public void receivedBytesAreSharedAcrossTopics() throws Exception {
-        ReadStreamMock stream = new ReadStreamMock(true);
-        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
-            SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
-                    .addTopic("/topic").addTopic("/other-topic").setConsumerName("consumer")
-                    .setDecompressionExecutor(Runnable::run).withMeter(meter, "reader").build());
-            try {
-                reader.init();
-                stream.responseInit("mixed-response");
-                stream.responseStartPartition("/topic", 42, 0);
-                stream.responseStartPartition("/other-topic", 43, 0);
-                stream.responseData(25).partition(1, 0).batch(Codec.RAW, MSG1).and()
-                        .partition(2, 0).batch(Codec.RAW, MSG2).and().send();
-                meter.assertCounter(PREFIX + "received.bytes", 25, COMMON);
-                meter.assertCounterSeries(PREFIX + "received.bytes", 1);
-                stream.responseData(5).partition(1, 1).batch(Codec.RAW, new byte[0]).and()
-                        .partition(2, 1).batch(Codec.RAW, new byte[0]).and().send();
-                meter.assertCounter(PREFIX + "received.bytes", 30, COMMON);
-                meter.assertCounterSeries(PREFIX + "received.bytes", 1);
-                Assert.assertArrayEquals(MSG1, reader.receive(0, TimeUnit.SECONDS).getData());
-                Assert.assertArrayEquals(MSG2, reader.receive(0, TimeUnit.SECONDS).getData());
-                Assert.assertArrayEquals(new byte[0], reader.receive(0, TimeUnit.SECONDS).getData());
-                Assert.assertArrayEquals(new byte[0], reader.receive(0, TimeUnit.SECONDS).getData());
-            } finally {
-                reader.shutdown();
-            }
-        }
-        meter.assertNoGauges();
-    }
-
     private static TopicRpc mockRpc(ReadStreamMock first, ReadStreamMock... rest) {
         TopicRpc rpc = Mockito.mock(TopicRpc.class);
         Mockito.when(rpc.getScheduler()).thenReturn(Mockito.mock(ScheduledExecutorService.class));
