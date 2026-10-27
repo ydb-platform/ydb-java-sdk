@@ -35,6 +35,8 @@ import static java.util.Collections.singletonList;
  */
 public class WriterQueueTest {
     private static final Message SMALL_MSG = Message.of(new byte[]{0x00, 0x01, 0x02, 0x03, 0x05});
+    private static final CodecRegistry REGISTRY = new CodecRegistry();
+    private static final Runnable NOPE = () -> { };
 
     @Rule
     public final HideLoggersRule hideLogger = new HideLoggersRule();
@@ -57,9 +59,8 @@ public class WriterQueueTest {
                 .build();
     }
 
-    private static WriterQueue rawQueue(AtomicInteger notifyCount) {
-        return new WriterQueue("test", rawSettings(), new CodecRegistry(),
-                Runnable::run, () -> notifyCount.incrementAndGet());
+    private static WriteConfig rawConfig() {
+        return new WriteConfig(REGISTRY, Runnable::run, rawSettings());
     }
 
     private static void assertOverflow(String msg, ThrowingRunnable runnable) {
@@ -88,13 +89,13 @@ public class WriterQueueTest {
                 .setCodec(9999)
                 .build();
         IllegalArgumentException ex = Assert.assertThrows(IllegalArgumentException.class,
-                () -> new WriterQueue("test", settings, new CodecRegistry(), Runnable::run, () -> { }));
+                () -> new WriteConfig(REGISTRY, Runnable::run, settings));
         Assert.assertEquals("Unsupported codec: 9999", ex.getMessage());
     }
 
     @Test
     public void testFlushWithNoMessages() {
-        WriterQueue q = rawQueue(new AtomicInteger());
+        WriterQueue q = new WriterQueue("fwnn", rawConfig(), NOPE);
         CompletableFuture<Void> f = q.flush();
         Assert.assertTrue(f.isDone());
         Assert.assertFalse(f.isCompletedExceptionally());
@@ -102,7 +103,7 @@ public class WriterQueueTest {
 
     @Test
     public void testRawCompressor() throws Exception {
-        WriterQueue q = new WriterQueue("test", rawSettings(), new CodecRegistry(), null, () -> {});
+        WriterQueue q = new WriterQueue("rc", rawConfig(), NOPE);
 
         CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
         CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
@@ -127,19 +128,18 @@ public class WriterQueueTest {
 
     @Test
     public void testCompressedExpansionIsAccounted() throws Exception {
-        Codec codec = expandingCodec(Codec.GZIP, 1);
+        Codec codec = new ExplandingCodec(Codec.GZIP, 1);
+        CodecRegistry registry = new CodecRegistry(singletonList(codec));
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/test")
                 .setCodec(codec.getId())
                 .setMaxSendBufferMemorySize(10)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
-                Runnable::run, () -> {
-        });
 
+        WriterQueue writerQueue = new WriterQueue("cea", new WriteConfig(registry, Runnable::run, settings), NOPE);
         writerQueue.tryEnqueue(SMALL_MSG, null);
         assertOverflow(
-                "[test] Rejecting a message of 5 bytes: not enough space in message queue. "
+                "[cea] Rejecting a message of 5 bytes: not enough space in message queue. "
                         + "Buffer currently has 1 messages with 4 / 10 bytes available",
                 () -> writerQueue.tryEnqueue(SMALL_MSG, null)
         );
@@ -153,14 +153,13 @@ public class WriterQueueTest {
                 .setCodec(Codec.LZOP)
                 .setMaxSendBufferMemorySize(109)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(), encodingTasks::add, () -> {
-        });
+        WriterQueue queue = new WriterQueue("lfa", new WriteConfig(REGISTRY, encodingTasks::add, settings), NOPE);
 
-        writerQueue.tryEnqueue(SMALL_MSG, null);
+        queue.tryEnqueue(SMALL_MSG, null);
         assertOverflow(
-                "[test] Rejecting a message of 55 bytes: not enough space in message queue. "
+                "[lfa] Rejecting a message of 55 bytes: not enough space in message queue. "
                         + "Buffer currently has 1 messages with 54 / 109 bytes available",
-                () -> writerQueue.tryEnqueue(SMALL_MSG, null)
+                () -> queue.tryEnqueue(SMALL_MSG, null)
         );
     }
 
@@ -174,81 +173,79 @@ public class WriterQueueTest {
     }
 
     @Test
-    @HideLoggers({WriterImpl.class})
+    @HideLoggers(WriterImpl.class)
     public void testEncodedMessageLargerThanBufferIsProcessed() throws Exception {
-        Codec codec = expandingCodec(9004, 6);
+        Codec codec = new ExplandingCodec(9004, 6);
+        CodecRegistry registry = new CodecRegistry(singletonList(codec));
         Queue<Runnable> encodingTasks = new ArrayDeque<>();
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/test")
                 .setCodec(codec.getId())
                 .setMaxSendBufferMemorySize(10)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
-                encodingTasks::add, () -> {
-        });
 
-        writerQueue.tryEnqueue(SMALL_MSG, null);
-        writerQueue.tryEnqueue(SMALL_MSG, null);
+        WriterQueue queue = new WriterQueue("emltbp", new WriteConfig(registry, encodingTasks::add, settings), NOPE);
+        queue.tryEnqueue(SMALL_MSG, null);
+        queue.tryEnqueue(SMALL_MSG, null);
 
         encodingTasks.remove().run();
-        SentMessage first = writerQueue.nextMessageToSend();
+        SentMessage first = queue.nextMessageToSend();
         Assert.assertNotNull(first);
         Assert.assertEquals(11, first.getPb().getData().size());
         Assert.assertEquals(5, first.getBufferSize());
-        writerQueue.confirmAck(new WriteAck(first.getSeqNo(), WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(first.getSeqNo(), WriteAck.State.WRITTEN, null, null));
 
         encodingTasks.remove().run();
-        SentMessage second = writerQueue.nextMessageToSend();
+        SentMessage second = queue.nextMessageToSend();
         Assert.assertNotNull(second);
         Assert.assertEquals(11, second.getPb().getData().size());
         Assert.assertEquals(10, second.getBufferSize());
     }
 
     @Test
-    @HideLoggers({WriterImpl.class})
+    @HideLoggers(WriterImpl.class)
     public void testExpansionUsesAvailableCapacity() throws Exception {
-        Codec codec = expandingCodec(9005, 4);
+        Codec codec = new ExplandingCodec(9005, 4);
+        CodecRegistry registry = new CodecRegistry(singletonList(codec));
         Queue<Runnable> encodingTasks = new ArrayDeque<>();
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/test")
                 .setCodec(codec.getId())
                 .setMaxSendBufferMemorySize(12)
                 .build();
-        WriterQueue writerQueue = new WriterQueue("test", settings, new CodecRegistry(singletonList(codec)),
-                encodingTasks::add, () -> {
-        });
+        WriterQueue queue = new WriterQueue("euac", new WriteConfig(registry, encodingTasks::add, settings), NOPE);
 
-        writerQueue.tryEnqueue(SMALL_MSG, null);
-        writerQueue.tryEnqueue(SMALL_MSG, null);
+        queue.tryEnqueue(SMALL_MSG, null);
+        queue.tryEnqueue(SMALL_MSG, null);
 
         encodingTasks.remove().run();
-        SentMessage first = writerQueue.nextMessageToSend();
+        SentMessage first = queue.nextMessageToSend();
         Assert.assertNotNull(first);
         Assert.assertEquals(9, first.getPb().getData().size());
         Assert.assertEquals(7, first.getBufferSize());
-        writerQueue.confirmAck(new WriteAck(first.getSeqNo(), WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(first.getSeqNo(), WriteAck.State.WRITTEN, null, null));
 
         encodingTasks.remove().run();
-        SentMessage second = writerQueue.nextMessageToSend();
+        SentMessage second = queue.nextMessageToSend();
         Assert.assertNotNull(second);
         Assert.assertEquals(9, second.getPb().getData().size());
         Assert.assertEquals(9, second.getBufferSize());
     }
 
     @Test
-    @HideLoggers({ WriterImpl.class })
+    @HideLoggers(WriterImpl.class)
     public void testGzipNullCompressor() throws Exception {
-        WriterQueue q = new WriterQueue("test", gzipSettings(), new CodecRegistry(), null, () -> {});
+        WriterQueue queue = new WriterQueue("gnp", new WriteConfig(new CodecRegistry(), null, gzipSettings()), NOPE);
 
-        CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
-        CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
-        CompletableFuture<WriteAck> f3 = q.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
+        CompletableFuture<WriteAck> f1 = queue.enqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f2 = queue.tryEnqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f3 = queue.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
 
         Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
         Assert.assertFalse(f3.isDone());
 
-        Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
+        Assert.assertNull(queue.nextMessageToSend()); // nothing to send, all messages were failed
 
         Assert.assertTrue(f1.isCompletedExceptionally());
         Assert.assertTrue(f2.isCompletedExceptionally());
@@ -256,7 +253,7 @@ public class WriterQueueTest {
     }
 
     @Test
-    @HideLoggers({WriterImpl.class})
+    @HideLoggers(WriterImpl.class)
     public void testWrongCodec() throws Exception {
         // Codec that always throws on encode
         Codec failingCodec = new Codec() {
@@ -276,24 +273,25 @@ public class WriterQueueTest {
             }
         };
 
-        AtomicInteger notify = new AtomicInteger();
         CodecRegistry registry = new CodecRegistry(Arrays.asList(failingCodec));
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/test")
                 .setCodec(failingCodec.getId())
                 .build();
+        WriteConfig config = new WriteConfig(registry, Runnable::run, settings);
 
-        WriterQueue q = new WriterQueue("test", settings, registry, Runnable::run, notify::incrementAndGet);
+        AtomicInteger notify = new AtomicInteger();
+        WriterQueue queue = new WriterQueue("wc", config, notify::incrementAndGet);
 
-        CompletableFuture<WriteAck> f1 = q.enqueue(SMALL_MSG, null);
-        CompletableFuture<WriteAck> f2 = q.tryEnqueue(SMALL_MSG, null);
-        CompletableFuture<WriteAck> f3 = q.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
+        CompletableFuture<WriteAck> f1 = queue.enqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f2 = queue.tryEnqueue(SMALL_MSG, null);
+        CompletableFuture<WriteAck> f3 = queue.tryEnqueue(SMALL_MSG, null, 1, TimeUnit.SECONDS);
 
         Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
         Assert.assertFalse(f3.isDone());
 
-        Assert.assertNull(q.nextMessageToSend()); // nothing to send, all messages were failed
+        Assert.assertNull(queue.nextMessageToSend()); // nothing to send, all messages were failed
 
         Assert.assertTrue(f1.isCompletedExceptionally());
         Assert.assertTrue(f2.isCompletedExceptionally());
@@ -301,7 +299,7 @@ public class WriterQueueTest {
     }
 
     @Test
-    @HideLoggers({ WriterImpl.class })
+    @HideLoggers(WriterImpl.class)
     public void badMsgBehindSentTest() throws Exception {
         // codec that fails only for messages whose first byte is 0x7F
         Codec selective = new Codec() {
@@ -333,26 +331,28 @@ public class WriterQueueTest {
                 .setTopicPath("/test")
                 .setCodec(selective.getId())
                 .build();
-        AtomicInteger notify = new AtomicInteger();
         CodecRegistry registry = new CodecRegistry(Arrays.asList(selective));
-        WriterQueue q = new WriterQueue("test", settings, registry, Runnable::run, notify::incrementAndGet);
+        WriteConfig config = new WriteConfig(registry, Runnable::run, settings);
 
-        CompletableFuture<WriteAck> good1 = q.enqueue(Message.of(new byte[] { 0x01 }), null);
-        CompletableFuture<WriteAck> bad = q.enqueue(Message.of(new byte[] { 0x7F }), null);
-        CompletableFuture<WriteAck> good2 = q.enqueue(Message.of(new byte[] { 0x02 }), null);
+        AtomicInteger notify = new AtomicInteger();
+        WriterQueue queue = new WriterQueue("bmbst", config, notify::incrementAndGet);
 
-        SentMessage s1 = q.nextMessageToSend();
+        CompletableFuture<WriteAck> good1 = queue.enqueue(Message.of(new byte[] { 0x01 }), null);
+        CompletableFuture<WriteAck> bad = queue.enqueue(Message.of(new byte[] { 0x7F }), null);
+        CompletableFuture<WriteAck> good2 = queue.enqueue(Message.of(new byte[] { 0x02 }), null);
+
+        SentMessage s1 = queue.nextMessageToSend();
         Assert.assertNotNull(s1);
-        SentMessage s2 = q.nextMessageToSend();
+        SentMessage s2 = queue.nextMessageToSend();
         Assert.assertNotNull(s2);
-        Assert.assertNull(q.nextMessageToSend());
+        Assert.assertNull(queue.nextMessageToSend());
 
         Assert.assertFalse(good1.isDone());
         Assert.assertFalse(good2.isDone());
         Assert.assertFalse(bad.isDone());
 
         // ack for the first message only -> sweep reaches the ProblemMsg
-        q.confirmAck(new WriteAck(s1.getSeqNo(), WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(s1.getSeqNo(), WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(good1.isDone());
         Assert.assertTrue(bad.isCompletedExceptionally());
@@ -363,18 +363,18 @@ public class WriterQueueTest {
     @Test
     public void testFlushCompletesWhenMessageIsAcked() throws Exception {
         AtomicInteger notify = new AtomicInteger();
-        WriterQueue q = rawQueue(notify);
+        WriterQueue queue = new WriterQueue("fcwma", rawConfig(), notify::incrementAndGet);
 
-        q.enqueue(SMALL_MSG, null);
-        q.enqueue(SMALL_MSG, null);
-        q.enqueue(SMALL_MSG, null);
+        queue.enqueue(SMALL_MSG, null);
+        queue.enqueue(SMALL_MSG, null);
+        queue.enqueue(SMALL_MSG, null);
 
-        CompletableFuture<Void> flushFuture = q.flush();
+        CompletableFuture<Void> flushFuture = queue.flush();
 
-        long lastSeqNo = assertSendAll(q, 3);
+        long lastSeqNo = assertSendAll(queue, 3);
 
         Assert.assertFalse(flushFuture.isDone());
-        q.confirmAck(new WriteAck(lastSeqNo, WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(lastSeqNo, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(flushFuture.isDone());
         Assert.assertFalse(flushFuture.isCompletedExceptionally());
@@ -382,15 +382,15 @@ public class WriterQueueTest {
 
     @Test
     public void testFlushCompletesWhenMessageIsFailed() throws Exception {
-        WriterQueue q = rawQueue(new AtomicInteger());
+        WriterQueue queue = new WriterQueue("fcwmf", rawConfig(), NOPE);
 
-        CompletableFuture<WriteAck> ackFuture = q.enqueue(SMALL_MSG, null);
-        assertSendAll(q, 1);
+        CompletableFuture<WriteAck> ackFuture = queue.enqueue(SMALL_MSG, null);
+        assertSendAll(queue, 1);
 
-        CompletableFuture<Void> flushFuture = q.flush();
+        CompletableFuture<Void> flushFuture = queue.flush();
         Assert.assertFalse(flushFuture.isDone());
 
-        q.close(Status.of(StatusCode.CLIENT_CANCELLED));
+        queue.close(Status.of(StatusCode.CLIENT_CANCELLED));
 
         Assert.assertTrue(ackFuture.isCompletedExceptionally());
         Assert.assertTrue(flushFuture.isDone());
@@ -399,43 +399,44 @@ public class WriterQueueTest {
 
     @Test
     public void testSmallBufferWriting() throws QueueOverflowException {
-        AtomicInteger notify = new AtomicInteger();
         WriterSettings settings = WriterSettings.newBuilder()
                 .setTopicPath("/test")
                 .setCodec(Codec.RAW)
                 .setMaxSendBufferMemorySize(12)
                 .build();
+        WriteConfig config = new WriteConfig(REGISTRY, null, settings);
 
-        WriterQueue q = new WriterQueue("test", settings, new CodecRegistry(), null, notify::incrementAndGet);
+        AtomicInteger notify = new AtomicInteger();
+        WriterQueue queue = new WriterQueue("sbw", config, notify::incrementAndGet);
 
-        q.tryEnqueue(smallMsg(10), null); // success
-        q.tryEnqueue(smallMsg(20), null); // success
-        assertOverflow("[test] Rejecting a message of 5 bytes: not enough space in message queue. "
+        queue.tryEnqueue(smallMsg(10), null); // success
+        queue.tryEnqueue(smallMsg(20), null); // success
+        assertOverflow("[sbw] Rejecting a message of 5 bytes: not enough space in message queue. "
                         + "Buffer currently has 2 messages with 2 / 12 bytes available",
-                () -> q.tryEnqueue(smallMsg(30), null));
+                () -> queue.tryEnqueue(smallMsg(30), null));
 
-        Assert.assertEquals(20, assertSendAll(q, 2));
-        q.confirmAck(new WriteAck(10, null, null, null)); // free one message
+        Assert.assertEquals(20, assertSendAll(queue, 2));
+        queue.confirmAck(new WriteAck(10, null, null, null)); // free one message
 
-        q.tryEnqueue(smallMsg(30), null); // success
-        assertOverflow("[test] Rejecting a message of 5 bytes: not enough space in message queue. "
+        queue.tryEnqueue(smallMsg(30), null); // success
+        assertOverflow("[sbw] Rejecting a message of 5 bytes: not enough space in message queue. "
                         + "Buffer currently has 2 messages with 2 / 12 bytes available",
-                () -> q.tryEnqueue(smallMsg(40), null));
+                () -> queue.tryEnqueue(smallMsg(40), null));
 
-        Assert.assertEquals(30, assertSendAll(q, 1));
-        q.confirmAck(new WriteAck(30, null, null, null)); // free one message
+        Assert.assertEquals(30, assertSendAll(queue, 1));
+        queue.confirmAck(new WriteAck(30, null, null, null)); // free one message
     }
 
     @Test
     public void testIncorrectSeqNumbers() throws Exception {
-        WriterQueue q = rawQueue(new AtomicInteger());
+        WriterQueue queue = new WriterQueue("isn", rawConfig(), NOPE);
 
-        CompletableFuture<WriteAck> f1 = q.enqueue(smallMsg(10), null);
-        CompletableFuture<WriteAck> f2 = q.enqueue(smallMsg(20), null);
-        CompletableFuture<WriteAck> f3 = q.enqueue(smallMsg(20), null);
-        CompletableFuture<WriteAck> f4 = q.enqueue(smallMsg(30), null);
-        CompletableFuture<WriteAck> f5 = q.enqueue(smallMsg(11), null);
-        CompletableFuture<WriteAck> f6 = q.enqueue(smallMsg(40), null);
+        CompletableFuture<WriteAck> f1 = queue.enqueue(smallMsg(10), null);
+        CompletableFuture<WriteAck> f2 = queue.enqueue(smallMsg(20), null);
+        CompletableFuture<WriteAck> f3 = queue.enqueue(smallMsg(20), null);
+        CompletableFuture<WriteAck> f4 = queue.enqueue(smallMsg(30), null);
+        CompletableFuture<WriteAck> f5 = queue.enqueue(smallMsg(11), null);
+        CompletableFuture<WriteAck> f6 = queue.enqueue(smallMsg(40), null);
 
         Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
@@ -444,10 +445,10 @@ public class WriterQueueTest {
         Assert.assertFalse(f5.isDone());
         Assert.assertFalse(f6.isDone());
 
-        long lastSeqNo = assertSendAll(q, 6);
+        long lastSeqNo = assertSendAll(queue, 6);
         Assert.assertEquals(40, lastSeqNo);
         // all message must be resent
-        List<SentMessage> resend = q.updateSeqNo(15);
+        List<SentMessage> resend = queue.updateSeqNo(15);
 
         Assert.assertEquals(6, resend.size());
         Assert.assertEquals(10, resend.get(0).getSeqNo());
@@ -465,12 +466,12 @@ public class WriterQueueTest {
         Assert.assertFalse(f6.isDone());
 
         // all message must be confirmed
-        q.confirmAck(new WriteAck(10, WriteAck.State.ALREADY_WRITTEN, null, null));
-        q.confirmAck(new WriteAck(20, WriteAck.State.WRITTEN, null, null));
-        q.confirmAck(new WriteAck(20, WriteAck.State.ALREADY_WRITTEN, null, null)); // will be skipped
-        q.confirmAck(new WriteAck(30, WriteAck.State.WRITTEN, null, null));
-        q.confirmAck(new WriteAck(11, WriteAck.State.ALREADY_WRITTEN, null, null)); // will be skipped
-        q.confirmAck(new WriteAck(40, WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(10, WriteAck.State.ALREADY_WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(20, WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(20, WriteAck.State.ALREADY_WRITTEN, null, null)); // will be skipped
+        queue.confirmAck(new WriteAck(30, WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(11, WriteAck.State.ALREADY_WRITTEN, null, null)); // will be skipped
+        queue.confirmAck(new WriteAck(40, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(f1.isDone());
         Assert.assertTrue(f2.isDone());
@@ -495,16 +496,16 @@ public class WriterQueueTest {
 
     @Test
     public void testLostAcks() throws Exception {
-        WriterQueue q = rawQueue(new AtomicInteger());
+        WriterQueue queue = new WriterQueue("la", rawConfig(), NOPE);
 
-        List<SentMessage> before = q.updateSeqNo(0);
+        List<SentMessage> before = queue.updateSeqNo(0);
         Assert.assertTrue(before.isEmpty());
 
-        CompletableFuture<WriteAck> f1 = q.enqueue(smallMsg(10), null);
-        CompletableFuture<WriteAck> f2 = q.enqueue(smallMsg(20), null);
-        CompletableFuture<WriteAck> f3 = q.enqueue(smallMsg(30), null);
-        CompletableFuture<WriteAck> f4 = q.enqueue(smallMsg(40), null);
-        CompletableFuture<WriteAck> f5 = q.enqueue(smallMsg(50), null);
+        CompletableFuture<WriteAck> f1 = queue.enqueue(smallMsg(10), null);
+        CompletableFuture<WriteAck> f2 = queue.enqueue(smallMsg(20), null);
+        CompletableFuture<WriteAck> f3 = queue.enqueue(smallMsg(30), null);
+        CompletableFuture<WriteAck> f4 = queue.enqueue(smallMsg(40), null);
+        CompletableFuture<WriteAck> f5 = queue.enqueue(smallMsg(50), null);
 
         Assert.assertFalse(f1.isDone());
         Assert.assertFalse(f2.isDone());
@@ -512,10 +513,10 @@ public class WriterQueueTest {
         Assert.assertFalse(f4.isDone());
         Assert.assertFalse(f5.isDone());
 
-        long lastSeqNo = assertSendAll(q, 5);
+        long lastSeqNo = assertSendAll(queue, 5);
         Assert.assertEquals(50, lastSeqNo);
 
-        q.confirmAck(new WriteAck(10, WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(10, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(f1.isDone());
         Assert.assertEquals(WriteAck.State.WRITTEN, f1.join().getState());
@@ -525,7 +526,7 @@ public class WriterQueueTest {
         Assert.assertFalse(f5.isDone());
 
         // lost others acks and reconnect with new lastSeqNo
-        List<SentMessage> retry = q.updateSeqNo(30);
+        List<SentMessage> retry = queue.updateSeqNo(30);
 
         // All messages without acks will be resent
         Assert.assertEquals(4, retry.size());
@@ -539,10 +540,10 @@ public class WriterQueueTest {
         Assert.assertFalse(f4.isDone());
         Assert.assertFalse(f5.isDone());
 
-        q.confirmAck(new WriteAck(20, WriteAck.State.ALREADY_WRITTEN, null, null));
-        q.confirmAck(new WriteAck(30, WriteAck.State.ALREADY_WRITTEN, null, null));
-        q.confirmAck(new WriteAck(40, WriteAck.State.WRITTEN, null, null));
-        q.confirmAck(new WriteAck(50, WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(20, WriteAck.State.ALREADY_WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(30, WriteAck.State.ALREADY_WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(40, WriteAck.State.WRITTEN, null, null));
+        queue.confirmAck(new WriteAck(50, WriteAck.State.WRITTEN, null, null));
 
         Assert.assertTrue(f2.isDone());
         Assert.assertTrue(f3.isDone());
@@ -554,28 +555,34 @@ public class WriterQueueTest {
         Assert.assertEquals(WriteAck.State.WRITTEN, f5.join().getState());
     }
 
-    private static Codec expandingCodec(int id, int additionalBytes) {
-        return new Codec() {
-            @Override
-            public int getId() {
-                return id;
-            }
+    private class ExplandingCodec implements Codec {
+        private final int id;
+        private final int prefixSize;
 
-            @Override
-            public InputStream decode(InputStream inputStream) {
-                return inputStream;
-            }
+        public ExplandingCodec(int id, int additionalBytes) {
+            this.id = id;
+            this.prefixSize = additionalBytes;
+        }
 
-            @Override
-            public OutputStream encode(OutputStream outputStream) {
-                return new FilterOutputStream(outputStream) {
-                    @Override
-                    public void close() throws IOException {
-                        out.write(new byte[additionalBytes]);
-                        super.close();
-                    }
-                };
-            }
-        };
+        @Override
+        public int getId() {
+            return id;
+        }
+
+        @Override
+        public InputStream decode(InputStream inputStream) {
+            return inputStream;
+        }
+
+        @Override
+        public OutputStream encode(OutputStream outputStream) {
+            return new FilterOutputStream(outputStream) {
+                @Override
+                public void close() throws IOException {
+                    out.write(new byte[prefixSize]);
+                    super.close();
+                }
+            };
+        }
     }
 }

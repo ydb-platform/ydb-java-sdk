@@ -39,7 +39,6 @@ public class WriterImpl {
 
     private final String debugId;
     private final WriterQueue writeQueue;
-    private final WriterMetrics metrics;
     private final WriteSession stream;
     private final Runnable sendTask = new SerialRunnable(new SendTask());
 
@@ -58,11 +57,12 @@ public class WriterImpl {
     public WriterImpl(TopicRpc topicRpc, WriteStreamFactory factory, WriterSettings settings,
             Executor compressionExecutor, @Nonnull CodecRegistry codecRegistry) {
         this.debugId = DebugTools.createDebugId(settings.getLogPrefix());
-        this.metrics = new WriterMetrics(settings.getMeter(), settings.getTopicPath(), settings.getWriterName());
-        this.stream = new WriteSession(debugId, factory, settings, topicRpc.getScheduler(), new ListenerImpl());
-        this.writeQueue = new WriterQueue(debugId, settings, metrics, codecRegistry, compressionExecutor, sendTask);
+
+        WriteConfig config = new WriteConfig(codecRegistry, compressionExecutor, settings);
         Observability.reportMetricsUsage(settings.getMeter());
 
+        this.stream = new WriteSession(debugId, factory, settings, topicRpc.getScheduler(), new ListenerImpl(config));
+        this.writeQueue = new WriterQueue(debugId, config, sendTask);
         logger.info("Writer with id {} created for topic \"{}\" with producerId \"{}\" and messageGroupId \"{}\"",
                 debugId, settings.getTopicPath(), settings.getProducerId(), settings.getMessageGroupId());
     }
@@ -174,6 +174,12 @@ public class WriterImpl {
     }
 
     private class ListenerImpl implements WriteSession.Listener {
+        private final WriterMetrics metrics;
+
+        ListenerImpl(WriteConfig config) {
+            this.metrics = config.getMetrics();
+        }
+
         @Override
         public void onStart(long lastSeqNo, String sessionId) {
             // resend all sent messages in writing queue

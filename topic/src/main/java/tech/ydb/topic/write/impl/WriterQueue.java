@@ -13,7 +13,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.UnsafeByteOperations;
 import org.slf4j.Logger;
@@ -21,10 +20,7 @@ import org.slf4j.LoggerFactory;
 
 import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Status;
-import tech.ydb.core.metrics.Meter;
 import tech.ydb.topic.description.Codec;
-import tech.ydb.topic.description.CodecRegistry;
-import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.Message;
 import tech.ydb.topic.write.QueueOverflowException;
 import tech.ydb.topic.write.WriteAck;
@@ -33,7 +29,7 @@ import tech.ydb.topic.write.WriteAck;
  *
  * @author Aleksandr Gorshenin
  */
-public class WriterQueue {
+class WriterQueue {
     interface EncodedMsg {
         SentMessage getSentMessage();
 
@@ -61,25 +57,13 @@ public class WriterQueue {
     // Future for flush method. Only the future is stored to not retain the message data after sending
     private volatile CompletableFuture<WriteAck> lastAcceptedAckFuture = null;
 
-    @VisibleForTesting
-    WriterQueue(String debugId, WriterSettings settings, CodecRegistry codecRegistry,
-                Executor compressionExecutor, Runnable readyNotify) {
-        this(debugId, settings, new WriterMetrics(Meter.NOOP, settings.getTopicPath(), settings.getWriterName()),
-                codecRegistry, compressionExecutor, readyNotify);
-    }
-
-    public WriterQueue(String debugId, WriterSettings settings, WriterMetrics metrics, CodecRegistry codecRegistry,
-                       Executor compressionExecutor, Runnable readyNotify) {
+    WriterQueue(String debugId, WriteConfig config, Runnable readyNotify) {
         this.debugId = debugId;
-        this.buffer = new BufferManager(debugId, settings);
-
-        this.codec = codecRegistry.getCodec(settings.getCodec());
-        if (codec == null) {
-            throw new IllegalArgumentException("Unsupported codec: " + settings.getCodec());
-        }
-        this.compressionExecutor = compressionExecutor;
+        this.buffer = new BufferManager(debugId, config.getBufferMaxSize(), config.getBufferMaxMessagesCount());
+        this.codec = config.getCodec();
+        this.compressionExecutor = config.getCompressor();
         this.readyNotify = readyNotify;
-        this.metrics = metrics;
+        this.metrics = config.getMetrics();
         this.metrics.register(buffer::getUsedSize, buffer::getMaxSize, this::getOlderAcceptedTimestamp);
     }
 

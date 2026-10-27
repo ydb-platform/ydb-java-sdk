@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.Status;
-import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.QueueOverflowException;
 
 /**
@@ -30,11 +29,11 @@ public class BufferManager {
 
     private volatile Status closed = null;
 
-    public BufferManager(String id, WriterSettings settings) {
+    public BufferManager(String id, long bufferMaxSize, int bufferMaxMessageCount) {
         this.debugId = id;
 
-        this.maxCount = settings.getMaxSendBufferMessagesCount();
-        this.bufferMaxSize = settings.getMaxSendBufferMemorySize();
+        this.maxCount = bufferMaxMessageCount;
+        this.bufferMaxSize = bufferMaxSize;
 
         this.blockBitsCount = calculateBlockSize(bufferMaxSize);
 
