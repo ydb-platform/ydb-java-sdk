@@ -20,6 +20,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.function.ThrowingRunnable;
 
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.proto.topic.YdbTopic.StreamReadMessage.ReadResponse;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
@@ -35,6 +36,7 @@ import tech.ydb.topic.utils.HideLoggersRule;
  */
 public class MessageDecoderTest {
     private static final CodecRegistry REGISTRY = new CodecRegistry();
+    private static final ReaderMetrics NOOP_METRICS = new ReaderMetrics(Meter.NOOP, "consumer", "reader-name");
     private static final PartitionSession PS1 = new PartitionSession(1, 1, "/topic");
     private static final PartitionSession PS2 = new PartitionSession(2, 2, "/topic");
 
@@ -84,18 +86,18 @@ public class MessageDecoderTest {
     public void nonPositiveBufferSizeTest() {
         // A decoder with a non-positive budget can never admit a message and silently stalls the reader
         Exception ex1 = Assert.assertThrows(IllegalArgumentException.class,
-                () -> new MessageDecoder(0, Runnable::run, REGISTRY));
+                () -> new MessageDecoder(0, Runnable::run, REGISTRY, NOOP_METRICS));
         Assert.assertEquals("maxBufferSize must be positive, but got 0", ex1.getMessage());
 
         Exception ex2 = Assert.assertThrows(IllegalArgumentException.class,
-                () -> new MessageDecoder(-1, Runnable::run, REGISTRY));
+                () -> new MessageDecoder(-1, Runnable::run, REGISTRY, NOOP_METRICS));
         Assert.assertEquals("maxBufferSize must be positive, but got -1", ex2.getMessage());
     }
 
     @Test
     @HideLoggers({ MessageDecoder.class, ReadPartition.class })
     public void readyHandlerThrowsOnDecodeTest() {
-        MessageDecoder decoder = new MessageDecoder(1000, Runnable::run, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(1000, Runnable::run, REGISTRY, NOOP_METRICS);
 
         AtomicInteger ready = new AtomicInteger(0);
         ReadPartitionDecoder partition = new ReadPartitionDecoder("t1", decoder, PS1, null, () -> {
@@ -123,7 +125,7 @@ public class MessageDecoderTest {
         Executor rejecting = task -> {
             throw new RejectedExecutionException("executor is saturated");
         };
-        MessageDecoder decoder = new MessageDecoder(1000, rejecting, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(1000, rejecting, REGISTRY, NOOP_METRICS);
 
         AtomicInteger ready = new AtomicInteger(0);
         ReadPartitionDecoder partition = new ReadPartitionDecoder("t1", decoder, PS1, null, () -> {
@@ -143,7 +145,7 @@ public class MessageDecoderTest {
 
     @Test
     public void rawDecodeTest() {
-        MessageDecoder decoder = new MessageDecoder(10000, Runnable::run, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(10000, Runnable::run, REGISTRY, NOOP_METRICS);
         AtomicInteger ready = new AtomicInteger(0);
         ReadPartitionDecoder partition = new ReadPartitionDecoder("t1", decoder, PS1, null, ready::incrementAndGet);
 
@@ -163,7 +165,7 @@ public class MessageDecoderTest {
 
     @Test
     public void flowControlByBudgetTest() {
-        MessageDecoder decoder = new MessageDecoder(100, Runnable::run, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(100, Runnable::run, REGISTRY, NOOP_METRICS);
 
         AtomicInteger ready = new AtomicInteger(0);
         ReadPartitionDecoder p1 = new ReadPartitionDecoder("p1", decoder, PS1, null, ready::incrementAndGet);
@@ -246,7 +248,7 @@ public class MessageDecoderTest {
 
     @Test
     public void partitionFlowTest() {
-        MessageDecoder decoder = new MessageDecoder(100, Runnable::run, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(100, Runnable::run, REGISTRY, NOOP_METRICS);
 
         AtomicInteger r1 = new AtomicInteger(0);
         ReadPartitionDecoder p1 = new ReadPartitionDecoder("p1", decoder, PS1, null, r1::incrementAndGet);
@@ -324,7 +326,7 @@ public class MessageDecoderTest {
 
     @Test
     public void decodeStopTest() {
-        MessageDecoder decoder = new MessageDecoder(70, Runnable::run, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(70, Runnable::run, REGISTRY, NOOP_METRICS);
 
         AtomicInteger ready = new AtomicInteger(0);
         ReadPartitionDecoder partition = new ReadPartitionDecoder("t3", decoder, PS1, null, ready::incrementAndGet);
@@ -365,7 +367,7 @@ public class MessageDecoderTest {
     @Test
     public void decodesOnProvidedExecutorTest() {
         Queue<Runnable> decodeTasks = new ConcurrentLinkedQueue<>();
-        MessageDecoder decoder = new MessageDecoder(1000, decodeTasks::add, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(1000, decodeTasks::add, REGISTRY, NOOP_METRICS);
 
         AtomicInteger p1ready = new AtomicInteger();
         AtomicInteger p2ready = new AtomicInteger();
@@ -458,7 +460,7 @@ public class MessageDecoderTest {
             }
         });
 
-        MessageDecoder decoder = new MessageDecoder(300, Runnable::run, new CodecRegistry(codecs));
+        MessageDecoder decoder = new MessageDecoder(300, Runnable::run, new CodecRegistry(codecs), NOOP_METRICS);
 
         AtomicInteger ready = new AtomicInteger();
         ReadPartitionDecoder p1 = new ReadPartitionDecoder("p1", decoder, PS1, null, ready::incrementAndGet);
@@ -522,7 +524,7 @@ public class MessageDecoderTest {
             throw new RejectedExecutionException("rejected");
         };
 
-        MessageDecoder decoder = new MessageDecoder(200, decompressor, REGISTRY);
+        MessageDecoder decoder = new MessageDecoder(200, decompressor, REGISTRY, NOOP_METRICS);
 
         AtomicInteger ready = new AtomicInteger();
         ReadPartitionDecoder p1 = new ReadPartitionDecoder("p1", decoder, PS1, null, ready::incrementAndGet);

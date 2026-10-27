@@ -12,7 +12,6 @@ import com.google.protobuf.ByteString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import tech.ydb.core.metrics.Meter;
 import tech.ydb.proto.topic.YdbTopic;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.description.CodecRegistry;
@@ -32,7 +31,6 @@ class ReadPartitionDecoder {
     private final PartitionSession partition;
     private final MessageCommitter committer;
     private final MessageDecoder decoder;
-    private final ReaderMetrics metrics;
     private final Runnable readyHandler;
 
     private final Queue<EncodedMessage> allocatedMessages = new ConcurrentLinkedQueue<>();
@@ -40,14 +38,8 @@ class ReadPartitionDecoder {
 
     ReadPartitionDecoder(String traceId, MessageDecoder decoder, PartitionSession partition,
             MessageCommitter committer, Runnable readyHandler) {
-        this(traceId, decoder, partition, committer, readyHandler, new ReaderMetrics(Meter.NOOP, null, null));
-    }
-
-    ReadPartitionDecoder(String traceId, MessageDecoder decoder, PartitionSession partition,
-            MessageCommitter committer, Runnable readyHandler, ReaderMetrics metrics) {
         this.traceID = traceId;
         this.decoder = decoder;
-        this.metrics = metrics;
         this.partition = partition;
         this.committer = committer;
         this.readyHandler = readyHandler;
@@ -179,7 +171,7 @@ class ReadPartitionDecoder {
             return uncompressedSize;
         }
 
-        public void decode(CodecRegistry registry) {
+        public void decode(CodecRegistry registry, ReaderMetrics metrics) {
             if (isStopped) {
                 release();
                 return;
