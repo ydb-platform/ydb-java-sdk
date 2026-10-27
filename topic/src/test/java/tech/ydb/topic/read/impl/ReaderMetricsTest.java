@@ -99,10 +99,14 @@ public class ReaderMetricsTest {
                 meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
                 // The final 8 released bytes stay below the 10-byte credit-request threshold.
                 meter.assertLongGauge(PREFIX + "credit_balance_bytes", 92, COMMON);
+                first.getCommitter().commitRanges(Arrays.asList(
+                        first.getRangeToCommit(), second.getRangeToCommit()));
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 2, TOPIC);
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, OTHER);
                 CompletableFuture<Void> committed = CompletableFuture.allOf(
                         first.commit(), second.commit(), third.commit());
                 Assert.assertFalse(committed.isDone());
-                meter.assertCounter(PREFIX + "commit.queued", 2, TOPIC);
+                meter.assertCounter(PREFIX + "commit.queued", 4, TOPIC);
                 meter.assertCounter(PREFIX + "commit.queued", 1, OTHER);
                 meter.assertNoCounterSamples(PREFIX + "commit.acknowledged");
                 meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 2, TOPIC);

@@ -29,7 +29,6 @@ public class ReadConfig {
         this.maxMemoryUsageBytes = settings.getMaxMemoryUsageBytes();
         this.maxBatchSize = settings.getMaxBatchSize();
         this.metrics = new ReaderMetrics(settings.getMeter(), settings.getConsumerName(), settings.getReaderName());
-        settings.getTopics().forEach(topic -> metrics.addTopic(topic.getPath()));
     }
 
     public CodecRegistry getCodecRegistry() {
