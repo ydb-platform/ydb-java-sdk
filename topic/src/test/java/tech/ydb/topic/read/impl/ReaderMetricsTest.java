@@ -58,10 +58,10 @@ public class ReaderMetricsTest {
                 stream.responseInit("read-session");
                 for (Map<String, String> topic : Arrays.asList(TOPIC, OTHER)) {
                     meter.assertLongGauge(PREFIX + "partition_session.count", 0, topic);
-                    meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, topic);
                     meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, topic);
-                    meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, topic);
                 }
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, COMMON);
+                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
                 stream.responseStartPartition("/topic", 42, 0);
                 stream.responseStartPartition("/other-topic", 43, 0);
                 stream.responseStartPartition("/topic", 44, 0);
@@ -74,23 +74,18 @@ public class ReaderMetricsTest {
                 stream.responseData(8).partition(2, 0).batch(Codec.GZIP, MSG1).and().send();
                 meter.assertCounter(PREFIX + "received.messages", 2, TOPIC);
                 meter.assertCounter(PREFIX + "received.messages", 1, OTHER);
-                meter.assertCounter(PREFIX + "received.bytes", 12, TOPIC);
-                meter.assertCounter(PREFIX + "received.bytes", 8, OTHER);
+                meter.assertCounter(PREFIX + "received.bytes", 20, COMMON);
+                meter.assertCounterSeries(PREFIX + "received.bytes", 1);
                 meter.assertLongGauge(PREFIX + "credit_balance_bytes", 80, COMMON);
                 meter.assertCounter(PREFIX + "delivered.messages", 0, TOPIC);
                 meter.assertCounter(PREFIX + "delivered.messages", 0, OTHER);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 2, TOPIC);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, OTHER);
-                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", TOPIC);
-                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 3, COMMON);
+                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
                 Message first = reader.receive(0, TimeUnit.SECONDS);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, TOPIC);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 2, COMMON);
                 Message second = reader.receive(0, TimeUnit.SECONDS);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, TOPIC);
-                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, TOPIC);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, OTHER);
-                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, COMMON);
+                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
                 Message third = reader.receive(0, TimeUnit.SECONDS);
                 Assert.assertNotNull(first);
                 Assert.assertNotNull(second);
@@ -100,10 +95,8 @@ public class ReaderMetricsTest {
                 Assert.assertArrayEquals(MSG1, third.getData());
                 meter.assertCounter(PREFIX + "delivered.messages", 2, TOPIC);
                 meter.assertCounter(PREFIX + "delivered.messages", 1, OTHER);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, TOPIC);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, OTHER);
-                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, TOPIC);
-                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, COMMON);
+                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
                 // The final 8 released bytes stay below the 10-byte credit-request threshold.
                 meter.assertLongGauge(PREFIX + "credit_balance_bytes", 92, COMMON);
                 CompletableFuture<Void> committed = CompletableFuture.allOf(
@@ -162,13 +155,13 @@ public class ReaderMetricsTest {
                 stream.responseStartPartition("/topic", 42, 0);
                 stream.responseData(8).partition(1, 0).batch(Codec.GZIP, MSG1).and().send();
                 meter.assertCounter(PREFIX + "received.messages", 1, topic);
-                meter.assertCounter(PREFIX + "received.bytes", 8, topic);
+                meter.assertCounter(PREFIX + "received.bytes", 8, common);
                 Message message = reader.receive(0, TimeUnit.SECONDS);
                 Assert.assertNotNull(message);
                 Assert.assertArrayEquals(MSG1, message.getData());
                 meter.assertCounter(PREFIX + "delivered.messages", 1, topic);
                 meter.assertLongGauge(PREFIX + "partition_session.count", 1, topic);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, topic);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, common);
                 for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
                     meter.assertHistogram(PREFIX + name, "s", 1, attributes("reader.name", "without-consumer",
                             "topic", "/topic", "codec", "gzip", "outcome", "ok"));
@@ -254,7 +247,7 @@ public class ReaderMetricsTest {
     }
 
     @Test
-    public void receivedBytesFollowPartitionAllocations() throws Exception {
+    public void receivedBytesAreSharedAcrossTopics() throws Exception {
         ReadStreamMock stream = new ReadStreamMock(true);
         try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
             SyncReader reader = client.createSyncReader(ReaderSettings.newBuilder()
@@ -267,13 +260,12 @@ public class ReaderMetricsTest {
                 stream.responseStartPartition("/other-topic", 43, 0);
                 stream.responseData(25).partition(1, 0).batch(Codec.RAW, MSG1).and()
                         .partition(2, 0).batch(Codec.RAW, MSG2).and().send();
-                meter.assertCounter(PREFIX + "received.bytes", 10, TOPIC);
-                meter.assertCounter(PREFIX + "received.bytes", 15, OTHER);
-                meter.assertCounterSeries(PREFIX + "received.bytes", 2);
+                meter.assertCounter(PREFIX + "received.bytes", 25, COMMON);
+                meter.assertCounterSeries(PREFIX + "received.bytes", 1);
                 stream.responseData(5).partition(1, 1).batch(Codec.RAW, new byte[0]).and()
                         .partition(2, 1).batch(Codec.RAW, new byte[0]).and().send();
-                meter.assertCounter(PREFIX + "received.bytes", 10, TOPIC);
-                meter.assertCounter(PREFIX + "received.bytes", 20, OTHER);
+                meter.assertCounter(PREFIX + "received.bytes", 30, COMMON);
+                meter.assertCounterSeries(PREFIX + "received.bytes", 1);
                 Assert.assertArrayEquals(MSG1, reader.receive(0, TimeUnit.SECONDS).getData());
                 Assert.assertArrayEquals(MSG2, reader.receive(0, TimeUnit.SECONDS).getData());
                 Assert.assertArrayEquals(new byte[0], reader.receive(0, TimeUnit.SECONDS).getData());
@@ -286,7 +278,7 @@ public class ReaderMetricsTest {
     }
 
     @Test
-    public void asyncBuffersKeepTopicOwnership() throws Exception {
+    public void asyncBuffersAreSharedAcrossTopics() throws Exception {
         ReadStreamMock stream = new ReadStreamMock(true);
         Deque<Runnable> tasks = new ArrayDeque<>();
         List<Message> delivered = new ArrayList<>();
@@ -306,15 +298,12 @@ public class ReaderMetricsTest {
                 }
                 stream.responseData(12).partition(1, 0).batch(Codec.GZIP, MSG1, MSG2).and().send();
                 stream.responseData(8).partition(2, 0).batch(Codec.GZIP, MSG1).and().send();
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 2, TOPIC);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, OTHER);
-                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", TOPIC);
-                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 3, COMMON);
+                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
                 tasks.remove().run();
                 Assert.assertEquals(2, delivered.size());
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, TOPIC);
-                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, TOPIC);
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, COMMON);
+                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
                 while (!tasks.isEmpty()) {
                     tasks.remove().run();
                 }
@@ -322,8 +311,8 @@ public class ReaderMetricsTest {
                 Assert.assertArrayEquals(MSG1, delivered.get(0).getData());
                 Assert.assertArrayEquals(MSG2, delivered.get(1).getData());
                 Assert.assertArrayEquals(MSG1, delivered.get(2).getData());
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, OTHER);
-                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, OTHER);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, COMMON);
+                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
                 meter.assertCounter(PREFIX + "delivered.messages", 2, TOPIC);
                 meter.assertCounter(PREFIX + "delivered.messages", 1, OTHER);
             } finally {

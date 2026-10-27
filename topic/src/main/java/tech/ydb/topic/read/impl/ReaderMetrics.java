@@ -21,8 +21,8 @@ import tech.ydb.proto.topic.YdbTopic;
  */
 final class ReaderMetrics {
     interface Source {
-        long getMessagesCount(String topic);
-        long getOldestReceivedTimestamp(String topic);
+        long getMessagesCount();
+        long getOldestReceivedTimestamp();
     }
 
     private static final String MESSAGE_UNIT = "{message}";
@@ -109,14 +109,14 @@ final class ReaderMetrics {
                 .mapToLong(p -> Math.max(0, p.requested.get() - p.committed.get())).max().orElse(0);
     }
 
-    private long getLocalBufferMessages(String topic) {
-        return sources.stream().mapToLong(source -> source.getMessagesCount(topic)).sum();
+    private long getLocalBufferMessages() {
+        return sources.stream().mapToLong(Source::getMessagesCount).sum();
     }
 
-    private long getOldestReceivedTimestamp(String topic) {
+    private long getOldestReceivedTimestamp() {
         long oldest = 0;
         for (Source source : sources) {
-            long timestamp = source.getOldestReceivedTimestamp(topic);
+            long timestamp = source.getOldestReceivedTimestamp();
             if (timestamp != 0 && (oldest == 0 || timestamp < oldest)) {
                 oldest = timestamp;
             }
@@ -138,14 +138,14 @@ final class ReaderMetrics {
                 m -> topics.forEach((topic, attributes) -> m.record(getCommitOffsetLagMax(topic), attributes)));
         bufferMessagesGauge = meter.registerLongGauge("ydb.topic.reader.local_buffer.messages", MESSAGE_UNIT,
                 "The number of messages currently buffered by the reader.",
-                m -> topics.forEach((topic, attributes) -> m.record(getLocalBufferMessages(topic), attributes)));
+                m -> m.record(getLocalBufferMessages(), commonAttributes));
         ageGauge = meter.registerDoubleGauge("ydb.topic.reader.local_buffer.message_age.max", "s",
                 "The age of the oldest batch retained in the reader's local buffer.",
-                m -> topics.forEach((topic, attributes) -> {
-                    long timestamp = getOldestReceivedTimestamp(topic);
+                m -> {
+                    long timestamp = getOldestReceivedTimestamp();
                     m.record(timestamp == 0 ? 0 : (System.nanoTime() - timestamp) / 1_000_000_000d,
-                            attributes);
-                }));
+                            commonAttributes);
+                });
     }
 
     void unregister() {
@@ -171,8 +171,10 @@ final class ReaderMetrics {
         report(receivedMessages, messages, topic);
     }
 
-    void reportReceivedBytes(long bytes, String topic) {
-        report(receivedBytes, bytes, topic);
+    void reportReceivedBytes(long bytes) {
+        if (enabled) {
+            record(receivedBytes, bytes);
+        }
     }
 
     void reportSessionError(Status status, boolean retry) {

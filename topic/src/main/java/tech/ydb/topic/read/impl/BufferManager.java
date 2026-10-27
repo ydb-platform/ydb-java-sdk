@@ -7,7 +7,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.slf4j.Logger;
@@ -51,11 +50,6 @@ public class BufferManager {
 
     // Has no reentrant thread safety
     public void allocate(long bufferSize, List<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataList) {
-        allocate(bufferSize, dataList, (partitionId, bytes) -> { });
-    }
-
-    void allocate(long bufferSize, List<YdbTopic.StreamReadMessage.ReadResponse.PartitionData> dataList,
-            BiConsumer<Long, Long> allocated) {
         logger.debug("[{}] Received ReadResponse of {} bytes, {} allocated and {} released before",
                 traceID, bufferSize, totalAllocated.get(), totalReleased.get());
         totalAllocated.addAndGet(bufferSize);
@@ -93,7 +87,6 @@ public class BufferManager {
         msgIdx = 0;
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: dataList) {
             PartitionBuffer part = partitions.computeIfAbsent(data.getPartitionSessionId(), PartitionBuffer::new);
-            long partitionBytes = 0;
             for (YdbTopic.StreamReadMessage.ReadResponse.Batch batch: data.getBatchesList()) {
                 if (batch.getMessageDataCount() <= 0) {
                     continue;
@@ -110,9 +103,7 @@ public class BufferManager {
                         startOffset = msg.getOffset();
                         msgCount = 0;
                     }
-                    int size = msgSize[msgIdx++];
-                    batchSizes[msgCount++] = size;
-                    partitionBytes += size;
+                    batchSizes[msgCount++] = msgSize[msgIdx++];
                 }
                 part.add(new BatchBuffer(startOffset, batchSizes, msgCount));
             }
@@ -120,7 +111,6 @@ public class BufferManager {
             if (!partitions.containsKey(data.getPartitionSessionId())) {
                 release(part.release(ALL));
             }
-            allocated.accept(data.getPartitionSessionId(), partitionBytes);
         }
     }
 

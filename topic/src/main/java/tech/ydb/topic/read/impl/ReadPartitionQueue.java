@@ -20,16 +20,13 @@ class ReadPartitionQueue implements ReaderMetrics.Source {
     private static final Logger logger = LoggerFactory.getLogger(ReadPartition.class);
 
     private final String traceID;
-    private final String topic;
     private final ReadPartitionDecoder decoder;
     private final int maxBatchSize;
     private final Queue<MessageImpl> readingQueue = new ConcurrentLinkedQueue<>();
     private volatile long lastReadOffset;
 
-    ReadPartitionQueue(String traceID, String topic, ReadPartitionDecoder decoder, int maxBatchSize,
-            long lastReadOffset) {
+    ReadPartitionQueue(String traceID, ReadPartitionDecoder decoder, int maxBatchSize, long lastReadOffset) {
         this.traceID = traceID;
-        this.topic = topic;
         this.decoder = decoder;
         this.maxBatchSize = maxBatchSize;
         this.lastReadOffset = lastReadOffset;
@@ -40,13 +37,13 @@ class ReadPartitionQueue implements ReaderMetrics.Source {
     }
 
     @Override
-    public long getMessagesCount(String topic) {
-        return this.topic.equals(topic) ? readingQueue.size() : 0;
+    public long getMessagesCount() {
+        return readingQueue.size();
     }
 
     @Override
-    public long getOldestReceivedTimestamp(String topic) {
-        MessageImpl first = this.topic.equals(topic) ? readingQueue.peek() : null;
+    public long getOldestReceivedTimestamp() {
+        MessageImpl first = readingQueue.peek();
         return first == null ? 0 : first.getReceivedAt();
     }
 
