@@ -13,22 +13,12 @@ import org.junit.function.ThrowingRunnable;
 
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
-import tech.ydb.topic.settings.WriterSettings;
 import tech.ydb.topic.write.QueueOverflowException;
 
 /**
  * @author Aleksandr Gorshenin
  */
 public class BufferManagerTest {
-
-    private static BufferManager manager(long maxBytes, int maxCount) {
-        return new BufferManager("test", WriterSettings.newBuilder()
-                .setTopicPath("/test")
-                .setMaxSendBufferMemorySize(maxBytes)
-                .setMaxSendBufferMessagesCount(maxCount)
-                .build()
-        );
-    }
 
     private static void assertOverflow(String msg, ThrowingRunnable runnable) {
         QueueOverflowException ex = Assert.assertThrows("Must be thrown QueueOverflowException",
@@ -75,13 +65,13 @@ public class BufferManagerTest {
 
     @Test
     public void testGetMaxSize() {
-        BufferManager bm = manager(1024, 10);
+        BufferManager bm = new BufferManager("test", 1024, 10);
         Assert.assertEquals(1024, bm.getMaxSize());
     }
 
     @Test
     public void testAcquireAndRelease() throws Exception {
-        BufferManager bm = manager(70, 5);
+        BufferManager bm = new BufferManager("test", 70, 5);
         bm.acquire(30); // success
         bm.acquire(30); // success
         assertOverflow("[test] Rejecting a message of 40 bytes: not enough space in message queue. "
@@ -108,7 +98,7 @@ public class BufferManagerTest {
 
     @Test
     public void testAcquireReleasesCountOnByteInterrupt() throws Exception {
-        BufferManager bm = manager(20, 2);
+        BufferManager bm = new BufferManager("test", 20, 2);
         // Fill bytes completely: acquire 10 bytes
         bm.acquire(10);
 
@@ -125,14 +115,14 @@ public class BufferManagerTest {
 
     @Test
     public void testTryAcquireWithTimeoutSuccess() throws Exception {
-        BufferManager bm = manager(100, 5);
+        BufferManager bm = new BufferManager("test", 100, 5);
         bm.tryAcquire(50, 100, TimeUnit.MILLISECONDS);
         bm.releaseMessage(50);
     }
 
     @Test
     public void testTryAcquireWithTimeoutBytesTimeoutThrows() throws Exception {
-        BufferManager bm = manager(20, 2);
+        BufferManager bm = new BufferManager("test", 20, 2);
 
         bm.tryAcquire(15, 1, TimeUnit.MILLISECONDS); // success
         assertTimeout("[test] Rejecting a message of 15 bytes: not enough space in message queue. "
@@ -160,7 +150,7 @@ public class BufferManagerTest {
 
     @Test
     public void testUpdateMessageSizeAcquiresAvailableCapacity() throws Exception {
-        BufferManager bufferManager = manager(10, 3);
+        BufferManager bufferManager = new BufferManager("test", 10, 3);
         bufferManager.tryAcquire(4);
         bufferManager.tryAcquire(4);
 
@@ -180,14 +170,14 @@ public class BufferManagerTest {
 
     @Test
     public void testLargeBufferConfiguration() throws QueueOverflowException {
-        BufferManager bm = manager(Integer.MAX_VALUE, 10);
+        BufferManager bm = new BufferManager("test", Integer.MAX_VALUE, 10);
         bm.tryAcquire(Integer.MAX_VALUE); //success
         assertOverflow("[test] Rejecting a message of 1 bytes: not enough space in message queue. "
                 + "Buffer currently has 1 messages with 0 / 2147483647 bytes available",
                 () -> bm.tryAcquire(1));
         bm.releaseMessage(Integer.MAX_VALUE); // success
 
-        BufferManager bm2 = manager(0x80000000L, 10); // MAX_VALUE + 1 = 2GB
+        BufferManager bm2 = new BufferManager("test", 0x80000000L, 10); // MAX_VALUE + 1 = 2GB
         bm2.tryAcquire(0x40000000);
         bm2.tryAcquire(0x40000000);
         assertOverflow("[test] Rejecting a message of 1 bytes: not enough space in message queue. "
@@ -196,7 +186,7 @@ public class BufferManagerTest {
         bm2.releaseMessage(0x40000000);
         bm2.releaseMessage(0x40000000);
 
-        BufferManager bm3 = manager(0x800000000L, 100); // 32 GB
+        BufferManager bm3 = new BufferManager("test", 0x800000000L, 100); // 32 GB
         for (int idx = 0; idx < 64; idx++) {
             bm3.tryAcquire(0x20000000);
         }
@@ -208,7 +198,7 @@ public class BufferManagerTest {
         }
 
         IllegalArgumentException ex = Assert.assertThrows(IllegalArgumentException.class,
-                () -> manager(0x20000000000L, 1000000)); // 2024 GB
+                () -> new BufferManager("test", 0x20000000000L, 1000000)); // 2024 GB
         Assert.assertEquals("Writer buffer size must be less than 1024 GB", ex.getMessage());
     }
 
@@ -216,7 +206,7 @@ public class BufferManagerTest {
     public void testLargeBufferSize() throws Exception {
         // With maxBytes = 0x100000003L, calculateBlockSize returns 2 (blockBitsCount=2)
         // so all messages are rounded up to 4-byte blocks
-        BufferManager bm = manager(0x100000003L, 10);
+        BufferManager bm = new BufferManager("test", 0x100000003L, 10);
         Assert.assertEquals(0x100000003L, bm.getMaxSize());
 
         // every message acquire 1 block = 4 bytes
@@ -243,7 +233,7 @@ public class BufferManagerTest {
 
     @Test
     public void testClosedBuffer() {
-        BufferManager bm = manager(100, 3);
+        BufferManager bm = new BufferManager("test", 100, 3);
 
         bm.close(Status.SUCCESS);
 
@@ -257,7 +247,7 @@ public class BufferManagerTest {
 
     @Test
     public void testReleaseCountOnBufferClosing() throws InterruptedException, QueueOverflowException {
-        BufferManager bm = manager(100, 3);
+        BufferManager bm = new BufferManager("test", 100, 3);
 
         bm.acquire(10);
         bm.acquire(10);
@@ -305,7 +295,7 @@ public class BufferManagerTest {
 
     @Test
     public void testReleaseSizeOnBufferClosing() throws InterruptedException, QueueOverflowException {
-        BufferManager bm = manager(70, 5);
+        BufferManager bm = new BufferManager("test", 70, 5);
 
         bm.acquire(20);
         bm.acquire(20);

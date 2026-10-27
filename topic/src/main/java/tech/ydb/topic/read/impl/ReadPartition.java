@@ -53,6 +53,7 @@ public class ReadPartition implements PartitionControl {
     private final ReaderMetrics metrics;
     private final Executor dataExecutor;
     private final Executor controlExecutor;
+    private final ReadSession.Handler handler;
 
     private final ReadPartitionCommitter committer;
     private final ReadPartitionDecoder decoder;
@@ -68,15 +69,15 @@ public class ReadPartition implements PartitionControl {
         this.session = session;
         this.partition = partition;
 
+        this.handler = session.getHandler();
         ReadConfig config = session.getConfig();
-
         this.metrics = config.getMetrics();
         this.dataExecutor = new SerialExecutor(config.getDataExecutor());
         this.controlExecutor = config.getControlExecutor();
 
         this.committer = new ReadPartitionCommitter(traceID, session, this, lastCommittedOffset);
         this.decoder = new ReadPartitionDecoder(traceID, session.getDecoder(), partition, committer,
-                this::sendDataToReaders, metrics);
+                this::sendDataToReaders);
         this.queue = new ReadPartitionQueue(traceID, decoder, config.getMaxBatchSize(), lastCommittedOffset);
 
         logger.info("[{}] started for {}", traceID, partition);
@@ -150,7 +151,7 @@ public class ReadPartition implements PartitionControl {
     private void sendCommitOffsetAck() {
         CommitOffsetAcknowledgementEvent event = commitOffsetAck.getAndSet(null);
         if (event != null) {
-            session.getHandler().onCommitAck(event);
+            handler.onCommitAck(event);
         }
     }
 
@@ -174,7 +175,7 @@ public class ReadPartition implements PartitionControl {
                 long offsetEnd = event.getMessages().get(event.getMessages().size() - 1).getOffset();
                 logger.debug("[{}] onData with {} message(s) (offsets {}-{}) is about to be called...",
                         traceID, messagesCount, offsetStart, offsetEnd);
-                session.getHandler().onData(event);
+                handler.onData(event);
                 logger.debug("[{}] onData with {} message(s) (offsets {}-{}) successfully finished",
                         traceID, messagesCount, offsetStart, offsetEnd);
 
@@ -186,7 +187,7 @@ public class ReadPartition implements PartitionControl {
                 if (event != null) {
                     logger.info("[{}] has finished processing and unpaused child partitions {}", traceID,
                             event.getChildsString());
-                    session.getHandler().onPartitionEnded(event);
+                    handler.onPartitionEnded(event);
                     session.releaseLocks(partition, event.getChilds());
                 }
             }
@@ -213,7 +214,7 @@ public class ReadPartition implements PartitionControl {
         if (old != State.STOPPED && old != State.CREATED) {
             PartitionSessionClosedEventImpl closedEvent = new PartitionSessionClosedEventImpl(partition);
             // partition close event doesn't use partition's executors
-            controlExecutor.execute(() -> session.getHandler().onPartitionClosed(closedEvent));
+            controlExecutor.execute(() -> handler.onPartitionClosed(closedEvent));
         }
     }
 
@@ -227,7 +228,7 @@ public class ReadPartition implements PartitionControl {
         // partition start event doesn't use partition's executors
         controlExecutor.execute(() -> {
             if (state.compareAndSet(State.CREATED, State.INITED)) {
-                session.getHandler().onPartitionStarted(new StartEvent(committed, offsets));
+                handler.onPartitionStarted(new StartEvent(committed, offsets));
                 return;
             }
             logger.info("[{}] skipped start confirmation event because is already {}", traceID, state.get());
@@ -251,11 +252,11 @@ public class ReadPartition implements PartitionControl {
 
                 // partition close event doesn't use partition's executors
                 PartitionSessionClosedEventImpl event = new PartitionSessionClosedEventImpl(partition);
-                session.getConfig().getControlExecutor().execute(() -> session.getHandler().onPartitionClosed(event));
+                controlExecutor.execute(() -> handler.onPartitionClosed(event));
                 return;
             }
             if (state.compareAndSet(State.STARTED, State.PRE_STOPPED)) {
-                session.getHandler().onPartitionStopped(new StopEvent(committed));
+                handler.onPartitionStopped(new StopEvent(committed));
                 return;
             }
             logger.warn("[{}] skipped onStop because the partition session is already {}", traceID, state.get());

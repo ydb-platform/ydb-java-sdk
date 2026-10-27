@@ -21,25 +21,29 @@ public class MessageDecoder {
     private final long maxBufferSize;
     private final AtomicLong totalAvailable;
 
-    private final Executor decompressionExecutor;
+    private final Executor decompressor;
     private final CodecRegistry codecRegistry;
+    private final ReaderMetrics metrics;
+
     private final Queue<ReadPartitionDecoder.EncodedMessage> decodingQueue = new ConcurrentLinkedQueue<>();
     private final SerialRunnable decodeNext = new SerialRunnable(new DecodeNext());
     private volatile boolean isStopped = false;
 
     public MessageDecoder(ReadConfig config) {
-        this(config.getMaxMemoryUsageBytes(), config.getDecompressor(), config.getCodecRegistry());
+        this(config.getMaxMemoryUsageBytes(), config.getDecompressor(), config.getCodecRegistry(), config.getMetrics());
     }
 
-    MessageDecoder(long maxBufferSize, Executor decompressionExecutor, CodecRegistry codecRegistry) {
+    @VisibleForTesting
+    MessageDecoder(long maxBufferSize, Executor decompressor, CodecRegistry codecRegistry, ReaderMetrics metrics) {
         if (maxBufferSize <= 0) {
             throw new IllegalArgumentException("maxBufferSize must be positive, but got " + maxBufferSize);
         }
 
         this.maxBufferSize = maxBufferSize;
         this.totalAvailable = new AtomicLong(maxBufferSize);
-        this.decompressionExecutor = decompressionExecutor;
+        this.decompressor = decompressor;
         this.codecRegistry = codecRegistry;
+        this.metrics = metrics;
     }
 
     public void decodeNext() {
@@ -96,7 +100,7 @@ public class MessageDecoder {
                 long size = next.allocate();
                 totalAvailable.addAndGet(-size);
                 try {
-                    decompressionExecutor.execute(() -> next.decode(codecRegistry));
+                    decompressor.execute(() -> next.decode(codecRegistry, metrics));
                 } catch (Throwable ex) {
                     logger.error("Cannot execute decompression ", ex);
                     next.setError(ex);

@@ -53,6 +53,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
     private final ReadConfig config;
     private final MessageDecoder decoder;
     private final BufferManager bufferManager;
+    private final ReaderMetrics metrics;
     private final Handler handler;
 
     private final Map<Long, ReadPartition> partitions = new ConcurrentHashMap<>();
@@ -66,6 +67,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         this.config = config;
         this.decoder = new MessageDecoder(config);
         this.bufferManager = new BufferManager(id, config.getMaxMemoryUsageBytes(), new ReadRequest());
+        this.metrics = config.getMetrics();
         this.handler = handler;
     }
 
@@ -124,7 +126,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 .build();
 
         for (OffsetsRange range : rangesToCommit) {
-            config.getMetrics().reportCommitQueued(session.getId(), range.getEnd(),
+            metrics.reportCommitQueued(session.getId(), range.getEnd(),
                     range.getEnd() - range.getStart(), session.getPath());
         }
         send(FromClient.newBuilder().setCommitOffsetRequest(req).build());
@@ -144,7 +146,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
         if (commitTo != null) {
             resp.setCommitOffset(commitTo);
-            config.getMetrics().updateCommittedOffset(ps.getId(), commitTo);
+            metrics.updateCommittedOffset(ps.getId(), commitTo);
         }
 
         send(YdbTopic.StreamReadMessage.FromClient.newBuilder().setStartPartitionSessionResponse(resp.build()).build());
@@ -164,7 +166,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
         ReadPartition partition = partitions.remove(ps.getId());
         if (partition != null) {
-            config.getMetrics().removePartition(ps.getId());
+            metrics.removePartition(ps.getId());
             partition.close();
         }
     }
@@ -190,7 +192,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onInit(YdbTopic.StreamReadMessage.InitResponse response) {
         bufferManager.init(response.getSessionId());
-        config.getMetrics().register(bufferManager::getCreditBalanceBytes);
+        metrics.register(bufferManager::getCreditBalanceBytes);
     }
 
     public void onStartPartition(YdbTopic.StreamReadMessage.StartPartitionSessionRequest req) {
@@ -219,7 +221,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
-        config.getMetrics().addPartition(psid, committed, ps.getPath());
+        metrics.addPartition(psid, committed, ps.getPath());
         partition.start(committed, offsets);
         TopicPartition lockKey = new TopicPartition(ps);
         if (locks.computeIfPresent(lockKey, (key, lock) -> lock.bind(partition)) != null) {
@@ -258,7 +260,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         }
 
         logger.info("[{}] Received force StopPartitionSessionRequest for {} ", debugId, partition.getPartition());
-        config.getMetrics().removePartition(psid);
+        metrics.removePartition(psid);
         partition.close();
     }
 
@@ -267,7 +269,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
         long psid = request.getPartitionSessionId();
         ReadPartition partition = partitions.get(psid);
         if (partition != null) {
-            config.getMetrics().updateCommittedOffset(psid, committedOffset);
+            metrics.updateCommittedOffset(psid, committedOffset);
             partition.stop(committedOffset);
             return;
         }
@@ -281,7 +283,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
 
     public void onRead(YdbTopic.StreamReadMessage.ReadResponse response) {
         logger.debug("[{}] Received ReadResponse of {} bytes", debugId, response.getBytesSize());
-        config.getMetrics().reportReceivedBytes(response.getBytesSize());
+        metrics.reportReceivedBytes(response.getBytesSize());
         bufferManager.allocate(response.getBytesSize(), response.getPartitionDataList());
 
         for (YdbTopic.StreamReadMessage.ReadResponse.PartitionData data: response.getPartitionDataList()) {
@@ -308,7 +310,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
                 continue;
             }
 
-            config.getMetrics().reportCommitAcknowledged(offset.getPartitionSessionId(),
+            metrics.reportCommitAcknowledged(offset.getPartitionSessionId(),
                     offset.getCommittedOffset(), partition.getPartition().getPath());
             partition.confirmCommittedOffset(offset.getCommittedOffset());
         }
