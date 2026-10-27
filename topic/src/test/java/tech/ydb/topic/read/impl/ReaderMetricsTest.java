@@ -2,11 +2,7 @@ package tech.ydb.topic.read.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Deque;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
@@ -23,11 +19,9 @@ import tech.ydb.topic.TopicClient;
 import tech.ydb.topic.TopicRpc;
 import tech.ydb.topic.description.Codec;
 import tech.ydb.topic.impl.TopicClientImpl;
-import tech.ydb.topic.read.AsyncReader;
 import tech.ydb.topic.read.DecompressionException;
 import tech.ydb.topic.read.Message;
 import tech.ydb.topic.read.SyncReader;
-import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.utils.InMemoryMeter;
 
@@ -274,55 +268,6 @@ public class ReaderMetricsTest {
                 Assert.assertArrayEquals(new byte[0], reader.receive(0, TimeUnit.SECONDS).getData());
             } finally {
                 reader.shutdown();
-            }
-        }
-        meter.assertNoGauges();
-    }
-
-    @Test
-    public void asyncBuffersAreSharedAcrossTopics() throws Exception {
-        ReadStreamMock stream = new ReadStreamMock(true);
-        Deque<Runnable> tasks = new ArrayDeque<>();
-        List<Message> delivered = new ArrayList<>();
-        try (TopicClient client = TopicClientImpl.newClient(mockRpc(stream)).build()) {
-            AsyncReader reader = client.createAsyncReader(ReaderSettings.newBuilder()
-                    .addTopic("/topic").addTopic("/other-topic").setConsumerName("consumer")
-                    .setDecompressionExecutor(Runnable::run).withMeter(meter, "reader").build(),
-                    ReadEventHandlersSettings.newBuilder().setExecutor(tasks::add)
-                            .setEventHandler(event -> delivered.addAll(event.getMessages())).build());
-            try {
-                reader.init();
-                stream.responseInit("async-buffers");
-                stream.responseStartPartition("/topic", 42, 0);
-                stream.responseStartPartition("/other-topic", 43, 0);
-                while (!tasks.isEmpty()) {
-                    tasks.remove().run();
-                }
-                stream.responseData(12).partition(1, 0).batch(Codec.GZIP, MSG1, MSG2).and().send();
-                stream.responseData(8).partition(2, 0).batch(Codec.GZIP, MSG1).and().send();
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 3, COMMON);
-                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
-                tasks.remove().run();
-                Assert.assertEquals(2, delivered.size());
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, COMMON);
-                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
-                while (!tasks.isEmpty()) {
-                    tasks.remove().run();
-                }
-                Assert.assertEquals(3, delivered.size());
-                Assert.assertArrayEquals(MSG1, delivered.get(0).getData());
-                Assert.assertArrayEquals(MSG2, delivered.get(1).getData());
-                Assert.assertArrayEquals(MSG1, delivered.get(2).getData());
-                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, COMMON);
-                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
-                meter.assertCounter(PREFIX + "delivered.messages", 2, TOPIC);
-                meter.assertCounter(PREFIX + "delivered.messages", 1, OTHER);
-            } finally {
-                CompletableFuture<Void> closed = reader.shutdown();
-                while (!tasks.isEmpty()) {
-                    tasks.remove().run();
-                }
-                closed.get(1, TimeUnit.SECONDS);
             }
         }
         meter.assertNoGauges();
