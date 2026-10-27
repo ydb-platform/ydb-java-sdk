@@ -315,7 +315,7 @@ public class SyncReaderImplTest {
         // no messages in reader queue
         Assert.assertNull(reader.receive(0, TimeUnit.SECONDS));
 
-        m2.responseData(1000).partition(1, 1).batch(Codec.RAW, MSG2, MSG3, MSG4, MSG5).and().send();
+        m2.responseData(100).partition(1, 1).batch(Codec.RAW, MSG2, MSG3, MSG4, MSG5).and().send();
 
         // commit for the lost stream is failed
         Assert.assertTrue(msg3.commit().isCompletedExceptionally());
