@@ -1,3 +1,18 @@
+## 2.5.0 ##
+* Core: upgraded to grpc-java v1.82.4
+* Core: removed deprecated methods from GrpcTransportBuilder
+* Core: share one SslContext between the channels
+* Table: deprecated Session.executeScanQuery in favor of query service
+* Table: added FloatVector embedding helper for Bytes parameters
+* Table: added support of table attributes
+* Topic: added support of RetryConfig to topic readers
+* Topic: per-message processing in topic readers
+* Topic: added option to control backpressure of reading
+* Topic: fixed wrong seqNo processing
+* Topic: stateful implementation of partition with ordering of control events
+* Topic: added support of auto partitioning topics
+* Topic: added metrics for readers and writers
+
 ## 2.4.12 ##
 * Table: added support of JSON indexes to table descriptions
 
