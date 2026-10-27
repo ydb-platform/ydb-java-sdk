@@ -50,9 +50,15 @@ public class ReaderMetricsTest {
                 reader.init();
                 stream.assertLastMessage().isInitRequest("consumer", "/topic", "/other-topic").hasReaderName("reader");
                 stream.responseInit("read-session");
+                meter.assertLongGaugeSeries(PREFIX + "partition_session.count", 0);
+                meter.assertLongGaugeSeries(PREFIX + "commit_offset.lag.max", 0);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, COMMON);
+                meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
                 stream.responseStartPartition("/topic", 42, 0);
                 stream.responseStartPartition("/other-topic", 43, 0);
-                meter.assertLongGauge(PREFIX + "partition_session.count", 2, COMMON);
+                stream.responseStartPartition("/topic", 44, 0);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 2, TOPIC);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 1, OTHER);
                 meter.assertLongGauge(PREFIX + "credit_balance_bytes", 100, COMMON);
                 stream.responseData(12).partition(1, 0).batch(Codec.GZIP, MSG1, MSG2).and().send();
                 meter.assertCounter(PREFIX + "received.messages", 2, TOPIC);
@@ -61,13 +67,17 @@ public class ReaderMetricsTest {
                 meter.assertCounter(PREFIX + "received.messages", 2, TOPIC);
                 meter.assertCounter(PREFIX + "received.messages", 1, OTHER);
                 meter.assertCounter(PREFIX + "received.bytes", 20, COMMON);
+                meter.assertCounterSeries(PREFIX + "received.bytes", 1);
                 meter.assertLongGauge(PREFIX + "credit_balance_bytes", 80, COMMON);
                 meter.assertCounter(PREFIX + "delivered.messages", 0, TOPIC);
                 meter.assertCounter(PREFIX + "delivered.messages", 0, OTHER);
                 meter.assertLongGauge(PREFIX + "local_buffer.messages", 3, COMMON);
                 meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
                 Message first = reader.receive(0, TimeUnit.SECONDS);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 2, COMMON);
                 Message second = reader.receive(0, TimeUnit.SECONDS);
+                meter.assertLongGauge(PREFIX + "local_buffer.messages", 1, COMMON);
+                meter.assertPositiveDoubleGauge(PREFIX + "local_buffer.message_age.max", COMMON);
                 Message third = reader.receive(0, TimeUnit.SECONDS);
                 Assert.assertNotNull(first);
                 Assert.assertNotNull(second);
@@ -81,18 +91,28 @@ public class ReaderMetricsTest {
                 meter.assertDoubleGauge(PREFIX + "local_buffer.message_age.max", 0, COMMON);
                 // The final 8 released bytes stay below the 10-byte credit-request threshold.
                 meter.assertLongGauge(PREFIX + "credit_balance_bytes", 92, COMMON);
+                first.getCommitter().commitRanges(Arrays.asList(
+                        first.getRangeToCommit(), second.getRangeToCommit()));
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 2, TOPIC);
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, OTHER);
                 CompletableFuture<Void> committed = CompletableFuture.allOf(
                         first.commit(), second.commit(), third.commit());
                 Assert.assertFalse(committed.isDone());
-                meter.assertCounter(PREFIX + "commit.queued", 2, TOPIC);
+                meter.assertCounter(PREFIX + "commit.queued", 4, TOPIC);
                 meter.assertCounter(PREFIX + "commit.queued", 1, OTHER);
                 meter.assertNoCounterSamples(PREFIX + "commit.acknowledged");
-                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 2, COMMON);
-                stream.responseCommitAck().partition(1, 2).partition(2, 1).send();
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 2, TOPIC);
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 1, OTHER);
+                stream.responseCommitAck().partition(1, 2).send();
+                Assert.assertFalse(committed.isDone());
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, TOPIC);
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 1, OTHER);
+                stream.responseCommitAck().partition(2, 1).send();
                 committed.get(1, TimeUnit.SECONDS);
                 meter.assertCounter(PREFIX + "commit.acknowledged", 2, TOPIC);
                 meter.assertCounter(PREFIX + "commit.acknowledged", 1, OTHER);
-                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, COMMON);
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, TOPIC);
+                meter.assertLongGauge(PREFIX + "commit_offset.lag.max", 0, OTHER);
                 for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
                     meter.assertHistogram(PREFIX + name, "s", 2, attributes("consumer", "consumer",
                             "reader.name", "reader", "topic", "/topic", "codec", "gzip", "outcome", "ok"));
@@ -101,8 +121,12 @@ public class ReaderMetricsTest {
                 }
                 meter.assertUnit(PREFIX + "received.bytes", "By");
                 stream.responseStopPartition(1, true);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 1, TOPIC);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 1, OTHER);
                 stream.responseStopPartition(2, true);
-                meter.assertLongGauge(PREFIX + "partition_session.count", 0, COMMON);
+                stream.responseStopPartition(3, true);
+                meter.assertLongGaugeSeries(PREFIX + "partition_session.count", 0);
+                meter.assertLongGaugeSeries(PREFIX + "commit_offset.lag.max", 0);
             } finally {
                 reader.shutdown();
             }
@@ -132,7 +156,7 @@ public class ReaderMetricsTest {
                 Assert.assertNotNull(message);
                 Assert.assertArrayEquals(MSG1, message.getData());
                 meter.assertCounter(PREFIX + "delivered.messages", 1, topic);
-                meter.assertLongGauge(PREFIX + "partition_session.count", 1, common);
+                meter.assertLongGauge(PREFIX + "partition_session.count", 1, topic);
                 meter.assertLongGauge(PREFIX + "local_buffer.messages", 0, common);
                 for (String name : Arrays.asList("compression.duration", "message.processing.duration")) {
                     meter.assertHistogram(PREFIX + name, "s", 1, attributes("reader.name", "without-consumer",

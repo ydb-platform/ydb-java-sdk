@@ -219,7 +219,7 @@ public class ReadSession extends TopicStreamBase<FromServer, FromClient> {
             return;
         }
 
-        config.getMetrics().addPartition(psid, committed);
+        config.getMetrics().addPartition(psid, committed, ps.getPath());
         partition.start(committed, offsets);
         TopicPartition lockKey = new TopicPartition(ps);
         if (locks.computeIfPresent(lockKey, (key, lock) -> lock.bind(partition)) != null) {
