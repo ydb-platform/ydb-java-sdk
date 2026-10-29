@@ -5,6 +5,7 @@ import java.util.concurrent.Executor;
 
 import javax.annotation.WillNotClose;
 
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcTransport;
@@ -21,11 +22,15 @@ import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeConsumerSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
+import tech.ydb.topic.settings.MultiWriterSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.write.AsyncMultiWriter;
 import tech.ydb.topic.write.AsyncWriter;
+import tech.ydb.topic.write.SyncMultiWriter;
 import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.write.TransactionalMultiWriter;
 
 
 /**
@@ -161,6 +166,36 @@ public interface TopicClient extends AutoCloseable {
      * @return topic {@link AsyncWriter}
      */
     AsyncWriter createAsyncWriter(WriterSettings settings);
+
+    /**
+     * Creates an ordinary multiwriter. Call init before sending messages.
+     * Existing third-party client implementations may opt into this additive API.
+     * @param settings multiwriter settings
+     * @return asynchronous multiwriter
+     */
+    default AsyncMultiWriter createAsyncMultiWriter(MultiWriterSettings settings) {
+        throw new UnsupportedOperationException("This TopicClient does not implement multiwriters");
+    }
+
+    /**
+     * Creates a synchronous wrapper; send waits for admission and flush waits for acknowledgements.
+     * @param settings multiwriter settings
+     * @return synchronous multiwriter
+     */
+    default SyncMultiWriter createSyncMultiWriter(MultiWriterSettings settings) {
+        return new SyncMultiWriter(createAsyncMultiWriter(settings));
+    }
+
+    /**
+     * Creates a writer bound to one active external transaction. Await prepareCommit before committing it.
+     * @param settings multiwriter settings
+     * @param transaction active transaction; its commit and rollback remain the caller's responsibility
+     * @return transaction-bound writer
+     */
+    default TransactionalMultiWriter createTransactionalMultiWriter(MultiWriterSettings settings,
+            YdbTransaction transaction) {
+        throw new UnsupportedOperationException("This TopicClient does not implement transactional multiwriters");
+    }
 
     @Override
     void close();
