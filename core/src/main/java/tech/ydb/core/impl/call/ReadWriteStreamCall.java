@@ -75,17 +75,19 @@ public class ReadWriteStreamCall<R, W> extends ClientCall.Listener<R> implements
                 throw new IllegalArgumentException("Observer must be not empty");
             }
             consumer = observer;
-            call.start(this, headers);
-            // init flow control
-            flow.onStart();
-        } catch (Throwable t) {
             try {
-                call.cancel(null, t);
-            } catch (Throwable ex) {
-                logger.error("Exception encountered while closing the unary call", ex);
-            }
+                call.start(this, headers);
+                // init flow control
+                flow.onStart();
+            } catch (Throwable t) {
+                try {
+                    call.cancel(null, t);
+                } catch (Throwable ex) {
+                    logger.error("Exception encountered while closing the unary call", ex);
+                }
 
-            statusFuture.completeExceptionally(t);
+                statusFuture.completeExceptionally(t);
+            }
         } finally {
             callLock.unlock();
         }
