@@ -1,3 +1,5 @@
+* Core: added opt-in PRIMARY/PROMOTED Bridge pile preference with synchronized-pile fallback
+
 ## 2.5.0 ##
 * Core: upgraded to grpc-java v1.82.4
 * Core: removed deprecated methods from GrpcTransportBuilder

@@ -21,6 +21,9 @@ public class BalancingSettings {
          * Detecting of local DC by the latency measuring
          */
         USE_DETECT_LOCAL_DC,
+
+        /** Prefer PRIMARY/PROMOTED Bridge piles, with fallback to synchronized piles. */
+        USE_PREFERABLE_PRIMARY_PILE,
     }
 
     private final Policy policy;
@@ -57,6 +60,16 @@ public class BalancingSettings {
 
     public static BalancingSettings detectLocalDs() {
         return new BalancingSettings(Policy.USE_DETECT_LOCAL_DC);
+    }
+
+    /**
+     * Prefer PRIMARY/PROMOTED Bridge endpoints, retaining synchronized endpoints as fallback.
+     * On an ordinary cluster all endpoints remain equally preferred. Node-bound requests retain their affinity.
+     *
+     * @return primary-pile balancing settings
+     */
+    public static BalancingSettings preferPrimaryPile() {
+        return new BalancingSettings(Policy.USE_PREFERABLE_PRIMARY_PILE);
     }
 
     @Override

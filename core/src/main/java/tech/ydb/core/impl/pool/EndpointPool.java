@@ -83,6 +83,9 @@ public final class EndpointPool {
                 List<PriorityEndpoint> ready = readyEnpoints.stream()
                         .map(recordsByEndpoint::get)
                         .filter(pr -> pr != null && !pr.isPessimized())
+                        .filter(pr -> balancingSettings.getPolicy()
+                                != BalancingSettings.Policy.USE_PREFERABLE_PRIMARY_PILE
+                                || pr.getPriority() == records.get(0).getPriority())
                         .collect(Collectors.toList());
 
                 if (!ready.isEmpty()) {
@@ -112,7 +115,7 @@ public final class EndpointPool {
 
         logger.debug("init new state with {} endpoints", endpoints.size());
         for (EndpointRecord endpoint : endpoints) {
-            int priority = picker.getEndpointPriority(endpoint.getLocation());
+            int priority = picker.getPriority(endpoint);
 
             PriorityEndpoint entry = new PriorityEndpoint(endpoint, priority);
             String hostAndPort = endpoint.getHostAndPort();

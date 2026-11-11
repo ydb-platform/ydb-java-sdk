@@ -2,6 +2,10 @@ package tech.ydb.core.impl.pool;
 
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
+import tech.ydb.proto.bridge.YdbBridgeCommon.PileState.State;
+
 /**
  * @author Nikolay Perfilov
  */
@@ -12,12 +16,19 @@ public class EndpointRecord {
     private final String authority;
     private final int port;
     private final int nodeId;
+    private final State pileState;
 
     public EndpointRecord(String host, int port, int nodeId, String locationDC, String authority) {
+        this(host, port, nodeId, locationDC, authority, null);
+    }
+
+    public EndpointRecord(String host, int port, int nodeId, String locationDC, String authority,
+            @Nullable State pileState) {
         this.host = Objects.requireNonNull(host);
         this.port = port;
         this.hostAndPort = host + ":" + port;
         this.nodeId = nodeId;
+        this.pileState = pileState;
         this.locationDC = locationDC;
         if (authority != null && !authority.isEmpty()) {
             this.authority = authority;
@@ -52,6 +63,11 @@ public class EndpointRecord {
 
     public String getLocation() {
         return locationDC;
+    }
+
+    @Nullable
+    public State getPileState() {
+        return pileState;
     }
 
     @Override

@@ -28,9 +28,33 @@ public class PriorityPicker {
     private static final int DETECT_DC_TCP_PING_TIMEOUT_MS = 5000;
 
     private final String preferredLocation;
+    private final boolean preferPrimaryPile;
 
     private PriorityPicker(String location) {
+        this(location, false);
+    }
+
+    private PriorityPicker(String location, boolean preferPrimaryPile) {
         this.preferredLocation = location;
+        this.preferPrimaryPile = preferPrimaryPile;
+    }
+
+    int getPriority(EndpointRecord endpoint) {
+        if (!preferPrimaryPile) {
+            return getEndpointPriority(endpoint.getLocation());
+        }
+        if (endpoint.getPileState() == null) {
+            return 0; // Discovery has no Bridge roster.
+        }
+        switch (endpoint.getPileState()) {
+            case PRIMARY:
+            case PROMOTED:
+                return 0;
+            case SYNCHRONIZED:
+                return LOCALITY_SHIFT;
+            default:
+                return 2 * LOCALITY_SHIFT;
+        }
     }
 
     public int getEndpointPriority(String location) {
@@ -49,6 +73,8 @@ public class PriorityPicker {
                 return new PriorityPicker(getLocationFromConfig(settings.getPreferableLocation(), selfLocation));
             case USE_DETECT_LOCAL_DC:
                 return new PriorityPicker(detectLocalDC(endpoints, Ticker.systemTicker()));
+            case USE_PREFERABLE_PRIMARY_PILE:
+                return new PriorityPicker(null, true);
             default:
                 throw new RuntimeException("Not implemented balancing policy: " + settings.getPolicy().name());
         }

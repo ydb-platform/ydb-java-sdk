@@ -2,7 +2,9 @@ package tech.ydb.core.impl;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
@@ -25,6 +27,8 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.utils.FutureTools;
+import tech.ydb.proto.bridge.YdbBridgeCommon.PileState;
+import tech.ydb.proto.bridge.YdbBridgeCommon.PileState.State;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.DiscoveryProtos.EndpointInfo;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
@@ -237,9 +241,14 @@ public class YdbDiscovery {
                 return;
             }
 
+            Map<String, State> piles = new HashMap<>();
+            for (PileState pile : result.getPileStatesList()) {
+                piles.put(pile.getPileName(), pile.getState());
+            }
             List<EndpointRecord> records = result.getEndpointsList().stream()
                     .map(e -> new EndpointRecord(createAddress(e), e.getPort(), e.getNodeId(), e.getLocation(),
-                        e.getSslTargetNameOverride()))
+                        e.getSslTargetNameOverride(), piles.isEmpty() ? null
+                            : piles.getOrDefault(e.getBridgePileName(), State.UNSPECIFIED)))
                     .collect(Collectors.toList());
 
             logger.debug("successfully received ListEndpoints result with {} endpoints", records.size());
