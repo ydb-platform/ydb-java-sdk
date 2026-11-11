@@ -26,6 +26,7 @@ import org.mockito.Mockito;
 import tech.ydb.core.Result;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.grpc.GrpcTransportBuilder;
@@ -38,6 +39,7 @@ import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.Version;
+import tech.ydb.proto.bridge.YdbBridgeCommon.PileState;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
@@ -76,13 +78,51 @@ public class YdbTransportImplTest {
     }
 
     private CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> whoAmI(GrpcTransport transport) {
-        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().build();
+        return whoAmI(transport, GrpcRequestSettings.newBuilder().build());
+    }
+
+    private CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> whoAmI(
+            GrpcTransport transport, GrpcRequestSettings settings) {
         DiscoveryProtos.WhoAmIRequest request = DiscoveryProtos.WhoAmIRequest.newBuilder().build();
         return transport.unaryCall(DiscoveryServiceGrpc.getWhoAmIMethod(), settings, request)
                 .thenApply(OperationBinder.bindSync(
                         DiscoveryProtos.WhoAmIResponse::getOperation,
                         DiscoveryProtos.WhoAmIResult.class
                 ));
+    }
+
+    @Test
+    public void primaryPilePolicyUsesDiscoveryMetadataAndPreservesAffinity() throws InterruptedException {
+        ManagedChannel secondary = Mockito.mock(ManagedChannel.class);
+        Mockito.when(secondary.getState(Mockito.anyBoolean())).thenReturn(ConnectivityState.READY);
+        Mockito.when(secondary.shutdown()).thenReturn(secondary);
+        Mockito.when(secondary.shutdownNow()).thenReturn(secondary);
+        Mockito.when(secondary.awaitTermination(Mockito.anyLong(), Mockito.any())).thenReturn(true);
+        Mockito.when(channelFactory.newManagedChannel("secondary", 2136, null)).thenReturn(secondary);
+        DiscoveryProtos.ListEndpointsResult result = DiscoveryProtos.ListEndpointsResult.newBuilder()
+                .addEndpoints(DiscoveryProtos.EndpointInfo.newBuilder().setAddress("node").setPort(2136)
+                        .setNodeId(1).setBridgePileName("A"))
+                .addEndpoints(DiscoveryProtos.EndpointInfo.newBuilder().setAddress("secondary").setPort(2136)
+                        .setNodeId(2).setBridgePileName("B"))
+                .addPileStates(PileState.newBuilder().setPileName("A").setState(PileState.State.PRIMARY))
+                .addPileStates(PileState.newBuilder().setPileName("B").setState(PileState.State.SYNCHRONIZED))
+                .build();
+        Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
+                .thenAnswer(call -> MockedCall.discovery(result));
+        Mockito.when(transportChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenAnswer(call -> MockedCall.whoAmICall("primary"));
+        Mockito.when(secondary.newCall(Mockito.eq(DiscoveryServiceGrpc.getWhoAmIMethod()), Mockito.any()))
+                .thenAnswer(call -> MockedCall.whoAmICall("secondary"));
+        try (GrpcTransport transport = GrpcTransport.forConnectionString("grpc://mocked:2136/local")
+                .withBalancingSettings(BalancingSettings.preferPrimaryPile())
+                .withChannelFactoryBuilder(builder -> channelFactory)
+                .build()) {
+            Assert.assertEquals("secondary", whoAmI(transport, GrpcRequestSettings.newBuilder()
+                    .withPreferredNodeID(2).build()).join().getValue().getUser());
+            Assert.assertEquals("primary", whoAmI(transport, GrpcRequestSettings.newBuilder()
+                    .withPreferReadyChannel(true).build()).join().getValue().getUser());
+            Assert.assertEquals("primary", whoAmI(transport).join().getValue().getUser());
+        }
     }
 
     @Test

@@ -23,6 +23,7 @@ import org.mockito.MockitoAnnotations;
 import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.BalancingSettings;
 import tech.ydb.core.grpc.GrpcRequestSettings;
+import tech.ydb.proto.bridge.YdbBridgeCommon.PileState.State;
 
 /**
  * @author Aleksandr Gorshenin
@@ -65,6 +66,48 @@ public class EndpointPoolTest {
 
     private GrpcRequestSettings preferReady() {
         return GrpcRequestSettings.newBuilder().withPreferReadyChannel(true).build();
+    }
+
+    @Test
+    public void primaryPileRoleOnlySwitchoverTest() {
+        EndpointPool pool = new EndpointPool(BalancingSettings.preferPrimaryPile());
+        EndpointRecord a = new EndpointRecord("a", 2135, 1, "DC1", null, State.PRIMARY);
+        EndpointRecord b = new EndpointRecord("b", 2135, 2, "DC2", null, State.SYNCHRONIZED);
+        Assert.assertTrue(pool.setNewState("DC1", list(a, b)).isEmpty());
+        Assert.assertEquals(1, pool.getEndpoint(EMPTY, empty()).getNodeId());
+
+        a = new EndpointRecord("a", 2135, 1, "DC1", null, State.SYNCHRONIZED);
+        b = new EndpointRecord("b", 2135, 2, "DC2", null, State.PRIMARY);
+        Assert.assertTrue(pool.setNewState("DC1", list(a, b)).isEmpty());
+        Assert.assertEquals(2, pool.getEndpoint(EMPTY, empty()).getNodeId());
+        Assert.assertEquals(1, pool.getEndpoint(EMPTY, nodeId(1)).getNodeId());
+        Assert.assertEquals(1, pool.getEndpoint(EMPTY, direct(1)).getNodeId());
+    }
+
+    @Test
+    public void primaryPilePreferReadyAndFallbackTest() {
+        EndpointPool pool = new EndpointPool(BalancingSettings.preferPrimaryPile());
+        EndpointRecord a = new EndpointRecord("a", 2135, 1, "DC1", null, State.PRIMARY);
+        EndpointRecord b = new EndpointRecord("b", 2135, 2, "DC2", null, State.SYNCHRONIZED);
+        EndpointRecord c = new EndpointRecord("c", 2135, 3, "DC1", null, State.UNRECOGNIZED);
+        pool.setNewState("DC1", list(a, b, c));
+        Assert.assertEquals(1, pool.getEndpoint(Collections.singleton("b:2135"), preferReady()).getNodeId());
+        pool.pessimizeEndpoint(a, "primary unavailable");
+        Assert.assertEquals(2, pool.getEndpoint(Collections.singleton("c:2135"), preferReady()).getNodeId());
+        pool.pessimizeEndpoint(b, "synchronized unavailable");
+        Assert.assertEquals(3, pool.getEndpoint(EMPTY, empty()).getNodeId());
+    }
+
+    @Test
+    public void primaryPileOrdinaryClusterAndPromotedTest() {
+        EndpointPool pool = new EndpointPool(BalancingSettings.preferPrimaryPile());
+        pool.setNewState("DC1", list(endpoint(1, "a", 2135, "DC1"), endpoint(2, "b", 2135, "DC2")));
+        check(pool).bestEndpointsCount(2);
+        pool.setNewState("DC1", list(
+                new EndpointRecord("a", 2135, 1, "DC1", null, State.PRIMARY),
+                new EndpointRecord("b", 2135, 2, "DC2", null, State.PROMOTED),
+                new EndpointRecord("c", 2135, 3, "DC1", null, State.SYNCHRONIZED)));
+        check(pool).bestEndpointsCount(2);
     }
 
     @Test

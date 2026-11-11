@@ -132,9 +132,18 @@ public abstract class MockedCall<ResT, RespT> extends ClientCall<ResT, RespT> {
         }
         builder.setSelfLocation(selfLocation);
 
+        return discovery(executor, builder.build());
+    }
+
+    public static DiscoveryCall discovery(DiscoveryProtos.ListEndpointsResult result) {
+        return discovery(Runnable::run, result);
+    }
+
+    public static DiscoveryCall discovery(Executor executor, DiscoveryProtos.ListEndpointsResult result) {
+
         OperationProtos.Operation operation = OperationProtos.Operation.newBuilder()
                 .setReady(true)
-                .setResult(Any.pack(builder.build()))
+                .setResult(Any.pack(result))
                 .setId("discovery-id")
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .build();

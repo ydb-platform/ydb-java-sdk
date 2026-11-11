@@ -15,11 +15,30 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import tech.ydb.core.grpc.BalancingSettings;
+import tech.ydb.proto.bridge.YdbBridgeCommon.PileState.State;
 
 /**
  * @author Kirill
  */
 public class PriorityPickerTest {
+
+    @Test
+    public void primaryPilePrioritiesTest() {
+        PriorityPicker picker = PriorityPicker.from(BalancingSettings.preferPrimaryPile(), "DC1", null);
+        Assert.assertEquals(0, picker.getPriority(new EndpointRecord("ordinary", 2135)));
+        for (State state : State.values()) {
+            EndpointRecord endpoint = new EndpointRecord("host", 2135, 1, "DC2", null, state);
+            int expected = state == State.PRIMARY || state == State.PROMOTED ? 0
+                    : state == State.SYNCHRONIZED ? 1000 : 2000;
+            Assert.assertEquals(state.name(), expected, picker.getPriority(endpoint));
+        }
+        PriorityPicker ordinary = PriorityPicker.from(BalancingSettings.defaultInstance(), "DC1", null);
+        Assert.assertEquals(0, ordinary.getPriority(
+                new EndpointRecord("host", 2135, 1, "DC2", null, State.DISCONNECTED)));
+        PriorityPicker locality = PriorityPicker.from(BalancingSettings.fromLocation("DC1"), "DC1", null);
+        Assert.assertEquals(1000, locality.getPriority(
+                new EndpointRecord("host", 2135, 1, "DC2", null, State.PRIMARY)));
+    }
 
     @Test
     public void randomEvaluatorTest() {
