@@ -101,8 +101,8 @@ public final class EndpointPool {
     }
 
     // Sets new endpoints, returns removed
-    public List<EndpointRecord> setNewState(String selfLocation, List<EndpointRecord> endpoints) {
-        PriorityPicker picker = PriorityPicker.from(balancingSettings, selfLocation, endpoints);
+    public List<EndpointRecord> setNewState(String selfLocation, Piles piles, List<EndpointRecord> endpoints) {
+        PriorityPicker picker = PriorityPicker.from(balancingSettings, selfLocation, piles, endpoints);
 
         Map<String, PriorityEndpoint> newRecordsByEndpoint = new HashMap<>();
         Map<Integer, PriorityEndpoint> newRecordsByNodeId = new HashMap<>();
@@ -112,7 +112,7 @@ public final class EndpointPool {
 
         logger.debug("init new state with {} endpoints", endpoints.size());
         for (EndpointRecord endpoint : endpoints) {
-            int priority = picker.getEndpointPriority(endpoint.getLocation());
+            int priority = picker.getPriority(endpoint);
 
             PriorityEndpoint entry = new PriorityEndpoint(endpoint, priority);
             String hostAndPort = endpoint.getHostAndPort();

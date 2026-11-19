@@ -139,7 +139,6 @@ public abstract class MockedCall<ResT, RespT> extends ClientCall<ResT, RespT> {
                 .setStatus(StatusCodesProtos.StatusIds.StatusCode.SUCCESS)
                 .build();
 
-
         return new DiscoveryCall(executor) {
             @Override
             protected void complete(Listener<DiscoveryProtos.ListEndpointsResponse> listener) {

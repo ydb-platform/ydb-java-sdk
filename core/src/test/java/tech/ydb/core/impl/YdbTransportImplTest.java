@@ -76,7 +76,11 @@ public class YdbTransportImplTest {
     }
 
     private CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> whoAmI(GrpcTransport transport) {
-        GrpcRequestSettings settings = GrpcRequestSettings.newBuilder().build();
+        return whoAmI(transport, GrpcRequestSettings.newBuilder().build());
+    }
+
+    private CompletableFuture<Result<DiscoveryProtos.WhoAmIResult>> whoAmI(
+            GrpcTransport transport, GrpcRequestSettings settings) {
         DiscoveryProtos.WhoAmIRequest request = DiscoveryProtos.WhoAmIRequest.newBuilder().build();
         return transport.unaryCall(DiscoveryServiceGrpc.getWhoAmIMethod(), settings, request)
                 .thenApply(OperationBinder.bindSync(
@@ -386,7 +390,7 @@ public class YdbTransportImplTest {
 
     @Test
     public void spanAttributesAndTraceparentAreSetInMetadata() {
-        EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a", null);
+        EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a");
         MockedCall.WhoAmICall whoAmICall = MockedCall.whoAmICall("i am node");
 
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
@@ -427,7 +431,7 @@ public class YdbTransportImplTest {
 
     @Test
     public void noSpanDoesNotSetTraceparentHeader() {
-        EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a", null);
+        EndpointRecord endpoint = new EndpointRecord("node", 2136, 42, "dc-a");
         MockedCall.WhoAmICall whoAmICall = MockedCall.whoAmICall("i am node");
         Mockito.when(discoveryChannel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
                 .thenReturn(MockedCall.discovery("self", endpoint));

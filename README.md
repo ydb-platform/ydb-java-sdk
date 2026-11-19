@@ -73,6 +73,22 @@ After that you can specify the SDK modules that your project needs in the depend
 </dependencies>
 ```
 
+### Prefer the primary Bridge pile
+
+Enable PRIMARY/PROMOTED pile preference explicitly when building the transport:
+
+```java
+GrpcTransport transport = GrpcTransport.forConnectionString(connectionString)
+        .withBalancingSettings(BalancingSettings.preferPrimaryPile())
+        .build();
+```
+
+Use `tech.ydb.core.grpc.BalancingSettings` and `tech.ydb.core.grpc.GrpcTransport`.
+The policy follows pile roles reported by discovery, including role changes at unchanged endpoint addresses.
+SYNCHRONIZED endpoints remain available as fallback; other or unknown states are last-resort candidates.
+On a cluster without Bridge metadata the policy uses ordinary balancing. The default policy is unchanged.
+Requests bound to an existing session or a specific node retain their node affinity.
+
 ## Versioning Policy
 
 YDB Java SDK comply to guidelines from [SemVer2.0.0](https://semver.org/) with several [exceptions](VERSIONING.md).

@@ -91,7 +91,7 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(EMPTY, nodeId(0))).isNull();
         check(pool.getEndpoint(EMPTY, nodeId(1))).isNull();
 
-        pool.setNewState("DC1", list());
+        pool.setNewState("DC1", Piles.EMPTY, list());
 
         check(pool.getEndpoint(EMPTY, empty())).isNull();
         check(pool.getEndpoint(EMPTY, nodeId(0))).isNull();
@@ -103,7 +103,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState("DC1", list(
+        pool.setNewState("DC1", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12345, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12345, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12345, "DC3")
@@ -134,7 +134,7 @@ public class EndpointPoolTest {
         EndpointRecord e3 = endpoint(3, "n3.ydb.tech", 12345, "DC3");
         EndpointRecord e4 = endpoint(4, "n4.ydb.tech", 12345, "DC4");
 
-        pool.setNewState("DC1", list(e1, e2, e3));
+        pool.setNewState("DC1", Piles.EMPTY, list(e1, e2, e3));
 
         Set<String> unknown = new TreeSet<>(Arrays.asList(e4.getHostAndPort()));
         Set<String> ready = new TreeSet<>(Arrays.asList(e3.getHostAndPort(), e1.getHostAndPort()));
@@ -175,7 +175,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(preferredNode(null));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState("DC2", list(
+        pool.setNewState("DC2", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12345, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12345, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12345, "DC3")
@@ -233,7 +233,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(preferredNode("DC1"));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState("DC3", list(
+        pool.setNewState("DC3", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12345, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12345, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12345, "DC3")
@@ -258,7 +258,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState("DC3", list(
+        pool.setNewState("DC3", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC3")
@@ -288,7 +288,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
 
-        pool.setNewState("DC3", list(
+        pool.setNewState("DC3", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC2"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC3"),
@@ -321,8 +321,8 @@ public class EndpointPoolTest {
         check(pool.getEndpoint(EMPTY, nodeId(2))).hostname("n2.ydb.tech").nodeID(2).port(12342);
 
         // Pessimize unknown nodes - nothing is changed
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2, null, null), "test 2");
-        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2, null, null), "test 3");
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12341, 2), "test 2");
+        pool.pessimizeEndpoint(new EndpointRecord("n2.ydb.tech", 12342, 2), "test 3");
         pool.pessimizeEndpoint(null, "null");
         check(pool).records(5).knownNodes(5).needToReDiscovery(false).bestEndpointsCount(4);
 
@@ -356,7 +356,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(preferredNode("DC1"));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState("DC3", list(
+        pool.setNewState("DC3", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC1"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC2"),
@@ -401,7 +401,7 @@ public class EndpointPoolTest {
         Mockito.verify(random, Mockito.times(4)).nextInt(4);
 
         // setNewState reset all
-        pool.setNewState("DC3", list(
+        pool.setNewState("DC3", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC1"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC1"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC2"),
@@ -415,7 +415,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState("DC", list(
+        pool.setNewState("DC", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC"),
@@ -450,7 +450,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState("DC", list(
+        pool.setNewState("DC", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(2, "n3.ydb.tech", 12343, "DC")
@@ -478,7 +478,7 @@ public class EndpointPoolTest {
         EndpointPool pool = new EndpointPool(useAllNodes());
         check(pool).records(0).knownNodes(0).needToReDiscovery(false);
 
-        pool.setNewState("DC", list(
+        pool.setNewState("DC", Piles.EMPTY, list(
                 endpoint(1, "n1.ydb.tech", 12341, "DC"),
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(3, "n3.ydb.tech", 12343, "DC")
@@ -501,7 +501,7 @@ public class EndpointPoolTest {
 
         Mockito.verify(random, Mockito.times(3)).nextInt(3);
 
-        pool.setNewState("DC", list(
+        pool.setNewState("DC", Piles.EMPTY, list(
                 endpoint(2, "n2.ydb.tech", 12342, "DC"),
                 endpoint(4, "n4.ydb.tech", 12344, "DC"),
                 endpoint(5, "n5.ydb.tech", 12345, "DC"),
@@ -551,7 +551,7 @@ public class EndpointPoolTest {
             int p2 = 1235;
             int p3 = 1236;
 
-            pool.setNewState("DC", list(
+            pool.setNewState("DC", Piles.EMPTY, list(
                     endpoint(1, "127.0.0.1", p1, "DC1"),
                     endpoint(2, "127.0.0.2", p2, "DC2"),
                     endpoint(3, "127.0.0.3", p3, "DC3")
@@ -667,6 +667,6 @@ public class EndpointPoolTest {
     }
 
     private static EndpointRecord endpoint(int nodeID, String hostname, int port, String location) {
-        return new EndpointRecord(hostname, port, nodeID, location, null);
+        return new EndpointRecord(hostname, port, nodeID, location);
     }
 }

@@ -22,6 +22,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.impl.pool.Piles;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
 
@@ -189,7 +190,8 @@ public class YdbDiscoveryTest {
         CountDownLatch handlingAllowed = new CountDownLatch(1);
         TestHandler handler = new TestHandler() {
             @Override
-            public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+            public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, Piles piles,
+                    String selfLocation) {
                 try {
                     handlingStarted.countDown();
                     Assert.assertTrue(handlingAllowed.await(1, TimeUnit.SECONDS));
@@ -286,6 +288,7 @@ public class YdbDiscoveryTest {
 
     private class TestHandler implements YdbDiscovery.Handler {
         private volatile boolean force = false;
+        private List<EndpointRecord> endpoints;
 
         @Override
         public Instant instant() {
@@ -305,7 +308,8 @@ public class YdbDiscoveryTest {
         }
 
         @Override
-        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, Piles piles, String selfLoc) {
+            this.endpoints = endpoints;
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }
     }

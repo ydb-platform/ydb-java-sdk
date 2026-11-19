@@ -20,6 +20,7 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.impl.pool.Piles;
 
 /**
  *
@@ -52,7 +53,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         this.callOptions = new AuthCallOptions(scheduler, endpoints, channelFactory, builder);
         this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
         this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());
-        this.endpointPool.setNewState(null, endpoints);
+        this.endpointPool.setNewState(null, Piles.EMPTY, endpoints);
     }
 
     @Override
@@ -88,7 +89,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
         endpointPool.pessimizeEndpoint(endpoint, reason);
 
         if (endpointPool.needToRunDiscovery()) {
-            endpointPool.setNewState(null, endpoints);
+            endpointPool.setNewState(null, Piles.EMPTY, endpoints);
         }
     }
 }
