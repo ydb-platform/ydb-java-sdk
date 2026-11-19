@@ -22,6 +22,7 @@ import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.GrpcChannel;
 import tech.ydb.core.impl.pool.GrpcChannelPool;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
+import tech.ydb.core.impl.pool.Piles;
 import tech.ydb.core.tracing.Tracer;
 
 /**
@@ -62,7 +63,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     public void start(GrpcTransportBuilder.InitMode mode) {
         if (mode == GrpcTransportBuilder.InitMode.ASYNC_FALLBACK) {
-            endpointPool.setNewState(null, Collections.singletonList(serverEndpoint));
+            endpointPool.setNewState(null, Piles.EMPTY, Collections.singletonList(serverEndpoint));
         }
 
         discovery.start();
@@ -146,8 +147,8 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         }
 
         @Override
-        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
-            List<EndpointRecord> removed = endpointPool.setNewState(selfLocation, endpoints);
+        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, Piles piles, String selfLoc) {
+            List<EndpointRecord> removed = endpointPool.setNewState(selfLoc, piles, endpoints);
             return channelPool.removeChannels(removed);
         }
 

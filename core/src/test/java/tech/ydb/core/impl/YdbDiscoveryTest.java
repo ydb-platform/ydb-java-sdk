@@ -22,9 +22,7 @@ import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.auth.AuthCallOptions;
 import tech.ydb.core.impl.pool.EndpointRecord;
 import tech.ydb.core.impl.pool.ManagedChannelFactory;
-import tech.ydb.proto.bridge.YdbBridgeCommon.PileState;
-import tech.ydb.proto.bridge.YdbBridgeCommon.PileState.State;
-import tech.ydb.proto.discovery.DiscoveryProtos;
+import tech.ydb.core.impl.pool.Piles;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
 
 
@@ -96,41 +94,6 @@ public class YdbDiscoveryTest {
         discovery.stop();
 
         // stop is idempotent operation
-        discovery.stop();
-    }
-
-    @Test
-    public void bridgeMetadataAndRoleChangesTest() {
-        DiscoveryProtos.ListEndpointsResult.Builder result = DiscoveryProtos.ListEndpointsResult.newBuilder()
-                .addEndpoints(DiscoveryProtos.EndpointInfo.newBuilder().setAddress("a").setPort(2135)
-                        .setNodeId(1).setBridgePileName("A"))
-                .addEndpoints(DiscoveryProtos.EndpointInfo.newBuilder().setAddress("b").setPort(2135)
-                        .setNodeId(2).setBridgePileName("B"))
-                .addEndpoints(DiscoveryProtos.EndpointInfo.newBuilder().setAddress("unknown").setPort(2135)
-                        .setNodeId(3).setBridgePileName("missing"));
-        DiscoveryProtos.ListEndpointsResult ordinary = result.build();
-        result.addPileStates(PileState.newBuilder().setPileName("A").setState(State.PRIMARY))
-                .addPileStates(PileState.newBuilder().setPileName("B").setState(State.SYNCHRONIZED));
-        DiscoveryProtos.ListEndpointsResult bridged = result.build();
-        result.setPileStates(0, PileState.newBuilder().setPileName("A").setState(State.SYNCHRONIZED))
-                .setPileStates(1, PileState.newBuilder().setPileName("B").setState(State.PRIMARY));
-        Mockito.when(channel.newCall(Mockito.eq(DiscoveryServiceGrpc.getListEndpointsMethod()), Mockito.any()))
-                .thenReturn(MockedCall.discovery(ordinary))
-                .thenReturn(MockedCall.discovery(bridged))
-                .thenReturn(MockedCall.discovery(result.build()));
-        TestHandler handler = new TestHandler();
-        YdbDiscovery discovery = new YdbDiscovery(handler, scheduler, "/bridge", Duration.ofMillis(100));
-        discovery.start();
-        scheduler.hasTasksCount(1).runNextTask();
-        Assert.assertNull(handler.endpoints.get(0).getPileState());
-        handler.force = true;
-        scheduler.hasTasksCount(1).runNextTask();
-        Assert.assertEquals(State.PRIMARY, handler.endpoints.get(0).getPileState());
-        Assert.assertEquals(State.SYNCHRONIZED, handler.endpoints.get(1).getPileState());
-        Assert.assertEquals(State.UNSPECIFIED, handler.endpoints.get(2).getPileState());
-        scheduler.hasTasksCount(1).runNextTask();
-        Assert.assertEquals(State.SYNCHRONIZED, handler.endpoints.get(0).getPileState());
-        Assert.assertEquals(State.PRIMARY, handler.endpoints.get(1).getPileState());
         discovery.stop();
     }
 
@@ -227,7 +190,8 @@ public class YdbDiscoveryTest {
         CountDownLatch handlingAllowed = new CountDownLatch(1);
         TestHandler handler = new TestHandler() {
             @Override
-            public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+            public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, Piles piles,
+                    String selfLocation) {
                 try {
                     handlingStarted.countDown();
                     Assert.assertTrue(handlingAllowed.await(1, TimeUnit.SECONDS));
@@ -344,7 +308,7 @@ public class YdbDiscoveryTest {
         }
 
         @Override
-        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation) {
+        public CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, Piles piles, String selfLoc) {
             this.endpoints = endpoints;
             return CompletableFuture.completedFuture(Boolean.TRUE);
         }

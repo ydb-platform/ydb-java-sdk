@@ -2,16 +2,14 @@ package tech.ydb.core.impl;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 import io.grpc.Context;
 import org.slf4j.Logger;
@@ -25,10 +23,9 @@ import tech.ydb.core.UnexpectedResultException;
 import tech.ydb.core.grpc.GrpcRequestSettings;
 import tech.ydb.core.grpc.GrpcTransport;
 import tech.ydb.core.impl.pool.EndpointRecord;
+import tech.ydb.core.impl.pool.Piles;
 import tech.ydb.core.operation.OperationBinder;
 import tech.ydb.core.utils.FutureTools;
-import tech.ydb.proto.bridge.YdbBridgeCommon.PileState;
-import tech.ydb.proto.bridge.YdbBridgeCommon.PileState.State;
 import tech.ydb.proto.discovery.DiscoveryProtos;
 import tech.ydb.proto.discovery.DiscoveryProtos.EndpointInfo;
 import tech.ydb.proto.discovery.v1.DiscoveryServiceGrpc;
@@ -52,7 +49,7 @@ public class YdbDiscovery {
         Instant instant();
         GrpcTransport createDiscoveryTransport();
         boolean needToForceDiscovery();
-        CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, String selfLocation);
+        CompletableFuture<Boolean> handleEndpoints(List<EndpointRecord> endpoints, Piles piles, String selfLocation);
     }
 
     private final Handler handler;
@@ -195,8 +192,8 @@ public class YdbDiscovery {
         }
     }
 
-    private void handleOk(String selfLocation, List<EndpointRecord> endpoints) {
-        CompletableFuture<Boolean> handled = handler.handleEndpoints(endpoints, selfLocation);
+    private void handleOk(String selfLocation, Piles piles, List<EndpointRecord> endpoints) {
+        CompletableFuture<Boolean> handled = handler.handleEndpoints(endpoints, piles, selfLocation);
 
         readyLock.lock();
         try {
@@ -210,19 +207,14 @@ public class YdbDiscovery {
         handled.whenComplete((res, th) -> scheduleNextTick());
     }
 
-    private static String createAddress(EndpointInfo e) {
-        String addr;
+    private static String getAddress(EndpointInfo e) {
         if (e.getIpV6Count() > 0 && e.getIpV6(0) != null && !e.getIpV6(0).isEmpty()) {
-            addr = e.getIpV6(0);
-        } else if (e.getIpV4Count() > 0 && e.getIpV4(0) != null && !e.getIpV4(0).isEmpty()) {
-            addr = e.getIpV4(0);
-        } else {
-            addr = e.getAddress();
+            return e.getIpV6(0);
         }
-
-        logger.debug("address {} will be used to connect to node {}", addr, e.getAddress());
-
-        return addr;
+        if (e.getIpV4Count() > 0 && e.getIpV4(0) != null && !e.getIpV4(0).isEmpty()) {
+            return e.getIpV4(0);
+        }
+        return e.getAddress();
     }
 
     private void handleDiscoveryResult(Result<DiscoveryProtos.ListEndpointsResult> response, Throwable th) {
@@ -241,18 +233,18 @@ public class YdbDiscovery {
                 return;
             }
 
-            Map<String, State> piles = new HashMap<>();
-            for (PileState pile : result.getPileStatesList()) {
-                piles.put(pile.getPileName(), pile.getState());
+
+            Piles piles = new Piles(result.getPileStatesList());
+            List<EndpointRecord> records = new ArrayList<>(result.getEndpointsCount());
+            for (EndpointInfo e: result.getEndpointsList()) {
+                String addr = getAddress(e);
+                logger.debug("address {} will be used to connect to node {}", addr, e.getAddress());
+                records.add(new EndpointRecord(addr, e.getPort(), e.getNodeId(), e.getLocation(), e.getBridgePileName(),
+                        e.getSslTargetNameOverride()));
             }
-            List<EndpointRecord> records = result.getEndpointsList().stream()
-                    .map(e -> new EndpointRecord(createAddress(e), e.getPort(), e.getNodeId(), e.getLocation(),
-                        e.getSslTargetNameOverride(), piles.isEmpty() ? null
-                            : piles.getOrDefault(e.getBridgePileName(), State.UNSPECIFIED)))
-                    .collect(Collectors.toList());
 
             logger.debug("successfully received ListEndpoints result with {} endpoints", records.size());
-            handleOk(result.getSelfLocation(), records);
+            handleOk(result.getSelfLocation(), piles, records);
         } catch (UnexpectedResultException ex) {
             logger.warn("discovery fail {}", response);
             handleThrowable(ex);

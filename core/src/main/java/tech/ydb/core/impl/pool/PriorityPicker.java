@@ -1,155 +1,29 @@
 package tech.ydb.core.impl.pool;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.net.SocketFactory;
-
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Ticker;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import tech.ydb.core.grpc.BalancingSettings;
 
 /**
- * @author Kirill Kurdyukov
+ *
+ * @author Aleksandr Gorshenin {@literal <alexandr268@ydb.tech>}
  */
-public class PriorityPicker {
-    private static final Logger logger = LoggerFactory.getLogger(PriorityPicker.class);
+@FunctionalInterface
+public interface PriorityPicker {
+    int getPriority(EndpointRecord endpoint);
 
-    private static final int LOCALITY_SHIFT = 1000;
-    private static final int DETECT_DC_NODE_SIZE = 3;
-    private static final int DETECT_DC_TCP_PING_TIMEOUT_MS = 5000;
-
-    private final String preferredLocation;
-    private final boolean preferPrimaryPile;
-
-    private PriorityPicker(String location) {
-        this(location, false);
-    }
-
-    private PriorityPicker(String location, boolean preferPrimaryPile) {
-        this.preferredLocation = location;
-        this.preferPrimaryPile = preferPrimaryPile;
-    }
-
-    int getPriority(EndpointRecord endpoint) {
-        if (!preferPrimaryPile) {
-            return getEndpointPriority(endpoint.getLocation());
-        }
-        if (endpoint.getPileState() == null) {
-            return 0; // Discovery has no Bridge roster.
-        }
-        switch (endpoint.getPileState()) {
-            case PRIMARY:
-            case PROMOTED:
-                return 0;
-            case SYNCHRONIZED:
-                return LOCALITY_SHIFT;
-            default:
-                return 2 * LOCALITY_SHIFT;
-        }
-    }
-
-    public int getEndpointPriority(String location) {
-        if (preferredLocation == null || preferredLocation.equalsIgnoreCase(location)) {
-            return 0;
-        }
-
-        return LOCALITY_SHIFT;
-    }
-
-    public static PriorityPicker from(BalancingSettings settings, String selfLocation, List<EndpointRecord> endpoints) {
-        switch (settings.getPolicy()) {
+    static PriorityPicker from(BalancingSettings cfg, String selfLoc, Piles piles, List<EndpointRecord> endpoints) {
+        switch (cfg.getPolicy()) {
             case USE_ALL_NODES:
-                return new PriorityPicker(null);
-            case USE_PREFERABLE_LOCATION:
-                return new PriorityPicker(getLocationFromConfig(settings.getPreferableLocation(), selfLocation));
-            case USE_DETECT_LOCAL_DC:
-                return new PriorityPicker(detectLocalDC(endpoints, Ticker.systemTicker()));
+                return endpoint -> 0;
             case USE_PREFERABLE_PRIMARY_PILE:
-                return new PriorityPicker(null, true);
+                return piles;
+            case USE_PREFERABLE_LOCATION:
+                return new LocationPicker(cfg.getPreferableLocation(), selfLoc);
+            case USE_DETECT_LOCAL_DC:
+                return new LocationPicker(endpoints);
             default:
-                throw new RuntimeException("Not implemented balancing policy: " + settings.getPolicy().name());
-        }
-    }
-
-    @VisibleForTesting
-    static String getLocationFromConfig(String preferable, String selfLocation) {
-        if (preferable != null && !preferable.isEmpty()) {
-            return preferable;
-        }
-        if (selfLocation != null && !selfLocation.isEmpty()) {
-            return selfLocation;
-        }
-        return null;
-    }
-
-    @VisibleForTesting
-    static String detectLocalDC(List<EndpointRecord> endpoints, Ticker ticker) {
-        // Endpoints without a known location carry no information about datacenters. They must be
-        // filtered out because groupingBy rejects a null key - the endpoint the transport bootstraps
-        // with has no location until the first discovery completes.
-        Map<String, List<EndpointRecord>> dcLocationToNodes = endpoints
-                .stream()
-                .filter(endpoint -> endpoint.getLocation() != null && !endpoint.getLocation().isEmpty())
-                .collect(Collectors.groupingBy(EndpointRecord::getLocation));
-
-        if (dcLocationToNodes.size() < 2) {
-            return null;
-        }
-
-        long minPing = Long.MAX_VALUE;
-        String localDC = null;
-
-        for (Map.Entry<String, List<EndpointRecord>> entry : dcLocationToNodes.entrySet()) {
-            String dc = entry.getKey();
-            List<EndpointRecord> nodes = entry.getValue();
-
-            Collections.shuffle(nodes);
-
-            int nodeSize = Math.min(nodes.size(), DETECT_DC_NODE_SIZE);
-            long tcpPing = 0;
-            int reachableCount = 0;
-
-            for (EndpointRecord node : nodes.subList(0, nodeSize)) {
-                try {
-                    long currentPing = tcpPing(new InetSocketAddress(node.getHost(), node.getPort()), ticker);
-                    logger.debug("{}, nanos ping: {}", node, currentPing);
-                    tcpPing += currentPing;
-                    reachableCount++;
-                } catch (IOException ex) {
-                    logger.warn("{} is not reachable with error {}", node, ex.getMessage());
-                }
-            }
-
-            if (reachableCount == 0) {
-                logger.debug("No reachable nodes in {}, skip it", dc);
-                continue;
-            }
-
-            tcpPing /= reachableCount;
-
-            if (minPing > tcpPing) {
-                minPing = tcpPing;
-                localDC = dc;
-            }
-        }
-
-        return localDC;
-    }
-
-    private static long tcpPing(InetSocketAddress socketAddress, Ticker ticker) throws IOException {
-        try (Socket socket = SocketFactory.getDefault().createSocket()) {
-            long started = ticker.read();
-            socket.connect(socketAddress, DETECT_DC_TCP_PING_TIMEOUT_MS);
-            return ticker.read() - started;
+                throw new RuntimeException("Not implemented balancing policy: " + cfg.getPolicy().name());
         }
     }
 }
