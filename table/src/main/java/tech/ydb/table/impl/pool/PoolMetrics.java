@@ -11,6 +11,19 @@ import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.metrics.MetricRegistration;
 
 public final class PoolMetrics implements AutoCloseable {
+    public enum AcquireFailureReason {
+        TIMEOUT("timeout"),
+        CANCELLED("cancelled"),
+        REJECTED("rejected"),
+        OTHER("other");
+
+        private final String code;
+
+        AcquireFailureReason(String code) {
+            this.code = code;
+        }
+    }
+
     public enum Reason {
         UNKNOWN("unknown"),
 
@@ -69,6 +82,7 @@ public final class PoolMetrics implements AutoCloseable {
     private final Attr[] idleAttrs;
     private final Attr[] inUseAttrs;
     private final String statusKey;
+    private final String acquireFailureReasonKey;
 
     private final LongCounter created;
     private final LongCounter acquired;
@@ -76,7 +90,9 @@ public final class PoolMetrics implements AutoCloseable {
     private final LongCounter requested;
     private final LongCounter failed;
     private final LongCounter closed;
+    private final LongCounter acquireFailures;
     private final DoubleHistogram createTime;
+    private final DoubleHistogram acquireTime;
     private final MetricRegistration maxGauge;
     private final MetricRegistration minGauge;
     private final MetricRegistration countGauge;
@@ -85,6 +101,7 @@ public final class PoolMetrics implements AutoCloseable {
     public PoolMetrics(Meter meter, String name, String poolName, WaitingQueue<?> queue, int minSize) {
         String prefix = "ydb." + name + ".session.";
         this.statusKey = prefix + "status_code";
+        this.acquireFailureReasonKey = prefix + "reason";
         this.poolNameAttr = Attr.of(prefix + "pool.name", poolName);
 
         this.poolAttrs = new Attr[]{poolNameAttr};
@@ -97,7 +114,10 @@ public final class PoolMetrics implements AutoCloseable {
         this.requested = meter.createCounter(prefix + "requested", UNIT, "Total CreateSession calls.");
         this.failed = meter.createCounter(prefix + "failed", UNIT, "Total failed session creations.");
         this.closed = meter.createCounter(prefix + "closed", UNIT, "Total closed sessions.");
+        this.acquireFailures = meter.createCounter(prefix + "acquire_failures", "{request}",
+                "Total failed session acquire attempts.");
         this.createTime = meter.createHistogram(prefix + "create_time", "s", "Session creation cost.");
+        this.acquireTime = meter.createHistogram(prefix + "acquire_time", "s", "Session acquire duration.");
 
         this.maxGauge = meter.registerLongGauge(prefix + "max", UNIT, "Configured MaxPoolSize",
                 m -> m.record(queue.getTotalLimit(), poolAttrs));
@@ -128,6 +148,14 @@ public final class PoolMetrics implements AutoCloseable {
 
     public void onCreateTime(long createTimeNanos) {
         createTime.record(createTimeNanos / NANOS_IN_SECOND, poolAttrs);
+    }
+
+    public void onAcquireTime(long acquireTimeNanos) {
+        acquireTime.record(acquireTimeNanos / NANOS_IN_SECOND, poolAttrs);
+    }
+
+    public void onAcquireFailure(@Nonnull AcquireFailureReason reason) {
+        acquireFailures.add(1L, poolNameAttr, Attr.of(acquireFailureReasonKey, reason.code));
     }
 
     public void onSessionCreated() {

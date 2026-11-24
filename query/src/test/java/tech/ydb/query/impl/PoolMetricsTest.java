@@ -64,6 +64,7 @@ public class PoolMetricsTest {
 
     private final Meter meter = mock(Meter.class);
     private final DoubleHistogram createTime = mock(DoubleHistogram.class);
+    private final DoubleHistogram acquireTime = mock(DoubleHistogram.class);
     private final Map<String, LongCounter> counters = new HashMap<>();
     private final Map<String, Consumer<LongMeasurement>> gauges = new HashMap<>();
     private Runnable cleaner;
@@ -85,7 +86,8 @@ public class PoolMetricsTest {
 
         when(meter.createCounter(anyString(), any(), any()))
                 .thenAnswer(inv -> counters.computeIfAbsent(inv.getArgument(0), k -> mock(LongCounter.class)));
-        when(meter.createHistogram(anyString(), any(), any())).thenReturn(createTime);
+        when(meter.createHistogram(anyString(), any(), any())).thenAnswer(inv ->
+                PREFIX.concat("create_time").equals(inv.getArgument(0)) ? createTime : acquireTime);
         doAnswer(inv -> {
             String name = inv.getArgument(0);
             gauges.put(name, inv.getArgument(3));
@@ -102,7 +104,9 @@ public class PoolMetricsTest {
             verify(meter).createCounter(eq(PREFIX + "requested"), eq("{session}"), anyString());
             verify(meter).createCounter(eq(PREFIX + "failed"), eq("{session}"), anyString());
             verify(meter).createCounter(eq(PREFIX + "closed"), eq("{session}"), anyString());
+            verify(meter).createCounter(eq(PREFIX + "acquire_failures"), eq("{request}"), anyString());
             verify(meter).createHistogram(eq(PREFIX + "create_time"), eq("s"), anyString());
+            verify(meter).createHistogram(eq(PREFIX + "acquire_time"), eq("s"), anyString());
             verify(meter).registerLongGauge(eq(PREFIX + "max"), eq("{session}"), anyString(), any());
             verify(meter).registerLongGauge(eq(PREFIX + "min"), eq("{session}"), anyString(), any());
             verify(meter).registerLongGauge(eq(PREFIX + "count"), eq("{session}"), anyString(), any());
@@ -131,12 +135,30 @@ public class PoolMetricsTest {
             verify(counter("created")).add(eq(1L), argThat(poolName));
             verify(createTime).record(anyDouble(), argThat(poolName));
             verify(counter("acquired")).add(eq(1L), argThat(poolName));
+            verify(acquireTime).record(anyDouble(), argThat(poolName));
 
             session.close();
             verify(counter("released")).add(eq(1L), argThat(poolName));
         }
 
         verify(counter("failed"), never()).add(anyLong(), any());
+    }
+
+    @Test
+    public void cancelledAcquireRemovesPendingRequestAndRecordsFailure() {
+        try (SessionPool pool = createPool(0, 1)) {
+            QuerySession occupied = acquireReady(pool);
+            CompletableFuture<Result<QuerySession>> cancelled = pool.acquire(TIMEOUT);
+
+            Assert.assertTrue(cancelled.cancel(false));
+            Assert.assertTrue(cancelled.isCancelled());
+            assertPendingRequests(pool, 0L);
+            verifyAcquireFailure("cancelled");
+
+            occupied.close();
+            assertPendingRequests(pool, 0L);
+            verify(counter("acquired")).add(eq(1L), argThat(poolName));
+        }
     }
 
     @Test
@@ -427,6 +449,20 @@ public class PoolMetricsTest {
                 argThat(a -> a.getKey().equals("reason") && a.getValue().equals(reason))
         );
         verifyNoMoreInteractions(counter("closed"));
+    }
+
+    private void assertPendingRequests(SessionPool pool, long expected) {
+        LongMeasurement pending = mock(LongMeasurement.class);
+        gauges.get(PREFIX + "pending_requests").accept(pending);
+        verify(pending).record(eq(expected), argThat(poolName));
+    }
+
+    private void verifyAcquireFailure(String reason) {
+        verify(counter("acquire_failures")).add(
+                eq(1L),
+                argThat(poolName),
+                argThat(a -> a.getKey().equals(PREFIX + "reason") && a.getValue().equals(reason))
+        );
     }
 
     private static boolean attr(Attr attr, String shortKey, String value) {

@@ -49,6 +49,7 @@ public class PoolMetricsTest extends FutureHelper {
 
     private final Meter meter = mock(Meter.class);
     private final DoubleHistogram createTime = mock(DoubleHistogram.class);
+    private final DoubleHistogram acquireTime = mock(DoubleHistogram.class);
     private final Map<String, LongCounter> counters = new HashMap<>();
     private final Map<String, Consumer<LongMeasurement>> gauges = new HashMap<>();
 
@@ -62,7 +63,8 @@ public class PoolMetricsTest extends FutureHelper {
         clock.reset(Instant.parse("2022-07-01T00:00:00.000Z"));
         when(meter.createCounter(anyString(), any(), any()))
                 .thenAnswer(inv -> counters.computeIfAbsent(inv.getArgument(0), k -> mock(LongCounter.class)));
-        when(meter.createHistogram(anyString(), any(), any())).thenReturn(createTime);
+        when(meter.createHistogram(anyString(), any(), any())).thenAnswer(inv ->
+                PREFIX.concat("create_time").equals(inv.getArgument(0)) ? createTime : acquireTime);
         doAnswer(inv -> {
             String name = inv.getArgument(0);
             gauges.put(name, inv.getArgument(3));
@@ -87,7 +89,9 @@ public class PoolMetricsTest extends FutureHelper {
         verify(meter).createCounter(eq(PREFIX + "requested"), eq("{session}"), anyString());
         verify(meter).createCounter(eq(PREFIX + "failed"), eq("{session}"), anyString());
         verify(meter).createCounter(eq(PREFIX + "closed"), eq("{session}"), anyString());
+        verify(meter).createCounter(eq(PREFIX + "acquire_failures"), eq("{request}"), anyString());
         verify(meter).createHistogram(eq(PREFIX + "create_time"), eq("s"), anyString());
+        verify(meter).createHistogram(eq(PREFIX + "acquire_time"), eq("s"), anyString());
         verify(meter).registerLongGauge(eq(PREFIX + "max"), eq("{session}"), anyString(), any());
         verify(meter).registerLongGauge(eq(PREFIX + "min"), eq("{session}"), anyString(), any());
         verify(meter).registerLongGauge(eq(PREFIX + "count"), eq("{session}"), anyString(), any());
@@ -108,6 +112,7 @@ public class PoolMetricsTest extends FutureHelper {
         verify(counter("created")).add(eq(1L), argThat(poolName));
         verify(createTime).record(anyDouble(), argThat(poolName));
         verify(counter("acquired")).add(eq(1L), argThat(poolName));
+        verify(acquireTime).record(anyDouble(), argThat(poolName));
 
         Session s1 = futureIsReady(f1).getValue();
         s1.close();
@@ -118,6 +123,35 @@ public class PoolMetricsTest extends FutureHelper {
         tableRpc.completeSessionDeleteRequests();
 
         verify(counter("failed"), never()).add(anyLong(), any());
+    }
+
+    @Test
+    public void acquireMetricsUseSecondsAndBoundedFailureReasons() {
+        WaitingQueue<Object> queue = new WaitingQueue<>(new WaitingQueue.Handler<Object>() {
+            @Override
+            public CompletableFuture<Object> create() {
+                return new CompletableFuture<>();
+            }
+
+            @Override
+            public void destroy(Object object) {
+            }
+        }, 1);
+        PoolMetrics metrics = new PoolMetrics(meter, "table", POOL, queue, 0);
+
+        metrics.onAcquireTime(500_000_000L);
+        for (PoolMetrics.AcquireFailureReason reason : PoolMetrics.AcquireFailureReason.values()) {
+            metrics.onAcquireFailure(reason);
+        }
+
+        verify(acquireTime).record(eq(0.5d), argThat(poolName));
+        verifyAcquireFailure("timeout");
+        verifyAcquireFailure("cancelled");
+        verifyAcquireFailure("rejected");
+        verifyAcquireFailure("other");
+
+        metrics.close();
+        queue.close();
     }
 
     @Test
@@ -245,6 +279,14 @@ public class PoolMetricsTest extends FutureHelper {
                 argThat(a -> a.getKey().equals("reason") && a.getValue().equals(reason))
         );
         verifyNoMoreInteractions(counter("closed"));
+    }
+
+    private void verifyAcquireFailure(String reason) {
+        verify(counter("acquire_failures")).add(
+                eq(1L),
+                argThat(poolName),
+                argThat(a -> a.getKey().equals(PREFIX + "reason") && a.getValue().equals(reason))
+        );
     }
 
     private static boolean attr(Attr attr, String shortKey, String value) {

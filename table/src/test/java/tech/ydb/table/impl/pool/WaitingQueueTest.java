@@ -562,11 +562,11 @@ public class WaitingQueueTest extends FutureHelper {
         Resource r2 = pendingIsReady(w1);
         Assert.assertEquals("Next waiting got same resource ", r1, r2);
 
-        // Cancellation of waiting doesn't affect to queue
-        w2.cancel(true);
-        check(queue).queueSize(1).idleSize(0).waitingsCount(2);
+        // Cancellation immediately removes the waiter and frees a waiting slot.
+        Assert.assertTrue(w2.cancel(true));
+        check(queue).queueSize(1).idleSize(0).waitingsCount(1);
 
-        // Canceled waiting must be deleted when queue process next released resource
+        // The next released resource goes directly to the remaining waiter.
         queue.release(r2);
 
         check(queue).queueSize(1).idleSize(0).waitingsCount(0);
@@ -578,6 +578,71 @@ public class WaitingQueueTest extends FutureHelper {
 
         check(queue).queueSize(0).idleSize(0).waitingsCount(0);
         check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
+    public void completedWaitingIsRemovedImmediatelyTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> waiting = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(1);
+
+        waiting.completeExceptionally(new RuntimeException("caller stopped waiting"));
+        check(queue).waitingsCount(0);
+
+        rs.completeNext();
+        Resource resource = pendingIsReady(first);
+        queue.release(resource);
+        check(queue).queueSize(1).idleSize(1).waitingsCount(0);
+
+        queue.close();
+    }
+
+    @Test
+    public void canceledWaitingAfterRequeueDoesNotConsumeReleasedResourceTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 1);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> second = pendingFuture(acquire(queue));
+        rs.completeNext().completeNext();
+        Resource firstResource = pendingIsReady(first);
+        Resource secondResource = pendingIsReady(second);
+
+        CompletableFuture<Resource> waiting = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(1);
+
+        // Reducing the limit polls and requeues the waiter because both resources are in use.
+        queue.updateLimits(1, 1);
+        check(queue).waitingsCount(1);
+
+        waiting.cancel(true);
+        check(queue).waitingsCount(0);
+
+        queue.release(firstResource);
+        queue.release(secondResource);
+        check(queue).queueSize(1).idleSize(1).waitingsCount(0);
+
+        queue.close();
+    }
+
+    @Test
+    public void closeRemovesWaitingCountImmediatelyTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> waiting = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(1);
+
+        queue.close();
+        futureIsCanceled(waiting, QUEUE_IS_CLOSED);
+        check(queue).queueSize(0).waitingsCount(0);
+
+        rs.completeNext();
+        futureIsCanceled(first, QUEUE_IS_CLOSED);
     }
 
     @Test

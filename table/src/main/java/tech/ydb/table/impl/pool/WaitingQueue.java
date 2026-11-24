@@ -248,6 +248,13 @@ public class WaitingQueue<T> implements AutoCloseable {
             }
 
             waitingAcquires.offer(acquire); // ConcurrentLinkedQueue always return true
+            acquire.whenComplete((ignored, th) -> removeWaitingAcquire(acquire));
+            // close() can run after the count is reserved but before this offer.
+            // In that case clear() cannot see the new entry, so clean it here.
+            if (stopped && waitingAcquires.remove(acquire)) {
+                waitingAcqueireCount.decrementAndGet();
+                acquire.completeExceptionally(new CancellationException("Queue is already closed"));
+            }
             return true;
         }
 
@@ -291,7 +298,27 @@ public class WaitingQueue<T> implements AutoCloseable {
                 waitingAcqueireCount.decrementAndGet();
             } else {
                 waitingAcquires.offerFirst(next);
+                // The future might have completed while it was temporarily removed from the deque.
+                // Its completion handler cannot remove it in that interval.
+                if (next.isDone()) {
+                    removeWaitingAcquire(next);
+                }
+                if (stopped && waitingAcquires.remove(next)) {
+                    waitingAcqueireCount.decrementAndGet();
+                    next.completeExceptionally(new CancellationException("Queue is already closed"));
+                }
             }
+        }
+    }
+
+    /**
+     * Removes a waiting acquire if it is still enqueued and updates the count
+     * exactly once. Polling paths update the count themselves after taking an
+     * acquire out of the deque.
+     */
+    private void removeWaitingAcquire(CompletableFuture<T> acquire) {
+        if (waitingAcquires.remove(acquire)) {
+            waitingAcqueireCount.decrementAndGet();
         }
     }
 
@@ -304,6 +331,7 @@ public class WaitingQueue<T> implements AutoCloseable {
 
         CompletableFuture<T> waiting = waitingAcquires.poll();
         while (waiting != null) {
+            waitingAcqueireCount.decrementAndGet();
             waiting.completeExceptionally(new CancellationException("Queue is already closed"));
             waiting = waitingAcquires.poll();
         }

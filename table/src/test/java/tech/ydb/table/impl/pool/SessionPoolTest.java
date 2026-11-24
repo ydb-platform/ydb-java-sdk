@@ -446,6 +446,56 @@ public class SessionPoolTest extends FutureHelper {
     }
 
     @Test
+    public void timedOutWaitingAcquireReleasesQueueSlot() {
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
+                SessionPoolOptions.DEFAULT.withSize(0, 1));
+
+        CompletableFuture<Result<Session>> first = pendingFuture(pool.acquire(TIMEOUT));
+        tableRpc.nextCreateSession().completeSuccess();
+        Session held = futureIsReady(first).getValue();
+
+        CompletableFuture<Result<Session>> timedOut = pendingFuture(pool.acquire(TIMEOUT));
+        check(pool).pending(1);
+        scheduler.runTasksTo(clock.instant().plus(TIMEOUT));
+        resultIsWrong(timedOut, StatusCode.CLIENT_DEADLINE_EXPIRED);
+        check(pool).pending(0);
+
+        CompletableFuture<Result<Session>> next = pendingFuture(pool.acquire(TIMEOUT));
+        check(pool).pending(1);
+        held.close();
+        Session acquired = futureIsReady(next).getValue();
+        check(pool).pending(0).acquired(1);
+
+        acquired.close();
+        pool.close();
+        tableRpc.completeSessionDeleteRequests();
+    }
+
+    @Test
+    public void cancelledWaitingAcquireReleasesQueueSlot() {
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
+                SessionPoolOptions.DEFAULT.withSize(0, 1));
+
+        CompletableFuture<Result<Session>> first = pendingFuture(pool.acquire(TIMEOUT));
+        tableRpc.nextCreateSession().completeSuccess();
+        Session held = futureIsReady(first).getValue();
+
+        CompletableFuture<Result<Session>> cancelled = pendingFuture(pool.acquire(TIMEOUT));
+        check(pool).pending(1);
+        Assert.assertTrue(cancelled.cancel(true));
+        check(pool).pending(0);
+
+        CompletableFuture<Result<Session>> next = pendingFuture(pool.acquire(TIMEOUT));
+        held.close();
+        Session acquired = futureIsReady(next).getValue();
+        check(pool).pending(0).acquired(1);
+
+        acquired.close();
+        pool.close();
+        tableRpc.completeSessionDeleteRequests();
+    }
+
+    @Test
     public void sessionDataQueryErrorsTest() {
         SessionPool pool = new SessionPool(clock, tableRpc, true,
                 SessionPoolOptions.DEFAULT.withSize(0, 2));

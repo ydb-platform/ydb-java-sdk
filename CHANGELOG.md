@@ -1,4 +1,6 @@
 * Core: added opt-in PRIMARY/PROMOTED Bridge pile preference with synchronized-pile fallback
+* Table/Query: removed canceled or timed-out session acquires from the waiting queue immediately
+* Table/Query: added session-pool acquire duration and bounded failure-reason metrics
 
 ## 2.5.0 ##
 * Core: upgraded to grpc-java v1.82.4
