@@ -581,6 +581,38 @@ public class WaitingQueueTest extends FutureHelper {
     }
 
     @Test
+    public void cancelledWaitingFreesFullQueueSlotTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        rs.completeNext();
+        Resource resource = pendingIsReady(first);
+
+        CompletableFuture<Resource> cancelled = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> remaining = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(2);
+        exceptionallyFuture(acquire(queue), LIMIT_EXCEEDED);
+
+        Assert.assertTrue(cancelled.cancel(true));
+        check(queue).waitingsCount(1);
+        CompletableFuture<Resource> replacement = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(2);
+
+        queue.release(resource);
+        Resource next = pendingIsReady(remaining);
+        Assert.assertSame(resource, next);
+        queue.release(next);
+        Resource last = pendingIsReady(replacement);
+        Assert.assertSame(resource, last);
+
+        queue.delete(last);
+        queue.close();
+        check(queue).queueSize(0).waitingsCount(0);
+        check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
     public void completedWaitingIsRemovedImmediatelyTest() {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
