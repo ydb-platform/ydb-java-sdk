@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import tech.ydb.common.transaction.YdbTransaction;
 import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -45,15 +46,20 @@ import tech.ydb.topic.settings.CreateTopicSettings;
 import tech.ydb.topic.settings.DescribeConsumerSettings;
 import tech.ydb.topic.settings.DescribeTopicSettings;
 import tech.ydb.topic.settings.DropTopicSettings;
+import tech.ydb.topic.settings.MultiWriterSettings;
 import tech.ydb.topic.settings.PartitioningSettings;
 import tech.ydb.topic.settings.ReadEventHandlersSettings;
 import tech.ydb.topic.settings.ReaderSettings;
 import tech.ydb.topic.settings.TopicClientOperationSettings;
 import tech.ydb.topic.settings.WriterSettings;
+import tech.ydb.topic.write.AsyncMultiWriter;
 import tech.ydb.topic.write.AsyncWriter;
 import tech.ydb.topic.write.SyncWriter;
+import tech.ydb.topic.write.TransactionalMultiWriter;
 import tech.ydb.topic.write.impl.AsyncWriterImpl;
 import tech.ydb.topic.write.impl.SyncWriterImpl;
+import tech.ydb.topic.write.impl.multi.MultiWriterImpl;
+import tech.ydb.topic.write.impl.multi.TransactionalMultiWriterImpl;
 
 /**
  * @author Nikolay Perfilov
@@ -405,6 +411,33 @@ public class TopicClientImpl implements TopicClient {
     @Override
     public AsyncWriter createAsyncWriter(WriterSettings settings) {
         return new AsyncWriterImpl(topicRpc, settings, compressionExecutor, codecRegistry);
+    }
+
+    @Override
+    public AsyncMultiWriter createAsyncMultiWriter(MultiWriterSettings settings) {
+        Codec codec = codecRegistry.getCodec(settings.getCodec());
+        if (codec == null) {
+            throw new IllegalArgumentException("Unknown multiwriter codec " + settings.getCodec());
+        }
+        // Freeze the codec used both for admission estimates and every lower writer.
+        CodecRegistry snapshot = new CodecRegistry(java.util.Collections.singletonList(codec));
+        return new MultiWriterImpl(settings, codec,
+                config -> new AsyncWriterImpl(topicRpc, config, compressionExecutor, snapshot),
+                () -> describeTopic(settings.getTopicPath()).thenApply(result -> result.getValue().getPartitions()));
+    }
+
+    @Override
+    public TransactionalMultiWriter createTransactionalMultiWriter(MultiWriterSettings settings,
+            YdbTransaction transaction) {
+        Codec codec = codecRegistry.getCodec(settings.getCodec());
+        if (codec == null) {
+            throw new IllegalArgumentException("Unknown multiwriter codec " + settings.getCodec());
+        }
+        CodecRegistry snapshot = new CodecRegistry(java.util.Collections.singletonList(codec));
+        return new TransactionalMultiWriterImpl(settings, codec,
+                config -> new AsyncWriterImpl(topicRpc, config, compressionExecutor, snapshot),
+                () -> describeTopic(settings.getTopicPath()).thenApply(result -> result.getValue().getPartitions()),
+                transaction);
     }
 
     @Override

@@ -1,4 +1,6 @@
+## Unreleased ##
 * Core: added opt-in PRIMARY/PROMOTED Bridge pile preference with synchronized-pile fallback
+* Topic: added asynchronous, synchronous and transaction-bound multi-partition writers with keyed routing, split recovery and an explicit prepareCommit barrier.
 
 ## 2.5.0 ##
 * Core: upgraded to grpc-java v1.82.4
