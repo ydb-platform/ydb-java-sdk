@@ -1,5 +1,6 @@
 package tech.ydb.core.impl.pool;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -25,10 +26,13 @@ public class GrpcChannelPool {
     private final Map<String, GrpcChannel> channels = new ConcurrentHashMap<>();
     private final ManagedChannelFactory channelFactory;
     private final ScheduledExecutorService executor;
+    private final Duration channelShutdownTimeout;
 
-    public GrpcChannelPool(ManagedChannelFactory channelFactory, ScheduledExecutorService executor) {
+    public GrpcChannelPool(ManagedChannelFactory channelFactory, ScheduledExecutorService executor,
+            Duration channelShutdownTimeout) {
         this.channelFactory = channelFactory;
         this.executor = executor;
+        this.channelShutdownTimeout = channelShutdownTimeout;
     }
 
     public Set<String> getReadyEndpoints() {
@@ -42,7 +46,7 @@ public class GrpcChannelPool {
 
         return result != null ? result : channels.computeIfAbsent(endpoint.getHostAndPort(), (key) -> {
             logger.debug("channel {} was not found in pool, creating one...", endpoint.getHostAndPort());
-            return new GrpcChannel(endpoint, channelFactory);
+            return new GrpcChannel(endpoint, channelFactory, channelShutdownTimeout);
         });
     }
 
@@ -58,7 +62,7 @@ public class GrpcChannelPool {
         // instead of waiting for each other
         channelsList.forEach(GrpcChannel::initShutdown);
         return CompletableFuture.supplyAsync(() -> {
-            long deadline = GrpcChannel.closingDeadline();
+            long deadline = System.nanoTime() + channelShutdownTimeout.toNanos();
             int closed = 0;
 
             try {

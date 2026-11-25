@@ -1,5 +1,7 @@
 package tech.ydb.core.grpc;
 
+import java.time.Duration;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,6 +21,7 @@ public class GrpcTransportBuilderTest {
         Assert.assertNull(builder.getCert());
         Assert.assertEquals(GrpcTransportBuilder.InitMode.SYNC, builder.getInitMode());
         Assert.assertNotNull(builder.getManagedChannelFactory());
+        Assert.assertEquals(Duration.ofSeconds(5), builder.getChannelShutdownTimeout());
     }
 
     @Test
@@ -50,5 +53,21 @@ public class GrpcTransportBuilderTest {
         Assert.assertNotNull(mixed);
         Assert.assertEquals(BalancingSettings.Policy.USE_DETECT_LOCAL_DC, mixed.getPolicy());
         Assert.assertNull(mixed.getPreferableLocation());
+    }
+
+    @Test
+    public void channelShutdownTimeoutTest() {
+        GrpcTransportBuilder builder = GrpcTransport.forConnectionString(YDB);
+
+        Exception ex1 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> builder.withChannelShutdownTimeout(Duration.ZERO));
+        Exception ex2 = Assert.assertThrows(IllegalArgumentException.class,
+                () -> builder.withChannelShutdownTimeout(Duration.ofSeconds(5).negated()));
+
+        Assert.assertEquals("withChannelShutdownTimeout must be greater than 0", ex1.getMessage());
+        Assert.assertEquals("withChannelShutdownTimeout must be greater than 0", ex2.getMessage());
+
+        builder.withChannelShutdownTimeout(Duration.ofHours(1));
+        Assert.assertEquals(Duration.ofSeconds(3600), builder.getChannelShutdownTimeout());
     }
 }

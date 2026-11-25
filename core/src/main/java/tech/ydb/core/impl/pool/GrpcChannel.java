@@ -1,5 +1,6 @@
 package tech.ydb.core.impl.pool;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import io.grpc.Channel;
@@ -12,18 +13,17 @@ import org.slf4j.LoggerFactory;
  * @author Nikolay Perfilov
  */
 public final class GrpcChannel implements Runnable {
-
-    /* Channel shutdown waits for finish of active grpc calls, so there must be enough time to complete them all */
-    static final long WAIT_FOR_CLOSING_MS = 5000;
     private static final Logger logger = LoggerFactory.getLogger(GrpcChannel.class);
 
     private final EndpointRecord endpoint;
     private final ManagedChannel channel;
+    private final Duration shutdownTimeout;
 
-    public GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory) {
+    public GrpcChannel(EndpointRecord endpoint, ManagedChannelFactory factory, Duration shutdownTimeout) {
         try {
             logger.debug("Creating grpc channel with {}", endpoint);
             this.endpoint = endpoint;
+            this.shutdownTimeout = shutdownTimeout;
             this.channel = factory.newManagedChannel(endpoint.getHost(), endpoint.getPort(), endpoint.getAuthority());
             checkState();
         } catch (Throwable th) {
@@ -49,8 +49,9 @@ public final class GrpcChannel implements Runnable {
         }
 
         try {
+            long deadline = System.nanoTime() + shutdownTimeout.toNanos();
             initShutdown();
-            return awaitTermination(closingDeadline());
+            return awaitTermination(deadline);
         } catch (InterruptedException e) {
             logger.warn("transport shutdown interrupted for channel {}: ", endpoint, e);
             Thread.currentThread().interrupt();
@@ -58,13 +59,6 @@ public final class GrpcChannel implements Runnable {
         } finally {
             shutdownNow();
         }
-    }
-
-    /**
-     * @return the {@link System#nanoTime()} based deadline for the termination of channels shut down now
-     */
-    static long closingDeadline() {
-        return System.nanoTime() + TimeUnit.MILLISECONDS.toNanos(WAIT_FOR_CLOSING_MS);
     }
 
     /**

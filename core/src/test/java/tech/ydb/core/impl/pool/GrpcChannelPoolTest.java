@@ -1,5 +1,6 @@
 package tech.ydb.core.impl.pool;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -46,7 +47,7 @@ public class GrpcChannelPoolTest {
         EndpointRecord e1 = new EndpointRecord("host1", 1234, 10);
         EndpointRecord e2 = new EndpointRecord("host1", 1235, 11);
 
-        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler);
+        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler, Duration.ofSeconds(5));
         Assert.assertEquals(0, pool.getChannels().size());
 
         GrpcChannel channel1 = pool.getChannel(e1);
@@ -79,7 +80,7 @@ public class GrpcChannelPoolTest {
         EndpointRecord e2 = new EndpointRecord("host1", 1235, 11);
         EndpointRecord e3 = new EndpointRecord("host1", 1236, 12);
 
-        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler);
+        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler, Duration.ofSeconds(5));
         Assert.assertEquals(0, pool.getChannels().size());
 
         // create three channels
@@ -138,7 +139,7 @@ public class GrpcChannelPoolTest {
         EndpointRecord e2 = new EndpointRecord("host1", 1235, 11);
         EndpointRecord e3 = new EndpointRecord("host1", 1236, 12);
 
-        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler);
+        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, scheduler, Duration.ofSeconds(5));
         Assert.assertEquals(0, pool.getChannels().size());
 
         // create three channels
@@ -200,7 +201,7 @@ public class GrpcChannelPoolTest {
         Mockito.when(factoryMock.newManagedChannel(Mockito.any(), Mockito.anyInt(), Mockito.isNull()))
                 .thenReturn(c1, c2, c3);
 
-        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, executor);
+        GrpcChannelPool pool = new GrpcChannelPool(factoryMock, executor, Duration.ofSeconds(5));
         pool.getChannel(new EndpointRecord("host1", 1234, 10));
         pool.getChannel(new EndpointRecord("host1", 1235, 11));
         pool.getChannel(new EndpointRecord("host1", 1236, 12));
@@ -226,7 +227,7 @@ public class GrpcChannelPoolTest {
 
         // and they share one deadline, so the last channel waits only for the rest of it
         Assert.assertEquals(3, awaitTimeouts.size());
-        long fullTimeout = TimeUnit.MILLISECONDS.toNanos(GrpcChannel.WAIT_FOR_CLOSING_MS);
+        long fullTimeout = Duration.ofSeconds(5).toNanos();
         long lastTimeout = awaitTimeouts.get(2);
         Assert.assertTrue("Unexpected timeout " + lastTimeout, lastTimeout <= fullTimeout - 2 * 300_000_000L);
     }
