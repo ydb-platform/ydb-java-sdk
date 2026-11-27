@@ -23,6 +23,7 @@ public class QueryClientImpl implements QueryClient {
     private final SessionPool pool;
     private final ScheduledExecutorService scheduler;
     private final Tracer tracer;
+    private final Meter meter;
 
     public QueryClientImpl(Builder builder) {
         String poolName = builder.sessionPoolName != null ? builder.sessionPoolName : builder.transport.getDatabase();
@@ -38,6 +39,7 @@ public class QueryClientImpl implements QueryClient {
         );
         this.scheduler = builder.transport.getScheduler();
         this.tracer = builder.transport.getTracer();
+        this.meter = builder.meter;
     }
 
     @Override
@@ -53,6 +55,11 @@ public class QueryClientImpl implements QueryClient {
     @Override
     public Tracer getTracer() {
         return tracer;
+    }
+
+    @Override
+    public Meter getMeter() {
+        return meter;
     }
 
     public void updatePoolMaxSize(int maxSize) {

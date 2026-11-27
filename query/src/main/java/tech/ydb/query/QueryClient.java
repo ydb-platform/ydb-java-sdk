@@ -44,6 +44,10 @@ public interface QueryClient extends AutoCloseable {
         return NoopTracer.getInstance();
     }
 
+    default Meter getMeter() {
+        return Meter.NOOP;
+    }
+
     SessionPoolStats getSessionPoolStats();
 
     @Override

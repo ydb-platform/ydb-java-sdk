@@ -1,6 +1,8 @@
 package tech.ydb.query.tools;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -21,6 +23,9 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.metrics.Attr;
+import tech.ydb.core.metrics.DoubleHistogram;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
@@ -39,6 +44,13 @@ public class SessionRetryContext {
     private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.Try";
     private static final String RETRY_BACKOFF_MS_ATTR = "ydb.retry.backoff_ms";
 
+    private static final String OPERATION_NAME_ATTR = "operation.name";
+    private static final Attr[] NO_ATTRS = new Attr[0];
+    private static final double NANOS_IN_SECOND = 1_000_000_000.0;
+    private static final List<Double> RETRY_DURATION_BUCKETS = Arrays.asList(
+            0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1d, 2d, 5d, 10d, 30d);
+    private static final List<Double> RETRY_ATTEMPTS_BUCKETS = Arrays.asList(1d, 2d, 3d, 4d, 5d, 7d, 10d, 20d);
+
     private final QueryClient queryClient;
     private final Executor executor;
     private final Duration sessionCreationTimeout;
@@ -49,6 +61,8 @@ public class SessionRetryContext {
     private final int fastBackoffCeiling;
     private final boolean retryNotFound;
     private final boolean idempotent;
+    private final DoubleHistogram retryDuration;
+    private final DoubleHistogram retryAttempts;
 
     private SessionRetryContext(Builder b) {
         this.queryClient = b.queryClient;
@@ -61,6 +75,16 @@ public class SessionRetryContext {
         this.fastBackoffCeiling = b.fastBackoffCeiling;
         this.retryNotFound = b.retryNotFound;
         this.idempotent = b.idempotent;
+
+        Meter meter = b.queryClient.getMeter();
+        this.retryDuration = meter.createHistogram("ydb.client.retry.duration", "s",
+                "Total user-visible duration of a logical operation executed through the retry policy, "
+                        + "including all attempts and back-off delays.",
+                RETRY_DURATION_BUCKETS);
+        this.retryAttempts = meter.createHistogram("ydb.client.retry.attempts", "{attempt}",
+                "Total number of attempts performed by the retry policy for one logical operation. "
+                        + "A value of 1 means the operation succeeded on the first try.",
+                RETRY_ATTEMPTS_BUCKETS);
     }
 
     public static Builder create(QueryClient sessionSupplier) {
@@ -68,13 +92,41 @@ public class SessionRetryContext {
     }
 
     public <T> CompletableFuture<Result<T>> supplyResult(Function<QuerySession, CompletableFuture<Result<T>>> fn) {
-        RetryableResultTask<T> task = new RetryableResultTask<>(fn);
-        task.requestSession();
-        return task.getFuture();
+        return execute(new RetryableResultTask<>(null, fn));
+    }
+
+    /**
+     * Executes the function with retries as one logical operation.
+     *
+     * @param operationName name of the logical operation, used as the retry span name and reported as the
+     * {@code operation.name} attribute of {@code ydb.client.retry.*} metrics
+     * @param fn function to execute
+     * @param <T> type of the result value
+     * @return future with the result of the last attempt
+     */
+    public <T> CompletableFuture<Result<T>> supplyResult(String operationName,
+            Function<QuerySession, CompletableFuture<Result<T>>> fn) {
+        return execute(new RetryableResultTask<>(Objects.requireNonNull(operationName, "operationName is null"), fn));
     }
 
     public CompletableFuture<Status> supplyStatus(Function<QuerySession, CompletableFuture<Status>> fn) {
-        RetryableStatusTask task = new RetryableStatusTask(fn);
+        return execute(new RetryableStatusTask(null, fn));
+    }
+
+    /**
+     * Executes the function with retries as one logical operation.
+     *
+     * @param operationName name of the logical operation, used as the retry span name and reported as the
+     * {@code operation.name} attribute of {@code ydb.client.retry.*} metrics
+     * @param fn function to execute
+     * @return future with the status of the last attempt
+     */
+    public CompletableFuture<Status> supplyStatus(String operationName,
+            Function<QuerySession, CompletableFuture<Status>> fn) {
+        return execute(new RetryableStatusTask(Objects.requireNonNull(operationName, "operationName is null"), fn));
+    }
+
+    private static <R> CompletableFuture<R> execute(BaseRetryableTask<R> task) {
         task.requestSession();
         return task.getFuture();
     }
@@ -144,15 +196,22 @@ public class SessionRetryContext {
     private abstract class BaseRetryableTask<R> implements Runnable {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
         private final AtomicInteger retryNumber = new AtomicInteger();
+        private final AtomicInteger attempts = new AtomicInteger();
+        private final long startNanos = System.nanoTime();
         private final Function<QuerySession, CompletableFuture<R>> fn;
+        private final Attr[] metricAttrs;
         private final Tracer tracer;
         private final Span executeSpan;
         private Span trySpan;
 
-        BaseRetryableTask(Function<QuerySession, CompletableFuture<R>> fn) {
+        BaseRetryableTask(@Nullable String operationName, Function<QuerySession, CompletableFuture<R>> fn) {
             this.fn = fn;
+            this.metricAttrs = operationName != null
+                    ? new Attr[]{Attr.of(OPERATION_NAME_ATTR, operationName)}
+                    : NO_ATTRS;
             this.tracer = queryClient.getTracer();
-            this.executeSpan = tracer.startSpan(EXECUTE_SPAN_NAME, SpanKind.INTERNAL);
+            this.executeSpan = tracer.startSpan(operationName != null ? operationName : EXECUTE_SPAN_NAME,
+                    SpanKind.INTERNAL);
 
             try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
                 this.trySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
@@ -178,6 +237,7 @@ public class SessionRetryContext {
         }
 
         public void requestSession() {
+            attempts.incrementAndGet();
             CompletableFuture<Result<QuerySession>> sessionFuture = createSessionWithRetrySpanParent();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
@@ -312,6 +372,9 @@ public class SessionRetryContext {
             finishTrySpan(status, throwable);
             executeSpan.setStatus(status, unwrapped);
             executeSpan.end();
+
+            retryDuration.record((System.nanoTime() - startNanos) / NANOS_IN_SECOND, metricAttrs);
+            retryAttempts.record(attempts.get(), metricAttrs);
         }
     }
 
@@ -319,8 +382,8 @@ public class SessionRetryContext {
      * RETRYABLE RESULT TASK
      */
     private final class RetryableResultTask<T> extends BaseRetryableTask<Result<T>> {
-        RetryableResultTask(Function<QuerySession, CompletableFuture<Result<T>>> fn) {
-            super(fn);
+        RetryableResultTask(@Nullable String operationName, Function<QuerySession, CompletableFuture<Result<T>>> fn) {
+            super(operationName, fn);
         }
 
         @Override
@@ -338,8 +401,8 @@ public class SessionRetryContext {
      * RETRYABLE STATUS TASK
      */
     private final class RetryableStatusTask extends BaseRetryableTask<Status> {
-        RetryableStatusTask(Function<QuerySession, CompletableFuture<Status>> fn) {
-            super(fn);
+        RetryableStatusTask(@Nullable String operationName, Function<QuerySession, CompletableFuture<Status>> fn) {
+            super(operationName, fn);
         }
 
         @Override
