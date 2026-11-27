@@ -1,4 +1,5 @@
 * Core: added opt-in PRIMARY/PROMOTED Bridge pile preference with synchronized-pile fallback
+* Core: added explicit bucket boundaries support to Meter histograms
 
 ## 2.5.0 ##
 * Core: upgraded to grpc-java v1.82.4
