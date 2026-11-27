@@ -1,6 +1,7 @@
 * Core: added opt-in PRIMARY/PROMOTED Bridge pile preference with synchronized-pile fallback
 * Core: added explicit bucket boundaries support to Meter histograms
 * Query: added `ydb.client.retry.duration` and `ydb.client.retry.attempts` metrics and operation name to SessionRetryContext
+* Table: added `ydb.client.retry.duration` and `ydb.client.retry.attempts` metrics and operation name to SessionRetryContext
 
 ## 2.5.0 ##
 * Core: upgraded to grpc-java v1.82.4

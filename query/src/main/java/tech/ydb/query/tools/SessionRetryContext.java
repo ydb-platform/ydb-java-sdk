@@ -1,8 +1,6 @@
 package tech.ydb.query.tools;
 
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CompletableFuture;
@@ -23,9 +21,6 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
-import tech.ydb.core.metrics.Attr;
-import tech.ydb.core.metrics.DoubleHistogram;
-import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
@@ -33,6 +28,7 @@ import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.FutureTools;
 import tech.ydb.query.QueryClient;
 import tech.ydb.query.QuerySession;
+import tech.ydb.table.impl.RetryMetrics;
 
 
 /**
@@ -44,13 +40,6 @@ public class SessionRetryContext {
     private static final String EXECUTE_WITH_RETRY_SPAN_NAME = "ydb.Try";
     private static final String RETRY_BACKOFF_MS_ATTR = "ydb.retry.backoff_ms";
 
-    private static final String OPERATION_NAME_ATTR = "operation.name";
-    private static final Attr[] NO_ATTRS = new Attr[0];
-    private static final double NANOS_IN_SECOND = 1_000_000_000.0;
-    private static final List<Double> RETRY_DURATION_BUCKETS = Arrays.asList(
-            0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1d, 2d, 5d, 10d, 30d);
-    private static final List<Double> RETRY_ATTEMPTS_BUCKETS = Arrays.asList(1d, 2d, 3d, 4d, 5d, 7d, 10d, 20d);
-
     private final QueryClient queryClient;
     private final Executor executor;
     private final Duration sessionCreationTimeout;
@@ -61,8 +50,7 @@ public class SessionRetryContext {
     private final int fastBackoffCeiling;
     private final boolean retryNotFound;
     private final boolean idempotent;
-    private final DoubleHistogram retryDuration;
-    private final DoubleHistogram retryAttempts;
+    private final RetryMetrics metrics;
 
     private SessionRetryContext(Builder b) {
         this.queryClient = b.queryClient;
@@ -75,16 +63,7 @@ public class SessionRetryContext {
         this.fastBackoffCeiling = b.fastBackoffCeiling;
         this.retryNotFound = b.retryNotFound;
         this.idempotent = b.idempotent;
-
-        Meter meter = b.queryClient.getMeter();
-        this.retryDuration = meter.createHistogram("ydb.client.retry.duration", "s",
-                "Total user-visible duration of a logical operation executed through the retry policy, "
-                        + "including all attempts and back-off delays.",
-                RETRY_DURATION_BUCKETS);
-        this.retryAttempts = meter.createHistogram("ydb.client.retry.attempts", "{attempt}",
-                "Total number of attempts performed by the retry policy for one logical operation. "
-                        + "A value of 1 means the operation succeeded on the first try.",
-                RETRY_ATTEMPTS_BUCKETS);
+        this.metrics = new RetryMetrics(b.queryClient.getMeter());
     }
 
     public static Builder create(QueryClient sessionSupplier) {
@@ -196,19 +175,15 @@ public class SessionRetryContext {
     private abstract class BaseRetryableTask<R> implements Runnable {
         private final CompletableFuture<R> promise = new CompletableFuture<>();
         private final AtomicInteger retryNumber = new AtomicInteger();
-        private final AtomicInteger attempts = new AtomicInteger();
-        private final long startNanos = System.nanoTime();
         private final Function<QuerySession, CompletableFuture<R>> fn;
-        private final Attr[] metricAttrs;
+        private final RetryMetrics.Operation metricsOperation;
         private final Tracer tracer;
         private final Span executeSpan;
         private Span trySpan;
 
         BaseRetryableTask(@Nullable String operationName, Function<QuerySession, CompletableFuture<R>> fn) {
             this.fn = fn;
-            this.metricAttrs = operationName != null
-                    ? new Attr[]{Attr.of(OPERATION_NAME_ATTR, operationName)}
-                    : NO_ATTRS;
+            this.metricsOperation = metrics.startOperation(operationName);
             this.tracer = queryClient.getTracer();
             this.executeSpan = tracer.startSpan(operationName != null ? operationName : EXECUTE_SPAN_NAME,
                     SpanKind.INTERNAL);
@@ -237,7 +212,7 @@ public class SessionRetryContext {
         }
 
         public void requestSession() {
-            attempts.incrementAndGet();
+            metricsOperation.onAttempt();
             CompletableFuture<Result<QuerySession>> sessionFuture = createSessionWithRetrySpanParent();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
@@ -372,9 +347,7 @@ public class SessionRetryContext {
             finishTrySpan(status, throwable);
             executeSpan.setStatus(status, unwrapped);
             executeSpan.end();
-
-            retryDuration.record((System.nanoTime() - startNanos) / NANOS_IN_SECOND, metricAttrs);
-            retryAttempts.record(attempts.get(), metricAttrs);
+            metricsOperation.finish();
         }
     }
 

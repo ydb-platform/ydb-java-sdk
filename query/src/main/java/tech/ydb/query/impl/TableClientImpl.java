@@ -68,6 +68,11 @@ public class TableClientImpl implements TableClient {
     }
 
     @Override
+    public tech.ydb.core.metrics.Meter getMeter() {
+        return proxy.getMeter();
+    }
+
+    @Override
     public SessionPoolStats sessionPoolStats() {
         return proxy.getSessionPoolStats();
     }

@@ -27,6 +27,7 @@ import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
 import tech.ydb.core.tracing.Tracer;
 import tech.ydb.core.utils.FutureTools;
+import tech.ydb.table.impl.RetryMetrics;
 
 
 /**
@@ -48,6 +49,7 @@ public class SessionRetryContext {
     private final int fastBackoffCeiling;
     private final boolean retryNotFound;
     private final boolean idempotent;
+    private final RetryMetrics metrics;
 
     private SessionRetryContext(Builder b) {
         this.sessionSupplier = b.sessionSupplier;
@@ -60,6 +62,7 @@ public class SessionRetryContext {
         this.fastBackoffCeiling = b.fastBackoffCeiling;
         this.retryNotFound = b.retryNotFound;
         this.idempotent = b.idempotent;
+        this.metrics = new RetryMetrics(b.sessionSupplier.getMeter());
     }
 
     public static Builder create(SessionSupplier sessionSupplier) {
@@ -76,14 +79,54 @@ public class SessionRetryContext {
 
     public <T> CompletableFuture<Result<T>> supplyResult(SessionRetryHandler h,
                                                          Function<Session, CompletableFuture<Result<T>>> fn) {
-        RetryableResultTask<T> task = new RetryableResultTask<>(h, fn);
-        task.requestSession();
-        return task.getFuture();
+        return execute(new RetryableResultTask<>(null, h, fn));
     }
 
     public CompletableFuture<Status> supplyStatus(SessionRetryHandler h,
                                                   Function<Session, CompletableFuture<Status>> fn) {
-        RetryableStatusTask task = new RetryableStatusTask(h, fn);
+        return execute(new RetryableStatusTask(null, h, fn));
+    }
+
+    /**
+     * Executes the function with retries as one logical operation.
+     *
+     * @param operationName name of the logical operation, used as the retry span name and reported as the
+     * {@code operation.name} attribute of {@code ydb.client.retry.*} metrics
+     * @param fn function to execute
+     * @param <T> type of the result value
+     * @return future with the result of the last attempt
+     */
+    public <T> CompletableFuture<Result<T>> supplyResult(String operationName,
+                                                         Function<Session, CompletableFuture<Result<T>>> fn) {
+        return supplyResult(operationName, SessionRetryHandler.DEFAULT, fn);
+    }
+
+    /**
+     * Executes the function with retries as one logical operation.
+     *
+     * @param operationName name of the logical operation, used as the retry span name and reported as the
+     * {@code operation.name} attribute of {@code ydb.client.retry.*} metrics
+     * @param fn function to execute
+     * @return future with the status of the last attempt
+     */
+    public CompletableFuture<Status> supplyStatus(String operationName,
+                                                  Function<Session, CompletableFuture<Status>> fn) {
+        return supplyStatus(operationName, SessionRetryHandler.DEFAULT, fn);
+    }
+
+    public <T> CompletableFuture<Result<T>> supplyResult(String operationName, SessionRetryHandler h,
+                                                         Function<Session, CompletableFuture<Result<T>>> fn) {
+        Objects.requireNonNull(operationName, "operationName is null");
+        return execute(new RetryableResultTask<>(operationName, h, fn));
+    }
+
+    public CompletableFuture<Status> supplyStatus(String operationName, SessionRetryHandler h,
+                                                  Function<Session, CompletableFuture<Status>> fn) {
+        Objects.requireNonNull(operationName, "operationName is null");
+        return execute(new RetryableStatusTask(operationName, h, fn));
+    }
+
+    private static <R> CompletableFuture<R> execute(BaseRetryableTask<R> task) {
         task.requestSession();
         return task.getFuture();
     }
@@ -156,15 +199,19 @@ public class SessionRetryContext {
         private final Function<Session, CompletableFuture<R>> fn;
         private final long createTimestamp = Instant.now().toEpochMilli();
         private final SessionRetryHandler handler;
+        private final RetryMetrics.Operation metricsOperation;
         private final Tracer tracer;
         private final Span executeSpan;
         private Span trySpan;
 
-        BaseRetryableTask(SessionRetryHandler h, Function<Session, CompletableFuture<R>> fn) {
+        BaseRetryableTask(@Nullable String operationName, SessionRetryHandler h,
+                Function<Session, CompletableFuture<R>> fn) {
             this.fn = fn;
             this.handler = h;
+            this.metricsOperation = metrics.startOperation(operationName);
             this.tracer = sessionSupplier.getTracer();
-            this.executeSpan = tracer.startSpan(EXECUTE_SPAN_NAME, SpanKind.INTERNAL);
+            this.executeSpan = tracer.startSpan(operationName != null ? operationName : EXECUTE_SPAN_NAME,
+                    SpanKind.INTERNAL);
 
             try (@SuppressWarnings("unused") Scope ignored = executeSpan.makeCurrent()) {
                 this.trySpan = tracer.startSpan(EXECUTE_WITH_RETRY_SPAN_NAME, SpanKind.INTERNAL);
@@ -195,6 +242,7 @@ public class SessionRetryContext {
         }
 
         public void requestSession() {
+            metricsOperation.onAttempt();
             CompletableFuture<Result<Session>> sessionFuture = createSessionWithRetrySpanParent();
             if (sessionFuture.isDone() && !sessionFuture.isCompletedExceptionally()) {
                 // faster than subscribing on future
@@ -338,6 +386,7 @@ public class SessionRetryContext {
             finishTrySpan(status, throwable);
             executeSpan.setStatus(status, unwrapped);
             executeSpan.end();
+            metricsOperation.finish();
         }
     }
 
@@ -345,8 +394,9 @@ public class SessionRetryContext {
      * RETRYABLE RESULT TASK
      */
     private final class RetryableResultTask<T> extends BaseRetryableTask<Result<T>> {
-        RetryableResultTask(SessionRetryHandler h, Function<Session, CompletableFuture<Result<T>>> fn) {
-            super(h, fn);
+        RetryableResultTask(@Nullable String operationName, SessionRetryHandler h,
+                Function<Session, CompletableFuture<Result<T>>> fn) {
+            super(operationName, h, fn);
         }
 
         @Override
@@ -364,8 +414,9 @@ public class SessionRetryContext {
      * RETRYABLE STATUS TASK
      */
     private final class RetryableStatusTask extends BaseRetryableTask<Status> {
-        RetryableStatusTask(SessionRetryHandler h, Function<Session, CompletableFuture<Status>> fn) {
-            super(h, fn);
+        RetryableStatusTask(@Nullable String operationName, SessionRetryHandler h,
+                Function<Session, CompletableFuture<Status>> fn) {
+            super(operationName, h, fn);
         }
 
         @Override

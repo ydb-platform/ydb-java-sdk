@@ -22,9 +22,11 @@ import tech.ydb.table.rpc.TableRpc;
 public class PooledTableClient implements TableClient {
     private final TableRpc tableRpc;
     private final SessionPool pool;
+    private final Meter meter;
 
     protected PooledTableClient(Builder builder) {
         this.tableRpc = builder.tableRpc;
+        this.meter = builder.meter;
         this.pool = new SessionPool(
                 Clock.systemUTC(),
                 builder.tableRpc,
@@ -43,6 +45,11 @@ public class PooledTableClient implements TableClient {
     @Override
     public ScheduledExecutorService getScheduler() {
         return tableRpc.getScheduler();
+    }
+
+    @Override
+    public Meter getMeter() {
+        return meter;
     }
 
     @Override
