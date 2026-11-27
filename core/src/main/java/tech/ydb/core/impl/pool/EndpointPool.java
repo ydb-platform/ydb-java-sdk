@@ -9,7 +9,6 @@ import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -80,15 +79,10 @@ public final class EndpointPool {
             }
 
             if (prefferReady && !readyEnpoints.isEmpty()) {
-                List<PriorityEndpoint> ready = readyEnpoints.stream()
-                        .map(recordsByEndpoint::get)
-                        .filter(pr -> pr != null && !pr.isPessimized())
-                        .collect(Collectors.toList());
+                PriorityEndpoint ready = pickReadyBestEndpoint(readyEnpoints);
 
-                if (!ready.isEmpty()) {
-                    // returns value in range [0, n)
-                    int idx = ThreadLocalRandom.current().nextInt(ready.size());
-                    return ready.get(idx).record;
+                if (ready != null) {
+                    return ready.record;
                 }
             }
 
@@ -98,6 +92,39 @@ public final class EndpointPool {
         } finally {
             recordsLock.readLock().unlock();
         }
+    }
+
+    // Picks a random endpoint with the best priority among endpoints having a channel, must be called under the lock.
+    // Endpoints of other priorities (e.g. from other datacenters) may have channels too, but must not be preferred
+    private PriorityEndpoint pickReadyBestEndpoint(Set<String> readyEndpoints) {
+        int readyCount = 0;
+
+        for (int i = 0; i < bestEndpointsCount; i++) {
+            if (isReady(records.get(i), readyEndpoints)) {
+                readyCount++;
+            }
+        }
+
+        if (readyCount == 0) {
+            return null;
+        }
+
+        int targetIndex = ThreadLocalRandom.current().nextInt(readyCount);
+
+        for (int i = 0; i < bestEndpointsCount; i++, targetIndex--) {
+            PriorityEndpoint endpoint = records.get(i);
+
+            if (isReady(endpoint, readyEndpoints) && targetIndex == 0) {
+                return endpoint;
+            }
+        }
+
+        // ready endpoints are a live view of the channel pool and may have been changed concurrently
+        return null;
+    }
+
+    private static boolean isReady(PriorityEndpoint endpoint, Set<String> readyEndpoints) {
+        return !endpoint.isPessimized() && readyEndpoints.contains(endpoint.record.getHostAndPort());
     }
 
     // Sets new endpoints, returns removed

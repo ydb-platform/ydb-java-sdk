@@ -171,6 +171,36 @@ public class EndpointPoolTest {
     }
 
     @Test
+    public void preferReadyLocalDcTest() {
+        EndpointPool pool = new EndpointPool(preferredNode("DC1"));
+        check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
+
+        EndpointRecord e1 = endpoint(1, "n1.ydb.tech", 12345, "DC1");
+        EndpointRecord e2 = endpoint(2, "n2.ydb.tech", 12345, "DC1");
+        EndpointRecord e3 = endpoint(3, "n3.ydb.tech", 12345, "DC2");
+        EndpointRecord e4 = endpoint(4, "n4.ydb.tech", 12345, "DC3");
+
+        pool.setNewState("DC3", list(e1, e2, e3, e4));
+        check(pool).records(4).knownNodes(4).needToReDiscovery(false).bestEndpointsCount(2);
+
+        // other DCs may have channels too, e.g. for sessions on their nodes
+        Set<String> remote = new TreeSet<>(Arrays.asList(e3.getHostAndPort(), e4.getHostAndPort()));
+        Set<String> mixed = new TreeSet<>(Arrays.asList(e2.getHostAndPort(), e3.getHostAndPort(), e4.getHostAndPort()));
+
+        Mockito.when(random.nextInt(2)).thenReturn(1, 0);
+        Mockito.when(random.nextInt(1)).thenReturn(0, 0);
+
+        check(pool.getEndpoint(remote, preferReady())).hostname("n2.ydb.tech").nodeID(2).port(12345); // random from DC1
+        check(pool.getEndpoint(remote, preferReady())).hostname("n1.ydb.tech").nodeID(1).port(12345); // random from DC1
+        Mockito.verify(random, Mockito.times(2)).nextInt(2);
+
+        check(pool.getEndpoint(mixed, preferReady())).hostname("n2.ydb.tech").nodeID(2).port(12345); // ready from DC1
+        check(pool.getEndpoint(mixed, preferReady())).hostname("n2.ydb.tech").nodeID(2).port(12345); // ready from DC1
+        Mockito.verify(random, Mockito.times(2)).nextInt(1);
+        Mockito.verify(random, Mockito.times(2)).nextInt(2);
+    }
+
+    @Test
     public void localDcTest() {
         EndpointPool pool = new EndpointPool(preferredNode(null));
         check(pool).records(0).knownNodes(0).needToReDiscovery(false).bestEndpointsCount(-1);
