@@ -46,7 +46,6 @@ public class SessionRetryContextMetricsTest {
 
     @Before
     public void setup() {
-        when(queryClient.getMeter()).thenReturn(meter);
         when(queryClient.getTracer()).thenReturn(tracer);
         when(queryClient.getScheduler()).thenReturn(scheduler);
         when(queryClient.createSession(any()))
@@ -64,7 +63,7 @@ public class SessionRetryContextMetricsTest {
     }
 
     private SessionRetryContext retryContext() {
-        return SessionRetryContext.create(queryClient).maxRetries(2).build();
+        return SessionRetryContext.create(queryClient).maxRetries(2).withMeter(meter).build();
     }
 
     @Test

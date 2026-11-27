@@ -22,6 +22,7 @@ import tech.ydb.core.Result;
 import tech.ydb.core.Status;
 import tech.ydb.core.StatusCode;
 import tech.ydb.core.UnexpectedResultException;
+import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.Scope;
 import tech.ydb.core.tracing.Span;
 import tech.ydb.core.tracing.SpanKind;
@@ -62,7 +63,7 @@ public class SessionRetryContext {
         this.fastBackoffCeiling = b.fastBackoffCeiling;
         this.retryNotFound = b.retryNotFound;
         this.idempotent = b.idempotent;
-        this.metrics = new RetryMetrics(b.sessionSupplier.getMeter());
+        this.metrics = new RetryMetrics(b.meter);
     }
 
     public static Builder create(SessionSupplier sessionSupplier) {
@@ -445,6 +446,7 @@ public class SessionRetryContext {
         private int fastBackoffCeiling = 10;
         private boolean retryNotFound = true;
         private boolean idempotent = false;
+        private Meter meter = Meter.NOOP;
 
         public Builder(SessionSupplier sessionSupplier) {
             this.sessionSupplier = sessionSupplier;
@@ -494,6 +496,11 @@ public class SessionRetryContext {
 
         public Builder idempotent(boolean idempotent) {
             this.idempotent = idempotent;
+            return this;
+        }
+
+        public Builder withMeter(Meter meter) {
+            this.meter = Objects.requireNonNull(meter);
             return this;
         }
 

@@ -5,7 +5,6 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.Result;
-import tech.ydb.core.metrics.Meter;
 import tech.ydb.core.tracing.NoopTracer;
 import tech.ydb.core.tracing.Tracer;
 
@@ -31,9 +30,5 @@ public interface SessionSupplier {
 
     default Tracer getTracer() {
         return NoopTracer.getInstance();
-    }
-
-    default Meter getMeter() {
-        return Meter.NOOP;
     }
 }
