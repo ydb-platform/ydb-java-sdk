@@ -299,7 +299,8 @@ public class YdbDiscoveryTest {
         public GrpcTransport createDiscoveryTransport() {
             EndpointRecord discovery = new EndpointRecord("unknown", 1234);
             AuthCallOptions options = new AuthCallOptions();
-            return new FixedCallOptionsTransport(scheduler, options, "/test", "test_sdk", discovery, channelFactory);
+            return new FixedCallOptionsTransport(scheduler, options, "/test", "test_sdk",  Duration.ofSeconds(1),
+                    discovery, channelFactory);
         }
 
         @Override

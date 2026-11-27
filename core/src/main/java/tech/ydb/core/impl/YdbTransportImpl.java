@@ -55,9 +55,9 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         this.scheduler = builder.getSchedulerFactory().get();
         this.callOptions = new AuthCallOptions(scheduler, Collections.singletonList(serverEndpoint),
                 channelFactory, builder);
-        this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
+        this.channelPool = new GrpcChannelPool(channelFactory, scheduler, builder.getChannelShutdownTimeout());
         this.endpointPool = new EndpointPool(balancingSettings);
-        DiscoveryHandler handler = new DiscoveryHandler(builder.getBuildInfo());
+        DiscoveryHandler handler = new DiscoveryHandler(builder.getBuildInfo(), builder.getChannelShutdownTimeout());
         this.discovery = new YdbDiscovery(handler, scheduler, database, discoveryTimeout);
     }
 
@@ -131,9 +131,11 @@ public class YdbTransportImpl extends BaseGrpcTransport {
 
     private class DiscoveryHandler implements YdbDiscovery.Handler {
         private final String baseBuildInfo;
+        private final Duration channelShutdownTimeout;
 
-        DiscoveryHandler(String buildInfo) {
+        DiscoveryHandler(String buildInfo, Duration channelShutdownTimeout) {
             this.baseBuildInfo = buildInfo;
+            this.channelShutdownTimeout = channelShutdownTimeout;
         }
 
         @Override
@@ -156,7 +158,7 @@ public class YdbTransportImpl extends BaseGrpcTransport {
         public GrpcTransport createDiscoveryTransport() {
             String buildInfo = Observability.getDiscoveryBuildInfo(baseBuildInfo);
             return new FixedCallOptionsTransport(
-                    scheduler, callOptions, database, buildInfo, serverEndpoint, channelFactory
+                    scheduler, callOptions, database, buildInfo, channelShutdownTimeout, serverEndpoint, channelFactory
             );
         }
     }

@@ -1,5 +1,6 @@
 package tech.ydb.core.impl.auth;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
@@ -64,6 +65,7 @@ public class GrpcAuthRpc {
                 new AuthCallOptions(),
                 database,
                 buildInfo,
+                Duration.ofSeconds(1),
                 endpoints.get(endpointIdx.get()),
                 channelFactory
         );

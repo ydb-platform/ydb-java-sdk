@@ -1,5 +1,6 @@
 package tech.ydb.core.impl;
 
+import java.time.Duration;
 import java.util.concurrent.ScheduledExecutorService;
 
 import tech.ydb.core.grpc.GrpcRequestSettings;
@@ -23,13 +24,14 @@ public class FixedCallOptionsTransport extends BaseGrpcTransport {
             AuthCallOptions callOptions,
             String database,
             String buildInfo,
+            Duration channelShutdownTimeout,
             EndpointRecord endpoint,
             ManagedChannelFactory channelFactory) {
         super(endpoint, buildInfo);
         this.scheduler = scheduler;
         this.callOptions = callOptions;
         this.database = database;
-        this.channel = new GrpcChannel(endpoint, channelFactory);
+        this.channel = new GrpcChannel(endpoint, channelFactory, channelShutdownTimeout);
     }
 
     @Override

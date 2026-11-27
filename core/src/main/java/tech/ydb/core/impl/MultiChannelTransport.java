@@ -51,7 +51,7 @@ public class MultiChannelTransport extends BaseGrpcTransport {
                 .collect(Collectors.toList());
 
         this.callOptions = new AuthCallOptions(scheduler, endpoints, channelFactory, builder);
-        this.channelPool = new GrpcChannelPool(channelFactory, scheduler);
+        this.channelPool = new GrpcChannelPool(channelFactory, scheduler, builder.getChannelShutdownTimeout());
         this.endpointPool = new EndpointPool(BalancingSettings.defaultInstance());
         this.endpointPool.setNewState(null, Piles.EMPTY, endpoints);
     }
