@@ -104,7 +104,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().sessionRequests(1);
         check(pool).idle(0).acquired(0).pending(1).size(0, 1).totalClient(0, 0).totalServer(1, 0, 0, 0);
 
-        // and WAITINGS_LIMIT_FACTOR extra requests will be in waitings queue
+        // and WAITING_LIMIT_FACTOR extra requests will be in waiting queue
         for (int i = 0; i < wsize; i += 1) {
             futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
         }
@@ -149,7 +149,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().sessionRequests(2);
         check(pool).idle(0).acquired(0).pending(2).size(0, 2).totalClient(0, 0).totalServer(2, 0, 0, 0);
 
-        // and WAITINGS_LIMIT_FACTOR extra requests will be in waitings queue
+        // and WAITING_LIMIT_FACTOR extra requests will be in waiting queue
         for (int i = 0; i < 2 * wsize; i += 1) {
             futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
         }

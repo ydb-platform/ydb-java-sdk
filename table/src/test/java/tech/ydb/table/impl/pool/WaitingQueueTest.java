@@ -1,14 +1,19 @@
 package tech.ydb.table.impl.pool;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Supplier;
 
 import org.junit.Assert;
@@ -527,6 +532,7 @@ public class WaitingQueueTest extends FutureHelper {
             // After release resource must be moved to next waiting future
             queue.release(next);
             CompletableFuture<Resource> waiting = waitings.poll();
+            Assert.assertNotNull(waiting);
             next = pendingIsReady(waiting);
 
             Assert.assertEquals("All waitings got single resource ", r1, next);
@@ -613,6 +619,31 @@ public class WaitingQueueTest extends FutureHelper {
     }
 
     @Test
+    public void cancelDuplicatedWaitingAcquireRemovesBothReservationsTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        rs.completeNext();
+        Resource resource = pendingIsReady(first);
+
+        CompletableFuture<Resource> duplicated = new CompletableFuture<>();
+        queue.acquire(duplicated);
+        queue.acquire(duplicated);
+        check(queue).waitingsCount(2);
+
+        Assert.assertTrue(duplicated.cancel(true));
+        check(queue).queueSize(1).idleSize(0).waitingsCount(0);
+
+        queue.release(resource);
+        check(queue).queueSize(1).idleSize(1).waitingsCount(0);
+
+        queue.close();
+        check(queue).queueSize(0).idleSize(0).waitingsCount(0);
+        check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
     public void completedWaitingIsRemovedImmediatelyTest() {
         ResourceHandler rs = new ResourceHandler();
         WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
@@ -661,20 +692,131 @@ public class WaitingQueueTest extends FutureHelper {
     }
 
     @Test
-    public void closeRemovesWaitingCountImmediatelyTest() {
+    public void updateLimitsDequeuesOldestWaiterAtFrontTest() {
         ResourceHandler rs = new ResourceHandler();
-        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 2);
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 2, 2);
 
         CompletableFuture<Resource> first = pendingFuture(acquire(queue));
-        CompletableFuture<Resource> waiting = pendingFuture(acquire(queue));
-        check(queue).waitingsCount(1);
+        CompletableFuture<Resource> second = pendingFuture(acquire(queue));
+        rs.completeNext().completeNext();
+        Resource firstResource = pendingIsReady(first);
+        Resource secondResource = pendingIsReady(second);
+
+        CompletableFuture<Resource> oldestWaiting = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> laterWaiting = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(2);
+
+        // With both resources in use, the oldest waiter cannot reserve a new resource.
+        // It must remain ahead of the later waiter when it is returned to the queue.
+        queue.updateLimits(1, 2);
+        check(queue).waitingsCount(2);
+
+        queue.release(firstResource);
+        Assert.assertSame(firstResource, pendingIsReady(oldestWaiting));
+        futureIsPending(laterWaiting);
+
+        queue.release(secondResource);
+        Assert.assertSame(secondResource, pendingIsReady(laterWaiting));
+
+        queue.delete(firstResource);
+        queue.delete(secondResource);
+        queue.close();
+        check(queue).queueSize(0).idleSize(0).waitingsCount(0);
+        check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
+    public void closeRemovesWaitingCountImmediatelyTest() {
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, 3);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> firstWaiting = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> middleWaiting = pendingFuture(acquire(queue));
+        CompletableFuture<Resource> lastWaiting = pendingFuture(acquire(queue));
+        check(queue).waitingsCount(3);
 
         queue.close();
-        futureIsCanceled(waiting, QUEUE_IS_CLOSED);
+        futureIsCanceled(firstWaiting, QUEUE_IS_CLOSED);
+        futureIsCanceled(middleWaiting, QUEUE_IS_CLOSED);
+        futureIsCanceled(lastWaiting, QUEUE_IS_CLOSED);
         check(queue).queueSize(0).waitingsCount(0);
 
         rs.completeNext();
         futureIsCanceled(first, QUEUE_IS_CLOSED);
+        check(rs).requestsCount(0).activeCount(0);
+    }
+
+    @Test
+    public void concurrentCancelAndCloseRemovesAllWaitingAcquiresTest() throws InterruptedException {
+        final int waitingCount = 64;
+        ResourceHandler rs = new ResourceHandler();
+        WaitingQueue<Resource> queue = new WaitingQueue<>(rs, 1, waitingCount);
+
+        CompletableFuture<Resource> first = pendingFuture(acquire(queue));
+        rs.completeNext();
+        Resource resource = pendingIsReady(first);
+
+        List<CompletableFuture<Resource>> waitings = new ArrayList<>();
+        for (int idx = 0; idx < waitingCount; idx++) {
+            CompletableFuture<Resource> waiting = new CompletableFuture<>();
+            queue.acquire(waiting);
+            waitings.add(waiting);
+        }
+        check(queue).waitingsCount(waitingCount);
+
+        CountDownLatch ready = new CountDownLatch(2);
+        CountDownLatch start = new CountDownLatch(1);
+        AtomicReference<Throwable> workerFailure = new AtomicReference<>();
+
+        Thread cancellation = new Thread(() -> {
+            ready.countDown();
+            try {
+                Assert.assertTrue("Cancellation worker did not start", start.await(5, TimeUnit.SECONDS));
+                for (CompletableFuture<Resource> waiting : waitings) {
+                    waiting.cancel(true);
+                }
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                workerFailure.compareAndSet(null, ex);
+            } catch (Throwable th) {
+                workerFailure.compareAndSet(null, th);
+            }
+        }, "waiting-queue-cancellation-test");
+        Thread closing = new Thread(() -> {
+            ready.countDown();
+            try {
+                Assert.assertTrue("Close worker did not start", start.await(5, TimeUnit.SECONDS));
+                queue.close();
+            } catch (InterruptedException ex) {
+                Thread.currentThread().interrupt();
+                workerFailure.compareAndSet(null, ex);
+            } catch (Throwable th) {
+                workerFailure.compareAndSet(null, th);
+            }
+        }, "waiting-queue-close-test");
+        cancellation.setDaemon(true);
+        closing.setDaemon(true);
+        cancellation.start();
+        closing.start();
+
+        boolean workersReady = ready.await(5, TimeUnit.SECONDS);
+        start.countDown();
+        cancellation.join(5000);
+        closing.join(5000);
+
+        Assert.assertTrue("Workers did not become ready", workersReady);
+        Assert.assertFalse("Cancellation worker did not finish", cancellation.isAlive());
+        Assert.assertFalse("Close worker did not finish", closing.isAlive());
+        Assert.assertNull("Concurrent worker failed", workerFailure.get());
+        check(queue).queueSize(1).idleSize(0).waitingsCount(0);
+        for (CompletableFuture<Resource> waiting : waitings) {
+            Assert.assertTrue("Waiting future is terminal", waiting.isDone());
+        }
+
+        queue.release(resource);
+        check(queue).queueSize(0).idleSize(0).waitingsCount(0);
+        check(rs).requestsCount(0).activeCount(0);
     }
 
     @Test

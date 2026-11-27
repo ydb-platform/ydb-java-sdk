@@ -107,9 +107,7 @@ class SessionPool implements AutoCloseable {
     public CompletableFuture<Result<QuerySession>> acquire(Duration timeout) {
         logger.trace("acquire QuerySession with timeout {}", timeout);
 
-        long startNanos = System.nanoTime();
         CompletableFuture<Result<QuerySession>> future = new CompletableFuture<>();
-        future.whenComplete((result, error) -> recordAcquireOutcome(result, error, startNanos));
 
         // If next session is not ready - add timeout canceler
         if (!pollNext(future)) {
@@ -121,26 +119,6 @@ class SessionPool implements AutoCloseable {
         }
 
         return future;
-    }
-
-    private void recordAcquireOutcome(Result<QuerySession> result, Throwable error, long startNanos) {
-        metrics.onAcquireTime(System.nanoTime() - startNanos);
-        if (error instanceof CancellationException) {
-            metrics.onAcquireFailure(PoolMetrics.AcquireFailureReason.CANCELLED);
-        } else if (error != null || result == null) {
-            metrics.onAcquireFailure(PoolMetrics.AcquireFailureReason.OTHER);
-        } else if (!result.isSuccess()) {
-            StatusCode code = result.getStatus().getCode();
-            if (code == StatusCode.CLIENT_DEADLINE_EXPIRED || code == StatusCode.CLIENT_DEADLINE_EXCEEDED) {
-                metrics.onAcquireFailure(PoolMetrics.AcquireFailureReason.TIMEOUT);
-            } else if (code == StatusCode.CLIENT_CANCELLED) {
-                metrics.onAcquireFailure(PoolMetrics.AcquireFailureReason.CANCELLED);
-            } else if (code == StatusCode.CLIENT_RESOURCE_EXHAUSTED) {
-                metrics.onAcquireFailure(PoolMetrics.AcquireFailureReason.REJECTED);
-            } else {
-                metrics.onAcquireFailure(PoolMetrics.AcquireFailureReason.OTHER);
-            }
-        }
     }
 
     private boolean pollNext(CompletableFuture<Result<QuerySession>> future) {
