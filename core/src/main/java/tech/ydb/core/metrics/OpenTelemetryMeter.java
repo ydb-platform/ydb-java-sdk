@@ -1,5 +1,6 @@
 package tech.ydb.core.metrics;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -52,6 +53,15 @@ public final class OpenTelemetryMeter implements Meter {
 
     @Override
     public DoubleHistogram createHistogram(String name, String unit, String description) {
+        return buildHistogram(histogramBuilder(name, unit, description));
+    }
+
+    @Override
+    public DoubleHistogram createHistogram(String name, String unit, String description, List<Double> buckets) {
+        return buildHistogram(histogramBuilder(name, unit, description).setExplicitBucketBoundariesAdvice(buckets));
+    }
+
+    private DoubleHistogramBuilder histogramBuilder(String name, String unit, String description) {
         DoubleHistogramBuilder builder = meter.histogramBuilder(name);
         if (unit != null) {
             builder.setUnit(unit);
@@ -59,6 +69,10 @@ public final class OpenTelemetryMeter implements Meter {
         if (description != null) {
             builder.setDescription(description);
         }
+        return builder;
+    }
+
+    private static DoubleHistogram buildHistogram(DoubleHistogramBuilder builder) {
         io.opentelemetry.api.metrics.DoubleHistogram histogram = builder.build();
         return (value, attrs) -> histogram.record(value, attributesOf(attrs));
     }

@@ -1,6 +1,7 @@
 package tech.ydb.core.metrics;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
@@ -72,6 +73,17 @@ public class OpenTelemetryMeterTest {
         Assert.assertEquals(1L, point.getCount());
         Assert.assertEquals(0.5d, point.getSum(), 0.0001d);
         Assert.assertEquals("my-pool", point.getAttributes().get(POOL));
+    }
+
+    @Test
+    public void histogramUsesExplicitBuckets() {
+        DoubleHistogram histogram = meter.createHistogram("ydb.test.buckets", "{attempt}", "test buckets",
+                Arrays.asList(1d, 2d, 5d));
+        histogram.record(3d);
+
+        HistogramPointData point = single("ydb.test.buckets").getHistogramData().getPoints().iterator().next();
+        Assert.assertEquals(Arrays.asList(1d, 2d, 5d), point.getBoundaries());
+        Assert.assertEquals(Arrays.asList(0L, 0L, 1L, 0L), point.getCounts());
     }
 
     @Test

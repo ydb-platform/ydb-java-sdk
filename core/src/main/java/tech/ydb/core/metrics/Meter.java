@@ -1,5 +1,6 @@
 package tech.ydb.core.metrics;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 import io.grpc.ExperimentalApi;
@@ -18,6 +19,14 @@ public interface Meter {
 
     default DoubleHistogram createHistogram(String name, String unit, String description) {
         return DoubleHistogram.NOOP;
+    }
+
+    /**
+     * Creates a histogram with recommended explicit bucket boundaries. Backends without bucket advice support
+     * fall back to {@link #createHistogram(String, String, String)}.
+     */
+    default DoubleHistogram createHistogram(String name, String unit, String description, List<Double> buckets) {
+        return createHistogram(name, unit, description);
     }
 
     /**
