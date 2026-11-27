@@ -55,10 +55,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     /** Summary size of queue = idle.size() + used.size() + pendingRequests.size() */
     private final AtomicInteger queueSize = new AtomicInteger();
 
-    /** Queue of waiting acquire requests */
-    private final ConcurrentLinkedDeque<CompletableFuture<T>> waitingAcquires = new ConcurrentLinkedDeque<>();
-    /** Size of waiting acquires queue */
-    private final AtomicInteger waitingAcqueireCount = new AtomicInteger();
+    private final WaitingAcquires<T> waitingAcquires = new WaitingAcquires<>();
 
     private final ThreadLocal<WaitingGuard> localGuard = new ThreadLocal<>();
 
@@ -178,7 +175,7 @@ public class WaitingQueue<T> implements AutoCloseable {
     }
 
     public int getWaitingCount() {
-        return waitingAcqueireCount.get();
+        return waitingAcquires.count();
     }
 
     public int getTotalLimit() {
@@ -240,14 +237,21 @@ public class WaitingQueue<T> implements AutoCloseable {
     }
 
     private boolean tryToCreateNewWaiting(CompletableFuture<T> acquire) {
-        int waitingsCount = waitingAcqueireCount.get();
+        int waitingsCount = waitingAcquires.count();
         while (waitingsCount < limits.waitingsLimit) {
-            if (!waitingAcqueireCount.compareAndSet(waitingsCount, waitingsCount + 1)) {
-                waitingsCount = waitingAcqueireCount.get();
+            if (!waitingAcquires.compareAndReserve(waitingsCount)) {
+                waitingsCount = waitingAcquires.count();
                 continue;
             }
 
-            waitingAcquires.offer(acquire); // ConcurrentLinkedQueue always return true
+            WaitingAcquires.Waiter<T> waiter = waitingAcquires.newWaiter(acquire);
+            waitingAcquires.offerLast(waiter);
+            acquire.whenComplete(waiter);
+            // close() can run after the count is reserved but before this offer.
+            // In that case clear() cannot see the new entry, so clean it here.
+            if (stopped && waitingAcquires.remove(waiter)) {
+                acquire.completeExceptionally(new CancellationException("Queue is already closed"));
+            }
             return true;
         }
 
@@ -260,15 +264,15 @@ public class WaitingQueue<T> implements AutoCloseable {
         }
 
         try (WaitingGuard guard = new WaitingGuard(object)) {
-            CompletableFuture<T> next = waitingAcquires.poll();
-            while (next != null) {
+            WaitingAcquires.Waiter<T> waiter = waitingAcquires.pollFirst();
+            while (waiter != null) {
                 guard.init();
-                waitingAcqueireCount.decrementAndGet();
-                if (safeAcquireObject(next, object) && !guard.isBroken()) {
+                waitingAcquires.releaseReservation();
+                if (safeAcquireObject(waiter.acquire, object) && !guard.isBroken()) {
                     return true;
                 }
 
-                next = waitingAcquires.poll();
+                waiter = waitingAcquires.pollFirst();
             }
 
             return false;
@@ -280,17 +284,25 @@ public class WaitingQueue<T> implements AutoCloseable {
             return;
         }
 
-        CompletableFuture<T> next = waitingAcquires.poll();
-        while (next != null && next.isDone()) {
-            waitingAcqueireCount.decrementAndGet();
-            next = waitingAcquires.poll();
+        WaitingAcquires.Waiter<T> waiter = waitingAcquires.pollFirst();
+        while (waiter != null && waiter.acquire.isDone()) {
+            waitingAcquires.releaseReservation();
+            waiter = waitingAcquires.pollFirst();
         }
 
-        if (next != null) {
-            if (tryToCreateNewPending(next)) {
-                waitingAcqueireCount.decrementAndGet();
+        if (waiter != null) {
+            if (tryToCreateNewPending(waiter.acquire)) {
+                waitingAcquires.releaseReservation();
             } else {
-                waitingAcquires.offerFirst(next);
+                waitingAcquires.offerFirst(waiter);
+                // The future might have completed while it was temporarily removed from the deque.
+                // Its completion handler cannot remove it in that interval.
+                if (waiter.acquire.isDone()) {
+                    waitingAcquires.remove(waiter);
+                }
+                if (stopped && waitingAcquires.remove(waiter)) {
+                    waiter.acquire.completeExceptionally(new CancellationException("Queue is already closed"));
+                }
             }
         }
     }
@@ -302,10 +314,11 @@ public class WaitingQueue<T> implements AutoCloseable {
             }
         }
 
-        CompletableFuture<T> waiting = waitingAcquires.poll();
+        WaitingAcquires.Waiter<T> waiting = waitingAcquires.pollFirst();
         while (waiting != null) {
-            waiting.completeExceptionally(new CancellationException("Queue is already closed"));
-            waiting = waitingAcquires.poll();
+            waitingAcquires.releaseReservation();
+            waiting.acquire.completeExceptionally(new CancellationException("Queue is already closed"));
+            waiting = waitingAcquires.pollFirst();
         }
 
         T nextIdle = idle.poll();

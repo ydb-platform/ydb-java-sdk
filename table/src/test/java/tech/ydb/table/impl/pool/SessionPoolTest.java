@@ -104,7 +104,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().sessionRequests(1);
         check(pool).idle(0).acquired(0).pending(1).size(0, 1).totalClient(0, 0).totalServer(1, 0, 0, 0);
 
-        // and WAITINGS_LIMIT_FACTOR extra requests will be in waitings queue
+        // and WAITING_LIMIT_FACTOR extra requests will be in waiting queue
         for (int i = 0; i < wsize; i += 1) {
             futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
         }
@@ -149,7 +149,7 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.check().sessionRequests(2);
         check(pool).idle(0).acquired(0).pending(2).size(0, 2).totalClient(0, 0).totalServer(2, 0, 0, 0);
 
-        // and WAITINGS_LIMIT_FACTOR extra requests will be in waitings queue
+        // and WAITING_LIMIT_FACTOR extra requests will be in waiting queue
         for (int i = 0; i < 2 * wsize; i += 1) {
             futures.addLast(pendingFuture(pool.acquire(TIMEOUT)));
         }
@@ -441,6 +441,56 @@ public class SessionPoolTest extends FutureHelper {
         tableRpc.nextCreateSession().completeSuccess();
 
         check(pool).idle(1).acquired(0).pending(0);
+        pool.close();
+        tableRpc.completeSessionDeleteRequests();
+    }
+
+    @Test
+    public void timedOutWaitingAcquireReleasesQueueSlot() {
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
+                SessionPoolOptions.DEFAULT.withSize(0, 1));
+
+        CompletableFuture<Result<Session>> first = pendingFuture(pool.acquire(TIMEOUT));
+        tableRpc.nextCreateSession().completeSuccess();
+        Session held = futureIsReady(first).getValue();
+
+        CompletableFuture<Result<Session>> timedOut = pendingFuture(pool.acquire(TIMEOUT));
+        check(pool).pending(1);
+        scheduler.runTasksTo(clock.instant().plus(TIMEOUT));
+        resultIsWrong(timedOut, StatusCode.CLIENT_DEADLINE_EXPIRED);
+        check(pool).pending(0);
+
+        CompletableFuture<Result<Session>> next = pendingFuture(pool.acquire(TIMEOUT));
+        check(pool).pending(1);
+        held.close();
+        Session acquired = futureIsReady(next).getValue();
+        check(pool).pending(0).acquired(1);
+
+        acquired.close();
+        pool.close();
+        tableRpc.completeSessionDeleteRequests();
+    }
+
+    @Test
+    public void cancelledWaitingAcquireReleasesQueueSlot() {
+        SessionPool pool = new SessionPool(clock, tableRpc, true,
+                SessionPoolOptions.DEFAULT.withSize(0, 1));
+
+        CompletableFuture<Result<Session>> first = pendingFuture(pool.acquire(TIMEOUT));
+        tableRpc.nextCreateSession().completeSuccess();
+        Session held = futureIsReady(first).getValue();
+
+        CompletableFuture<Result<Session>> cancelled = pendingFuture(pool.acquire(TIMEOUT));
+        check(pool).pending(1);
+        Assert.assertTrue(cancelled.cancel(true));
+        check(pool).pending(0);
+
+        CompletableFuture<Result<Session>> next = pendingFuture(pool.acquire(TIMEOUT));
+        held.close();
+        Session acquired = futureIsReady(next).getValue();
+        check(pool).pending(0).acquired(1);
+
+        acquired.close();
         pool.close();
         tableRpc.completeSessionDeleteRequests();
     }

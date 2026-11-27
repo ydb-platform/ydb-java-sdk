@@ -120,8 +120,12 @@ public class SessionPool implements AutoCloseable {
             return validateSession(nextSession.join(), future);
         }
 
+        future.whenComplete((result, error) -> nextSession.cancel(false));
         nextSession.whenComplete((session, th) -> {
             if (th != null) {
+                if (future.isDone()) {
+                    return;
+                }
                 Throwable ex = FutureTools.unwrapCompletionException(th);
                 Result<Session> fail = (ex instanceof UnexpectedResultException)
                         ? Result.fail((UnexpectedResultException) ex)

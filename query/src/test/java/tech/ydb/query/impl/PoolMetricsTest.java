@@ -140,6 +140,22 @@ public class PoolMetricsTest {
     }
 
     @Test
+    public void cancelledAcquireRemovesPendingRequest() {
+        try (SessionPool pool = createPool(0, 1)) {
+            QuerySession occupied = acquireReady(pool);
+            CompletableFuture<Result<QuerySession>> cancelled = pool.acquire(TIMEOUT);
+
+            Assert.assertTrue(cancelled.cancel(false));
+            Assert.assertTrue(cancelled.isCancelled());
+            assertPendingRequests(0L);
+
+            occupied.close();
+            assertPendingRequests(0L);
+            verify(counter("acquired")).add(eq(1L), argThat(poolName));
+        }
+    }
+
+    @Test
     public void failedCreateRecordsFailedCounter() {
         rpc.overloaded = true;
         try (SessionPool pool = createPool(0, 2)) {
@@ -427,6 +443,12 @@ public class PoolMetricsTest {
                 argThat(a -> a.getKey().equals("reason") && a.getValue().equals(reason))
         );
         verifyNoMoreInteractions(counter("closed"));
+    }
+
+    private void assertPendingRequests(long expected) {
+        LongMeasurement pending = mock(LongMeasurement.class);
+        gauges.get(PREFIX + "pending_requests").accept(pending);
+        verify(pending).record(eq(expected), argThat(poolName));
     }
 
     private static boolean attr(Attr attr, String shortKey, String value) {

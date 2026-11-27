@@ -128,10 +128,10 @@ class SessionPool implements AutoCloseable {
             return tryComplete(future, nextSession.join());
         }
 
+        future.whenComplete((result, error) -> nextSession.cancel(false));
         nextSession.whenComplete((session, th) -> {
             if (th != null) {
                 if (future.isDone()) {
-                    logger.warn("can't get QuerySession, future is already canceled", th);
                     return;
                 }
 
